@@ -7,3 +7,5 @@ yarn dev
 # or
 pnpm dev
 ```
+```(Explorer: Exclude Git Ignore)
+```

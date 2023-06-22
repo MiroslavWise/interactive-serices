@@ -9,9 +9,7 @@
 /coverage
 
 #environment variables
-#.env
-#.env.development
-#env.production
+#.env*
 
 # next.js
 /.next/
