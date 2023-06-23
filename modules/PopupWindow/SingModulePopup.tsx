@@ -3,15 +3,17 @@
 import { type FC, useState } from 'react'
 import Image from 'next/image'
 
+import type { TSingModulePopup, TTypeSing } from './types'
+
 import { HeaderModal } from './components/HeaderModal'
-import { ContentSingModal } from './components/ContentSingModal'
+import { ContentSingUp } from './components/ContentSingUp'
+import { ContentSingIn } from './components/ContentSingIn'
 
 import styles from './style.module.scss'
 
-type TSingModulePopup = FC<{}>
-
 export const SingModulePopup: TSingModulePopup = ({ }) => {
         const [visible, setVisible] = useState(false)
+        const [type, setType] = useState<TTypeSing>('SingIn')
         return (
                 <div className={styles.overlay}>
                         <div className={styles.modal}>
@@ -24,8 +26,13 @@ export const SingModulePopup: TSingModulePopup = ({ }) => {
                                         />
                                 </div>
                                 <div className={styles.content}>
-                                        <HeaderModal />
-                                        <ContentSingModal />
+                                        <HeaderModal type={type} />
+                                        {
+                                                type === "SingUp" ? <ContentSingUp setType={setType} /> : null
+                                        }
+                                        {
+                                                type === "SingIn" ? <ContentSingIn setType={setType} /> : null
+                                        }
                                 </div>
                                 <div className={styles.orangeCircle} />
                                 <div className={styles.purpleCircle} />

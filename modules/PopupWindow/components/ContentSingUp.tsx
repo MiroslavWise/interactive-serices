@@ -1,13 +1,16 @@
 'use client'
 
-import { type FC } from 'react'
+import { type FC, type Dispatch, type SetStateAction } from 'react'
 import { useForm } from "react-hook-form";
+
+import type { TTypeSing } from '../types';
 
 import { LabelInputGroup } from './LabelInputGroup'
 import { ButtonFill } from 'components/Buttons';
+import { LinksSocial } from './LinksSocial';
 
 import styles from './style.module.scss'
-import { LinksSocial } from './LinksSocial';
+import Image from 'next/image';
 
 interface IValues{
         email: string
@@ -16,10 +19,13 @@ interface IValues{
         renewed_password: string
 }
 
-type TContentSingModal = FC<{}>
+type TContentSingUp = FC<{
+        setType: Dispatch<SetStateAction<TTypeSing>>
 
-export const ContentSingModal: TContentSingModal = ({ }) => {
-        const { register, handleSubmit } = useForm<IValues>();
+}>
+
+export const ContentSingUp: TContentSingUp = ({ setType }) => {
+        const { register, handleSubmit, formState: { errors } } = useForm<IValues>();
         
         const onRegister = (values: IValues) => {
                 console.log("values: ", values)
@@ -35,6 +41,7 @@ export const ContentSingModal: TContentSingModal = ({ }) => {
                                                 placeholder="Введите свой email"
                                                 type="email"
                                                 propsInput={register("email")}
+                                                errorMessage={errors.email ? "Требуется email" : ''}
                                         />
                                         <LabelInputGroup
                                                 label="Номер телеграмма"
@@ -48,6 +55,7 @@ export const ContentSingModal: TContentSingModal = ({ }) => {
                                                 placeholder="Введите свой пароль"
                                                 type="password"
                                                 propsInput={register("password")}
+                                                errorMessage={errors.password ? 'Требуется пароль' : ''}
                                         />
                                         <LabelInputGroup
                                                 label="Подтвердите пароль"
@@ -55,6 +63,7 @@ export const ContentSingModal: TContentSingModal = ({ }) => {
                                                 placeholder="Введите пароль еще раз"
                                                 type="password"
                                                 propsInput={register("renewed_password")}
+                                                errorMessage={errors.renewed_password ? 'Требуется пароль' : ''}
                                         />
                                 </section>
                                 <p>Регистрируясь, вы соглашаетесь с <a>Правилами пользования</a> и <a>Политикой конфиденциальности</a></p>
@@ -66,7 +75,15 @@ export const ContentSingModal: TContentSingModal = ({ }) => {
                                 />
                                 <LinksSocial />
                         </form>
+                        <section className={`${styles.Register} cursor-pointer`} onClick={() => setType('SingIn')}>
+                                <Image
+                                        src="/svg/arrow-left.svg"
+                                        alt="arrow"
+                                        width={20}
+                                        height={20}
+                                />
+                                <p>Назад к странице входа</p>
+                        </section>
                 </div>
-
         )
 }
