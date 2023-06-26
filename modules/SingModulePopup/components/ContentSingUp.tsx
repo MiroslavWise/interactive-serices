@@ -10,7 +10,7 @@ import { LabelInputGroup } from './LabelInputGroup'
 import { ButtonFill } from 'components/Buttons'
 import { LinksSocial } from './LinksSocial'
 
-import { axiosInstance } from 'services/url'
+import { URL, axiosInstance } from 'services/url'
 import { regExEmail } from 'lib/constants'
 
 import styles from './style.module.scss'
@@ -36,26 +36,28 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                 },
         })
 
-        const onRegister = (values: IValues) => {
-                axiosInstance.post(`users`, {
-                        headers: {
-                                "Content-Type": "application/json",
-                        },
-                        data: {
+        const onRegister = async (values: IValues) => {
+                const data = {
                                 email: values.email,
                                 password: values.password,
                                 repeat: values.repeat_password,
-                        },
-                })
-                        .then(response => {
-                                if (response?.data?.error && response?.data?.error?.code === 409) {
-                                        setError('email', {message: 'user already exists'})
-                                }
+                }
+                try {
+                        const res = await fetch(`${URL}users`, {
+                                method: 'POST',
+                                headers: {
+                                        "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(data),
                         })
-                        .catch((e) => {
-                                console.log("---e--- ", e)
-                                throw new Error(e)
-                        })
+                        const dataResponse = await res.json()
+                        if (dataResponse?.error && dataResponse?.error?.code === 409) {
+                                setError('email', {message: 'user already exists'})
+                        }
+                        return dataResponse
+                } catch (e) {
+                        return e
+                }
         }
 
         return (
