@@ -1,1 +1,1 @@
-export * from './PopupWindow/SingModulePopup'
+export * from './ComponentSing'

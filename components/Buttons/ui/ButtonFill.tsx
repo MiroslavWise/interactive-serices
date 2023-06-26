@@ -13,13 +13,13 @@ export const ButtonFill: TButtonPropsFill = ({
 
         const click = () => {
                 if (handleClick) {
-                        handleClick
+                        handleClick()
                 }
         }
 
         return (
                 <button
-                        className={`button-fill ${type} ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''}`}
+                        className={`button-fill ${type || 'primary'} ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''}`}
                         onClick={click}
                         type={submit || "button"}
                 >

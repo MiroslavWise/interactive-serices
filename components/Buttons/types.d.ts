@@ -6,9 +6,9 @@ interface IButtonProps {
         classNames?: string
         handleClick?: DispatchWithoutAction
         disabled?: boolean
-        type: TTypeButton
+        type?: TTypeButton
         submit?: "submit" | "reset" | "button"
 }
 
 export type TButtonPropsFill = FC<IButtonProps>
-export type TButtonPropsDefault = FC<Exclude<IButtonProps>>
+export type TButtonPropsDefault = FC<IButtonProps>

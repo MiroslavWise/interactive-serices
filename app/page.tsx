@@ -1,10 +1,12 @@
+import { ComponentSing } from 'modules'
 import styles from './page.module.scss'
-import { SingModulePopup } from 'modules/PopupWindow/SingModulePopup'
+import ServiceBanner from 'modules/ClassBanner/ServiceBanner'
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <SingModulePopup />
+      <ComponentSing />
+      <ServiceBanner />
     </main>
   )
 }

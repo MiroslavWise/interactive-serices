@@ -2,6 +2,7 @@
 
 import { type FC, Dispatch, SetStateAction } from 'react'
 import { useForm, Controller } from "react-hook-form";
+import Image from 'next/image';
 
 import type { TTypeSing } from '../types';
 
@@ -9,8 +10,9 @@ import { LabelInputGroup } from './LabelInputGroup'
 import { ButtonFill } from 'components/Buttons';
 import { LinksSocial } from './LinksSocial';
 
+import { regExEmail } from 'lib/constants';
+
 import styles from './style.module.scss'
-import Image from 'next/image';
 
 interface IValues {
         email: String
@@ -18,11 +20,14 @@ interface IValues {
         checkbox: boolean
 }
 
-type TContentSingUp = FC<{
+type TContentSignIn = FC<{
         setType: Dispatch<SetStateAction<TTypeSing>>
 }>
-
-export const ContentSingIn: TContentSingUp = ({ setType }) => {
+// TODO move interfaces and type to separate file
+// TODO rename ContentSingIn and TContentSingUp -> ContentSignIn and TContentSignIn
+// TODO If possible, add translations to raw text
+// Change whitespaces
+export const ContentSingIn: TContentSignIn = ({ setType }) => {
         const { control, register, handleSubmit, formState: { errors } } = useForm<IValues>();
 
         const onEnter = (values: IValues) => {
@@ -37,8 +42,8 @@ export const ContentSingIn: TContentSingUp = ({ setType }) => {
                                                 label="Email"
                                                 rules
                                                 placeholder="Введите свой email"
-                                                type="email"
-                                                propsInput={register("email")}
+                                                type="text"
+                                                propsInput={register("email", { required: true, validate: (value) => regExEmail.test(value as string) })}
                                                 errorMessage={errors.email ? "Требуется email" : ''}
                                         />
                                         <LabelInputGroup
@@ -46,7 +51,7 @@ export const ContentSingIn: TContentSingUp = ({ setType }) => {
                                                 rules
                                                 placeholder="Введите свой пароль"
                                                 type="password"
-                                                propsInput={register("password")}
+                                                propsInput={register("password", { required: true })}
                                                 errorMessage={errors.password ? 'Требуется пароль' : ''}
                                         />
                                 </section>

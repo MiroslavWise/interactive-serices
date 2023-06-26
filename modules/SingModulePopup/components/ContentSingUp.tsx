@@ -1,34 +1,61 @@
 'use client'
 
 import { type FC, type Dispatch, type SetStateAction } from 'react'
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
+import Image from 'next/image'
 
-import type { TTypeSing } from '../types';
+import type { TTypeSing } from '../types'
 
 import { LabelInputGroup } from './LabelInputGroup'
-import { ButtonFill } from 'components/Buttons';
-import { LinksSocial } from './LinksSocial';
+import { ButtonFill } from 'components/Buttons'
+import { LinksSocial } from './LinksSocial'
+
+import { axiosInstance } from 'services/url'
+import { regExEmail } from 'lib/constants'
 
 import styles from './style.module.scss'
-import Image from 'next/image';
 
 interface IValues{
         email: string
         number?: string
         password: string
-        renewed_password: string
+        repeat_password: string
 }
 
 type TContentSingUp = FC<{
         setType: Dispatch<SetStateAction<TTypeSing>>
-
 }>
 
 export const ContentSingUp: TContentSingUp = ({ setType }) => {
-        const { register, handleSubmit, formState: { errors } } = useForm<IValues>();
-        
+        const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValues>({
+                defaultValues: {
+                        email: '',
+                        number: '',
+                        password: '',
+                        repeat_password: '',
+                },
+        })
+
         const onRegister = (values: IValues) => {
-                console.log("values: ", values)
+                axiosInstance.post(`users`, {
+                        headers: {
+                                "Content-Type": "application/json",
+                        },
+                        data: {
+                                email: values.email,
+                                password: values.password,
+                                repeat: values.repeat_password,
+                        },
+                })
+                        .then(response => {
+                                if (response?.data?.error && response?.data?.error?.code === 409) {
+                                        setError('email', {message: 'user already exists'})
+                                }
+                        })
+                        .catch((e) => {
+                                console.log("---e--- ", e)
+                                throw new Error(e)
+                        })
         }
 
         return (
@@ -39,9 +66,9 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                                                 label="Email"
                                                 rules
                                                 placeholder="Введите свой email"
-                                                type="email"
-                                                propsInput={register("email")}
-                                                errorMessage={errors.email ? "Требуется email" : ''}
+                                                type="text"
+                                                propsInput={register("email", { required: true, validate: value => regExEmail.test(value) ? true : 'validate_email' })}
+                                                errorMessage={errors.email && errors?.email?.message === "user already exists" ? 'Пользователь уже существует' : errors?.email ? "Требуется email" : ''}
                                         />
                                         <LabelInputGroup
                                                 label="Номер телеграмма"
@@ -54,7 +81,7 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                                                 rules
                                                 placeholder="Введите свой пароль"
                                                 type="password"
-                                                propsInput={register("password")}
+                                                propsInput={register("password", { required: true, minLength: 5})}
                                                 errorMessage={errors.password ? 'Требуется пароль' : ''}
                                         />
                                         <LabelInputGroup
@@ -62,8 +89,14 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                                                 rules
                                                 placeholder="Введите пароль еще раз"
                                                 type="password"
-                                                propsInput={register("renewed_password")}
-                                                errorMessage={errors.renewed_password ? 'Требуется пароль' : ''}
+                                                propsInput={register("repeat_password", { required: true, minLength: 5, validate: value => value === watch('password') ? true : 'no_repeat'})}
+                                                errorMessage={
+                                                        errors?.repeat_password && errors?.repeat_password?.message === "no_repeat"
+                                                                ? 'Пароли не совпадают'
+                                                                : errors?.repeat_password
+                                                                        ? 'Требуется пароль'
+                                                                        : ''
+                                                }
                                         />
                                 </section>
                                 <p>Регистрируясь, вы соглашаетесь с <a>Правилами пользования</a> и <a>Политикой конфиденциальности</a></p>

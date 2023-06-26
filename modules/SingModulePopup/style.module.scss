@@ -13,14 +13,24 @@
         left: 0;
         bottom: 0;
         right: 0;
-        background: rgba(0, 0, 0, 0.62);
-        backdrop-filter: blur(2.5px);
         display: flex;
         justify-content: center;
         align-items: center;
+        background: rgba(0, 0, 0, 0.62);
+        backdrop-filter: blur(2.5px);
         z-index: 99;
         padding-top: 50px;
         padding-bottom: 50px;
+        transition: all 0.35s ease-in-out;
+
+        opacity: 0;
+        visibility: hidden;
+
+        &.visible{
+
+                opacity: 1;
+                visibility: visible;
+        }
 }
 
 .modal{
@@ -30,7 +40,7 @@
         height: 100%;
         background-color: wheat;
         flex-shrink: 0;
-        border-radius: 32px;
+        border-radius: var(--banner-border-radius);
         background-color: var(--supporting-white);
         z-index: 101;
         overflow: hidden;
@@ -47,7 +57,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 100px;
-        border: 1px solid var(--gary-300);
+        border: 1px solid var(--gray-300);
         background: var(--supporting-white);
         box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
         cursor: pointer;

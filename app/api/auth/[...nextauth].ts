@@ -6,6 +6,8 @@ import VkProvider from "next-auth/providers/vk";
 import YandexProvider from "next-auth/providers/yandex";
 import CredentialsProvider from "next-auth/providers/credentials"
 
+import { URL } from "services/url";
+
 export const authOptions: NextAuthOptions = {
         providers: [
                 AppleProvider({
@@ -43,7 +45,28 @@ export const authOptions: NextAuthOptions = {
                                 return null
                         },
                 }),
-        ]
+        ],
+        // callbacks: {
+        //         session({ session, token, user }) {
+        //                 return session
+        //         },
+        //         async signIn({ credentials, user, }) {
+        //                 const data = {
+        //                         email: credentials?.email?.value,
+        //                         password: credentials?.password?.value
+        //                 }
+        //                 console.log("data: ", data)
+        //                 // const res = await fetch(`${URL}auth/login`, {
+        //                 //         method: 'POST',
+        //                 //         body: JSON.stringify(data),
+        //                 //         headers: {
+        //                 //                 "Content-Type": "application/json",
+        //                 //         },
+        //                 // })
+        //                 // return res.json()
+        //                 return Promise.resolve('1')
+        //         }
+        // }
 }
 
 const handler = NextAuth(authOptions)

@@ -18,18 +18,21 @@ html {
         --mobile: 375px;
         --background: #fff;
         --color-text: #000000;
+        --banner-border-radius: 32px;
+        --glass-bg-color: rgba(255, 255, 255, 0.44);
+        
 
         //Color Gary
-        --gary-900: #101828;
-        --gary-800: #1D2939;
-        --gary-700: #344054;
-        --gary-600: #475467;
-        --gary-500: #667085;
-        --gary-400: #98A2B3;
-        --gary-300: #D0D5DD;
-        --gary-200: #EAECF0;
-        --gary-100: #F2F4F7;
-        --gary-50: #F9FAFB;
+        --gray-900: #101828;
+        --gray-800: #1D2939;
+        --gray-700: #344054;
+        --gray-600: #475467;
+        --gray-500: #667085;
+        --gray-400: #98A2B3;
+        --gray-300: #D0D5DD;
+        --gray-200: #EAECF0;
+        --gray-100: #F2F4F7;
+        --gray-50: #F9FAFB;
 
         //Color Primary
         --primary-900: #14112C;

@@ -1,7 +1,0 @@
-export * from './Banners'
-export * from './Buttons'
-export * from './Checkboxes'
-export * from './Inputs'
-export * from './MapBadges'
-export * from './Segments'
-export * from './Social'

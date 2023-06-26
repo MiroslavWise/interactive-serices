@@ -1,0 +1,68 @@
+@mixin ellipse{
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.61);
+        filter: blur(26px);
+        transform: translate(-50%, -50%);
+}
+
+.banner {
+        position: relative;
+        overflow: hidden;
+        width: 226px;
+        height: 218px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        border-radius: 28px;
+        background: var(--gradient-optional-2);
+        z-index: 20;
+
+        .description{
+                z-index: 21;
+                margin: 16px 16px auto;
+                color: var(--supporting-white, #FFF);
+                text-align: center;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 28px;
+                letter-spacing: -0.5px;
+        }
+
+        .coins{
+                position: absolute;
+                bottom: 0;
+                transform: translateX(-50%);
+                left: 50%;
+                z-index: 22;
+        }
+
+        .ellipseOne{
+                @include ellipse;
+                position: absolute;
+                left: 100%;
+                top: 50%;
+        }
+        
+        .ellipseTwo{
+                @include ellipse;
+                position: absolute;
+                top: 100%;
+                left: 0%;
+        }
+
+        .ellipseBlue{
+                position: absolute;
+                width: 129px;
+                height: 129px;
+                flex-shrink: 0;
+                border-radius: 129px;
+                background: rgba(51, 168, 251, 0.58);
+                filter: blur(33.540000915527344px);
+                top: -60px;
+                left: 0;
+        }
+}
