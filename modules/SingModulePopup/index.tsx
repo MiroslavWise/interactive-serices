@@ -11,7 +11,6 @@ import styles from './style.module.scss'
 const SingModulePopup: TSingModulePopup = ({ visible, type, setVisible, setType }) => {
         return (
                 <>
-                        <div onClick={() => setVisible(true)}>asdfasdfasfd</div>
                         <div className={`${styles.overlay} ${visible ? styles.visible : ''}`}>
                                 <div className={styles.modal}>
                                         <div
