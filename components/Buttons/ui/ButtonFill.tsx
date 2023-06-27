@@ -1,29 +1,22 @@
-'use client'
+"use client";
 
 import { type TButtonPropsFill } from "../types";
 
 export const ButtonFill: TButtonPropsFill = ({
-        label,
-        classNames,
-        handleClick,
-        disabled,
-        type,
-        submit,
+  label,
+  classNames,
+  handleClick,
+  disabled,
+  type,
+  submit,
 }) => {
-
-        const click = () => {
-                if (handleClick) {
-                        handleClick()
-                }
-        }
-
-        return (
-                <button
-                        className={`button-fill ${type || 'primary'} ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''}`}
-                        onClick={click}
-                        type={submit || "button"}
-                >
-                        <span>{label}</span>
-                </button>
-        )
+  return (
+    <button
+      className={`button-fill ${type || 'primary'} ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''}`}
+      onClick={handleClick}
+      type={submit || "button"}
+    >
+      <span>{label}</span>
+    </button>
+  )
 }

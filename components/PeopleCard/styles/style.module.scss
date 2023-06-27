@@ -1,0 +1,126 @@
+.container {
+  padding: 12px;
+  display: flex;
+  padding: 12px;
+  align-items: flex-start;
+  gap: 12px;
+  border-radius: 16px;
+  background: var(--glass-bg-color);
+  box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
+  backdrop-filter: blur(4px);
+  width: 100%;
+}
+
+.wrapperPhotoRate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .avatar {
+    border-radius: 20px;
+  }
+
+  .rateBadge {
+    position: absolute;
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: 100px;
+    background: var(--primary-500);
+    top: calc(100% - 1px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    p {
+      color: var(--supporting-white);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 117.5%;
+    }
+  }
+}
+
+.wrapperInfo {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+
+  .nameAndGeo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    h3 {
+      color: var(--gray-900);
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 30px;
+      letter-spacing: -0.5px;
+    }
+
+    .groupGeo {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      align-self: stretch;
+
+      p {
+        color: var(--gray-400);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+      }
+    }
+  }
+
+  .services {
+    list-style-type: none;
+    overflow-x: scroll;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    white-space: nowrap;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    li {
+      display: flex;
+      padding: 5px 12px 5px 5px;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      border-radius: 100px;
+      border: 1px solid var(--gray-200);
+      background: var(--gray-100);
+
+      .containerImgService {
+        display: flex;
+        width: 28px;
+        height: 28px;
+        padding: 6px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        background: var(--supporting-white);
+      }
+
+      p{
+        color: var(--gray-900);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+      }
+    }
+  }
+}

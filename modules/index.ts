@@ -1,1 +1,1 @@
-export * from './ComponentSing'
+export * from "./ComponentSign";
