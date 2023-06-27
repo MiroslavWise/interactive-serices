@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 import type { TSegments } from "./types";
 
-import { borderClassnames } from "lib/functions/classNames";
+import { borderClassnames } from "../../lib/functions/classNames";
 
 import styles from "./styles/style.module.scss";
 
