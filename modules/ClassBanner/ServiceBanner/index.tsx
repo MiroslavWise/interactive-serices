@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import type { ISegmentValues } from "types/general";
 
-import { Segments } from "components/Segments";
-import { SearchField } from "components/Inputs";
-import { PeopleCard } from "components/PeopleCard";
+import { Segments } from "../../../components/Segments";
+import { SearchField } from "../../../components/Inputs";
+import { PeopleCard } from "../../../components/PeopleCard";
 
 import styles from "./styles/style.module.scss";
 import { MOCK_DATA_PEOPLE, SERVICES } from "./constants";
