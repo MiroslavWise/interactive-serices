@@ -7,10 +7,10 @@ import Image from "next/image";
 import type { TTypeSign } from "../types";
 
 import { LabelInputGroup } from "./LabelInputGroup"
-import { ButtonFill } from "components/Buttons";
+import { ButtonFill } from "../../../components/Buttons";
 import { LinksSocial } from "./LinksSocial";
 
-import { regExEmail } from "lib/constants";
+import { regExEmail } from "../../../lib/constants";
 
 import styles from "./styles/style.module.scss";
 
