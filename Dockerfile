@@ -3,6 +3,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+RUN npm install -g npm
 RUN  npm install --production
 
 FROM node:alpine AS builder
