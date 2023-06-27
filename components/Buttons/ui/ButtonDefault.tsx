@@ -1,6 +1,6 @@
 'use client'
 
-import { type TButtonPropsDefault } from "../types";
+import { type TButtonPropsDefault } from "./types";
 
 export const ButtonDefault: TButtonPropsDefault = ({
         label,

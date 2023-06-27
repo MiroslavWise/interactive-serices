@@ -2,9 +2,9 @@
 
 import { type FC, useState } from 'react'
 
-import SingModulePopup from 'modules/SingModulePopup'
-import BannerSing from 'modules/ClassBanner/BannerSing'
-import { TTypeSing } from 'modules/SingModulePopup/types'
+import type { TTypeSing } from './SingModulePopup/types'
+import SingModulePopup from './SingModulePopup'
+import BannerSing from './BannerSing'
 
 export const ComponentSing: FC = () => {
         const [visible, setVisible] = useState(false)
@@ -17,7 +17,7 @@ export const ComponentSing: FC = () => {
 
         return (
                 <>
-                        <BannerSing {...{handleSignUpOrSignIn}} />
+                        <BannerSing {...{ handleSignUpOrSignIn }} />
                         <SingModulePopup {...{ visible, type, setVisible, setType }} />
                 </>
         )

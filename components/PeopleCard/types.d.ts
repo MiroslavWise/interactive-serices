@@ -1,4 +1,5 @@
-import type { FC } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import type { IStateVisible } from "modules/ModuleProfile/types";
 
 interface IPeopleCard {
         photo: string
@@ -9,6 +10,7 @@ interface IPeopleCard {
                 value: string
                 name: string
         }[]
+        setDataProfile?: Dispatch<SetStateAction<IStateVisible>>
 }
 
 export type TPeopleCard = FC<IPeopleCard>

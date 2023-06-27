@@ -9,6 +9,7 @@
         box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
         backdrop-filter: blur(4px);
         width: 100%;
+        cursor: pointer;
 }
 
 .wrapperPhotoRate {
@@ -88,6 +89,8 @@
                 gap: 8px;
                 align-self: stretch;
                 white-space: nowrap;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
 
                 &::-webkit-scrollbar {
                         display: none;

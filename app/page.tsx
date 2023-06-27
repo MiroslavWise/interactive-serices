@@ -1,12 +1,14 @@
-import { ComponentSing } from 'modules'
+import { YandexMap } from 'components/YandexMap'
+import { ComponentSing } from 'modules/ComponentSing' 
+import { ModuleProfile } from 'modules/ModuleProfile'
 import styles from './page.module.scss'
-import ServiceBanner from 'modules/ClassBanner/ServiceBanner'
 
 export default function Home() {
   return (
     <main className={styles.main}>
+      <YandexMap />
       <ComponentSing />
-      <ServiceBanner />
+      <ModuleProfile />
     </main>
   )
 }

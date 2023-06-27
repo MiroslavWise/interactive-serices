@@ -31,7 +31,12 @@
                         letter-spacing: -0.5px;
                 }
                 &.active{
-                        background: var(--gradient-primary);
+                        &.primary{
+                                background: var(--gradient-primary);
+                        }
+                        &.optional-1{
+                                background: var(--gradient-optional-1);
+                        }
                         p{
                                 color: var(--supporting-white);
                         }

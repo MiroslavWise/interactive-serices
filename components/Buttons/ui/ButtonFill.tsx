@@ -1,6 +1,6 @@
 'use client'
 
-import { type TButtonPropsFill } from "../types";
+import { type TButtonPropsFill } from "./types";
 
 export const ButtonFill: TButtonPropsFill = ({
         label,
@@ -9,6 +9,8 @@ export const ButtonFill: TButtonPropsFill = ({
         disabled,
         type,
         submit,
+        shadow,
+        small,
 }) => {
 
         const click = () => {
@@ -19,7 +21,7 @@ export const ButtonFill: TButtonPropsFill = ({
 
         return (
                 <button
-                        className={`button-fill ${type || 'primary'} ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''}`}
+                        className={`button-fill ${type || 'primary'} ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''} ${shadow ? 'shadow' : ''} ${small ? 'small' : ''}`}
                         onClick={click}
                         type={submit || "button"}
                 >

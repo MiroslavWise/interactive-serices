@@ -5,11 +5,24 @@ import type { TPeopleCard } from "./types"
 import styles from './style.module.scss'
 
 export const PeopleCard: TPeopleCard = ({
-        photo, name, geo, rate, services,
+        photo, name, geo, rate, services, setDataProfile,
 }) => {
 
+        const handleClick = () => {
+                if (setDataProfile) {
+                        setDataProfile({
+                                dataProfile: name,
+                                isService: false,
+                                isProfile: true,
+                        })
+                }
+        }
+
         return (
-                <li className={styles.container}>
+                <li
+                        className={styles.container}
+                        onClick={handleClick}
+                >
                         <section className={styles.wrapperPhotoRate}>
                                 <Image
                                         src={photo}
