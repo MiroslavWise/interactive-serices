@@ -1,5 +1,5 @@
-import type { FC, Dispatch, SetStateAction, DispatchWithoutAction } from "react";
-import type { ISegmentValues } from "types/general";
+import type { FC, Dispatch, SetStateAction, DispatchWithoutAction } from "react"
+import type { ISegmentValues } from "types/general"
 
 interface IInfoContainerProfile{
 

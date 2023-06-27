@@ -1,33 +1,33 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { useState } from "react"
+import { motion } from "framer-motion"
+import Image from "next/image"
 
-import type { ISegmentValues } from 'types/general'
-import type { TProfilePublicModule } from './types'
+import type { ISegmentValues } from "types/general"
+import type { TProfilePublicModule } from "./types"
 
-import { InfoContainerProfile } from './components/InfoContainerProfile'
-import { ItemsBadges } from './components/ItemsBadges'
-import { ItemSegments } from './components/ItemSegments'
+import { InfoContainerProfile } from "./components/InfoContainerProfile"
+import { ItemsBadges } from "./components/ItemsBadges"
+import { ItemSegments } from "./components/ItemSegments"
 
-import styles from './style.module.scss'
-import { ContainerReviews } from './components/ContainerReviews'
+import styles from "./style.module.scss"
+import { ContainerReviews } from "./components/ContainerReviews"
 
 const VALUES: ISegmentValues[] = [
         {
-                value: 'reviews',
-                label: 'Отзывы',
+                value: "reviews",
+                label: "Отзывы",
         },
         {
-                value: 'offers',
-                label: 'Предложения',
+                value: "offers",
+                label: "Предложения",
         },
         {
-                value: 'requests',
-                label: 'Запросы',
+                value: "requests",
+                label: "Запросы",
         },
         {
-                value: 'blogs',
-                label: 'Блоги',
+                value: "blogs",
+                label: "Блоги",
         },
 ]
 

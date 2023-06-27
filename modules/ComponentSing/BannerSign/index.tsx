@@ -5,18 +5,18 @@ import { ButtonDefault, ButtonFill } from "components/Buttons";
 import { BannerCoins } from "./components/BannerCoins";
 import { TBannerSign } from "./types";
 
-const BannerSign: TBannerSign = ({ handleSignUpOrSignIn }) => {
+const BannerSing: TBannerSign = ({ handleSignUpOrSignIn }) => {
 
   return (
     <div className={styles.container}>
-      <header className={styles.headerSign}>
+      <div className={styles.headerSign}>
         <Image
           src="/logo/wordmark.svg"
           alt="sheira"
           width={140}
           height={37}
         />
-      </header>
+      </div>
       <main className={styles.content}>
         <section className={styles.descriptionSign}>
           <p className={styles.description}>Зарегистрируйтесь в Шейре и добавляйте свои предложения на карту.</p>
@@ -25,12 +25,12 @@ const BannerSign: TBannerSign = ({ handleSignUpOrSignIn }) => {
               type="primary"
               label="Войти"
               classNames="w-100"
-              handleClick={() => handleSignUpOrSignIn("SignIn")}
+              handleClick={() => handleSignUpOrSignIn("SingIn")}
             />
             <ButtonDefault
               label="Зарегистрироваться"
               classNames="w-100"
-              handleClick={() => handleSignUpOrSignIn("SignUp")}
+              handleClick={() => handleSignUpOrSignIn("SingUp")}
             />
             <div className={styles.bannerContent}>
               <BannerCoins />
@@ -38,11 +38,11 @@ const BannerSign: TBannerSign = ({ handleSignUpOrSignIn }) => {
           </div>
         </section>
       </main>
-      <footer className={styles.footer}>
+      <div className={styles.footer}>
         <a>Всё о Шейре</a>
-      </footer>
+      </div>
     </div>
   )
 }
 
-export default BannerSign
+export default BannerSing

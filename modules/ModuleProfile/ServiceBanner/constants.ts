@@ -1,4 +1,4 @@
-import { ISegmentValues } from "types/general";
+import { ISegmentValues } from "types/general"
 
 export const SERVICES: ISegmentValues[] = [
     {

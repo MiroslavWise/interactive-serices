@@ -1,11 +1,12 @@
-import Image from "next/image";
-import type { TSignModulePopup } from "./types";
+import Image from "next/image"
 
-import { HeaderModal } from "./components/HeaderModal";
-import { ContentSignUp } from "./components/ContentSignUp";
-import { ContentSignIn } from "./components/ContentSignIn";
+import type { TSignModulePopup } from "./types"
 
-import styles from "./styles/style.module.scss";
+import { HeaderModal } from "./components/HeaderModal"
+import { ContentSignUp } from "./components/ContentSignUp"
+import { ContentSignIn } from "./components/ContentSignIn"
+
+import styles from "./styles/style.module.scss"
 
 const SignModulePopup: TSignModulePopup = ({ visible, type, setVisible, setType }) => {
   return (

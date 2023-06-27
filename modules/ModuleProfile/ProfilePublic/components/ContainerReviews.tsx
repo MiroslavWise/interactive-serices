@@ -1,6 +1,6 @@
-import type { TContainerReviews } from "./types";
+import type { TContainerReviews } from "./types"
 
-import { CardReview } from "components/CardReview";
+import { CardReview } from "components/CardReview"
 
 const VALUES: {
         user: string
@@ -52,7 +52,7 @@ const VALUES: {
                 },
         ]
 
-import styles from './style.module.scss'
+import styles from "./style.module.scss"
 
 export const ContainerReviews: TContainerReviews = ({ }) => {
 

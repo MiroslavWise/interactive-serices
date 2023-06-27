@@ -1,25 +1,25 @@
-"use client";
+"use client"
 
-import { type FC, type Dispatch, type SetStateAction } from "react";
-import { useForm } from "react-hook-form";
-import Image from "next/image";
+import { type FC, type Dispatch, type SetStateAction } from "react"
+import { useForm } from "react-hook-form"
+import Image from "next/image"
 
-import type { TTypeSign } from "../types";
+import type { TTypeSign } from "../types"
 
-import { LabelInputGroup } from "./LabelInputGroup";
-import { ButtonFill } from "components/Buttons";
-import { LinksSocial } from "./LinksSocial";
+import { LabelInputGroup } from "./LabelInputGroup"
+import { ButtonFill } from "components/Buttons"
+import { LinksSocial } from "./LinksSocial"
 
-import { URL } from "services/url";
-import { regExEmail } from "lib/constants";
+import { URL } from "services/url"
+import { regExEmail } from "lib/constants"
 
-import styles from "./styles/style.module.scss";
+import styles from "./styles/style.module.scss"
 
 interface IValues{
-  email: string;
-  number?: string;
-  password: string;
-  repeat_password: string;
+  email: string
+  number?: string
+  password: string
+  repeat_password: string
 }
 
 type TContentSignUp = FC<{
@@ -41,7 +41,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
       email: values.email,
       password: values.password,
       repeat: values.repeat_password,
-    };
+    }
     try {
       const res = await fetch(`${URL}users`, {
         method: "POST",
@@ -50,13 +50,13 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
         },
         body: JSON.stringify(data),
       })
-      const dataResponse = await res.json();
+      const dataResponse = await res.json()
       if (dataResponse?.error && dataResponse?.error?.code === 409) {
         setError("email", {message: "user already exists"})
       }
-      return dataResponse;
+      return dataResponse
     } catch (e) {
-      throw e;
+      throw e
     }
   }
   

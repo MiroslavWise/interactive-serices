@@ -8,11 +8,11 @@ export const BannerCoins: FC = () => {
     <div className={styles.banner}>
       <p className={styles.description}>Зарегистрируйтесь сейчас и получите до 5000 Шейра-коинов</p>
       <Image
-          src="/svg/coins-banner.svg"
-          alt="coins"
-          width={238.715}
-          height={156}
-          className={styles.coins}
+        src="/svg/coins-banner.svg"
+        alt="coins"
+        width={238.715}
+        height={156}
+        className={styles.coins}
       />
       <div className={styles.ellipseOne} />
       <div className={styles.ellipseTwo} />

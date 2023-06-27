@@ -1,10 +1,10 @@
-import { type FC } from "react";
-import Image from "next/image";
+import { type FC } from "react"
+import Image from "next/image"
 
 
-import type { TTypeSign } from "../types";
+import type { TTypeSign } from "../types"
 
-import styles from "./styles/style.module.scss";
+import styles from "./styles/style.module.scss"
 
 export const HeaderModal: FC<{ type: TTypeSign }> = ({ type }) => {
 

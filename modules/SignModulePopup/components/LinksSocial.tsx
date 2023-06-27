@@ -1,8 +1,10 @@
-import { type FC } from "react";
+import { type FC } from "react"
 
-import styles from "./styles/style.module.scss";
-import { LinkItem } from "./LinkItem";
-import { ITEMS_SOCIAL_LINK } from "./constants";
+import { LinkItem } from "./LinkItem"
+
+import { ITEMS_SOCIAL_LINK } from "./constants"
+
+import styles from "./styles/style.module.scss"
 
 export const LinksSocial: FC = ({ }) => {    
   return (

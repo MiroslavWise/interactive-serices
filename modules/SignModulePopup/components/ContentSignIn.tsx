@@ -1,23 +1,23 @@
-"use client";
+"use client"
 
-import { type FC, Dispatch, SetStateAction } from "react";
-import { useForm } from "react-hook-form";
-import Image from "next/image";
+import { type FC, Dispatch, SetStateAction } from "react"
+import { useForm } from "react-hook-form"
+import Image from "next/image"
 
-import type { TTypeSign } from "../types";
+import type { TTypeSign } from "../types"
 
 import { LabelInputGroup } from "./LabelInputGroup"
-import { ButtonFill } from "components/Buttons";
-import { LinksSocial } from "./LinksSocial";
+import { ButtonFill } from "components/Buttons"
+import { LinksSocial } from "./LinksSocial"
 
-import { regExEmail } from "lib/constants";
+import { regExEmail } from "lib/constants"
 
-import styles from "./styles/style.module.scss";
+import styles from "./styles/style.module.scss"
 
 interface IValues {
-  email: String;
-  password: string;
-  checkbox: boolean;
+  email: String
+  password: string
+  checkbox: boolean
 }
 
 type TContentSignIn = FC<{
@@ -25,7 +25,7 @@ type TContentSignIn = FC<{
 }>
 
 export const ContentSignIn: TContentSignIn = ({ setType }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<IValues>();
+  const { register, handleSubmit, formState: { errors } } = useForm<IValues>()
 
   const onEnter = (values: IValues) => {
     console.log("values: ", values)

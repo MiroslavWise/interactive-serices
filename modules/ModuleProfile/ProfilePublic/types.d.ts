@@ -1,5 +1,5 @@
-import type { FC, Dispatch, SetStateAction } from "react";
-import type { IStateVisible, IDataProfile } from "../types";
+import type { FC, Dispatch, SetStateAction } from "react"
+import type { IStateVisible, IDataProfile } from "../types"
 
 interface IProfilePublicModule{
         active: boolean

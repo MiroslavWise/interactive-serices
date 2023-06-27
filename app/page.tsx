@@ -1,8 +1,8 @@
-import { YandexMap } from 'components/YandexMap'
-import { ComponentSing } from 'modules/ComponentSing' 
-import { ModuleProfile } from 'modules/ModuleProfile'
+import { YandexMap } from "components/YandexMap"
+import { ComponentSing } from "modules/ComponentSing" 
+import { ModuleProfile } from "modules/ModuleProfile"
 
-import styles from './page.module.scss'
+import styles from "./styles/page.module.scss"
 
 export default function Home() {
   return (

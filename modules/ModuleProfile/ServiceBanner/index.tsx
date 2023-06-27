@@ -1,141 +1,141 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState } from "react"
+import { motion } from "framer-motion"
 
-import type { ISegmentValues } from 'types/general'
-import type { TServiceBanner } from './types'
+import type { ISegmentValues } from "types/general"
+import type { TServiceBanner } from "./types"
 
-import { Segments } from 'components/Segments'
-import { SearchField } from 'components/Inputs'
-import { PeopleCard } from 'components/PeopleCard'
+import { Segments } from "components/Segments"
+import { SearchField } from "components/Inputs"
+import { PeopleCard } from "components/PeopleCard"
 
-import styles from './style.module.scss'
+import styles from "./style.module.scss"
 
 const SERVICES: ISegmentValues[] = [
         {
-                value: 'all',
-                label: 'Все сервисы',
+                value: "all",
+                label: "Все сервисы",
         },
         {
-                value: 'offers',
-                label: 'Предложения',
+                value: "offers",
+                label: "Предложения",
         },
         {
-                value: 'requests',
-                label: 'Запросы',
+                value: "requests",
+                label: "Запросы",
         },
 ]
 
 const MOCK_DATA_PEOPLE: { photo: string, name: string, geo: string, services: { value: string, name: string }[], rate: number }[] = [
         {
-                photo: '/mocks/maria.png',
-                name: 'Мария Иванова',
-                geo: 'Cir. Shiloh, Hawaii 81063',
+                photo: "/mocks/maria.png",
+                name: "Мария Иванова",
+                geo: "Cir. Shiloh, Hawaii 81063",
                 services: [
                         {
-                                value: 'nails',
-                                name: 'Nails',
+                                value: "nails",
+                                name: "Nails",
                         },
                         {
-                                value: 'hair',
-                                name: 'Hair Cut',
+                                value: "hair",
+                                name: "Hair Cut",
                         }
                 ],
                 rate: 5,
         },
         {
-                photo: '/mocks/elena.png',
-                name: 'Алена Шварц',
-                geo: 'Ln. Mesa, New Jersey 45463',
+                photo: "/mocks/elena.png",
+                name: "Алена Шварц",
+                geo: "Ln. Mesa, New Jersey 45463",
                 services: [
                         {
-                                value: 'nails',
-                                name: 'Nails',
+                                value: "nails",
+                                name: "Nails",
                         },
                         {
-                                value: 'hair',
-                                name: 'Hair Cut',
+                                value: "hair",
+                                name: "Hair Cut",
                         }
                 ],
                 rate: 3.8,
         },
         {
-                photo: '/mocks/michael.png',
-                name: 'Михаил Прохоров',
-                geo: 'Dr. Richardson, California 62639',
+                photo: "/mocks/michael.png",
+                name: "Михаил Прохоров",
+                geo: "Dr. Richardson, California 62639",
                 services: [
                         {
-                                value: 'nails',
-                                name: 'Nails',
+                                value: "nails",
+                                name: "Nails",
                         },
                         {
-                                value: 'hair',
-                                name: 'Hair Cut',
+                                value: "hair",
+                                name: "Hair Cut",
                         }
                 ],
                 rate: 4.5,
         },
         {
-                photo: '/mocks/alina.png',
-                name: 'Алина Морозова',
-                geo: 'San Jose, South Dakota 83475',
+                photo: "/mocks/alina.png",
+                name: "Алина Морозова",
+                geo: "San Jose, South Dakota 83475",
                 services: [
                         {
-                                value: 'nails',
-                                name: 'Nails',
+                                value: "nails",
+                                name: "Nails",
                         },
                         {
-                                value: 'hair',
-                                name: 'Hair Cut',
+                                value: "hair",
+                                name: "Hair Cut",
                         }
                 ],
                 rate: 4.8,
         },
         {
-                photo: '/mocks/maria.png',
-                name: 'Мария Иванова',
-                geo: 'Cir. Shiloh, Hawaii 81063',
+                photo: "/mocks/maria.png",
+                name: "Мария Иванова",
+                geo: "Cir. Shiloh, Hawaii 81063",
                 services: [
                         {
-                                value: 'nails',
-                                name: 'Nails',
+                                value: "nails",
+                                name: "Nails",
                         },
                         {
-                                value: 'hair',
-                                name: 'Hair Cut',
+                                value: "hair",
+                                name: "Hair Cut",
                         }
                 ],
                 rate: 4.7,
         },
         {
-                photo: '/mocks/maria.png',
-                name: 'Мария Иванова',
-                geo: 'Cir. Shiloh, Hawaii 81063',
+                photo: "/mocks/maria.png",
+                name: "Мария Иванова",
+                geo: "Cir. Shiloh, Hawaii 81063",
                 services: [
                         {
-                                value: 'nails',
-                                name: 'Nails',
+                                value: "nails",
+                                name: "Nails",
                         },
                         {
-                                value: 'hair',
-                                name: 'Hair Cut',
+                                value: "hair",
+                                name: "Hair Cut",
                         }
                 ],
                 rate: 4.7,
         },
         {
-                photo: '/mocks/maria.png',
-                name: 'Мария Иванова',
-                geo: 'Cir. Shiloh, Hawaii 81063',
+                photo: "/mocks/maria.png",
+                name: "Мария Иванова",
+                geo: "Cir. Shiloh, Hawaii 81063",
                 services: [
                         {
-                                value: 'nails',
-                                name: 'Nails',
+                                value: "nails",
+                                name: "Nails",
                         },
                         {
-                                value: 'hair',
-                                name: 'Hair Cut',
+                                value: "hair",
+                                name: "Hair Cut",
                         }
                 ],
                 rate: 4.7,
@@ -146,12 +146,12 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
         const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
 
         const onSearch = (value: string) => {
-                console.log('---value service --- ', value)
+                console.log("---value service --- ", value)
         }
 
         return (
                 <motion.div
-                        className={`${styles.container} ${active ? styles.active : ''}`}
+                        className={`${styles.container} ${active ? styles.active : ""}`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}

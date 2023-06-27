@@ -9,10 +9,10 @@ import styles from './style.module.scss'
 
 
 const MOCK_ACHIEVEMENTS: string[] = [
-        '/svg/achievements/arms.svg',
-        '/svg/achievements/gold-medal.svg',
-        '/svg/achievements/shield-crown.svg',
-        '/svg/achievements/shield.svg',
+        "/svg/achievements/arms.svg",
+        "/svg/achievements/gold-medal.svg",
+        "/svg/achievements/shield-crown.svg",
+        "/svg/achievements/shield.svg",
 ]
 
 export const InfoContainerProfile: TInfoContainerProfile = ({}) => {
