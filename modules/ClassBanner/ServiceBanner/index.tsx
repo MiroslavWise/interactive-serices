@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import type { ISegmentValues } from "types/general";
+import type { ISegmentValues } from "../../../types/general";
 
 import { Segments } from "../../../components/Segments";
 import { SearchField } from "../../../components/Inputs";
