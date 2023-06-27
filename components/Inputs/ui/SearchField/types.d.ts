@@ -1,7 +1,7 @@
-import type { FC, Dispatch, DispatchWithoutAction, SetStateAction } from 'react'
+import type { FC, Dispatch, DispatchWithoutAction, SetStateAction } from "react";
 
 interface ISearchField{
-        onSearch: Dispatch<string>
+  onSearch: Dispatch<string>;
 }
 
-export type TSearchField = FC<ISearchField>
+export type TSearchField = FC<ISearchField>;

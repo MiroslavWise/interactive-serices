@@ -1,104 +1,89 @@
 @mixin button{
-        padding: 6px 16px;
-        border-radius: 100px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
+  padding: 6px 16px;
+  border-radius: 100px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
 
-        span{
-                font-size: 18px;
-                font-weight: 500;
-                line-height: 28px;
-                letter-spacing: -0.5px;
-        }
+  span{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: -0.5px;
+  }
 }
 
 .button-fill{
-        @include button;
-        padding: 6px 16px;
-        border: none;
-
-        &.small{
-                height: 36px;
-                padding: 6px 16px;
-                span{
-                        color: var(--supporting-white);
-                        font-size: 14px;
-                        font-weight: 500;
-                        line-height: 20px;
-                        letter-spacing: -0.5px;
-                }
-        }
+  @include button;
+  padding: 6px 16px;
+  border: none;
 
         &.primary{
                 background: var(--gradient-primary);
-                &.shadow{
-                        box-shadow: 0px 8px 24px 0px rgba(119, 101, 242, 0.50);
-                }
 
-                &:focus{
-                        background: var(--primary-400);
-                        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
-                }
-        }
+    &:focus{
+      background: var(--primary-400);
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+    }
+  }
 
-        &.secondary{
-                background: var(--gradient-optional-1);
+  &.secondary{
+    background: var(--gradient-optional-1);
 
-                &:focus{
-                        background: linear-gradient(180deg, #FFAD9A 0%, #FF7555 100%);
-                        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
-                }
-        }
+    &:focus{
+      background: linear-gradient(180deg, #FFAD9A 0%, #FF7555 100%);
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+    }
+  }
 
-        &.optional_blue{
-                background: var(--gradient-optional-2);
+  &.optional_blue{
+    background: var(--gradient-optional-2);
 
-                &:focus{
-                        background: linear-gradient(180deg, #FFC3D9 0%, #FF79A9 100%);
-                        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
-                }
-        }
+    &:focus{
+      background: linear-gradient(180deg, #FFC3D9 0%, #FF79A9 100%);
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+    }
+  }
 
-        &.optional_pink{
-                background: var(--gradient-optional-3);
+  &.optional_pink{
+    background: var(--gradient-optional-3);
 
-                &:focus{
-                        background: linear-gradient(180deg, #AEDEFF 0%, #72C4FF 100%);
-                        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
-                }
-        }
+    &:focus{
+      background: linear-gradient(180deg, #AEDEFF 0%, #72C4FF 100%);
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+    }
+  }
 
-        &.disabled{
-                background: var(--gray-200) !important;
-                span{
-                        color: var(--gray-400);
-                }
-        }
+  &.disabled{
+    background: var(--gray-200) !important;
+    span{
+      color: var(--gray-400);
+    }
+  }
 
-        span{
-                color: var(--supporting-white);
-        }
+  span{
+    color: var(--supporting-white);
+  }
 }
 
 .button-default{
-        @include button;
-        padding: 4px 16px;
-        position: relative;
-        border: 2px solid transparent !important;
-        background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
-        var(--gradient-primary) border-box !important;
-        transition: background 0.3s ease-in-out;
+  @include button;
+  padding: 4px 16px;
+  position: relative;
+  border: 2px solid transparent !important;
+  background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
+  var(--gradient-primary) border-box !important;
+  transition: background 0.3s ease-in-out;
 
-        &:focus{
-                background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
-                linear-gradient(var(--primary-500), var(--primary-500)) border-box !important;
-                box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
-        }
-        
-        span{
-                color: var(--primary-500);
-        }
+  &:focus{
+    background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
+    linear-gradient(var(--primary-500), var(--primary-500)) border-box !important;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+  }
+  
+  span{
+    color: var(--primary-500);
+  }
 }

@@ -1,4 +1,4 @@
 export interface ISegmentValues{
-        value: string
-        label: string
+  value: string;
+  label: string;
 }

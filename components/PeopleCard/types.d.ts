@@ -1,5 +1,5 @@
-import type { Dispatch, FC, SetStateAction } from "react";
-import type { IStateVisible } from "modules/ModuleProfile/types";
+import type { Dispatch, FC, SetStateAction } from "react"
+import type { IStateVisible } from "modules/ModuleProfile/types"
 
 interface IPeopleCard {
         photo: string

@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { type TButtonPropsFill } from "./types";
+import { type TButtonPropsFill } from "./types"
 
 export const ButtonFill: TButtonPropsFill = ({
         label,
@@ -12,7 +12,6 @@ export const ButtonFill: TButtonPropsFill = ({
         shadow,
         small,
 }) => {
-
         const click = () => {
                 if (handleClick) {
                         handleClick()

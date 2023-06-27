@@ -1,1 +1,1 @@
-export * from './regEx'
+export * from "./regEx";
