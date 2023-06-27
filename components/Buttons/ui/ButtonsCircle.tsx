@@ -1,8 +1,8 @@
-import Image from "next/image";
+import Image from "next/image"
 
-import type { TButtonsCircle } from "./types";
+import type { TButtonsCircle } from "./types"
 
-import styles from './style.module.scss'
+import styles from "./style.module.scss"
 
 export const ButtonsCircle: TButtonsCircle = ({ src, type }) => {
         

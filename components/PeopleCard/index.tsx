@@ -2,7 +2,7 @@ import Image from "next/image"
 
 import type { TPeopleCard } from "./types"
 
-import styles from './style.module.scss'
+import styles from "./styles/style.module.scss"
 
 export const PeopleCard: TPeopleCard = ({
         photo, name, geo, rate, services, setDataProfile,
@@ -60,7 +60,7 @@ export const PeopleCard: TPeopleCard = ({
                                                         <li key={`${item?.value}_${name}_${index}`}>
                                                                 <div className={styles.containerImgService}>
                                                                         <Image
-                                                                                src={item?.value === 'nails' ? '/mocks/Nail.png' : item?.value === 'hair' ? '/mocks/hair.png' : 'hair'}
+                                                                                src={item?.value === "nails" ? "/mocks/Nail.png" : item?.value === "hair" ? "/mocks/hair.png" : "hair"}
                                                                                 alt="pl"
                                                                                 width={16}
                                                                                 height={16}

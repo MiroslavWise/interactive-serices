@@ -1,8 +1,8 @@
-import type { TItemSegments } from "./types";
+import type { TItemSegments } from "./types"
 
-import { Segments } from "components/Segments";
+import { Segments } from "components/Segments"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const ItemSegments: TItemSegments = ({ activeSegment, setActiveSegment,values }) => {
         

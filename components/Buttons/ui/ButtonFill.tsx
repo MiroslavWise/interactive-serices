@@ -20,7 +20,7 @@ export const ButtonFill: TButtonPropsFill = ({
 
         return (
                 <button
-                        className={`button-fill ${type || 'primary'} ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''} ${shadow ? 'shadow' : ''} ${small ? 'small' : ''}`}
+                        className={`button-fill ${type || "primary"} ${disabled ? "disabled" : ""} ${classNames ? classNames : ""} ${shadow ? "shadow" : ""} ${small ? "small" : ""}`}
                         onClick={click}
                         type={submit || "button"}
                 >

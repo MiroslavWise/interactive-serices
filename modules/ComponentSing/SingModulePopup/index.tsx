@@ -1,18 +1,18 @@
-import Image from 'next/image'
+import Image from "next/image"
 
-import type { TSingModulePopup } from './types'
+import type { TSingModulePopup } from "./types"
 
-import { HeaderModal } from './components/HeaderModal'
-import { ContentSingUp } from './components/ContentSingUp'
-import { ContentSingIn } from './components/ContentSingIn'
+import { HeaderModal } from "./components/HeaderModal"
+import { ContentSingUp } from "./components/ContentSingUp"
+import { ContentSingIn } from "./components/ContentSingIn"
 
-import styles from './style.module.scss'
-import { ContentForgotPassword } from './components/ContentForgotPassword'
+import styles from "./styles/style.module.scss"
+import { ContentForgotPassword } from "./components/ContentForgotPassword"
 
 const SingModulePopup: TSingModulePopup = ({ visible, type, setVisible, setType }) => {
         return (
                 <>
-                        <div className={`${styles.overlay} ${visible ? styles.visible : ''}`}>
+                        <div className={`${styles.overlay} ${visible ? styles.visible : ""}`}>
                                 <div className={styles.modal}>
                                         <div
                                                 className={styles.close}
@@ -20,7 +20,7 @@ const SingModulePopup: TSingModulePopup = ({ visible, type, setVisible, setType 
                                         >
                                                 <Image
                                                         src="/svg/x-close.svg"
-                                                        alt='x'
+                                                        alt="x"
                                                         width={14}
                                                         height={14}
                                                 />

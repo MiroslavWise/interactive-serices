@@ -3,7 +3,7 @@ import { TItemsBadges } from "./types"
 
 import { BadgeAchievements } from "components/BadgeAchievements"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 const MOCKS_BADGES: { title: string, total: number }[] = [
         {

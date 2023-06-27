@@ -1,17 +1,17 @@
-'use client'
+"use client"
 
-import { useForm } from "react-hook-form";
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { useForm } from "react-hook-form"
+import Image from "next/image"
+import { motion } from "framer-motion"
 
-import type { TContentForgotPassword } from "../types";
+import type { TContentForgotPassword } from "../types"
 
-import { LabelInputGroup } from "./LabelInputGroup";
-import { ButtonFill } from "components/Buttons";
+import { LabelInputGroup } from "./LabelInputGroup"
+import { ButtonFill } from "components/Buttons"
 
-import { regExEmail } from "lib/constants";
+import { regExEmail } from "lib/constants"
 
-import styles from './style.module.scss'
+import styles from "./styles/style.module.scss"
 
 interface IValues {
         email: string
@@ -40,7 +40,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType }) => {
                                                 placeholder="Введите свой email"
                                                 type="text"
                                                 propsInput={register("email", { required: true, validate: (value) => regExEmail.test(value) })}
-                                                errorMessage={errors.email ? "Требуется email" : ''}
+                                                errorMessage={errors.email ? "Требуется email" : ""}
                                         />
                                 </section>
                                 <ButtonFill
@@ -50,7 +50,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType }) => {
                                         submit="submit"
                                 />
                         </form>
-                        <section className={`${styles.Register} cursor-pointer`} onClick={() => setType('SingIn')}>
+                        <section className={`${styles.Register} cursor-pointer`} onClick={() => setType("SingIn")}>
                                 <Image
                                         src="/svg/arrow-left.svg"
                                         alt="arrow"

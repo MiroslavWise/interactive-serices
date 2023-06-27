@@ -1,19 +1,19 @@
-'use client'
+"use client";;
 
 import { useForm } from "react-hook-form"
-import Image from 'next/image'
-import { motion } from 'framer-motion'
+import Image from "next/image"
+import { motion } from "framer-motion"
 
-import type { TContentSingUp } from '../types'
+import type { TContentSingUp } from "../types"
 
-import { LabelInputGroup } from './LabelInputGroup'
-import { ButtonFill } from 'components/Buttons'
-import { LinksSocial } from './LinksSocial'
+import { LabelInputGroup } from "./LabelInputGroup"
+import { ButtonFill } from "components/Buttons"
+import { LinksSocial } from "./LinksSocial"
 
-import { URL } from 'services/url'
-import { regExEmail } from 'lib/constants'
+import { URL } from "services/url"
+import { regExEmail } from "lib/constants"
 
-import styles from './style.module.scss'
+import styles from "./styles/style.module.scss"
 
 interface IValues {
         email: string
@@ -25,10 +25,10 @@ interface IValues {
 export const ContentSingUp: TContentSingUp = ({ setType }) => {
         const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValues>({
                 defaultValues: {
-                        email: '',
-                        number: '',
-                        password: '',
-                        repeat_password: '',
+                        email: "",
+                        number: "",
+                        password: "",
+                        repeat_password: "",
                 },
         })
 
@@ -40,7 +40,7 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                 }
                 try {
                         const res = await fetch(`${URL}users`, {
-                                method: 'POST',
+                                method: "POST",
                                 headers: {
                                         "Content-Type": "application/json",
                                 },
@@ -48,7 +48,7 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                         })
                         const dataResponse = await res.json()
                         if (dataResponse?.error && dataResponse?.error?.code === 409) {
-                                setError('email', { message: 'user already exists' })
+                                setError("email", { message: "user already exists" })
                         }
                         return dataResponse
                 } catch (e) {
@@ -71,8 +71,8 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                                                 rules
                                                 placeholder="Введите свой email"
                                                 type="text"
-                                                propsInput={register("email", { required: true, validate: value => regExEmail.test(value) ? true : 'validate_email' })}
-                                                errorMessage={errors.email && errors?.email?.message === "user already exists" ? 'Пользователь уже существует' : errors?.email ? "Требуется email" : ''}
+                                                propsInput={register("email", { required: true, validate: value => regExEmail.test(value) ? true : "validate_email" })}
+                                                errorMessage={errors.email && errors?.email?.message === "user already exists" ? "Пользователь уже существует" : errors?.email ? "Требуется email" : ""}
                                         />
                                         <LabelInputGroup
                                                 label="Номер телеграмма"
@@ -86,20 +86,20 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                                                 placeholder="Введите свой пароль"
                                                 type="password"
                                                 propsInput={register("password", { required: true, minLength: 5 })}
-                                                errorMessage={errors.password ? 'Требуется пароль' : ''}
+                                                errorMessage={errors.password ? "Требуется пароль" : ""}
                                         />
                                         <LabelInputGroup
                                                 label="Подтвердите пароль"
                                                 rules
                                                 placeholder="Введите пароль еще раз"
                                                 type="password"
-                                                propsInput={register("repeat_password", { required: true, minLength: 5, validate: value => value === watch('password') ? true : 'no_repeat' })}
+                                                propsInput={register("repeat_password", { required: true, minLength: 5, validate: value => value === watch("password") ? true : "no_repeat" })}
                                                 errorMessage={
                                                         errors?.repeat_password && errors?.repeat_password?.message === "no_repeat"
-                                                                ? 'Пароли не совпадают'
+                                                                ? "Пароли не совпадают"
                                                                 : errors?.repeat_password
-                                                                        ? 'Требуется пароль'
-                                                                        : ''
+                                                                        ? "Требуется пароль"
+                                                                        : ""
                                                 }
                                         />
                                 </section>
@@ -112,7 +112,7 @@ export const ContentSingUp: TContentSingUp = ({ setType }) => {
                                 />
                                 <LinksSocial />
                         </form>
-                        <section className={`${styles.Register} cursor-pointer`} onClick={() => setType('SingIn')}>
+                        <section className={`${styles.Register} cursor-pointer`} onClick={() => setType("SingIn")}>
                                 <Image
                                         src="/svg/arrow-left.svg"
                                         alt="arrow"

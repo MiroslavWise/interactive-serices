@@ -1,9 +1,9 @@
-import Image from "next/image";
+import Image from "next/image"s
 
-import styles from "./styles/style.module.scss";
-import { ButtonDefault, ButtonFill } from "components/Buttons";
-import { BannerCoins } from "./components/BannerCoins";
-import { TBannerSign } from "./types";
+import styles from "./styles/style.module.scss"
+import { ButtonDefault, ButtonFill } from "components/Buttons"
+import { BannerCoins } from "./components/BannerCoins"
+import { TBannerSign } from "./types"
 
 const BannerSing: TBannerSign = ({ handleSignUpOrSignIn }) => {
 

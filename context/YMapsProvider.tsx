@@ -1,9 +1,7 @@
-'use client'
+"use client"
 
-import { YMaps } from '@pbe/react-yandex-maps'
-import { type ReactNode } from 'react'
-
-
+import { type ReactNode } from "react"
+import { YMaps } from "@pbe/react-yandex-maps"
 
 export const YMapsProvider = ({ children }: { children: ReactNode }) => {
         

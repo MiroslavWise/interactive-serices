@@ -2,6 +2,8 @@ import type { TContainerReviews } from "./types"
 
 import { CardReview } from "components/CardReview"
 
+import styles from "./styles/style.module.scss"
+
 const VALUES: {
         user: string
         date: string
@@ -51,8 +53,6 @@ const VALUES: {
                         ]
                 },
         ]
-
-import styles from "./style.module.scss"
 
 export const ContainerReviews: TContainerReviews = ({ }) => {
 

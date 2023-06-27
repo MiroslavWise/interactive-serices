@@ -1,29 +1,29 @@
-import { type FC } from 'react'
+import { type FC } from "react"
 
-import { LinkItem } from './LinkItem'
+import { LinkItem } from "./LinkItem"
 
-import styles from './style.module.scss'
+import styles from "./styles/style.module.scss"
 
 const ITEMS_SOCIAL_LINK: { value: string, src: string }[] = [
         {
-                value: 'google',
-                src: '/icons/fill/google.svg',
+                value: "google",
+                src: "/icons/fill/google.svg",
         },
         {
-                value: 'telegram',
-                src: '/icons/fill/telegram.svg',
+                value: "telegram",
+                src: "/icons/fill/telegram.svg",
         },
         {
-                value: 'apple',
-                src: '/icons/fill/apple.svg',
+                value: "apple",
+                src: "/icons/fill/apple.svg",
         },
         {
-                value: 'vk',
-                src: '/icons/fill/vk.svg',
+                value: "vk",
+                src: "/icons/fill/vk.svg",
         },
         {
-                value: 'yandex',
-                src: '/icons/fill/yandex.svg',
+                value: "yandex",
+                src: "/icons/fill/yandex.svg",
         },
 ]
 

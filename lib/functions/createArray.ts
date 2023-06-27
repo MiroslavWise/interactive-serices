@@ -7,5 +7,5 @@ export function createArray(length: number): boolean[] {
                         fill.push(false)
                 }
         }
-        return fill;
+        return fill
 }

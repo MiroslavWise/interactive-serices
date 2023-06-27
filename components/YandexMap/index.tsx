@@ -1,16 +1,16 @@
-'use client'
+"use client"
 
-import { Map, Placemark } from '@pbe/react-yandex-maps'
+import { Map, Placemark } from "@pbe/react-yandex-maps"
 
-import { TYandexMap } from "./types";
+import { TYandexMap } from "./types"
 
 export const YandexMap: TYandexMap = ({ }) => {
 
         return (
                 <>
                         <Map
-                                width={'100%'}
-                                height={'100vh'}
+                                width={"100%"}
+                                height={"100vh"}
                                 defaultState={{ center: [55.75, 37.57], zoom: 12 }}
                                 onLoad={(api) => {
                                         console.log("api load: ", api)
@@ -22,10 +22,10 @@ export const YandexMap: TYandexMap = ({ }) => {
                                                 
                                         }}
                                         options={{
-                                                iconLayout: 'default#image',
+                                                iconLayout: "default#image",
                                                 iconImageHref: "/icons/fill/apple.svg",
-                                                balloonContent: '<img src="/icons/fill/apple.svg"  />',
-                                                preset: 'islands#yellowStretchyIcon',
+                                                balloonContent: "<img src='/icons/fill/apple.svg'  />",
+                                                preset: "islands#yellowStretchyIcon",
                                         }}
                                 />
                         </Map>

@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 import type { THeaderModal } from "../types"
 
-import styles from './style.module.scss'
+import styles from "./styles/style.module.scss"
 
 export const HeaderModal: THeaderModal = ({ type }) => {
 

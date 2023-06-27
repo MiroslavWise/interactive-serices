@@ -1,23 +1,23 @@
-"use client";
+"use client"
 
-import { useForm } from "react-hook-form";
+import { KeyboardEvent } from "react"
+import Image from "next/image"
+import { useForm } from "react-hook-form"
 
-import type { TSearchField } from "./types";
+import type { TSearchField } from "./types"
 
-import styles from "./styles/style.module.scss";
-import { KeyboardEvent } from "react";
-import Image from "next/image";
+import styles from "./styles/style.module.scss"
 
 export const SearchField: TSearchField = ({ onSearch }) => {
-  const { register, watch, handleSubmit } = useForm<{ input: string }>();
+  const { register, watch, handleSubmit } = useForm<{ input: string }>()
 
   const handleSearch = (values: { input: string }) => {
-    onSearch(values.input);
+    onSearch(values.input)
   }
 
   const handlePressEnter = (e: KeyboardEvent<HTMLInputElement | HTMLFormElement>) => {
     if (e.key === "Enter") {
-      handleSubmit(handleSearch);
+      handleSubmit(handleSearch)
     }
   }
 

@@ -1,15 +1,15 @@
-import { type FC } from 'react'
+import { type FC } from "react"
 
 type TLabelInputGroup = FC<{
         label: string
         rules?: boolean
         placeholder: string
-        type: 'text' | 'email' | 'password'
+        type: "text" | "email" | "password"
         propsInput: any
         errorMessage?: string
 }>
 
-import styles from './style.module.scss'
+import styles from "./styles/style.module.scss"
 
 export const LabelInputGroup: TLabelInputGroup = ({
         label, rules, placeholder, type, propsInput, errorMessage,
@@ -23,7 +23,7 @@ export const LabelInputGroup: TLabelInputGroup = ({
                                         type={type}
                                         placeholder={placeholder}
                                         {...propsInput}
-                                        className={errorMessage ? styles.errorInput : ''}
+                                        className={errorMessage ? styles.errorInput : ""}
                                 />
                                 {
                                         errorMessage

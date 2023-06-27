@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { type TButtonPropsDefault } from "./types";
+import { type TButtonPropsDefault } from "./types"
 
 export const ButtonDefault: TButtonPropsDefault = ({
   label,
@@ -10,7 +10,7 @@ export const ButtonDefault: TButtonPropsDefault = ({
 }) => {
   return (
     <button
-      className={`button-default ${disabled ? 'disabled' : ''} ${classNames ? classNames : ''}`}
+      className={`button-default ${disabled ? "disabled" : ""} ${classNames ? classNames : ""}`}
       onClick={handleClick}
     >
       <span>{label}</span>

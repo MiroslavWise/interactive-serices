@@ -1,18 +1,18 @@
-'use client'
+"use client"
 
-import { useForm } from "react-hook-form";
-import Image from 'next/image';
-import { motion } from "framer-motion";
+import { useForm } from "react-hook-form"
+import Image from "next/image"
+import { motion } from "framer-motion"
 
-import type { TContentSignIn } from '../types';
+import type { TContentSignIn } from "../types"
 
-import { LabelInputGroup } from './LabelInputGroup'
-import { ButtonFill } from 'components/Buttons';
-import { LinksSocial } from './LinksSocial';
+import { LabelInputGroup } from "./LabelInputGroup"
+import { ButtonFill } from "components/Buttons"
+import { LinksSocial } from "./LinksSocial"
 
-import { regExEmail } from 'lib/constants';
+import { regExEmail } from "lib/constants"
 
-import styles from './style.module.scss'
+import styles from "./styles/style.module.scss"
 
 interface IValues {
         email: string
@@ -21,11 +21,11 @@ interface IValues {
 }
 
 export const ContentSingIn: TContentSignIn = ({ setType }) => {
-        const { control, register, handleSubmit, formState: { errors } } = useForm<IValues>();
+        const { control, register, handleSubmit, formState: { errors } } = useForm<IValues>()
 
         const onEnter = async (values: IValues) => {
                 console.log("values: ", values)
-                // await axios.post('', {
+                // await axios.post("", {
                 //         email: values.email,
                 //         password: values.password,
                 // })
@@ -47,7 +47,7 @@ export const ContentSingIn: TContentSignIn = ({ setType }) => {
                                                 placeholder="Введите свой email"
                                                 type="text"
                                                 propsInput={register("email", { required: true, validate: (value) => regExEmail.test(value) })}
-                                                errorMessage={errors.email ? "Требуется email" : ''}
+                                                errorMessage={errors.email ? "Требуется email" : ""}
                                         />
                                         <LabelInputGroup
                                                 label="Пароль"
@@ -55,7 +55,7 @@ export const ContentSingIn: TContentSignIn = ({ setType }) => {
                                                 placeholder="Введите свой пароль"
                                                 type="password"
                                                 propsInput={register("password", { required: true })}
-                                                errorMessage={errors.password ? 'Требуется пароль' : ''}
+                                                errorMessage={errors.password ? "Требуется пароль" : ""}
                                         />
                                 </section>
                                 <div className={styles.RememberChange}>
@@ -64,13 +64,13 @@ export const ContentSingIn: TContentSignIn = ({ setType }) => {
                                                         <input
                                                                 type="checkbox"
                                                                 defaultChecked={false}
-                                                                {...register('checkbox')}
-                                                                className=''
+                                                                {...register("checkbox")}
+                                                                className=""
                                                         />
                                                         <span className={styles.checkmark}>
                                                                 <Image
                                                                         src="/svg/check.svg"
-                                                                        alt='check'
+                                                                        alt="check"
                                                                         width={16}
                                                                         height={16}
                                                                 />
@@ -78,7 +78,7 @@ export const ContentSingIn: TContentSignIn = ({ setType }) => {
                                                 </label>
                                                 <p>Запомнить на 30 дней</p>
                                         </div>
-                                        <a onClick={() => setType('ForgotPassword')}>Забыли пароль?</a>
+                                        <a onClick={() => setType("ForgotPassword")}>Забыли пароль?</a>
                                 </div>
                                 <ButtonFill
                                         label="Войти"
@@ -90,7 +90,7 @@ export const ContentSingIn: TContentSignIn = ({ setType }) => {
                         </form>
                         <section className={styles.Register}>
                                 <p>Нет аккаунта?</p>
-                                <a onClick={() => setType('SingUp')}>Зарегистрироваться</a>
+                                <a onClick={() => setType("SingUp")}>Зарегистрироваться</a>
                         </section>
                 </motion.div>
         )

@@ -1,9 +1,8 @@
-import { TCardReview } from "./types";
+import { TCardReview } from "./types"
 
-
-import styles from './style.module.scss'
-import Image from "next/image";
-import { Rate } from "components/Rate";
+import styles from "./style.module.scss"
+import Image from "next/image"
+import { Rate } from "components/Rate"
 
 export const CardReview: TCardReview = ({ user, date, rate, description, images }) => {
 

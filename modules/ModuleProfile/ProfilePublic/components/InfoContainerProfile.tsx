@@ -5,8 +5,7 @@ import type { TInfoContainerProfile } from "./types"
 import { ButtonFill } from "components/Buttons"
 import { ButtonsCircle } from "components/Buttons/ui/ButtonsCircle"
 
-import styles from './style.module.scss'
-
+import styles from "./styles/style.module.scss"
 
 const MOCK_ACHIEVEMENTS: string[] = [
         "/svg/achievements/arms.svg",
