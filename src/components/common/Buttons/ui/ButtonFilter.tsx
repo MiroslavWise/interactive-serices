@@ -13,7 +13,7 @@ export const ButtonFilter: TButtonFilter = ({
     }
   }
   return (
-    <div
+    <div 
       className={`${styles.buttonFillGradient} ${active ? styles.active : ""} ${disabled ? "disabled" : ""} ${classNames ? classNames : ""}`}
       onClick={click}
     >
