@@ -13,13 +13,13 @@ import { LinksSocial } from "./LinksSocial"
 import { URL } from "@/helpers/url"
 import { regExEmail } from "@/helpers"
 
-import styles from "./style.module.scss";
+import styles from "./style.module.scss"
 
 interface IValues {
-  email: string;
-  number?: string;
-  password: string;
-  repeat_password: string;
+  email: string
+  number?: string
+  password: string
+  repeat_password: string
 }
 
 export const ContentSignUp: TContentSignUp = ({ setType }) => {

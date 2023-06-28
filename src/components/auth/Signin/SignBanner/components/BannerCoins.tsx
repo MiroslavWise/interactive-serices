@@ -1,7 +1,7 @@
-import { type FC } from "react";
-import Image from "next/image";
+import { type FC } from "react"
+import Image from "next/image"
 
-import styles from "./banner-coins.module.scss";
+import styles from "./banner-coins.module.scss"
 
 export const BannerCoins: FC = () => {
   return (

@@ -1,4 +1,4 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { Dispatch, FC, SetStateAction } from "react"
 
 export type TSignPopup = FC<{
   visible: boolean

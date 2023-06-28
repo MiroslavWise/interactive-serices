@@ -1,13 +1,13 @@
-import Image from "next/image";
+import Image from "next/image"
 
-import type { TSignPopup } from "./types";
+import type { TSignPopup } from "./types"
 
-import { HeaderModal }   from "./components/HeaderModal";
-import { ContentSignUp } from "./components/ContentSignUp";
-import { ContentSignIn } from "./components/ContentSignIn";
-import { ContentForgotPassword } from "./components/ContentForgotPassword";
+import { HeaderModal }   from "./components/HeaderModal"
+import { ContentSignUp } from "./components/ContentSignUp"
+import { ContentSignIn } from "./components/ContentSignIn"
+import { ContentForgotPassword } from "./components/ContentForgotPassword"
 
-import styles from "./sign-popup.module.scss";
+import styles from "./sign-popup.module.scss"
 
 const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
   return (
@@ -46,4 +46,4 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
   )
 }
 
-export default SignPopup;
+export default SignPopup

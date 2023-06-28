@@ -4,24 +4,24 @@ import { useForm } from "react-hook-form"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
-import type { TContentSignIn } from "../types";
+import type { TContentSignIn } from "../types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./LabelInputGroup"
-import { LinksSocial } from "./LinksSocial";
+import { LinksSocial } from "./LinksSocial"
 
 import { regExEmail } from "@/helpers"
 
 import styles from "./style.module.scss"
 
 interface IValues {
-  email: string;
-  password: string;
-  checkbox: boolean;
+  email: string
+  password: string
+  checkbox: boolean
 }
 
 export const ContentSignIn: TContentSignIn = ({ setType }) => {
-  const { control, register, handleSubmit, formState: { errors } } = useForm<IValues>();
+  const { control, register, handleSubmit, formState: { errors } } = useForm<IValues>()
 
   const onEnter = async (values: IValues) => {
     console.log("values: ", values)

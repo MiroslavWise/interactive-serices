@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import { type FC, useState } from "react";
+import { type FC, useState } from "react"
 
-import type { TTypeSign } from "./SignPopup/types";
+import type { TTypeSign } from "./SignPopup/types"
 
-import SignPopup  from "./SignPopup";
-import SignBanner from "./SignBanner";
+import SignPopup  from "./SignPopup"
+import SignBanner from "./SignBanner"
 
 export const Signin: FC = () => {
   const [visible, setVisible] = useState(false)

@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-import type { TContentForgotPassword } from "../types";
+import type { TContentForgotPassword } from "../types"
 
-import { LabelInputGroup } from "./LabelInputGroup";
+import { LabelInputGroup } from "./LabelInputGroup"
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { regExEmail } from "@/helpers"
@@ -18,7 +18,7 @@ interface IValues {
 }
 
 export const ContentForgotPassword: TContentForgotPassword = ({ setType }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<IValues>();
+  const { register, handleSubmit, formState: { errors } } = useForm<IValues>()
 
   const onEnter = (values: IValues) => {
 

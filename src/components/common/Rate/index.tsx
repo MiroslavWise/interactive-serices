@@ -6,15 +6,15 @@ import type { TRate } from "./types"
 import styles from "./rate.module.scss"
 
 function createArray(length: number, count: number): boolean[] {
-  const fill = [];
+  const fill = []
   for (let i = 0; i < count; i++) {
-    fill.push(i <= length - 1);
+    fill.push(i <= length - 1)
   }
-  return fill;
+  return fill
 }
 
 export const Rate: TRate = ({ rate }) => {
-  const id = useId();
+  const id = useId()
   return (
     <ul className={styles.container}>
       {

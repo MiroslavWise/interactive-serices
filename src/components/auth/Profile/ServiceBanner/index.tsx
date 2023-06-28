@@ -10,7 +10,7 @@ import { Segments } from "@/components/common/Segments"
 import { SearchField } from "@/components/common/Inputs"
 import { PeopleCard } from "@/components/common/PeopleCard"
 
-import styles from "./service-banner.module.scss";
+import styles from "./service-banner.module.scss"
 
 const SERVICES: ISegmentValues[] = [
   {

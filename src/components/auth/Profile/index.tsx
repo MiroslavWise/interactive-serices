@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react";
+import { useState } from "react"
 
-import type { IStateVisible } from "./types";
+import type { IStateVisible } from "./types"
 
-import ServiceBanner from "./ServiceBanner";
-import ProfilePublic from "./ProfilePublic";
+import ServiceBanner from "./ServiceBanner"
+import ProfilePublic from "./ProfilePublic"
 
 export const Profile = ({ }) => {
   const [serviceDataVisible, setServiceDataVisible] = useState<IStateVisible>({

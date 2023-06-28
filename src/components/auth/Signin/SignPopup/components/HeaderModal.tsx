@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { motion } from "framer-motion";
+import Image from "next/image"
+import { motion } from "framer-motion"
 
-import type { THeaderModal } from "../types";
+import type { THeaderModal } from "../types"
 
-import styles from "./style.module.scss";
+import styles from "./style.module.scss"
 
 export const HeaderModal: THeaderModal = ({ type }) => {
 
