@@ -10,26 +10,9 @@ import { ItemsBadges } from "./components/ItemsBadges"
 import { ItemSegments } from "./components/ItemSegments"
 import { ContainerReviews } from "./components/ContainerReviews"
 
-import styles from "./profile-public.module.scss"
+import { VALUES } from "./constants"
 
-const VALUES: ISegmentValues[] = [
-  {
-    value: "reviews",
-    label: "Отзывы",
-  },
-  {
-    value: "offers",
-    label: "Предложения",
-  },
-  {
-    value: "requests",
-    label: "Запросы",
-  },
-  {
-    value: "blogs",
-    label: "Блоги",
-  },
-]
+import styles from "./profile-public.module.scss"
 
 const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
   const [activeSegment, setActiveSegment] = useState<ISegmentValues>(VALUES[0])

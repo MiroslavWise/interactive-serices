@@ -5,17 +5,11 @@ import type { TInfoContainerProfile } from "./types"
 import { ButtonFill } from "@/components/common/Buttons"
 import { ButtonsCircle } from "@/components/common/Buttons"
 
+import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
+
 import styles from "./style.module.scss"
 
-const MOCK_ACHIEVEMENTS: string[] = [
-  "/svg/achievements/arms.svg",
-  "/svg/achievements/gold-medal.svg",
-  "/svg/achievements/shield-crown.svg",
-  "/svg/achievements/shield.svg",
-]
-
 export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
-
   return (
     <section className={styles.infoContainerProfile}>
       <div className={styles.avatarAndAchievements}>
