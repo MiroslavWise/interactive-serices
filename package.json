@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "make:3000": "make build-run PORT=3000"
   },
   "dependencies": {
     "@pbe/react-yandex-maps": "^1.2.4",

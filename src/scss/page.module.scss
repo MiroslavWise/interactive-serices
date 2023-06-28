@@ -3,6 +3,9 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 100vh;
+  height: calc(100vh);
   width: 100%;
+  overflow: hidden;
+  background: url("/png/Screenshot_map.png") no-repeat center center / cover, linear-gradient(to bottom, var(--success-200), var(--success-400));
+  backdrop-filter: blur(5px);
 }

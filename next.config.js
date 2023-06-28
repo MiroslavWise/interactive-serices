@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  env: {
+    PORT: 3000
+  }
+}
 
 module.exports = nextConfig
