@@ -17,11 +17,9 @@ interface IAuthReturn{
 
 export interface IUseTokenHelper {
   async login(value: ILoginArgs): Promise<IAuthReturn>
-  async refresh(value: IRefreshToken): Promise<IAuthReturn>
+  async refresh(): Promise<IAuthReturn>
   
-  get AuthData(): {
-    token: string
-    refresh: string
-  }
+  get authToken(): string
+  get authRefreshToken(): string
   get isAuth(): boolean
 }

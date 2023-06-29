@@ -32,8 +32,9 @@ export const useTokenHelper: IUseTokenHelper = {
       }
     }
   },
-  async refresh({ refresh }) {
+  async refresh() {
     try {
+      // this.authRefreshToken
       const response = await Promise.reject()
       validateToken({ token: "", refreshToken: "", ok: true })
       return {
@@ -47,11 +48,11 @@ export const useTokenHelper: IUseTokenHelper = {
       }
     }
   },
-  get AuthData() {
-    return {
-      token: localStorage.getItem(`${prefix}.Token`)!,
-      refresh: localStorage.getItem(`${prefix}.RefreshToken`)!,
-    }
+  get authToken() {
+    return localStorage.getItem(`${prefix}.Token`)!
+  },
+  get authRefreshToken() {
+    return localStorage.getItem(`${prefix}.RefreshToken`)!
   },
   get isAuth() {
     return authMap.some(item => localStorage.getItem(`${prefix}.${item}`) !== null)
