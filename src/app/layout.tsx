@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   title: "Sheira",
   description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
   keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", ""],
-  robots: process.env.NEXT_PUBLIC_URL,
 }
 
 export default function RootLayout({

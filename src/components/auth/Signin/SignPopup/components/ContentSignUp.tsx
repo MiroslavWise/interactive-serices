@@ -10,7 +10,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./LabelInputGroup"
 import { LinksSocial } from "./LinksSocial"
 
-import { URL } from "@/helpers/url"
+import { URL_API } from "@/helpers/url"
 import { regExEmail } from "@/helpers"
 
 import styles from "./style.module.scss"
@@ -39,7 +39,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
       repeat: values.repeat_password.trim(),
     }
     try {
-      const res = await fetch(`${URL}users`, {
+      const res = await fetch(`${URL_API}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

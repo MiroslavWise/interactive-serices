@@ -1,8 +1,9 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
-import Image from "next/image"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 import type { TContentSignIn } from "../types"
 
@@ -11,6 +12,7 @@ import { LabelInputGroup } from "./LabelInputGroup"
 import { LinksSocial } from "./LinksSocial"
 
 import { regExEmail } from "@/helpers"
+import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "./style.module.scss"
 
@@ -21,14 +23,18 @@ interface IValues {
 }
 
 export const ContentSignIn: TContentSignIn = ({ setType }) => {
-  const { control, register, handleSubmit, formState: { errors } } = useForm<IValues>()
+  const { register, handleSubmit, formState: { errors } } = useForm<IValues>()
+  const [loading, setLoading] = useState(false)
 
   const onEnter = async (values: IValues) => {
-    console.log("values: ", values)
-    // await axios.post("", {
-    //         email: values.email,
-    //         password: values.password,
-    // })
+    setLoading(true)
+    useTokenHelper.login({
+      email: values.email,
+      password: values.password,
+    })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
