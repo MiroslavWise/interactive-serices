@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TFilterFieldBottom } from "./types"
 
@@ -16,12 +17,14 @@ export const FilterFieldBottom: TFilterFieldBottom = ({ }) => {
   }
 
   return (
-    <section className={styles.container}>
-      <ButtonFilter
-        label="Настроить фильтры"
-        active={active}
-        handleClick={handleClick}
-      />
-    </section>
+    !isMobile ? (
+      <section className={styles.container}>
+        <ButtonFilter
+          label="Настроить фильтры"
+          active={active}
+          handleClick={handleClick}
+        />
+      </section>
+    ) : null
   )
 }

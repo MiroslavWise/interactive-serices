@@ -1,15 +1,16 @@
 "use client"
 
-import { Map, Placemark } from "@pbe/react-yandex-maps"
+import { Map } from "@pbe/react-yandex-maps"
 
-import { TYandexMap } from "./types"
-import { SearchFieldTop } from "./SearchFieldTop"
+import type { TYandexMap } from "./types"
+
+import { Header } from "./Header"
 import { FilterFieldBottom } from "./FilterFieldBottom"
 
 export const YandexMap: TYandexMap = ({ }) => {
   return (
     <>
-      <SearchFieldTop />
+      <Header />
       <Map
         width={"100%"}
         height={"100%"}

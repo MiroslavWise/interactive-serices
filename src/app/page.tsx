@@ -5,7 +5,6 @@ import { Profile } from "@/components/auth/Profile"
 import styles from "@/scss/page.module.scss"
 
 export default function Home() {
-
   return (
     <main className={styles.main}>
       <YandexMap />

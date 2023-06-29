@@ -2,6 +2,7 @@ import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import { Providers } from "./providers"
+import { FooterMenu } from "@/components/layout/FooterMenu"
 
 import "@/scss/init.scss"
 
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
+          <FooterMenu />
         </Providers>
       </body>
     </html>
