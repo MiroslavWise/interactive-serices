@@ -15,11 +15,11 @@ import { SERVICES } from "./constants"
 
 import styles from "./styles/style.module.scss"
 
-export const Header: THeaderMobile = ({ }) => {
+export const Header: THeaderMobile = ({ setVisibleNotification }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
   return (
     isMobile ? (
-      <motion.main
+      <motion.div
         className={styles.header}
         initial={{ top: -100, opacity: 0, visibility: "hidden", }}
         animate={{ top: 0, opacity: 1, visibility: "visible", }}
@@ -34,7 +34,10 @@ export const Header: THeaderMobile = ({ }) => {
               width={107}
               height={28.3}
             />
-            <div className={styles.containerNotification}>
+            <div
+              className={styles.containerNotification}
+              onClick={() => setVisibleNotification(true)}
+            >
               <Image
                 src="/svg/bell.svg"
                 alt="bell"
@@ -58,7 +61,7 @@ export const Header: THeaderMobile = ({ }) => {
             <SearchElementMap />
           </div>
         </div>
-      </motion.main>
+      </motion.div >
     ) : (
       <motion.div
         className={styles.containerSearchTop}

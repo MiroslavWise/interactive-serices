@@ -8,7 +8,7 @@ import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 import { SearchField } from "@/components/common/Inputs"
-import { PeopleCard } from "@/components/common/PeopleCard"
+import { PeopleCard } from "@/components/common/PeopleCard/ServiceBanner"
 
 import { SERVICES } from "./constants"
 import { MOCK_DATA_PEOPLE } from "@/mocks/components/auth/constants"
