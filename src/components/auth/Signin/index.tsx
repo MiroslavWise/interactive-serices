@@ -1,10 +1,11 @@
 "use client"
 
 import { type FC, useState } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TTypeSign } from "./SignPopup/types"
 
-import SignPopup  from "./SignPopup"
+import SignPopup from "./SignPopup"
 import SignBanner from "./SignBanner"
 
 export const Signin: FC = () => {
@@ -17,9 +18,12 @@ export const Signin: FC = () => {
   }
 
   return (
-    <>
-      <SignBanner {...{ handleSignUpOrSignIn }} />
-      <SignPopup {...{ visible, type, setVisible, setType }} />
-    </>
+    !isMobile
+      ? (
+        <>
+          <SignBanner {...{ handleSignUpOrSignIn }} />
+          <SignPopup {...{ visible, type, setVisible, setType }} />
+        </>
+      ) : null
   )
 }

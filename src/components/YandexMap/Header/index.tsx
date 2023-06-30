@@ -19,15 +19,15 @@ export const Header: THeaderMobile = ({ }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
   return (
     isMobile ? (
-      <motion.header
+      <motion.main
         className={styles.header}
-        initial={{ top: "-100%" }}
-        animate={{ top: 0 }}
+        initial={{ top: -100, opacity: 0, visibility: "hidden", }}
+        animate={{ top: 0, opacity: 1, visibility: "visible", }}
         transition={{ duration: 0.7 }}
-        exit={{ top: "-100%" }}
+        exit={{ top: -100, opacity: 0, visibility: "hidden", }}
       >
         <div className={styles.container}>
-          <section className={styles.logoAndNotifications}>
+          <div className={styles.logoAndNotifications}>
             <Image
               src="/logo/wordmark.svg"
               alt="logo"
@@ -45,24 +45,30 @@ export const Header: THeaderMobile = ({ }) => {
                 <span>2</span>
               </div>
             </div>
-          </section>
-          <section className={styles.segments}>
+          </div>
+          <div className={styles.segments}>
             <Segments
               type="primary"
               values={SERVICES}
               active={activeService}
               setActive={setActiveService}
             />
-          </section>
-          <section className={styles.segments}>
+          </div>
+          <div className={styles.segments}>
             <SearchElementMap />
-          </section>
+          </div>
         </div>
-      </motion.header>
+      </motion.main>
     ) : (
-      <section className={styles.containerSearchTop}>
+      <motion.div
+        className={styles.containerSearchTop}
+        initial={{ top: -100 }}
+        animate={{ top: 40 }}
+        transition={{ duration: 0.5 }}
+        exit={{ top: -100 }}
+      >
         <SearchElementMap />
-      </section >
+      </motion.div >
     )
   )
 
