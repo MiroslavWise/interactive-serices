@@ -9,6 +9,7 @@ export type TSignPopup = FC<{
 
 export type TContentSignIn = FC<{
   setType: Dispatch<SetStateAction<TTypeSign>>
+  setVisible: Dispatch<SetStateAction<boolean>>
 }>
 
 export type TContentForgotPassword = FC<{

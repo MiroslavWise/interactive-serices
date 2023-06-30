@@ -18,11 +18,19 @@ export const useTokenHelper: IUseTokenHelper = {
         body: JSON.stringify(data),
       })
       const responseData = await response.json()
-      const token = responseData?.data?.access_token
-      const refreshToken = responseData?.data?.refresh
-      saveToken({ token, refreshToken, ok: true })
-      return {
-        login: true,
+      if (responseData?.error === null && responseData?.result?.access_token) {
+        const token = responseData?.result?.access_token
+        const refreshToken = responseData?.result?.refresh
+        saveToken({ token, refreshToken, ok: true })
+        return {
+          login: true,
+        }
+      } else {
+        saveToken({ token: null, refreshToken: null, ok: false })
+        return {
+          login: false,
+          error: responseData?.error,
+        }
       }
     } catch (e) {
       saveToken({ token: null, refreshToken: null, ok: false })

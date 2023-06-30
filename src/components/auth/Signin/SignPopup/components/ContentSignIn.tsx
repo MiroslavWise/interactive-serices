@@ -22,7 +22,7 @@ interface IValues {
   checkbox: boolean
 }
 
-export const ContentSignIn: TContentSignIn = ({ setType }) => {
+export const ContentSignIn: TContentSignIn = ({ setType, setVisible }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<IValues>()
   const [loading, setLoading] = useState(false)
 
@@ -32,6 +32,11 @@ export const ContentSignIn: TContentSignIn = ({ setType }) => {
       email: values.email,
       password: values.password,
     })
+      .then(response => {
+        if (response.login) {
+          setVisible(false)
+        }
+      })
       .finally(() => {
         setLoading(false)
       })
@@ -91,6 +96,7 @@ export const ContentSignIn: TContentSignIn = ({ setType }) => {
           classNames="w-100"
           type="primary"
           submit="submit"
+          disabled={loading}
         />
         <LinksSocial />
       </form>

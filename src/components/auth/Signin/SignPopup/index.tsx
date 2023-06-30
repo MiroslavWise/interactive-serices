@@ -28,7 +28,7 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
           <div className={styles.content}>
             <HeaderModal type={type} />
             {
-              type === "SignIn" ? <ContentSignIn setType={setType} /> : null
+              type === "SignIn" ? <ContentSignIn setType={setType} setVisible={setVisible} /> : null
             }
             {
               type === "SignUp" ? <ContentSignUp setType={setType} /> : null

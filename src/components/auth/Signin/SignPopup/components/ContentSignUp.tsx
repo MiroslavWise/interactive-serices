@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
@@ -10,7 +11,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./LabelInputGroup"
 import { LinksSocial } from "./LinksSocial"
 
-import { URL_API } from "@/helpers/url"
+import { registration } from "@/helpers/auth/services/registrationService"
 import { regExEmail } from "@/helpers"
 
 import styles from "./style.module.scss"
@@ -23,6 +24,7 @@ interface IValues {
 }
 
 export const ContentSignUp: TContentSignUp = ({ setType }) => {
+  const [loading, setLoading] = useState(false)
   const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValues>({
     defaultValues: {
       email: "",
@@ -33,27 +35,23 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
   })
 
   const onRegister = async (values: IValues) => {
-    const data = {
-      email: values.email.trim(),
-      password: values.password.trim(),
-      repeat: values.repeat_password.trim(),
-    }
-    try {
-      const res = await fetch(`${URL_API}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+    setLoading(true)
+    registration({
+      email: values.email,
+      password: values.password,
+      repeat: values.repeat_password,
+    })
+      .then(response => {
+        if (response?.code === 409) {
+          setError("email", { message: "user already exists" })
+        }
+        if (!response.error && response.registration) {
+          setType("SignIn")
+        }
       })
-      const dataResponse = await res.json()
-      if (dataResponse?.error && dataResponse?.error?.code === 409) {
-        setError("email", { message: "user already exists" })
-      }
-      return dataResponse
-    } catch (e) {
-      return e
-    }
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
