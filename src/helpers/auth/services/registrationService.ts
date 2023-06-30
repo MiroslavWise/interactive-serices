@@ -73,7 +73,7 @@ async function verification(value: string): Promise<IReturnDataRegistration> {
         error: dataResponse?.error,
         message: dataResponse?.error?.message,
       }
-    } else if(dataResponse?.error?.code === 500) {
+    } else if (dataResponse?.error?.code === 500) {
       return {
         registration: false,
         error: dataResponse?.error,
