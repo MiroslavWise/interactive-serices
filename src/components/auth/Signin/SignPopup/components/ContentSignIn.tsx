@@ -22,7 +22,7 @@ interface IValues {
   checkbox: boolean
 }
 
-export const ContentSignIn: TContentSignIn = ({ setType, setVisible }) => {
+export const ContentSignIn: TContentSignIn = ({ setType, setVisible, setValueSecret }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<IValues>()
   const [loading, setLoading] = useState(false)
 
@@ -33,8 +33,15 @@ export const ContentSignIn: TContentSignIn = ({ setType, setVisible }) => {
       password: values.password,
     })
       .then(response => {
+        if (!!response.secret && !!response?.otp_auth_url) {
+          setValueSecret({
+            secret: response?.secret!,
+            url: response?.otp_auth_url!,
+          })
+          return setType("FirstLoginQR")
+        }
         if (response.login) {
-          setVisible(false)
+          return setType("OtpCode")
         }
       })
       .finally(() => {

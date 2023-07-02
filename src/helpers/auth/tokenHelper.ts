@@ -1,9 +1,10 @@
 import type { IUseTokenHelper } from "./types/tokenHelper"
 
-import { saveToken, validateToken, prefix, authMap } from "./services/tokenService"
+import { AuthService } from "./services/authService"
 import { URL_API } from "@/helpers/url"
 
 export const useTokenHelper: IUseTokenHelper = {
+  temporaryToken: "",
   async login({ email, password }) {
     try {
       const data = {
@@ -19,21 +20,18 @@ export const useTokenHelper: IUseTokenHelper = {
       })
       const responseData = await response.json()
       if (responseData?.error === null && responseData?.result?.access_token) {
-        const token = responseData?.result?.access_token
-        const refreshToken = responseData?.result?.refresh
-        saveToken({ token, refreshToken, ok: true })
+        this.temporaryToken = responseData?.result?.access_token
         return {
           login: true,
-        }
-      } else {
-        saveToken({ token: null, refreshToken: null, ok: false })
-        return {
-          login: false,
-          error: responseData?.error,
+          secret: responseData?.result?.secret,
+          otp_auth_url: responseData?.result?.otp_auth_url,
         }
       }
+      return {
+        login: false,
+        error: responseData?.error,
+      }
     } catch (e) {
-      saveToken({ token: null, refreshToken: null, ok: false })
       return {
         login: false,
         error: e,
@@ -44,25 +42,62 @@ export const useTokenHelper: IUseTokenHelper = {
     try {
       // this.authRefreshToken
       const response = await Promise.reject()
-      validateToken({ token: "", refreshToken: "", ok: true })
+      AuthService.validateToken({ token: "", refreshToken: "", ok: true })
       return {
-        login: validateToken({ token: "", refreshToken: "", ok: true }),
+        login: AuthService.validateToken({ token: "", refreshToken: "", ok: true }),
       }
     } catch (e) {
-      validateToken({ token: null, refreshToken: null, ok: false })
+      AuthService.validateToken({ token: null, refreshToken: null, ok: false })
       return {
         login: false,
         error: e,
       }
     }
   },
+  async serviceOtp(value) {
+    try {
+      const responseOtp = await fetch(`${URL_API}/auth/otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.temporaryToken}`,
+        },
+        body: JSON.stringify({ code: value })
+      })
+      const dataOtp = await responseOtp.json()
+      if (dataOtp?.error === null && dataOtp?.result) {
+        console.log("dataOtp: ", dataOtp?.result)
+        const token = dataOtp?.result?.access_token
+        const refreshToken = dataOtp?.result?.refresh_token
+        const expiration = dataOtp?.result?.expires_in
+        AuthService.saveToken({ token, refreshToken, expiration, ok: true })
+        return {
+          ok: true,
+          error: null,
+        }
+      }
+      AuthService.removeAuthData()
+      return {
+        ok: false,
+        error: dataOtp?.error,
+      }
+    } catch (e) {
+      return {
+        ok: false,
+        error: e,
+      }
+    }
+  },
   get authToken() {
-    return localStorage.getItem(`${prefix}.Token`)!
+    return AuthService.authToken()
   },
   get authRefreshToken() {
-    return localStorage.getItem(`${prefix}.RefreshToken`)!
+    return AuthService.authRefreshToken()
   },
   get isAuth() {
-    return authMap.some(item => localStorage.getItem(`${prefix}.${item}`) !== null)
+    if (typeof window !== 'undefined') {
+      return AuthService.authMap.some(item => localStorage.getItem(`${AuthService.prefix}.${item}`))
+    }
+    return false
   },
 }

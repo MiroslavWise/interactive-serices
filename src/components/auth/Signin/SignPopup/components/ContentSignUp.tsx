@@ -11,7 +11,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./LabelInputGroup"
 import { LinksSocial } from "./LinksSocial"
 
-import { registration } from "@/helpers/auth/services/registrationService"
+import { RegistrationService } from "@/helpers/auth/services/registrationService"
 import { regExEmail } from "@/helpers"
 
 import styles from "./style.module.scss"
@@ -36,7 +36,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
 
   const onRegister = async (values: IValues) => {
     setLoading(true)
-    registration({
+    RegistrationService.registration({
       email: values.email,
       password: values.password,
       repeat: values.repeat_password,
