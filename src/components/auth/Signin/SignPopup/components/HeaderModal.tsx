@@ -118,7 +118,7 @@ export const HeaderModal: THeaderModal = ({ type }) => {
                 transition={{ duration: 0.5 }}
               >
                 <h3>Добавьте свой Authenticator</h3>
-                <p>Отсканируйте QR-код или скопируйте код ниже и вставте в поле ввода</p>
+                <p>Отсканируйте QR-код или скопируйте код ниже и вставьте в поле ввода</p>
               </motion.section>
             </>
           ) : null
