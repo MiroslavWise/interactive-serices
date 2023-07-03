@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
+import { isMobile } from "react-device-detect"
 
 import type { TFilterFieldBottom } from "./types"
 
@@ -16,12 +18,20 @@ export const FilterFieldBottom: TFilterFieldBottom = ({ }) => {
   }
 
   return (
-    <section className={styles.container}>
-      <ButtonFilter
-        label="Настроить фильтры"
-        active={active}
-        handleClick={handleClick}
-      />
-    </section>
+    !isMobile ? (
+      <motion.div
+        className={styles.container}
+        initial={{ bottom: -100 }}
+        animate={{ bottom: 40 }}
+        transition={{ duration: 0.5 }}
+        exit={{ bottom: -100 }}
+      >
+        <ButtonFilter
+          label="Настроить фильтры"
+          active={active}
+          handleClick={handleClick}
+        />
+      </motion.div>
+    ) : null
   )
 }

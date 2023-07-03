@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 import type { TSignBanner } from "./types"
 
@@ -10,7 +13,13 @@ import styles from "./sign-banner.module.scss"
 const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
 
   return (
-    <div className={styles.container}>
+    <motion.div
+      className={styles.container}
+      initial={{ left: -100, opacity: 0, visibility: "hidden", }}
+      animate={{ left: 40, opacity: 1, visibility: "visible", }}
+      transition={{ duration: 0.5, }}
+      exit={{ left: -100, opacity: 0, visibility: "hidden", }}
+    >
       <div className={styles.headerSign}>
         <Image
           src="/logo/wordmark.svg"
@@ -43,7 +52,7 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
       <div className={styles.footer}>
         <a>Всё о Шейре</a>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

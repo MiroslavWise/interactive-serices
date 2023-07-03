@@ -2,10 +2,11 @@ import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import { Providers } from "./providers"
+import { FooterMenu } from "@/components/layout/FooterMenu"
 
 import "@/scss/init.scss"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"],style: "normal" })
 
 export const metadata: Metadata = {
   title: "Sheira",
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
+          <FooterMenu />
         </Providers>
       </body>
     </html>

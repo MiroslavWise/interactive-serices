@@ -46,6 +46,17 @@
                 user-select: none;
         }
 
+        @media screen and (max-width: 500px) {
+                span{
+                        color: var(--supporting-white);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 20px !important;
+                        letter-spacing: -0.5px;
+                }
+        }
+
         &.active {
                 background: var(--supporting-white);
                 border: 2px solid var(--gradient-primary);
@@ -83,6 +94,39 @@
 
                 &.active {
                         background: var(--gradient-primary);
+                }
+        }
+}
+
+.circleGradient{
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+
+        &.primary{
+
+        }
+        &.option-1{
+                // border: 1.5px solid rgba(255, 255, 255, 0.39);
+                background: linear-gradient(0deg, rgba(250, 113, 82, 0.34) 0%, rgba(250, 113, 82, 0.64) 100%);
+
+                &::before{
+                        content: "";
+                        border-radius: 100px;
+                        position: absolute;
+                        top: -2px;
+                        left: -2px;
+                        right: -2px;
+                        bottom: -2px;
+                        background: linear-gradient(180deg, rgba(250, 113, 82, 0.64) 0%, rgba(250, 113, 82, 0.00) 100%);
+                        z-index: -1;
+                        opacity: 1;
+                        transition: opacity 0.3s;
                 }
         }
 }

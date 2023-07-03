@@ -1,15 +1,26 @@
 "use client"
 
-import { Map, Placemark } from "@pbe/react-yandex-maps"
+import { useState } from "react"
+import { Map } from "@pbe/react-yandex-maps"
 
-import { TYandexMap } from "./types"
-import { SearchFieldTop } from "./SearchFieldTop"
+import type { TYandexMap } from "./types"
+
+import { Header } from "./Header"
 import { FilterFieldBottom } from "./FilterFieldBottom"
+import { Notifications } from "./Notifications"
 
 export const YandexMap: TYandexMap = ({ }) => {
+  const [visibleNotification, setVisibleNotification] = useState(false)
+
   return (
     <>
-      <SearchFieldTop />
+      <Header
+        setVisibleNotification={setVisibleNotification}
+      />
+      <Notifications
+        visibleNotification={visibleNotification}
+        setVisibleNotification={setVisibleNotification}
+      />
       <Map
         width={"100%"}
         height={"100%"}

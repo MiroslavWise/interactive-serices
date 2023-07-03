@@ -1,3 +1,4 @@
+import { isMobile } from "react-device-detect"
 import { type FC } from "react"
 
 type TLabelInputGroup = FC<{
@@ -16,7 +17,7 @@ export const LabelInputGroup: TLabelInputGroup = ({
 }) => {
 
   return (
-    <div className={styles.groupLabelAndInputWrap}>
+    <div className={`${styles.groupLabelAndInputWrap} ${isMobile ? styles.mobile : ""}`}>
       <label>{label} {rules ? <sup>*</sup> : null}</label>
       <div className={styles.groupInputError}>
         <input

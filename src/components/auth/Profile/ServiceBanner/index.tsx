@@ -8,7 +8,7 @@ import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 import { SearchField } from "@/components/common/Inputs"
-import { PeopleCard } from "@/components/common/PeopleCard"
+import { PeopleCard } from "@/components/common/PeopleCard/ServiceBanner"
 
 import { SERVICES } from "./constants"
 import { MOCK_DATA_PEOPLE } from "@/mocks/components/auth/constants"
@@ -24,25 +24,25 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
 
   return (
     <motion.div
-      className={`${styles.container} ${!active ? styles.active : ""}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      className={`${styles.container} ${active ? styles.active : ""}`}
+      initial={{ opacity: 0, right: -200, visibility: "hidden", }}
+      animate={{ opacity: 1, right: 24, visibility: "visible", }}
+      exit={{ opacity: 0, right: -200, visibility: "hidden", }}
+      transition={{ duration: 0.5, }}
     >
-      <section className={styles.sectionSegments}>
+      <div className={styles.sectionSegments}>
         <Segments
           values={SERVICES}
           active={activeService}
           setActive={setActiveService}
           type="primary"
         />
-      </section>
-      <section className={styles.titleAndSearch}>
+      </div>
+      <div className={styles.titleAndSearch}>
         <h2>Меняйте услуги на услуги. Помогайте другим. Общайтесь.</h2>
         <SearchField onSearch={onSearch} />
-      </section>
-      <section className={styles.peopleContainer}>
+      </div>
+      <div className={styles.peopleContainer}>
         <div className={styles.titleWrapper}>
           <h3>Популярные предложения</h3>
           <div className={styles.totalOval}><span>80</span></div>
@@ -62,8 +62,7 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
             ))
           }
         </ul>
-      </section>
-
+      </div>
       <span className={styles.glassShadowOne} />
       <span className={styles.glassShadowTwo} />
       <span className={styles.glassShadowThree} />

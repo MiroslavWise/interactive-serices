@@ -7,7 +7,7 @@
   filter: blur(80px);
 }
 
-.overlay{
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -22,17 +22,50 @@
   padding-top: 50px;
   padding-bottom: 50px;
   transition: all 0.35s ease-in-out;
-
   opacity: 0;
   visibility: hidden;
 
-  &.visible{
+  &.visible {
     opacity: 1;
     visibility: visible;
   }
 }
 
-.modal{
+.overviewMobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: var(--supporting-white);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s ease-in-out;
+  
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .contentMobile{
+    padding: 28px 28px 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    overflow-y: scroll;
+    height: calc(100%);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.modal {
   position: relative;
   max-width: 584px;
   width: 100%;
@@ -47,7 +80,7 @@
   padding-right: 112px;
 }
 
-.close{
+.close {
   position: absolute;
   right: 12px;
   top: 12px;
@@ -62,7 +95,7 @@
   cursor: pointer;
 }
 
-.content{
+.content {
   padding-top: 48px;
   padding-bottom: 48px;
   overflow-y: auto;
@@ -76,26 +109,26 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     display: none;
   }
 }
 
-.orangeCircle{
+.orangeCircle {
   @include class-shadow;
   background: rgba(243, 145, 114, 0.32);
   top: 0;
   left: 0;
 }
 
-.purpleCircle{
+.purpleCircle {
   @include class-shadow;
   background: rgba(135, 92, 255, 0.32);
   top: 50%;
   left: 100%;
 }
 
-.lightBlueCircle{
+.lightBlueCircle {
   @include class-shadow;
   background: rgba(100, 220, 246, 0.32);
   top: 100%;

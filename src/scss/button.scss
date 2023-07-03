@@ -13,12 +13,25 @@
     line-height: 28px;
     letter-spacing: -0.5px;
   }
+
+  @media screen and (max-width: 500px) {
+    height: 40px;
+    span {
+      color: var(--supporting-white);
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px !important;
+      letter-spacing: -0.5px;
+    }
+  }
 }
 
 .button-fill {
   @include button;
   padding: 6px 16px;
   border: none;
+  width: 100%;
 
   &.primary {
     background: var(--gradient-primary);

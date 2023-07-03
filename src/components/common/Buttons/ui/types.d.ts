@@ -22,7 +22,16 @@ interface IButtonFilter{
   active: boolean
 }
 
+interface IButtonCircleGradient {
+  classNames?: string
+  handleClick?: DispatchWithoutAction
+  disabled?: boolean
+  type: "primary" | "option-1"
+  icon: string
+}
+
 export type TButtonPropsFill = FC<IButtonProps>
 export type TButtonPropsDefault = FC<IButtonProps>
 export type TButtonsCircle = FC<IButtonsCircle>
 export type TButtonFilter = FC<IButtonFilter>
+export type TButtonCircleGradient = FC<IButtonCircleGradient>
