@@ -20,6 +20,7 @@ interface IValues {
 export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
   const [loading, setLoading] = useState(false)
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
+  const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
   const { register, handleSubmit, formState: { errors } } = useForm<IValues>({
     defaultValues: {
@@ -57,19 +58,25 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
 
   const onOtpCode = (values: IValues) => {
   }
-  
+
   const onInputValues = () => {
     setLoading(true)
     useTokenHelper.serviceOtp(inputValues.join(""))
       .then(response => {
         if (response.ok) {
           setVisible(false)
+          setErrorCode("")
+        }
+        if (!response.ok) {
+          if (response.error?.code === 401 && response?.error?.message === "2fa code is not correct") {
+            setErrorCode("Код, введённый вами, не является действительным!")
+          }
         }
       })
       .finally(() => {
         setLoading(false)
       })
-    
+
   }
 
   useEffect(() => {
@@ -88,7 +95,6 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
           {inputValues.map((_, index) => (
             <input
               key={index}
-            
               {...register("input" + (index + 1) as any, { required: true })}
               //@ts-ignore
               ref={(ref) => (inputRefs.current[index] = ref)}
@@ -101,6 +107,7 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
             />
           ))}
         </div>
+        {errorCode ? <p className="error-p" style={{marginTop: -15, marginBottom: -15}}>{errorCode}</p> : null}
         <ButtonFill
           disabled={loading || inputValues.filter(item => item !== "").length !== 6}
           label="Подтвердить код"

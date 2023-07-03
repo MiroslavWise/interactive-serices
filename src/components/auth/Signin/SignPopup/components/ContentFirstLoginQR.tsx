@@ -13,6 +13,7 @@ import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret, setVisible }) => {
   const [loading, setLoading] = useState(false)
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
+  const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
   const handleCopyText = () => {
     navigator.clipboard.writeText(valueSecret.secret)
@@ -53,11 +54,16 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
         if (response.ok) {
           setVisible(false)
         }
+        if (!response.ok) {
+          if (response.error?.code === 401 && response?.error?.message === "2fa code is not correct") {
+            setErrorCode("Код, введённый вами, не является действительным!")
+          }
+        }
       })
       .finally(() => {
         setLoading(false)
       })
-    
+
   }
 
   return (
@@ -84,6 +90,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
           />
         ))}
       </div>
+      {errorCode ? <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>{errorCode}</p> : null}
       <ButtonFill
         disabled={loading || inputValues.filter(item => item !== "").length !== 6}
         classNames="w-100"
