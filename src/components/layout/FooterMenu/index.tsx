@@ -13,6 +13,8 @@ import { useActivePash } from "@/helpers/hooks/useActivePash"
 import { MENU_ITEMS } from "./constants"
 import SignPopup from "@/components/auth/Signin/SignPopup"
 
+import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({ }) => {
@@ -41,7 +43,7 @@ export const FooterMenu: TFooterMenu = ({ }) => {
         >
           <ul>
             {
-              MENU_ITEMS(false).map(item => (
+              MENU_ITEMS(useTokenHelper.isAuth).map(item => (
                 <li
                   key={`${item.path}_item_menu`}
                   onClick={() => {
