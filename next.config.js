@@ -4,9 +4,9 @@ const nextConfig = {
     PORT: 3000
   },
   images: {
-    dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // dangerouslyAllowSVG: true,
+    // contentDispositionType: 'attachment',
+    // contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 }
 
