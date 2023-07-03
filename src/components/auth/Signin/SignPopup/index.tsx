@@ -1,9 +1,6 @@
 "use client"
 
-<<<<<<< HEAD
-=======
 import { useState } from "react"
->>>>>>> 5164c6c2a27b19d7f249912d4bee7a14df8e5110
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
@@ -71,13 +68,19 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
             <div className={styles.content}>
               <HeaderModal type={type} />
               {
-                type === "SignIn" ? <ContentSignIn setType={setType} /> : null
+                type === "SignIn" ? <ContentSignIn setType={setType} setValueSecret={setValueSecret} setVisible={setVisible} /> : null
               }
               {
                 type === "SignUp" ? <ContentSignUp setType={setType} /> : null
               }
               {
                 type === "ForgotPassword" ? <ContentForgotPassword setType={setType} /> : null
+              }
+              {
+                type === "FirstLoginQR" ? <ContentFirstLoginQR setType={setType} valueSecret={valueSecret} setVisible={setVisible} /> : null
+              }
+              {
+                type === "OtpCode" ? <ContentOtpCode setType={setType} setVisible={setVisible} /> : null
               }
             </div>
             <Glasses />
