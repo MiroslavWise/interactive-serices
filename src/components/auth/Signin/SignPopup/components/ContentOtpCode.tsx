@@ -19,6 +19,7 @@ interface IValues {
 
 export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
   const [loading, setLoading] = useState(false)
+  //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])

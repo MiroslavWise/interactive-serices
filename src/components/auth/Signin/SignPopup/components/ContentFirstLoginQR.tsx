@@ -12,15 +12,12 @@ import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret, setVisible }) => {
   const [loading, setLoading] = useState(false)
+  //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
   const handleCopyText = () => {
     navigator.clipboard.writeText(valueSecret.secret)
-      .then(() => {
-      })
-      .catch((error) => {
-      })
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
