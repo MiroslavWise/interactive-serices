@@ -14,6 +14,7 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
 
   return (
     <motion.div
+      data-cy="sign-banner"
       className={styles.container}
       initial={{ left: -100, opacity: 0, visibility: "hidden", }}
       animate={{ left: 40, opacity: 1, visibility: "visible", }}
@@ -30,9 +31,15 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
       </div>
       <main className={styles.content}>
         <section className={styles.descriptionSign}>
-          <p className={styles.description}>Зарегистрируйтесь в Шейре и добавляйте свои предложения на карту.</p>
+          <p
+            className={styles.description}
+            data-cy="offer-for-registration"
+          >Зарегистрируйтесь в Шейре и добавляйте свои предложения на карту.</p>
           <div className={styles.buttons}>
             <ButtonFill
+              dataAttribute={{
+                "data-cy": "button-enter",
+              }}
               type="primary"
               label="Войти"
               classNames="w-100"

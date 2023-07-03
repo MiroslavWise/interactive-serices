@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "make:3000": "make build-run PORT=3000"
+    "make:3000": "make build-run PORT=3000",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "dependencies": {
     "@pbe/react-yandex-maps": "^1.2.4",
@@ -28,6 +30,7 @@
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@typescript-eslint/typescript-estree": "^5.60.1",
+    "cypress": "^12.16.0",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "sass": "^1.63.6",

@@ -11,9 +11,11 @@ export const ButtonFill: TButtonPropsFill = ({
   submit,
   shadow,
   small,
+  dataAttribute,
 }) => {
   return (
     <button
+      {...dataAttribute || []}
       className={`button-fill ${type || "primary"} ${disabled ? "disabled" : ""} ${classNames ? classNames : ""} ${shadow ? "shadow" : ""} ${small ? "small" : ""}`}
       onClick={handleClick}
       type={submit || "button"}

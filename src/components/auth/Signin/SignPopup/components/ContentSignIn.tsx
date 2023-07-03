@@ -48,6 +48,9 @@ export const ContentSignIn: TContentSignIn = ({ setType }) => {
             type="text"
             propsInput={register("email", { required: true, validate: (value) => regExEmail.test(value) })}
             errorMessage={errors.email ? "Требуется email" : ""}
+            dataAttribute={{
+              "data-cy": "input-email"
+            }}
           />
           <LabelInputGroup
             label="Пароль"
@@ -56,6 +59,9 @@ export const ContentSignIn: TContentSignIn = ({ setType }) => {
             type="password"
             propsInput={register("password", { required: true })}
             errorMessage={errors.password ? "Требуется пароль" : ""}
+            dataAttribute={{
+              "data-cy": "input-password"
+            }}
           />
         </section>
         <div className={styles.RememberChange}>
@@ -85,6 +91,9 @@ export const ContentSignIn: TContentSignIn = ({ setType }) => {
           classNames="w-100"
           type="primary"
           submit="submit"
+          dataAttribute={{
+            "data-cy": "submit"
+          }}
         />
         <LinksSocial />
       </form>

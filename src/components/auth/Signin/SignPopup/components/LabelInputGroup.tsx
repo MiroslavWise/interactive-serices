@@ -7,12 +7,15 @@ type TLabelInputGroup = FC<{
   type: "text" | "email" | "password"
   propsInput: any
   errorMessage?: string
+  dataAttribute?: {
+    [key: string]: string
+  }
 }>
 
 import styles from "./style.module.scss"
 
 export const LabelInputGroup: TLabelInputGroup = ({
-  label, rules, placeholder, type, propsInput, errorMessage,
+  label, rules, placeholder, type, propsInput, errorMessage, dataAttribute,
 }) => {
 
   return (
@@ -24,6 +27,7 @@ export const LabelInputGroup: TLabelInputGroup = ({
           placeholder={placeholder}
           {...propsInput}
           className={errorMessage ? styles.errorInput : ""}
+          {...dataAttribute}
         />
         {
           errorMessage

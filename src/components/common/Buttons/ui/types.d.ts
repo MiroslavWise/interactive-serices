@@ -11,6 +11,9 @@ interface IButtonProps {
   submit?: "submit" | "reset" | "button"
   shadow?: boolean
   small?: boolean
+  dataAttribute?: {
+    [key: string]: string
+  }
 }
 
 interface IButtonFilter{

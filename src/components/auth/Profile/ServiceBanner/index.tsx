@@ -24,6 +24,7 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
 
   return (
     <motion.div
+      data-cy="service-banner"
       className={`${styles.container} ${active ? styles.active : ""}`}
       initial={{ opacity: 0, right: -200, visibility: "hidden", }}
       animate={{ opacity: 1, right: 24, visibility: "visible", }}
