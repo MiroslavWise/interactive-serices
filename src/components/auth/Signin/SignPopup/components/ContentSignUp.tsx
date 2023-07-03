@@ -11,7 +11,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./LabelInputGroup"
 import { LinksSocial } from "./LinksSocial"
 
-import { RegistrationService } from "@/helpers/auth/services/registrationService"
+import { RegistrationService } from "@/services/auth/registrationService"
 import { regExEmail } from "@/helpers"
 
 import styles from "./style.module.scss"

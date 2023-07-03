@@ -2,7 +2,7 @@ import type {
   ISaveToken,
   IRefreshToken,
   IAuthService,
-} from "../types/authService"
+} from "./types/authService"
 
 export const AuthService: IAuthService = {
   prefix: "AuthJWT",

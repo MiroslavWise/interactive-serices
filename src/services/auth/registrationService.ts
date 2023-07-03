@@ -1,4 +1,4 @@
-import type { IRegistrationService } from "../types/registrationService"
+import type { IRegistrationService } from "./types/registrationService"
 
 import env from "@/config/environment"
 import { URL_API } from "@/helpers/url"
