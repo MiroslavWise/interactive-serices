@@ -1,13 +1,16 @@
 "use client"
 
-import { type FC, useState } from "react"
+import { type FC, useState, useEffect } from "react"
 
 import type { TTypeSign } from "./SignPopup/types"
 
-import SignPopup  from "./SignPopup"
+import SignPopup from "./SignPopup"
 import SignBanner from "./SignBanner"
 
+import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+
 export const Signin: FC = () => {
+  const [stateAuth, setStateAuth] = useState<boolean | undefined>(undefined)
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState<TTypeSign>("SignIn")
 
@@ -16,10 +19,17 @@ export const Signin: FC = () => {
     setVisible(true)
   }
 
+  useEffect(() => {
+    setStateAuth(useTokenHelper.isAuth)
+  }, [useTokenHelper.isAuth])
+
   return (
-    <>
-      <SignBanner {...{ handleSignUpOrSignIn }} />
-      <SignPopup {...{ visible, type, setVisible, setType }} />
-    </>
+    (!stateAuth && stateAuth !== undefined)
+      ? (
+        <>
+          <SignBanner {...{ handleSignUpOrSignIn }} />
+          <SignPopup {...{ visible, type, setVisible, setType }} />
+        </>
+      ) : null
   )
 }

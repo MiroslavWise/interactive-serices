@@ -4,7 +4,6 @@
     "semi": [
       "error",
       "never"
-    ],
-    "quotes": ["error", "double"]
+    ]
   }
 }

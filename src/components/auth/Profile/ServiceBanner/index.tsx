@@ -24,7 +24,7 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
 
   return (
     <motion.div
-      className={`${styles.container} ${active ? styles.active : ""}`}
+      className={`${styles.container} ${!active ? styles.active : ""}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

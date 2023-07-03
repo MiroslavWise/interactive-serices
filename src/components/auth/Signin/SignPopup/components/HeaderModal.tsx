@@ -75,6 +75,54 @@ export const HeaderModal: THeaderModal = ({ type }) => {
             </>
           ) : null
       }
+      {
+        type === "OtpCode"
+          ? (
+            <>
+              <div className={styles.headerOtpCode}>
+                <Image
+                  src="/icons/fill/google.svg"
+                  alt="google"
+                  width={38.5}
+                  height={38.5}
+                />
+              </div>
+              <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <h3>Проверьте свой Authenticator</h3>
+                <p>Код находится в самом приложении, и имеет срок службы</p>
+              </motion.section>
+            </>
+          ) : null
+      }
+      {
+        type === "FirstLoginQR"
+          ? (
+            <>
+              <div className={styles.headerOtpCode}>
+                <Image
+                  src="/icons/fill/google.svg"
+                  alt="google"
+                  width={38.5}
+                  height={38.5}
+                />
+              </div>
+              <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <h3>Добавьте свой Authenticator</h3>
+                <p>Отсканируйте QR-код или скопируйте код ниже и вставьте в поле ввода</p>
+              </motion.section>
+            </>
+          ) : null
+      }
     </header>
   )
 }

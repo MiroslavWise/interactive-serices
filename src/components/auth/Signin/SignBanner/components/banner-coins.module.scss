@@ -24,11 +24,12 @@
   .description{
     z-index: 21;
     margin: 16px 16px auto;
-    color: var(--supporting-white, #FFF);
+    color: var(--supporting-white);
     text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 28px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
     letter-spacing: -0.5px;
   }
 
