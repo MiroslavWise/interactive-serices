@@ -1,14 +1,17 @@
 "use client"
 
-import { type FC, useState } from "react"
 import { isMobile } from "react-device-detect"
+import { type FC, useState, useEffect } from "react"
 
 import type { TTypeSign } from "./SignPopup/types"
 
 import SignPopup from "./SignPopup"
 import SignBanner from "./SignBanner"
 
+import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+
 export const Signin: FC = () => {
+  const [stateAuth, setStateAuth] = useState<boolean | undefined>(undefined)
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState<TTypeSign>("SignIn")
 
@@ -17,8 +20,12 @@ export const Signin: FC = () => {
     setVisible(true)
   }
 
+  useEffect(() => {
+    setStateAuth(useTokenHelper.isAuth)
+  }, [useTokenHelper.isAuth])
+
   return (
-    !isMobile
+    (!isMobile && !stateAuth && stateAuth !== undefined)
       ? (
         <>
           <SignBanner {...{ handleSignUpOrSignIn }} />

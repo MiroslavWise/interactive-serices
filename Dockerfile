@@ -1,5 +1,9 @@
 #FROM node:16-alpine AS deps
 FROM node:18.16.0-alpine AS deps
+
+ARG NEXT_PUBLIC_URL
+ARG NEXT_PUBLIC_AUTO_VERIFICATION
+
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -13,6 +17,9 @@ FROM node:18.16.0-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ENV NEXT_PUBLIC_URL=$NEXT_PUBLIC_URL
+ENV NEXT_PUBLIC_AUTO_VERIFICATION=$NEXT_PUBLIC_AUTO_VERIFICATION
 
 # ENV NEXT_TELEMETRY_DISABLED 1 
 # RUN npm install
