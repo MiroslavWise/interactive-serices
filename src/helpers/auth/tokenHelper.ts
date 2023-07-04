@@ -69,7 +69,7 @@ export const useTokenHelper: IUseTokenHelper = {
         const token = dataOtp?.result?.access_token
         const refreshToken = dataOtp?.result?.refresh_token
         const expiration = dataOtp?.result?.expires_in
-        const userId = dataOtp?.result?.user_id
+        const userId = dataOtp?.result?.id
         AuthService.saveToken({ token, refreshToken, expiration, userId, ok: true })
         return {
           ok: true,
