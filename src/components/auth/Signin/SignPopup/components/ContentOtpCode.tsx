@@ -2,11 +2,15 @@
 
 import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "react-toastify"
+
 import type { TContentOtpCode } from "../types"
 
-import styles from "./style.module.scss"
 import { ButtonFill } from "@/components/common/Buttons"
+
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+
+import styles from "./styles/style.module.scss"
 
 interface IValues {
   input1: string
@@ -19,6 +23,10 @@ interface IValues {
 
 export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
   const [loading, setLoading] = useState(false)
+  const notify = () => toast.success!("Код верен, и вы успешно вошли", {
+    position: "top-right",
+    autoClose: 5000,
+  })
   //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
@@ -65,7 +73,9 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
     useTokenHelper.serviceOtp(inputValues.join(""))
       .then(response => {
         if (response.ok) {
+          notify()
           setVisible(false)
+          setType(null)
           setErrorCode("")
         }
         if (!response.ok) {

@@ -2,7 +2,7 @@ import Image from "next/image"
 
 import type { TLinkItem } from "../types"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const LinkItem: TLinkItem = ({ src }) => {
 

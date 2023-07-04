@@ -2,13 +2,15 @@
 
 import { type ChangeEvent, type KeyboardEvent, useRef, useState } from "react"
 import QRCode from "react-qr-code"
+import { motion } from "framer-motion"
 
 import type { TContentFirstLoginQR } from "../types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
-import styles from "./style.module.scss"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+
+import styles from "./styles/style.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret, setVisible }) => {
   const [loading, setLoading] = useState(false)
@@ -49,7 +51,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
     useTokenHelper.serviceOtp(inputValues.join(""))
       .then(response => {
         if (response.ok) {
-          setVisible(false)
+          setType("PersonalEntry")
         }
         if (!response.ok) {
           if (response.error?.code === 401 && response?.error?.message === "2fa code is not correct") {
@@ -64,7 +66,13 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
   }
 
   return (
-    <div className={styles.contentFirstLogin}>
+    <motion.div
+      className={styles.contentFirstLogin}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <QRCode
         size={256}
         value={valueSecret.url}
@@ -94,6 +102,6 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
         label="Подтвердить код"
         handleClick={onInputValues}
       />
-    </div>
+    </motion.div>
   )
 }

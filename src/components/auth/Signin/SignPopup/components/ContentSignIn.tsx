@@ -14,7 +14,7 @@ import { LinksSocial } from "./LinksSocial"
 import { regExEmail } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 interface IValues {
   email: string

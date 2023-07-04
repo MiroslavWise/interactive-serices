@@ -5,6 +5,7 @@ import { Providers } from "./providers"
 import { FooterMenu } from "@/components/layout/FooterMenu"
 
 import "@/scss/init.scss"
+import "react-toastify/dist/ReactToastify.css"
 
 const inter = Inter({ subsets: ["latin"],style: "normal" })
 

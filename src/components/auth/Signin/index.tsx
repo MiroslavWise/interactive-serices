@@ -21,8 +21,12 @@ export const Signin: FC = () => {
   }
 
   useEffect(() => {
-    setStateAuth(useTokenHelper.isAuth)
-  }, [useTokenHelper.isAuth])
+    if (type === "PersonalEntry") {
+      setStateAuth(false)
+    } else {
+      setStateAuth(useTokenHelper.isAuth)
+    }
+  }, [useTokenHelper.isAuth, type])
 
   return (
     (!isMobile && !stateAuth && stateAuth !== undefined)

@@ -10,7 +10,7 @@ export type TSignPopup = FC<{
 export type TContentSignIn = FC<{
   setType: Dispatch<SetStateAction<TTypeSign>>
   setVisible: Dispatch<SetStateAction<boolean>>
-  setValueSecret: Dispatch<SetStateAction<{url: string, secret: string}>>
+  setValueSecret: Dispatch<SetStateAction<{ url: string, secret: string }>>
 }>
 
 export type TContentForgotPassword = FC<{
@@ -40,6 +40,11 @@ export type TContentOtpCode = FC<{
   setVisible: Dispatch<SetStateAction<boolean>>
 }>
 
+export type TContentPersonalEntry = FC<{
+  setType: Dispatch<SetStateAction<TTypeSign>>
+  setVisible: Dispatch<SetStateAction<boolean>>
+}>
+
 export type TTypeSign =
   "SignIn"
   | "SignUp"
@@ -49,3 +54,4 @@ export type TTypeSign =
   | "ForgotPassword"
   | "FirstLoginQR"
   | "OtpCode"
+  | null

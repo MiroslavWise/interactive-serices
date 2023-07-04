@@ -1,0 +1,106 @@
+.container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-shrink: 0;
+
+  .trigger {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-shrink: 0;
+    padding: 12px 14px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 100px;
+    border: 1px solid var(--gray-300);
+    background: var(--supporting-white);
+    transition: all 0.35s ease-in-out;
+
+    &.isOpen{
+      border: 1px solid var(--primary-500);
+      background: var(--supporting-white, #FFF);
+    }
+
+    span{
+      text-align: start;
+      color: var(--gray-400);
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: -0.5px;
+      transition: all 0.35s ease-in-out;
+
+      &.active{
+        color: var(--gray-900);
+      }
+
+      &.isOpen{
+        color: var(--gray-900);
+      }
+    }
+  }
+
+  ul {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    top: 100%;
+    left: 0;
+    display: flex;
+    width: 115px;
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    border-radius: 12px;
+    background: var(--supporting-white);
+    box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.16);
+    overflow: scroll;
+    height: 192px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    transition: all 0.35s ease-in-out;
+  
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &.isOpen {
+      visibility: visible;
+      opacity: 1;
+    }
+    li {
+      cursor: pointer;
+      display: flex;
+      height: 32px;
+      padding: 8px 6px;
+      align-items: flex-start;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 6px;
+      background: var(--supporting-white);
+      transition: all 0.2s ease-in-out;
+
+      // &.active{
+      //   background: var(--gray-100);
+      // }
+
+      &:hover{
+        background: var(--gray-100);
+      }
+      span {
+        color: var(--gray-900);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+      }
+    }
+  }
+}

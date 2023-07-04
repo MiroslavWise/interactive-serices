@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect"
 
 import type { THeaderModal } from "../types"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 const Logo = () => (
   <Image
@@ -30,7 +30,7 @@ export const HeaderModal: THeaderModal = ({ type }) => {
   return (
     <header className={`${styles.header} ${isMobile ? styles.mobile : ""}`}>
       {
-        ["SignIn", "SignUp", "ForgotPassword"].includes(type)
+        ["SignIn", "SignUp", "ForgotPassword", "PersonalEntry"].includes(type!)
           ? (
             <>
               <Logo />
@@ -40,7 +40,7 @@ export const HeaderModal: THeaderModal = ({ type }) => {
                     ? (
                       <>
                         <h3>Войдите в свой аккаунт</h3>
-                        <p>С возвращением! Пожалуйста, введите свои данные ниже.</p>
+                        <p>С возвращением! Пожалуйста, введите свои данные ниже</p>
                       </>
                     ) : null
                 }
@@ -58,7 +58,16 @@ export const HeaderModal: THeaderModal = ({ type }) => {
                     ? (
                       <>
                         <h3>Забыли пароль?</h3>
-                        <p>Не беспокойтесь, мы вышлем вам инструкции по сбросу.</p>
+                        <p>Не беспокойтесь, мы вышлем вам инструкции по сбросу</p>
+                      </>
+                    ) : null
+                }
+                {
+                  type === "PersonalEntry"
+                    ? (
+                      <>
+                        <h3>Личные данные</h3>
+                        <p>Пожалуйста, введите свои данные для создания профиля</p>
                       </>
                     ) : null
                 }

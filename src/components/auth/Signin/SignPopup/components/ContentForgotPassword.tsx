@@ -11,7 +11,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 
 import { regExEmail } from "@/helpers"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 interface IValues {
   email: string

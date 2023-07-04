@@ -14,7 +14,7 @@ import { LinksSocial } from "./LinksSocial"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { regExEmail } from "@/helpers"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 interface IValues {
   email: string
