@@ -26,7 +26,8 @@ export interface IUseTokenHelper {
   public async login(value: ILoginArgs): Promise<IAuthReturn>
   public async refresh(): Promise<IAuthReturn>
   public async serviceOtp(value: string | number): Promise<IOptReturn>
-  
+  public async signOut(): Promise<any>
+
   get authToken(): string
   get authRefreshToken(): string
   get authUserId(): string

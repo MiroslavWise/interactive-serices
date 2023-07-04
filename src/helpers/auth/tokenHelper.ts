@@ -88,6 +88,9 @@ export const useTokenHelper: IUseTokenHelper = {
       }
     }
   },
+  async signOut() {
+    return AuthService.removeAuthData()
+  },
   get authToken() {
     return AuthService.authToken()
   },
