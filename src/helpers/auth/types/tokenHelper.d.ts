@@ -29,5 +29,6 @@ export interface IUseTokenHelper {
   
   get authToken(): string
   get authRefreshToken(): string
+  get authUserId(): string
   get isAuth(): boolean
 }

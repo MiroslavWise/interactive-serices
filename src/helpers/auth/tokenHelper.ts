@@ -40,7 +40,7 @@ export const useTokenHelper: IUseTokenHelper = {
   },
   async refresh() {
     try {
-      // this.authRefreshToken
+      this.authRefreshToken
       const response = await Promise.reject()
       AuthService.validateToken({ token: "", refreshToken: "", ok: true })
       return {
@@ -66,11 +66,11 @@ export const useTokenHelper: IUseTokenHelper = {
       })
       const dataOtp = await responseOtp.json()
       if (dataOtp?.error === null && dataOtp?.result) {
-        console.log("dataOtp: ", dataOtp?.result)
         const token = dataOtp?.result?.access_token
         const refreshToken = dataOtp?.result?.refresh_token
         const expiration = dataOtp?.result?.expires_in
-        AuthService.saveToken({ token, refreshToken, expiration, ok: true })
+        const userId = dataOtp?.result?.user_id
+        AuthService.saveToken({ token, refreshToken, expiration, userId, ok: true })
         return {
           ok: true,
           error: null,
@@ -93,6 +93,9 @@ export const useTokenHelper: IUseTokenHelper = {
   },
   get authRefreshToken() {
     return AuthService.authRefreshToken()
+  },
+  get authUserId() {
+    return AuthService.authUserId()
   },
   get isAuth() {
     if (typeof window !== 'undefined') {

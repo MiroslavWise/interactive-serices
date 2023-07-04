@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import dayjs from "dayjs"
-const { v4: uuidv4 } = require("uuid")
 
 import type { TContentPersonalEntry } from "../types"
 import type { IPostProfileData } from "@/services/profile/types/profileService"
@@ -10,6 +9,7 @@ import type { IPostProfileData } from "@/services/profile/types/profileService"
 import { ButtonFill } from "@/components/common/Buttons"
 import { GroupSelectorDate, LabelInputGroup } from "./LabelInputGroup"
 
+import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { profileService } from "@/services/profile/profileService"
 
 import styles from "./styles/style.module.scss"
@@ -36,9 +36,9 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       birthdate: dayjs(`${values.day}/${values.month}/${values.year}`, "DD/MM/YYYY").format("DD/MM/YYYY"),
       about: values.about,
       enabled: true,
-      userId: Math.round(Math.random() * 100000),
+      userId: Number(useTokenHelper.authUserId),
     }
-    profileService.postProfile(data)
+    await profileService.postProfile(data)
       .then(response => {
         if (response?.code === 409) {
           return setError("username", { message: "user exists" })
