@@ -27,7 +27,7 @@ export const AuthService: IAuthService = {
     localStorage.setItem(`${this.prefix}.Token`, token!)
     localStorage.setItem(`${this.prefix}.RefreshToken`, refreshToken!)
     localStorage.setItem(`${this.prefix}.Expiration`, expiration!.toString())
-    localStorage.setItem(`${this.prefix}.Token`, userId!.toString())
+    localStorage.setItem(`${this.prefix}.UserId`, userId!.toString())
   },
   removeAuthData() {
     this.authMap.forEach(item => {
