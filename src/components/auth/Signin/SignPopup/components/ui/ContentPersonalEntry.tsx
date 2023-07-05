@@ -38,7 +38,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       enabled: true,
       userId: Number(useTokenHelper.authUserId),
     }
-    await profileService.postProfile(data)
+    profileService.postProfile(data)
       .then(response => {
         if (response?.code === 409) {
           return setError("username", { message: "user exists" })
