@@ -27,7 +27,7 @@ export const Signin: FC = () => {
     } else {
       setStateAuth(useTokenHelper.isAuth)
     }
-  }, [useTokenHelper.isAuth, type])
+  }, [type])
 
   return (
     (!isMobile && !stateAuth && stateAuth !== undefined)

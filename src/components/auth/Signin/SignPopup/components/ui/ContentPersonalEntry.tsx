@@ -3,16 +3,16 @@ import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import dayjs from "dayjs"
 
-import type { TContentPersonalEntry } from "../types"
+import type { TContentPersonalEntry } from "../../types"
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
 import { ButtonFill } from "@/components/common/Buttons"
-import { GroupSelectorDate, LabelInputGroup } from "./LabelInputGroup"
+import { GroupSelectorDate, LabelInputGroup } from "./components/LabelInputGroup"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { profileService } from "@/services/profile/profileService"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/style.module.scss"
 
 interface IValues {
   username: string

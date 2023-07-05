@@ -8,7 +8,7 @@ import { Selectors } from "@/components/common/Selectors"
 
 import { cx } from "@/lib/cx"
 
-import styles from "./styles/form-input.module.scss"
+import styles from "../../styles/form-input.module.scss"
 
 type TLabelInputGroup = FC<{
   label: string

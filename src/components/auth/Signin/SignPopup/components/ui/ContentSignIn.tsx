@@ -5,16 +5,16 @@ import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-import type { TContentSignIn } from "../types"
+import type { TContentSignIn } from "../../types"
 
 import { ButtonFill } from "@/components/common/Buttons"
-import { LabelInputGroup } from "./LabelInputGroup"
-import { LinksSocial } from "./LinksSocial"
+import { LabelInputGroup } from "./components/LabelInputGroup"
+import { LinksSocial } from "./components/LinksSocial"
 
 import { regExEmail } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/style.module.scss"
 
 interface IValues {
   email: string

@@ -1,62 +1,59 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, ReactNode } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
 import type { TSignPopup } from "./types"
 
-import { HeaderModal } from "./components/HeaderModal"
-import { ContentSignUp } from "./components/ContentSignUp"
-import { ContentSignIn } from "./components/ContentSignIn"
-import { ContentForgotPassword } from "./components/ContentForgotPassword"
-import { ContentFirstLoginQR } from "./components/ContentFirstLoginQR"
-import { ContentOtpCode } from "./components/ContentOtpCode"
-import { ContentPersonalEntry } from "./components/ContentPersonalEntry"
+import {
+  HeaderModal,
+  ContentSignUp,
+  ContentSignIn,
+  ContentForgotPassword,
+  ContentFirstLoginQR,
+  ContentOtpCode,
+  ContentPersonalEntry,
+  ContentCheckingEmail,
+  ContentResetPassword,
+} from "./components"
+import { Glasses } from "./components/ui/components/Glasses"
 
-import styles from "./sign-popup.module.scss"
+import { cx } from "@/lib/cx"
 
-const Glasses = () => (
-  <>
-    <span className={styles.orangeCircle} />
-    <span className={styles.purpleCircle} />
-    <span className={styles.lightBlueCircle} />
-  </>
-)
+import styles from "./styles/style.module.scss"
 
 const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
+  const [valueEmail, setValueEmail] = useState("")
   const [valueSecret, setValueSecret] = useState<{ url: string, secret: string }>({ url: "", secret: "" })
 
-  const content = useMemo(() => {
-    switch (type) {
-      case "SignIn":
-        return <ContentSignIn setType={setType} setVisible={setVisible} setValueSecret={setValueSecret} />
-      case "SignUp":
-        return <ContentSignUp setType={setType} />
-      case "ForgotPassword":
-        return <ContentForgotPassword setType={setType} />
-      case "FirstLoginQR":
-        return <ContentFirstLoginQR setType={setType} valueSecret={valueSecret} setVisible={setVisible} />
-      case "OtpCode":
-        return <ContentOtpCode setType={setType} setVisible={setVisible} />
-      case "PersonalEntry":
-        return <ContentPersonalEntry setType={setType} setVisible={setVisible} />
-      default:
-        return null
-    }
-  }, [type, setType, setVisible, setValueSecret, valueSecret])
+  const content: ReactNode | null = useMemo(() => {
+    if (type === null) return null
+    return {
+      SignIn: <ContentSignIn setType={setType} setVisible={setVisible} setValueSecret={setValueSecret} />,
+      SignUp: <ContentSignUp setType={setType} />,
+      ForgotPassword: <ContentForgotPassword setType={setType} setValueEmail={setValueEmail} />,
+      FirstLoginQR: <ContentFirstLoginQR setType={setType} valueSecret={valueSecret} setVisible={setVisible} />,
+      OtpCode: <ContentOtpCode setType={setType} setVisible={setVisible} />,
+      PersonalEntry: <ContentPersonalEntry setType={setType} setVisible={setVisible} />,
+      CodeVerificationTelegram: null,
+      SelectVerification: null,
+      CheckingEmail: <ContentCheckingEmail setType={setType} />,
+      ResetPassword: <ContentResetPassword setType={setType} setVisible={setVisible} />,
+    }[type]
+  }, [type, setType, setVisible, setValueSecret, valueSecret, setValueEmail])
 
   return (
     isMobile ? (
-      <div className={`${styles.overviewMobile} ${visible ? styles.visible : ""}`}>
+      <div className={cx(styles.overviewMobile, visible && styles.visible)}>
         <div className={styles.contentMobile}>
-          <HeaderModal type={type} />
+          <HeaderModal type={type} email={valueEmail} />
           {content}
         </div>
         <Glasses />
       </div>
     ) : (
-      <div className={`${styles.overlay} ${visible ? styles.visible : ""}`}>
+      <div className={cx(styles.overlay, visible && styles.visible)}>
         <div className={styles.modal}>
           <div
             className={styles.close}
@@ -70,7 +67,7 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
             />
           </div>
           <div className={styles.content}>
-            <HeaderModal type={type} />
+            <HeaderModal type={type} email={valueEmail} />
             {content}
           </div>
           <Glasses />

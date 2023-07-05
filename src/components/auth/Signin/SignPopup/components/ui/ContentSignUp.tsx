@@ -5,16 +5,16 @@ import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-import type { TContentSignUp } from "../types"
+import type { TContentSignUp } from "../../types"
 
 import { ButtonFill } from "@/components/common/Buttons"
-import { LabelInputGroup } from "./LabelInputGroup"
-import { LinksSocial } from "./LinksSocial"
+import { LabelInputGroup } from "./components/LabelInputGroup"
+import { LinksSocial } from "./components/LinksSocial"
 
 import { RegistrationService } from "@/services/auth/registrationService"
 import { regExEmail } from "@/helpers"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/style.module.scss"
 
 interface IValues {
   email: string
@@ -103,6 +103,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
         </section>
         <p>Регистрируясь, вы соглашаетесь с <a>Правилами пользования</a> и <a>Политикой конфиденциальности</a></p>
         <ButtonFill
+          disabled={loading}
           label="Зарегистрироваться"
           classNames="w-100"
           type="primary"

@@ -4,13 +4,13 @@ import { type ChangeEvent, type KeyboardEvent, useRef, useState } from "react"
 import QRCode from "react-qr-code"
 import { motion } from "framer-motion"
 
-import type { TContentFirstLoginQR } from "../types"
+import type { TContentFirstLoginQR } from "../../types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/style.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret, setVisible }) => {
   const [loading, setLoading] = useState(false)

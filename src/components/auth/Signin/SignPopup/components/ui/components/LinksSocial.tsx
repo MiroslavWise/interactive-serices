@@ -2,7 +2,7 @@ import { type FC } from "react"
 
 import { LinkItem } from "./LinkItem"
 
-import styles from "./styles/style.module.scss"
+import styles from "../../styles/style.module.scss"
 
 const ITEMS_SOCIAL_LINK: { value: string, src: string }[] = [
   {

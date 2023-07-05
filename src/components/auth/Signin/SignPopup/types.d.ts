@@ -15,6 +15,7 @@ export type TContentSignIn = FC<{
 
 export type TContentForgotPassword = FC<{
   setType: Dispatch<SetStateAction<TTypeSign>>
+  setValueEmail: Dispatch<SetStateAction<string>>
 }>
 
 export type TContentSignUp = FC<{
@@ -23,6 +24,7 @@ export type TContentSignUp = FC<{
 
 export type THeaderModal = FC<{
   type: TTypeSign
+  email: string
 }>
 
 export type TLinkItem = FC<{
@@ -45,13 +47,28 @@ export type TContentPersonalEntry = FC<{
   setVisible: Dispatch<SetStateAction<boolean>>
 }>
 
+export type TContentCheckingEmail = FC<{
+  setType: Dispatch<SetStateAction<TTypeSign>>
+}>
+
+export type TCircleImageHeader = FC<{
+  src: string
+}>
+
+export type TContentResetPassword = FC<{
+  setType: Dispatch<SetStateAction<TTypeSign>>
+  setVisible: Dispatch<SetStateAction<boolean>>
+}>
+
 export type TTypeSign =
   "SignIn"
   | "SignUp"
   | "SelectVerification"
-  | "CodeVerification"
+  | "CheckingEmail"
+  | "CodeVerificationTelegram"
   | "PersonalEntry"
   | "ForgotPassword"
   | "FirstLoginQR"
   | "OtpCode"
+  | "ResetPassword"
   | null

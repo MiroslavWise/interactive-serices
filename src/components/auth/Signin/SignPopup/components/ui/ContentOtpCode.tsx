@@ -4,13 +4,13 @@ import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent } fro
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 
-import type { TContentOtpCode } from "../types"
+import type { TContentOtpCode } from "../../types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/style.module.scss"
 
 interface IValues {
   input1: string
@@ -65,8 +65,7 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
     }
   }
 
-  const onOtpCode = (values: IValues) => {
-  }
+  const onOtpCode = (values: IValues) => {}
 
   const onInputValues = () => {
     setLoading(true)
