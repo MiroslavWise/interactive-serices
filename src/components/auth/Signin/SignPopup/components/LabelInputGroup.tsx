@@ -4,9 +4,11 @@ import { isMobile } from "react-device-detect"
 import dayjs from "dayjs"
 
 import { rangeArray, MONTHS } from "@/helpers"
+import { Selectors } from "@/components/common/Selectors"
+
+import { cx } from "@/lib/cx"
 
 import styles from "./styles/form-input.module.scss"
-import { Selectors } from "@/components/common/Selectors"
 
 type TLabelInputGroup = FC<{
   label: string
@@ -39,14 +41,14 @@ export const LabelInputGroup: TLabelInputGroup = ({
 }) => {
 
   return (
-    <div className={`${styles.groupLabelAndInputWrap} ${isMobile ? styles.mobile : ""}`}>
+    <div className={cx(styles.groupLabelAndInputWrap, isMobile && styles.mobile)}>
       <label>{label} {rules ? <sup>*</sup> : null}</label>
       <div className={styles.groupInputError}>
         <input
           type={type}
           placeholder={placeholder}
           {...propsInput}
-          className={errorMessage ? styles.errorInput : ""}
+          className={cx(errorMessage && styles.errorInput)}
         />
         {
           errorMessage
@@ -76,7 +78,7 @@ export const GroupSelectorDate: TGroupSelectorDate = ({
     }
   }, [])
   return (
-    <div className={`${styles.groupLabelAndInputWrap} ${isMobile ? styles.mobile : ""}`}>
+    <div className={cx(styles.groupLabelAndInputWrap, isMobile && styles.mobile)}>
       <label>Дата рождения <sup>*</sup></label>
       <div className={styles.groupInputError}>
         <div className={styles.selectors}>

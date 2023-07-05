@@ -14,9 +14,10 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
 
   return (
     <motion.div
+      id="SignBanner"
       className={styles.container}
       initial={{ left: -100, opacity: 0, visibility: "hidden", }}
-      animate={{ left: 40, opacity: 1, visibility: "visible", }}
+      animate={{ left: 24, opacity: 1, visibility: "visible", }}
       transition={{ duration: 0.5, }}
       exit={{ left: -100, opacity: 0, visibility: "hidden", }}
     >

@@ -9,6 +9,8 @@ import type { TFilterFieldBottom } from "./types"
 import { ButtonFilter } from "@/components/common/Buttons/ui/ButtonFilter"
 
 import styles from "./styles/style.module.scss"
+import { cx } from "@/lib/cx"
+import { PopupFilter } from "./PopupFilter"
 
 export const FilterFieldBottom: TFilterFieldBottom = ({ }) => {
   const [active, setActive] = useState(false)
@@ -30,6 +32,10 @@ export const FilterFieldBottom: TFilterFieldBottom = ({ }) => {
           label="Настроить фильтры"
           active={active}
           handleClick={handleClick}
+        />
+        <PopupFilter
+          visible={active}
+          setVisible={setActive}
         />
       </motion.div>
     ) : null

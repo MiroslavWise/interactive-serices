@@ -18,3 +18,11 @@
   gap: 8px;
   align-self: stretch;
 }
+
+.scrollHidden{
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

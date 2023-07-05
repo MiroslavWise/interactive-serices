@@ -24,6 +24,7 @@
 .container {
         position: fixed;
         max-width: 613px;
+        will-change: transform;
         width: 100%;
         height: 100vh;
         flex-shrink: 0;
@@ -32,12 +33,13 @@
         background: var(--supporting-white);
         right: -613px;
         top: 0;
+        transform: translateX(0);
         transition: all 0.5s ease-in-out;
         z-index: 60;
-
+        // opacity: 0;
         &.active {
-                right: 0;
-                top: 0;
+                // opacity: 1;
+                transform: translateX(-613px);
         }
 }
 

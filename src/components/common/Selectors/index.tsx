@@ -2,6 +2,8 @@ import type { TSelectors } from "./types"
 
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 
+import { cx } from "@/lib/cx"
+
 import styles from "./style.module.scss"
 
 export const Selectors: TSelectors = ({
@@ -15,14 +17,16 @@ export const Selectors: TSelectors = ({
       ref={dropdownRef}
     >
       <div
-        className={`${styles.trigger} ${isOpen ? styles.isOpen : ""}`}
+        className={cx(styles.trigger, isOpen && styles.isOpen)}
         onClick={() => {
           setIsOpen(prev => !prev)
         }}
       >
-        <span className={`${isOpen ? styles.isOpen : ""} ${watchField ? styles.active : ""}`}>{watchField ? options.find(item => item.value === watchField)?.label : label}</span>
+        <span
+          className={cx(isOpen && styles.isOpen, watchField && styles.active)}
+        >{watchField ? options.find(item => item.value === watchField)?.label : label}</span>
       </div>
-      <ul className={isOpen ? styles.isOpen : ""}>
+      <ul className={cx(isOpen && styles.isOpen)}>
         {
           options.map(item => (
             <li
@@ -31,7 +35,7 @@ export const Selectors: TSelectors = ({
                 set(param, item.value)
                 setIsOpen(false)
               }}
-              className={watchField === item.value ? styles.active : ""}
+              className={cx(watchField === item.value && styles.active)}
             >
               <span>{item.label}</span>
             </li>

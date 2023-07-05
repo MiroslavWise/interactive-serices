@@ -1,11 +1,12 @@
 "use client"
 
+import dynamic from 'next/dynamic'
 import { isMobile } from "react-device-detect"
 import { type FC, useState, useEffect } from "react"
 
 import type { TTypeSign } from "./SignPopup/types"
 
-import SignPopup from "./SignPopup"
+const SignPopup = dynamic(() => import("./SignPopup"))
 import SignBanner from "./SignBanner"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
