@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-import type { TContentSignUp } from "./types/types"
+import type { IValuesRegistrationForm, TContentSignUp } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
@@ -16,16 +16,9 @@ import { regExEmail } from "@/helpers"
 
 import styles from "../styles/style.module.scss"
 
-interface IValues {
-  email: string
-  number?: string
-  password: string
-  repeat_password: string
-}
-
 export const ContentSignUp: TContentSignUp = ({ setType }) => {
   const [loading, setLoading] = useState(false)
-  const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValues>({
+  const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValuesRegistrationForm>({
     defaultValues: {
       email: "",
       number: "",
@@ -34,7 +27,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
     },
   })
 
-  const onRegister = async (values: IValues) => {
+  const onRegister = async (values: IValuesRegistrationForm) => {
     setLoading(true)
     RegistrationService.registration({
       email: values.email,
@@ -45,7 +38,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
         if (response?.code === 409) {
           setError("email", { message: "user already exists" })
         }
-        if (!response.error && response.registration) {
+        if (!response.error && response.ok) {
           setType("SignIn")
         }
       })

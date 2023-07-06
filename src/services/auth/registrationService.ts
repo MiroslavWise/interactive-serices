@@ -1,40 +1,28 @@
 import type { IRegistrationService } from "./types/registrationService"
 
+import { usersService } from "@/services/users"
+
 import env from "@/config/environment"
 import { URL_API } from "@/helpers/url"
 
 export const RegistrationService: IRegistrationService = {
-  async registration({ email, password, repeat }) {
-    try {
-      const data = { email, password, repeat }
-      const res = await fetch(`${URL_API}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-      const dataResponse = await res.json()
-      if (!dataResponse?.error && dataResponse?.result?.confirmation_code && env.auto_verification) {
-        return this.verification(dataResponse?.result?.confirmation_code)
-      } else if (!dataResponse?.error && dataResponse?.result?.confirmation_code && !env.auto_verification) {
-        return {
-          registration: true,
-          error: null,
-          need_verify: true,
+  async registration(data) {
+    return usersService.postUser(data)
+      .then(response => {
+        if (!response?.error && response?.res?.confirmation_code && env.auto_verification) {
+          return this.verification(response?.res?.confirmation_code)
+        } else if (!response?.error && response?.res?.confirmation_code && !env.auto_verification) {
+          return {
+            ok: true,
+            error: null,
+          }
         }
-      }
-      return {
-        registration: false,
-        code: dataResponse?.error?.code,
-        error: dataResponse?.error,
-      }
-    } catch (e) {
-      return {
-        registration: false,
-        error: e
-      }
-    }
+        return {
+          ok: false,
+          error: response?.error,
+          code: response?.code,
+        }
+      })
   },
   async verification(value) {
     try {
@@ -49,22 +37,22 @@ export const RegistrationService: IRegistrationService = {
       const dataResponse = await res.json()
       if (dataResponse?.error === null && !!dataResponse?.result?.id) {
         return {
-          registration: true,
+          ok: true,
+          res: dataResponse?.result,
           error: null,
         }
-      } else {
-        return {
-          registration: false,
-          error: dataResponse?.error,
-          message: dataResponse?.error?.message,
-        }
+      }
+      return {
+        ok: false,
+        res: dataResponse?.result,
+        error: dataResponse?.error,
+        code: dataResponse?.error?.code
       }
     } catch (e) {
       console.error("ERROR VERIFY REQUEST: ", e)
       return {
-        registration: false,
+        ok: false,
         error: e,
-        message: "error request",
       }
     }
   }

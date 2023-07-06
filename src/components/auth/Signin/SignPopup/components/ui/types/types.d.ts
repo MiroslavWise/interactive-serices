@@ -54,3 +54,10 @@ export type THeaderModal = FC<{
   type: TTypeSign
   email: string
 }>
+
+export interface IValuesRegistrationForm {
+  email: string
+  number?: string
+  password: string
+  repeat_password: string
+}

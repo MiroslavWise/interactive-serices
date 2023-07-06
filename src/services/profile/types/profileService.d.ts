@@ -1,4 +1,3 @@
-import type { IWrapperFetch } from "@/services/requestsWrapper/types/wrapperFetch"
 import type { IReturnData } from "@/services/types/general"
 
 export interface IPostProfileData {
@@ -35,9 +34,11 @@ export interface IProfileResponse {
 }
 
 export interface TProfileService {
-  async getProfiles(value: { [key: string]: string }): Promise<IReturnData<IGetProfilesResponse>>
-  async getProfileId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
-  async postProfile(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>
-  async patchProfile(value: IPostProfileData, id: string): Promise<IReturnData<IPatchProfileResponse>>
-  async deleteProfile(id: string | number): Promise<IReturnData<IProfileResponse>>
+  private route: string
+  public async getProfiles(value: { [key: string]: string }): Promise<IReturnData<IGetProfilesResponse>>
+  public async getProfileId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
+  public async getProfileThroughUserId(id: number | string): Promise<IReturnData<IGetProfileIdResponse>>
+  public async postProfile(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>
+  public async patchProfile(value: IPostProfileData, id: string): Promise<IReturnData<IPatchProfileResponse>>
+  public async deleteProfile(id: string | number): Promise<IReturnData<IProfileResponse>>
 }

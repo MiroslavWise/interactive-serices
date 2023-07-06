@@ -11,6 +11,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "../styles/style.module.scss"
+import { profileService } from "@/services/profile"
 
 interface IValues {
   input1: string
@@ -23,10 +24,6 @@ interface IValues {
 
 export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
   const [loading, setLoading] = useState(false)
-  const notify = () => toast.success!("Код верен, и вы успешно вошли", {
-    position: "top-right",
-    autoClose: 5000,
-  })
   //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
@@ -65,28 +62,33 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
     }
   }
 
-  const onOtpCode = (values: IValues) => {}
+  const onOtpCode = (values: IValues) => { }
 
   const onInputValues = () => {
     setLoading(true)
     useTokenHelper.serviceOtp(inputValues.join(""))
       .then(response => {
         if (response.ok) {
-          notify()
-          setVisible(false)
-          setType(null)
-          setErrorCode("")
+          profileService.getProfileThroughUserId(useTokenHelper.authUserId)
+            .then(response => {
+                setErrorCode("")
+                const { first_name, last_name, username } = response?.res ?? {}
+                if ((!first_name || !last_name || !username) || (response?.code === 404 && response?.error?.message === "profile not found")) {
+                  setType("PersonalEntry")
+                  return
+                }
+                setType(null)
+                setVisible(false)
+                return
+            })
         }
         if (!response.ok) {
           if (response.error?.code === 401 && response?.error?.message === "2fa code is not correct") {
             setErrorCode("Код, введённый вами, не является действительным!")
           }
+          setLoading(false)
         }
       })
-      .finally(() => {
-        setLoading(false)
-      })
-
   }
 
   useEffect(() => {
@@ -117,7 +119,7 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
             />
           ))}
         </div>
-        {errorCode ? <p className="error-p" style={{marginTop: -15, marginBottom: -15}}>{errorCode}</p> : null}
+        {errorCode ? <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>{errorCode}</p> : null}
         <ButtonFill
           disabled={loading || inputValues.filter(item => item !== "").length !== 6}
           label="Подтвердить код"

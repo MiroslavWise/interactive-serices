@@ -22,12 +22,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData,
+          res: responseData?.result,
         }
       }
       return {
         ok: false,
-        res: responseData,
+        res: responseData?.result,
         error: responseData?.error,
       }
     } catch (e) {
@@ -52,12 +52,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData,
+          res: responseData?.result,
         }
       }
       return {
         ok: false,
-        res: responseData,
+        res: responseData?.result,
         error: responseData?.error,
       }
     } catch (e) {
@@ -83,12 +83,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData,
+          res: responseData?.result,
         }
       }
       return {
         ok: false,
-        res: responseData,
+        res: responseData?.result,
         error: responseData?.error,
       }
     } catch (e) {
@@ -114,12 +114,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData,
+          res: responseData?.result,
         }
       }
       return {
         ok: false,
-        res: responseData,
+        res: responseData?.result,
         error: responseData?.error,
       }
     } catch (e) {
@@ -144,12 +144,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData,
+          res: responseData?.result,
         }
       }
       return {
         ok: false,
-        res: responseData,
+        res: responseData?.result,
         error: responseData?.error,
       }
     } catch (e) {

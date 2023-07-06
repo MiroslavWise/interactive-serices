@@ -10,7 +10,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { GroupSelectorDate, LabelInputGroup } from "./components/LabelInputGroup"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import { profileService } from "@/services/profile/profileService"
+import { profileService } from "@/services/profile"
 
 import styles from "../styles/style.module.scss"
 
