@@ -9,10 +9,10 @@ export const useForgotPasswordHelper: IForgotPasswordHelper = {
     this.temporaryToken = value
   },
 
-  async emailRequest(value) {
-    return ForgotPasswordService.emailRequest(value)
+  async forgotPassword(value) {
+    return ForgotPasswordService.forgotPassword(value)
   },
-  async passwordRecovery(value) {
-    return ForgotPasswordService.passwordRecovery(value)
+  async resetPassword(value) {
+    return ForgotPasswordService.resetPassword(value)
   }
 }

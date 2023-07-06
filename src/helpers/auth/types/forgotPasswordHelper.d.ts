@@ -7,6 +7,6 @@ export interface IForgotPasswordHelper{
   private temporaryToken: string | null
   public saveTemporaryToken: Dispatch<string>
 
-  async emailRequest(value: IForgotPassword): Promise<IReturnData<IForgotPasswordResponse>>
-  async passwordRecovery(value: IPasswordRecovery): Promise<IReturnData<IResetPasswordResponse>>
+  public async forgotPassword(value: IForgotPassword): Promise<IReturnData<IForgotPasswordResponse>>
+  public async resetPassword(value: IPasswordRecovery): Promise<IReturnData<IResetPasswordResponse>>
 }

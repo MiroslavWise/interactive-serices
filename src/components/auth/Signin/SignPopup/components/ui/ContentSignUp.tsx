@@ -18,14 +18,7 @@ import styles from "../styles/style.module.scss"
 
 export const ContentSignUp: TContentSignUp = ({ setType }) => {
   const [loading, setLoading] = useState(false)
-  const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValuesRegistrationForm>({
-    defaultValues: {
-      email: "",
-      number: "",
-      password: "",
-      repeat_password: "",
-    },
-  })
+  const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValuesRegistrationForm>()
 
   const onRegister = async (values: IValuesRegistrationForm) => {
     setLoading(true)

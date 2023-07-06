@@ -25,7 +25,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType, setValu
 
   const onEnter = async (values: IValues) => {
     setLoading(true)
-    useForgotPasswordHelper.emailRequest({ email: values.email })
+    useForgotPasswordHelper.forgotPassword({ email: values.email })
       .then(response => {
         if (response.ok && !!response?.res) {
           useForgotPasswordHelper.saveTemporaryToken(response.res?.password_reset_token)
@@ -70,6 +70,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType, setValu
           />
         </section>
         <ButtonFill
+          disabled={loading}
           label="Сброс пароля"
           classNames="w-100"
           type="primary"

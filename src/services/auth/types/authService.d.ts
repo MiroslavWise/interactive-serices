@@ -1,3 +1,4 @@
+import { IReturnData } from "@/services/types/general"
 import type { Dispatch, DispatchWithoutAction } from "react"
 
 export type TSuffix = "Token" | "RefreshToken" | "Expiration" | "UserId"

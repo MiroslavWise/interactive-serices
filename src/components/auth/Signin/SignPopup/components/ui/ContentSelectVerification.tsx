@@ -10,13 +10,11 @@ import { cx } from "@/lib/cx"
 
 import styles from "../styles/style.module.scss"
 
-
 export const ContentSelectVerification: TContentSelectVerification = ({ setType }) => {
   const [typeVerification, setTypeVerification] = useState<"phone" | "email" | null>(null)
 
   const handleVerification = async (value: "phone" | "email") => {
     setTypeVerification(value)
-    
   }
 
   return (

@@ -1,64 +1,12 @@
-import type { IForgotPasswordService } from "./types/forgotPasswordService"
+import type { IForgotPasswordService, IForgotPassword, IForgotPasswordResponse, IPasswordRecovery, IResetPasswordResponse } from "./types/forgotPasswordService"
 
-import { URL_API } from "@/helpers"
+import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const ForgotPasswordService: IForgotPasswordService = {
-  async emailRequest({ email }) {
-    try {
-      const response = await fetch(`${URL_API}/auth/forgot-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      })
-      const data = await response.json()
-      if (data?.result && data?.error === null) {
-        return {
-          ok: true,
-          res: data?.result,
-        }
-      }
-      return {
-        ok: false,
-        res: null,
-        error: data?.error,
-        code: data?.error?.code,
-      }
-    } catch (e) {
-      return {
-        ok: false,
-        error: e,
-      }
-    }
+  async forgotPassword({ email }) {
+    return wrapperFetch.methodPost<IForgotPassword, IForgotPasswordResponse>("/auth/forgot-password", {email})
   },
-  async passwordRecovery({ token, password, repeat }) {
-    try {
-      const response = await fetch(`${URL_API}/auth/reset-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token, password, repeat }),
-      })
-      const data = await response.json()
-      if (data?.result && data?.error === null) {
-        return {
-          ok: true,
-          res: data?.result,
-        }
-      }
-      return {
-        ok: false,
-        res: null,
-        error: data?.error,
-        code: data?.error?.code,
-      }
-    } catch (e) {
-      return {
-        ok: false,
-        error: e,
-      }
-    }
+  async resetPassword({ token, password, repeat }) {
+    return wrapperFetch.methodPost<IPasswordRecovery, IResetPasswordResponse>("/auth/reset-password", { token, password, repeat })
   }
 }

@@ -1,6 +1,5 @@
-import { type ReactNode, useMemo } from "react"
+import { useMemo } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
 import type { TTypeSign } from "../../types"

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-import type { TContentSignIn } from "./types/types"
+import type { TContentSignIn, IValuesSignForm } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
@@ -16,31 +16,25 @@ import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "../styles/style.module.scss"
 
-interface IValues {
-  email: string
-  password: string
-  checkbox: boolean
-}
-
 export const ContentSignIn: TContentSignIn = ({ setType, setVisible, setValueSecret }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<IValues>()
+  const { register, handleSubmit, formState: { errors } } = useForm<IValuesSignForm>()
   const [loading, setLoading] = useState(false)
 
-  const onEnter = async (values: IValues) => {
+  const onEnter = async (values: IValuesSignForm) => {
     setLoading(true)
     useTokenHelper.login({
       email: values.email,
       password: values.password,
     })
       .then(response => {
-        if (!!response.secret && !!response?.otp_auth_url) {
+        if (!!response?.res?.secret && !!response?.res?.otp_auth_url) {
           setValueSecret({
-            secret: response?.secret!,
-            url: response?.otp_auth_url!,
+            secret: response?.res?.secret!,
+            url: response?.res?.otp_auth_url!,
           })
           return setType("FirstLoginQR")
         }
-        if (response.login) {
+        if (response.ok) {
           return setType("OtpCode")
         }
       })

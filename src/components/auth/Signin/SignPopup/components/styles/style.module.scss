@@ -201,6 +201,9 @@
   gap: 32px;
   justify-content: center;
   align-items: center;
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
 
   h3 {
     color: #363757;

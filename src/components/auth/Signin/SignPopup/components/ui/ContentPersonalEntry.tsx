@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import dayjs from "dayjs"
 
-import type { TContentPersonalEntry } from "./types/types"
+import type { TContentPersonalEntry, IValuesPersonForm } from "./types/types"
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
 import { ButtonFill } from "@/components/common/Buttons"
@@ -14,20 +14,12 @@ import { profileService } from "@/services/profile"
 
 import styles from "../styles/style.module.scss"
 
-interface IValues {
-  username: string
-  firstName: string
-  lastName: string
-  day: string
-  month: string
-  year: string
-  about: string
-}
+
 
 export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisible }) => {
   const [loading, setLoading] = useState(false)
-  const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValues>()
-  const onSubmit = async (values: IValues) => {
+  const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValuesPersonForm>()
+  const onSubmit = async (values: IValuesPersonForm) => {
     setLoading(true)
     const data: IPostProfileData = {
       firstName: values.firstName,

@@ -13,5 +13,5 @@ export interface IResponseDataRegistration {
 
 export interface IRegistrationService {
   public async registration(value: IDataRegistration): Promise<IReturnData<IResponseDataRegistration>>
-  public async verification(value: string): Promise<IReturnData<IResponseDataRegistration>>
+  public async verification(value: {code: string}): Promise<IReturnData<IResponseDataRegistration>>
 }

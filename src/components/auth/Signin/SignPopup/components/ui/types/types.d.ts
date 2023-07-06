@@ -61,3 +61,19 @@ export interface IValuesRegistrationForm {
   password: string
   repeat_password: string
 }
+
+export interface IValuesSignForm {
+  email: string
+  password: string
+  checkbox: boolean
+}
+
+export interface IValuesPersonForm {
+  username: string
+  firstName: string
+  lastName: string
+  day: string
+  month: string
+  year: string
+  about: string
+}

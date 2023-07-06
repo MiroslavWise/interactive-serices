@@ -2,16 +2,15 @@
 
 import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent } from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "react-toastify"
 
 import type { TContentOtpCode } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { usersService } from "@/services/users"
 
 import styles from "../styles/style.module.scss"
-import { profileService } from "@/services/profile"
 
 interface IValues {
   input1: string
@@ -66,21 +65,19 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
 
   const onInputValues = () => {
     setLoading(true)
-    useTokenHelper.serviceOtp(inputValues.join(""))
+    useTokenHelper.serviceOtp({ code: inputValues.join("") })
       .then(response => {
         if (response.ok) {
-          profileService.getProfileThroughUserId(useTokenHelper.authUserId)
-            .then(response => {
-                setErrorCode("")
-                const { first_name, last_name, username } = response?.res ?? {}
-                if ((!first_name || !last_name || !username) || (response?.code === 404 && response?.error?.message === "profile not found")) {
-                  setType("PersonalEntry")
-                  return
-                }
-                setType(null)
-                setVisible(false)
-                return
-            })
+          usersService.getUserId(useTokenHelper.authUserId).then(response => {
+            setErrorCode("")
+            if (!response?.res?.profile) {
+              setType("PersonalEntry")
+              return
+            }
+            setType(null)
+            setVisible(false)
+            return
+          })
         }
         if (!response.ok) {
           if (response.error?.code === 401 && response?.error?.message === "2fa code is not correct") {
@@ -108,7 +105,7 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
             <input
               key={index}
               {...register("input" + (index + 1) as any, { required: true })}
-              //@ts-ignore
+              // @ts-ignore
               ref={(ref) => (inputRefs.current[index] = ref)}
               type="text"
               placeholder={"0"}

@@ -36,7 +36,7 @@ export const ContentResetPassword: TContentResetPassword = ({ setType, setVisibl
 
   const submit = (values: IValues) => {
     setLoading(true)
-    useForgotPasswordHelper.passwordRecovery({
+    useForgotPasswordHelper.resetPassword({
       token: useForgotPasswordHelper.temporaryToken!,
       password: values.password,
       repeat: values.repeat_password,

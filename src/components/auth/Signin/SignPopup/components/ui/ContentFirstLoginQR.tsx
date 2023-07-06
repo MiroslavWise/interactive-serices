@@ -48,7 +48,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
   const onInputValues = () => {
     console.log("inputValues: ", inputValues)
     setLoading(true)
-    useTokenHelper.serviceOtp(inputValues.join(""))
+    useTokenHelper.serviceOtp({ code: inputValues.join("") })
       .then(response => {
         if (response.ok) {
           setType("PersonalEntry")

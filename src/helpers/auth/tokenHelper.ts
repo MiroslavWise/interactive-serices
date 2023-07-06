@@ -1,42 +1,32 @@
 import type { IUseTokenHelper } from "./types/tokenHelper"
 
+import { LoggingService } from "@/services/auth/loggingService"
 import { AuthService } from "@/services/auth/authService"
 import { URL_API } from "@/helpers/url"
 
 export const useTokenHelper: IUseTokenHelper = {
   temporaryToken: "",
-  async login({ email, password }) {
-    try {
-      const data = {
-        email: email,
-        password: password,
-      }
-      const response = await fetch(`${URL_API}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-      const responseData = await response.json()
-      if (responseData?.error === null && responseData?.result?.access_token) {
-        this.temporaryToken = responseData?.result?.access_token
-        return {
-          login: true,
-          secret: responseData?.result?.secret,
-          otp_auth_url: responseData?.result?.otp_auth_url,
+  saveTemporaryToken(value) {
+    this.temporaryToken = value
+  },
+  async login(value) {
+    return LoggingService.login(value)
+      .then(response => {
+        if (response?.error === null && response?.res?.access_token) {
+          this.saveTemporaryToken(response?.res?.access_token)
+          return {
+            ok: true,
+            res: response?.res,
+            error: null
+          }
         }
-      }
-      return {
-        login: false,
-        error: responseData?.error,
-      }
-    } catch (e) {
-      return {
-        login: false,
-        error: e,
-      }
-    }
+        return {
+          ok: !!response?.res,
+          res: response?.res,
+          error: response?.error,
+          code: response?.code,
+        }
+      })
   },
   async refresh() {
     try {
@@ -54,7 +44,7 @@ export const useTokenHelper: IUseTokenHelper = {
       }
     }
   },
-  async serviceOtp(value) {
+  async serviceOtp({ code }) {
     try {
       const responseOtp = await fetch(`${URL_API}/auth/otp`, {
         method: "POST",
@@ -62,7 +52,7 @@ export const useTokenHelper: IUseTokenHelper = {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${this.temporaryToken}`,
         },
-        body: JSON.stringify({ code: value })
+        body: JSON.stringify({ code })
       })
       const dataOtp = await responseOtp.json()
       if (dataOtp?.error === null && dataOtp?.result) {
