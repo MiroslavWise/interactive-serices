@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 
-import type { TContentCheckingEmail } from "../../types"
+import type { TContentCheckingEmail } from "./types/types"
 
 import styles from "../styles/style.module.scss"
 

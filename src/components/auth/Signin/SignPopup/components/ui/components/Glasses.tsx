@@ -1,4 +1,4 @@
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 const GLASSES = ["orangeCircle", "purpleCircle", "lightBlueCircle"]
 

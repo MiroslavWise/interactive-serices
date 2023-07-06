@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import type { TLinkItem } from "../../../types"
+import type { TLinkItem } from "../types/types"
 
 import styles from "../../styles/style.module.scss"
 

@@ -16,6 +16,7 @@ import {
   ContentPersonalEntry,
   ContentCheckingEmail,
   ContentResetPassword,
+  ContentSelectVerification,
 } from "./components"
 import { Glasses } from "./components/ui/components/Glasses"
 
@@ -37,7 +38,7 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
       OtpCode: <ContentOtpCode setType={setType} setVisible={setVisible} />,
       PersonalEntry: <ContentPersonalEntry setType={setType} setVisible={setVisible} />,
       CodeVerificationTelegram: null,
-      SelectVerification: null,
+      SelectVerification: <ContentSelectVerification setType={setType} />,
       CheckingEmail: <ContentCheckingEmail setType={setType} />,
       ResetPassword: <ContentResetPassword setType={setType} setVisible={setVisible} />,
     }[type]

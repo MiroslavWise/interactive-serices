@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import dayjs from "dayjs"
 
-import type { TContentPersonalEntry } from "../../types"
+import type { TContentPersonalEntry } from "./types/types"
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
 import { ButtonFill } from "@/components/common/Buttons"

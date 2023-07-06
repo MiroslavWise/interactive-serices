@@ -4,7 +4,7 @@ import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent } fro
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 
-import type { TContentOtpCode } from "../../types"
+import type { TContentOtpCode } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 

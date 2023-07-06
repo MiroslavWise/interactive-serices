@@ -1,8 +1,8 @@
 import Image from "next/image"
-import { TCircleImageHeader } from "../../../types"
 
+import type { TCircleImageHeader } from "./types/types"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const CircleImageHeader: TCircleImageHeader = ({ src }) => {
   

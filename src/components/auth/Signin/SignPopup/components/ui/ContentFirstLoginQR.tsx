@@ -4,7 +4,7 @@ import { type ChangeEvent, type KeyboardEvent, useRef, useState } from "react"
 import QRCode from "react-qr-code"
 import { motion } from "framer-motion"
 
-import type { TContentFirstLoginQR } from "../../types"
+import type { TContentFirstLoginQR } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 

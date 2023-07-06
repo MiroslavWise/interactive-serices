@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-import type { TContentSignIn } from "../../types"
+import type { TContentSignIn } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"

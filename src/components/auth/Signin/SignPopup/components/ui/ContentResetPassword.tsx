@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 
-import type { TContentResetPassword } from "../../types"
+import type { TContentResetPassword } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"

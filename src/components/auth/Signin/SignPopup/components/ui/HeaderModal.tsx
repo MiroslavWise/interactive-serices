@@ -3,29 +3,16 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
-import type { THeaderModal, TTypeSign } from "../../types"
+import type { TTypeSign } from "../../types"
+import type { THeaderModal } from "./types/types"
+
+import { LogoSheira } from "./components/LogoSheira"
+import { CircleImageHeader } from "./components/CircleImageHeader"
+import { MotionSectionOpacity } from "@/components/common/Motion"
+
+import { cx } from "@/lib/cx"
 
 import styles from "../styles/style.module.scss"
-import { CircleImageHeader } from "./components/CircleImageHeader"
-
-const Logo = () => (
-  <Image
-    src="/logo/wordmark.svg"
-    alt="sheira"
-    width={isMobile ? 119 : 140}
-    height={isMobile ? 31 : 37}
-  />
-)
-
-const MotionSection = ({ children }: { children: ReactNode }) => (
-  <motion.section
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.5 }}
-  >{children}</motion.section>
-)
-
 
 export const HeaderModal: THeaderModal = ({ type, email }) => {
   const content: { h3: string, p: string } | null = useMemo(() => {
@@ -86,20 +73,16 @@ export const HeaderModal: THeaderModal = ({ type, email }) => {
   }, [type])
 
   return (
-    <header className={`${styles.header} ${isMobile ? styles.mobile : ""}`}>
+    <header className={cx(styles.header, isMobile && styles.mobile)}>
       {
         ["SignIn", "SignUp", "ForgotPassword", "PersonalEntry"].includes(type!)
           ? (
             <>
-              <Logo />
-              <MotionSection>
-                <h3>
-                  {content?.h3}
-                </h3>
-                <p>
-                  {content?.p}
-                </p>
-              </MotionSection>
+              <LogoSheira />
+              <MotionSectionOpacity>
+                <h3>{content?.h3}</h3>
+                <p>{content?.p}</p>
+              </MotionSectionOpacity>
             </>
           ) : null
       }
@@ -112,20 +95,25 @@ export const HeaderModal: THeaderModal = ({ type, email }) => {
                   src={srcImage!}
                 />
               </div>
-              <motion.section
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <h3>
-                  {content?.h3}
-                </h3>
-                <p>
-                  {content?.p}
-                </p>
-              </motion.section>
+              <MotionSectionOpacity>
+                <h3>{content?.h3}</h3>
+                <p>{content?.p}</p>
+              </MotionSectionOpacity>
             </>
+          ) : null
+      }
+      {
+        type === "SelectVerification"
+          ? (
+            <div className={styles.headerSelect}>
+              <Image
+                src="/svg/verification.svg"
+                alt="ver"
+                height={160}
+                width={160}
+              />
+              <MotionSectionOpacity><h3>Для авторизации я хочу использовать свой</h3></MotionSectionOpacity>
+            </div>
           ) : null
       }
     </header>

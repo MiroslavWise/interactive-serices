@@ -53,6 +53,8 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
       <div className={styles.footer}>
         <a>Всё о Шейре</a>
       </div>
+      <span className={styles.glassOne} />
+      <span className={styles.glassTwo} />
     </motion.div>
   )
 }
