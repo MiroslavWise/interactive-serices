@@ -1,8 +1,12 @@
 import Image from "next/image"
+
 import type { TInfoContainerProfile } from "./types"
+
 import { ButtonFill } from "@/components/common/Buttons"
 import { ButtonsCircle } from "@/components/common/Buttons"
+
 import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
+
 import styles from "./style.module.scss"
 
 export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
