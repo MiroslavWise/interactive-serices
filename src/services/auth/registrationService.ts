@@ -5,7 +5,7 @@ import { wrapperFetch } from "@/services/requestsWrapper"
 import env from "@/config/environment"
 
 export const RegistrationService: IRegistrationService = {
-  async registration(data) {
+  registration(data) {
     return usersService.postUser(data)
       .then(response => {
         if (!response?.error && response?.res?.confirmation_code && env.auto_verification) {
@@ -23,7 +23,7 @@ export const RegistrationService: IRegistrationService = {
         }
       })
   },
-  async verification(value) {
+  verification(value) {
     return wrapperFetch.methodPost<{ code: string }, IResponseDataRegistration>("", value)
       .then(response => {
         if (response?.error === null && !!response?.res?.id) {

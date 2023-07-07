@@ -6,10 +6,8 @@ import type {
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
-
-
 export const LoggingService: ILoggingService = {
-  async login(value) {
+  login(value) {
     return wrapperFetch.methodPost<IRequestLogin, IResponseLogin>("/auth/login", value)
   },
   

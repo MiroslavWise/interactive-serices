@@ -1,9 +1,6 @@
 import type { TContainerReviews } from "./types"
-
 import { CardReview } from "@/components/common/CardReview"
-
 import { MOCKS_REVIEW_VALUES } from "@/mocks/components/auth/constants"
-
 import styles from "./style.module.scss"
 
 export const ContainerReviews: TContainerReviews = ({ }) => {
