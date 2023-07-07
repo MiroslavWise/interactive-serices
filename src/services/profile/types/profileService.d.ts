@@ -39,6 +39,6 @@ export interface TProfileService {
   public async getProfileId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
   public async getProfileThroughUserId(id: number | string): Promise<IReturnData<IGetProfileIdResponse>>
   public async postProfile(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>
-  public async patchProfile(value: IPostProfileData, id: string): Promise<IReturnData<IPatchProfileResponse>>
+  public async patchProfile(value: IPostProfileData, id: string | number): Promise<IReturnData<IPatchProfileResponse>>
   public async deleteProfile(id: string | number): Promise<IReturnData<IProfileResponse>>
 }

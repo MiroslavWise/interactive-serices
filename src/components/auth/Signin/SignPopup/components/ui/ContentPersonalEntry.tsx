@@ -10,15 +10,27 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { GroupSelectorDate, LabelInputGroup } from "./components/LabelInputGroup"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { useAuth } from "@/store/hooks/useAuth"
 import { profileService } from "@/services/profile"
 
 import styles from "../styles/style.module.scss"
 
-
-
 export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisible }) => {
+  const { userId, profileId, user, changeAuth } = useAuth()
   const [loading, setLoading] = useState(false)
-  const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValuesPersonForm>()
+  const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValuesPersonForm>({
+    defaultValues: {
+      ...(user ? {
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        username: user?.username || "",
+        day: user?.birthdate ? Number(dayjs(user?.birthdate).format("DD")) : "",
+        month: user?.birthdate ? dayjs(user?.birthdate).format("MM") : "",
+        year: user?.birthdate ? Number(dayjs(user?.birthdate).format("YYYY")) : "",
+        about: user?.about || "",
+      } : {})
+    }
+  })
   const onSubmit = async (values: IValuesPersonForm) => {
     setLoading(true)
     const data: IPostProfileData = {
@@ -30,19 +42,22 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       enabled: true,
       userId: Number(useTokenHelper.authUserId),
     }
-    profileService.postProfile(data)
-      .then(response => {
-        if (response?.code === 409) {
-          return setError("username", { message: "user exists" })
-        }
-        if (response.ok) {
-          setVisible(false)
-          setType(null)
-        }
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    Promise.all([
+      !!user ? profileService.patchProfile(data, profileId!) : profileService.postProfile(data)
+    ])
+    .then(response => {
+      if (response[0]?.code === 409) {
+        return setError("username", { message: "user exists" })
+      }
+      if (response[0].ok) {
+        changeAuth()
+        setVisible(false)
+        setType(null)
+      }
+    })
+    .finally(() => {
+      setLoading(false)
+    })
   }
 
   return (

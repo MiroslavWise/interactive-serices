@@ -24,7 +24,7 @@ export const RegistrationService: IRegistrationService = {
       })
   },
   verification(value) {
-    return wrapperFetch.methodPost<{ code: string }, IResponseDataRegistration>("", value)
+    return wrapperFetch.methodPost<{ code: string }, IResponseDataRegistration>("/auth/verify", value)
       .then(response => {
         if (response?.error === null && !!response?.res?.id) {
           return {

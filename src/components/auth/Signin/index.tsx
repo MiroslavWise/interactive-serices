@@ -9,10 +9,11 @@ import type { TTypeSign } from "./SignPopup/types"
 const SignPopup = dynamic(() => import("./SignPopup"))
 import SignBanner from "./SignBanner"
 
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { AuthService } from '@/services/auth/authService'
+import { useAuth } from "@/store/hooks/useAuth"
 
 export const Signin: FC = () => {
-  const [stateAuth, setStateAuth] = useState<boolean | undefined>(undefined)
+  const { isAuth } = useAuth()
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState<TTypeSign>("SignIn")
 
@@ -22,15 +23,13 @@ export const Signin: FC = () => {
   }
 
   useEffect(() => {
-    if (type === "PersonalEntry") {
-      setStateAuth(false)
-    } else {
-      setStateAuth(useTokenHelper.isAuth)
-    }
-  }, [type])
+    setTimeout(() => {
+      console.log("asf: ", AuthService.authToken(), AuthService.authRefreshToken())
+    }, 100)
+  }, [isAuth])
 
   return (
-    (!isMobile && !stateAuth && stateAuth !== undefined)
+    (!isMobile)
       ? (
         <>
           <SignBanner {...{ handleSignUpOrSignIn }} />

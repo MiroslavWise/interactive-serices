@@ -6,7 +6,7 @@ import type {
 
 export const AuthService: IAuthService = {
   prefix: "AuthJWT",
-  authMap: ["RefreshToken","Token", "Expiration", "UserId"],
+  authMap: ["RefreshToken", "Token", "Expiration", "UserId"],
   saveToken({ token, refreshToken, expiration, userId, ok }: ISaveToken): void {
     if (ok && token && refreshToken) {
       this.setAuthData({ token, refreshToken, expiration, userId })
@@ -35,12 +35,12 @@ export const AuthService: IAuthService = {
     })
   },
   authToken() {
-    return localStorage.getItem(`${this.prefix}.Token`)!
+    return JSON.parse(localStorage.getItem("auth")!).state.token
   },
   authRefreshToken() {
-    return localStorage.getItem(`${this.prefix}.RefreshToken`)!
+    return JSON.parse(localStorage.getItem("auth")!).state.refreshToken!
   },
   authUserId() {
-    return localStorage.getItem(`${this.prefix}.UserId`)!
+    return JSON.parse(localStorage.getItem("auth")!).state.userId!
   }
 }

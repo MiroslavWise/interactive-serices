@@ -7,6 +7,7 @@ import type { TContentOtpCode } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
+import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { usersService } from "@/services/users"
 
@@ -22,6 +23,7 @@ interface IValues {
 }
 
 export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
+  const { setToken, setUser } = useAuth()
   const [loading, setLoading] = useState(false)
   //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
@@ -39,12 +41,10 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
   })
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
-    let { value } = event.target
-
+    const { value } = event.target
     const newInputValues = [...inputValues]
     newInputValues[index] = value
     setInputValues(newInputValues)
-
     if (index < inputRefs.current.length - 1 && value.length > 0) {
       const nextInputRef = inputRefs.current[index + 1]
       nextInputRef.focus()
@@ -68,11 +68,30 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
     useTokenHelper.serviceOtp({ code: inputValues.join("") })
       .then(response => {
         if (response.ok) {
-          usersService.getUserId(useTokenHelper.authUserId).then(response => {
+          usersService.getUserId(response?.res?.id!).then(data => {
             setErrorCode("")
-            if (!response?.res?.profile) {
+            if (!data?.res?.profile) {
               setType("PersonalEntry")
               return
+            }
+            setToken({
+              ok: true,
+              token: response?.res?.access_token!,
+              refreshToken: response?.res?.refresh_token!,
+              userId: response?.res?.id!,
+              expiration: response?.res?.expires_in!,
+            })
+            if (!!data?.res?.profile) {
+              const { first_name, last_name, username, about, birthdate, enabled, id } = data?.res?.profile ?? {}
+              setUser({
+                firstName: first_name,
+                lastName: last_name,
+                username: username,
+                birthdate: birthdate,
+                about: about,
+                enabled: enabled,
+                profileId: id,
+              })
             }
             setType(null)
             setVisible(false)

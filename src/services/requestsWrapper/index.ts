@@ -11,7 +11,7 @@ export const wrapperFetch: IWrapperFetch = {
     try {
       const response = await fetch(`${URL_API}${url}${params}`, {
         method: "GET",
-        headers: useTokenHelper.isAuth ? {
+        headers: useTokenHelper.authToken ? {
           "Authorization": `Bearer ${useTokenHelper.authToken}`,
           "Content-Type": "application/json",
         } : {
@@ -41,7 +41,7 @@ export const wrapperFetch: IWrapperFetch = {
     try {
       const response = await fetch(`${URL_API}${url}/${id}`, {
         method: "GET",
-        headers: useTokenHelper.isAuth ? {
+        headers: useTokenHelper.authToken ? {
           "Authorization": `Bearer ${useTokenHelper.authToken}`,
           "Content-Type": "application/json",
         } : {
@@ -71,7 +71,7 @@ export const wrapperFetch: IWrapperFetch = {
     try {
       const response = await fetch(`${URL_API}${url}`, {
         method: "POST",
-        headers: useTokenHelper.isAuth ? {
+        headers: useTokenHelper.authToken ? {
           "Authorization": `Bearer ${useTokenHelper.authToken}`,
           "Content-Type": "application/json",
         } : {
@@ -102,7 +102,7 @@ export const wrapperFetch: IWrapperFetch = {
     try {
       const response = await fetch(`${URL_API}${url}/${id}`, {
         method: "PATCH",
-        headers: useTokenHelper.isAuth ? {
+        headers: useTokenHelper.authToken ? {
           "Authorization": `Bearer ${useTokenHelper.authToken}`,
           "Content-Type": "application/json",
         } : {
@@ -133,7 +133,7 @@ export const wrapperFetch: IWrapperFetch = {
     try {
       const response = await fetch(`${URL_API}${url}/${id}`, {
         method: "DELETE",
-        headers: useTokenHelper.isAuth ? {
+        headers: useTokenHelper.authToken ? {
           "Authorization": `Bearer ${useTokenHelper.authToken}`,
           "Content-Type": "application/json",
         } : {

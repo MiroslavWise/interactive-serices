@@ -13,7 +13,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
   return (
     <section className={styles.infoContainerProfile}>
       <div className={styles.avatarAndAchievements}>
-        <div className={styles.avatar}>
+        <div className={styles.avatar}> 
           <Image
             className={styles.photo}
             src="/mocks/elena.png"

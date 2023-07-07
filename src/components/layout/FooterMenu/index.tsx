@@ -13,15 +13,16 @@ import { useActivePash } from "@/helpers/hooks/useActivePash"
 import { MENU_ITEMS } from "./constants"
 import SignPopup from "@/components/auth/Signin/SignPopup"
 
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { useAuth } from "@/store/hooks/useAuth"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({ }) => {
+  const { isAuth } = useAuth() ?? {}
+  // const { push } = useRouter()
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState<TTypeSign>("SignIn")
   const valuePath = useActivePash()
-  // const { push } = useRouter()
 
   const handleSignInOrSignUp = () => {
     setVisible(prev => !prev)
@@ -43,7 +44,7 @@ export const FooterMenu: TFooterMenu = ({ }) => {
         >
           <ul>
             {
-              MENU_ITEMS(useTokenHelper.isAuth).map(item => (
+              MENU_ITEMS(isAuth).map(item => (
                 <li
                   key={`${item.path}_item_menu`}
                   onClick={() => {

@@ -11,6 +11,7 @@
   backdrop-filter: blur(4px);
   box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
   z-index: 9;
+  transition: all 0.5s ease-in-out;
 }
 
 .headerSign {
@@ -28,6 +29,7 @@
   align-items: center;
   gap: 24px;
   margin: 12px 16px;
+  width: calc(100% - 32px);
 
   .descriptionSign {
     display: flex;
@@ -78,6 +80,44 @@
     letter-spacing: -0.5px;
     text-decoration-line: underline;
     cursor: pointer;
+  }
+}
+
+.userWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  .avatar {
+    position: relative;
+    display: flex;
+    width: 94px;
+    height: 94px;
+    align-items: center;
+    justify-content: center;
+
+    .photo {
+      border-radius: 24px;
+      border: 4px solid var(--supporting-white);
+      box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.16);
+    }
+
+    .verified {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      left: calc(100% - 10px);
+      top: calc(100% - 10px);
+    }
+  }
+
+  h3 {
+    color: var(--gray-900);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: -0.5px;
   }
 }
 

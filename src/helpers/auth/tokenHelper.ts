@@ -12,7 +12,6 @@ export const useTokenHelper: IUseTokenHelper = {
   async login(value) {
     return LoggingService.login(value)
       .then(response => {
-        console.log("access_token", response)
         if (response.ok && response?.res?.access_token) {
           this.saveTemporaryToken(response?.res?.access_token)
           return {
@@ -61,10 +60,11 @@ export const useTokenHelper: IUseTokenHelper = {
         const refreshToken = dataOtp?.result?.refresh_token
         const expiration = dataOtp?.result?.expires_in
         const userId = dataOtp?.result?.id
-        AuthService.saveToken({ token, refreshToken, expiration, userId, ok: true })
+        // AuthService.saveToken({ token, refreshToken, expiration, userId, ok: true })
         return {
           ok: true,
           error: null,
+          res: dataOtp?.result,
         }
       }
       AuthService.removeAuthData()
@@ -79,9 +79,6 @@ export const useTokenHelper: IUseTokenHelper = {
       }
     }
   },
-  async signOut() {
-    return AuthService.removeAuthData()
-  },
   get authToken() {
     return AuthService.authToken()
   },
@@ -90,11 +87,5 @@ export const useTokenHelper: IUseTokenHelper = {
   },
   get authUserId() {
     return AuthService.authUserId()
-  },
-  get isAuth() {
-    if (typeof window !== 'undefined') {
-      return AuthService.authMap.some(item => localStorage.getItem(`${AuthService.prefix}.${item}`))
-    }
-    return false
   },
 }

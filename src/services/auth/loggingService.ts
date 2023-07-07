@@ -10,5 +10,4 @@ export const LoggingService: ILoggingService = {
   login(value) {
     return wrapperFetch.methodPost<IRequestLogin, IResponseLogin>("/auth/login", value)
   },
-  
 }

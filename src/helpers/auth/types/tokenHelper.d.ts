@@ -17,7 +17,10 @@ interface IRequestOtp{
   code: string
 }
 interface IResponseOtp{
-
+  access_token: string
+  expires_in: number
+  id: number
+  refresh_token: string
 }
 export interface IUseTokenHelper {
   private temporaryToken: string
@@ -26,10 +29,8 @@ export interface IUseTokenHelper {
   public async login(value: IRequestLogin): Promise<IReturnData<IResponseLogin>>
   public async refresh(): Promise<IAuthReturn>
   public async serviceOtp(value: IRequestOtp): Promise<IReturnData<IResponseOtp>>
-  public async signOut(): Promise<any>
 
   get authToken(): string
   get authRefreshToken(): string
-  get authUserId(): string
-  get isAuth(): boolean
+  get authUserId(): number
 }

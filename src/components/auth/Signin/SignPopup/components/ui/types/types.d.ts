@@ -72,8 +72,8 @@ export interface IValuesPersonForm {
   username: string
   firstName: string
   lastName: string
-  day: string
+  day: string | number
   month: string
-  year: string
+  year: string | number
   about: string
 }

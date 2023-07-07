@@ -8,11 +8,13 @@ import type { TContentFirstLoginQR } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
+import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "../styles/style.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret, setVisible }) => {
+  const { setToken } = useAuth()
   const [loading, setLoading] = useState(false)
   //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
@@ -46,12 +48,18 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
   }
 
   const onInputValues = () => {
-    console.log("inputValues: ", inputValues)
     setLoading(true)
     useTokenHelper.serviceOtp({ code: inputValues.join("") })
       .then(response => {
         if (response.ok) {
           setType("PersonalEntry")
+          setToken({
+            ok: true,
+            token: response?.res?.access_token!,
+            refreshToken: response?.res?.refresh_token!,
+            userId: response?.res?.id!,
+            expiration: response?.res?.expires_in!,
+          })
         }
         if (!response.ok) {
           if (response.error?.code === 401 && response?.error?.message === "2fa code is not correct") {
