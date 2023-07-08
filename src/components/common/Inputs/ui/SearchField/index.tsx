@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 
 import type { TSearchField } from "./types"
 
-import styles from "./search-field.module.scss"
+import styles from "./style.module.scss"
 
 export const SearchField: TSearchField = ({ onSearch }) => {
   const { register, watch, handleSubmit } = useForm<{ input: string }>()

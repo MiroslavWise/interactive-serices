@@ -7,7 +7,7 @@ import { ButtonsCircle } from "@/components/common/Buttons"
 
 import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
   return (

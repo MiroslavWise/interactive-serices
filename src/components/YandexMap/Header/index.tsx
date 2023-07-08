@@ -59,7 +59,7 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
         className={styles.header}
         initial={{ top: -100, opacity: 0, visibility: "hidden", }}
         animate={{ top: 0, opacity: 1, visibility: "visible", }}
-        transition={{ duration: 0.7 }}
+        transition={{ duration: 0.5 }}
         exit={{ top: -100, opacity: 0, visibility: "hidden", }}
       >
         <div className={styles.container}>
@@ -85,14 +85,14 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
               </div>
             </div>
           </div>
-          <div className={styles.segments}>
+          {/* <div className={styles.segments}>
             <Segments
               type="primary"
               values={SERVICES}
               active={activeService}
               setActive={setActiveService}
             />
-          </div>
+          </div> */}
           <div className={styles.segments}>
             <SearchElementMap />
           </div>

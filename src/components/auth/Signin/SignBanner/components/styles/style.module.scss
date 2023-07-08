@@ -67,3 +67,27 @@
     left: 0;
   }
 }
+
+@mixin glass {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 300px;
+  filter: blur(80px);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.glassOne {
+  @include glass;
+  background: rgba(243, 145, 114, 0.32);
+  top: 170px;
+  left: 100%;
+}
+
+.glassTwo {
+  @include glass;
+  background: rgba(148, 249, 48, 0.32);
+  top: 100%;
+  left: 0;
+}

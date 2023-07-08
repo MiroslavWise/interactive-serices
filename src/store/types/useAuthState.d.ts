@@ -2,7 +2,8 @@ import type { DispatchWithoutAction, Dispatch } from "react"
 
 export type TAuthSuffix = "AuthJWT"
 export type TAuthPostfix = "RefreshToken" | "Token" | "Expiration" | "UserId"
-
+export type ISetAction = (partial: IUseAuth | Partial<IUseAuth> | ((state: IUseAuth) => IUseAuth | Partial<IUseAuth>), replace?: boolean | undefined) => void
+export type IGetAction = () => IUseAuth
 interface ISetToken{
   token: string
   refreshToken: string
@@ -27,7 +28,7 @@ export interface IUseAuth {
   public profileId: number | undefined
   public expiration: number | undefined
   public isAuth: boolean
-  public user: IUser | null
+  public user: IUser | undefined
   
   public setUser: Dispatch<IUser & { profileId: number } | null>
   public changeAuth: DispatchWithoutAction

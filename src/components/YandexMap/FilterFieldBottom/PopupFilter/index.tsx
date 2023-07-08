@@ -4,7 +4,7 @@ import type { TPopupFilter } from "./types"
 
 import { cx } from "@/lib/cx"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const PopupFilter: TPopupFilter = ({ visible }) => {
   

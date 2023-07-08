@@ -3,6 +3,7 @@ import NextImage from "next/image"
 import { motion } from "framer-motion"
 
 import type { TImage } from "./types"
+
 import myImageLoader from "@/helpers/functions/myImageLoader"
 
 const MotionImage = motion(NextImage)

@@ -3,7 +3,7 @@ import Image from "next/image"
 
 import type { TRate } from "./types"
 
-import styles from "./rate.module.scss"
+import styles from "./style.module.scss"
 
 function createArray(length: number, count: number): boolean[] {
   const fill = []

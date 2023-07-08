@@ -2,8 +2,10 @@ import { motion } from "framer-motion"
 
 import type { TSegments } from "./types"
 
-import styles from "./segments.module.scss"
 import { borderClassNames } from "@/helpers"
+import { cx } from "@/lib/cx"
+
+import styles from "./style.module.scss"
 
 export const Segments: TSegments = ({ values, active, setActive, type }) => {
   return (
@@ -13,7 +15,7 @@ export const Segments: TSegments = ({ values, active, setActive, type }) => {
           <motion.div
             key={item?.value}
             onClick={() => setActive(item)}
-            className={`${styles.button} ${styles[type]} ${active.value === item.value ? styles.active : ""} ${active.value !== item.value ? styles[borderClassNames(values.indexOf(active), index, values.length)] : ""}`}
+            className={cx(styles.button, styles[type], active.value === item.value && styles.active, active.value !== item.value && styles[borderClassNames(values.indexOf(active), index, values.length)])}
           >
             <p>{item.label}</p>
           </motion.div>

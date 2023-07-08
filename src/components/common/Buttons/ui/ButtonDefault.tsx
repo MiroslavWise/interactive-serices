@@ -2,6 +2,8 @@
 
 import { type TButtonPropsDefault } from "./types"
 
+import { cx } from "@/lib/cx"
+
 export const ButtonDefault: TButtonPropsDefault = ({
   label,
   handleClick,
@@ -10,7 +12,7 @@ export const ButtonDefault: TButtonPropsDefault = ({
 }) => {
   return (
     <button
-      className={`button-default ${disabled ? "disabled" : ""} ${classNames ? classNames : ""}`}
+      className={cx("button-default", disabled && "disabled", classNames)}
       onClick={handleClick}
     >
       <span>{label}</span>

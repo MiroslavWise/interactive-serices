@@ -14,7 +14,7 @@ import { SERVICES } from "./constants"
 import { MOCK_DATA_PEOPLE } from "@/mocks/components/auth/constants"
 import { cx } from "@/lib/cx"
 
-import styles from "./service-banner.module.scss"
+import styles from "./styles/style.module.scss"
 
 const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])

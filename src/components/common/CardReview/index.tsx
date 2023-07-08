@@ -5,7 +5,7 @@ import type { TCardReview } from "./types"
 
 import { Rate } from "@/components/common/Rate"
 
-import styles from "./card-review.module.scss"
+import styles from "./style.module.scss"
 
 export const CardReview: TCardReview = ({ user, date, rate, description, images }) => {
   const id = useId()

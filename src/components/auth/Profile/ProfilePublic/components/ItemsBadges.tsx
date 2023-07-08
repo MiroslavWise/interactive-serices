@@ -4,7 +4,7 @@ import { BadgeAchievements } from "@/components/common/BadgeAchievements"
 
 import { BADGES } from "@/mocks/components/auth/constants"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const ItemsBadges: TItemsBadges = ({ }) => {
 

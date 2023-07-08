@@ -2,7 +2,7 @@ import Image from "next/image"
 
 import type { TPeopleCard } from "./types"
 
-import styles from "./people-card.module.scss"
+import styles from "./style.module.scss"
 
 export const PeopleCard: TPeopleCard = ({
   photo, name, geo, rate, services, setDataProfile,

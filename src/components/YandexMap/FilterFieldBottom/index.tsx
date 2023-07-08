@@ -7,10 +7,11 @@ import { isMobile } from "react-device-detect"
 import type { TFilterFieldBottom } from "./types"
 
 import { ButtonFilter } from "@/components/common/Buttons/ui/ButtonFilter"
+import { PopupFilter } from "./PopupFilter"
+
+import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { cx } from "@/lib/cx"
-import { PopupFilter } from "./PopupFilter"
 
 export const FilterFieldBottom: TFilterFieldBottom = ({ }) => {
   const [active, setActive] = useState(false)

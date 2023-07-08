@@ -39,7 +39,7 @@ export const FooterMenu: TFooterMenu = ({ }) => {
           className={styles.container}
           initial={{ bottom: -70 }}
           animate={{ bottom: 0 }}
-          transition={{ type: "just" }}
+          transition={{ duration: 0.5 }}
           exit={{ bottom: -70 }}
         >
           <ul>

@@ -7,6 +7,7 @@ import type { TSignBanner } from "./types"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { BannerCoins } from "./components/BannerCoins"
+import { Glasses } from "./components/Glasses"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { cx } from "@/lib/cx"
@@ -21,10 +22,10 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
       <motion.div
         id="SignBanner"
         className={cx(styles.container)}
-        initial={{ left: "-100$", opacity: 0, visibility: "hidden", }}
+        initial={{ left: -300, opacity: 0, visibility: "hidden", }}
         animate={{ left: 24, opacity: 1, visibility: "visible", }}
         transition={{ duration: 0.5, }}
-        exit={{ left: "-100%", opacity: 0, visibility: "hidden", }}
+        exit={{ left: -300, opacity: 0, visibility: "hidden", }}
       >
         <div className={styles.content}>
           {
@@ -68,17 +69,16 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
             />
           </div>
         </div>
-        <span className={styles.glassOne} />
-        <span className={styles.glassTwo} />
+        <Glasses />
       </motion.div>
     ) : (
       <motion.div
         id="SignBanner"
         className={cx(styles.container)}
-        initial={{ left: -100, opacity: 0, visibility: "hidden", }}
+        initial={{ left: -300, opacity: 0, visibility: "hidden", }}
         animate={{ left: 24, opacity: 1, visibility: "visible", }}
         transition={{ duration: 0.5, }}
-        exit={{ left: -100, opacity: 0, visibility: "hidden", }}
+        exit={{ left: -300, opacity: 0, visibility: "hidden", }}
       >
         <div className={styles.headerSign}>
           <Image
@@ -112,8 +112,7 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
         <div className={styles.footer}>
           <a>Всё о Шейре</a>
         </div>
-        <span className={styles.glassOne} />
-        <span className={styles.glassTwo} />
+        <Glasses />
       </motion.div>
     )
   )

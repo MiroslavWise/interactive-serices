@@ -1,6 +1,6 @@
 import type { TBadgeAchievements } from "./types"
 
-import styles from "./badge-achievements.module.scss"
+import styles from "./style.module.scss"
 
 export const BadgeAchievements: TBadgeAchievements = ({ title, total }) => {
 

@@ -2,6 +2,8 @@
 
 import { type TButtonPropsFill } from "./types"
 
+import { cx } from "@/lib/cx"
+
 export const ButtonFill: TButtonPropsFill = ({
   label,
   classNames,
@@ -14,7 +16,7 @@ export const ButtonFill: TButtonPropsFill = ({
 }) => {
   return (
     <button
-      className={`button-fill ${type || "primary"} ${disabled ? "disabled" : ""} ${classNames ? classNames : ""} ${shadow ? "shadow" : ""} ${small ? "small" : ""}`}
+      className={cx("button-fill", (type || "primary"), disabled && "disabled", classNames, shadow && "shadow", small && "small")}
       onClick={handleClick}
       type={submit || "button"}
     >
