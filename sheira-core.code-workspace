@@ -5,12 +5,6 @@
         },
         {
             "path": "."
-        },
-        {
-            "path": "../../go/src/github.com/ole-larsen/go-plutonium"
-        },
-        {
-            "path": "../../Plutonion/plutonium"
         }
     ]
 }
