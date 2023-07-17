@@ -1,58 +1,63 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo, ReactNode } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
 import type { TSignPopup } from "./types"
 
-import { HeaderModal } from "./components/HeaderModal"
-import { ContentSignUp } from "./components/ContentSignUp"
-import { ContentSignIn } from "./components/ContentSignIn"
-import { ContentForgotPassword } from "./components/ContentForgotPassword"
-import { ContentFirstLoginQR } from "./components/ContentFirstLoginQR"
-import { ContentOtpCode } from "./components/ContentOtpCode"
+import {
+  HeaderModal,
+  ContentSignUp,
+  ContentSignIn,
+  ContentForgotPassword,
+  ContentFirstLoginQR,
+  ContentOtpCode,
+  ContentPersonalEntry,
+  ContentCheckingEmail,
+  ContentResetPassword,
+  ContentSelectVerification,
+} from "./components"
+import { Glasses } from "./components/ui/components/Glasses"
 
-import styles from "./sign-popup.module.scss"
+import { useAuth } from "@/store/hooks/useAuth"
+import { cx } from "@/lib/cx"
 
-const Glasses = () => (
-  <>
-    <span className={styles.orangeCircle} />
-    <span className={styles.purpleCircle} />
-    <span className={styles.lightBlueCircle} />
-  </>
-)
+import styles from "./styles/style.module.scss"
 
 const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
+  const { isAuth } = useAuth()
+  const [valueEmail, setValueEmail] = useState("")
   const [valueSecret, setValueSecret] = useState<{ url: string, secret: string }>({ url: "", secret: "" })
+
+  const content: ReactNode | null = useMemo(() => {
+    if (type === null) return null
+    return {
+      SignIn: <ContentSignIn setType={setType} setVisible={setVisible} setValueSecret={setValueSecret} />,
+      SignUp: <ContentSignUp setType={setType} />,
+      ForgotPassword: <ContentForgotPassword setType={setType} setValueEmail={setValueEmail} />,
+      FirstLoginQR: <ContentFirstLoginQR setType={setType} valueSecret={valueSecret} setVisible={setVisible} />,
+      OtpCode: <ContentOtpCode setType={setType} setVisible={setVisible} />,
+      PersonalEntry: <ContentPersonalEntry setType={setType} setVisible={setVisible} />,
+      CodeVerificationTelegram: null,
+      SelectVerification: <ContentSelectVerification setType={setType} />,
+      CheckingEmail: <ContentCheckingEmail setType={setType} />,
+      ResetPassword: <ContentResetPassword setType={setType} setVisible={setVisible} />,
+    }[type]
+  }, [type, setType, setVisible, setValueSecret, valueSecret, setValueEmail])
+
   return (
-    isMobile ? (
-      <>
-        <div className={`${styles.overviewMobile} ${visible ? styles.visible : ""}`}>
+    (!isAuth || type === "PersonalEntry") ? (
+      isMobile ? (
+        <div className={cx(styles.overviewMobile, visible && styles.visible)}>
           <div className={styles.contentMobile}>
-            <HeaderModal type={type} />
-            {
-              type === "SignIn" ? <ContentSignIn setType={setType} setVisible={setVisible} setValueSecret={setValueSecret} /> : null
-            }
-            {
-              type === "SignUp" ? <ContentSignUp setType={setType} /> : null
-            }
-            {
-              type === "ForgotPassword" ? <ContentForgotPassword setType={setType} /> : null
-            }
-            {
-              type === "FirstLoginQR" ? <ContentFirstLoginQR setType={setType} valueSecret={valueSecret} setVisible={setVisible} /> : null
-            }
-            {
-              type === "OtpCode" ? <ContentOtpCode setType={setType} setVisible={setVisible} /> : null
-            }
+            <HeaderModal type={type} email={valueEmail} />
+            {content}
           </div>
           <Glasses />
         </div>
-      </>
-    ) : (
-      <>
-        <div className={`${styles.overlay} ${visible ? styles.visible : ""}`}>
+      ) : (
+        <div className={cx(styles.overlay, visible && styles.visible)}>
           <div className={styles.modal}>
             <div
               className={styles.close}
@@ -66,28 +71,14 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
               />
             </div>
             <div className={styles.content}>
-              <HeaderModal type={type} />
-              {
-                type === "SignIn" ? <ContentSignIn setType={setType} setValueSecret={setValueSecret} setVisible={setVisible} /> : null
-              }
-              {
-                type === "SignUp" ? <ContentSignUp setType={setType} /> : null
-              }
-              {
-                type === "ForgotPassword" ? <ContentForgotPassword setType={setType} /> : null
-              }
-              {
-                type === "FirstLoginQR" ? <ContentFirstLoginQR setType={setType} valueSecret={valueSecret} setVisible={setVisible} /> : null
-              }
-              {
-                type === "OtpCode" ? <ContentOtpCode setType={setType} setVisible={setVisible} /> : null
-              }
+              <HeaderModal type={type} email={valueEmail} />
+              {content}
             </div>
             <Glasses />
           </div>
         </div>
-      </>
-    )
+      )
+    ) : null
   )
 }
 

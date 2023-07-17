@@ -4,7 +4,7 @@ import { CardReview } from "@/components/common/CardReview"
 
 import { MOCKS_REVIEW_VALUES } from "@/mocks/components/auth/constants"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const ContainerReviews: TContainerReviews = ({ }) => {
 

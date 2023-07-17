@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 151px;
+  height: 101px;
   background: var(--glass-bg-color-1);
   box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(4px);
@@ -17,7 +17,7 @@
     backdrop-filter: blur(4px);
   }
 
-  .container{
+  .container {
     position: absolute;
     top: 0;
     left: 0;
@@ -28,14 +28,14 @@
     gap: 12px;
     padding-top: 14px;
 
-    .logoAndNotifications{
+    .logoAndNotifications {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       padding: 0 20px;
 
-      .containerNotification{
+      .containerNotification {
         position: relative;
         padding: 11px;
         height: 44px;
@@ -45,7 +45,7 @@
         border: 1px solid var(--gray-200);
         background: var(--supporting-white);
 
-        .badge{
+        .badge {
           position: absolute;
           padding-left: 6.37px;
           padding-right: 6.37px;
@@ -61,7 +61,7 @@
           align-items: center;
           justify-content: center;
 
-          span{
+          span {
             color: #FFF;
             text-align: center;
             font-size: 10.125px;
@@ -73,7 +73,7 @@
       }
     }
 
-    .segments{
+    .segments {
       padding: 0 20px;
     }
   }
@@ -95,7 +95,8 @@
 .containerSearchTop {
   position: fixed;
   top: 40px;
-  z-index: 99;
-  margin: 0 auto;
-  width: 346px
+  z-index: 2;
+  max-width: 346px;
+  width: 100%;
+  min-width: 150px;
 }

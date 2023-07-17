@@ -2,6 +2,8 @@ import Image from "next/image"
 
 import type { TButtonFilter } from "./types"
 
+import { cx } from "@/lib/cx"
+
 import styles from "./styles/button.module.scss"
 
 export const ButtonFilter: TButtonFilter = ({
@@ -14,7 +16,7 @@ export const ButtonFilter: TButtonFilter = ({
   }
   return (
     <div 
-      className={`${styles.buttonFillGradient} ${active ? styles.active : ""} ${disabled ? "disabled" : ""} ${classNames ? classNames : ""}`}
+      className={cx(styles.buttonFillGradient, active && styles.active, disabled && "disabled", classNames)}
       onClick={click}
     >
       <span>{label}</span>

@@ -12,8 +12,9 @@ import { PeopleCard } from "@/components/common/PeopleCard/ServiceBanner"
 
 import { SERVICES } from "./constants"
 import { MOCK_DATA_PEOPLE } from "@/mocks/components/auth/constants"
+import { cx } from "@/lib/cx"
 
-import styles from "./service-banner.module.scss"
+import styles from "./styles/style.module.scss"
 
 const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
@@ -24,7 +25,8 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
 
   return (
     <motion.div
-      className={`${styles.container} ${active ? styles.active : ""}`}
+      id="ServiceBanner"
+      className={cx(styles.container, active && styles.active)}
       initial={{ opacity: 0, right: -200, visibility: "hidden", }}
       animate={{ opacity: 1, right: 24, visibility: "visible", }}
       exit={{ opacity: 0, right: -200, visibility: "hidden", }}

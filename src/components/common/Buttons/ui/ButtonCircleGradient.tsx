@@ -1,8 +1,10 @@
-import { TButtonCircleGradient } from "./types"
+import Image from "next/image"
 
+import type { TButtonCircleGradient } from "./types"
+
+import { cx } from "@/lib/cx"
 
 import styles from "./styles/button.module.scss"
-import Image from "next/image"
 
 export const ButtonCircleGradient: TButtonCircleGradient = ({
   classNames, handleClick, disabled, type, icon,
@@ -10,7 +12,7 @@ export const ButtonCircleGradient: TButtonCircleGradient = ({
 
   return (
     <div
-      className={`${styles.circleGradient} ${styles[type]} ${disabled ? styles.disabled : ""} ${classNames ? classNames : ""}`}
+      className={cx(styles.circleGradient, styles[type], disabled && styles.disabled, classNames)}
       onClick={() => { handleClick ? handleClick() : null }}
     >
       <Image

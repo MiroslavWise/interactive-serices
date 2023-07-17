@@ -1,0 +1,129 @@
+@mixin class-shadow {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 300px;
+  filter: blur(80px);
+}
+
+//CircleImageHeader
+
+.bigCircle {
+  height: 90px;
+  width: 90px;
+  border-radius: 50%;
+  background: var(--primary-50);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .middleCircle {
+    height: 63px;
+    width: 63px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-100);
+  }
+}
+
+
+.orangeCircle {
+  @include class-shadow;
+  background: rgba(243, 145, 114, 0.32);
+  top: 0;
+  left: 0;
+}
+
+.purpleCircle {
+  @include class-shadow;
+  background: rgba(135, 92, 255, 0.32);
+  top: 50%;
+  left: 100%;
+}
+
+.lightBlueCircle {
+  @include class-shadow;
+  background: rgba(100, 220, 246, 0.32);
+  top: 100%;
+  left: 0;
+}
+
+//ButtonSelection
+
+.containerButtonSelection {
+  width: 231px;
+  height: 141px;
+  position: relative;
+  border-radius: 16px;
+  background: var(--supporting-white);
+  box-shadow: 0px 4px 24px 0px rgba(172, 178, 201, 0.39);
+  transition: background 0.3s ease-in-out;
+  cursor: pointer;
+
+  &.active {
+    &::before {
+      content: "";
+      position: absolute;
+      border-radius: 17px;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: var(--gradient-primary);
+      z-index: -1;
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+  }
+
+  .contentIconType{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    h3{
+      color: var(--1, #363757);
+      text-align: center;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 126%;
+    }
+  }
+}
+
+.checkBox {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--gray-300);
+  background: var(--base-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease-in-out;
+
+  span{
+    background: var(--base-white);
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+  }
+
+  &.active {
+    background: var(--primary-50);
+    border: 1px solid var(--primary-600);
+
+    span{
+      background: var(--primary-600);
+    }
+  }
+}

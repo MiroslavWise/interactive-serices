@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
 import Image from "next/image"
 
 import type { TProfilePublic } from "./types"
@@ -11,15 +10,17 @@ import { ItemSegments } from "./components/ItemSegments"
 import { ContainerReviews } from "./components/ContainerReviews"
 
 import { VALUES } from "./constants"
+import { cx } from "@/lib/cx"
 
-import styles from "./profile-public.module.scss"
+import styles from "./styles/style.module.scss"
 
 const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
   const [activeSegment, setActiveSegment] = useState<ISegmentValues>(VALUES[0])
 
   return (
-    <motion.div
-      className={`${styles.container} ${active ? styles.active : ""}`}
+    <div
+      id="ProfilePublic"
+      className={cx(styles.container, active && styles.active)}
     >
       <InfoContainerProfile />
       <ItemsBadges />
@@ -54,7 +55,7 @@ const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
       <span className={styles.glassShadow3} />
       <span className={styles.glassShadow4} />
       <span className={styles.glassShadow5} />
-    </motion.div>
+    </div>
   )
 }
 

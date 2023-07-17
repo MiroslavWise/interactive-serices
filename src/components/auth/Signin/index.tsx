@@ -1,17 +1,19 @@
 "use client"
 
+import dynamic from 'next/dynamic'
 import { isMobile } from "react-device-detect"
 import { type FC, useState, useEffect } from "react"
 
 import type { TTypeSign } from "./SignPopup/types"
 
-import SignPopup from "./SignPopup"
+const SignPopup = dynamic(() => import("./SignPopup"))
 import SignBanner from "./SignBanner"
 
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { AuthService } from '@/services/auth/authService'
+import { useAuth } from "@/store/hooks/useAuth"
 
 export const Signin: FC = () => {
-  const [stateAuth, setStateAuth] = useState<boolean | undefined>(undefined)
+  const { isAuth } = useAuth()
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState<TTypeSign>("SignIn")
 
@@ -21,11 +23,13 @@ export const Signin: FC = () => {
   }
 
   useEffect(() => {
-    setStateAuth(useTokenHelper.isAuth)
-  }, [useTokenHelper.isAuth])
+    setTimeout(() => {
+      console.log("asf: ", AuthService.authToken(), AuthService.authRefreshToken())
+    }, 100)
+  }, [isAuth])
 
   return (
-    (!isMobile && !stateAuth && stateAuth !== undefined)
+    (!isMobile)
       ? (
         <>
           <SignBanner {...{ handleSignUpOrSignIn }} />

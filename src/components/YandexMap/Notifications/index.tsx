@@ -1,14 +1,15 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { useSwipeable } from "react-swipeable"
 
 import type { TNotifications } from "./types"
 //MOCKS
 import { VALUE_CARD_PEOPLES } from "@/mocks/components/YandexMap/constants"
 //
-import styles from "./styles/style.module.scss"
+import { cx } from "@/lib/cx"
 import { PeopleCard } from "@/components/common/PeopleCard/Notifications"
+
+import styles from "./styles/style.module.scss"
 
 export const Notifications: TNotifications = ({ visibleNotification, setVisibleNotification }) => {
   const handlers = useSwipeable({
@@ -22,21 +23,19 @@ export const Notifications: TNotifications = ({ visibleNotification, setVisibleN
   })
 
   return (
-    isMobile ? (
-      <div className={`${styles.container} ${visibleNotification ? styles.visible : ""}`} >
-        <div className={styles.swipeHeader} {...handlers}/>
-        <div className={styles.rectangle} />
-        <ul>
-          {
-            VALUE_CARD_PEOPLES?.map(item => (
-              <PeopleCard
-                key={`${item?.avatar}_${item?.name}`}
-                {...item}
-              />
-            ))
-          }
-        </ul>
-      </div>
-    ) : null
+    <div className={cx(styles.container, visibleNotification && styles.visible)}>
+      <div className={styles.swipeHeader} {...handlers} />
+      <div className={styles.rectangle} />
+      <ul>
+        {
+          VALUE_CARD_PEOPLES?.map(item => (
+            <PeopleCard
+              key={`${item?.avatar}_${item?.name}`}
+              {...item}
+            />
+          ))
+        }
+      </ul>
+    </div>
   )
 }
