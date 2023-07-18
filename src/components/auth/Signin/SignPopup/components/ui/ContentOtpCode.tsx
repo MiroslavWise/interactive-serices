@@ -13,15 +13,6 @@ import { usersService } from "@/services/users"
 
 import styles from "../styles/style.module.scss"
 
-interface IValues {
-  input1: string
-  input2: string
-  input3: string
-  input4: string
-  input5: string
-  input6: string
-}
-
 export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
   const { setToken, setUser } = useAuth()
   const [loading, setLoading] = useState(false)
@@ -29,16 +20,6 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
-  const { register, handleSubmit, formState: { errors } } = useForm<IValues>({
-    defaultValues: {
-      input1: "",
-      input2: "",
-      input3: "",
-      input4: "",
-      input5: "",
-      input6: "",
-    }
-  })
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = event.target
@@ -60,8 +41,6 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
       setInputValues(newInputValues)
     }
   }
-
-  const onOtpCode = (values: IValues) => { }
 
   const onInputValues = () => {
     setLoading(true)
@@ -115,36 +94,30 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
 
   return (
     <div className={styles.contentOtpCode}>
-      <form
-        className="w-100"
-        onSubmit={handleSubmit(onOtpCode)}
-      >
-        <div className={styles.inputs}>
-          {inputValues.map((_, index) => (
-            <input
-              key={index}
-              {...register("input" + (index + 1) as any, { required: true })}
-              // @ts-ignore
-              ref={(ref) => (inputRefs.current[index] = ref)}
-              type="text"
-              placeholder={"0"}
-              pattern="[0-9]"
-              maxLength={1}
-              onChange={(event) => handleChange(event, index)}
-              onKeyDown={(event) => handleKeyDown(event, index)}
-            />
-          ))}
-        </div>
-        {errorCode ? <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>{errorCode}</p> : null}
-        <ButtonFill
-          disabled={loading || inputValues.filter(item => item !== "").length !== 6}
-          label="Подтвердить код"
-          classNames="w-100"
-          type="primary"
-          submit="submit"
-          handleClick={onInputValues}
-        />
-      </form>
+      <div className={styles.inputs}>
+        {inputValues.map((_, index) => (
+          <input
+            key={index}
+            // @ts-ignore
+            ref={(ref) => (inputRefs.current[index] = ref)}
+            type="text"
+            placeholder={"0"}
+            pattern="/[0-9]/"
+            maxLength={1}
+            onChange={(event) => handleChange(event, index)}
+            onKeyDown={(event) => handleKeyDown(event, index)}
+          />
+        ))}
+      </div>
+      {errorCode ? <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>{errorCode}</p> : null}
+      <ButtonFill
+        disabled={loading || inputValues.filter(item => item !== "").length !== 6}
+        label="Подтвердить код"
+        classNames="w-100"
+        type="primary"
+        submit="submit"
+        handleClick={onInputValues}
+      />
     </div>
   )
 }

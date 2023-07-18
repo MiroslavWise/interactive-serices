@@ -48,11 +48,19 @@ export type TContentResetPassword = FC<{
 
 export type TContentSelectVerification = FC<{
   setType: Dispatch<SetStateAction<TTypeSign>>
+  typeVerification: "email" | "phone" | null
+  setTypeVerification: Dispatch<SetStateAction<"email" | "phone" | null>>
 }> 
 
 export type THeaderModal = FC<{
   type: TTypeSign
   email: string
+  typeVerification: "email" | "phone" | null
+}>
+
+export type TContentCodeVerification = FC<{
+  setType: Dispatch<SetStateAction<TTypeSign>>
+  typeVerification: "email" | "phone" | null
 }>
 
 export interface IValuesRegistrationForm {

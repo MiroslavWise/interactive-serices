@@ -12,6 +12,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 
 import { regExEmail } from "@/helpers"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
+import { cx } from "@/lib/cx"
 
 import styles from "../styles/style.module.scss"
 
@@ -30,7 +31,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType, setValu
         if (response.ok && !!response?.res) {
           useForgotPasswordHelper.saveTemporaryToken(response.res?.password_reset_token)
           setValueEmail(values.email)
-          setType("CheckingEmail")
+          setType("CodeVerification")
         }
         if (response?.code === 401) {
           setError("email", { message: "user is not verified" })
@@ -77,7 +78,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType, setValu
           submit="submit"
         />
       </form>
-      <section className={`${styles.Register} cursor-pointer`} onClick={() => setType("SignIn")}>
+      <section className={cx(styles.Register, "cursor-pointer")} onClick={() => setType("SignIn")}>
         <Image
           src="/svg/arrow-left.svg"
           alt="arrow"

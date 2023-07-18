@@ -13,7 +13,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "../styles/style.module.scss"
 
-export const HeaderModal: THeaderModal = ({ type, email }) => {
+export const HeaderModal: THeaderModal = ({ type, email, typeVerification }) => {
   const content: { h3: string, p: string } | null = useMemo(() => {
     if (type === null || type === "SelectVerification") {
       return null
@@ -43,33 +43,31 @@ export const HeaderModal: THeaderModal = ({ type, email }) => {
         h3: "Добавьте свой Authenticator",
         p: "Отсканируйте QR-код или скопируйте код ниже и вставьте в поле ввода",
       },
-      CheckingEmail: {
-        h3: "Проверьте свой email",
-        p: `мы отправили код подтверждения на ${email}`
-      },
       ResetPassword: {
         h3: "Установить новый пароль",
         p: "Ваш новый пароль должен отличаться от ранее использовавшихся паролей.",
       },
-      CodeVerificationTelegram: {
-        h3: "Проверьте свой Телеграм",
-        p: `Мы отправили код подтверждения на номер ${email}`
+      CodeVerification: {
+        h3: typeVerification === "email" ? "Проверьте свой email" : typeVerification === "phone" ? "Проверьте свой Телеграм" : "",
+        p: typeVerification === "email"
+          ? `мы отправили код подтверждения на ${email}`
+          : typeVerification === "phone"
+            ? `Мы отправили код подтверждения на номер ${email}` : "",
       },
     }[type]
-  }, [type, email])
+  }, [type, email, typeVerification])
 
   const srcImage: string | null = useMemo(() => {
     if (type === null || ["PersonalEntry", "SignUp", "SignIn", "SelectVerification", "ForgotPassword"].includes(type!)) {
       return null
     }
     return {
-      CheckingEmail: "/svg/email.svg",
-      CodeVerificationTelegram: "/svg/telegram.svg",
+      CodeVerification: typeVerification === "email" ? "/svg/email.svg" : typeVerification === "phone" ? "/svg/telegram_selection.svg" : null,
       OtpCode: "/icons/fill/google.svg",
       FirstLoginQR: "/icons/fill/google.svg",
       ResetPassword: "/svg/key.svg",
     }[type as Exclude<TTypeSign, "ForgotPassword" | "PersonalEntry" | "SelectVerification" | "SignUp" | "SignIn" | null>]
-  }, [type])
+  }, [type, typeVerification])
 
   return (
     <header className={cx(styles.header, isMobile && styles.mobile)}>
@@ -86,7 +84,7 @@ export const HeaderModal: THeaderModal = ({ type, email }) => {
           ) : null
       }
       {
-        ["OtpCode", "FirstLoginQR", "CheckingEmail", "ResetPassword"].includes(type!)
+        ["OtpCode", "FirstLoginQR", "CodeVerification", "ResetPassword", ""].includes(type!)
           ? (
             <>
               <div className={styles.headerOtpCode}>

@@ -255,6 +255,11 @@
     width: 50px;
     outline: none;
 
+    &.checking{
+      height: 64px;
+      width: 64px;
+    }
+
     &:valid {
       color: var(--primary-500);
       text-align: center;
