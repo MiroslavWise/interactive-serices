@@ -31,6 +31,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       } : {})
     }
   })
+  console.log("user: ", user)
   const onSubmit = async (values: IValuesPersonForm) => {
     setLoading(true)
     const data: IPostProfileData = {

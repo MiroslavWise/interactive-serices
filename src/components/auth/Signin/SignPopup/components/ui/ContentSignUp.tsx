@@ -13,6 +13,7 @@ import { LinksSocial } from "./components/LinksSocial"
 
 import { RegistrationService } from "@/services/auth/registrationService"
 import { regExEmail } from "@/helpers"
+import { checkPasswordStrength } from "@/lib/checkPasswordStrength"
 
 import styles from "../styles/style.module.scss"
 
@@ -69,8 +70,13 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
             rules
             placeholder="Введите свой пароль"
             type="password"
-            propsInput={register("password", { required: true, minLength: 5 })}
-            errorMessage={errors.password ? "Требуется пароль" : ""}
+            propsInput={register("password", { required: true, minLength: 5, validate: value => checkPasswordStrength(value) ? true : "validate_register" })}
+            errorMessage={
+              errors.password?.message === "validate_register"
+                ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
+                : errors.password
+                  ? "Требуется пароль" : ""
+            }
           />
           <LabelInputGroup
             label="Подтвердите пароль"

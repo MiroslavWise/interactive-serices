@@ -11,11 +11,10 @@ export type TTypeSign =
   "SignIn"
   | "SignUp"
   | "SelectVerification"
-  | "CheckingEmail"
-  | "CodeVerificationTelegram"
   | "PersonalEntry"
   | "ForgotPassword"
   | "FirstLoginQR"
   | "OtpCode"
   | "ResetPassword"
+  | "CodeVerification"
   | null

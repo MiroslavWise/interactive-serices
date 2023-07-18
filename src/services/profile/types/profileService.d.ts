@@ -18,10 +18,10 @@ export interface IGetProfilesResponse{
 }
 export interface IGetProfileIdResponse{
   id: number
-  user_id: number
+  userId: number
   username: string
-  first_name: string
-  last_name: string
+  firstName: string
+  lastName: string
   birthdate: Date
   about: string
   enabled: boolean

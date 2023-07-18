@@ -11,6 +11,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
+import { checkPasswordStrength } from "@/lib/checkPasswordStrength"
 
 import styles from "../styles/style.module.scss"
 
@@ -79,8 +80,13 @@ export const ContentResetPassword: TContentResetPassword = ({ setType, setVisibl
             rules
             placeholder="Введите свой пароль"
             type="password"
-            propsInput={register("password", { required: true, minLength: 5 })}
-            errorMessage={errors.password ? "Требуется пароль" : ""}
+            propsInput={register("password", { required: true, minLength: 5, validate: value => checkPasswordStrength(value) ? true : "validate_register" })}
+            errorMessage={
+              errors.password?.message === "validate_register"
+                ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
+                : errors.password
+                  ? "Требуется пароль" : ""
+            }
           />
           <LabelInputGroup
             label="Подтвердите пароль"

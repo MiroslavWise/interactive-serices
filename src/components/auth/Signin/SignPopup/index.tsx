@@ -14,9 +14,9 @@ import {
   ContentFirstLoginQR,
   ContentOtpCode,
   ContentPersonalEntry,
-  ContentCheckingEmail,
   ContentResetPassword,
   ContentSelectVerification,
+  ContentCodeVerification,
 } from "./components"
 import { Glasses } from "./components/ui/components/Glasses"
 
@@ -29,6 +29,7 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
   const { isAuth } = useAuth()
   const [valueEmail, setValueEmail] = useState("")
   const [valueSecret, setValueSecret] = useState<{ url: string, secret: string }>({ url: "", secret: "" })
+  const [typeVerification, setTypeVerification] = useState<"email" | "phone" | null>("email")
 
   const content: ReactNode | null = useMemo(() => {
     if (type === null) return null
@@ -39,19 +40,18 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
       FirstLoginQR: <ContentFirstLoginQR setType={setType} valueSecret={valueSecret} setVisible={setVisible} />,
       OtpCode: <ContentOtpCode setType={setType} setVisible={setVisible} />,
       PersonalEntry: <ContentPersonalEntry setType={setType} setVisible={setVisible} />,
-      CodeVerificationTelegram: null,
-      SelectVerification: <ContentSelectVerification setType={setType} />,
-      CheckingEmail: <ContentCheckingEmail setType={setType} />,
+      SelectVerification: <ContentSelectVerification setType={setType} typeVerification={typeVerification} setTypeVerification={setTypeVerification} />,
+      CodeVerification: <ContentCodeVerification setType={setType} typeVerification={typeVerification} />,
       ResetPassword: <ContentResetPassword setType={setType} setVisible={setVisible} />,
     }[type]
-  }, [type, setType, setVisible, setValueSecret, valueSecret, setValueEmail])
+  }, [type, setType, setVisible, setValueSecret, valueSecret, setValueEmail, typeVerification])
 
   return (
     (!isAuth || type === "PersonalEntry") ? (
       isMobile ? (
         <div className={cx(styles.overviewMobile, visible && styles.visible)}>
           <div className={styles.contentMobile}>
-            <HeaderModal type={type} email={valueEmail} />
+            <HeaderModal type={type} email={valueEmail} typeVerification={typeVerification} />
             {content}
           </div>
           <Glasses />
@@ -71,7 +71,7 @@ const SignPopup: TSignPopup = ({ visible, type, setVisible, setType }) => {
               />
             </div>
             <div className={styles.content}>
-              <HeaderModal type={type} email={valueEmail} />
+              <HeaderModal type={type} email={valueEmail} typeVerification={typeVerification} />
               {content}
             </div>
             <Glasses />
