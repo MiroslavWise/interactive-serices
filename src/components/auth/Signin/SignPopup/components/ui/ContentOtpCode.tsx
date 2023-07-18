@@ -61,10 +61,10 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
               expiration: response?.res?.expires_in!,
             })
             if (!!data?.res?.profile) {
-              const { first_name, last_name, username, about, birthdate, enabled, id } = data?.res?.profile ?? {}
+              const { firstName, lastName, username, about, birthdate, enabled, id } = data?.res?.profile ?? {}
               setUser({
-                firstName: first_name,
-                lastName: last_name,
+                firstName: firstName,
+                lastName: lastName,
                 username: username,
                 birthdate: birthdate,
                 about: about,

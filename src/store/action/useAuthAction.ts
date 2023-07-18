@@ -49,11 +49,11 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
     usersService.getUserId(get().userId!)
       .then(response => {
         if (response.ok && !!response?.res?.profile) {
-          const { first_name, last_name, username, about, birthdate, enabled, id } = response?.res?.profile ?? {}
+          const { firstName, lastName, username, about, birthdate, enabled, id } = response?.res?.profile ?? {}
           set({
             user: {
-              firstName: first_name,
-              lastName: last_name,
+              firstName: firstName,
+              lastName: lastName,
               username: username,
               birthdate: birthdate,
               about: about,
