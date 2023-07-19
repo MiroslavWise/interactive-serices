@@ -1,4 +1,4 @@
-import type { TBadgeAchievements } from "./types"
+import type { TBadgeAchievements } from "../types/types"
 
 import styles from "./style.module.scss"
 

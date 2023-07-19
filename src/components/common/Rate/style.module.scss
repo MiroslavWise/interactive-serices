@@ -1,7 +1,8 @@
 .container {
+  width: 124px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 6px !important;
 
   li {
     list-style: none;

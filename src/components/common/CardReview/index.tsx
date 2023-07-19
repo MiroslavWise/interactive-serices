@@ -6,12 +6,13 @@ import type { TCardReview } from "./types"
 import { Rate } from "@/components/common/Rate"
 
 import styles from "./style.module.scss"
+import { cx } from "@/lib/cx"
 
-export const CardReview: TCardReview = ({ user, date, rate, description, images }) => {
+export const CardReview: TCardReview = ({ user, date, rate, description, images, classNames }) => {
   const id = useId()
 
   return (
-    <li className={styles.container}>
+    <li className={cx(styles.container, classNames)}>
       <div className={styles.content}>
         <header className={styles.header}>
           <div className={styles.userDate}>

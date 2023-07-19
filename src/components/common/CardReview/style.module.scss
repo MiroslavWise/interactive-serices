@@ -54,11 +54,18 @@
     }
 
     .images {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       align-items: flex-start;
       gap: 8px;
-      display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
+
+      .divImg {
+        flex: 0 0 calc(30% - 8px);
+        width: 100px;
+        height: 72px;
+      }
 
       img {
         object-fit: cover;

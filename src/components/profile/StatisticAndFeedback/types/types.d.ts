@@ -1,0 +1,1 @@
+export type TItemInteractive = "reviews" | "proposals" | "requests" | "blog_message"

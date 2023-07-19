@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 
 import type { TInfoContainerProfile } from "./types"
@@ -8,12 +10,14 @@ import { ButtonsCircle } from "@/components/common/Buttons"
 import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
+import { useRouter } from "next/navigation"
 
 export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
+  const {push} = useRouter()
   return (
     <section className={styles.infoContainerProfile}>
       <div className={styles.avatarAndAchievements}>
-        <div className={styles.avatar}> 
+        <div className={styles.avatar} onClick={() => push(`/profile/id`)}>
           <Image
             className={styles.photo}
             src="/mocks/elena.png"

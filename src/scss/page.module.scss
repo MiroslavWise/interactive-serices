@@ -10,3 +10,35 @@
   background: url("/png/Screenshot_map.png") no-repeat center center / cover, linear-gradient(to bottom, var(--success-200), var(--success-400));
   backdrop-filter: blur(5px);
 }
+
+//PROFILE LAYOUT
+
+.profileLayout{
+  position: relative;
+  height: calc(100vh);
+  width: 100%;
+  overflow: hidden;
+  background: #EEF0FE;
+
+  .page{
+    height: calc(100vh);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 113px 122px 51px;
+
+    @media screen and (max-width: 1438px) {
+      padding: 113px 51px 51px;
+    }
+
+    .container{
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      max-width: 1194px;
+      width: 100%;
+    }
+  }
+}
