@@ -88,25 +88,6 @@
       }
     }
   }
-
-  .peoples {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    height: calc(100vh - 400px);
-    padding-bottom: 24px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
 }
 
 //GLASS SHADOW CIRCLE

@@ -8,13 +8,12 @@ import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 import { SearchField } from "@/components/common/Inputs"
-import { PeopleCard } from "@/components/common/PeopleCard/ServiceBanner"
 
 import { SERVICES } from "./constants"
-import { MOCK_DATA_PEOPLE } from "@/mocks/components/auth/constants"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
+import { Peoples } from "./components/Peoples"
 
 const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
@@ -49,21 +48,7 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
           <h3>Популярные предложения</h3>
           <div className={styles.totalOval}><span>80</span></div>
         </div>
-        <ul className={styles.peoples}>
-          {
-            MOCK_DATA_PEOPLE?.map((item, index) => (
-              <PeopleCard
-                setDataProfile={setDataAndActive}
-                key={`${item?.geo}_{index}`}
-                photo={item?.photo}
-                name={item?.name}
-                rate={item?.rate}
-                services={item?.services}
-                geo={item?.geo}
-              />
-            ))
-          }
-        </ul>
+        <Peoples setDataAndActive={setDataAndActive} />
       </div>
       <span className={styles.glassShadowOne} />
       <span className={styles.glassShadowTwo} />

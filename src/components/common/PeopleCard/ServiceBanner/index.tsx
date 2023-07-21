@@ -2,16 +2,24 @@ import Image from "next/image"
 
 import type { TPeopleCard } from "./types"
 
+import { BadgeServices } from "@/components/common/Badge"
+
 import styles from "./style.module.scss"
 
 export const PeopleCard: TPeopleCard = ({
-  photo, name, geo, rate, services, setDataProfile,
+  photo, name, geo, rate, services, setDataProfile, about, userId,
 }) => {
 
   const handleClick = () => {
     if (setDataProfile) {
       setDataProfile({
-        dataProfile: name,
+        dataProfile: {
+          name: name,
+          geo: geo,
+          photo: photo,
+          about: about,
+          userId: userId,
+        },
         isService: false,
         isProfile: true,
       })
@@ -57,17 +65,11 @@ export const PeopleCard: TPeopleCard = ({
         <ul className={styles.services}>
           {
             services?.map((item, index) => (
-              <li key={`${item?.value}_${name}_${index}`}>
-                <div className={styles.containerImgService}>
-                  <Image
-                    src={item?.value === "nails" ? "/mocks/Nail.png" : item?.value === "hair" ? "/mocks/hair.png" : "hair"}
-                    alt="pl"
-                    width={16}
-                    height={16}
-                  />
-                </div>
-                <p>{item?.name}</p>
-              </li>
+              <BadgeServices
+                key={`${item.label}_${name}_${index}`}
+                label={item.label}
+                photo={item.photo}
+              />
             ))
           }
         </ul>

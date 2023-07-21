@@ -1,8 +1,9 @@
 import type { FC, Dispatch, SetStateAction, DispatchWithoutAction } from "react"
 import type { ISegmentValues } from "types/general"
+import { IDataProfile } from "../../types"
 
 interface IInfoContainerProfile{
-
+        profile: IDataProfile
 }
 
 interface IItemsBadges{

@@ -14,9 +14,7 @@ export const StatisticAndFeedback = () => {
           rating: 4.5,
         }}
       />
-      <Interactive
-        
-      />
+      <Interactive />
     </div>
   )
 }

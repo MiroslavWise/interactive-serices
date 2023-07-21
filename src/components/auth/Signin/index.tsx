@@ -9,7 +9,6 @@ import type { TTypeSign } from "./SignPopup/types"
 const SignPopup = dynamic(() => import("./SignPopup"))
 import SignBanner from "./SignBanner"
 
-import { AuthService } from '@/services/auth/authService'
 import { useAuth } from "@/store/hooks/useAuth"
 
 export const Signin: FC = () => {
@@ -21,12 +20,6 @@ export const Signin: FC = () => {
     setType(value)
     setVisible(true)
   }
-
-  useEffect(() => {
-    setTimeout(() => {
-      console.log("asf: ", AuthService.authToken(), AuthService.authRefreshToken())
-    }, 100)
-  }, [isAuth])
 
   return (
     (!isMobile)

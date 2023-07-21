@@ -11,6 +11,18 @@ export type TInteractive = FC<{
   
 }>
 
-export type TItemsInteractiveComponent = FC<{
+export type TItemsReviews = FC<{
+  
+}>
+
+export type TItemsBlogMessages = FC<{
+  
+}>
+
+export type TItemsRequests = FC<{
+  
+}>
+
+export type TItemsProposals = FC<{
   
 }>

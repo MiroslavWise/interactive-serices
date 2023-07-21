@@ -12,15 +12,15 @@ import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 import styles from "./styles/style.module.scss"
 import { useRouter } from "next/navigation"
 
-export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
+export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
   const {push} = useRouter()
   return (
     <section className={styles.infoContainerProfile}>
       <div className={styles.avatarAndAchievements}>
-        <div className={styles.avatar} onClick={() => push(`/profile/id`)}>
+        <div className={styles.avatar} onClick={() => push(`/profile/${profile.userId}`)}>
           <Image
             className={styles.photo}
-            src="/mocks/elena.png"
+            src={profile?.photo}
             alt='profile'
             width={94}
             height={94}
@@ -50,7 +50,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
       <div className={styles.titleAndGeoAndDescription}>
         <div className={styles.nameGeoDescription}>
           <div className={styles.nameAndGeo}>
-            <h2>Дженни Уилсон</h2>
+            <h2>{profile?.name}</h2>
             <div className={styles.geo}>
               <Image
                 src="/svg/geo-marker.svg"
@@ -58,12 +58,10 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
                 width={20}
                 height={20}
               />
-              <p>Inglewood, Maine</p>
+              <p>{profile?.geo}</p>
             </div>
           </div>
-          <p className={styles.description}>
-            Я Дженни Уилсон, любопытный и полный энтузиазма человек жаждой жизни и жаждой знаний. Растущий оживленном и мультикультурном городе, я всегда был чарован разнообразием культур.
-          </p>
+          <p className={styles.description}>{profile?.about}</p>
         </div>
         <section className={styles.buttons}>
           <ButtonFill

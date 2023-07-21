@@ -1,5 +1,7 @@
 import Image from "next/image"
 
+import type { TMainInfo } from "./types/types"
+
 import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
 import { BlockOther } from "./components/BlockOther"
 
@@ -8,7 +10,7 @@ import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
 
-export const MainInfo = () => {
+export const MainInfo: TMainInfo = ({ user }) => {
 
   return (
     <div className={styles.container}>
@@ -21,18 +23,23 @@ export const MainInfo = () => {
             width={94}
             height={94}
           />
-          <Image
-            className={styles.verified}
-            src="/svg/verified-tick.svg"
-            alt='tick'
-            width={32}
-            height={32}
-          />
+          {
+            user?.verified
+              ? (
+                <Image
+                  className={styles.verified}
+                  src="/svg/verified-tick.svg"
+                  alt='tick'
+                  width={32}
+                  height={32}
+                />
+              ) : null
+          }
         </div>
         <div className={styles.information}>
           <div className={styles.titleAndButtons}>
             <div className={styles.nameAndGeo}>
-              <h3>Jenny Wilson</h3>
+              <h3>{user?.profile?.firstName} {user?.profile?.lastName}</h3>
               <div className={styles.geo}>
                 <Image
                   src="/svg/geo-marker.svg"
@@ -60,7 +67,7 @@ export const MainInfo = () => {
             </section>
           </div>
           <div className={styles.descriptionAndOther}>
-            <p className={styles.description}>Я Дженни Уилсон, любознательный и полный энтузиазма человек с интересом к жизни и жаждой знаний. Вырос в динамичном и мультикультурном городе.</p>
+            <p className={styles.description}>{user?.profile?.about}</p>
             <BlockOther
               label="Достижения"
               classNames={[styles.achievements]}

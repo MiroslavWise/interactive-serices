@@ -1,116 +1,65 @@
-import { ISegmentValues } from "@/components/common/Segments/types"
+import { ICardBlog } from "@/components/common/Card/Blog/types"
+import { IRequestsAndProposals } from "@/components/common/Card/RequestsAndProposals/types"
 
-export const MOCK_DATA_PEOPLE: { photo: string, name: string, geo: string, services: { value: string, name: string }[], rate: number }[] = [
+export const MOCKS_SERVICES: { label: string, photo: string }[] = [
+  {
+    photo: "/mocks/Nail.png",
+    label: "Ногти",
+  },
+  {
+    photo: "/mocks/hair.png",
+    label: "Стрижка",
+  }
+]
+
+export const MOCK_DATA_PEOPLE: { photo: string, name: string, geo: string, services: { label: string }[], rate: number }[] = [
   {
     photo: "/mocks/maria.png",
     name: "Мария Иванова",
     geo: "Cir. Shiloh, Hawaii 81063",
-    services: [
-      {
-        value: "nails",
-        name: "Nails",
-      },
-      {
-        value: "hair",
-        name: "Hair Cut",
-      }
-    ],
+    services: MOCKS_SERVICES,
     rate: 5,
   },
   {
     photo: "/mocks/elena.png",
     name: "Алена Шварц",
     geo: "Ln. Mesa, New Jersey 45463",
-    services: [
-      {
-        value: "nails",
-        name: "Nails",
-      },
-      {
-        value: "hair",
-        name: "Hair Cut",
-      }
-    ],
+    services: MOCKS_SERVICES,
     rate: 3.8,
   },
   {
     photo: "/mocks/michael.png",
     name: "Михаил Прохоров",
     geo: "Dr. Richardson, California 62639",
-    services: [
-      {
-        value: "nails",
-        name: "Nails",
-      },
-      {
-        value: "hair",
-        name: "Hair Cut",
-      }
-    ],
+    services: MOCKS_SERVICES,
     rate: 4.5,
   },
   {
     photo: "/mocks/alina.png",
     name: "Алина Морозова",
     geo: "San Jose, South Dakota 83475",
-    services: [
-      {
-        value: "nails",
-        name: "Nails",
-      },
-      {
-        value: "hair",
-        name: "Hair Cut",
-      }
-    ],
+    services: MOCKS_SERVICES,
     rate: 4.8,
   },
   {
     photo: "/mocks/maria.png",
     name: "Мария Иванова",
     geo: "Cir. Shiloh, Hawaii 81063",
-    services: [
-      {
-        value: "nails",
-        name: "Nails",
-      },
-      {
-        value: "hair",
-        name: "Hair Cut",
-      }
-    ],
+    services: MOCKS_SERVICES,
     rate: 4.7,
   },
   {
     photo: "/mocks/maria.png",
     name: "Мария Иванова",
     geo: "Cir. Shiloh, Hawaii 81063",
-    services: [
-      {
-        value: "nails",
-        name: "Nails",
-      },
-      {
-        value: "hair",
-        name: "Hair Cut",
-      }
-    ],
+    services: MOCKS_SERVICES,
     rate: 4.7,
   },
   {
     photo: "/mocks/maria.png",
     name: "Мария Иванова",
     geo: "Cir. Shiloh, Hawaii 81063",
-    services: [
-      {
-        value: "nails",
-        name: "Nails",
-      },
-      {
-        value: "hair",
-        name: "Hair Cut",
-      }
-    ],
+    services: MOCKS_SERVICES,
     rate: 4.7,
   },
 ]
@@ -186,3 +135,63 @@ export const MOCKS_REVIEW_VALUES: {
       ]
     },
   ]
+
+  
+
+export const MOCKS_BLOGS_CARD: ICardBlog[] = [
+  {
+    title: "Узнайте, как правильно покупать и использовать органическую косметику.",
+    photo: "/mocks/blogs/image 15.png",
+    services: MOCKS_SERVICES,
+  },
+  {
+    title: "Узнайте, как правильно покупать и использовать органическую косметику.",
+    photo: "/mocks/blogs/image 15 (1).png",
+    services: MOCKS_SERVICES,
+  },
+  {
+    title: "Узнайте, как правильно покупать и использовать органическую косметику.",
+    photo: "/mocks/blogs/image 15 (2).png",
+    services: MOCKS_SERVICES,
+  },
+]
+
+const PHOTOS_PROPOSALS: string[] = [
+  "/mocks/proposcals/hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg",
+  "/mocks/proposcals/image 14 (1).png",
+  "/mocks/proposcals/image 14.png",
+  "/mocks/proposcals/f02c1a9d9887e604264b6c0a2e38287b.png",
+]
+
+export const MOCKS_PROPOSALS: IRequestsAndProposals[] = [
+  {
+    title: "Я могу сделать вам макияж и лак для ногтей.",
+    services: MOCKS_SERVICES,
+    photos: PHOTOS_PROPOSALS,
+  },
+  {
+    title: "Я могу сделать вам макияж и лак для ногтей.",
+    services: MOCKS_SERVICES,
+    photos:  PHOTOS_PROPOSALS,
+  },
+  {
+    title: "Я могу сделать вам макияж и лак для ногтей.",
+    services: MOCKS_SERVICES,
+    photos:  PHOTOS_PROPOSALS,
+  },
+  {
+    title: "Я могу сделать вам макияж и лак для ногтей.",
+    services: MOCKS_SERVICES,
+    photos:  PHOTOS_PROPOSALS,
+  },
+  {
+    title: "Я могу сделать вам макияж и лак для ногтей.",
+    services: MOCKS_SERVICES,
+    photos:  PHOTOS_PROPOSALS,
+  },
+  {
+    title: "Я могу сделать вам макияж и лак для ногтей.",
+    services: MOCKS_SERVICES,
+    photos:  PHOTOS_PROPOSALS,
+  },
+]

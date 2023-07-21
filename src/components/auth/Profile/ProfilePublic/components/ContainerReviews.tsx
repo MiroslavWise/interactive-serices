@@ -1,6 +1,6 @@
 import type { TContainerReviews } from "./types"
 
-import { CardReview } from "@/components/common/CardReview"
+import { CardReview } from "@/components/common/Card/Review"
 
 import { MOCKS_REVIEW_VALUES } from "@/mocks/components/auth/constants"
 

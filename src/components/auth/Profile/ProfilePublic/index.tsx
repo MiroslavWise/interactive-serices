@@ -22,7 +22,7 @@ const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
       id="ProfilePublic"
       className={cx(styles.container, active && styles.active)}
     >
-      <InfoContainerProfile />
+      <InfoContainerProfile profile={profile!} />
       <ItemsBadges />
       <ItemSegments
         values={VALUES}
@@ -33,7 +33,7 @@ const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
       <p className={styles.title}>Public profile</p>
       <div
         className={styles.close}
-        onClick={() => setActive({ isProfile: false, isService: true, dataProfile: null })}
+        onClick={() => setActive((data) => ({ isProfile: false, isService: true, dataProfile: data.dataProfile }))}
       >
         <Image
           src="/svg/x-close.svg"
