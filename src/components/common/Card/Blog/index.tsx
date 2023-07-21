@@ -1,16 +1,23 @@
+import { useId } from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 import type { TCardBlog } from "./types"
 
+import { BadgeServices } from "@/components/common/Badge"
+
+import { motionItemOnOpacityY } from "@/lib/motion"
+
 import styles from "./style.module.scss"
-import { BadgeServices } from "../../Badge"
-import { useId } from "react"
 
 export const CardBlog: TCardBlog = ({ title, photo, services }) => {
   const id = useId()
 
   return (
-    <li className={styles.container}>
+    <motion.li
+      className={styles.container}
+      variants={motionItemOnOpacityY}
+    >
       <div className={styles.photo}>
         <Image
           src={photo}
@@ -33,6 +40,6 @@ export const CardBlog: TCardBlog = ({ title, photo, services }) => {
           }
         </ul>
       </section>
-    </li>
+    </motion.li>
   )
 }

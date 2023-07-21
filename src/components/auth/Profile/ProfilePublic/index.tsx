@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { type ReactNode, useMemo, useState } from "react"
 import Image from "next/image"
 
 import type { TProfilePublic } from "./types"
@@ -8,6 +8,9 @@ import { InfoContainerProfile } from "./components/InfoContainerProfile"
 import { ItemsBadges } from "./components/ItemsBadges"
 import { ItemSegments } from "./components/ItemSegments"
 import { ContainerReviews } from "./components/ContainerReviews"
+import { ContainerOffers } from "./components/ContainerOffers"
+import { ContainerRequests } from "./components/ContainerRequests"
+import { ContainerBlogs } from "./components/ContainerBlogs"
 
 import { VALUES } from "./constants"
 import { cx } from "@/lib/cx"
@@ -16,6 +19,13 @@ import styles from "./styles/style.module.scss"
 
 const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
   const [activeSegment, setActiveSegment] = useState<ISegmentValues>(VALUES[0])
+
+  const content: ReactNode = useMemo(() => ({
+    reviews: <ContainerReviews />,
+    offers: <ContainerOffers />,
+    requests: <ContainerRequests />,
+    blogs: <ContainerBlogs />,
+  }[activeSegment.value]), [activeSegment])
 
   return (
     <div
@@ -29,7 +39,7 @@ const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
         activeSegment={activeSegment}
         setActiveSegment={setActiveSegment}
       />
-      <ContainerReviews />
+      {content}
       <p className={styles.title}>Public profile</p>
       <div
         className={styles.close}

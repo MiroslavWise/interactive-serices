@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { useId, useState, useEffect, Dispatch, SetStateAction, useCallback, useMemo } from "react"
+import { motion } from "framer-motion"
 import { useSwipeable } from "react-swipeable"
 
 import type { TRequestsAndProposals } from "./types"
@@ -7,6 +8,7 @@ import type { TRequestsAndProposals } from "./types"
 import { BadgeServices } from "@/components/common/Badge"
 
 import { cx } from "@/lib/cx"
+import { motionItemOnOpacityY } from "@/lib/motion"
 
 import styles from "./style.module.scss"
 
@@ -54,7 +56,10 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
 
 
   return (
-    <li className={styles.container}>
+    <motion.li
+      className={styles.container}
+      variants={motionItemOnOpacityY}
+    >
       <div className={styles.header}>
         <h4>{title}</h4>
         <ul>
@@ -93,6 +98,6 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
           }
         </div>
       </div>
-    </li>
+    </motion.li>
   )
 }

@@ -114,7 +114,7 @@
 
 //SectionSegments
 
-.sectionSegments{
+.sectionSegments {
         padding-top: 32px;
         padding-left: 40px;
         padding-right: 40px;
@@ -122,10 +122,10 @@
 
 //ContainerReviews
 
-.containerReviews{
+.containerReviews {
         margin-top: 34px;
         width: 100%;
-        padding: 0px 40px 34px;
+        padding: 0px 40px 24px;
         overflow-y: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -136,9 +136,36 @@
         list-style: none;
         height: calc(100vh - 520px);
         z-index: 20;
-        
 
-        &::-webkit-scrollbar{
+
+        &::-webkit-scrollbar {
                 display: none;
+        }
+}
+
+//Container Offers ans Requests
+
+.containerRequestsAndProposals {
+        width: 100%;
+        height: calc(100vh - 466px);
+        display: flex;
+        justify-content: center;
+        padding: 34px 0;
+
+        ul {
+                height: 100%;
+                overflow-y: scroll;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+
+                &::-webkit-scrollbar {
+                        display: none;
+                }
+
+                list-style: none;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px 20px;
+                padding-bottom: 24px;
         }
 }

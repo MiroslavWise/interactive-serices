@@ -39,7 +39,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
         <div className={styles.information}>
           <div className={styles.titleAndButtons}>
             <div className={styles.nameAndGeo}>
-              <h3>{user?.profile?.firstName} {user?.profile?.lastName}</h3>
+              <h3>{user?.profile?.firstName || "First"} {user?.profile?.lastName || "Last"}</h3>
               <div className={styles.geo}>
                 <Image
                   src="/svg/geo-marker.svg"

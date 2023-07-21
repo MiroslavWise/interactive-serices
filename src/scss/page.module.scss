@@ -13,14 +13,18 @@
 
 //PROFILE LAYOUT
 
-.profileLayout{
+.profileLayout {
   position: relative;
   height: calc(100vh);
   width: 100%;
   overflow: hidden;
   background: #EEF0FE;
 
-  .page{
+  @media screen and (max-width: 850px) {
+    padding-bottom: 28px;
+  }
+
+  .page {
     height: calc(100vh);
     width: 100%;
     display: flex;
@@ -28,17 +32,40 @@
     justify-content: center;
     padding: 113px 122px 51px;
 
-    @media screen and (max-width: 1438px) {
-      padding: 113px 51px 51px;
-    }
-
-    .container{
+    .container {
       height: 100%;
-      display: flex;
-      flex-direction: row;
-      gap: 24px;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      grid-template-columns: calc(33.33% - 12px) calc(66.66% - 12px);
+      gap: 24px 24px;
       max-width: 1194px;
       width: 100%;
+      z-index: 2;
+    }
+
+    @media screen and (max-width: 1438px) {
+      padding: 113px 51px 51px;
+
+      .container {
+        grid-template-columns: calc(380px - 12px) calc(100% - 380px - 12px);
+      }
+    }
+
+    @media screen and (max-width: 850px) {
+      padding: 90px 28px 28px;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .container {
+        grid-template-columns: repeat(1, 1fr);
+        padding-bottom: 28px;
+      }
     }
   }
 }

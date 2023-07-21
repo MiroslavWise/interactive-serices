@@ -102,6 +102,10 @@
       gap: 20px;
     }
   }
+
+  @media screen and (max-width: 1258px) {
+    
+  }
 }
 
 .card{
@@ -146,5 +150,12 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 20px 20px;
     padding: 24px 0;
+  }
+
+  @media screen and (max-width: 1080px) {
+
+    ul{
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 }
