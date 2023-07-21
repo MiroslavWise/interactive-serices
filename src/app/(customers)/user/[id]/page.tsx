@@ -8,7 +8,7 @@ import { usersService } from "@/services/users"
 
 import styles from "@/scss/page.module.scss"
 
-export default function ProfileId({
+export default function UserId({
   params
 }: {
   params: { id: string | number }

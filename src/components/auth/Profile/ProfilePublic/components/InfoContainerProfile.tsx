@@ -17,7 +17,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
   return (
     <section className={styles.infoContainerProfile}>
       <div className={styles.avatarAndAchievements}>
-        <div className={styles.avatar} onClick={() => push(`/profile/${profile.userId}`)}>
+        <div className={styles.avatar} onClick={() => push(`/user/${profile.userId}`)}>
           <Image
             className={styles.photo}
             src={profile?.photo}
