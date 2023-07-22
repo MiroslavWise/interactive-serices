@@ -7,7 +7,7 @@ import { cx } from "@/lib/cx"
 import styles from "./styles/button.module.scss"
 
 export const ButtonCircleGradient: TButtonCircleGradient = ({
-  classNames, handleClick, disabled, type, icon,
+  classNames, handleClick, disabled, type, icon, size,
 }) => {
 
   return (
@@ -18,8 +18,8 @@ export const ButtonCircleGradient: TButtonCircleGradient = ({
       <Image
         src={icon}
         alt="icon"
-        width={40}
-        height={40}
+        width={size || 40}
+        height={size || 40}
       />
     </div>
   )

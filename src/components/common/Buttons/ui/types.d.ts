@@ -30,6 +30,7 @@ interface IButtonCircleGradient {
   disabled?: boolean
   type: "primary" | "option-1"
   icon: string
+  size?: number
 }
 
 export type TButtonPropsFill = FC<IButtonProps>
