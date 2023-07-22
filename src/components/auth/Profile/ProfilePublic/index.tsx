@@ -1,5 +1,6 @@
 import { type ReactNode, useMemo, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 import type { TProfilePublic } from "./types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
@@ -16,8 +17,9 @@ import { VALUES } from "./constants"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
+import { Dots } from "./components/Dots"
 
-const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
+const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
   const [activeSegment, setActiveSegment] = useState<ISegmentValues>(VALUES[0])
 
   const content: ReactNode = useMemo(() => ({
@@ -30,9 +32,9 @@ const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
   return (
     <div
       id="ProfilePublic"
-      className={cx(styles.container, active && styles.active)}
+      className={cx(styles.container, active.isProfile && styles.active)}
     >
-      <InfoContainerProfile profile={profile!} />
+      <InfoContainerProfile profile={active.dataProfile!} />
       <ItemsBadges />
       <ItemSegments
         values={VALUES}
@@ -52,14 +54,7 @@ const ProfilePublic: TProfilePublic = ({ active, profile, setActive }) => {
           height={14}
         />
       </div>
-      <div className={styles.dots}>
-        <Image
-          src="/svg/dots-vertical.svg"
-          alt="dots"
-          width={14}
-          height={14}
-        />
-      </div>
+      <Dots id={active.dataProfile?.userId!} />
       <span className={styles.glassShadow1} />
       <span className={styles.glassShadow2} />
       <span className={styles.glassShadow3} />

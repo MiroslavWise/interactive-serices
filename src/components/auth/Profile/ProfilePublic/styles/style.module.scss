@@ -63,12 +63,6 @@
         top: 12px;
 }
 
-.dots {
-        @include buttonCircle;
-        right: 12px;
-        top: 12px;
-}
-
 .glassShadow1 {
         @include glassShadow;
         background: rgba(243, 145, 114, 0.32);

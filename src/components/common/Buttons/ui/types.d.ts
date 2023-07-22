@@ -1,4 +1,4 @@
-import type { FC, DispatchWithoutAction, Dispatch, SetStateAction } from "react"
+import type { FC, DispatchWithoutAction, Dispatch, SetStateAction, ReactNode } from "react"
 
 type TTypeButton = "primary" | "secondary" | "optional_blue" | "optional_pink"
 
@@ -11,6 +11,8 @@ interface IButtonProps {
   submit?: "submit" | "reset" | "button"
   shadow?: boolean
   small?: boolean
+  prefix?: ReactNode
+  suffix?: ReactNode
 }
 
 interface IButtonFilter{

@@ -49,10 +49,6 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
         if (response.ok) {
           usersService.getUserId(response?.res?.id!).then(data => {
             setErrorCode("")
-            if (!data?.res?.profile) {
-              setType("PersonalEntry")
-              return
-            }
             setToken({
               ok: true,
               token: response?.res?.access_token!,
@@ -60,6 +56,10 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
               userId: response?.res?.id!,
               expiration: response?.res?.expires_in!,
             })
+            if (!data?.res?.profile) {
+              setType("PersonalEntry")
+              return
+            }
             if (!!data?.res?.profile) {
               const { firstName, lastName, username, about, birthdate, enabled, id } = data?.res?.profile ?? {}
               setUser({

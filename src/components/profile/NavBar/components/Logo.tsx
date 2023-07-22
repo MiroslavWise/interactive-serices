@@ -1,9 +1,7 @@
 "use client"
 
-import Image from "next/image"
 import { useRouter } from "next/navigation"
-
-
+import Image from "next/image"
 
 export const Logo = () => {
   const { push } = useRouter()
@@ -13,8 +11,8 @@ export const Logo = () => {
       alt="logo"
       width={117}
       height={30}
-      className="cursor-pointer"
       onClick={() => push("/")}
+      className="cursor-pointer"
     />
   )
 }

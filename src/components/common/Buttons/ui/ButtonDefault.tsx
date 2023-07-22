@@ -9,12 +9,14 @@ export const ButtonDefault: TButtonPropsDefault = ({
   handleClick,
   disabled,
   classNames,
+  prefix,
 }) => {
   return (
     <button
       className={cx("button-default", disabled && "disabled", classNames)}
       onClick={handleClick}
     >
+      {prefix ? prefix : null}
       <span>{label}</span>
     </button>
   )

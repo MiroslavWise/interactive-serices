@@ -9,7 +9,7 @@ import Image from "next/image"
 import type { TFooterMenu } from "./types"
 import type { TTypeSign } from "@/components/auth/Signin/SignPopup/types"
 
-import { useActivePash } from "@/helpers/hooks/useActivePash"
+import { useActivePath } from "@/helpers/hooks/useActivePash"
 import { MENU_ITEMS } from "./constants"
 import SignPopup from "@/components/auth/Signin/SignPopup"
 
@@ -19,17 +19,17 @@ import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({ }) => {
   const { isAuth } = useAuth() ?? {}
-  // const { push } = useRouter()
+  const { push } = useRouter()
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState<TTypeSign>("SignIn")
-  const valuePath = useActivePash()
+  const valuePath = useActivePath()
 
   const handleSignInOrSignUp = () => {
     setVisible(prev => !prev)
   }
 
   const handleGoToPage = (path: string) => {
-    // push(`/${path}`)
+    push(`/${path}`)
   }
 
   return (

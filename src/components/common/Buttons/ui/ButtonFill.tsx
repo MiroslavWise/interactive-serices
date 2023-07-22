@@ -13,6 +13,7 @@ export const ButtonFill: TButtonPropsFill = ({
   submit,
   shadow,
   small,
+  suffix,
 }) => {
   return (
     <button
@@ -21,6 +22,7 @@ export const ButtonFill: TButtonPropsFill = ({
       type={submit || "button"}
     >
       <span>{label}</span>
+      {suffix ? suffix : null}
     </button>
   )
 }

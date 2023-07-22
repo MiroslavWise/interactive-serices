@@ -169,3 +169,13 @@
                 padding-bottom: 24px;
         }
 }
+
+//Dots
+
+.dots {
+        position: absolute;
+        right: 12px;
+        top: 18px;
+        display: inline-flex;
+        gap: 12px
+}

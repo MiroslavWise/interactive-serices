@@ -23,8 +23,7 @@ export const Profile = ({ }) => {
           setDataAndActive={setServiceDataVisible}
         />
         <ProfilePublic
-          active={serviceDataVisible.isProfile}
-          profile={serviceDataVisible.dataProfile}
+          active={serviceDataVisible}
           setActive={setServiceDataVisible}
         />
       </>

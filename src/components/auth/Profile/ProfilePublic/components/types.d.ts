@@ -24,8 +24,13 @@ interface IContainerBlogs{
 
 }
 
+interface IDots{
+        id: number | string
+}
+
 export type TInfoContainerProfile = FC<IInfoContainerProfile>
 export type TItemsBadges = FC<IItemsBadges>
 export type TItemSegments = FC<IItemSegments>
 export type TContainerReviews = FC<IContainerReviews>
 export type TContainerBlogs = FC<IContainerBlogs>
+export type TDots = FC<IDots>

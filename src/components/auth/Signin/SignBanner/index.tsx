@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
 
 import type { TSignBanner } from "./types"
 
@@ -16,6 +17,7 @@ import styles from "./styles/style.module.scss"
 
 const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
   const { isAuth, user, signOut } = useAuth()
+  const { push } = useRouter()
 
   return (
     isAuth ? (
@@ -33,11 +35,12 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
               <div className={styles.userWrapper}>
                 <div className={styles.avatar}>
                   <Image
-                    className={styles.photo}
+                    className={cx(styles.photo, "cursor-pointer")}
                     src="/mocks/elena.png"
                     alt='profile'
                     width={94}
                     height={94}
+                    onClick={() => push(`/profile`)}
                   />
                   {
                     user.enabled ? (

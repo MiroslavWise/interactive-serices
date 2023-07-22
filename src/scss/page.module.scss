@@ -69,3 +69,13 @@
     }
   }
 }
+
+.containerProfile{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  gap: 24px 24px;
+  grid-template-columns: calc(320px) calc(100% - 320px - 400px - 24px) calc(400px);
+}
