@@ -37,7 +37,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       firstName: values.firstName,
       lastName: values.lastName,
       username: values.username,
-      birthdate: dayjs(`${values.month}/${values.day}/${values.year}`, "DD/MM/YYYY").format("DD/MM/YYYY"),
+      birthdate: dayjs(`${values.month}/${values.day}/${values.year}`, "MM/DD/YYYY").format("DD/MM/YYYY"),
       about: values.about,
       enabled: true,
       userId: Number(useTokenHelper.authUserId),
