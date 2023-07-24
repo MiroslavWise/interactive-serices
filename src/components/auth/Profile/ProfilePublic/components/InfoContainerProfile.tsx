@@ -6,6 +6,7 @@ import type { TInfoContainerProfile } from "./types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { ButtonsCircle } from "@/components/common/Buttons"
+import { GeoTagging } from "@/components/common/GeoTagging"
 
 import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 
@@ -13,7 +14,7 @@ import styles from "./styles/style.module.scss"
 import { useRouter } from "next/navigation"
 
 export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
-  const {push} = useRouter()
+  const { push } = useRouter()
   return (
     <section className={styles.infoContainerProfile}>
       <div className={styles.avatarAndAchievements}>
@@ -51,15 +52,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
         <div className={styles.nameGeoDescription}>
           <div className={styles.nameAndGeo}>
             <h2>{profile?.name}</h2>
-            <div className={styles.geo}>
-              <Image
-                src="/svg/geo-marker.svg"
-                alt='geo'
-                width={20}
-                height={20}
-              />
-              <p>{profile?.geo}</p>
-            </div>
+            <GeoTagging location={profile?.geo} />
           </div>
           <p className={styles.description}>{profile?.about}</p>
         </div>

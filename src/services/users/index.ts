@@ -1,12 +1,12 @@
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
-import type { IResponseUsers, IUserResponse, IUsersResponse, IPostDataUser, IPatchDataUser } from "./types/usersService"
+import type { IResponseUsers, IUserResponse, IPostDataUser, IPatchDataUser } from "./types/usersService"
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const usersService: IResponseUsers = {
   route: "/users",
   getUsers(value) {
-    return wrapperFetch.methodGet<IUsersResponse>(this.route, value)
+    return wrapperFetch.methodGet<IUserResponse[]>(this.route, value)
   },
   getUserId(id){
     return wrapperFetch.methodGetId<IUserResponse>(this.route, id)

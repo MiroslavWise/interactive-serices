@@ -3,7 +3,7 @@ import Image from "next/image"
 import type { THeaderBlock } from "./types/types"
 
 import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
-import { BadgeAchievements } from "@/components/common/Badge"
+import { GeoTagging } from "@/components/common/GeoTagging"
 
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 
@@ -36,15 +36,7 @@ export const HeaderBlock: THeaderBlock = ({ data }) => {
       </div>
       <section className={styles.title}>
         <h4>{data?.profile?.firstName} {data?.profile?.lastName}</h4>
-        <div className={styles.geo}>
-          <Image
-            src="/svg/geo-marker.svg"
-            alt="geo"
-            width={16}
-            height={16}
-          />
-          <p>Inglewood, Maine</p>
-        </div>
+        <GeoTagging size={16} fontSize={14} location="Inglewood, Maine" />
         <p>Joined on February 2017</p>
       </section>
       <BlockOther

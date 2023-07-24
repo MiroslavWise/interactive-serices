@@ -55,7 +55,7 @@ export const useTokenHelper: IUseTokenHelper = {
         body: JSON.stringify({ code })
       })
       const dataOtp = await responseOtp.json()
-      if (dataOtp?.error === null && dataOtp?.result) {
+      if (dataOtp?.error === null && dataOtp?.data) {
         const token = dataOtp?.result?.access_token
         const refreshToken = dataOtp?.result?.refresh_token
         const expiration = dataOtp?.result?.expires_in
@@ -64,7 +64,7 @@ export const useTokenHelper: IUseTokenHelper = {
         return {
           ok: true,
           error: null,
-          res: dataOtp?.result,
+          res: dataOtp?.data,
         }
       }
       AuthService.removeAuthData()

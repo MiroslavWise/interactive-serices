@@ -2,6 +2,7 @@ import Image from "next/image"
 
 import type { TBlockTitle } from "./types/types"
 
+import { GeoTagging } from "@/components/common/GeoTagging"
 import { BlockCoin } from "./BlockCoin"
 
 import styles from "./styles/style.module.scss"
@@ -29,15 +30,7 @@ export const BlockTitle: TBlockTitle = ({ name, photo, geo, price, rating }) => 
       </div>
       <div className={styles.nameGeo}>
         <h4>{name}</h4>
-        <div className={styles.geo}>
-          <Image
-            src="/svg/geo-marker.svg"
-            alt="geo"
-            width={14}
-            height={14}
-          />
-          <p>{geo}</p>
-        </div>
+        <GeoTagging size={14} fontSize={12} location={geo} />
         <BlockCoin coin={price} />
       </div>
     </div>

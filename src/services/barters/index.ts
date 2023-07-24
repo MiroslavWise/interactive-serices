@@ -1,6 +1,5 @@
 import type {
   IBartersService,
-  IBartersResponse,
   IBarterResponse,
   IPostDataBarter,
   IPatchDataBarter,
@@ -11,7 +10,7 @@ import { wrapperFetch } from "@/services/requestsWrapper"
 export const bartersService: IBartersService = {
   route: "/barters",
   getBarters(value){
-    return wrapperFetch.methodGet<IBartersResponse>(this.route, value)
+    return wrapperFetch.methodGet<IBarterResponse[]>(this.route, value)
   },
   getBarterId(id){
     return wrapperFetch.methodGetId<IBarterResponse>(this.route, id)

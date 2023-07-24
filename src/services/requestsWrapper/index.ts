@@ -22,12 +22,13 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData?.result,
+          res: responseData?.data,
+          meta: responseData?.meta,
         }
       }
       return {
         ok: false,
-        res: responseData?.result,
+        res: responseData?.data,
         error: responseData?.error,
       }
     } catch (e) {
@@ -52,12 +53,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData?.result,
+          res: responseData?.data,
         }
       }
       return {
         ok: false,
-        res: responseData?.result,
+        res: responseData?.data,
         error: responseData?.error,
       }
     } catch (e) {
@@ -83,12 +84,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData?.result,
+          res: responseData?.data,
         }
       }
       return {
         ok: false,
-        res: responseData?.result,
+        res: responseData?.data,
         error: responseData?.error,
       }
     } catch (e) {
@@ -114,12 +115,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData?.result,
+          res: responseData?.data,
         }
       }
       return {
         ok: false,
-        res: responseData?.result,
+        res: responseData?.data,
         error: responseData?.error,
       }
     } catch (e) {
@@ -144,12 +145,12 @@ export const wrapperFetch: IWrapperFetch = {
       if (responseData?.error === null) {
         return {
           ok: true,
-          res: responseData?.result,
+          res: responseData?.data,
         }
       }
       return {
         ok: false,
-        res: responseData?.result,
+        res: responseData?.data,
         error: responseData?.error,
       }
     } catch (e) {

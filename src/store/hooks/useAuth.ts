@@ -16,6 +16,7 @@ export const useAuth = () => {
     signOut: state.signOut,
     user: state.user,
     setUser: state.setUser,
+    retrieveProfileData: state.retrieveProfileData,
   }), shallow)
 
   return content

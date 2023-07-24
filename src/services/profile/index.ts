@@ -1,10 +1,10 @@
-import type { TProfileService, IPostProfileData, IGetProfilesResponse, IProfileResponse, IGetProfileIdResponse } from "./types/profileService"
+import type { TProfileService, IPostProfileData, IProfileResponse, IGetProfileIdResponse } from "./types/profileService"
 import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const profileService: TProfileService = {
   route: "/profiles",
   getProfiles(value) {
-    return wrapperFetch.methodGet<IGetProfilesResponse>(this.route, value)
+    return wrapperFetch.methodGet<IGetProfileIdResponse[]>(this.route, value)
   },
   getProfileId(id) {
     return wrapperFetch.methodGetId<IGetProfileIdResponse>(this.route, id)

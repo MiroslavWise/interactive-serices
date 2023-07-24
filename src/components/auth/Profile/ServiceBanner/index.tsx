@@ -8,12 +8,12 @@ import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 import { SearchField } from "@/components/common/Inputs"
+import { Peoples } from "./components/Peoples"
 
 import { SERVICES } from "./constants"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { Peoples } from "./components/Peoples"
 
 const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])

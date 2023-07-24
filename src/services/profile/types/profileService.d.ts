@@ -1,20 +1,13 @@
 import type { IReturnData } from "@/services/types/general"
 
 export interface IPostProfileData {
-  username: string
-  firstName: string
-  lastName: string
-  birthdate: string
-  about: string
+  username?: string
+  firstName?: string
+  lastName?: string
+  birthdate?: string
+  about?: string
   enabled?: boolean
-  userId?: string | number
-}
-
-export interface IGetProfilesResponse{
-  limit: number
-  offset: number
-  totalCount: number
-  list: IGetProfileIdResponse[]
+  userId?: string | number //post
 }
 export interface IGetProfileIdResponse{
   id: number
@@ -35,7 +28,7 @@ export interface IProfileResponse {
 
 export interface TProfileService {
   private route: string
-  public async getProfiles(value: { [key: string]: string }): Promise<IReturnData<IGetProfilesResponse>>
+  public async getProfiles(value: { [key: string]: string }): Promise<IReturnData<IGetProfileIdResponse[]>>
   public async getProfileId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
   public async getProfileThroughUserId(id: number | string): Promise<IReturnData<IGetProfileIdResponse>>
   public async postProfile(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>

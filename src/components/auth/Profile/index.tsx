@@ -8,7 +8,7 @@ import type { IStateVisible } from "./types"
 import ServiceBanner from "./ServiceBanner"
 import ProfilePublic from "./ProfilePublic"
 
-export const Profile = ({ }) => {
+export const Profiles = ({ }) => {
   const [serviceDataVisible, setServiceDataVisible] = useState<IStateVisible>({
     isService: true,
     isProfile: false,

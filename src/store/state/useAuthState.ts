@@ -9,6 +9,7 @@ import {
   setUserAction,
   setTokenAction,
   changeAuthAction,
+  retrieveProfileData,
 } from "../action/useAuthAction"
 
 export const useAuthState = create(
@@ -26,6 +27,7 @@ export const useAuthState = create(
       setToken(value) { setTokenAction(value, set) },
       setUser(value) { setUserAction(value, set) },
       signOut() { signOutAction(set) },
+      retrieveProfileData() { retrieveProfileData(set, get) },
     }),
     {
       name: "auth",

@@ -19,7 +19,7 @@ export const Peoples: TPeoples = ({ setDataAndActive }) => {
       {
         ok
         &&
-        res?.list?.map(item => (
+        res?.map(item => (
           <PeopleCard
             key={`${item.id}_peoples`}
             setDataProfile={setDataAndActive}

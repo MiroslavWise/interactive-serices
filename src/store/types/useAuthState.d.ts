@@ -34,4 +34,5 @@ export interface IUseAuth {
   public changeAuth: DispatchWithoutAction
   public setToken: Dispatch<ISetToken>
   public signOut: DispatchWithoutAction
+  public retrieveProfileData: DispatchWithoutAction
 }

@@ -9,6 +9,7 @@ import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
+import { GeoTagging } from "@/components/common/GeoTagging"
 
 export const MainInfo: TMainInfo = ({ user }) => {
 
@@ -40,15 +41,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
           <div className={styles.titleAndButtons}>
             <div className={styles.nameAndGeo}>
               <h3>{user?.profile?.firstName || "First"} {user?.profile?.lastName || "Last"}</h3>
-              <div className={styles.geo}>
-                <Image
-                  src="/svg/geo-marker.svg"
-                  alt="geo"
-                  width={20}
-                  height={20}
-                />
-                <p>Inglewood, Maine</p>
-              </div>
+              <GeoTagging location="Inglewood, Maine" />
             </div>
             <section className={styles.buttons}>
               <ButtonFill

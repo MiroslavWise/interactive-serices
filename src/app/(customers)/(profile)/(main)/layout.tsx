@@ -14,7 +14,6 @@ export default function LayoutMainProfile({ children }: { children: ReactNode })
         {children}
         <HistoryExchangeOffers />
       </div>
-
     </div>
   )
 }

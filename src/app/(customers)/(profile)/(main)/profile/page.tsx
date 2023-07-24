@@ -1,12 +1,5 @@
-
-
-
-
+import { MyProfilePage } from "@/components/profile"
 
 export default function Profile() {
-  
-  return (
-    <div>
-    </div>
-  )
+  return <MyProfilePage />
 }

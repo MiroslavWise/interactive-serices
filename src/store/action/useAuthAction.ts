@@ -1,6 +1,7 @@
 import type { ISetAction, IGetAction, IUser, ISetToken } from "../types/useAuthState"
 
 import { usersService } from "@/services/users"
+import { profileService } from "@/services/profile"
 
 export const signOutAction = (set: ISetAction) => {
   set({
@@ -64,4 +65,24 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         }
       })
   }
+}
+
+export const retrieveProfileData = (set: ISetAction, get: IGetAction) => {
+  profileService.getProfileThroughUserId(get().userId!)
+    .then(response => {
+      if (response.ok) {
+        const { firstName, lastName, username, about, birthdate, enabled, id } = response?.res ?? {}
+        set({
+          user: {
+            firstName: firstName!,
+            lastName: lastName!,
+            username: username!,
+            birthdate: birthdate!,
+            about: about!,
+            enabled: enabled!,
+          },
+          profileId: id!,
+        })
+      }
+    })
 }
