@@ -1,7 +1,7 @@
 import type { FC } from "react"
 
 interface IContainerAboutMe{
-  text: string
+
 }
 
 interface IContainerTagAndButton{

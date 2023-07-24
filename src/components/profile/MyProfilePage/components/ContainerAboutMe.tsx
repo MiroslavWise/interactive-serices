@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
@@ -9,7 +11,7 @@ import { profileService } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerAboutMe: TContainerAboutMe = ({ text }) => {
+export const ContainerAboutMe: TContainerAboutMe = ({}) => {
   const {userId, profileId, user, retrieveProfileData} = useAuth() ?? {}
   const [isEditing, setIsEditing] = useState(false)
   const [textEditing, setTextEditing] = useState("")
@@ -19,15 +21,14 @@ export const ContainerAboutMe: TContainerAboutMe = ({ text }) => {
     if (isEditing) {
       textArea?.focus()
     }
-
     return () => {  }
   }, [isEditing])
 
   useEffect(() => {
-    if (text) {
-      setTextEditing(text)
+    if (user?.about) {
+      setTextEditing(user?.about)
     }
-  }, [text])
+  }, [user?.about])
 
   function handleEditing() {
     if (isEditing) {
@@ -58,7 +59,7 @@ export const ContainerAboutMe: TContainerAboutMe = ({ text }) => {
               value={textEditing}
             />
           ) : (
-            <p>{text}</p>
+            <p>{user?.about}</p>
           )
       }
       <div className={styles.buttonEditing} onClick={handleEditing}>

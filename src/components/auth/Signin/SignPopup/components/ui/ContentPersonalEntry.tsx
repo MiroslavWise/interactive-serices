@@ -38,9 +38,9 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       lastName: values.lastName,
       username: values.username,
       birthdate: dayjs(`${values.month}/${values.day}/${values.year}`, "MM/DD/YYYY").format("DD/MM/YYYY"),
-      about: values.about,
+      about: values.about || user?.about || "",
       enabled: true,
-      userId: Number(useTokenHelper.authUserId),
+      userId: Number(useTokenHelper.authUserId || userId),
     }
     Promise.all([
       !!user ? profileService.patchProfile(data, profileId!) : profileService.postProfile(data) 
