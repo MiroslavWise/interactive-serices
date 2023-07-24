@@ -1,10 +1,5 @@
+import { OffersPage } from "@/components/profile/OffersPage"
 
-
-
-
-
-
-
-export default function Offers() {
-  return(<div></div>)
+export default function Offers() { 
+  return <OffersPage />
 }

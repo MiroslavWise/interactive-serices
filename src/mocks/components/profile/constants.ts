@@ -74,3 +74,9 @@ export const HISTORY_OFFERS_MOCKS: ICardOffer[] = [
     price: 610,
   },
 ]
+
+
+
+export const MOCKS_OFFERS_NOW = [
+
+]
