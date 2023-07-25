@@ -4,22 +4,22 @@ import Image from "next/image"
 
 import type { TCardOffer } from "./types"
 
-import { BlockCoin } from "./components/BlockCoin"
+import { MotionLI } from "@/components/common/Motion"
 import { BlockBarter } from "./components/BlockBarter"
-import { ButtonCircleGradient } from "@/components/common/Buttons"
+import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
 import styles from "./style.module.scss"
 import { BlockTitle } from "./components/BlockTitle"
 
 export const CardOffer: TCardOffer = ({
-  name, photo, chatId, finality, price, date, geo, rating,
+  name, photo, chatId, finality, price, date, geo, rating, proposals,
 }) => {
   const { push } = useRouter()
 
   return (
-    <li className={styles.container}>
+    <MotionLI classNames={[styles.container]}>
       <section className={styles.main}>
-        <BlockTitle {...{name, photo, geo, price, rating }} />
+        <BlockTitle {...{ name, photo, geo, price, rating }} />
         <BlockBarter />
       </section>
       <footer>
@@ -32,27 +32,38 @@ export const CardOffer: TCardOffer = ({
           />
           <p>{date}</p>
         </div>
-        <div className={styles.end}>
-          {
-            finality
-              ? (
-                <div className={styles.verification}>
-                  <Image
-                    src="/svg/success.svg"
-                    alt="finality"
-                    width={17}
-                    height={17}
-                  />
-                </div>
-              ) : null
-          }
-          <ButtonCircleGradient
-            type="primary"
-            icon="/svg/message-dots-circle.svg"
-            size={16}
-          />
-        </div>
+        {
+          proposals
+            ? (
+              <ButtonFill
+                label="посмотреть детали"
+                type="optional_pink"
+                classNames={styles.button}
+              />
+            ) : (
+              <div className={styles.end}>
+                {
+                  finality
+                    ? (
+                      <div className={styles.verification}>
+                        <Image
+                          src="/svg/success.svg"
+                          alt="finality"
+                          width={17}
+                          height={17}
+                        />
+                      </div>
+                    ) : null
+                }
+                <ButtonCircleGradient
+                  type="primary"
+                  icon="/svg/message-dots-circle.svg"
+                  size={16}
+                />
+              </div>
+            )
+        }
       </footer>
-    </li>
+    </MotionLI >
   )
 }

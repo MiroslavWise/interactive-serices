@@ -7,6 +7,7 @@ import type { TItemsReviews } from "./types/types"
 import type { ICardReview } from "@/components/common/Card/Review/types"
 
 import { CardReview } from "@/components/common/Card/Review"
+import { MotionUL } from "@/components/common/Motion"
 
 import { MOCKS_REVIEW_VALUES } from "@/mocks/components/auth/constants"
 import { motionOpacityY } from "@/lib/motion"
@@ -76,12 +77,7 @@ export const ItemsReviews: TItemsReviews = ({ }) => {
                 </motion.div>
               </>
             ) : (
-              <motion.div
-                className={styles.column}
-                variants={motionOpacityY}
-                initial="hidden"
-                animate="visible"
-              >
+              <MotionUL classNames={[styles.column]}>
                 {
                   columns.items.map((item, index) => (
                     <CardReview
@@ -91,7 +87,7 @@ export const ItemsReviews: TItemsReviews = ({ }) => {
                     />
                   ))
                 }
-              </motion.div>
+              </MotionUL>
             )
         }
       </ul>

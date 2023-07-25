@@ -1,14 +1,16 @@
 import type { TContainerBlogs } from "./types"
 
+import { MotionUL } from "@/components/common/Motion"
+import { CardBlog } from "@/components/common/Card"
+
 import { MOCKS_BLOGS_CARD } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
-import { CardBlog } from "@/components/common/Card"
 
 export const ContainerBlogs: TContainerBlogs = ({ }) => {
 
   return (
-    <ul className={styles.containerReviews}>
+    <MotionUL classNames={[styles.containerReviews]}>
       {
         MOCKS_BLOGS_CARD.map((item, index) => (
           <CardBlog
@@ -19,6 +21,6 @@ export const ContainerBlogs: TContainerBlogs = ({ }) => {
           />
         ))
       }
-    </ul>
+    </MotionUL>
   )
 }

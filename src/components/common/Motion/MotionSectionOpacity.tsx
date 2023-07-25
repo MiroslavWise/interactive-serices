@@ -2,9 +2,9 @@ import { motion } from "framer-motion"
 
 import { cx } from "@/lib/cx"
 
-import type { TMotionSectionOpacity } from "../types/types"
+import type { TMotion } from "./types/types"
 
-export const MotionSectionOpacity: TMotionSectionOpacity = ({ children, classNames }) => {
+export const MotionSectionOpacity: TMotion = ({ children, classNames }) => {
 
   return (
     <motion.section

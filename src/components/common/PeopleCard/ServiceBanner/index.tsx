@@ -2,6 +2,7 @@ import Image from "next/image"
 
 import type { TPeopleCard } from "./types"
 
+import { MotionLI } from "@/components/common/Motion"
 import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
 
@@ -28,10 +29,7 @@ export const PeopleCard: TPeopleCard = ({
   }
 
   return (
-    <li
-      className={styles.container}
-      onClick={handleClick}
-    >
+    <MotionLI classNames={[styles.container]} onClick={handleClick}>
       <section className={styles.wrapperPhotoRate}>
         <Image
           src={photo}
@@ -67,6 +65,6 @@ export const PeopleCard: TPeopleCard = ({
           }
         </ul>
       </section>
-    </li>
+    </MotionLI>
   )
 }

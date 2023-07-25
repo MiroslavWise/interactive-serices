@@ -1,6 +1,7 @@
 import type { TContainerReviews } from "./types"
 
 import { CardReview } from "@/components/common/Card/Review"
+import { MotionUL } from "@/components/common/Motion"
 
 import { MOCKS_REVIEW_VALUES } from "@/mocks/components/auth/constants"
 
@@ -9,7 +10,7 @@ import styles from "./styles/style.module.scss"
 export const ContainerReviews: TContainerReviews = ({ }) => {
 
   return (
-    <ul className={styles.containerReviews}>
+    <MotionUL classNames={[styles.containerReviews]}>
       {
         MOCKS_REVIEW_VALUES.map((item, index) => (
           <CardReview
@@ -22,6 +23,6 @@ export const ContainerReviews: TContainerReviews = ({ }) => {
           />
         ))
       }
-    </ul>
+    </MotionUL>
   )
 }

@@ -8,7 +8,7 @@ interface IBlockTitle{
   photo: string
   name: string
   geo: string
-  price: number
+  price?: number
   rating: number
 }
 

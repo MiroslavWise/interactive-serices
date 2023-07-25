@@ -59,16 +59,15 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
             ) : null
           }
           <div className={styles.buttons}>
+            <ButtonFill
+              label="Мой профиль"
+              classNames="w-100"
+              handleClick={() => push(`/profile`)}
+            />
             <ButtonDefault
               label="Редактировать"
               classNames="w-100"
               handleClick={() => handleSignUpOrSignIn("PersonalEntry")}
-            />
-            <ButtonFill
-              type="primary"
-              label="Выйти"
-              classNames="w-100"
-              handleClick={signOut}
             />
           </div>
         </div>

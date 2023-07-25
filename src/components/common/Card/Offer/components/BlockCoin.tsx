@@ -2,7 +2,7 @@
 import Image from "next/image"
 import styles from "./styles/style.module.scss"
 
-export const BlockCoin = ({ coin }: { coin: number }) => {
+export const BlockCoin = ({ coin }: { coin?: number }) => {
   
   return (
     <div className={styles.containerCoin}>

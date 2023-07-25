@@ -1,13 +1,10 @@
 import { useId } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
 
 import type { TCardReview } from "./types"
 
 import { Rate } from "@/components/common/Rate"
-
-import { motionItemOnOpacityY } from "@/lib/motion"
-import { cx } from "@/lib/cx"
+import { MotionLI } from "@/components/common/Motion"
 
 import styles from "./style.module.scss"
 
@@ -15,10 +12,7 @@ export const CardReview: TCardReview = ({ user, date, rate, description, images,
   const id = useId()
 
   return (
-    <motion.li
-      className={cx(styles.container, classNames)}
-      variants={motionItemOnOpacityY}
-    >
+    <MotionLI classNames={[styles.container, classNames?.join(" ")]}>
       <div className={styles.content}>
         <header className={styles.header}>
           <div className={styles.userDate}>
@@ -43,6 +37,6 @@ export const CardReview: TCardReview = ({ user, date, rate, description, images,
           }
         </footer>
       </div>
-    </motion.li>
+    </MotionLI>
   )
 }

@@ -7,8 +7,9 @@ export interface ICardOffer{
   date: string
   finality: boolean
   chatId?: string | number
-  price: number
+  price?: number
   rating: number
+  proposals?: boolean
 }
 
 export type TCardOffer = FC<ICardOffer>

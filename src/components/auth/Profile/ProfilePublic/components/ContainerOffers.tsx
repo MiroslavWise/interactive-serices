@@ -1,5 +1,6 @@
 import { useId } from "react"
 
+import { MotionUL } from "@/components/common/Motion"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
 import { MOCKS_PROPOSALS } from "@/mocks/components/auth/constants"
@@ -11,7 +12,7 @@ export const ContainerOffers = () => {
 
   return (
     <div className={styles.containerRequestsAndProposals}>
-      <ul>
+      <MotionUL>
         {
           MOCKS_PROPOSALS.map((item, index) => (
             <CardRequestsAndProposals
@@ -20,7 +21,7 @@ export const ContainerOffers = () => {
             />
           ))
         }
-      </ul>
+      </MotionUL>
     </div>
   )
 }

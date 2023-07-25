@@ -73,10 +73,22 @@ export const HISTORY_OFFERS_MOCKS: ICardOffer[] = [
     rating: 3.4,
     price: 610,
   },
-]
-
-
-
-export const MOCKS_OFFERS_NOW = [
-
+  {
+    name: "Михаил Иванов",
+    photo: "/mocks/michael.png",
+    geo: "Cir. Shiloh, Hawaii 81063",
+    date: "20/07/2023",
+    finality: true,
+    rating: 5.0,
+    price: 410,
+  },
+  {
+    name: "Михаил Иванов",
+    photo: "/mocks/michael.png",
+    geo: "Cir. Shiloh, Hawaii 81063",
+    date: "20/07/2023",
+    finality: true,
+    rating: 5.0,
+    price: 410,
+  },
 ]

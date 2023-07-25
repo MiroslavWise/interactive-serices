@@ -1,12 +1,11 @@
 import { useId } from "react"
-import { motion } from "framer-motion"
 
 import type { TItemsRequests } from "./types/types"
 
 import { CardRequestsAndProposals } from "@/components/common/Card"
+import { MotionUL } from "@/components/common/Motion"
 
 import { MOCKS_PROPOSALS } from "@/mocks/components/auth/constants"
-import { motionOpacityY } from "@/lib/motion"
 
 import styles from "./styles/style.module.scss"
 
@@ -15,11 +14,7 @@ export const ItemsRequests: TItemsRequests = ({ }) => {
 
   return (
     <div className={styles.containerRequestsAndProposals}>
-      <motion.ul
-        variants={motionOpacityY}
-        initial="hidden"
-        animate="visible"
-      >
+      <MotionUL>
         {
           MOCKS_PROPOSALS.map((item, index) => (
             <CardRequestsAndProposals
@@ -28,7 +23,7 @@ export const ItemsRequests: TItemsRequests = ({ }) => {
             />
           ))
         }
-      </motion.ul>
+      </MotionUL>
     </div>
   )
 }

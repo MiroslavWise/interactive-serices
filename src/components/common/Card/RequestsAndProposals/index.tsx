@@ -1,11 +1,14 @@
+"use client"
+
 import Image from "next/image"
-import { useId, useState, useEffect, Dispatch, SetStateAction, useCallback, useMemo } from "react"
+import { useId, useState, useEffect, useCallback, useMemo } from "react"
 import { motion } from "framer-motion"
 import { useSwipeable } from "react-swipeable"
 
 import type { TRequestsAndProposals } from "./types"
 
 import { BadgeServices } from "@/components/common/Badge"
+import { MotionLI } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
 import { motionItemOnOpacityY } from "@/lib/motion"
@@ -56,10 +59,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
 
 
   return (
-    <motion.li
-      className={styles.container}
-      variants={motionItemOnOpacityY}
-    >
+    <MotionLI classNames={[styles.container]}>
       <div className={styles.header}>
         <h4>{title}</h4>
         <ul>
@@ -98,6 +98,6 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
           }
         </div>
       </div>
-    </motion.li>
+    </MotionLI>
   )
 }

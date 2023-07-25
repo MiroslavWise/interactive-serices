@@ -5,8 +5,9 @@ import { useQuery } from "react-query"
 import type { TPeoples } from "./types/types"
 
 import { PeopleCard } from "@/components/common/PeopleCard/ServiceBanner"
+import { MotionUL } from "@/components/common/Motion"
 
-import { MOCK_DATA_PEOPLE, MOCKS_SERVICES } from "@/mocks/components/auth/constants"
+import { MOCKS_SERVICES } from "@/mocks/components/auth/constants"
 import { usersService } from "@/services/users"
 
 import styles from "./styles/style.module.scss"
@@ -15,7 +16,7 @@ export const Peoples: TPeoples = ({ setDataAndActive }) => {
   const { data, isLoading, error } = useQuery(["users"], () => usersService.getUsers({ limit: 20 }))
   const { res, ok } = data ?? {}
   return (
-    <ul className={styles.peoples}>
+    <MotionUL classNames={[styles.peoples]}>
       {
         ok
         &&
@@ -33,6 +34,6 @@ export const Peoples: TPeoples = ({ setDataAndActive }) => {
           />
         ))
       }
-    </ul>
+    </MotionUL>
   )
 }

@@ -7,12 +7,15 @@ import type { TItemInteractive } from "../types/types"
 
 import { ITEMS_INTERACTIVE } from "./constants"
 
-import styles from "./styles/style.module.scss"
-import { cx } from "@/lib/cx"
+import { MotionUL } from "@/components/common/Motion"
 import { ItemsReviews } from "./ItemsReviews"
 import { ItemsBlogMessages } from "./ItemsBlogMessages"
 import { ItemsRequests } from "./ItemsRequests"
 import { ItemsProposals } from "./ItemsProposals"
+
+import { cx } from "@/lib/cx"
+
+import styles from "./styles/style.module.scss"
 
 export const Interactive: TInteractive = ({ }) => {
   const [active, setActive] = useState<TItemInteractive>("reviews")
@@ -29,7 +32,7 @@ export const Interactive: TInteractive = ({ }) => {
   return (
     <section className={styles.interactive}>
       <nav>
-        <ul>
+        <MotionUL>
           {
             ITEMS_INTERACTIVE.map(item => (
               <li
@@ -41,7 +44,7 @@ export const Interactive: TInteractive = ({ }) => {
               </li>
             ))
           }
-        </ul>
+        </MotionUL>
       </nav>
       {Items}
     </section>

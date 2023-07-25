@@ -1,23 +1,15 @@
-import { motion } from "framer-motion"
-
 import type { TItemsBlogMessages } from "./types/types"
 
 import { MOCKS_BLOGS_CARD } from "@/mocks/components/auth/constants"
+import { MotionUL } from "@/components/common/Motion"
 
 import { CardBlog } from "@/components/common/Card"
-
-import { motionOpacityY } from "@/lib/motion"
 
 import styles from "./styles/style.module.scss"
 
 export const ItemsBlogMessages: TItemsBlogMessages = ({ }) => {
   return (
-    <motion.ul
-      className={styles.listBlogMessages}
-      variants={motionOpacityY}
-      initial="hidden"
-      animate="visible"
-    >
+    <MotionUL classNames={[styles.listBlogMessages]}>
       {
         MOCKS_BLOGS_CARD.map((item, index) => (
           <CardBlog
@@ -28,6 +20,6 @@ export const ItemsBlogMessages: TItemsBlogMessages = ({ }) => {
           />
         ))
       }
-    </motion.ul>
+    </MotionUL>
   )
 }
