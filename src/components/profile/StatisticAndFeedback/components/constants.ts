@@ -11,15 +11,15 @@ export const ITEMS_INTERACTIVE: IItemsInteractive[] = [
     value: "reviews",
   },
   {
-    label: "Предложения",
-    value: "proposals",
+    label: "Услуги",
+    value: "services",
   },
   {
-    label: "Запросы",
-    value: "requests",
+    label: "Блог",
+    value: "blogs",
   },
   {
-    label: "Сообщение блога",
-    value: "blog_message",
+    label: "SOS",
+    value: "sos",
   },
 ]

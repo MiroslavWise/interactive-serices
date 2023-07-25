@@ -33,8 +33,15 @@ interface IButtonCircleGradient {
   size?: number
 }
 
+interface IButtonRadio{
+  active?: boolean
+  label: string
+  onClick?: DispatchWithoutAction
+}
+
 export type TButtonPropsFill = FC<IButtonProps>
 export type TButtonPropsDefault = FC<IButtonProps>
 export type TButtonsCircle = FC<IButtonsCircle>
 export type TButtonFilter = FC<IButtonFilter>
 export type TButtonCircleGradient = FC<IButtonCircleGradient>
+export type TButtonRadio = FC<IButtonRadio>

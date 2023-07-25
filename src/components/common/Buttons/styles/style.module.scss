@@ -47,7 +47,7 @@
         }
 
         @media screen and (max-width: 500px) {
-                span{
+                span {
                         color: var(--supporting-white);
                         font-size: 14px;
                         font-style: normal;
@@ -61,7 +61,7 @@
                 background: var(--supporting-white);
                 border: 2px solid var(--gradient-primary);
 
-                &::before{
+                &::before {
                         content: "";
                         border-radius: 100px;
                         position: absolute;
@@ -98,7 +98,7 @@
         }
 }
 
-.circleGradient{
+.circleGradient {
         position: relative;
         // width: 40px;
         // height: 40px;
@@ -111,15 +111,16 @@
         border: 1.5px solid transparent !important;
         cursor: pointer;
 
-        &.primary{
+        &.primary {
                 background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
                         var(--gradient-primary) border-box !important;
         }
-        &.option-1{
+
+        &.option-1 {
                 // border: 1.5px solid rgba(255, 255, 255, 0.39);
                 background: linear-gradient(0deg, rgba(250, 113, 82, 0.34) 0%, rgba(250, 113, 82, 0.64) 100%);
 
-                &::before{
+                &::before {
                         content: "";
                         border-radius: 100px;
                         position: absolute;
@@ -131,6 +132,70 @@
                         z-index: -1;
                         opacity: 1;
                         transition: opacity 0.3s;
+                }
+        }
+}
+
+//BUTTON RADIO
+
+.containerRadio {
+        padding: 8px 12px;
+        width: min-content;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        border-radius: 100px;
+        border: 2px solid var(--supporting-white);
+        background: var(--supporting-white);
+        box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+
+        .radio {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 16px;
+                height: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--gray-300);
+                background: var(--supporting-white);
+                transition: all 0.3s ease-in-out;
+
+                span{
+                        height: 6px;
+                        width: 6px;
+                        border-radius: 3px;
+                        background-color: transparent;
+                        transition: all 0.3s ease-in-out;
+                }
+        }
+
+        p{
+                color: var(--gray-900);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 142.857%;
+                letter-spacing: -0.5px;
+                transition: all 0.3s ease-in-out;
+        }
+
+        &.active {
+                border: 2px solid var(--primary-200);
+
+                .radio{
+                        background: var(--gray-100);
+                        border-color: var(--primary-500);
+
+                        span{
+                                background-color: var(--primary-500);
+                        }
+                }
+
+                p{
+                        color: var(--primary-500);
                 }
         }
 }

@@ -147,10 +147,20 @@
 
 .containerRequestsAndProposals {
         width: 100%;
-        height: calc(100vh - 466px);
+        height: calc(100vh - 456px);
         display: flex;
         justify-content: center;
-        padding: 34px 0;
+        padding: 34px 39px;
+        flex-direction: column;
+        gap: 20px;
+
+        .tabs{
+                width: 100%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+        }
 
         ul {
                 height: 100%;

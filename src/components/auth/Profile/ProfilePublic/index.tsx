@@ -10,7 +10,6 @@ import { ItemsBadges } from "./components/ItemsBadges"
 import { ItemSegments } from "./components/ItemSegments"
 import { ContainerReviews } from "./components/ContainerReviews"
 import { ContainerOffers } from "./components/ContainerOffers"
-import { ContainerRequests } from "./components/ContainerRequests"
 import { ContainerBlogs } from "./components/ContainerBlogs"
 
 import { VALUES } from "./constants"
@@ -24,8 +23,8 @@ const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
 
   const content: ReactNode = useMemo(() => ({
     reviews: <ContainerReviews />,
-    offers: <ContainerOffers />,
-    requests: <ContainerRequests />,
+    services: <ContainerOffers />,
+    sos: null,
     blogs: <ContainerBlogs />,
   }[activeSegment.value]), [activeSegment])
 

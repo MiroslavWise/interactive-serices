@@ -67,7 +67,7 @@
 
   .containerDots{
     position: absolute;
-    bottom: 8px;
+    top: 8px;
     transform: translateX(-50%);
     left: 50%;
     display: inline-flex;
@@ -92,4 +92,11 @@
       }
     }
   }
+}
+
+.button{
+  position: absolute;
+  bottom: 8px;
+  transform: translateX(-50%);
+  left: 50%;
 }

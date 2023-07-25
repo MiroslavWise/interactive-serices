@@ -1,10 +1,10 @@
 import Image from "next/image"
 
-import type { TButtonsCircle } from "./types"
+import type { TButtonsCircle } from "./types/types"
 
 import { cx } from "@/lib/cx"
 
-import styles from "./styles/button.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const ButtonsCircle: TButtonsCircle = ({ src, type }) => {
 

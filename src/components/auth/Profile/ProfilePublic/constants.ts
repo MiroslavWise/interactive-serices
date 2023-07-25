@@ -6,15 +6,15 @@ export const VALUES: ISegmentValues[] = [
     label: "Отзывы",
   },
   {
-    value: "offers",
-    label: "Предложения",
-  },
-  {
-    value: "requests",
-    label: "Запросы",
+    value: "services",
+    label: "Услуги",
   },
   {
     value: "blogs",
-    label: "Блоги",
+    label: "Блог",
+  },
+  {
+    value: "sos",
+    label: "SOS",
   },
 ]

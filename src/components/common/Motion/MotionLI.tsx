@@ -2,8 +2,8 @@ import { motion } from "framer-motion"
 
 import type { TMotion } from "./types/types"
 
-import { cx } from "@/lib/cx"
 import { motionItemOnOpacityY } from "@/lib/motion"
+import { cx } from "@/lib/cx"
 
 export const MotionLI: TMotion = ({ children, classNames, onClick }) => {
 

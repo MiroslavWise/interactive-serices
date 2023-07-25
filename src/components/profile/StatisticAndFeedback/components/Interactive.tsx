@@ -10,8 +10,7 @@ import { ITEMS_INTERACTIVE } from "./constants"
 import { MotionUL } from "@/components/common/Motion"
 import { ItemsReviews } from "./ItemsReviews"
 import { ItemsBlogMessages } from "./ItemsBlogMessages"
-import { ItemsRequests } from "./ItemsRequests"
-import { ItemsProposals } from "./ItemsProposals"
+import { ContainerServices } from "./ContainerServices"
 
 import { cx } from "@/lib/cx"
 
@@ -23,9 +22,11 @@ export const Interactive: TInteractive = ({ }) => {
   const Items: ReactNode = useMemo(() => {
     return {
       reviews: <ItemsReviews />,
-      blog_message: <ItemsBlogMessages />,
-      requests: <ItemsRequests />,
-      proposals: <ItemsProposals />,
+      blogs: <ItemsBlogMessages />,
+      // requests: <ItemsRequests />,
+      // proposals: <ItemsProposals />,
+      services: <ContainerServices />,
+      sos: null,
     }[active]
   }, [active])
 

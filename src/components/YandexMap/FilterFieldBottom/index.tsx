@@ -6,7 +6,7 @@ import { isMobile } from "react-device-detect"
 
 import type { TFilterFieldBottom } from "./types"
 
-import { ButtonFilter } from "@/components/common/Buttons/ui/ButtonFilter"
+import { ButtonFilter } from "@/components/common/Buttons/ButtonFilter"
 import { PopupFilter } from "./PopupFilter"
 
 import { cx } from "@/lib/cx"

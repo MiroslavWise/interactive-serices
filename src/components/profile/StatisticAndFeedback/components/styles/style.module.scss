@@ -1,4 +1,4 @@
-.budges{
+.budges {
   width: 100%;
   display: inline-flex;
   gap: 24px;
@@ -8,39 +8,41 @@
 
 
 
-.interactive{
+.interactive {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   border-radius: 32px;
   border: 2px solid var(--supporting-white);
   background: var(--glass-bg-color-2);
   backdrop-filter: blur(1px);
   z-index: 2;
 
-  nav{
+  nav {
     position: relative;
     height: 64px;
     border-bottom: 3px solid var(--primary-200);
 
-    ul{
+    ul {
       list-style: none;
       display: inline-flex;
       overflow-x: auto;
       gap: 0;
 
-      li{
+      li {
         position: relative;
         padding: 20px 16px;
         cursor: pointer;
 
-        &:first-child{
+        &:first-child {
           padding-left: 32px;
         }
-        &:last-child{
+
+        &:last-child {
           padding-right: 32px;
         }
 
-        p{
+        p {
           color: var(--gray-400);
           font-size: 16px;
           font-style: normal;
@@ -50,7 +52,7 @@
           transition: all 0.3s ease-in-out;
         }
 
-        &::before{
+        &::before {
           content: "";
           position: absolute;
           bottom: 0;
@@ -63,12 +65,12 @@
           transition: transform 0.3s ease-in-out;
         }
 
-        &.active{
-          p{
+        &.active {
+          p {
             color: var(--gray-900);
           }
 
-          &::before{
+          &::before {
             transform: scaleX(1);
           }
         }
@@ -80,82 +82,96 @@
 
 //ITEMS Reviews
 
-.containerItemsInteractive{
+.containerItemsInteractive {
   padding: 24px 32px 0;
   width: 100%;
-  height: calc(100vh - 396px);
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  height: calc(100%);
 
-  .ul{
+  .ul {
     display: inline-flex;
     gap: 20px;
-    padding-bottom: 24px;
+    height: calc(100vh - 380px);
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 
-    .column{
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .column {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
   }
 
-  @media screen and (max-width: 1258px) {
-    
-  }
+  @media screen and (max-width: 1258px) {}
 }
 
-.card{
-
-}
+.card {}
 
 //Items Blog Messages
 
-.listBlogMessages{
+.listBlogMessages {
   width: 100%;
   height: calc(100vh - 396px);
   padding: 24px 32px;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding-bottom: 24px;
 }
 
 //Items Requests And Proposals
 
-.containerRequestsAndProposals{
+.containerRequestsAndProposals {
   width: 100%;
-  height: calc(100vh - 396px);
-  display: flex;
-  justify-content: center;
-  ul{
-    height: 100%;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 20px;
-    padding: 24px 0;
+  height: calc(100vh - 436px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 
-  @media screen and (max-width: 1080px) {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 0fr);
+  gap: 20px 20px;
+  padding: 0 0 24px;
+  justify-content: center;
 
-    ul{
-      grid-template-columns: repeat(1, 1fr);
-    }
+  @media screen and (max-width: 1080px) {
+    grid-template-columns: repeat(1, 0fr);
+  }
+}
+
+//ContainerServices
+
+.containerServices {
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  .tabs {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
   }
 }

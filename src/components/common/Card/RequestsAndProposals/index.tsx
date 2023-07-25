@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { useId, useState, useEffect, useCallback, useMemo } from "react"
-import { motion } from "framer-motion"
 import { useSwipeable } from "react-swipeable"
 
 import type { TRequestsAndProposals } from "./types"
@@ -11,13 +10,15 @@ import { BadgeServices } from "@/components/common/Badge"
 import { MotionLI } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
-import { motionItemOnOpacityY } from "@/lib/motion"
 
 import styles from "./style.module.scss"
+import { ButtonDefault } from "../../Buttons"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title, services }) => {
   const [active, setActive] = useState(0)
   const id = useId()
+
+
 
   const handlers = useSwipeable({
     onSwipedLeft(event) { slideImage("toLeft") },
@@ -56,8 +57,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
   const photosRandom: string[] = useMemo(() => {
     return shuffleArray()
   }, [shuffleArray])
-
-
+  
   return (
     <MotionLI classNames={[styles.container]}>
       <div className={styles.header}>
@@ -96,6 +96,12 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
                 onClick={() => setActive(index)}
               />))
           }
+        </div>
+        <div className={styles.button}>
+          <ButtonDefault
+            type="primary"
+            label="Откликнутся"
+          />
         </div>
       </div>
     </MotionLI>

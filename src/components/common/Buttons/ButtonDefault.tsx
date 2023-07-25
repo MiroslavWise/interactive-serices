@@ -1,6 +1,6 @@
 "use client"
 
-import { type TButtonPropsDefault } from "./types"
+import { type TButtonPropsDefault } from "./types/types"
 
 import { cx } from "@/lib/cx"
 

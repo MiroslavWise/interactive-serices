@@ -40,8 +40,8 @@ export const ItemsReviews: TItemsReviews = ({ }) => {
 
   return (
     <div className={styles.containerItemsInteractive}>
-      <ul
-        className={styles.ul}
+      <MotionUL
+        classNames={[styles.ul]}
       >
         {
           Array.isArray(columns)
@@ -90,7 +90,7 @@ export const ItemsReviews: TItemsReviews = ({ }) => {
               </MotionUL>
             )
         }
-      </ul>
+      </MotionUL>
     </div>
   )
 }

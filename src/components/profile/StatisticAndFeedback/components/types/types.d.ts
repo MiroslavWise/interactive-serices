@@ -19,10 +19,10 @@ export type TItemsBlogMessages = FC<{
   
 }>
 
-export type TItemsRequests = FC<{
+export type TItemsProposalsRequests = FC<{
   
 }>
 
-export type TItemsProposals = FC<{
+export type TContainerServices = FC<{
   
 }>

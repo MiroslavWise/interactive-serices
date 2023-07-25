@@ -134,6 +134,26 @@ export const MOCKS_REVIEW_VALUES: {
         "/mocks/Frame_50127759.png",
       ]
     },
+    {
+      user: "@tasnim",
+      date: "20/06/2022",
+      rate: 4.5,
+      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.",
+      images: [
+        "/mocks/Frame_50127758.png",
+        "/mocks/Frame_50127759.png",
+      ]
+    },
+    {
+      user: "@tasnim",
+      date: "20/06/2022",
+      rate: 4.5,
+      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.",
+      images: [
+        "/mocks/Frame_50127758.png",
+        "/mocks/Frame_50127759.png",
+      ]
+    },
   ]
 
   

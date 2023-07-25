@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev ",
+    "dev": "next dev -p 4400",
     "build": "next build",
     "start": "next start",
+    "start:dev": "next start -p 4400",
     "lint": "next lint",
     "make:3000": "make build-run PORT=3000"
   },
