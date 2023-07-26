@@ -6,10 +6,10 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const ButtonsCircle: TButtonsCircle = ({ src, type }) => {
+export const ButtonsCircle: TButtonsCircle = ({ src, type, onClick }) => {
 
   return (
-    <div className={cx(styles.buttonCircle, styles[type])}>
+    <div className={cx(styles.buttonCircle, styles[type])} onClick={() => { if (onClick) onClick() }}>
       <Image
         key={src}
         src={src}

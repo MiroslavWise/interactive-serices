@@ -12,3 +12,9 @@ export type TButtonSelection = FC<{
 export type TCircleImageHeader = FC<{
   src: string
 }>
+
+export type TImageUploadComponent = FC<{
+  selectedImage: string | null
+  setSelectedImage: Dispatch<SetStateAction<string | null>>
+  setFile: Dispatch<SetStateAction<File | null>>
+}>

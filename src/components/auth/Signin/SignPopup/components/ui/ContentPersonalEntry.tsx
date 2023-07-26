@@ -8,16 +8,20 @@ import type { IPostProfileData } from "@/services/profile/types/profileService"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { GroupSelectorDate, LabelInputGroup } from "./components/LabelInputGroup"
+import { ImageUploadComponent } from "./components/ImageUploadComponent"
 
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { useAuth } from "@/store/hooks/useAuth"
 import { profileService } from "@/services/profile"
+import { fileUploadService } from "@/services/file-upload"
 
 import styles from "../styles/style.module.scss"
 
 export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisible }) => {
-  const { userId, profileId, user, changeAuth } = useAuth()
+  const { userId, profileId, user, changeAuth, retrieveProfileData } = useAuth()
   const [loading, setLoading] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [file, setFile] = useState<File | null>(null)
   const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValuesPersonForm>({
     defaultValues: {
       ...(user ? {
@@ -43,21 +47,29 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       userId: Number(useTokenHelper.authUserId || userId),
     }
     Promise.all([
-      !!user ? profileService.patchProfile(data, profileId!) : profileService.postProfile(data) 
+      !!user ? profileService.patchProfile(data, profileId!) : profileService.postProfile(data)
     ])
-    .then(response => {
-      if (response[0]?.code === 409) {
-        return setError("username", { message: "user exists" })
-      }
-      if (response[0].ok) {
-        changeAuth()
-        setVisible(false)
-        setType(null)
-      }
-    })
-    .finally(() => {
-      setLoading(false)
-    })
+      .then(response => {
+        if (response[0]?.code === 409) {
+          return setError("username", { message: "user exists" })
+        }
+        if (response[0].ok) {
+          fileUploadService(file!, { type: "profile", userId: userId!, profileId: profileId! || response[0].res?.id })
+            .then(uploadResponse => {
+              if (!uploadResponse.ok) {
+                
+              }
+            })
+            .finally(() => {
+              setVisible(false)
+              setType(null)
+              retrieveProfileData()
+            })
+        }
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
@@ -69,6 +81,11 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
       transition={{ duration: 0.5 }}
     >
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <ImageUploadComponent
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          setFile={setFile}
+        />
         <LabelInputGroup
           label="Имя"
           rules

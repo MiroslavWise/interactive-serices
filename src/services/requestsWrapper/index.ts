@@ -150,7 +150,41 @@ export const wrapperFetch: IWrapperFetch = {
       }
       return {
         ok: false,
-        res: responseData?.data,
+        error: responseData?.error,
+      }
+    } catch (e) {
+      return {
+        ok: false,
+        error: e,
+      }
+    }
+  },
+  async methodUploadFile(url, formData) {
+    try {
+      if (!useTokenHelper.authToken) {
+        return {
+          ok: false,
+          error: "Not Authorization",
+        }
+      }
+      const response = await fetch(`${URL_API}${url}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${useTokenHelper.authToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+        body: formData
+      })
+      const responseData = await response.json()
+      if (responseData?.error === null && responseData?.data) {
+        return {
+          ok: true,
+          res: responseData?.data,
+          meta: responseData?.meta,
+        }
+      }
+      return {
+        ok: false,
         error: responseData?.error,
       }
     } catch (e) {

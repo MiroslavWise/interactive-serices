@@ -39,6 +39,12 @@ interface IButtonRadio{
   onClick?: DispatchWithoutAction
 }
 
+interface IButtonsCircle{
+  src: string
+  type: "primary" | "option-1"
+  onClick?: DispatchWithoutAction
+}
+
 export type TButtonPropsFill = FC<IButtonProps>
 export type TButtonPropsDefault = FC<IButtonProps>
 export type TButtonsCircle = FC<IButtonsCircle>
