@@ -11,7 +11,7 @@ export function fileUploadService(uploadFile: File, provider: IProvider): Promis
   const file: IUploadFile = {
     name: `${provider.type}:${uploadFile.name}`,
     caption: uploadFile.name,
-    ext: `${uploadFile.name.split(".")[-1]}`,
+    ext: `.${uploadFile.name.split(".").at(-1)}`,
     alt: uploadFile.name,
     hash: generateShortHash(`${uploadFile.name}-${uploadFile.size}`),
     height: 0,
@@ -22,6 +22,8 @@ export function fileUploadService(uploadFile: File, provider: IProvider): Promis
     type: uploadFile.type,
     file: uploadFile,
   }
+
+  console.log("file: ", file)
 
   formData.append('name', file.name)
   formData.append('alt', file.alt)

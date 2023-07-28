@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { NewServicesBanner } from "@/components/profile/NewServicesBanner"
 
 import { useAuth } from "@/store/hooks/useAuth"
 
