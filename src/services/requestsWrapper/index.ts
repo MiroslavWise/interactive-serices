@@ -171,7 +171,7 @@ export const wrapperFetch: IWrapperFetch = {
         method: "POST",
         headers: {
           Authorization: `Bearer ${useTokenHelper.authToken}`,
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data",
         },
         body: formData
       })

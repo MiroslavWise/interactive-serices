@@ -15,7 +15,6 @@ export const Image: TImage = ({
   return (
     <MotionImage
       loader={myImageLoader}
-      placeholder="blur"
       src={src}
       alt={alt}
       height={height}
