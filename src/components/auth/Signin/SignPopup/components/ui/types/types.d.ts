@@ -1,20 +1,16 @@
 import type { FC, Dispatch, SetStateAction } from "react"
 
-import { TTypeSign } from "../../../types"
+import { TTypeSign } from "@/store/types/useVisibleAndTypeAuthModalState"
 
 export type TContentSignIn = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
   setValueSecret: Dispatch<SetStateAction<{ url: string, secret: string }>>
 }>
 
 export type TContentForgotPassword = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
   setValueEmail: Dispatch<SetStateAction<string>>
 }>
 
 export type TContentSignUp = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
 }>
 
 export type TLinkItem = FC<{
@@ -23,18 +19,12 @@ export type TLinkItem = FC<{
 
 export type TContentFirstLoginQR = FC<{
   valueSecret: { url: string, secret: string }
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
 }>
 
 export type TContentOtpCode = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
 }>
 
 export type TContentPersonalEntry = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
 }>
 
 export type TContentCheckingEmail = FC<{
@@ -42,24 +32,19 @@ export type TContentCheckingEmail = FC<{
 }>
 
 export type TContentResetPassword = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
 }>
 
 export type TContentSelectVerification = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
   typeVerification: "email" | "phone" | null
   setTypeVerification: Dispatch<SetStateAction<"email" | "phone" | null>>
 }> 
 
 export type THeaderModal = FC<{
-  type: TTypeSign
   email: string
   typeVerification: "email" | "phone" | null
 }>
 
 export type TContentCodeVerification = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
   typeVerification: "email" | "phone" | null
 }>
 

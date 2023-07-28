@@ -10,13 +10,14 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { BannerCoins } from "./components/BannerCoins"
 import { Glasses } from "./components/Glasses"
 
-import { useAuth } from "@/store/hooks/useAuth"
+import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
-  const { isAuth, user, signOut } = useAuth()
+export const SignBanner: TSignBanner = ({ }) => {
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const { isAuth, user } = useAuth()
   const { push } = useRouter()
 
   return (
@@ -67,7 +68,7 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
             <ButtonDefault
               label="Редактировать"
               classNames="w-100"
-              handleClick={() => handleSignUpOrSignIn("PersonalEntry")}
+              handleClick={() => setVisibleAndType({ visible: true, type: "PersonalEntry" })}
             />
           </div>
         </div>
@@ -98,12 +99,12 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
                 type="primary"
                 label="Войти"
                 classNames="w-100"
-                handleClick={() => handleSignUpOrSignIn("SignIn")}
+                  handleClick={() => setVisibleAndType({ visible: true, type: "SignIn" })}
               />
               <ButtonDefault
                 label="Зарегистрироваться"
                 classNames="w-100"
-                handleClick={() => handleSignUpOrSignIn("SignUp")}
+                  handleClick={() => setVisibleAndType({ visible: true, type: "SignUp" })}
               />
               <div className={styles.bannerContent}>
                 <BannerCoins />
@@ -119,5 +120,3 @@ const SignBanner: TSignBanner = ({ handleSignUpOrSignIn }) => {
     )
   )
 }
-
-export default SignBanner

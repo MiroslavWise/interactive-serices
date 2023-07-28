@@ -11,14 +11,16 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 import { LinksSocial } from "./components/LinksSocial"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { regExEmail } from "@/helpers"
 import { checkPasswordStrength } from "@/lib/checkPasswordStrength"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentSignUp: TContentSignUp = ({ setType }) => {
+export const ContentSignUp: TContentSignUp = ({ }) => {
   const [loading, setLoading] = useState(false)
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValuesRegistrationForm>()
 
   const onRegister = async (values: IValuesRegistrationForm) => {
@@ -33,7 +35,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
           setError("email", { message: "user already exists" })
         }
         if (!response.error && response.ok) {
-          setType("SignIn")
+          setVisibleAndType({ type: "SignIn" })
         }
       })
       .finally(() => {
@@ -103,7 +105,7 @@ export const ContentSignUp: TContentSignUp = ({ setType }) => {
         />
         <LinksSocial />
       </form>
-      <section className={`${styles.Register} cursor-pointer`} onClick={() => setType("SignIn")}>
+      <section className={`${styles.Register} cursor-pointer`} onClick={() => setVisibleAndType({ type: "SignIn" })}>
         <Image
           src="/svg/arrow-left.svg"
           alt="arrow"

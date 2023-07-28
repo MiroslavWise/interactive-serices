@@ -10,6 +10,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { GroupSelectorDate, LabelInputGroup } from "./components/LabelInputGroup"
 import { ImageUploadComponent } from "./components/ImageUploadComponent"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { useAuth } from "@/store/hooks/useAuth"
 import { profileService } from "@/services/profile"
@@ -17,11 +18,12 @@ import { fileUploadService } from "@/services/file-upload"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisible }) => {
-  const { userId, profileId, user, changeAuth, retrieveProfileData } = useAuth()
+export const ContentPersonalEntry: TContentPersonalEntry = ({  }) => {
   const [loading, setLoading] = useState(false)
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [file, setFile] = useState<File | null>(null)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const { userId, profileId, user, changeAuth, retrieveProfileData } = useAuth()
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValuesPersonForm>({
     defaultValues: {
       ...(user ? {
@@ -61,8 +63,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ setType, setVisibl
               }
             })
             .finally(() => {
-              setVisible(false)
-              setType(null)
+              setVisibleAndType({ visible: false, type: null })
               retrieveProfileData()
             })
         }

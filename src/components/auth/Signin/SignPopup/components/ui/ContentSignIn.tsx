@@ -11,14 +11,16 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 import { LinksSocial } from "./components/LinksSocial"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { regExEmail } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentSignIn: TContentSignIn = ({ setType, setVisible, setValueSecret }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<IValuesSignForm>()
+export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
   const [loading, setLoading] = useState(false)
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const { register, handleSubmit, formState: { errors } } = useForm<IValuesSignForm>()
 
   const onEnter = async (values: IValuesSignForm) => {
     setLoading(true)
@@ -32,10 +34,10 @@ export const ContentSignIn: TContentSignIn = ({ setType, setVisible, setValueSec
             secret: response?.res?.secret!,
             url: response?.res?.otp_auth_url!,
           })
-          return setType("FirstLoginQR")
+          return setVisibleAndType({ type: "FirstLoginQR" })
         }
         if (response.ok) {
-          return setType("OtpCode")
+          return setVisibleAndType({ type: "OtpCode" })
         }
       })
       .finally(() => {
@@ -90,7 +92,7 @@ export const ContentSignIn: TContentSignIn = ({ setType, setVisible, setValueSec
             </label>
             <p>Запомнить на 30 дней</p>
           </div>
-          <a onClick={() => setType("ForgotPassword")}>Забыли пароль?</a>
+          <a onClick={() => setVisibleAndType({ type: "ForgotPassword" })}>Забыли пароль?</a>
         </div>
         <ButtonFill
           label="Войти"
@@ -103,7 +105,7 @@ export const ContentSignIn: TContentSignIn = ({ setType, setVisible, setValueSec
       </form>
       <section className={styles.Register}>
         <p>Нет аккаунта?</p>
-        <a onClick={() => setType("SignUp")}>Зарегистрироваться</a>
+        <a onClick={() => setVisibleAndType({ type: "SignUp" })}>Зарегистрироваться</a>
       </section>
     </motion.div>
   )

@@ -1,31 +1,27 @@
 "use client"
 
-import { useState } from "react"
 import { isMobile } from "react-device-detect"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 
 import type { TFooterMenu } from "./types"
-import type { TTypeSign } from "@/components/auth/Signin/SignPopup/types"
 
 import { useActivePath } from "@/helpers/hooks/useActivePash"
 import { MENU_ITEMS } from "./constants"
-import SignPopup from "@/components/auth/Signin/SignPopup"
 
-import { useAuth } from "@/store/hooks/useAuth"
+import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({ }) => {
-  const { isAuth } = useAuth() ?? {}
   const { push } = useRouter()
-  const [visible, setVisible] = useState(false)
-  const [type, setType] = useState<TTypeSign>("SignIn")
+  const { visible, setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const { isAuth } = useAuth() ?? {}
   const valuePath = useActivePath()
 
   const handleSignInOrSignUp = () => {
-    setVisible(prev => !prev)
+    setVisibleAndType({ visible: !visible })
   }
 
   const handleGoToPage = (path: string) => {
@@ -84,12 +80,6 @@ export const FooterMenu: TFooterMenu = ({ }) => {
             }
           </ul>
         </motion.footer>
-        <SignPopup
-          visible={visible}
-          setVisible={setVisible}
-          type={type}
-          setType={setType}
-        />
       </>
     ) : null
   )

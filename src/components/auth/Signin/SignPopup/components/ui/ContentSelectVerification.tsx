@@ -1,4 +1,4 @@
-import { useState } from "react"
+// import { useState } from "react"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
@@ -6,11 +6,14 @@ import type { TContentSelectVerification } from "./types/types"
 
 import { ButtonSelection } from "./components/ButtonSelection"
 
+// import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentSelectVerification: TContentSelectVerification = ({ setType, typeVerification, setTypeVerification }) => {
+export const ContentSelectVerification: TContentSelectVerification = ({ typeVerification, setTypeVerification }) => {
+  // const {setVisibleAndType} = useVisibleAndTypeAuthModal()
+
   const handleVerification = async (value: "phone" | "email") => {
     setTypeVerification(value)
   }

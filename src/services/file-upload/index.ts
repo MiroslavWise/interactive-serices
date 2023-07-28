@@ -23,8 +23,6 @@ export function fileUploadService(uploadFile: File, provider: IProvider): Promis
     file: uploadFile,
   }
 
-  console.log("file: ", file)
-
   formData.append('name', file.name)
   formData.append('alt', file.alt)
   formData.append('hash', file.hash)

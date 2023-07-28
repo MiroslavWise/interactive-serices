@@ -1,21 +1,22 @@
 "use client"
 
 import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent } from "react"
-import { useForm } from "react-hook-form"
 
 import type { TContentOtpCode } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { usersService } from "@/services/users"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
+export const ContentOtpCode: TContentOtpCode = ({  }) => {
   const { setToken, setUser } = useAuth()
   const [loading, setLoading] = useState(false)
+  const {setVisibleAndType} = useVisibleAndTypeAuthModal()
   //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
@@ -57,7 +58,7 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
               expiration: response?.res?.expires_in!,
             })
             if (!data?.res?.profile) {
-              setType("PersonalEntry")
+              setVisibleAndType({ type: "PersonalEntry" })
               return
             }
             if (!!data?.res?.profile) {
@@ -72,8 +73,7 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
                 profileId: id,
               })
             }
-            setType(null)
-            setVisible(false)
+            setVisibleAndType({ type: null, visible: false })
             return
           })
         }
@@ -106,6 +106,10 @@ export const ContentOtpCode: TContentOtpCode = ({ setType, setVisible }) => {
             maxLength={1}
             onChange={(event) => handleChange(event, index)}
             onKeyDown={(event) => handleKeyDown(event, index)}
+            onClick={() => {
+              setInputValues(Array(6).fill(""))
+              inputRefs.current[0].focus()
+            }}
           />
         ))}
       </div>

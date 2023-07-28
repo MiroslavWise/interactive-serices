@@ -1,3 +1,4 @@
+import { type ReactNode } from "react"
 import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 
@@ -16,16 +17,18 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children
+  children, modal_sign
 }: {
-  children: React.ReactNode
-}) {
+    children: ReactNode,
+    modal_sign: ReactNode
+  }) {
   return (
     <html lang="ru">
       <body className={inter.className}>
         <Providers>
           {children}
           <FooterMenu />
+          {modal_sign}
         </Providers>
       </body>
     </html>

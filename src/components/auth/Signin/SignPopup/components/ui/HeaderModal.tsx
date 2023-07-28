@@ -2,18 +2,20 @@ import { useMemo } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
-import type { TTypeSign } from "../../types"
+import type { TTypeSign } from "@/store/types/useVisibleAndTypeAuthModalState"
 import type { THeaderModal } from "./types/types"
 
 import { LogoSheira } from "./components/LogoSheira"
 import { CircleImageHeader } from "./components/CircleImageHeader"
 import { MotionSectionOpacity } from "@/components/common/Motion"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 
 import styles from "../styles/style.module.scss"
 
-export const HeaderModal: THeaderModal = ({ type, email, typeVerification }) => {
+export const HeaderModal: THeaderModal = ({ email, typeVerification }) => {
+  const { type } = useVisibleAndTypeAuthModal() ?? {}
   const content: { h3: string, p: string } | null = useMemo(() => {
     if (type === null || type === "SelectVerification") {
       return null

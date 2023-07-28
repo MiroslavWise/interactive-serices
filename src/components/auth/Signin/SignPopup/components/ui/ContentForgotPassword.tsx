@@ -10,6 +10,7 @@ import type { TContentForgotPassword } from "./types/types"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 import { ButtonFill } from "@/components/common/Buttons"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { regExEmail } from "@/helpers"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 import { cx } from "@/lib/cx"
@@ -20,8 +21,9 @@ interface IValues {
   email: string
 }
 
-export const ContentForgotPassword: TContentForgotPassword = ({ setType, setValueEmail }) => {
+export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail }) => {
   const [loading, setLoading] = useState(false)
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, handleSubmit, formState: { errors }, setError } = useForm<IValues>()
 
   const onEnter = async (values: IValues) => {
@@ -31,7 +33,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType, setValu
         if (response.ok && !!response?.res) {
           useForgotPasswordHelper.saveTemporaryToken(response.res?.password_reset_token)
           setValueEmail(values.email)
-          setType("CodeVerification")
+          setVisibleAndType({ type: "CodeVerification" })
         }
         if (response?.code === 401) {
           setError("email", { message: "user is not verified" })
@@ -78,7 +80,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setType, setValu
           submit="submit"
         />
       </form>
-      <section className={cx(styles.Register, "cursor-pointer")} onClick={() => setType("SignIn")}>
+      <section className={cx(styles.Register, "cursor-pointer")} onClick={() => setVisibleAndType({ type: "SignIn" })}>
         <Image
           src="/svg/arrow-left.svg"
           alt="arrow"

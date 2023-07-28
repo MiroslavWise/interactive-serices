@@ -10,6 +10,7 @@ import type { TContentResetPassword } from "./types/types"
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 import { checkPasswordStrength } from "@/lib/checkPasswordStrength"
 
@@ -31,8 +32,9 @@ const onError = (value: string) => toast(value, {
   theme: "light",
 })
 
-export const ContentResetPassword: TContentResetPassword = ({ setType, setVisible }) => {
+export const ContentResetPassword: TContentResetPassword = ({ }) => {
   const [loading, setLoading] = useState(false)
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValues>()
 
   const submit = (values: IValues) => {
@@ -52,11 +54,11 @@ export const ContentResetPassword: TContentResetPassword = ({ setType, setVisibl
           onError("Время восстановления пароля истекло")
           return
         }
-        if (response.code === 500) { 
+        if (response.code === 500) {
           onError("Извините, у нас какиe-то ошибки. Мы работаем над этим :(")
         }
         if (response.ok && !!response?.res) {
-          setType("SignIn")
+          setVisibleAndType({ type: "SignIn" })
           return
         }
       })

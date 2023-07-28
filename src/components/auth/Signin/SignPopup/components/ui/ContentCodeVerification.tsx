@@ -3,14 +3,18 @@ import { motion } from "framer-motion"
 
 import type { TContentCodeVerification } from "./types/types"
 
-import styles from "../styles/style.module.scss"
 import { ButtonFill } from "@/components/common/Buttons"
 
-export const ContentCodeVerification: TContentCodeVerification = ({ setType, typeVerification }) => {
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+
+import styles from "../styles/style.module.scss"
+
+export const ContentCodeVerification: TContentCodeVerification = ({ typeVerification }) => {
   const [loading, setLoading] = useState(false)
   const [inputValues, setInputValues] = useState(Array(4).fill(""))
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
+  const {setVisibleAndType} = useVisibleAndTypeAuthModal()
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = event.target
@@ -78,7 +82,7 @@ export const ContentCodeVerification: TContentCodeVerification = ({ setType, typ
       />
       <section className={styles.Register}>
         <p>Не получили {typeVerification === "email" ? "email" : typeVerification === "phone" ? "код" : ""}?</p>
-        <a onClick={() => setType("ForgotPassword")}> Отправить еще раз</a>
+        <a onClick={() => setVisibleAndType({ type: "ForgotPassword" })}> Отправить еще раз</a>
       </section>
     </motion.div>
   )

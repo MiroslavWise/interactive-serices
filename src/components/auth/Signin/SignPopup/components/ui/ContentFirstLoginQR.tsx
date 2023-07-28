@@ -8,16 +8,18 @@ import type { TContentFirstLoginQR } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret, setVisible }) => {
+export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
   const { setToken } = useAuth()
   const [loading, setLoading] = useState(false)
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   //todo
-  const [inputValues, setInputValues] = useState(Array(6).fill(""))
+  const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
   const handleCopyText = () => {
@@ -52,7 +54,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
     useTokenHelper.serviceOtp({ code: inputValues.join("") })
       .then(response => {
         if (response.ok) {
-          setType("PersonalEntry")
+          setVisibleAndType({ type: "PersonalEntry" })
           setToken({
             ok: true,
             token: response?.res?.access_token!,
@@ -100,6 +102,10 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ setType, valueSecret
             maxLength={1}
             onChange={(event) => handleChange(event, index)}
             onKeyDown={(event) => handleKeyDown(event, index)}
+            onClick={() => {
+              setInputValues(prev => prev.map(_ => ""))
+              inputRefs.current[0].focus()
+            }}
           />
         ))}
       </div>

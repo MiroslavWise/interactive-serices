@@ -49,8 +49,8 @@ const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
         <Image
           src="/svg/x-close.svg"
           alt="x"
-          width={14}
-          height={14}
+          width={20}
+          height={20}
         />
       </div>
       <Dots id={active.dataProfile?.userId!} />

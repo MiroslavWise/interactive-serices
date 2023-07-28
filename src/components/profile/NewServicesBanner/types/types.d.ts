@@ -1,9 +1,14 @@
 import type { FC, Dispatch, SetStateAction } from "react"
 
 interface INewServicesBanner{
-  active: boolean
 
-  setActive: Dispatch<SetStateAction<boolean>>
+}
+
+export interface INewCreateBadge{
+  imageSrc: string
+  label: string
+  value: string
 }
 
 export type TNewServicesBanner = FC<INewServicesBanner>
+export type TNewCreateBadge = FC<INewCreateBadge>
