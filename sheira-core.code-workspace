@@ -5,6 +5,15 @@
         },
         {
             "path": "."
+        },
+        {
+            "path": "../../go/src/github.com/ole-larsen/uploader"
+        },
+        {
+            "path": "../../go/src/github.com/ole-larsen/provider"
+        },
+        {
+            "path": "../../go/src/github.com/ole-larsen/go-ploutonion"
         }
     ]
 }
