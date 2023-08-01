@@ -15,7 +15,7 @@ interface IButtonProps {
   suffix?: ReactNode
 }
 
-interface IButtonFilter{
+interface IButtonFilter {
   label: string
   classNames?: string
   handleClick?: DispatchWithoutAction
@@ -33,16 +33,29 @@ interface IButtonCircleGradient {
   size?: number
 }
 
-interface IButtonRadio{
+interface IButtonRadio {
   active?: boolean
   label: string
   onClick?: DispatchWithoutAction
 }
 
-interface IButtonsCircle{
+interface IButtonsCircle {
   src: string
   type: "primary" | "option-1"
   onClick?: DispatchWithoutAction
+}
+
+export interface IPositionAbsolute {
+  top?: number | string
+  left?: number | string
+  right?: number | string
+  bottom?: number | string
+}
+
+interface IButtonClose {
+  onClick: DispatchWithoutAction
+  position: IPositionAbsolute
+
 }
 
 export type TButtonPropsFill = FC<IButtonProps>
@@ -51,3 +64,4 @@ export type TButtonsCircle = FC<IButtonsCircle>
 export type TButtonFilter = FC<IButtonFilter>
 export type TButtonCircleGradient = FC<IButtonCircleGradient>
 export type TButtonRadio = FC<IButtonRadio>
+export type TButtonClose = FC<IButtonClose>

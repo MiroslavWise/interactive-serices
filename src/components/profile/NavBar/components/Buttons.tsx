@@ -1,14 +1,13 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { useAuth, useVisibleBannerNewServices } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import Image from "next/image"
-import { useState } from "react"
 
 export const Buttons = () => {
   const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices() ?? {}

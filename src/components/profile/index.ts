@@ -1,6 +1,6 @@
-export * from "./GlassEllipses"
 export * from "./NavBar"
 export * from "./StatisticAndFeedback"
 export * from "./MainInfo"
 export * from "./MyProfilePage"
 export * from "./NewServicesBanner"
+export * from "./ModalBarter"

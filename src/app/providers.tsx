@@ -3,7 +3,7 @@
 import { type ReactNode, useEffect, useState } from "react"
 import { ToastContainer } from "react-toastify"
 import { QueryClient, QueryClientProvider } from "react-query"
-import { usePathname } from "next/navigation"
+import { SessionProvider } from "next-auth/react"
 
 import { useAuth } from "@/store/hooks/useAuth"
 
@@ -14,7 +14,6 @@ const queryClient = new QueryClient()
 
 export function Providers({ children }: { children: ReactNode }) {
   const { changeAuth } = useAuth()
-  const active = usePathname()
   useEffect(() => {
     changeAuth()
   }, [changeAuth])

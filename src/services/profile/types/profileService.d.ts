@@ -8,6 +8,7 @@ export interface IPostProfileData {
   about?: string
   enabled?: boolean
   userId?: string | number //post
+  imageId?: number
 }
 export interface IGetProfileIdResponse{
   id: number

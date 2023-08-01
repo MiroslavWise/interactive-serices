@@ -171,7 +171,8 @@
     width: 100%;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-left: calc(50% - 259px - 8px);
     gap: 16px;
   }
 }

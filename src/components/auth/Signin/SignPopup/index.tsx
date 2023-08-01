@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useMemo, ReactNode } from "react"
-import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
 import {
@@ -17,6 +16,7 @@ import {
   ContentCodeVerification,
 } from "@/components/auth/Signin/SignPopup/components"
 import { Glasses } from "@/components/auth/Signin/SignPopup/components/ui/components/Glasses"
+import { ButtonClose } from "@/components/common/Buttons"
 
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useAuth } from "@/store/hooks/useAuth"
@@ -24,7 +24,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "@/components/auth/Signin/SignPopup/styles/style.module.scss"
 
-export default function ModalSign() {
+export function SignPopup() {
   const { isAuth } = useAuth()
   const [valueEmail, setValueEmail] = useState("")
   const [valueSecret, setValueSecret] = useState<{ url: string, secret: string }>({ url: "", secret: "" })
@@ -59,17 +59,13 @@ export default function ModalSign() {
       ) : (
         <div className={cx(styles.overlay, visible && styles.visible)}>
           <div className={styles.modal}>
-            <div
-              className={styles.close}
+            <ButtonClose
               onClick={() => setVisibleAndType({ visible: false, type: type })}
-            >
-              <Image
-                src="/svg/x-close.svg"
-                alt="x"
-                width={14}
-                height={14}
-              />
-            </div>
+              position={{
+                right: 12,
+                top: 12,
+              }}
+            />
             <div className={styles.content}>
               <HeaderModal email={valueEmail} typeVerification={typeVerification} />
               {content}

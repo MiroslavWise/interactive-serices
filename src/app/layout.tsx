@@ -4,11 +4,12 @@ import { Inter } from "next/font/google"
 
 import { Providers } from "./providers"
 import { FooterMenu } from "@/components/layout/FooterMenu"
+import { SignPopup } from "@/components/auth/Signin/SignPopup"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
 
-const inter = Inter({ subsets: ["latin"],style: "normal" })
+const inter = Inter({ subsets: ["latin"], style: "normal" })
 
 export const metadata: Metadata = {
   title: "Sheira",
@@ -16,20 +17,21 @@ export const metadata: Metadata = {
   keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", ""],
 }
 
-export default function RootLayout({
-  children, modal_sign
-}: {
-    children: ReactNode,
-    modal_sign: ReactNode
-  }) {
+export default function Layout(props: {
+  children: ReactNode,
+}) {
   return (
     <html lang="ru">
       <body className={inter.className}>
         <Providers>
-          {children}
+          {props.children}
           <FooterMenu />
-          {modal_sign}
+          <SignPopup />
         </Providers>
+        <span className="glass-circle-1" /> 
+        <span className="glass-circle-2" /> 
+        <span className="glass-circle-3" /> 
+        <span className="glass-circle-4" /> 
       </body>
     </html>
   )

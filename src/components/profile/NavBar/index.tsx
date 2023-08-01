@@ -5,7 +5,7 @@ import { Logo } from "./components/Logo"
 
 import styles from "./styles/style.module.scss"
 
-export const NavBarUser = () => {
+export const NavBarUser = async () => {
 
   return (
     <nav className={styles.nav}>
@@ -15,7 +15,7 @@ export const NavBarUser = () => {
   )
 }
 
-export const NavBarProfile = () => {
+export const NavBarProfile = async () => {
 
   return (
     <nav className={styles.nav}>

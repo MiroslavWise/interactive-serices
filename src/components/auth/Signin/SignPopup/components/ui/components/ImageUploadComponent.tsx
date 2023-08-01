@@ -3,10 +3,11 @@ import { type ChangeEvent } from "react"
 
 import type { TImageUploadComponent } from "./types/types"
 
+import { ButtonDefault, ButtonsCircle } from "@/components/common/Buttons"
+
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { ButtonDefault, ButtonsCircle } from "@/components/common/Buttons"
 
 export const ImageUploadComponent: TImageUploadComponent = ({ selectedImage, setSelectedImage, setFile }) => {
 

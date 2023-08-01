@@ -6,7 +6,7 @@ import { FooterAsideLeft } from "./components/Footer"
 
 import styles from "./style.module.scss"
 
-export const LeftAsideProfile = () => {
+export const LeftAsideProfile = async () => {
 
   return (
     <aside className={styles.asideLeft}>

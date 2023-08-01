@@ -18,7 +18,7 @@ import { fileUploadService } from "@/services/file-upload"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentPersonalEntry: TContentPersonalEntry = ({  }) => {
+export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -48,6 +48,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({  }) => {
       enabled: true,
       userId: Number(useTokenHelper.authUserId || userId),
     }
+
     Promise.all([
       !!user ? profileService.patchProfile(data, profileId!) : profileService.postProfile(data)
     ])
@@ -58,8 +59,14 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({  }) => {
         if (response[0].ok) {
           fileUploadService(file!, { type: "profile", userId: userId!, profileId: profileId! || response[0].res?.id })
             .then(uploadResponse => {
-              if (!uploadResponse.ok) {
-                
+              if (uploadResponse.ok) {
+                const data: IPostProfileData = {
+                  username: values.username,
+                  imageId: uploadResponse.res?.id,
+                  userId: Number(useTokenHelper.authUserId || userId),
+                }
+                profileService.patchProfile(data, profileId!)
+                  .then(response => { console.log("---response image upload for profile---", response) })
               }
             })
             .finally(() => {

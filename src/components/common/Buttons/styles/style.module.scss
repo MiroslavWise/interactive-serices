@@ -199,3 +199,17 @@
                 }
         }
 }
+
+.containerCloseButton{
+        position: absolute;
+        display: inline-flex;
+        padding: 14px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        border: 1px solid var(--gray-300);
+        background: var(--supporting-white);
+        box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
+        cursor: pointer;
+        z-index: 22;
+}

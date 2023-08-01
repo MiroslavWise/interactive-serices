@@ -35,5 +35,5 @@ export function fileUploadService(uploadFile: File, provider: IProvider): Promis
   formData.append("provider", file.provider)
   formData.append("file", file.file)
 
-  return wrapperFetch.methodUploadFile("/files", formData)
+  return wrapperFetch.methodUploadFile("/files/upload", formData)
 }
