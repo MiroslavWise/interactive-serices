@@ -1,6 +1,6 @@
 "use client"
 
-import { type ReactNode, useEffect, useState } from "react"
+import { type ReactNode, useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { SessionProvider } from "next-auth/react"
@@ -21,7 +21,9 @@ export function Providers({ children }: { children: ReactNode }) {
     <NextThemesProvider>
       <QueryClientProvider client={queryClient}>
         <YMapsProvider>
-          {children}
+          <SessionProvider>
+            {children}
+          </SessionProvider>
           <ToastContainer />
         </YMapsProvider>
       </QueryClientProvider>
