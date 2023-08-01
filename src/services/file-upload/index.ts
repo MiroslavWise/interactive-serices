@@ -32,7 +32,7 @@ export async function fileUploadService(uploadFile: File, provider: IProvider): 
       formData.append('caption', uploadFile.name)
       formData.append('ext', `.${uploadFile.name.split(".").at(-1)}`)
       formData.append('alt', uploadFile.name)
-      formData.append('hash', generateShortHash(`${uploadFile.name}-${uploadFile.size}`))
+      formData.append('hash', "")
       formData.append('height', dimensions.height.toString())
       formData.append('width', dimensions.width.toString())
       formData.append('provider', `${provider.type}:${provider.userId}:${provider.profileId}`)
