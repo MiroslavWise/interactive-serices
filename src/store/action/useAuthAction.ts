@@ -49,8 +49,9 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
     set({ isAuth: true })
     usersService.getUserId(get().userId!)
       .then(response => {
+        console.log("response: ", response?.res)
         if (response.ok && !!response?.res?.profile) {
-          const { firstName, lastName, username, about, birthdate, enabled, id } = response?.res?.profile ?? {}
+          const { firstName, lastName, username, about, birthdate, enabled, id, image } = response?.res?.profile ?? {}
           set({
             user: {
               firstName: firstName,
@@ -61,6 +62,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
               enabled: enabled,
             },
             profileId: id,
+            imageProfile: image,
           })
         }
       })

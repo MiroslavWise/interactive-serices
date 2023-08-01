@@ -6,6 +6,7 @@ interface IImage{
   alt: string
   width: number
   height: number
+  className: string
 }
 
-export type TImage = FC<IImage & Variants>
+export type TImage = FC<IImage>

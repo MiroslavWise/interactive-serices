@@ -2,7 +2,6 @@ import { shallow } from "zustand/shallow"
 
 import { useAuthState } from "../state/useAuthState"
 
-
 export const useAuth = () => {
   const content = useAuthState(state => ({
     token: state.token,
@@ -17,6 +16,7 @@ export const useAuth = () => {
     user: state.user,
     setUser: state.setUser,
     retrieveProfileData: state.retrieveProfileData,
+    imageProfile: state.imageProfile,
   }), shallow)
 
   return content

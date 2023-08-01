@@ -1,4 +1,5 @@
 import type { IReturnData } from "@/services/types/general"
+import type { IImageData } from "@/store/types/useAuthState"
 
 export interface IPostProfileData {
   username?: string
@@ -21,6 +22,7 @@ export interface IGetProfileIdResponse{
   enabled: boolean
   created: Date
   updated: Date
+  image: IImageData
 }
 
 export interface IProfileResponse {

@@ -2,7 +2,6 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
 import type { IUseAuth } from "../types/useAuthState"
-import { usersService } from "@/services/users"
 
 import {
   signOutAction,
@@ -22,6 +21,7 @@ export const useAuthState = create(
       expiration: undefined,
       isAuth: false,
       user: undefined,
+      imageProfile: undefined,
 
       changeAuth() { changeAuthAction(set, get) },
       setToken(value) { setTokenAction(value, set) },

@@ -8,12 +8,13 @@ import myImageLoader from "@/helpers/functions/myImageLoader"
 
 const MotionImage = motion(NextImage)
 
-export const Image: TImage = ({
-  src, alt, height, width,
+export const NextImageMotion: TImage = ({
+  src, alt, height, width, className,
 }) => {
 
   return (
     <MotionImage
+      className={className}
       loader={myImageLoader}
       src={src}
       alt={alt}

@@ -21,6 +21,23 @@ interface IUser{
   enabled: boolean
 }
 
+export interface IImageData{
+  id: number
+  attributes: {
+    alt: string
+    caption: string
+    ext: string
+    hash: string
+    height: number
+    mime: string
+    name: string
+    provider: string
+    size: number
+    url: string
+    width: number
+  }
+}
+
 export interface IUseAuth {
   public token: string | undefined
   public refreshToken: string | undefined
@@ -29,6 +46,7 @@ export interface IUseAuth {
   public expiration: number | undefined
   public isAuth: boolean
   public user: IUser | undefined
+  public imageProfile: IImageData | undefined
   
   public setUser: Dispatch<IUser & { profileId: number } | null>
   public changeAuth: DispatchWithoutAction

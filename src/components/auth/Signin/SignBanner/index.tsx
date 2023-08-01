@@ -15,10 +15,11 @@ import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
+import { NextImageMotion } from "@/components/common/Image"
 
 export const SignBanner: TSignBanner = ({ }) => {
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-  const { isAuth, user } = useAuth()
+  const { isAuth, user, imageProfile } = useAuth()
   const { push } = useRouter()
 
   return (
@@ -37,14 +38,21 @@ export const SignBanner: TSignBanner = ({ }) => {
               user ? (
                 <div className={styles.userWrapper}>
                   <div className={styles.avatar}>
-                    <Image
+                    <NextImageMotion
+                      className={cx(styles.photo, "cursor-pointer")}
+                      src={imageProfile?.attributes.url!}
+                      alt="avatar"
+                      width={94}
+                      height={94}
+                    />
+                    {/* <Image
                       className={cx(styles.photo, "cursor-pointer")}
                       src="/mocks/elena.png"
                       alt='profile'
                       width={94}
                       height={94}
                       onClick={() => push(`/profile`)}
-                    />
+                    /> */}
                     {
                       user.enabled ? (
                         <Image
