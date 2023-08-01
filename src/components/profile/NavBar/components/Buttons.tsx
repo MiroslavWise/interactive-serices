@@ -5,13 +5,14 @@ import Image from "next/image"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { useAuth, useVisibleBannerNewServices } from "@/store/hooks"
+import { useAuth, useVisibleBannerNewServices, useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const Buttons = () => {
-  const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices() ?? {}
-  const { isAuth } = useAuth() ?? {}
+  const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const { isAuth } = useAuth()
   const { push } = useRouter()
 
   return (
@@ -37,9 +38,11 @@ export const Buttons = () => {
           type="primary"
           label="Войти"
           classNames={styles.widthButton}
+          handleClick={() => setVisibleAndType({ visible: true, type: "SignIn" })}
         />
         <ButtonDefault
           label="Зарегистрироваться"
+          handleClick={() => setVisibleAndType({ visible: true, type: "SignIn" })}
         />
       </div>
     )

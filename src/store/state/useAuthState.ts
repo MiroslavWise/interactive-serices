@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { persist, createJSONStorage } from "zustand/middleware"
 
 import type { IUseAuth } from "../types/useAuthState"
 import { usersService } from "@/services/users"

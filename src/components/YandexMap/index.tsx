@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Map } from "@pbe/react-yandex-maps"
-import { isMobile } from "react-device-detect"
 
 import type { TYandexMap } from "./types"
 
