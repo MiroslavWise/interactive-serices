@@ -5,49 +5,41 @@ import { wrapperFetch } from "../requestsWrapper"
 
 import { generateShortHash } from "@/lib/hash"
 
-export function fileUploadService(uploadFile: File, provider: IProvider): Promise<IReturnData<IResponseUploadFile>> {
+function getFileDimensions(uploadFile: File): Promise<{ width: number, height: number }> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
 
-  return new Promise(resolve => {
-    const URL = window.URL || window.webkitURL
-    const blob = URL.createObjectURL(uploadFile)
-    const formData = new FormData()
-  
-    const file: IUploadFile = {
-      name: `${provider.type}:${uploadFile.name}`,
-      caption: uploadFile.name,
-      ext: `.${uploadFile.name.split(".").at(-1)}`,
-      alt: uploadFile.name,
-      hash: generateShortHash(`${uploadFile.name}-${uploadFile.size}`),
-      height: 0,
-      width: 0,
-      provider: `${provider.type}:${provider.userId}:${provider.profileId}`,
-      size: uploadFile.size,
-      thumb: ``,
-      type: uploadFile.type,
-      file: uploadFile,
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const img = new Image()
+      img.onload = () => {
+        const dimensions = { width: img.naturalWidth, height: img.naturalHeight }
+        resolve(dimensions)
+      }
+      img.onerror = () => reject(new Error("Не удалось загрузить изображение."))
+      img.src = e.target?.result as string
     }
-  
-    const img = new Image()
-    img.src = blob
-    file.thumb = blob
-  
-    formData.append('name', file.name)
-    formData.append('alt', file.alt)
-    formData.append('hash', file.hash)
-    formData.append('ext', file.ext)
-    formData.append('caption', file.caption)
-    formData.append('type', file.type)
-    formData.append('size', file.size.toString())
-    formData.append('width', file.width.toString())
-    formData.append('height', file.height.toString())
-    formData.append("provider", file.provider)
-    formData.append("file", file.file)
-  
-    return img.onload = () => {
-      file.width = img.width
-      file.height = img.height
-      file.file = uploadFile
-      return resolve(wrapperFetch.methodUploadFile("/files/upload", formData))
-    }
+
+    reader.onerror = () => reject(new Error("Не удалось прочитать файл."))
+    reader.readAsDataURL(uploadFile)
   })
+}
+
+export async function fileUploadService(uploadFile: File, provider: IProvider): Promise<IReturnData<IResponseUploadFile>> {
+      const dimensions = await getFileDimensions(uploadFile)
+
+      const formData = new FormData()
+      formData.append('name', `${provider.type}:${uploadFile.name}`)
+      formData.append('caption', uploadFile.name)
+      formData.append('ext', `.${uploadFile.name.split(".").at(-1)}`)
+      formData.append('alt', uploadFile.name)
+      formData.append('hash', generateShortHash(`${uploadFile.name}-${uploadFile.size}`))
+      formData.append('height', dimensions.height.toString())
+      formData.append('width', dimensions.width.toString())
+      formData.append('provider', `${provider.type}:${provider.userId}:${provider.profileId}`)
+      formData.append('size', uploadFile.size.toString())
+      formData.append('thumb', generateShortHash(`${uploadFile.name}-${uploadFile.size}`))
+      formData.append('type', uploadFile.type)
+      formData.append('file', uploadFile)
+
+      return await wrapperFetch.methodUploadFile("/files/upload", formData)
 }
