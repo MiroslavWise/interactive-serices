@@ -20,7 +20,7 @@ import styles from "../styles/style.module.scss"
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
   const [loading, setLoading] = useState(false)
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-  const { register, handleSubmit, formState: { errors } } = useForm<IValuesSignForm>()
+  const { register, handleSubmit, formState: { errors }, setError } = useForm<IValuesSignForm>()
 
   const onEnter = async (values: IValuesSignForm) => {
     setLoading(true)
@@ -29,6 +29,12 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
       password: values.password,
     })
       .then(response => {
+        if (response.error?.code === 401) {
+          setError("password", { message: "invalid password" })
+        }
+        if (response.error?.code === 404) {
+          setError("email", { message: "user not found" })
+        }
         if (!!response?.res?.secret && !!response?.res?.otp_auth_url) {
           setValueSecret({
             secret: response?.res?.secret!,
@@ -61,7 +67,9 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
             placeholder="Введите свой email"
             type="text"
             propsInput={register("email", { required: true, validate: (value) => regExEmail.test(value) })}
-            errorMessage={errors.email ? "Требуется email" : ""}
+            errorMessage={
+              errors.email && errors.email?.message === "user not found" ? "Такого пользователя не существует" :
+                errors.email ? "Требуется email" : ""}
           />
           <LabelInputGroup
             label="Пароль"
@@ -69,7 +77,9 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
             placeholder="Введите свой пароль"
             type="password"
             propsInput={register("password", { required: true })}
-            errorMessage={errors.password ? "Требуется пароль" : ""}
+            errorMessage={
+              errors.password && errors.password.message === "invalid password" ? "Не верный пароль" :
+                errors.password ? "Требуется пароль" : ""}
           />
         </section>
         <div className={styles.RememberChange}>

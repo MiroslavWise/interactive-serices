@@ -4,12 +4,16 @@ import { type ChangeEvent } from "react"
 import type { TImageUploadComponent } from "./types/types"
 
 import { ButtonDefault, ButtonsCircle } from "@/components/common/Buttons"
+import { NextImageMotion } from "@/components/common/Image"
 
+import { useAuth } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
 export const ImageUploadComponent: TImageUploadComponent = ({ selectedImage, setSelectedImage, setFile }) => {
+
+  const { imageProfile } = useAuth()
 
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
@@ -29,18 +33,30 @@ export const ImageUploadComponent: TImageUploadComponent = ({ selectedImage, set
 
   return (
     <div className={styles.imageUploader}>
-      <div className={cx(styles.imageContainer, selectedImage && styles.imageActive)}>
+      <div className={cx(styles.imageContainer, (selectedImage || imageProfile?.id) && styles.imageActive)}>
         {
-          selectedImage
+          (selectedImage || imageProfile)
             ? (
               <>
-                <Image
-                  src={selectedImage}
-                  alt="upload"
-                  width={300}
-                  height={300}
-                  className={styles.img}
-                />
+                {
+                  imageProfile ? (
+                    <NextImageMotion
+                      className={styles.img}
+                      src={imageProfile?.attributes?.url}
+                      alt="avatar"
+                      width={300}
+                      height={300}
+                    />
+                  ) : (
+                    <Image
+                      className={styles.img}
+                      src={selectedImage!}
+                      alt="upload"
+                      width={300}
+                      height={300}
+                    />
+                  )
+                }
                 <div className={styles.buttonsContainerImage}>
                   <input
                     type="file"

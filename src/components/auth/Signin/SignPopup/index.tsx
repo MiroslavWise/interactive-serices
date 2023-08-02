@@ -3,6 +3,8 @@
 import { useState, useMemo, ReactNode } from "react"
 import { isMobile } from "react-device-detect"
 
+import type { IResetEmailData } from "./components/ui/types/types"
+
 import {
   HeaderModal,
   ContentSignUp,
@@ -26,7 +28,11 @@ import styles from "@/components/auth/Signin/SignPopup/styles/style.module.scss"
 
 export function SignPopup() {
   const { isAuth } = useAuth()
-  const [valueEmail, setValueEmail] = useState("")
+  const [valueEmail, setValueEmail] = useState<IResetEmailData>({
+    email: "",
+    password_reset_expires: null,
+    password_reset_token: "",
+  })
   const [valueSecret, setValueSecret] = useState<{ url: string, secret: string }>({ url: "", secret: "" })
   const [typeVerification, setTypeVerification] = useState<"email" | "phone" | null>("email")
   const { type, visible, setVisibleAndType } = useVisibleAndTypeAuthModal()
@@ -41,17 +47,17 @@ export function SignPopup() {
       OtpCode: <ContentOtpCode />,
       PersonalEntry: <ContentPersonalEntry />,
       SelectVerification: <ContentSelectVerification typeVerification={typeVerification} setTypeVerification={setTypeVerification} />,
-      CodeVerification: <ContentCodeVerification typeVerification={typeVerification} />,
+      CodeVerification: <ContentCodeVerification typeVerification={typeVerification} valueEmail={valueEmail} />,
       ResetPassword: <ContentResetPassword />,
     }[type]
-  }, [type, setValueSecret, valueSecret, setValueEmail, typeVerification])
+  }, [type, setValueSecret, valueSecret, setValueEmail, typeVerification, valueEmail])
 
   return (
     (!isAuth || type === "PersonalEntry") ? (
       isMobile ? (
         <div className={cx(styles.overviewMobile, visible && styles.visible)}>
           <div className={styles.contentMobile}>
-            <HeaderModal email={valueEmail} typeVerification={typeVerification} />
+            <HeaderModal email={valueEmail.email} typeVerification={typeVerification} />
             {content}
           </div>
           <Glasses />
@@ -67,7 +73,7 @@ export function SignPopup() {
               }}
             />
             <div className={styles.content}>
-              <HeaderModal email={valueEmail} typeVerification={typeVerification} />
+              <HeaderModal email={valueEmail.email} typeVerification={typeVerification} />
               {content}
             </div>
             <Glasses />

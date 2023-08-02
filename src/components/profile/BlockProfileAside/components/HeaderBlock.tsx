@@ -4,6 +4,7 @@ import type { THeaderBlock } from "./types/types"
 
 import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { NextImageMotion } from "@/components/common/Image"
 
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 
@@ -14,10 +15,10 @@ export const HeaderBlock: THeaderBlock = ({ data }) => {
   return (
     <header className={styles.containerHeader}>
       <div className={styles.avatar}>
-        <Image
+        <NextImageMotion
           className={styles.photo}
-          src="/mocks/elena.png"
-          alt='profile'
+          src={data?.profile?.image?.attributes?.url ? data?.profile?.image?.attributes?.url : "/png/default_avatar.png"}
+          alt="avatar"
           width={94}
           height={94}
         />

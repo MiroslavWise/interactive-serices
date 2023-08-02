@@ -30,13 +30,17 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
     setLoading(true)
     useForgotPasswordHelper.forgotPassword({ email: values.email })
       .then(response => {
+        console.log("response: ", response)
         if (response.ok && !!response?.res) {
           useForgotPasswordHelper.saveTemporaryToken(response.res?.password_reset_token)
-          setValueEmail(values.email)
+          setValueEmail({ email: values.email, password_reset_expires: response.res?.password_reset_expires, password_reset_token: response?.res?.password_reset_token })
           setVisibleAndType({ type: "CodeVerification" })
         }
-        if (response?.code === 401) {
+        if (response?.error?.code === 401) {
           setError("email", { message: "user is not verified" })
+        }
+        if (response?.error?.code === 404) {
+          setError("email", { message: "user not found" })
         }
         if (response?.code && response?.code >= 500 && response?.code <= 599) {
           setError("email", { message: "something went wrong" })
@@ -66,10 +70,12 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
             errorMessage={
               errors.email && errors?.email?.message === "user is not verified"
                 ? "Пользователь не верифицирован"
-                : errors.email && errors?.email?.message === "something went wrong"
-                  ? "У нас проблемы с сервером, извините :("
-                  : errors.email
-                    ? "Требуется email" : ""}
+                : errors.email && errors?.email?.message === "user not found"
+                  ? "Пользователя не существует"
+                  : errors.email && errors?.email?.message === "something went wrong"
+                    ? "У нас проблемы с сервером, извините :("
+                    : errors.email
+                      ? "Требуется email" : ""}
           />
         </section>
         <ButtonFill

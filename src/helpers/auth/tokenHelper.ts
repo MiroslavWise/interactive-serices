@@ -17,7 +17,7 @@ export const useTokenHelper: IUseTokenHelper = {
           return {
             ok: true,
             res: response?.res,
-            error: null
+            error: null,
           }
         }
         return {

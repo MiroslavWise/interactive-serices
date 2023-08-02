@@ -15,6 +15,9 @@ import styles from "./styles/style.module.scss"
 export const Peoples: TPeoples = ({ setDataAndActive }) => {
   const { data, isLoading, error } = useQuery(["users"], () => usersService.getUsers({ limit: 20 }))
   const { res, ok } = data ?? {}
+
+  console.log("res: ", res)
+
   return (
     <MotionUL classNames={[styles.peoples]}>
       {
@@ -24,7 +27,7 @@ export const Peoples: TPeoples = ({ setDataAndActive }) => {
           <PeopleCard
             key={`${item.id}_peoples`}
             setDataProfile={setDataAndActive}
-            photo={"/mocks/maria.png"}
+            photo={item?.profile?.image?.attributes?.url ? item?.profile?.image?.attributes?.url : "/public/png/default_avatar.png"}
             name={`${item?.profile?.firstName || "Имя"} ${item?.profile?.lastName || "Фамилия"}`}
             rate={4.5}
             services={MOCKS_SERVICES}

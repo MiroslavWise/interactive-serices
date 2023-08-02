@@ -7,6 +7,7 @@ import type { TInfoContainerProfile } from "./types"
 import { ButtonFill } from "@/components/common/Buttons"
 import { ButtonsCircle } from "@/components/common/Buttons"
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { NextImageMotion } from "@/components/common/Image"
 
 import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 
@@ -19,10 +20,10 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
     <section className={styles.infoContainerProfile}>
       <div className={styles.avatarAndAchievements}>
         <div className={styles.avatar} onClick={() => push(`/user/${profile.userId}`)}>
-          <Image
+          <NextImageMotion
             className={styles.photo}
-            src={profile?.photo}
-            alt='profile'
+            alt="avatar"
+            src={profile?.photo ? profile?.photo : "/png/default_avatar.png"}
             width={94}
             height={94}
           />

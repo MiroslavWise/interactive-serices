@@ -2,12 +2,18 @@ import type { FC, Dispatch, SetStateAction } from "react"
 
 import { TTypeSign } from "@/store/types/useVisibleAndTypeAuthModalState"
 
+export interface IResetEmailData{
+  email: string
+  password_reset_expires: number | null
+  password_reset_token: string
+}
+
 export type TContentSignIn = FC<{
   setValueSecret: Dispatch<SetStateAction<{ url: string, secret: string }>>
 }>
 
 export type TContentForgotPassword = FC<{
-  setValueEmail: Dispatch<SetStateAction<string>>
+  setValueEmail: Dispatch<SetStateAction<IResetEmailData>>
 }>
 
 export type TContentSignUp = FC<{
@@ -47,6 +53,7 @@ export type THeaderModal = FC<{
 
 export type TContentCodeVerification = FC<{
   typeVerification: "email" | "phone" | null
+  valueEmail: IResetEmailData
 }>
 
 export interface IValuesRegistrationForm {

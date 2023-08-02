@@ -3,6 +3,7 @@ import Image from "next/image"
 import type { TMainInfo } from "./types/types"
 
 import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
+import { NextImageMotion } from "@/components/common/Image"
 import { BlockOther } from "./components/BlockOther"
 
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
@@ -17,10 +18,10 @@ export const MainInfo: TMainInfo = ({ user }) => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.avatar}>
-          <Image
+          <NextImageMotion
             className={styles.photo}
-            src="/mocks/elena.png"
-            alt='profile'
+            src={user?.profile?.image?.attributes?.url ? user?.profile?.image?.attributes?.url : "/png/default_avatar.png"}
+            alt="avatar"
             width={94}
             height={94}
           />

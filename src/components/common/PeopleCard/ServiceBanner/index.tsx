@@ -5,6 +5,7 @@ import type { TPeopleCard } from "./types"
 import { MotionLI } from "@/components/common/Motion"
 import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { NextImageMotion } from "@/components/common/Image"
 
 import styles from "./style.module.scss"
 
@@ -31,12 +32,12 @@ export const PeopleCard: TPeopleCard = ({
   return (
     <MotionLI classNames={[styles.container]} onClick={handleClick}>
       <section className={styles.wrapperPhotoRate}>
-        <Image
+        <NextImageMotion
+          className={styles.avatar}
           src={photo}
-          alt={name}
+          alt={"avatar"}
           width={72}
           height={72}
-          className={styles.avatar}
         />
         <div className={styles.rateBadge}>
           <Image

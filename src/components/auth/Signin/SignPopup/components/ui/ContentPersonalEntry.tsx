@@ -22,7 +22,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const { userId, profileId, user, changeAuth, retrieveProfileData } = useAuth()
+  const { userId, profileId, user, changeAuth } = useAuth()
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValuesPersonForm>({
     defaultValues: {
@@ -57,22 +57,28 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
           return setError("username", { message: "user exists" })
         }
         if (response[0].ok) {
-          fileUploadService(file!, { type: "profile", userId: userId!, profileId: profileId! || response[0].res?.id })
-            .then(uploadResponse => {
-              if (uploadResponse.ok) {
-                const data: IPostProfileData = {
-                  username: values.username,
-                  imageId: uploadResponse.res?.id,
-                  userId: Number(useTokenHelper.authUserId || userId),
+          if (file) {
+            fileUploadService(file!, { type: "profile", userId: userId!, profileId: profileId! || response[0].res?.id })
+              .then(uploadResponse => {
+                if (uploadResponse.ok) {
+                  const data: IPostProfileData = {
+                    username: values.username,
+                    imageId: uploadResponse.res?.id,
+                    userId: Number(useTokenHelper.authUserId || userId),
+                  }
+                  profileService.patchProfile(data, profileId!)
+                    .then(response => { console.log("---response image upload for profile---", response) })
+                    .finally(() => {
+                      changeAuth()
+                  })
                 }
-                profileService.patchProfile(data, profileId!)
-                  .then(response => { console.log("---response image upload for profile---", response) })
-              }
-            })
-            .finally(() => {
-              setVisibleAndType({ visible: false, type: null })
-              retrieveProfileData()
-            })
+              })
+              .finally(() => {
+                setVisibleAndType({ visible: false, type: null })
+              })
+          } else {
+            changeAuth()
+          }
         }
       })
       .finally(() => {

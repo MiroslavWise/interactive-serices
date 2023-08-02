@@ -62,7 +62,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
               enabled: enabled,
             },
             profileId: id,
-            imageProfile: image,
+            imageProfile: image || undefined,
           })
         }
       })
@@ -73,7 +73,7 @@ export const retrieveProfileData = (set: ISetAction, get: IGetAction) => {
   profileService.getProfileThroughUserId(get().userId!)
     .then(response => {
       if (response.ok) {
-        const { firstName, lastName, username, about, birthdate, enabled, id } = response?.res ?? {}
+        const { firstName, lastName, username, about, birthdate, enabled, id, image } = response?.res ?? {}
         set({
           user: {
             firstName: firstName!,
@@ -84,6 +84,7 @@ export const retrieveProfileData = (set: ISetAction, get: IGetAction) => {
             enabled: enabled!,
           },
           profileId: id!,
+          imageProfile: image || undefined,
         })
       }
     })

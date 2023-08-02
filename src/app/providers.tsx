@@ -10,7 +10,14 @@ import { useAuth } from "@/store/hooks/useAuth"
 import { NextThemesProvider } from "@/context/NextThemesProvider"
 import { YMapsProvider } from "@/context/YMapsProvider"
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    }
+  }
+})
 
 export function Providers({ children }: { children: ReactNode }) {
   const { changeAuth } = useAuth()

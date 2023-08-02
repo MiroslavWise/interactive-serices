@@ -91,6 +91,7 @@ export const wrapperFetch: IWrapperFetch = {
         ok: false,
         res: responseData?.data,
         error: responseData?.error,
+        code: responseData?.code
       }
     } catch (e) {
       return {

@@ -26,16 +26,9 @@ export const BlockProfileAside: FC = () => {
         <Badges />
         <ButtonDefault
           label="Редактировать профиль"
-          // handleClick={() => setVisible(true)}
           classNames={cx("w-100", styles.largeButton)}
         />
       </section>
-      {/* <SignPopup
-        visible={visible}
-        setVisible={setVisible}
-        type="PersonalEntry"
-        setType={() => { }}
-      /> */}
     </>
   )
 }

@@ -40,19 +40,11 @@ export const SignBanner: TSignBanner = ({ }) => {
                   <div className={styles.avatar}>
                     <NextImageMotion
                       className={cx(styles.photo, "cursor-pointer")}
-                      src={imageProfile?.attributes.url!}
+                      src={imageProfile?.attributes.url ? imageProfile?.attributes.url : "/png/default_avatar.png" }
                       alt="avatar"
                       width={94}
                       height={94}
                     />
-                    {/* <Image
-                      className={cx(styles.photo, "cursor-pointer")}
-                      src="/mocks/elena.png"
-                      alt='profile'
-                      width={94}
-                      height={94}
-                      onClick={() => push(`/profile`)}
-                    /> */}
                     {
                       user.enabled ? (
                         <Image

@@ -9,7 +9,7 @@ import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentCodeVerification: TContentCodeVerification = ({ typeVerification }) => {
+export const ContentCodeVerification: TContentCodeVerification = ({ typeVerification, valueEmail }) => {
   const [loading, setLoading] = useState(false)
   const [inputValues, setInputValues] = useState(Array(4).fill(""))
   const [errorCode, setErrorCode] = useState("")
