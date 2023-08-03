@@ -1,6 +1,5 @@
 import { type ReactNode, useMemo, useState } from "react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 
 import type { TProfilePublic } from "./types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
@@ -11,12 +10,14 @@ import { ItemSegments } from "./components/ItemSegments"
 import { ContainerReviews } from "./components/ContainerReviews"
 import { ContainerOffers } from "./components/ContainerOffers"
 import { ContainerBlogs } from "./components/ContainerBlogs"
+import { Dots } from "./components/Dots"
+import { Glasses } from "./components/Glasses"
 
 import { VALUES } from "./constants"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { Dots } from "./components/Dots"
+import { ButtonClose } from "@/components/common/Buttons"
 
 const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
   const [activeSegment, setActiveSegment] = useState<ISegmentValues>(VALUES[0])
@@ -24,41 +25,31 @@ const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
   const content: ReactNode = useMemo(() => ({
     reviews: <ContainerReviews />,
     services: <ContainerOffers />,
-    sos: null,
     blogs: <ContainerBlogs />,
   }[activeSegment.value]), [activeSegment])
 
   return (
-    <div
-      id="ProfilePublic"
-      className={cx(styles.container, active.isProfile && styles.active)}
-    >
-      <InfoContainerProfile profile={active.dataProfile!} />
-      <ItemsBadges />
-      <ItemSegments
-        values={VALUES}
-        activeSegment={activeSegment}
-        setActiveSegment={setActiveSegment}
-      />
-      {content}
-      <p className={styles.title}>Public profile</p>
-      <div
-        className={styles.close}
-        onClick={() => setActive((data) => ({ isProfile: false, isService: true, dataProfile: data.dataProfile }))}
-      >
-        <Image
-          src="/svg/x-close.svg"
-          alt="x"
-          width={20}
-          height={20}
+    <div className={cx(styles.wrapper, active.isProfile && styles.active)}>
+      <div className={cx(styles.container, active.isProfile && styles.active)}>
+        <InfoContainerProfile profile={active.dataProfile!} />
+        <ItemsBadges />
+        <ItemSegments
+          values={VALUES}
+          activeSegment={activeSegment}
+          setActiveSegment={setActiveSegment}
         />
+        {content}
+        <p className={styles.title}>Public profile</p>
+        <ButtonClose
+          position={{
+            top: 12,
+            left: 12,
+          }}
+          onClick={() => setActive((data) => ({ isProfile: false, isService: true, dataProfile: data.dataProfile }))}
+        />
+        <Dots id={active.dataProfile?.userId!} />
+        <Glasses />
       </div>
-      <Dots id={active.dataProfile?.userId!} />
-      <span className={styles.glassShadow1} />
-      <span className={styles.glassShadow2} />
-      <span className={styles.glassShadow3} />
-      <span className={styles.glassShadow4} />
-      <span className={styles.glassShadow5} />
     </div>
   )
 }

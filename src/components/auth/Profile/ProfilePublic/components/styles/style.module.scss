@@ -1,3 +1,13 @@
+@mixin glassShadow {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 300px;
+        filter: blur(80px);
+        transform: translate(-50%, -50%);
+        z-index: -1;
+}
+
 .infoContainerProfile {
         display: inline-flex;
         align-items: flex-start;
@@ -188,4 +198,41 @@
         top: 18px;
         display: inline-flex;
         gap: 12px
+}
+
+//GLASSES
+
+.glassShadow1 {
+        @include glassShadow;
+        background: rgba(243, 145, 114, 0.32);
+        top: 0;
+        left: 0;
+}
+
+.glassShadow2 {
+        @include glassShadow;
+        background: rgba(148, 249, 48, 0.32);
+        top: 60%;
+        left: -50px;
+}
+
+.glassShadow3 {
+        @include glassShadow;
+        background: rgba(135, 92, 255, 0.32);
+        top: 70%;
+        left: 50%;
+}
+
+.glassShadow4 {
+        @include glassShadow;
+        background: rgba(243, 145, 114, 0.45);
+        top: 85%;
+        left: 100%;
+}
+
+.glassShadow5 {
+        @include glassShadow;
+        background: rgba(100, 220, 246, 0.32);
+        top: 40%;
+        left: calc(100% + 60px);
 }

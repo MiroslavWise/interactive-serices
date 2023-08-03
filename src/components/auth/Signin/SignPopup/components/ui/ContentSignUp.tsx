@@ -62,12 +62,6 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
             errorMessage={errors.email && errors?.email?.message === "user already exists" ? "Пользователь уже существует" : errors?.email ? "Требуется email" : ""}
           />
           <LabelInputGroup
-            label="Номер телеграмма"
-            placeholder="Введите свой номер"
-            type="text"
-            propsInput={register("number")}
-          />
-          <LabelInputGroup
             label="Пароль"
             rules
             placeholder="Введите свой пароль"

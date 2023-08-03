@@ -13,10 +13,10 @@ import { usersService } from "@/services/users"
 
 import styles from "../styles/style.module.scss"
 
-export const ContentOtpCode: TContentOtpCode = ({  }) => {
-  const { setToken, setUser } = useAuth()
+export const ContentOtpCode: TContentOtpCode = ({ }) => {
+  const { setToken, changeAuth } = useAuth()
   const [loading, setLoading] = useState(false)
-  const {setVisibleAndType} = useVisibleAndTypeAuthModal()
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
@@ -62,16 +62,7 @@ export const ContentOtpCode: TContentOtpCode = ({  }) => {
               return
             }
             if (!!data?.res?.profile) {
-              const { firstName, lastName, username, about, birthdate, enabled, id } = data?.res?.profile ?? {}
-              setUser({
-                firstName: firstName,
-                lastName: lastName,
-                username: username,
-                birthdate: birthdate,
-                about: about,
-                enabled: enabled,
-                profileId: id,
-              })
+              changeAuth()
             }
             setVisibleAndType({ type: null, visible: false })
             return
@@ -95,7 +86,7 @@ export const ContentOtpCode: TContentOtpCode = ({  }) => {
   return (
     <div className={styles.contentOtpCode}>
       <div className={styles.inputs}>
-        {inputValues.map((_, index) => (
+        {inputValues.map((item, index) => (
           <input
             key={index}
             // @ts-ignore
@@ -107,8 +98,9 @@ export const ContentOtpCode: TContentOtpCode = ({  }) => {
             onChange={(event) => handleChange(event, index)}
             onKeyDown={(event) => handleKeyDown(event, index)}
             onClick={() => {
-              setInputValues(Array(6).fill(""))
-              inputRefs.current[0].focus()
+              inputRefs.current[index].value = ""
+              inputRefs.current[index].focus()
+              setInputValues(state => state.map((item, ind) => index === ind ? "" : item))
             }}
           />
         ))}

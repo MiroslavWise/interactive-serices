@@ -8,7 +8,7 @@ import { Logo } from "./components/Logo"
 
 import styles from "./styles/style.module.scss"
 
-export const NavBarUser = async () => {
+export const NavBarUser = () => {
 
   return (
     <motion.nav
@@ -24,7 +24,7 @@ export const NavBarUser = async () => {
   )
 }
 
-export const NavBarProfile = async () => {
+export const NavBarProfile = () => {
 
   return (
     <motion.nav
