@@ -12,7 +12,7 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
   },
   {
     label: "Обмен",
-    path: "offers",
+    path: isAuth ? "offers" : null,
     icon: {
       fill: "/icons/mobile/fill/sharing-filled.svg",
       regular: "/icons/mobile/regular/sharing-regular.svg",
@@ -30,7 +30,7 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
   },
   {
     label: "Сообщения",
-    path: "messages",
+    path: isAuth ? "messages" : null,
     icon: {
       fill: "/icons/mobile/fill/message-filled.svg",
       regular: "/icons/mobile/regular/message-regular.svg",

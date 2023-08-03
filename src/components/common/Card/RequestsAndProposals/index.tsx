@@ -14,7 +14,7 @@ import { cx } from "@/lib/cx"
 import styles from "./style.module.scss"
 import { ButtonDefault } from "../../Buttons"
 
-export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title, services }) => {
+export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title, services, type }) => {
   const [active, setActive] = useState(0)
   const id = useId()
 
@@ -59,7 +59,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
   }, [shuffleArray])
   
   return (
-    <MotionLI classNames={[styles.container]}>
+    <MotionLI classNames={[styles.container, styles[type!]]}>
       <div className={styles.header}>
         <h4>{title}</h4>
         <ul>

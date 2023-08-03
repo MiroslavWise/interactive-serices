@@ -12,8 +12,8 @@ export const ContainerServices: TContainerServices = ({ }) => {
   const [value, setValue] = useState<IValueServices>("proposals")
 
   const content: ReactNode = useMemo(() => ({
-    proposals: <ItemsProposalsRequests key="proposals" />,
-    requests: <ItemsProposalsRequests key="requests" />,
+    proposals: <ItemsProposalsRequests key="proposals" type="optional-3" />,
+    requests: <ItemsProposalsRequests key="requests" type="optional-2" />,
   }[value]), [value])
 
   return (

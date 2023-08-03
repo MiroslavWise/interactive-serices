@@ -13,8 +13,4 @@ export const VALUES: ISegmentValues[] = [
     value: "blogs",
     label: "Блог",
   },
-  {
-    value: "sos",
-    label: "SOS",
-  },
 ]

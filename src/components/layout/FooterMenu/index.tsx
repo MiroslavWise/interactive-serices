@@ -16,12 +16,12 @@ import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({ }) => {
   const { push } = useRouter()
-  const { visible, setVisibleAndType } = useVisibleAndTypeAuthModal()
-  const { isAuth } = useAuth() ?? {}
+  const { visible, type, setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const { isAuth } = useAuth()
   const valuePath = useActivePath()
 
   const handleSignInOrSignUp = () => {
-    setVisibleAndType({ visible: !visible })
+    setVisibleAndType({ visible: !visible, type: type ? type : "SignIn" })
   }
 
   const handleGoToPage = (path: string) => {

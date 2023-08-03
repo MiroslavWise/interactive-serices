@@ -20,7 +20,7 @@ export type TItemsBlogMessages = FC<{
 }>
 
 export type TItemsProposalsRequests = FC<{
-  
+  type: "optional-2" | "optional-3"
 }>
 
 export type TContainerServices = FC<{

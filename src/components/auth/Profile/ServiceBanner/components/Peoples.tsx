@@ -16,8 +16,6 @@ export const Peoples: TPeoples = ({ setDataAndActive }) => {
   const { data, isLoading, error } = useQuery(["users"], () => usersService.getUsers({ limit: 20 }))
   const { res, ok } = data ?? {}
 
-  console.log("res: ", res)
-
   return (
     <MotionUL classNames={[styles.peoples]}>
       {

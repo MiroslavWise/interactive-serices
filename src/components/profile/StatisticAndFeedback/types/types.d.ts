@@ -1,3 +1,3 @@
-export type TItemInteractive = "reviews" | "blogs" | "services" | "sos"
+export type TItemInteractive = "reviews" | "blogs" | "services"
 
 export type IValueServices= "proposals" | "requests"

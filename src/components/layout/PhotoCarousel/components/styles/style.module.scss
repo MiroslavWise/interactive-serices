@@ -1,0 +1,82 @@
+//BUTTONS
+
+.nextButton,
+.prevButton {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 7%;
+  height: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out 0.03s;
+
+  &:hover {
+    background: rgba(#fff, 0.1);
+  }
+
+  &.disabled {}
+}
+
+.prevButton {
+  left: 0;
+}
+
+.nextButton {
+  right: 0;
+}
+
+//LARGE PHOTO
+
+.containerLargePhoto{
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  right: 15%;
+  bottom: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}
+
+//FOOTER PHOTOS
+
+.containerFooterPhotos{
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  top: 80%;
+  width: 100%;
+  display: inline-flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+
+  li{
+    height: 100%;
+    aspect-ratio: 9/16;
+    transition: all 0.5s ease-in-out 0.02s;
+    border: 2px solid var(--gray-800);
+    border-radius: 5px;
+    cursor: pointer;
+
+    img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    &.active{
+      aspect-ratio: 16/9;
+      border-color: var(--supporting-white);
+    }
+  }
+}

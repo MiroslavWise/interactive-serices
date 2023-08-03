@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
@@ -16,8 +17,8 @@ export const Buttons = () => {
   const { push } = useRouter()
 
   return (
-    isAuth ? (
-      <>
+    !isMobile ? (
+      isAuth ? (
         <div className={styles.buttons}>
           <ButtonDefault
             label="Просмотр карты"
@@ -31,20 +32,20 @@ export const Buttons = () => {
             handleClick={() => setIsVisibleNewServicesBanner(true)}
           />
         </div>
-      </>
-    ) : (
-      <div className={styles.buttons}>
-        <ButtonFill
-          type="primary"
-          label="Войти"
-          classNames={styles.widthButton}
-          handleClick={() => setVisibleAndType({ visible: true, type: "SignIn" })}
-        />
-        <ButtonDefault
-          label="Зарегистрироваться"
-          handleClick={() => setVisibleAndType({ visible: true, type: "SignIn" })}
-        />
-      </div>
-    )
+      ) : (
+        <div className={styles.buttons}>
+          <ButtonFill
+            type="primary"
+            label="Войти"
+            classNames={styles.widthButton}
+            handleClick={() => setVisibleAndType({ visible: true, type: "SignIn" })}
+          />
+          <ButtonDefault
+            label="Зарегистрироваться"
+            handleClick={() => setVisibleAndType({ visible: true, type: "SignUp" })}
+          />
+        </div>
+      )
+    ) : null
   )
 }

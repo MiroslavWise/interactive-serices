@@ -1,0 +1,19 @@
+.container{
+  max-width: 319px;
+  width: 100%;
+  height: auto;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-radius: 16px;
+  background: var(--supporting-white);
+  box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+
+  &:last-child{
+    margin-top: auto;
+    justify-self: flex-end;
+  }
+}

@@ -9,6 +9,13 @@
   border-radius: 16px;
   // border: 2px solid var(--supporting-white);
   background: var(--gradient-optional-2);
+
+  &.optional-2{
+    background: var(--gradient-optional-2);
+  }
+  &.optional-3{
+    background: var(--gradient-optional-3);
+  }
 }
 
 .header {

@@ -2,6 +2,11 @@
 
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
+
+import { cx } from "@/lib/cx"
+
+import styles from "./styles/style.module.scss"
 
 export const Logo = () => {
   const { push } = useRouter()
@@ -9,10 +14,10 @@ export const Logo = () => {
     <Image
       src="/logo/wordmark.svg"
       alt="logo"
-      width={117}
-      height={30}
+      width={isMobile ? 107 : 117}
+      height={isMobile ? 28 : 30}
       onClick={() => push("/")}
-      className="cursor-pointer"
+      className={cx("cursor-pointer", isMobile && styles.isMobileLogo)}
     />
   )
 }

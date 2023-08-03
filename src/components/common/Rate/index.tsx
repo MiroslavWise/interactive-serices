@@ -3,6 +3,8 @@ import Image from "next/image"
 
 import type { TRate } from "./types"
 
+import { cx } from "@/lib/cx"
+
 import styles from "./style.module.scss"
 
 function createArray(length: number, count: number): boolean[] {
@@ -13,18 +15,18 @@ function createArray(length: number, count: number): boolean[] {
   return fill
 }
 
-export const Rate: TRate = ({ rate }) => {
+export const Rate: TRate = ({ rate, className, size }) => {
   const id = useId()
   return (
-    <ul className={styles.container}>
+    <ul className={cx(styles.container, className)} style={{height: size || 20}}>
       {
         createArray(Number(rate), 5).map((bool, index) => (
-          <li key={`${index}_rate_${id}`}>
+          <li key={`${index}_rate_${id}`} style={{width: size || 20, height: size || 20}}>
             <Image
               src={bool ? "/svg/stars/star-fill.svg" : "/svg/stars/star-outline.svg"}
               alt="stars"
-              width={20}
-              height={20}
+              width={size || 20}
+              height={size || 20}
             />
           </li>
         ))

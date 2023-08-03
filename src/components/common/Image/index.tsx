@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react"
 import NextImage from "next/image"
 import { motion } from "framer-motion"
 
@@ -13,9 +14,7 @@ const altName = {
   avatar: "/png/blur_avatar_default.jpg",
 }
 
-const altPlaceholder = ["avatar"]
-
-export const NextImageMotion: TImage = ({
+const ImageMotion: TImage = ({
   src, alt, height, width, className,
 }) => {
 
@@ -35,3 +34,5 @@ export const NextImageMotion: TImage = ({
     />
   )
 }
+
+export const NextImageMotion = memo(ImageMotion)

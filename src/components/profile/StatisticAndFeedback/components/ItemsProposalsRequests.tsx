@@ -9,7 +9,7 @@ import { MOCKS_PROPOSALS } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
 
-export const ItemsProposalsRequests: TItemsProposalsRequests = ({ }) => {
+export const ItemsProposalsRequests: TItemsProposalsRequests = ({ type }) => {
   const id = useId()
 
   return (
@@ -19,6 +19,7 @@ export const ItemsProposalsRequests: TItemsProposalsRequests = ({ }) => {
           <CardRequestsAndProposals
             key={item.title + index + id}
             {...item}
+            type={type}
           />
         ))
       }

@@ -23,10 +23,7 @@ export const Interactive: TInteractive = ({ }) => {
     return {
       reviews: <ItemsReviews />,
       blogs: <ItemsBlogMessages />,
-      // requests: <ItemsRequests />,
-      // proposals: <ItemsProposals />,
       services: <ContainerServices />,
-      sos: null,
     }[active]
   }, [active])
 

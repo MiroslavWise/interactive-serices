@@ -1,4 +1,5 @@
-import { ICardOffer } from "@/components/common/Card/Offer/types"
+import type { ICardOffer } from "@/components/common/Card/Offer/types"
+import type { ICardSuggestion } from "@/components/common/Card/Suggestion/types"
 import type { IItems } from "@/components/profile/MainInfo/constants"
 
 // name: string
@@ -91,4 +92,142 @@ export const HISTORY_OFFERS_MOCKS: ICardOffer[] = [
     rating: 5.0,
     price: 410,
   },
+]
+
+
+
+export const MY_SUGGESTIONS: ICardSuggestion[] = [
+  {
+    name: "Jenny Wilson",
+    can: "Я могу сделать вам макияж и лак для ногтей, а так-же заниматься в дальнейшем обслуживанием вашим",
+    photos: [
+      {
+        url: "/mocks/suggestions/edz-norton-PEttXYw9hi8-unsplash.jpg",
+        id: 1,
+      },
+      {
+        url: "/mocks/suggestions/engin-akyurt-EeVOgK2x0E4-unsplash.jpg",
+        id: 2,
+      },
+      {
+        url: "/mocks/suggestions/engin-akyurt-GXhGMhhzs9E-unsplash.jpg",
+        id: 3,
+      },
+      {
+        url: "/mocks/suggestions/ovinuchi-ejiohuo-vaOosG1lgGE-unsplash.jpg",
+        id: 6,
+      },
+      {
+        url: "/mocks/suggestions/jamie-coupaud-_B5vT7ZfCzg-unsplash.jpg",
+        id: 5,
+      },
+      {
+        url: "/mocks/suggestions/hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg",
+        id: 4,
+      },
+    ],
+    rating: {
+      average: 4.5,
+      total: 21,
+    },
+  },
+  {
+    name: "Jenny Wilson",
+    can: "Я могу сделать вам макияж и лак для ногтей.",
+    photos: [
+      {
+        url: "/mocks/suggestions/edz-norton-PEttXYw9hi8-unsplash.jpg",
+        id: 1,
+      },
+      {
+        url: "/mocks/suggestions/hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg",
+        id: 4,
+      },
+      {
+        url: "/mocks/suggestions/engin-akyurt-EeVOgK2x0E4-unsplash.jpg",
+        id: 2,
+      },
+      {
+        url: "/mocks/suggestions/jamie-coupaud-_B5vT7ZfCzg-unsplash.jpg",
+        id: 5,
+      },
+      {
+        url: "/mocks/suggestions/ovinuchi-ejiohuo-vaOosG1lgGE-unsplash.jpg",
+        id: 6,
+      },
+    ],
+    rating: {
+      average: 4.5,
+      total: 21,
+    },
+  },
+  {
+    name: "Jenny Wilson",
+    can: "Я могу сделать вам макияж и лак для ногтей.",
+    photos: [
+      {
+        url: "/mocks/suggestions/edz-norton-PEttXYw9hi8-unsplash.jpg",
+        id: 1,
+      },
+      {
+        url: "/mocks/suggestions/engin-akyurt-EeVOgK2x0E4-unsplash.jpg",
+        id: 2,
+      },
+      {
+        url: "/mocks/suggestions/engin-akyurt-GXhGMhhzs9E-unsplash.jpg",
+        id: 3,
+      },
+      {
+        url: "/mocks/suggestions/hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg",
+        id: 4,
+      },
+      {
+        url: "/mocks/suggestions/jamie-coupaud-_B5vT7ZfCzg-unsplash.jpg",
+        id: 5,
+      },
+      {
+        url: "/mocks/suggestions/ovinuchi-ejiohuo-vaOosG1lgGE-unsplash.jpg",
+        id: 6,
+      },
+    ],
+    rating: {
+      average: 4.5,
+      total: 21,
+    },
+  },
+  {
+    name: "Jenny Wilson",
+    can: "Я могу сделать вам макияж и лак для ногтей.",
+    photos: [
+      {
+        url: "/mocks/suggestions/edz-norton-PEttXYw9hi8-unsplash.jpg",
+        id: 1,
+      },
+      {
+        url: "/mocks/suggestions/engin-akyurt-EeVOgK2x0E4-unsplash.jpg",
+        id: 2,
+      },
+      {
+        url: "/mocks/suggestions/engin-akyurt-GXhGMhhzs9E-unsplash.jpg",
+        id: 3,
+      },
+      {
+        url: "/mocks/suggestions/hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg",
+        id: 4,
+      },
+      {
+        url: "/mocks/suggestions/jamie-coupaud-_B5vT7ZfCzg-unsplash.jpg",
+        id: 5,
+      },
+      {
+        url: "/mocks/suggestions/ovinuchi-ejiohuo-vaOosG1lgGE-unsplash.jpg",
+        id: 6,
+      },
+    ],
+    rating: {
+      average: 4.5,
+      total: 21,
+    },
+  },
+  
 ]

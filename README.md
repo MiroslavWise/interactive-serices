@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 ```bash
@@ -14,3 +12,7 @@ pnpm dev
 [MakeFile]
 
 ```make build-run PORT=3000```
+
+## Getting Started NODEMON
+
+```nodemon --watch app --exec "next build && next start -p 4400"```

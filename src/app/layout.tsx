@@ -8,6 +8,7 @@ import { SignPopup } from "@/components/auth/Signin/SignPopup"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
+import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
@@ -27,6 +28,7 @@ export default function Layout(props: {
           {props.children}
           <FooterMenu />
           <SignPopup />
+          <PhotoCarousel />
         </Providers>
         <span className="glass-circle-1" /> 
         <span className="glass-circle-2" /> 

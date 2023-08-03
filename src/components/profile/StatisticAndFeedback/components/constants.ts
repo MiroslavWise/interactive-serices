@@ -18,8 +18,4 @@ export const ITEMS_INTERACTIVE: IItemsInteractive[] = [
     label: "Блог",
     value: "blogs",
   },
-  {
-    label: "SOS",
-    value: "sos",
-  },
 ]

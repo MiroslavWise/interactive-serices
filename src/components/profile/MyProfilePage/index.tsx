@@ -2,6 +2,7 @@ import type { TMyProfilePage } from "./types/types"
 
 import { ContainerAboutMe } from "./components/ContainerAboutMe"
 import { ContainerTagAndButton } from "./components/ContainerTagAndButton"
+import { ContainerSuggestions } from "./components/ContainerSuggestions"
 
 import styles from "./styles/style.module.scss"
 
@@ -11,6 +12,7 @@ export const MyProfilePage: TMyProfilePage = ({ }) => {
     <section className={styles.containerProfilePage}>
       <ContainerAboutMe />
       <ContainerTagAndButton />
+      <ContainerSuggestions />
     </section>
   )
 }

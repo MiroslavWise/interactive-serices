@@ -14,6 +14,7 @@ export const ButtonFill: TButtonPropsFill = ({
   shadow,
   small,
   suffix,
+  prefix,
 }) => {
   return (
     <button
@@ -21,6 +22,7 @@ export const ButtonFill: TButtonPropsFill = ({
       onClick={handleClick}
       type={submit || "button"}
     >
+      {prefix ? prefix : null}
       <span>{label}</span>
       {suffix ? suffix : null}
     </button>

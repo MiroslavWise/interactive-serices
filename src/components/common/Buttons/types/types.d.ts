@@ -41,7 +41,7 @@ interface IButtonRadio {
 
 interface IButtonsCircle {
   src: string
-  type: "primary" | "option-1"
+  type: "primary" | "option-1" | "gray"
   onClick?: DispatchWithoutAction
 }
 

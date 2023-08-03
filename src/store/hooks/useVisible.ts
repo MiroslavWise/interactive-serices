@@ -4,6 +4,7 @@ import {
   useVisibleAndTypeAuthModalState,
   useVisibleBannerNewServicesState,
   useVisibleModalBarterState,
+  useVisiblePhotosCarouselState,
 } from "../state/useVisible"
 
 export const useVisibleBannerNewServices = () => {
@@ -30,6 +31,18 @@ export const useVisibleModalBarter = () => {
     isVisible: state.isVisible,
     dataProfile: state.dataProfile,
     setIsVisibleBarter: state.setIsVisibleBarter,
+  }), shallow)
+
+  return content
+}
+
+export const useVisiblePhotosCarousel = () => {
+  const content = useVisiblePhotosCarouselState(state => ({
+    isVisible: state.isVisible,
+    photos: state.photos,
+    currentPhoto: state.currentPhoto,
+    setCurrentPhoto: state.setCurrentPhoto,
+    setVisibleCarousel: state.setVisibleCarousel,
   }), shallow)
 
   return content

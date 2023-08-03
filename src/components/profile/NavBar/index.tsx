@@ -1,3 +1,6 @@
+"use client"
+
+import { motion } from "framer-motion"
 
 import { Buttons } from "./components/Buttons"
 import { Links } from "./components/Links"
@@ -8,20 +11,32 @@ import styles from "./styles/style.module.scss"
 export const NavBarUser = async () => {
 
   return (
-    <nav className={styles.nav}>
+    <motion.nav
+      className={styles.nav}
+      initial={{ top: -70 }}
+      animate={{ top: 0 }}
+      transition={{ duration: 0.5 }}
+      exit={{ top: -70 }}
+    >
       <Logo />
       <Buttons />
-    </nav>
+    </motion.nav>
   )
 }
 
 export const NavBarProfile = async () => {
 
   return (
-    <nav className={styles.nav}>
+    <motion.nav
+      className={styles.nav}
+      initial={{ top: -70 }}
+      animate={{ top: 0 }}
+      transition={{ duration: 0.5 }}
+      exit={{ top: -70 }}
+    >
       <Logo />
       <Links />
       <Buttons />
-    </nav>
+    </motion.nav>
   )
 }

@@ -9,16 +9,10 @@ import { MOCKS_PROPOSALS } from "@/mocks/components/auth/constants"
 import styles from "./styles/style.module.scss"
 
 type TValueTab = "proposals" | "requests"
-interface ITab {
-  value: "proposals" | "requests"
-  label: string
-}
 
 export const ContainerOffers = () => {
   const idItem = useId()
   const [value, setValue] = useState<TValueTab>("proposals")
-
-
 
   return (
     <div className={styles.containerRequestsAndProposals}>
@@ -43,6 +37,7 @@ export const ContainerOffers = () => {
                   <CardRequestsAndProposals
                     key={item.title + index + idItem + "proposals"}
                     {...item}
+                    type="optional-3"
                   />
                 ))
               }
@@ -58,6 +53,7 @@ export const ContainerOffers = () => {
                   <CardRequestsAndProposals
                     key={item.title + index + idItem + "requests"}
                     {...item}
+                    type="optional-2"
                   />
                 ))
               }
