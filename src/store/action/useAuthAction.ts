@@ -71,7 +71,6 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
 export const retrieveProfileData = (set: ISetAction, get: IGetAction) => {
   profileService.getProfileThroughUserId(get().userId!)
     .then(response => {
-      console.log("retrieveProfileData: ", response)
       if (response.ok) {
         const { firstName, lastName, username, about, birthdate, enabled, id, image } = response?.res ?? {}
         set({

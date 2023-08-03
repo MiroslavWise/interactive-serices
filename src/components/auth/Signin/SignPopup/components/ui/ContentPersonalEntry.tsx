@@ -22,7 +22,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const { userId, profileId, user, changeAuth } = useAuth()
+  const { userId, profileId, user, changeAuth, signOut } = useAuth()
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, handleSubmit, formState: { errors }, setError, setValue, watch } = useForm<IValuesPersonForm>({
     defaultValues: {
@@ -53,8 +53,12 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
       !!user ? profileService.patchProfile(data, profileId!) : profileService.postProfile(data)
     ])
       .then(response => {
-        if (response[0]?.code === 409) {
+        if (response[0]?.error?.code === 409) {
           return setError("username", { message: "user exists" })
+        }
+        if (response[0]?.error?.code === 401) {
+          setVisibleAndType({ visible: false })
+          signOut()
         }
         if (response[0].ok) {
           if (file) {
@@ -67,10 +71,15 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
                     userId: Number(useTokenHelper.authUserId || userId),
                   }
                   profileService.patchProfile(data, profileId!)
-                    .then(response => { console.log("---response image upload for profile---", response) })
+                    .then(response => {
+                      if (response.error.code === 401) {
+                        signOut()
+                        setVisibleAndType({ visible: false })
+                      }
+                    })
                     .finally(() => {
                       changeAuth()
-                  })
+                    })
                 }
               })
               .finally(() => {

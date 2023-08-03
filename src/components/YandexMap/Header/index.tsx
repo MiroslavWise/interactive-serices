@@ -9,7 +9,6 @@ import type { THeaderMobile } from "./types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { SearchElementMap } from "@/components/common/Inputs"
-import { Segments } from "@/components/common/Segments"
 
 import { SERVICES } from "./constants"
 
@@ -35,9 +34,8 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
         if (headerRef) {
           headerRef.style.left = `${leftBannerWidth + marginLeft}px`
         }
-        if (container - (leftBannerWidth + rightWidth + 40) < headerRefWidth) {
+        if (container - (leftBannerWidth + 420 + 40) < headerRefWidth) {
           if (headerRef) {
-            // headerRef.style.width = `clamp(150px, ${container - (leftBannerWidth + rightWidth + 40)}px, 346px)`
           }
         }
       }, 10)

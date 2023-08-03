@@ -11,8 +11,8 @@ import { profileService } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerAboutMe: TContainerAboutMe = ({}) => {
-  const {userId, profileId, user, retrieveProfileData} = useAuth() ?? {}
+export const ContainerAboutMe: TContainerAboutMe = ({ }) => {
+  const { userId, profileId, user, changeAuth, signOut } = useAuth()
   const [isEditing, setIsEditing] = useState(false)
   const [textEditing, setTextEditing] = useState("")
 
@@ -21,7 +21,7 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
     if (isEditing) {
       textArea?.focus()
     }
-    return () => {  }
+    return () => { }
   }, [isEditing])
 
   useEffect(() => {
@@ -38,9 +38,14 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
         userId: Number(userId),
       }
       profileService.patchProfile(data, Number(profileId))
+        .then(response => {
+          if (response.error?.code === 401) {
+            signOut()
+          }
+        })
         .finally(() => {
           setIsEditing(false)
-          retrieveProfileData()
+          changeAuth()
         })
     } else {
       setIsEditing(true)
