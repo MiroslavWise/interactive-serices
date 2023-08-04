@@ -1,8 +1,20 @@
-.containerProfilePage{
+.containerProfilePage {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+
+  &.mobile {
+    overflow-y: scroll;
+    height: 100vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 150px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { type ReactNode, useMemo, useState } from "react"
-import { isMobile } from "react-device-detect"
+import { isMobile, isTablet } from "react-device-detect"
 
 import type { TProfilePublic } from "./types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
@@ -21,7 +21,7 @@ import { cx } from "@/lib/cx"
 import styles from "./styles/style.module.scss"
 import { ButtonClose } from "@/components/common/Buttons"
 
-const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
+export const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
   const [activeSegment, setActiveSegment] = useState<ISegmentValues>(VALUES[0])
 
   const content: ReactNode = useMemo(() => ({
@@ -31,7 +31,7 @@ const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
   }[activeSegment.value]), [activeSegment])
 
   return (
-    !isMobile ? (
+    (!isMobile || isTablet) ? (
       <div className={cx(styles.wrapper, active.isProfile && styles.active)}>
         <div className={cx(styles.container, active.isProfile && styles.active)}>
           <InfoContainerProfile profile={active.dataProfile!} />
@@ -57,5 +57,3 @@ const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
     ) : null
   )
 }
-
-export default ProfilePublic

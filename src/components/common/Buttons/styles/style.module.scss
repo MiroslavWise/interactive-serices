@@ -115,7 +115,7 @@
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
-        border: 1.5px solid transparent !important;
+        border: 2px solid transparent !important;
         cursor: pointer;
 
         &.primary {
@@ -124,7 +124,6 @@
         }
 
         &.option-1 {
-                // border: 1.5px solid rgba(255, 255, 255, 0.39);
                 background: linear-gradient(0deg, rgba(250, 113, 82, 0.34) 0%, rgba(250, 113, 82, 0.64) 100%);
 
                 &::before {

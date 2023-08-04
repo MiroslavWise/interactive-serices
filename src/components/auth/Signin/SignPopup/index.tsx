@@ -54,7 +54,7 @@ export function SignPopup() {
 
   return (
     (!isAuth || type === "PersonalEntry") ? (
-      isMobile ? (
+      (isMobile) ? (
         <div className={cx(styles.overviewMobile, visible && styles.visible)}>
           <div className={styles.contentMobile}>
             <HeaderModal email={valueEmail.email} typeVerification={typeVerification} />

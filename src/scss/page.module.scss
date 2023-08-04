@@ -21,8 +21,8 @@
   overflow: hidden;
   background: transparent;
 
-  @media screen and (max-width: 850px) {
-    padding-bottom: 24px;
+  @media screen and (max-width: 768px) {
+    // padding-bottom: 24px;
   }
 
   .page {
@@ -35,8 +35,7 @@
     background: transparent;
     
     &.mobile{
-      padding: 16px 20px calc(68px + 16px);
-      margin-bottom: 84px;
+      padding: 0 20px;
     }
 
     .container {

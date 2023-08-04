@@ -76,11 +76,12 @@ export const wrapperFetch: IWrapperFetch = {
           "Authorization": `Bearer ${useTokenHelper.authToken}`,
           "Content-Type": "application/json",
         } : {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
       })
       const responseData = await response.json()
+      console.log("methodPost: ", responseData)
       if (responseData?.error === null) {
         return {
           ok: true,

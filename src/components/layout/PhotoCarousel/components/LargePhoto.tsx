@@ -1,3 +1,7 @@
+"use client"
+
+import { useSwipeable } from "react-swipeable"
+
 import Image from "next/image"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
@@ -5,13 +9,21 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function LargePhoto() {
-  const { currentPhoto } = useVisiblePhotosCarousel()
+  const { currentPhoto, setNext, setPrev } = useVisiblePhotosCarousel()
+
+  const handlers = useSwipeable({
+    onSwipedLeft: setNext,
+    onSwipedRight: setPrev,
+  },)
 
   return (
-    <div className={styles.containerLargePhoto}>
+    <div
+      className={styles.containerLargePhoto}
+      {...handlers}
+    >
       <Image
         src={currentPhoto?.url!}
-        // src={"/mocks/suggestions/engin-akyurt-GXhGMhhzs9E-unsplash.jpg"}
+        onClick={setNext}
         alt="large"
         height={1080}
         width={1920}

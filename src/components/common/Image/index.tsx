@@ -19,19 +19,31 @@ const ImageMotion: TImage = ({
 }) => {
 
   return (
-    <MotionImage
-      placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
-      blurDataURL={altName.hasOwnProperty(alt) && alt === "avatar" ? altName.avatar : ""}
-      className={className}
-      loader={ myImageLoader}
-      src={src}
-      alt={alt}
-      height={height}
-      width={width}
-      style={{
-        objectFit: "cover"
-      }}
-    />
+    src.includes("http")
+      ?
+      <MotionImage
+        placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
+        blurDataURL={altName.hasOwnProperty(alt) && alt === "avatar" ? altName.avatar : ""}
+        className={className}
+        loader={myImageLoader}
+        src={src}
+        alt={alt}
+        height={height}
+        width={width}
+        style={{
+          objectFit: "cover"
+        }}
+      />
+      : <NextImage
+        src={src}
+        alt={alt}
+        className={className}
+        height={height}
+        width={width}
+        style={{
+          objectFit: "cover"
+        }}
+      />
   )
 }
 

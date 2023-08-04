@@ -12,7 +12,6 @@ export const useVisibleBannerNewServices = () => {
     isVisibleNewServicesBanner: state.isVisibleNewServicesBanner,
     setIsVisibleNewServicesBanner: state.setIsVisibleNewServicesBanner,
   }), shallow)
-
   return content
 }
 
@@ -22,7 +21,6 @@ export const useVisibleAndTypeAuthModal = () => {
     type: state.type,
     setVisibleAndType: state.setVisibleAndType,
   }), shallow)
-
   return content
 }
 
@@ -32,7 +30,6 @@ export const useVisibleModalBarter = () => {
     dataProfile: state.dataProfile,
     setIsVisibleBarter: state.setIsVisibleBarter,
   }), shallow)
-
   return content
 }
 
@@ -41,9 +38,10 @@ export const useVisiblePhotosCarousel = () => {
     isVisible: state.isVisible,
     photos: state.photos,
     currentPhoto: state.currentPhoto,
+    setPrev: state.setPrev,
+    setNext: state.setNext,
     setCurrentPhoto: state.setCurrentPhoto,
     setVisibleCarousel: state.setVisibleCarousel,
   }), shallow)
-
   return content
 }

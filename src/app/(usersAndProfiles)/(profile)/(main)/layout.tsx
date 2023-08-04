@@ -13,12 +13,20 @@ import styles from "@/scss/page.module.scss"
 export default function LayoutMainProfile({ children }: { children: ReactNode }) {
 
   return (
-    <div className={cx(styles.page, isMobile && styles.mobile)}>
-      <div className={cx(styles.containerProfile, isMobile && styles.mobile)}>
-        <LeftAsideProfile />
-        {children}
-        {typeof isMobile !== "undefined" && !isMobile ? <HistoryExchangeOffers /> : null}
+    isMobile ? (
+      <div className={cx(styles.page, isMobile && styles.mobile)}>
+        <div className={cx(styles.containerProfile, isMobile && styles.mobile)}>
+          {children}
+        </div>
       </div>
-    </div>
+    ) : (
+      <div className={cx(styles.page, isMobile && styles.mobile)}>
+        <div className={cx(styles.containerProfile, isMobile && styles.mobile)}>
+          <LeftAsideProfile />
+          {children}
+          {typeof isMobile !== "undefined" && !isMobile ? <HistoryExchangeOffers /> : null}
+        </div>
+      </div>
+    )
   )
 }

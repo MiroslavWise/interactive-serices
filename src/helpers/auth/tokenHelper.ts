@@ -12,6 +12,7 @@ export const useTokenHelper: IUseTokenHelper = {
   async login(value) {
     return LoggingService.login(value)
       .then(response => {
+        console.log("response: ", response)
         if (response.ok && response?.res?.access_token) {
           this.saveTemporaryToken(response?.res?.access_token)
           return {

@@ -28,13 +28,6 @@ export const BlockProfileAside: FC = () => {
           label="Редактировать профиль"
           classNames={cx("w-100", styles.largeButton)}
         />
-        {
-          isMobile ? (
-            <>
-              
-            </>
-          ) : null
-        }
       </div>
     </section>
   )

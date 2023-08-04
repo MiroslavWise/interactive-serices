@@ -1,6 +1,6 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
+import { isMobile, isTablet } from "react-device-detect"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -29,7 +29,7 @@ export const FooterMenu: TFooterMenu = ({ }) => {
   }
 
   return (
-    isMobile ? (
+    (isMobile && !isTablet) ? (
       <>
         <motion.footer
           className={styles.container}

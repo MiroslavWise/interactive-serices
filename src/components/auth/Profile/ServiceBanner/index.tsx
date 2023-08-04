@@ -15,7 +15,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
+export const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
 
   const onSearch = (value: string) => {
@@ -56,5 +56,3 @@ const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
     </motion.div>
   )
 }
-
-export default ServiceBanner

@@ -3,7 +3,6 @@ import Image from "next/image"
 import { MotionLI, MotionUL } from "@/components/common/Motion"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
-import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 

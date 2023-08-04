@@ -60,7 +60,26 @@ export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
     isVisible: false,
     photos: [],
     currentPhoto: null,
+    setPrev() {
+      const currentIndex = get().photos.findIndex(item => item.id === get().currentPhoto?.id) || 0
+      const length = get().photos.length
 
+      if (currentIndex === 0) {
+        get().setCurrentPhoto({ currentPhoto: get().photos[length - 1] })
+      } else {
+        get().setCurrentPhoto({ currentPhoto: get().photos[currentIndex - 1] })
+      }
+    },
+    setNext() {
+      const currentIndex = get().photos.findIndex(item => item.id === get().currentPhoto?.id) || 0
+      const length = get().photos.length
+
+      if (currentIndex === length - 1) {
+        get().setCurrentPhoto({ currentPhoto: get().photos[0] })
+      } else {
+        get().setCurrentPhoto({ currentPhoto: get().photos[currentIndex + 1] })
+      }
+    },
     setCurrentPhoto({ currentPhoto }) {
       set({
         currentPhoto: currentPhoto,

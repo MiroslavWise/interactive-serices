@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { isMobile } from "react-device-detect"
+import { isMobile, isTablet } from "react-device-detect"
 
 import type { TSignBanner } from "./types"
 
@@ -23,7 +23,7 @@ export const SignBanner: TSignBanner = ({ }) => {
   const { push } = useRouter()
 
   return (
-    !isMobile ? (
+    (!isMobile || isTablet) ? (
       isAuth ? (
         <motion.div
           id="SignBanner"

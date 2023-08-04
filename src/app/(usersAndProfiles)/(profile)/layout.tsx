@@ -1,4 +1,7 @@
+"use client"
+
 import { ReactNode } from "react"
+import { isMobile } from "react-device-detect"
 
 import { NavBarProfile } from "@/components/profile"
 
@@ -8,11 +11,19 @@ export default function LayoutProfile({
   children,
 }: {
   children: ReactNode,
-  }) {
+}) {
   return (
     <main className={styles.profileLayout}>
-      <NavBarProfile />
-      {children}
+      {
+        isMobile
+          ? children
+          : (
+            <>
+              <NavBarProfile />
+              {children}
+            </>
+          )
+      }
     </main>
   )
 }
