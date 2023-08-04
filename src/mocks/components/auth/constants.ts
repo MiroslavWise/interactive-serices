@@ -71,18 +71,21 @@ export const MOCK_ACHIEVEMENTS: string[] = [
   "/svg/achievements/shield.svg",
 ]
 
-export const BADGES: { title: string, total: number }[] = [
+export const BADGES: { title: string, total: number, rating_movement?: "up" | "down" }[] = [
   {
     title: "Доступные предложения",
     total: 24,
+    rating_movement: "up",
   },
   {
     title: "Биржи закрыты",
     total: 18,
+    rating_movement: "down",
   },
   {
     title: "Обзор и рейтинг",
     total: 4.5,
+    rating_movement: "up",
   },
 ]
 

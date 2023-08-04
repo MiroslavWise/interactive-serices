@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, type FC } from "react"
+import { type FC } from "react"
 import { useQuery } from "react-query"
-import dynamic from 'next/dynamic'
+import { isMobile } from "react-device-detect"
 
 import { HeaderBlock } from "./components/HeaderBlock"
 import { Badges } from "./components/Badges"
@@ -15,20 +15,27 @@ import { cx } from "@/lib/cx"
 import styles from "./styles/style.module.scss"
 
 export const BlockProfileAside: FC = () => {
-  const { userId } = useAuth() ?? {}
+  const { userId } = useAuth()
 
   const { data, isLoading } = useQuery(["profile", userId], () => usersService.getUserId(userId!))
 
   return (
-    <>
-      <section className={styles.container}>
-        <HeaderBlock data={data?.res!} />
-        <Badges />
+    <section className={cx(styles.container, isMobile && styles.mobile)}>
+      <HeaderBlock data={data?.res!} />
+      {typeof isMobile !== "undefined" && !isMobile ? <Badges /> : null}
+      <div className={styles.buttons}>
         <ButtonDefault
           label="Редактировать профиль"
           classNames={cx("w-100", styles.largeButton)}
         />
-      </section>
-    </>
+        {
+          isMobile ? (
+            <>
+              
+            </>
+          ) : null
+        }
+      </div>
+    </section>
   )
 }

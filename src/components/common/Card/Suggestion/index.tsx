@@ -1,5 +1,7 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
+
 import type { TCardSuggestion } from "./types"
 
 import { MotionLI } from "@/components/common/Motion"
@@ -14,7 +16,7 @@ export const CardSuggestion: TCardSuggestion = ({
 }) => {
 
   return (
-    <MotionLI classNames={[styles.container]}>
+    <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
       <Header {...{ name, can, rating }} />
       <ContainerPhotos {...{ photos }} />
       <Buttons />

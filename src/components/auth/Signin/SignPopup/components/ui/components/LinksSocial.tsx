@@ -8,7 +8,7 @@ const ITEMS_SOCIAL_LINK: { value: string, src: string, path: string }[] = [
   {
     value: "google",
     src: "/icons/fill/google.svg",
-    path: "/api/auth/signin/google",
+    path: "/google/login",
   },
   {
     value: "telegram",
@@ -18,17 +18,17 @@ const ITEMS_SOCIAL_LINK: { value: string, src: string, path: string }[] = [
   {
     value: "apple",
     src: "/icons/fill/apple.svg",
-    path: "/api/auth/signin/apple",
+    path: "/apple/login",
   },
   {
     value: "vk",
     src: "/icons/fill/vk.svg",
-    path: "/api/auth/signin/vk",
+    path: "/vk/login",
   },
   {
     value: "yandex",
     src: "/icons/fill/yandex.svg",
-    path: "/api/auth/signin/yandex",
+    path: "/yandex/login",
   },
 ]
 

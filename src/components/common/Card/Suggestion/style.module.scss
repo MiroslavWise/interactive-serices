@@ -16,4 +16,8 @@
     margin-top: auto;
     justify-self: flex-end;
   }
+
+  &.mobile{
+    max-width: max-content;
+  }
 }

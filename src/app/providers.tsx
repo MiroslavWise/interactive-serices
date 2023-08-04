@@ -3,12 +3,12 @@
 import { type ReactNode, useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 import { QueryClient, QueryClientProvider } from "react-query"
-import { SessionProvider } from "next-auth/react"
 
-import { useAuth } from "@/store/hooks/useAuth"
 
 import { NextThemesProvider } from "@/context/NextThemesProvider"
 import { YMapsProvider } from "@/context/YMapsProvider"
+
+import { useAuth } from "@/store/hooks/useAuth"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,9 +28,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <NextThemesProvider>
       <QueryClientProvider client={queryClient}>
         <YMapsProvider>
-          <SessionProvider>
-            {children}
-          </SessionProvider>
+          {children}
           <ToastContainer />
         </YMapsProvider>
       </QueryClientProvider>

@@ -5,10 +5,10 @@ import { Inter } from "next/font/google"
 import { Providers } from "./providers"
 import { FooterMenu } from "@/components/layout/FooterMenu"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
+import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
-import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
@@ -18,22 +18,20 @@ export const metadata: Metadata = {
   keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", ""],
 }
 
-export default function Layout(props: {
-  children: ReactNode,
-}) {
+export default function Layout({ children }: { children: ReactNode, }) {
   return (
     <html lang="ru">
       <body className={inter.className}>
         <Providers>
-          {props.children}
+          {children}
           <FooterMenu />
           <SignPopup />
           <PhotoCarousel />
         </Providers>
-        <span className="glass-circle-1" /> 
-        <span className="glass-circle-2" /> 
-        <span className="glass-circle-3" /> 
-        <span className="glass-circle-4" /> 
+        <span className="glass-circle-1" />
+        <span className="glass-circle-2" />
+        <span className="glass-circle-3" />
+        <span className="glass-circle-4" />
       </body>
     </html>
   )

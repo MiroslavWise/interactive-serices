@@ -128,6 +128,7 @@
         padding-top: 32px;
         padding-left: 40px;
         padding-right: 40px;
+        
 }
 
 //ContainerReviews
@@ -143,7 +144,6 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
-        list-style: none;
         height: calc(100vh - 520px);
         z-index: 20;
 
@@ -181,8 +181,6 @@
                 &::-webkit-scrollbar {
                         display: none;
                 }
-
-                list-style: none;
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px 20px;

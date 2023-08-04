@@ -85,9 +85,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 1;
 
   h4 {
     @include h4;
+  }
+
+  &.mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .classNamesButton {
+      height: 36px;
+    }
   }
 }
 
@@ -108,16 +119,24 @@
 .containerSuggestions {
   width: 100%;
   display: grid;
-  height: calc(100vh - 300px);
+  max-height: calc(100vh - 300px);
   gap: 20px 20px;
   grid-template-columns: repeat(2, 319px);
-  list-style: none;
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
   justify-content: center;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  &.mobile {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: visible;
+    padding-bottom: 84px;
   }
 }

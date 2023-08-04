@@ -39,7 +39,7 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
   },
   {
     label: "Блог",
-    path: "blog",
+    path: "notifications",
     icon: {
       fill: "/icons/mobile/fill/blog-filled.svg",
       regular: "/icons/mobile/regular/blog-regular.svg",

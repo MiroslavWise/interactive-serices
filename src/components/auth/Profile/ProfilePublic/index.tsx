@@ -1,5 +1,7 @@
+"use client"
+
 import { type ReactNode, useMemo, useState } from "react"
-import Image from "next/image"
+import { isMobile } from "react-device-detect"
 
 import type { TProfilePublic } from "./types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
@@ -29,28 +31,30 @@ const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
   }[activeSegment.value]), [activeSegment])
 
   return (
-    <div className={cx(styles.wrapper, active.isProfile && styles.active)}>
-      <div className={cx(styles.container, active.isProfile && styles.active)}>
-        <InfoContainerProfile profile={active.dataProfile!} />
-        <ItemsBadges />
-        <ItemSegments
-          values={VALUES}
-          activeSegment={activeSegment}
-          setActiveSegment={setActiveSegment}
-        />
-        {content}
-        <p className={styles.title}>Public profile</p>
-        <ButtonClose
-          position={{
-            top: 12,
-            left: 12,
-          }}
-          onClick={() => setActive((data) => ({ isProfile: false, isService: true, dataProfile: data.dataProfile }))}
-        />
-        <Dots id={active.dataProfile?.userId!} />
-        <Glasses />
+    !isMobile ? (
+      <div className={cx(styles.wrapper, active.isProfile && styles.active)}>
+        <div className={cx(styles.container, active.isProfile && styles.active)}>
+          <InfoContainerProfile profile={active.dataProfile!} />
+          <ItemsBadges />
+          <ItemSegments
+            values={VALUES}
+            activeSegment={activeSegment}
+            setActiveSegment={setActiveSegment}
+          />
+          {content}
+          <p className={styles.title}>Public profile</p>
+          <ButtonClose
+            position={{
+              top: 12,
+              left: 12,
+            }}
+            onClick={() => setActive((data) => ({ isProfile: false, isService: true, dataProfile: data.dataProfile }))}
+          />
+          <Dots id={active.dataProfile?.userId!} />
+          <Glasses />
+        </div>
       </div>
-    </div>
+    ) : null
   )
 }
 

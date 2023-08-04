@@ -22,8 +22,8 @@ export function PhotoCarousel() {
         position={{ right: 20, top: 20, }}
       />
       {!isMobile ? <ButtonPrevNext /> : null}
-      <LargePhoto />
-      <FooterPhotos />
+      {isVisible ? <LargePhoto /> : null}
+      {isVisible ? <FooterPhotos /> : null}
     </div>
   )
 }

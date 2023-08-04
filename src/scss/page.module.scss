@@ -33,6 +33,11 @@
     justify-content: center;
     padding: 100px 24px 24px;
     background: transparent;
+    
+    &.mobile{
+      padding: 16px 20px calc(68px + 16px);
+      margin-bottom: 84px;
+    }
 
     .container {
       height: 100%;
@@ -80,4 +85,10 @@
   gap: 24px 24px;
   grid-template-columns: calc(320px) calc(100% - 320px - 400px - 48px) calc(400px);
   background: transparent;
+
+  &.mobile{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
 }

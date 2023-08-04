@@ -11,4 +11,8 @@
   border-bottom: 2px solid var(--supporting-white);
   background: rgba(248, 249, 255, 0.46);
   backdrop-filter: blur(1px);
+
+  &.isMobile{
+    display: none;
+  }
 }
