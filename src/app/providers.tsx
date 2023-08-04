@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
   }
 })
 
-export function Providers({ children }: { children: ReactNode }) {
+export default function Providers({ children }: { children: ReactNode }) {
   const { changeAuth } = useAuth()
   useEffect(() => {
     changeAuth()
