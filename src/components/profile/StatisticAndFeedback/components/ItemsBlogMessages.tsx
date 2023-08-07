@@ -1,3 +1,5 @@
+import { isMobile } from "react-device-detect"
+
 import type { TItemsBlogMessages } from "./types/types"
 
 import { MOCKS_BLOGS_CARD } from "@/mocks/components/auth/constants"
@@ -9,7 +11,7 @@ import styles from "./styles/style.module.scss"
 
 export const ItemsBlogMessages: TItemsBlogMessages = ({ }) => {
   return (
-    <MotionUL classNames={[styles.listBlogMessages]}>
+    <MotionUL classNames={[styles.listBlogMessages, isMobile && styles.mobile]}>
       {
         MOCKS_BLOGS_CARD.map((item, index) => (
           <CardBlog

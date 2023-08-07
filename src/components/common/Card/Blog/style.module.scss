@@ -39,6 +39,23 @@
       }
     }
   }
+
+  &.mobile{
+    flex-direction: column;
+    gap: 8px;
+
+    .photo{
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2.6/1;
+
+      img{
+        height: auto;
+        width: 100%;
+        aspect-ratio: 2.6/1;
+      }
+    }
+  }
 }
 
 .photo {

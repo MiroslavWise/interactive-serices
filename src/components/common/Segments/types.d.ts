@@ -5,6 +5,7 @@ interface ISegments {
   active: ISegmentValues
   setActive: Dispatch<SetStateAction<ISegmentValues>>
   type: "primary" | "optional-1"
+  classNames?: string
 }
 
 export type TSegments = FC<ISegments>

@@ -1,6 +1,6 @@
 import type { TItemInteractive } from "../types/types"
 
-interface IItemsInteractive{
+export interface IItemsInteractive{
   label: string
   value: TItemInteractive
 }

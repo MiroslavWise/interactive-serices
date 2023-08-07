@@ -71,4 +71,12 @@
       }
     }
   }
+
+  &.mobile{
+    width: calc(100% - 16px);
+    
+    .content{
+      width: calc(100%);
+    }
+  }
 }

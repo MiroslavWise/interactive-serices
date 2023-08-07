@@ -117,8 +117,6 @@ export const MainInfo: TMainInfo = ({ user }) => {
               </div>
             </BlockOther>
           </div>
-
-
         </div>
         <div className={styles.statusActive}>
           <p>Active 1 day ago</p>

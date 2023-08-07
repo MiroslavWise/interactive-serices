@@ -1,20 +1,28 @@
 "use client"
 
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { isMobile } from "react-device-detect"
 
 import type { TPeopleCardNotifications } from "./types"
 
-import styles from "./style.module.scss"
+import { MotionLI } from "@/components/common/Motion"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
+import { NextImageMotion } from "@/components/common/Image"
+
+import styles from "./style.module.scss"
 
 export const PeopleCard: TPeopleCardNotifications = ({
   avatar, name, date, rate, description, path,
 }) => {
+  const {push} = useRouter()
+
   return (
-    <li className={styles.container}>
-      <div className={styles.content}>
+    <MotionLI classNames={[styles.container]}>
+      <div className={styles.content} onClick={() => push(path!)}>
         <div className={styles.avatarRate}>
-          <Image
+          <NextImageMotion
+            className={styles.image}
             src={avatar}
             alt={avatar}
             width={56}
@@ -40,16 +48,14 @@ export const PeopleCard: TPeopleCardNotifications = ({
         <ButtonFill
           label="Перейти к истории"
           type="secondary"
+          classNames={isMobile ? styles.buttonFill : ""}
         />
         <ButtonCircleGradient
-          icon="/svg/bubble-chat.svg"
+          icon="/svg/chat-dots-optional-1.svg"
           type="option-1"
-        />
-        <ButtonCircleGradient
-          icon="/svg/user-white.svg"
-          type="option-1"
+          size={20}
         />
       </div>
-    </li>
+    </MotionLI>
   )
 }

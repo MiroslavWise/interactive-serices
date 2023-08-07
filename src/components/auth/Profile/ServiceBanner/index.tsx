@@ -19,7 +19,6 @@ export const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
 
   const onSearch = (value: string) => {
-    console.log("---value service --- ", value)
   }
 
   return (

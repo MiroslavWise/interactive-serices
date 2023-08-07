@@ -180,7 +180,6 @@ export const MOCKS_BLOGS_CARD: ICardBlog[] = [
 ]
 
 const PHOTOS_PROPOSALS: string[] = [
-  "/mocks/proposcals/hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg",
   "/mocks/proposcals/image 14 (1).png",
   "/mocks/proposcals/image 14.png",
   "/mocks/proposcals/f02c1a9d9887e604264b6c0a2e38287b.png",

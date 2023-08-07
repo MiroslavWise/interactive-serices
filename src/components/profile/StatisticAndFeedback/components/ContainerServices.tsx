@@ -1,12 +1,15 @@
 import { useState, useMemo, type ReactNode } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { IValueServices } from "../types/types"
 import type { TContainerServices } from "./types/types"
 
 import { ButtonRadio } from "@/components/common/Buttons"
+import { ItemsProposalsRequests } from "./ItemsProposalsRequests"
+
+import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { ItemsProposalsRequests } from "./ItemsProposalsRequests"
 
 export const ContainerServices: TContainerServices = ({ }) => {
   const [value, setValue] = useState<IValueServices>("proposals")
@@ -17,7 +20,7 @@ export const ContainerServices: TContainerServices = ({ }) => {
   }[value]), [value])
 
   return (
-    <section className={styles.containerServices}>
+    <section className={cx(styles.containerServices, isMobile && styles.mobile)}>
       <div className={styles.tabs}>
         <ButtonRadio
           label="Предложения"

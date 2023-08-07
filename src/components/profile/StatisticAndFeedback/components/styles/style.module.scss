@@ -86,6 +86,7 @@
   width: 100%;
   height: calc(100%);
 
+  
   .ul {
     display: inline-flex;
     gap: 20px;
@@ -97,14 +98,21 @@
     &::-webkit-scrollbar {
       display: none;
     }
-
+    
     .column {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
   }
+  
+  &.mobile{
+    padding: 0;
 
+    .ul{
+      overflow-y:visible;
+    }
+  }
   @media screen and (max-width: 1258px) {}
 }
 
@@ -128,6 +136,12 @@
   flex-direction: column;
   gap: 16px;
   padding-bottom: 24px;
+
+  &.mobile{
+    height: auto;
+    overflow-y: visible;
+    padding: 0;
+  }
 }
 
 //Items Requests And Proposals
@@ -152,6 +166,11 @@
   @media screen and (max-width: 1080px) {
     grid-template-columns: repeat(1, 0fr);
   }
+
+  &.mobile{
+    grid-template-columns: repeat(1, 1fr);
+    overflow-y: visible;
+  }
 }
 
 //ContainerServices
@@ -172,5 +191,9 @@
     justify-content: flex-start;
     padding-left: calc(50% - 259px - 8px);
     gap: 16px;
+  }
+
+  &.mobile{
+    padding-top: 0;
   }
 }

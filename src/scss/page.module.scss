@@ -33,8 +33,8 @@
     justify-content: center;
     padding: 100px 24px 24px;
     background: transparent;
-    
-    &.mobile{
+
+    &.mobile {
       padding: 0 20px;
     }
 
@@ -75,7 +75,7 @@
   }
 }
 
-.containerProfile{
+.containerProfile {
   width: 100%;
   height: 100%;
   display: grid;
@@ -85,9 +85,27 @@
   grid-template-columns: calc(320px) calc(100% - 320px - 400px - 48px) calc(400px);
   background: transparent;
 
-  &.mobile{
+  &.mobile {
     display: flex;
     flex-direction: column;
     gap: 18px;
+  }
+}
+
+.containerMobile {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-top: 20px;
+  padding-bottom: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

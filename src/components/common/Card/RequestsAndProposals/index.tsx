@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useId, useState, useEffect, useCallback, useMemo } from "react"
 import { useSwipeable } from "react-swipeable"
+import { isMobile } from "react-device-detect"
 
 import type { TRequestsAndProposals } from "./types"
 
@@ -59,7 +60,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
   }, [shuffleArray])
   
   return (
-    <MotionLI classNames={[styles.container, styles[type!]]}>
+    <MotionLI classNames={[styles.container, styles[type!], isMobile && styles.mobile]}>
       <div className={styles.header}>
         <h4>{title}</h4>
         <ul>

@@ -1,5 +1,6 @@
 import { useId } from "react"
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 
 import type { TCardReview } from "./types"
 
@@ -12,7 +13,7 @@ export const CardReview: TCardReview = ({ user, date, rate, description, images,
   const id = useId()
 
   return (
-    <MotionLI classNames={[styles.container, classNames?.join(" ")]}>
+    <MotionLI classNames={[styles.container, classNames?.join(" "), isMobile && styles.mobile]}>
       <div className={styles.content}>
         <header className={styles.header}>
           <div className={styles.userDate}>

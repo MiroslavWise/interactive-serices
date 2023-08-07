@@ -11,6 +11,9 @@
         transition: background 0.3s ease-in-out;
         border: 2px solid transparent !important;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        tap-highlight-color: transparent;
+        touch-action: manipulation;
 
         &.primary {
                 background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
@@ -18,7 +21,7 @@
                 box-shadow: 0px 8px 24px 0px rgba(119, 101, 242, 0.50);
         }
 
-        &.gray{
+        &.gray {
                 border: 1px solid var(--gray-300, #D0D5DD);
                 box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
                 height: 32px;
@@ -42,6 +45,9 @@
         background: var(--gradient-primary);
         transition: background 0.3s, border 0.3s;
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent; 
+        tap-highlight-color: transparent;
+        touch-action: manipulation;
 
         span {
                 color: var(--supporting-white);
@@ -117,6 +123,9 @@
         flex-shrink: 0;
         border: 2px solid transparent !important;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent; 
+        tap-highlight-color: transparent;
+        touch-action: manipulation;
 
         &.primary {
                 background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
@@ -124,21 +133,8 @@
         }
 
         &.option-1 {
-                background: linear-gradient(0deg, rgba(250, 113, 82, 0.34) 0%, rgba(250, 113, 82, 0.64) 100%);
-
-                &::before {
-                        content: "";
-                        border-radius: 100px;
-                        position: absolute;
-                        top: -2px;
-                        left: -2px;
-                        right: -2px;
-                        bottom: -2px;
-                        background: linear-gradient(180deg, rgba(250, 113, 82, 0.64) 0%, rgba(250, 113, 82, 0.00) 100%);
-                        z-index: -1;
-                        opacity: 1;
-                        transition: opacity 0.3s;
-                }
+                background: linear-gradient(var(--supporting-white), var(--supporting-white)) padding-box,
+                        var(--gradient-optional-1) border-box !important;
         }
 }
 
@@ -157,6 +153,9 @@
         box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
         transition: all 0.3s ease-in-out;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent; 
+        tap-highlight-color: transparent;
+        touch-action: manipulation;
 
         .radio {
                 display: flex;
@@ -169,7 +168,7 @@
                 background: var(--supporting-white);
                 transition: all 0.3s ease-in-out;
 
-                span{
+                span {
                         height: 6px;
                         width: 6px;
                         border-radius: 3px;
@@ -178,7 +177,7 @@
                 }
         }
 
-        p{
+        p {
                 color: var(--gray-900);
                 font-size: 14px;
                 font-style: normal;
@@ -191,22 +190,22 @@
         &.active {
                 border: 2px solid var(--primary-200);
 
-                .radio{
+                .radio {
                         background: var(--gray-100);
                         border-color: var(--primary-500);
 
-                        span{
+                        span {
                                 background-color: var(--primary-500);
                         }
                 }
 
-                p{
+                p {
                         color: var(--primary-500);
                 }
         }
 }
 
-.containerCloseButton{
+.containerCloseButton {
         position: absolute;
         display: inline-flex;
         padding: 14px;
@@ -218,4 +217,7 @@
         box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
         cursor: pointer;
         z-index: 22;
+        -webkit-tap-highlight-color: transparent; 
+        tap-highlight-color: transparent;
+        touch-action: manipulation;
 }

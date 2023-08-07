@@ -1,4 +1,5 @@
 import { useId } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TItemsProposalsRequests } from "./types/types"
 
@@ -13,7 +14,7 @@ export const ItemsProposalsRequests: TItemsProposalsRequests = ({ type }) => {
   const id = useId()
 
   return (
-    <MotionUL classNames={[styles.containerRequestsAndProposals]}>
+    <MotionUL classNames={[styles.containerRequestsAndProposals, isMobile && styles.mobile]}>
       {
         MOCKS_PROPOSALS.map((item, index) => (
           <CardRequestsAndProposals

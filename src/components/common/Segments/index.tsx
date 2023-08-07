@@ -7,9 +7,9 @@ import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
 
-export const Segments: TSegments = ({ values, active, setActive, type }) => {
+export const Segments: TSegments = ({ values, active, setActive, type, classNames }) => {
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, classNames)}>
       {
         values.map((item, index) => (
           <motion.div

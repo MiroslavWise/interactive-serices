@@ -1,0 +1,10 @@
+.containerInteractive{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1;
+
+  .segments{
+    width: 100%;
+  }
+}

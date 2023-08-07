@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
+import { isMobile } from "react-device-detect"
 
 import type { TItemsReviews } from "./types/types"
 import type { ICardReview } from "@/components/common/Card/Review/types"
@@ -11,6 +12,7 @@ import { MotionUL } from "@/components/common/Motion"
 
 import { MOCKS_REVIEW_VALUES } from "@/mocks/components/auth/constants"
 import { motionOpacityY } from "@/lib/motion"
+import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
@@ -39,7 +41,7 @@ export const ItemsReviews: TItemsReviews = ({ }) => {
   }, [])
 
   return (
-    <div className={styles.containerItemsInteractive}>
+    <div className={cx(styles.containerItemsInteractive, isMobile && styles.mobile)}>
       <MotionUL
         classNames={[styles.ul]}
       >
@@ -77,7 +79,7 @@ export const ItemsReviews: TItemsReviews = ({ }) => {
                 </motion.div>
               </>
             ) : (
-              <MotionUL classNames={[styles.column]}>
+              <MotionUL classNames={[styles.column, isMobile && styles.mobile]}>
                 {
                   columns.items.map((item, index) => (
                     <CardReview

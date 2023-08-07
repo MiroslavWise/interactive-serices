@@ -3,7 +3,6 @@ import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 import dynamic from "next/dynamic"
 
-// import { Providers } from "./providers"
 import { FooterMenu } from "@/components/layout/FooterMenu"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { PhotoCarousel } from "@/components/layout/PhotoCarousel"

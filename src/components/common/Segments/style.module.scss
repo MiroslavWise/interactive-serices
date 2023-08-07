@@ -22,6 +22,9 @@
     position: relative;
     background: var(--supporting-white);
     transition: all 0.5s ease-in-out;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    touch-action: manipulation;
 
     p {
       display: flex;
@@ -32,8 +35,7 @@
       line-height: 20px;
       letter-spacing: -0.5px;
 
-      @media screen and (max-width: 480px) {
-      }
+      @media screen and (max-width: 480px) {}
     }
 
     &.active {

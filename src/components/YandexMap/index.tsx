@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Map } from "@pbe/react-yandex-maps"
+import { isMobile } from "react-device-detect"
 
 import type { TYandexMap } from "./types"
 
@@ -17,10 +18,15 @@ export const YandexMap: TYandexMap = ({ }) => {
       <Header
         setVisibleNotification={setVisibleNotification}
       />
-      <Notifications
-        visibleNotification={visibleNotification}
-        setVisibleNotification={setVisibleNotification}
-      />
+      {
+        isMobile
+          ? (
+            <Notifications
+              visibleNotification={visibleNotification}
+              setVisibleNotification={setVisibleNotification}
+            />
+          ) : null
+      }
       <Map
         width={"100%"}
         height={"100%"}
