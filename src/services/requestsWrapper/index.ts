@@ -81,11 +81,11 @@ export const wrapperFetch: IWrapperFetch = {
         body: JSON.stringify(body)
       })
       const responseData = await response.json()
-      console.log("methodPost: ", responseData)
       if (responseData?.error === null) {
         return {
           ok: true,
           res: responseData?.data,
+          
         }
       }
       return {
