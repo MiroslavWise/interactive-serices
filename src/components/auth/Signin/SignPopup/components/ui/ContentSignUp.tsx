@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { toast } from "react-toastify"
 
 import type { IValuesRegistrationForm, TContentSignUp } from "./types/types"
 
@@ -22,6 +23,16 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
   const [loading, setLoading] = useState(false)
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValuesRegistrationForm>()
+  const onSuccess = (value: string) => toast(value, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  })
 
   const onRegister = async (values: IValuesRegistrationForm) => {
     setLoading(true)
@@ -37,6 +48,7 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
         }
         if (!response.error && response.ok) {
           setVisibleAndType({ type: "SignIn" })
+          onSuccess("Вы успешно зарегистрировались. Можете войти в свой аккаунт")
         }
       })
       .finally(() => {

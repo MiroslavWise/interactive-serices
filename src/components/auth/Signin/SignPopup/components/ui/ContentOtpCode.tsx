@@ -36,7 +36,7 @@ export const ContentOtpCode: TContentOtpCode = ({ }) => {
     const { value } = event.target
     const newInputValues = [...inputValues]
     newInputValues[index] = value
-    setInputValues(newInputValues)
+    setInputValues(state => state.map((item, indexMap) => index === indexMap ? value : item))
     if (index < inputRefs.current.length - 1 && value.length > 0) {
       const nextInputRef = inputRefs.current[index + 1]
       nextInputRef.focus()
@@ -49,7 +49,7 @@ export const ContentOtpCode: TContentOtpCode = ({ }) => {
       prevInputRef.focus()
       const newInputValues = [...inputValues]
       newInputValues[index - 1] = ""
-      setInputValues(newInputValues)
+      setInputValues(state => state.map((item, indexMap) => index === indexMap ? "" : item))
     }
   }
 

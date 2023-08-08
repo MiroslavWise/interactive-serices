@@ -18,7 +18,7 @@ import styles from "../styles/style.module.scss"
 
 interface IValues {
   password: string
-  repeat_password: string
+  repeat_password: string 
 }
 
 const onError = (value: string) => toast(value, {
