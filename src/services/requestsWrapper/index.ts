@@ -19,17 +19,12 @@ export const wrapperFetch: IWrapperFetch = {
         },
       })
       const responseData = await response.json()
-      if (responseData?.error === null) {
-        return {
-          ok: true,
-          res: responseData?.data,
-          meta: responseData?.meta,
-        }
-      }
       return {
-        ok: false,
+        ok: !!responseData?.data,
         res: responseData?.data,
+        meta: responseData?.meta,
         error: responseData?.error,
+        code: responseData?.error?.code,
       }
     } catch (e) {
       return {
@@ -50,16 +45,12 @@ export const wrapperFetch: IWrapperFetch = {
         },
       })
       const responseData = await response.json()
-      if (responseData?.error === null) {
-        return {
-          ok: true,
-          res: responseData?.data,
-        }
-      }
       return {
-        ok: false,
+        ok: !!responseData?.data,
         res: responseData?.data,
+        meta: responseData?.meta,
         error: responseData?.error,
+        code: responseData?.error?.code,
       }
     } catch (e) {
       return {
@@ -81,18 +72,12 @@ export const wrapperFetch: IWrapperFetch = {
         body: JSON.stringify(body)
       })
       const responseData = await response.json()
-      if (responseData?.error === null) {
-        return {
-          ok: true,
-          res: responseData?.data,
-          
-        }
-      }
       return {
-        ok: false,
+        ok: !!responseData?.data,
         res: responseData?.data,
+        meta: responseData?.meta,
         error: responseData?.error,
-        code: responseData?.code
+        code: responseData?.error?.code,
       }
     } catch (e) {
       return {
@@ -114,16 +99,12 @@ export const wrapperFetch: IWrapperFetch = {
         body: JSON.stringify(body)
       })
       const responseData = await response.json()
-      if (responseData?.error === null) {
-        return {
-          ok: true,
-          res: responseData?.data,
-        }
-      }
       return {
-        ok: false,
+        ok: !!responseData?.data,
         res: responseData?.data,
         error: responseData?.error,
+        meta: responseData?.meta,
+        code: responseData?.error?.code,
       }
     } catch (e) {
       return {
@@ -173,21 +154,15 @@ export const wrapperFetch: IWrapperFetch = {
         method: "POST",
         headers: {
           Authorization: `Bearer ${useTokenHelper.authToken}`,
-          // "Content-Type": "multipart/form-data",
         },
         body: formData
       })
       const responseData = await response.json()
-      if (responseData?.error === null && responseData?.data) {
-        return {
-          ok: true,
-          res: responseData?.data,
-          meta: responseData?.meta,
-        }
-      }
       return {
-        ok: false,
+        ok: !!responseData?.data,
+        res: responseData?.data,
         error: responseData?.error,
+        meta: responseData?.meta,
       }
     } catch (e) {
       return {

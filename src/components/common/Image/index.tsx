@@ -19,7 +19,7 @@ const ImageMotion: TImage = ({
 }) => {
 
   return (
-    src.includes("http")
+    src?.includes("http")
       ?
       <MotionImage
         placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
@@ -35,7 +35,7 @@ const ImageMotion: TImage = ({
         }}
       />
       : <NextImage
-        src={src}
+        src={alt === "avatar" ? "/png/default_avatar.png" : "/png/blur_avatar_default.jpg"}
         alt={alt}
         className={className}
         height={height}

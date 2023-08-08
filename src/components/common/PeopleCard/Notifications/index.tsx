@@ -24,7 +24,7 @@ export const PeopleCard: TPeopleCardNotifications = ({
           <NextImageMotion
             className={styles.image}
             src={avatar}
-            alt={avatar}
+            alt={"avatar"}
             width={56}
             height={56}
           />

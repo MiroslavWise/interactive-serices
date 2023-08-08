@@ -39,8 +39,8 @@ export const Notifications: TNotifications = ({ visibleNotification, setVisibleN
           res?.map(item => (
             <PeopleCard
               key={`${item.id}_prof_notifications_${item.created}`}
-              avatar={item.profile.image.attributes.url}
-              name={`${item.profile.firstName} ${item?.profile?.lastName}`}
+              avatar={item?.profile?.image?.attributes?.url}
+              name={`${item?.profile?.firstName} ${item?.profile?.lastName}`}
               date="03/02/2023"
               rate={4.5}
               description={item?.profile?.about}

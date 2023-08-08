@@ -1,13 +1,14 @@
 import type {
   ILoggingService,
   IRequestLogin,
-  IResponseLogin,
+  IResponseLoginNot2fa,
+  IResponseLoginOtp,
 } from "./types/loggingService"
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const LoggingService: ILoggingService = {
   login(value) {
-    return wrapperFetch.methodPost<IRequestLogin, IResponseLogin>("/auth/login", value)
+    return wrapperFetch.methodPost<IRequestLogin, IResponseLoginOtp & IResponseLoginNot2fa>("/auth/login", value)
   },
 }

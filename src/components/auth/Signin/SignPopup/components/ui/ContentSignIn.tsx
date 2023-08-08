@@ -11,14 +11,16 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 import { LinksSocial } from "./components/LinksSocial"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { regExEmail } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { usersService } from "@/services/users"
 
 import styles from "../styles/style.module.scss"
 
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
   const [loading, setLoading] = useState(false)
+  const { setToken, changeAuth } = useAuth()
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, handleSubmit, formState: { errors }, setError } = useForm<IValuesSignForm>()
 
@@ -35,7 +37,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         if (response.error?.code === 404) {
           setError("email", { message: "user not found" })
         }
-        if (!!response?.res?.secret && !!response?.res?.otp_auth_url) {
+        if (response?.res?.secret && response?.res?.otp_auth_url) {
           setValueSecret({
             secret: response?.res?.secret!,
             url: response?.res?.otp_auth_url!,
@@ -43,6 +45,25 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
           return setVisibleAndType({ type: "FirstLoginQR" })
         }
         if (response.ok) {
+          if (response.res?.access_token && response?.res?.refresh_token && response?.res?.token_type) {
+            usersService.getUserId(response?.res?.id)
+              .then(responseUser => {
+                setToken({
+                  ok: true,
+                  token: response?.res?.access_token!,
+                  refreshToken: response?.res?.refresh_token!,
+                  userId: response?.res?.id!,
+                  expiration: response?.res?.expires_in!,
+                })
+                if (!responseUser?.res?.profile) {
+                  return setVisibleAndType({ type: "PersonalEntry" })
+                }
+                if (!!responseUser?.res?.profile) {
+                  return changeAuth()
+                }
+              })
+            return setVisibleAndType({visible: false})
+          }
           return setVisibleAndType({ type: "OtpCode" })
         }
       })
