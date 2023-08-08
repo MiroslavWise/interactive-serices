@@ -42,7 +42,7 @@ export const FooterMenu: TFooterMenu = ({ }) => {
             {
               MENU_ITEMS(isAuth).map(item => (
                 <li
-                  key={`${item.path}_item_menu`}
+                  key={item.key}
                   onClick={() => {
                     if (item.path !== null) {
                       handleGoToPage(item.path)

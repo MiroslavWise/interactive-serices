@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TContentOtpCode } from "./types/types"
 
@@ -17,11 +18,20 @@ export const ContentOtpCode: TContentOtpCode = ({ }) => {
   const { setToken, changeAuth } = useAuth()
   const [loading, setLoading] = useState(false)
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-  //todo
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
-
+  async function clip() {
+    const text = await navigator.clipboard.readText()
+    const split = text.split("")
+    if (split.map(item => /[0-9]/.test(item)).every(Boolean) && split.length === 6) {
+      split.forEach((item, index) => {
+        inputRefs.current[index].value = item
+        setInputValues(state => state.map((_, indexValue) => index === indexValue ? item : _))
+      })
+    }
+  }
+  //
   const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = event.target
     const newInputValues = [...inputValues]
@@ -83,6 +93,12 @@ export const ContentOtpCode: TContentOtpCode = ({ }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (inputValues.map(item => /[0-9]/.test(item)).every(item => !!item)) {
+      onInputValues()
+    }
+  }, [inputValues])
+
   return (
     <div className={styles.contentOtpCode}>
       <div className={styles.inputs}>
@@ -91,7 +107,7 @@ export const ContentOtpCode: TContentOtpCode = ({ }) => {
             key={index}
             // @ts-ignore
             ref={(ref) => (inputRefs.current[index] = ref)}
-            type="text"
+            type="number"
             placeholder={"0"}
             pattern="/[0-9]/"
             maxLength={1}
@@ -105,6 +121,17 @@ export const ContentOtpCode: TContentOtpCode = ({ }) => {
           />
         ))}
       </div>
+      {
+        isMobile 
+          ? (
+            <ButtonFill
+              label="Вставить"
+              classNames="w-100"
+              type="primary"
+              handleClick={clip}
+            />
+        ) : null
+      }
       {errorCode ? <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>{errorCode}</p> : null}
       <ButtonFill
         disabled={loading || inputValues.filter(item => item !== "").length !== 6}

@@ -9,6 +9,7 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
       regular: "/icons/mobile/regular/map-regular.svg",
     },
     isCenter: false,
+    key: "MAPS_LAYOUT_MENU",
   },
   {
     label: "Обмен",
@@ -18,6 +19,7 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
       regular: "/icons/mobile/regular/sharing-regular.svg",
     },
     isCenter: false,
+    key: "OFFER_LAYOUT_MENU"
   },
   {
     label: isAuth ? "Профиль" : "Войти",
@@ -27,6 +29,7 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
       regular: isAuth ? "/icons/mobile/regular/profile-active-regular.svg" : "/icons/mobile/regular/profile-no-auth-regular.svg",
     },
     isCenter: true,
+    key: "AUTH_OR_PROFILE_LAYOUT_MENU"
   },
   {
     label: "Сообщения",
@@ -36,6 +39,7 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
       regular: "/icons/mobile/regular/message-regular.svg",
     },
     isCenter: false,
+    key: "MESSAGES_LAYOUT_MENU"
   },
   {
     label: "Блог",
@@ -45,5 +49,6 @@ export const MENU_ITEMS = (isAuth: boolean): IItemsMenu[] => ([
       regular: "/icons/mobile/regular/blog-regular.svg",
     },
     isCenter: false,
+    key: "BLOGS_LAYOUT_MENU"
   },
 ])

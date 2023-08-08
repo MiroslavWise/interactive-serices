@@ -10,4 +10,5 @@ export interface IItemsMenu {
     regular: string
   }
   isCenter: boolean
+  key: string
 }

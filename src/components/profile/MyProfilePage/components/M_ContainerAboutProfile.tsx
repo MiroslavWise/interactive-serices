@@ -43,7 +43,19 @@ export const M_ContainerAboutProfile = () => {
         username: user?.username!,
         userId: Number(userId),
       }
-      profileService.patchProfile(data, Number(profileId))
+      if (profileId) {
+        profileService.patchProfile(data, Number(profileId))
+          .then(response => {
+            if (response.error?.code === 401) {
+              signOut()
+            }
+          })
+          .finally(() => {
+            setIsEdit(false)
+            changeAuth()
+          })
+      } else {
+        profileService.postProfile(data)
         .then(response => {
           if (response.error?.code === 401) {
             signOut()
@@ -53,6 +65,7 @@ export const M_ContainerAboutProfile = () => {
           setIsEdit(false)
           changeAuth()
         })
+      }
     } else {
       setIsEdit(true)
     }

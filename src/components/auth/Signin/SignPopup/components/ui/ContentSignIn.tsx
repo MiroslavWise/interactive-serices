@@ -62,7 +62,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                   return changeAuth()
                 }
               })
-            return setVisibleAndType({visible: false})
+            return setVisibleAndType({ visible: false })
           }
           return setVisibleAndType({ type: "OtpCode" })
         }
