@@ -16,6 +16,11 @@
     line-height: 28px;
     letter-spacing: -0.5px;
     white-space: nowrap;
+
+    &::selection {
+      background-color: transparent;
+      color: inherit;
+    }
   }
 
   @media screen and (max-width: 500px) {

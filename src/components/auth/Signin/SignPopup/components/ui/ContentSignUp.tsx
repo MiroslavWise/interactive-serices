@@ -42,7 +42,6 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
       repeat: values.repeat_password,
     })
       .then(response => {
-        console.log("response onRegister: ", response)
         if (response?.code === 409) {
           setError("email", { message: "user already exists" })
         }
