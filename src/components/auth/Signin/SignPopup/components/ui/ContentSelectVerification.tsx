@@ -1,5 +1,7 @@
+"use client"
+
 // import { useState } from "react"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
 import type { TContentSelectVerification } from "./types/types"
@@ -19,12 +21,12 @@ export const ContentSelectVerification: TContentSelectVerification = ({ typeVeri
   }
 
   return (
-    <motion.div
+    <div
       className={cx(styles.contentRow, isMobile && styles.isMobile)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // exit={{ opacity: 0 }}
+      // transition={{ duration: 0.5 }}
     >
       <ButtonSelection
         active={typeVerification === "phone"}
@@ -38,6 +40,6 @@ export const ContentSelectVerification: TContentSelectVerification = ({ typeVeri
         label="Email адрес"
         image="/svg/email_selection.svg"
       />
-    </motion.div>
+    </div>
   )
 }

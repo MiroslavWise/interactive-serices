@@ -1,8 +1,12 @@
+"use client"
+
 import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TContainerHeader } from "./types/types"
 
 import styles from "./styles/style.module.scss"
+import { cx } from "@/lib/cx"
 
 export const ContainerHeader: TContainerHeader = ({ total }) => {
   
@@ -14,7 +18,7 @@ export const ContainerHeader: TContainerHeader = ({ total }) => {
   }, [total])
 
   return (
-    <div className={styles.containerHeader}>
+    <div className={cx(styles.containerHeader, isMobile && styles.mobile, "m-top-6 m-bottom-6")}>
       <div className={styles.badgeTotal}><h4>{stringTotal}</h4></div>
       <h4>Люди, приславшие вам предложения обмена.</h4>
     </div>

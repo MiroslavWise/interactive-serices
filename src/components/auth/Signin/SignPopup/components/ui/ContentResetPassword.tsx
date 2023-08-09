@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 
@@ -68,12 +68,12 @@ export const ContentResetPassword: TContentResetPassword = ({ }) => {
   }
 
   return (
-    <motion.div
+    <div
       className={styles.content}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // exit={{ opacity: 0 }}
+      // transition={{ duration: 0.5 }}
     >
       <form className={styles.form} onSubmit={handleSubmit(submit)}>
         <section className={styles.section}>
@@ -113,6 +113,6 @@ export const ContentResetPassword: TContentResetPassword = ({ }) => {
           submit="submit"
         />
       </form>
-    </motion.div>
+    </div>
   )
 }

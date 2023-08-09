@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import Image from "next/image"
 
 import type { TContentForgotPassword } from "./types/types"
@@ -52,12 +52,12 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
   }
 
   return (
-    <motion.div
+    <div
       className={styles.content}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // exit={{ opacity: 0 }}
+      // transition={{ duration: 0.5 }}
     >
       <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
         <section className={styles.section}>
@@ -95,6 +95,6 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
         />
         <p>Назад к странице входа</p>
       </section>
-    </motion.div>
+    </div>
   )
 }

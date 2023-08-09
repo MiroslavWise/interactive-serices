@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { motion } from "framer-motion"
-import Image from "next/image"
+// import { motion } from "framer-motion"
 import { toast } from "react-toastify"
+import Image from "next/image"
 
 import type { IValuesRegistrationForm, TContentSignUp } from "./types/types"
 
@@ -56,12 +56,12 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
   }
 
   return (
-    <motion.div
+    <div
       className={styles.content}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // exit={{ opacity: 0 }}
+      // transition={{ duration: 0.5 }}
     >
       <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
         <section className={styles.section}>
@@ -120,6 +120,6 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
         />
         <p>Назад к странице входа</p>
       </section>
-    </motion.div>
+    </div>
   )
 }

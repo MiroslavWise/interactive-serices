@@ -1,5 +1,7 @@
+"use client"
+
 import { useState } from "react"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import dayjs from "dayjs"
 
@@ -96,12 +98,12 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
   }
 
   return (
-    <motion.div
+    <div
       className={styles.content}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // exit={{ opacity: 0 }}
+      // transition={{ duration: 0.5 }}
     >
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <ImageUploadComponent
@@ -161,6 +163,6 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
           submit="submit"
         />
       </form>
-    </motion.div>
+    </div>
   )
 }
