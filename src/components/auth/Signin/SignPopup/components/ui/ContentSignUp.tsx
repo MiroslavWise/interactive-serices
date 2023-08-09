@@ -23,6 +23,7 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
   const [loading, setLoading] = useState(false)
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValuesRegistrationForm>()
+
   const onSuccess = (value: string) => toast(value, {
     position: "top-center",
     autoClose: 5000,
@@ -45,7 +46,7 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
         if (response?.code === 409) {
           setError("email", { message: "user already exists" })
         }
-        if (!response.error && response.ok) {
+        if (response.ok) {
           setVisibleAndType({ type: "SignIn" })
           onSuccess("Вы успешно зарегистрировались. Можете войти в свой аккаунт")
         }
@@ -56,13 +57,7 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
   }
 
   return (
-    <div
-      className={styles.content}
-      // initial={{ opacity: 0 }}
-      // animate={{ opacity: 1 }}
-      // exit={{ opacity: 0 }}
-      // transition={{ duration: 0.5 }}
-    >
+    <div className={styles.content}>
       <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
         <section className={styles.section}>
           <LabelInputGroup

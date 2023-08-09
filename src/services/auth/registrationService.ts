@@ -9,9 +9,9 @@ export const RegistrationService: IRegistrationService = {
     return usersService.postUser(data)
       .then(response => {
         console.log("response registration: ", response)
-        if (!response?.error && response?.res?.confirmation_code && env.auto_verification) {
+        if (response.ok && response?.res?.confirmation_code && env.auto_verification) {
           return this.verification({ code: response?.res?.confirmation_code })
-        } else if (!response?.error && response?.res?.confirmation_code && !env.auto_verification) {
+        } else if (response.ok && response?.res?.confirmation_code && !env.auto_verification) {
           return {
             ok: true,
             error: null,
@@ -25,11 +25,11 @@ export const RegistrationService: IRegistrationService = {
         }
       })
   },
-  verification(value) {
+  async verification(value) {
     return wrapperFetch.methodPost<{ code: string }, IResponseDataRegistration>("/auth/verify", value)
       .then(response => {
-        console.log("response registration: ", response)
-        if (response?.ok && response?.res) {
+        console.log("response verification: ", response)
+        if (response.ok) {
           return {
             ok: true,
             res: response?.res,
