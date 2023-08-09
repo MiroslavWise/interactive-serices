@@ -8,10 +8,11 @@ export const RegistrationService: IRegistrationService = {
   async registration(data) {
     return usersService.postUser(data)
       .then(response => {
+        console.log("env.auto_verification: ", env.auto_verification)
         console.log("response registration: ", response)
-        if (response.ok && response?.res?.confirmationCode && env.auto_verification) {
-          return this.verification({ code: response?.res?.confirmationCode })
-        } else if (response.ok && response?.res?.confirmationCode && !env.auto_verification) {
+        if (response.ok && response?.res?.confirmation_code && env.auto_verification) {
+          return this.verification({ code: response?.res?.confirmation_code })
+        } else if (response.ok && response?.res?.confirmation_code && !env.auto_verification) {
           return {
             ok: true,
             error: null,
