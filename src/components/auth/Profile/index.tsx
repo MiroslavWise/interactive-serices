@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { isMobile, isTablet } from "react-device-detect"
 
 import type { IStateVisible } from "./types"

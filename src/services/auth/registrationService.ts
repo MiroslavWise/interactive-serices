@@ -10,14 +10,14 @@ export const RegistrationService: IRegistrationService = {
       .then(response => {
         console.log("env.auto_verification: ", env.auto_verification)
         console.log("response registration: ", response)
-        if (response.ok && response?.res?.confirmation_code && env.auto_verification) {
+        if (response.ok && response?.res?.confirmation_code) {
           return this.verification({ code: response?.res?.confirmation_code })
-        } else if (response.ok && response?.res?.confirmation_code && !env.auto_verification) {
-          return {
-            ok: true,
-            error: null,
-            res: response?.res,
-          }
+        // } else if (response.ok && response?.res?.confirmation_code && !env.auto_verification) {
+          // return {
+          //   ok: true,
+          //   error: null,
+          //   res: response?.res,
+          // }
         }
         return {
           ok: false,
