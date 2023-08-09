@@ -7,7 +7,7 @@ export interface IDataRegistration {
 }
 
 export interface IResponseDataRegistration {
-  confirmation_code: string
+  confirmationCode: string
   id: number
 }
 
