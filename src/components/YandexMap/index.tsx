@@ -1,6 +1,6 @@
 "use client"
 
-import { MutableRefObject, useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { Map } from "@pbe/react-yandex-maps"
 import { isMobile } from "react-device-detect"
 
@@ -14,7 +14,6 @@ import { MapCardNews } from "./MapCard"
 
 export const YandexMap: TYandexMap = ({ }) => {
   const [visibleNotification, setVisibleNotification] = useState(false)
-  const [tooltipOpen, setTooltipOpen] = useState(false)
 
   return (
     <>

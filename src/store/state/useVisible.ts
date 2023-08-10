@@ -4,6 +4,7 @@ import type { IUseVisibleBannerNewServicesState } from "../types/useVisibleBanne
 import type { IUseVisibleAndTypeAuthModalState } from "../types/useVisibleAndTypeAuthModalState"
 import type { IUseVisibleModalBarter } from "../types/useVisibleModalBarter"
 import type { IUseVisiblePhotosCarousel } from "../types/useVisiblePhotosCarousel"
+import { IUseVisibleExchanges } from "../types/useVisibleExchanges"
 
 
 
@@ -52,6 +53,20 @@ export const useVisibleModalBarterState = create<IUseVisibleModalBarter>(
         }, 350)
       }
     },
+  })
+)
+
+export const useVisibleExchangesState = create<IUseVisibleExchanges>(
+  (set, get) => ({
+    isVisible: false,
+    type: undefined,
+
+    setVisibleType({visible, type}) {
+      set({
+        isVisible: typeof visible !== "undefined" ? visible : get().isVisible,
+        type: typeof type !== "undefined" ? type : get().type,
+      })
+    }
   })
 )
 

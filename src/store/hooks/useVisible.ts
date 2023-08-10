@@ -3,6 +3,7 @@ import { shallow } from "zustand/shallow"
 import {
   useVisibleAndTypeAuthModalState,
   useVisibleBannerNewServicesState,
+  useVisibleExchangesState,
   useVisibleModalBarterState,
   useVisiblePhotosCarouselState,
 } from "../state/useVisible"
@@ -42,6 +43,15 @@ export const useVisiblePhotosCarousel = () => {
     setNext: state.setNext,
     setCurrentPhoto: state.setCurrentPhoto,
     setVisibleCarousel: state.setVisibleCarousel,
+  }), shallow)
+  return content
+}
+
+export const useVisibleExchanges = () => {
+  const content = useVisibleExchangesState(state => ({
+    isVisible: state.isVisible,
+    type: state.type,
+    setVisibleType: state.setVisibleType,
   }), shallow)
   return content
 }

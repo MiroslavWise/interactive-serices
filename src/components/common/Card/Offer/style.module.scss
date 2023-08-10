@@ -10,6 +10,7 @@
   background: var(--glass-bg-color-1);
   box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
   // backdrop-filter: blur(4px);
+  z-index: 2;
 
   footer {
     display: flex;

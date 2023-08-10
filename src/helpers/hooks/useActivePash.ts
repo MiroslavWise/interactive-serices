@@ -5,9 +5,11 @@ export const useActivePath = () => {
   const [path, setPath] = useState("")
   const active = usePathname()
 
+  console.log("active: ", active)
+
   useEffect(() => {
     const split = active?.split("/")?.filter(_ => _)?.[0]
-    setPath(split)
+    setPath(split || "")
   }, [active])
 
   return path

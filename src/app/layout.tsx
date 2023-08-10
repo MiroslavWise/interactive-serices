@@ -6,6 +6,7 @@ import dynamic from "next/dynamic"
 import { FooterMenu } from "@/components/layout/FooterMenu"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
+import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
@@ -33,6 +34,7 @@ export default function Layout({ children }: { children: ReactNode, }) {
           <FooterMenu />
           <SignPopup />
           <PhotoCarousel />
+          <ExchangesModalMobile />
         </Providers>
         <span className="glass-circle-1" />
         <span className="glass-circle-2" />

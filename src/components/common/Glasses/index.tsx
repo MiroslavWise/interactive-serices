@@ -1,4 +1,4 @@
-import styles from "./styles/style.module.scss"
+import styles from "./style.module.scss"
 
 const GLASSES = [1, 2, 3]
 

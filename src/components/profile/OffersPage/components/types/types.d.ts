@@ -1,4 +1,5 @@
 import type { Dispatch, FC, SetStateAction } from "react"
+import type { TExchanges } from "@/store/types/useVisibleExchanges"
 
 interface IContainerHeader{
   total: number
@@ -9,11 +10,8 @@ interface IContainerOffersNow{
 }
 
 interface IMobileSegments{
-  value: TExchanges
-  setValue: Dispatch<SetStateAction<TExchanges>>
 }
 
-export type TExchanges = "current" | "completed"
 export interface IOffersCard {
   label: string
   src: string

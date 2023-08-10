@@ -9,14 +9,13 @@ import { MotionUL } from "@/components/common/Motion"
 import { PeopleCard } from "@/components/common/PeopleCard/Notifications"
 
 import { cx } from "@/lib/cx"
-
-import { usersService } from "@/services/users"
+import { profileService } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
-import { Glasses } from "./components/Glasses"
+import { Glasses } from "@/components/common/Glasses"
 
 export const Notifications: TNotifications = ({ visibleNotification, setVisibleNotification }) => {
-  const { data, isLoading, error } = useQuery(["users"], () => usersService.getUsers({ limit: 20 }))
+  const { data } = useQuery(["profiles"], () => profileService.getProfiles({ limit: 20 }))
   const { res, ok } = data ?? {}
 
   return (
@@ -39,12 +38,12 @@ export const Notifications: TNotifications = ({ visibleNotification, setVisibleN
           res?.map(item => (
             <PeopleCard
               key={`${item.id}_prof_notifications_${item.created}`}
-              avatar={item?.profile?.image?.attributes?.url}
-              name={`${item?.profile?.firstName} ${item?.profile?.lastName}`}
+              avatar={item?.image?.attributes?.url}
+              name={`${item?.firstName} ${item?.lastName}`}
               date="03/02/2023"
               rate={4.5}
-              description={item?.profile?.about}
-              path={`/user/${item.id}`}
+              description={item?.about}
+              path={`/user/${item.userId}`}
             />
           ))
         }

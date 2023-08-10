@@ -21,7 +21,7 @@ export const FooterMenu: TFooterMenu = ({ }) => {
   const valuePath = useActivePath()
 
   const handleSignInOrSignUp = () => {
-    setVisibleAndType({ visible: !visible, type: type ? type : "SignIn" })
+    setVisibleAndType({ visible: !visible, type: ["SignIn", "SignUp"].includes(type!) ? type : "SignIn" })
   }
 
   const handleGoToPage = (path: string) => {

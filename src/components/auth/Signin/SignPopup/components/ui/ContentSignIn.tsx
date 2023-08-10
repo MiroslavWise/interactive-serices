@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 // import { motion } from "framer-motion"
 import Image from "next/image"
+import { toast } from "react-toastify"
 
 import type { TContentSignIn, IValuesSignForm } from "./types/types"
 
@@ -24,6 +25,17 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, handleSubmit, formState: { errors }, setError } = useForm<IValuesSignForm>()
 
+  const onError = (value: string) => toast(value, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  })
+
   const onEnter = async (values: IValuesSignForm) => {
     setLoading(true)
     useTokenHelper.login({
@@ -31,11 +43,17 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
       password: values.password,
     })
       .then(response => {
-        if (response.error?.code === 401) {
+        if (response?.error?.code === 401 && response?.error?.message === "Unauthorized") {
           setError("password", { message: "invalid password" })
+          return
+        }
+        if (response.error?.code === 401 && response?.error?.message === "user is not verified") {
+          onError("Вы не потвердили профиль через уведомление, которое вам пришло на почту или номер телефона!")
+          return
         }
         if (response.error?.code === 404) {
           setError("email", { message: "user not found" })
+          return
         }
         if (response?.res?.secret && response?.res?.otp_auth_url) {
           setValueSecret({
@@ -43,6 +61,11 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
             url: response?.res?.otp_auth_url!,
           })
           return setVisibleAndType({ type: "FirstLoginQR" })
+        }
+        if (response?.error) {
+          console.log("ERROR ---У нас возникла ошибка, мы сейчас её решаем!---", response?.error)
+          onError("У нас возникла ошибка, мы сейчас её решаем!")
+          return
         }
         if (response.ok) {
           if (response.res?.access_token && response?.res?.refresh_token && response?.res?.token_type) {
@@ -73,13 +96,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
   }
 
   return (
-    <div
-      className={styles.content}
-      // initial={{ opacity: 0 }}
-      // animate={{ opacity: 1 }}
-      // exit={{ opacity: 0 }}
-      // transition={{ duration: 0.5 }}
-    >
+    <div className={styles.content}>
       <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
         <section className={styles.section}>
           <LabelInputGroup

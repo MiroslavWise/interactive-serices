@@ -24,7 +24,7 @@ export default function LayoutMainProfile({ children }: { children: ReactNode })
         <div className={cx(styles.containerProfile, isMobile && styles.mobile)}>
           <LeftAsideProfile />
           {children}
-          {typeof isMobile !== "undefined" && !isMobile ? <HistoryExchangeOffers /> : null}
+          <HistoryExchangeOffers />
         </div>
       </div>
     )

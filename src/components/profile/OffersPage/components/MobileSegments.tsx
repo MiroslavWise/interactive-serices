@@ -3,12 +3,12 @@ import type { TMobileSegments } from "./types/types"
 import { MobileOfferSegment } from "@/components/common/Card/MobileOfferSegment"
 
 import { OFFERS_CARD } from "./constants"
+import { useVisibleExchanges } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const  MobileSegments: TMobileSegments = ({value, setValue}) => {
-
-  console.log("value: ", value)
+export const MobileSegments: TMobileSegments = () => {
+  const { setVisibleType } = useVisibleExchanges() ?? {}
 
   return (
     <ul className={styles.containerOffersCardMobile}>
@@ -19,7 +19,7 @@ export const  MobileSegments: TMobileSegments = ({value, setValue}) => {
             src={item.src}
             label={item.label}
             handleClick={() => {
-              setValue(item.value)
+              setVisibleType({ visible: true, type: item.value })
             }}
           />
         ))
