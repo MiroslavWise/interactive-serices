@@ -18,6 +18,17 @@ ul {
   list-style: none;
 }
 
+input, textarea, select{
+  @media screen and (max-width: 768px){
+    font-size: 14px;
+  }
+  &:focus{
+    @media (max-width: 768px){
+      font-size: 14px;
+    }
+  }
+}
+
 :root {
   --desktop: 1440px;
   --tablet: 834px;
