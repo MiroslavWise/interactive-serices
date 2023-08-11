@@ -14,6 +14,12 @@
         },
         {
             "path": "../../go/src/github.com/ole-larsen/go-ploutonion"
+        },
+        {
+            "path": "../sheira-notification"
+        },
+        {
+            "path": "../typescript-postgres-express"
         }
     ]
 }
