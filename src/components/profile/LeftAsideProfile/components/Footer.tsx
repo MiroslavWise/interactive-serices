@@ -11,7 +11,7 @@ import styles from "./styles/style.module.scss"
 
 export const FooterAsideLeft = () => {
   const { push } = useRouter()
-  const { signOut } = useAuth() ?? {}
+  const { signOut } = useAuth()
 
   return (
     <footer className={styles.footer}>

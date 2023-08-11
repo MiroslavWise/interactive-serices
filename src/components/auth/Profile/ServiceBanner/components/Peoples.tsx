@@ -29,7 +29,7 @@ export const Peoples: TPeoples = ({ setDataAndActive }) => {
             name={`${item?.firstName || "Имя"} ${item?.lastName || "Фамилия"}`}
             rate={4.5}
             services={MOCKS_SERVICES}
-            geo="Ln. Mesa, New Jersey 45463"
+            geo="Владимирский спуск, 15, Владимир"
             about={item?.about}
             userId={item.userId}
           />

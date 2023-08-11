@@ -6,24 +6,26 @@ import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { NextImageMotion } from "@/components/common/Image"
 
+import { useAuth } from "@/store/hooks"
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 
 import styles from "./styles/style.module.scss"
 
-export const HeaderBlock: THeaderBlock = ({ data }) => {
+export const HeaderBlock: THeaderBlock = () => {
+  const { user, imageProfile } = useAuth()
 
   return (
     <header className={styles.containerHeader}>
       <div className={styles.avatar}>
         <NextImageMotion
           className={styles.photo}
-          src={data?.profile?.image?.attributes?.url ? data?.profile?.image?.attributes?.url : "/png/default_avatar.png"}
+          src={imageProfile?.attributes?.url! ? imageProfile?.attributes?.url! : "/png/default_avatar.png"}
           alt="avatar"
           width={94}
           height={94}
         />
         {
-          data?.verified
+          true
             ? (
               <Image
                 className={styles.verified}
@@ -36,9 +38,9 @@ export const HeaderBlock: THeaderBlock = ({ data }) => {
         }
       </div>
       <section className={styles.title}>
-        <h4>{data?.profile?.firstName} {data?.profile?.lastName}</h4>
-        <GeoTagging size={16} fontSize={14} location="Inglewood, Maine" />
-        <p>Joined on February 2017</p>
+        <h4>{user?.firstName} {user?.lastName}</h4>
+        <GeoTagging size={16} fontSize={14} location="Арбат, Москва" />
+        <p>Присоединился в феврале 2017</p>
       </section>
       <BlockOther
         label="Достижения"

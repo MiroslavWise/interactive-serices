@@ -32,7 +32,7 @@ export const BadgeInformationProfile = ({}) => {
         <div className={styles.textInformation}>
           <h5>Jenny Wilson</h5>
           <GeoTagging
-            location="Inglewood, Maine"
+            location="Арбат, Москва"
             size={14}
             fontSize={12}
           />

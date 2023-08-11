@@ -58,9 +58,9 @@ export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about }) => {
           <GeoTagging
             size={16}
             fontSize={12}
-            location="Inglewood, Maine"
+            location="Арбат, Москва"
           />
-          <p className={styles.date}>Joined on February 2017</p>
+          <p className={styles.date}>Присоединился в феврале 2017</p>
           <p className={styles.about}>{about}</p>
         </div>
       </div>

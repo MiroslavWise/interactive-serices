@@ -2,13 +2,6 @@ import type { ICardOffer } from "@/components/common/Card/Offer/types"
 import type { ICardSuggestion } from "@/components/common/Card/Suggestion/types"
 import type { IItems } from "@/components/profile/MainInfo/constants"
 
-// name: string
-// geo: string
-// date: string
-// finality: string
-// chatId?: string | number
-// price: number
-
 export const PEOPLES: IItems[] = [
   {
     assignment: "one",

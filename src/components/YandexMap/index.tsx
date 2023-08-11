@@ -32,7 +32,7 @@ export const YandexMap: TYandexMap = ({ }) => {
       <Map
         width={"100%"}
         height={"100%"}
-        defaultState={{ center: [55.75, 37.57], zoom: 14 }}
+        defaultState={{ center: [55.75, 37.67], zoom: 15 }}
       >
         <NewsPlaceMark />
       </Map>

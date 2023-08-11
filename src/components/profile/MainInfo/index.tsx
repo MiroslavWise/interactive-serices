@@ -42,7 +42,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
           <div className={styles.titleAndButtons}>
             <div className={styles.nameAndGeo}>
               <h3>{user?.profile?.firstName || "First"} {user?.profile?.lastName || "Last"}</h3>
-              <GeoTagging location="Inglewood, Maine" />
+              <GeoTagging location="Арбат, Москва" />
             </div>
             <section className={styles.buttons}>
               <ButtonFill
@@ -119,9 +119,9 @@ export const MainInfo: TMainInfo = ({ user }) => {
           </div>
         </div>
         <div className={styles.statusActive}>
-          <p>Active 1 day ago</p>
+          <p>Активно 1 день назад</p>
           <div className={styles.dividers} />
-          <p>Joined on February 2017</p>
+          <p>Присоединился в феврале 2017</p>
         </div>
       </div>
     </div>

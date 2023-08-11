@@ -21,7 +21,7 @@ export const BlockProfileAside: FC = () => {
 
   return (
     <section className={cx(styles.container, isMobile && styles.mobile)}>
-      <HeaderBlock data={data?.res!} />
+      <HeaderBlock />
       {typeof isMobile !== "undefined" && !isMobile ? <Badges /> : null}
       <div className={styles.buttons}>
         <ButtonDefault
