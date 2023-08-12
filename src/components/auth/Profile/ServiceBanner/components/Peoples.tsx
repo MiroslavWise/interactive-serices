@@ -25,7 +25,7 @@ export const Peoples: TPeoples = ({ setDataAndActive }) => {
           <PeopleCard
             key={`${item.id}_peoples`}
             setDataProfile={setDataAndActive}
-            photo={item?.image?.attributes?.url ? item?.image?.attributes?.url : "/public/png/default_avatar.png"}
+            photo={item?.image?.attributes?.url ? item?.image?.attributes?.url : "/png/default_avatar.png"}
             name={`${item?.firstName || "Имя"} ${item?.lastName || "Фамилия"}`}
             rate={4.5}
             services={MOCKS_SERVICES}
