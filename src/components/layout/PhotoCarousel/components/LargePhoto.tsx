@@ -2,7 +2,7 @@
 
 import { useSwipeable } from "react-swipeable"
 
-import Image from "next/image"
+import { ImageStatic } from "@/components/common/ImageStatic"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
 
@@ -21,12 +21,13 @@ export function LargePhoto() {
       className={styles.containerLargePhoto}
       {...handlers}
     >
-      <Image
+      <ImageStatic
         src={currentPhoto?.url!}
         onClick={setNext}
         alt="large"
         height={1080}
         width={1920}
+        classNames={[]}
       />
     </div>
   )

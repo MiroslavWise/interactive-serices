@@ -6,17 +6,19 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { BlockCoin } from "./BlockCoin"
 
 import styles from "./styles/style.module.scss"
+import { ImageStatic } from "@/components/common/ImageStatic"
 
 export const BlockTitle: TBlockTitle = ({ name, photo, geo, price, rating }) => {
 
   return (
     <div className={styles.title}>
       <div className={styles.avatar}>
-        <Image
+        <ImageStatic
           src={photo}
           alt="photo"
           width={44}
           height={44}
+          classNames={[]}
         />
         <div className={styles.rating}>
           <Image

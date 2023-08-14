@@ -4,6 +4,7 @@ import Image from "next/image"
 import type { TContainerPhotos } from "./types/types"
 
 import { NextImageMotion } from "@/components/common/Image"
+import { ImageStatic } from "@/components/common/ImageStatic"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
 
@@ -11,7 +12,7 @@ import styles from "./styles/style.module.scss"
 
 export const ContainerPhotos: TContainerPhotos = ({ photos }) => {
   const id = useId()
-  const { setCurrentPhoto, setVisibleCarousel } = useVisiblePhotosCarousel()
+  const { setVisibleCarousel } = useVisiblePhotosCarousel()
 
   return (
     <ul className={styles.containerPhotos}>
@@ -29,11 +30,12 @@ export const ContainerPhotos: TContainerPhotos = ({ photos }) => {
                 })
               }}
             >
-              <Image
+              <ImageStatic
                 src={item?.url}
                 alt="photos"
                 width={400}
                 height={800}
+                classNames={[]}
               />
             </div>
           )) : null

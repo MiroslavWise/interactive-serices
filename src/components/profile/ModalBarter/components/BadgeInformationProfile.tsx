@@ -6,6 +6,7 @@ import { useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { ImageStatic } from "@/components/common/ImageStatic"
 
 export const BadgeInformationProfile = ({}) => {
   const {dataProfile} = useVisibleModalBarter()
@@ -15,11 +16,12 @@ export const BadgeInformationProfile = ({}) => {
       <h4>Бартер с:</h4>
       <section>
         <div className={styles.avatar}>
-          <Image
+          <ImageStatic
             src="/mocks/maria.png"
             alt="avatar"
             width={40}
             height={40}
+            classNames={[]}
           />
           <Image
             src="/svg/verified-tick.svg"

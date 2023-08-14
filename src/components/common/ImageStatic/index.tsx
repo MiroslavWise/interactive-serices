@@ -5,10 +5,15 @@ import type { IPropsImageStatic } from "./types"
 import { cx } from "@/lib/cx"
 
 export function ImageStatic(props: IPropsImageStatic) {
-  const { src, alt, classNames, width, height } = props ?? {}
+  const { src, alt, classNames, width, height, onClick } = props ?? {}
 
   return (
     <Image
+      onClick={() => {
+        if (onClick) {
+          onClick()
+        }
+      }}
       src={src}
       alt={alt}
       className={cx(...classNames)}

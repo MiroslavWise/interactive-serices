@@ -34,7 +34,7 @@ export const useVisibleAndTypeAuthModalState = create<IUseVisibleAndTypeAuthModa
 
 export const useVisibleModalBarterState = create<IUseVisibleModalBarter>(
   (set, get) => ({
-    isVisible: true,
+    isVisible: false,
     dataProfile: undefined,
 
     setIsVisibleBarter({ isVisible, dataProfile }) {
