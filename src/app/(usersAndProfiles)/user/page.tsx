@@ -1,22 +1,29 @@
 "use client"
 
-import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
+import { useSearchParams } from "next/navigation"
 
 import { MainInfo, StatisticAndFeedback } from "@/components/profile"
 import { MotionUL } from "@/components/common/Motion"
 import { MobileMainInfo } from "@/components/profile/MobileMainInfo"
 import { MobileInteractive } from "@/components/profile/MobileInteractive"
 
-import { usersService } from "@/services/users"
+import { profileService } from "@/services/profile"
 import { cx } from "@/lib/cx"
 
 import styles from "@/scss/page.module.scss"
 
-export default function UserId({ params }: { params: { id: string | number } }) {
-  const { data, isLoading } = useQuery(["userId", params.id], () => usersService.getUserId(params.id))
+async function getDataProfile(id: number) {
+  const res = profileService.getProfileThroughUserId(id)
 
-  if(isLoading) return null
+  return await res
+}
+
+export default async function UserId() {
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+
+  const data = await getDataProfile(Number(id!))
 
   return (
     <div className={cx(styles.page, isMobile && styles.mobile)}>
@@ -24,15 +31,15 @@ export default function UserId({ params }: { params: { id: string | number } }) 
         isMobile ? (
           <MotionUL classNames={[styles.containerMobile]}>
             <MobileMainInfo
-              name={`${data?.res?.profile?.firstName} ${data?.res?.profile?.lastName}`}
-              photo={data?.res?.profile?.image?.attributes?.url!}
-              about={data?.res?.profile?.about!}
+              name={`${data?.res?.firstName} ${data?.res?.lastName}`}
+              photo={data?.res?.image?.attributes?.url!}
+              about={data?.res?.about!}
             />
             <MobileInteractive />
           </MotionUL>
         ) : (
           <section className={styles.container}>
-            <MainInfo user={data?.res!} />
+            <MainInfo profile={data?.res!} />
             <StatisticAndFeedback />
           </section>
         )

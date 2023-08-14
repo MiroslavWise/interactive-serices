@@ -6,6 +6,7 @@ import type { TCardBlog } from "./types"
 
 import { BadgeServices } from "@/components/common/Badge"
 import { MotionLI } from "@/components/common/Motion"
+import { ImageStatic } from "@/components/common/ImageStatic"
 
 import styles from "./style.module.scss"
 
@@ -15,11 +16,12 @@ export const CardBlog: TCardBlog = ({ title, photo, services }) => {
   return (
     <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
       <div className={styles.photo}>
-        <Image
+        <ImageStatic
           src={photo}
           alt="title"
           width={300}
           height={216}
+          classNames={[]}
         />
       </div>
       <section>

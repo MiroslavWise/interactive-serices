@@ -9,7 +9,8 @@
     "start:dev": "next start -p 4400",
     "lint": "next lint",
     "make:3000": "make build-run PORT=3000",
-    "start-dev": "next build && next start -p 4400"
+    "start-dev": "next build && next start -p 4400",
+    "export": "next build && npx serve@latest out"
   },
   "dependencies": {
     "@pbe/react-yandex-maps": "^1.2.4",

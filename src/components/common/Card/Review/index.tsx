@@ -1,3 +1,5 @@
+"use client"
+
 import { useId } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
@@ -6,6 +8,7 @@ import type { TCardReview } from "./types"
 
 import { Rate } from "@/components/common/Rate"
 import { MotionLI } from "@/components/common/Motion"
+import { ImageStatic } from "@/components/common/ImageStatic"
 
 import styles from "./style.module.scss"
 
@@ -27,12 +30,13 @@ export const CardReview: TCardReview = ({ user, date, rate, description, images,
           {
             Array.isArray(images)
               ? images?.map((item, index) => (
-                <Image
+                <ImageStatic
                   key={`${index}_${id}`}
                   src={item}
                   alt={item}
                   width={100}
                   height={72}
+                  classNames={[]}
                 />
               )) : null
           }

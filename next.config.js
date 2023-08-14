@@ -1,22 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export',
+
+module.exports = {
+  output: "export",
   env: {
-    PORT: 3000
+    PORT: 3000,
+    NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
+    NEXT_PUBLIC_AUTO_VERIFICATION: process.env.NEXT_PUBLIC_AUTO_VERIFICATION,
   },
   images: {
-    // dangerouslyAllowSVG: true,
-    // contentDispositionType: 'attachment',
-    // contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     formats: ["image/avif", "image/webp"],
     deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
-    domains: [process.env.NEXT_PUBLIC_DOMAIN]
-    // remotePatterns: [
-    //   {
-    //     protocol: "https",
-    //   }
-    // ]
+    domains: [process.env.NEXT_PUBLIC_DOMAIN],
   },
 }
-
-module.exports = nextConfig

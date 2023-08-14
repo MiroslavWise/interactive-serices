@@ -14,6 +14,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
 import { ButtonDefault } from "../../Buttons"
+import { ImageStatic } from "../../ImageStatic"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title, services, type }) => {
   const [active, setActive] = useState(0)
@@ -58,7 +59,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
   const photosRandom: string[] = useMemo(() => {
     return shuffleArray()
   }, [shuffleArray])
-  
+
   return (
     <MotionLI classNames={[styles.container, styles[type!], isMobile && styles.mobile]}>
       <div className={styles.header}>
@@ -78,9 +79,9 @@ export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title,
       <div className={styles.carouselPhotos} {...handlers}>
         {
           photosRandom.map((item, index) => (
-            <Image
+            <ImageStatic
               key={item + index + id + "image"}
-              className={cx(index === active && styles.active)}
+              classNames={[index === active && styles.active]}
               alt="image"
               src={item}
               width={239}

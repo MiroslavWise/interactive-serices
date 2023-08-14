@@ -43,6 +43,12 @@ export const wrapperFetch: IWrapperFetch = {
         } : {
           "Content-Type": "application/json",
         },
+        next: {
+          tags: [
+            url,
+            id.toString(),
+          ]
+        }
       })
       const responseData = await response.json()
       return {

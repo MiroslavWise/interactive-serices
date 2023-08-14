@@ -1,6 +1,10 @@
 import { ICardBlog } from "@/components/common/Card/Blog/types"
 import { IRequestsAndProposals } from "@/components/common/Card/RequestsAndProposals/types"
 
+import image1 from "../../../../public/mocks/proposcals/image 14 (1).png"
+import image2 from "../../../../public/mocks/proposcals/image 14.png"
+import image3 from "../../../../public/mocks/proposcals/f02c1a9d9887e604264b6c0a2e38287b.png"
+
 export const MOCKS_SERVICES: { label: string, photo: string }[] = [
   {
     photo: "/mocks/Nail.png",
@@ -159,7 +163,7 @@ export const MOCKS_REVIEW_VALUES: {
     },
   ]
 
-  
+
 
 export const MOCKS_BLOGS_CARD: ICardBlog[] = [
   {
@@ -179,11 +183,7 @@ export const MOCKS_BLOGS_CARD: ICardBlog[] = [
   },
 ]
 
-const PHOTOS_PROPOSALS: string[] = [
-  "/mocks/proposcals/image 14 (1).png",
-  "/mocks/proposcals/image 14.png",
-  "/mocks/proposcals/f02c1a9d9887e604264b6c0a2e38287b.png",
-]
+const PHOTOS_PROPOSALS: any[] = [image1, image2, image3]
 
 export const MOCKS_PROPOSALS: IRequestsAndProposals[] = [
   {
@@ -194,26 +194,26 @@ export const MOCKS_PROPOSALS: IRequestsAndProposals[] = [
   {
     title: "Я могу сделать вам макияж и лак для ногтей.",
     services: MOCKS_SERVICES,
-    photos:  PHOTOS_PROPOSALS,
+    photos: PHOTOS_PROPOSALS,
   },
   {
     title: "Я могу сделать вам макияж и лак для ногтей.",
     services: MOCKS_SERVICES,
-    photos:  PHOTOS_PROPOSALS,
+    photos: PHOTOS_PROPOSALS,
   },
   {
     title: "Я могу сделать вам макияж и лак для ногтей.",
     services: MOCKS_SERVICES,
-    photos:  PHOTOS_PROPOSALS,
+    photos: PHOTOS_PROPOSALS,
   },
   {
     title: "Я могу сделать вам макияж и лак для ногтей.",
     services: MOCKS_SERVICES,
-    photos:  PHOTOS_PROPOSALS,
+    photos: PHOTOS_PROPOSALS,
   },
   {
     title: "Я могу сделать вам макияж и лак для ногтей.",
     services: MOCKS_SERVICES,
-    photos:  PHOTOS_PROPOSALS,
+    photos: PHOTOS_PROPOSALS,
   },
 ]

@@ -5,14 +5,15 @@ import type { TMainInfo } from "./types/types"
 import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
 import { NextImageMotion } from "@/components/common/Image"
 import { BlockOther } from "./components/BlockOther"
+import { GeoTagging } from "@/components/common/GeoTagging"
+import { ImageStatic } from "@/components/common/ImageStatic"
 
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
-import { GeoTagging } from "@/components/common/GeoTagging"
 
-export const MainInfo: TMainInfo = ({ user }) => {
+export const MainInfo: TMainInfo = ({ profile }) => {
 
   return (
     <div className={styles.container}>
@@ -20,13 +21,13 @@ export const MainInfo: TMainInfo = ({ user }) => {
         <div className={styles.avatar}>
           <NextImageMotion
             className={styles.photo}
-            src={user?.profile?.image?.attributes?.url ? user?.profile?.image?.attributes?.url : "/png/default_avatar.png"}
+            src={profile?.image?.attributes?.url ? profile?.image?.attributes?.url : "/png/default_avatar.png"}
             alt="avatar"
             width={94}
             height={94}
           />
-          {
-            user?.verified
+          {/* {
+            verified
               ? (
                 <Image
                   className={styles.verified}
@@ -36,12 +37,12 @@ export const MainInfo: TMainInfo = ({ user }) => {
                   height={32}
                 />
               ) : null
-          }
+          } */}
         </div>
         <div className={styles.information}>
           <div className={styles.titleAndButtons}>
             <div className={styles.nameAndGeo}>
-              <h3>{user?.profile?.firstName || "First"} {user?.profile?.lastName || "Last"}</h3>
+              <h3>{profile?.firstName || "First"} {profile?.lastName || "Last"}</h3>
               <GeoTagging location="Арбат, Москва" />
             </div>
             <section className={styles.buttons}>
@@ -61,7 +62,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
             </section>
           </div>
           <div className={styles.descriptionAndOther}>
-            <p className={styles.description}>{user?.profile?.about}</p>
+            <p className={styles.description}>{profile?.about}</p>
             <BlockOther
               label="Достижения"
               classNames={[styles.achievements]}
@@ -102,12 +103,12 @@ export const MainInfo: TMainInfo = ({ user }) => {
               {
                 PEOPLES.map(item => (
                   <div key={item.assignment} className={styles.people}>
-                    <Image
-                      className={styles.img}
+                    <ImageStatic
                       src={item.src}
                       alt={item.assignment}
                       width={33}
                       height={33}
+                      classNames={[styles.img]}
                     />
                   </div>
                 ))

@@ -1,8 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
 
-import { ButtonDefault } from "@/components/common/Buttons"
+import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { FooterAsideLeft } from "@/components/profile/LeftAsideProfile/components/Footer"
 import { HeaderBlock } from "@/components/profile/BlockProfileAside/components/HeaderBlock"
 import { BadgeAchievements } from "@/components/common/Badge"
@@ -14,8 +15,8 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-
 export const BannerIsAuth = () => {
+  const { push } = useRouter()
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
 
   return (
@@ -42,6 +43,11 @@ export const BannerIsAuth = () => {
             ))
           }
         </ul>
+        <ButtonFill
+          label="Профиль"
+          classNames={cx("w-100", styles.largeButton)}
+          handleClick={() => {push(`/profile`)}}
+        />
         <ButtonDefault
           label="Редактировать профиль"
           classNames={cx("w-100", styles.largeButton)}

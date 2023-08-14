@@ -21,7 +21,7 @@ export const Dots: TDots = ({ id }) => {
         height={28}
         className={cx("cursor-pointer")}
         onClick={() => {
-          push(`/user/${id}`)
+          push(`/user?id=${id}`)
         }}
       />
       <Image
