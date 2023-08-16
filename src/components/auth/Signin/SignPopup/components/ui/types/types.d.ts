@@ -22,6 +22,7 @@ export type TContentSignUp = FC<{
 export type TLinkItem = FC<{
   src: string
   path: string
+  isActive: boolean
 }>
 
 export type TContentFirstLoginQR = FC<{

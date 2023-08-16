@@ -82,7 +82,7 @@ export const BADGES: { title: string, total: number, rating_movement?: "up" | "d
     rating_movement: "up",
   },
   {
-    title: "Биржи закрыты",
+    title: "Обмены закрыты",
     total: 18,
     rating_movement: "down",
   },

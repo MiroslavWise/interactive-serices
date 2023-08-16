@@ -16,3 +16,11 @@ export type TImageUploadComponent = FC<{
   setSelectedImage: Dispatch<SetStateAction<string | null>>
   setFile: Dispatch<SetStateAction<File | null>>
 }>
+
+export interface ILinkSocial {
+  value: string
+  srcWorking: string
+  srcNotWorking: string
+  path: string
+  isWorkingLink: boolean
+}

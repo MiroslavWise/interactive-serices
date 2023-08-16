@@ -9,7 +9,7 @@ export const Badges: TBadges = ({ }) => {
   return (
     <section className={styles.badges}>
       <BadgeAchievements
-        title="Биржи закрыты"
+        title="Обмены закрыты"
         total={18}
       />
       <BadgeAchievements

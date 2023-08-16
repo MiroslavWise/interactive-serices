@@ -9,11 +9,19 @@ import { URL_API } from "@/helpers"
 
 import styles from "../../styles/style.module.scss"
 
-export const LinkItem: TLinkItem = ({ src, path }) => {
+export const LinkItem: TLinkItem = ({ src, path, isActive }) => {
   const { push } = useRouter()
 
   return (
-    <div className={styles.itemLink} onClick={() => push(`${URL_API}${path}`)}>
+    <div
+      className={styles.itemLink}
+      onClick={() => {
+        if (isActive) {
+          push(`${URL_API}${path}`)
+        }
+      }
+      }
+    >
       <Image
         src={src}
         alt={src}

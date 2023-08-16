@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import { YMapsProvider } from "@/context/YMapsProvider"
 
 import { useAuth } from "@/store/hooks/useAuth"
+import { yandex } from "@/lib/yandex"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +23,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   const { changeAuth } = useAuth()
   useEffect(() => {
     changeAuth()
+    yandex()
   }, [changeAuth])
 
   return (

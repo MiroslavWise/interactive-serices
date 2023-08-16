@@ -15,7 +15,7 @@ export const Badges: TBadges = ({ proposals, closedExchanges, rating }) => {
         total={proposals}
       />
       <BadgeAchievementsBorder
-        title="Биржи закрыты"
+        title="Обмены закрыты"
         total={closedExchanges}
       />
       <BadgeAchievementsBorder

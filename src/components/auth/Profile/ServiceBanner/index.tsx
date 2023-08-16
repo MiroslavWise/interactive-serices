@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo, type ReactNode } from "react"
 import { motion } from "framer-motion"
 
 import type { TServiceBanner } from "./types"
@@ -9,6 +9,8 @@ import type { ISegmentValues } from "@/components/common/Segments/types"
 import { Segments } from "@/components/common/Segments"
 import { SearchField } from "@/components/common/Inputs"
 import { Peoples } from "./components/Peoples"
+import { Offers } from "./components/Offers"
+import { Requests } from "./components/Requests"
 
 import { SERVICES } from "./constants"
 import { cx } from "@/lib/cx"
@@ -17,6 +19,12 @@ import styles from "./styles/style.module.scss"
 
 export const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
   const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
+
+  const content: ReactNode = useMemo(() => ({
+    all: <Peoples setDataAndActive={setDataAndActive} />,
+    offers: <Offers />,
+    requests: <Requests />,
+  }[activeService.value]), [activeService, setDataAndActive])
 
   const onSearch = (value: string) => {
   }
@@ -47,7 +55,7 @@ export const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
           <h3>Популярные предложения</h3>
           <div className={styles.totalOval}><span>80</span></div>
         </div>
-        <Peoples setDataAndActive={setDataAndActive} />
+        {content}
       </div>
       <span className={styles.glassShadowOne} />
       <span className={styles.glassShadowTwo} />

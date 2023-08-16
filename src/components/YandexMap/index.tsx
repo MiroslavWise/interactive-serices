@@ -29,13 +29,14 @@ export const YandexMap: TYandexMap = ({ }) => {
             />
           ) : null
       }
-      <Map
+      {/* <Map
         width={"100%"}
         height={"100%"}
         defaultState={{ center: [55.75, 37.67], zoom: 15 }}
-      >
-        <NewsPlaceMark />
-      </Map>
+        id="map_yandex"
+      > */}
+      {/* </Map> */}
+      <NewsPlaceMark />
       <MapCardNews />
       <FilterFieldBottom />
     </>

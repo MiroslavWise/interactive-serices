@@ -2,6 +2,7 @@ import { type ReactNode } from "react"
 import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 import dynamic from "next/dynamic"
+import Script from "next/script"
 
 import { FooterMenu } from "@/components/layout/FooterMenu"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
@@ -23,11 +24,15 @@ export const metadata: Metadata = {
   description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
   keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", ""],
   robots: "noindex, nofollow",
+
 }
 
 export default function Layout({ children }: { children: ReactNode, }) {
   return (
     <html lang="ru">
+      <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />
+      </head>
       <body className={inter.className}>
         <Providers>
           {children}
