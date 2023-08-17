@@ -1,7 +1,5 @@
-import Image from "next/image"
-
 import { MotionLI, MotionUL } from "@/components/common/Motion"
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic } from "@/components/common/Image"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
 

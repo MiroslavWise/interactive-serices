@@ -3,10 +3,10 @@ import Image from "next/image"
 import type { TBlockTitle } from "./types/types"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { ImageStatic } from "@/components/common/Image"
 import { BlockCoin } from "./BlockCoin"
 
 import styles from "./styles/style.module.scss"
-import { ImageStatic } from "@/components/common/ImageStatic"
 
 export const BlockTitle: TBlockTitle = ({ name, photo, geo, price, rating }) => {
 

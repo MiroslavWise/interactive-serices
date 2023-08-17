@@ -3,10 +3,9 @@ import Image from "next/image"
 import type { TMainInfo } from "./types/types"
 
 import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
-import { NextImageMotion } from "@/components/common/Image"
 import { BlockOther } from "./components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
@@ -19,13 +18,26 @@ export const MainInfo: TMainInfo = ({ profile }) => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.avatar}>
-          <NextImageMotion
-            className={styles.photo}
-            src={profile?.image?.attributes?.url ? profile?.image?.attributes?.url : "/png/default_avatar.png"}
-            alt="avatar"
-            width={94}
-            height={94}
-          />
+          {
+            profile?.image?.attributes?.url
+              ? (
+                <NextImageMotion
+                  className={styles.photo}
+                  src={profile?.image?.attributes?.url!}
+                  alt="avatar"
+                  width={94}
+                  height={94}
+                />
+              ) : (
+                <ImageStatic
+                  classNames={[styles.photo]}
+                  src="/png/default_avatar.png"
+                  alt="avatar"
+                  width={94}
+                  height={94}
+                />
+              )
+          }
           {/* {
             verified
               ? (

@@ -4,7 +4,7 @@ import Image from "next/image"
 
 import type { TBadgeServices } from "./types"
 
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic } from "@/components/common/Image"
 
 import styles from "./style.module.scss"
 

@@ -5,7 +5,7 @@ import type { THeaderBlock } from "./types/types"
 
 import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { useAuth } from "@/store/hooks"
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
@@ -15,18 +15,29 @@ import styles from "./styles/style.module.scss"
 export const HeaderBlock: THeaderBlock = () => {
   const { user, imageProfile, createdUser } = useAuth()
 
-  console.log("user: ", user)
-
   return (
     <header className={styles.containerHeader}>
       <div className={styles.avatar}>
-        <NextImageMotion
-          className={styles.photo}
-          src={imageProfile?.attributes?.url! ? imageProfile?.attributes?.url! : "/png/default_avatar.png"}
-          alt="avatar"
-          width={94}
-          height={94}
-        />
+        {
+          imageProfile?.attributes?.url
+            ? (
+              <NextImageMotion
+                className={styles.photo}
+                src={imageProfile?.attributes?.url! ? imageProfile?.attributes?.url! : "/png/default_avatar.png"}
+                alt="avatar"
+                width={94}
+                height={94}
+              />
+            ) : (
+              <ImageStatic
+                src="/png/default_avatar.png"
+                alt="avatar"
+                width={94}
+                height={94}
+                classNames={[styles.photo]}
+              />
+            )
+        }
         {
           true
             ? (

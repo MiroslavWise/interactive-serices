@@ -1,12 +1,11 @@
 import { useId } from "react"
-import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
 import type { TCardBlog } from "./types"
 
 import { BadgeServices } from "@/components/common/Badge"
 import { MotionLI } from "@/components/common/Motion"
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic } from "@/components/common/Image"
 
 import styles from "./style.module.scss"
 

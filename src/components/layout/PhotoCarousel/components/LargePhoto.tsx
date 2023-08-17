@@ -2,7 +2,7 @@
 
 import { useSwipeable } from "react-swipeable"
 
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic } from "@/components/common/Image"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
 

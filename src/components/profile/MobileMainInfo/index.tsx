@@ -2,15 +2,15 @@ import Image from "next/image"
 
 import { TMobileMainInfo } from "./types"
 
-import { NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { MotionLI } from "@/components/common/Motion"
+import { GeoTagging } from "@/components/common/GeoTagging"
+import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
 //todo
 import { ACHIEVEMENTS } from "../MainInfo/constants"
 
 import styles from "./styles.module.scss"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
 export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about }) => {
 
@@ -19,13 +19,26 @@ export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about }) => {
       <div className={styles.blockAboutPhoto}>
         <div className={styles.blockPhotoAch}>
           <div className={styles.avatar}>
-            <NextImageMotion
-              className={styles.photo}
-              src={photo ? photo : "/png/default_avatar.png"}
-              alt="avatar"
-              width={94}
-              height={94}
-            />
+            {
+              photo
+                ? (
+                  <NextImageMotion
+                    className={styles.photo}
+                    src={photo ? photo : "/png/default_avatar.png"}
+                    alt="avatar"
+                    width={94}
+                    height={94}
+                  />
+                ) : (
+                  <ImageStatic
+                    classNames={[styles.photo]}
+                    src="/png/default_avatar.png"
+                    alt="avatar"
+                    width={94}
+                    height={94}
+                  />
+                )
+            }
             {
               photo ? (
                 <Image
@@ -67,7 +80,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about }) => {
       <div className={styles.buttons}>
         <ButtonFill
           label="Добавить в друзья"
-        type="primary"
+          type="primary"
           classNames={styles.buttonFill}
         />
         <ButtonCircleGradient

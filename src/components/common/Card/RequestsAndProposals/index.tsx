@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useId, useState, useEffect, useCallback, useMemo } from "react"
 import { useSwipeable } from "react-swipeable"
 import { isMobile } from "react-device-detect"
@@ -9,12 +8,12 @@ import type { TRequestsAndProposals } from "./types"
 
 import { BadgeServices } from "@/components/common/Badge"
 import { MotionLI } from "@/components/common/Motion"
+import { ButtonDefault } from "@/components/common/Buttons"
+import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
-import { ButtonDefault } from "../../Buttons"
-import { ImageStatic } from "../../ImageStatic"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = ({ photos, title, services, type }) => {
   const [active, setActive] = useState(0)

@@ -2,11 +2,12 @@
 
 import Image from "next/image"
 
+import { GeoTagging } from "@/components/common/GeoTagging"
+import { ImageStatic } from "@/components/common/Image"
+
 import { useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic } from "@/components/common/ImageStatic"
 
 export const BadgeInformationProfile = ({}) => {
   const {dataProfile} = useVisibleModalBarter()

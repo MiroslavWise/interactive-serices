@@ -1,10 +1,9 @@
 import { useId } from "react"
-import Image from "next/image"
 
 import type { TContainerPhotos } from "./types/types"
 
 import { NextImageMotion } from "@/components/common/Image"
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic } from "@/components/common/Image"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
 

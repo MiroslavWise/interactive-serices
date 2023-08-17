@@ -8,7 +8,7 @@ import type { TCardReview } from "./types"
 
 import { Rate } from "@/components/common/Rate"
 import { MotionLI } from "@/components/common/Motion"
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic } from "@/components/common/Image"
 
 import styles from "./style.module.scss"
 

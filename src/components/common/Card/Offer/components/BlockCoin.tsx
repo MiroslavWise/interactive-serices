@@ -1,4 +1,4 @@
-import { ImageStatic } from "@/components/common/ImageStatic"
+import { ImageStatic } from "@/components/common/Image"
 import styles from "./styles/style.module.scss"
 
 export const BlockCoin = ({ coin }: { coin?: number }) => {

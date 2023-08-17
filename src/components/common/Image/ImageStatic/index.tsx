@@ -1,10 +1,11 @@
+import { memo } from "react"
 import Image from "next/image"
 
 import type { IPropsImageStatic } from "./types"
 
 import { cx } from "@/lib/cx"
 
-export function ImageStatic(props: IPropsImageStatic) {
+export function ImageStaticMemo(props: IPropsImageStatic) {
   const { src, alt, classNames, width, height, onClick } = props ?? {}
 
   return (
@@ -21,7 +22,12 @@ export function ImageStatic(props: IPropsImageStatic) {
       height={height}
       loader={undefined}
       loading={undefined}
+      style={{
+        objectFit: "cover",
+      }}
       unoptimized
     />
   )
 }
+
+export const ImageStatic = memo(ImageStaticMemo)
