@@ -4,7 +4,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.62);
@@ -19,6 +19,7 @@
   &.visible {
     opacity: 1;
     visibility: visible;
+    display: flex;
   }
 }
 
@@ -33,11 +34,13 @@
   visibility: hidden;
   transition: all 0.35s ease-in-out;
   z-index: 19;
+  display: none;
 
 
   &.visible {
     opacity: 1;
     visibility: visible;
+    display: flex;
   }
 
   .contentMobile {

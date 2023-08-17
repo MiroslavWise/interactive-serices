@@ -6,6 +6,7 @@ import {
   useVisibleExchangesState,
   useVisibleModalBarterState,
   useVisiblePhotosCarouselState,
+  useWelcomeModalState,
 } from "../state/useVisible"
 
 export const useVisibleBannerNewServices = () => {
@@ -53,5 +54,18 @@ export const useVisibleExchanges = () => {
     type: state.type,
     setVisibleType: state.setVisibleType,
   }), shallow)
+  return content
+}
+
+export const useWelcomeModal = () => {
+  const content = useWelcomeModalState(state => ({
+    isVisible: state.isVisible,
+    page: state.page,
+    setPrev: state.setPrev,
+    setNext: state.setNext,
+    setPage: state.setPage,
+    setVisible: state.setVisible,
+  }), shallow)
+
   return content
 }

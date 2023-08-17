@@ -58,6 +58,19 @@ interface IButtonClose {
 
 }
 
+interface IButtonCircleGradientFill{
+  image: {
+    src: string
+    size?: number
+    height?: number
+    width?: number
+  }
+  type: "primary" | "option-1" | "gray"
+  size: number
+  disabled?: boolean
+  onClick: DispatchWithoutAction
+}
+
 export type TButtonPropsFill = FC<IButtonProps>
 export type TButtonPropsDefault = FC<IButtonProps>
 export type TButtonsCircle = FC<IButtonsCircle>
@@ -65,3 +78,4 @@ export type TButtonFilter = FC<IButtonFilter>
 export type TButtonCircleGradient = FC<IButtonCircleGradient>
 export type TButtonRadio = FC<IButtonRadio>
 export type TButtonClose = FC<IButtonClose>
+export type TButtonCircleGradientFill = FC<IButtonCircleGradientFill>

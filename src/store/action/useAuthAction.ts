@@ -49,7 +49,13 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
   if (!!get().token && !!get().refreshToken && Number.isFinite(get().userId)) {
     set({ isAuth: true })
     usersService.getUserId(get().userId!)
-      .then(response => {
+    .then(response => {
+      console.log("response: ", response)
+      if (response?.ok) {
+        set({
+          createdUser: response?.res?.created!,
+        })
+      }
         if (response.ok && !!response?.res?.profile) {
           const { firstName, lastName, username, about, birthdate, enabled, id, image } = response?.res?.profile ?? {}
           set({

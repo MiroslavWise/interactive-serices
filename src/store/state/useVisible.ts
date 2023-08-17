@@ -4,7 +4,8 @@ import type { IUseVisibleBannerNewServicesState } from "../types/useVisibleBanne
 import type { IUseVisibleAndTypeAuthModalState } from "../types/useVisibleAndTypeAuthModalState"
 import type { IUseVisibleModalBarter } from "../types/useVisibleModalBarter"
 import type { IUseVisiblePhotosCarousel } from "../types/useVisiblePhotosCarousel"
-import { IUseVisibleExchanges } from "../types/useVisibleExchanges"
+import type { IUseVisibleExchanges } from "../types/useVisibleExchanges"
+import type { IUseWelcomeModal } from "../types/useWelcomeModal"
 
 
 
@@ -61,7 +62,7 @@ export const useVisibleExchangesState = create<IUseVisibleExchanges>(
     isVisible: false,
     type: undefined,
 
-    setVisibleType({visible, type}) {
+    setVisibleType({ visible, type }) {
       set({
         isVisible: typeof visible !== "undefined" ? visible : get().isVisible,
         type: typeof type !== "undefined" ? type : get().type,
@@ -118,5 +119,17 @@ export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
         }, 300)
       }
     },
+  })
+)
+
+export const useWelcomeModalState = create<IUseWelcomeModal>(
+  (set, get) => ({
+    isVisible: false,
+    page: 1,
+
+    setPrev() { if (get().page > 1) set({ page: get().page - 1 }) },
+    setNext() { if (get().page < 4) set({ page: get().page + 1 }) },
+    setPage(value) { if (value !== get().page) { set({ page: value }) } },
+    setVisible(value) { set({ isVisible: value }) },
   })
 )

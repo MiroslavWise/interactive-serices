@@ -221,3 +221,23 @@
         tap-highlight-color: transparent;
         touch-action: manipulation;
 }
+
+//buttonCircleGradientFill
+
+.buttonCircleGradientFill{
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+        cursor: pointer;
+
+        &.primary{
+                background: var(--gradient-primary);
+        }
+
+        &.disabled{
+                background: var(--gray-600);
+                cursor: no-drop;
+        }
+}

@@ -113,6 +113,13 @@
   box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(4px);
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  display: inline-flex;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .contentProfile {
     width: 100%;
@@ -121,18 +128,18 @@
     align-items: center;
     gap: 20px;
 
-    .badges{
+    .badges {
       display: inline-flex;
       gap: 12px;
       align-items: center;
 
-      .badge{
+      .badge {
         overflow: hidden;
         width: 119px;
         padding: 8px 8px 5px 16px;
         flex: 1 0 0;
 
-        p{
+        p {
           overflow: hidden;
         }
       }

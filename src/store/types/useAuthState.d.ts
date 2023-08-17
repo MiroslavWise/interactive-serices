@@ -47,6 +47,7 @@ export interface IUseAuth {
   public isAuth: boolean
   public user: IUser | undefined
   public imageProfile: IImageData | undefined
+  public createdUser: string | undefined | Date
   
   public setUser: Dispatch<IUser & { profileId: number } | null>
   public changeAuth: DispatchWithoutAction

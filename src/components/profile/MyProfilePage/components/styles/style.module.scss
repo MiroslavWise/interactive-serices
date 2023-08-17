@@ -43,6 +43,16 @@
     // }
   }
 
+  a{
+    color: var(--gray-400);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+  }
+
   textarea {
     color: var(--gray-500, #667085);
     font-size: 16px;
@@ -118,11 +128,13 @@
 
 .containerSuggestions {
   width: 100%;
-  display: grid;
   max-height: calc(100vh - 300px);
-  gap: 20px 20px;
-  grid-template-columns: repeat(2, 319px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 415px)); /* Гибкие колонки */
+  grid-gap: 20px; /* Пространство между элементами */
   justify-content: center;
+  // display: flex;
+  // flex-wrap: wrap;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -241,6 +253,15 @@
 
     .about {
       color: var(--gray-500);
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 18px;
+      letter-spacing: -0.5px;
+    }
+
+    a{
+      color: var(--gray-400);
       font-size: 12px;
       font-style: normal;
       font-weight: 400;

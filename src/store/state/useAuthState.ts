@@ -22,6 +22,7 @@ export const useAuthState = create(
       isAuth: false,
       user: undefined,
       imageProfile: undefined,
+      createdUser: undefined,
 
       changeAuth() { changeAuthAction(set, get) },
       setToken(value) { setTokenAction(value, set) },

@@ -64,7 +64,7 @@ export const ContainerAboutMe: TContainerAboutMe = ({ }) => {
               value={textEditing}
             />
           ) : (
-            <p>{user?.about}</p>
+            user?.about ?<p>{user?.about}</p> : <a onClick={handleEditing}>Нажмите, что-бы редактировать информацию о себе</a>
           )
       }
       <div className={styles.buttonEditing} onClick={handleEditing}>

@@ -1,4 +1,5 @@
 import Image from "next/image"
+import dayjs from "dayjs"
 
 import type { THeaderBlock } from "./types/types"
 
@@ -12,7 +13,9 @@ import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import styles from "./styles/style.module.scss"
 
 export const HeaderBlock: THeaderBlock = () => {
-  const { user, imageProfile } = useAuth()
+  const { user, imageProfile, createdUser } = useAuth()
+
+  console.log("user: ", user)
 
   return (
     <header className={styles.containerHeader}>
@@ -40,7 +43,7 @@ export const HeaderBlock: THeaderBlock = () => {
       <section className={styles.title}>
         <h4>{user?.firstName} {user?.lastName}</h4>
         <GeoTagging size={16} fontSize={14} location="Арбат, Москва" />
-        <p>Присоединился в феврале 2017</p>
+        {createdUser ? <p>Присоединился {dayjs(createdUser!).format("DD.MM.YYYY")}</p> : null}
       </section>
       <BlockOther
         label="Достижения"

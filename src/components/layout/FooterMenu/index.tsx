@@ -10,13 +10,14 @@ import type { TFooterMenu } from "./types"
 import { useActivePath } from "@/helpers/hooks/useActivePash"
 import { MENU_ITEMS } from "./constants"
 
-import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useAuth, useVisibleAndTypeAuthModal, useWelcomeModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({ }) => {
   const { push } = useRouter()
   const { visible, type, setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const {setVisible} = useWelcomeModal()
   const { isAuth } = useAuth()
   const valuePath = useActivePath()
 
@@ -50,6 +51,10 @@ export const FooterMenu: TFooterMenu = ({ }) => {
                     if (item.path === null && item.isCenter) {
                       handleSignInOrSignUp()
                     }
+                    if (visible) {
+                      setVisibleAndType({ visible: false })
+                    }
+                    setVisible(false)
                   }}
                 >
                   <div className={styles.itemsIconLabel}>

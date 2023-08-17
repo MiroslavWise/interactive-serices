@@ -2,12 +2,12 @@ import { type ReactNode } from "react"
 import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 import dynamic from "next/dynamic"
-import Script from "next/script"
 
 import { FooterMenu } from "@/components/layout/FooterMenu"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
 import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
+import { WelcomeModal } from "@/components/layout/WelcomeModal"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
@@ -39,6 +39,7 @@ export default function Layout({ children }: { children: ReactNode, }) {
           <FooterMenu />
           <SignPopup />
           <PhotoCarousel />
+          <WelcomeModal />
           <ExchangesModalMobile />
         </Providers>
         <span className="glass-circle-1" />

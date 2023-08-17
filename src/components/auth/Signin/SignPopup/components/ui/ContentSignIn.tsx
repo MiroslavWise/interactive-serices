@@ -12,7 +12,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 import { LinksSocial } from "./components/LinksSocial"
 
-import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useAuth, useVisibleAndTypeAuthModal, useWelcomeModal } from "@/store/hooks"
 import { regExEmail } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { usersService } from "@/services/users"
@@ -23,6 +23,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
   const [loading, setLoading] = useState(false)
   const { setToken, changeAuth } = useAuth()
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const { setVisible } = useWelcomeModal()
   const { register, handleSubmit, formState: { errors }, setError } = useForm<IValuesSignForm>()
 
   const onError = (value: string) => toast(value, {
@@ -71,6 +72,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
           if (response.res?.access_token && response?.res?.refresh_token && response?.res?.token_type) {
             usersService.getUserId(response?.res?.id)
               .then(responseUser => {
+                console.log("responseUser: ", responseUser)
                 setToken({
                   ok: true,
                   token: response?.res?.access_token!,
@@ -79,7 +81,9 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                   expiration: response?.res?.expires_in!,
                 })
                 if (!responseUser?.res?.profile) {
-                  return setVisibleAndType({ type: "PersonalEntry" })
+                  setVisibleAndType({ visible: false })
+                  return setVisible(true)
+                  // return setVisibleAndType({ type: "PersonalEntry" })
                 }
                 if (!!responseUser?.res?.profile) {
                   return changeAuth()

@@ -10,7 +10,7 @@ import { NextImageMotion } from "@/components/common/Image"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { profileService } from "@/services/profile"
 
@@ -20,6 +20,7 @@ export const M_ContainerAboutProfile = () => {
   const { push } = useRouter()
   const [isEdit, setIsEdit] = useState(false)
   const [textEditing, setTextEditing] = useState("")
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const textArea = useRef<HTMLTextAreaElement | null>(null)
   const { user, imageProfile, userId, profileId, signOut, changeAuth } = useAuth()
 
@@ -127,7 +128,7 @@ export const M_ContainerAboutProfile = () => {
                   value={textEditing}
                 />
               ) : (
-                <p className={styles.about}>{user?.about}</p>
+                user?.about ? <p className={styles.about}>{user?.about}</p> : <a onClick={handleEditOrSave}>Нажмите, что-бы редактировать информацию о себе</a>
               )
           }
         </div>
@@ -136,6 +137,7 @@ export const M_ContainerAboutProfile = () => {
         <ButtonFill
           label="Редактировать профиль"
           classNames={styles.buttonFill}
+          handleClick={() => { setVisibleAndType({ visible: true, type: "PersonalEntry" }) }}
         />
         <ButtonCircleGradient
           type="primary"

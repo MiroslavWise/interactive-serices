@@ -2,6 +2,7 @@
 
 import { useState, useMemo, ReactNode } from "react"
 import { isMobile } from "react-device-detect"
+import { motion } from "framer-motion"
 
 import type { IResetEmailData } from "./components/ui/types/types"
 
@@ -55,29 +56,49 @@ export function SignPopup() {
   return (
     (!isAuth || type === "PersonalEntry") ? (
       (isMobile) ? (
-        <div className={cx(styles.overviewMobile, visible && styles.visible)}>
-          <div className={styles.contentMobile}>
-            <HeaderModal email={valueEmail.email} typeVerification={typeVerification} />
-            {content}
-          </div>
-          <Glasses />
-        </div>
-      ) : (
-        <div className={cx(styles.overlay, visible && styles.visible)}>
-          <div className={styles.modal}>
-            <ButtonClose
-              onClick={() => setVisibleAndType({ visible: false, type: type })}
-              position={{
-                right: 12,
-                top: 12,
-              }}
-            />
-            <div className={styles.content}>
+        visible ? (
+          <motion.div
+            className={cx(styles.overviewMobile, visible && styles.visible)}
+            initial={{ opacity: 0, visibility: "hidden", }}
+            animate={{ opacity: 1, visibility: "visible", }}
+            transition={{ duration: 0.5, }}
+            exit={{ opacity: 0, visibility: "hidden", }}
+          >
+            <div
+              className={styles.contentMobile}>
               <HeaderModal email={valueEmail.email} typeVerification={typeVerification} />
               {content}
             </div>
             <Glasses />
-          </div>
+          </motion.div>
+        ) : null
+      ) : (
+        <div className={cx(styles.overlay, visible && styles.visible)}>
+          {
+            visible
+              ? (
+                <motion.div
+                  className={styles.modal}
+                  initial={{ opacity: 0, visibility: "hidden", }}
+                  animate={{ opacity: 1, visibility: "visible", }}
+                  transition={{ duration: 0.5, }}
+                  exit={{ opacity: 0, visibility: "hidden", }}
+                >
+                  <ButtonClose
+                    onClick={() => setVisibleAndType({ visible: false, type: type })}
+                    position={{
+                      right: 12,
+                      top: 12,
+                    }}
+                  />
+                  <div className={styles.content}>
+                    <HeaderModal email={valueEmail.email} typeVerification={typeVerification} />
+                    {content}
+                  </div>
+                  <Glasses />
+                </motion.div>
+              ) : null
+          }
         </div>
       )
     ) : null
