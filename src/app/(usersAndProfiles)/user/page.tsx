@@ -21,7 +21,7 @@ async function getDataProfile(id: number) {
 
 export default async function UserId() {
   const searchParams = useSearchParams()
-  const id = searchParams.get('id')
+  const id = searchParams.get("id")
 
   const data = await getDataProfile(Number(id!))
 

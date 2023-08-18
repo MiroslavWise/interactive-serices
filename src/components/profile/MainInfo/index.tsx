@@ -11,6 +11,7 @@ import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
+import dayjs from "dayjs"
 
 export const MainInfo: TMainInfo = ({ profile }) => {
 
@@ -134,7 +135,7 @@ export const MainInfo: TMainInfo = ({ profile }) => {
         <div className={styles.statusActive}>
           <p>Активно 1 день назад</p>
           <div className={styles.dividers} />
-          <p>Присоединился в феврале 2017</p>
+          <p>Присоединился {profile.created ? dayjs(profile.created).format("DD.MM.YYYY") : null}</p>
         </div>
       </div>
     </div>

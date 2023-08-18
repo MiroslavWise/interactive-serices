@@ -15,6 +15,7 @@ import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { profileService } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
+import dayjs from "dayjs"
 
 export const M_ContainerAboutProfile = () => {
   const { push } = useRouter()
@@ -22,7 +23,7 @@ export const M_ContainerAboutProfile = () => {
   const [textEditing, setTextEditing] = useState("")
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const textArea = useRef<HTMLTextAreaElement | null>(null)
-  const { user, imageProfile, userId, profileId, signOut, changeAuth } = useAuth()
+  const { user, imageProfile, userId, profileId, signOut, changeAuth, createdUser } = useAuth()
 
   useEffect(() => {
     if (isEdit) {
@@ -118,7 +119,7 @@ export const M_ContainerAboutProfile = () => {
             fontSize={12}
             location="Арбат, Москва"
           />
-          <p className={styles.date}>Присоединился в феврале 2017</p>
+          <p className={styles.date}>Присоединился { createdUser ? dayjs(createdUser).format("DD.MM.YYYY") : null}</p>
           {
             isEdit
               ? (

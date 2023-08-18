@@ -8,10 +8,12 @@ import { ButtonDefault } from "@/components/common/Buttons"
 import { useAuth } from "@/store/hooks/useAuth"
 
 import styles from "./styles/style.module.scss"
+import { useChat } from "@/store/hooks"
 
 export const FooterAsideLeft = () => {
   const { push } = useRouter()
   const { signOut } = useAuth()
+  const { setCurrentChat } = useChat()
 
   return (
     <footer className={styles.footer}>
@@ -21,6 +23,7 @@ export const FooterAsideLeft = () => {
         handleClick={() => {
           signOut()
           push(`/`)
+          setCurrentChat(undefined)
         }}
       />
       <section>

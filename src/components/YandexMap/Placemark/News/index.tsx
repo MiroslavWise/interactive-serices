@@ -54,10 +54,10 @@ export const NewsPlaceMark = () => {
 }
 
 
-function CustomBalloonContent({ content }: { content: any }) {
-  return (
-    <div className="custom-balloon-content">
-      {content}
-    </div>
-  )
-}
+// function CustomBalloonContent({ content }: { content: any }) {
+//   return (
+//     <div className="custom-balloon-content">
+//       {content}
+//     </div>
+//   )
+// }

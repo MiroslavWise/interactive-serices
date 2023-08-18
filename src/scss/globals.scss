@@ -16,6 +16,12 @@ body {
 
 ul {
   list-style: none;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+
+  &::-webkit-scrollbar {
+          display: none !important;
+  }
 }
 
 input, textarea, select{

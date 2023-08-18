@@ -8,6 +8,7 @@ import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
 import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
 import { WelcomeModal } from "@/components/layout/WelcomeModal"
+import { Barter } from "@/components/profile"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
@@ -41,6 +42,7 @@ export default function Layout({ children }: { children: ReactNode, }) {
           <PhotoCarousel />
           <WelcomeModal />
           <ExchangesModalMobile />
+          <Barter />
         </Providers>
         <span className="glass-circle-1" />
         <span className="glass-circle-2" />

@@ -7,7 +7,7 @@ import {
   useVisibleModalBarterState,
   useVisiblePhotosCarouselState,
   useWelcomeModalState,
-} from "../state/useVisible"
+} from "../state/useVisibleState"
 
 export const useVisibleBannerNewServices = () => {
   const content = useVisibleBannerNewServicesState(state => ({
