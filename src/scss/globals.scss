@@ -27,6 +27,7 @@ ul {
 input, textarea, select{
   @media screen and (max-width: 768px){
     font-size: 14px;
+    font-family: inherit;
   }
   &:focus{
     @media (max-width: 768px){
