@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 // import { motion } from "framer-motion"
 import Image from "next/image"
+import { toast } from "react-toastify"
 
 import type { TContentForgotPassword } from "./types/types"
 
@@ -16,6 +17,17 @@ import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 import { cx } from "@/lib/cx"
 
 import styles from "../styles/style.module.scss"
+
+const onSuccess = (value: string) => toast(value, {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+})
 
 interface IValues {
   email: string
@@ -32,9 +44,11 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
       .then(response => {
         console.log("response: ", response)
         if (response.ok && !!response?.res) {
-          useForgotPasswordHelper.saveTemporaryToken(response.res?.password_reset_token)
-          setValueEmail({ email: values.email, password_reset_expires: response.res?.password_reset_expires, password_reset_token: response?.res?.password_reset_token })
-          setVisibleAndType({ type: "CodeVerification" })
+          setVisibleAndType({ visible: false })
+          onSuccess("Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!")
+          // useForgotPasswordHelper.saveTemporaryToken(response.res?.password_reset_token)
+          // setValueEmail({ email: values.email, password_reset_expires: response.res?.password_reset_expires, password_reset_token: response?.res?.password_reset_token })
+          // setVisibleAndType({ type: "CodeVerification" })
         }
         if (response?.error?.code === 401) {
           setError("email", { message: "user is not verified" })
