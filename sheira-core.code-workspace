@@ -7,19 +7,10 @@
             "path": "."
         },
         {
-            "path": "../../go/src/github.com/ole-larsen/uploader"
-        },
-        {
-            "path": "../../go/src/github.com/ole-larsen/provider"
-        },
-        {
             "path": "../../go/src/github.com/ole-larsen/go-ploutonion"
         },
         {
-            "path": "../sheira-notification"
-        },
-        {
-            "path": "../typescript-postgres-express"
+            "path": "../nest/sample/16-gateways-ws"
         }
     ]
 }
