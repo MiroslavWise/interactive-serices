@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 import { TMobileMainInfo } from "./types"
 
@@ -7,12 +10,17 @@ import { MotionLI } from "@/components/common/Motion"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
-//todo
+import { useVisibleModalBarter } from "@/store/hooks"
 import { ACHIEVEMENTS } from "../MainInfo/constants"
 
 import styles from "./styles.module.scss"
 
-export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about }) => {
+export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about, userId }) => {
+  const { push } = useRouter()
+  const { setIsVisibleBarter } = useVisibleModalBarter()
+
+  // onClick={() => push(`/messages?user=${profile.userId}`, undefined)}
+  // onClick={() => setIsVisibleBarter({ isVisible: true, dataProfile: { photo: profile?.photo, fullName: profile?.name } })}
 
   return (
     <MotionLI classNames={[styles.containerMain]}>
@@ -24,7 +32,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about }) => {
                 ? (
                   <NextImageMotion
                     className={styles.photo}
-                    src={photo ? photo : "/png/default_avatar.png"}
+                    src={photo}
                     alt="avatar"
                     width={94}
                     height={94}
@@ -88,12 +96,14 @@ export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about }) => {
           icon="/svg/message-dots-circle-primary.svg"
           size={20}
           classNames={styles.buttonCircle}
+          handleClick={() => push(`/messages?user=${userId}`, undefined)}
         />
         <ButtonCircleGradient
           type="primary"
           icon="/svg/repeat-primary.svg"
           size={20}
           classNames={styles.buttonCircle}
+          handleClick={() => setIsVisibleBarter({ isVisible: true, dataProfile: { photo: photo, fullName: name } })}
         />
       </div>
     </MotionLI>

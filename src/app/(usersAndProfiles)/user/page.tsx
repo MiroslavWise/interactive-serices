@@ -34,6 +34,7 @@ export default async function UserId() {
               name={`${data?.res?.firstName} ${data?.res?.lastName}`}
               photo={data?.res?.image?.attributes?.url!}
               about={data?.res?.about!}
+              userId={data?.res?.userId!}
             />
             <MobileInteractive />
           </MotionUL>

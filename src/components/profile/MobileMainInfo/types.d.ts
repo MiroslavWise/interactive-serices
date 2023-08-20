@@ -4,6 +4,7 @@ interface IMobileMainInfo{
   name: string
   photo: string
   about: string
+  userId: number
 }
 
 export type TMobileMainInfo = FC<IMobileMainInfo>
