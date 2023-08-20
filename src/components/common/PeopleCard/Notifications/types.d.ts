@@ -7,7 +7,7 @@ export interface IPeopleCardNotifications{
   rate: number
   description: string
   path?: string
-  userId: number
+  userId?: number
 }
 
 export type TPeopleCardNotifications = FC<IPeopleCardNotifications>
