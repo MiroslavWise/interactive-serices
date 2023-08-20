@@ -7,12 +7,12 @@ import type { TNotifications } from "./types"
 
 import { MotionUL } from "@/components/common/Motion"
 import { PeopleCard } from "@/components/common/PeopleCard/Notifications"
+import { Glasses } from "@/components/common/Glasses"
 
 import { cx } from "@/lib/cx"
 import { profileService } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
-import { Glasses } from "@/components/common/Glasses"
 
 export const Notifications: TNotifications = ({ visibleNotification, setVisibleNotification }) => {
   const { data } = useQuery(["profiles"], () => profileService.getProfiles({ limit: 20 }))
@@ -43,7 +43,8 @@ export const Notifications: TNotifications = ({ visibleNotification, setVisibleN
               date="03/02/2023"
               rate={4.5}
               description={item?.about}
-              path={`/user/${item.userId}`}
+              path={`/user?id=${item.userId}`}
+              userId={item?.userId!}
             />
           ))
         }
