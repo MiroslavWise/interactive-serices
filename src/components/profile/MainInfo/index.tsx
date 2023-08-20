@@ -1,4 +1,8 @@
+"use client"
+
 import Image from "next/image"
+import dayjs from "dayjs"
+import { useRouter } from "next/navigation"
 
 import type { TMainInfo } from "./types/types"
 
@@ -7,13 +11,18 @@ import { BlockOther } from "./components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { useVisibleModalBarter } from "@/store/hooks"
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
-import dayjs from "dayjs"
 
 export const MainInfo: TMainInfo = ({ profile }) => {
+  const { push } = useRouter()
+  const { setIsVisibleBarter } = useVisibleModalBarter()
+
+  // onClick={() => push(`/messages?user=${profile.userId}`, undefined)}
+  // onClick={() => setIsVisibleBarter({ isVisible: true, dataProfile: { photo: profile?.photo, fullName: profile?.name } })}
 
   return (
     <div className={styles.container}>
@@ -39,18 +48,13 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                 />
               )
           }
-          {/* {
-            verified
-              ? (
-                <Image
-                  className={styles.verified}
-                  src="/svg/verified-tick.svg"
-                  alt='tick'
-                  width={32}
-                  height={32}
-                />
-              ) : null
-          } */}
+          <Image
+            className={styles.verified}
+            src="/svg/verified-tick.svg"
+            alt='tick'
+            width={32}
+            height={32}
+          />
         </div>
         <div className={styles.information}>
           <div className={styles.titleAndButtons}>
@@ -67,10 +71,12 @@ export const MainInfo: TMainInfo = ({ profile }) => {
               <ButtonsCircle
                 src="/svg/message-dots-circle.svg"
                 type="primary"
+                onClick={() => push(`/messages?user=${profile.userId}`, undefined)}
               />
               <ButtonsCircle
                 src="/svg/repeat-01.svg"
                 type="primary"
+                onClick={() => setIsVisibleBarter({ isVisible: true, dataProfile: { photo: profile?.image?.attributes?.url, fullName: `${profile?.firstName || ""} ${profile?.lastName || ""}` } })}
               />
             </section>
           </div>

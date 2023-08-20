@@ -31,6 +31,14 @@
       color: var(--gray-400);
     }
   }
+
+  &.mobile{
+    .blockMessage{
+      width: 100%;
+      max-width: 100%;
+      min-width: 1px;
+    }
+  }
 }
 
 //containerItemMyMessage
@@ -44,6 +52,14 @@
 
     p{
       color: var(--supporting-white);
+    }
+  }
+
+  &.mobile{
+    .blockMessage{
+      width: 100%;
+      max-width: 100%;
+      min-width: 1px;
     }
   }
 }

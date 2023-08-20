@@ -1,6 +1,7 @@
 "use client"
 
 import { useQuery } from "react-query"
+import { isMobile } from "react-device-detect"
 
 import { SearchBlock } from "./components/SearchBlock"
 
@@ -13,7 +14,13 @@ export const ListChat = () => {
   const { data, isLoading, error } = useQuery(["profiles"], () => profileService.getProfiles({ limit: 20 }))
 
   return (
-    <section className={styles.container}>
+    isMobile ? (
+      <section className={styles.containerMobile}>
+        <SearchBlock />
+        <List items={data?.res || []} />
+      </section>
+    ): (
+      <section className={styles.container}>
       <header>
         <div className={styles.totalNumber}>
           <h4>Сообщения</h4>
@@ -30,5 +37,6 @@ export const ListChat = () => {
       <SearchBlock />
       <List items={data?.res || []} />
     </section>
+    )
   )
 }

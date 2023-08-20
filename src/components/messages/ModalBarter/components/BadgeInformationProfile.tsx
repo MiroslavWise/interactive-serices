@@ -3,7 +3,7 @@
 import Image from "next/image"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { useVisibleModalBarter } from "@/store/hooks"
 
@@ -17,13 +17,26 @@ export const BadgeInformationProfile = ({}) => {
       <h4>Бартер с:</h4>
       <section>
         <div className={styles.avatar}>
-          <ImageStatic
-            src="/mocks/maria.png"
-            alt="avatar"
-            width={40}
-            height={40}
-            classNames={[]}
-          />
+          {
+            dataProfile?.photo
+              ? (
+                <NextImageMotion
+                  src={dataProfile?.photo}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className=""
+                />
+              ) : (
+                <ImageStatic
+                src="/png/default_avatar.png"
+                alt="avatar"
+                width={40}
+                height={40}
+                classNames={[]}
+              />
+            )
+          }
           <Image
             src="/svg/verified-tick.svg"
             alt="verified"
@@ -33,7 +46,7 @@ export const BadgeInformationProfile = ({}) => {
           />
         </div>
         <div className={styles.textInformation}>
-          <h5>Jenny Wilson</h5>
+          <h5>{ dataProfile?.fullName }</h5>
           <GeoTagging
             location="Арбат, Москва"
             size={14}

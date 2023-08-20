@@ -48,7 +48,7 @@ export const ContentSignUp: TContentSignUp = ({ }) => {
         }
         if (response.ok) {
           setVisibleAndType({ type: "SignIn" })
-          onSuccess("Вы успешно зарегистрировались. Можете войти в свой аккаунт")
+          onSuccess("Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!")
         }
       })
       .finally(() => {

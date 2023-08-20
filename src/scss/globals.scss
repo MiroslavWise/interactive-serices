@@ -36,6 +36,10 @@ input, textarea, select{
   }
 }
 
+p, a, span{
+  letter-spacing: -0.5px;
+}
+
 :root {
   --desktop: 1440px;
   --tablet: 834px;

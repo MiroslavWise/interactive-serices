@@ -8,10 +8,11 @@ import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
 import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
 import { WelcomeModal } from "@/components/layout/WelcomeModal"
-import { Barter } from "@/components/profile"
+import { Barter } from "@/components/messages/ModalBarter"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
+import "react-datepicker/dist/react-datepicker.css"
 
 const Providers = dynamic(
   () => import("./providers"),

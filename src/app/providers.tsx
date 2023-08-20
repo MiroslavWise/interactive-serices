@@ -3,12 +3,15 @@
 import { type ReactNode, useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { useSearchParams } from "next/navigation"
+import { toast } from "react-toastify"
 
 // import { NextThemesProvider } from "@/context/NextThemesProvider"
 import { YMapsProvider } from "@/context/YMapsProvider"
 
 import { useAuth } from "@/store/hooks/useAuth"
-import { yandex } from "@/lib/yandex"
+import { RegistrationService } from "@/services/auth/registrationService"
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,19 +24,50 @@ const queryClient = new QueryClient({
 
 export default function Providers({ children }: { children: ReactNode }) {
   const { changeAuth } = useAuth()
+  const searchParams = useSearchParams()
+  const verifyToken = searchParams.get("verify")
+  const passwordResetToken = searchParams.get("password-reset-token")
+  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const onSuccess = (value: string) => toast(value, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  })
   useEffect(() => {
     changeAuth()
-    yandex()
   }, [changeAuth])
+  useEffect(() => {
+    if (passwordResetToken) {
+      setVisibleAndType({
+        visible: true,
+        type: "ResetPassword",
+      })
+    }
+  }, [passwordResetToken, setVisibleAndType])
+  useEffect(() => {
+    if (verifyToken) {
+      RegistrationService.verification({ code: verifyToken! })
+        .then(response => {
+          if (response.ok) {
+            onSuccess("Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.")
+          }
+        })
+    }
+  }, [verifyToken])
 
   return (
     // <NextThemesProvider>
-      <QueryClientProvider client={queryClient}>
-        <YMapsProvider>
-          {children}
-          <ToastContainer />
-        </YMapsProvider>
-      </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <YMapsProvider>
+        {children}
+        <ToastContainer />
+      </YMapsProvider>
+    </QueryClientProvider>
     // </NextThemesProvider>
   )
 }

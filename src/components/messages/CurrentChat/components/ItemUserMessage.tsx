@@ -1,14 +1,19 @@
-import dayjs from "dayjs"
+"use client"
+
+import { isMobile } from "react-device-detect"
 
 import type { TItemMessage } from "./types/types"
 
-import styles from "./styles/item-message.module.scss"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+
+import { cx } from "@/lib/cx"
+
+import styles from "./styles/item-message.module.scss"
 
 export const ItemUserMessage: TItemMessage = ({ photo, message, time }) => {
 
   return (
-    <li className={styles.containerItemUserMessage}>
+    <li className={cx(styles.containerItemUserMessage, isMobile && styles.mobile)}>
       {
         photo ? (
           <NextImageMotion

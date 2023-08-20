@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 import { useRouter, useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
@@ -28,14 +29,14 @@ export const ItemListChat: TItemListChat = ({ item }) => {
 
   return (
     <li
-      className={cx(styles.containerItemListChat, item.userId.toString() === (id?.toString() || currentChatId?.toString()) && styles.active)}
+      className={cx(styles.containerItemListChat, item.userId.toString() === (id?.toString() || currentChatId?.toString()) && styles.active, isMobile && styles.mobileLI)}
       onClick={handleCurrentChat}
     >
       <div className={styles.header}>
         <div className={styles.titleBlock}>
           <div className={styles.avatar}>
             <NextImageMotion
-              src={item.image.attributes.url}
+              src={item?.image?.attributes.url}
               alt="avatar"
               width={400}
               height={400}

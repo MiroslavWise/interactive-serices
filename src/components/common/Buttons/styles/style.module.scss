@@ -227,6 +227,7 @@
 .buttonCircleGradientFill{
         border-radius: 50%;
         display: flex;
+        padding: 12px;
         justify-content: center;
         align-items: center;
         box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
@@ -234,6 +235,10 @@
 
         &.primary{
                 background: var(--gradient-primary);
+        }
+
+        &.option-1{
+                background: var(--gradient-optional-1);
         }
 
         &.disabled{

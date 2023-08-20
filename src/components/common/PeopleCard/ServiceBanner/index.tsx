@@ -5,7 +5,7 @@ import type { TPeopleCard } from "./types"
 import { MotionLI } from "@/components/common/Motion"
 import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import styles from "./style.module.scss"
 
@@ -32,13 +32,26 @@ export const PeopleCard: TPeopleCard = ({
   return (
     <MotionLI classNames={[styles.container]} onClick={handleClick}>
       <section className={styles.wrapperPhotoRate}>
-        <NextImageMotion
-          className={styles.avatar}
-          src={photo}
-          alt={"avatar"}
-          width={72}
-          height={72}
-        />
+        {
+          photo
+            ? (
+              <NextImageMotion
+                className={styles.avatar}
+                src={photo}
+                alt={"avatar"}
+                width={72}
+                height={72}
+              />
+            ) : (
+              <ImageStatic
+                classNames={[styles.avatar]}
+                src="/png/default_avatar.png"
+                alt={"avatar"}
+                width={72}
+                height={72}
+              />
+            )
+        }
         <div className={styles.rateBadge}>
           <Image
             src="/svg/star.svg"
@@ -52,7 +65,7 @@ export const PeopleCard: TPeopleCard = ({
       <section className={styles.wrapperInfo}>
         <div className={styles.nameAndGeo}>
           <h3>{name}</h3>
-          <GeoTagging location={ geo} size={16} />
+          <GeoTagging location={geo} size={16} />
         </div>
         <ul className={styles.services}>
           {

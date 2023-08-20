@@ -1,4 +1,7 @@
+"use client"
+
 import { Fragment } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TList } from "./types/types"
 
@@ -10,7 +13,7 @@ import styles from "./styles/style.module.scss"
 export const List: TList = ({ items }) => {
 
   return (
-    <ul className={styles.containerList}>
+    <ul className={isMobile ? styles.containerListMobile : styles.containerList}>
       {
         items?.map((item, index) => (
           <Fragment
@@ -19,7 +22,7 @@ export const List: TList = ({ items }) => {
             <ItemListChat
               item={item}
             />
-            {index < items.length - 1 ? <Divider /> : null}
+            {(index < items.length - 1 && !isMobile) ? <Divider /> : null}
           </Fragment>
         ))
       }

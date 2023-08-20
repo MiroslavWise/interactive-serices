@@ -2,7 +2,9 @@ import type { Dispatch } from "react"
 
 
 interface IDataProfile{
-
+  photo: string
+  fullName: string
+  
 }
 
 export interface IUseVisibleModalBarter{

@@ -8,7 +8,7 @@ export const Carousel = ({ }) => {
   
   return (
     <section className={styles.containerCarousel}>
-
+      
     </section>
   )
 }

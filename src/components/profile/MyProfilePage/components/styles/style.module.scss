@@ -130,19 +130,11 @@
   width: 100%;
   max-height: calc(100vh - 300px);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 415px)); /* Гибкие колонки */
-  grid-gap: 20px; /* Пространство между элементами */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 350px));
+  grid-gap: 20px;
   justify-content: center;
-  // display: flex;
-  // flex-wrap: wrap;
   overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   z-index: 1;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 
   &.mobile {
     height: 100%;

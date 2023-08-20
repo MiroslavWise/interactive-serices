@@ -4,6 +4,7 @@ import { useState } from "react"
 // import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
+import { useSearchParams } from "next/navigation"
 
 import type { TContentResetPassword } from "./types/types"
 
@@ -32,15 +33,28 @@ const onError = (value: string) => toast(value, {
   theme: "light",
 })
 
+const onSuccess = (value: string) => toast(value, {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+})
+
 export const ContentResetPassword: TContentResetPassword = ({ }) => {
   const [loading, setLoading] = useState(false)
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { register, watch, handleSubmit, setError, formState: { errors } } = useForm<IValues>()
+  const searchParams = useSearchParams()
+  const passwordResetToken = searchParams.get("password-reset-token")
 
   const submit = (values: IValues) => {
     setLoading(true)
     useForgotPasswordHelper.resetPassword({
-      token: useForgotPasswordHelper.temporaryToken!,
+      token: passwordResetToken!,
       password: values.password,
       repeat: values.repeat_password,
     })
@@ -58,6 +72,7 @@ export const ContentResetPassword: TContentResetPassword = ({ }) => {
           onError("Извините, у нас какиe-то ошибки. Мы работаем над этим :(")
         }
         if (response.ok && !!response?.res) {
+          onSuccess("Пароль успешно изменён. Вы можете войти на аккаунт!")
           setVisibleAndType({ type: "SignIn" })
           return
         }
@@ -68,13 +83,7 @@ export const ContentResetPassword: TContentResetPassword = ({ }) => {
   }
 
   return (
-    <div
-      className={styles.content}
-      // initial={{ opacity: 0 }}
-      // animate={{ opacity: 1 }}
-      // exit={{ opacity: 0 }}
-      // transition={{ duration: 0.5 }}
-    >
+    <div className={styles.content}>
       <form className={styles.form} onSubmit={handleSubmit(submit)}>
         <section className={styles.section}>
           <LabelInputGroup
