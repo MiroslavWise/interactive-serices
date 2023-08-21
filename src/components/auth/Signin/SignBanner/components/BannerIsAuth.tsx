@@ -8,7 +8,7 @@ import { FooterAsideLeft } from "@/components/profile/LeftAsideProfile/component
 import { HeaderBlock } from "@/components/profile/BlockProfileAside/components/HeaderBlock"
 import { BadgeAchievements } from "@/components/common/Badge"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import { BADGES } from "@/mocks/components/auth/constants"
 import { cx } from "@/lib/cx"
@@ -17,6 +17,7 @@ import styles from "./styles/style.module.scss"
 
 export const BannerIsAuth = () => {
   const { push } = useRouter()
+  const { profileId } = useAuth()
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
 
   return (
@@ -34,7 +35,7 @@ export const BannerIsAuth = () => {
           {
             BADGES.slice(1, 3).map(item => (
               <BadgeAchievements
-              classNames={[styles.badge]}
+                classNames={[styles.badge]}
                 key={`${item.title}_is_auth_banner`}
                 title={item.title}
                 total={item.total}
@@ -46,10 +47,10 @@ export const BannerIsAuth = () => {
         <ButtonFill
           label="Профиль"
           classNames={cx("w-100", styles.largeButton)}
-          handleClick={() => {push(`/profile`)}}
+          handleClick={() => { push(`/profile`) }}
         />
         <ButtonDefault
-          label="Редактировать профиль"
+          label={profileId ? "Редактировать профиль" : "Создать профиль"}
           classNames={cx("w-100", styles.largeButton)}
           handleClick={() => setVisibleAndType({ visible: true, type: "PersonalEntry" })}
         />
