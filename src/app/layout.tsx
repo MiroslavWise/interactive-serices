@@ -1,5 +1,6 @@
 import { type ReactNode } from "react"
 import { type Metadata } from "next"
+import Script from 'next/script'
 import { Inter } from "next/font/google"
 import dynamic from "next/dynamic"
 
@@ -33,6 +34,7 @@ export default function Layout({ children }: { children: ReactNode, }) {
   return (
     <html lang="ru">
       <head>
+      {/* <script src={`https://api-maps.yandex.ru/v3/?apikey=${process.env.NEXT_PUBLIC_API_KEY_YANDEX}&lang=ru_RU`} /> */}
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />
       </head>
       <body className={inter.className}>

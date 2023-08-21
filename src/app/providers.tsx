@@ -60,6 +60,23 @@ export default function Providers({ children }: { children: ReactNode }) {
     }
   }, [verifyToken])
 
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        let latitude = position.coords.latitude
+        let longitude = position.coords.longitude
+
+        console.log("latitude: ", latitude)
+        console.log("longitude: ", longitude)
+        console.log("position: ", position)
+      }, error => {
+        console.error("Ошибка геолокации: ", error.message)
+      })
+    } else {
+      console.error("Геолокация недоступна в данном браузере.")
+    }
+  }, [])
+
   return (
     // <NextThemesProvider>
     <QueryClientProvider client={queryClient}>

@@ -5,6 +5,7 @@ import { useYMaps } from "@pbe/react-yandex-maps"
 import { PLACEMARKs } from "@/mocks/components/YandexMap/constants"
 
 export const NewsPlaceMark = () => {
+
   const mapRef = useRef<HTMLDivElement>(null)
   const ymaps = useYMaps([
     "Map",

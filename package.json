@@ -43,9 +43,14 @@
     "@types/react-dom": "^18.2.6",
     "@types/yandex-maps": "^2.1.30",
     "@typescript-eslint/typescript-estree": "^5.60.1",
+    "@yandex/ymaps3-types": "^0.0.15",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "sass": "^1.63.6",
     "typescript": "5.1.5"
-  }
+  },
+  "browserslist": [
+    "defaults and supports es6-module",
+    "maintained node versions"
+  ]
 }
