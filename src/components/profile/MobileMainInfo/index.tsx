@@ -19,9 +19,6 @@ export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about, userId }) 
   const { push } = useRouter()
   const { setIsVisibleBarter } = useVisibleModalBarter()
 
-  // onClick={() => push(`/messages?user=${profile.userId}`, undefined)}
-  // onClick={() => setIsVisibleBarter({ isVisible: true, dataProfile: { photo: profile?.photo, fullName: profile?.name } })}
-
   return (
     <MotionLI classNames={[styles.containerMain]}>
       <div className={styles.blockAboutPhoto}>

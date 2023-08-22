@@ -3,15 +3,14 @@
   padding: 0;
   box-sizing: border-box;
   -webkit-touch-callout: none;
-  // user-select: none;
 }
 
 body {
   -webkit-touch-callout: none;
-  // user-select: none;
   -webkit-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
   touch-action: manipulation;
+  background: var(--background);
 }
 
 ul {
@@ -44,7 +43,8 @@ p, a, span{
   --desktop: 1440px;
   --tablet: 834px;
   --mobile: 375px;
-  --background: #fff;
+  --background: #F9FAFB;
+  --background-input: #fff;
   --color-text: #000000;
   --banner-border-radius: 32px;
   --glass-bg-color: rgba(255, 255, 255, 0.44);
@@ -52,6 +52,8 @@ p, a, span{
   --glass-bg-color-2: rgba(248, 249, 255, 0.55);
   --glass-bg-color-3: rgba(255, 255, 255, 0.60);
   --opacity-white-hard: rgba(255, 255, 255, 0.20);
+  --stroke-1: #FFF;
+  --button-default-background: #fff;
 
   //Color Gary
   --gray-900: #101828;
@@ -123,29 +125,31 @@ p, a, span{
   --supporting-white: #ffffff;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --desktop: 1440px;
   --tablet: 834px;
   --mobile: 375px;
-  --background: #fff;
+  --background: #232738;
+  --background-input: #2C3041;
   --color-text: #000000;
   --banner-border-radius: 32px;
-  --glass-bg-color: rgba(255, 255, 255, 0.44);
+  --glass-bg-color: rgba(28, 31, 55, 0.67);
   --glass-bg-color-1: rgba(255, 255, 255, 0.44);
-  --glass-bg-color-2: rgba(248, 249, 255, 0.55);
-  --glass-bg-color-3: rgba(255, 255, 255, 0.60);
+  --glass-bg-color-2: rgba(28, 31, 55, 0.24);
+  --glass-bg-color-3: rgba(57, 61, 92, 0.24);
   --opacity-white-hard: rgba(255, 255, 255, 0.20);
+  --stroke-1: rgba(54, 57, 79, 0.42);
+  --button-default-background: #232738;
 
-  //Color Gary
-  --gray-900: #101828;
+  --gray-900: #FFF;
   --gray-800: #1D2939;
   --gray-700: #344054;
-  --gray-600: #475467;
-  --gray-500: #667085;
+  --gray-600: #A3A5AC;
+  --gray-500: #888A93;
   --gray-400: #98A2B3;
-  --gray-300: #D0D5DD;
-  --gray-200: #EAECF0;
-  --gray-100: #F2F4F7;
+  --gray-300: #5A5D6A;
+  --gray-200: #3F4251;
+  --gray-100: #2C3041;
   --gray-50: #F9FAFB;
 
   //Color Primary
@@ -204,4 +208,8 @@ p, a, span{
 
   //Permanent
   --supporting-white: #ffffff;
+
+  .ymaps-2-1-79-ground-pane{
+    filter: invert(1);
+  }
 }

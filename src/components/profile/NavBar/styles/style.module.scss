@@ -8,9 +8,13 @@
   justify-content: space-between;
   z-index: 2;
 
-  border-bottom: 2px solid var(--supporting-white);
-  background: rgba(248, 249, 255, 0.46);
+  border-bottom: 2px solid var(--stroke-1);
+  background: var(--glass-bg-color-2);
   backdrop-filter: blur(1px);
+
+  &[data-theme='dark'] {
+    backdrop-filter: blur(10px);
+  }
 
   &.isMobile{
     display: none;

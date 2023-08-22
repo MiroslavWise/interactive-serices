@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import { useSearchParams } from "next/navigation"
 import { toast } from "react-toastify"
 
-// import { NextThemesProvider } from "@/context/NextThemesProvider"
+import { NextThemesProvider } from "@/context/NextThemesProvider"
 import { YMapsProvider } from "@/context/YMapsProvider"
 
 import { useAuth } from "@/store/hooks/useAuth"
@@ -78,13 +78,13 @@ export default function Providers({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    // <NextThemesProvider>
-    <QueryClientProvider client={queryClient}>
-      <YMapsProvider>
-        {children}
-        <ToastContainer />
-      </YMapsProvider>
-    </QueryClientProvider>
-    // </NextThemesProvider>
+    <NextThemesProvider>
+      <QueryClientProvider client={queryClient}>
+        <YMapsProvider>
+          {children}
+          <ToastContainer />
+        </YMapsProvider>
+      </QueryClientProvider>
+    </NextThemesProvider>
   )
 }

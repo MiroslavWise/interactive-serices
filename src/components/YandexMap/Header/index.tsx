@@ -15,7 +15,6 @@ import { SERVICES } from "./constants"
 import styles from "./styles/style.module.scss"
 
 export const Header: THeaderMobile = ({ setVisibleNotification }) => {
-  const [activeService, setActiveService] = useState<ISegmentValues>(SERVICES[0])
   useEffect(() => {
     function alignMiddleElement() {
       setTimeout(() => {

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-// import { Map } from "@pbe/react-yandex-maps"
+import { Map } from "@pbe/react-yandex-maps"
 import { isMobile } from "react-device-detect"
 
 import type { TYandexMap } from "./types"
@@ -29,14 +29,15 @@ export const YandexMap: TYandexMap = ({ }) => {
             />
           ) : null
       }
-      {/* <Map
+      <Map
         width={"100%"}
         height={"100%"}
-        defaultState={{ center: [55.75, 37.67], zoom: 15 }}
+        defaultState={{ center: [55.75, 37.67], zoom: 16 }}
         id="map_yandex"
-      > */}
-      {/* </Map> */}
-      <NewsPlaceMark />
+        
+      >
+        <NewsPlaceMark />
+      </Map>
       <MapCardNews />
       <FilterFieldBottom />
     </>

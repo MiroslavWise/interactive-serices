@@ -65,3 +65,10 @@
     }
   }
 }
+
+[data-theme='dark']{
+  .container{
+    background: var(--glass-bg-color-2);
+    backdrop-filter: blur(10.5px);
+  }
+}

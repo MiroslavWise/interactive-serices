@@ -29,7 +29,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: var(--supporting-white);
+  background: var(--background);
   opacity: 0;
   visibility: hidden;
   transition: all 0.35s ease-in-out;
@@ -65,7 +65,7 @@
   background-color: wheat;
   flex-shrink: 0;
   border-radius: var(--banner-border-radius);
-  background-color: var(--supporting-white);
+  background-color: var(--background);
   z-index: 101;
   overflow: hidden;
 }
@@ -80,7 +80,7 @@
   align-items: center;
   border-radius: 100px;
   border: 1px solid var(--gray-300);
-  background: var(--supporting-white);
+  background: var(--background-input);
   box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
   cursor: pointer;
 }

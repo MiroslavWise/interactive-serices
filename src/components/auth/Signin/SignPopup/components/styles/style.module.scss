@@ -263,7 +263,7 @@
       letter-spacing: -0.5px;
       border-radius: 8px;
       border: 1px solid var(--primary-300);
-      background: var(--supporting-white);
+      background: var(--background-input);
       box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
     }
 
@@ -277,7 +277,7 @@
       letter-spacing: -0.5px;
       border-radius: 8px;
       border: 1px solid var(--gray-300);
-      background: var(--supporting-white);
+      background: var(--background-input);
       box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
     }
   }
@@ -315,7 +315,7 @@
     gap: 12px;
     border-radius: 100px;
     border: 1px solid var(--gray-200);
-    background: var(--supporting-white);
+    background: var(--background-input);
     box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
     cursor: pointer;
   }

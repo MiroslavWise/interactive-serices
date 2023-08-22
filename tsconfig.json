@@ -13,11 +13,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "types": ["@yandex/ymaps3-types"],
     "incremental": true,
-    "typeRoots": [
-      "./node_modules/@yandex/ymaps3-types",
-    ],
     "plugins": [
       {
         "name": "next"

@@ -43,7 +43,7 @@
       gap: 10px;
       border-radius: 100px;
       border: 1px solid var(--gray-200);
-      background: var(--supporting-white);
+      background: var(--button-default-background);
       cursor: pointer;
 
       .icon{
@@ -54,7 +54,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 100px;
-        background: var(--supporting-white);
+        background: var(--button-default-background);
       }
 
       p{
@@ -83,8 +83,8 @@
   height: 34px;
   padding: 8px;
   border-radius: 100px;
-  border: 1px solid var(--gray-300);
-  background: var(--supporting-white);
+  border: 1px solid var(--stroke-1);
+  background: var(--button-default-background);
   box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
   display: flex;
   justify-content: center;
