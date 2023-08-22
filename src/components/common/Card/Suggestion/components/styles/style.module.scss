@@ -71,6 +71,13 @@
   }
 }
 
+[data-theme='dark']{
+  .containerRate {
+    border-color: var(--gray-500) !important;
+    background: var(--gray-100) !important;
+  }
+}
+
 //containerPhotos
 
 .containerPhotos {

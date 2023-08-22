@@ -3,7 +3,7 @@
 import type { TNewServicesBanner } from "./types/types"
 
 import { NewCreateBadge } from "./components/NewCreateBadge"
-import { ButtonClose } from "./components/ButtonClose"
+// import { ButtonClose } from "./components/ButtonClose"
 import { Glasses } from "./components/Glasses"
 
 import { useVisibleBannerNewServices } from "@/store/hooks/useVisible"
@@ -11,9 +11,10 @@ import { cx } from "@/lib/cx"
 import { NEW_CREATE_BADGES } from "./constants"
 
 import styles from "./styles/style.module.scss"
+import { ButtonClose } from "@/components/common/Buttons"
 
 export const NewServicesBanner: TNewServicesBanner = ({ }) => {
-  const { isVisibleNewServicesBanner } = useVisibleBannerNewServices()
+  const { isVisibleNewServicesBanner, setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
 
   return (
     <div className={cx(styles.wrapper, isVisibleNewServicesBanner && styles.active)}>
@@ -29,7 +30,12 @@ export const NewServicesBanner: TNewServicesBanner = ({ }) => {
             ))
           }
         </ul>
-        <ButtonClose />
+        <ButtonClose
+          onClick={() => setIsVisibleNewServicesBanner(false)}
+          position={{
+            right: 12, top: 12,
+          }}
+        />
         <Glasses />
       </div>
     </div>

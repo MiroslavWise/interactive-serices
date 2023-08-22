@@ -1,30 +1,31 @@
-.blockSearch{
+.blockSearch {
   width: 100%;
   padding-left: 14px;
   padding-right: 14px;
   z-index: 3;
 
-  &.mobile{
+  &.mobile {
     padding-left: 20px;
     padding-right: 20px;
   }
 }
+
 //containerList
 
-.containerList{
+.containerList {
   display: flex;
   height: auto;
   width: 100%;
   flex-direction: column;
   overflow-y: auto;
-  
+
 }
 
 
 
 //containerItemListChat
 
-.containerItemListChat{
+.containerItemListChat {
   width: 100%;
   height: auto;
   padding: 20px 16px;
@@ -36,47 +37,48 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out 0.01s;
 
-  &.active{
+  &.active {
     background: var(--primary-200);
     cursor: default;
   }
 
-  .header{
+  .header {
     display: inline-flex;
     justify-content: space-between;
     gap: 16px;
     background: transparent;
-    .titleBlock{
+
+    .titleBlock {
       width: auto;
       display: inline-flex;
       align-items: center;
       gap: 12px;
 
-      .avatar{
+      .avatar {
         position: relative;
         width: 40px;
         height: 40px;
         filter: drop-shadow(0px 11px 20px rgba(100, 104, 115, 0.10));
 
-        .img{
+        .img {
           width: 40px;
           height: 40px;
           border-radius: 20px;
         }
 
-        .verified{
+        .verified {
           position: absolute;
           top: 24px;
           left: 24px;
         }
       }
 
-      .nameAndGeo{
+      .nameAndGeo {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
 
-        h4{
+        h4 {
           color: var(--gray-900, #101828);
           font-size: 16px;
           font-style: normal;
@@ -84,14 +86,14 @@
           line-height: 24px;
           letter-spacing: -0.5px;
 
-          &::first-letter{
+          &::first-letter {
             text-transform: uppercase;
           }
         }
       }
     }
 
-    .timeAgo{
+    .timeAgo {
       color: var(--gray-400);
       font-size: 14px;
       font-style: normal;
@@ -101,10 +103,11 @@
     }
   }
 
-  .blockLastMessage{
+  .blockLastMessage {
     width: 100%;
     height: auto;
-    p{
+
+    p {
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
@@ -122,7 +125,7 @@
 
 //MOBILE
 
-.containerListMobile{
+.containerListMobile {
   width: 100%;
   height: auto;
   padding: 0 20px calc(68px + 10px);
@@ -131,12 +134,20 @@
   gap: 12px;
   overflow-y: auto;
 
-  .mobileLI{
+  .mobileLI {
     padding: 12px 16px;
     border-radius: 16px;
-    border: 1px solid var(--supporting-white);
+    border: 1px solid var(--stroke-1);
     background: var(--glass-bg-color-1);
     box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
     backdrop-filter: blur(4px);
+  }
+}
+
+[data-theme='dark'] {
+  .containerItemListChat {
+    &.active{
+      background: var(--gray-100);
+    }
   }
 }

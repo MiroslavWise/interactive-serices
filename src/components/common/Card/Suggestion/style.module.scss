@@ -22,3 +22,11 @@
     max-width: max-content;
   }
 }
+
+[data-theme='dark']{
+  .container{
+    background: var(--gray-100);
+    backdrop-filter: blur(9px);
+    box-shadow: none;
+  }
+}

@@ -42,7 +42,7 @@
     }
     
     a{
-      color: var(--primary-500, #6656DB);
+      color: var(--primary-500);
       text-align: center;
       font-size: 14px;
       font-style: normal;
@@ -55,6 +55,17 @@
       filter: grayscale(0%) brightness(100%);
       &::before{
         transform: scaleX(1);
+      }
+    }
+  }
+}
+
+[data-theme='dark']{
+  .linksWrapper{
+    li{
+      filter: grayscale(100%) brightness(0%) invert(1);
+      &.active{
+        filter: grayscale(0%) brightness(100%);
       }
     }
   }

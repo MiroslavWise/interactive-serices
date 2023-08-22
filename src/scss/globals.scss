@@ -24,6 +24,7 @@ ul {
 }
 
 input, textarea, select{
+  background: var(--background-input) !important;
   @media screen and (max-width: 768px){
     font-size: 14px;
     font-family: inherit;
@@ -134,7 +135,7 @@ p, a, span{
   --color-text: #000000;
   --banner-border-radius: 32px;
   --glass-bg-color: rgba(28, 31, 55, 0.67);
-  --glass-bg-color-1: rgba(255, 255, 255, 0.44);
+  --glass-bg-color-1: rgba(28, 31, 55, 0.67);
   --glass-bg-color-2: rgba(28, 31, 55, 0.24);
   --glass-bg-color-3: rgba(57, 61, 92, 0.24);
   --opacity-white-hard: rgba(255, 255, 255, 0.20);

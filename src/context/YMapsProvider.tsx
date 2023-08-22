@@ -5,7 +5,10 @@ import { type ReactNode } from "react"
 
 export const YMapsProvider = ({ children }: { children: ReactNode }) => {    
   return (
-    <YMaps query={{ apikey: process.env.NEXT_PUBLIC_API_KEY_YANDEX }}>
+    <YMaps
+      query={{ apikey: process.env.NEXT_PUBLIC_API_KEY_YANDEX, lang: "ru_RU" }}
+      preload={false}
+    >
       {children}
     </YMaps>
   )

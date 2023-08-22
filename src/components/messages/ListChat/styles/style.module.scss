@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   border-radius: 32px;
-  border: 2px solid var(--supporting-white);
+  border: 2px solid var(--stroke-1);
   background: var(--glass-bg-color-2);
   backdrop-filter: blur(1px);
   z-index: 1;
@@ -23,7 +23,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    background: var(--supporting-white);
+    background: var(--background-input);
     z-index: 2;
 
     h4, p{
@@ -60,6 +60,12 @@
         }
       }
     }
+  }
+}
+
+[data-theme='dark']{
+  .divNumber{
+    background: var(--gray-200) !important;
   }
 }
 

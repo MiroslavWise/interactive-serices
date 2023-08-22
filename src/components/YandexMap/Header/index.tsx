@@ -82,14 +82,6 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
               </div>
             </div>
           </div>
-          {/* <div className={styles.segments}>
-            <Segments
-              type="primary"
-              values={SERVICES}
-              active={activeService}
-              setActive={setActiveService}
-            />
-          </div> */}
           <div className={styles.segments}>
             <SearchElementMap />
           </div>

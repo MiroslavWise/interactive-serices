@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Map } from "@pbe/react-yandex-maps"
+import { useEffect, useState } from "react"
+import { Map, useYMaps } from "@pbe/react-yandex-maps"
 import { isMobile } from "react-device-detect"
 
 import type { TYandexMap } from "./types"
@@ -14,6 +14,19 @@ import { MapCardNews } from "./MapCard"
 
 export const YandexMap: TYandexMap = ({ }) => {
   const [visibleNotification, setVisibleNotification] = useState(false)
+
+  const ymaps = useYMaps([
+    "geolocation",
+    "GeocodeResult",
+    "GeoObject",
+    "util.defineClass"
+  ])
+
+  useEffect(() => {
+    const geocode = ymaps?.GeocodeResult
+
+    const {} = geocode ?? {}
+  }, [ymaps])
 
   return (
     <>
