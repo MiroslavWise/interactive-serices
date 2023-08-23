@@ -90,8 +90,8 @@
   .ul {
     display: inline-flex;
     gap: 20px;
-    height: auto;
-    overflow-y: visible;
+    height: calc(100vh - 380px);
+    overflow-y: scroll;
     
     .column {
       display: flex;
@@ -102,6 +102,8 @@
   
   &.mobile{
     padding: 0;
+    height: auto;
+    overflow-y: visible;
 
     .ul{
       overflow-y:visible;
