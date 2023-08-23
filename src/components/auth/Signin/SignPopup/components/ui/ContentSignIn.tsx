@@ -72,7 +72,6 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
           if (response.res?.access_token && response?.res?.refresh_token && response?.res?.token_type) {
             usersService.getUserId(response?.res?.id)
               .then(responseUser => {
-                console.log("responseUser: ", responseUser)
                 setToken({
                   ok: true,
                   token: response?.res?.access_token!,

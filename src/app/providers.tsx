@@ -11,6 +11,7 @@ import { YMapsProvider } from "@/context/YMapsProvider"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { RegistrationService } from "@/services/auth/registrationService"
+import { WebSocketProvider } from "@/context/WebSocketProvider"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 const queryClient = new QueryClient({
@@ -80,10 +81,12 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <NextThemesProvider>
       <QueryClientProvider client={queryClient}>
-        <YMapsProvider>
-          {children}
-          <ToastContainer />
-        </YMapsProvider>
+        <WebSocketProvider>
+          <YMapsProvider>
+            {children}
+            <ToastContainer />
+          </YMapsProvider>
+        </WebSocketProvider>
       </QueryClientProvider>
     </NextThemesProvider>
   )

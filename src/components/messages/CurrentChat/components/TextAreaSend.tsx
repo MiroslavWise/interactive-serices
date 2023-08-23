@@ -1,24 +1,53 @@
 "use client"
 
+import { useState } from "react"
 import { isMobile } from "react-device-detect"
 import Image from "next/image"
 
 import type { TTextAreaSend } from "./types/types"
 
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
+import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useWebSocket } from "@/context/WebSocketProvider"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/text-area.module.scss"
-import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
-export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
+export const TextAreaSend: TTextAreaSend = ({ photo, fullName, userId }) => {
+  const [text, setText] = useState("")
   const { setIsVisibleBarter } = useVisibleModalBarter()
+  const { chanel } = useWebSocket()
+  const { token } = useAuth()
+
+  function handleSend() {
+    chanel?.send(JSON.stringify({
+      event: "chat",
+      data: {
+        access_token: token,
+        message: text,
+        user_id: userId
+      }
+    }))
+  }
 
   return (
     <div className={cx(styles.container, isMobile && styles.mobile)}>
-      {isMobile ? <input placeholder="Введите сообщение..." /> : <textarea placeholder="Введите сообщение..." />}
+      {
+        isMobile
+          ? (
+            <input placeholder="Введите сообщение..."
+              value={text}
+              onChange={val => setText(val.target.value)}
+            />
+          ) : (
+            <textarea placeholder="Введите сообщение..."
+              value={text}
+              onChange={val => setText(val.target.value)}
+            />
+          )
+      }
       {
         isMobile ? (
           <ButtonCircleGradientFill
@@ -28,7 +57,7 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
               size: 24,
             }}
             size={48}
-            onClick={() => { }}
+            onClick={handleSend}
           />
         ) : null
       }
@@ -48,6 +77,7 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
                 type="secondary"
                 label="Отправить"
                 suffix={<Image src="/svg/send-white.svg" alt="send" width={24} height={24} />}
+                handleClick={handleSend}
               />
             </>
           ) : null

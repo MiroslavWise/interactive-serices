@@ -3,6 +3,7 @@ const env: IEnv = {
     host: process.env.NEXT_PUBLIC_URL!,
     port: Number(process.env.PORT!),
   },
+  websocket: process.env.NEXT_PUBLIC_WEB_SOCKET!,
   auto_verification: Boolean(process.env.NEXT_PUBLIC_AUTO_VERIFICATION),
 }
 
@@ -13,5 +14,6 @@ interface IEnv {
     host: string
     port: number
   }
+  websocket: string
   auto_verification: boolean
 }

@@ -87,6 +87,7 @@ export const CurrentChat = () => {
       <TextAreaSend
         photo={data?.res?.image?.attributes?.url!}
         fullName={`${data?.res?.firstName || ""} ${data?.res?.lastName || ""}`}
+        userId={data?.res?.userId!}
       />
     </section>
   )
