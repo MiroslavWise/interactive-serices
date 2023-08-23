@@ -59,6 +59,7 @@ export const CardOffer: TCardOffer = ({
                   type="primary"
                   icon="/svg/message-dots-circle.svg"
                   size={16}
+                  handleClick={() => push(`/messages?user=${chatId}`)}
                 />
               </div>
             )

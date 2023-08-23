@@ -24,12 +24,13 @@
   gap: 16px;
   height: calc(100vh - 267px);
   overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
   padding-bottom: 20px;
+}
+
+[data-theme='dark']{
+  .containerCards{
+    li{
+      box-shadow: none;
+    }
+  }
 }

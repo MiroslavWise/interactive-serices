@@ -173,8 +173,18 @@
     justify-content: center;
     border-radius: 100px;
     border: 1px solid var(--gray-300);
-    background: var(--supporting-white);
+    background: var(--background-input);
     box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
     cursor: pointer;
+  }
+}
+
+[data-theme='dark']{
+  .containerButtons{
+    .buttonTrash{
+      img{
+        filter: invert(1);
+      }
+    }
   }
 }

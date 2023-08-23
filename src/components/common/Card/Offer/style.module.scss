@@ -25,7 +25,7 @@
       gap: 6px;
       border-radius: 72.917px;
       border: 0.729px solid var(--gray-300);
-      background: var(--supporting-white);
+      background: var(--background-input);
 
       p {
         color: var(--gray-500);
@@ -50,6 +50,20 @@
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+    }
+  }
+}
+
+[data-theme='dark']{
+  .container{
+    .date{
+      border-color: var(--background-input);
+      p{
+        color: #FFF;
+      }
+      img{
+        filter: invert(1);
       }
     }
   }
