@@ -7,14 +7,8 @@
   gap: 16px;
 
   &.mobile {
-    overflow-y: scroll;
+    overflow-y: auto; 
     height: 100vh;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding-bottom: 150px;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    padding: 0px 20px 120px;
   }
 }

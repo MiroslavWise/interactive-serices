@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import dayjs from "dayjs"
 
 import { TMobileMainInfo } from "./types"
 
@@ -15,7 +16,7 @@ import { ACHIEVEMENTS } from "../MainInfo/constants"
 
 import styles from "./styles.module.scss"
 
-export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about, userId }) => {
+export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about, userId, created }) => {
   const { push } = useRouter()
   const { setIsVisibleBarter } = useVisibleModalBarter()
 
@@ -78,7 +79,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ name, photo, about, userId }) 
             fontSize={12}
             location="Арбат, Москва"
           />
-          <p className={styles.date}>Присоединился в феврале 2017</p>
+          <p className={styles.date}>Присоединился {created ? dayjs(created).format("DD.MM.YYYY") : null}</p>
           <p className={styles.about}>{about}</p>
         </div>
       </div>

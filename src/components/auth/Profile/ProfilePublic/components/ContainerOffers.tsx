@@ -15,7 +15,7 @@ export const ContainerOffers = () => {
   const [value, setValue] = useState<TValueTab>("proposals")
 
   return (
-    <div className={styles.containerRequestsAndProposals}>
+    <ul className={styles.containerRequestsAndProposals}>
       <div className={styles.tabs}>
         <ButtonRadio
           label="Предложения"
@@ -60,6 +60,6 @@ export const ContainerOffers = () => {
             </MotionUL>
           ) : null
       }
-    </div>
+    </ul>
   )
 }

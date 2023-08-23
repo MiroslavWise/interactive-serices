@@ -5,7 +5,7 @@ import type { TMotion } from "./types/types"
 import { motionItemOnOpacityY } from "@/lib/motion"
 import { cx } from "@/lib/cx"
 
-export const MotionLI: TMotion = ({ children, classNames, onClick }) => {
+export const MotionLI: TMotion = ({ children, classNames, onClick, ref, id }) => {
 
   const handleClick = () => {
     if (onClick) onClick()
@@ -16,6 +16,8 @@ export const MotionLI: TMotion = ({ children, classNames, onClick }) => {
       className={cx(classNames)}
       variants={motionItemOnOpacityY}
       onClick={handleClick}
+      ref={ref}
+      id={id}
     >
       {children}
     </motion.li>

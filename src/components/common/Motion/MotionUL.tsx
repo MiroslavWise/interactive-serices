@@ -5,7 +5,7 @@ import type { TMotion } from "./types/types"
 import { motionOpacityY } from "@/lib/motion"
 import { cx } from "@/lib/cx"
 
-export const MotionUL: TMotion = ({ children, classNames }) => {
+export const MotionUL: TMotion = ({ children, classNames, id }) => {
   
   return (
     <motion.ul
@@ -13,6 +13,7 @@ export const MotionUL: TMotion = ({ children, classNames }) => {
       variants={motionOpacityY}
       initial="hidden"
       animate="visible"
+      id={id}
     >
       {children}
     </motion.ul>

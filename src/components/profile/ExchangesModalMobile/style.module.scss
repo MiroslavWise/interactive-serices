@@ -6,7 +6,7 @@
   bottom: 0;
   opacity: 0;
   visibility: hidden;
-  background: var(--supporting-white);
+  background: var(--background);
   transition: all 0.3s ease-in-out 0.03s;
   overflow: hidden;
   overflow-y: auto;
@@ -21,7 +21,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--supporting-white);
+    background: var(--glass-bg-color);
     z-index: 26;
 
     h4{
@@ -45,9 +45,9 @@
       justify-content: center;
       align-items: center;
       border-radius: 100px;
-      background: var(--glass-bg-color-1);
+      background: var(--background-input);
       box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-      // backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
     }
   }
 

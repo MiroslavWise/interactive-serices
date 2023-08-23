@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
-  output: "export",
+  // output: "export",
   env: {
     PORT: 3000,
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,

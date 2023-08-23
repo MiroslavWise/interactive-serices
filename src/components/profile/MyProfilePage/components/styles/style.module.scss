@@ -137,16 +137,12 @@
   z-index: 1;
 
   &.mobile {
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 16px;
     overflow-y: visible;
-    justify-content: flex-start;
-
-    &:last-child {
-      margin-bottom: 100px;
-    }
   }
 }
 

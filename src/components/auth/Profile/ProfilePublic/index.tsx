@@ -13,13 +13,13 @@ import { ContainerReviews } from "./components/ContainerReviews"
 import { ContainerOffers } from "./components/ContainerOffers"
 import { ContainerBlogs } from "./components/ContainerBlogs"
 import { Dots } from "./components/Dots"
+import { ButtonClose } from "@/components/common/Buttons"
 import { Glasses } from "./components/Glasses"
 
 import { VALUES } from "./constants"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { ButtonClose } from "@/components/common/Buttons"
 
 export const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
   const [activeSegment, setActiveSegment] = useState<ISegmentValues>(VALUES[0])
@@ -34,15 +34,16 @@ export const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
     (!isMobile || isTablet) ? (
       <div className={cx(styles.wrapper, active.isProfile && styles.active)}>
         <div className={cx(styles.container, active.isProfile && styles.active)}>
-          <InfoContainerProfile profile={active.dataProfile!} />
-          <ItemsBadges />
-          <ItemSegments
-            values={VALUES}
-            activeSegment={activeSegment}
-            setActiveSegment={setActiveSegment}
-          />
-          {content}
-          <p className={styles.title}>Public profile</p>
+          <ul className={cx(styles.content)} id="profile-public-id">
+            <InfoContainerProfile profile={active.dataProfile!} />
+            <ItemsBadges />
+            <ItemSegments
+              values={VALUES}
+              activeSegment={activeSegment}
+              setActiveSegment={setActiveSegment}
+            />
+            {content}
+          </ul>
           <ButtonClose
             position={{
               top: 12,

@@ -29,12 +29,13 @@ export default async function UserId() {
     <div className={cx(styles.page, isMobile && styles.mobile)}>
       {
         isMobile ? (
-          <MotionUL classNames={[styles.containerMobile]}>
+          <MotionUL classNames={[styles.containerMobile]} id="user-id">
             <MobileMainInfo
               name={`${data?.res?.firstName} ${data?.res?.lastName}`}
               photo={data?.res?.image?.attributes?.url!}
               about={data?.res?.about!}
               userId={data?.res?.userId!}
+              created={data?.res?.created!}
             />
             <MobileInteractive />
           </MotionUL>

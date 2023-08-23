@@ -125,10 +125,39 @@
 //SectionSegments
 
 .sectionSegments {
-        padding-top: 32px;
-        padding-left: 40px;
-        padding-right: 40px;
-        
+        margin-top: 32px;
+        margin-left: 40px;
+        margin-right: 40px;
+        position: sticky;
+        top: 70px;
+        z-index: 100;
+        transition: all 0.3s ease-in-out 0.01s;
+
+        &.sticky{
+                &::before{
+                        content: '';
+                        position: absolute;
+                        top: -20px;
+                        left: -20px;
+                        right: -20px;
+                        bottom: -20px;
+                        background: rgba(200, 200, 200, 0.5);
+                        filter: blur(15px);
+                        z-index: -1;
+                        border-radius: 100px;
+                        transition: all 0.3s ease-in-out 0.01s;
+                }
+        }
+}
+
+[data-theme='dark']{
+        .sectionSegments{
+                &.sticky{
+                        &::before{
+                                background: rgba(0, 0, 0, 0.5);
+                        }
+                }
+        }
 }
 
 //ContainerReviews
@@ -137,30 +166,23 @@
         margin-top: 34px;
         width: 100%;
         padding: 0px 40px 24px;
-        overflow-y: scroll;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+        overflow-y: visible;
         display: inline-flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
-        height: calc(100vh - 520px);
+        height: 100%;
         z-index: 20;
-
-
-        &::-webkit-scrollbar {
-                display: none;
-        }
 }
 
 //Container Offers ans Requests
 
 .containerRequestsAndProposals {
         width: 100%;
-        height: calc(100vh - 456px);
+        height: 100%;
         display: flex;
         justify-content: center;
-        padding: 34px 39px;
+        padding: 34px 39px 0;
         flex-direction: column;
         gap: 20px;
 
@@ -173,8 +195,8 @@
         }
 
         ul {
-                height: 100%;
-                overflow-y: scroll;
+                height: auto;
+                overflow-y: visible;
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px 20px;

@@ -9,8 +9,6 @@ import type { TFilterFieldBottom } from "./types"
 import { ButtonFilter } from "@/components/common/Buttons/ButtonFilter"
 import { PopupFilter } from "./PopupFilter"
 
-import { cx } from "@/lib/cx"
-
 import styles from "./styles/style.module.scss"
 
 export const FilterFieldBottom: TFilterFieldBottom = ({ }) => {

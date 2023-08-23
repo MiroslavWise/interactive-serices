@@ -16,12 +16,12 @@ import styles from "./styles/style.module.scss"
 
 export const MyProfilePage: TMyProfilePage = ({ }) => {
   return (
-    <section className={cx(styles.containerProfilePage, isMobile && styles.mobile)}>
+    <ul className={cx(styles.containerProfilePage, isMobile && styles.mobile)}>
       {typeof isMobile !== "undefined" && !isMobile ? <ContainerAboutMe /> : null}
       {isMobile ? <M_ContainerAboutProfile /> : null}
       {isMobile ? <Badges /> : null}
       <ContainerTagAndButton />
       <ContainerSuggestions />
-    </section>
+    </ul>
   )
 }

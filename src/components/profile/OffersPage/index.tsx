@@ -12,11 +12,11 @@ export const OffersPage = () => {
 
   return (
     isMobile ? (
-      <section className="p-top-5 w-100 h-100">
+      <ul className="p-top-5 p-left-5 p-right-5 p-bottom-14 w-100 h-100">
         <MobileSegments />
         <ContainerHeader total={6} />
         <ContainerOffersNow />
-      </section>
+      </ul>
     ) : (
       <section className={styles.containerOffersPage}>
         <ContainerHeader total={6} />

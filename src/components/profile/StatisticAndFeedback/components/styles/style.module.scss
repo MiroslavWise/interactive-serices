@@ -90,14 +90,8 @@
   .ul {
     display: inline-flex;
     gap: 20px;
-    height: calc(100vh - 380px);
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    height: auto;
+    overflow-y: visible;
     
     .column {
       display: flex;

@@ -5,6 +5,8 @@ import Image from "next/image"
 
 import type { TPopupFilter } from "./types"
 
+import { ImageStatic } from "@/components/common/Image"
+
 import { BUTTON_PAGINATION, LIST_FILTERS } from "./constants"
 import { cx } from "@/lib/cx"
 
@@ -31,11 +33,12 @@ export const PopupFilter: TPopupFilter = ({ visible }) => {
               className={cx(actives.includes(item.value) && styles.active)}
             >
               <div className={styles.icon}>
-                <Image
+                <ImageStatic
                   src={item.image.src}
                   alt={item.image.alt}
                   width={16}
                   height={16}
+                  classNames={[]}
                 />
               </div>
               <p>{item.label}</p>

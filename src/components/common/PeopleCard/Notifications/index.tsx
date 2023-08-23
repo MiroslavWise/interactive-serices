@@ -35,7 +35,7 @@ export const PeopleCard: TPeopleCardNotifications = ({
             ) : (
               <ImageStatic
                 classNames={[styles.image]}
-                src="/public/png/default_avatar.png"
+                src="/png/default_avatar.png"
                 alt={"avatar"}
                 width={56}
                 height={56}
