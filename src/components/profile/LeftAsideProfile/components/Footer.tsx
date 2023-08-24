@@ -9,11 +9,13 @@ import { useAuth } from "@/store/hooks/useAuth"
 
 import styles from "./styles/style.module.scss"
 import { useChat } from "@/store/hooks"
+import { useWebSocket } from "@/context/WebSocketProvider"
 
 export const FooterAsideLeft = () => {
   const { push } = useRouter()
   const { signOut } = useAuth()
   const { setCurrentChat } = useChat()
+  const { chanel } = useWebSocket()
 
   return (
     <footer className={styles.footer}>
@@ -24,6 +26,9 @@ export const FooterAsideLeft = () => {
           signOut()
           push(`/`)
           setCurrentChat(undefined)
+          if (chanel) {
+            chanel.close()
+          }
         }}
       />
       <section>

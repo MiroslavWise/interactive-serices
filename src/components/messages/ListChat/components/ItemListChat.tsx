@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
 
-import { NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { GeoTagging } from "@/components/common/GeoTagging"
 
 import { useChat } from "@/store/hooks"
@@ -35,13 +35,27 @@ export const ItemListChat: TItemListChat = ({ item }) => {
       <div className={styles.header}>
         <div className={styles.titleBlock}>
           <div className={styles.avatar}>
-            <NextImageMotion
-              src={item?.image?.attributes.url}
-              alt="avatar"
-              width={400}
-              height={400}
-              className={styles.img}
-            />
+            {
+              item?.image?.attributes.url
+                ? (
+                  <NextImageMotion
+                    src={item?.image?.attributes.url}
+                    alt="avatar"
+                    width={400}
+                    height={400}
+                    className={styles.img}
+                  />
+                ) : (
+                  <ImageStatic
+                    src="/png/default_avatar.png"
+                    alt="avatar"
+                    width={400}
+                    height={400}
+                    classNames={[styles.img]}
+                  />
+                )
+            }
+
             <Image
               src="/svg/verified-tick.svg"
               alt="verified"

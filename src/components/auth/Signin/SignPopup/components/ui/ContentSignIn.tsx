@@ -16,6 +16,7 @@ import { useAuth, useVisibleAndTypeAuthModal, useWelcomeModal } from "@/store/ho
 import { regExEmail } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { usersService } from "@/services/users"
+import { useWebSocket } from "@/context/WebSocketProvider"
 
 import styles from "../styles/style.module.scss"
 
@@ -24,6 +25,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
   const { setToken, changeAuth } = useAuth()
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
   const { setVisible } = useWelcomeModal()
+  const { create } = useWebSocket()
   const { register, handleSubmit, formState: { errors }, setError } = useForm<IValuesSignForm>()
 
   const onError = (value: string) => toast(value, {
@@ -88,6 +90,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                   return changeAuth()
                 }
               })
+            create()
             return setVisibleAndType({ visible: false })
           }
           return setVisibleAndType({ type: "OtpCode" })
