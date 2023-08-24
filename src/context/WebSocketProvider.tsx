@@ -21,13 +21,13 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     let ws: WebSocket | undefined
     const createWebSocket = () => {
       let num: number = 5
-      ws = new WebSocket(env.websocket)
-      ws.onopen = () => { console.log("on open socket: ") }
-      ws.onmessage = event => {
-        const data = JSON.parse(event.data)
+      ws = new WebSocket(env?.websocket)
+      ws?.onopen = () => { console.log("on open socket: ") }
+      ws?.onmessage = event => {
+        const data = JSON.parse(event?.data)
         console.log("data web socket message: ", data)
       }
-      ws.onerror = (event) => {
+      ws?.onerror = (event) => {
         console.log("error socket", event)
       }
       setWebSocketChanel(ws)
@@ -36,7 +36,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
     return () => {
       if (ws) {
-        ws.close()
+        ws?.close()
       }
     }
   }, [])
