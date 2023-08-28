@@ -30,10 +30,22 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName, userId }) => {
         user_id: userId
       }
     }))
+    setText("")
   }
 
   return (
     <div className={cx(styles.container, isMobile && styles.mobile)}>
+      {
+        isMobile ? (
+          <Image
+            src="/svg/paperclip-gray.svg"
+            alt="paperclip-gray"
+            width={16.5}
+            height={16.5}
+            className={styles.paperclip}
+          />
+        ) : null
+      }
       {
         isMobile
           ? (

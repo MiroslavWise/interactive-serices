@@ -1,6 +1,7 @@
 import { shallow } from "zustand/shallow"
 
 import {
+  usePopupMenuChatState,
   useVisibleAndTypeAuthModalState,
   useVisibleBannerNewServicesState,
   useVisibleExchangesState,
@@ -68,4 +69,11 @@ export const useWelcomeModal = () => {
   }), shallow)
 
   return content
+}
+
+export const usePopupMenuChat = () => {
+  return usePopupMenuChatState(state => ({
+    isVisible: state.isVisible,
+    setIsVisible: state.setIsVisible,
+  }), shallow)
 }

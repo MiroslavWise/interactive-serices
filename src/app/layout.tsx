@@ -9,6 +9,7 @@ import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
 import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
 import { WelcomeModal } from "@/components/layout/WelcomeModal"
 import { Barter } from "@/components/messages/ModalBarter"
+import { Glasses } from "@/components/layout/Glasses"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
@@ -50,5 +51,3 @@ export default function Layout({ children }: { children: ReactNode, }) {
     </html>
   )
 }
-
-const Glasses = () => [1, 2, 3, 4].map(item => <span className={`glass-circle-${item}`} key={`${item}_body_glass`} />)

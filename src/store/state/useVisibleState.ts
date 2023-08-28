@@ -6,6 +6,7 @@ import type { IUseVisibleModalBarter } from "../types/useVisibleModalBarter"
 import type { IUseVisiblePhotosCarousel } from "../types/useVisiblePhotosCarousel"
 import type { IUseVisibleExchanges } from "../types/useVisibleExchanges"
 import type { IUseWelcomeModal } from "../types/useWelcomeModal"
+import type { IUsePopupMenuChat } from "../types/usePopupMenuChat"
 
 
 
@@ -131,5 +132,13 @@ export const useWelcomeModalState = create<IUseWelcomeModal>(
     setNext() { if (get().page < 4) set({ page: get().page + 1 }) },
     setPage(value) { if (value !== get().page) { set({ page: value }) } },
     setVisible(value) { set({ isVisible: value }) },
+  })
+)
+
+export const usePopupMenuChatState = create<IUsePopupMenuChat>(
+  (set, get) => ({
+    isVisible: false,
+
+    setIsVisible(value) { set({ isVisible: typeof value === "undefined" ? !get().isVisible : value }) },
   })
 )

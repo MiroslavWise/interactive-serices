@@ -6,7 +6,7 @@ import Image from "next/image"
 
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
-import { NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
@@ -58,15 +58,15 @@ export const M_ContainerAboutProfile = () => {
           })
       } else {
         profileService.postProfile(data)
-        .then(response => {
-          if (response.error?.code === 401) {
-            signOut()
-          }
-        })
-        .finally(() => {
-          setIsEdit(false)
-          changeAuth()
-        })
+          .then(response => {
+            if (response.error?.code === 401) {
+              signOut()
+            }
+          })
+          .finally(() => {
+            setIsEdit(false)
+            changeAuth()
+          })
       }
     } else {
       setIsEdit(true)
@@ -78,13 +78,25 @@ export const M_ContainerAboutProfile = () => {
       <div className={styles.blockAboutPhoto}>
         <div className={styles.blockPhotoAch}>
           <div className={styles.avatar}>
-            <NextImageMotion
-              className={styles.photo}
-              src={imageProfile?.attributes?.url ? imageProfile?.attributes?.url : "/png/default_avatar.png"}
-              alt="avatar"
-              width={94}
-              height={94}
-            />
+            {
+              imageProfile?.attributes?.url ? (
+                <NextImageMotion
+                  className={styles.photo}
+                  src={imageProfile?.attributes?.url}
+                  alt="avatar"
+                  width={94}
+                  height={94}
+                />
+              ) : (
+                <ImageStatic
+                  src="/png/default_avatar.png"
+                  alt="avatar"
+                  width={400}
+                  height={400}
+                  classNames={[styles.photo]}
+                />
+              )
+            }
             {
               user ? (
                 <Image
@@ -119,7 +131,7 @@ export const M_ContainerAboutProfile = () => {
             fontSize={12}
             location="Арбат, Москва"
           />
-          <p className={styles.date}>Присоединился { createdUser ? dayjs(createdUser).format("DD.MM.YYYY") : null}</p>
+          <p className={styles.date}>Присоединился {createdUser ? dayjs(createdUser).format("DD.MM.YYYY") : null}</p>
           {
             isEdit
               ? (

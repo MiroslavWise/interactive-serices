@@ -94,6 +94,7 @@
     }
 
     .timeAgo {
+      white-space: nowrap;
       color: var(--gray-400);
       font-size: 14px;
       font-style: normal;
@@ -133,6 +134,7 @@
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
+  z-index: 2;
 
   .mobileLI {
     padding: 12px 16px;

@@ -1,12 +1,12 @@
-.container{
+.container {
   height: 104px;
   width: 100%;
   padding-left: 32px;
   padding-right: 32px;
-  position: relative;
-  z-index: 10;
+  // position: relative;
+  z-index: 20;
 
-  textarea{
+  textarea {
     width: 100%;
     height: 100%;
     padding: 12px 14px;
@@ -24,7 +24,7 @@
     line-height: 24px;
     letter-spacing: -0.5px;
 
-    &::placeholder{
+    &::placeholder {
       color: var(--gray-500);
       font-size: 16px;
       font-style: normal;
@@ -34,10 +34,11 @@
     }
   }
 
-  &.mobile{
+  &.mobile {
     height: 84px;
     padding: 20px 21px 16px 20px;
-    position: relative;
+    position: sticky;
+    bottom: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -46,12 +47,13 @@
     background: var(--glass-bg-color-1);
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
     backdrop-filter: blur(4px);
+    z-index: 50;
 
-    input{
+    input {
       height: 48px !important;
       width: 100%;
       border-radius: 97px;
-      padding: 12px 14px;
+      padding: 12px 14px 12px 40px;
       border: 1px solid var(--gray-300);
       background: var(--supporting-white);
       box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
@@ -63,8 +65,8 @@
       font-weight: 400;
       line-height: 24px;
       letter-spacing: -0.5px;
-  
-      &::placeholder{
+
+      &::placeholder {
         color: var(--gray-500);
         font-size: 16px;
         font-style: normal;
@@ -73,12 +75,19 @@
         letter-spacing: -0.5px;
       }
     }
+
+    .paperclip {
+      position: absolute;
+      transform: translateY(-50%);
+      top: calc(50% + 2px);
+      left: calc(20px + 12px);
+    }
   }
 }
 
-.buttons{
+.buttons {
   position: absolute;
-  bottom: 12px;
+  bottom: calc(12px + 24px);
   right: calc(12px + 32px + 1px);
   width: min-content;
   display: inline-flex;
