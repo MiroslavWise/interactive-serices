@@ -32,8 +32,8 @@ export const HeaderBlock: THeaderBlock = () => {
               <ImageStatic
                 src="/png/default_avatar.png"
                 alt="avatar"
-                width={94}
-                height={94}
+                width={400}
+                height={400}
                 classNames={[styles.photo]}
               />
             )
@@ -52,7 +52,7 @@ export const HeaderBlock: THeaderBlock = () => {
         }
       </div>
       <section className={styles.title}>
-        <h4>{user?.firstName} {user?.lastName}</h4>
+        <h4>{user?.firstName || "Имя"} {user?.lastName || "Фамилия"}</h4>
         <GeoTagging size={16} fontSize={14} location="Арбат, Москва" />
         {createdUser ? <p>Присоединился {dayjs(createdUser!).format("DD.MM.YYYY")}</p> : null}
       </section>

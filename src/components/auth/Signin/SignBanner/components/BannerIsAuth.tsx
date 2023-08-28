@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { FooterAsideLeft } from "@/components/profile/LeftAsideProfile/components/Footer"
 import { HeaderBlock } from "@/components/profile/BlockProfileAside/components/HeaderBlock"
-import { BadgeAchievements } from "@/components/common/Badge"
+import { BadgeAchievements, BadgeGradient } from "@/components/common/Badge"
 
 import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
 
@@ -44,6 +44,16 @@ export const BannerIsAuth = () => {
             ))
           }
         </ul>
+        {
+          !profileId ? (
+            <BadgeGradient
+              coins={2450}
+              handleClick={() => setVisibleAndType({ visible: true, type: "PersonalEntry" })}
+              type="optional-2"
+              about="Заработайте 500+ монет для успешных обменов."
+            />
+          ) : null
+        }
         <ButtonFill
           label="Профиль"
           classNames={cx("w-100", styles.largeButton)}

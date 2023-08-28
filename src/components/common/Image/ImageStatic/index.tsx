@@ -17,7 +17,7 @@ export function ImageStaticMemo(props: IPropsImageStatic) {
       }}
       src={src}
       alt={alt}
-      className={cx(...classNames)}
+      className={cx(classNames)}
       width={width}
       height={height}
       loader={undefined}

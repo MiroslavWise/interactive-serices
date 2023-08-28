@@ -11,5 +11,10 @@
   padding-bottom: 24px;
   &.requestsAndProposals{
     align-items: center;
+
+    li{
+      max-width: 100%;
+      width: 100%;
+    }
   }
 }
