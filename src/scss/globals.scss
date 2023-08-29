@@ -119,6 +119,7 @@ p, a, span{
   //Gradient
   --gradient-primary: linear-gradient(180deg, #ADA2FC 0%, #6E5CF0 100%);
   --gradient-optional-1: linear-gradient(180deg, #FF9E88 0%, #EE4E29 100%);
+  --gradient-optional-1-reverb: linear-gradient(180deg, #EE4E29 0%, #FF9E88 100%);
   --gradient-optional-2: linear-gradient(180deg, #8CCFFF 0%, #3AAAFA 100%);
   --gradient-optional-3: linear-gradient(180deg, #FFA8C7 0%, #EE4381 100%);
 
@@ -141,6 +142,7 @@ p, a, span{
   --opacity-white-hard: rgba(255, 255, 255, 0.20);
   --stroke-1: rgba(54, 57, 79, 0.42);
   --button-default-background: #232738;
+  --glass-bg-color-glass-bg-color: rgba(28, 31, 55, 0.67);
 
   --gray-900: #FFF;
   --gray-800: #1D2939;
