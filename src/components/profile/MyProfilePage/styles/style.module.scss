@@ -8,8 +8,13 @@
   overflow-y: auto;
 
   &.mobile {
+    margin: 0;
     overflow-y: auto; 
     height: 100vh;
     padding: 0px 20px 120px;
+
+    ul{
+      margin: 0;
+    }
   }
 }
