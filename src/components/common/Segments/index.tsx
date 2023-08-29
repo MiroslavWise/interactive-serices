@@ -12,14 +12,14 @@ export const Segments: TSegments = ({ values, active, setActive, type, className
     <div className={cx(styles.container, classNames)} ref={ref}>
       {
         values.map((item, index) => (
-          <motion.div
+          <motion.li
             id={id}
             key={item?.value}
             onClick={() => setActive(item)}
             className={cx(styles.button, styles[type], active.value === item.value && styles.active, active.value !== item.value && styles[borderClassNames(values.indexOf(active), index, values.length)])}
           >
             <p>{item.label}</p>
-          </motion.div>
+          </motion.li>
         ))
       }
     </div>

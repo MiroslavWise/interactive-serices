@@ -20,7 +20,7 @@ export const ItemSegments: TItemSegments = ({ activeSegment, setActiveSegment, v
     const handleScroll = () => {
       if (stickyRef.current) {
         const offset = stickyRef.current.getBoundingClientRect().top
-        setIsSticky(offset <= 70)
+        setIsSticky(offset <= 40)
       }
     }
 

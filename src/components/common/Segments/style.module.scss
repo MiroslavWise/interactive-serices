@@ -77,3 +77,9 @@
     }
   }
 }
+
+[data-theme='dark']{
+  .container{
+    box-shadow: none;
+  }
+}

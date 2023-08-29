@@ -29,6 +29,12 @@
         }
 }
 
+[data-theme='dark']{
+        .buttonCircle{
+                box-shadow: none !important;
+        }
+}
+
 .buttonFillGradient {
         position: relative;
         display: inline-flex;

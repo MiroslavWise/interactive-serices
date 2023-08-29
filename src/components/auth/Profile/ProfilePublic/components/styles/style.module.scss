@@ -129,18 +129,20 @@
         margin-left: 40px;
         margin-right: 40px;
         position: sticky;
-        top: 70px;
+        top: 12px;
         z-index: 100;
-        transition: all 0.3s ease-in-out 0.01s;
+        transition: all 0.15s ease-in-out 0.01s;
 
         &.sticky{
+                margin-left: calc(12px + 48px + 12px);
+                margin-right: calc(12px + 28px + 12px + 28px + 12px);
                 &::before{
                         content: '';
                         position: absolute;
-                        top: -20px;
-                        left: -20px;
-                        right: -20px;
-                        bottom: -20px;
+                        top: -5px;
+                        left: -5px;
+                        right: -5px;
+                        bottom: -5px;
                         background: rgba(200, 200, 200, 0.5);
                         filter: blur(15px);
                         z-index: -1;
@@ -209,7 +211,7 @@
 .dots {
         position: absolute;
         right: 12px;
-        top: 18px;
+        top: 22px;
         display: inline-flex;
         gap: 12px
 }

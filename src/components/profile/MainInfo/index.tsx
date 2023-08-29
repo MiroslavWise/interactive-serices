@@ -21,9 +21,6 @@ export const MainInfo: TMainInfo = ({ profile }) => {
   const { push } = useRouter()
   const { setIsVisibleBarter } = useVisibleModalBarter()
 
-  // onClick={() => push(`/messages?user=${profile.userId}`, undefined)}
-  // onClick={() => setIsVisibleBarter({ isVisible: true, dataProfile: { photo: profile?.photo, fullName: profile?.name } })}
-
   return (
     <div className={styles.container}>
       <div className={styles.content}>

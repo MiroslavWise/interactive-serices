@@ -26,6 +26,7 @@
   }
 
   .page {
+    position: relative;
     height: calc(100%);
     width: 100%;
     display: flex;
@@ -77,12 +78,12 @@
 
 .containerProfile {
   width: 100%;
-  height: calc(100vh - 74px - 24px - 24px);
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  gap: 24px 24px;
-  grid-template-columns: calc(320px) calc(100% - 320px - 400px - 48px) calc(400px);
+  // height: calc(100vh - 74px - 24px - 24px);
+  // display: grid;
+  // justify-content: center;
+  // align-items: center;
+  // gap: 24px 24px;
+  // grid-template-columns: calc(320px) calc(100% - 320px - 400px - 48px) calc(400px);
   background: transparent;
 
   &.mobile {

@@ -128,13 +128,15 @@
 
 .containerSuggestions {
   width: 100%;
-  max-height: calc(100vh - 300px);
+  height: auto;
+  // max-height: calc(100vh - 300px);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 350px));
   grid-gap: 20px;
   justify-content: center;
-  overflow-y: auto;
+  overflow-y: visible;
   z-index: 1;
+  padding-bottom: 24px;
 
   &.mobile {
     height: auto;

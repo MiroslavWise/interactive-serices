@@ -18,10 +18,10 @@ export const OffersPage = () => {
         <ContainerOffersNow />
       </ul>
     ) : (
-      <section className={styles.containerOffersPage}>
+      <ul className={styles.containerOffersPage}>
         <ContainerHeader total={6} />
         <ContainerOffersNow />
-      </section>
+      </ul>
     )
   )
 }
