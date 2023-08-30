@@ -26,7 +26,7 @@ export const SignBanner: TSignBanner = ({ }) => {
       isAuth ? (
         <BannerIsAuth />
       ) : (
-        <motion.div
+        <motion.ul
           id="SignBanner"
           className={cx(styles.container)}
           initial={{ left: -300, opacity: 0, visibility: "hidden", }}
@@ -67,7 +67,7 @@ export const SignBanner: TSignBanner = ({ }) => {
             <a>Всё о Шейре</a>
           </div>
           <Glasses />
-        </motion.div>
+        </motion.ul>
       )
     ) : null
   )

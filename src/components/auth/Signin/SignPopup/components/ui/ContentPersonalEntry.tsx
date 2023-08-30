@@ -98,13 +98,7 @@ export const ContentPersonalEntry: TContentPersonalEntry = ({ }) => {
   }
 
   return (
-    <div
-      className={styles.content}
-      // initial={{ opacity: 0 }}
-      // animate={{ opacity: 1 }}
-      // exit={{ opacity: 0 }}
-      // transition={{ duration: 0.5 }}
-    >
+    <div className={styles.content}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <ImageUploadComponent
           selectedImage={selectedImage}

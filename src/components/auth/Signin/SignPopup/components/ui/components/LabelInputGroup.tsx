@@ -1,5 +1,5 @@
 import { type FC, useMemo } from "react"
-import { type RegisterOptions, type FieldError, UseFormRegisterReturn, UseFormSetValue } from "react-hook-form"
+import { type FieldError, UseFormRegisterReturn, UseFormSetValue } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 import dayjs from "dayjs"
 
@@ -77,6 +77,11 @@ export const GroupSelectorDate: TGroupSelectorDate = ({
       years: rangeArray(1900, Number(dayjs().format("YYYY")) - 18).reverse().map(item => ({ value: item, label: item })),
     }
   }, [])
+
+  const error: boolean | undefined = useMemo(() => {
+    return !!Object.values(errorDate).filter(_ => _).length
+  }, [errorDate])
+
   return (
     <div className={cx(styles.groupLabelAndInputWrap, isMobile && styles.mobile)}>
       <label>Дата рождения <sup>*</sup></label>
@@ -107,12 +112,7 @@ export const GroupSelectorDate: TGroupSelectorDate = ({
             register={propsRegister.year}
           />
         </div>
-        {
-          (errorDate?.day || errorDate?.month || errorDate?.year)
-            ? (
-              <p className={styles.error}>Данное поле обязательно</p>
-            ) : null
-        }
+        {error ? <p className={styles.error}>Данное поле обязательно</p> : null}
       </div>
     </div>
   )

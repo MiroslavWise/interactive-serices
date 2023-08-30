@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useTheme } from "next-themes"
 
 import type { TItemSegments } from "./types"
 
@@ -12,6 +13,7 @@ import styles from "./styles/style.module.scss"
 
 export const ItemSegments: TItemSegments = ({ activeSegment, setActiveSegment, values }) => {
   const stickyRef = useRef<HTMLDivElement>(null)
+  const { systemTheme } = useTheme()
   const [isSticky, setIsSticky] = useState(false)
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export const ItemSegments: TItemSegments = ({ activeSegment, setActiveSegment, v
   return (
     <section className={cx(styles.sectionSegments, isSticky && styles.sticky)} ref={stickyRef}>
       <Segments
-        type="optional-1"
+        type={systemTheme === "dark" ? "primary" : "optional-1"}
         values={values}
         active={activeSegment}
         setActive={setActiveSegment}

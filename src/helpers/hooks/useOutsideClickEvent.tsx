@@ -12,16 +12,15 @@ export const useOutsideClickEvent = (): [boolean, Dispatch<SetStateAction<boolea
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  function handleClickOutside(event: MouseEvent) {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsOpen(false)
-    }
-  }
-
   useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
     document.addEventListener('click', handleClickOutside)
 
-    return document.removeEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
   }, [])
 
   return [isOpen, setIsOpen, dropdownRef]

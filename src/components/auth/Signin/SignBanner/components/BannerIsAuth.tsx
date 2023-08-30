@@ -21,7 +21,7 @@ export const BannerIsAuth = () => {
   const { setVisibleAndType } = useVisibleAndTypeAuthModal()
 
   return (
-    <motion.div
+    <motion.ul
       id="SignBanner"
       className={cx(styles.containerAuthBanner)}
       initial={{ left: -300, opacity: 0, visibility: "hidden", }}
@@ -66,6 +66,6 @@ export const BannerIsAuth = () => {
         />
       </section>
       <FooterAsideLeft />
-    </motion.div>
+    </motion.ul>
   )
 }
