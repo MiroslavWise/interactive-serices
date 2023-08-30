@@ -1,8 +1,7 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
 
-
 export interface IUseChat {
-  currentChatId: number | undefined
+    currentChatId: number | undefined
 
-  setCurrentChat: Dispatch<number | undefined>
+    setCurrentChat: Dispatch<number | undefined>
 }

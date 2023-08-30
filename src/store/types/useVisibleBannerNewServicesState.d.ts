@@ -1,12 +1,7 @@
 import { Dispatch } from "react"
 
-
-
-
-
-
 export interface IUseVisibleBannerNewServicesState {
-  isVisibleNewServicesBanner: boolean
+    isVisibleNewServicesBanner: boolean
 
-  setIsVisibleNewServicesBanner: Dispatch<boolean>
+    setIsVisibleNewServicesBanner: Dispatch<boolean>
 }

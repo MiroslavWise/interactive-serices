@@ -1,12 +1,10 @@
 import type { Dispatch } from "react"
 
-
-
 export type TExchanges = "current" | "completed"
 
 export interface IUseVisibleExchanges {
-  isVisible: boolean
-  type: TExchanges | undefined
+    isVisible: boolean
+    type: TExchanges | undefined
 
-  setVisibleType: Dispatch<{visible?: boolean, type?: TExchanges}>
+    setVisibleType: Dispatch<{ visible?: boolean; type?: TExchanges }>
 }
