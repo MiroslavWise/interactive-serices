@@ -8,17 +8,16 @@ import { FooterAsideLeft } from "@/components/profile/LeftAsideProfile/component
 import { HeaderBlock } from "@/components/profile/BlockProfileAside/components/HeaderBlock"
 import { BadgeAchievements, BadgeGradient } from "@/components/common/Badge"
 
-import { useAuth, useVisibleAndTypeAuthModal } from "@/store/hooks"
-
-import { BADGES } from "@/mocks/components/auth/constants"
 import { cx } from "@/lib/cx"
+import { useAuth, useUpdateProfile } from "@/store/hooks"
+import { BADGES } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
 
 export const BannerIsAuth = () => {
   const { push } = useRouter()
   const { profileId } = useAuth()
-  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+  const { setVisible } = useUpdateProfile()
 
   return (
     <motion.ul
@@ -48,7 +47,7 @@ export const BannerIsAuth = () => {
           !profileId ? (
             <BadgeGradient
               coins={2450}
-              handleClick={() => setVisibleAndType({ visible: true, type: "PersonalEntry" })}
+              handleClick={() => setVisible(true)}
               type="optional-2"
               about="Заработайте 500+ монет для успешных обменов."
             />
@@ -62,7 +61,7 @@ export const BannerIsAuth = () => {
         <ButtonDefault
           label={profileId ? "Редактировать профиль" : "Создать профиль"}
           classNames={cx("w-100", styles.largeButton)}
-          handleClick={() => setVisibleAndType({ visible: true, type: "PersonalEntry" })}
+          handleClick={() => setVisible(true)}
         />
       </section>
       <FooterAsideLeft />

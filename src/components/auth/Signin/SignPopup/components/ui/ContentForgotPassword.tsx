@@ -42,7 +42,6 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
     setLoading(true)
     useForgotPasswordHelper.forgotPassword({ email: values.email })
       .then(response => {
-        console.log("response: ", response)
         if (response.ok && !!response?.res) {
           setVisibleAndType({ visible: false })
           onSuccess("Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!")

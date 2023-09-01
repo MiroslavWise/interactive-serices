@@ -6,13 +6,15 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import { useSearchParams } from "next/navigation"
 import { toast } from "react-toastify"
 
+import { ModalUpdateProfile } from "@/components/profile"
+
 import { NextThemesProvider } from "@/context/NextThemesProvider"
 import { YMapsProvider } from "@/context/YMapsProvider"
+import { WebSocketProvider } from "@/context/WebSocketProvider"
 
 import { useAuth } from "@/store/hooks/useAuth"
-import { RegistrationService } from "@/services/auth/registrationService"
-import { WebSocketProvider } from "@/context/WebSocketProvider"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { RegistrationService } from "@/services/auth/registrationService"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +26,7 @@ const queryClient = new QueryClient({
 })
 
 export default function Providers({ children }: { children: ReactNode }) {
-  const { changeAuth } = useAuth()
+  const { changeAuth, token, userId } = useAuth()
   const searchParams = useSearchParams()
   const verifyToken = searchParams.get("verify")
   const passwordResetToken = searchParams.get("password-reset-token")
@@ -66,10 +68,6 @@ export default function Providers({ children }: { children: ReactNode }) {
       navigator.geolocation.getCurrentPosition(position => {
         let latitude = position.coords.latitude
         let longitude = position.coords.longitude
-
-        console.log("latitude: ", latitude)
-        console.log("longitude: ", longitude)
-        console.log("position: ", position)
       }, error => {
         console.error("Ошибка геолокации: ", error.message)
       })
@@ -85,6 +83,7 @@ export default function Providers({ children }: { children: ReactNode }) {
           <YMapsProvider>
             {children}
             <ToastContainer />
+            {token && userId ? <ModalUpdateProfile /> : null}
           </YMapsProvider>
         </WebSocketProvider>
       </QueryClientProvider>

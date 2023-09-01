@@ -84,7 +84,6 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                 if (!responseUser?.res?.profile) {
                   setVisibleAndType({ visible: false })
                   return setVisible(true)
-                  // return setVisibleAndType({ type: "PersonalEntry" })
                 }
                 if (!!responseUser?.res?.profile) {
                   return changeAuth()

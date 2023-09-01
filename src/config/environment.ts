@@ -5,6 +5,7 @@ const env: IEnv = {
   },
   websocket: process.env.NEXT_PUBLIC_WEB_SOCKET!,
   auto_verification: Boolean(process.env.NEXT_PUBLIC_AUTO_VERIFICATION),
+  api_key_yandex: process.env.NEXT_PUBLIC_API_KEY_YANDEX!,
 }
 
 export default env
@@ -16,4 +17,5 @@ interface IEnv {
   }
   websocket: string
   auto_verification: boolean
+  api_key_yandex: string
 }

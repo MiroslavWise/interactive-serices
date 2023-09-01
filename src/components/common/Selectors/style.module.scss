@@ -11,6 +11,7 @@
   border: 1px solid var(--gray-300);
   background: var(--background-input);
   cursor: pointer;
+  z-index: 100;
 
   span {
     color: var(--gray-400);
@@ -42,7 +43,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s ease-in-out 0.01s;
-    z-index: 12;
+    z-index: 100;
 
     li {
       width: 100%;

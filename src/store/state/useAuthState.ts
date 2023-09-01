@@ -14,6 +14,7 @@ import {
 export const useAuthState = create(
   persist<IUseAuth>(
     (set, get) => ({
+      email: undefined,
       token: undefined,
       refreshToken: undefined,
       userId: undefined,

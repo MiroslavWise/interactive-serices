@@ -4,6 +4,7 @@ import { useAuthState } from "../state/useAuthState"
 
 export const useAuth = () => {
   const content = useAuthState(state => ({
+    email: state.email,
     token: state.token,
     refreshToken: state.refreshToken,
     userId: state.userId,
