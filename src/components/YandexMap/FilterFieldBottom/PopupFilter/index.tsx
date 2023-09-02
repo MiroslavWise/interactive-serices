@@ -30,15 +30,15 @@ export const PopupFilter: TPopupFilter = ({ visible }) => {
                             if (actives.includes(item.value)) {
                                 setActives((state) =>
                                     state.filter(
-                                        (item_) => item_ !== item.value
-                                    )
+                                        (item_) => item_ !== item.value,
+                                    ),
                                 )
                             } else {
                                 setActives((state) => [...state, item.value])
                             }
                         }}
                         className={cx(
-                            actives.includes(item.value) && styles.active
+                            actives.includes(item.value) && styles.active,
                         )}
                     >
                         <div className={styles.icon}>

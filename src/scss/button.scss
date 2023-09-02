@@ -1,113 +1,123 @@
 @mixin button {
-  padding: 6px 16px;
-  border-radius: 100px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
-  touch-action: manipulation;
-
-  span {
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 28px;
-    letter-spacing: -0.5px;
-    white-space: nowrap;
-
-    &::selection {
-      background-color: transparent;
-      color: inherit;
-    }
-  }
-
-  @media screen and (max-width: 500px) {
-    height: 40px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    touch-action: manipulation;
 
     span {
-      color: var(--supporting-white);
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 20px !important;
-      letter-spacing: -0.5px;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 28px;
+        letter-spacing: -0.5px;
+        white-space: nowrap;
+
+        &::selection {
+            background-color: transparent;
+            color: inherit;
+        }
     }
-  }
+
+    @media screen and (max-width: 500px) {
+        height: 40px;
+
+        span {
+            color: var(--supporting-white);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px !important;
+            letter-spacing: -0.5px;
+        }
+    }
 }
 
 .button-fill {
-  @include button;
-  padding: 6px 16px;
-  border: none;
-  width: 100%;
+    @include button;
+    padding: 6px 16px;
+    border: none;
+    width: 100%;
 
-  &.primary {
-    background: var(--gradient-primary);
+    &.primary {
+        background: var(--gradient-primary);
 
-    &:focus {
-      background: var(--primary-400);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        &:focus {
+            background: var(--primary-400);
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        }
     }
-  }
 
-  &.secondary {
-    background: var(--gradient-optional-1);
+    &.secondary {
+        background: var(--gradient-optional-1);
 
-    &:focus {
-      background: linear-gradient(180deg, #FFAD9A 0%, #FF7555 100%);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        &:focus {
+            background: linear-gradient(180deg, #ffad9a 0%, #ff7555 100%);
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        }
     }
-  }
 
-  &.optional_blue {
-    background: var(--gradient-optional-2);
+    &.optional_blue {
+        background: var(--gradient-optional-2);
 
-    &:focus {
-      background: linear-gradient(180deg, #FFC3D9 0%, #FF79A9 100%);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        &:focus {
+            background: linear-gradient(180deg, #ffc3d9 0%, #ff79a9 100%);
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        }
     }
-  }
 
-  &.optional_pink {
-    background: var(--gradient-optional-3);
+    &.optional_pink {
+        background: var(--gradient-optional-3);
 
-    &:focus {
-      background: linear-gradient(180deg, #AEDEFF 0%, #72C4FF 100%);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        &:focus {
+            background: linear-gradient(180deg, #aedeff 0%, #72c4ff 100%);
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        }
     }
-  }
 
-  &.disabled {
-    background: var(--gray-200) !important;
+    &.disabled {
+        background: var(--gray-200) !important;
+
+        span {
+            color: var(--gray-400);
+        }
+    }
 
     span {
-      color: var(--gray-400);
+        color: var(--supporting-white);
     }
-  }
-
-  span {
-    color: var(--supporting-white);
-  }
 }
 
 .button-default {
-  @include button;
-  padding: 4px 16px;
-  position: relative;
-  border: 2px solid transparent !important;
-  background: linear-gradient(var(--button-default-background), var(--button-default-background)) padding-box,
-    var(--gradient-primary) border-box !important;
-  transition: background 0.3s ease-in-out;
+    @include button;
+    padding: 4px 16px;
+    position: relative;
+    border: 2px solid transparent !important;
+    background:
+        linear-gradient(
+                var(--button-default-background),
+                var(--button-default-background)
+            )
+            padding-box,
+        var(--gradient-primary) border-box !important;
+    transition: background 0.3s ease-in-out;
 
-  &:focus {
-    background: linear-gradient(var(--button-default-background), var(--button-default-background)) padding-box,
-      linear-gradient(var(--primary-500), var(--primary-500)) border-box !important;
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
-  }
+    &:focus {
+        background:
+            linear-gradient(
+                    var(--button-default-background),
+                    var(--button-default-background)
+                )
+                padding-box,
+            linear-gradient(var(--primary-500), var(--primary-500)) border-box !important;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+    }
 
-  span {
-    color: var(--primary-500);
-  }
+    span {
+        color: var(--primary-500);
+    }
 }

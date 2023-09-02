@@ -18,12 +18,13 @@ export const signOutAction = (set: ISetAction) => {
         user: undefined,
         profileId: undefined,
         imageProfile: undefined,
+        createdUser: undefined,
     })
 }
 
 export const setUserAction = (
     value: (IUser & { profileId: number }) | null,
-    set: ISetAction
+    set: ISetAction,
 ) => {
     if (value) {
         const { firstName, lastName, username, birthdate, enabled, profileId } =

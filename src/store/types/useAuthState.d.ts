@@ -41,7 +41,7 @@ export interface IImageData {
         size: number
         url: string
         width: number
-    };
+    }
 }
 
 export interface IUseAuth {

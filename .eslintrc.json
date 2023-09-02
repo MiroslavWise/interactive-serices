@@ -1,9 +1,6 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "semi": [
-      "error",
-      "never"
-    ]
-  }
+    "extends": "next/core-web-vitals",
+    "rules": {
+        "semi": ["error", "never"]
+    }
 }

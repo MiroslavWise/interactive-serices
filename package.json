@@ -38,6 +38,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@types/node": "20.3.2",
     "@types/react": "18.2.14",
     "@types/react-datepicker": "^4.15.0",

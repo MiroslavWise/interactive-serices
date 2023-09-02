@@ -1,7 +1,5 @@
 import type { FC } from "react"
 
-interface IMapCardNews{
-
-}
+interface IMapCardNews {}
 
 export type TMapCardNews = FC<IMapCardNews>

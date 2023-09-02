@@ -1,4 +1,4 @@
-.container{
+.container {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -7,7 +7,7 @@
     z-index: 2;
 }
 
-.photoContainer{
+.photoContainer {
     position: relative;
     width: 120px;
     height: 120px;
@@ -16,7 +16,7 @@
     box-shadow: 0px 18px 36px 0px rgba(0, 0, 0, 0.16);
     z-index: 1;
 
-    .avatar{
+    .avatar {
         height: 108px;
         width: 108px;
         border-radius: 20px;
@@ -24,7 +24,7 @@
     }
 }
 
-.iconPlus{
+.iconPlus {
     position: absolute;
     bottom: -9px;
     right: -9px;
@@ -37,5 +37,22 @@
     justify-content: center;
     align-items: center;
     z-index: 3;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.inputUploadFile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: none !important;
+    outline: none !important;
+    height: 100%;
+    width: 100%;
+    z-index: 30;
+    border-radius: 20px;
+    opacity: 0;
     cursor: pointer;
 }

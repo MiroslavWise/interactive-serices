@@ -11,7 +11,7 @@ export interface IPostProfileData {
   userId?: string | number //post
   imageId?: number
 }
-export interface IGetProfileIdResponse{
+export interface IGetProfileIdResponse {
   id: number
   userId: number
   username: string

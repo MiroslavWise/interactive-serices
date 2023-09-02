@@ -12,42 +12,39 @@ import {
 } from "../state/useVisibleState"
 
 export const useVisibleBannerNewServices = () => {
-    const content = useVisibleBannerNewServicesState(
+    return useVisibleBannerNewServicesState(
         (state) => ({
             isVisibleNewServicesBanner: state.isVisibleNewServicesBanner,
             setIsVisibleNewServicesBanner: state.setIsVisibleNewServicesBanner,
         }),
-        shallow
+        shallow,
     )
-    return content
 }
 
 export const useVisibleAndTypeAuthModal = () => {
-    const content = useVisibleAndTypeAuthModalState(
+    return useVisibleAndTypeAuthModalState(
         (state) => ({
             visible: state.visible,
             type: state.type,
             setVisibleAndType: state.setVisibleAndType,
         }),
-        shallow
+        shallow,
     )
-    return content
 }
 
 export const useVisibleModalBarter = () => {
-    const content = useVisibleModalBarterState(
+    return useVisibleModalBarterState(
         (state) => ({
             isVisible: state.isVisible,
             dataProfile: state.dataProfile,
             setIsVisibleBarter: state.setIsVisibleBarter,
         }),
-        shallow
+        shallow,
     )
-    return content
 }
 
 export const useVisiblePhotosCarousel = () => {
-    const content = useVisiblePhotosCarouselState(
+    return useVisiblePhotosCarouselState(
         (state) => ({
             isVisible: state.isVisible,
             photos: state.photos,
@@ -57,21 +54,19 @@ export const useVisiblePhotosCarousel = () => {
             setCurrentPhoto: state.setCurrentPhoto,
             setVisibleCarousel: state.setVisibleCarousel,
         }),
-        shallow
+        shallow,
     )
-    return content
 }
 
 export const useVisibleExchanges = () => {
-    const content = useVisibleExchangesState(
+    return useVisibleExchangesState(
         (state) => ({
             isVisible: state.isVisible,
             type: state.type,
             setVisibleType: state.setVisibleType,
         }),
-        shallow
+        shallow,
     )
-    return content
 }
 
 export const useWelcomeModal = () => {
@@ -84,7 +79,7 @@ export const useWelcomeModal = () => {
             setPage: state.setPage,
             setVisible: state.setVisible,
         }),
-        shallow
+        shallow,
     )
 
     return content
@@ -96,7 +91,7 @@ export const usePopupMenuChat = () => {
             isVisible: state.isVisible,
             setIsVisible: state.setIsVisible,
         }),
-        shallow
+        shallow,
     )
 }
 
@@ -106,6 +101,6 @@ export const useUpdateProfile = () => {
             isVisible: state.isVisible,
             setVisible: state.setVisible,
         }),
-        shallow
+        shallow,
     )
 }
