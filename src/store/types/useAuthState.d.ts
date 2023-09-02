@@ -55,6 +55,7 @@ export interface IUseAuth {
     user: IUser | undefined
     imageProfile: IImageData | undefined
     createdUser: string | undefined | Date
+    addresses: IAddressesResponse[]
 
     setUser: Dispatch<(IUser & { profileId: number }) | null>
     changeAuth: DispatchWithoutAction

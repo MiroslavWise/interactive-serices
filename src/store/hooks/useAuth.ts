@@ -13,6 +13,7 @@ export const useAuth = () => {
             expiration: state.userId,
             setToken: state.setToken,
             isAuth: state.isAuth,
+            addresses: state.addresses,
             changeAuth: state.changeAuth,
             signOut: state.signOut,
             user: state.user,

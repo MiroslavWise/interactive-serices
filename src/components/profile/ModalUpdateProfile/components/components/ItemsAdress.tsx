@@ -13,24 +13,28 @@ import { serviceAddresses } from "@/services/addresses"
 
 import styles from "./styles/style.module.scss"
 
-export const ItemsAdress: TItemsAdress = ({ }) => {
-    const { userId } = useAuth()
-    const { data, isLoading, error } = useQuery(["addresses", userId], () => serviceAddresses.getAddresses({}))
+export const ItemsAdress: TItemsAdress = ({}) => {
+    const { userId, addresses } = useAuth()
+    const { data, isLoading, error } = useQuery(["addresses", userId], () =>
+        serviceAddresses.getAddresses({}),
+    )
 
     const listAdress: IAddressesResponse[] = useMemo(() => {
-        return data?.res || []
-    }, [data])
+        if (addresses.length > 0) {
+            return addresses
+        }
+        return []
+    }, [addresses])
 
     return (
         <ul className={styles.containerItemsAdress}>
-            {
-                listAdress.map(item => (
-                    <ItemLIAdress
-                        key={`${item.id}_adress`}
-                        active={item.enabled!}
-                    />
-                ))
-            }
+            {listAdress.map((item) => (
+                <ItemLIAdress
+                    key={`${item.id}_adress`}
+                    active={item.enabled!}
+                    item={item}
+                />
+            ))}
             {listAdress.length < 5 ? <ItemLIAdress active={false} /> : null}
         </ul>
     )

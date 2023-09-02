@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react"
 import dayjs from "dayjs"
+import { useForm } from "react-hook-form"
 
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 import type { IValuesProfile } from "./components/types/types"
@@ -12,14 +13,13 @@ import { Header } from "./components/Header"
 import { Content } from "./components/Content"
 import { Footer } from "./components/Footer"
 
-import { useForm } from "react-hook-form"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-
-import styles from "./styles/style.module.scss"
 import { profileService } from "@/services/profile"
 import { fileUploadService } from "@/services/file-upload"
+
+import styles from "./styles/style.module.scss"
 
 export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)

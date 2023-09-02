@@ -1,3 +1,4 @@
+import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { FC } from "react"
 import type { FieldError, UseFormRegisterReturn, UseFormSetValue } from "react-hook-form"
 
@@ -33,6 +34,7 @@ interface IItemsAdress{
 
 interface IItemLIAdress{
     active: boolean
+    item?: IAddressesResponse
 }
 
 export type TLabelInput = FC<ILabelInput>

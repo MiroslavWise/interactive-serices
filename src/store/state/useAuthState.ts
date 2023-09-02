@@ -24,6 +24,7 @@ export const useAuthState = create(
             user: undefined,
             imageProfile: undefined,
             createdUser: undefined,
+            addresses: [],
 
             changeAuth() {
                 changeAuthAction(set, get)

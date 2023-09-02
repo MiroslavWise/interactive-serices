@@ -69,6 +69,13 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
                     email: response?.res?.email,
                 })
             }
+            if (response?.ok) {
+                if (response?.res?.addresses) {
+                    set({
+                        addresses: response?.res?.addresses,
+                    })
+                }
+            }
             if (response.ok && !!response?.res?.profile) {
                 const {
                     firstName,
