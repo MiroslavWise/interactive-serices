@@ -8,20 +8,18 @@ import { MOCKS_PROPOSALS } from "@/mocks/components/auth/constants"
 import styles from "./styles/style.module.scss"
 
 export const ContainerRequests = () => {
-  const idItem = useId()
+    const idItem = useId()
 
-  return (
-    <div className={styles.containerRequestsAndProposals}>
-      <MotionUL>
-        {
-          MOCKS_PROPOSALS.map((item, index) => (
-            <CardRequestsAndProposals
-              key={item.title + index + idItem}
-              {...item}
-            />
-          ))
-        }
-      </MotionUL>
-    </div>
-  )
+    return (
+        <div className={styles.containerRequestsAndProposals}>
+            <MotionUL>
+                {MOCKS_PROPOSALS.map((item, index) => (
+                    <CardRequestsAndProposals
+                        key={item.title + index + idItem}
+                        {...item}
+                    />
+                ))}
+            </MotionUL>
+        </div>
+    )
 }

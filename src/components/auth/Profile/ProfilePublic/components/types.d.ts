@@ -2,30 +2,24 @@ import type { FC, Dispatch, SetStateAction, DispatchWithoutAction } from "react"
 import type { ISegmentValues } from "types/general"
 import { IDataProfile } from "../../types"
 
-interface IInfoContainerProfile{
-        profile: IDataProfile
+interface IInfoContainerProfile {
+    profile: IDataProfile
 }
 
-interface IItemsBadges{
+interface IItemsBadges {}
 
+interface IItemSegments {
+    values: ISegmentValues[]
+    activeSegment: ISegmentValues
+    setActiveSegment: Dispatch<SetStateAction<ISegmentValues>>
 }
 
-interface IItemSegments{
-        values: ISegmentValues[]
-        activeSegment: ISegmentValues
-        setActiveSegment: Dispatch<SetStateAction<ISegmentValues>>
-}
+interface IContainerReviews {}
 
-interface IContainerReviews{
+interface IContainerBlogs {}
 
-}
-
-interface IContainerBlogs{
-
-}
-
-interface IDots{
-        id: number | string
+interface IDots {
+    id: number | string
 }
 
 export type TInfoContainerProfile = FC<IInfoContainerProfile>

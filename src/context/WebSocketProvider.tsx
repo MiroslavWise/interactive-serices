@@ -6,98 +6,71 @@ import {
     createContext,
     useState,
     useEffect,
+    useRef,
 } from "react"
+import { io, Socket } from "socket.io-client"
 
 import env from "@/config/environment"
 import { useAuth } from "@/store/hooks"
 
 interface IContextSocket {
-    chanel: WebSocket | undefined
-    create(): void
+    socket: Socket | undefined
 }
 
 const CreateContextWebSocket = createContext<IContextSocket>({
-    chanel: undefined,
-    create() {},
+    socket: undefined,
 })
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
-    const [webSocketChanel, setWebSocketChanel] = useState<
-        WebSocket | undefined
-    >(undefined)
     const { token } = useAuth()
+    const socketRef = useRef<Socket | null>(null)
 
-    function create() {
-        let ws: WebSocket | undefined
-        const createWebSocket = () => {
-            ws = new WebSocket(env?.websocket)
-            if (ws) {
-                ws.onopen = () => {
-                    console.log("on open socket: ")
-                }
-                ws.onmessage = (event) => {
-                    const data = JSON.parse(event?.data)
-                    console.log("data web socket message: ", data)
-                }
-                ws.onerror = (event) => {
-                    console.log("error socket", event)
-                }
-                ws.onclose = (event) => {
-                    console.log("onclose socket", event)
-                }
+    console.log("socketRef: ", socketRef)
+
+    useEffect(() => {
+        if (token) {
+            const options = {
+                auth: {
+                    accessToken: token,
+                },
+                autoConnect: true,
+                reconnection: true,
             }
-            setWebSocketChanel(ws)
-        }
-        createWebSocket()
-    }
-
-    useEffect(() => {
-        create()
-    }, [])
-
-    useEffect(() => {
-        let heartbeatInterval: any
-        if (token && webSocketChanel) {
-            setTimeout(sendHeartbeat, 3 * 1000)
-            heartbeatInterval = setInterval(() => {
-                try {
-                    sendHeartbeat()
-                } catch (e) {
-                    clearInterval(heartbeatInterval)
-                    console.warn("warn heartbeat message", e)
-                    if (webSocketChanel) {
-                        webSocketChanel.close()
-                    }
-                }
-            }, 30 * 1000)
-        } else {
-            clearInterval(heartbeatInterval)
-            heartbeatInterval = null
-        }
-
-        function sendHeartbeat() {
-            if (webSocketChanel && webSocketChanel.readyState === 1) {
-                webSocketChanel?.send(
-                    JSON.stringify({
-                        event: "heartbeat",
-                        data: {
-                            heartbeat_msg: "--heartbeat--",
-                        },
-                    }),
+            const socket: Socket = io(env.websocket, options)
+            socket.on("connect", () => {
+                const upgradedTransport = socket.io.engine.transport.name
+                console.log(
+                    "--- upgradedTransport socket --- ",
+                    upgradedTransport,
                 )
+            })
+            socketRef.current = socket
+
+            socket.on("error", (e) => {
+                console.error("--- error socket --- ", e)
+            })
+
+            socket.connect()
+
+            return () => {
+                socket.disconnect()
+                socket.off("connect")
+                socket.off("disconnect")
+                socket.off("chat")
+                socket.off("heartbeat")
             }
         }
 
-        return () => {
-            clearInterval(heartbeatInterval)
-            heartbeatInterval = null
+        if (!token) {
+            if (socketRef.current) {
+                socketRef.current.disconnect()
+                socketRef.current = null
+            }
         }
-    }, [token, webSocketChanel])
+    }, [token])
 
     return (
-        <CreateContextWebSocket.Provider
-            value={{ chanel: webSocketChanel, create: create }}
-        >
+        <CreateContextWebSocket.Provider value={{ socket: socketRef.current! }}>
             {children}
         </CreateContextWebSocket.Provider>
     )
