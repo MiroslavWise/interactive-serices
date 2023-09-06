@@ -1,7 +1,7 @@
 "use client"
 
+import { useEffect } from "react"
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { BadgeAchievements, BadgeGradient } from "@/components/common/Badge"
@@ -19,6 +19,11 @@ export const BannerIsAuth = () => {
     const { profileId } = useAuth()
     const { setVisible } = useUpdateProfile()
     const { handlePush } = usePush()
+    const { setIsAnimated } = useAnimateLoadPage()
+
+    useEffect(() => {
+        return () => setIsAnimated(false)
+    }, [setIsAnimated])
 
     return (
         <motion.ul

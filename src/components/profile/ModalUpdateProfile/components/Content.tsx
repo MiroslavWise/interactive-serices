@@ -1,12 +1,14 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
+
 import type { TContent } from "./types/types"
 
 import { DividerVertical } from "@/components/common/Divider"
 
 import { LabelInput } from "./components/LabelInput"
-import { GroupSelectorDate } from "./components/GroupSelectorDate"
 import { ItemsAdress } from "./components/ItemsAdress"
+import { GroupSelectorDate } from "./components/GroupSelectorDate"
 
 import styles from "./styles/content.module.scss"
 
@@ -14,9 +16,9 @@ const textAboutAddress =
     "Вы можете добавить несколько местоположений, но одновременно выбрать можно только одно."
 
 export const Content: TContent = ({ errors, register, watch, setValue }) => {
-    return (
-        <div className={styles.container}>
-            <div className={styles.informationProfileColumn}>
+    function FirstColumn() {
+        return (
+            <>
                 <LabelInput
                     label="Имя"
                     rules
@@ -73,8 +75,12 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                         errors.email ? "Это поле не может быть пустым" : ""
                     }
                 />
-            </div>
-            <DividerVertical />
+            </>
+        )
+    }
+
+    function SecondColumn() {
+        return (
             <div className={styles.adressProfileColumn}>
                 <div className={styles.adressTitleAbout}>
                     <h5>
@@ -84,6 +90,25 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                     <ItemsAdress />
                 </div>
             </div>
+        )
+    }
+
+    if (isMobile) {
+        return (
+            <div className={styles.containerMobile}>
+                <FirstColumn />
+                <SecondColumn />
+            </div>
+        )
+    }
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.informationProfileColumn}>
+                <FirstColumn />
+            </div>
+            <DividerVertical />
+            <SecondColumn />
         </div>
     )
 }

@@ -1,25 +1,28 @@
 "use client"
 
-import { useMemo, useState } from "react"
 import dayjs from "dayjs"
 import { useForm } from "react-hook-form"
+import { isMobile } from "react-device-detect"
+import { useEffect, useMemo, useState } from "react"
 
-import type { IPostProfileData } from "@/services/profile/types/profileService"
 import type { IValuesProfile } from "./components/types/types"
+import type { IPostProfileData } from "@/services/profile/types/profileService"
 
-import { ButtonClose } from "@/components/common/Buttons"
-import { Glasses } from "@/components/layout/Glasses"
+import { Footer } from "./components/Footer"
 import { Header } from "./components/Header"
 import { Content } from "./components/Content"
-import { Footer } from "./components/Footer"
+import { Glasses } from "@/components/layout/Glasses"
+import { ButtonClose } from "@/components/common/Buttons"
 
-import { useAuth, useUpdateProfile } from "@/store/hooks"
 import { cx } from "@/lib/cx"
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { profileService } from "@/services/profile"
 import { fileUploadService } from "@/services/file-upload"
+import { useAuth, useUpdateProfile } from "@/store/hooks"
+import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "./styles/style.module.scss"
+import mobileStyles from "./styles/mobile.module.scss"
+import Image from "next/image"
 
 export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
@@ -67,6 +70,18 @@ export const ModalUpdateProfile = () => {
             email: email,
         },
     })
+
+    useEffect(() => {
+        if (user) {
+            setValue("firstName", user?.firstName)
+            setValue("lastName", user?.lastName)
+            setValue("username", user?.username)
+            setValue("day", dateOfBirth.day)
+            setValue("month", dateOfBirth.month)
+            setValue("year", dateOfBirth.year)
+            setValue("email", email!)
+        }
+    }, [user, setValue, dateOfBirth, email])
 
     async function onSubmit(values: IValuesProfile) {
         setLoading(true)
@@ -142,6 +157,47 @@ export const ModalUpdateProfile = () => {
             .finally(() => {
                 setLoading(false)
             })
+    }
+
+    if (isMobile) {
+        return (
+            <div
+                className={cx(
+                    mobileStyles.wrapper,
+                    isVisible && mobileStyles.visible,
+                )}
+            >
+                <div className={mobileStyles.headerTitle}>
+                    <h3>Редактировать профиль</h3>
+                    <div
+                        className={mobileStyles.back}
+                        onClick={() => setVisible(false)}
+                    >
+                        <Image
+                            src="/svg/chevron-left.svg"
+                            alt="chevron-left"
+                            height={24}
+                            width={24}
+                        />
+                    </div>
+                </div>
+                <ul>
+                    <Header
+                        selectedImage={selectedImage}
+                        setSelectedImage={setSelectedImage}
+                        setFile={setFile}
+                    />
+                    <Content
+                        errors={errors}
+                        register={register}
+                        watch={watch}
+                        setValue={setValue}
+                    />
+                    <Footer loading={loading} />
+                </ul>
+                <Glasses />
+            </div>
+        )
     }
 
     return (

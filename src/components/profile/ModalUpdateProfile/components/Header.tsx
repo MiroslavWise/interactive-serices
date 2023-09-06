@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { type ChangeEvent } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { THeader } from "./types/types"
 
@@ -10,6 +11,7 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/header.module.scss"
+import { cx } from "@/lib/cx"
 
 export const Header: THeader = ({
     selectedImage,
@@ -35,7 +37,7 @@ export const Header: THeader = ({
     }
 
     return (
-        <header className={styles.container}>
+        <header className={cx(styles.container, isMobile && styles.mobile)}>
             <div className={styles.photoContainer}>
                 {selectedImage ? (
                     <ImageStatic

@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,31 +18,31 @@
     visibility: hidden;
     transition: all 0.3s ease-in-out 0.01s;
 
-    &.active{
+    &.active {
         opacity: 1;
         visibility: visible;
     }
 }
 
-[data-theme='dark']{
-    .wrapper{
+[data-theme="dark"] {
+    .wrapper {
         backdrop-filter: blur(5px);
     }
 }
 
-.container{
+.container {
     position: relative;
     max-width: 772px;
     width: 100%;
-    max-height: calc(100% - 215px);
+    max-height: calc(100% - 30px);
     height: 100%;
     border-radius: 32px;
     background: var(--background);
     z-index: 27;
     overflow: hidden;
 
-    &>ul{
-        form{
+    & > ul {
+        form {
             height: 100%;
             width: 100%;
             display: flex;
@@ -57,7 +57,7 @@
     }
 }
 
-.updateProfileTitle{
+.updateProfileTitle {
     position: absolute;
     transform: translateX(-50%);
     top: 21px;
