@@ -1,17 +1,18 @@
 "use client"
 
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import { isMobile } from "react-device-detect"
 
 import type { TPeopleCardNotifications } from "./types"
 
 import { MotionLI } from "@/components/common/Motion"
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
+
+import { useAuth } from "@/store/hooks"
+import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
-import { useAuth } from "@/store/hooks"
 
 export const PeopleCard: TPeopleCardNotifications = ({
     avatar,
@@ -22,12 +23,12 @@ export const PeopleCard: TPeopleCardNotifications = ({
     path,
     userId,
 }) => {
-    const { push } = useRouter()
     const { userId: myId } = useAuth()
+    const { handlePush } = usePush()
 
     return (
         <MotionLI classNames={[styles.container]}>
-            <div className={styles.content} onClick={() => push(path!)}>
+            <div className={styles.content} onClick={() => handlePush(path!)}>
                 <div className={styles.avatarRate}>
                     {avatar ? (
                         <NextImageMotion
@@ -74,7 +75,7 @@ export const PeopleCard: TPeopleCardNotifications = ({
                     size={20}
                     handleClick={() => {
                         if (myId) {
-                            push(`/messages?user=${userId}`)
+                            handlePush(`/messages?user=${userId}`)
                         }
                     }}
                 />

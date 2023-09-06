@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 
 import type { TInfoContainerProfile } from "./types"
 
@@ -10,21 +9,22 @@ import { ButtonsCircle } from "@/components/common/Buttons"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { usePush } from "@/helpers/hooks/usePush"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
 
 export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
-    const { push } = useRouter()
     const { userId } = useAuth()
+    const { handlePush } = usePush()
     const { setIsVisibleBarter } = useVisibleModalBarter()
     return (
         <section className={styles.infoContainerProfile}>
             <div className={styles.avatarAndAchievements}>
                 <div
                     className={styles.avatar}
-                    onClick={() => push(`/user?id=${profile.userId}`)}
+                    onClick={() => handlePush(`/user?id=${profile.userId}`)}
                 >
                     {profile?.photo ? (
                         <NextImageMotion
@@ -79,9 +79,8 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
                             type="primary"
                             onClick={() => {
                                 if (userId) {
-                                    push(
+                                    handlePush(
                                         `/messages?user=${profile.userId}`,
-                                        undefined,
                                     )
                                 }
                             }}

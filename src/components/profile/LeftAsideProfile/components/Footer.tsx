@@ -1,21 +1,21 @@
 "use client"
 
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 
 import { ButtonDefault } from "@/components/common/Buttons"
 
 import { useChat } from "@/store/hooks"
 import { useAuth } from "@/store/hooks/useAuth"
+import { usePush } from "@/helpers/hooks/usePush"
 import { useWebSocket } from "@/context/WebSocketProvider"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterAsideLeft = () => {
-    const { push } = useRouter()
     const { signOut } = useAuth()
     const { setCurrentChat } = useChat()
     const { socket } = useWebSocket()
+    const { handlePush } = usePush()
 
     return (
         <footer className={styles.footer}>
@@ -31,7 +31,7 @@ export const FooterAsideLeft = () => {
                 }
                 handleClick={() => {
                     signOut()
-                    push(`/`)
+                    handlePush(`/`)
                     setCurrentChat(undefined)
                     if (socket) {
                         socket?.disconnect()

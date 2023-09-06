@@ -1,29 +1,29 @@
 "use client"
 
-import { isMobile, isTablet } from "react-device-detect"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
+import { isMobile, isTablet } from "react-device-detect"
 
 import type { TFooterMenu } from "./types"
-
-import { useActivePath } from "@/helpers/hooks/useActivePash"
-import { MENU_ITEMS } from "./constants"
 
 import {
     useAuth,
     useVisibleAndTypeAuthModal,
     useWelcomeModal,
 } from "@/store/hooks"
+import { MENU_ITEMS } from "./constants"
+import { usePush } from "@/helpers/hooks/usePush"
+import { useActivePath } from "@/helpers/hooks/useActivePash"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
-    const { push } = useRouter()
     const { visible, type, setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { setVisible } = useWelcomeModal()
     const { isAuth } = useAuth()
     const valuePath = useActivePath()
+    const { handlePush } = usePush()
 
     const handleSignInOrSignUp = () => {
         setVisibleAndType({
@@ -32,9 +32,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
         })
     }
 
-    const handleGoToPage = (path: string) => {
-        push(`/${path}`)
-    }
+    const handleGoToPage = (path: string) => handlePush(`/${path}`)
 
     return isMobile && !isTablet ? (
         <>

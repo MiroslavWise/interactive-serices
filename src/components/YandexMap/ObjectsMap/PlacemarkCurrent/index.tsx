@@ -1,10 +1,10 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { Placemark, useYMaps } from "@pbe/react-yandex-maps"
 
 import type { TPlacemarkCurrent } from "./types"
 import { useEffect, useRef, useState } from "react"
+import { usePush } from "@/helpers/hooks/usePush"
 
 export const PlacemarkCurrent: TPlacemarkCurrent = ({
     coordinates,
@@ -16,7 +16,7 @@ export const PlacemarkCurrent: TPlacemarkCurrent = ({
     name,
     userId,
 }) => {
-    const { push } = useRouter()
+    const { handlePush } = usePush()
     const [isActive, setIsActive] = useState(false)
     const ymaps = useYMaps([
         "geolocation",
@@ -48,12 +48,12 @@ export const PlacemarkCurrent: TPlacemarkCurrent = ({
             }
             if (buttonMessage) {
                 buttonMessage.onclick = () => {
-                    push(`/messages?user=${userId}`)
+                    handlePush(`/messages?user=${userId}`)
                 }
             }
             if (buttonUser) {
                 buttonUser.onclick = () => {
-                    push(`/user?id=${userId}`)
+                    handlePush(`/user?id=${userId}`)
                 }
             }
         }

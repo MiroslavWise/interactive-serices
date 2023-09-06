@@ -1,16 +1,16 @@
 "use client"
 
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 
 import type { TDots } from "./types"
 
 import { cx } from "@/lib/cx"
+import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./styles/style.module.scss"
 
 export const Dots: TDots = ({ id }) => {
-    const { push } = useRouter()
+    const { handlePush } = usePush()
 
     return (
         <div className={styles.dots}>
@@ -21,7 +21,7 @@ export const Dots: TDots = ({ id }) => {
                 height={28}
                 className={cx("cursor-pointer")}
                 onClick={() => {
-                    push(`/user?id=${id}`)
+                    handlePush(`/user?id=${id}`)
                 }}
             />
             <Image

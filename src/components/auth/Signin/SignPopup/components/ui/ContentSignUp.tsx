@@ -1,20 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { toast } from "react-toastify"
 import Image from "next/image"
+import { toast } from "react-toastify"
+import { useForm } from "react-hook-form"
 
 import type { IValuesRegistrationForm, TContentSignUp } from "./types/types"
 
+import { LinksSocial } from "./components/LinksSocial"
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
-import { LinksSocial } from "./components/LinksSocial"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { RegistrationService } from "@/services/auth/registrationService"
 import { regExEmail } from "@/helpers"
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { checkPasswordStrength } from "@/lib/checkPasswordStrength"
+import { RegistrationService } from "@/services/auth/registrationService"
 
 import styles from "../styles/style.module.scss"
 

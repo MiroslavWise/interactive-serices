@@ -30,8 +30,6 @@ export type TContentFirstLoginQR = FC<{
 
 export type TContentOtpCode = FC<{}>
 
-export type TContentPersonalEntry = FC<{}>
-
 export type TContentCheckingEmail = FC<{
     setType: Dispatch<SetStateAction<TTypeSign>>
 }>

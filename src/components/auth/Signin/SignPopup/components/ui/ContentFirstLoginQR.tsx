@@ -1,16 +1,15 @@
 "use client"
 
-import { type ChangeEvent, type KeyboardEvent, useRef, useState } from "react"
 import QRCode from "react-qr-code"
-// import { motion } from "framer-motion"
+import { type ChangeEvent, type KeyboardEvent, useRef, useState } from "react"
 
 import type { TContentFirstLoginQR } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
-import { useUpdateProfile, useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { useUpdateProfile, useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
@@ -29,7 +28,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
 
     const handleChange = (
         event: ChangeEvent<HTMLInputElement>,
-        index: number
+        index: number,
     ) => {
         let { value } = event.target
 
@@ -45,7 +44,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
 
     const handleKeyDown = (
         event: KeyboardEvent<HTMLInputElement>,
-        index: number
+        index: number,
     ) => {
         if (
             event.key === "Backspace" &&
@@ -81,7 +80,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                         response?.error?.message === "2fa code is not correct"
                     ) {
                         setErrorCode(
-                            "Код, введённый вами, не является действительным!"
+                            "Код, введённый вами, не является действительным!",
                         )
                     }
                 }

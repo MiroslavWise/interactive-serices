@@ -13,7 +13,6 @@ import {
     ContentForgotPassword,
     ContentFirstLoginQR,
     ContentOtpCode,
-    ContentPersonalEntry,
     ContentResetPassword,
     ContentSelectVerification,
     ContentCodeVerification,
@@ -53,7 +52,6 @@ export function SignPopup() {
             ),
             FirstLoginQR: <ContentFirstLoginQR valueSecret={valueSecret} />,
             OtpCode: <ContentOtpCode />,
-            PersonalEntry: <ContentPersonalEntry />,
             SelectVerification: (
                 <ContentSelectVerification
                     typeVerification={typeVerification}
@@ -77,7 +75,7 @@ export function SignPopup() {
         valueEmail,
     ])
 
-    return !isAuth || type === "PersonalEntry" ? (
+    return !isAuth ? (
         isMobile ? (
             visible ? (
                 <motion.div

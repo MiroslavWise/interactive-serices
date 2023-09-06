@@ -1,16 +1,18 @@
+"use client"
+
 import { useMemo } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
-import type { TTypeSign } from "@/store/types/useVisibleAndTypeAuthModalState"
 import type { THeaderModal } from "./types/types"
+import type { TTypeSign } from "@/store/types/useVisibleAndTypeAuthModalState"
 
 import { LogoSheira } from "./components/LogoSheira"
 import { CircleImageHeader } from "./components/CircleImageHeader"
 import { MotionSectionOpacity } from "@/components/common/Motion"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { cx } from "@/lib/cx"
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
@@ -32,10 +34,6 @@ export const HeaderModal: THeaderModal = ({ email, typeVerification }) => {
             ForgotPassword: {
                 h3: "Забыли пароль?",
                 p: "Не беспокойтесь, мы вышлем вам инструкции по сбросу",
-            },
-            PersonalEntry: {
-                h3: "Личные данные",
-                p: "Пожалуйста, введите свои данные для создания профиля",
             },
             OtpCode: {
                 h3: "Проверьте свой Authenticator",
@@ -93,7 +91,6 @@ export const HeaderModal: THeaderModal = ({ email, typeVerification }) => {
             type as Exclude<
                 TTypeSign,
                 | "ForgotPassword"
-                | "PersonalEntry"
                 | "SelectVerification"
                 | "SignUp"
                 | "SignIn"
@@ -104,9 +101,7 @@ export const HeaderModal: THeaderModal = ({ email, typeVerification }) => {
 
     return (
         <header className={cx(styles.header, isMobile && styles.mobile)}>
-            {["SignIn", "SignUp", "ForgotPassword", "PersonalEntry"].includes(
-                type!,
-            ) ? (
+            {["SignIn", "SignUp", "ForgotPassword"].includes(type!) ? (
                 <>
                     <LogoSheira />
                     <MotionSectionOpacity>

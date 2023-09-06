@@ -3,11 +3,11 @@ import { type ChangeEvent } from "react"
 
 import type { TImageUploadComponent } from "./types/types"
 
-import { ButtonDefault, ButtonsCircle } from "@/components/common/Buttons"
 import { NextImageMotion } from "@/components/common/Image"
+import { ButtonDefault, ButtonsCircle } from "@/components/common/Buttons"
 
-import { useAuth } from "@/store/hooks"
 import { cx } from "@/lib/cx"
+import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 

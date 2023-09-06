@@ -1,51 +1,64 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { useAuth, useVisibleBannerNewServices, useVisibleAndTypeAuthModal } from "@/store/hooks"
+import {
+    useAuth,
+    useVisibleBannerNewServices,
+    useVisibleAndTypeAuthModal,
+} from "@/store/hooks"
+import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./styles/style.module.scss"
 
 export const Buttons = () => {
-  const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
-  const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-  const { isAuth } = useAuth()
-  const { push } = useRouter()
+    const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { isAuth } = useAuth()
+    const { handlePush } = usePush()
 
-  return (
-    !isMobile ? (
-      isAuth ? (
-        <div className={styles.buttons}>
-          <ButtonDefault
-            label="Просмотр карты"
-            handleClick={() => push(`/`)}
-          />
-          <ButtonFill
-            type="primary"
-            label="Создать новую"
-            classNames={styles.widthButton}
-            suffix={<Image src="/svg/plus.svg" alt="plus" width={24} height={24} />}
-            handleClick={() => setIsVisibleNewServicesBanner(true)}
-          />
-        </div>
-      ) : (
-        <div className={styles.buttons}>
-          <ButtonFill
-            type="primary"
-            label="Войти"
-            classNames={styles.widthButton}
-            handleClick={() => setVisibleAndType({ visible: true, type: "SignIn" })}
-          />
-          <ButtonDefault
-            label="Зарегистрироваться"
-            handleClick={() => setVisibleAndType({ visible: true, type: "SignUp" })}
-          />
-        </div>
-      )
+    return !isMobile ? (
+        isAuth ? (
+            <div className={styles.buttons}>
+                <ButtonDefault
+                    label="Просмотр карты"
+                    handleClick={() => handlePush(`/`)}
+                />
+                <ButtonFill
+                    type="primary"
+                    label="Создать новую"
+                    classNames={styles.widthButton}
+                    suffix={
+                        <Image
+                            src="/svg/plus.svg"
+                            alt="plus"
+                            width={24}
+                            height={24}
+                        />
+                    }
+                    handleClick={() => setIsVisibleNewServicesBanner(true)}
+                />
+            </div>
+        ) : (
+            <div className={styles.buttons}>
+                <ButtonFill
+                    type="primary"
+                    label="Войти"
+                    classNames={styles.widthButton}
+                    handleClick={() =>
+                        setVisibleAndType({ visible: true, type: "SignIn" })
+                    }
+                />
+                <ButtonDefault
+                    label="Зарегистрироваться"
+                    handleClick={() =>
+                        setVisibleAndType({ visible: true, type: "SignUp" })
+                    }
+                />
+            </div>
+        )
     ) : null
-  )
 }

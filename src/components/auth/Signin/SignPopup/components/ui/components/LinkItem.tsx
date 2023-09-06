@@ -1,33 +1,27 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import Image from "next/image"
 
 import type { TLinkItem } from "../types/types"
 
 import { URL_API } from "@/helpers"
+import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../../styles/style.module.scss"
 
 export const LinkItem: TLinkItem = ({ src, path, isActive }) => {
-  const { push } = useRouter()
+    const { handlePush } = usePush()
 
-  return (
-    <div
-      className={styles.itemLink}
-      onClick={() => {
-        if (isActive) {
-          push(`${URL_API}${path}`)
-        }
-      }
-      }
-    >
-      <Image
-        src={src}
-        alt={src}
-        height={24}
-        width={24}
-      />
-    </div>
-  )
+    return (
+        <div
+            className={styles.itemLink}
+            onClick={() => {
+                if (isActive) {
+                    handlePush(`${URL_API}${path}`)
+                }
+            }}
+        >
+            <Image src={src} alt={src} height={24} width={24} />
+        </div>
+    )
 }

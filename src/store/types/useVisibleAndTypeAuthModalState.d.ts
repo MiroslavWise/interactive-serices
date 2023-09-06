@@ -4,7 +4,6 @@ export type TTypeSign =
     | "SignIn"
     | "SignUp"
     | "SelectVerification"
-    | "PersonalEntry"
     | "ForgotPassword"
     | "FirstLoginQR"
     | "OtpCode"

@@ -1,16 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { useForm } from "react-hook-form"
-// import { motion } from "framer-motion"
 import Image from "next/image"
 import { toast } from "react-toastify"
+import { useForm } from "react-hook-form"
 
 import type { TContentSignIn, IValuesSignForm } from "./types/types"
 
+import { LinksSocial } from "./components/LinksSocial"
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
-import { LinksSocial } from "./components/LinksSocial"
 
 import {
     useAuth,
@@ -18,8 +17,8 @@ import {
     useWelcomeModal,
 } from "@/store/hooks"
 import { regExEmail } from "@/helpers"
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import { usersService } from "@/services/users"
+import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "../styles/style.module.scss"
 

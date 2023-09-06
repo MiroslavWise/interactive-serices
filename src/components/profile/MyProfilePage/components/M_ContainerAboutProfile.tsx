@@ -1,24 +1,24 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
 import dayjs from "dayjs"
+import Image from "next/image"
+import { useState, useEffect, useRef } from "react"
 
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
-import { useAuth, useUpdateProfile } from "@/store/hooks"
-import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { profileService } from "@/services/profile"
+import { usePush } from "@/helpers/hooks/usePush"
+import { useAuth, useUpdateProfile } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
-    const { push } = useRouter()
+    const { handlePush } = usePush()
     const [isEdit, setIsEdit] = useState(false)
     const [textEditing, setTextEditing] = useState("")
     const { setVisible } = useUpdateProfile()
@@ -184,7 +184,7 @@ export const M_ContainerAboutProfile = () => {
                     classNames={styles.buttonCircle}
                     handleClick={() => {
                         signOut()
-                        push("/")
+                        handlePush("/")
                     }}
                 />
             </div>

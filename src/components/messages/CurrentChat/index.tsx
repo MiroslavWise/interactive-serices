@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import Image from "next/image"
 import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import type { IPostThreads } from "@/services/threads/types"
 
@@ -19,18 +19,19 @@ import { cx } from "@/lib/cx"
 import { MESSAGES_CHAT } from "./constants"
 import { profileService } from "@/services/profile"
 import { threadsService } from "@/services/threads"
+import { usePush } from "@/helpers/hooks/usePush"
 import { useWebSocket } from "@/context/WebSocketProvider"
 import { useAuth, useChat, usePopupMenuChat } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const CurrentChat = () => {
-    const { push } = useRouter()
     const searchParams = useSearchParams()
     const id = searchParams.get("user")
     const { imageProfile, userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
     const { socket } = useWebSocket()
+    const { handlePush } = usePush()
 
     const { data, isLoading } = useQuery(["profile", id], () =>
         profileService.getProfileThroughUserId(id!),
@@ -109,7 +110,7 @@ export const CurrentChat = () => {
                     <div
                         className={cx(styles.button)}
                         onClick={() => {
-                            push(`/messages`, undefined)
+                            handlePush(`/messages`)
                         }}
                     >
                         <Image
