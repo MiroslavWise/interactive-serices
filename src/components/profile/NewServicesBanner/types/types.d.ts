@@ -1,13 +1,12 @@
 import type { FC, Dispatch, SetStateAction } from "react"
+import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
-interface INewServicesBanner{
+interface INewServicesBanner {}
 
-}
-
-export interface INewCreateBadge{
-  imageSrc: string
-  label: string
-  value: string
+export interface INewCreateBadge {
+    imageSrc: string
+    label: string
+    value: TAddCreate
 }
 
 export type TNewServicesBanner = FC<INewServicesBanner>

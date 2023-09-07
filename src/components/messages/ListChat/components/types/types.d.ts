@@ -1,13 +1,13 @@
 import type { FC } from "react"
 
-import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IResponseThreads } from "@/services/threads/types"
 
 interface IList{
-  items: IGetProfileIdResponse[]
+  items: IResponseThreads[]
 }
 
 interface IItemListChat{
-  item: IGetProfileIdResponse
+  item: IResponseThreads
 }
 
 export type TList = FC<IList>

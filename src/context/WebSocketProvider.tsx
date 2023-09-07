@@ -4,14 +4,18 @@ import {
     type ReactNode,
     useContext,
     createContext,
-    useState,
     useEffect,
     useRef,
 } from "react"
-import { io, Socket } from "socket.io-client"
+import {
+    io,
+    type ManagerOptions,
+    type Socket,
+    type SocketOptions,
+} from "socket.io-client"
 
-import env from "@/config/environment"
 import { useAuth } from "@/store/hooks"
+import env from "@/config/environment"
 
 interface IContextSocket {
     socket: Socket | undefined
@@ -24,30 +28,38 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const { token } = useAuth()
     const socketRef = useRef<Socket | null>(null)
-
-    console.log("socketRef: ", socketRef)
+    const fetchedRef = useRef(false)
 
     useEffect(() => {
         if (token) {
-            const options = {
+            if (fetchedRef.current) return
+            fetchedRef.current = true
+            const options: Partial<ManagerOptions & SocketOptions> = {
                 auth: {
                     accessToken: token,
                 },
-                autoConnect: true,
-                reconnection: true,
+                withCredentials: true,
+                autoConnect: false,
+                reconnection: false,
+                path: "/ws/socket.io",
+                transports: ["polling", "websocket"],
             }
             const socket: Socket = io(env.websocket, options)
+            console.log("--- socket: ---", socket)
             socket.on("connect", () => {
                 const upgradedTransport = socket.io.engine.transport.name
                 console.log(
                     "--- upgradedTransport socket --- ",
                     upgradedTransport,
                 )
+                socketRef.current = socket
             })
-            socketRef.current = socket
+            socket.on("connect_error", (e) => {
+                console.log("--- connect_error ---", e)
+            })
 
             socket.on("error", (e) => {
-                console.error("--- error socket --- ", e)
+                console.info("--- error socket --- ", e)
             })
 
             socket.connect()

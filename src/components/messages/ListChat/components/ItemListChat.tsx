@@ -1,6 +1,8 @@
 "use client"
 
+import { useEffect } from "react"
 import Image from "next/image"
+import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -11,31 +13,53 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { useChat } from "@/store/hooks"
-import { useReplace } from "@/helpers/hooks/useReplace"
+import { profileService } from "@/services/profile"
+import { usePush } from "@/helpers/hooks/usePush"
+import { useMessages } from "@/store/state/useMessages"
 
 import styles from "./styles/style.module.scss"
 
-const text =
-    "Hey Olivia, Katherine sent me over the latest doc. I just have a quick question about the. Hey Olivia, Katherine sent me over the latest doc. I just have a quick question about the..."
-
 export const ItemListChat: TItemListChat = ({ item }) => {
     const { get } = useSearchParams()
-    const { setCurrentChat, currentChatId } = useChat()
-    const id = get("user")
-    const { handleReplace } = useReplace()
+    const { setCurrentChat } = useChat()
+    const idThread = get("thread")
+    const { handleReplace } = usePush()
+    const { setPhotoAndName } = useMessages()
+    const { data, isLoading } = useQuery(
+        ["profile", item.receiverIds[0]!],
+        () => profileService.getProfileThroughUserId(item.receiverIds[0]!),
+    )
+
+    useEffect(() => {
+        if (data?.ok && data?.res && item) {
+            const userId = data?.res?.userId!
+            const id = item?.id!
+            const name = `${data?.res?.firstName! || " "} ${
+                data?.res?.lastName! || " "
+            }`
+            const photo = data?.res?.image?.attributes?.url!
+
+            setPhotoAndName({
+                id: id,
+                userId: userId,
+                photo: photo,
+                name: name,
+            })
+        }
+    }, [data, item, setPhotoAndName])
 
     function handleCurrentChat() {
-        handleReplace(`/messages?user=${item.userId}`)
-        setCurrentChat(item.userId)
+        handleReplace(
+            `/messages?user=${item.receiverIds[0]!}&thread=${item.id}`,
+        )
+        setCurrentChat(item.id)
     }
 
     return (
         <li
             className={cx(
                 styles.containerItemListChat,
-                item.userId.toString() ===
-                    (id?.toString() || currentChatId?.toString()) &&
-                    styles.active,
+                item.id.toString() === idThread?.toString() && styles.active,
                 isMobile && styles.mobileLI,
             )}
             onClick={handleCurrentChat}
@@ -43,9 +67,9 @@ export const ItemListChat: TItemListChat = ({ item }) => {
             <div className={styles.header}>
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
-                        {item?.image?.attributes.url ? (
+                        {data?.res?.image?.attributes.url ? (
                             <NextImageMotion
-                                src={item?.image?.attributes.url}
+                                src={data?.res?.image?.attributes.url}
                                 alt="avatar"
                                 width={400}
                                 height={400}
@@ -60,7 +84,6 @@ export const ItemListChat: TItemListChat = ({ item }) => {
                                 classNames={[styles.img]}
                             />
                         )}
-
                         <Image
                             src="/svg/verified-tick.svg"
                             alt="verified"
@@ -71,7 +94,7 @@ export const ItemListChat: TItemListChat = ({ item }) => {
                     </div>
                     <div className={styles.nameAndGeo}>
                         <h4>
-                            {item.firstName} {item.lastName}
+                            {data?.res?.firstName} {data?.res?.lastName}
                         </h4>
                         <GeoTagging
                             location="Москва, Пролетарская"
@@ -83,7 +106,7 @@ export const ItemListChat: TItemListChat = ({ item }) => {
                 <p className={styles.timeAgo}>5 мин</p>
             </div>
             <div className={styles.blockLastMessage}>
-                <p>{item.about ? item.about : text}</p>
+                <p>{data?.res?.about ? data?.res?.about : ""}</p>
             </div>
         </li>
     )

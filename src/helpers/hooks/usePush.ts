@@ -1,15 +1,27 @@
-import { useRouter } from "next/navigation"
+import {
+    useRouter,
+    usePathname,
+    useParams,
+    useSelectedLayoutSegment,
+} from "next/navigation"
 
 import { useAnimateLoadPage } from "@/store/hooks"
 
 export const usePush = () => {
-    const { push } = useRouter()
+    const { push, replace } = useRouter()
+    const pathname = usePathname()
     const { setIsAnimated } = useAnimateLoadPage()
 
+    function handleReplace(value: string) {
+        replace(value)
+    }
+
     function handlePush(value: string) {
-        setIsAnimated(true)
+        if (pathname !== value) {
+            setIsAnimated(true)
+        }
         push(value)
     }
 
-    return {handlePush}
+    return { handlePush, handleReplace }
 }

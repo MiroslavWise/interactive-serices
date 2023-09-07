@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
@@ -13,6 +13,7 @@ import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCirc
 import { cx } from "@/lib/cx"
 import { useVisibleModalBarter } from "@/store/hooks"
 import { useWebSocket } from "@/context/WebSocketProvider"
+import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/text-area.module.scss"
 
@@ -26,25 +27,36 @@ export const TextAreaSend: TTextAreaSend = ({
     const { socket } = useWebSocket()
     const searchParams = useSearchParams()
     const idThread = searchParams.get("thread")
+    const { getSocketMessages } = useSocketMessages()
 
     function handleSend() {
         if (text) {
-            const data = {
+            socket?.emit("chat", {
                 receiverIds: [userIdInterlocutor],
                 message: text,
                 threadId: idThread!,
                 created: new Date(),
                 parentId: undefined,
-            }
-            socket?.emit("chat", data, (response: any) => {
-                console.log(
-                    ` --- response message chat ${userIdInterlocutor} ---`,
-                    response,
-                )
             })
         }
         setText("")
     }
+
+    useEffect(() => {
+        const dataMessage = (data: any) => {
+            if (idThread) {
+                getSocketMessages(Number(idThread!))
+            }
+        }
+
+        if (socket) {
+            socket?.on("chatResponse", dataMessage)
+
+            return () => {
+                socket?.off("chatResponse", dataMessage)
+            }
+        }
+    }, [socket, getSocketMessages, idThread])
 
     return (
         <div className={cx(styles.container, isMobile && styles.mobile)}>

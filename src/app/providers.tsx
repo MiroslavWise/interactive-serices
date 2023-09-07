@@ -2,7 +2,7 @@
 
 import { ToastContainer } from "react-toastify"
 import { type ReactNode, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
 
 import { ModalUpdateProfile } from "@/components/profile"
@@ -13,6 +13,7 @@ import { WebSocketProvider } from "@/context/WebSocketProvider"
 import { NextThemesProvider } from "@/context/NextThemesProvider"
 
 import { useAuth } from "@/store/hooks/useAuth"
+import { useMessages } from "@/store/state/useMessages"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { RegistrationService } from "@/services/auth/registrationService"
 
@@ -31,7 +32,8 @@ export default function Providers({ children }: { children: ReactNode }) {
     const verifyToken = searchParams.get("verify")
     const passwordResetToken = searchParams.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-    const router = useRouter()
+    const { resetMessages } = useMessages()
+
     useEffect(() => {
         changeAuth()
     }, [changeAuth])
@@ -74,8 +76,10 @@ export default function Providers({ children }: { children: ReactNode }) {
     }, [])
 
     useEffect(() => {
-        console.log("router: ", router)
-    }, [router])
+        if (typeof token === "undefined" && !token) {
+            resetMessages()
+        }
+    }, [token, resetMessages])
 
     return (
         <NextThemesProvider>

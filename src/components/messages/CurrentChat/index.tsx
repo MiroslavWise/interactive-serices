@@ -1,12 +1,13 @@
 "use client"
 
-import { useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
 import type { IPostThreads } from "@/services/threads/types"
+import type { IResponseMessageProps } from "@/services/messages/types"
 
 import { Glasses } from "@/components/layout/Glasses"
 import { PopupMenu } from "./components/PopupMenu"
@@ -16,26 +17,23 @@ import { ItemUserMessage } from "./components/ItemUserMessage"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { MESSAGES_CHAT } from "./constants"
-import { profileService } from "@/services/profile"
 import { threadsService } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useWebSocket } from "@/context/WebSocketProvider"
+import { useMessages } from "@/store/state/useMessages"
 import { useAuth, useChat, usePopupMenuChat } from "@/store/hooks"
+import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/style.module.scss"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
-    const id = searchParams.get("user")
+    const idUser = searchParams.get("user")
+    const idThread = searchParams.get("thread")
     const { imageProfile, userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
-    const { socket } = useWebSocket()
-    const { handlePush } = usePush()
-
-    const { data, isLoading } = useQuery(["profile", id], () =>
-        profileService.getProfileThroughUserId(id!),
-    )
+    const { handlePush, handleReplace } = usePush()
+    const { data } = useMessages()
+    const { getSocketMessages } = useSocketMessages()
 
     async function getDataThread(emitterId: number, receiverId: number) {
         const { res } = await threadsService.getUserQuery(Number(emitterId))
@@ -45,56 +43,54 @@ export const CurrentChat = () => {
     }
 
     async function createThread(emitterId: number, receiverId: number) {
-        const data: IPostThreads = {
+        const data_: IPostThreads = {
             title: `${emitterId}:${receiverId}`,
             parentId: 0,
             emitterId: emitterId,
             receiverIds: [receiverId],
             enabled: true,
         }
-        const { res } = await threadsService.post(data)
+        const { res } = await threadsService.post(data_)
 
         return res?.id
     }
 
-    async function crateChat() {
+    const crateChat = async () => {
         console.log(
             "thread Number(id), Number(userId): ",
-            Number(id),
+            Number(idUser),
             Number(userId),
         )
-        let thread: any = await getDataThread(Number(userId), Number(id))
+        let thread: any = await getDataThread(Number(userId), Number(idUser))
 
-        if (!thread) {
-            thread = await getDataThread(Number(id), Number(userId))
+        if (idThread) {
+            const { res } = await threadsService.get(Number(idThread))
+            thread = res
         }
 
         if (!thread) {
-            const idCreate = await createThread(Number(userId), Number(id))
+            thread = await getDataThread(Number(idUser), Number(userId))
+        }
+
+        if (!thread) {
+            const idCreate = await createThread(Number(userId), Number(idUser))
 
             if (idCreate) {
                 const { res } = await threadsService.get(Number(idCreate))
                 thread = res
             }
         }
-
-        console.log("thread: ", thread)
         if (thread) {
-            socket?.emit(
-                "threadMessages",
-                {
-                    threadId: thread?.id!,
-                },
-                (message: any) => {
-                    console.log("messages!, ", message)
-                },
-            )
+            getSocketMessages(thread?.id!)
+            if (thread?.id !== idThread) {
+                handleReplace(`/messages?user=${idUser}&thread=${thread?.id!}`)
+            }
         }
     }
 
     useEffect(() => {
-        if (id && userId) crateChat()
-    }, [id, userId])
+        if (idUser && userId) crateChat()
+    }, [idUser, userId])
 
     useEffect(
         () => () => {
@@ -102,6 +98,38 @@ export const CurrentChat = () => {
         },
         [setIsVisible],
     )
+
+    function ListMessages() {
+        return (
+            <ul>
+                {Array.isArray(data[idThread!]?.messages)
+                    ? data[idThread!]?.messages?.map((item) => {
+                          if (item?.emitterId === userId) {
+                              return (
+                                  <ItemMyMessage
+                                      key={`${item.id}_message_${item.threadId}`}
+                                      photo={imageProfile?.attributes?.url!}
+                                      message={item.message}
+                                      time={"10:05"}
+                                  />
+                              )
+                          }
+                          if (item?.receiverIds?.includes(Number(idUser!))) {
+                              return (
+                                  <ItemUserMessage
+                                      key={`${item?.id}_message_${item?.threadId}`}
+                                      photo={data[idThread!]?.photo!}
+                                      message={item.message}
+                                      time={"10:05"}
+                                  />
+                              )
+                          }
+                          return null
+                      })
+                    : null}
+            </ul>
+        )
+    }
 
     if (isMobile) {
         return (
@@ -121,9 +149,9 @@ export const CurrentChat = () => {
                         />
                     </div>
                     <div className={styles.blockAvatar}>
-                        {data?.res?.image?.attributes?.url ? (
+                        {data[idThread!]?.photo ? (
                             <NextImageMotion
-                                src={data?.res?.image?.attributes?.url}
+                                src={data[idThread!]?.photo!}
                                 alt="avatar"
                                 width={28}
                                 height={28}
@@ -138,10 +166,7 @@ export const CurrentChat = () => {
                                 classNames={[styles.avatar]}
                             />
                         )}
-                        <h3>
-                            {data?.res?.firstName || ""}{" "}
-                            {data?.res?.lastName || ""}
-                        </h3>
+                        <h3>{data[idThread!].name!}</h3>
                     </div>
                     <div
                         className={cx(styles.button, styles.dots)}
@@ -155,41 +180,16 @@ export const CurrentChat = () => {
                         />
                     </div>
                 </div>
-                <ul>
-                    {MESSAGES_CHAT({
-                        user: data?.res?.image?.attributes?.url!,
-                        my_photo: imageProfile?.attributes?.url!,
-                    })?.map((item, index) =>
-                        item.isMe ? (
-                            <ItemMyMessage
-                                key={`${index}_message_${item.avatar_url}`}
-                                photo={item.avatar_url}
-                                message={item.message}
-                                time={item.time}
-                            />
-                        ) : (
-                            <ItemUserMessage
-                                key={`${index}_message`}
-                                photo={item.avatar_url}
-                                message={item.message}
-                                time={item.time}
-                            />
-                        ),
-                    )}
-                </ul>
+                <ListMessages />
                 <TextAreaSend
-                    photo={data?.res?.image?.attributes?.url!}
-                    fullName={`${data?.res?.firstName || ""} ${
-                        data?.res?.lastName || ""
-                    }`}
-                    userIdInterlocutor={data?.res?.userId!}
+                    photo={data[idThread!]?.photo!}
+                    fullName={data[idThread!]?.name!}
+                    userIdInterlocutor={data[idThread!]?.userId!}
                 />
                 <Glasses />
                 <PopupMenu
-                    fullName={`${data?.res?.firstName || "Имя"} ${
-                        data?.res?.lastName || "Фамилия"
-                    }`}
-                    photo={data?.res?.image?.attributes?.url!}
+                    fullName={data[idThread!]?.name!}
+                    photo={data[idThread!]?.photo!}
                 />
             </section>
         )
@@ -197,34 +197,11 @@ export const CurrentChat = () => {
 
     return (
         <section className={cx(styles.container, isMobile && styles.mobile)}>
-            <ul>
-                {MESSAGES_CHAT({
-                    user: data?.res?.image?.attributes?.url!,
-                    my_photo: imageProfile?.attributes?.url!,
-                })?.map((item, index) =>
-                    item.isMe ? (
-                        <ItemMyMessage
-                            key={`${index}_message_${item.avatar_url}`}
-                            photo={item.avatar_url}
-                            message={item.message}
-                            time={item.time}
-                        />
-                    ) : (
-                        <ItemUserMessage
-                            key={`${index}_message`}
-                            photo={item.avatar_url}
-                            message={item.message}
-                            time={item.time}
-                        />
-                    ),
-                )}
-            </ul>
+            <ListMessages />
             <TextAreaSend
-                photo={data?.res?.image?.attributes?.url!}
-                fullName={`${data?.res?.firstName || ""} ${
-                    data?.res?.lastName || ""
-                }`}
-                userIdInterlocutor={data?.res?.userId!}
+                photo={data[idThread!]?.photo!}
+                fullName={data[idThread!]?.name!}
+                userIdInterlocutor={data[idThread!]?.userId!}
             />
         </section>
     )

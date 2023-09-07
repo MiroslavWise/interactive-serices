@@ -18,13 +18,16 @@ export interface IResponseCreate{
 export interface IRequestPostMessages extends IRequestMessage{}
 export interface IRequestPatchMessages extends IRequestMessage{ }
 
-export interface IResponseMessage{
+export interface IResponseMessageProps{
     id: number
     message: string
     parentId: number | null
     threadId: number
     emitterId: number
     receiverIds: number[]
+}
+
+export interface IResponseMessage extends IResponseMessageProps{
     enabled?: boolean
     created?: Date | string
     updated?: Date | string
