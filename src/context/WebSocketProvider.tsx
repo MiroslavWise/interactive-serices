@@ -13,9 +13,12 @@ import {
     type Socket,
     type SocketOptions,
 } from "socket.io-client"
+import { toast } from "react-toastify"
+import { useTheme } from "next-themes"
 
 import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
+import { usePush } from "@/helpers/hooks/usePush"
 
 interface IContextSocket {
     socket: Socket | undefined
@@ -26,9 +29,11 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 })
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
-    const { token } = useAuth()
+    const { token, userId } = useAuth()
     const socketRef = useRef<Socket | null>(null)
     const fetchedRef = useRef(false)
+    const { systemTheme } = useTheme()
+    const { handlePush } = usePush()
 
     useEffect(() => {
         if (token) {
@@ -39,8 +44,8 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                     accessToken: token,
                 },
                 withCredentials: true,
-                autoConnect: false,
-                reconnection: false,
+                autoConnect: true,
+                reconnection: true,
                 path: "/ws/socket.io",
                 transports: ["polling", "websocket"],
             }
@@ -63,6 +68,27 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             })
 
             socket.connect()
+
+            socket.on("chatResponse", (data) => {
+                console.log("chatResponse effect: ", data)
+                if (Number(userId) !== Number(data?.emitterId)) {
+                    toast(data?.message + " " + data?.emitterId, {
+                        position: "top-center",
+                        autoClose: 10000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        onClick() {
+                            handlePush(
+                                `/messages?user=${data?.emitterId}&thread=${data?.threadId}`,
+                            )
+                        },
+                        theme: systemTheme,
+                    })
+                }
+            })
 
             return () => {
                 socket.disconnect()

@@ -7,7 +7,6 @@ import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
 import type { IPostThreads } from "@/services/threads/types"
-import type { IResponseMessageProps } from "@/services/messages/types"
 
 import { Glasses } from "@/components/layout/Glasses"
 import { PopupMenu } from "./components/PopupMenu"
@@ -20,6 +19,7 @@ import { cx } from "@/lib/cx"
 import { threadsService } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
+import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 import { useAuth, useChat, usePopupMenuChat } from "@/store/hooks"
 import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
@@ -34,6 +34,7 @@ export const CurrentChat = () => {
     const { handlePush, handleReplace } = usePush()
     const { data } = useMessages()
     const { getSocketMessages } = useSocketMessages()
+    const { join } = useJoinMessage()
 
     async function getDataThread(emitterId: number, receiverId: number) {
         const { res } = await threadsService.getUserQuery(Number(emitterId))
@@ -99,34 +100,40 @@ export const CurrentChat = () => {
         [setIsVisible],
     )
 
+    useEffect(() => {
+        console.log("join: ", join(data[idThread!]?.messages))
+    }, [data, join, idThread])
+
     function ListMessages() {
         return (
             <ul>
-                {Array.isArray(data[idThread!]?.messages)
-                    ? data[idThread!]?.messages?.map((item) => {
-                          if (item?.emitterId === userId) {
-                              return (
-                                  <ItemMyMessage
-                                      key={`${item.id}_message_${item.threadId}`}
-                                      photo={imageProfile?.attributes?.url!}
-                                      message={item.message}
-                                      time={"10:05"}
-                                  />
-                              )
-                          }
-                          if (item?.receiverIds?.includes(Number(idUser!))) {
-                              return (
-                                  <ItemUserMessage
-                                      key={`${item?.id}_message_${item?.threadId}`}
-                                      photo={data[idThread!]?.photo!}
-                                      message={item.message}
-                                      time={"10:05"}
-                                  />
-                              )
-                          }
-                          return null
-                      })
-                    : null}
+                {join(
+                    Array.isArray(data[idThread!]?.messages)
+                        ? data[idThread!]?.messages
+                        : [],
+                ).map((item) => {
+                    if (Number(item.emitterId) === Number(userId)) {
+                        return (
+                            <ItemMyMessage
+                                key={`${item.id}_message_${item.id}`}
+                                photo={imageProfile?.attributes?.url!}
+                                messages={item.messages}
+                                time={"10:05"}
+                            />
+                        )
+                    }
+                    if (Number(item.emitterId) === Number(idUser!)) {
+                        return (
+                            <ItemUserMessage
+                                key={`${item?.id}_message_${item.id}`}
+                                photo={data[idThread!]?.photo!}
+                                messages={item.messages}
+                                time={"10:05"}
+                            />
+                        )
+                    }
+                    return null
+                })}
             </ul>
         )
     }

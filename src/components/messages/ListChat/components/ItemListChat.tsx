@@ -2,7 +2,6 @@
 
 import { useEffect } from "react"
 import Image from "next/image"
-import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -24,27 +23,29 @@ export const ItemListChat: TItemListChat = ({ item }) => {
     const { setCurrentChat } = useChat()
     const idThread = get("thread")
     const { handleReplace } = usePush()
-    const { setPhotoAndName } = useMessages()
-    const { data, isLoading } = useQuery(
-        ["profile", item.receiverIds[0]!],
-        () => profileService.getProfileThroughUserId(item.receiverIds[0]!),
-    )
+    const { setPhotoAndName, data } = useMessages()
 
     useEffect(() => {
-        if (data?.ok && data?.res && item) {
-            const userId = data?.res?.userId!
+        if (item) {
+            const userId = item.receiverIds[0]!
             const id = item?.id!
-            const name = `${data?.res?.firstName! || " "} ${
-                data?.res?.lastName! || " "
-            }`
-            const photo = data?.res?.image?.attributes?.url!
 
-            setPhotoAndName({
-                id: id,
-                userId: userId,
-                photo: photo,
-                name: name,
-            })
+            if (!data[item?.id]?.name) {
+                profileService
+                    .getProfileThroughUserId(item.receiverIds[0]!)
+                    .then((response) => {
+                        const name = `${response?.res?.firstName! || " "} ${
+                            response?.res?.lastName! || " "
+                        }`
+                        const photo = response?.res?.image?.attributes?.url!
+                        setPhotoAndName({
+                            id: id,
+                            userId: userId,
+                            photo: photo,
+                            name: name,
+                        })
+                    })
+            }
         }
     }, [data, item, setPhotoAndName])
 
@@ -67,9 +68,9 @@ export const ItemListChat: TItemListChat = ({ item }) => {
             <div className={styles.header}>
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
-                        {data?.res?.image?.attributes.url ? (
+                        {data?.[item?.id]?.photo ? (
                             <NextImageMotion
-                                src={data?.res?.image?.attributes.url}
+                                src={data?.[item?.id]?.photo!}
                                 alt="avatar"
                                 width={400}
                                 height={400}
@@ -93,9 +94,7 @@ export const ItemListChat: TItemListChat = ({ item }) => {
                         />
                     </div>
                     <div className={styles.nameAndGeo}>
-                        <h4>
-                            {data?.res?.firstName} {data?.res?.lastName}
-                        </h4>
+                        <h4>{data?.[item?.id]?.name}</h4>
                         <GeoTagging
                             location="Москва, Пролетарская"
                             size={14}
@@ -106,7 +105,7 @@ export const ItemListChat: TItemListChat = ({ item }) => {
                 <p className={styles.timeAgo}>5 мин</p>
             </div>
             <div className={styles.blockLastMessage}>
-                <p>{data?.res?.about ? data?.res?.about : ""}</p>
+                <p>{data?.[item?.id!]?.messages?.length > 0 ? data?.[item?.id!]?.messages[0]?.message : null}</p>
             </div>
         </li>
     )

@@ -1,4 +1,4 @@
-import { YandexMap } from "@/components/YandexMap"
+import { YandexMap } from "@/components/yandexMap"
 import { SignBanner } from "@/components/auth/Signin/SignBanner"
 import { Profiles } from "@/components/auth/Profile"
 

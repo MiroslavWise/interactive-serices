@@ -8,7 +8,10 @@ interface ITextAreaSend{
 
 interface IItemMessage{
   photo: string
-  message: string
+  messages: {
+    id: number | string
+    message: string
+  }[]
   time: string
 }
 
