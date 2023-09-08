@@ -9,7 +9,7 @@ interface IRefreshToken {
 interface IAuthReturn{
   login: boolean
   secret?: string
-  otp_auth_url?: string
+  otpAuthUrl?: string
   error?: any
 }
 
@@ -17,10 +17,10 @@ interface IRequestOtp{
   code: string
 }
 interface IResponseOtp{
-  access_token: string
-  expires_in: number
+  accessToken: string
+  expiresIn: number
   id: number
-  refresh_token: string
+  refreshToken: string
 }
 export interface IUseTokenHelper {
   private temporaryToken: string

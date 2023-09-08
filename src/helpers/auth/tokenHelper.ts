@@ -11,8 +11,8 @@ export const useTokenHelper: IUseTokenHelper = {
     },
     async login(value) {
         return LoggingService.login(value).then((response) => {
-            if (response.ok && response?.res?.access_token) {
-                this.saveTemporaryToken(response?.res?.access_token)
+            if (response.ok && response?.res?.accessToken) {
+                this.saveTemporaryToken(response?.res?.accessToken)
                 return {
                     ok: true,
                     res: response?.res,
@@ -63,9 +63,9 @@ export const useTokenHelper: IUseTokenHelper = {
             })
             const dataOtp = await responseOtp.json()
             if (dataOtp?.error === null && dataOtp?.data) {
-                const token = dataOtp?.result?.access_token
-                const refreshToken = dataOtp?.result?.refresh_token
-                const expiration = dataOtp?.result?.expires_in
+                const token = dataOtp?.result?.accessToken
+                const refreshToken = dataOtp?.result?.refreshToken
+                const expiration = dataOtp?.result?.expiresIn
                 const userId = dataOtp?.result?.id
                 // AuthService.saveToken({ token, refreshToken, expiration, userId, ok: true })
                 return {

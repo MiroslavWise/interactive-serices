@@ -68,10 +68,10 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                     setVisible(true)
                     setToken({
                         ok: true,
-                        token: response?.res?.access_token!,
-                        refreshToken: response?.res?.refresh_token!,
+                        token: response?.res?.accessToken!,
+                        refreshToken: response?.res?.refreshToken!,
                         userId: response?.res?.id!,
-                        expiration: response?.res?.expires_in!,
+                        expiration: response?.res?.expiresIn!,
                     })
                 }
                 if (!response.ok) {

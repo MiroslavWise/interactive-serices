@@ -5,6 +5,7 @@ import { useEffect, useMemo, type ReactNode } from "react"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
+import { Header } from "./components/Header"
 import { ModalAddAlert } from "./ModalAddAlert"
 import { ModalAddOffer } from "./ModalAddOffer"
 import { ModalAddRequest } from "./ModalAddRequest"
@@ -53,6 +54,7 @@ export const CreateNew = () => {
                     }}
                     onClick={setVisibleAndType}
                 />
+                <Header />
                 {content}
                 <Glasses />
             </div>

@@ -74,10 +74,10 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     setError("email", { message: "user not found" })
                     return
                 }
-                if (response?.res?.secret && response?.res?.otp_auth_url) {
+                if (response?.res?.secret && response?.res?.otpAuthUrl) {
                     setValueSecret({
                         secret: response?.res?.secret!,
-                        url: response?.res?.otp_auth_url!,
+                        url: response?.res?.otpAuthUrl!,
                     })
                     return setVisibleAndType({ type: "FirstLoginQR" })
                 }
@@ -91,19 +91,19 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                 }
                 if (response.ok) {
                     if (
-                        response.res?.access_token &&
-                        response?.res?.refresh_token &&
-                        response?.res?.token_type
+                        response.res?.accessToken &&
+                        response?.res?.refreshToken &&
+                        response?.res?.tokenType
                     ) {
                         usersService
                             .getUserId(response?.res?.id)
                             .then((responseUser) => {
                                 setToken({
                                     ok: true,
-                                    token: response?.res?.access_token!,
-                                    refreshToken: response?.res?.refresh_token!,
+                                    token: response?.res?.accessToken!,
+                                    refreshToken: response?.res?.refreshToken!,
                                     userId: response?.res?.id!,
-                                    expiration: response?.res?.expires_in!,
+                                    expiration: response?.res?.expiresIn!,
                                 })
                                 if (!responseUser?.res?.profile) {
                                     setVisibleAndType({ visible: false })

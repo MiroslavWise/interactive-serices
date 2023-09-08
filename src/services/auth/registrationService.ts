@@ -5,7 +5,6 @@ import type {
 
 import { usersService } from "@/services/users"
 import { wrapperFetch } from "@/services/requestsWrapper"
-import env from "@/config/environment"
 
 export const RegistrationService: IRegistrationService = {
     async registration(data) {

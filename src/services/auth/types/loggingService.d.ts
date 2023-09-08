@@ -7,17 +7,17 @@ export interface IRequestLogin{
 }
 
 export interface IResponseLoginOtp{
-  access_token: string
+  accessToken: string
   secret?: string
-  otp_auth_url?: string
+  otpAuthUrl?: string
 }
 
 export interface IResponseLoginNot2fa{
-  access_token: string
-  expires_in: number
-  refresh_token: string
+  accessToken: string
+  expiresIn: number
+  refreshToken: string
   scope: string
-  token_type: string
+  tokenType: string
   id: number
 }
 
