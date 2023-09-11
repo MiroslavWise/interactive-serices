@@ -1,6 +1,10 @@
+import { useId, useRef } from "react"
+
 import { IResponseMessageProps } from "@/services/messages/types"
 
 function useJoinMessage() {
+    const idMessage = useId()
+
     function join(item_messages: IResponseMessageProps[]): IReturnMessages[] {
         const items: IReturnMessages[] = []
 
@@ -9,7 +13,7 @@ function useJoinMessage() {
                 if (items.at(-1)?.emitterId === message?.emitterId) {
                     items.at(-1)?.messages?.push({
                         message: message?.message || "",
-                        id: Number(message?.id),
+                        id: `${message?.id}-${idMessage}`,
                     })
                 } else {
                     items.push({
@@ -18,7 +22,7 @@ function useJoinMessage() {
                         messages: [
                             {
                                 message: message?.message,
-                                id: Number(message?.id),
+                                id: `${message?.id}-${idMessage}`,
                             },
                         ],
                     })

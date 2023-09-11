@@ -44,13 +44,13 @@
                 color: var(--gray-900);
             }
         }
+    }
 
-        &.mobile {
-            .blockMessage {
-                width: 100%;
-                max-width: 100%;
-                min-width: 1px;
-            }
+    &.mobile {
+        .blockMessage {
+            width: 100%;
+            max-width: 100%;
+            min-width: 1px;
         }
     }
 }

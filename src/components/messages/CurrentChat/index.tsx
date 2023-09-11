@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
@@ -10,16 +10,14 @@ import type { IPostThreads } from "@/services/threads/types"
 
 import { Glasses } from "@/components/layout/Glasses"
 import { PopupMenu } from "./components/PopupMenu"
+import { ListMessages } from "./components/ListMessages"
 import { TextAreaSend } from "./components/TextAreaSend"
-import { ItemMyMessage } from "./components/ItemMyMessage"
-import { ItemUserMessage } from "./components/ItemUserMessage"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { threadsService } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
-import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 import { useAuth, useChat, usePopupMenuChat } from "@/store/hooks"
 import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
@@ -29,12 +27,11 @@ export const CurrentChat = () => {
     const searchParams = useSearchParams()
     const idUser = searchParams.get("user")
     const idThread = searchParams.get("thread")
-    const { imageProfile, userId } = useAuth()
+    const { userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
     const { handlePush, handleReplace } = usePush()
     const { data } = useMessages()
     const { getSocketMessages } = useSocketMessages()
-    const { join } = useJoinMessage()
 
     async function getDataThread(emitterId: number, receiverId: number) {
         const { res } = await threadsService.getUserQuery(Number(emitterId))
@@ -57,11 +54,6 @@ export const CurrentChat = () => {
     }
 
     const crateChat = async () => {
-        console.log(
-            "thread Number(id), Number(userId): ",
-            Number(idUser),
-            Number(userId),
-        )
         let thread: any = await getDataThread(Number(userId), Number(idUser))
 
         if (idThread) {
@@ -84,13 +76,21 @@ export const CurrentChat = () => {
         if (thread) {
             getSocketMessages(thread?.id!)
             if (thread?.id !== idThread) {
-                handleReplace(`/messages?user=${idUser}&thread=${thread?.id!}`)
+                handleReplace(
+                    `/messages?user=${thread
+                        ?.receiverIds[0]}&thread=${thread?.id!}`,
+                )
             }
         }
+
+        return Promise.resolve(thread)
     }
 
     useEffect(() => {
-        if (idUser && userId) crateChat()
+        if (idUser && userId) {
+            crateChat()
+        }
+        return () => {}
     }, [idUser, userId])
 
     useEffect(
@@ -99,44 +99,6 @@ export const CurrentChat = () => {
         },
         [setIsVisible],
     )
-
-    useEffect(() => {
-        console.log("join: ", join(data[idThread!]?.messages))
-    }, [data, join, idThread])
-
-    function ListMessages() {
-        return (
-            <ul>
-                {join(
-                    Array.isArray(data[idThread!]?.messages)
-                        ? data[idThread!]?.messages
-                        : [],
-                ).map((item) => {
-                    if (Number(item.emitterId) === Number(userId)) {
-                        return (
-                            <ItemMyMessage
-                                key={`${item.id}_message_${item.id}`}
-                                photo={imageProfile?.attributes?.url!}
-                                messages={item.messages}
-                                time={"10:05"}
-                            />
-                        )
-                    }
-                    if (Number(item.emitterId) === Number(idUser!)) {
-                        return (
-                            <ItemUserMessage
-                                key={`${item?.id}_message_${item.id}`}
-                                photo={data[idThread!]?.photo!}
-                                messages={item.messages}
-                                time={"10:05"}
-                            />
-                        )
-                    }
-                    return null
-                })}
-            </ul>
-        )
-    }
 
     if (isMobile) {
         return (
@@ -173,7 +135,7 @@ export const CurrentChat = () => {
                                 classNames={[styles.avatar]}
                             />
                         )}
-                        <h3>{data[idThread!].name!}</h3>
+                        <h3>{data[idThread!]?.name!}</h3>
                     </div>
                     <div
                         className={cx(styles.button, styles.dots)}
@@ -187,7 +149,7 @@ export const CurrentChat = () => {
                         />
                     </div>
                 </div>
-                <ListMessages />
+                <ListMessages messages={data[idThread!]?.messages!} />
                 <TextAreaSend
                     photo={data[idThread!]?.photo!}
                     fullName={data[idThread!]?.name!}
@@ -204,7 +166,7 @@ export const CurrentChat = () => {
 
     return (
         <section className={cx(styles.container, isMobile && styles.mobile)}>
-            <ListMessages />
+            <ListMessages messages={data[idThread!]?.messages!} />
             <TextAreaSend
                 photo={data[idThread!]?.photo!}
                 fullName={data[idThread!]?.name!}

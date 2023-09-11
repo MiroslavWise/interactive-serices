@@ -44,6 +44,7 @@ export const ItemUserMessage: TItemMessage = ({ photo, messages, time }) => {
                             styles[stylesBlockRight(messages?.length!, index)],
                         )}
                         key={`${item.id}_${item.message}`}
+                        id={`${item.id!}`}
                     >
                         <p>{item.message}</p>
                         <p className={styles.time}>{time} AM</p>

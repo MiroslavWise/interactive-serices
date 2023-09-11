@@ -27,29 +27,32 @@ export const ItemMyMessage: TItemMessage = ({ photo, messages, time }) => {
                             styles[stylesBlockRight(messages?.length!, index)],
                         )}
                         key={`${item.id}_${item.message}`}
+                        id={`${item.id!}`}
                     >
                         <p>{item.message}</p>
                         <p className={styles.time}>{time} AM</p>
                     </div>
                 ))}
             </div>
-            {photo ? (
-                <NextImageMotion
-                    src={photo}
-                    alt="avatar"
-                    width={250}
-                    height={250}
-                    className={styles.avatar}
-                />
-            ) : (
-                <ImageStatic
-                    src="/png/default_avatar.png"
-                    alt="avatar"
-                    width={250}
-                    height={250}
-                    classNames={[styles.avatar]}
-                />
-            )}
+            {!isMobile ? (
+                photo ? (
+                    <NextImageMotion
+                        src={photo}
+                        alt="avatar"
+                        width={250}
+                        height={250}
+                        className={styles.avatar}
+                    />
+                ) : (
+                    <ImageStatic
+                        src="/png/default_avatar.png"
+                        alt="avatar"
+                        width={250}
+                        height={250}
+                        classNames={[styles.avatar]}
+                    />
+                )
+            ) : null}
         </li>
     )
 }
