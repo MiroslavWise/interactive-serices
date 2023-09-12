@@ -1,18 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { Map } from "@pbe/react-yandex-maps"
 import { isMobile } from "react-device-detect"
+import { Map } from "@pbe/react-yandex-maps"
 
 import type { TYandexMap } from "./types"
 
 import { Header } from "./Header"
-import { FilterFieldBottom } from "./FilterFieldBottom"
+import { MapCardNews } from "./MapCard"
 import { Notifications } from "./Notifications"
 import { ListPlacemark } from "./ObjectsMap"
-import { MapCardNews } from "./MapCard"
+import { FilterFieldBottom } from "./FilterFieldBottom"
 
-export const YandexMap: TYandexMap = ({}) => {
+const YandexMap: TYandexMap = ({}) => {
     const [visibleNotification, setVisibleNotification] = useState(false)
 
     return (
@@ -37,3 +37,5 @@ export const YandexMap: TYandexMap = ({}) => {
         </>
     )
 }
+
+export default YandexMap

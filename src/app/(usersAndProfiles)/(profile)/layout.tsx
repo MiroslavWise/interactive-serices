@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { ReactNode, useEffect } from "react"
 import { isMobile } from "react-device-detect"
 
@@ -23,14 +24,16 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
 
     return userId ? (
         <main className={styles.profileLayout}>
-            {isMobile ? (
-                children
-            ) : (
-                <>
-                    <NavBarProfile />
-                    {children}
-                </>
-            )}
+            <Suspense fallback={false}>
+                {isMobile ? (
+                    children
+                ) : (
+                    <>
+                        <NavBarProfile />
+                        {children}
+                    </>
+                )}
+            </Suspense>
         </main>
     ) : null
 }

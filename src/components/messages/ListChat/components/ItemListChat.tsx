@@ -34,16 +34,9 @@ const Item: TItemListChat = ({ item }) => {
 
     function lastMessage(): string {
         if (item?.messages?.length > 0) {
-            return `${
-                Number(item?.messages?.at(-1)?.emitterId) ===
-                Number(item?.emitterId)
-                    ? "&bull; "
-                    : ""
-            }${
-                item?.messages?.at(-1)?.message!
-                    ? item?.messages?.at(-1)?.message!
-                    : ""
-            }`
+            return item?.messages?.at(-1)?.message!
+                ? item?.messages?.at(-1)?.message!
+                : ""
         }
 
         return ""

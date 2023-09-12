@@ -16,47 +16,51 @@ import { profileService } from "@/services/profile"
 export const ComponentList: TList = ({ items }) => {
     const { setPhotoAndName, data } = useMessages()
     useEffect(() => {
-        const arrayRequest = () => {
-            return items
-                .filter((item) => {
-                    const userId = item.receiverIds[0]!
-                    const id = item?.id!
-                    return !data[id]?.id
-                })
-                .map((item) =>
-                    profileService.getProfileThroughUserId(
-                        item?.receiverIds?.[0]!,
-                    ),
-                )
-        }
+        if (items?.length > 0) {
+            const arrayRequest = () => {
+                return items
+                    .filter((item) => {
+                        const id = item?.id!
+                        return !data[id]?.id
+                    })
 
-        Promise.all([...arrayRequest()]).then((responses) => {
-            console.log("arrayRequest: ", responses)
-            if (responses?.length > 0) {
-                responses?.forEach((item) => {
-                    if (item?.ok) {
-                        if (!!item?.res) {
-                            const idThread = items.find(
-                                (item_) =>
-                                    item_?.receiverIds?.includes(
-                                        Number(item?.res?.userId),
-                                    ),
-                            )?.id!
-                            const name = `${item?.res?.firstName! || ""} ${
-                                item?.res?.lastName! || ""
-                            }`
-                            const photo = item?.res?.image?.attributes?.url!
-                            setPhotoAndName({
-                                id: idThread!,
-                                userId: item?.res?.userId!,
-                                photo: photo,
-                                name: name,
-                            })
-                        }
-                    }
-                })
+                    .map((item) => ({
+                        id: item.id!,
+                        request: profileService.getProfileThroughUserId(
+                            item?.receiverIds?.[0]!,
+                        ),
+                    }))
             }
-        })
+
+            Promise.all([
+                ...arrayRequest().map((item) => ({
+                    id: item.id,
+                    request: item.request,
+                })),
+            ]).then((responses) => {
+                console.log("responses: ", responses)
+                responses.forEach((item) => {
+                    item?.request?.then((response) => {
+                        if (response?.ok) {
+                            if (!!response?.res) {
+                                const idThread = item?.id!
+                                const name = `${
+                                    response?.res?.firstName! || ""
+                                } ${response?.res?.lastName! || ""}`
+                                const photo =
+                                    response?.res?.image?.attributes?.url!
+                                setPhotoAndName({
+                                    id: idThread!,
+                                    userId: response?.res?.userId!,
+                                    photo: photo,
+                                    name: name,
+                                })
+                            }
+                        }
+                    })
+                })
+            })
+        }
     }, [data, items])
 
     return (
