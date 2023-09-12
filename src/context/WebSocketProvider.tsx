@@ -35,6 +35,40 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const { systemTheme } = useTheme()
     const { handlePush } = usePush()
 
+    function connect(socket: any) {
+        console.log("--- connect socket ---", socket)
+        socketRef.current = socket
+    }
+
+    function connectError(e: any) {
+        console.log("--- connect_error ---", e)
+    }
+
+    function error(e: any) {
+        console.info("--- error socket --- ", e)
+    }
+
+    function chatResponse (data: any){
+        console.log("chatResponse effect: ", data)
+        if (Number(userId) !== Number(data?.emitterId)) {
+            toast(data?.message + " " + data?.emitterId, {
+                position: "top-center",
+                autoClose: 10000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                onClick() {
+                    handlePush(
+                        `/messages?user=${data?.emitterId}&thread=${data?.threadId}`,
+                    )
+                },
+                theme: systemTheme,
+            })
+        }
+    }
+
     useEffect(() => {
         if (token) {
             if (fetchedRef.current) return
@@ -44,58 +78,31 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                     accessToken: token,
                 },
                 withCredentials: true,
-                autoConnect: true,
-                reconnection: true,
+                autoConnect: false,
+                reconnection: false,
                 path: "/ws/socket.io",
                 transports: ["polling", "websocket"],
             }
             const socket: Socket = io(env.websocket, options)
             console.log("--- socket: ---", socket)
-            socket.on("connect", () => {
-                const upgradedTransport = socket.io.engine.transport.name
-                console.log(
-                    "--- upgradedTransport socket --- ",
-                    upgradedTransport,
-                )
-                socketRef.current = socket
-            })
-            socket.on("connect_error", (e) => {
-                console.log("--- connect_error ---", e)
-            })
+            socket.on("connect", () => connect(socket))
+            socket.on("connect_error", connectError)
 
-            socket.on("error", (e) => {
-                console.info("--- error socket --- ", e)
-            })
+            socket.on("error", error)
 
             socket.connect()
 
-            socket.on("chatResponse", (data) => {
-                console.log("chatResponse effect: ", data)
-                if (Number(userId) !== Number(data?.emitterId)) {
-                    toast(data?.message + " " + data?.emitterId, {
-                        position: "top-center",
-                        autoClose: 10000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        onClick() {
-                            handlePush(
-                                `/messages?user=${data?.emitterId}&thread=${data?.threadId}`,
-                            )
-                        },
-                        theme: systemTheme,
-                    })
-                }
-            })
+            socket.on("chatResponse", chatResponse)
 
             return () => {
                 socket.disconnect()
-                socket.off("connect")
+                socket.off("connect", () => connect(socket))
                 socket.off("disconnect")
+                socket.off("connect_error", connectError)
+                socket.off("error", error)
                 socket.off("chat")
                 socket.off("heartbeat")
+                socket.off("chatResponse", chatResponse)
             }
         }
 
@@ -105,7 +112,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 socketRef.current = null
             }
         }
-    }, [token])
+    }, [token, handlePush])
 
     return (
         <CreateContextWebSocket.Provider value={{ socket: socketRef.current! }}>
