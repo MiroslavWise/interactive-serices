@@ -37,6 +37,8 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
     function connect(socket: any) {
         console.log("--- connect socket ---", socket)
+        const upgradedTransport = socket.io.engine.transport.name
+        console.log("--- upgradedTransport socket --- ", upgradedTransport)
         socketRef.current = socket
     }
 
@@ -48,7 +50,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         console.info("--- error socket --- ", e)
     }
 
-    function chatResponse (data: any){
+    function chatResponse(data: any) {
         console.log("chatResponse effect: ", data)
         if (Number(userId) !== Number(data?.emitterId)) {
             toast(data?.message + " " + data?.emitterId, {

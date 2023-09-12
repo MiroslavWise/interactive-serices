@@ -4,7 +4,7 @@ import type { IReturnData } from "../types/general"
 export interface IRequestMessage{
     threadId: number
     message: string
-    parentId: number
+    parentId: number | undefined
     emitterId: number
     receiverIds: number[]
     enabled: boolean

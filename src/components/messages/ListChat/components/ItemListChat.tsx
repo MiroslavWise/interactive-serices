@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { memo } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
@@ -11,45 +11,19 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useAuth, useChat } from "@/store/hooks"
-import { profileService } from "@/services/profile"
+import { useChat } from "@/store/hooks"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
 
 import styles from "./styles/style.module.scss"
-import dayjs from "dayjs"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
-export const ItemListChat: TItemListChat = ({ item }) => {
+const Item: TItemListChat = ({ item }) => {
     const { get } = useSearchParams()
     const { setCurrentChat } = useChat()
     const idThread = get("thread")
     const { handleReplace } = usePush()
-    const { setPhotoAndName, data } = useMessages()
-
-    useEffect(() => {
-        if (item) {
-            const userId = item.receiverIds[0]!
-            const id = item?.id!
-
-            if (!data[item?.id]?.name) {
-                profileService
-                    .getProfileThroughUserId(item.receiverIds[0]!)
-                    .then((response) => {
-                        const name = `${response?.res?.firstName! || " "} ${
-                            response?.res?.lastName! || " "
-                        }`
-                        const photo = response?.res?.image?.attributes?.url!
-                        setPhotoAndName({
-                            id: id,
-                            userId: userId,
-                            photo: photo,
-                            name: name,
-                        })
-                    })
-            }
-        }
-    }, [data, item, setPhotoAndName])
+    const { data } = useMessages()
 
     function handleCurrentChat() {
         handleReplace(
@@ -57,8 +31,6 @@ export const ItemListChat: TItemListChat = ({ item }) => {
         )
         setCurrentChat(item.id)
     }
-
-    console.log("item: ", item?.messages)
 
     function lastMessage(): string {
         if (item?.messages?.length > 0) {
@@ -133,3 +105,5 @@ export const ItemListChat: TItemListChat = ({ item }) => {
         </li>
     )
 }
+
+export const ItemListChat = memo(Item)

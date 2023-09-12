@@ -59,21 +59,21 @@ export default function Providers({ children }: { children: ReactNode }) {
         }
     }, [verifyToken])
 
-    useEffect(() => {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    let latitude = position.coords.latitude
-                    let longitude = position.coords.longitude
-                },
-                (error) => {
-                    console.error("Ошибка геолокации: ", error.message)
-                },
-            )
-        } else {
-            console.error("Геолокация недоступна в данном браузере.")
-        }
-    }, [])
+    // useEffect(() => {
+    //     if ("geolocation" in navigator) {
+    //         navigator.geolocation.getCurrentPosition(
+    //             (position) => {
+    //                 let latitude = position.coords.latitude
+    //                 let longitude = position.coords.longitude
+    //             },
+    //             (error) => {
+    //                 console.error("Ошибка геолокации: ", error.message)
+    //             },
+    //         )
+    //     } else {
+    //         console.error("Геолокация недоступна в данном браузере.")
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (typeof token === "undefined" && !token) {

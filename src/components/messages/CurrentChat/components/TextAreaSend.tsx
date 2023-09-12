@@ -11,11 +11,13 @@ import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
 import { cx } from "@/lib/cx"
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
+import { serviceMessages } from "@/services/messages"
 import { useWebSocket } from "@/context/WebSocketProvider"
 import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/text-area.module.scss"
+import { IRequestPostMessages } from "@/services/messages/types"
 
 export const TextAreaSend: TTextAreaSend = ({
     photo,
@@ -25,21 +27,42 @@ export const TextAreaSend: TTextAreaSend = ({
     const [text, setText] = useState("")
     const { setIsVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
+    const { userId } = useAuth()
     const searchParams = useSearchParams()
     const idThread = searchParams.get("thread")
     const { getSocketMessages } = useSocketMessages()
 
     function handleSend() {
-        if (text) {
-            socket?.emit("chat", {
-                receiverIds: [userIdInterlocutor],
-                message: text,
-                threadId: idThread!,
-                created: new Date(),
-                parentId: undefined,
-            })
+        const message = text.trim()
+        if (message) {
+            if (socket?.connected) {
+                socket?.emit(
+                    "chat",
+                    {
+                        receiverIds: [userIdInterlocutor],
+                        message: message,
+                        threadId: idThread!,
+                        created: new Date(),
+                        parentId: undefined,
+                    },
+                    () => {},
+                )
+            } else {
+                const data: IRequestPostMessages = {
+                    threadId: Number(idThread!),
+                    message: message,
+                    parentId: undefined,
+                    emitterId: Number(userId),
+                    receiverIds: [userIdInterlocutor],
+                    enabled: true,
+                    created: new Date(),
+                }
+                serviceMessages.post(data).then((response) => {
+                    getSocketMessages(Number(idThread!))
+                    setText("")
+                })
+            }
         }
-        setText("")
     }
 
     useEffect(() => {

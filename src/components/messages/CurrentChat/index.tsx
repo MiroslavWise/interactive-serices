@@ -74,9 +74,10 @@ export const CurrentChat = () => {
             }
         }
         if (thread) {
+            console.log("thread: ---------- ", thread)
             getSocketMessages(thread?.id!)
             if (thread?.id !== idThread) {
-                if (thread?.receiverIds?.includes(idUser)) {
+                if (thread?.receiverIds?.includes(Number(idUser))) {
                     handleReplace(
                         `/messages?user=${thread
                             ?.receiverIds[0]}&thread=${thread?.id!}`,
