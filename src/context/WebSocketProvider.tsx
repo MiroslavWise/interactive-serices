@@ -82,7 +82,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 transports: ["polling", "websocket"],
             }
             const socket: Socket = io(env.websocket, options)
-            console.log("--- socket: ---", socket)
             socket.on("connect", () => {
                 console.log("--- connect socket ---", socket)
                 const upgradedTransport = socket.io.engine.transport.name
@@ -101,11 +100,11 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 socket.disconnect()
                 socket.off("connect")
                 socket.off("disconnect")
-                socket.off("connect_error", connectError)
-                socket.off("error", error)
+                socket.off("connect_error")
+                socket.off("error")
                 socket.off("chat")
                 socket.off("heartbeat")
-                socket.off("chatResponse", chatResponse)
+                socket.off("chatResponse")
             }
         }
 

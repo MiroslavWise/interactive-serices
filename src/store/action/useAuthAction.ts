@@ -19,6 +19,8 @@ export const signOutAction = (set: ISetAction) => {
         profileId: undefined,
         imageProfile: undefined,
         createdUser: undefined,
+        email: undefined,
+        addresses: undefined,
     })
 }
 

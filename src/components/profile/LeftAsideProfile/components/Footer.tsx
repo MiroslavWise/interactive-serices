@@ -4,18 +4,11 @@ import Image from "next/image"
 
 import { ButtonDefault } from "@/components/common/Buttons"
 
-import { useChat } from "@/store/hooks"
-import { useAuth } from "@/store/hooks/useAuth"
-import { usePush } from "@/helpers/hooks/usePush"
-import { useWebSocket } from "@/context/WebSocketProvider"
-
 import styles from "./styles/style.module.scss"
+import { useOut } from "@/helpers/hooks/useOut"
 
 export const FooterAsideLeft = () => {
-    const { signOut } = useAuth()
-    const { setCurrentChat } = useChat()
-    const { socket } = useWebSocket()
-    const { handlePush } = usePush()
+    const { out } = useOut()
 
     return (
         <footer className={styles.footer}>
@@ -29,14 +22,7 @@ export const FooterAsideLeft = () => {
                         height={16}
                     />
                 }
-                handleClick={() => {
-                    signOut()
-                    handlePush(`/`)
-                    setCurrentChat(undefined)
-                    if (socket) {
-                        socket?.disconnect()
-                    }
-                }}
+                handleClick={out}
             />
             <section>
                 <p>Нужна помощь?</p>

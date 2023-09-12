@@ -1,5 +1,11 @@
+import { Suspense } from "react"
+
 import { MyProfilePage } from "@/components/profile"
 
 export default function Profile() {
-  return <MyProfilePage />
+    return (
+        <Suspense fallback={false}>
+            <MyProfilePage />
+        </Suspense>
+    )
 }

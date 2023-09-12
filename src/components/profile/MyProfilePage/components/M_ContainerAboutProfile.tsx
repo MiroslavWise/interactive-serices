@@ -12,26 +12,19 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
 import { profileService } from "@/services/profile"
-import { usePush } from "@/helpers/hooks/usePush"
+import { useOut } from "@/helpers/hooks/useOut"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
-    const { handlePush } = usePush()
     const [isEdit, setIsEdit] = useState(false)
     const [textEditing, setTextEditing] = useState("")
     const { setVisible } = useUpdateProfile()
     const textArea = useRef<HTMLTextAreaElement | null>(null)
-    const {
-        user,
-        imageProfile,
-        userId,
-        profileId,
-        signOut,
-        changeAuth,
-        createdUser,
-    } = useAuth()
+    const { out } = useOut()
+    const { user, imageProfile, userId, profileId, changeAuth, createdUser } =
+        useAuth()
 
     useEffect(() => {
         if (isEdit) {
@@ -60,7 +53,7 @@ export const M_ContainerAboutProfile = () => {
                     .patchProfile(data, Number(profileId))
                     .then((response) => {
                         if (response.error?.code === 401) {
-                            signOut()
+                            out()
                         }
                     })
                     .finally(() => {
@@ -72,7 +65,7 @@ export const M_ContainerAboutProfile = () => {
                     .postProfile(data)
                     .then((response) => {
                         if (response.error?.code === 401) {
-                            signOut()
+                            out()
                         }
                     })
                     .finally(() => {
@@ -182,10 +175,7 @@ export const M_ContainerAboutProfile = () => {
                     icon="/svg/log-out-primary-gradient.svg"
                     size={20}
                     classNames={styles.buttonCircle}
-                    handleClick={() => {
-                        signOut()
-                        handlePush("/")
-                    }}
+                    handleClick={out}
                 />
             </div>
         </section>

@@ -8,13 +8,15 @@ import type { IPostProfileData } from "@/services/profile/types/profileService"
 
 import { profileService } from "@/services/profile"
 import { useAuth } from "@/store/hooks/useAuth"
+import { useOut } from "@/helpers/hooks/useOut"
 
 import styles from "./styles/style.module.scss"
 
 export const ContainerAboutMe: TContainerAboutMe = ({}) => {
-    const { userId, profileId, user, changeAuth, signOut } = useAuth()
+    const { out } = useOut()
     const [isEditing, setIsEditing] = useState(false)
     const [textEditing, setTextEditing] = useState("")
+    const { userId, profileId, user, changeAuth } = useAuth()
 
     useEffect(() => {
         const textArea = document?.getElementById("textArea")!
@@ -41,7 +43,7 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
                 .patchProfile(data, Number(profileId))
                 .then((response) => {
                     if (response.error?.code === 401) {
-                        signOut()
+                        out()
                     }
                 })
                 .finally(() => {

@@ -20,7 +20,7 @@ export const ItemsAdress: TItemsAdress = ({}) => {
     )
 
     const listAdress: IAddressesResponse[] = useMemo(() => {
-        if (addresses.length > 0) {
+        if (addresses && addresses?.length > 0) {
             return addresses
         }
         return []

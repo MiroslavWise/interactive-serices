@@ -6,7 +6,7 @@ import { CreateNew } from "@/components/profile/CreateNew"
 export default function Layout({ children }: { children: ReactNode }) {
     return (
         <>
-            {children}
+            <Suspense fallback={false}>{children}</Suspense>
             <Suspense fallback={false}>
                 <NewServicesBanner />
             </Suspense>

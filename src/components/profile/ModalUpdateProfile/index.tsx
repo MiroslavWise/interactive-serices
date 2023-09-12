@@ -1,6 +1,7 @@
 "use client"
 
 import dayjs from "dayjs"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 import { useEffect, useMemo, useState } from "react"
@@ -16,20 +17,21 @@ import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
 import { profileService } from "@/services/profile"
+import { useOut } from "@/helpers/hooks/useOut"
 import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "./styles/style.module.scss"
 import mobileStyles from "./styles/mobile.module.scss"
-import Image from "next/image"
 
 export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const { isVisible, setVisible } = useUpdateProfile()
-    const { user, email, profileId, userId, signOut, changeAuth } = useAuth()
+    const { user, email, profileId, userId, changeAuth } = useAuth()
+    const { out } = useOut()
     const dateOfBirth = useMemo(() => {
         const dateOfBirth: any = {
             day: "",
@@ -112,7 +114,7 @@ export const ModalUpdateProfile = () => {
                     response[0]?.error?.code === 400
                 ) {
                     setVisible(false)
-                    signOut()
+                    out()
                     return
                 }
                 if (response[0].ok) {
@@ -138,8 +140,8 @@ export const ModalUpdateProfile = () => {
                                                 responsePatch?.error?.code!,
                                             )
                                         ) {
-                                            signOut()
                                             setVisible(false)
+                                            out()
                                             return
                                         }
                                     })
