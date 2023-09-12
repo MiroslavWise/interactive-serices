@@ -156,7 +156,6 @@ export const CurrentChat = () => {
                 <TextAreaSend
                     photo={data[idThread!]?.photo!}
                     fullName={data[idThread!]?.name!}
-                    userIdInterlocutor={data[idThread!]?.userId!}
                 />
                 <Glasses />
                 <PopupMenu
@@ -173,7 +172,6 @@ export const CurrentChat = () => {
             <TextAreaSend
                 photo={data[idThread!]?.photo!}
                 fullName={data[idThread!]?.name!}
-                userIdInterlocutor={data[idThread!]?.userId!}
             />
         </section>
     )

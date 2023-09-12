@@ -16,6 +16,8 @@ import { useAuth } from "@/store/hooks/useAuth"
 import { useMessages } from "@/store/state/useMessages"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { RegistrationService } from "@/services/auth/registrationService"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { useFetchingSession } from "@/store/state/useFetchingSession"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -33,6 +35,12 @@ export default function Providers({ children }: { children: ReactNode }) {
     const passwordResetToken = searchParams.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { resetMessages } = useMessages()
+    const { getCategories } = useOffersCategories()
+    const { offersCategories, getFetchingOffersCategories } =
+        useFetchingSession((state) => ({
+            offersCategories: state.offersCategories,
+            getFetchingOffersCategories: state.getFetchingOffersCategories,
+        }))
 
     useEffect(() => {
         changeAuth()
@@ -80,6 +88,14 @@ export default function Providers({ children }: { children: ReactNode }) {
             resetMessages()
         }
     }, [token, resetMessages])
+
+    useEffect(() => {
+        if (offersCategories === false) {
+            getCategories().then((value) => {
+                getFetchingOffersCategories(value)
+            })
+        }
+    }, [getCategories, offersCategories, getFetchingOffersCategories])
 
     return (
         <NextThemesProvider>

@@ -18,3 +18,16 @@ export interface IReturnData<T> {
     code?: number
     meta?: IMetaData
 }
+
+export type TProviderOffer =
+    | "main"
+    | "beauty"
+    | "pets"
+    | "studying"
+    | "transport"
+    | "housework"
+    | "appliances"
+    | "social"
+    | "children"
+    | "games"
+    | "rent"

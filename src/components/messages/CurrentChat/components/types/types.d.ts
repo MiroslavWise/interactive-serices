@@ -3,7 +3,6 @@ import type { FC } from "react"
 interface ITextAreaSend {
     photo: string
     fullName: string
-    userIdInterlocutor: number
 }
 
 interface IItemMessage {

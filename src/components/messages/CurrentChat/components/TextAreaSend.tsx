@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
@@ -19,43 +19,45 @@ import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 import styles from "./styles/text-area.module.scss"
 import { IRequestPostMessages } from "@/services/messages/types"
 
-export const TextAreaSend: TTextAreaSend = ({
-    photo,
-    fullName,
-    userIdInterlocutor,
-}) => {
+export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
     const [text, setText] = useState("")
     const { setIsVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
     const { userId } = useAuth()
     const searchParams = useSearchParams()
+    const idUserInterlocutor = searchParams.get("user")
     const idThread = searchParams.get("thread")
     const { getSocketMessages } = useSocketMessages()
+    const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
 
-    function handleSend() {
+    const handleSend = useCallback(() => {
+        const date = new Date()
         const message = text.trim()
+        const receiverIds = [Number(idUserInterlocutor)]
         if (message) {
             if (socket?.connected) {
                 socket?.emit(
                     "chat",
                     {
-                        receiverIds: [userIdInterlocutor],
+                        receiverIds: receiverIds,
                         message: message,
                         threadId: idThread!,
-                        created: new Date(),
+                        created: date,
                         parentId: undefined,
                     },
-                    () => {},
+                    (response: any) => {
+                        console.log("message response :", response)
+                    },
                 )
             } else {
                 const data: IRequestPostMessages = {
                     threadId: Number(idThread!),
                     message: message,
-                    parentId: undefined,
+                    parentId: 1,
                     emitterId: Number(userId),
-                    receiverIds: [userIdInterlocutor],
+                    receiverIds: receiverIds,
                     enabled: true,
-                    created: new Date(),
+                    created: date,
                 }
                 serviceMessages.post(data).then((response) => {
                     getSocketMessages(Number(idThread!))
@@ -63,7 +65,16 @@ export const TextAreaSend: TTextAreaSend = ({
                 })
             }
         }
-    }
+    }, [text, getSocketMessages, idThread, socket, userId, idUserInterlocutor])
+
+    const keyPress = useCallback(
+        (e: KeyboardEvent) => {
+            if (e.keyCode == 13) {
+                handleSend()
+            }
+        },
+        [handleSend],
+    )
 
     useEffect(() => {
         const dataMessage = (data: any) => {
@@ -81,6 +92,15 @@ export const TextAreaSend: TTextAreaSend = ({
         }
     }, [socket, getSocketMessages, idThread])
 
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.addEventListener("keydown", keyPress)
+
+            return () =>
+                inputRef.current?.removeEventListener("keydown", keyPress)
+        }
+    }, [inputRef.current, text])
+
     return (
         <div className={cx(styles.container, isMobile && styles.mobile)}>
             {isMobile ? (
@@ -94,12 +114,14 @@ export const TextAreaSend: TTextAreaSend = ({
             ) : null}
             {isMobile ? (
                 <input
+                    ref={inputRef}
                     placeholder="Введите сообщение..."
                     value={text}
                     onChange={(val) => setText(val.target.value)}
                 />
             ) : (
                 <textarea
+                    ref={inputRef}
                     placeholder="Введите сообщение..."
                     value={text}
                     onChange={(val) => setText(val.target.value)}

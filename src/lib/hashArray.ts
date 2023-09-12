@@ -1,4 +1,4 @@
-function charsum(s: any) {
+function charsum(s: any): number {
     let sum = 0
     for (let i = 0; i < s.length; i++) {
         sum += s.charCodeAt(i) * (i + 1)
@@ -6,8 +6,8 @@ function charsum(s: any) {
     return sum
 }
 
-export function array_hash(a: any[]) {
-    if (!a) return null
+export function arrayHash(a: any[]): string | undefined {
+    if (!a) return undefined
 
     let sum = 0
 

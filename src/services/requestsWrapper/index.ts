@@ -4,21 +4,23 @@ import type { IWrapperFetch } from "./types/wrapperFetch"
 
 export const wrapperFetch: IWrapperFetch = {
     async methodGet(url, query) {
-        const params: string = Object.entries(query)
-            .map(([key, value]) => `&${key}=${value}`)
-            .join("")
-            .replace("&", "?")
+        const params: string = query
+            ? Object.entries(query)
+                  .map(([key, value]) => `&${key}=${value}`)
+                  .join("")
+                  .replace("&", "?")
+            : ""
         try {
             const response = await fetch(`${URL_API}${url}${params}`, {
                 method: "GET",
                 headers: useTokenHelper.authToken
                     ? {
-                        Authorization: `Bearer ${useTokenHelper.authToken}`,
-                        "Content-Type": "application/json",
-                    }
+                          Authorization: `Bearer ${useTokenHelper.authToken}`,
+                          "Content-Type": "application/json",
+                      }
                     : {
-                        "Content-Type": "application/json",
-                    },
+                          "Content-Type": "application/json",
+                      },
             })
             const responseData = await response.json()
             return {
@@ -41,12 +43,12 @@ export const wrapperFetch: IWrapperFetch = {
                 method: "GET",
                 headers: useTokenHelper.authToken
                     ? {
-                        Authorization: `Bearer ${useTokenHelper.authToken}`,
-                        "Content-Type": "application/json",
-                    }
+                          Authorization: `Bearer ${useTokenHelper.authToken}`,
+                          "Content-Type": "application/json",
+                      }
                     : {
-                        "Content-Type": "application/json",
-                    },
+                          "Content-Type": "application/json",
+                      },
                 next: {
                     tags: [url, id.toString()],
                 },
@@ -72,12 +74,12 @@ export const wrapperFetch: IWrapperFetch = {
                 method: "POST",
                 headers: useTokenHelper.authToken
                     ? {
-                        Authorization: `Bearer ${useTokenHelper.authToken}`,
-                        "Content-Type": "application/json",
-                    }
+                          Authorization: `Bearer ${useTokenHelper.authToken}`,
+                          "Content-Type": "application/json",
+                      }
                     : {
-                        "Content-Type": "application/json",
-                    },
+                          "Content-Type": "application/json",
+                      },
                 body: JSON.stringify(body),
             })
             const responseData = await response.json()
@@ -101,12 +103,12 @@ export const wrapperFetch: IWrapperFetch = {
                 method: "PATCH",
                 headers: useTokenHelper.authToken
                     ? {
-                        Authorization: `Bearer ${useTokenHelper.authToken}`,
-                        "Content-Type": "application/json",
-                    }
+                          Authorization: `Bearer ${useTokenHelper.authToken}`,
+                          "Content-Type": "application/json",
+                      }
                     : {
-                        "Content-Type": "application/json",
-                    },
+                          "Content-Type": "application/json",
+                      },
                 body: JSON.stringify(body),
             })
             const responseData = await response.json()
@@ -130,12 +132,12 @@ export const wrapperFetch: IWrapperFetch = {
                 method: "DELETE",
                 headers: useTokenHelper.authToken
                     ? {
-                        Authorization: `Bearer ${useTokenHelper.authToken}`,
-                        "Content-Type": "application/json",
-                    }
+                          Authorization: `Bearer ${useTokenHelper.authToken}`,
+                          "Content-Type": "application/json",
+                      }
                     : {
-                        "Content-Type": "application/json",
-                    },
+                          "Content-Type": "application/json",
+                      },
             })
             const responseData = await response.json()
             if (responseData?.error === null) {
