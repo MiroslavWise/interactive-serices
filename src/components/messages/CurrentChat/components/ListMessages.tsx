@@ -1,9 +1,16 @@
 "use client"
 
-import { memo, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
+import {
+    type ReactNode,
+    memo,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+} from "react"
 
-import type { IResponseMessageProps } from "@/services/messages/types"
+import type { IThreadsMessages } from "@/services/threads/types"
 
 import { ItemMyMessage } from "./ItemMyMessage"
 import { ItemUserMessage } from "./ItemUserMessage"
@@ -15,7 +22,7 @@ import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 export const ListMessages = memo(function ListMessages({
     messages,
 }: {
-    messages: IResponseMessageProps[]
+    messages: IThreadsMessages[]
 }) {
     const searchParams = useSearchParams()
     const idUser = searchParams.get("user")
@@ -26,46 +33,53 @@ export const ListMessages = memo(function ListMessages({
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (messages?.length > 0) {
-            requestAnimationFrame(() => {
-                if (ulChat.current) {
-                    if (numberIdMessage.current !== messages?.at(-1)?.id) {
-                        ulChat.current.scrollTop = ulChat.current.scrollHeight
-                        numberIdMessage.current = messages?.at(-1)?.id!
-                    }
+            if (ulChat.current) {
+                if (numberIdMessage.current !== messages?.at(-1)?.id) {
+                    ulChat.current.scrollTop = ulChat.current.scrollHeight
+                    numberIdMessage.current = messages?.at(-1)?.id!
                 }
-            })
+            }
         }
     }, [messages])
 
-    return (
-        <ul ref={ulChat}>
-            {join(Array.isArray(messages) ? messages : []).map(
-                (item, index) => {
-                    if (Number(item.emitterId) === Number(userId)) {
-                        return (
-                            <ItemMyMessage
-                                key={`${item.id}_message_${item.id}`}
-                                photo={imageProfile?.attributes?.url!}
-                                messages={item.messages}
-                                time={"10:05"}
-                            />
-                        )
-                    }
-                    if (Number(item.emitterId) === Number(idUser!)) {
-                        return (
-                            <ItemUserMessage
-                                key={`${item?.id}_message_${item.id}`}
-                                photo={data[idThread!]?.photo!}
-                                messages={item.messages}
-                                time={"10:05"}
-                            />
-                        )
-                    }
-                    return null
-                },
-            )}
-        </ul>
-    )
+    const messagesJoin: ReactNode = useMemo(() => {
+        if (Array.isArray(messages)) {
+            return join(messages).map((item, index) => {
+                if (Number(item.emitterId) === Number(userId)) {
+                    return (
+                        <ItemMyMessage
+                            key={`${item.id}_message_${item.id}`}
+                            photo={imageProfile?.attributes?.url!}
+                            messages={item.messages}
+                            time={"10:05"}
+                        />
+                    )
+                }
+                if (Number(item.emitterId) === Number(idUser!)) {
+                    return (
+                        <ItemUserMessage
+                            key={`${item?.id}_message_${item.id}`}
+                            photo={data[idThread!]?.photo!}
+                            messages={item.messages}
+                            time={"10:05"}
+                        />
+                    )
+                }
+                return null
+            })
+        }
+        return null
+    }, [
+        messages,
+        data,
+        idThread,
+        idUser,
+        imageProfile?.attributes?.url,
+        join,
+        userId,
+    ])
+
+    return <ul ref={ulChat}>{messagesJoin}</ul>
 })

@@ -13,6 +13,10 @@ export const useThread = create(
 
             getThreads(id) {
                 threadsService.getUserQuery(id).then((response) => {
+                    console.log(
+                        "response threadsService getUserQuery: ",
+                        response?.res,
+                    )
                     if (response.ok) {
                         if (Array.isArray(response?.res)) {
                             set({

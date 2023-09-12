@@ -12,7 +12,7 @@ interface ICustomSelect{
   placeholder: string
   list: ISelectList[]
   value: TValue
-  setValue: Dispatch<SetStateAction<TValue>>
+  setValue: Dispatch<SetStateAction<TValue>> | Dispatch<TValue>
 }
 
 export type TCustomSelect = FC<ICustomSelect>

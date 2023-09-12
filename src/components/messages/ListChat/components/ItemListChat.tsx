@@ -11,12 +11,13 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useChat } from "@/store/hooks"
+import { useAuth, useChat } from "@/store/hooks"
 import { profileService } from "@/services/profile"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
 
 import styles from "./styles/style.module.scss"
+import dayjs from "dayjs"
 
 export const ItemListChat: TItemListChat = ({ item }) => {
     const { get } = useSearchParams()
@@ -54,6 +55,36 @@ export const ItemListChat: TItemListChat = ({ item }) => {
             `/messages?user=${item.receiverIds[0]!}&thread=${item.id}`,
         )
         setCurrentChat(item.id)
+    }
+
+    function time(): string {
+        if (item.messages?.length > 0 && item?.messages[0]) {
+            if (
+                dayjs(item?.messages[0]?.created).format("YYYY-MM-DD") ===
+                dayjs().format("YYYY-MM-DD")
+            ) {
+                return dayjs(item?.messages[0]?.created).format("HH:mm")
+            }
+            return dayjs(item?.messages[0]?.created).format("HH:mm DD.MM")
+        }
+        return ""
+    }
+
+    function lastMessage(): string {
+        if (item?.messages?.length > 0) {
+            return `${
+                Number(item?.messages?.at(-1)?.emitterId) ===
+                Number(item?.emitterId)
+                    ? "&bull; "
+                    : ""
+            }${
+                item?.messages?.at(-1)?.message!
+                    ? item?.messages?.at(-1)?.message!
+                    : ""
+            }`
+        }
+
+        return ""
     }
 
     return (
@@ -102,10 +133,10 @@ export const ItemListChat: TItemListChat = ({ item }) => {
                         />
                     </div>
                 </div>
-                <p className={styles.timeAgo}>5 мин</p>
+                <p className={styles.timeAgo}>{time()}</p>
             </div>
             <div className={styles.blockLastMessage}>
-                <p>{data?.[item?.id!]?.messages?.length > 0 ? data?.[item?.id!]?.messages[0]?.message : null}</p>
+                <p>{lastMessage()}</p>
             </div>
         </li>
     )

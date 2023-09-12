@@ -14,12 +14,14 @@ import { ModalAddDiscussion } from "./ModalAddDiscussion"
 import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
+import { useCreateOffer } from "@/store/state/useCreateOffer"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import styles from "./styles/style.module.scss"
 
 export const CreateNew = () => {
     const { isVisible, setVisibleAndType, typeAdd } = useAddCreateModal()
+    const { reset } = useCreateOffer()
 
     const content: ReactNode | null = useMemo(() => {
         if (!typeAdd) return null
@@ -34,9 +36,12 @@ export const CreateNew = () => {
         return obj[typeAdd]
     }, [typeAdd])
 
-    useEffect(() => {
-        return setVisibleAndType
-    }, [setVisibleAndType])
+    function handleClose() {
+        setVisibleAndType()
+        if (typeAdd === "offer") {
+            reset()
+        }
+    }
 
     return (
         <div
@@ -52,7 +57,7 @@ export const CreateNew = () => {
                         right: 12,
                         top: 12,
                     }}
-                    onClick={setVisibleAndType}
+                    onClick={handleClose}
                 />
                 <Header />
                 {content}

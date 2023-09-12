@@ -6,4 +6,9 @@ export interface ICircleCheck {
     type: TActiveCheck
 }
 
+export interface IAddingPhotos{
+
+}
+
 export type TCircleCheck = FC<ICircleCheck>
+export type TAddingPhotos = FC<IAddingPhotos>

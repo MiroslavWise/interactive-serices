@@ -1,6 +1,6 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
 
-import type { IResponseMessageProps } from "@/services/messages/types"
+import { IThreadsMessages } from "@/services/threads/types"
 
 export interface IUseMessages {
     data: {
@@ -9,7 +9,7 @@ export interface IUseMessages {
             userId: number
             name: string
             photo: string | undefined
-            messages: IResponseMessageProps[]
+            messages: IThreadsMessages[]
         }
     }
 
@@ -19,6 +19,6 @@ export interface IUseMessages {
         photo: string | undefined
         name: string
     }>
-    setMessages: Dispatch<{ id: number; messages: IResponseMessageProps[] }>
+    setMessages: Dispatch<{ id: number; messages: IThreadsMessages[] }>
     resetMessages: DispatchWithoutAction
 }

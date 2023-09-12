@@ -1,155 +1,152 @@
 .blockSearch {
-  width: 100%;
-  padding-left: 14px;
-  padding-right: 14px;
-  z-index: 3;
+    width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+    z-index: 3;
 
-  &.mobile {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+    &.mobile {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 }
 
 //containerList
 
 .containerList {
-  display: flex;
-  height: auto;
-  width: 100%;
-  flex-direction: column;
-  overflow-y: auto;
-
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+    overflow-y: auto;
 }
-
-
 
 //containerItemListChat
 
 .containerItemListChat {
-  width: 100%;
-  height: auto;
-  padding: 20px 16px;
-  background: transparent;
-  transition: all 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out 0.01s;
-
-  &.active {
-    background: var(--primary-200);
-    cursor: default;
-  }
-
-  .header {
-    display: inline-flex;
-    justify-content: space-between;
-    gap: 16px;
-    background: transparent;
-
-    .titleBlock {
-      width: auto;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-
-      .avatar {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        filter: drop-shadow(0px 11px 20px rgba(100, 104, 115, 0.10));
-
-        .img {
-          width: 40px;
-          height: 40px;
-          border-radius: 20px;
-        }
-
-        .verified {
-          position: absolute;
-          top: 24px;
-          left: 24px;
-        }
-      }
-
-      .nameAndGeo {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-
-        h4 {
-          color: var(--gray-900, #101828);
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 24px;
-          letter-spacing: -0.5px;
-
-          &::first-letter {
-            text-transform: uppercase;
-          }
-        }
-      }
-    }
-
-    .timeAgo {
-      white-space: nowrap;
-      color: var(--gray-400);
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 20px;
-      letter-spacing: -0.5px;
-    }
-  }
-
-  .blockLastMessage {
     width: 100%;
     height: auto;
+    padding: 20px 16px;
+    background: transparent;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out 0.01s;
 
-    p {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: var(--gray-500);
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 20px;
-      letter-spacing: -0.5px;
+    &.active {
+        background: var(--primary-200);
+        cursor: default;
     }
-  }
+
+    .header {
+        display: inline-flex;
+        justify-content: space-between;
+        gap: 16px;
+        background: transparent;
+
+        .titleBlock {
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+
+            .avatar {
+                position: relative;
+                width: 40px;
+                height: 40px;
+                filter: drop-shadow(0px 11px 20px rgba(100, 104, 115, 0.1));
+
+                .img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 20px;
+                }
+
+                .verified {
+                    position: absolute;
+                    top: 24px;
+                    left: 24px;
+                }
+            }
+
+            .nameAndGeo {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                h4 {
+                    color: var(--gray-900, #101828);
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 24px;
+                    letter-spacing: -0.5px;
+
+                    &::first-letter {
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+
+        .timeAgo {
+            white-space: nowrap;
+            color: var(--gray-400);
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0px;
+        }
+    }
+
+    .blockLastMessage {
+        width: 100%;
+        height: auto;
+
+        p {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--gray-500);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: -0.5px;
+        }
+    }
 }
 
 //MOBILE
 
 .containerListMobile {
-  width: 100%;
-  height: auto;
-  padding: 0 20px calc(68px + 10px);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-y: auto;
-  z-index: 2;
+    width: 100%;
+    height: auto;
+    padding: 0 20px calc(68px + 10px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    z-index: 2;
 
-  .mobileLI {
-    padding: 12px 16px;
-    border-radius: 16px;
-    border: 1px solid var(--stroke-1);
-    background: var(--glass-bg-color-1);
-    box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
-    backdrop-filter: blur(4px);
-  }
+    .mobileLI {
+        padding: 12px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--stroke-1);
+        background: var(--glass-bg-color-1);
+        box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
+        backdrop-filter: blur(4px);
+    }
 }
 
-[data-theme='dark'] {
-  .containerItemListChat {
-    &.active{
-      background: var(--gray-100);
+[data-theme="dark"] {
+    .containerItemListChat {
+        &.active {
+            background: var(--gray-100);
+        }
     }
-  }
 }

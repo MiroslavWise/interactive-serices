@@ -1,11 +1,11 @@
-import { useId, useRef } from "react"
+import { useId } from "react"
 
-import { IResponseMessageProps } from "@/services/messages/types"
+import type { IThreadsMessages } from "@/services/threads/types"
 
 function useJoinMessage() {
     const idMessage = useId()
 
-    function join(item_messages: IResponseMessageProps[]): IReturnMessages[] {
+    function join(item_messages: IThreadsMessages[]): IReturnMessages[] {
         const items: IReturnMessages[] = []
 
         if (item_messages) {

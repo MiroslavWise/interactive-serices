@@ -1,23 +1,30 @@
 import type { IReturnData } from "../types/general"
 
-export interface IRequestThreads {
+export interface IPostThreads {
     title: string
     parentId: number
     emitterId: number
     receiverIds: number[]
     enabled?: boolean
 }
+//Partial
 
-export interface IPostThreads extends IRequestThreads { }
+export type IPatchThreads = Partial<IPostThreads>
 
-export interface IPatchThreads extends IRequestThreads {}
+export interface IThreadsMessages{
+    id: number
+    created: Date
+    message: string
+    emitterId: number
+}
 
 export interface IResponseThreads{
     id: number //id thread
     title: string
     parentId: number
-    emitterId: number //id user
-    receiverIds: number[] //id[] user
+    emitterId: number
+    receiverIds: number[]
+    messages: IThreadsMessages[]
 }
 
 export interface IResponseCreate{
@@ -33,6 +40,7 @@ export interface IResponseThread{
     enabled: boolean
     created: Date | string
     updated: Date | string
+    messages: IThreadsMessages[]
 }
 
 export interface IThreads{
