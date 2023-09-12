@@ -6,6 +6,7 @@ import {
     createContext,
     useEffect,
     useRef,
+    useState,
 } from "react"
 import {
     io,
@@ -30,17 +31,10 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const { token, userId } = useAuth()
-    const socketRef = useRef<Socket | null>(null)
     const fetchedRef = useRef(false)
     const { systemTheme } = useTheme()
     const { handlePush } = usePush()
-
-    function connect(socket: any) {
-        console.log("--- connect socket ---", socket)
-        const upgradedTransport = socket.io.engine.transport.name
-        console.log("--- upgradedTransport socket --- ", upgradedTransport)
-        socketRef.current = socket
-    }
+    const [socketState, setSocketState] = useState<Socket | null>(null)
 
     function connectError(e: any) {
         console.log("--- connect_error ---", e)
@@ -49,6 +43,8 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     function error(e: any) {
         console.info("--- error socket --- ", e)
     }
+
+    console.log("socketState: ", socketState)
 
     function chatResponse(data: any) {
         console.log("chatResponse effect: ", data)
@@ -87,18 +83,23 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             }
             const socket: Socket = io(env.websocket, options)
             console.log("--- socket: ---", socket)
-            socket.on("connect", () => connect(socket))
+            socket.on("connect", () => {
+                console.log("--- connect socket ---", socket)
+                const upgradedTransport = socket.io.engine.transport.name
+                console.log(
+                    "--- upgradedTransport socket --- ",
+                    upgradedTransport,
+                )
+                setSocketState(socket)
+            })
             socket.on("connect_error", connectError)
-
             socket.on("error", error)
-
             socket.connect()
-
             socket.on("chatResponse", chatResponse)
 
             return () => {
                 socket.disconnect()
-                socket.off("connect", () => connect(socket))
+                socket.off("connect")
                 socket.off("disconnect")
                 socket.off("connect_error", connectError)
                 socket.off("error", error)
@@ -109,15 +110,15 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (!token) {
-            if (socketRef.current) {
-                socketRef.current.disconnect()
-                socketRef.current = null
+            if (socketState) {
+                socketState.disconnect()
+                setSocketState(null)
             }
         }
-    }, [token, handlePush])
+    }, [token, socketState])
 
     return (
-        <CreateContextWebSocket.Provider value={{ socket: socketRef.current! }}>
+        <CreateContextWebSocket.Provider value={{ socket: socketState! }}>
             {children}
         </CreateContextWebSocket.Provider>
     )
