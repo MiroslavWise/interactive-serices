@@ -92,7 +92,6 @@
 
     &.mobile {
         .blockMessage {
-            width: 100%;
             max-width: 100%;
             min-width: 1px;
         }
@@ -113,7 +112,7 @@
     gap: 2px;
     padding: 10px 16px;
     max-width: 63%;
-    min-width: 393px;
+    // min-width: 393px;
     min-height: 60px;
 
     p {

@@ -10,26 +10,16 @@ import { InterviewerInfo } from "@/components/messages/InterviewerInfo"
 import styles from "./style.module.scss"
 
 export default function Messages() {
-  const searchParams = useSearchParams()
-  const id = searchParams.get("user")
+    const searchParams = useSearchParams()
+    const id = searchParams.get("user")
 
-  return (
-    isMobile ? (
-      <div className={styles.pageMobile}>
-        {
-          id ? (
-            <Chat />
-          ) : (
-            <ListChat />
-          )
-        }
-      </div>
+    return isMobile ? (
+        <div className={styles.pageMobile}>{id ? <Chat /> : <ListChat />}</div>
     ) : (
-      <div className={styles.page}>
-        <ListChat />
-        <Chat />
-        <InterviewerInfo />
-      </div>
+        <div className={styles.page}>
+            <ListChat />
+            <Chat />
+            <InterviewerInfo />
+        </div>
     )
-  )
 }

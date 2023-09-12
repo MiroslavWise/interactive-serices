@@ -8,10 +8,11 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { stylesBlockRight } from "@/lib/styles-block-message"
+import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
 
-export const ItemMyMessage: TItemMessage = ({ photo, messages, time }) => {
+export const ItemMyMessage: TItemMessage = ({ photo, messages }) => {
     return (
         <li
             className={cx(
@@ -30,7 +31,9 @@ export const ItemMyMessage: TItemMessage = ({ photo, messages, time }) => {
                         id={`${item.id!}`}
                     >
                         <p>{item.message}</p>
-                        <p className={styles.time}>{time} AM</p>
+                        <p className={styles.time}>
+                            {timeNowOrBeforeChat(item?.time)}
+                        </p>
                     </div>
                 ))}
             </div>

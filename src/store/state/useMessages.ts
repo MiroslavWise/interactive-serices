@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
 import type { IUseMessages } from "../types/useMessages"
+import { array_hash } from "@/lib/hashArray"
 
 export const useMessages = create(
     persist<IUseMessages>(
@@ -21,16 +22,27 @@ export const useMessages = create(
                 })
             },
             setMessages({ id, messages }) {
-                set({
-                    data: {
-                        ...get().data,
-                        [id]: {
-                            ...get().data[id],
-                            id: id,
-                            messages: messages,
+                const hash = array_hash(
+                    messages.map((item) =>
+                        JSON.stringify({
+                            id: item.id,
+                            message: item.message,
+                        }),
+                    ),
+                )
+                if (get().data?.[id]?.hash !== hash) {
+                    set({
+                        data: {
+                            ...get().data,
+                            [id]: {
+                                ...get().data[id],
+                                hash: hash!,
+                                id: id,
+                                messages: messages,
+                            },
                         },
-                    },
-                })
+                    })
+                }
             },
             resetMessages() {
                 set({

@@ -8,31 +8,47 @@ import { useSearchParams } from "next/navigation"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { BadgeAchievements } from "@/components/common/Badge"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
 
-import { useChat } from "@/store/hooks"
+import { useAuth, useChat } from "@/store/hooks"
 import { profileService } from "@/services/profile"
+import { threadsService } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
+import { useThread } from "@/store/state/useThreads"
 import { BADGES } from "@/mocks/components/auth/constants"
-import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 
 import styles from "./styles/style.module.scss"
 
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
+    const { userId } = useAuth()
     const id = searchParams.get("user")
-    const { handlePush } = usePush()
+    const idThread = searchParams.get("thread")
+    const { handlePush, handleReplace } = usePush()
 
     const { data, isLoading } = useQuery(["profile", id], () =>
         profileService.getProfileThroughUserId(id!),
     )
 
+    const { getThreads } = useThread((state) => ({
+        getThreads: state.getThreads,
+    }))
+
     const { res: profile } = data ?? {}
 
     function handleGoProfile() {
         handlePush(`/user?id=${id}`)
+    }
+
+    function handleDeleteChat() {
+        threadsService.delete(Number(idThread)).then((response) => {
+            console.log("--- response delete ---", response)
+            getThreads(userId!)
+            handleReplace("/messages")
+        })
     }
 
     return (
@@ -116,7 +132,12 @@ export const InterviewerInfoCurrent = () => {
                     label="Посмотреть профиль"
                     handleClick={handleGoProfile}
                 />
-                <ButtonDefault type="primary" disabled label="Удалить чат" />
+                <ButtonDefault
+                    type="primary"
+                    disabled
+                    label="Удалить чат"
+                    handleClick={handleDeleteChat}
+                />
             </div>
         </section>
     )

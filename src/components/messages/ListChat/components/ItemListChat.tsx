@@ -18,6 +18,7 @@ import { useMessages } from "@/store/state/useMessages"
 
 import styles from "./styles/style.module.scss"
 import dayjs from "dayjs"
+import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 export const ItemListChat: TItemListChat = ({ item }) => {
     const { get } = useSearchParams()
@@ -57,18 +58,7 @@ export const ItemListChat: TItemListChat = ({ item }) => {
         setCurrentChat(item.id)
     }
 
-    function time(): string {
-        if (item.messages?.length > 0 && item?.messages[0]) {
-            if (
-                dayjs(item?.messages[0]?.created).format("YYYY-MM-DD") ===
-                dayjs().format("YYYY-MM-DD")
-            ) {
-                return dayjs(item?.messages[0]?.created).format("HH:mm")
-            }
-            return dayjs(item?.messages[0]?.created).format("HH:mm DD.MM")
-        }
-        return ""
-    }
+    console.log("item: ", item?.messages)
 
     function lastMessage(): string {
         if (item?.messages?.length > 0) {
@@ -133,7 +123,9 @@ export const ItemListChat: TItemListChat = ({ item }) => {
                         />
                     </div>
                 </div>
-                <p className={styles.timeAgo}>{time()}</p>
+                <p className={styles.timeAgo}>
+                    {timeNowOrBeforeChat(item?.messages?.[0]?.created!)}
+                </p>
             </div>
             <div className={styles.blockLastMessage}>
                 <p>{lastMessage()}</p>

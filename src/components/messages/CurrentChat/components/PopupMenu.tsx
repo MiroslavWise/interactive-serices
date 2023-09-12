@@ -8,9 +8,11 @@ import { useSearchParams } from "next/navigation"
 import type { TPopupMenu } from "./types/types"
 
 import { cx } from "@/lib/cx"
+import { threadsService } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
+import { useThread } from "@/store/state/useThreads"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
-import { usePopupMenuChat, useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, usePopupMenuChat, useVisibleModalBarter } from "@/store/hooks"
 
 import mainStyles from "../styles/style.module.scss"
 import styles from "./styles/popup-menu.module.scss"
@@ -18,9 +20,15 @@ import styles from "./styles/popup-menu.module.scss"
 export const PopupMenu: TPopupMenu = ({ fullName, photo }) => {
     const searchParams = useSearchParams()
     const id = searchParams.get("user")
+    const idThread = searchParams.get("thread")
+    const { userId } = useAuth()
     const { isVisible, setIsVisible } = usePopupMenuChat()
     const { setIsVisibleBarter } = useVisibleModalBarter()
-    const { handlePush } = usePush()
+    const { handlePush, handleReplace } = usePush()
+
+    const { getThreads } = useThread((state) => ({
+        getThreads: state.getThreads,
+    }))
 
     function handleClickMenu(value: TTypeActionMenu) {
         const handleObject: Record<TTypeActionMenu, DispatchWithoutAction> = {
@@ -30,12 +38,22 @@ export const PopupMenu: TPopupMenu = ({ fullName, photo }) => {
                     isVisible: true,
                     dataProfile: { fullName: fullName, photo: photo },
                 }),
-            deleteChat: () => {},
+            deleteChat: () => {
+                handleDeleteChat()
+            },
             allRequest: () => {},
             currentExchanges: () => {},
         }
         setIsVisible(false)
         handleObject[value]()
+    }
+
+    function handleDeleteChat() {
+        threadsService.delete(Number(idThread)).then((response) => {
+            console.log("--- response delete ---", response)
+            getThreads(userId!)
+            handleReplace("/messages")
+        })
     }
 
     return (

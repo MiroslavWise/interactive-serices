@@ -14,6 +14,7 @@ function useJoinMessage() {
                     items.at(-1)?.messages?.push({
                         message: message?.message || "",
                         id: `${message?.id}-${idMessage}`,
+                        time: message?.created,
                     })
                 } else {
                     items.push({
@@ -23,6 +24,7 @@ function useJoinMessage() {
                             {
                                 message: message?.message,
                                 id: `${message?.id}-${idMessage}`,
+                                time: message?.created,
                             },
                         ],
                     })
@@ -40,6 +42,7 @@ interface IReturnMessages {
     messages: {
         message: string
         id: string | number
+        time: string | Date
     }[]
     emitterId: string | number
     id: string | number

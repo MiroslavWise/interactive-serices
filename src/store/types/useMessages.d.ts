@@ -5,6 +5,7 @@ import { IThreadsMessages } from "@/services/threads/types"
 export interface IUseMessages {
     data: {
         [key: number | string]: {
+            hash: string | number
             id: number
             userId: number
             name: string

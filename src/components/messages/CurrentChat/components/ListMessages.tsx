@@ -53,7 +53,6 @@ export const ListMessages = memo(function ListMessages({
                             key={`${item.id}_message_${item.id}`}
                             photo={imageProfile?.attributes?.url!}
                             messages={item.messages}
-                            time={"10:05"}
                         />
                     )
                 }
@@ -63,7 +62,6 @@ export const ListMessages = memo(function ListMessages({
                             key={`${item?.id}_message_${item.id}`}
                             photo={data[idThread!]?.photo!}
                             messages={item.messages}
-                            time={"10:05"}
                         />
                     )
                 }
