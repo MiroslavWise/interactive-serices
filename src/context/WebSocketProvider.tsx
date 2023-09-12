@@ -79,7 +79,9 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 autoConnect: false,
                 reconnection: false,
                 path: "/ws/socket.io",
-                transports: ["polling", "websocket"],
+                transports: ["websocket"],
+                secure: true,
+                rejectUnauthorized: false
             }
             const socket: Socket = io(env.websocket, options)
             socket.on("connect", () => {
