@@ -8,9 +8,7 @@ export interface IPostDataBarter{
 
 }
 
-export interface IPatchDataBarter extends IPostDataBarter{
-
-}
+export type IPatchDataBarter = Partial<IPostDataBarter>
 
 
 

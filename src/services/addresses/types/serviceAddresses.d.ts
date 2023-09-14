@@ -38,13 +38,13 @@ export interface IPostAddress{
     enabled?: boolean
 }
 
-export interface IPatchAddress extends IPostAddress{ }
+export type IPatchAddress = Partial<IPostAddress>
 
 export interface IResponseAddresses{
     private route: string
-    public async getAddresses(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
-    public async getAddressId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-    public async postAddress(value: IPostDataUser): Promise<IReturnData<IAddressesResponse>>
-    public async patchAddress(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
-    public async deleteAddress(id: number | string): Promise<IReturnData<IAddressesResponse>>
+    public getAddresses(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
+    public getAddressId(id: string | number): Promise<IReturnData<IAddressesResponse>>
+    public postAddress(value: IPostDataUser): Promise<IReturnData<IAddressesResponse>>
+    public patchAddress(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
+    public deleteAddress(id: number | string): Promise<IReturnData<IAddressesResponse>>
 }

@@ -23,5 +23,5 @@ export interface IResponseLoginNot2fa{
 
 
 export interface ILoggingService{
-  public async login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
+  public login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
 }

@@ -3,6 +3,7 @@ import type {
     IPostProfileData,
     IProfileResponse,
     IGetProfileIdResponse,
+    IPatchProfileData,
 } from "./types/profileService"
 import { wrapperFetch } from "@/services/requestsWrapper"
 
@@ -30,7 +31,7 @@ export const profileService: TProfileService = {
         )
     },
     patchProfile(value, id) {
-        return wrapperFetch.methodPatch<IPostProfileData, IProfileResponse>(
+        return wrapperFetch.methodPatch<IPatchProfileData, IProfileResponse>(
             this.route,
             value,
             id,

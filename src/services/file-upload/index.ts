@@ -1,5 +1,5 @@
 import type { IReturnData } from "../types/general"
-import type { IResponseUploadFile, IUploadFile, IProvider } from "./types"
+import type { IResponseUploadFile, IProvider } from "./types"
 
 import { wrapperFetch } from "../requestsWrapper"
 

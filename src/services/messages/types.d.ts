@@ -1,7 +1,7 @@
 import type { IReturnData } from "../types/general"
 
 
-export interface IRequestMessage{
+export interface IRequestPostMessages{
     threadId: number
     message: string
     parentId?: number | undefined
@@ -15,8 +15,7 @@ export interface IResponseCreate{
     id: number
 }
 
-export interface IRequestPostMessages extends IRequestMessage{}
-export interface IRequestPatchMessages extends IRequestMessage{ }
+export type IRequestPatchMessages = Partial<IRequestPostMessages>
 
 export interface IResponseMessageProps{
     id: number
