@@ -4,13 +4,8 @@ import { type ReactNode } from "react"
 import { Inter } from "next/font/google"
 
 import { Glasses } from "@/components/layout/Glasses"
-import { Barter } from "@/components/messages/ModalBarter"
-import { FooterMenu } from "@/components/layout/FooterMenu"
-import { SignPopup } from "@/components/auth/Signin/SignPopup"
-import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
-import { WelcomeModal } from "@/components/layout/WelcomeModal"
+
 import { AnimatedLoadPage } from "@/components/layout/AnimatedLoadPage"
-import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
@@ -38,15 +33,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 />
             </head>
             <body className={inter.className}>
-                <Providers>
-                    {children}
-                    <FooterMenu />
-                    <SignPopup />
-                    <PhotoCarousel />
-                    <WelcomeModal />
-                    <ExchangesModalMobile />
-                    <Barter />
-                </Providers>
+                <Providers>{children}</Providers>
                 <AnimatedLoadPage />
                 <Glasses />
             </body>

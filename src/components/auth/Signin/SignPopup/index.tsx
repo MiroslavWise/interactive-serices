@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useMemo, ReactNode } from "react"
-import { isMobile } from "react-device-detect"
 import { motion } from "framer-motion"
+import { isMobile } from "react-device-detect"
+import { useState, useMemo, type ReactNode } from "react"
 
 import type { IResetEmailData } from "./components/ui/types/types"
 
@@ -17,14 +17,14 @@ import {
     ContentSelectVerification,
     ContentCodeVerification,
 } from "@/components/auth/Signin/SignPopup/components"
-import { Glasses } from "@/components/auth/Signin/SignPopup/components/ui/components/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
+import { Glasses } from "../SignPopup/components/ui/components/Glasses"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { useAuth } from "@/store/hooks/useAuth"
 import { cx } from "@/lib/cx"
+import { useAuth } from "@/store/hooks/useAuth"
+import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
-import styles from "@/components/auth/Signin/SignPopup/styles/style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export function SignPopup() {
     const { isAuth } = useAuth()

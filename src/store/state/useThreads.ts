@@ -10,24 +10,34 @@ export const useThread = create(
         (set, get) => ({
             threads: [],
             total: undefined,
+            search: "",
 
+            setSearch(value) {
+                set({ search: value })
+            },
             getThreads(id) {
-                threadsService.getUserQuery(id).then((response) => {
-                    console.log(
-                        "response threadsService getUserQuery: ",
-                        response?.res,
-                    )
-                    if (response.ok) {
-                        if (Array.isArray(response?.res)) {
-                            set({
-                                threads: response.res,
-                            })
+                let count = 4
+                function request() {
+                    threadsService.getUserQuery(id).then((response) => {
+                        if (count > 0 && !response.ok) {
+                            count = -1
+                            setTimeout(() => {
+                                request()
+                            }, 2_000)
                         }
-                        if (Number.isFinite(response?.meta?.total)) {
-                            set({ total: response?.meta?.total })
+                        if (response.ok) {
+                            if (Array.isArray(response?.res)) {
+                                set({
+                                    threads: response.res,
+                                })
+                            }
+                            if (Number.isFinite(response?.meta?.total)) {
+                                set({ total: response?.meta?.total })
+                            }
                         }
-                    }
-                })
+                    })
+                }
+                request()
             },
             reset() {
                 set({

@@ -1,9 +1,11 @@
-import type { FC } from "react"
+import type { Dispatch, FC } from "react"
 
+interface ISearchInput {
+    value: string
+    placeholder: string
+    classNames?: string[]
 
-interface ISearchInput{
-  placeholder: string
-  classNames?: string[]
+    setValue: Dispatch<string>
 }
 
 export type TSearchInput = FC<ISearchInput>

@@ -1,15 +1,22 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
+import type { TProviderOffer } from "@/services/types/general"
 
 export interface IUseCreateOffer {
     id: number | undefined
     text: string
-    valueCategory: string
+    valueCategory: {
+        id: number
+        slug: TProviderOffer
+    } | undefined
     files: File[]
     selectedFilesString: string[]
 
     setId: Dispatch<number>
     setText: Dispatch<string>
-    setValueCategory: Dispatch<string>
+    setValueCategory: Dispatch<{
+        id: number
+        slug: TProviderOffer
+    }>
     setFiles: Dispatch<File>
     setSelectedFilesString: Dispatch<string>
     deleteFile: Dispatch<number>

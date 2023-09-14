@@ -1,8 +1,7 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import { useQuery } from "react-query"
+import { useEffect, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -103,6 +102,14 @@ export const CurrentChat = () => {
         [setIsVisible],
     )
 
+    const conversationPartner = useMemo(() => {
+        return {
+            photo: data[idThread!]?.photo!,
+            name: data[idThread!]?.name!,
+            messages: data[idThread!]?.messages!,
+        }
+    }, [data, idThread])
+
     if (isMobile) {
         return (
             <section className={styles.containerMobile}>
@@ -121,9 +128,9 @@ export const CurrentChat = () => {
                         />
                     </div>
                     <div className={styles.blockAvatar}>
-                        {data[idThread!]?.photo ? (
+                        {conversationPartner?.photo ? (
                             <NextImageMotion
-                                src={data[idThread!]?.photo!}
+                                src={conversationPartner?.photo!}
                                 alt="avatar"
                                 width={28}
                                 height={28}
@@ -138,7 +145,7 @@ export const CurrentChat = () => {
                                 classNames={[styles.avatar]}
                             />
                         )}
-                        <h3>{data[idThread!]?.name!}</h3>
+                        <h3>{conversationPartner?.name!}</h3>
                     </div>
                     <div
                         className={cx(styles.button, styles.dots)}
@@ -152,15 +159,15 @@ export const CurrentChat = () => {
                         />
                     </div>
                 </div>
-                <ListMessages messages={data[idThread!]?.messages!} />
+                <ListMessages messages={conversationPartner?.messages} />
                 <TextAreaSend
-                    photo={data[idThread!]?.photo!}
-                    fullName={data[idThread!]?.name!}
+                    photo={conversationPartner?.photo}
+                    fullName={conversationPartner?.name}
                 />
                 <Glasses />
                 <PopupMenu
-                    fullName={data[idThread!]?.name!}
-                    photo={data[idThread!]?.photo!}
+                    photo={conversationPartner?.photo}
+                    fullName={conversationPartner?.name}
                 />
             </section>
         )
@@ -168,10 +175,10 @@ export const CurrentChat = () => {
 
     return (
         <section className={cx(styles.container, isMobile && styles.mobile)}>
-            <ListMessages messages={data[idThread!]?.messages!} />
+            <ListMessages messages={conversationPartner?.messages} />
             <TextAreaSend
-                photo={data[idThread!]?.photo!}
-                fullName={data[idThread!]?.name!}
+                photo={conversationPartner?.photo}
+                fullName={conversationPartner?.name}
             />
         </section>
     )

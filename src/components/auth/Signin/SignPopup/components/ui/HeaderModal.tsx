@@ -17,7 +17,7 @@ import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import styles from "../styles/style.module.scss"
 
 export const HeaderModal: THeaderModal = ({ email, typeVerification }) => {
-    const { type } = useVisibleAndTypeAuthModal() ?? {}
+    const { type } = useVisibleAndTypeAuthModal()
     const content: { h3: string; p: string } | null = useMemo(() => {
         if (type === null || type === "SelectVerification") {
             return null
@@ -68,7 +68,6 @@ export const HeaderModal: THeaderModal = ({ email, typeVerification }) => {
         if (
             type === null ||
             [
-                "PersonalEntry",
                 "SignUp",
                 "SignIn",
                 "SelectVerification",

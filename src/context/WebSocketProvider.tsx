@@ -44,8 +44,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         console.info("--- error socket --- ", e)
     }
 
-    console.log("socketState: ", socketState)
-
     function chatResponse(data: any) {
         console.log("chatResponse effect: ", data)
         if (Number(userId) !== Number(data?.emitterId)) {

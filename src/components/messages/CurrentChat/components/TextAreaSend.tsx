@@ -1,9 +1,9 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import type { TTextAreaSend } from "./types/types"
 

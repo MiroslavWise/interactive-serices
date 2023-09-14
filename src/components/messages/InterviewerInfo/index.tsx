@@ -1,8 +1,9 @@
 "use client"
 
-import Image from "next/image"
 import dayjs from "dayjs"
-import { useQuery } from "react-query"
+import Image from "next/image"
+import { useMemo } from "react"
+import { motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
@@ -13,11 +14,11 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
 
-import { useAuth, useChat } from "@/store/hooks"
-import { profileService } from "@/services/profile"
+import { useAuth } from "@/store/hooks"
 import { threadsService } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useThread } from "@/store/state/useThreads"
+import { useMessages } from "@/store/state/useMessages"
 import { BADGES } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
@@ -25,22 +26,28 @@ import styles from "./styles/style.module.scss"
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
     const { userId } = useAuth()
-    const id = searchParams.get("user")
+    const idUser = searchParams.get("user")
     const idThread = searchParams.get("thread")
     const { handlePush, handleReplace } = usePush()
+    const { data } = useMessages()
 
-    const { data, isLoading } = useQuery(["profile", id], () =>
-        profileService.getProfileThroughUserId(id!),
-    )
+    const dataUser = useMemo(() => {
+        if (idThread! && data) {
+            return {
+                name: data?.[idThread]?.name!,
+                photo: data?.[idThread]?.photo!,
+                created: data?.[idThread]?.created!,
+                idUser: data?.[idThread]?.idUser!,
+            }
+        }
+    }, [idThread, data])
 
     const { getThreads } = useThread((state) => ({
         getThreads: state.getThreads,
     }))
 
-    const { res: profile } = data ?? {}
-
     function handleGoProfile() {
-        handlePush(`/user?id=${id}`)
+        handlePush(`/user?id=${idUser}`)
     }
 
     function handleDeleteChat() {
@@ -52,14 +59,20 @@ export const InterviewerInfoCurrent = () => {
     }
 
     return (
-        <section className={styles.container}>
+        <motion.section
+            className={styles.container}
+            initial={{ opacity: 0, visibility: "hidden" }}
+            animate={{ opacity: 1, visibility: "visible" }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            exit={{ opacity: 0, visibility: "hidden" }}
+        >
             <div className={styles.contentProfile}>
                 <header className={stylesHeader.containerHeader}>
                     <div className={stylesHeader.avatar}>
-                        {profile?.image?.attributes?.url ? (
+                        {dataUser?.photo ? (
                             <NextImageMotion
                                 className={stylesHeader.photo}
-                                src={profile?.image?.attributes?.url!}
+                                src={dataUser?.photo!}
                                 alt="avatar"
                                 width={94}
                                 height={94}
@@ -84,18 +97,16 @@ export const InterviewerInfoCurrent = () => {
                         ) : null}
                     </div>
                     <section className={stylesHeader.title}>
-                        <h4>
-                            {profile?.firstName} {profile?.lastName}
-                        </h4>
+                        <h4>{dataUser?.name!}</h4>
                         <GeoTagging
                             size={16}
                             fontSize={14}
                             location="Арбат, Москва"
                         />
-                        {profile?.created ? (
+                        {dataUser?.created! ? (
                             <p>
                                 Присоединился{" "}
-                                {dayjs(profile?.created!).format("DD.MM.YYYY")}
+                                {dayjs(dataUser?.created!).format("DD.MM.YYYY")}
                             </p>
                         ) : null}
                     </section>
@@ -139,20 +150,26 @@ export const InterviewerInfoCurrent = () => {
                     handleClick={handleDeleteChat}
                 />
             </div>
-        </section>
+        </motion.section>
     )
 }
 
 export const InterviewerInfoEmpty = () => (
-    <section className={styles.container} />
+    <motion.section
+        className={styles.container}
+        initial={{ opacity: 0, visibility: "hidden" }}
+        animate={{ opacity: 1, visibility: "visible" }}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        exit={{ opacity: 0, visibility: "hidden" }}
+    />
 )
 
 export const InterviewerInfo = () => {
     const searchParams = useSearchParams()
-    const id = searchParams.get("user")
-    const { currentChatId } = useChat()
+    const idUser = searchParams.get("user")
+    const idThread = searchParams.get("thread")
 
-    return currentChatId || id ? (
+    return idUser && idThread ? (
         <InterviewerInfoCurrent />
     ) : (
         <InterviewerInfoEmpty />

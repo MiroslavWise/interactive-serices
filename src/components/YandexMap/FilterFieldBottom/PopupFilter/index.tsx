@@ -15,10 +15,13 @@ import styles from "./styles/style.module.scss"
 
 export const PopupFilter: TPopupFilter = ({ visible }) => {
     const [actives, setActives] = useState<string[]>([])
+    const [value, setValue] = useState("")
 
     return (
         <div className={cx(styles.popupFilter, visible && styles.visible)}>
             <SearchInput
+                value={value}
+                setValue={setValue}
                 placeholder="Что Вы ищете"
                 classNames={[styles.inputSearch]}
             />

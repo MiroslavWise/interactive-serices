@@ -5,7 +5,7 @@ import type { IUseCreateOffer } from "../types/useCreateOffer"
 export const useCreateOffer = create<IUseCreateOffer>((set, get) => ({
     id: undefined,
     text: "",
-    valueCategory: "",
+    valueCategory: undefined,
     files: [],
     selectedFilesString: [],
 
@@ -36,7 +36,7 @@ export const useCreateOffer = create<IUseCreateOffer>((set, get) => ({
             id: undefined,
             text: "",
             files: [],
-            valueCategory: "",
+            valueCategory: undefined,
             selectedFilesString: [],
         })
     },

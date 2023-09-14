@@ -11,6 +11,8 @@ import styles from "./style.module.scss"
 export const SearchInput: TSearchInput = ({
     placeholder,
     classNames,
+    value,
+    setValue,
 }) => {
     return (
         <div className={cx(styles.container, classNames)}>
@@ -21,7 +23,12 @@ export const SearchInput: TSearchInput = ({
                 width={20}
                 height={20}
             />
-            <input type="text" placeholder={placeholder} />
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={value}
+                onChange={(event) => setValue(event.target.value)}
+            />
         </div>
     )
 }

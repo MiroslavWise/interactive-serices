@@ -19,7 +19,7 @@ import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import styles from "./styles/style.module.scss"
 
-export const CreateNew = () => {
+export const CreateNewOptionModal = () => {
     const { isVisible, setVisibleAndType, typeAdd } = useAddCreateModal()
     const { reset } = useCreateOffer()
 

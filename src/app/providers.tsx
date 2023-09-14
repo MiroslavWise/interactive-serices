@@ -6,7 +6,13 @@ import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
 
 import { ModalUpdateProfile } from "@/components/profile"
+import { Barter } from "@/components/messages/ModalBarter"
+import { FooterMenu } from "@/components/layout/FooterMenu"
+import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { OnSuccessToastify } from "@/components/common/Toastify"
+import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
+import { WelcomeModal } from "@/components/layout/WelcomeModal"
+import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
 
 import { YMapsProvider } from "@/context/YMapsProvider"
 import { WebSocketProvider } from "@/context/WebSocketProvider"
@@ -15,18 +21,11 @@ import { NextThemesProvider } from "@/context/NextThemesProvider"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useMessages } from "@/store/state/useMessages"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { useFetchingSession } from "@/store/state/useFetchingSession"
 
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: true,
-            refetchOnMount: false,
-        },
-    },
-})
+const queryClient = new QueryClient({})
 
 export default function Providers({ children }: { children: ReactNode }) {
     const { changeAuth, token, userId } = useAuth()
@@ -37,10 +36,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { resetMessages } = useMessages()
     const { getCategories } = useOffersCategories()
     const { offersCategories, getFetchingOffersCategories } =
-        useFetchingSession((state) => ({
-            offersCategories: state.offersCategories,
-            getFetchingOffersCategories: state.getFetchingOffersCategories,
-        }))
+        useFetchingSession()
 
     useEffect(() => {
         changeAuth()
@@ -67,22 +63,6 @@ export default function Providers({ children }: { children: ReactNode }) {
         }
     }, [verifyToken])
 
-    // useEffect(() => {
-    //     if ("geolocation" in navigator) {
-    //         navigator.geolocation.getCurrentPosition(
-    //             (position) => {
-    //                 let latitude = position.coords.latitude
-    //                 let longitude = position.coords.longitude
-    //             },
-    //             (error) => {
-    //                 console.error("Ошибка геолокации: ", error.message)
-    //             },
-    //         )
-    //     } else {
-    //         console.error("Геолокация недоступна в данном браузере.")
-    //     }
-    // }, [])
-
     useEffect(() => {
         if (typeof token === "undefined" && !token) {
             resetMessages()
@@ -104,6 +84,12 @@ export default function Providers({ children }: { children: ReactNode }) {
                     <YMapsProvider>
                         {children}
                         <ToastContainer />
+                        <FooterMenu />
+                        <SignPopup />
+                        <PhotoCarousel />
+                        <WelcomeModal />
+                        <ExchangesModalMobile />
+                        <Barter />
                         {token && userId ? <ModalUpdateProfile /> : null}
                     </YMapsProvider>
                 </WebSocketProvider>

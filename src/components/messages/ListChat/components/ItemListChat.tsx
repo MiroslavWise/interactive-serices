@@ -14,9 +14,9 @@ import { cx } from "@/lib/cx"
 import { useChat } from "@/store/hooks"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
+import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
-import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 const Item: TItemListChat = ({ item }) => {
     const { get } = useSearchParams()

@@ -24,7 +24,7 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
             )}
         >
             <div className={styles.container}>
-                <h3>Я хочу создать новый</h3>
+                <h3>Я хочу создать</h3>
                 <ul>
                     {NEW_CREATE_BADGES.map((item) => (
                         <NewCreateBadge

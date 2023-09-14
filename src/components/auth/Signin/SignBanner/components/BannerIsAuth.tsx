@@ -13,7 +13,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { BADGES } from "@/mocks/components/auth/constants"
 import { useAnimateLoadPage, useAuth, useUpdateProfile } from "@/store/hooks"
 
-import styles from "./styles/style.module.scss"
+import styles from "./styles/auth-banner.module.scss"
 
 export const BannerIsAuth = () => {
     const { profileId } = useAuth()
@@ -29,10 +29,10 @@ export const BannerIsAuth = () => {
         <motion.ul
             id="SignBanner"
             className={cx(styles.containerAuthBanner)}
-            initial={{ left: -300, opacity: 0, visibility: "hidden" }}
-            animate={{ left: 24, opacity: 1, visibility: "visible" }}
-            transition={{ duration: 0.5 }}
-            exit={{ left: -300, opacity: 0, visibility: "hidden" }}
+            initial={{ opacity: 0, visibility: "hidden" }}
+            animate={{ opacity: 1, visibility: "visible" }}
+            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, visibility: "hidden" }}
         >
             <section className={styles.contentProfile}>
                 <HeaderBlock />

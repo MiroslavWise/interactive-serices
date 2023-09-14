@@ -1,18 +1,36 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo } from "react"
+
+import type {
+    ISelectList,
+    TValue,
+} from "@/components/common/custom/Select/types"
 
 import { CustomSelect } from "@/components/common/custom"
 import { CustomTextArea } from "@/components/common/custom/TextArea"
 
-import { BARTER_LIST } from "@/mocks/components/messages/barter-list"
+import { useCreateOffer } from "@/store/state/useCreateOffer"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/service-selection.module.scss"
-import { useCreateOffer } from "@/store/state/useCreateOffer"
 
 export const ServiceSelection = () => {
-    const [value, setValue] = useState("")
+    const { categories } = useOffersCategories()
+
     const { text, valueCategory, setText, setValueCategory } = useCreateOffer()
+
+    const list = useMemo(() => {
+        return (
+            categories.map(
+                (item) =>
+                    ({
+                        label: item.title,
+                        value: item.id,
+                    }) as ISelectList,
+            ) || []
+        )
+    }, [categories])
 
     return (
         <section className={styles.wrapper}>
@@ -25,9 +43,17 @@ export const ServiceSelection = () => {
                     <p>Предложение</p>
                     <CustomSelect
                         placeholder="Выберите категории"
-                        list={BARTER_LIST}
-                        value={valueCategory}
-                        setValue={setValueCategory}
+                        list={list}
+                        value={valueCategory?.id!}
+                        setValue={(value: TValue) => {
+                            const valueCategory = categories.find(
+                                (item) => Number(item?.id) === Number(value),
+                            )
+                            setValueCategory({
+                                id: valueCategory?.id!,
+                                slug: valueCategory?.provider!,
+                            })
+                        }}
                     />
                 </div>
                 <div className={styles.labelAndInput}>

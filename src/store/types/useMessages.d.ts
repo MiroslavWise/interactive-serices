@@ -7,18 +7,17 @@ export interface IUseMessages {
         [key: number | string]: {
             hash: string | number
             id: number
-            userId: number
+            idUser: number
             name: string
             photo: string | undefined
             messages: IThreadsMessages[]
+            created: Date | string
         }
     }
-
+    
     setPhotoAndName: Dispatch<{
-        id: number
-        userId: number
-        photo: string | undefined
-        name: string
+        idThread: number
+        idUser: number
     }>
     setMessages: Dispatch<{ id: number; messages: IThreadsMessages[] }>
     resetMessages: DispatchWithoutAction

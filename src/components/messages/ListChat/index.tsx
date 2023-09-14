@@ -7,16 +7,16 @@ import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
 
 import { useAuth } from "@/store/hooks"
+import { useThread } from "@/store/state/useThreads"
+import { useMessages } from "@/store/state/useMessages"
+import { useSearchChats } from "@/helpers/hooks/useSearchChats"
 
 import styles from "./styles/style.module.scss"
-import { useThread } from "@/store/state/useThreads"
 
 export const ListChat = () => {
-    const { threads, total, getThreads } = useThread((state) => ({
-        threads: state.threads,
-        total: state.total,
-        getThreads: state.getThreads,
-    }))
+    const { setPhotoAndName } = useMessages()
+    const { threads, total, getThreads } = useThread()
+    const { filters } = useSearchChats()
 
     const { userId } = useAuth()
 
@@ -26,10 +26,21 @@ export const ListChat = () => {
         }
     }, [userId, getThreads])
 
+    useEffect(() => {
+        if (threads && threads.length) {
+            for (const thread of threads) {
+                setPhotoAndName({
+                    idThread: thread.id!,
+                    idUser: thread?.receiverIds?.[0]!,
+                })
+            }
+        }
+    }, [threads, setPhotoAndName])
+
     return isMobile ? (
         <section className={styles.containerMobile}>
             <SearchBlock />
-            <List items={threads || []} />
+            <List items={filters} />
         </section>
     ) : (
         <section className={styles.container}>
@@ -44,7 +55,7 @@ export const ListChat = () => {
                 </div>
             </header>
             <SearchBlock />
-            <List items={threads || []} />
+            <List items={filters} />
         </section>
     )
 }
