@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Sheira",
     description:
         "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
-    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", ""],
+    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
     robots: "noindex, nofollow",
 }
 
