@@ -14,14 +14,21 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const MyProfilePage: TMyProfilePage = ({ }) => {
-  return (
-    <ul className={cx(styles.containerProfilePage, isMobile && styles.mobile)}>
-      {typeof isMobile !== "undefined" && !isMobile ? <ContainerAboutMe /> : null}
-      {isMobile ? <M_ContainerAboutProfile /> : null}
-      {isMobile ? <Badges /> : null}
-      <ContainerTagAndButton />
-      <ContainerSuggestions />
-    </ul>
-  )
+export const MyProfilePage: TMyProfilePage = ({}) => {
+    return (
+        <ul
+            className={cx(
+                styles.containerProfilePage,
+                isMobile && styles.mobile,
+            )}
+        >
+            {typeof isMobile !== "undefined" && !isMobile ? (
+                <ContainerAboutMe />
+            ) : null}
+            {isMobile ? <M_ContainerAboutProfile /> : null}
+            {isMobile ? <Badges /> : null}
+            <ContainerTagAndButton />
+            <ContainerSuggestions />
+        </ul>
+    )
 }

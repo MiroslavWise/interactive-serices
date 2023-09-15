@@ -1,5 +1,7 @@
-import { useState, useMemo, type ReactNode } from "react"
+"use client"
+
 import { isMobile } from "react-device-detect"
+import { useState, useMemo, type ReactNode } from "react"
 
 import type { IValueServices } from "../types/types"
 import type { TContainerServices } from "./types/types"
@@ -11,29 +13,39 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerServices: TContainerServices = ({ }) => {
-  const [value, setValue] = useState<IValueServices>("proposals")
+export const ContainerServices: TContainerServices = ({}) => {
+    const [value, setValue] = useState<IValueServices>("proposals")
 
-  const content: ReactNode = useMemo(() => ({
-    proposals: <ItemsProposalsRequests key="proposals" type="optional-3" />,
-    requests: <ItemsProposalsRequests key="requests" type="optional-2" />,
-  }[value]), [value])
+    const content: ReactNode = useMemo(
+        () =>
+            ({
+                proposals: (
+                    <ItemsProposalsRequests key="proposals" type="optional-3" />
+                ),
+                requests: (
+                    <ItemsProposalsRequests key="requests" type="optional-2" />
+                ),
+            })[value],
+        [value],
+    )
 
-  return (
-    <section className={cx(styles.containerServices, isMobile && styles.mobile)}>
-      <div className={styles.tabs}>
-        <ButtonRadio
-          label="Предложения"
-          active={value === "proposals"}
-          onClick={() => setValue("proposals")}
-        />
-        <ButtonRadio
-          label="Запросы"
-          active={value === "requests"}
-          onClick={() => setValue("requests")}
-        />
-      </div>
-      {content}
-    </section>
-  )
+    return (
+        <section
+            className={cx(styles.containerServices, isMobile && styles.mobile)}
+        >
+            <div className={styles.tabs}>
+                <ButtonRadio
+                    label="Предложения"
+                    active={value === "proposals"}
+                    onClick={() => setValue("proposals")}
+                />
+                <ButtonRadio
+                    label="Запросы"
+                    active={value === "requests"}
+                    onClick={() => setValue("requests")}
+                />
+            </div>
+            {content}
+        </section>
+    )
 }
