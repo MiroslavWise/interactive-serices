@@ -1,0 +1,29 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 32px 106px;
+
+    h3,
+    p {
+        text-align: center;
+        font-style: normal;
+        letter-spacing: -0.3px;
+    }
+
+    h3 {
+        color: var(--gray-900);
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 44px;
+    }
+
+    p {
+        color: var(--gray-500);
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+    }
+}

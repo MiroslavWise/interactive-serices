@@ -2,8 +2,7 @@ import type { FC, Dispatch, SetStateAction } from "react"
 import type { IStateVisible, IDataProfile } from "../types"
 
 interface IProfilePublic {
-  active: boolean
-  profile: IDataProfile | null
+  active: IStateVisible
   setActive: Dispatch<SetStateAction<IStateVisible>>
 }
 

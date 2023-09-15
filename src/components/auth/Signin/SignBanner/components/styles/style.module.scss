@@ -1,4 +1,4 @@
-@mixin ellipse{
+@mixin ellipse {
   width: 100px;
   height: 100px;
   flex-shrink: 0;
@@ -21,7 +21,7 @@
   background: var(--gradient-optional-2);
   z-index: 20;
 
-  .description{
+  .description {
     z-index: 21;
     margin: 16px 16px auto;
     color: var(--supporting-white);
@@ -33,7 +33,7 @@
     letter-spacing: -0.5px;
   }
 
-  .coins{
+  .coins {
     position: absolute;
     bottom: 0;
     transform: translateX(-50%);
@@ -41,21 +41,21 @@
     z-index: 22;
   }
 
-  .ellipseOne{
+  .ellipseOne {
     @include ellipse;
     position: absolute;
     left: 100%;
     top: 50%;
   }
-        
-  .ellipseTwo{
+
+  .ellipseTwo {
     @include ellipse;
     position: absolute;
     top: 100%;
     left: 0%;
   }
 
-  .ellipseBlue{
+  .ellipseBlue {
     position: absolute;
     width: 129px;
     height: 129px;
@@ -91,3 +91,5 @@
   top: 100%;
   left: 0;
 }
+
+//containerAuthBanner

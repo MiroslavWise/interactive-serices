@@ -1,0 +1,242 @@
+@mixin glass {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 300px;
+    filter: blur(80px);
+    transform: translate(-50%, -50%);
+}
+
+.glass1 {
+    @include glass();
+    background: rgba(243, 145, 114, 0.32);
+    top: 15px;
+    left: 0;
+}
+
+.glass2 {
+    @include glass();
+    background: rgba(100, 220, 246, 0.32);
+    top: calc(100% + 70px);
+    left: 100px;
+}
+
+.glass3 {
+    @include glass();
+    background: rgba(135, 92, 255, 0.32);
+    top: calc(100% - 150px);
+    left: calc(100% - 30px);
+}
+
+.containerHeader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 84px;
+    border-bottom: 1px solid var(--supporting-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 21;
+}
+
+.containerBadgeInformationProfile {
+    display: inline-flex;
+    padding: 6px 12px;
+    align-items: center;
+    gap: 8px;
+    border-radius: 100px;
+    background: var(--background-input);
+
+    h4 {
+        color: var(--gray-900);
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: -0.5px;
+    }
+
+    section {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        .avatar {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            img {
+                border-radius: 12px;
+            }
+
+            .verified {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+        }
+    }
+
+    .textInformation {
+        display: flex;
+        flex-direction: column;
+
+        h5 {
+            color: var(--gray-900);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 142.857%;
+            letter-spacing: -0.5px;
+        }
+    }
+}
+
+//containerContent
+
+.containerContent {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 85px);
+    z-index: 18;
+    margin-top: 85px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+    padding-bottom: 28px;
+
+    footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .toggleLabel {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+
+            p {
+                color: var(--gray-500);
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px;
+            }
+        }
+    }
+}
+
+.containerTitleCarousel {
+    padding-top: 24px;
+    width: 100%;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    h2 {
+        color: var(--gray-900);
+        text-align: center;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 122.222%;
+        letter-spacing: -0.5px;
+    }
+
+    .button {
+        width: 100%;
+        height: 52px;
+        padding-left: 112px;
+        padding-right: 112px;
+
+        button {
+            height: 100%;
+        }
+    }
+}
+
+.barterContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-left: 112px;
+    padding-right: 112px;
+
+    .itemBarterContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        align-self: stretch;
+
+        p {
+            color: var(--gray-900);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+        }
+    }
+}
+
+//containerBadgeCoinsPlus
+
+.containerBadgeCoinsPlus {
+    display: inline-flex;
+    padding: 4px 4px 4px 16px;
+    align-items: center;
+    gap: 12px;
+    border-radius: 100px;
+    background: var(--gradient-optional-2);
+
+    p {
+        color: var(--supporting-white);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 155.556%;
+        letter-spacing: -0.5px;
+    }
+}
+
+.containerCoins {
+    display: inline-flex;
+    padding: 4px 7.5px 4px 8.5px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    background: var(--supporting-white);
+    gap: 4px;
+
+    p {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: -0.5px;
+        background: var(--gradient-optional-1);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+//containerCarousel
+
+.containerCarousel {
+    position: relative;
+    width: 100%;
+}

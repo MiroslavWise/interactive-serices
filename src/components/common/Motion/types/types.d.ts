@@ -1,8 +1,9 @@
-import type { FC, ReactNode } from "react"
+import type { DispatchWithoutAction, FC, ReactNode, Ref } from "react"
 
-
-
-export type TMotionSectionOpacity = FC<{
+export type TMotion = FC<{
   children: ReactNode
-  classNames?: string[]
+  classNames?: (string | any)[]
+  onClick?: DispatchWithoutAction
+  id?: string
+  ref?: Ref<HTMLLIElement>
 }>

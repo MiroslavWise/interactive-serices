@@ -1,0 +1,117 @@
+.containerMain {
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px solid var(--stroke-1);
+  background: var(--glass-bg-color-3);
+
+  z-index: 1;
+}
+
+.blockAboutPhoto {
+  display: inline-flex;
+  gap: 24px;
+
+  .blockPhotoAch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    .avatar {
+      position: relative;
+      display: flex;
+      width: 72px;
+      height: 72px;
+      align-items: center;
+      justify-content: center;
+
+      .photo {
+        border-radius: 18px;
+        border: 3px solid var(--supporting-white);
+        box-shadow: 0px 9.191489219665527px 18.382978439331055px 0px rgba(0, 0, 0, 0.16);
+        overflow: hidden;
+        width: 72px;
+        height: 72px;
+      }
+
+      .verified {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: calc(100% - 8px);
+        top: calc(100% - 8px);
+      }
+    }
+
+    .blockAchievements {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 10px;
+      justify-content: center;
+      align-items: center;
+
+      li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.aboutBlock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h4 {
+    color: var(--gray-900);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+  }
+
+  .date {
+    color: var(--gray-500);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+  }
+
+  .about {
+    color: var(--gray-500);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+  }
+}
+
+.buttons {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+
+  .buttonFill {
+    height: 36px;
+  }
+
+  .buttonCircle {
+    height: 44px;
+    width: 44px;
+  }
+}

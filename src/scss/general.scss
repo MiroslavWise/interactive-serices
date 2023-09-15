@@ -1,92 +1,96 @@
 $cursors: "pointer", "default";
 .cursor {
-  @each $cursor in $cursors {
-    &-#{$cursor} {
-      cursor: #{$cursor};
+    @each $cursor in $cursors {
+        &-#{$cursor} {
+            cursor: #{$cursor};
+        }
     }
-  }
 }
 
 .m {
-  @for $m from 1 through 14 {
-    &-#{$m} {
-      margin: #{$m * 4}px;
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin: #{$m * 4}px;
+        }
     }
-  }
 }
 
 .m-top {
-  @for $m from 1 through 14 {
-    &-#{$m} {
-      margin-top: #{$m * 4}px;
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-top: #{$m * 4}px;
+        }
     }
-  }
 }
 
 .m-right {
-  @for $m from 1 through 14 {
-    &-#{$m} {
-      margin-right: #{$m * 4}px;
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-right: #{$m * 4}px;
+        }
     }
-  }
 }
 
 .m-bottom {
-  @for $m from 1 through 14 {
-    &-#{$m} {
-      margin-bottom: #{$m * 4}px;
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-bottom: #{$m * 4}px;
+        }
     }
-  }
 }
 
 .m-left {
-  @for $m from 1 through 14 {
-    &-#{$m} {
-      margin-left: #{$m * 4}px;
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-left: #{$m * 4}px;
+        }
     }
-  }
 }
 
 .p {
-  @for $p from 1 through 14 {
-    &-#{$p} {
-      padding: #{$p * 4}px;
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding: #{$p * 4}px;
+        }
     }
-  }
 }
 
 .p-top {
-  @for $p from 1 through 14 {
-    &-#{$p} {
-      padding-top: #{$p * 4}px;
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-top: #{$p * 4}px;
+        }
     }
-  }
 }
 
 .p-right {
-  @for $p from 1 through 14 {
-    &-#{$p} {
-      padding-right: #{$p * 4}px;
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-right: #{$p * 4}px;
+        }
     }
-  }
 }
 
 .p-bottom {
-  @for $p from 1 through 14 {
-    &-#{$p} {
-      padding-bottom: #{$p * 4}px;
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-bottom: #{$p * 4}px;
+        }
     }
-  }
 }
 
 .p-left {
-  @for $p from 1 through 14 {
-    &-#{$p} {
-      padding-left: #{$p * 4}px;
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-left: #{$p * 4}px;
+        }
     }
-  }
 }
 
-.w-100{
-  width: 100%;
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
 }

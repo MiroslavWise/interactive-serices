@@ -23,6 +23,7 @@ export interface IForgotPasswordResponse{
 }
 
 export interface IForgotPasswordService{
-  async forgotPassword: (value: IForgotPassword) => Promise<IReturnData<IForgotPasswordResponse>>
-  async resetPassword: (value: IPasswordRecovery) => Promise<IReturnData<IResetPasswordResponse>>
+  private route: string
+  public forgotPassword: (value: IForgotPassword) => Promise<IReturnData<IForgotPasswordResponse>>
+  public resetPassword: (value: IPasswordRecovery) => Promise<IReturnData<IResetPasswordResponse>>
 }

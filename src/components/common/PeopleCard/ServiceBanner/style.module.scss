@@ -12,6 +12,13 @@
   cursor: pointer;
 }
 
+[data-theme='dark']{
+  .container{
+    box-shadow: none;
+    backdrop-filter: blur(10.5px);
+  }
+}
+
 .wrapperPhotoRate {
   display: flex;
   flex-direction: column;

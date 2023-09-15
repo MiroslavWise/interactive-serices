@@ -1,0 +1,23 @@
+.nav {
+  position: fixed;
+  width: 100%;
+  height: 77px;
+  padding: 0 52px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+
+  border-bottom: 2px solid var(--stroke-1);
+  background: var(--glass-bg-color-2);
+  backdrop-filter: blur(4.5px);
+
+  &[data-theme='dark'] {
+    backdrop-filter: blur(10px);
+  }
+
+  &.isMobile{
+    display: none;
+  }
+}

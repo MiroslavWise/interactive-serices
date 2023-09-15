@@ -6,13 +6,22 @@ export interface IRequestLogin{
   password: string
 }
 
-export interface IResponseLogin{
-  access_token: string
+export interface IResponseLoginOtp{
+  accessToken: string
   secret?: string
-  otp_auth_url?: string
+  otpAuthUrl?: string
+}
+
+export interface IResponseLoginNot2fa{
+  accessToken: string
+  expiresIn: number
+  refreshToken: string
+  scope: string
+  tokenType: string
+  id: number
 }
 
 
 export interface ILoggingService{
-  public async login(value: IRequestLogin): Promise<IReturnData<IResponseLogin>>
+  public login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
 }

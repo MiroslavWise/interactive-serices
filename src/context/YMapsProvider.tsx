@@ -1,12 +1,20 @@
 "use client"
 
-import { YMaps } from "@pbe/react-yandex-maps"
 import { type ReactNode } from "react"
+import { YMaps } from "@pbe/react-yandex-maps"
 
-export const YMapsProvider = ({ children }: { children: ReactNode }) => {    
-  return (
-    <YMaps>
-      {children}
-    </YMaps>
-  )
+import env from "@/config/environment"
+
+export const YMapsProvider = ({ children }: { children: ReactNode }) => {
+    return (
+        <YMaps
+            query={{
+                apikey: env.api_key_yandex,
+                lang: "ru_RU",
+            }}
+            preload={false}
+        >
+            {children}
+        </YMaps>
+    )
 }

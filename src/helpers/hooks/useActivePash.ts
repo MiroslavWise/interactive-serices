@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 
-export const useActivePash = () => {
-  const [path, setPath] = useState("")
-  const active = usePathname()
+export const useActivePath = () => {
+    const [path, setPath] = useState("")
+    const active = usePathname()
 
-  useEffect(() => {
-    const split = active?.split("/")?.[0]
-    setPath(split)
-  }, [active])
+    useEffect(() => {
+        const split = active?.split("/")?.filter((_) => _)?.[0]
+        setPath(split || "")
+    }, [active])
 
-  return path
+    return path
 }

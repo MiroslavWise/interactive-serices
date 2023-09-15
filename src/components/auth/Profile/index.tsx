@@ -1,33 +1,32 @@
 "use client"
 
 import { useState } from "react"
-import { isMobile } from "react-device-detect"
+import { isMobile, isTablet } from "react-device-detect"
 
 import type { IStateVisible } from "./types"
 
-import ServiceBanner from "./ServiceBanner"
-import ProfilePublic from "./ProfilePublic"
+import { ProfilePublic } from "./ProfilePublic"
+import { ServiceBanner } from "./ServiceBanner"
 
-export const Profile = ({ }) => {
-  const [serviceDataVisible, setServiceDataVisible] = useState<IStateVisible>({
-    isService: true,
-    isProfile: false,
-    dataProfile: null,
-  })
+export const Profiles = ({}) => {
+    const [serviceDataVisible, setServiceDataVisible] = useState<IStateVisible>(
+        {
+            isService: true,
+            isProfile: false,
+            dataProfile: null,
+        },
+    )
 
-  return (
-    !isMobile ? (
-      <>
-        <ServiceBanner
-          active={serviceDataVisible.isService}
-          setDataAndActive={setServiceDataVisible}
-        />
-        <ProfilePublic
-          active={serviceDataVisible.isProfile}
-          profile={serviceDataVisible.dataProfile}
-          setActive={setServiceDataVisible}
-        />
-      </>
+    return !isMobile || isTablet ? (
+        <>
+            <ServiceBanner
+                active={serviceDataVisible.isService}
+                setDataAndActive={setServiceDataVisible}
+            />
+            <ProfilePublic
+                active={serviceDataVisible}
+                setActive={setServiceDataVisible}
+            />
+        </>
     ) : null
-  )
 }

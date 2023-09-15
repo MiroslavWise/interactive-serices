@@ -7,11 +7,11 @@ export interface IDataRegistration {
 }
 
 export interface IResponseDataRegistration {
-  confirmation_code: string
+  confirmationCode: string
   id: number
 }
 
 export interface IRegistrationService {
-  public async registration(value: IDataRegistration): Promise<IReturnData<IResponseDataRegistration>>
-  public async verification(value: {code: string}): Promise<IReturnData<IResponseDataRegistration>>
+  public registration(value: IDataRegistration): Promise<IReturnData<IResponseDataRegistration>>
+  public verification(value: {code: string}): Promise<IReturnData<IResponseDataRegistration>>
 }

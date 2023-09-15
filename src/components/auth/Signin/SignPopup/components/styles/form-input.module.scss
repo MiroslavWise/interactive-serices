@@ -14,7 +14,6 @@
 
     sup {
       color: var(--error-600);
-      // font-size: 14px;
       font-weight: 500;
       line-height: 16px;
     }
@@ -36,7 +35,7 @@
       padding: 12px 14px;
       border-radius: 100px;
       border: 1px solid var(--gray-300);
-      background: var(--supporting-white) !important;
+      background: var(--background-input) !important;
       outline: none !important;
 
       &::placeholder {

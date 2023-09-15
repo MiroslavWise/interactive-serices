@@ -1,0 +1,18 @@
+.container {
+  position: fixed;
+  top: calc(77px + 24px);
+  right: 24px;
+  height: calc(100vh - 77px - 24px - 24px);
+  width: 400px;
+  display: inline-flex;
+  padding: 20px 20px 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  border-radius: 32px;
+  border: 2px solid var(--stroke-1);
+  background: var(--glass-bg-color-2);
+  backdrop-filter: blur(1px);
+  z-index: 2;
+  overflow: hidden;
+}

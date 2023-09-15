@@ -5,6 +5,12 @@
         },
         {
             "path": "."
+        },
+        {
+            "path": "../../go/src/github.com/ole-larsen/go-ploutonion"
+        },
+        {
+            "path": "../nest/sample/16-gateways-ws"
         }
     ]
 }

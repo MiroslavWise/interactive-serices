@@ -1,12 +1,13 @@
-import type { FC, ReactNode, Dispatch, SetStateAction } from "react"
-
-import type { ISegmentValues } from "types/general"
+import type { FC, ReactNode, Dispatch, SetStateAction, Ref } from "react"
 
 interface ISegments {
   values: ISegmentValues[]
   active: ISegmentValues
   setActive: Dispatch<SetStateAction<ISegmentValues>>
   type: "primary" | "optional-1"
+  classNames?: string
+  ref?: Ref<HTMLDivElement>
+  id?: string
 }
 
 export type TSegments = FC<ISegments>

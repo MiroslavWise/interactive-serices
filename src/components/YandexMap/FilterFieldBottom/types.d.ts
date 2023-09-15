@@ -1,7 +1,5 @@
 import type { FC } from "react"
 
-interface IFilterFieldBottom{
-
-}
+interface IFilterFieldBottom {}
 
 export type TFilterFieldBottom = FC<IFilterFieldBottom>

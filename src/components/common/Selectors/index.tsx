@@ -1,47 +1,68 @@
+"use client"
+
+import { useId } from "react"
+import Image from "next/image"
+
 import type { TSelectors } from "./types"
 
-import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
-
 import { cx } from "@/lib/cx"
+import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 
 import styles from "./style.module.scss"
 
 export const Selectors: TSelectors = ({
-  options, label, watchField, set, param, register,
+    options,
+    label,
+    watchField,
+    set,
+    param,
+    register,
 }) => {
-  const [isOpen, setIsOpen, dropdownRef] = useOutsideClickEvent()
-  return (
-    <div
-      className={styles.container}
-      {...register}
-      ref={dropdownRef}
-    >
-      <div
-        className={cx(styles.trigger, isOpen && styles.isOpen)}
-        onClick={() => {
-          setIsOpen(prev => !prev)
-        }}
-      >
-        <span
-          className={cx(isOpen && styles.isOpen, watchField && styles.active)}
-        >{watchField ? options.find(item => item.value === watchField)?.label : label}</span>
-      </div>
-      <ul className={cx(isOpen && styles.isOpen)}>
-        {
-          options.map(item => (
-            <li
-              key={`${item.value}_${label}`}
-              onClick={() => {
-                set(param, item.value)
-                setIsOpen(false)
-              }}
-              className={cx(watchField === item.value && styles.active)}
+    const idSelect = useId()
+    const [isOpen, setIsOpen, dropdownRef] = useOutsideClickEvent()
+    const handleOptions = () => setIsOpen((prev) => !prev)
+
+    return (
+        <div
+            className={styles.container}
+            onClick={handleOptions}
+            ref={dropdownRef}
+        >
+            <span
+                className={cx(
+                    isOpen && styles.isOpen,
+                    watchField && styles.value,
+                )}
+                {...register}
             >
-              <span>{item.label}</span>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  )
+                {watchField
+                    ? options.find((item) => item.value === watchField)?.label
+                    : label}
+            </span>
+            <Image
+                src="/svg/chevron-down.svg"
+                alt="chevron-down"
+                width={20}
+                height={20}
+                className={cx(styles.chevron, isOpen && styles.active)}
+            />
+            <ul className={cx(isOpen && styles.active)}>
+                {Array.isArray(options)
+                    ? options?.map((item) => (
+                          <li
+                              key={`${item.value}_${idSelect}`}
+                              className={cx(
+                                  item?.value === watchField && styles.value,
+                              )}
+                              onClick={() => {
+                                  set(param, item.value)
+                              }}
+                          >
+                              <p>{item.label}</p>
+                          </li>
+                      ))
+                    : null}
+            </ul>
+        </div>
+    )
 }

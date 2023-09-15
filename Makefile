@@ -1,9 +1,6 @@
-build-run: build run
+build-run: compose
 
-build:
-	docker build --build-arg PORT=$(PORT) -t nextjs-sheira .
-
-run:
-	docker run -p $(PORT):$(PORT) -e PORT=$(PORT) nextjs-sheira
+compose:
+	docker compose up
 
 .PHONY: build run

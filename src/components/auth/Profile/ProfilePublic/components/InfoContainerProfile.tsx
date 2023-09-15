@@ -1,82 +1,108 @@
+"use client"
+
 import Image from "next/image"
 
 import type { TInfoContainerProfile } from "./types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { ButtonsCircle } from "@/components/common/Buttons"
+import { GeoTagging } from "@/components/common/GeoTagging"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { usePush } from "@/helpers/hooks/usePush"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
 
-export const InfoContainerProfile: TInfoContainerProfile = ({ }) => {
-  return (
-    <section className={styles.infoContainerProfile}>
-      <div className={styles.avatarAndAchievements}>
-        <div className={styles.avatar}> 
-          <Image
-            className={styles.photo}
-            src="/mocks/elena.png"
-            alt='profile'
-            width={94}
-            height={94}
-          />
-          <Image
-            className={styles.verified}
-            src="/svg/verified-tick.svg"
-            alt='tick'
-            width={32}
-            height={32}
-          />
-        </div>
-        <ul className={styles.achievements}>
-          {
-            MOCK_ACHIEVEMENTS.map(item => (
-              <Image
-                src={item}
-                alt={item}
-                key={item}
-                width={36}
-                height={36}
-              />
-            ))
-          }
-        </ul>
-      </div>
-      <div className={styles.titleAndGeoAndDescription}>
-        <div className={styles.nameGeoDescription}>
-          <div className={styles.nameAndGeo}>
-            <h2>Дженни Уилсон</h2>
-            <div className={styles.geo}>
-              <Image
-                src="/svg/geo-marker.svg"
-                alt='geo'
-                width={20}
-                height={20}
-              />
-              <p>Inglewood, Maine</p>
+export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
+    const { userId } = useAuth()
+    const { handlePush } = usePush()
+    const { setIsVisibleBarter } = useVisibleModalBarter()
+    return (
+        <section className={styles.infoContainerProfile}>
+            <div className={styles.avatarAndAchievements}>
+                <div
+                    className={styles.avatar}
+                    onClick={() => handlePush(`/user?id=${profile.userId}`)}
+                >
+                    {profile?.photo ? (
+                        <NextImageMotion
+                            className={styles.photo}
+                            alt="avatar"
+                            src={profile?.photo}
+                            width={94}
+                            height={94}
+                        />
+                    ) : (
+                        <ImageStatic
+                            src="/png/default_avatar.png"
+                            alt="avatar"
+                            width={94}
+                            height={94}
+                            classNames={[styles.photo]}
+                        />
+                    )}
+                    <Image
+                        className={styles.verified}
+                        src="/svg/verified-tick.svg"
+                        alt="tick"
+                        width={32}
+                        height={32}
+                    />
+                </div>
+                <ul className={styles.achievements}>
+                    {MOCK_ACHIEVEMENTS.map((item) => (
+                        <Image
+                            src={item}
+                            alt={item}
+                            key={item}
+                            width={36}
+                            height={36}
+                        />
+                    ))}
+                </ul>
             </div>
-          </div>
-          <p className={styles.description}>
-            Я Дженни Уилсон, любопытный и полный энтузиазма человек жаждой жизни и жаждой знаний. Растущий оживленном и мультикультурном городе, я всегда был чарован разнообразием культур.
-          </p>
-        </div>
-        <section className={styles.buttons}>
-          <ButtonFill
-            label="Добавить в друзья"
-            small
-            shadow
-          />
-          <ButtonsCircle
-            src="/svg/message-dots-circle.svg"
-            type="primary"
-          />
-          <ButtonsCircle
-            src="/svg/repeat-01.svg"
-            type="primary"
-          />
+            <div className={styles.titleAndGeoAndDescription}>
+                <div className={styles.nameGeoDescription}>
+                    <div className={styles.nameAndGeo}>
+                        <h2>{profile?.name}</h2>
+                        <GeoTagging location={profile?.geo} />
+                    </div>
+                    <p className={styles.description}>{profile?.about}</p>
+                </div>
+                {userId !== profile?.userId ? (
+                    <section className={styles.buttons}>
+                        <ButtonFill label="Добавить в друзья" small shadow />
+                        <ButtonsCircle
+                            src="/svg/message-dots-circle.svg"
+                            type="primary"
+                            onClick={() => {
+                                if (userId) {
+                                    handlePush(
+                                        `/messages?user=${profile.userId}`,
+                                    )
+                                }
+                            }}
+                        />
+                        <ButtonsCircle
+                            src="/svg/repeat-01.svg"
+                            type="primary"
+                            onClick={() => {
+                                if (userId) {
+                                    setIsVisibleBarter({
+                                        isVisible: true,
+                                        dataProfile: {
+                                            photo: profile?.photo,
+                                            fullName: profile?.name,
+                                        },
+                                    })
+                                }
+                            }}
+                        />
+                    </section>
+                ) : null}
+            </div>
         </section>
-      </div>
-    </section>
-  )
+    )
 }

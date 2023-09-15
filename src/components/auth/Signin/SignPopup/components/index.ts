@@ -1,7 +1,6 @@
 export * from "./ui/ContentFirstLoginQR"
 export * from "./ui/ContentForgotPassword"
 export * from "./ui/ContentOtpCode"
-export * from "./ui/ContentPersonalEntry"
 export * from "./ui/ContentSignIn"
 export * from "./ui/ContentSignUp"
 export * from "./ui/HeaderModal"

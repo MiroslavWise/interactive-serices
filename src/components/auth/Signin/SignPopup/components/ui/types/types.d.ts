@@ -1,87 +1,74 @@
 import type { FC, Dispatch, SetStateAction } from "react"
 
-import { TTypeSign } from "../../../types"
+import { TTypeSign } from "@/store/types/useVisibleAndTypeAuthModalState"
+
+export interface IResetEmailData {
+    email: string
+    password_reset_expires: number | null
+    password_reset_token: string
+}
 
 export type TContentSignIn = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
-  setValueSecret: Dispatch<SetStateAction<{ url: string, secret: string }>>
+    setValueSecret: Dispatch<SetStateAction<{ url: string; secret: string }>>
 }>
 
 export type TContentForgotPassword = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setValueEmail: Dispatch<SetStateAction<string>>
+    setValueEmail: Dispatch<SetStateAction<IResetEmailData>>
 }>
 
-export type TContentSignUp = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-}>
+export type TContentSignUp = FC<{}>
 
 export type TLinkItem = FC<{
-  src: string
+    src: string
+    path: string
+    isActive: boolean
 }>
 
 export type TContentFirstLoginQR = FC<{
-  valueSecret: { url: string, secret: string }
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
+    valueSecret: { url: string; secret: string }
 }>
 
-export type TContentOtpCode = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
-}>
-
-export type TContentPersonalEntry = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
-}>
+export type TContentOtpCode = FC<{}>
 
 export type TContentCheckingEmail = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
+    setType: Dispatch<SetStateAction<TTypeSign>>
 }>
 
-export type TContentResetPassword = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  setVisible: Dispatch<SetStateAction<boolean>>
-}>
+export type TContentResetPassword = FC<{}>
 
 export type TContentSelectVerification = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  typeVerification: "email" | "phone" | null
-  setTypeVerification: Dispatch<SetStateAction<"email" | "phone" | null>>
-}> 
+    typeVerification: "email" | "phone" | null
+    setTypeVerification: Dispatch<SetStateAction<"email" | "phone" | null>>
+}>
 
 export type THeaderModal = FC<{
-  type: TTypeSign
-  email: string
-  typeVerification: "email" | "phone" | null
+    email: string
+    typeVerification: "email" | "phone" | null
 }>
 
 export type TContentCodeVerification = FC<{
-  setType: Dispatch<SetStateAction<TTypeSign>>
-  typeVerification: "email" | "phone" | null
+    typeVerification: "email" | "phone" | null
+    valueEmail: IResetEmailData
 }>
 
 export interface IValuesRegistrationForm {
-  email: string
-  number?: string
-  password: string
-  repeat_password: string
+    email: string
+    password: string
+    repeat_password: string
 }
 
 export interface IValuesSignForm {
-  email: string
-  password: string
-  checkbox: boolean
+    email: string
+    password: string
+    checkbox: boolean
 }
 
 export interface IValuesPersonForm {
-  username: string
-  firstName: string
-  lastName: string
-  day: string | number
-  month: string
-  year: string | number
-  about: string
+    username: string
+    firstName: string
+    lastName: string
+    day: string | number
+    month: string
+    year: string | number
+    about: string
 }

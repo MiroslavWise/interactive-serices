@@ -1,0 +1,85 @@
+.title {
+  display: inline-flex;
+  gap: 12px;
+
+  .avatar {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 12.222px;
+
+
+    .photo{
+      object-fit: cover;
+      border-radius: 12.222px;
+      width: 44px;
+      height: 44px;
+    }
+
+    .rating {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 100%;
+      left: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3.5px;
+      padding: 3px 9.773px;
+      border-radius: 81.818px;
+      background: var(--primary-500);
+      height: 18px;
+      min-width: 45px;
+
+      p {
+        color: var(--supporting-white);
+        font-size: 9.818px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 117.5%;
+      }
+    }
+  }
+
+  .nameGeo {
+    display: flex;
+    flex-direction: column;
+
+    h4 {
+      color: var(--gray-900);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 150%;
+      letter-spacing: -0.5px;
+    }
+  }
+}
+
+.containerCoin {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  gap: 4px;
+  border-radius: 100px;
+  height: 26px;
+  background: var(--gradient-optional-1);
+
+  p {
+    color: var(--supporting-white);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.5px;
+  }
+}
+
+.contentBarter {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
