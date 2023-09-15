@@ -19,6 +19,11 @@ interface IPopupMenu {
     photo: string
 }
 
+interface IItemTime {
+    time: string
+}
+
+export type TItemTime = FC<IItemTime>
 export type TTextAreaSend = FC<ITextAreaSend>
 export type TItemMessage = FC<IItemMessage>
 export type TPopupMenu = FC<IPopupMenu>

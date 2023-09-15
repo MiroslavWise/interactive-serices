@@ -152,8 +152,8 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                     <div className={styles.dividers} />
                     <p>
                         Присоединился{" "}
-                        {profile.created
-                            ? dayjs(profile.created).format("DD.MM.YYYY")
+                        {profile?.created
+                            ? dayjs(profile?.created).format("DD.MM.YYYY")
                             : null}
                     </p>
                 </div>
