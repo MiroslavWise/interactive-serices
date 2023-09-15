@@ -11,9 +11,8 @@ import { LinksSocial } from "./components/LinksSocial"
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 
-import { regExEmail } from "@/helpers"
+import { checkPasswordStrength, regExEmail } from "@/helpers"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { checkPasswordStrength } from "@/lib/checkPasswordStrength"
 import { RegistrationService } from "@/services/auth/registrationService"
 
 import styles from "../styles/style.module.scss"

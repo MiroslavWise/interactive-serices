@@ -1,11 +1,9 @@
+// "use client"
+
 import { type Metadata } from "next"
 import dynamic from "next/dynamic"
 import { type ReactNode } from "react"
 import { Inter } from "next/font/google"
-
-import { Glasses } from "@/components/layout/Glasses"
-
-import { AnimatedLoadPage } from "@/components/layout/AnimatedLoadPage"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
@@ -34,8 +32,6 @@ export default function Layout({ children }: { children: ReactNode }) {
             </head>
             <body className={inter.className}>
                 <Providers>{children}</Providers>
-                <AnimatedLoadPage />
-                <Glasses />
             </body>
         </html>
     )

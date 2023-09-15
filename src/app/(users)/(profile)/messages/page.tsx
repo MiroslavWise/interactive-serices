@@ -4,9 +4,7 @@ import { Suspense } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
-import { ListChat } from "@/components/messages/ListChat"
-import { Chat } from "@/components/messages/CurrentChat"
-import { InterviewerInfo } from "@/components/messages/InterviewerInfo"
+import { ListChat, Chat, InterviewerInfo } from "@/components/messages"
 
 import styles from "./style.module.scss"
 

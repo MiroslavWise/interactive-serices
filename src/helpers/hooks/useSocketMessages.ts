@@ -1,5 +1,6 @@
 import { useMessages } from "@/store/state/useMessages"
 import { threadsService } from "@/services/threads"
+import { IThreadsMessages } from "@/services/threads/types"
 
 export const useSocketMessages = () => {
     const { setMessages } = useMessages()
@@ -13,5 +14,14 @@ export const useSocketMessages = () => {
         })
     }
 
-    return { getSocketMessages }
+    const getMessages = (id: number, messages: IThreadsMessages[]) => {
+        if (Array.isArray(messages)) {
+            setMessages({
+                id: id!,
+                messages: messages!,
+            })
+        }
+    }
+
+    return { getSocketMessages, getMessages }
 }

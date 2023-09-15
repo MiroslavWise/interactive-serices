@@ -1,17 +1,17 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 
-import { Glasses } from "@/components/layout/Glasses"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { ButtonClose } from "@/components/common/Buttons"
-import { Content } from "./components/Content"
 import { Header } from "./components/Header"
+import { Content } from "./components/Content"
+import { Glasses } from "@/components/layout/Glasses"
+import { ButtonClose } from "@/components/common/Buttons"
+import { GeoTagging } from "@/components/common/GeoTagging"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { useVisibleModalBarter } from "@/store/hooks"
 import { cx } from "@/lib/cx"
+import { useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 

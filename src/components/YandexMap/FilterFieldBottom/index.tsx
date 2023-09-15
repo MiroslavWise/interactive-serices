@@ -6,8 +6,8 @@ import { isMobile } from "react-device-detect"
 
 import type { TFilterFieldBottom } from "./types"
 
-import { ButtonFilter } from "@/components/common/Buttons/ButtonFilter"
 import { PopupFilter } from "./PopupFilter"
+import { ButtonFilter } from "@/components/common/Buttons/ButtonFilter"
 
 import styles from "./styles/style.module.scss"
 

@@ -7,8 +7,8 @@ import { FooterPhotos } from "./components/FooterPhotos"
 import { ButtonClose } from "@/components/common/Buttons"
 import { ButtonPrevNext } from "./components/ButtonPrevNext"
 
-import { useVisiblePhotosCarousel } from "@/store/hooks"
 import { cx } from "@/lib/cx"
+import { useVisiblePhotosCarousel } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 

@@ -1,5 +1,5 @@
-import { MotionLI, MotionUL } from "@/components/common/Motion"
 import { ImageStatic } from "@/components/common/Image"
+import { MotionLI, MotionUL } from "@/components/common/Motion"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
 

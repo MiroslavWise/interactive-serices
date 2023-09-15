@@ -5,18 +5,22 @@ import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
 
-import { ModalUpdateProfile } from "@/components/profile"
-import { Barter } from "@/components/messages/ModalBarter"
-import { FooterMenu } from "@/components/layout/FooterMenu"
+import {
+    ModalUpdateProfile,
+    WelcomeModal,
+    Barter,
+} from "@/components/templates"
+import { ExchangesModalMobile } from "@/components/profile"
+import {
+    PhotoCarousel,
+    FooterMenu,
+    AnimatedLoadPage,
+    Glasses,
+} from "@/components/layout"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { OnSuccessToastify } from "@/components/common/Toastify"
-import { PhotoCarousel } from "@/components/layout/PhotoCarousel"
-import { WelcomeModal } from "@/components/layout/WelcomeModal"
-import { ExchangesModalMobile } from "@/components/profile/ExchangesModalMobile"
 
-import { YMapsProvider } from "@/context/YMapsProvider"
-import { WebSocketProvider } from "@/context/WebSocketProvider"
-import { NextThemesProvider } from "@/context/NextThemesProvider"
+import { YMapsProvider, WebSocketProvider, NextThemesProvider } from "@/context"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { useMessages } from "@/store/state/useMessages"
@@ -78,22 +82,26 @@ export default function Providers({ children }: { children: ReactNode }) {
     }, [getCategories, offersCategories, getFetchingOffersCategories])
 
     return (
-        <NextThemesProvider>
-            <QueryClientProvider client={queryClient}>
-                <WebSocketProvider>
-                    <YMapsProvider>
-                        {children}
-                        <ToastContainer />
-                        <FooterMenu />
-                        <SignPopup />
-                        <PhotoCarousel />
-                        <WelcomeModal />
-                        <ExchangesModalMobile />
-                        <Barter />
-                        {token && userId ? <ModalUpdateProfile /> : null}
-                    </YMapsProvider>
-                </WebSocketProvider>
-            </QueryClientProvider>
-        </NextThemesProvider>
+        <>
+            <NextThemesProvider>
+                <QueryClientProvider client={queryClient}>
+                    <WebSocketProvider>
+                        <YMapsProvider>
+                            {children}
+                            <ToastContainer />
+                            <FooterMenu />
+                            <SignPopup />
+                            <PhotoCarousel />
+                            <WelcomeModal />
+                            <ExchangesModalMobile />
+                            <Barter />
+                            {token && userId ? <ModalUpdateProfile /> : null}
+                        </YMapsProvider>
+                    </WebSocketProvider>
+                </QueryClientProvider>
+            </NextThemesProvider>
+            <AnimatedLoadPage />
+            <Glasses />
+        </>
     )
 }

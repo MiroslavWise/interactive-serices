@@ -1,13 +1,13 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useMemo } from "react"
+import { useEffect, useInsertionEffect, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
 import type { IPostThreads } from "@/services/threads/types"
 
-import { Glasses } from "@/components/layout/Glasses"
+import { Glasses } from "@/components/layout"
 import { PopupMenu } from "./components/PopupMenu"
 import { ListMessages } from "./components/ListMessages"
 import { TextAreaSend } from "./components/TextAreaSend"
@@ -30,7 +30,7 @@ export const CurrentChat = () => {
     const { setIsVisible } = usePopupMenuChat()
     const { handlePush, handleReplace } = usePush()
     const { data } = useMessages()
-    const { getSocketMessages } = useSocketMessages()
+    const { getSocketMessages, getMessages } = useSocketMessages()
 
     async function getDataThread(emitterId: number, receiverId: number) {
         const { res } = await threadsService.getUserQuery(Number(emitterId))
@@ -52,8 +52,33 @@ export const CurrentChat = () => {
         return res?.id
     }
 
+    useInsertionEffect(() => {
+        if (idUser && idThread) {
+            crateChat().then((response) => {
+                if (
+                    Number(idThread) === Number(response.id) &&
+                    response?.receiverIds?.includes(idUser)
+                ) {
+                    handleReplace(
+                        `/messages?user=${response
+                            ?.receiverId?.[0]}&thread=${response?.id!}`,
+                    )
+                }
+            })
+        }
+    }, [idUser, idThread])
+
     const crateChat = async () => {
         let thread: any = await getDataThread(Number(userId), Number(idUser))
+
+        console.log("getDataThread: ", thread)
+
+        if (thread) {
+            if (Array.isArray(thread?.messages)) {
+                getMessages(Number(thread?.id), thread?.messages!)
+                return Promise.resolve(thread)
+            }
+        }
 
         if (idThread) {
             const { res } = await threadsService.get(Number(idThread))
@@ -61,6 +86,7 @@ export const CurrentChat = () => {
         }
 
         if (!thread) {
+            console.log("getDataThread: ", thread, "if !thread")
             thread = await getDataThread(Number(idUser), Number(userId))
         }
 
@@ -73,31 +99,18 @@ export const CurrentChat = () => {
             }
         }
         if (thread) {
-            console.log("thread: ---------- ", thread)
+            console.log("getDataThread getSocketMessages: ", thread)
             getSocketMessages(thread?.id!)
-            if (thread?.id !== idThread) {
-                if (thread?.receiverIds?.includes(Number(idUser))) {
-                    handleReplace(
-                        `/messages?user=${thread
-                            ?.receiverIds[0]}&thread=${thread?.id!}`,
-                    )
-                }
-            }
         }
 
         return Promise.resolve(thread)
     }
 
-    useEffect(() => {
-        if (idUser && userId) {
-            crateChat()
-        }
-        return () => {}
-    }, [idUser, userId])
-
     useEffect(
         () => () => {
-            setIsVisible(false)
+            if (isMobile) {
+                setIsVisible(false)
+            }
         },
         [setIsVisible],
     )

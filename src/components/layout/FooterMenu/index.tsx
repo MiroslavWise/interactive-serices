@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
 import { isMobile, isTablet } from "react-device-detect"
 
 import type { TFooterMenu } from "./types"

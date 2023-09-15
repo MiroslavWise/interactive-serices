@@ -14,8 +14,8 @@ import {
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 
+import { checkPasswordStrength } from "@/helpers"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { checkPasswordStrength } from "@/lib/checkPasswordStrength"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/style.module.scss"

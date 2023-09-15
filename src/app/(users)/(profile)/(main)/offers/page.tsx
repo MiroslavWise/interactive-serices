@@ -1,5 +1,6 @@
 import { Suspense } from "react"
-import { OffersPage } from "@/components/profile/OffersPage"
+
+import { OffersPage } from "@/components/profile"
 
 export default function Offers() {
     return (

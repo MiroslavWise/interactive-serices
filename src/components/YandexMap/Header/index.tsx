@@ -1,16 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { isMobile } from "react-device-detect"
-import { motion } from "framer-motion"
+import { useEffect } from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
+import { isMobile } from "react-device-detect"
 
 import type { THeaderMobile } from "./types"
-import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { SearchElementMap } from "@/components/common/Inputs"
-
-import { SERVICES } from "./constants"
 
 import styles from "./styles/style.module.scss"
 

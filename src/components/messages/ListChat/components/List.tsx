@@ -1,14 +1,12 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { Fragment, memo, useEffect, useMemo } from "react"
+import { Fragment, memo } from "react"
 
 import type { TList } from "./types/types"
 
 import { ItemListChat } from "./ItemListChat"
 import { Divider } from "@/components/common/Divider"
-
-import { useMessages } from "@/store/state/useMessages"
 
 import styles from "./styles/style.module.scss"
 

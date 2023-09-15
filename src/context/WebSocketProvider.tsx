@@ -44,28 +44,27 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         console.info("--- error socket --- ", e)
     }
 
-    function chatResponse(data: any) {
-        console.log("chatResponse effect: ", data)
-        if (Number(userId) !== Number(data?.emitterId)) {
-            toast(data?.message + " " + data?.emitterId, {
-                position: "top-center",
-                autoClose: 10000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                onClick() {
-                    handlePush(
-                        `/messages?user=${data?.emitterId}&thread=${data?.threadId}`,
-                    )
-                },
-                theme: systemTheme,
-            })
-        }
-    }
-
     useEffect(() => {
+        function chatResponse(data: any) {
+            console.log("chatResponse effect: ", data)
+            if (Number(userId) !== Number(data?.emitterId)) {
+                toast(data?.message + " " + data?.emitterId, {
+                    position: "top-center",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    onClick() {
+                        handlePush(
+                            `/messages?user=${data?.emitterId}&thread=${data?.threadId}`,
+                        )
+                    },
+                    theme: systemTheme,
+                })
+            }
+        }
         if (token) {
             if (fetchedRef.current) return
             fetchedRef.current = true
@@ -79,7 +78,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 path: "/ws/socket.io",
                 transports: ["websocket"],
                 secure: true,
-                rejectUnauthorized: false
+                rejectUnauthorized: false,
             }
             const socket: Socket = io(env.websocket, options)
             socket.on("connect", () => {
@@ -114,7 +113,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 setSocketState(null)
             }
         }
-    }, [token, socketState])
+    }, [token, socketState, handlePush, systemTheme, userId])
 
     return (
         <CreateContextWebSocket.Provider value={{ socket: socketState! }}>

@@ -3,7 +3,13 @@
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
-import { useCallback, useEffect, useRef, useState } from "react"
+import {
+    useCallback,
+    useEffect,
+    useInsertionEffect,
+    useRef,
+    useState,
+} from "react"
 
 import type { TTextAreaSend } from "./types/types"
 
@@ -92,7 +98,7 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
         }
     }, [socket, getSocketMessages, idThread])
 
-    useEffect(() => {
+    useInsertionEffect(() => {
         if (inputRef.current) {
             inputRef.current.addEventListener("keydown", keyPress)
 

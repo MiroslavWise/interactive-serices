@@ -57,7 +57,7 @@ export const PlacemarkCurrent: TPlacemarkCurrent = ({
                 }
             }
         }
-    }, [isActive, id])
+    }, [isActive, id, handlePush, userId])
 
     const balloonContentService = `
     <div class="maps-content">

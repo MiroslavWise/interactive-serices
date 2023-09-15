@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 
 import {
     CustomDatePicker,
@@ -8,12 +9,11 @@ import {
     CustomSelect,
 } from "@/components/common/custom"
 import { BadgeCoinsPlus } from "./BadgeCoinsPlus"
+import { ButtonFill } from "@/components/common/Buttons"
 
 import { BARTER_LIST } from "@/mocks/components/messages/barter-list"
 
 import styles from "./styles/style.module.scss"
-import { ButtonFill } from "@/components/common/Buttons"
-import Image from "next/image"
 import { TValue } from "@/components/common/custom/Select/types"
 
 export const ContentTitleCarousel = ({}) => {

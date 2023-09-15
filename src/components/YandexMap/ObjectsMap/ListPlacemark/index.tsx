@@ -42,7 +42,7 @@ export const ListPlacemark = () => {
         }
 
         return array
-    }, [data?.res])
+    }, [data?.res, idPlace])
 
     return marks.map((item) => <PlacemarkCurrent key={item.id} {...item} />)
 }

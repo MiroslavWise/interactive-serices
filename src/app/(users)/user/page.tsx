@@ -1,14 +1,16 @@
 "use client"
 
-import { Suspense } from "react"
 import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
+import {
+    MobileInteractive,
+    MobileMainInfo,
+    StatisticAndFeedback,
+    MainInfo,
+} from "@/components/profile"
 import { MotionUL } from "@/components/common/Motion"
-import { MainInfo, StatisticAndFeedback } from "@/components/profile"
-import { MobileMainInfo } from "@/components/profile/MobileMainInfo"
-import { MobileInteractive } from "@/components/profile/MobileInteractive"
 
 import { cx } from "@/lib/cx"
 import { profileService } from "@/services/profile"
@@ -18,7 +20,7 @@ import styles from "@/scss/page.module.scss"
 export default function UserId() {
     const searchParams = useSearchParams()
     const id = searchParams.get("id")
-    const { data, dataUpdatedAt } = useQuery({
+    const { data } = useQuery({
         queryFn: () => profileService.getProfileThroughUserId(id!),
         queryKey: ["profile", id],
     })
