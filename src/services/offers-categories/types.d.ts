@@ -9,11 +9,11 @@ export interface IResponseOffersCategories{
     content: string | null
 }
 
-export interface IOffersCategories{
+export interface IServiceOffersCategories{
     private route: string
     // public post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
-    public getAll(value?: Record<string, string | number>): Promise<IReturnData<IResponseOffersCategories[]>>
+    public get(value?: Record<string, string | number>): Promise<IReturnData<IResponseOffersCategories[]>>
     // public patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
-    public get(id: number | string): Promise<IReturnData<IResponseOffersCategories>>
+    public getId(id: number | string): Promise<IReturnData<IResponseOffersCategories>>
     // public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
 }

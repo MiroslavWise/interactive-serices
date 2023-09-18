@@ -96,43 +96,5 @@ export const ListMessages = memo(function ListMessages({
         userId,
     ])
 
-    // useEffect(() => {
-    //     console.log("ulChat: ", ulChat)
-    //     if (ulChat.current) {
-    //         const stickyElements = ulChat.current.querySelectorAll("sticky")
-
-    //         const scrollSticky = (e: Event) => {
-    //             console.log("scrollSticky: ")
-    //             stickyElements.forEach((element, index) => {
-    //                 const nextElement = stickyElements[index + 1]
-
-    //                 if (nextElement) {
-    //                     const clientRect = element?.getBoundingClientRect()
-    //                     const nextClientRect =
-    //                         nextElement?.getBoundingClientRect()
-
-    //                     if (clientRect.bottom > nextClientRect.top) {
-    //                         console.log(
-    //                             "clientRect if: ",
-    //                             clientRect.bottom,
-    //                             nextClientRect.top,
-    //                         )
-    //                     } else {
-    //                         console.log(
-    //                             "clientRect else: ",
-    //                             clientRect.bottom,
-    //                             nextClientRect.top,
-    //                         )
-    //                     }
-    //                 }
-    //             })
-    //         }
-
-    //         ulChat.current.addEventListener("scroll", scrollSticky)
-
-    //         return ulChat.current.removeEventListener("scroll", scrollSticky)
-    //     }
-    // }, [ulChat, idThread])
-
     return <ul ref={ulChat}>{messagesJoin}</ul>
 })

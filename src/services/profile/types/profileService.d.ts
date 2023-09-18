@@ -31,12 +31,12 @@ export interface IProfileResponse {
   id: number
 }
 
-export interface TProfileService {
+export interface IServiceProfile {
   private route: string
-  public async getProfiles(value: { [key: string]: string | number }): Promise<IReturnData<IGetProfileIdResponse[]>>
-  public async getProfileId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
-  public async getProfileThroughUserId(id: number | string): Promise<IReturnData<IGetProfileIdResponse>>
-  public async postProfile(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>
-  public async patchProfile(value: IPatchProfileData, id: string | number): Promise<IReturnData<IPatchProfileResponse>>
-  public async deleteProfile(id: string | number): Promise<IReturnData<IProfileResponse>>
+  public async get(value: { [key: string]: string | number }): Promise<IReturnData<IGetProfileIdResponse[]>>
+  public async getId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
+  public async getUserId(id: number | string): Promise<IReturnData<IGetProfileIdResponse>>
+  public async post(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>
+  public async patch(value: IPatchProfileData, id: string | number): Promise<IReturnData<IPatchProfileResponse>>
+  public async delete(id: string | number): Promise<IReturnData<IProfileResponse>>
 }

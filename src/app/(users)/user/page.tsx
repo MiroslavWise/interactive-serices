@@ -2,7 +2,8 @@
 
 import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
-import { useSearchParams } from "next/navigation"
+
+import type { IPropsPageUserId } from "./types"
 
 import {
     MobileInteractive,
@@ -13,15 +14,13 @@ import {
 import { MotionUL } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 import styles from "@/scss/page.module.scss"
 
-export default function UserId() {
-    const searchParams = useSearchParams()
-    const id = searchParams.get("id")
+export default function UserId({ searchParams: { id } }: IPropsPageUserId) {
     const { data } = useQuery({
-        queryFn: () => profileService.getProfileThroughUserId(id!),
+        queryFn: () => serviceProfile.getUserId(id!),
         queryKey: ["profile", id],
     })
 

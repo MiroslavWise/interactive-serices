@@ -11,7 +11,7 @@ import {
     retrieveProfileData,
 } from "../action/useAuthAction"
 
-export const useAuthState = create(
+export const useAuth = create(
     persist<IUseAuth>(
         (set, get) => ({
             email: undefined,

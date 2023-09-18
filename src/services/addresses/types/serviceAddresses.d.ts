@@ -40,11 +40,11 @@ export interface IPostAddress{
 
 export type IPatchAddress = Partial<IPostAddress>
 
-export interface IResponseAddresses{
+export interface IServiceAddresses{
     private route: string
-    public getAddresses(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
-    public getAddressId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-    public postAddress(value: IPostDataUser): Promise<IReturnData<IAddressesResponse>>
-    public patchAddress(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
-    public deleteAddress(id: number | string): Promise<IReturnData<IAddressesResponse>>
+    public get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
+    public getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
+    public post(value: IPostDataUser): Promise<IReturnData<IAddressesResponse>>
+    public patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
+    public delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
 }

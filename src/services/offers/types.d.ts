@@ -45,8 +45,8 @@ export interface IResponseOffers{
 export interface IOffers {
     private route: string
     public post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
-    public getAll(value: Record<string, string | number>): Promise<IReturnData<IResponseOffers[]>>
+    public get(value: Record<string, string | number>): Promise<IReturnData<IResponseOffers[]>>
     public patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
-    public get(id: number | string): Promise<IReturnData<IResponseOffers>>
+    public getId(id: number | string): Promise<IReturnData<IResponseOffers>>
     public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
 }

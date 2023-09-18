@@ -17,9 +17,9 @@ import {
 import { toast } from "react-toastify"
 import { useTheme } from "next-themes"
 
+import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
-import { usePush } from "@/helpers/hooks/usePush"
 
 interface IContextSocket {
     socket: Socket | undefined

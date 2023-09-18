@@ -1,15 +1,15 @@
 import { wrapperFetch } from "../requestsWrapper"
-import type { IOffersCategories, IResponseOffersCategories } from "./types"
+import type { IServiceOffersCategories, IResponseOffersCategories } from "./types"
 
-export const serviceOffersCategories: IOffersCategories = {
+export const serviceOffersCategories: IServiceOffersCategories = {
     route: "/offers-categories",
-    getAll(value) {
+    get(value) {
         return wrapperFetch.methodGet<IResponseOffersCategories[]>(
             this.route,
             value,
         )
     },
-    get(id) {
+    getId(id) {
         return wrapperFetch.methodGetId<IResponseOffersCategories>(
             this.route,
             id,

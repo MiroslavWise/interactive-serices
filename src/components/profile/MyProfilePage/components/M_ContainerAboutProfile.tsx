@@ -11,7 +11,7 @@ import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 
@@ -49,8 +49,8 @@ export const M_ContainerAboutProfile = () => {
                 userId: Number(userId),
             }
             if (profileId) {
-                profileService
-                    .patchProfile(data, Number(profileId))
+                serviceProfile
+                    .patch(data, Number(profileId))
                     .then((response) => {
                         if (response.error?.code === 401) {
                             out()
@@ -61,8 +61,8 @@ export const M_ContainerAboutProfile = () => {
                         changeAuth()
                     })
             } else {
-                profileService
-                    .postProfile(data)
+                serviceProfile
+                    .post(data)
                     .then((response) => {
                         if (response.error?.code === 401) {
                             out()

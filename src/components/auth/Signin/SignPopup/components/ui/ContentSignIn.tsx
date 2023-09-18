@@ -16,9 +16,8 @@ import {
     useVisibleAndTypeAuthModal,
     useWelcomeModal,
 } from "@/store/hooks"
-import { regExEmail } from "@/helpers"
 import { usersService } from "@/services/users"
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { useTokenHelper, regExEmail } from "@/helpers"
 
 import styles from "../styles/style.module.scss"
 
@@ -96,7 +95,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         response?.res?.tokenType
                     ) {
                         usersService
-                            .getUserId(response?.res?.id)
+                            .getId(response?.res?.id)
                             .then((responseUser) => {
                                 setToken({
                                     ok: true,

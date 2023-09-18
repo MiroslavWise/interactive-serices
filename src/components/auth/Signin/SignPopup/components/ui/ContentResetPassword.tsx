@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { toast } from "react-toastify"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
 
@@ -14,9 +13,12 @@ import {
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 
-import { checkPasswordStrength } from "@/helpers"
+import {
+    checkPasswordStrength,
+    usePush,
+    useForgotPasswordHelper,
+} from "@/helpers"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/style.module.scss"
 
@@ -37,6 +39,7 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
     } = useForm<IValues>()
     const searchParams = useSearchParams()
     const passwordResetToken = searchParams.get("password-reset-token")
+    const { handleReplace } = usePush()
 
     const submit = (values: IValues) => {
         setLoading(true)
@@ -54,6 +57,7 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                 }
                 if ([401 || 403].includes(response?.code!)) {
                     OnErrorToastify("Время восстановления пароля истекло")
+                    handleReplace("/")
                     return
                 }
                 if (response.code === 500) {
@@ -65,6 +69,7 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                     OnSuccessToastify(
                         "Пароль успешно изменён. Вы можете войти на аккаунт!",
                     )
+                    handleReplace("/")
                     setVisibleAndType({ type: "SignIn" })
                     return
                 }

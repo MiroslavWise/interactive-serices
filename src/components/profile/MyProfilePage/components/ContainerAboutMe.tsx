@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import type { TContainerAboutMe } from "./types/types"
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useOut } from "@/helpers/hooks/useOut"
 
@@ -39,8 +39,8 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
                 username: user?.username!,
                 userId: Number(userId),
             }
-            profileService
-                .patchProfile(data, Number(profileId))
+            serviceProfile
+                .patch(data, Number(profileId))
                 .then((response) => {
                     if (response.error?.code === 401) {
                         out()

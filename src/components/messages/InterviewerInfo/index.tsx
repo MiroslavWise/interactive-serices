@@ -15,7 +15,7 @@ import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
 
 import { useAuth } from "@/store/hooks"
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useThread } from "@/store/state/useThreads"
 import { useMessages } from "@/store/state/useMessages"
@@ -51,7 +51,7 @@ export const InterviewerInfoCurrent = () => {
     }
 
     function handleDeleteChat() {
-        threadsService.delete(Number(idThread)).then((response) => {
+        serviceThreads.delete(Number(idThread)).then((response) => {
             console.log("--- response delete ---", response)
             getThreads(userId!)
             handleReplace("/messages")

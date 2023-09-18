@@ -46,9 +46,9 @@ export interface IResponseThread{
 export interface IThreads{
     private route: string
     public post(value: IPostThreads): Promise<IReturnData<IResponseCreate>>
-    public getAll(value: Record<string, string | number>): Promise<IReturnData<IResponseThreads[]>>
+    public get(value: Record<string, string | number>): Promise<IReturnData<IResponseThreads[]>>
     public patch(value: IPatchThreads, id: number | string): Promise<IReturnData<IResponseCreate>>
-    public get(id: number | string): Promise<IReturnData<IResponseThread>>
+    public getId(id: number | string): Promise<IReturnData<IResponseThread>>
     public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
-    public getUserQuery(userId: number | string): Promise<IReturnData<IResponseThreads[]>>
+    public getUserId(userId: number | string): Promise<IReturnData<IResponseThreads[]>>
 }

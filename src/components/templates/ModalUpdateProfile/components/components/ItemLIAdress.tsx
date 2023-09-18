@@ -45,7 +45,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
 
     function deleteAddress() {
         if (item) {
-            serviceAddresses.deleteAddress(item.id).finally(() => {
+            serviceAddresses.delete(item.id).finally(() => {
                 requestAnimationFrame(() => {
                     changeAuth()
                 })
@@ -96,7 +96,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         }
 
         serviceAddresses
-            .postAddress(value)
+            .post(value)
             .then((response) => {
                 console.log("response address: ", response)
             })

@@ -1,8 +1,7 @@
 "use client"
 
-import { Suspense } from "react"
 import { isMobile } from "react-device-detect"
-import { type ReactNode, useEffect } from "react"
+import { type ReactNode, useEffect, Suspense } from "react"
 
 import { NavBarProfile } from "@/components/profile"
 

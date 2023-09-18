@@ -14,7 +14,7 @@ import { TextAreaSend } from "./components/TextAreaSend"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
 import { useAuth, useChat, usePopupMenuChat } from "@/store/hooks"
@@ -33,7 +33,7 @@ export const CurrentChat = () => {
     const { getSocketMessages, getMessages } = useSocketMessages()
 
     async function getDataThread(emitterId: number, receiverId: number) {
-        const { res } = await threadsService.getUserQuery(Number(emitterId))
+        const { res } = await serviceThreads.getUserId(Number(emitterId))
         return res?.find(
             (item) => item?.receiverIds?.find((id) => id === receiverId),
         )
@@ -47,7 +47,7 @@ export const CurrentChat = () => {
             receiverIds: [receiverId],
             enabled: true,
         }
-        const { res } = await threadsService.post(data_)
+        const { res } = await serviceThreads.post(data_)
 
         return res?.id
     }
@@ -81,7 +81,7 @@ export const CurrentChat = () => {
         }
 
         if (idThread) {
-            const { res } = await threadsService.get(Number(idThread))
+            const { res } = await serviceThreads.getId(Number(idThread))
             thread = res
         }
 
@@ -94,7 +94,7 @@ export const CurrentChat = () => {
             const idCreate = await createThread(Number(userId), Number(idUser))
 
             if (idCreate) {
-                const { res } = await threadsService.get(Number(idCreate))
+                const { res } = await serviceThreads.getId(Number(idCreate))
                 thread = res
             }
         }
@@ -187,7 +187,7 @@ export const CurrentChat = () => {
     }
 
     return (
-        <section className={cx(styles.container, isMobile && styles.mobile)}>
+        <section className={cx(styles.container)}>
             <ListMessages messages={conversationPartner?.messages} />
             <TextAreaSend
                 photo={conversationPartner?.photo}

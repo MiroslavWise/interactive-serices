@@ -8,12 +8,12 @@ import { PeopleCard } from "@/components/common/PeopleCard/ServiceBanner"
 import { MotionUL } from "@/components/common/Motion"
 
 import { MOCKS_SERVICES } from "@/mocks/components/auth/constants"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
 
 export const Peoples: TPeoples = ({ setDataAndActive }) => {
-  const { data, isLoading, error } = useQuery(["profiles"], () => profileService.getProfiles({ limit: 20 }))
+  const { data, isLoading, error } = useQuery(["profiles"], () => serviceProfile.get({ limit: 20 }))
   const { res, ok } = data ?? {}
 
   return (

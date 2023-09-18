@@ -6,7 +6,7 @@ import type {
 } from "../types/useAuthState"
 
 import { usersService } from "@/services/users"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 export const signOutAction = (set: ISetAction) => {
     set({
@@ -64,7 +64,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         Number.isFinite(get().userId)
     ) {
         set({ isAuth: true })
-        usersService.getUserId(get().userId!).then((response) => {
+        usersService.getId(get().userId!).then((response) => {
             if (response?.ok) {
                 set({
                     createdUser: response?.res?.created!,
@@ -107,7 +107,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
 }
 
 export const retrieveProfileData = (set: ISetAction, get: IGetAction) => {
-    profileService.getProfileThroughUserId(get().userId!).then((response) => {
+    serviceProfile.getUserId(get().userId!).then((response) => {
         if (response.ok) {
             const {
                 firstName,

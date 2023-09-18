@@ -1,5 +1,5 @@
 import type {
-    IResponseAddresses,
+    IServiceAddresses,
     IAddressesResponse,
     IPostAddress,
     IPatchAddress,
@@ -7,28 +7,28 @@ import type {
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
-export const serviceAddresses: IResponseAddresses = {
+export const serviceAddresses: IServiceAddresses = {
     route: "/addresses",
-    getAddresses(value) {
+    get(value) {
         return wrapperFetch.methodGet<IAddressesResponse[]>(this.route, value)
     },
-    getAddressId(id) {
+    getId(id) {
         return wrapperFetch.methodGetId<IAddressesResponse>(this.route, id)
     },
-    postAddress(value) {
+    post(value) {
         return wrapperFetch.methodPost<IPostAddress, IAddressesResponse>(
             this.route,
             value,
         )
     },
-    patchAddress(value, id) {
+    patch(value, id) {
         return wrapperFetch.methodPatch<IPatchAddress, IAddressesResponse>(
             this.route,
             value,
             id,
         )
     },
-    deleteAddress(id) {
+    delete(id) {
         return wrapperFetch.methodDelete<IAddressesResponse>(this.route, id)
     },
 }

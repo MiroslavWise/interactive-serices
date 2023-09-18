@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation"
 import type { TPopupMenu } from "./types/types"
 
 import { cx } from "@/lib/cx"
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useThread } from "@/store/state/useThreads"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
@@ -49,7 +49,7 @@ export const PopupMenu: TPopupMenu = ({ fullName, photo }) => {
     }
 
     function handleDeleteChat() {
-        threadsService.delete(Number(idThread)).then((response) => {
+        serviceThreads.delete(Number(idThread)).then((response) => {
             console.log("--- response delete ---", response)
             getThreads(userId!)
             handleReplace("/messages")

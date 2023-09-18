@@ -16,7 +16,7 @@ import { Glasses } from "@/components/layout/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
 import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
@@ -102,8 +102,8 @@ export const ModalUpdateProfile = () => {
 
         Promise.all([
             !!profileId
-                ? profileService.patchProfile(data, profileId!)
-                : profileService.postProfile(data),
+                ? serviceProfile.patch(data, profileId!)
+                : serviceProfile.post(data),
         ])
             .then((response) => {
                 console.log("response ok: ", response?.[0])
@@ -132,8 +132,8 @@ export const ModalUpdateProfile = () => {
                                         useTokenHelper.authUserId || userId,
                                     ),
                                 }
-                                profileService
-                                    .patchProfile(data, response?.[0]?.res?.id!)
+                                serviceProfile
+                                    .patch(data, response?.[0]?.res?.id!)
                                     .then((responsePatch) => {
                                         if (
                                             [400, 401].includes(

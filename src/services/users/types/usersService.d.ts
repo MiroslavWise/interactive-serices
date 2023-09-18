@@ -29,11 +29,11 @@ export interface IUserResponse {
   addresses: IAddressesResponse[]
 }
 
-export interface IResponseUsers {
+export interface IServiceUsers {
   private route: string
-  public async getUsers(value: Record<string, string | number>): Promise<IReturnData<IUserResponse[]>>
-  public async getUserId(id: string | number): Promise<IReturnData<IUserResponse>>
-  public async postUser(value: IPostDataUser): Promise<IReturnData<IResponseDataRegistration>>
-  public async patchUser(value: IPatchDataUser, id: number | string): Promise<IReturnData<IUserResponse>>
-  public async deleteUser(id: number | string): Promise<IReturnData<IUserResponse>>
+  public async get(value: Record<string, string | number>): Promise<IReturnData<IUserResponse[]>>
+  public async getId(id: string | number): Promise<IReturnData<IUserResponse>>
+  public async post(value: IPostDataUser): Promise<IReturnData<IResponseDataRegistration>>
+  public async patch(value: IPatchDataUser, id: number | string): Promise<IReturnData<IUserResponse>>
+  public async delete(id: number | string): Promise<IReturnData<IUserResponse>>
 }

@@ -16,7 +16,7 @@ import styles from "./styles/style.module.scss"
 export const ItemsAdress: TItemsAdress = ({}) => {
     const { userId, addresses } = useAuth()
     const { data, isLoading, error } = useQuery(["addresses", userId], () =>
-        serviceAddresses.getAddresses({}),
+        serviceAddresses.get({}),
     )
 
     const listAdress: IAddressesResponse[] = useMemo(() => {

@@ -8,12 +8,12 @@ import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
 import { randomArrayTwoNumber } from "@/lib/random"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 export const ListPlacemark = () => {
     const idPlace = useId()
     const { data, isLoading, error } = useQuery(["profiles"], () =>
-        profileService.getProfiles({ limit: 20 }),
+        serviceProfile.get({ limit: 20 }),
     )
 
     const marks: IPlacemarkCurrent[] = useMemo(() => {

@@ -1,5 +1,3 @@
-import { shallow } from "zustand/shallow"
-
 import {
     useUpdateProfileState,
     useWelcomeModalState,
@@ -10,108 +8,36 @@ import {
     useVisibleBannerNewServicesState,
     useVisibleAndTypeAuthModalState,
 } from "../state/useVisibleState"
-import { useAnimateLoadPageState } from "../state/useAnimateLoadPageState"
+export { useAnimateLoadPageState as useAnimateLoadPage } from "../state/useAnimateLoadPageState"
 
 export function useVisibleBannerNewServices() {
-    return useVisibleBannerNewServicesState(
-        (state) => ({
-            isVisibleNewServicesBanner: state.isVisibleNewServicesBanner,
-            setIsVisibleNewServicesBanner: state.setIsVisibleNewServicesBanner,
-        }),
-        shallow,
-    )
+    return useVisibleBannerNewServicesState()
 }
 
 export function useVisibleAndTypeAuthModal() {
-    return useVisibleAndTypeAuthModalState(
-        (state) => ({
-            visible: state.visible,
-            type: state.type,
-            setVisibleAndType: state.setVisibleAndType,
-        }),
-        shallow,
-    )
+    return useVisibleAndTypeAuthModalState()
 }
 
-export function useVisibleModalBarter() {
-    return useVisibleModalBarterState(
-        (state) => ({
-            isVisible: state.isVisible,
-            dataProfile: state.dataProfile,
-            setIsVisibleBarter: state.setIsVisibleBarter,
-        }),
-        shallow,
-    )
-}
+export const useVisibleModalBarter = useVisibleModalBarterState
 
 export function useVisiblePhotosCarousel() {
-    return useVisiblePhotosCarouselState(
-        (state) => ({
-            isVisible: state.isVisible,
-            photos: state.photos,
-            currentPhoto: state.currentPhoto,
-            setPrev: state.setPrev,
-            setNext: state.setNext,
-            setCurrentPhoto: state.setCurrentPhoto,
-            setVisibleCarousel: state.setVisibleCarousel,
-        }),
-        shallow,
-    )
+    return useVisiblePhotosCarouselState()
 }
 
 export function useVisibleExchanges() {
-    return useVisibleExchangesState(
-        (state) => ({
-            isVisible: state.isVisible,
-            type: state.type,
-            setVisibleType: state.setVisibleType,
-        }),
-        shallow,
-    )
+    return useVisibleExchangesState()
 }
 
 export function useWelcomeModal() {
-    const content = useWelcomeModalState(
-        (state) => ({
-            isVisible: state.isVisible,
-            page: state.page,
-            setPrev: state.setPrev,
-            setNext: state.setNext,
-            setPage: state.setPage,
-            setVisible: state.setVisible,
-        }),
-        shallow,
-    )
+    const content = useWelcomeModalState()
 
     return content
 }
 
 export function usePopupMenuChat() {
-    return usePopupMenuChatState(
-        (state) => ({
-            isVisible: state.isVisible,
-            setIsVisible: state.setIsVisible,
-        }),
-        shallow,
-    )
+    return usePopupMenuChatState()
 }
 
 export function useUpdateProfile() {
-    return useUpdateProfileState(
-        (state) => ({
-            isVisible: state.isVisible,
-            setVisible: state.setVisible,
-        }),
-        shallow,
-    )
-}
-
-export function useAnimateLoadPage() {
-    return useAnimateLoadPageState(
-        (state) => ({
-            isAnimated: state.isAnimated,
-            setIsAnimated: state.setIsAnimated,
-        }),
-        shallow,
-    )
+    return useUpdateProfileState()
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import { usePathname } from "next/navigation"
 
 import { usePush } from "./usePush"
@@ -8,17 +10,12 @@ import { useWebSocket } from "@/context/WebSocketProvider"
 export const useOut = () => {
     const { reset } = useThread()
     const { signOut } = useAuth()
-    const pathname = usePathname()
     const { socket } = useWebSocket()
     const { setCurrentChat } = useChat()
-    const { handlePush, handleReplace } = usePush()
+    const { handlePush } = usePush()
 
     function out() {
-        if (pathname === "/") {
-            handleReplace("/")
-        } else {
-            handlePush(`/`)
-        }
+        handlePush(`/`)
         if (reset) reset()
         signOut()
         setCurrentChat(undefined)

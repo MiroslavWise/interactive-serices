@@ -22,7 +22,7 @@ export const BannerIsAuth = () => {
     const { setIsAnimated } = useAnimateLoadPage()
 
     useEffect(() => {
-        return () => setIsAnimated(false)
+        // return () => setIsAnimated(false)
     }, [setIsAnimated])
 
     return (

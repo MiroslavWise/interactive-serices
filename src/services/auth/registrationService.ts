@@ -8,7 +8,7 @@ import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const RegistrationService: IRegistrationService = {
     async registration(data) {
-        return usersService.postUser(data).then((response) => {
+        return usersService.post(data).then((response) => {
             // if (response.ok && response?.res?.confirmation_code) {
             //   return this.verification({ code: response?.res?.confirmation_code })
             // }

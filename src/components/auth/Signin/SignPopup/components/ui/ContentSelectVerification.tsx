@@ -1,7 +1,5 @@
 "use client"
 
-// import { useState } from "react"
-// import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
 import type { TContentSelectVerification } from "./types/types"
@@ -17,8 +15,6 @@ export const ContentSelectVerification: TContentSelectVerification = ({
     typeVerification,
     setTypeVerification,
 }) => {
-    // const {setVisibleAndType} = useVisibleAndTypeAuthModal()
-
     const handleVerification = async (value: "phone" | "email") => {
         setTypeVerification(value)
     }

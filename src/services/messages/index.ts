@@ -16,7 +16,7 @@ export const serviceMessages: IMessages = {
             value,
         )
     },
-    getAll(values) {
+    get(values) {
         return wrapperFetch.methodGet<IResponseMessage[]>(this.route, values)
     },
     patch(value, id) {
@@ -32,7 +32,7 @@ export const serviceMessages: IMessages = {
     delete(id) {
         return wrapperFetch.methodDelete<IResponseCreate>(this.route, id)
     },
-    getUserQuery(id) {
+    getUserId(id) {
         return wrapperFetch.methodGetId<IResponseMessage[]>(
             `${this.route}/user`,
             id,

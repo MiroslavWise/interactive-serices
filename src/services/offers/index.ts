@@ -15,7 +15,7 @@ export const serviceOffer: IOffers = {
             value,
         )
     },
-    getAll(value) {
+    get(value) {
         return wrapperFetch.methodGet<IResponseOffers[]>(this.route, value)
     },
     patch(value, id) {
@@ -25,7 +25,7 @@ export const serviceOffer: IOffers = {
             id,
         )
     },
-    get(id) {
+    getId(id) {
         return wrapperFetch.methodGetId<IResponseOffers>(this.route, id)
     },
     delete(id) {
