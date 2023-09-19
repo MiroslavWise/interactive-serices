@@ -32,7 +32,7 @@ export default function UserId({ searchParams: { id } }: IPropsPageUserId) {
                         name={`${data?.res?.firstName} ${data?.res?.lastName}`}
                         photo={data?.res?.image?.attributes?.url!}
                         about={data?.res?.about!}
-                        userId={data?.res?.userId!}
+                        userId={data?.res?.userId! || Number(id)}
                         created={data?.res?.created!}
                     />
                     <MobileInteractive />

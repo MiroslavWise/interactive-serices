@@ -55,16 +55,23 @@ export const CurrentChat = () => {
     useInsertionEffect(() => {
         if (idUser && idThread) {
             crateChat().then((response) => {
-                if (
-                    Number(idThread) === Number(response.id) &&
-                    response?.receiverIds?.includes(idUser)
-                ) {
-                    handleReplace(
-                        `/messages?user=${response
-                            ?.receiverId?.[0]}&thread=${response?.id!}`,
-                    )
-                }
+                console.log("response getDataThread", response)
+                handleReplace(
+                    `/messages?user=${response
+                        ?.receiverIds?.[0]}&thread=${response?.id!}`,
+                )
             })
+            return
+        }
+        if (idUser && !idThread) {
+            crateChat().then((response) => {
+                console.log("response getDataThread", response)
+                handleReplace(
+                    `/messages?user=${response
+                        ?.receiverIds?.[0]}&thread=${response?.id!}`,
+                )
+            })
+            return
         }
     }, [idUser, idThread])
 
