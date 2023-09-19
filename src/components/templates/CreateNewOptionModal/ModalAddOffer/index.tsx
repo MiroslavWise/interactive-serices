@@ -5,9 +5,9 @@ import { type ReactNode, useMemo, useState } from "react"
 import type { TActiveCheck } from "./components/types/types"
 
 import { CircleCheck } from "./components/CircleCheck"
+import { FinishScreen } from "../components/FinishScreen"
 import { Divider } from "@/components/common/Divider"
 import { AddingPhotos } from "./components/AddingPhotos"
-import { SuccessContent } from "./components/SuccessContent"
 import { ServiceSelection } from "./components/ServiceSelection"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
@@ -19,6 +19,7 @@ import styles from "./styles/style.module.scss"
 import { IPatchOffers, IPostOffers } from "@/services/offers/types"
 import { useAuth } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
+import { transliterateAndReplace } from "@/helpers"
 
 const DESCRIPTIONS = [1, 2, 3]
 
@@ -34,13 +35,11 @@ export const ModalAddOffer = () => {
         const obj: Record<TSteps, ReactNode> = {
             1: <ServiceSelection />,
             2: <AddingPhotos />,
-            3: <SuccessContent />,
+            3: <FinishScreen />,
         }
 
         return obj[step]
     }, [step])
-
-    console.log("files: ", { files })
 
     function handleNext() {
         function next() {
@@ -54,7 +53,7 @@ export const ModalAddOffer = () => {
                 provider: `offer`,
                 title: text!,
                 categoryId: valueCategory?.id,
-                slug: valueCategory?.slug!,
+                slug: transliterateAndReplace(text),
                 enabled: true,
                 userId: userId!,
                 desired: true,

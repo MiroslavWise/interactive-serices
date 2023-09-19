@@ -1,7 +1,7 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { useEffect, useMemo, type ReactNode } from "react"
+import { useMemo, type ReactNode, type DispatchWithoutAction } from "react"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
@@ -14,14 +14,14 @@ import { ModalAddDiscussion } from "./ModalAddDiscussion"
 import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { useCreateOffer } from "@/store/state/useCreateOffer"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import { useCloseCreateOptions } from "@/helpers/hooks/useCloseCreateOptions"
 
 import styles from "./styles/style.module.scss"
 
 export const CreateNewOptionModal = () => {
-    const { isVisible, setVisibleAndType, typeAdd } = useAddCreateModal()
-    const { reset } = useCreateOffer()
+    const { close } = useCloseCreateOptions()
+    const { isVisible, typeAdd } = useAddCreateModal()
 
     const content: ReactNode | null = useMemo(() => {
         if (!typeAdd) return null
@@ -35,13 +35,6 @@ export const CreateNewOptionModal = () => {
 
         return obj[typeAdd]
     }, [typeAdd])
-
-    function handleClose() {
-        setVisibleAndType()
-        if (typeAdd === "offer") {
-            reset()
-        }
-    }
 
     return (
         <div
@@ -57,7 +50,7 @@ export const CreateNewOptionModal = () => {
                         right: 12,
                         top: 12,
                     }}
-                    onClick={handleClose}
+                    onClick={close}
                 />
                 <Header />
                 {content}

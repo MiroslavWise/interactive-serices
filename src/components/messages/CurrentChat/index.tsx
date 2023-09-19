@@ -130,7 +130,7 @@ export const CurrentChat = () => {
                     <div
                         className={cx(styles.button)}
                         onClick={() => {
-                            handlePush(`/messages`)
+                            handleReplace(`/messages`)
                         }}
                     >
                         <Image

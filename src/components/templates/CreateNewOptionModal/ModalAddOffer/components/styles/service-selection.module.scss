@@ -21,28 +21,10 @@
         align-items: center;
         gap: 20px;
         width: 100%;
-
-        .labelAndInput {
-            max-width: 420px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-
-            p {
-                color: var(--gray-900);
-                font-size: 14px;
-                text-align: start;
-                font-style: normal;
-                font-weight: 400 !important;
-                line-height: 20px;
-                letter-spacing: -0px;
-            }
-        }
     }
 }
 
-.photos{
+.photos {
     width: 100%;
     display: grid;
     justify-content: center;
