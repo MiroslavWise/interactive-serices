@@ -7,5 +7,6 @@ export {
     useVisiblePhotosCarouselState as useVisiblePhotosCarousel,
     useVisibleBannerNewServicesState as useVisibleBannerNewServices,
     useVisibleAndTypeAuthModalState as useVisibleAndTypeAuthModal,
+    useVisibleNewServiceBarterRequests,
 } from "../state/useVisibleState"
 export { useAnimateLoadPageState as useAnimateLoadPage } from "../state/useAnimateLoadPageState"

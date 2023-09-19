@@ -1,6 +1,10 @@
 import { type ReactNode, Suspense } from "react"
 
-import { CreateNewOptionModal, NewServicesBanner } from "@/components/templates"
+import {
+    CreateNewOptionModal,
+    NewServicesBanner,
+    NewServiceBarterRequests,
+} from "@/components/templates"
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
@@ -9,6 +13,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             <Suspense fallback={false}>
                 <NewServicesBanner />
                 <CreateNewOptionModal />
+                <NewServiceBarterRequests />
             </Suspense>
         </>
     )

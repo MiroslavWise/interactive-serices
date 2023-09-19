@@ -1,13 +1,13 @@
 import { wrapperFetch } from "../requestsWrapper"
 import type {
-    IOffers,
+    IServiceOffers,
     IPatchOffers,
     IPostOffers,
     IResponseCreate,
     IResponseOffers,
 } from "./types"
 
-export const serviceOffer: IOffers = {
+export const serviceOffer: IServiceOffers = {
     route: "/offers",
     post(value) {
         return wrapperFetch.methodPost<IPostOffers, IResponseCreate>(
@@ -27,6 +27,12 @@ export const serviceOffer: IOffers = {
     },
     getId(id) {
         return wrapperFetch.methodGetId<IResponseOffers>(this.route, id)
+    },
+    getUserId(id) {
+        return wrapperFetch.methodGetId<IResponseOffers>(
+            `${this.route}/user`,
+            id,
+        )
     },
     delete(id) {
         return wrapperFetch.methodDelete<IResponseCreate>(this.route, id)

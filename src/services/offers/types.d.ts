@@ -42,11 +42,12 @@ export interface IResponseOffers{
     userId?: number
 }
 
-export interface IOffers {
+export interface IServiceOffers {
     private route: string
     public post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
     public get(value: Record<string, string | number>): Promise<IReturnData<IResponseOffers[]>>
     public patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
     public getId(id: number | string): Promise<IReturnData<IResponseOffers>>
     public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
+    public getUserId(id: number): Promise<IReturnData<IResponseOffers>>
 }

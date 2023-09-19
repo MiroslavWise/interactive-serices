@@ -11,6 +11,7 @@ export const usePush = () => {
 
     function handleReplace(value: string) {
         replace(value)
+        setIsAnimated(false)
     }
 
     function handlePush(value: string) {

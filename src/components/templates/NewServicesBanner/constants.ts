@@ -14,7 +14,7 @@ export const NEW_CREATE_BADGES: INewCreateBadge[] = [
     {
         imageSrc: "/svg/3d/3d-attach.svg",
         label: "Запись в блоге",
-        value: "request",
+        value: null,
     },
     {
         imageSrc: "/svg/3d/3d-message.svg",

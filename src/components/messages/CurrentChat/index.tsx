@@ -17,7 +17,7 @@ import { cx } from "@/lib/cx"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
-import { useAuth, useChat, usePopupMenuChat } from "@/store/hooks"
+import { useAuth, usePopupMenuChat } from "@/store/hooks"
 import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/style.module.scss"
@@ -28,7 +28,7 @@ export const CurrentChat = () => {
     const idThread = searchParams.get("thread")
     const { userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
-    const { handlePush, handleReplace } = usePush()
+    const { handleReplace } = usePush()
     const { data } = useMessages()
     const { getSocketMessages, getMessages } = useSocketMessages()
 
@@ -200,8 +200,7 @@ export const CurrentChat = () => {
 export const ChatEmpty = () => <section className={styles.container} />
 export const Chat = () => {
     const searchParams = useSearchParams()
-    const id = searchParams.get("user")
-    const { currentChatId } = useChat()
+    const idUser = searchParams.get("user")
 
-    return currentChatId || id ? <CurrentChat /> : <ChatEmpty />
+    return idUser ? <CurrentChat /> : <ChatEmpty />
 }

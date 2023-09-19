@@ -14,8 +14,12 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
 
     function handleType() {
-        setIsVisibleNewServicesBanner(false)
-        setVisibleAndType({ visible: true, type: value })
+        if (!value) {
+            setIsVisibleNewServicesBanner(false)
+        } else {
+            setVisibleAndType({ visible: true, type: value })
+            setIsVisibleNewServicesBanner(false)
+        }
     }
 
     return (

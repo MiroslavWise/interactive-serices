@@ -5,3 +5,9 @@ export interface IUseVisibleBannerNewServicesState {
 
     setIsVisibleNewServicesBanner: Dispatch<boolean>
 }
+
+export interface IUseVisibleNewServiceBarterRequests {
+    isVisibleNewServiceBarterRequests: boolean
+
+    setIsVisibleNewServiceBarterRequests: Dispatch<boolean>
+}

@@ -1,13 +1,16 @@
 import { create } from "zustand"
 
-import type { IUseVisibleBannerNewServicesState } from "../types/useVisibleBannerNewServicesState"
-import type { IUseVisibleAndTypeAuthModalState } from "../types/useVisibleAndTypeAuthModalState"
+import type {
+    IUseVisibleBannerNewServicesState,
+    IUseVisibleNewServiceBarterRequests,
+} from "../types/useVisibleBannerNewServicesState"
+import type { IUseWelcomeModal } from "../types/useWelcomeModal"
+import type { IUseUpdateProfileState } from "../types/useUpdateProfile"
+import type { IUsePopupMenuChat } from "../types/usePopupMenuChat"
+import type { IUseVisibleExchanges } from "../types/useVisibleExchanges"
 import type { IUseVisibleModalBarter } from "../types/useVisibleModalBarter"
 import type { IUseVisiblePhotosCarousel } from "../types/useVisiblePhotosCarousel"
-import type { IUseVisibleExchanges } from "../types/useVisibleExchanges"
-import type { IUseWelcomeModal } from "../types/useWelcomeModal"
-import type { IUsePopupMenuChat } from "../types/usePopupMenuChat"
-import type { IUseUpdateProfileState } from "../types/useUpdateProfile"
+import type { IUseVisibleAndTypeAuthModalState } from "../types/useVisibleAndTypeAuthModalState"
 
 export const useVisibleBannerNewServicesState =
     create<IUseVisibleBannerNewServicesState>((set, get) => ({
@@ -16,6 +19,14 @@ export const useVisibleBannerNewServicesState =
             set({
                 isVisibleNewServicesBanner: value,
             })
+        },
+    }))
+
+export const useVisibleNewServiceBarterRequests =
+    create<IUseVisibleNewServiceBarterRequests>((set, get) => ({
+        isVisibleNewServiceBarterRequests: false,
+        setIsVisibleNewServiceBarterRequests(value) {
+            set({ isVisibleNewServiceBarterRequests: value })
         },
     }))
 
@@ -53,7 +64,7 @@ export const useVisibleModalBarterState = create<IUseVisibleModalBarter>(
                 }, 350)
             }
         },
-    })
+    }),
 )
 
 export const useVisibleExchangesState = create<IUseVisibleExchanges>(
@@ -68,7 +79,7 @@ export const useVisibleExchangesState = create<IUseVisibleExchanges>(
                 type: typeof type !== "undefined" ? type : get().type,
             })
         },
-    })
+    }),
 )
 
 export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
@@ -79,7 +90,7 @@ export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
         setPrev() {
             const currentIndex =
                 get().photos.findIndex(
-                    (item) => item.id === get().currentPhoto?.id
+                    (item) => item.id === get().currentPhoto?.id,
                 ) || 0
             const length = get().photos.length
 
@@ -96,7 +107,7 @@ export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
         setNext() {
             const currentIndex =
                 get().photos.findIndex(
-                    (item) => item.id === get().currentPhoto?.id
+                    (item) => item.id === get().currentPhoto?.id,
                 ) || 0
             const length = get().photos.length
 
@@ -131,7 +142,7 @@ export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
                 }, 300)
             }
         },
-    })
+    }),
 )
 
 export const useWelcomeModalState = create<IUseWelcomeModal>((set, get) => ({
@@ -168,6 +179,8 @@ export const useUpdateProfileState = create<IUseUpdateProfileState>(
     (set, get) => ({
         isVisible: false,
 
-        setVisible(value) { set({ isVisible: value, }) },
-    })
+        setVisible(value) {
+            set({ isVisible: value })
+        },
+    }),
 )

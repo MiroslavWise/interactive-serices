@@ -6,7 +6,7 @@ interface INewServicesBanner {}
 export interface INewCreateBadge {
     imageSrc: string
     label: string
-    value: TAddCreate
+    value: TAddCreate | null
 }
 
 export type TNewServicesBanner = FC<INewServicesBanner>
