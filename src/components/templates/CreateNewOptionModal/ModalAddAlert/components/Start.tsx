@@ -15,7 +15,7 @@ import { transliterateAndReplace } from "@/helpers"
 import { fileUploadService } from "@/services/file-upload"
 
 export const Start = () => {
-    const { userId } = useAuth()
+    const { userId, addresses } = useAuth()
     const {
         text,
         files,
@@ -39,6 +39,9 @@ export const Start = () => {
             slug: transliterateAndReplace(text),
             enabled: true,
             desired: true,
+        }
+        if (addresses?.length) {
+            data.addresses = [Number(addresses[0]?.id)]
         }
         serviceOffer.post(data).then((response) => {
             if (response.ok) {

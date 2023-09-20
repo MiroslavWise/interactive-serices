@@ -13,7 +13,7 @@ import { transliterateAndReplace } from "@/helpers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
 
 export const Start = () => {
-    const { userId } = useAuth()
+    const { userId, addresses } = useAuth()
     const {
         text,
         setText,
@@ -39,6 +39,9 @@ export const Start = () => {
             slug: transliterateAndReplace(text!),
             enabled: true,
             desired: true,
+        }
+        if (addresses?.length) {
+            data.addresses = [Number(addresses[0]?.id)]
         }
         serviceOffer.post(data).then((response) => {
             console.log("data request: ", { response })

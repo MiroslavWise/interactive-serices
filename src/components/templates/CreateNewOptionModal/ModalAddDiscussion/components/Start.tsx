@@ -14,7 +14,7 @@ import { fileUploadService } from "@/services/file-upload"
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 
 export const Start = () => {
-    const { userId } = useAuth()
+    const { userId, addresses } = useAuth()
     const {
         text,
         files,
@@ -38,6 +38,9 @@ export const Start = () => {
             slug: transliterateAndReplace(text!),
             enabled: true,
             desired: true,
+        }
+        if (addresses?.length) {
+            data.addresses = [Number(addresses[0]?.id)]
         }
         serviceOffer.post(data).then((response) => {
             if (response.ok) {

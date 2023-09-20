@@ -1,3 +1,4 @@
+import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { DispatchWithoutAction, Dispatch } from "react"
 
 export type TAuthSuffix = "AuthJWT"

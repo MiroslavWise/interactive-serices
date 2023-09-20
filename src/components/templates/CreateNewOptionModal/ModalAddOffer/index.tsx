@@ -29,7 +29,7 @@ const DESCRIPTIONS = [1, 2, 3]
 type TSteps = 1 | 2 | 3
 
 export const ModalAddOffer = () => {
-    const { userId } = useAuth()
+    const { userId, addresses } = useAuth()
     const { setVisibleAndType } = useAddCreateModal()
     const [step, setStep] = useState<TSteps>(1)
     const { reset, files, setId, id, text, valueCategory } = useCreateOffer()
@@ -60,6 +60,9 @@ export const ModalAddOffer = () => {
                 enabled: true,
                 userId: userId!,
                 desired: true,
+            }
+            if (addresses?.length) {
+                data.addresses = [Number(addresses[0]?.id)]
             }
             serviceOffer.post(data).then((response) => {
                 if (response.ok) {

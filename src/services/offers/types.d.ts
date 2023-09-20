@@ -7,7 +7,7 @@ export interface IResponseCreate{
 export interface IPostOffers{
     parentId?: number
     categoryId?: number
-    addresses?: number[]
+    addresses?: [number]
     subscribers?: number[]
     provider: string
     title: string
