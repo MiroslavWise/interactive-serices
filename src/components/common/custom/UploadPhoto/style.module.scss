@@ -21,11 +21,18 @@
         z-index: 20;
     }
 
-    .photo{
+    .photo {
         position: absolute;
         inset: 0;
         height: 196px;
         width: 152px;
         z-index: 30;
+    }
+
+    .mobile {
+        aspect-ratio: 152/196;
+        max-width: 100%;
+        width: 100%;
+        height: auto;
     }
 }

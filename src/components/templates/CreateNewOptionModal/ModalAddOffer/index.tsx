@@ -1,8 +1,10 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
 import { type ReactNode, useMemo, useState } from "react"
 
 import type { TActiveCheck } from "./components/types/types"
+import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
 import { CircleCheck } from "./components/CircleCheck"
 import { FinishScreen } from "../components/FinishScreen"
@@ -15,11 +17,12 @@ import { serviceOffer } from "@/services/offers"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
-import styles from "./styles/style.module.scss"
-import { IPatchOffers, IPostOffers } from "@/services/offers/types"
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
-import { fileUploadService } from "@/services/file-upload"
 import { transliterateAndReplace } from "@/helpers"
+import { fileUploadService } from "@/services/file-upload"
+
+import styles from "./styles/style.module.scss"
 
 const DESCRIPTIONS = [1, 2, 3]
 
@@ -121,7 +124,7 @@ export const ModalAddOffer = () => {
             </section>
             {content}
             {step !== 3 ? (
-                <footer>
+                <footer className={cx(isMobile && styles.mobile)}>
                     <ButtonDefault
                         label="Отмена"
                         classNames={styles.button}

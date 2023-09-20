@@ -1,9 +1,12 @@
 "use client"
 
-import Image from "next/image"
+import { isMobile } from "react-device-detect"
 
 import type { TNewCreateBadge } from "../types/types"
 
+import { ImageStatic } from "@/components/common/Image"
+
+import { cx } from "@/lib/cx"
 import { useVisibleBannerNewServices } from "@/store/hooks"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
@@ -23,8 +26,11 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
     }
 
     return (
-        <li className={styles.containerLiNew} onClick={handleType}>
-            <Image src={imageSrc} alt={imageSrc} width={36} height={36} />
+        <li
+            className={cx(styles.containerLiNew, isMobile && styles.mobile)}
+            onClick={handleType}
+        >
+            <ImageStatic src={imageSrc} alt={imageSrc} width={36} height={36} />
             <p>{label}</p>
         </li>
     )

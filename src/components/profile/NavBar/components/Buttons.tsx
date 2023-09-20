@@ -32,7 +32,7 @@ export const Buttons = () => {
                 />
                 <ButtonFill
                     type="primary"
-                    label="Создать новую"
+                    label="Создать новое"
                     classNames={styles.widthButton}
                     suffix={
                         <Image

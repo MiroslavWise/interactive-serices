@@ -1,6 +1,9 @@
 "use client"
 
-import type { TNewServicesBanner } from "./types/types"
+import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
+
+import type { INewCreateBadge, TNewServicesBanner } from "./types/types"
 
 import { Glasses } from "./components/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
@@ -16,17 +19,36 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
     const { isVisibleNewServicesBanner, setIsVisibleNewServicesBanner } =
         useVisibleBannerNewServices()
 
+    function close() {
+        setIsVisibleNewServicesBanner(false)
+    }
+
+    const badges: INewCreateBadge[] = useMemo(() => {
+        if (isMobile) {
+            const array = [...NEW_CREATE_BADGES]
+            array.unshift({
+                imageSrc: "/png/create-requests/add-request.png",
+                label: "Запрос",
+                value: "request",
+            })
+            return array
+        }
+
+        return NEW_CREATE_BADGES
+    }, [])
+
     return (
         <div
             className={cx(
                 styles.wrapper,
+                isMobile && styles.mobile,
                 isVisibleNewServicesBanner && styles.active,
             )}
         >
             <div className={styles.container}>
                 <h3>Я хочу создать</h3>
                 <ul>
-                    {NEW_CREATE_BADGES.map((item) => (
+                    {badges.map((item) => (
                         <NewCreateBadge
                             key={`${item.value}_${item.label}`}
                             {...item}
@@ -34,7 +56,7 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
                     ))}
                 </ul>
                 <ButtonClose
-                    onClick={() => setIsVisibleNewServicesBanner(false)}
+                    onClick={close}
                     position={{
                         right: 12,
                         top: 12,

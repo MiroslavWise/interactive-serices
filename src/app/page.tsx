@@ -1,11 +1,11 @@
 import { Suspense } from "react"
-// import dynamic from "next/dynamic"
+import dynamic from "next/dynamic"
 
 import { Profiles } from "@/components/auth/Profile"
 import { SignBanner } from "@/components/auth/Signin/SignBanner"
-// const YandexMap = dynamic(() => import("../components/yandexMap"), {
-//     ssr: false,
-// })
+const YandexMap = dynamic(() => import("../components/YandexMap"), {
+    ssr: false,
+})
 
 import styles from "@/scss/page.module.scss"
 
@@ -13,7 +13,7 @@ export default function Home() {
     return (
         <Suspense fallback={false}>
             <main className={styles.main}>
-                {/* <YandexMap /> */}
+                <YandexMap />
                 <SignBanner />
                 <Profiles />
             </main>

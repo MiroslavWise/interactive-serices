@@ -82,6 +82,9 @@ export const ModalUpdateProfile = () => {
             setValue("month", dateOfBirth.month)
             setValue("year", dateOfBirth.year)
             setValue("email", email!)
+            if (isMobile) {
+                setValue("about", user?.about || "")
+            }
         }
     }, [user, setValue, dateOfBirth, email])
 
@@ -98,6 +101,10 @@ export const ModalUpdateProfile = () => {
             about: user?.about || "",
             enabled: true,
             userId: Number(useTokenHelper.authUserId || userId),
+        }
+
+        if (values.about) {
+            data.about = values.about
         }
 
         Promise.all([

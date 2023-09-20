@@ -1,7 +1,12 @@
 import type { FC, Dispatch, SetStateAction } from "react"
-import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
+import {
+    FieldErrors,
+    UseFormRegister,
+    UseFormSetValue,
+    UseFormWatch,
+} from "react-hook-form"
 
-interface IValuesProfile{
+interface IValuesProfile {
     firstName: string
     lastName: string
     username: string
@@ -9,22 +14,23 @@ interface IValuesProfile{
     month: string | number
     year: string | number
     email: string
+    about?: string
 }
 
-interface IHeader{
+interface IHeader {
     selectedImage: string | null
     setSelectedImage: Dispatch<SetStateAction<string | null>>
     setFile: Dispatch<SetStateAction<File | null>>
 }
 
-interface IContent{
+interface IContent {
     errors: FieldErrors<IValuesProfile>
     register: UseFormRegister<IValuesProfile>
     watch: UseFormWatch<IValuesProfile>
     setValue: UseFormSetValue<IValuesProfile>
 }
 
-interface IFooter{
+interface IFooter {
     loading: boolean
 }
 

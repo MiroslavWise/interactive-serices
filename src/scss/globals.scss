@@ -44,7 +44,7 @@ select {
 p,
 a,
 span {
-    letter-spacing: -0.5px;
+    letter-spacing: 0px;
 }
 
 :root {
@@ -156,15 +156,15 @@ span {
     --glass-bg-color-glass-bg-color: rgba(28, 31, 55, 0.67);
 
     --gray-900: #fff;
-    --gray-800: #1d2939;
-    --gray-700: #344054;
+    --gray-800: #e8e8ea;
+    --gray-700: #d1d2d6;
     --gray-600: #a3a5ac;
     --gray-500: #888a93;
-    --gray-400: #98a2b3;
+    --gray-400: #3f4251;
     --gray-300: #5a5d6a;
     --gray-200: #3f4251;
     --gray-100: #2c3041;
-    --gray-50: #f9fafb;
+    --gray-50: #232738;
 
     //Color Primary
     --primary-900: #14112c;

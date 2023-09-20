@@ -43,7 +43,7 @@
             font-style: normal;
             font-weight: 600;
             line-height: 122%;
-            letter-spacing: -0.5px;
+            letter-spacing: 0px;
         }
 
         ul {
@@ -53,5 +53,31 @@
             align-items: center;
             gap: 20px;
         }
+    }
+
+    &.mobile {
+        padding: 0 20px;
+
+        .container {
+            height: min-content;
+            max-width: 100%;
+            padding: 64px 20px 32px;
+            overflow: visible;
+            gap: 32px;
+
+            h3 {
+                font-size: 20px;
+                line-height: 30px;
+            }
+            ul {
+                gap: 16px;
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .wrapper {
+        backdrop-filter: blur(4px);
     }
 }

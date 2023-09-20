@@ -1,7 +1,8 @@
 "use client"
 
+import Image from "next/image"
 import { isMobile } from "react-device-detect"
-import { useMemo, type ReactNode, type DispatchWithoutAction } from "react"
+import { useMemo, type ReactNode } from "react"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
@@ -44,14 +45,25 @@ export const CreateNewOptionModal = () => {
                 isVisible && styles.visible,
             )}
         >
-            <div className={cx(styles.container)}>
-                <ButtonClose
-                    position={{
-                        right: 12,
-                        top: 12,
-                    }}
-                    onClick={close}
-                />
+            <div className={cx(styles.container, isMobile && styles.mobile)}>
+                {isMobile ? (
+                    <div className={cx(styles.headerMobile)} onClick={close}>
+                        <Image
+                            src="/svg/chevron-left.svg"
+                            alt="chevron-left"
+                            height={24}
+                            width={24}
+                        />
+                    </div>
+                ) : (
+                    <ButtonClose
+                        position={{
+                            right: 12,
+                            top: 12,
+                        }}
+                        onClick={close}
+                    />
+                )}
                 <Header />
                 {content}
                 <Glasses />

@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TAddingPhotos } from "./types/types"
 
 import { UploadPhoto } from "@/components/common/custom"
 
+import { cx } from "@/lib/cx"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
 
 import styles from "./styles/service-selection.module.scss"
@@ -20,7 +21,7 @@ export const AddingPhotos: TAddingPhotos = () => {
     } = useCreateOffer()
 
     return (
-        <section className={styles.wrapper}>
+        <section className={cx(styles.wrapper, isMobile && styles.mobile)}>
             <p>
                 Добавьте несколько фотографий и видео, чтобы пользователи могли
                 лучше понять, что вы на самом деле предлагаете.

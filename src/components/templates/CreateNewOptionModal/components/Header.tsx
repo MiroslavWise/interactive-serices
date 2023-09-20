@@ -1,7 +1,11 @@
+"use client"
+
 import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
+import { cx } from "@/lib/cx"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import styles from "./styles/style.module.scss"
@@ -31,7 +35,7 @@ export const Header = () => {
     }, [typeAdd])
 
     return (
-        <header className={styles.header}>
+        <header className={cx(styles.header, isMobile && styles.mobile)}>
             {text.title ? <h3>{text.title}</h3> : null}
         </header>
     )

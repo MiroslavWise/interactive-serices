@@ -2,81 +2,26 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { useState, useEffect, useRef } from "react"
-
-import type { IPostProfileData } from "@/services/profile/types/profileService"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
-import { serviceProfile } from "@/services/profile"
-import { useOut } from "@/helpers/hooks/useOut"
-import { useAuth, useUpdateProfile } from "@/store/hooks"
+import {
+    useAuth,
+    useUpdateProfile,
+    useVisibleBannerNewServices,
+} from "@/store/hooks"
+import { useOut } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
-    const [isEdit, setIsEdit] = useState(false)
-    const [textEditing, setTextEditing] = useState("")
     const { setVisible } = useUpdateProfile()
-    const textArea = useRef<HTMLTextAreaElement | null>(null)
     const { out } = useOut()
-    const { user, imageProfile, userId, profileId, changeAuth, createdUser } =
-        useAuth()
-
-    useEffect(() => {
-        if (isEdit) {
-            requestAnimationFrame(() => {
-                if (textArea?.current) textArea.current.focus()
-            })
-        }
-        return () => {}
-    }, [isEdit])
-
-    useEffect(() => {
-        if (user?.about) {
-            setTextEditing(user?.about)
-        }
-    }, [user?.about])
-
-    function handleEditOrSave() {
-        if (isEdit) {
-            const data: IPostProfileData = {
-                about: textEditing,
-                username: user?.username!,
-                userId: Number(userId),
-            }
-            if (profileId) {
-                serviceProfile
-                    .patch(data, Number(profileId))
-                    .then((response) => {
-                        if (response.error?.code === 401) {
-                            out()
-                        }
-                    })
-                    .finally(() => {
-                        setIsEdit(false)
-                        changeAuth()
-                    })
-            } else {
-                serviceProfile
-                    .post(data)
-                    .then((response) => {
-                        if (response.error?.code === 401) {
-                            out()
-                        }
-                    })
-                    .finally(() => {
-                        setIsEdit(false)
-                        changeAuth()
-                    })
-            }
-        } else {
-            setIsEdit(true)
-        }
-    }
+    const { user, imageProfile, createdUser } = useAuth()
+    const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
 
     return (
         <section className={styles.containerMAboutProfile}>
@@ -138,29 +83,23 @@ export const M_ContainerAboutProfile = () => {
                             ? dayjs(createdUser).format("DD.MM.YYYY")
                             : null}
                     </p>
-                    {isEdit ? (
-                        <textarea
-                            ref={textArea}
-                            onChange={(value) =>
-                                setTextEditing(value?.target?.value)
-                            }
-                            value={textEditing}
-                        />
-                    ) : user?.about ? (
-                        <p className={styles.about}>{user?.about}</p>
-                    ) : (
-                        <a onClick={handleEditOrSave}>
-                            Нажмите, что-бы редактировать информацию о себе
-                        </a>
-                    )}
+                    <p className={styles.about}>{user?.about}</p>
                 </div>
             </div>
             <div className={styles.buttons}>
                 <ButtonFill
-                    label="Редактировать профиль"
+                    label="Создать новое"
                     classNames={styles.buttonFill}
+                    suffix={
+                        <Image
+                            src="/svg/plus.svg"
+                            alt="plus"
+                            width={24}
+                            height={24}
+                        />
+                    }
                     handleClick={() => {
-                        setVisible(true)
+                        setIsVisibleNewServicesBanner(true)
                     }}
                 />
                 <ButtonCircleGradient
@@ -168,7 +107,9 @@ export const M_ContainerAboutProfile = () => {
                     icon="/svg/edit-primary-gradient.svg"
                     size={20}
                     classNames={styles.buttonCircle}
-                    handleClick={handleEditOrSave}
+                    handleClick={() => {
+                        setVisible(true)
+                    }}
                 />
                 <ButtonCircleGradient
                     type="primary"

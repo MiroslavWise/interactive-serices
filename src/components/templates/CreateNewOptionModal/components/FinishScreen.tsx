@@ -2,11 +2,13 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
+import { cx } from "@/lib/cx"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { useCloseCreateOptions } from "@/helpers/hooks/useCloseCreateOptions"
 
@@ -31,7 +33,7 @@ export const FinishScreen = () => {
     }, [typeAdd])
 
     return (
-        <div className={styles.wrapper}>
+        <div className={cx(styles.wrapper, isMobile && styles.mobile)}>
             <section>
                 <Image
                     src="/svg/success-create.svg"

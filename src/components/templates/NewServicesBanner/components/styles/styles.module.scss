@@ -70,6 +70,16 @@
         font-style: normal;
         font-weight: 500;
         line-height: 133%;
-        letter-spacing: -0.5px;
+        letter-spacing: 0px;
+    }
+
+    &.mobile {
+        height: 60px;
+        max-width: 100%;
+
+        p {
+            font-size: 18px;
+            line-height: 28px;
+        }
     }
 }
