@@ -6,7 +6,15 @@ export const useCreateAlert = create<IUseCreateAlert>((set, get) => ({
     text: "",
     emotion: undefined,
     stepAlert: "start",
+    files: [],
+    selectedFile: [],
 
+    setFile(value) {
+        set({ files: [...get().files, value] })
+    },
+    setSelectedFile(value) {
+        set({ selectedFile: [...get().selectedFile, value] })
+    },
     setStepAlert(value) {
         set({ stepAlert: value })
     },

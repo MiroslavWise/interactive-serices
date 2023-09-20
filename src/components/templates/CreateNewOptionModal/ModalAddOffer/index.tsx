@@ -76,7 +76,7 @@ export const ModalAddOffer = () => {
                     fileUploadService(item!, {
                         type: "offer",
                         userId: userId!,
-                        profileId: id!,
+                        idSupplements: id!,
                     }),
                 ),
             ).then((responses) => {

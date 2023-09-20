@@ -1,16 +1,16 @@
+"use client"
+
 import type { IPostOffers } from "@/services/offers/types"
 
+import { FooterButtons } from "../../components/FooterButtons"
 import { LabelAndInput } from "../../components/LabelAndInput"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
 import { transliterateAndReplace } from "@/helpers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
-
-import styles from "./styles/style.module.scss"
 
 export const Start = () => {
     const { userId } = useAuth()
@@ -42,8 +42,8 @@ export const Start = () => {
         }
         serviceOffer.post(data).then((response) => {
             console.log("data request: ", { response })
+            setStepRequest("end")
         })
-        setStepRequest("end")
     }
 
     return (
@@ -62,19 +62,11 @@ export const Start = () => {
                     placeholder="Что вы хотите обсудить?"
                 />
             </SelectAndTextarea>
-            <footer className={styles.footer}>
-                <ButtonDefault
-                    label="Отмена"
-                    classNames={styles.button}
-                    handleClick={handleExit}
-                />
-                <ButtonFill
-                    label="Следующий"
-                    type="primary"
-                    classNames={styles.button}
-                    handleClick={handleNext}
-                />
-            </footer>
+            <FooterButtons
+                disabled={!text || !selected}
+                handleNext={handleNext}
+                handleExit={handleExit}
+            />
         </>
     )
 }

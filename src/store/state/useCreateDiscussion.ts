@@ -6,6 +6,14 @@ export const useCreateDiscussion = create<IUseCreateDiscussion>((set, get) => ({
     text: "",
     emotion: undefined,
     stepDiscussion: "start",
+    files: [],
+    selectedFile: [],
+    setFile(value) {
+        set({ files: [...get().files, value] })
+    },
+    setSelectedFile(value) {
+        set({ selectedFile: [...get().selectedFile, value] })
+    },
 
     setStepDiscussion(value) {
         set({ stepDiscussion: value })

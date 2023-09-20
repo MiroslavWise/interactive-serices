@@ -129,7 +129,7 @@ export const ModalUpdateProfile = () => {
                         fileUploadService(file!, {
                             type: "profile",
                             userId: userId!,
-                            profileId: response?.[0]?.res?.id,
+                            idSupplements: response?.[0]?.res?.id,
                         }).then((uploadResponse) => {
                             if (uploadResponse.ok) {
                                 const data: IPostProfileData = {

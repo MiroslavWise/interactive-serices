@@ -1,20 +1,31 @@
+"use client"
+
 import type { IPostOffers } from "@/services/offers/types"
 
+import { FooterButtons } from "../../components/FooterButtons"
 import { LabelAndInput } from "../../components/LabelAndInput"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { ImagesUploadInput } from "../../components/ImagesUploadInput"
 
 import { useCreateAlert } from "@/store/state/useCreateAlert"
 
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
 import { transliterateAndReplace } from "@/helpers"
-
-import styles from "./styles/style.module.scss"
+import { fileUploadService } from "@/services/file-upload"
 
 export const Start = () => {
     const { userId } = useAuth()
-    const { text, setText, resetAlert, setStepAlert } = useCreateAlert()
+    const {
+        text,
+        files,
+        selectedFile,
+        setText,
+        resetAlert,
+        setStepAlert,
+        setFile,
+        setSelectedFile,
+    } = useCreateAlert()
 
     function handleExit() {
         resetAlert()
@@ -30,9 +41,29 @@ export const Start = () => {
             desired: true,
         }
         serviceOffer.post(data).then((response) => {
-            console.log("data alert: ", { response })
+            if (response.ok) {
+                if (response.res) {
+                    if (files.length > 0) {
+                        Promise.allSettled(
+                            files.map((item) =>
+                                fileUploadService(item!, {
+                                    type: "alert",
+                                    userId: userId!,
+                                    idSupplements: response?.res?.id!,
+                                }),
+                            ),
+                        ).then((responses) => {
+                            console.log("responses upload files offer: ", {
+                                responses,
+                            })
+                        })
+                        setStepAlert("end")
+                    } else {
+                        setStepAlert("end")
+                    }
+                }
+            }
         })
-        setStepAlert("end")
     }
 
     return (
@@ -44,21 +75,20 @@ export const Start = () => {
                     setText={setText}
                     placeholder="Что вы хотите обсудить?"
                 />
+                <ImagesUploadInput
+                    {...{
+                        files,
+                        setFile,
+                        selected: selectedFile,
+                        setSelectedFile,
+                    }}
+                />
             </SelectAndTextarea>
-            <footer className={styles.footer}>
-                <ButtonDefault
-                    label="Отмена"
-                    classNames={styles.button}
-                    handleClick={handleExit}
-                    disabled={!text}
-                />
-                <ButtonFill
-                    label="Следующий"
-                    type="primary"
-                    classNames={styles.button}
-                    handleClick={handleNext}
-                />
-            </footer>
+            <FooterButtons
+                disabled={!text}
+                handleNext={handleNext}
+                handleExit={handleExit}
+            />
         </>
     )
 }

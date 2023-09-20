@@ -16,6 +16,12 @@ export const ButtonFill: TButtonPropsFill = ({
     suffix,
     prefix,
 }) => {
+    function click() {
+        if (disabled) return
+        if (handleClick && !submit) {
+            handleClick()
+        }
+    }
     return (
         <button
             className={cx(
@@ -26,7 +32,7 @@ export const ButtonFill: TButtonPropsFill = ({
                 shadow && "shadow",
                 small && "small",
             )}
-            onClick={handleClick}
+            onClick={click}
             type={submit || "button"}
         >
             {prefix ? prefix : null}

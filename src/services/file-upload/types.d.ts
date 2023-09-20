@@ -38,10 +38,10 @@ export interface IResponseUploadFile {
     }
 }
 
-type TTypeProvider = "profile" | "offer"
+type TTypeProvider = "profile" | "offer" | "discussion" | "alert"
 
 export interface IProvider {
     type: TTypeProvider
     userId: number
-    profileId: number
+    idSupplements: number
 }

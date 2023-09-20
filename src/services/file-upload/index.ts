@@ -46,7 +46,7 @@ export async function fileUploadService(
     formData.append("width", dimensions.width.toString())
     formData.append(
         "provider",
-        `${provider.type}:${provider.userId}:${provider.profileId}`,
+        `${provider.type}:${provider.userId}:${provider.idSupplements}`,
     )
     formData.append("size", uploadFile.size.toString())
     formData.append(
