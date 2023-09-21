@@ -19,8 +19,8 @@ import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
-import { transliterateAndReplace } from "@/helpers"
 import { fileUploadService } from "@/services/file-upload"
+import { transliterateAndReplace, useAddress } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
@@ -29,7 +29,8 @@ const DESCRIPTIONS = [1, 2, 3]
 type TSteps = 1 | 2 | 3
 
 export const ModalAddOffer = () => {
-    const { userId, addresses } = useAuth()
+    const { userId } = useAuth()
+    const { idsAddresses } = useAddress()
     const { setVisibleAndType } = useAddCreateModal()
     const [step, setStep] = useState<TSteps>(1)
     const { reset, files, setId, id, text, valueCategory } = useCreateOffer()
@@ -61,8 +62,8 @@ export const ModalAddOffer = () => {
                 userId: userId!,
                 desired: true,
             }
-            if (addresses?.length) {
-                data.addresses = [Number(addresses[0]?.id)]
+            if (idsAddresses) {
+                data.addresses = idsAddresses
             }
             serviceOffer.post(data).then((response) => {
                 if (response.ok) {

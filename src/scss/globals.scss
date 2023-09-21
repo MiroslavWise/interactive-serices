@@ -45,6 +45,7 @@ p,
 a,
 span {
     letter-spacing: 0px;
+    font-style: normal;
 }
 
 :root {
@@ -124,6 +125,7 @@ span {
     --success-50: #ecfdf3;
 
     //Gradient
+    --SOS-CARD: linear-gradient(180deg, #ff8da2 0%, #eb3f5e 49.32%);
     --gradient-primary: linear-gradient(180deg, #ada2fc 0%, #6e5cf0 100%);
     --gradient-optional-1: linear-gradient(180deg, #ff9e88 0%, #ee4e29 100%);
     --gradient-optional-1-reverb: linear-gradient(

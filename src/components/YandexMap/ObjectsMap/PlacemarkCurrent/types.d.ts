@@ -1,16 +1,12 @@
+import { IProvider, TTypeProvider } from "@/services/file-upload/types"
 import type { FC } from "react"
 
 export interface IPlacemarkCurrent {
-    name: string
-    about: string
-    image: {
-        url: string
-    }
-    icon: string
-    coordinates: [number, number]
-    size: [number, number]
+    title: string
+    provider: TTypeProvider
+    coordinates: [number, number][]
     id: string | number
-    userId: number | string
+    idUser: number | string
 }
 
 export type TPlacemarkCurrent = FC<IPlacemarkCurrent>

@@ -1,14 +1,48 @@
-export const debounce = <F extends (...args: any[]) => any>(
-    func: F,
-    waitFor = 700,
-) => {
-    let timeout: any
+export function debounce<T extends (...args: any[]) => any>(fn: T, ms: number) {
+    let timeoutId: any | null = null
 
-    return (...args: Parameters<F>): Promise<ReturnType<F>> =>
-        new Promise((resolve) => {
-            if (timeout) {
-                clearTimeout(timeout)
-            }
-            timeout = setTimeout(() => resolve(func(...args)), waitFor)
+    function debounced(...args: Parameters<T>) {
+        if (typeof timeoutId === "number") {
+            clearTimeout(timeoutId)
+        }
+
+        timeoutId = setTimeout(() => {
+            timeoutId = null
+            fn.apply(null, args)
+        }, ms)
+    }
+
+    debounced.cancel = () => {
+        if (typeof timeoutId !== "number") {
+            return
+        }
+        clearTimeout(timeoutId)
+    }
+
+    return debounced
+}
+
+export function rafThrottle<T extends (...args: any[]) => any>(fn: T) {
+    let rafId: number | null = null
+
+    function throttled(...args: Parameters<T>) {
+        if (typeof rafId === "number") {
+            console.log("cancel")
+            return
+        }
+
+        rafId = requestAnimationFrame(() => {
+            fn.apply(null, args)
+            rafId = null
         })
+    }
+
+    throttled.cancel = () => {
+        if (typeof rafId !== "number") {
+            return
+        }
+        cancelAnimationFrame(rafId)
+    }
+
+    return throttled
 }

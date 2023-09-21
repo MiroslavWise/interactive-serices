@@ -3,7 +3,7 @@ import type { IReturnData } from "@/services/types/general"
 export interface IAddressesResponse {
     id: number
     userId: number
-    address_type: string
+    addressType: string
     country: string
     region?: string
     district?: string

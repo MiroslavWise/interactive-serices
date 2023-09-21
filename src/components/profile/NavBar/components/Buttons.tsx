@@ -11,12 +11,13 @@ import {
     useVisibleAndTypeAuthModal,
     useVisibleNewServiceBarterRequests,
 } from "@/store/hooks"
-import { usePush } from "@/helpers/hooks/usePush"
+import { useAddress, usePush } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
 export const Buttons = () => {
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { isAddresses } = useAddress()
     const { setIsVisibleNewServiceBarterRequests } =
         useVisibleNewServiceBarterRequests()
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
@@ -42,7 +43,11 @@ export const Buttons = () => {
                             height={24}
                         />
                     }
-                    handleClick={() => setIsVisibleNewServicesBanner(true)}
+                    handleClick={() => {
+                        if (isAddresses) {
+                            setIsVisibleNewServicesBanner(true)
+                        }
+                    }}
                 />
                 <ButtonFill
                     type="primary"
@@ -56,9 +61,11 @@ export const Buttons = () => {
                             height={24}
                         />
                     }
-                    handleClick={() =>
-                        setIsVisibleNewServiceBarterRequests(true)
-                    }
+                    handleClick={() => {
+                        if (isAddresses) {
+                            setIsVisibleNewServiceBarterRequests(true)
+                        }
+                    }}
                 />
             </div>
         ) : (

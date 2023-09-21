@@ -11,11 +11,12 @@ import { useCreateAlert } from "@/store/state/useCreateAlert"
 
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
-import { transliterateAndReplace } from "@/helpers"
 import { fileUploadService } from "@/services/file-upload"
+import { transliterateAndReplace, useAddress } from "@/helpers"
 
 export const Start = () => {
-    const { userId, addresses } = useAuth()
+    const { userId } = useAuth()
+    const { idsAddresses } = useAddress()
     const {
         text,
         files,
@@ -40,8 +41,8 @@ export const Start = () => {
             enabled: true,
             desired: true,
         }
-        if (addresses?.length) {
-            data.addresses = [Number(addresses[0]?.id)]
+        if (idsAddresses) {
+            data.addresses = idsAddresses
         }
         serviceOffer.post(data).then((response) => {
             if (response.ok) {

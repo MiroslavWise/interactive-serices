@@ -15,14 +15,15 @@ import { ModalAddDiscussion } from "./ModalAddDiscussion"
 import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
+import { useCloseCreateOptions, useAddress } from "@/helpers"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
-import { useCloseCreateOptions } from "@/helpers/hooks/useCloseCreateOptions"
 
 import styles from "./styles/style.module.scss"
 
 export const CreateNewOptionModal = () => {
     const { close } = useCloseCreateOptions()
     const { isVisible, typeAdd } = useAddCreateModal()
+    const { isAddresses } = useAddress()
 
     const content: ReactNode | null = useMemo(() => {
         if (!typeAdd) return null
@@ -37,7 +38,7 @@ export const CreateNewOptionModal = () => {
         return obj[typeAdd]
     }, [typeAdd])
 
-    return (
+    return isAddresses ? (
         <div
             className={cx(
                 styles.wrapper,
@@ -69,5 +70,5 @@ export const CreateNewOptionModal = () => {
                 <Glasses />
             </div>
         </div>
-    )
+    ) : null
 }

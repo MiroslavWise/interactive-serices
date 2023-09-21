@@ -57,10 +57,6 @@ export const CurrentChat = () => {
         if (idUser && idThread) {
             crateChat().then((response) => {
                 console.log("response getDataThread", response)
-                handleReplace(
-                    `/messages?user=${response
-                        ?.receiverIds?.[0]}&thread=${response?.id!}`,
-                )
             })
             return
         }
@@ -81,6 +77,7 @@ export const CurrentChat = () => {
 
         if (thread) {
             if (Array.isArray(thread?.messages)) {
+                getSocketMessages(thread?.id!)
                 return Promise.resolve(thread)
             }
         }
@@ -106,9 +103,8 @@ export const CurrentChat = () => {
         if (thread) {
             console.log("getDataThread getSocketMessages: ", thread)
             getSocketMessages(thread?.id!)
+            return Promise.resolve(thread)
         }
-
-        return Promise.resolve(thread)
     }
 
     useEffect(

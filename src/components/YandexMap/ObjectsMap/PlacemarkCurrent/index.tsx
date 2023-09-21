@@ -1,95 +1,92 @@
 "use client"
 
-import { Placemark, useYMaps } from "@pbe/react-yandex-maps"
+import { Placemark } from "@pbe/react-yandex-maps"
+import { type FC, memo, useId, useState, useEffect } from "react"
 
-import type { TPlacemarkCurrent } from "./types"
-import { useEffect, useRef, useState } from "react"
-import { usePush } from "@/helpers/hooks/usePush"
+import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
 
-export const PlacemarkCurrent: TPlacemarkCurrent = ({
+import { usePush } from "@/helpers"
+import { TYPE_ICON, BALLON_TYPE } from "./constants"
+import { useAuth } from "@/store/hooks"
+
+const PlacemarkCurrentStates: TPlacemarkCurrent = ({
     coordinates,
-    image,
-    icon,
-    size,
-    about,
+    title,
     id,
-    name,
-    userId,
+    idUser,
+    provider,
 }) => {
-    const { handlePush } = usePush()
+    return coordinates.map((item) => (
+        <Place
+            key={`${item[0]}-${item[1]}-${id}`}
+            item={item}
+            provider={provider}
+            id={id}
+            idUser={idUser}
+            title={title}
+        />
+    ))
+}
+export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
+
+const PlaceMarkState: FC<
+    Partial<IPlacemarkCurrent> & { item: [number, number] }
+> = ({ title, id, item, provider, idUser }) => {
+    const idPlace = useId()
+    const { userId } = useAuth()
     const [isActive, setIsActive] = useState(false)
-    const ymaps = useYMaps([
-        "geolocation",
-        "GeocodeResult",
-        "GeoObject",
-        "util.defineClass",
-        "Placemark",
-        "Balloon",
-    ])
-
-    useEffect(() => {}, [ymaps])
-
-    function onClick(a: any, b: any) {
-        console.log("a: , ", a, "b: , ", b)
-    }
+    const { handlePush } = usePush()
 
     useEffect(() => {
         if (isActive) {
-            const buttonHistory = document.getElementById(
-                `button-on-history-${id}`,
-            )
             const buttonMessage = document.getElementById(
-                `button-message-${id}`,
+                `button-message-${id}-${idPlace}`,
             )
             const buttonUser = document.getElementById(`button-user-${id}`)
-            console.log("buttonHistory: ", buttonHistory)
-            if (buttonHistory) {
-                buttonHistory.onclick = () => onClick(1, id)
-            }
             if (buttonMessage) {
                 buttonMessage.onclick = () => {
-                    handlePush(`/messages?user=${userId}`)
+                    if (userId !== idUser) {
+                        handlePush(`/messages?user=${idUser}`)
+                    }
                 }
             }
             if (buttonUser) {
                 buttonUser.onclick = () => {
-                    handlePush(`/user?id=${userId}`)
+                    if (userId !== idUser) {
+                        handlePush(`/user?id=${idUser}`)
+                    }
                 }
             }
         }
-    }, [isActive, id, handlePush, userId])
+    }, [isActive, id, handlePush, idUser, idPlace, userId])
 
     const balloonContentService = `
     <div class="maps-content">
       <div class="maps-service-title-block">
         <div class="maps-photo-block">
-          <img src="${
-              image.url ? image.url : "/png/default_avatar.png"
-          }" alt="avatar" width="400" height="400" class="maps-avatar">
+
           <div class="maps-badge-rating"><img src="/svg/star.svg" alt="start" width="12" height="12" /><p>4.5</p></div>
         </div>
         <section class="maps-about-content">
-          <h3>${name}</h3>
+          <h3>""asd</h3>
           <a>01/02/2023</a>
-          <p>${about}</p>
+          <p>${title}</p>
         </section>
       </div>
       <section class="maps-buttons">
-        <div class="button-fill secondary" id="button-on-history-${id}"><span>Перейти к истории</span></div>
-        <div class="maps-button-circle" id="button-message-${id}"><img src="/png/chat-bubbles.png" width="18" height="18" /></div>
-        <div class="maps-button-circle" id="button-user-${id}"><img src="/png/user-profile.png" width="18" height="18" /></div>
+        <div class="maps-button-circle" id="button-message-${id}-${idPlace}"><img src="/png/chat-bubbles.png" width="18" height="18" /></div>
+        <div class="maps-button-circle" id="button-user-${id}-${idPlace}"><img src="/png/user-profile.png" width="18" height="18" /></div>
       </section>
     </div>
   `
 
     return (
         <Placemark
-            key={`${coordinates[0]}`}
-            geometry={coordinates}
+            geometry={item.reverse()}
             options={{
                 iconLayout: "default#image",
-                iconImageHref: icon,
-                iconImageSize: size,
+                iconImageHref: TYPE_ICON[provider!].default || "/map/not.png",
+                iconImageSize: [48, 54],
                 hideIconOnBalloonOpen: false,
                 zIndex: 45,
                 balloonZIndex: "42",
@@ -108,7 +105,20 @@ export const PlacemarkCurrent: TPlacemarkCurrent = ({
                 }, 10)
             }}
             modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
-            properties={{ balloonContent: balloonContentService }}
+            properties={{
+                balloonContent: ["alert", "request", "discussion"].includes(
+                    provider!,
+                )
+                    ? BALLON_TYPE[provider!]({
+                          time: "25.08.2023",
+                          title: title! || "",
+                          idPlace: idPlace,
+                          id: id!,
+                      })
+                    : balloonContentService,
+            }}
         />
     )
 }
+
+const Place = memo(PlaceMarkState)

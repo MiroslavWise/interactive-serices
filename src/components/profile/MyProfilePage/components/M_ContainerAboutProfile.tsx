@@ -13,11 +13,12 @@ import {
     useUpdateProfile,
     useVisibleBannerNewServices,
 } from "@/store/hooks"
-import { useOut } from "@/helpers"
+import { useAddress, useOut } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
+    const { isAddresses } = useAddress()
     const { setVisible } = useUpdateProfile()
     const { out } = useOut()
     const { user, imageProfile, createdUser } = useAuth()
@@ -99,7 +100,9 @@ export const M_ContainerAboutProfile = () => {
                         />
                     }
                     handleClick={() => {
-                        setIsVisibleNewServicesBanner(true)
+                        if (isAddresses) {
+                            setIsVisibleNewServicesBanner(true)
+                        }
                     }}
                 />
                 <ButtonCircleGradient

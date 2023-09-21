@@ -4,4 +4,10 @@
 @import "./custom-element.scss";
 @import "./text-tags.scss";
 @import "./body.scss";
-@import "./yandex-balloon.scss";
+
+//yandex
+@import "./yandex/yandex-balloon.scss";
+@import "./yandex/alert-balloon.scss";
+@import "./yandex/discussion-balloon.scss";
+@import "./yandex/offer-balloon.scss";
+@import "./yandex/request-balloon.scss";

@@ -12,7 +12,7 @@ import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
-import { debounce } from "@/lib/debounce"
+import { useDebounce } from "@/helpers"
 import { locationName } from "@/lib/location-name"
 import { serviceAddresses } from "@/services/addresses"
 import { geocodeSearch } from "@/services/addresses/geocodeSearch"
@@ -24,6 +24,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     const [text, setText] = useState("")
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const [activeList, setActiveList] = useState(false)
+    const debouncedValue = useDebounce(onValueFunc, 1500)
 
     useEffect(() => {
         if (item) {
@@ -53,18 +54,12 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         }
     }
 
-    const valueDebounce = debounce((value: string) => {
-        console.log("debounce: ", value)
-        if (value.length > 2 && activeList) {
-            geocodeSearch(value).then((res) => {
-                if (res) {
-                    setValues(res)
-                }
-            })
-        } else {
-            setValues(null)
+    function onValueFunc() {
+        console.log("debounce: ", text)
+        if (text.length > 2 && activeList) {
+            geocodeSearch(text).then((response) => setValues(response))
         }
-    }, 1500)
+    }
 
     function handleAddress(item: IFeatureMember) {
         const country = locationName(item, "country")
@@ -73,6 +68,8 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const coordinates = item?.GeoObject?.Point?.pos
         const additional =
             item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
+
+        console.log("item addresses: ", { item })
 
         const value: IPostAddress = {
             userId: userId!,
@@ -89,7 +86,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
             value.house = house
         }
         if (coordinates) {
-            value.coordinates = coordinates.replace(" ", ":")
+            value.coordinates = coordinates
         }
         if (additional) {
             value.additional = additional
@@ -125,7 +122,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     value={text}
                     onChange={(value) => {
                         setText(value.target.value)
-                        valueDebounce(value.target.value)
+                        debouncedValue()
                     }}
                     placeholder="Записать новый"
                     onFocus={onFocus}

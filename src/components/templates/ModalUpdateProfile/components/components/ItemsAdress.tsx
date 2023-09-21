@@ -35,7 +35,7 @@ export const ItemsAdress: TItemsAdress = ({}) => {
                     item={item}
                 />
             ))}
-            {listAdress.length < 5 ? <ItemLIAdress active={false} /> : null}
+            {listAdress.length < 3 ? <ItemLIAdress active={false} /> : null}
         </ul>
     )
 }

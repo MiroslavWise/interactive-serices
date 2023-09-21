@@ -9,11 +9,12 @@ import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectO
 
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
-import { transliterateAndReplace } from "@/helpers"
+import { transliterateAndReplace, useAddress } from "@/helpers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
 
 export const Start = () => {
-    const { userId, addresses } = useAuth()
+    const { userId } = useAuth()
+    const { idsAddresses } = useAddress()
     const {
         text,
         setText,
@@ -40,8 +41,8 @@ export const Start = () => {
             enabled: true,
             desired: true,
         }
-        if (addresses?.length) {
-            data.addresses = [Number(addresses[0]?.id)]
+        if (idsAddresses) {
+            data.addresses = idsAddresses
         }
         serviceOffer.post(data).then((response) => {
             console.log("data request: ", { response })
