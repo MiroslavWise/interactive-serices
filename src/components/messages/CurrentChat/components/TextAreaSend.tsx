@@ -31,8 +31,8 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
     const { socket } = useWebSocket()
     const { userId } = useAuth()
     const searchParams = useSearchParams()
-    const idUserInterlocutor = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUserInterlocutor = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { getSocketMessages } = useSocketMessages()
     const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
 

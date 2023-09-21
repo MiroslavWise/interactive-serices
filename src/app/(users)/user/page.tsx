@@ -19,7 +19,7 @@ import styles from "@/scss/page.module.scss"
 
 export default function UserId() {
     const searchParams = useSearchParams()
-    const id = searchParams.get("id")
+    const id = searchParams?.get("id")
     const { data } = useQuery({
         queryFn: () => serviceProfile.getUserId(id!),
         queryKey: ["profile", id],

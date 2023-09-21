@@ -28,8 +28,8 @@ export const ListMessages = memo(function ListMessages({
     messages: IThreadsMessages[]
 }) {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
     const { data } = useMessages()

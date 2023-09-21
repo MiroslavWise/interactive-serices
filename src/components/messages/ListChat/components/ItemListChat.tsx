@@ -18,8 +18,8 @@ import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 import styles from "./styles/style.module.scss"
 
 const Item: TItemListChat = ({ item }) => {
-    const { get } = useSearchParams()
-    const idThread = get("thread")
+    const searchParams = useSearchParams()
+    const idThread = searchParams?.get("thread")
     const { handleReplace } = usePush()
     const { data } = useMessages()
 

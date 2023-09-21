@@ -19,8 +19,8 @@ import styles from "./styles/popup-menu.module.scss"
 
 export const PopupMenu: TPopupMenu = ({ fullName, photo }) => {
     const searchParams = useSearchParams()
-    const id = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const id = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { userId } = useAuth()
     const { isVisible, setIsVisible } = usePopupMenuChat()
     const { setIsVisibleBarter } = useVisibleModalBarter()

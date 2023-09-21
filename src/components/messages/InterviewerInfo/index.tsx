@@ -26,8 +26,8 @@ import styles from "./styles/style.module.scss"
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
     const { userId } = useAuth()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { handlePush, handleReplace } = usePush()
     const { data } = useMessages()
 
@@ -166,8 +166,8 @@ export const InterviewerInfoEmpty = () => (
 
 export const InterviewerInfo = () => {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
 
     return idUser && idThread ? (
         <InterviewerInfoCurrent />

@@ -24,8 +24,8 @@ import styles from "./styles/style.module.scss"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
     const { handleReplace } = usePush()
@@ -201,7 +201,7 @@ export const CurrentChat = () => {
 export const ChatEmpty = () => <section className={styles.container} />
 export const Chat = () => {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
+    const idUser = searchParams?.get("user")
 
     return idUser ? <CurrentChat /> : <ChatEmpty />
 }

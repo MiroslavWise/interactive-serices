@@ -22,7 +22,7 @@ export const Links = () => {
                     onClick={() => {
                         handlePush(path!)
                     }}
-                    className={cx(active.includes(path) && styles.active)}
+                    className={cx(active?.includes(path) && styles.active)}
                 >
                     <Image src={icon} alt={icon} width={24} height={24} />
                     <a>{label}</a>

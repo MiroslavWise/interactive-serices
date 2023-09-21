@@ -38,7 +38,7 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
         formState: { errors },
     } = useForm<IValues>()
     const searchParams = useSearchParams()
-    const passwordResetToken = searchParams.get("password-reset-token")
+    const passwordResetToken = searchParams?.get("password-reset-token")
     const { handleReplace } = usePush()
 
     const submit = (values: IValues) => {

@@ -10,7 +10,7 @@ import styles from "./style.module.scss"
 
 export default function Messages() {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
+    const idUser = searchParams?.get("user")
 
     return (
         <Suspense fallback={false}>
