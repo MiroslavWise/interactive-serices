@@ -22,7 +22,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                 {isMobile ? (
                     <LabelTextArea
                         label="О себе"
-                        placeholder="Расскажите чем вы занимаетесь или что вас интересует?"
+                        placeholder="Расскажите чем вы занимаетесь или что вас интересует?(до 256 символов)"
                         type="text"
                         propsInput={register("about", { required: false })}
                         errorMessage={

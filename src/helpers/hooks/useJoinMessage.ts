@@ -11,6 +11,12 @@ function useJoinMessage() {
 
         if (item_messages) {
             item_messages.forEach((message, index) => {
+                if (index === 0) {
+                    items.push({
+                        type: "time",
+                        time: dayjs(message.created).format("DD.MM.YYYY"),
+                    })
+                }
                 if (
                     index !== 0 &&
                     dayjs(message.created).format("DD.MM.YYYY") !==
@@ -30,12 +36,6 @@ function useJoinMessage() {
                         time: message?.created,
                     })
                 } else {
-                    if (index === 0) {
-                        items.push({
-                            type: "time",
-                            time: dayjs(message.created).format("DD.MM.YYYY"),
-                        })
-                    }
                     items.push({
                         emitterId: message?.emitterId,
                         id: `${message.id}_${message?.emitterId}`,

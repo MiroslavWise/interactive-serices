@@ -31,6 +31,7 @@ export const LabelInput: TLabelInput = ({
                     type={type}
                     placeholder={placeholder}
                     className={cx(errorMessage && styles.errorInput)}
+                    maxLength={128}
                     {...propsInput}
                 />
                 {errorMessage ? (
@@ -62,6 +63,7 @@ export const LabelTextArea: TLabelInput = ({
                 <textarea
                     placeholder={placeholder}
                     className={cx(errorMessage && styles.errorInput)}
+                    maxLength={256}
                     {...propsInput}
                 />
                 {errorMessage ? (

@@ -8,6 +8,7 @@ export const CustomTextArea: TCustomTextArea = ({
     value,
     setValue,
     placeholder,
+    maxLength,
 }) => {
     return (
         <textarea
@@ -15,6 +16,7 @@ export const CustomTextArea: TCustomTextArea = ({
             value={value}
             onChange={(value) => setValue(value.target.value)}
             placeholder={placeholder}
+            maxLength={maxLength || 256}
         />
     )
 }

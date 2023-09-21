@@ -34,6 +34,7 @@ export const CurrentChat = () => {
 
     async function getDataThread(emitterId: number, receiverId: number) {
         const { res } = await serviceThreads.getUserId(Number(emitterId))
+        console.log("messages getUserId: ", { res })
         return res?.find(
             (item) => item?.receiverIds?.find((id) => id === receiverId),
         )
@@ -78,11 +79,8 @@ export const CurrentChat = () => {
     const crateChat = async () => {
         let thread: any = await getDataThread(Number(userId), Number(idUser))
 
-        console.log("getDataThread: ", thread)
-
         if (thread) {
             if (Array.isArray(thread?.messages)) {
-                getMessages(Number(thread?.id), thread?.messages!)
                 return Promise.resolve(thread)
             }
         }

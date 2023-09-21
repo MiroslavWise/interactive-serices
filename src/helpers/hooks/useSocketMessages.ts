@@ -7,6 +7,7 @@ export const useSocketMessages = () => {
 
     const getSocketMessages = (id: number) => {
         serviceThreads.getId(id).then((response) => {
+            console.log("messages getSocketMessages: ", { response })
             setMessages({
                 id: response?.res?.id!,
                 messages: response?.res?.messages!,
