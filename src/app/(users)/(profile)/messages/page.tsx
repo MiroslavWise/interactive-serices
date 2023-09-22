@@ -1,6 +1,5 @@
 "use client"
 
-import { Suspense } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -12,19 +11,15 @@ export default function Messages() {
     const searchParams = useSearchParams()
     const idUser = searchParams?.get("user")
 
-    return (
-        <Suspense fallback={false}>
-            {isMobile ? (
-                <div className={styles.pageMobile}>
-                    {idUser ? <Chat /> : <ListChat />}
-                </div>
-            ) : (
-                <div className={styles.page}>
-                    <ListChat />
-                    <Chat />
-                    <InterviewerInfo />
-                </div>
-            )}
-        </Suspense>
+    return isMobile ? (
+        <div className={styles.pageMobile}>
+            {idUser ? <Chat /> : <ListChat />}
+        </div>
+    ) : (
+        <div className={styles.page}>
+            <ListChat />
+            <Chat />
+            <InterviewerInfo />
+        </div>
     )
 }

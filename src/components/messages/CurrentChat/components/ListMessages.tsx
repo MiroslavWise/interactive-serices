@@ -8,6 +8,7 @@ import {
     useLayoutEffect,
     useMemo,
     useRef,
+    useInsertionEffect,
 } from "react"
 
 import type { IThreadsMessages } from "@/services/threads/types"
@@ -36,7 +37,7 @@ export const ListMessages = memo(function ListMessages({
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
 
-    useLayoutEffect(() => {
+    useInsertionEffect(() => {
         if (messages?.length > 0) {
             if (ulChat.current) {
                 if (numberIdMessage.current !== messages?.at(-1)?.id) {

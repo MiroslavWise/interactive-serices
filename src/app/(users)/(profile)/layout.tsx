@@ -1,7 +1,7 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { type ReactNode, useEffect, Suspense } from "react"
+import { type ReactNode, useEffect } from "react"
 
 import { NavBarProfile } from "@/components/profile"
 
@@ -23,16 +23,14 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
 
     return userId ? (
         <main className={styles.profileLayout}>
-            <Suspense fallback={false}>
-                {isMobile ? (
-                    children
-                ) : (
-                    <>
-                        <NavBarProfile />
-                        {children}
-                    </>
-                )}
-            </Suspense>
+            {isMobile ? (
+                children
+            ) : (
+                <>
+                    <NavBarProfile />
+                    {children}
+                </>
+            )}
         </main>
     ) : null
 }
