@@ -1,6 +1,7 @@
 .container {
     position: absolute;
     border-radius: 32px;
+    border-top-left-radius: 0px;
     background: var(--background);
     display: none;
     max-width: 398px;
@@ -12,6 +13,8 @@
     top: 50%;
     left: 50%;
     z-index: 25;
+    padding-bottom: 20px;
+    padding-top: 20px;
 
     &.open {
         display: flex;
@@ -22,12 +25,13 @@
     }
 
     h3 {
-        width: 100%;
-        font-size: 20px;
-        text-align: center;
-        font-weight: 500;
-        line-height: 44px;
         color: var(--gray-900);
+        text-align: center;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 122%;
+        letter-spacing: 0px;
     }
 
     & > section {

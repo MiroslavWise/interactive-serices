@@ -9,6 +9,7 @@ import {
     ModalUpdateProfile,
     WelcomeModal,
     Barter,
+    CreateNewOptionModal,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import {
@@ -95,6 +96,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                             <WelcomeModal />
                             <ExchangesModalMobile />
                             <Barter />
+                            <CreateNewOptionModal />
                             {token && userId ? <ModalUpdateProfile /> : null}
                         </YMapsProvider>
                     </WebSocketProvider>

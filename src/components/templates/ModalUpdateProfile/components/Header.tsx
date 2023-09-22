@@ -8,10 +8,10 @@ import type { THeader } from "./types/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/header.module.scss"
-import { cx } from "@/lib/cx"
 
 export const Header: THeader = ({
     selectedImage,
