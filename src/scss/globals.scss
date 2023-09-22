@@ -43,7 +43,13 @@ select {
 
 p,
 a,
-span {
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     letter-spacing: 0px;
     font-style: normal;
 }
@@ -146,7 +152,7 @@ span {
     --mobile: 375px;
     --background: #232738;
     --background-input: #2c3041;
-    --color-text: #000000;
+    --color-text: #fff;
     --banner-border-radius: 32px;
     --glass-bg-color: rgba(28, 31, 55, 0.67);
     --glass-bg-color-1: rgba(28, 31, 55, 0.67);

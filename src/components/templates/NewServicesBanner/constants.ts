@@ -22,3 +22,6 @@ export const NEW_CREATE_BADGES: INewCreateBadge[] = [
         value: "discussion",
     },
 ]
+export const NEW_CREATE_BADGES_ALERT_OR_DISCUSSION = NEW_CREATE_BADGES.filter(
+    (item) => ["discussion", "alert"].includes(item.value!),
+)

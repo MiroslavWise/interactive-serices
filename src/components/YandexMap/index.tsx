@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { isMobile } from "react-device-detect"
 import { Map } from "@pbe/react-yandex-maps"
 
@@ -11,11 +11,31 @@ import { MapCardNews } from "./MapCard"
 import { Notifications } from "./Notifications"
 import { ListPlacemark } from "./ObjectsMap"
 import { FilterFieldBottom } from "./FilterFieldBottom"
-import { useAddress } from "@/helpers"
+import { CreationAlertAndDiscussionMap } from "../templates"
+
+import { useAddress, useOutsideClickEvent } from "@/helpers"
 
 const YandexMap: TYandexMap = ({}) => {
     const [visibleNotification, setVisibleNotification] = useState(false)
     const { coordinatesAddresses } = useAddress()
+    const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
+    const [coord, setCoord] = useState({
+        x: "50%",
+        y: "50%",
+    })
+    function onContextMenu(e: any) {
+        setIsOpen(true)
+        const x = e?._sourceEvent?.originalEvent?.clientPixels?.[0]
+            ? e?._sourceEvent?.originalEvent?.clientPixels?.[0]
+            : "50%"
+        const y = e?._sourceEvent?.originalEvent?.clientPixels?.[1]
+            ? e?._sourceEvent?.originalEvent?.clientPixels?.[1]
+            : "50%"
+        setCoord({
+            x,
+            y,
+        })
+    }
 
     return (
         <>
@@ -35,22 +55,17 @@ const YandexMap: TYandexMap = ({}) => {
                         : [55.75, 37.67],
                     zoom: 16,
                 }}
-                onClick={(e: any) => {
-                    console.log("map click: ", e)
-                    const one =
-                        (e?._cacher._cache?.target?._bounds[0][0] +
-                            e?._cacher._cache?.target?._bounds[1][0]) /
-                        2
-                    const two =
-                        (e?._cacher._cache?.target?._bounds[0][1] +
-                            e?._cacher._cache?.target?._bounds[1][1]) /
-                        2
-                    console.log("map coor: ", [one, two])
-                }}
+                onContextMenu={onContextMenu}
                 id="map_yandex"
             >
                 <ListPlacemark />
             </Map>
+            <CreationAlertAndDiscussionMap
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                refCreate={refCreate}
+                coord={coord}
+            />
             <MapCardNews />
             <FilterFieldBottom />
         </>

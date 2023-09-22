@@ -9,6 +9,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 RUN npm ci
+RUN npm run build
 
 COPY . .
 ENV NEXT_PUBLIC_URL=$NEXT_PUBLIC_URL

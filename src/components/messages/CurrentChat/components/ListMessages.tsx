@@ -1,15 +1,13 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import {
     type ReactNode,
     memo,
-    useEffect,
-    useLayoutEffect,
     useMemo,
     useRef,
     useInsertionEffect,
 } from "react"
+import { useSearchParams } from "next/navigation"
 
 import type { IThreadsMessages } from "@/services/threads/types"
 
@@ -20,8 +18,6 @@ import { ItemUserMessage } from "./ItemUserMessage"
 import { useAuth } from "@/store/hooks"
 import { useMessages } from "@/store/state/useMessages"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
-
-import styleTime from "./styles/time.module.scss"
 
 export const ListMessages = memo(function ListMessages({
     messages,
