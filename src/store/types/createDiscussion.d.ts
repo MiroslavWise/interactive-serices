@@ -1,18 +1,13 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
+import type { ICreateGeneralOffers } from "./createGeneralOffers"
 
 export type TSteps = "start" | "end"
 
-export interface IUseCreateDiscussion {
-    text: string
+export interface IUseCreateDiscussion extends ICreateGeneralOffers {
     emotion: string | undefined
     stepDiscussion: TSteps
-    files: File[]
-    selectedFile: string[]
 
-    setFile: Dispatch<File>
-    setSelectedFile: Dispatch<string>
     setStepDiscussion: Dispatch<TSteps>
-    setText: Dispatch<string>
     setEmotion: Dispatch<string>
 
     resetDiscussion: DispatchWithoutAction

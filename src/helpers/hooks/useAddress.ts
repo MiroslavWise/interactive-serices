@@ -7,7 +7,7 @@ export const useAddress = () => {
     const idsAddresses: number[] | null = useMemo(() => {
         if (!addresses) return null
         if (Array.isArray(addresses) && addresses.length === 0) return null
-        const array = addresses.map((item) => item.id)
+        const array: number[] = addresses.map((item) => item.id)
         return array
     }, [addresses])
 

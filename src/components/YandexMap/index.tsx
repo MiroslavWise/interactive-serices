@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { isMobile } from "react-device-detect"
-import { Map } from "@pbe/react-yandex-maps"
+import { Map, GeoObject } from "@pbe/react-yandex-maps"
 
 import type { TYandexMap } from "./types"
 
@@ -13,9 +13,15 @@ import { ListPlacemark } from "./ObjectsMap"
 import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
 
+import { useAuth } from "@/store/hooks"
+import { generateShortHash } from "@/lib/hash"
+import { locationName } from "@/lib/location-name"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
+import { geocodeSearchCoords } from "@/services/addresses/geocodeSearch"
+import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 const YandexMap: TYandexMap = ({}) => {
+    const { userId } = useAuth()
     const [visibleNotification, setVisibleNotification] = useState(false)
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
@@ -23,8 +29,52 @@ const YandexMap: TYandexMap = ({}) => {
         x: "50%",
         y: "50%",
     })
+    const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
+
     function onContextMenu(e: any) {
+        if (!userId) {
+            return
+        }
         setIsOpen(true)
+        const mapOne: number = e?._sourceEvent?.originalEvent?.coords?.[0]
+        const mapTwo: number = e?._sourceEvent?.originalEvent?.coords?.[1]
+
+        geocodeSearchCoords(`${mapTwo},${mapOne}`).then((response) => {
+            const data: IPostAddress = {
+                userId: userId,
+                addressType: "main",
+                enabled: false,
+            }
+            const elem =
+                response?.response?.GeoObjectCollection?.featureMember[0]
+            if (!elem) return null
+            if (elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind) {
+                data.addressType =
+                    elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind!
+            }
+            const country = locationName(elem, "country")
+            const street = locationName(elem, "street")
+            const house = locationName(elem, "house")
+            const city = locationName(elem, "locality")
+            const region = locationName(elem, "province")
+            const district = locationName(elem, "area")
+            const additional =
+                elem?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
+            const coordinates = elem?.GeoObject?.Point?.pos
+            if (country) data.country = country
+            if (street) data.street = street
+            if (house) data.house = house
+            if (city) data.city = city
+            if (region) data.region = region
+            if (district) data.district = district
+            if (coordinates) data.coordinates = coordinates
+            if (additional) {
+                data.additional = additional
+            }
+            const hash = generateShortHash(additional!)
+            if (hash) data.hash = hash
+            setAddressInit(data)
+        })
         const x = e?._sourceEvent?.originalEvent?.clientPixels?.[0]
             ? e?._sourceEvent?.originalEvent?.clientPixels?.[0]
             : "50%"
@@ -55,6 +105,10 @@ const YandexMap: TYandexMap = ({}) => {
                         : [55.75, 37.67],
                     zoom: 16,
                 }}
+                options={{
+                    maxZoom: 20,
+                    minZoom: 12,
+                }}
                 onContextMenu={onContextMenu}
                 id="map_yandex"
             >
@@ -65,6 +119,7 @@ const YandexMap: TYandexMap = ({}) => {
                 setIsOpen={setIsOpen}
                 refCreate={refCreate}
                 coord={coord}
+                addressInit={addressInit}
             />
             <MapCardNews />
             <FilterFieldBottom />

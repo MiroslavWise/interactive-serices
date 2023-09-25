@@ -33,7 +33,6 @@ export const ListPlacemark = () => {
                         ])
                     const provider = item?.provider
                     const title = item?.title
-                    console.log("coordinates: ", coordinates)
                     array.push({
                         coordinates: coordinates,
                         provider: provider,

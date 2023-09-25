@@ -23,7 +23,6 @@ import styles from "./styles/style.module.scss"
 export const CreateNewOptionModal = () => {
     const { close } = useCloseCreateOptions()
     const { isVisible, typeAdd } = useAddCreateModal()
-    const { isAddresses } = useAddress()
 
     const content: ReactNode | null = useMemo(() => {
         if (!typeAdd) return null
@@ -38,7 +37,7 @@ export const CreateNewOptionModal = () => {
         return obj[typeAdd]
     }, [typeAdd])
 
-    return isAddresses ? (
+    return (
         <div
             className={cx(
                 styles.wrapper,
@@ -70,5 +69,5 @@ export const CreateNewOptionModal = () => {
                 <Glasses />
             </div>
         </div>
-    ) : null
+    )
 }

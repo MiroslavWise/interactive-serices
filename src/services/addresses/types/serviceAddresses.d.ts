@@ -20,7 +20,7 @@ export interface IAddressesResponse {
     updated: Date
 }
 
-type TAddressType = "main"
+type TAddressType = "main" | any
 export interface IPostAddress{
     userId: number
     addressType: TAddressType
@@ -36,6 +36,7 @@ export interface IPostAddress{
     coordinates?: string
     additional?: string
     enabled?: boolean
+    hash?: string
 }
 
 export type IPatchAddress = Partial<IPostAddress>
@@ -44,7 +45,7 @@ export interface IServiceAddresses{
     private route: string
     public get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
     public getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-    public post(value: IPostDataUser): Promise<IReturnData<IAddressesResponse>>
+    public post(value: IPostDataUser): Promise<IReturnData<{id: number}>>
     public patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
     public delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
 }

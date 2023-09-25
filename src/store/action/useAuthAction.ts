@@ -7,6 +7,7 @@ import type {
 
 import { usersService } from "@/services/users"
 import { serviceProfile } from "@/services/profile"
+import { IUserResponse } from "@/services/users/types/usersService"
 
 export const signOutAction = (set: ISetAction) => {
     set({
@@ -74,7 +75,10 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
             if (response?.ok) {
                 if (response?.res?.addresses) {
                     set({
-                        addresses: response?.res?.addresses,
+                        addresses:
+                            response?.res?.addresses?.filter(
+                                (item) => item.addressType === "main",
+                            ) || [],
                     })
                 }
             }

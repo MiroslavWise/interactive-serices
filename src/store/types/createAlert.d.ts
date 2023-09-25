@@ -1,18 +1,13 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
+import type { ICreateGeneralOffers } from "./createGeneralOffers"
 
 export type TSteps = "start" | "end"
 
-export interface IUseCreateAlert {
-    text: string
+export interface IUseCreateAlert extends ICreateGeneralOffers {
     emotion: string | undefined
     stepAlert: TSteps
-    files: File[]
-    selectedFile: string[]
-
-    setFile: Dispatch<File>
-    setSelectedFile: Dispatch<string>
+    
     setStepAlert: Dispatch<TSteps>
-    setText: Dispatch<string>
     setEmotion: Dispatch<string>
 
     resetAlert: DispatchWithoutAction

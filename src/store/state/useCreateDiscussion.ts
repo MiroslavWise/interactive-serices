@@ -8,6 +8,11 @@ export const useCreateDiscussion = create<IUseCreateDiscussion>((set, get) => ({
     stepDiscussion: "start",
     files: [],
     selectedFile: [],
+    addressInit: null,
+
+    setAddressInit(value) {
+        set({ addressInit: value })
+    },
     setFile(value) {
         set({ files: [...get().files, value] })
     },
@@ -29,6 +34,7 @@ export const useCreateDiscussion = create<IUseCreateDiscussion>((set, get) => ({
             text: "",
             emotion: undefined,
             stepDiscussion: "start",
+            addressInit: null,
         })
     },
 }))

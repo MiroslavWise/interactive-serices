@@ -7,25 +7,24 @@ import { LabelAndInput } from "../../components/LabelAndInput"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
+import {
+    transliterateAndReplace,
+    useAddress,
+    useCloseCreateOptions,
+} from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
-import { transliterateAndReplace, useAddress } from "@/helpers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
 
 export const Start = () => {
     const { userId } = useAuth()
     const { idsAddresses } = useAddress()
-    const {
-        text,
-        setText,
-        resetRequest,
-        setStepRequest,
-        selected,
-        setValueCategory,
-    } = useCreateRequest()
+    const { close } = useCloseCreateOptions()
+    const { text, setText, setStepRequest, selected, setValueCategory } =
+        useCreateRequest()
 
     function handleExit() {
-        resetRequest()
+        close()
     }
 
     function handleNext() {

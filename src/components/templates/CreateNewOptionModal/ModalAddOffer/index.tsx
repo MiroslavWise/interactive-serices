@@ -15,12 +15,15 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { serviceOffer } from "@/services/offers"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
-import { transliterateAndReplace, useAddress } from "@/helpers"
+import {
+    transliterateAndReplace,
+    useAddress,
+    useCloseCreateOptions,
+} from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
@@ -31,9 +34,9 @@ type TSteps = 1 | 2 | 3
 export const ModalAddOffer = () => {
     const { userId } = useAuth()
     const { idsAddresses } = useAddress()
-    const { setVisibleAndType } = useAddCreateModal()
+    const { close } = useCloseCreateOptions()
     const [step, setStep] = useState<TSteps>(1)
-    const { reset, files, setId, id, text, valueCategory } = useCreateOffer()
+    const { files, setId, id, text, valueCategory } = useCreateOffer()
 
     const content: ReactNode = useMemo(() => {
         const obj: Record<TSteps, ReactNode> = {
@@ -106,8 +109,7 @@ export const ModalAddOffer = () => {
     }
 
     function handleExit() {
-        setVisibleAndType()
-        reset()
+        close()
     }
 
     return (

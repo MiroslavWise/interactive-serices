@@ -18,6 +18,7 @@ import { serviceAddresses } from "@/services/addresses"
 import { geocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
+import { generateShortHash } from "@/lib/hash"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     const { userId, changeAuth } = useAuth()
@@ -62,35 +63,30 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     }
 
     function handleAddress(item: IFeatureMember) {
-        const country = locationName(item, "country")
-        const street = locationName(item, "street")
-        const house = locationName(item, "house")
         const coordinates = item?.GeoObject?.Point?.pos
         const additional =
             item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
-
-        console.log("item addresses: ", { item })
-
         const value: IPostAddress = {
             userId: userId!,
             addressType: "main",
             enabled: true,
         }
-        if (country) {
-            value.country = country
-        }
-        if (street) {
-            value.street = street
-        }
-        if (house) {
-            value.house = house
-        }
-        if (coordinates) {
-            value.coordinates = coordinates
-        }
-        if (additional) {
-            value.additional = additional
-        }
+        const country = locationName(item, "country")
+        const street = locationName(item, "street")
+        const house = locationName(item, "house")
+        const city = locationName(item, "locality")
+        const region = locationName(item, "province")
+        const district = locationName(item, "area")
+        if (country) value.country = country
+        if (street) value.street = street
+        if (house) value.house = house
+        if (city) value.city = city
+        if (region) value.region = region
+        if (district) value.district = district
+        if (coordinates) value.coordinates = coordinates
+        if (additional) value.additional = additional
+        const hash = generateShortHash(additional!)
+        if (hash) value.hash = hash
 
         serviceAddresses
             .post(value)

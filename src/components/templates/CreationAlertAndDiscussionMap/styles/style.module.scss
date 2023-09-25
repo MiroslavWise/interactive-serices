@@ -34,6 +34,24 @@
         letter-spacing: 0px;
     }
 
+    & > h4 {
+        color: var(--gray-600);
+        text-align: start;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 17px;
+        padding: 0 20px;
+
+        & > i {
+            color: var(--gray-500);
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 15px;
+        }
+    }
+
     & > section {
         width: 100%;
         display: flex;

@@ -16,7 +16,7 @@ export const serviceAddresses: IServiceAddresses = {
         return wrapperFetch.methodGetId<IAddressesResponse>(this.route, id)
     },
     post(value) {
-        return wrapperFetch.methodPost<IPostAddress, IAddressesResponse>(
+        return wrapperFetch.methodPost<IPostAddress, { id: number }>(
             this.route,
             value,
         )

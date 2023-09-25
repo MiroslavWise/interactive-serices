@@ -10,12 +10,19 @@ import { ImagesUploadInput } from "../../components/ImagesUploadInput"
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
 import { fileUploadService } from "@/services/file-upload"
-import { transliterateAndReplace, useAddress } from "@/helpers"
+import {
+    transliterateAndReplace,
+    useAddress,
+    useCloseCreateOptions,
+} from "@/helpers"
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
+import { AddressDescription } from "../../components/AddressDescription"
+import { serviceAddresses } from "@/services/addresses"
 
 export const Start = () => {
     const { userId } = useAuth()
     const { idsAddresses } = useAddress()
+    const { close } = useCloseCreateOptions()
     const {
         text,
         files,
@@ -23,15 +30,15 @@ export const Start = () => {
         setFile,
         setText,
         setSelectedFile,
-        resetDiscussion,
         setStepDiscussion,
+        addressInit,
     } = useCreateDiscussion()
 
     function handleExit() {
-        resetDiscussion()
+        close()
     }
 
-    function handleNext() {
+    function postOffer(idsAddresses: number[]) { 
         const data: IPostOffers = {
             provider: "discussion",
             title: text,
@@ -68,10 +75,28 @@ export const Start = () => {
             }
         })
     }
+    function handleNext() {
+        if (addressInit) {
+            serviceAddresses.post(addressInit).then((response) => {
+                if (response.ok) {
+                    if (response.res) {
+                        postOffer([response?.res?.id])
+                    }
+                }
+            })
+        } else {
+            if (idsAddresses) {
+                postOffer(idsAddresses!)
+            }
+        }
+    }
 
     return (
         <>
             <SelectAndTextarea>
+                {addressInit?.additional ? (
+                    <AddressDescription address={addressInit?.additional!} />
+                ) : null}
                 <LabelAndInput
                     title="Придумайте заголовок для вашего обсуждения."
                     text={text}

@@ -1,13 +1,17 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 
+import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+
 export interface ICreationAlertAndDiscussionMap {
     isOpen: boolean
     coord: {
         x: number | string
         y: number | string
     }
-    setIsOpen: Dispatch<SetStateAction<boolean>>
+    addressInit: IPostAddress | null
     refCreate: LegacyRef<HTMLDivElement>
+
+    setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
 export type TCreationAlertAndDiscussionMap = FC<ICreationAlertAndDiscussionMap>

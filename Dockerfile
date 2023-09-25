@@ -12,7 +12,6 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 RUN npm ci
-RUN npm run build
 
 FROM node:alpine
 

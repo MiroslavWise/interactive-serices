@@ -8,7 +8,11 @@ export const useCreateAlert = create<IUseCreateAlert>((set, get) => ({
     stepAlert: "start",
     files: [],
     selectedFile: [],
+    addressInit: null,
 
+    setAddressInit(value) {
+        set({ addressInit: value })
+    },
     setFile(value) {
         set({ files: [...get().files, value] })
     },
@@ -29,6 +33,7 @@ export const useCreateAlert = create<IUseCreateAlert>((set, get) => ({
             text: "",
             emotion: undefined,
             stepAlert: "start",
+            addressInit: null,
         })
     },
 }))

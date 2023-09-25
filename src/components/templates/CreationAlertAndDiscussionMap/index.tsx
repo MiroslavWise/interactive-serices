@@ -9,6 +9,8 @@ import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { useVisibleBannerNewServices } from "@/store/hooks"
+import { useCreateAlert } from "@/store/state/useCreateAlert"
+import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { NEW_CREATE_BADGES_ALERT_OR_DISCUSSION } from "../NewServicesBanner/constants"
 
@@ -17,15 +19,21 @@ import styles from "./styles/style.module.scss"
 export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     refCreate,
     isOpen,
-    setIsOpen,
     coord,
+    addressInit,
 }) => {
     const { setVisibleAndType } = useAddCreateModal()
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
-
-    console.log("map dev coord: ", coord)
+    const { setAddressInit: setAddressInitAlert } = useCreateAlert()
+    const { setAddressInit: setAddressInitDiscussion } = useCreateDiscussion()
 
     function handleType(value: TAddCreate) {
+        if (value === "alert") {
+            if (setAddressInitAlert) setAddressInitAlert(addressInit!)
+        }
+        if (value === "discussion") {
+            if (setAddressInitDiscussion) setAddressInitDiscussion(addressInit!)
+        }
         if (!value) {
             setIsVisibleNewServicesBanner(false)
         } else {
@@ -64,6 +72,11 @@ export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
                     </li>
                 ))}
             </section>
+            {addressInit?.additional ? (
+                <h4>
+                    По адресу: <i>{addressInit?.additional}</i>
+                </h4>
+            ) : null}
         </div>
     )
 }

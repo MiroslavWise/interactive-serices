@@ -15,17 +15,21 @@ interface ILabelAndSelectOffersCategories {
     setValue: Dispatch<{ id: number; slug: TProviderOffer }>
 }
 
-interface iFooterButtons{
+interface iFooterButtons {
     disabled: boolean
     handleNext: DispatchWithoutAction
     handleExit: DispatchWithoutAction
 }
 
-interface IImagesUploadInput{
+interface IImagesUploadInput {
     files: File[]
     setFile: Dispatch<File>
     selected: string[]
     setSelectedFile: Dispatch<string>
+}
+
+interface IAddressDescription {
+    address: string | null
 }
 
 export type TLabelAndInput = FC<ILabelAndInput>
@@ -33,3 +37,4 @@ export type TLabelAndSelectOffersCategories =
     FC<ILabelAndSelectOffersCategories>
 export type TFooterButtons = FC<IFooterButtons>
 export type TImagesUploadInput = FC<IImagesUploadInput>
+export type TAddressDescription = FC<IAddressDescription>
