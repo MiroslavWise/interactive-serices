@@ -4,13 +4,17 @@ import type { TProviderOffer } from "@/services/types/general"
 export interface IUseCreateOffer {
     id: number | undefined
     text: string
-    valueCategory: {
-        id: number
-        slug: TProviderOffer
-    } | undefined
+    valueCategory:
+        | {
+              id: number
+              slug: TProviderOffer
+          }
+        | undefined
     files: File[]
     selectedFilesString: string[]
+    adressId: { id: number } | undefined
 
+    setAddressId: Dispatch<{ id: number }>
     setId: Dispatch<number>
     setText: Dispatch<string>
     setValueCategory: Dispatch<{

@@ -18,10 +18,10 @@ import {
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 import { AddressDescription } from "../../components/AddressDescription"
 import { serviceAddresses } from "@/services/addresses"
+import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 export const Start = () => {
     const { userId } = useAuth()
-    const { idsAddresses } = useAddress()
     const { close } = useCloseCreateOptions()
     const {
         text,
@@ -32,13 +32,15 @@ export const Start = () => {
         setSelectedFile,
         setStepDiscussion,
         addressInit,
+        adressId,
+        setAddressId,
     } = useCreateDiscussion()
 
     function handleExit() {
         close()
     }
 
-    function postOffer(idsAddresses: number[]) { 
+    function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {
             provider: "discussion",
             title: text,
@@ -80,13 +82,13 @@ export const Start = () => {
             serviceAddresses.post(addressInit).then((response) => {
                 if (response.ok) {
                     if (response.res) {
-                        postOffer([response?.res?.id])
+                        postOffer([Number(response?.res?.id!)])
                     }
                 }
             })
         } else {
-            if (idsAddresses) {
-                postOffer(idsAddresses!)
+            if (adressId?.id) {
+                postOffer([Number(adressId?.id)])
             }
         }
     }
@@ -96,7 +98,12 @@ export const Start = () => {
             <SelectAndTextarea>
                 {addressInit?.additional ? (
                     <AddressDescription address={addressInit?.additional!} />
-                ) : null}
+                ) : (
+                    <LabelAndSelectAddress
+                        value={adressId?.id ? { id: adressId?.id! } : undefined}
+                        setValue={setAddressId}
+                    />
+                )}
                 <LabelAndInput
                     title="Придумайте заголовок для вашего обсуждения."
                     text={text}

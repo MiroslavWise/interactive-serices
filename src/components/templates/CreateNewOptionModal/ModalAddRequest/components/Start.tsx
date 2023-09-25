@@ -7,21 +7,24 @@ import { LabelAndInput } from "../../components/LabelAndInput"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
-import {
-    transliterateAndReplace,
-    useAddress,
-    useCloseCreateOptions,
-} from "@/helpers"
+import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
+import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 export const Start = () => {
-    const { userId } = useAuth()
-    const { idsAddresses } = useAddress()
+    const { userId, addresses } = useAuth()
     const { close } = useCloseCreateOptions()
-    const { text, setText, setStepRequest, selected, setValueCategory } =
-        useCreateRequest()
+    const {
+        text,
+        setText,
+        setStepRequest,
+        selected,
+        setValueCategory,
+        adressId,
+        setAddressId,
+    } = useCreateRequest()
 
     function handleExit() {
         close()
@@ -40,8 +43,8 @@ export const Start = () => {
             enabled: true,
             desired: true,
         }
-        if (idsAddresses) {
-            data.addresses = idsAddresses
+        if (adressId?.id) {
+            data.addresses = [Number(adressId?.id)]
         }
         serviceOffer.post(data).then((response) => {
             console.log("data request: ", { response })
@@ -63,6 +66,10 @@ export const Start = () => {
                     text={text}
                     setText={setText}
                     placeholder="Что вы хотите обсудить?"
+                />
+                <LabelAndSelectAddress
+                    value={adressId?.id ? { id: adressId?.id! } : undefined}
+                    setValue={setAddressId}
                 />
             </SelectAndTextarea>
             <FooterButtons

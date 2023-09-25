@@ -58,7 +58,7 @@ export interface IUseAuth {
     createdUser: string | undefined | Date
     addresses: IAddressesResponse[]
 
-    setUser: Dispatch<(IUser & { profileId: number }) | null>
+    getUser: Dispatch<(IUser & { profileId: number }) | null>
     changeAuth: DispatchWithoutAction
     setToken: Dispatch<ISetToken>
     signOut: DispatchWithoutAction

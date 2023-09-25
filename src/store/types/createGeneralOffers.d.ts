@@ -6,7 +6,9 @@ export interface ICreateGeneralOffers {
     text: string
     files: File[]
     selectedFile: string[]
+    adressId: { id: number } | undefined
 
+    setAddressId: Dispatch<{ id: number }>
     setText: Dispatch<string>
     setFile: Dispatch<File>
     setSelectedFile: Dispatch<string>

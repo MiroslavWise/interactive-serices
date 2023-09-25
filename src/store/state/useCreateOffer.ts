@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import type { IUseCreateOffer } from "../types/useCreateOffer"
+import type { IUseCreateOffer } from "../types/createOffer"
 
 export const useCreateOffer = create<IUseCreateOffer>((set, get) => ({
     id: undefined,
@@ -8,7 +8,15 @@ export const useCreateOffer = create<IUseCreateOffer>((set, get) => ({
     valueCategory: undefined,
     files: [],
     selectedFilesString: [],
+    adressId: undefined,
 
+    setAddressId({ id }) {
+        set({
+            adressId: {
+                id: id,
+            },
+        })
+    },
     setId(value) {
         set({ id: value })
     },

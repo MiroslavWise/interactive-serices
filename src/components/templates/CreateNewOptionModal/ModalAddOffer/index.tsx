@@ -33,10 +33,9 @@ type TSteps = 1 | 2 | 3
 
 export const ModalAddOffer = () => {
     const { userId } = useAuth()
-    const { idsAddresses } = useAddress()
     const { close } = useCloseCreateOptions()
     const [step, setStep] = useState<TSteps>(1)
-    const { files, setId, id, text, valueCategory } = useCreateOffer()
+    const { files, setId, id, text, valueCategory, adressId } = useCreateOffer()
 
     const content: ReactNode = useMemo(() => {
         const obj: Record<TSteps, ReactNode> = {
@@ -65,8 +64,8 @@ export const ModalAddOffer = () => {
                 userId: userId!,
                 desired: true,
             }
-            if (idsAddresses) {
-                data.addresses = idsAddresses
+            if (adressId?.id) {
+                data.addresses = [Number(adressId?.id)]
             }
             serviceOffer.post(data).then((response) => {
                 if (response.ok) {

@@ -9,7 +9,15 @@ export const useCreateDiscussion = create<IUseCreateDiscussion>((set, get) => ({
     files: [],
     selectedFile: [],
     addressInit: null,
+    adressId: undefined,
 
+    setAddressId({ id }) {
+        set({
+            adressId: {
+                id: id,
+            },
+        })
+    },
     setAddressInit(value) {
         set({ addressInit: value })
     },

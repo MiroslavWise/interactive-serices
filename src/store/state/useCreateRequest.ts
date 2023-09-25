@@ -6,7 +6,15 @@ export const useCreateRequest = create<IUseCreateRequest>((set, get) => ({
     text: "",
     selected: undefined,
     stepRequest: "start",
+    adressId: undefined,
 
+    setAddressId({ id }) {
+        set({
+            adressId: {
+                id: id,
+            },
+        })
+    },
     setStepRequest(value) {
         set({ stepRequest: value })
     },

@@ -7,9 +7,17 @@ import { useCreateOffer } from "@/store/state/useCreateOffer"
 
 import styles from "./styles/service-selection.module.scss"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
+import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 export const ServiceSelection = () => {
-    const { text, valueCategory, setText, setValueCategory } = useCreateOffer()
+    const {
+        text,
+        valueCategory,
+        setText,
+        setValueCategory,
+        adressId,
+        setAddressId,
+    } = useCreateOffer()
 
     return (
         <section className={styles.wrapper}>
@@ -29,6 +37,10 @@ export const ServiceSelection = () => {
                     text={text}
                     setText={setText}
                     placeholder="Напишите что-нибудь"
+                />
+                <LabelAndSelectAddress
+                    value={adressId?.id ? { id: adressId?.id! } : undefined}
+                    setValue={setAddressId}
                 />
             </SelectAndTextarea>
         </section>

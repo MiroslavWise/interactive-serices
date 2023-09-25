@@ -18,6 +18,7 @@ export const AddingPhotos: TAddingPhotos = () => {
         selectedFilesString,
         setSelectedFilesString,
         deleteFile,
+        adressId,
     } = useCreateOffer()
 
     return (

@@ -15,7 +15,12 @@ interface ILabelAndSelectOffersCategories {
     setValue: Dispatch<{ id: number; slug: TProviderOffer }>
 }
 
-interface iFooterButtons {
+interface ILabelAndSelectAddress {
+    value?: { id: number }
+    setValue: Dispatch<{ id: number }>
+}
+
+interface IFooterButtons {
     disabled: boolean
     handleNext: DispatchWithoutAction
     handleExit: DispatchWithoutAction
@@ -38,3 +43,4 @@ export type TLabelAndSelectOffersCategories =
 export type TFooterButtons = FC<IFooterButtons>
 export type TImagesUploadInput = FC<IImagesUploadInput>
 export type TAddressDescription = FC<IAddressDescription>
+export type TLabelAndSelectAddress = FC<ILabelAndSelectAddress>

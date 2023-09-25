@@ -32,7 +32,7 @@ export const useAuth = create(
             setToken(value) {
                 setTokenAction(value, set)
             },
-            setUser(value) {
+            getUser(value) {
                 setUserAction(value, set)
             },
             signOut() {

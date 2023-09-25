@@ -1,7 +1,7 @@
 import env from "@/config/environment"
 import type { IResponseGeocode } from "./types/geocodeSearch"
 
-export const geocodeSearch = async (
+export const getGeocodeSearch = async (
     value: string,
 ): Promise<IResponseGeocode> => {
     try {
@@ -17,7 +17,7 @@ export const geocodeSearch = async (
     }
 }
 
-export const geocodeSearchCoords = async (
+export const getGeocodeSearchCoords = async (
     value: string,
 ): Promise<IResponseGeocode> => {
     try {

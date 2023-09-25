@@ -15,10 +15,10 @@ import { CreationAlertAndDiscussionMap } from "../templates"
 
 import { useAuth } from "@/store/hooks"
 import { generateShortHash } from "@/lib/hash"
-import { locationName } from "@/lib/location-name"
+import { getLocationName } from "@/lib/location-name"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
-import { geocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
@@ -39,7 +39,7 @@ const YandexMap: TYandexMap = ({}) => {
         const mapOne: number = e?._sourceEvent?.originalEvent?.coords?.[0]
         const mapTwo: number = e?._sourceEvent?.originalEvent?.coords?.[1]
 
-        geocodeSearchCoords(`${mapTwo},${mapOne}`).then((response) => {
+        getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then((response) => {
             const data: IPostAddress = {
                 userId: userId,
                 addressType: "main",
@@ -52,12 +52,12 @@ const YandexMap: TYandexMap = ({}) => {
                 data.addressType =
                     elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind!
             }
-            const country = locationName(elem, "country")
-            const street = locationName(elem, "street")
-            const house = locationName(elem, "house")
-            const city = locationName(elem, "locality")
-            const region = locationName(elem, "province")
-            const district = locationName(elem, "area")
+            const country = getLocationName(elem, "country")
+            const street = getLocationName(elem, "street")
+            const house = getLocationName(elem, "house")
+            const city = getLocationName(elem, "locality")
+            const region = getLocationName(elem, "province")
+            const district = getLocationName(elem, "area")
             const additional =
                 elem?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
             const coordinates = elem?.GeoObject?.Point?.pos

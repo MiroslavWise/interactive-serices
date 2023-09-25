@@ -12,7 +12,9 @@ export interface IUseCreateRequest {
           }
         | undefined
     stepRequest: TSteps
+    adressId: { id: number } | undefined
 
+    setAddressId: Dispatch<{ id: number }>
     setStepRequest: Dispatch<TSteps>
     setText: Dispatch<string>
     setValueCategory: Dispatch<{

@@ -13,9 +13,9 @@ import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { useDebounce } from "@/helpers"
-import { locationName } from "@/lib/location-name"
+import { getLocationName } from "@/lib/location-name"
 import { serviceAddresses } from "@/services/addresses"
-import { geocodeSearch } from "@/services/addresses/geocodeSearch"
+import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
 import { generateShortHash } from "@/lib/hash"
@@ -58,7 +58,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     function onValueFunc() {
         console.log("debounce: ", text)
         if (text.length > 2 && activeList) {
-            geocodeSearch(text).then((response) => setValues(response))
+            getGeocodeSearch(text).then((response) => setValues(response))
         }
     }
 
@@ -71,12 +71,12 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
             addressType: "main",
             enabled: true,
         }
-        const country = locationName(item, "country")
-        const street = locationName(item, "street")
-        const house = locationName(item, "house")
-        const city = locationName(item, "locality")
-        const region = locationName(item, "province")
-        const district = locationName(item, "area")
+        const country = getLocationName(item, "country")
+        const street = getLocationName(item, "street")
+        const house = getLocationName(item, "house")
+        const city = getLocationName(item, "locality")
+        const region = getLocationName(item, "province")
+        const district = getLocationName(item, "area")
         if (country) value.country = country
         if (street) value.street = street
         if (house) value.house = house

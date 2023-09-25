@@ -13,16 +13,12 @@ import { useCreateAlert } from "@/store/state/useCreateAlert"
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
 import { fileUploadService } from "@/services/file-upload"
-import {
-    transliterateAndReplace,
-    useAddress,
-    useCloseCreateOptions,
-} from "@/helpers"
 import { serviceAddresses } from "@/services/addresses"
+import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
+import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 export const Start = () => {
     const { userId } = useAuth()
-    const { idsAddresses } = useAddress()
     const { close } = useCloseCreateOptions()
     const {
         text,
@@ -33,6 +29,8 @@ export const Start = () => {
         setFile,
         setSelectedFile,
         addressInit,
+        adressId,
+        setAddressId,
     } = useCreateAlert()
 
     function handleExit() {
@@ -89,8 +87,8 @@ export const Start = () => {
                 }
             })
         } else {
-            if (idsAddresses) {
-                postOffer(idsAddresses!)
+            if (adressId?.id) {
+                postOffer([Number(adressId?.id)])
             }
         }
     }
@@ -100,7 +98,12 @@ export const Start = () => {
             <SelectAndTextarea>
                 {addressInit?.additional ? (
                     <AddressDescription address={addressInit?.additional!} />
-                ) : null}
+                ) : (
+                    <LabelAndSelectAddress
+                        value={adressId?.id ? { id: adressId?.id! } : undefined}
+                        setValue={setAddressId}
+                    />
+                )}
                 <LabelAndInput
                     title="Придумайте заголовок для вашего обсуждения."
                     text={text}
