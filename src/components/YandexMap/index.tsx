@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { Map, GeoObject } from "@pbe/react-yandex-maps"
 
@@ -19,17 +19,18 @@ import { getLocationName } from "@/lib/location-name"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
+import { StandardContextMenu } from "./ObjectsMap/StandartContextMenu"
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
     const [visibleNotification, setVisibleNotification] = useState(false)
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
+    const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const [coord, setCoord] = useState({
         x: "50%",
         y: "50%",
     })
-    const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
 
     function onContextMenu(e: any) {
         if (!userId) {
@@ -104,6 +105,7 @@ const YandexMap: TYandexMap = ({}) => {
                         ? coordinatesAddresses[0]
                         : [55.75, 37.67],
                     zoom: 16,
+                    behaviors: ["default", "scrollZoom"],
                 }}
                 options={{
                     maxZoom: 20,
@@ -113,6 +115,9 @@ const YandexMap: TYandexMap = ({}) => {
                 id="map_yandex"
             >
                 <ListPlacemark />
+                {addressInit ? (
+                    <StandardContextMenu addressInit={addressInit} />
+                ) : null}
             </Map>
             <CreationAlertAndDiscussionMap
                 isOpen={isOpen}
