@@ -1,6 +1,6 @@
 "use client"
 
-import type { IPostOffers } from "@/services/offers/types"
+import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
 import { FooterButtons } from "../../components/FooterButtons"
 import { LabelAndInput } from "../../components/LabelAndInput"
@@ -36,10 +36,6 @@ export const Start = () => {
         setAddressId,
     } = useCreateDiscussion()
 
-    function handleExit() {
-        close()
-    }
-
     function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {
             provider: "discussion",
@@ -56,7 +52,7 @@ export const Start = () => {
             if (response.ok) {
                 if (response.res) {
                     if (files.length > 0) {
-                        Promise.allSettled(
+                        Promise.all(
                             files.map((item) =>
                                 fileUploadService(item!, {
                                     type: "discussion",
@@ -65,15 +61,27 @@ export const Start = () => {
                                 }),
                             ),
                         ).then((responses) => {
-                            console.log("responses upload files offer: ", {
-                                responses,
+                            const values: IPatchOffers = {}
+                            values.images = []
+                            responses.forEach((item) => {
+                                if (item.ok) {
+                                    if (item.res) {
+                                        values.images?.push(item?.res?.id!)
+                                    }
+                                }
                             })
+                            serviceOffer
+                                .patch(values, response?.res?.id!)
+                                .then(() => {
+                                    setStepDiscussion("end")
+                                })
                         })
-                        setStepDiscussion("end")
                     } else {
                         setStepDiscussion("end")
                     }
                 }
+            } else {
+                close()
             }
         })
     }
@@ -122,7 +130,7 @@ export const Start = () => {
             <FooterButtons
                 disabled={!text}
                 handleNext={handleNext}
-                handleExit={handleExit}
+                handleExit={close}
             />
         </>
     )

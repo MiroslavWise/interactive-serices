@@ -25,6 +25,7 @@ export interface IPostOffers{
     updatedById?: number
     enabled: boolean
     desired: boolean
+    images?: number[]
 }
 
 export type IPatchOffers =  Partial<IPostOffers>

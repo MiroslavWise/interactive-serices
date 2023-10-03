@@ -72,31 +72,38 @@ export const ModalAddOffer = () => {
                     if (response?.res?.id!) {
                         setId(Number(response?.res?.id!))
                     }
+                    next()
+                } else {
+                    close()
                 }
             })
-            next()
         }
         if (step === 2) {
-            Promise.allSettled(
-                files.map((item) =>
-                    fileUploadService(item!, {
+            const data: IPatchOffers = {}
+            data.images = []
+            Promise.all(
+                files.map((file) =>
+                    fileUploadService(file!, {
                         type: "offer",
                         userId: userId!,
                         idSupplements: id!,
                     }),
                 ),
             ).then((responses) => {
-                console.log("responses upload files offer: ", { responses })
-            })
-            const data: IPatchOffers = {}
-            serviceOffer
-                .patch(data, id!)
-                .then((response) => {
-                    console.log("response data patch offer: ", response)
+                console.log("responses: ", responses)
+
+                responses.forEach((item) => {
+                    if (item.ok) {
+                        if (item.res) {
+                            data.images?.push(item?.res?.id)
+                        }
+                    }
                 })
-                .finally(() => {
+
+                serviceOffer.patch(data, id!).then(() => {
                     next()
                 })
+            })
         }
     }
 
@@ -105,10 +112,6 @@ export const ModalAddOffer = () => {
         if (check === 3 && step === 3) return "finished"
         if (step === check) return "in_process"
         return "not_active"
-    }
-
-    function handleExit() {
-        close()
     }
 
     return (
@@ -133,7 +136,7 @@ export const ModalAddOffer = () => {
                     <ButtonDefault
                         label="Отмена"
                         classNames={styles.button}
-                        handleClick={handleExit}
+                        handleClick={close}
                     />
                     <ButtonFill
                         label="Следующий"
