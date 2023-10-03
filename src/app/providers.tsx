@@ -21,7 +21,12 @@ import {
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { OnSuccessToastify } from "@/components/common/Toastify"
 
-import { YMapsProvider, WebSocketProvider, NextThemesProvider } from "@/context"
+import {
+    YMapsProvider,
+    WebSocketProvider,
+    NextThemesProvider,
+    ReduxProvider,
+} from "@/context"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { useMessages } from "@/store/state/useMessages"
@@ -30,7 +35,15 @@ import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
-const queryClient = new QueryClient({})
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
+            refetchInterval: 3 * 60 * 1000,
+        },
+    },
+})
 
 export default function Providers({ children }: { children: ReactNode }) {
     const { changeAuth, token, userId } = useAuth()
@@ -86,20 +99,24 @@ export default function Providers({ children }: { children: ReactNode }) {
         <>
             <NextThemesProvider>
                 <QueryClientProvider client={queryClient}>
-                    <WebSocketProvider>
-                        <YMapsProvider>
-                            {children}
-                            <ToastContainer />
-                            <FooterMenu />
-                            <SignPopup />
-                            <PhotoCarousel />
-                            <WelcomeModal />
-                            <ExchangesModalMobile />
-                            <Barter />
-                            <CreateNewOptionModal />
-                            {token && userId ? <ModalUpdateProfile /> : null}
-                        </YMapsProvider>
-                    </WebSocketProvider>
+                    <ReduxProvider>
+                        <WebSocketProvider>
+                            <YMapsProvider>
+                                {children}
+                                <ToastContainer />
+                                <FooterMenu />
+                                <SignPopup />
+                                <PhotoCarousel />
+                                <WelcomeModal />
+                                <ExchangesModalMobile />
+                                <Barter />
+                                <CreateNewOptionModal />
+                                {token && userId ? (
+                                    <ModalUpdateProfile />
+                                ) : null}
+                            </YMapsProvider>
+                        </WebSocketProvider>
+                    </ReduxProvider>
                 </QueryClientProvider>
             </NextThemesProvider>
             <AnimatedLoadPage />

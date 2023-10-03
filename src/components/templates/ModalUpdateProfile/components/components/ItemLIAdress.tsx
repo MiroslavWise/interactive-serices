@@ -64,6 +64,8 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
 
     function handleAddress(item: IFeatureMember) {
         const coordinates = item?.GeoObject?.Point?.pos
+        const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
+        const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
         const additional =
             item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
         const value: IPostAddress = {
@@ -77,6 +79,8 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const city = getLocationName(item, "locality")
         const region = getLocationName(item, "province")
         const district = getLocationName(item, "area")
+        if (longitude) value.longitude = longitude
+        if (latitude) value.latitude = latitude
         if (country) value.country = country
         if (street) value.street = street
         if (house) value.house = house

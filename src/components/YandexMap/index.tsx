@@ -18,8 +18,8 @@ import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
-import { StandardContextMenu } from "./ObjectsMap/StandartContextMenu"
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
@@ -27,10 +27,18 @@ const YandexMap: TYandexMap = ({}) => {
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
+    const [stateCoord, setStateCoord] = useState([55.75, 37.67])
+    const [zoom, setZoom] = useState(16)
     const [coord, setCoord] = useState({
         x: "50%",
         y: "50%",
     })
+
+    useEffect(() => {
+        if (!!coordinatesAddresses && coordinatesAddresses?.length) {
+            setStateCoord(coordinatesAddresses[0])
+        }
+    }, [coordinatesAddresses])
 
     function onContextMenu(e: any) {
         if (!userId) {
@@ -43,7 +51,7 @@ const YandexMap: TYandexMap = ({}) => {
         getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then((response) => {
             const data: IPostAddress = {
                 userId: userId,
-                addressType: "main",
+                addressType: "",
                 enabled: false,
             }
             const elem =
@@ -53,6 +61,8 @@ const YandexMap: TYandexMap = ({}) => {
                 data.addressType =
                     elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind!
             }
+            const longitude = elem?.GeoObject?.Point?.pos?.split(" ")[0]
+            const latitude = elem?.GeoObject?.Point?.pos?.split(" ")[1]
             const country = getLocationName(elem, "country")
             const street = getLocationName(elem, "street")
             const house = getLocationName(elem, "house")
@@ -62,6 +72,8 @@ const YandexMap: TYandexMap = ({}) => {
             const additional =
                 elem?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
             const coordinates = elem?.GeoObject?.Point?.pos
+            if (longitude) data.longitude = longitude
+            if (latitude) data.latitude = latitude
             if (country) data.country = country
             if (street) data.street = street
             if (house) data.house = house
@@ -90,7 +102,11 @@ const YandexMap: TYandexMap = ({}) => {
 
     return (
         <>
-            <Header setVisibleNotification={setVisibleNotification} />
+            <Header
+                setVisibleNotification={setVisibleNotification}
+                setStateCoord={setStateCoord}
+                setZoom={setZoom}
+            />
             {isMobile ? (
                 <Notifications
                     visibleNotification={visibleNotification}
@@ -98,18 +114,17 @@ const YandexMap: TYandexMap = ({}) => {
                 />
             ) : null}
             <Map
+                state={{
+                    center: stateCoord,
+                    zoom: zoom,
+                    behaviors: ["default", "scrollZoom"],
+                    type: "yandex#map",
+                }}
                 width={"100%"}
                 height={"100%"}
-                defaultState={{
-                    center: coordinatesAddresses
-                        ? coordinatesAddresses[0]
-                        : [55.75, 37.67],
-                    zoom: 16,
-                    behaviors: ["default", "scrollZoom"],
-                }}
                 options={{
-                    maxZoom: 20,
-                    minZoom: 12,
+                    maxZoom: 21,
+                    minZoom: 10,
                 }}
                 onContextMenu={onContextMenu}
                 id="map_yandex"

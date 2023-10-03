@@ -30,7 +30,7 @@ export const CurrentChat = () => {
     const { setIsVisible } = usePopupMenuChat()
     const { handleReplace } = usePush()
     const { data } = useMessages()
-    const { getSocketMessages, getMessages } = useSocketMessages()
+    const { getSocketMessages } = useSocketMessages()
 
     async function getDataThread(emitterId: number, receiverId: number) {
         const { res } = await serviceThreads.getUserId(Number(emitterId))

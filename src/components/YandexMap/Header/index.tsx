@@ -11,7 +11,7 @@ import { SearchElementMap } from "@/components/common/Inputs"
 
 import styles from "./styles/style.module.scss"
 
-export const Header: THeaderMobile = ({ setVisibleNotification }) => {
+export const Header: THeaderMobile = ({ setVisibleNotification, setStateCoord, setZoom }) => {
     useEffect(() => {
         function alignMiddleElement() {
             setTimeout(() => {
@@ -89,7 +89,7 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
                     </div>
                 </div>
                 <div className={styles.segments}>
-                    <SearchElementMap />
+                    <SearchElementMap setStateCoord={setStateCoord} setZoom={setZoom} />
                 </div>
             </div>
         </motion.div>
@@ -102,7 +102,7 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
             transition={{ duration: 0.5 }}
             exit={{ top: -100 }}
         >
-            <SearchElementMap />
+            <SearchElementMap setStateCoord={setStateCoord} setZoom={setZoom} />
         </motion.div>
     )
 }

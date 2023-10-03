@@ -37,6 +37,8 @@ export interface IPostAddress{
     additional?: string
     enabled?: boolean
     hash?: string
+    longitude?: string //долгота
+    latitude?: string //широта (не может быть больше 90)
 }
 
 export type IPatchAddress = Partial<IPostAddress>
@@ -45,7 +47,7 @@ export interface IServiceAddresses{
     private route: string
     public get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
     public getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-    public post(value: IPostDataUser): Promise<IReturnData<{id: number}>>
+    public post(value: IPostAddress): Promise<IReturnData<{id: number}>>
     public patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
     public delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
 }

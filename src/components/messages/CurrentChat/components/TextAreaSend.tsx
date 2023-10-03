@@ -53,6 +53,10 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
                     },
                     (response: any) => {
                         console.log("message response :", response)
+                        setTimeout(() => {
+                            getSocketMessages(Number(idThread!))
+                        }, 100)
+                        setText("")
                     },
                 )
             } else {
@@ -66,7 +70,9 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
                     created: date,
                 }
                 serviceMessages.post(data).then((response) => {
-                    getSocketMessages(Number(idThread!))
+                    setTimeout(() => {
+                        getSocketMessages(Number(idThread!))
+                    }, 100)
                     setText("")
                 })
             }
