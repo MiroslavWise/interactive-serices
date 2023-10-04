@@ -1,5 +1,6 @@
+import type { IImageData } from "@/store/types/useAuthState"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
-import { TTypeProvider } from "../file-upload/types"
+import type { TTypeProvider } from "../file-upload/types"
 import type { IReturnData } from "../types/general"
 
 export interface IResponseCreate{
@@ -44,6 +45,8 @@ export interface IResponseOffers{
     bannerId?: number | null
     userId?: number
     addresses: IAddressesResponse[]
+    images: IImageData[]
+    updated: Date
 }
 
 export interface IServiceOffers {

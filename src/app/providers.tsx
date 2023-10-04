@@ -5,6 +5,7 @@ import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
 
+import "@/context/DayJSDefault"
 import {
     ModalUpdateProfile,
     WelcomeModal,
@@ -40,7 +41,7 @@ const queryClient = new QueryClient({
         queries: {
             refetchOnWindowFocus: false,
             refetchOnMount: false,
-            refetchInterval: 3 * 60 * 1000,
+            refetchInterval: 5 * 60 * 1000,
         },
     },
 })

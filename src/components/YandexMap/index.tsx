@@ -1,10 +1,18 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
+import {
+    useEffect,
+    useState,
+    useReducer,
+    Reducer,
+    Dispatch,
+    DispatchWithoutAction,
+} from "react"
 import { isMobile } from "react-device-detect"
-import { Map, GeoObject } from "@pbe/react-yandex-maps"
+import { Map } from "@pbe/react-yandex-maps"
 
-import type { TYandexMap } from "./types"
+import type { IActionBalloon, IStateBalloon, TYandexMap } from "./types"
 
 import { Header } from "./Header"
 import { MapCardNews } from "./MapCard"
@@ -13,6 +21,10 @@ import { ListPlacemark } from "./ObjectsMap"
 import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
 
+const BalloonPlaceMark = dynamic(() => import("./BalloonPlaceMark"), {
+    ssr: false,
+})
+
 import { useAuth } from "@/store/hooks"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
@@ -20,6 +32,16 @@ import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
+import { TTypeProvider } from "@/services/file-upload/types"
+
+function reducerBalloon(state: IStateBalloon, action: IActionBalloon) {
+    return {
+        visible: action.visible,
+        type: action?.type || null,
+        id: action.id || null,
+        idUser: action?.idUser || null,
+    }
+}
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
@@ -29,6 +51,12 @@ const YandexMap: TYandexMap = ({}) => {
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const [stateCoord, setStateCoord] = useState([55.75, 37.67])
     const [zoom, setZoom] = useState(16)
+    const [stateBalloon, dispatch] = useReducer(reducerBalloon, {
+        visible: false,
+        type: null,
+        id: null,
+        idUser: null,
+    })
     const [coord, setCoord] = useState({
         x: "50%",
         y: "50%",
@@ -129,7 +157,9 @@ const YandexMap: TYandexMap = ({}) => {
                 onContextMenu={onContextMenu}
                 id="map_yandex"
             >
-                <ListPlacemark />
+                <ListPlacemark
+                    dispatch={dispatch}
+                />
                 {addressInit ? (
                     <StandardContextMenu addressInit={addressInit} />
                 ) : null}
@@ -143,6 +173,7 @@ const YandexMap: TYandexMap = ({}) => {
             />
             <MapCardNews />
             <FilterFieldBottom />
+            <BalloonPlaceMark stateBalloon={stateBalloon} dispatch={dispatch} />
         </>
     )
 }

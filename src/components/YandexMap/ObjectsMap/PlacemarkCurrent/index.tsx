@@ -15,6 +15,7 @@ const PlacemarkCurrentStates: TPlacemarkCurrent = ({
     id,
     idUser,
     provider,
+    dispatch,
 }) => {
     return coordinates.map((item) => (
         <Place
@@ -24,6 +25,7 @@ const PlacemarkCurrentStates: TPlacemarkCurrent = ({
             id={id}
             idUser={idUser}
             title={title}
+            dispatch={dispatch}
         />
     ))
 }
@@ -31,7 +33,7 @@ export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
 
 const PlaceMarkState: FC<
     Partial<IPlacemarkCurrent> & { item: [number, number] }
-> = ({ title, id, item, provider, idUser }) => {
+> = ({ title, id, item, provider, idUser, dispatch }) => {
     const idPlace = useId()
     const { userId } = useAuth()
     const [isActive, setIsActive] = useState(false)
@@ -93,30 +95,39 @@ const PlaceMarkState: FC<
                 zIndexActive: 50,
             }}
             onClick={(e: any) => {
-                setTimeout(() => {
-                    if (
-                        e?.originalEvent?.map?.balloon?._balloon?._state ===
-                        "OPEN"
-                    ) {
-                        setIsActive(true)
-                    } else {
-                        setIsActive(false)
-                    }
-                }, 10)
+                console.log("click http://localhost:3000: ", e)
+                if (dispatch) {
+                    dispatch({
+                        visible: true,
+                        type: provider!,
+                        id: Number(id),
+                        idUser: Number(idUser),
+                    })
+                }
+                // setTimeout(() => {
+                //     if (
+                //         e?.originalEvent?.map?.balloon?._balloon?._state ===
+                //         "OPEN"
+                //     ) {
+                //         setIsActive(true)
+                //     } else {
+                //         setIsActive(false)
+                //     }
+                // }, 10)
             }}
-            modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
-            properties={{
-                balloonContent: ["alert", "request", "discussion"].includes(
-                    provider!,
-                )
-                    ? BALLON_TYPE[provider!]({
-                          time: "25.08.2023",
-                          title: title! || "",
-                          idPlace: idPlace,
-                          id: id!,
-                      })
-                    : balloonContentService,
-            }}
+            // modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
+            // properties={{
+            //     balloonContent: ["alert", "request", "discussion"].includes(
+            //         provider!,
+            //     )
+            //         ? BALLON_TYPE[provider!]({
+            //               time: "25.08.2023",
+            //               title: title! || "",
+            //               idPlace: idPlace,
+            //               id: id!,
+            //           })
+            //         : balloonContentService,
+            // }}
         />
     )
 }

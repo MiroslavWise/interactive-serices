@@ -13,6 +13,10 @@ body {
     background: var(--background);
 }
 
+button{
+    cursor: pointer;
+}
+
 ul,
 form,
 aside,
@@ -67,8 +71,10 @@ h6 {
     --glass-bg-color-2: rgba(248, 249, 255, 0.55);
     --glass-bg-color-3: rgba(255, 255, 255, 0.6);
     --opacity-white-hard: rgba(255, 255, 255, 0.2);
+    --opacity-white-hard-1: rgba(255, 255, 255, 0.1);
     --stroke-1: #fff;
     --button-default-background: #fff;
+    --transition: all 0.3s ease-in-out 0.01s;
 
     //Color Gary
     --gray-900: #101828;
@@ -234,4 +240,101 @@ h6 {
     .ymaps-2-1-79-ground-pane {
         filter: invert(1);
     }
+}
+
+$cursors: "pointer", "default";
+.cursor {
+    @each $cursor in $cursors {
+        &-#{$cursor} {
+            cursor: #{$cursor};
+        }
+    }
+}
+
+.m {
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin: #{$m * 4}px;
+        }
+    }
+}
+
+.m-top {
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-top: #{$m * 4}px;
+        }
+    }
+}
+
+.m-right {
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-right: #{$m * 4}px;
+        }
+    }
+}
+
+.m-bottom {
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-bottom: #{$m * 4}px;
+        }
+    }
+}
+
+.m-left {
+    @for $m from 1 through 14 {
+        &-#{$m} {
+            margin-left: #{$m * 4}px;
+        }
+    }
+}
+
+.p {
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding: #{$p * 4}px;
+        }
+    }
+}
+
+.p-top {
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-top: #{$p * 4}px;
+        }
+    }
+}
+
+.p-right {
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-right: #{$p * 4}px;
+        }
+    }
+}
+
+.p-bottom {
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-bottom: #{$p * 4}px;
+        }
+    }
+}
+
+.p-left {
+    @for $p from 1 through 14 {
+        &-#{$p} {
+            padding-left: #{$p * 4}px;
+        }
+    }
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
 }

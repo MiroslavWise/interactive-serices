@@ -6,7 +6,7 @@ import type { IPropsImageStatic } from "./types"
 import { cx } from "@/lib/cx"
 
 export function ImageStaticMemo(props: IPropsImageStatic) {
-    const { src, alt, classNames, width, height, onClick } = props ?? {}
+    const { src, alt, classNames, width, height, onClick, rest } = props ?? {}
 
     return (
         <Image
@@ -26,6 +26,7 @@ export function ImageStaticMemo(props: IPropsImageStatic) {
                 objectFit: "cover",
             }}
             unoptimized
+            {...rest}
         />
     )
 }

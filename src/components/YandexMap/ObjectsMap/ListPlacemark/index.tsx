@@ -1,15 +1,20 @@
 "use client"
 
-import { useMemo } from "react"
 import { useQuery } from "react-query"
+import { type Dispatch, useMemo } from "react"
 
 import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
 import { serviceOffer } from "@/services/offers"
+import { IActionBalloon } from "../../types"
 
-export const ListPlacemark = () => {
+export const ListPlacemark = ({
+    dispatch,
+}: {
+    dispatch: Dispatch<IActionBalloon>
+}) => {
     const { data: dataPlaces } = useQuery({
         queryKey: ["offers"],
         queryFn: () => serviceOffer.get(),
@@ -39,14 +44,19 @@ export const ListPlacemark = () => {
                         idUser: item?.userId!,
                         id: item?.id!,
                         title: title,
+                        dispatch: dispatch,
                     })
                 })
         }
 
         return array
-    }, [dataPlaces?.res])
+    }, [dataPlaces?.res, dispatch])
 
     return marks.map((item) => (
-        <PlacemarkCurrent key={`${item.id}-${item.provider}-list`} {...item} />
+        <PlacemarkCurrent
+            key={`${item.id}-${item.provider}-list`}
+            {...item}
+            dispatch={dispatch}
+        />
     ))
 }

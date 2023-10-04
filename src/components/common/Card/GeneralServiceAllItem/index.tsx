@@ -29,7 +29,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         addresses,
         className,
     } = props ?? {}
-    const { categories } = useOffersCategories()
+    const { categories } = useOffersCategories() 
 
     const typeImagePng: string | null = useMemo(() => {
         const obj: Readonly<Partial<Record<TTypeProvider, any>>> = {

@@ -12,14 +12,16 @@ import { Buttons } from "./components/Buttons"
 import styles from "./style.module.scss"
 
 export const CardSuggestion: TCardSuggestion = ({
-  name, can, rating, photos,
+    name,
+    can,
+    rating,
+    photos,
 }) => {
-
-  return (
-    <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
-      <Header {...{ name, can, rating }} />
-      <ContainerPhotos {...{ photos }} />
-      <Buttons />
-    </MotionLI>
-  )
+    return (
+        <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
+            <Header {...{ name, can, rating }} />
+            <ContainerPhotos {...{ photos }} />
+            <Buttons />
+        </MotionLI>
+    )
 }

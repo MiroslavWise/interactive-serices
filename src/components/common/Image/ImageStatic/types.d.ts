@@ -7,6 +7,7 @@ export interface IPropsImageStatic {
     classNames?: any[]
     width: number
     height: number
+    rest?: any
 
     onClick?: DispatchWithoutAction
 }
