@@ -1,6 +1,5 @@
 import type { IUseTokenHelper } from "./types/tokenHelper"
 
-import { LoggingService } from "@/services/auth/loggingService"
 import { AuthService } from "@/services/auth/authService"
 import { URL_API } from "@/helpers/url"
 
@@ -10,7 +9,7 @@ export const useTokenHelper: IUseTokenHelper = {
         this.temporaryToken = value
     },
     async login(value) {
-        return LoggingService.login(value).then((response) => {
+        return AuthService.login(value).then((response) => {
             if (response.ok && response?.res?.accessToken) {
                 this.saveTemporaryToken(response?.res?.accessToken)
                 return {
@@ -27,30 +26,6 @@ export const useTokenHelper: IUseTokenHelper = {
             }
         })
     },
-    async refresh() {
-        try {
-            this.authRefreshToken
-            const response = await Promise.reject()
-            AuthService.validateToken({ token: "", refreshToken: "", ok: true })
-            return {
-                login: AuthService.validateToken({
-                    token: "",
-                    refreshToken: "",
-                    ok: true,
-                }),
-            }
-        } catch (e) {
-            AuthService.validateToken({
-                token: null,
-                refreshToken: null,
-                ok: false,
-            })
-            return {
-                login: false,
-                error: e,
-            }
-        }
-    },
     async serviceOtp({ code }) {
         try {
             const responseOtp = await fetch(`${URL_API}/auth/otp`, {
@@ -65,16 +40,14 @@ export const useTokenHelper: IUseTokenHelper = {
             if (dataOtp?.error === null && dataOtp?.data) {
                 const token = dataOtp?.result?.accessToken
                 const refreshToken = dataOtp?.result?.refreshToken
-                const expiration = dataOtp?.result?.expiresIn
                 const userId = dataOtp?.result?.id
-                // AuthService.saveToken({ token, refreshToken, expiration, userId, ok: true })
+                // AuthService.saveToken({ token, refreshToken, userId, ok: true })
                 return {
                     ok: true,
                     error: null,
                     res: dataOtp?.data,
                 }
             }
-            AuthService.removeAuthData()
             return {
                 ok: false,
                 error: dataOtp?.error,
@@ -88,11 +61,5 @@ export const useTokenHelper: IUseTokenHelper = {
     },
     get authToken() {
         return AuthService.authToken()
-    },
-    get authRefreshToken() {
-        return AuthService.authRefreshToken()
-    },
-    get authUserId() {
-        return AuthService.authUserId()
     },
 }

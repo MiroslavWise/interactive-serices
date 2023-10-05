@@ -94,8 +94,8 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
                             ok: true,
                             token: response?.res?.accessToken!,
                             refreshToken: response?.res?.refreshToken!,
+                            expires: response?.res?.expires!,
                             userId: response?.res?.id!,
-                            expiration: response?.res?.expiresIn!,
                         })
                         if (!data?.res?.profile) {
                             setVisible(true)

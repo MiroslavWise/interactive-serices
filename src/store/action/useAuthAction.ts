@@ -6,22 +6,20 @@ import type {
 } from "../types/useAuthState"
 
 import { usersService } from "@/services/users"
-import { serviceProfile } from "@/services/profile"
-import { IUserResponse } from "@/services/users/types/usersService"
 
 export const signOutAction = (set: ISetAction) => {
     set({
         token: undefined,
         refreshToken: undefined,
         userId: undefined,
-        expiration: undefined,
         isAuth: false,
         user: undefined,
         profileId: undefined,
         imageProfile: undefined,
         createdUser: undefined,
         email: undefined,
-        addresses: undefined,
+        addresses: [],
+        expires: undefined,
     })
 }
 
@@ -46,13 +44,13 @@ export const setUserAction = (
 }
 
 export const setTokenAction = (value: ISetToken, set: ISetAction) => {
-    const { token, refreshToken, userId, expiration, ok } = value ?? {}
+    const { token, refreshToken, userId, ok, expires } = value ?? {}
     if (ok) {
         set({
             token,
             refreshToken,
             userId,
-            expiration,
+            expires,
             isAuth: true,
         })
     }
@@ -71,8 +69,6 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
                     createdUser: response?.res?.created!,
                     email: response?.res?.email,
                 })
-            }
-            if (response?.ok) {
                 if (response?.res?.addresses) {
                     set({
                         addresses:
@@ -81,60 +77,36 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
                             ) || [],
                     })
                 }
-            }
-            if (response.ok && !!response?.res?.profile) {
-                const {
-                    firstName,
-                    lastName,
-                    username,
-                    about,
-                    birthdate,
-                    enabled,
-                    id,
-                    image,
-                } = response?.res?.profile ?? {}
-                set({
-                    user: {
-                        firstName: firstName,
-                        lastName: lastName,
-                        username: username,
-                        birthdate: birthdate,
-                        about: about,
-                        enabled: enabled,
-                    },
-                    profileId: id,
-                    imageProfile: image || undefined,
-                })
+                if (!!response?.res?.profile) {
+                    const {
+                        firstName,
+                        lastName,
+                        username,
+                        about,
+                        birthdate,
+                        enabled,
+                        id,
+                        image,
+                    } = response?.res?.profile ?? {}
+                    set({
+                        user: {
+                            firstName: firstName,
+                            lastName: lastName,
+                            username: username,
+                            birthdate: birthdate,
+                            about: about,
+                            enabled: enabled,
+                        },
+                        profileId: id,
+                        imageProfile: image || undefined,
+                    })
+                }
+                return
+            } else {
+                set({ isAuth: false })
             }
         })
+    } else {
+        set({ isAuth: false })
     }
-}
-
-export const retrieveProfileData = (set: ISetAction, get: IGetAction) => {
-    serviceProfile.getUserId(get().userId!).then((response) => {
-        if (response.ok) {
-            const {
-                firstName,
-                lastName,
-                username,
-                about,
-                birthdate,
-                enabled,
-                id,
-                image,
-            } = response?.res ?? {}
-            set({
-                user: {
-                    firstName: firstName!,
-                    lastName: lastName!,
-                    username: username!,
-                    birthdate: birthdate!,
-                    about: about!,
-                    enabled: enabled!,
-                },
-                profileId: id!,
-                imageProfile: image || undefined,
-            })
-        }
-    })
 }

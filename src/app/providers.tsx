@@ -47,7 +47,7 @@ const queryClient = new QueryClient({
 })
 
 export default function Providers({ children }: { children: ReactNode }) {
-    const { changeAuth, token, userId } = useAuth()
+    const { token, userId, refresh } = useAuth()
     const searchParams = useSearchParams()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
@@ -58,8 +58,8 @@ export default function Providers({ children }: { children: ReactNode }) {
         useFetchingSession()
 
     useEffect(() => {
-        changeAuth()
-    }, [changeAuth])
+        refresh()
+    }, [refresh])
     useEffect(() => {
         if (passwordResetToken) {
             setVisibleAndType({

@@ -12,6 +12,7 @@ import {
 } from "react"
 
 import type { TTextAreaSend } from "./types/types"
+import type { IRequestPostMessages } from "@/services/messages/types"
 
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
@@ -23,7 +24,6 @@ import { useWebSocket } from "@/context/WebSocketProvider"
 import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/text-area.module.scss"
-import { IRequestPostMessages } from "@/services/messages/types"
 
 export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
     const [text, setText] = useState("")

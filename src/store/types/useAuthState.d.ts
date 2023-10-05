@@ -2,20 +2,20 @@ import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { DispatchWithoutAction, Dispatch } from "react"
 
 export type TAuthSuffix = "AuthJWT"
-export type TAuthPostfix = "RefreshToken" | "Token" | "Expiration" | "UserId"
+export type TAuthPostfix = "RefreshToken" | "Token" | "UserId"
 export type ISetAction = (
     partial:
         | IUseAuth
         | Partial<IUseAuth>
         | ((state: IUseAuth) => IUseAuth | Partial<IUseAuth>),
-    replace?: boolean | undefined
+    replace?: boolean | undefined,
 ) => void
 export type IGetAction = () => IUseAuth
 interface ISetToken {
     token: string
     refreshToken: string
-    expiration: number
     userId: number
+    expires: number
     ok: boolean
 }
 
@@ -47,20 +47,20 @@ export interface IImageData {
 
 export interface IUseAuth {
     email: undefined | string
+    expires: undefined | number
     token: string | undefined
     refreshToken: string | undefined
     userId: number | undefined
     profileId: number | undefined
-    expiration: number | undefined
-    isAuth: boolean
+    isAuth: boolean | undefined
     user: IUser | undefined
     imageProfile: IImageData | undefined
     createdUser: string | undefined | Date
     addresses: IAddressesResponse[]
 
+    refresh: DispatchWithoutAction
     getUser: Dispatch<(IUser & { profileId: number }) | null>
     changeAuth: DispatchWithoutAction
     setToken: Dispatch<ISetToken>
     signOut: DispatchWithoutAction
-    retrieveProfileData: DispatchWithoutAction
 }

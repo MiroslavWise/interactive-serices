@@ -20,7 +20,6 @@ import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
 import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "./styles/style.module.scss"
 import mobileStyles from "./styles/mobile.module.scss"
@@ -100,7 +99,7 @@ export const ModalUpdateProfile = () => {
             ).format("DD/MM/YYYY"),
             about: user?.about || "",
             enabled: true,
-            userId: Number(useTokenHelper.authUserId || userId),
+            userId: Number(userId),
         }
 
         if (values.about) {
@@ -135,9 +134,7 @@ export const ModalUpdateProfile = () => {
                                 const data: IPostProfileData = {
                                     username: values.username,
                                     imageId: uploadResponse.res?.id,
-                                    userId: Number(
-                                        useTokenHelper.authUserId || userId,
-                                    ),
+                                    userId: Number(userId),
                                 }
                                 serviceProfile
                                     .patch(data, response?.[0]?.res?.id!)
@@ -151,19 +148,20 @@ export const ModalUpdateProfile = () => {
                                             out()
                                             return
                                         }
+                                        setVisible(false)
+                                        changeAuth()
                                     })
-                                    .finally(changeAuth)
                                 return
                             }
                         })
                     }
                 } else {
                     setVisible(false)
+                    changeAuth()
                 }
-                setVisible(false)
-                changeAuth()
             })
             .finally(() => {
+                setVisible(false)
                 setLoading(false)
             })
     }
