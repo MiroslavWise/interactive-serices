@@ -25,7 +25,7 @@ import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/text-area.module.scss"
 
-export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
+export const TextAreaSend: TTextAreaSend = ({ photo, fullName, idUser }) => {
     const [text, setText] = useState("")
     const { setIsVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
@@ -163,6 +163,7 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
                                     dataProfile: {
                                         photo: photo,
                                         fullName: fullName,
+                                        idUser: idUser,
                                     },
                                 })
                             }}

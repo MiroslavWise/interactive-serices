@@ -2,19 +2,20 @@
 
 import type { IPostOffers } from "@/services/offers/types"
 
+import { SubTitle } from "../../components/SubTitle"
 import { FooterButtons } from "../../components/FooterButtons"
 import { LabelAndInput } from "../../components/LabelAndInput"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
+import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
-import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
-import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
+import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
 
 export const Start = () => {
-    const { userId, addresses } = useAuth()
+    const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
     const {
         text,
@@ -54,6 +55,10 @@ export const Start = () => {
 
     return (
         <>
+            <SubTitle>
+                Выберите услугу, которую хотите получить, в раскрывающемся меню
+                ниже.
+            </SubTitle>
             <SelectAndTextarea>
                 <LabelAndSelectOffersCategories
                     title="Предложение"

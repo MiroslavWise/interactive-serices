@@ -1,5 +1,6 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { ToastContainer } from "react-toastify"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
@@ -21,6 +22,10 @@ import {
 } from "@/components/layout"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { OnSuccessToastify } from "@/components/common/Toastify"
+const PhotoPreviewModal = dynamic(
+    () => import("../components/templates/PhotoPreviewModal"),
+    { ssr: false },
+)
 
 import {
     YMapsProvider,
@@ -112,6 +117,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 <ExchangesModalMobile />
                                 <Barter />
                                 <CreateNewOptionModal />
+                                <PhotoPreviewModal />
                                 {token && userId ? (
                                     <ModalUpdateProfile />
                                 ) : null}

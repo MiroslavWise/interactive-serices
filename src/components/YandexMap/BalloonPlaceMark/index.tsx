@@ -1,11 +1,12 @@
 "use client"
 
 import Image from "next/image"
-import { useMemo, useRef } from "react"
+import { useMemo, useRef, memo } from "react"
 
 import type { TBalloonPlaceMark } from "./types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { OfferBalloonComponent } from "./components/OfferBalloonComponent"
 import { DiscussionBalloonComponent } from "./components/DiscussionBalloonComponent"
 import { AlertBalloonComponent } from "./components/AlertBalloonComponent"
@@ -15,40 +16,54 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/styles.module.scss"
 
-const BalloonPlaceMark: TBalloonPlaceMark = ({ stateBalloon, dispatch }) => {
+const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
+    const { visible, id, idUser, type, dispatch } = useBalloonCard()
 
     const typeContent = useMemo(() => {
-        if (!stateBalloon.type) {
+        if (!type) {
             return null
         }
         const objType: Partial<Record<TTypeProvider, any>> = {
-            offer: <OfferBalloonComponent stateBalloon={stateBalloon} />,
-            discussion: <DiscussionBalloonComponent stateBalloon={stateBalloon} />,
-            alert: <AlertBalloonComponent stateBalloon={stateBalloon} />,
-            request: <RequestBalloonComponent stateBalloon={stateBalloon} />,
+            offer: (
+                <OfferBalloonComponent
+                    stateBalloon={{ visible, type, id, idUser }}
+                />
+            ),
+            discussion: (
+                <DiscussionBalloonComponent
+                    stateBalloon={{ visible, type, id, idUser }}
+                />
+            ),
+            alert: (
+                <AlertBalloonComponent
+                    stateBalloon={{ visible, type, id, idUser }}
+                />
+            ),
+            request: (
+                <RequestBalloonComponent
+                    stateBalloon={{ visible, type, id, idUser }}
+                />
+            ),
         }
 
-        if (stateBalloon.id) {
-            return objType[stateBalloon.type as TTypeProvider]
+        if (id) {
+            return objType[type as TTypeProvider]
         }
 
         return null
-    }, [stateBalloon])
+    }, [type, id, idUser, visible])
 
     return (
         <div
-            className={cx(
-                styles.wrapper,
-                stateBalloon.visible && styles.active,
-            )}
+            className={cx(styles.wrapper, visible && styles.active)}
             onClick={(e) => {
                 e.stopPropagation()
                 dispatch({ visible: false })
             }}
         >
             <section
-                data-type-offers={stateBalloon.type || null}
+                data-type-offers={type || null}
                 onClick={(event) => {
                     event.stopPropagation()
                 }}
@@ -60,6 +75,7 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({ stateBalloon, dispatch }) => {
                     width={24}
                     height={24}
                     data-img-close
+                    data-visible={!visible}
                     onClick={() => {
                         dispatch({ visible: false })
                     }}
@@ -70,4 +86,4 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({ stateBalloon, dispatch }) => {
     )
 }
 
-export default BalloonPlaceMark
+export default memo(BalloonPlaceMark)

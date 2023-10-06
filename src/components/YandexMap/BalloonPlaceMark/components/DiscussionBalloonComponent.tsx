@@ -1,19 +1,21 @@
 "use client"
 
+import Image from "next/image"
 import { useQuery } from "react-query"
 
 import type { TDiscussionBalloonComponent } from "../types/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { daysAgo } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
-import { daysAgo } from "@/helpers"
-import Image from "next/image"
+import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
 }) => {
+    const { createGallery } = usePhotoVisible()
     const { data } = useQuery({
         queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
         queryKey: ["discussion", stateBalloon.id!],
@@ -69,18 +71,37 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                 {Array.isArray(data?.res?.images) &&
                 data?.res?.images?.length ? (
                     <ul>
-                        {data?.res?.images
-                            ?.slice(0, 4)
-                            ?.map((item) => (
-                                <NextImageMotion
-                                    key={`${item?.id}-image-offer`}
-                                    src={item?.attributes?.url}
-                                    alt="offer-image"
-                                    width={400}
-                                    height={400}
-                                    className=""
-                                />
-                            ))}
+                        {data?.res?.images?.slice(0, 4)?.map((item, index) => (
+                            <NextImageMotion
+                                onClick={() => {
+                                    createGallery(
+                                        data?.res?.images!,
+                                        item,
+                                        index,
+                                        {
+                                            title: data?.res?.title!,
+                                            name: `${
+                                                dataProfile?.res?.firstName ||
+                                                ""
+                                            } ${
+                                                dataProfile?.res?.lastName || ""
+                                            }`,
+                                            urlPhoto:
+                                                dataProfile?.res?.image
+                                                    ?.attributes?.url!,
+                                            idUser: dataProfile?.res?.userId!,
+                                            time: data?.res?.updated!,
+                                        },
+                                    )
+                                }}
+                                key={`${item?.id}-image-offer`}
+                                src={item?.attributes?.url}
+                                alt="offer-image"
+                                width={400}
+                                height={400}
+                                className=""
+                            />
+                        ))}
                     </ul>
                 ) : null}
             </div>

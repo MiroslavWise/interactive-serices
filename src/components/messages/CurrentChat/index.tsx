@@ -177,11 +177,13 @@ export const CurrentChat = () => {
                 <TextAreaSend
                     photo={conversationPartner?.photo}
                     fullName={conversationPartner?.name}
+                    idUser={Number(idUser)}
                 />
                 <Glasses />
                 <PopupMenu
                     photo={conversationPartner?.photo}
                     fullName={conversationPartner?.name}
+                    idUser={Number(idUser)}
                 />
             </section>
         )
@@ -193,6 +195,7 @@ export const CurrentChat = () => {
             <TextAreaSend
                 photo={conversationPartner?.photo}
                 fullName={conversationPartner?.name}
+                idUser={Number(idUser)}
             />
         </section>
     )

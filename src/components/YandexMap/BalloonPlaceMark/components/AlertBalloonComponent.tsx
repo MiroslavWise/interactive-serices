@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { useQuery } from "react-query"
 
 import type { TAlertBalloonComponent } from "../types/types"
@@ -8,15 +9,18 @@ import type { TAlertBalloonComponent } from "../types/types"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { ButtonSuccessInBalloon } from "./ButtonSuccessInBalloon"
 
-import { daysAgo } from "@/helpers"
+import { daysAgo, usePush } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
-import Image from "next/image"
+import { useVisibleModalBarter } from "@/store/hooks"
+import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({
     stateBalloon,
 }) => {
     const [activeListComments, setActiveListComments] = useState(false)
+    const { handlePush } = usePush()
+    const { createGallery } = usePhotoVisible()
     const { data } = useQuery({
         queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
         queryKey: ["alert", stateBalloon.id!],
@@ -28,7 +32,9 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
         refetchOnMount: false,
     })
 
-    function handleHelp() {}
+    function handleHelp() {
+        handlePush(`/messages?user=${stateBalloon.idUser}`)
+    }
 
     return (
         <>
@@ -76,18 +82,37 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                 {Array.isArray(data?.res?.images) &&
                 data?.res?.images?.length ? (
                     <ul>
-                        {data?.res?.images
-                            ?.slice(0, 4)
-                            ?.map((item) => (
-                                <NextImageMotion
-                                    key={`${item?.id}-image-offer`}
-                                    src={item?.attributes?.url}
-                                    alt="offer-image"
-                                    width={400}
-                                    height={400}
-                                    className=""
-                                />
-                            ))}
+                        {data?.res?.images?.slice(0, 4)?.map((item, index) => (
+                            <NextImageMotion
+                                onClick={() => {
+                                    createGallery(
+                                        data?.res?.images!,
+                                        item,
+                                        index,
+                                        {
+                                            title: data?.res?.title!,
+                                            name: `${
+                                                dataProfile?.res?.firstName ||
+                                                ""
+                                            } ${
+                                                dataProfile?.res?.lastName || ""
+                                            }`,
+                                            urlPhoto:
+                                                dataProfile?.res?.image
+                                                    ?.attributes?.url!,
+                                            idUser: dataProfile?.res?.userId!,
+                                            time: data?.res?.updated!,
+                                        },
+                                    )
+                                }}
+                                key={`${item?.id}-image-offer`}
+                                src={item?.attributes?.url}
+                                alt="offer-image"
+                                width={400}
+                                height={400}
+                                className=""
+                            />
+                        ))}
                     </ul>
                 ) : null}
             </div>

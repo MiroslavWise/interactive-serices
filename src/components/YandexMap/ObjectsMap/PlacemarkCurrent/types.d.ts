@@ -8,7 +8,6 @@ export interface IPlacemarkCurrent {
     coordinates: [number, number][]
     id: string | number
     idUser: number | string
-    dispatch: Dispatch<IActionBalloon>
 }
 
 export type TPlacemarkCurrent = FC<IPlacemarkCurrent>

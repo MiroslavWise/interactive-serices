@@ -95,6 +95,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
                                         dataProfile: {
                                             photo: profile?.photo,
                                             fullName: profile?.name,
+                                            idUser: profile?.userId!,
                                         },
                                     })
                                 }

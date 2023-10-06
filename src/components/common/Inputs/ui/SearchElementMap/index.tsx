@@ -54,7 +54,7 @@ export const SearchElementMap: TSearchElementMap = ({
             const coordinates = [Number(latitude), Number(longitude)]
             console.log("coordinates: ", coordinates)
             setStateCoord(coordinates)
-            setZoom(22)
+            setZoom(18)
         }
     }
 

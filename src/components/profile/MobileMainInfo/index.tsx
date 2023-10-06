@@ -106,7 +106,11 @@ export const MobileMainInfo: TMobileMainInfo = ({
                     handleClick={() =>
                         setIsVisibleBarter({
                             isVisible: true,
-                            dataProfile: { photo: photo, fullName: name },
+                            dataProfile: {
+                                photo: photo,
+                                fullName: name,
+                                idUser: userId,
+                            },
                         })
                     }
                 />

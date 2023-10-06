@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import type { DispatchWithoutAction, FC } from "react"
 import type { Variants } from "framer-motion"
 
 interface IImage {
@@ -6,7 +6,8 @@ interface IImage {
     alt: "avatar" | "offer-image" | string
     width: number
     height: number
-    className: string
+    className?: string
+    onClick?: DispatchWithoutAction
 }
 
 export type TImage = FC<IImage>

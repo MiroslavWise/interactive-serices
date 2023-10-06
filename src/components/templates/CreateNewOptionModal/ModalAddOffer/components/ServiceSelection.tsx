@@ -26,6 +26,10 @@ export const ServiceSelection = () => {
                 предложить публично.
             </p>
             <SelectAndTextarea>
+                <LabelAndSelectAddress
+                    value={adressId?.id ? { id: adressId?.id! } : undefined}
+                    setValue={setAddressId}
+                />
                 <LabelAndSelectOffersCategories
                     title="Предложение"
                     placeholder="Выберите категории"
@@ -37,10 +41,6 @@ export const ServiceSelection = () => {
                     text={text}
                     setText={setText}
                     placeholder="Напишите что-нибудь"
-                />
-                <LabelAndSelectAddress
-                    value={adressId?.id ? { id: adressId?.id! } : undefined}
-                    setValue={setAddressId}
                 />
             </SelectAndTextarea>
         </section>

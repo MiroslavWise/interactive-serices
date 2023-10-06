@@ -1,7 +1,7 @@
 import type { IReturnData } from "@/services/types/general"
 
 export interface IBarterResponse{
-
+  
 }
 
 export interface IPostDataBarter{

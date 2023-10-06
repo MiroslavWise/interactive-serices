@@ -8,15 +8,18 @@ import type { TOfferBalloonComponent } from "../types/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { daysAgo } from "@/helpers"
+import { daysAgo, usePush } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
+import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = ({
     stateBalloon,
 }) => {
+    const { handlePush } = usePush()
     const { categories } = useOffersCategories()
+    const { createGallery } = usePhotoVisible()
     const { data } = useQuery({
         queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
         queryKey: ["offer", stateBalloon.id!],
@@ -82,18 +85,37 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                 {Array.isArray(data?.res?.images) &&
                 data?.res?.images?.length ? (
                     <ul>
-                        {data?.res?.images
-                            ?.slice(0, 4)
-                            ?.map((item) => (
-                                <NextImageMotion
-                                    key={`${item?.id}-image-offer`}
-                                    src={item?.attributes?.url}
-                                    alt="offer-image"
-                                    width={400}
-                                    height={400}
-                                    className=""
-                                />
-                            ))}
+                        {data?.res?.images?.slice(0, 4)?.map((item, index) => (
+                            <NextImageMotion
+                                onClick={() => {
+                                    createGallery(
+                                        data?.res?.images!,
+                                        item,
+                                        index,
+                                        {
+                                            title: data?.res?.title!,
+                                            name: `${
+                                                dataProfile?.res?.firstName ||
+                                                ""
+                                            } ${
+                                                dataProfile?.res?.lastName || ""
+                                            }`,
+                                            urlPhoto:
+                                                dataProfile?.res?.image
+                                                    ?.attributes?.url!,
+                                            idUser: dataProfile?.res?.userId!,
+                                            time: data?.res?.updated!,
+                                        },
+                                    )
+                                }}
+                                key={`${item?.id}-image-offer`}
+                                src={item?.attributes?.url}
+                                alt="offer-image"
+                                width={400}
+                                height={400}
+                                className=""
+                            />
+                        ))}
                     </ul>
                 ) : null}
                 <div data-footer-buttons>
@@ -105,6 +127,13 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                         alt="chat-bubbles"
                         width={32}
                         height={32}
+                        onClick={() => {
+                            if (stateBalloon.idUser) {
+                                handlePush(
+                                    `/messages?user=${stateBalloon?.idUser!}`,
+                                )
+                            }
+                        }}
                     />
                 </div>
             </div>

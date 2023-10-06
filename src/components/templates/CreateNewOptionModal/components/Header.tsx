@@ -18,7 +18,7 @@ export const Header = () => {
 
         const obj: Record<TAddCreate, { title: string }> = {
             alert: {
-                title: "Новое оповещение",
+                title: "У меня проблема / Хочу предупредить",
             },
             request: {
                 title: "Добавить запрос",

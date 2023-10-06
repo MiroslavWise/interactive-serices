@@ -13,7 +13,7 @@ body {
     background: var(--background);
 }
 
-button{
+button {
     cursor: pointer;
 }
 
@@ -137,6 +137,8 @@ h6 {
     --success-50: #ecfdf3;
 
     //Gradient
+    --gradient-offer: linear-gradient(180deg, #8378dc 0%, #a26be8 100%);
+    --gradient-request: linear-gradient(180deg, #289ddf 0%, #3cb7fd 100%);
     --SOS-CARD: linear-gradient(180deg, #ff8da2 0%, #eb3f5e 49.32%);
     --gradient-primary: linear-gradient(180deg, #ada2fc 0%, #6e5cf0 100%);
     --gradient-optional-1: linear-gradient(180deg, #ff9e88 0%, #ee4e29 100%);

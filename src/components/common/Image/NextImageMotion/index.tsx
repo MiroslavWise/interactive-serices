@@ -15,9 +15,23 @@ const altName = {
     "offer-image": "/png/blur-default-offers.jpg",
 }
 
-const ImageMotion: TImage = ({ src, alt, height, width, className }) => {
+const ImageMotion: TImage = ({
+    src,
+    alt,
+    height,
+    width,
+    className,
+    onClick,
+}) => {
+    function handleClick() {
+        if (onClick) {
+            onClick()
+        }
+    }
+
     return src?.includes("http") ? (
         <MotionImage
+            onClick={handleClick}
             placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
             blurDataURL={
                 altName.hasOwnProperty(alt) && alt === "avatar"
@@ -26,7 +40,7 @@ const ImageMotion: TImage = ({ src, alt, height, width, className }) => {
                     ? altName["offer-image"]
                     : altName["offer-image"]
             }
-            className={className}
+            className={className || ""}
             loader={myImageLoader}
             loading="lazy"
             src={src}

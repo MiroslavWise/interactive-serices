@@ -35,7 +35,7 @@ export const ImagesUploadInput: TImagesUploadInput = ({
                         deleteFile={deleteFile}
                     />
                 ))}
-                {files.length < 9 ? (
+                {files.length < 6 ? (
                     <UploadPhoto
                         key={`${files.length}_file`}
                         files={files[files.length]}

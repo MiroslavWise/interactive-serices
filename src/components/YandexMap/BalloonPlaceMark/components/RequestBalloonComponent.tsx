@@ -8,7 +8,7 @@ import type { TRequestBalloonComponent } from "../types/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { daysAgo } from "@/helpers"
+import { daysAgo, usePush } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
@@ -16,6 +16,7 @@ import { useOffersCategories } from "@/store/state/useOffersCategories"
 export const RequestBalloonComponent: TRequestBalloonComponent = ({
     stateBalloon,
 }) => {
+    const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { data } = useQuery({
         queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
@@ -88,6 +89,13 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                         alt="chat-bubbles"
                         width={32}
                         height={32}
+                        onClick={() => {
+                            if (stateBalloon.idUser) {
+                                handlePush(
+                                    `/messages?user=${stateBalloon?.idUser!}`,
+                                )
+                            }
+                        }}
                     />
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { TProviderOffer } from "@/services/types/general"
-import type { Dispatch, DispatchWithoutAction, FC } from "react"
+import type { Dispatch, DispatchWithoutAction, FC, ReactNode } from "react"
 
 interface ILabelAndInput {
     title: string
@@ -37,6 +37,11 @@ interface IAddressDescription {
     address: string | null
 }
 
+interface ISubTitle {
+    children: ReactNode
+}
+
+export type TSubTitle = FC<ISubTitle>
 export type TLabelAndInput = FC<ILabelAndInput>
 export type TLabelAndSelectOffersCategories =
     FC<ILabelAndSelectOffersCategories>

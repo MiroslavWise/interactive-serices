@@ -6,8 +6,10 @@ import type { TGeneralServiceAllItem } from "./types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { MotionLI } from "@/components/common/Motion"
-import { NextImageMotion, ImageStatic } from "@/components/common/Image"
+import { ImageStatic } from "@/components/common/Image"
 
+import { usePush } from "@/helpers"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./style.module.scss"
@@ -29,7 +31,9 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         addresses,
         className,
     } = props ?? {}
-    const { categories } = useOffersCategories() 
+    const { handlePush } = usePush()
+    const { categories } = useOffersCategories()
+    const { dispatch } = useBalloonCard()
 
     const typeImagePng: string | null = useMemo(() => {
         const obj: Readonly<Partial<Record<TTypeProvider, any>>> = {
@@ -56,21 +60,48 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         return null
     }, [provider, categoryId, categories])
 
+    //
+
+    function handle() {
+        dispatch({
+            visible: true,
+            id: id,
+            idUser: userId,
+            type: provider || null,
+        })
+    }
+
+    function handleHelp() {
+        handlePush(`/messages?user=${userId}`)
+    }
+
     return (
-        <MotionLI classNames={[styles.container, className]}>
+        <MotionLI classNames={[styles.container, className]} onClick={handle}>
             <header>
                 {typeImagePng ? (
                     <ImageStatic
                         src={typeImagePng}
                         alt="offer"
-                        width={65}
-                        height={65}
+                        width={58}
+                        height={58}
                         classNames={[styles.typeImage]}
                     />
                 ) : (
                     <div className={styles.typeImage} />
                 )}
                 {categoryOffer && <h3>{categoryOffer}</h3>}
+                {provider === "alert" ? (
+                    <button
+                        data-help
+                        onClick={(event) => {
+                            event.preventDefault()
+                            event.stopPropagation()
+                            handleHelp()
+                        }}
+                    >
+                        <span>Могу помочь!</span>
+                    </button>
+                ) : null}
             </header>
             <section>{title && <h4>{title}</h4>}</section>
         </MotionLI>

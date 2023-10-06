@@ -9,10 +9,7 @@ import type {
 import type { IActionBalloon, IStateBalloon } from "../../types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
-interface IBalloonPlaceMark {
-    dispatch: Dispatch<IActionBalloon>
-    stateBalloon: IStateBalloon
-}
+interface IBalloonPlaceMark {}
 
 interface IBalloonComponent {
     stateBalloon: IStateBalloon

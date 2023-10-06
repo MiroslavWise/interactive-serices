@@ -2,23 +2,20 @@
 
 import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
+import { SubTitle } from "../../components/SubTitle"
 import { FooterButtons } from "../../components/FooterButtons"
 import { LabelAndInput } from "../../components/LabelAndInput"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
+import { AddressDescription } from "../../components/AddressDescription"
 import { ImagesUploadInput } from "../../components/ImagesUploadInput"
+import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
-import { fileUploadService } from "@/services/file-upload"
-import {
-    transliterateAndReplace,
-    useAddress,
-    useCloseCreateOptions,
-} from "@/helpers"
-import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
-import { AddressDescription } from "../../components/AddressDescription"
 import { serviceAddresses } from "@/services/addresses"
-import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
+import { fileUploadService } from "@/services/file-upload"
+import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
+import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
 
 export const Start = () => {
     const { userId } = useAuth()
@@ -103,6 +100,10 @@ export const Start = () => {
 
     return (
         <>
+            <SubTitle>
+                Хотите что-то обсудить с другими пользователями Sheira? Создайте
+                тему и будьте готовы участвовать в обсуждении!
+            </SubTitle>
             <SelectAndTextarea>
                 {addressInit?.additional ? (
                     <AddressDescription address={addressInit?.additional!} />
@@ -118,6 +119,7 @@ export const Start = () => {
                     setText={setText}
                     placeholder="Что вы хотите обсудить?"
                 />
+                <p>Вы можете добавить фото, если хотите</p>
                 <ImagesUploadInput
                     {...{
                         files,

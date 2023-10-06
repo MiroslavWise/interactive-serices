@@ -86,6 +86,7 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                                             fullName: `${
                                                 profile?.firstName || ""
                                             } ${profile?.lastName || ""}`,
+                                            idUser: profile?.userId!,
                                         },
                                     })
                                 }

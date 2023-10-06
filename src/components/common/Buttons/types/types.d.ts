@@ -55,7 +55,7 @@ export interface IPositionAbsolute {
 interface IButtonClose {
   onClick: DispatchWithoutAction
   position: IPositionAbsolute
-
+  className?: string
 }
 
 interface IButtonCircleGradientFill{

@@ -2,11 +2,13 @@
 
 import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
+import { SubTitle } from "../../components/SubTitle"
 import { FooterButtons } from "../../components/FooterButtons"
 import { LabelAndInput } from "../../components/LabelAndInput"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
 import { AddressDescription } from "../../components/AddressDescription"
 import { ImagesUploadInput } from "../../components/ImagesUploadInput"
+import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 import { useCreateAlert } from "@/store/state/useCreateAlert"
 
@@ -15,7 +17,6 @@ import { serviceOffer } from "@/services/offers"
 import { fileUploadService } from "@/services/file-upload"
 import { serviceAddresses } from "@/services/addresses"
 import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
-import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 export const Start = () => {
     const { userId } = useAuth()
@@ -103,6 +104,10 @@ export const Start = () => {
 
     return (
         <>
+            <SubTitle>
+                Видите, что что-то произошло, или вам нужна помощь? Просто дайте
+                знать остальным
+            </SubTitle>
             <SelectAndTextarea>
                 {addressInit?.additional ? (
                     <AddressDescription address={addressInit?.additional!} />
@@ -113,11 +118,12 @@ export const Start = () => {
                     />
                 )}
                 <LabelAndInput
-                    title="Придумайте заголовок для вашего обсуждения."
+                    title="Что у вас случилось?"
                     text={text}
                     setText={setText}
-                    placeholder="Что вы хотите обсудить?"
+                    placeholder="У меня проблема / Хочу предупредить"
                 />
+                <p>Вы можете добавить фото, если хотите</p>
                 <ImagesUploadInput
                     {...{
                         files,
