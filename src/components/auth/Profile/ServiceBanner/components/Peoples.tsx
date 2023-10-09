@@ -4,17 +4,14 @@ import { useQuery } from "react-query"
 
 import type { TPeoples } from "./types/types"
 
-// import { PeopleCard } from "@/components/common/PeopleCard/ServiceBanner"
 import { MotionUL } from "@/components/common/Motion"
 import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import { serviceOffer } from "@/services/offers"
-import { MOCKS_SERVICES } from "@/mocks/components/auth/constants"
-// import { serviceProfile } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
 
-export const Peoples: TPeoples = ({ setDataAndActive }) => {
+export const Peoples: TPeoples = ({}) => {
     const { data } = useQuery({
         queryKey: ["offers"],
         queryFn: () => serviceOffer.get(),

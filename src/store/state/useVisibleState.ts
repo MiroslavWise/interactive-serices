@@ -47,19 +47,22 @@ export const useVisibleModalBarterState = create<IUseVisibleModalBarter>(
     (set, get) => ({
         isVisible: false,
         dataProfile: undefined,
+        dataOffer: undefined,
 
-        setIsVisibleBarter({ isVisible, dataProfile }) {
+        dispatchVisibleBarter({ isVisible, dataProfile, dataOffer }) {
             set({
                 isVisible: isVisible,
             })
-            if (dataProfile !== undefined) {
+            if (dataProfile !== undefined && dataOffer !== undefined) {
                 set({
                     dataProfile: dataProfile,
+                    dataOffer: dataOffer,
                 })
             } else {
                 setTimeout(() => {
                     set({
                         dataProfile: undefined,
+                        dataOffer: undefined,
                     })
                 }, 350)
             }
@@ -184,3 +187,19 @@ export const useUpdateProfileState = create<IUseUpdateProfileState>(
         },
     }),
 )
+
+interface IBarters {
+    userId: number // Юзер, создающий бартер
+    initiatorId: number // Юзер, предлагающий бартер, по сути, и есть создающий(что-бы не нарушать общий интерфейс запросов, userId остаётся)
+    offeredId: number // Юзер, которому предлагается бартер
+    title: string //
+    date: Date // День, в который будет будет испольняться бартер(позже нужно будет передлать на промежуток времени(но, я вообще считаю это поле бесполезным))
+
+    addressId: number //
+    enabled: boolean //
+    createdById?: number // равен initiatorId
+    updatedById?: number //
+    categoryId?: number //если у человека нет предложений, он можно просто из селектора выбрать, что он может предложить
+    initiatorOfferId?: number //id оффера, предлагаемого инициатором бартера
+    requestId?: number // id оффера, или запроса, на который идёт бартер, т.е. id оффера юзера, которому идёт предложение бартера
+}

@@ -3,12 +3,13 @@ import { IAuthor, IUsePhotoOffer } from "../types/createPhotoOffer"
 import { IPhoto } from "../types/createPhotoOffer"
 
 export const usePhotoOffer = create<IUsePhotoOffer>((set, get) => ({
+    offer: undefined,
     current: undefined,
     photos: [],
     visible: false,
     author: undefined,
 
-    dispatch({ current, photos, payload, visible, author }) {
+    dispatch({ current, photos, payload, visible, author, offer }) {
         const value: Partial<{
             current: IPhoto
             photos: IPhoto[]
@@ -58,11 +59,14 @@ export const usePhotoOffer = create<IUsePhotoOffer>((set, get) => ({
         const getAuthor =
             typeof author === "undefined" ? get().author : value.author
 
+        const getOffer = typeof offer === "undefined" ? get().offer : offer
+
         set({
             current: value.current!,
             photos: value.photos!,
             visible: getVisible,
             author: getAuthor,
+            offer: getOffer,
         })
     },
 }))

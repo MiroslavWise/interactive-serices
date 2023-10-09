@@ -28,10 +28,11 @@ export const serviceOffer: IServiceOffers = {
     getId(id) {
         return wrapperFetch.methodGetId<IResponseOffers>(this.route, id)
     },
-    getUserId(id) {
-        return wrapperFetch.methodGetId<IResponseOffers>(
+    getUserId(id, value) {
+        return wrapperFetch.methodGetId<IResponseOffers[]>(
             `${this.route}/user`,
             id,
+            value,
         )
     },
     delete(id) {

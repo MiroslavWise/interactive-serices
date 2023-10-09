@@ -3,12 +3,23 @@ import type { IHeader } from "./types/types"
 import { Rate } from "@/components/common/Rate"
 
 import styles from "./styles/style.module.scss"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { memo, useMemo } from "react"
 
-export const Header: IHeader = ({ name, can, rating }) => {
+const $Header: IHeader = ({ categoryId, rating, title }) => {
+    const { categories } = useOffersCategories()
+
+    const titleCategory = useMemo(() => {
+        return (
+            categories?.find((item) => Number(item?.id) === Number(categoryId))
+                ?.title || ""
+        )
+    }, [categories, categoryId])
+
     return (
         <header className={styles.containerHeader}>
             <section className={styles.nameAndRating}>
-                <h4>{name}</h4>
+                <h4>{titleCategory}</h4>
                 <div className={styles.containerRate}>
                     <Rate
                         rate={rating.average}
@@ -20,8 +31,10 @@ export const Header: IHeader = ({ name, can, rating }) => {
             </section>
             <section className={styles.containerCanService}>
                 <p>Могу:</p>
-                <p className={styles.textCan}>{can}</p>
+                <p className={styles.textCan}>{title}</p>
             </section>
         </header>
     )
 }
+
+export const Header = memo($Header)

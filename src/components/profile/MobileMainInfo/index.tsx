@@ -23,7 +23,7 @@ export const MobileMainInfo: TMobileMainInfo = ({
     userId,
     created,
 }) => {
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
     const { handlePush } = usePush()
 
     return (

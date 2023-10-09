@@ -14,9 +14,9 @@ import styles from "./styles/service-selection.module.scss"
 export const AddingPhotos: TAddingPhotos = () => {
     const {
         files,
-        setFiles,
-        selectedFilesString,
-        setSelectedFilesString,
+        setFile,
+        selectedFile,
+        setSelectedFile,
         deleteFile,
         adressId,
     } = useCreateOffer()
@@ -33,9 +33,9 @@ export const AddingPhotos: TAddingPhotos = () => {
                         key={`${index}_file`}
                         files={files[index]}
                         index={index}
-                        selected={selectedFilesString[index]}
-                        setFiles={setFiles}
-                        setSelectedImage={setSelectedFilesString}
+                        selected={selectedFile[index]}
+                        setFiles={setFile}
+                        setSelectedImage={setSelectedFile}
                         deleteFile={deleteFile}
                     />
                 ))}
@@ -44,9 +44,9 @@ export const AddingPhotos: TAddingPhotos = () => {
                         key={`${files.length}_file`}
                         files={files[files.length]}
                         index={files.length}
-                        selected={selectedFilesString[files.length]}
-                        setFiles={setFiles}
-                        setSelectedImage={setSelectedFilesString}
+                        selected={selectedFile[files.length]}
+                        setFiles={setFile}
+                        setSelectedImage={setSelectedFile}
                         deleteFile={deleteFile}
                     />
                 ) : null}

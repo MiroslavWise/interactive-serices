@@ -1,7 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import Image from "next/image"
+
+import type {
+    ISelectList,
+    TValue,
+} from "@/components/common/custom/Select/types"
+import type { TContent } from "../types/types"
 
 import {
     CustomDatePicker,
@@ -11,36 +17,60 @@ import {
 import { BadgeCoinsPlus } from "./BadgeCoinsPlus"
 import { ButtonFill } from "@/components/common/Buttons"
 
-import { BARTER_LIST } from "@/mocks/components/messages/barter-list"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
-import { TValue } from "@/components/common/custom/Select/types"
+import { useVisibleModalBarter } from "@/store/hooks"
 
-export const ContentTitleCarousel = ({}) => {
-    const [value, setValue] = useState<TValue>("")
+export const ContentTitleCarousel: TContent = ({
+    register,
+    setValue,
+    watch,
+    address,
+}) => {
+    const { categories } = useOffersCategories()
+
+    const CATEGORIES: ISelectList[] = useMemo(() => {
+        return (
+            categories?.map((item) => ({
+                prefix: "/mocks/hair.png",
+                label: item.title,
+                value: item.id,
+            })) || []
+        )
+    }, [categories])
 
     return (
         <section className={styles.containerTitleCarousel}>
             <h2>Пожалуйста, выберите параметры бартера</h2>
             <BadgeCoinsPlus />
             <div className={styles.barterContainer}>
-                <div className={styles.itemBarterContainer}>
+                <div
+                    className={styles.itemBarterContainer}
+                    {...register("categoryId", { required: true })}
+                >
                     <p>Я могу</p>
                     <CustomSelect
                         placeholder="Выберите категории"
-                        list={BARTER_LIST}
-                        value={value}
-                        setValue={setValue}
+                        list={CATEGORIES}
+                        value={watch("categoryId")}
+                        setValue={(value: any) => {
+                            setValue("categoryId", value as number)
+                        }}
                     />
                 </div>
                 <div className={styles.itemBarterContainer}>
                     <p>Предлагаю</p>
-                    <CustomDatePicker />
-                    <CustomInputText placeholder="Введите адрес" />
+                    <CustomDatePicker
+                        setDate={(value) => setValue("date", value)}
+                    />
+                    <p>По адресу</p>
+                    <i>{address}</i>
                 </div>
             </div>
             <div className={styles.button}>
                 <ButtonFill
+                    submit="submit"
                     type="primary"
                     label="Предложить бартер"
                     suffix={

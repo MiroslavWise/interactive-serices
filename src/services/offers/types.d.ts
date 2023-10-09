@@ -56,5 +56,5 @@ export interface IServiceOffers {
     public patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
     public getId(id: number | string): Promise<IReturnData<IResponseOffers>>
     public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
-    public getUserId(id: number): Promise<IReturnData<IResponseOffers>>
+    public getUserId(id: number, value?: Record<string, any>): Promise<IReturnData<IResponseOffers[]>>
 }

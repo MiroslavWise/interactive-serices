@@ -18,7 +18,7 @@ import { PEOPLES } from "@/mocks/components/profile/constants"
 import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ profile }) => {
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
     const { handlePush } = usePush()
 
     return (

@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react"
 import { isMobile } from "react-device-detect"
 
 import type { TCreationAlertAndDiscussionMap } from "./types/types"
@@ -15,8 +16,10 @@ import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { NEW_CREATE_BADGES_ALERT_OR_DISCUSSION } from "../NewServicesBanner/constants"
 
 import styles from "./styles/style.module.scss"
+import { useCreateOffer } from "@/store/state/useCreateOffer"
+import { useCreateRequest } from "@/store/state/useCreateRequest"
 
-export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
+export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     refCreate,
     isOpen,
     coord,
@@ -26,6 +29,8 @@ export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { setAddressInit: setAddressInitAlert } = useCreateAlert()
     const { setAddressInit: setAddressInitDiscussion } = useCreateDiscussion()
+    const { setAddressInit: setAddressInitOffer } = useCreateOffer()
+    const { setAddressInit: setAddressInitRequest } = useCreateRequest()
 
     function handleType(value: TAddCreate) {
         if (value === "alert") {
@@ -33,6 +38,12 @@ export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
         }
         if (value === "discussion") {
             if (setAddressInitDiscussion) setAddressInitDiscussion(addressInit!)
+        }
+        if (value === "offer") {
+            if (setAddressInitOffer) setAddressInitOffer(addressInit!)
+        }
+        if (value === "request") {
+            if (setAddressInitRequest) setAddressInitRequest(addressInit!)
         }
         if (!value) {
             setIsVisibleNewServicesBanner(false)
@@ -44,14 +55,18 @@ export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
 
     return (
         <div
-            className={cx(styles.container, isOpen && styles.open)}
+            className={cx(
+                styles.container,
+                isOpen && styles.open,
+                isMobile && styles.mobile,
+            )}
             ref={refCreate}
             style={{
                 top: coord.y,
                 left: coord.x,
             }}
         >
-            <h3>Я хочу создать </h3>
+            <h3>Я хочу создать</h3>
             <section>
                 {NEW_CREATE_BADGES_ALERT_OR_DISCUSSION.map((item) => (
                     <li
@@ -80,3 +95,7 @@ export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
         </div>
     )
 }
+
+export const CreationAlertAndDiscussionMap = memo(
+    $CreationAlertAndDiscussionMap,
+)

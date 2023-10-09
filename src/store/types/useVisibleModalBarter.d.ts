@@ -1,3 +1,4 @@
+import { IResponseOffers } from "@/services/offers/types"
 import type { Dispatch } from "react"
 
 interface IDataProfile {
@@ -6,12 +7,18 @@ interface IDataProfile {
     idUser: number
 }
 
+export interface IOfferData {
+    id: number
+    categoryId: number
+}
 export interface IUseVisibleModalBarter {
     isVisible: boolean
     dataProfile: IDataProfile | undefined
+    dataOffer?: IResponseOffers
 
-    setIsVisibleBarter: Dispatch<{
+    dispatchVisibleBarter: Dispatch<{
         isVisible: boolean
         dataProfile?: IDataProfile
+        dataOffer?: IResponseOffers
     }>
 }

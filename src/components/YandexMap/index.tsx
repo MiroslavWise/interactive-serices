@@ -1,7 +1,13 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useEffect, useState, useReducer, memo } from "react"
+import {
+    useEffect,
+    useState,
+    useReducer,
+    memo,
+    useInsertionEffect,
+} from "react"
 import { isMobile } from "react-device-detect"
 import { Map } from "@pbe/react-yandex-maps"
 
@@ -24,6 +30,7 @@ import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
+import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
@@ -31,16 +38,15 @@ const YandexMap: TYandexMap = ({}) => {
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
-    const [stateCoord, setStateCoord] = useState([55.75, 37.67])
-    const [zoom, setZoom] = useState(16)
+    const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
     const [coord, setCoord] = useState({
         x: "50%",
         y: "50%",
     })
 
-    useEffect(() => {
+    useInsertionEffect(() => {
         if (!!coordinatesAddresses && coordinatesAddresses?.length) {
-            setStateCoord(coordinatesAddresses[0])
+            dispatchMapCoordinates({ coordinates: coordinatesAddresses[0]! })
         }
     }, [coordinatesAddresses])
 
@@ -106,11 +112,7 @@ const YandexMap: TYandexMap = ({}) => {
 
     return (
         <>
-            <Header
-                setVisibleNotification={setVisibleNotification}
-                setStateCoord={setStateCoord}
-                setZoom={setZoom}
-            />
+            <Header setVisibleNotification={setVisibleNotification} />
             {isMobile ? (
                 <Notifications
                     visibleNotification={visibleNotification}
@@ -119,7 +121,7 @@ const YandexMap: TYandexMap = ({}) => {
             ) : null}
             <Map
                 state={{
-                    center: stateCoord,
+                    center: coordinates,
                     zoom: zoom,
                     behaviors: ["default", "scrollZoom"],
                     type: "yandex#map",

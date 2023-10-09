@@ -1,18 +1,20 @@
 import type { IImageData } from "@/store/types/useAuthState"
 import { usePhotoOffer } from "@/store/state/usePhotoOffer"
-import { IAuthor } from "@/store/types/createPhotoOffer"
+import type { IAuthor } from "@/store/types/createPhotoOffer"
+import { IResponseOffers } from "@/services/offers/types"
 
 export const usePhotoVisible = () => {
     const { dispatch } = usePhotoOffer()
 
     function createGallery(
+        offer: IResponseOffers,
         items: IImageData[],
         item: IImageData,
         index: number,
         author?: IAuthor,
     ) {
-        console.log("author hooks:", author)
         dispatch({
+            offer: offer,
             current: {
                 id: item?.id,
                 url: item?.attributes?.url!,

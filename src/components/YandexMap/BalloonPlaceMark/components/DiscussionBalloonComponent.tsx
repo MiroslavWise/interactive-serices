@@ -75,6 +75,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                             <NextImageMotion
                                 onClick={() => {
                                     createGallery(
+                                        data?.res!,
                                         data?.res?.images!,
                                         item,
                                         index,
@@ -105,7 +106,26 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                     </ul>
                 ) : null}
             </div>
-            <footer data-discussion></footer>
+            <footer data-discussion>
+                <button>
+                    <span>125 комментариев</span>
+                    <Image
+                        src="/svg/chevron-down.svg"
+                        alt="chevron-down"
+                        width={18}
+                        height={18}
+                    />
+                </button>
+                <div data-likes>
+                    <Image
+                        src="/svg/thumbs-up.svg"
+                        alt="thumbs-up"
+                        width={18}
+                        height={18}
+                    />
+                    <p>112</p>
+                </div>
+            </footer>
         </>
     )
 }

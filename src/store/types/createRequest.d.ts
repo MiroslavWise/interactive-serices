@@ -1,10 +1,10 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
 import type { TProviderOffer } from "@/services/types/general"
+import { ICreateGeneralOffers } from "./createGeneralOffers"
 
 export type TSteps = "start" | "end"
 
-export interface IUseCreateRequest {
-    text: string
+export interface IUseCreateRequest extends ICreateGeneralOffers {
     selected:
         | {
               id: number
@@ -12,11 +12,8 @@ export interface IUseCreateRequest {
           }
         | undefined
     stepRequest: TSteps
-    adressId: { id: number } | undefined
 
-    setAddressId: Dispatch<{ id: number }>
     setStepRequest: Dispatch<TSteps>
-    setText: Dispatch<string>
     setValueCategory: Dispatch<{
         id: number
         slug: TProviderOffer

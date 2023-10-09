@@ -5,16 +5,25 @@ import Image from "next/image"
 
 import type { TPhotoPreviewModal } from "./types/types"
 
+import { GeoTagging } from "@/components/common/GeoTagging"
 import { NextImageMotion } from "@/components/common/Image"
+import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
 import { daysAgo, usePush } from "@/helpers"
 import { usePhotoOffer } from "@/store/state/usePhotoOffer"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
+import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 
 import styles from "./styles/layout.module.scss"
+import { IResponseOffers } from "@/services/offers/types"
 
 const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
-    const { current, photos, dispatch, visible, author } = usePhotoOffer()
+    const { current, photos, dispatch, visible, author, offer } =
+        usePhotoOffer()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
+    const { dispatchMapCoordinates } = useMapCoordinates()
+    const { userId } = useAuth()
     const { handlePush } = usePush()
 
     const widthCarousel: number = useMemo(() => {
@@ -32,6 +41,39 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
 
     function handleNext() {
         dispatch({ payload: "next" })
+    }
+
+    function handleOpenBarter() {
+        const dataProfile = {
+            photo: author?.urlPhoto!,
+            fullName: author?.name!,
+            idUser: author?.idUser!,
+        }
+
+        const dataOffer: IResponseOffers = offer!
+
+        dispatchVisibleBarter({
+            isVisible: true,
+            dataProfile: dataProfile,
+            dataOffer: dataOffer,
+        })
+    }
+
+    function handleHelp() {
+        if (author?.idUser === userId) {
+            return
+        }
+        handlePush(`/messages?user=${author?.idUser!}`)
+    }
+
+    function handleGeo() {
+        dispatchMapCoordinates({
+            coordinates: offer?.addresses?.[0]?.coordinates
+                ?.split(" ")
+                ?.reverse()
+                ?.map(Number),
+            zoom: 20,
+        })
     }
 
     return (
@@ -75,8 +117,22 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                                 alt="avatar"
                                 width={400}
                                 height={400}
+                                onClick={handleClickUser}
                             />
-                            <h2>{author?.name}</h2>
+                            <div data-title-name-geo>
+                                <h2>{author?.name}</h2>
+                                {offer?.addresses[0]?.additional ? (
+                                    <GeoTagging
+                                        location={
+                                            offer?.addresses[0]?.additional ||
+                                            ""
+                                        }
+                                        fontSize={12}
+                                        size={14}
+                                        onClick={handleGeo}
+                                    />
+                                ) : null}
+                            </div>
                         </div>
                         <p>{daysAgo(author?.time!)}</p>
                     </div>
@@ -90,7 +146,7 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                         height={800}
                     />
                 ) : null}
-                <footer>
+                <div data-images>
                     <ul style={{ width: widthCarousel }}>
                         {photos
                             ? photos.map((item, index) => (
@@ -113,6 +169,39 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                               ))
                             : null}
                     </ul>
+                </div>
+                <footer>
+                    <ButtonDefault
+                        label="Подробнее"
+                        handleClick={handleClickUser}
+                    />
+                    {["offer"].includes(offer?.provider!) ? (
+                        <ButtonFill
+                            label="Откликнуться на бартер"
+                            handleClick={handleOpenBarter}
+                            suffix={
+                                <Image
+                                    src="/svg/repeat-black.svg"
+                                    alt="/repeat-black"
+                                    width={24}
+                                    height={24}
+                                />
+                            }
+                            type="primary"
+                        />
+                    ) : null}
+                    {["alert"]?.includes(offer?.provider!) ? (
+                        <button
+                            data-success
+                            onClick={(event) => {
+                                event.preventDefault()
+                                event.stopPropagation()
+                                handleHelp()
+                            }}
+                        >
+                            <span>Могу помочь!</span>
+                        </button>
+                    ) : null}
                 </footer>
             </section>
         </main>

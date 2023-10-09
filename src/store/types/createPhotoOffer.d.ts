@@ -1,4 +1,6 @@
-import { Dispatch } from "react"
+import type { Dispatch } from "react"
+import type { TTypeProvider } from "@/services/file-upload/types"
+import { IResponseOffers } from "@/services/offers/types"
 
 interface IPhoto {
     id: number
@@ -22,10 +24,12 @@ export interface IActionPhoto {
     payload?: TPayloadNextPrev
     visible?: boolean
     author?: IAuthor
+    offer?: IResponseOffers
 }
 
 export interface IUsePhotoOffer {
     current?: IPhoto
+    offer: IResponseOffers | undefined
     photos: IPhoto[]
     visible: boolean
     author?: IAuthor

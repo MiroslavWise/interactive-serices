@@ -38,7 +38,13 @@ export interface IResponseUploadFile {
     }
 }
 
-type TTypeProvider = "profile" | "offer" | "discussion" | "alert" | "request"
+type TTypeProvider =
+    | "profile"
+    | "offer"
+    | "discussion"
+    | "alert"
+    | "request"
+    | "offer-request"
 
 export interface IProvider {
     type: TTypeProvider

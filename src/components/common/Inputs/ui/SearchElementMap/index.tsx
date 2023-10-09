@@ -11,18 +11,18 @@ import type { TSearchElementMap } from "./types"
 
 import { cx } from "@/lib/cx"
 import { useDebounce } from "@/helpers"
+import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./style.module.scss"
 
-export const SearchElementMap: TSearchElementMap = ({
-    setStateCoord,
-    setZoom,
-}) => {
+export const SearchElementMap: TSearchElementMap = ({}) => {
     const [text, setText] = useState("")
     const [activeList, setActiveList] = useState(false)
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const debouncedValue = useDebounce(onValueFunc, 1500)
+
+    const { dispatchMapCoordinates } = useMapCoordinates()
 
     function onFocus() {
         setActiveList(true)
@@ -53,8 +53,10 @@ export const SearchElementMap: TSearchElementMap = ({
 
             const coordinates = [Number(latitude), Number(longitude)]
             console.log("coordinates: ", coordinates)
-            setStateCoord(coordinates)
-            setZoom(18)
+            dispatchMapCoordinates({
+                coordinates: coordinates,
+                zoom: 18,
+            })
         }
     }
 

@@ -3,32 +3,38 @@ import type {
     IBarterResponse,
     IPostDataBarter,
     IPatchDataBarter,
-} from "./types/bartersService"
+} from "./bartersService"
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
-export const bartersService: IBartersService = {
+export const serviceBarters: IBartersService = {
     route: "/barters",
-    getBarters(value) {
+    get(value) {
         return wrapperFetch.methodGet<IBarterResponse[]>(this.route, value)
     },
-    getBarterId(id) {
+    getId(id) {
         return wrapperFetch.methodGetId<IBarterResponse>(this.route, id)
     },
-    postBarter(value) {
+    getUserId(id) {
+        return wrapperFetch.methodGetId<IBarterResponse>(
+            `${this.route}/user`,
+            id,
+        )
+    },
+    post(value) {
         return wrapperFetch.methodPost<IPostDataBarter, IBarterResponse>(
             this.route,
             value,
         )
     },
-    patchBarter(value, id) {
+    patch(value, id) {
         return wrapperFetch.methodPatch<IPatchDataBarter, IBarterResponse>(
             this.route,
             value,
             id,
         )
     },
-    deleteBarter(id) {
+    delete(id) {
         return wrapperFetch.methodDelete<IBarterResponse>(this.route, id)
     },
 }

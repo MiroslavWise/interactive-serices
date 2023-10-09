@@ -86,6 +86,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                             <NextImageMotion
                                 onClick={() => {
                                     createGallery(
+                                        data?.res!,
                                         data?.res?.images!,
                                         item,
                                         index,

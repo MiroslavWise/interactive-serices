@@ -11,12 +11,14 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
+import { useVisibleModalBarter } from "@/store/hooks"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({
     stateBalloon,
 }) => {
     const { handlePush } = usePush()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { categories } = useOffersCategories()
     const { data } = useQuery({
         queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
@@ -36,6 +38,20 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
             )?.title || ""
         )
     }, [categories, data?.res])
+
+    function handleWantToHelp() {
+        dispatchVisibleBarter({
+            isVisible: true,
+            dataOffer: data?.res!,
+            dataProfile: {
+                photo: dataProfile?.res?.image?.attributes?.url!,
+                fullName: `${dataProfile?.res?.firstName || ""} ${
+                    dataProfile?.res?.lastName || ""
+                }`,
+                idUser: stateBalloon?.idUser!,
+            },
+        })
+    }
 
     return (
         <>
@@ -81,7 +97,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                 </div>
                 <h3>{data?.res?.title}</h3>
                 <div data-footer-buttons>
-                    <button data-request>
+                    <button data-request onClick={handleWantToHelp}>
                         <span>Хочу помочь!</span>
                     </button>
                     <Image

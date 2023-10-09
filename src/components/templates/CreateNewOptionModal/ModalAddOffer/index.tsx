@@ -26,6 +26,7 @@ import {
 } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
+import { serviceAddresses } from "@/services/addresses"
 
 const DESCRIPTIONS = [1, 2, 3]
 
@@ -35,7 +36,8 @@ export const ModalAddOffer = () => {
     const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
     const [step, setStep] = useState<TSteps>(1)
-    const { files, setId, id, text, valueCategory, adressId } = useCreateOffer()
+    const { files, setId, id, text, valueCategory, adressId, addressInit } =
+        useCreateOffer()
 
     const content: ReactNode = useMemo(() => {
         const obj: Record<TSteps, ReactNode> = {
@@ -47,13 +49,27 @@ export const ModalAddOffer = () => {
         return obj[step]
     }, [step])
 
+    function next() {
+        setStep((prev) => {
+            if (prev === 3) return 3
+            return (prev + 1) as TSteps
+        })
+    }
+
+    function postData(data: IPostOffers) {
+        serviceOffer.post(data).then((response) => {
+            if (response.ok) {
+                if (response?.res?.id!) {
+                    setId(Number(response?.res?.id!))
+                }
+                next()
+            } else {
+                close()
+            }
+        })
+    }
+
     function handleNext() {
-        function next() {
-            setStep((prev) => {
-                if (prev === 3) return 3
-                return (prev + 1) as TSteps
-            })
-        }
         if (step === 1) {
             const data: IPostOffers = {
                 provider: `offer`,
@@ -64,19 +80,21 @@ export const ModalAddOffer = () => {
                 userId: userId!,
                 desired: true,
             }
-            if (adressId?.id) {
-                data.addresses = [Number(adressId?.id)]
-            }
-            serviceOffer.post(data).then((response) => {
-                if (response.ok) {
-                    if (response?.res?.id!) {
-                        setId(Number(response?.res?.id!))
+            if (addressInit) {
+                serviceAddresses.post(addressInit!).then((response) => {
+                    if (response.ok) {
+                        if (response.res) {
+                            data.addresses = [Number(response?.res?.id)]
+                            postData(data)
+                        }
                     }
-                    next()
-                } else {
-                    close()
+                })
+            } else {
+                if (adressId?.id) {
+                    data.addresses = [Number(adressId?.id)]
+                    postData(data)
                 }
-            })
+            }
         }
         if (step === 2) {
             const data: IPatchOffers = {}

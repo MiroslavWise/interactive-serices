@@ -37,9 +37,15 @@ export const wrapperFetch: IWrapperFetch = {
             }
         }
     },
-    async methodGetId(url, id) {
+    async methodGetId(url, id, query) {
+        const params: string = query
+            ? Object.entries(query)
+                  .map(([key, value]) => `&${key}=${value}`)
+                  .join("")
+                  .replace("&", "?")
+            : ""
         try {
-            const response = await fetch(`${URL_API}${url}/${id}`, {
+            const response = await fetch(`${URL_API}${url}/${id}${params}`, {
                 method: "GET",
                 headers: useTokenHelper.authToken
                     ? {
@@ -50,7 +56,7 @@ export const wrapperFetch: IWrapperFetch = {
                           "Content-Type": "application/json",
                       },
                 next: {
-                    tags: [url, id.toString()],
+                    tags: [url, id.toString(), params],
                 },
             })
             const responseData = await response.json()

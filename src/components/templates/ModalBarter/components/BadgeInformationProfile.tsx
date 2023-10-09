@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import Image from "next/image"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
@@ -10,7 +11,11 @@ import { useVisibleModalBarter } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const BadgeInformationProfile = ({}) => {
-    const { dataProfile } = useVisibleModalBarter()
+    const { dataProfile, dataOffer } = useVisibleModalBarter()
+
+    const address = useMemo(() => {
+        return dataOffer?.addresses?.[0]?.additional || ""
+    }, [dataOffer?.addresses])
 
     return (
         <div className={styles.containerBadgeInformationProfile}>
@@ -23,7 +28,6 @@ export const BadgeInformationProfile = ({}) => {
                             alt="avatar"
                             width={40}
                             height={40}
-                            className=""
                         />
                     ) : (
                         <ImageStatic
@@ -31,7 +35,6 @@ export const BadgeInformationProfile = ({}) => {
                             alt="avatar"
                             width={40}
                             height={40}
-                            classNames={[]}
                         />
                     )}
                     <Image
@@ -44,11 +47,7 @@ export const BadgeInformationProfile = ({}) => {
                 </div>
                 <div className={styles.textInformation}>
                     <h5>{dataProfile?.fullName}</h5>
-                    <GeoTagging
-                        location="Арбат, Москва"
-                        size={14}
-                        fontSize={12}
-                    />
+                    <GeoTagging location={address} size={14} fontSize={12} />
                 </div>
             </section>
         </div>

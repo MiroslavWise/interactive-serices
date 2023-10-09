@@ -8,10 +8,12 @@ import { useCreateOffer } from "@/store/state/useCreateOffer"
 import styles from "./styles/service-selection.module.scss"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
 import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
+import { AddressDescription } from "../../components/AddressDescription"
 
 export const ServiceSelection = () => {
     const {
         text,
+        addressInit,
         valueCategory,
         setText,
         setValueCategory,
@@ -26,10 +28,14 @@ export const ServiceSelection = () => {
                 предложить публично.
             </p>
             <SelectAndTextarea>
-                <LabelAndSelectAddress
-                    value={adressId?.id ? { id: adressId?.id! } : undefined}
-                    setValue={setAddressId}
-                />
+                {addressInit?.additional ? (
+                    <AddressDescription address={addressInit?.additional!} />
+                ) : (
+                    <LabelAndSelectAddress
+                        value={adressId?.id ? { id: adressId?.id! } : undefined}
+                        setValue={setAddressId}
+                    />
+                )}
                 <LabelAndSelectOffersCategories
                     title="Предложение"
                     placeholder="Выберите категории"

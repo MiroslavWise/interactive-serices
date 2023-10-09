@@ -23,7 +23,7 @@ export const PopupMenu: TPopupMenu = ({ fullName, photo, idUser }) => {
     const idThread = searchParams?.get("thread")
     const { userId } = useAuth()
     const { isVisible, setIsVisible } = usePopupMenuChat()
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
     const { handlePush, handleReplace } = usePush()
 
     const { getThreads } = useThread((state) => ({

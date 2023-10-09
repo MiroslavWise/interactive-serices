@@ -1,6 +1,6 @@
 "use client"
 
-import type { IPostOffers } from "@/services/offers/types"
+import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
 import { SubTitle } from "../../components/SubTitle"
 import { FooterButtons } from "../../components/FooterButtons"
@@ -12,17 +12,26 @@ import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectO
 import { useAuth } from "@/store/hooks"
 import { serviceOffer } from "@/services/offers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
+import { AddressDescription } from "../../components/AddressDescription"
+import { ImagesUploadInput } from "../../components/ImagesUploadInput"
 import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
+import { fileUploadService } from "@/services/file-upload"
+import { serviceAddresses } from "@/services/addresses"
 
 export const Start = () => {
     const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
     const {
         text,
+        files,
+        selectedFile,
+        setFile,
         setText,
+        setSelectedFile,
         setStepRequest,
         selected,
         setValueCategory,
+        addressInit,
         adressId,
         setAddressId,
     } = useCreateRequest()
@@ -31,10 +40,7 @@ export const Start = () => {
         close()
     }
 
-    function handleNext() {
-        if (!selected || !text) {
-            return
-        }
+    function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {
             provider: "request",
             title: text,
@@ -44,13 +50,65 @@ export const Start = () => {
             enabled: true,
             desired: true,
         }
-        if (adressId?.id) {
-            data.addresses = [Number(adressId?.id)]
+        if (idsAddresses) {
+            data.addresses = idsAddresses
         }
         serviceOffer.post(data).then((response) => {
-            console.log("data request: ", { response })
-            setStepRequest("end")
+            if (response.ok) {
+                if (response.res) {
+                    if (files.length > 0) {
+                        Promise.all(
+                            files.map((item) =>
+                                fileUploadService(item!, {
+                                    type: "discussion",
+                                    userId: userId!,
+                                    idSupplements: response?.res?.id!,
+                                }),
+                            ),
+                        ).then((responses) => {
+                            const values: IPatchOffers = {}
+                            values.images = []
+                            responses.forEach((item) => {
+                                if (item.ok) {
+                                    if (item.res) {
+                                        values.images?.push(item?.res?.id!)
+                                    }
+                                }
+                            })
+                            serviceOffer
+                                .patch(values, response?.res?.id!)
+                                .then(() => {
+                                    setStepRequest("end")
+                                })
+                        })
+                    } else {
+                        setStepRequest("end")
+                    }
+                }
+            } else {
+                close()
+            }
         })
+    }
+
+    function handleNext() {
+        if (!selected || !text) {
+            return
+        }
+
+        if (addressInit) {
+            serviceAddresses.post(addressInit).then((response) => {
+                if (response.ok) {
+                    if (response.res) {
+                        postOffer([Number(response?.res?.id!)])
+                    }
+                }
+            })
+        } else {
+            if (adressId?.id) {
+                postOffer([Number(adressId?.id)])
+            }
+        }
     }
 
     return (
@@ -60,6 +118,14 @@ export const Start = () => {
                 ниже.
             </SubTitle>
             <SelectAndTextarea>
+                {addressInit?.additional ? (
+                    <AddressDescription address={addressInit?.additional!} />
+                ) : (
+                    <LabelAndSelectAddress
+                        value={adressId?.id ? { id: adressId?.id! } : undefined}
+                        setValue={setAddressId}
+                    />
+                )}
                 <LabelAndSelectOffersCategories
                     title="Предложение"
                     placeholder="Выберите категории"
@@ -72,9 +138,14 @@ export const Start = () => {
                     setText={setText}
                     placeholder="Что вы хотите обсудить?"
                 />
-                <LabelAndSelectAddress
-                    value={adressId?.id ? { id: adressId?.id! } : undefined}
-                    setValue={setAddressId}
+                <p>Вы можете добавить фото, если хотите</p>
+                <ImagesUploadInput
+                    {...{
+                        files,
+                        setFile,
+                        selected: selectedFile,
+                        setSelectedFile,
+                    }}
                 />
             </SelectAndTextarea>
             <FooterButtons

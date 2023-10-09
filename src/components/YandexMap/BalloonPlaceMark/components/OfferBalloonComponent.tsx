@@ -89,6 +89,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                             <NextImageMotion
                                 onClick={() => {
                                     createGallery(
+                                        data?.res!,
                                         data?.res?.images!,
                                         item,
                                         index,

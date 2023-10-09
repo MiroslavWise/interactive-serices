@@ -27,7 +27,7 @@ import styles from "./styles/text-area.module.scss"
 
 export const TextAreaSend: TTextAreaSend = ({ photo, fullName, idUser }) => {
     const [text, setText] = useState("")
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
     const { userId } = useAuth()
     const searchParams = useSearchParams()

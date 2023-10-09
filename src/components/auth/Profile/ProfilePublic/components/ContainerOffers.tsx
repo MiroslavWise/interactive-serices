@@ -4,8 +4,6 @@ import { MotionUL } from "@/components/common/Motion"
 import { ButtonRadio } from "@/components/common/Buttons"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
-import { MOCKS_PROPOSALS } from "@/mocks/components/auth/constants"
-
 import styles from "./styles/style.module.scss"
 
 type TValueTab = "proposals" | "requests"
@@ -28,7 +26,7 @@ export const ContainerOffers = () => {
                     onClick={() => setValue("requests")}
                 />
             </div>
-            {value === "proposals" ? (
+            {/* {value === "proposals" ? (
                 <MotionUL>
                     {MOCKS_PROPOSALS.map((item, index) => (
                         <CardRequestsAndProposals
@@ -49,7 +47,7 @@ export const ContainerOffers = () => {
                         />
                     ))}
                 </MotionUL>
-            ) : null}
+            ) : null} */}
         </ul>
     )
 }

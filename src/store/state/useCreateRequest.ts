@@ -7,7 +7,13 @@ export const useCreateRequest = create<IUseCreateRequest>((set, get) => ({
     selected: undefined,
     stepRequest: "start",
     adressId: undefined,
+    files: [],
+    selectedFile: [],
+    addressInit: undefined,
 
+    setAddressInit(value) {
+        set({ addressInit: value })
+    },
     setAddressId({ id }) {
         set({
             adressId: {
@@ -24,11 +30,21 @@ export const useCreateRequest = create<IUseCreateRequest>((set, get) => ({
     setValueCategory(value) {
         set({ selected: value })
     },
+    setFile(value) {
+        set({ files: [...get().files, value] })
+    },
+    setSelectedFile(value) {
+        set({ selectedFile: [...get().selectedFile, value] })
+    },
     resetRequest() {
         set({
             text: "",
             selected: undefined,
             stepRequest: "start",
+            addressInit: undefined,
+            adressId: undefined,
+            files: [],
+            selectedFile: [],
         })
     },
 }))

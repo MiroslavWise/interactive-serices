@@ -10,6 +10,7 @@ import { ImageStatic } from "@/components/common/Image"
 
 import { usePush } from "@/helpers"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./style.module.scss"
@@ -34,6 +35,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { dispatch } = useBalloonCard()
+    const { dispatchMapCoordinates } = useMapCoordinates()
 
     const typeImagePng: string | null = useMemo(() => {
         const obj: Readonly<Partial<Record<TTypeProvider, any>>> = {
@@ -63,11 +65,18 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     //
 
     function handle() {
+        const [address, ...rest] = addresses
         dispatch({
             visible: true,
             id: id,
             idUser: userId,
             type: provider || null,
+        })
+        dispatchMapCoordinates({
+            coordinates: address?.coordinates
+                ?.split(" ")
+                ?.reverse()
+                ?.map(Number),
         })
     }
 

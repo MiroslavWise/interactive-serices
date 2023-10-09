@@ -9,6 +9,7 @@ import type {
 } from "../Balloons/types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 import { requestBallon } from "../Balloons/request"
+import { DispatchWithoutAction } from "react"
 
 export const TYPE_ICON: Record<
     TTypeProvider,
@@ -34,6 +35,10 @@ export const TYPE_ICON: Record<
         default: "/map/default-discussion.png",
         active: "/map/default-discussion-hover.png",
     },
+    "offer-request": {
+        default: "",
+        active: "",
+    },
 }
 
 export const BALLON_TYPE: Record<
@@ -42,7 +47,8 @@ export const BALLON_TYPE: Record<
         values: IAlertBalloon &
             IOfferBallon &
             IDiscussionBallon &
-            IRequestBallon,
+            IRequestBallon &
+            DispatchWithoutAction,
     ) => string
 > = {
     request: requestBallon,
@@ -50,4 +56,5 @@ export const BALLON_TYPE: Record<
     offer: offerBallon,
     alert: alertBallon,
     discussion: discussionBallon,
+    "offer-request": (value: IOfferBallon) => "",
 }

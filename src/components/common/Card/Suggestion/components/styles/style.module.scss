@@ -81,65 +81,22 @@
 //containerPhotos
 
 .containerPhotos {
-    margin-top: auto;
+    width: 100%;
     display: grid;
-    grid-template-columns: calc(35% - 5px) calc(35% - 5px) calc(30% - 5px);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 10px 10px;
-    padding: 16px;
-    grid-template-areas:
-        "zero zero one"
-        "zero zero two"
-        "zero zero three";
+    grid-template-columns: repeat(4, 25%);
+    padding-left: 12px;
+    padding-right: 12px;
 
-    .image-0,
-    .image-1,
-    .image-2,
-    .image-3 {
-        width: 100%;
+    & > [data-photo="true"] {
+        padding: 5px;
         cursor: zoom-in;
-
-        img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        & > img {
+            border-radius: 12px;
             width: 100%;
             height: auto;
-            object-fit: cover;
-        }
-    }
-
-    .image-0 {
-        grid-area: zero;
-
-        img {
-            border-radius: 20px;
-        }
-    }
-
-    .image-1 {
-        grid-area: one;
-        aspect-ratio: 1/1;
-
-        img {
-            border-radius: 14px;
-            aspect-ratio: 1/1;
-        }
-    }
-
-    .image-2 {
-        grid-area: two;
-        aspect-ratio: 1/1;
-
-        img {
-            border-radius: 14px;
-            aspect-ratio: 1/1;
-        }
-    }
-
-    .image-3 {
-        grid-area: three;
-        aspect-ratio: 1/1;
-
-        img {
-            border-radius: 14px;
             aspect-ratio: 1/1;
         }
     }
@@ -153,6 +110,7 @@
     padding-right: 12px;
     display: inline-flex;
     align-items: center;
+    justify-self: flex-end;
     gap: 10px;
 
     .buttonFill {
@@ -175,7 +133,6 @@
         border: 1px solid var(--gray-300);
         background: var(--background-input);
         box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
-        cursor: url("/svg/trash-red.svg") 10 10;
     }
 }
 

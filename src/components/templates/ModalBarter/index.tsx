@@ -1,7 +1,12 @@
 "use client"
 
 import Image from "next/image"
+import { useMemo } from "react"
+import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
+
+import type { IValuesForm } from "./types/types"
+import type { IPostDataBarter } from "@/services/barters/bartersService"
 
 import { Header } from "./components/Header"
 import { Content } from "./components/Content"
@@ -11,13 +16,51 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
+import { serviceBarters } from "@/services/barters"
 
 export function Barter() {
-    const { isVisible, setIsVisibleBarter, dataProfile } =
+    const { userId } = useAuth()
+    const { isVisible, dispatchVisibleBarter, dataProfile, dataOffer } =
         useVisibleModalBarter()
+    const address: string = useMemo(() => {
+        const addressOne = dataOffer?.addresses?.[0]?.additional
+
+        return addressOne || ""
+    }, [dataOffer])
+    const addressId: number | null = useMemo(() => {
+        const address = dataOffer?.addresses?.[0]?.id
+
+        return address || null
+    }, [dataOffer])
+
+    const { register, watch, setError, setValue, handleSubmit } =
+        useForm<IValuesForm>({})
+
+    function onSubmit(values: IValuesForm) {
+        console.log("values barter: ", values)
+
+        const data: IPostDataBarter = {
+            provider: "offer-request",
+            title: dataOffer?.title!,
+            enabled: true,
+        }
+
+        if (values.date) {
+        }
+        if (values.categoryId) {
+            data.categoryId = values.categoryId!
+        }
+        if (addressId) {
+            data.addresses = [Number(addressId)]
+        }
+        data.userId = userId!
+        data.createdById = userId!
+
+        serviceBarters.post(data)
+    }
 
     if (isMobile) {
         return (
@@ -30,7 +73,9 @@ export function Barter() {
                 <header>
                     <div
                         className={styles.buttonBack}
-                        onClick={() => setIsVisibleBarter({ isVisible: false })}
+                        onClick={() =>
+                            dispatchVisibleBarter({ isVisible: false })
+                        }
                     >
                         <Image
                             src="/svg/chevron-left.svg"
@@ -75,7 +120,7 @@ export function Barter() {
                             <div className={styles.nameGeo}>
                                 <h3>{dataProfile?.fullName}</h3>
                                 <GeoTagging
-                                    location="Мосва, Москва-Сити"
+                                    location={address}
                                     fontSize={12}
                                     size={14}
                                 />
@@ -92,15 +137,23 @@ export function Barter() {
         <div
             className={cx(styles.wrapperContainer, isVisible && styles.visible)}
         >
-            <div className={styles.contentModal}>
+            <form
+                className={styles.contentModal}
+                onSubmit={handleSubmit(onSubmit)}
+            >
                 <ButtonClose
-                    onClick={() => setIsVisibleBarter({ isVisible: false })}
+                    onClick={() => dispatchVisibleBarter({ isVisible: false })}
                     position={{ top: 12, right: 12 }}
                 />
                 <Header />
-                <Content />
+                <Content
+                    register={register}
+                    setValue={setValue}
+                    watch={watch}
+                    address={address}
+                />
                 <Glasses />
-            </div>
+            </form>
         </div>
     )
 }
