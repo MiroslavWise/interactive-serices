@@ -26,7 +26,7 @@ export default function LayoutMainProfile({
             </div>
         </div>
     ) : (
-        <div className={cx(styles.page, isMobile && styles.mobile)}>
+        <div className={cx(styles.page)}>
             <div
                 className={cx(
                     styles.containerProfile,

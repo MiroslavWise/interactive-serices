@@ -6,24 +6,29 @@
     gap: 32px;
     padding: 32px 106px;
 
-    h3,
-    p {
-        text-align: center;
-        font-style: normal;
-        letter-spacing: -0.3px;
-    }
-
     h3 {
         color: var(--gray-900);
         font-size: 36px;
         font-weight: 600;
         line-height: 44px;
+        text-align: center;
+        font-style: normal;
+        letter-spacing: -0.3px;
     }
 
-    p {
-        color: var(--gray-500);
-        font-size: 20px;
-        font-weight: 500;
-        line-height: 30px;
+    &.mobile {
+        padding: calc(20px + 48px + 20px) 10px 10px;
+        h3 {
+            font-size: 24px;
+            line-height: 32px;
+        }
     }
+}
+
+.selectAndTextarea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
 }

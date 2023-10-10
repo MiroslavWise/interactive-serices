@@ -3,7 +3,7 @@ import type { IReturnData } from "@/services/types/general"
 export interface IAddressesResponse {
     id: number
     userId: number
-    address_type: string
+    addressType: string
     country: string
     region?: string
     district?: string
@@ -20,7 +20,7 @@ export interface IAddressesResponse {
     updated: Date
 }
 
-type TAddressType = "main"
+type TAddressType = "main" | any
 export interface IPostAddress{
     userId: number
     addressType: TAddressType
@@ -36,15 +36,18 @@ export interface IPostAddress{
     coordinates?: string
     additional?: string
     enabled?: boolean
+    hash?: string
+    longitude?: string //долгота
+    latitude?: string //широта (не может быть больше 90)
 }
 
 export type IPatchAddress = Partial<IPostAddress>
 
-export interface IResponseAddresses{
+export interface IServiceAddresses{
     private route: string
-    public getAddresses(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
-    public getAddressId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-    public postAddress(value: IPostDataUser): Promise<IReturnData<IAddressesResponse>>
-    public patchAddress(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
-    public deleteAddress(id: number | string): Promise<IReturnData<IAddressesResponse>>
+    public get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
+    public getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
+    public post(value: IPostAddress): Promise<IReturnData<{id: number}>>
+    public patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
+    public delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
 }

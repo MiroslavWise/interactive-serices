@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation"
 import type { TPopupMenu } from "./types/types"
 
 import { cx } from "@/lib/cx"
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useThread } from "@/store/state/useThreads"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
@@ -17,13 +17,13 @@ import { useAuth, usePopupMenuChat, useVisibleModalBarter } from "@/store/hooks"
 import mainStyles from "../styles/style.module.scss"
 import styles from "./styles/popup-menu.module.scss"
 
-export const PopupMenu: TPopupMenu = ({ fullName, photo }) => {
+export const PopupMenu: TPopupMenu = ({ fullName, photo, idUser }) => {
     const searchParams = useSearchParams()
-    const id = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const id = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { userId } = useAuth()
     const { isVisible, setIsVisible } = usePopupMenuChat()
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
     const { handlePush, handleReplace } = usePush()
 
     const { getThreads } = useThread((state) => ({
@@ -36,7 +36,7 @@ export const PopupMenu: TPopupMenu = ({ fullName, photo }) => {
             openBarter: () =>
                 setIsVisibleBarter({
                     isVisible: true,
-                    dataProfile: { fullName: fullName, photo: photo },
+                    dataProfile: { fullName: fullName, photo: photo, idUser: idUser },
                 }),
             deleteChat: () => {
                 handleDeleteChat()
@@ -49,7 +49,7 @@ export const PopupMenu: TPopupMenu = ({ fullName, photo }) => {
     }
 
     function handleDeleteChat() {
-        threadsService.delete(Number(idThread)).then((response) => {
+        serviceThreads.delete(Number(idThread)).then((response) => {
             console.log("--- response delete ---", response)
             getThreads(userId!)
             handleReplace("/messages")

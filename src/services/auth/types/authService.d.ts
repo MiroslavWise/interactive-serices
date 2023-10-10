@@ -1,12 +1,11 @@
 import { IReturnData } from "@/services/types/general"
 import type { Dispatch, DispatchWithoutAction } from "react"
 
-export type TPostfix = "Token" | "RefreshToken" | "Expiration" | "UserId"
+export type TPostfix = "Token" | "RefreshToken" | "UserId"
 
 export interface ISaveToken {
   token: string | null
   refreshToken?: string | null
-  expiration: number
   userId: string | number
   ok: boolean
 }
@@ -14,19 +13,52 @@ export interface ISaveToken {
 export interface IRefreshToken {
   token: string | null
   refreshToken?: string | null
-  expiration?: number
   userId?: string | number
   ok: boolean
 }
 
 export interface IAuthService {
-  public prefix: "AuthJWT"
-  public authMap: TPostfix[]
-  private saveToken: Dispatch<ISaveToken>
-  public validateToken(value: IRefreshToken): boolean
-  private setAuthData: Dispatch<{ token: string, refreshToken?: string, expiration?: number, userId: string | number }>
-  public removeAuthData: DispatchWithoutAction
   public authToken(): string
-  public authRefreshToken(): string
-  public authUserId(): number
+  public login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
+  public refresh(values: IRequestRefresh): Promise<IReturnData<IResponseRefresh>>
+}
+
+import type { IReturnData } from "@/services/types/general"
+
+export interface IRequestLogin{
+  email: string
+  password: string
+}
+
+export interface IResponseLoginOtp{
+  accessToken: string
+  secret?: string
+  otpAuthUrl?: string
+}
+
+export interface IResponseLoginNot2fa{
+  accessToken: string
+  expiresIn: number
+  refreshToken: string
+  expires: number
+  scope: string
+  tokenType: string
+  id: number
+}
+
+export interface IRequestRefresh{
+  refreshToken: string
+  email: string
+}
+
+export interface IResponseRefresh{
+  id: number
+  accessToken: string
+  scope: string
+  tokenType: string
+  expires: number
+}
+export interface IServiceAuth{
+  public login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
+  public refresh(values: IRequestRefresh): Promise<IReturnData<IResponseRefresh>>
 }

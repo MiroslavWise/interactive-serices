@@ -1,3 +1,6 @@
+import type { IImageData } from "@/store/types/useAuthState"
+import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
+import type { TTypeProvider } from "../file-upload/types"
 import type { IReturnData } from "../types/general"
 
 export interface IResponseCreate{
@@ -9,7 +12,7 @@ export interface IPostOffers{
     categoryId?: number
     addresses?: number[]
     subscribers?: number[]
-    provider: string
+    provider: TTypeProvider 
     title: string
     slug: string
     description?: string
@@ -17,12 +20,13 @@ export interface IPostOffers{
     imageId?: number | null
     featuredId?: number | null
     bannerId?: number | null
-    userId?: number
+    userId: number
     orderBy?: number
     createdById?: number
     updatedById?: number
     enabled: boolean
     desired: boolean
+    images?: number[]
 }
 
 export type IPatchOffers =  Partial<IPostOffers>
@@ -31,7 +35,7 @@ export interface IResponseOffers{
     id: number
     parentId?: number
     categoryId?: number
-    provider: string
+    provider: TTypeProvider
     title: string
     slug: string
     description?: string
@@ -40,13 +44,17 @@ export interface IResponseOffers{
     featuredId?: number
     bannerId?: number | null
     userId?: number
+    addresses: IAddressesResponse[]
+    images: IImageData[]
+    updated: Date
 }
 
-export interface IOffers {
+export interface IServiceOffers {
     private route: string
     public post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
-    public getAll(value: Record<string, string | number>): Promise<IReturnData<IResponseOffers[]>>
+    public get(value?: Record<string, string | number>): Promise<IReturnData<IResponseOffers[]>>
     public patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
-    public get(id: number | string): Promise<IReturnData<IResponseOffers>>
+    public getId(id: number | string): Promise<IReturnData<IResponseOffers>>
     public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
+    public getUserId(id: number, value?: Record<string, any>): Promise<IReturnData<IResponseOffers[]>>
 }

@@ -1,61 +1,28 @@
 import type {
-    ISaveToken,
-    IRefreshToken,
     IAuthService,
+    IRequestLogin,
+    IRequestRefresh,
+    IResponseLoginNot2fa,
+    IResponseLoginOtp,
+    IResponseRefresh,
 } from "./types/authService"
 
+import { wrapperFetch } from "../requestsWrapper"
+
 export const AuthService: IAuthService = {
-    prefix: "AuthJWT",
-    authMap: ["RefreshToken", "Token", "Expiration", "UserId"],
-    saveToken({
-        token,
-        refreshToken,
-        expiration,
-        userId,
-        ok,
-    }: ISaveToken): void {
-        if (ok && token && refreshToken) {
-            this.setAuthData({ token, refreshToken, expiration, userId })
-        } else {
-            this.removeAuthData()
-        }
-    },
-    validateToken({
-        token,
-        refreshToken,
-        expiration,
-        userId,
-        ok,
-    }: IRefreshToken): boolean {
-        if (ok && token && refreshToken && userId) {
-            this.setAuthData({ token, refreshToken, expiration, userId })
-            return true
-        } else {
-            this.removeAuthData()
-            return false
-        }
-    },
-    setAuthData({ token, refreshToken, expiration, userId }) {
-        localStorage.setItem(`${this.prefix}.Token`, token!)
-        localStorage.setItem(`${this.prefix}.RefreshToken`, refreshToken!)
-        localStorage.setItem(
-            `${this.prefix}.Expiration`,
-            expiration!.toString(),
-        )
-        localStorage.setItem(`${this.prefix}.UserId`, userId!.toString())
-    },
-    removeAuthData() {
-        this.authMap.forEach((item) => {
-            localStorage.removeItem(`${this.prefix}.${item}`)
-        })
-    },
     authToken() {
         return JSON.parse(localStorage.getItem("auth")!).state.token
     },
-    authRefreshToken() {
-        return JSON.parse(localStorage.getItem("auth")!).state.refreshToken!
+    login(values) {
+        return wrapperFetch.methodPost<
+            IRequestLogin,
+            IResponseLoginOtp & IResponseLoginNot2fa
+        >("/auth/login", values)
     },
-    authUserId() {
-        return JSON.parse(localStorage.getItem("auth")!).state.userId!
+    refresh(values) {
+        return wrapperFetch.methodPost<IRequestRefresh, IResponseRefresh>(
+            `/auth/refresh`,
+            values,
+        )
     },
 }

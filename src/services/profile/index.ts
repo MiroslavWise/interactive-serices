@@ -1,5 +1,5 @@
 import type {
-    TProfileService,
+    IServiceProfile,
     IPostProfileData,
     IProfileResponse,
     IGetProfileIdResponse,
@@ -7,37 +7,37 @@ import type {
 } from "./types/profileService"
 import { wrapperFetch } from "@/services/requestsWrapper"
 
-export const profileService: TProfileService = {
+export const serviceProfile: IServiceProfile = {
     route: "/profiles",
-    getProfiles(value) {
+    get(value) {
         return wrapperFetch.methodGet<IGetProfileIdResponse[]>(
             this.route,
             value,
         )
     },
-    getProfileId(id) {
+    getId(id) {
         return wrapperFetch.methodGetId<IGetProfileIdResponse>(this.route, id)
     },
-    getProfileThroughUserId(userId) {
+    getUserId(userId) {
         return wrapperFetch.methodGetId<IGetProfileIdResponse>(
             `${this.route}/user_id`,
             userId,
         )
     },
-    postProfile(value) {
+    post(value) {
         return wrapperFetch.methodPost<IPostProfileData, IProfileResponse>(
             this.route,
             value,
         )
     },
-    patchProfile(value, id) {
+    patch(value, id) {
         return wrapperFetch.methodPatch<IPatchProfileData, IProfileResponse>(
             this.route,
             value,
             id,
         )
     },
-    deleteProfile(id) {
+    delete(id) {
         return wrapperFetch.methodDelete<IProfileResponse>(this.route, id)
     },
 }

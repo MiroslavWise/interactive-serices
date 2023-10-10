@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useInsertionEffect, useState } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 
 import { cx } from "@/lib/cx"
@@ -14,18 +14,12 @@ export function AnimatedLoadPage() {
     const [state, setState] = useState(pathname)
     const { isAnimated, setIsAnimated } = useAnimateLoadPage()
 
-    useEffect(() => {
+    useInsertionEffect(() => {
         if (pathname !== state) {
             setIsAnimated(false)
             setState(pathname)
         }
-    }, [pathname, state, setIsAnimated])
-
-    useEffect(() => {
-        pathSearchParams.forEach((item, key) => {
-            if (item && key) setIsAnimated(false)
-        })
-    }, [pathSearchParams, setIsAnimated])
+    }, [pathname, state])
 
     return (
         <div className={cx(styles.wrapper, isAnimated && styles.active)}>

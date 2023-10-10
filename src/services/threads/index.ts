@@ -1,5 +1,5 @@
 import type {
-    IThreads,
+    IThreads as IServiceThreads,
     IResponseThreads,
     IResponseCreate,
     IPostThreads,
@@ -9,7 +9,7 @@ import type {
 
 import { wrapperFetch } from "../requestsWrapper"
 
-export const threadsService: IThreads = {
+export const serviceThreads: IServiceThreads = {
     route: "/threads",
     post(value) {
         return wrapperFetch.methodPost<IPostThreads, IResponseCreate>(
@@ -17,7 +17,7 @@ export const threadsService: IThreads = {
             value,
         )
     },
-    getAll(value) {
+    get(value) {
         return wrapperFetch.methodGet<IResponseThreads[]>(this.route, value)
     },
     patch(value, id) {
@@ -27,13 +27,13 @@ export const threadsService: IThreads = {
             id,
         )
     },
-    get(id) {
+    getId(id) {
         return wrapperFetch.methodGetId<IResponseThread>(this.route, id)
     },
     delete(id) {
         return wrapperFetch.methodDelete<IResponseCreate>(this.route, id)
     },
-    getUserQuery(userId) {
+    getUserId(userId) {
         return wrapperFetch.methodGetId<IResponseThreads[]>(
             `${this.route}/user`,
             userId,

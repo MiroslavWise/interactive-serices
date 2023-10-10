@@ -35,9 +35,9 @@ export interface IResponseMessage extends IResponseMessageProps{
 export interface IMessages{
     private route: string
     public post(value: IRequestPostMessages): Promise<IReturnData<IResponseCreate>>
-    public getAll(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
+    public get(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
     public patch(value: IRequestPatchMessages, id: number | string): Promise<IReturnData<IResponseCreate>>
     public getId(id: number | string): Promise<IReturnData<IResponseMessage>>
     public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
-    public getUserQuery(id: number | string): Promise<IReturnData<IResponseMessage[]>>
+    public getUserId(id: number | string): Promise<IReturnData<IResponseMessage[]>>
 }

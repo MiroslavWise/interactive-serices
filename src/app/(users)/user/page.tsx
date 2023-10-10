@@ -13,15 +13,15 @@ import {
 import { MotionUL } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 import styles from "@/scss/page.module.scss"
 
 export default function UserId() {
     const searchParams = useSearchParams()
-    const id = searchParams.get("id")
+    const id = searchParams?.get("id")
     const { data } = useQuery({
-        queryFn: () => profileService.getProfileThroughUserId(id!),
+        queryFn: () => serviceProfile.getUserId(id!),
         queryKey: ["profile", id],
     })
 
@@ -33,7 +33,7 @@ export default function UserId() {
                         name={`${data?.res?.firstName} ${data?.res?.lastName}`}
                         photo={data?.res?.image?.attributes?.url!}
                         about={data?.res?.about!}
-                        userId={data?.res?.userId!}
+                        userId={data?.res?.userId! || Number(id)}
                         created={data?.res?.created!}
                     />
                     <MobileInteractive />

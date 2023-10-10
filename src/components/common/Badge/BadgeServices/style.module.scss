@@ -1,5 +1,6 @@
 .container {
     display: flex;
+    width: min-content;
     padding: 5px 12px 5px 5px;
     flex-direction: row;
     align-items: center;
@@ -37,7 +38,7 @@
         }
 
         p {
-            color: var(--gray-500, #888a93) !important;
+            color: var(--gray-500) !important;
         }
     }
 }

@@ -25,23 +25,10 @@
         gap: 32px;
         overflow-y: auto;
     }
-
-    &.mobile {
-        border: none;
-        border-radius: none !important;
-        padding-bottom: 0;
-        background: none;
-
-        ul {
-            padding-left: 20px;
-            padding-right: 20px;
-            gap: 20px;
-        }
-    }
 }
 
 .mobileHeader {
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -53,6 +40,12 @@
     justify-content: space-between;
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
     backdrop-filter: blur(4px);
+    z-index: 1000;
+
+    ul {
+        padding: 84px 20px 84px;
+        gap: 20px;
+    }
 
     .blockAvatar {
         display: flex;
@@ -85,12 +78,12 @@
     z-index: 25;
 
     ul {
-        max-height: calc(100vh - 84px - 80px);
+        max-height: calc(100vh - 80px - 84px);
         height: 100%;
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
-        padding: 20px;
+        padding: 100px 20px 20px;
         gap: 20px;
         z-index: 10;
     }

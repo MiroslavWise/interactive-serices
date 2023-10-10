@@ -8,11 +8,11 @@ import type { TContentForgotPassword } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
+import { OnSuccessToastify } from "@/components/common/Toastify"
 
 import { cx } from "@/lib/cx"
 import { regExEmail } from "@/helpers"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { OnSuccessToastify } from "@/components/common/Toastify"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/style.module.scss"
@@ -46,9 +46,13 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                 }
                 if (response?.error?.code === 401) {
                     setError("email", { message: "user is not verified" })
+                    OnSuccessToastify("Пользователь не верифицирован!")
+                    setVisibleAndType({ visible: false })
                 }
                 if (response?.error?.code === 404) {
                     setError("email", { message: "user not found" })
+                    OnSuccessToastify("Пользователя не существует!")
+                    setVisibleAndType({ visible: false })
                 }
                 if (
                     response?.code &&

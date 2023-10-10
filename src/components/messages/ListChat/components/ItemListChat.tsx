@@ -11,7 +11,6 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useChat } from "@/store/hooks"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
@@ -19,9 +18,8 @@ import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 import styles from "./styles/style.module.scss"
 
 const Item: TItemListChat = ({ item }) => {
-    const { get } = useSearchParams()
-    const { setCurrentChat } = useChat()
-    const idThread = get("thread")
+    const searchParams = useSearchParams()
+    const idThread = searchParams?.get("thread")
     const { handleReplace } = usePush()
     const { data } = useMessages()
 
@@ -29,7 +27,6 @@ const Item: TItemListChat = ({ item }) => {
         handleReplace(
             `/messages?user=${item.receiverIds[0]!}&thread=${item.id}`,
         )
-        setCurrentChat(item.id)
     }
 
     function lastMessage(): string {

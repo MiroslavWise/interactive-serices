@@ -3,6 +3,7 @@ import type { FC } from "react"
 interface ITextAreaSend {
     photo: string
     fullName: string
+    idUser: number
 }
 
 interface IItemMessage {
@@ -17,6 +18,7 @@ interface IItemMessage {
 interface IPopupMenu {
     fullName: string
     photo: string
+    idUser: number
 }
 
 interface IItemTime {

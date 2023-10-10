@@ -1,9 +1,6 @@
-import {
-    useRouter,
-    usePathname,
-    useParams,
-    useSelectedLayoutSegment,
-} from "next/navigation"
+"use client"
+
+import { useRouter, usePathname } from "next/navigation"
 
 import { useAnimateLoadPage } from "@/store/hooks"
 
@@ -14,6 +11,7 @@ export const usePush = () => {
 
     function handleReplace(value: string) {
         replace(value)
+        setIsAnimated(false)
     }
 
     function handlePush(value: string) {

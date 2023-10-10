@@ -10,7 +10,7 @@ import { PeopleCard } from "@/components/common/PeopleCard/Notifications"
 import { Glasses } from "@/components/common/Glasses"
 
 import { cx } from "@/lib/cx"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
 
@@ -19,7 +19,7 @@ export const Notifications: TNotifications = ({
     setVisibleNotification,
 }) => {
     const { data } = useQuery(["profiles"], () =>
-        profileService.getProfiles({ limit: 20 }),
+        serviceProfile.get({ limit: 20 }),
     )
     const { res, ok } = data ?? {}
 

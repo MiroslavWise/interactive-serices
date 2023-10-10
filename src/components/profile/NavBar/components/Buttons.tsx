@@ -9,13 +9,17 @@ import {
     useAuth,
     useVisibleBannerNewServices,
     useVisibleAndTypeAuthModal,
+    useVisibleNewServiceBarterRequests,
 } from "@/store/hooks"
-import { usePush } from "@/helpers/hooks/usePush"
+import { useAddress, usePush } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
 export const Buttons = () => {
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { isAddresses } = useAddress()
+    const { setIsVisibleNewServiceBarterRequests } =
+        useVisibleNewServiceBarterRequests()
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { isAuth } = useAuth()
     const { handlePush } = usePush()
@@ -29,7 +33,7 @@ export const Buttons = () => {
                 />
                 <ButtonFill
                     type="primary"
-                    label="Создать новую"
+                    label="Создать новое"
                     classNames={styles.widthButton}
                     suffix={
                         <Image
@@ -39,7 +43,29 @@ export const Buttons = () => {
                             height={24}
                         />
                     }
-                    handleClick={() => setIsVisibleNewServicesBanner(true)}
+                    handleClick={() => {
+                        if (isAddresses) {
+                            setIsVisibleNewServicesBanner(true)
+                        }
+                    }}
+                />
+                <ButtonFill
+                    type="primary"
+                    label="Запрос или услуга"
+                    classNames={styles.widthButton}
+                    suffix={
+                        <Image
+                            src="/svg/plus.svg"
+                            alt="plus"
+                            width={24}
+                            height={24}
+                        />
+                    }
+                    handleClick={() => {
+                        if (isAddresses) {
+                            setIsVisibleNewServiceBarterRequests(true)
+                        }
+                    }}
                 />
             </div>
         ) : (

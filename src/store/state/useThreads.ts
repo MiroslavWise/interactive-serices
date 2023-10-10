@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from "zustand/middleware"
 
 import type { IUseThread } from "../types/useThread"
 
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 
 export const useThread = create(
     persist<IUseThread>(
@@ -18,7 +18,7 @@ export const useThread = create(
             getThreads(id) {
                 let count = 4
                 function request() {
-                    threadsService.getUserQuery(id).then((response) => {
+                    serviceThreads.getUserId(id).then((response) => {
                         if (count > 0 && !response.ok) {
                             count = -1
                             setTimeout(() => {

@@ -1,24 +1,32 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
 import { type ReactNode, useMemo, useState } from "react"
 
 import type { TActiveCheck } from "./components/types/types"
+import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
 import { CircleCheck } from "./components/CircleCheck"
+import { FinishScreen } from "../components/FinishScreen"
 import { Divider } from "@/components/common/Divider"
 import { AddingPhotos } from "./components/AddingPhotos"
-import { SuccessContent } from "./components/SuccessContent"
 import { ServiceSelection } from "./components/ServiceSelection"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { serviceOffer } from "@/services/offers"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
-import styles from "./styles/style.module.scss"
-import { IPatchOffers, IPostOffers } from "@/services/offers/types"
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
+import {
+    transliterateAndReplace,
+    useAddress,
+    useCloseCreateOptions,
+} from "@/helpers"
+
+import styles from "./styles/style.module.scss"
+import { serviceAddresses } from "@/services/addresses"
 
 const DESCRIPTIONS = [1, 2, 3]
 
@@ -26,69 +34,94 @@ type TSteps = 1 | 2 | 3
 
 export const ModalAddOffer = () => {
     const { userId } = useAuth()
-    const { setVisibleAndType } = useAddCreateModal()
+    const { close } = useCloseCreateOptions()
     const [step, setStep] = useState<TSteps>(1)
-    const { reset, files, setId, id, text, valueCategory } = useCreateOffer()
+    const { files, setId, id, text, valueCategory, adressId, addressInit } =
+        useCreateOffer()
 
     const content: ReactNode = useMemo(() => {
         const obj: Record<TSteps, ReactNode> = {
             1: <ServiceSelection />,
             2: <AddingPhotos />,
-            3: <SuccessContent />,
+            3: <FinishScreen />,
         }
 
         return obj[step]
     }, [step])
 
-    console.log("files: ", { files })
+    function next() {
+        setStep((prev) => {
+            if (prev === 3) return 3
+            return (prev + 1) as TSteps
+        })
+    }
+
+    function postData(data: IPostOffers) {
+        serviceOffer.post(data).then((response) => {
+            if (response.ok) {
+                if (response?.res?.id!) {
+                    setId(Number(response?.res?.id!))
+                }
+                next()
+            } else {
+                close()
+            }
+        })
+    }
 
     function handleNext() {
-        function next() {
-            setStep((prev) => {
-                if (prev === 3) return 3
-                return (prev + 1) as TSteps
-            })
-        }
         if (step === 1) {
             const data: IPostOffers = {
                 provider: `offer`,
                 title: text!,
                 categoryId: valueCategory?.id,
-                slug: valueCategory?.slug!,
+                slug: transliterateAndReplace(text),
                 enabled: true,
                 userId: userId!,
                 desired: true,
             }
-            serviceOffer.post(data).then((response) => {
-                if (response.ok) {
-                    if (response?.res?.id!) {
-                        setId(Number(response?.res?.id!))
+            if (addressInit) {
+                serviceAddresses.post(addressInit!).then((response) => {
+                    if (response.ok) {
+                        if (response.res) {
+                            data.addresses = [Number(response?.res?.id)]
+                            postData(data)
+                        }
                     }
+                })
+            } else {
+                if (adressId?.id) {
+                    data.addresses = [Number(adressId?.id)]
+                    postData(data)
                 }
-            })
-            next()
+            }
         }
         if (step === 2) {
-            Promise.allSettled(
-                files.map((item) =>
-                    fileUploadService(item!, {
+            const data: IPatchOffers = {}
+            data.images = []
+            Promise.all(
+                files.map((file) =>
+                    fileUploadService(file!, {
                         type: "offer",
                         userId: userId!,
-                        profileId: id!,
+                        idSupplements: id!,
                     }),
                 ),
             ).then((responses) => {
-                console.log("responses upload files offer: ", { responses })
-            })
-            const data: IPatchOffers = {}
-            serviceOffer
-                .patch(data, id!)
-                .then((response) => {
-                    console.log("response data patch offer: ", response)
+                console.log("responses: ", responses)
+
+                responses.forEach((item) => {
+                    if (item.ok) {
+                        if (item.res) {
+                            data.images?.push(item?.res?.id)
+                        }
+                    }
                 })
-                .finally(() => {
+
+                serviceOffer.patch(data, id!).then(() => {
                     next()
                 })
+            })
         }
     }
 
@@ -97,11 +130,6 @@ export const ModalAddOffer = () => {
         if (check === 3 && step === 3) return "finished"
         if (step === check) return "in_process"
         return "not_active"
-    }
-
-    function handleExit() {
-        setVisibleAndType()
-        reset()
     }
 
     return (
@@ -122,11 +150,11 @@ export const ModalAddOffer = () => {
             </section>
             {content}
             {step !== 3 ? (
-                <footer>
+                <footer className={cx(isMobile && styles.mobile)}>
                     <ButtonDefault
                         label="Отмена"
                         classNames={styles.button}
-                        handleClick={handleExit}
+                        handleClick={close}
                     />
                     <ButtonFill
                         label="Следующий"

@@ -3,7 +3,7 @@ import { useQuery } from "react-query"
 import { useTheme } from "next-themes"
 
 import type { IProps } from "./types"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 export const NotificationChat = (values: IProps) => {
     const { emitterId, threadId, message } = values ?? {}

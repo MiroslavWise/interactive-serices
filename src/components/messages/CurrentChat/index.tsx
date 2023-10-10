@@ -14,26 +14,27 @@ import { TextAreaSend } from "./components/TextAreaSend"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useMessages } from "@/store/state/useMessages"
-import { useAuth, useChat, usePopupMenuChat } from "@/store/hooks"
+import { useAuth, usePopupMenuChat } from "@/store/hooks"
 import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/style.module.scss"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
-    const { handlePush, handleReplace } = usePush()
+    const { handleReplace } = usePush()
     const { data } = useMessages()
-    const { getSocketMessages, getMessages } = useSocketMessages()
+    const { getSocketMessages } = useSocketMessages()
 
     async function getDataThread(emitterId: number, receiverId: number) {
-        const { res } = await threadsService.getUserQuery(Number(emitterId))
+        const { res } = await serviceThreads.getUserId(Number(emitterId))
+        console.log("messages getUserId: ", { res })
         return res?.find(
             (item) => item?.receiverIds?.find((id) => id === receiverId),
         )
@@ -47,7 +48,7 @@ export const CurrentChat = () => {
             receiverIds: [receiverId],
             enabled: true,
         }
-        const { res } = await threadsService.post(data_)
+        const { res } = await serviceThreads.post(data_)
 
         return res?.id
     }
@@ -55,33 +56,34 @@ export const CurrentChat = () => {
     useInsertionEffect(() => {
         if (idUser && idThread) {
             crateChat().then((response) => {
-                if (
-                    Number(idThread) === Number(response.id) &&
-                    response?.receiverIds?.includes(idUser)
-                ) {
-                    handleReplace(
-                        `/messages?user=${response
-                            ?.receiverId?.[0]}&thread=${response?.id!}`,
-                    )
-                }
+                console.log("response getDataThread", response)
             })
+            return
+        }
+        if (idUser && !idThread) {
+            crateChat().then((response) => {
+                console.log("response getDataThread", response)
+                handleReplace(
+                    `/messages?user=${response
+                        ?.receiverIds?.[0]}&thread=${response?.id!}`,
+                )
+            })
+            return
         }
     }, [idUser, idThread])
 
     const crateChat = async () => {
         let thread: any = await getDataThread(Number(userId), Number(idUser))
 
-        console.log("getDataThread: ", thread)
-
         if (thread) {
             if (Array.isArray(thread?.messages)) {
-                getMessages(Number(thread?.id), thread?.messages!)
+                getSocketMessages(thread?.id!)
                 return Promise.resolve(thread)
             }
         }
 
         if (idThread) {
-            const { res } = await threadsService.get(Number(idThread))
+            const { res } = await serviceThreads.getId(Number(idThread))
             thread = res
         }
 
@@ -94,16 +96,15 @@ export const CurrentChat = () => {
             const idCreate = await createThread(Number(userId), Number(idUser))
 
             if (idCreate) {
-                const { res } = await threadsService.get(Number(idCreate))
+                const { res } = await serviceThreads.getId(Number(idCreate))
                 thread = res
             }
         }
         if (thread) {
             console.log("getDataThread getSocketMessages: ", thread)
             getSocketMessages(thread?.id!)
+            return Promise.resolve(thread)
         }
-
-        return Promise.resolve(thread)
     }
 
     useEffect(
@@ -130,7 +131,7 @@ export const CurrentChat = () => {
                     <div
                         className={cx(styles.button)}
                         onClick={() => {
-                            handlePush(`/messages`)
+                            handleReplace(`/messages`)
                         }}
                     >
                         <Image
@@ -176,22 +177,25 @@ export const CurrentChat = () => {
                 <TextAreaSend
                     photo={conversationPartner?.photo}
                     fullName={conversationPartner?.name}
+                    idUser={Number(idUser)}
                 />
                 <Glasses />
                 <PopupMenu
                     photo={conversationPartner?.photo}
                     fullName={conversationPartner?.name}
+                    idUser={Number(idUser)}
                 />
             </section>
         )
     }
 
     return (
-        <section className={cx(styles.container, isMobile && styles.mobile)}>
+        <section className={cx(styles.container)}>
             <ListMessages messages={conversationPartner?.messages} />
             <TextAreaSend
                 photo={conversationPartner?.photo}
                 fullName={conversationPartner?.name}
+                idUser={Number(idUser)}
             />
         </section>
     )
@@ -200,8 +204,7 @@ export const CurrentChat = () => {
 export const ChatEmpty = () => <section className={styles.container} />
 export const Chat = () => {
     const searchParams = useSearchParams()
-    const id = searchParams.get("user")
-    const { currentChatId } = useChat()
+    const idUser = searchParams?.get("user")
 
-    return currentChatId || id ? <CurrentChat /> : <ChatEmpty />
+    return idUser ? <CurrentChat /> : <ChatEmpty />
 }

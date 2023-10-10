@@ -1,14 +1,13 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import {
     type ReactNode,
     memo,
-    useEffect,
-    useLayoutEffect,
     useMemo,
     useRef,
+    useInsertionEffect,
 } from "react"
+import { useSearchParams } from "next/navigation"
 
 import type { IThreadsMessages } from "@/services/threads/types"
 
@@ -20,23 +19,21 @@ import { useAuth } from "@/store/hooks"
 import { useMessages } from "@/store/state/useMessages"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 
-import styleTime from "./styles/time.module.scss"
-
 export const ListMessages = memo(function ListMessages({
     messages,
 }: {
     messages: IThreadsMessages[]
 }) {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
     const { data } = useMessages()
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
 
-    useLayoutEffect(() => {
+    useInsertionEffect(() => {
         if (messages?.length > 0) {
             if (ulChat.current) {
                 if (numberIdMessage.current !== messages?.at(-1)?.id) {
@@ -95,44 +92,6 @@ export const ListMessages = memo(function ListMessages({
         join,
         userId,
     ])
-
-    // useEffect(() => {
-    //     console.log("ulChat: ", ulChat)
-    //     if (ulChat.current) {
-    //         const stickyElements = ulChat.current.querySelectorAll("sticky")
-
-    //         const scrollSticky = (e: Event) => {
-    //             console.log("scrollSticky: ")
-    //             stickyElements.forEach((element, index) => {
-    //                 const nextElement = stickyElements[index + 1]
-
-    //                 if (nextElement) {
-    //                     const clientRect = element?.getBoundingClientRect()
-    //                     const nextClientRect =
-    //                         nextElement?.getBoundingClientRect()
-
-    //                     if (clientRect.bottom > nextClientRect.top) {
-    //                         console.log(
-    //                             "clientRect if: ",
-    //                             clientRect.bottom,
-    //                             nextClientRect.top,
-    //                         )
-    //                     } else {
-    //                         console.log(
-    //                             "clientRect else: ",
-    //                             clientRect.bottom,
-    //                             nextClientRect.top,
-    //                         )
-    //                     }
-    //                 }
-    //             })
-    //         }
-
-    //         ulChat.current.addEventListener("scroll", scrollSticky)
-
-    //         return ulChat.current.removeEventListener("scroll", scrollSticky)
-    //     }
-    // }, [ulChat, idThread])
 
     return <ul ref={ulChat}>{messagesJoin}</ul>
 })

@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TAddingPhotos } from "./types/types"
 
 import { UploadPhoto } from "@/components/common/custom"
 
+import { cx } from "@/lib/cx"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
 
 import styles from "./styles/service-selection.module.scss"
@@ -13,14 +14,15 @@ import styles from "./styles/service-selection.module.scss"
 export const AddingPhotos: TAddingPhotos = () => {
     const {
         files,
-        setFiles,
-        selectedFilesString,
-        setSelectedFilesString,
+        setFile,
+        selectedFile,
+        setSelectedFile,
         deleteFile,
+        adressId,
     } = useCreateOffer()
 
     return (
-        <section className={styles.wrapper}>
+        <section className={cx(styles.wrapper, isMobile && styles.mobile)}>
             <p>
                 Добавьте несколько фотографий и видео, чтобы пользователи могли
                 лучше понять, что вы на самом деле предлагаете.
@@ -31,9 +33,9 @@ export const AddingPhotos: TAddingPhotos = () => {
                         key={`${index}_file`}
                         files={files[index]}
                         index={index}
-                        selected={selectedFilesString[index]}
-                        setFiles={setFiles}
-                        setSelectedImage={setSelectedFilesString}
+                        selected={selectedFile[index]}
+                        setFiles={setFile}
+                        setSelectedImage={setSelectedFile}
                         deleteFile={deleteFile}
                     />
                 ))}
@@ -42,9 +44,9 @@ export const AddingPhotos: TAddingPhotos = () => {
                         key={`${files.length}_file`}
                         files={files[files.length]}
                         index={files.length}
-                        selected={selectedFilesString[files.length]}
-                        setFiles={setFiles}
-                        setSelectedImage={setSelectedFilesString}
+                        selected={selectedFile[files.length]}
+                        setFiles={setFile}
+                        setSelectedImage={setSelectedFile}
                         deleteFile={deleteFile}
                     />
                 ) : null}

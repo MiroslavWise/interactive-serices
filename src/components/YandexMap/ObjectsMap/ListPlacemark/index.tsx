@@ -1,48 +1,54 @@
 "use client"
 
-import { useId, useMemo } from "react"
 import { useQuery } from "react-query"
+import { memo, useEffect, useMemo } from "react"
 
 import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
-import { randomArrayTwoNumber } from "@/lib/random"
-import { profileService } from "@/services/profile"
+import { serviceOffer } from "@/services/offers"
 
-export const ListPlacemark = () => {
-    const idPlace = useId()
-    const { data, isLoading, error } = useQuery(["profiles"], () =>
-        profileService.getProfiles({ limit: 20 }),
-    )
+const ListPlacemark_ = () => {
+    const { data: dataPlaces } = useQuery({
+        queryKey: ["offers"],
+        queryFn: () => serviceOffer.get(),
+    })
 
     const marks: IPlacemarkCurrent[] = useMemo(() => {
         const array: IPlacemarkCurrent[] = []
 
-        if (data?.res) {
-            data?.res?.forEach((item, index) => {
-                array.push({
-                    name: `${item?.firstName || "Имя"} ${
-                        item?.lastName || "Фамилия"
-                    }`,
-                    about: item?.about || "",
-                    image: {
-                        url: item?.image?.attributes?.url,
-                    },
-                    icon:
-                        Math.random() < 0.5
-                            ? "/map/size=small&type=News.png"
-                            : "/map/size=small&type=Alert.png",
-                    coordinates: randomArrayTwoNumber(),
-                    size: [72, 81],
-                    id: `${index}-${idPlace}`,
-                    userId: item?.userId,
+        if (dataPlaces?.res && Array.isArray(dataPlaces.res)) {
+            dataPlaces?.res
+                ?.filter(
+                    (item) =>
+                        Array.isArray(item?.addresses) &&
+                        item?.addresses?.length,
+                )
+                ?.forEach((item, index) => {
+                    const coordinates: [number, number][] =
+                        item?.addresses?.map((_item) => [
+                            Number(_item.coordinates.split(" ")[0]),
+                            Number(_item.coordinates.split(" ")[1]),
+                        ])
+                    const provider = item?.provider
+                    const title = item?.title
+                    array.push({
+                        coordinates: coordinates,
+                        provider: provider,
+                        idUser: item?.userId!,
+                        id: item?.id!,
+                        title: title,
+                    })
                 })
-            })
         }
 
         return array
-    }, [data?.res, idPlace])
+    }, [dataPlaces?.res])
 
-    return marks.map((item) => <PlacemarkCurrent key={item.id} {...item} />)
+    return marks.map((item) => (
+        <PlacemarkCurrent key={`${item.id}-${item.provider}-list`} {...item} />
+    ))
 }
+
+export const ListPlacemark = memo(ListPlacemark_)

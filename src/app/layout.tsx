@@ -1,5 +1,3 @@
-// "use client"
-
 import { type Metadata } from "next"
 import dynamic from "next/dynamic"
 import { type ReactNode } from "react"
@@ -17,7 +15,7 @@ export const metadata: Metadata = {
     title: "Sheira",
     description:
         "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
-    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", ""],
+    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
     robots: "noindex, nofollow",
 }
 
@@ -29,6 +27,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     name="viewport"
                     content="initial-scale=1.0, user-scalable=no, maximum-scale=1"
                 />
+                <script src="../scripts/masonry.pkgd.min.js" async />
             </head>
             <body className={inter.className}>
                 <Providers>{children}</Providers>

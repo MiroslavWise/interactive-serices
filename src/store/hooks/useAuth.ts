@@ -1,5 +1,1 @@
-import { useAuthState } from "../state/useAuthState"
-
-export const useAuth = () => {
-    return useAuthState()
-}
+export { useAuth } from "../state/useAuthState"

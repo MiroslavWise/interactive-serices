@@ -1,12 +1,13 @@
 import { useMessages } from "@/store/state/useMessages"
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 import { IThreadsMessages } from "@/services/threads/types"
 
 export const useSocketMessages = () => {
     const { setMessages } = useMessages()
 
     const getSocketMessages = (id: number) => {
-        threadsService.get(id).then((response) => {
+        serviceThreads.getId(id).then((response) => {
+            console.log("messages getSocketMessages: ", { response })
             setMessages({
                 id: response?.res?.id!,
                 messages: response?.res?.messages!,

@@ -8,14 +8,14 @@ import type { TSentenceCards } from "./types/types"
 import { CardOffer } from "@/components/common/Card/Offer"
 import { MotionUL } from "@/components/common/Motion"
 
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
 import dayjs from "dayjs"
 
 export const SentenceCards: TSentenceCards = ({ value }) => {
   const id = useId()
-  const { data, isLoading, error } = useQuery(["profiles"], () => profileService.getProfiles({ limit: 20 }))
+  const { data, isLoading, error } = useQuery(["profiles"], () => serviceProfile.get({ limit: 20 }))
 
   return (
     <MotionUL classNames={[styles.containerCards]}>

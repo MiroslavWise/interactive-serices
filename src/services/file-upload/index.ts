@@ -37,7 +37,10 @@ export async function fileUploadService(
     const dimensions = await getFileDimensions(uploadFile)
 
     const formData = new FormData()
-    formData.append("name", `${provider.type}:${uploadFile.name}`)
+    formData.append(
+        "name",
+        `${provider.type}_${uploadFile.name?.replaceAll(":", "_")}`,
+    )
     formData.append("caption", uploadFile.name)
     formData.append("ext", `.${uploadFile.name.split(".").at(-1)}`)
     formData.append("alt", uploadFile.name)
@@ -46,7 +49,7 @@ export async function fileUploadService(
     formData.append("width", dimensions.width.toString())
     formData.append(
         "provider",
-        `${provider.type}:${provider.userId}:${provider.profileId}`,
+        `${provider.type}:${provider.userId}:${provider.idSupplements}`,
     )
     formData.append("size", uploadFile.size.toString())
     formData.append(

@@ -8,19 +8,20 @@ import {
     setUserAction,
     setTokenAction,
     changeAuthAction,
-    retrieveProfileData,
 } from "../action/useAuthAction"
 
-export const useAuthState = create(
+import { AuthService } from "@/services/auth/authService"
+
+export const useAuth = create(
     persist<IUseAuth>(
         (set, get) => ({
             email: undefined,
             token: undefined,
             refreshToken: undefined,
             userId: undefined,
+            expires: undefined,
             profileId: undefined,
-            expiration: undefined,
-            isAuth: false,
+            isAuth: undefined,
             user: undefined,
             imageProfile: undefined,
             createdUser: undefined,
@@ -32,19 +33,102 @@ export const useAuthState = create(
             setToken(value) {
                 setTokenAction(value, set)
             },
-            setUser(value) {
+            getUser(value) {
                 setUserAction(value, set)
             },
             signOut() {
                 signOutAction(set)
             },
-            retrieveProfileData() {
-                retrieveProfileData(set, get)
+
+            refresh() {
+                const refreshToken = get().refreshToken
+                const email = get().email
+                const expires = get().expires
+                console.log("refresh: ", isTokenExpired(expires))
+                if (
+                    !isTokenExpired(get().expires) &&
+                    typeof expires === "number"
+                ) {
+                    changeAuthAction(set, get)
+                    return
+                }
+                if (typeof refreshToken !== "string") {
+                    set({
+                        email: undefined,
+                        token: undefined,
+                        refreshToken: undefined,
+                        userId: undefined,
+                        expires: undefined,
+                        profileId: undefined,
+                        isAuth: false,
+                        user: undefined,
+                        imageProfile: undefined,
+                        createdUser: undefined,
+                    })
+                    return
+                }
+                if (
+                    typeof expires === "number" &&
+                    isTokenExpired(expires) &&
+                    typeof refreshToken === "string"
+                ) {
+                    return AuthService
+                        .refresh({
+                            email: email!,
+                            refreshToken: refreshToken!,
+                        })
+                        .then((response) => {
+                            if (response.ok) {
+                                set({
+                                    isAuth: true,
+                                    token: response?.res?.accessToken!,
+                                    expires: response?.res?.expires!,
+                                    userId: response?.res?.id!,
+                                })
+                                changeAuthAction(set, get)
+                            } else {
+                                set({ isAuth: false })
+                            }
+                        })
+                }
+                set({
+                    email: undefined,
+                    token: undefined,
+                    refreshToken: undefined,
+                    userId: undefined,
+                    expires: undefined,
+                    profileId: undefined,
+                    isAuth: false,
+                    user: undefined,
+                    imageProfile: undefined,
+                    createdUser: undefined,
+                })
             },
         }),
         {
             name: "auth",
             storage: createJSONStorage(() => localStorage),
+            partialize(state) {
+                return {
+                    email: state.email,
+                    token: state.token,
+                    expires: state.expires,
+                    refreshToken: state.refreshToken,
+                    userId: state.userId,
+                    profileId: state.profileId,
+                    user: state.user,
+                    imageProfile: state.imageProfile,
+                    createdUser: state.createdUser,
+                    addresses: state.addresses,
+                } as IUseAuth
+            },
         },
     ),
 )
+
+function isTokenExpired(exp: number | undefined) {
+    if (exp !== undefined) {
+        const currentTime: number = Date.now()
+        return exp < currentTime
+    }
+}

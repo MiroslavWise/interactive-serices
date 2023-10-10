@@ -18,7 +18,7 @@ import styles from "./styles/style.module.scss"
 export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
     const { userId } = useAuth()
     const { handlePush } = usePush()
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
     return (
         <section className={styles.infoContainerProfile}>
             <div className={styles.avatarAndAchievements}>
@@ -95,6 +95,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
                                         dataProfile: {
                                             photo: profile?.photo,
                                             fullName: profile?.name,
+                                            idUser: profile?.userId!,
                                         },
                                     })
                                 }

@@ -15,7 +15,7 @@ import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
 
 import { useAuth } from "@/store/hooks"
-import { threadsService } from "@/services/threads"
+import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useThread } from "@/store/state/useThreads"
 import { useMessages } from "@/store/state/useMessages"
@@ -26,8 +26,8 @@ import styles from "./styles/style.module.scss"
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
     const { userId } = useAuth()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { handlePush, handleReplace } = usePush()
     const { data } = useMessages()
 
@@ -51,7 +51,7 @@ export const InterviewerInfoCurrent = () => {
     }
 
     function handleDeleteChat() {
-        threadsService.delete(Number(idThread)).then((response) => {
+        serviceThreads.delete(Number(idThread)).then((response) => {
             console.log("--- response delete ---", response)
             getThreads(userId!)
             handleReplace("/messages")
@@ -166,8 +166,8 @@ export const InterviewerInfoEmpty = () => (
 
 export const InterviewerInfo = () => {
     const searchParams = useSearchParams()
-    const idUser = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
 
     return idUser && idThread ? (
         <InterviewerInfoCurrent />

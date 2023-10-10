@@ -4,6 +4,5 @@ export const prefix: TAuthSuffix = "AuthJWT"
 export const authMap: TAuthPostfix[] = [
     "RefreshToken",
     "Token",
-    "Expiration",
     "UserId",
 ]

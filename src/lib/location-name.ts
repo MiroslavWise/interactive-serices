@@ -3,7 +3,7 @@ import {
     TKindLocation,
 } from "@/services/addresses/types/geocodeSearch"
 
-export const locationName = (
+export const getLocationName = (
     item: IFeatureMember,
     value: TKindLocation,
 ): string | undefined => {

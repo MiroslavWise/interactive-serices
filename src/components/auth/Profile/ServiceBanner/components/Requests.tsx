@@ -1,23 +1,31 @@
-import { MotionUL } from "@/components/common/Motion"
+"use client"
 
+import { useQuery } from "react-query"
+
+import { MotionUL } from "@/components/common/Motion"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
-import { MOCKS_PROPOSALS } from "@/mocks/components/auth/constants"
+import { serviceOffer } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
 export const Requests = () => {
-  return (
-    <MotionUL classNames={[styles.peoples, styles.requestsAndProposals]}>
-    {
-      MOCKS_PROPOSALS.map((item, index) => (
-        <CardRequestsAndProposals
-          key={item.title + index + "requests_all"}
-          {...item}
-          type="optional-2"
-        />
-      ))
-    }
-  </MotionUL>
-  )
+    const { data } = useQuery({
+        queryFn: () => serviceOffer.get({ provider: "request" }),
+        queryKey: ["offers", "provider=request"],
+    })
+
+    return (
+        <MotionUL classNames={[styles.peoples, styles.requestsAndProposals]}>
+            {Array.isArray(data?.res)
+                ? data?.res?.map((item) => (
+                      <CardRequestsAndProposals
+                          key={`${item.id}-offer`}
+                          {...item}
+                          type="optional-2"
+                      />
+                  ))
+                : null}
+        </MotionUL>
+    )
 }

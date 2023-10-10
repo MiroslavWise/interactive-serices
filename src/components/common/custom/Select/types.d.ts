@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react"
 
-type TValue = string | number
+type TValue = string | number | null
 
 export interface ISelectList {
     prefix?: string
@@ -11,8 +11,8 @@ export interface ISelectList {
 interface ICustomSelect {
     placeholder: string
     list: ISelectList[]
-    value: TValue
-    setValue: Dispatch<SetStateAction<TValue>> | Dispatch<TValue>
+    value: string | number | null
+    setValue: Dispatch<string | number | null>
 }
 
 export type TCustomSelect = FC<ICustomSelect>

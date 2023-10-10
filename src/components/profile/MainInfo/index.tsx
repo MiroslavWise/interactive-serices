@@ -18,7 +18,7 @@ import { PEOPLES } from "@/mocks/components/profile/constants"
 import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ profile }) => {
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { handlePush } = usePush()
 
     return (
@@ -78,7 +78,7 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                                 src="/svg/repeat-01.svg"
                                 type="primary"
                                 onClick={() =>
-                                    setIsVisibleBarter({
+                                    dispatchVisibleBarter({
                                         isVisible: true,
                                         dataProfile: {
                                             photo: profile?.image?.attributes
@@ -86,6 +86,7 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                                             fullName: `${
                                                 profile?.firstName || ""
                                             } ${profile?.lastName || ""}`,
+                                            idUser: profile?.userId!,
                                         },
                                     })
                                 }

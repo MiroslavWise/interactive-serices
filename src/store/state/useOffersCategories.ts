@@ -13,7 +13,7 @@ export const useOffersCategories = create(
             hash: undefined,
 
             async getCategories() {
-                return serviceOffersCategories.getAll().then((response) => {
+                return serviceOffersCategories.get().then((response) => {
                     if (response?.ok) {
                         if (!!response?.res) {
                             if (Array.isArray(response?.res)) {

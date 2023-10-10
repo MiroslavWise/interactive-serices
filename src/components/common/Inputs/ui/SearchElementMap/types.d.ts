@@ -1,9 +1,5 @@
-import type { FC } from "react"
+import type { Dispatch, FC, SetStateAction } from "react"
 
-
-
-interface ISearchElementMap {
-
-}
+interface ISearchElementMap {}
 
 export type TSearchElementMap = FC<ISearchElementMap>

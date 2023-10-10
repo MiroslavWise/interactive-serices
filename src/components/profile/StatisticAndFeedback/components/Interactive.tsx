@@ -23,8 +23,8 @@ export const Interactive: TInteractive = ({}) => {
     const Items: ReactNode = useMemo(() => {
         return {
             reviews: <ItemsReviews />,
-            blogs: <ItemsBlogMessages />,
             services: <ContainerServices />,
+            blogs: <ItemsBlogMessages />,
         }[active.value]
     }, [active])
 

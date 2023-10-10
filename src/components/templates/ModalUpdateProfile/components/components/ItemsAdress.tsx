@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo } from "react"
-import { useQuery } from "react-query"
 
 import type { TItemsAdress } from "./types/types"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
@@ -9,15 +8,11 @@ import type { IAddressesResponse } from "@/services/addresses/types/serviceAddre
 import { ItemLIAdress } from "./ItemLIAdress"
 
 import { useAuth } from "@/store/hooks"
-import { serviceAddresses } from "@/services/addresses"
 
 import styles from "./styles/style.module.scss"
 
 export const ItemsAdress: TItemsAdress = ({}) => {
-    const { userId, addresses } = useAuth()
-    const { data, isLoading, error } = useQuery(["addresses", userId], () =>
-        serviceAddresses.getAddresses({}),
-    )
+    const { addresses } = useAuth()
 
     const listAdress: IAddressesResponse[] = useMemo(() => {
         if (addresses && addresses?.length > 0) {
@@ -35,7 +30,7 @@ export const ItemsAdress: TItemsAdress = ({}) => {
                     item={item}
                 />
             ))}
-            {listAdress.length < 5 ? <ItemLIAdress active={false} /> : null}
+            {listAdress.length < 3 ? <ItemLIAdress active={false} /> : null}
         </ul>
     )
 }

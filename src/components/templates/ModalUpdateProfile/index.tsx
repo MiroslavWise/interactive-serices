@@ -16,11 +16,10 @@ import { Glasses } from "@/components/layout/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
 import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 
 import styles from "./styles/style.module.scss"
 import mobileStyles from "./styles/mobile.module.scss"
@@ -82,6 +81,9 @@ export const ModalUpdateProfile = () => {
             setValue("month", dateOfBirth.month)
             setValue("year", dateOfBirth.year)
             setValue("email", email!)
+            if (isMobile) {
+                setValue("about", user?.about || "")
+            }
         }
     }, [user, setValue, dateOfBirth, email])
 
@@ -97,13 +99,17 @@ export const ModalUpdateProfile = () => {
             ).format("DD/MM/YYYY"),
             about: user?.about || "",
             enabled: true,
-            userId: Number(useTokenHelper.authUserId || userId),
+            userId: Number(userId),
+        }
+
+        if (values.about) {
+            data.about = values.about
         }
 
         Promise.all([
             !!profileId
-                ? profileService.patchProfile(data, profileId!)
-                : profileService.postProfile(data),
+                ? serviceProfile.patch(data, profileId!)
+                : serviceProfile.post(data),
         ])
             .then((response) => {
                 console.log("response ok: ", response?.[0])
@@ -122,18 +128,16 @@ export const ModalUpdateProfile = () => {
                         fileUploadService(file!, {
                             type: "profile",
                             userId: userId!,
-                            profileId: response?.[0]?.res?.id,
+                            idSupplements: response?.[0]?.res?.id,
                         }).then((uploadResponse) => {
                             if (uploadResponse.ok) {
                                 const data: IPostProfileData = {
                                     username: values.username,
                                     imageId: uploadResponse.res?.id,
-                                    userId: Number(
-                                        useTokenHelper.authUserId || userId,
-                                    ),
+                                    userId: Number(userId),
                                 }
-                                profileService
-                                    .patchProfile(data, response?.[0]?.res?.id!)
+                                serviceProfile
+                                    .patch(data, response?.[0]?.res?.id!)
                                     .then((responsePatch) => {
                                         if (
                                             [400, 401].includes(
@@ -144,19 +148,20 @@ export const ModalUpdateProfile = () => {
                                             out()
                                             return
                                         }
+                                        setVisible(false)
+                                        changeAuth()
                                     })
-                                    .finally(changeAuth)
                                 return
                             }
                         })
                     }
                 } else {
                     setVisible(false)
+                    changeAuth()
                 }
-                setVisible(false)
-                changeAuth()
             })
             .finally(() => {
+                setVisible(false)
                 setLoading(false)
             })
     }

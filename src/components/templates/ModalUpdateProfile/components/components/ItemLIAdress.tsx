@@ -12,18 +12,20 @@ import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
-import { debounce } from "@/lib/debounce"
-import { locationName } from "@/lib/location-name"
+import { useDebounce } from "@/helpers"
+import { getLocationName } from "@/lib/location-name"
 import { serviceAddresses } from "@/services/addresses"
-import { geocodeSearch } from "@/services/addresses/geocodeSearch"
+import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
+import { generateShortHash } from "@/lib/hash"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     const { userId, changeAuth } = useAuth()
     const [text, setText] = useState("")
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const [activeList, setActiveList] = useState(false)
+    const debouncedValue = useDebounce(onValueFunc, 1500)
 
     useEffect(() => {
         if (item) {
@@ -45,7 +47,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
 
     function deleteAddress() {
         if (item) {
-            serviceAddresses.deleteAddress(item.id).finally(() => {
+            serviceAddresses.delete(item.id).finally(() => {
                 requestAnimationFrame(() => {
                     changeAuth()
                 })
@@ -53,50 +55,45 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         }
     }
 
-    const valueDebounce = debounce((value: string) => {
-        console.log("debounce: ", value)
-        if (value.length > 2 && activeList) {
-            geocodeSearch(value).then((res) => {
-                if (res) {
-                    setValues(res)
-                }
-            })
-        } else {
-            setValues(null)
+    function onValueFunc() {
+        console.log("debounce: ", text)
+        if (text.length > 2 && activeList) {
+            getGeocodeSearch(text).then((response) => setValues(response))
         }
-    }, 1500)
+    }
 
     function handleAddress(item: IFeatureMember) {
-        const country = locationName(item, "country")
-        const street = locationName(item, "street")
-        const house = locationName(item, "house")
         const coordinates = item?.GeoObject?.Point?.pos
+        const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
+        const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
         const additional =
             item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
-
         const value: IPostAddress = {
             userId: userId!,
             addressType: "main",
             enabled: true,
         }
-        if (country) {
-            value.country = country
-        }
-        if (street) {
-            value.street = street
-        }
-        if (house) {
-            value.house = house
-        }
-        if (coordinates) {
-            value.coordinates = coordinates.replace(" ", ":")
-        }
-        if (additional) {
-            value.additional = additional
-        }
+        const country = getLocationName(item, "country")
+        const street = getLocationName(item, "street")
+        const house = getLocationName(item, "house")
+        const city = getLocationName(item, "locality")
+        const region = getLocationName(item, "province")
+        const district = getLocationName(item, "area")
+        if (longitude) value.longitude = longitude
+        if (latitude) value.latitude = latitude
+        if (country) value.country = country
+        if (street) value.street = street
+        if (house) value.house = house
+        if (city) value.city = city
+        if (region) value.region = region
+        if (district) value.district = district
+        if (coordinates) value.coordinates = coordinates
+        if (additional) value.additional = additional
+        const hash = generateShortHash(additional!)
+        if (hash) value.hash = hash
 
         serviceAddresses
-            .postAddress(value)
+            .post(value)
             .then((response) => {
                 console.log("response address: ", response)
             })
@@ -125,7 +122,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     value={text}
                     onChange={(value) => {
                         setText(value.target.value)
-                        valueDebounce(value.target.value)
+                        debouncedValue()
                     }}
                     placeholder="Записать новый"
                     onFocus={onFocus}

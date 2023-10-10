@@ -4,11 +4,11 @@ import { isMobile } from "react-device-detect"
 
 import type { TMyProfilePage } from "./types/types"
 
-import { ContainerAboutMe } from "./components/ContainerAboutMe"
-import { ContainerTagAndButton } from "./components/ContainerTagAndButton"
-import { ContainerSuggestions } from "./components/ContainerSuggestions"
-import { M_ContainerAboutProfile } from "./components/M_ContainerAboutProfile"
 import { Badges } from "../BlockProfileAside/components/Badges"
+import { ContainerAboutMe } from "./components/ContainerAboutMe"
+import { ContainerSuggestions } from "./components/ContainerSuggestions"
+import { ContainerTagAndButton } from "./components/ContainerTagAndButton"
+import { M_ContainerAboutProfile } from "./components/M_ContainerAboutProfile"
 
 import { cx } from "@/lib/cx"
 

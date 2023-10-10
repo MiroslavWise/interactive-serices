@@ -2,10 +2,13 @@
 
 import Image from "next/image"
 import { type ChangeEvent } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TUploadPhoto } from "./types"
 
 import { ImageStatic } from "@/components/common/Image"
+
+import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
 
@@ -39,7 +42,7 @@ export const UploadPhoto: TUploadPhoto = ({
     }
 
     return (
-        <div className={styles.container}>
+        <div className={cx(styles.container, isMobile && styles.mobile)}>
             {selected ? (
                 <ImageStatic
                     src={selected}

@@ -1,14 +1,26 @@
 import { create } from "zustand"
 
-import type { IUseCreateOffer } from "../types/useCreateOffer"
+import type { IUseCreateOffer } from "../types/createOffer"
 
 export const useCreateOffer = create<IUseCreateOffer>((set, get) => ({
     id: undefined,
     text: "",
     valueCategory: undefined,
     files: [],
-    selectedFilesString: [],
+    selectedFile: [],
+    adressId: undefined,
+    addressInit: undefined,
 
+    setAddressInit(value) {
+        set({ addressInit: value })
+    },
+    setAddressId({ id }) {
+        set({
+            adressId: {
+                id: id,
+            },
+        })
+    },
     setId(value) {
         set({ id: value })
     },
@@ -18,18 +30,18 @@ export const useCreateOffer = create<IUseCreateOffer>((set, get) => ({
     setValueCategory(value) {
         set({ valueCategory: value })
     },
-    setFiles(value) {
+    setFile(value) {
         set({ files: [...get().files, value] })
     },
-    setSelectedFilesString(value) {
-        set({ selectedFilesString: [...get().selectedFilesString, value] })
+    setSelectedFile(value) {
+        set({ selectedFile: [...get().selectedFile, value] })
     },
     deleteFile(value) {
         const files = get().files.filter((item, index) => index !== value)
-        const selectedFilesString = get().selectedFilesString.filter(
+        const selectedFilesString = get().selectedFile.filter(
             (item, index) => index !== value,
         )
-        set({ files: files, selectedFilesString: selectedFilesString })
+        set({ files: files, selectedFile: selectedFilesString })
     },
     reset() {
         set({
@@ -37,7 +49,9 @@ export const useCreateOffer = create<IUseCreateOffer>((set, get) => ({
             text: "",
             files: [],
             valueCategory: undefined,
-            selectedFilesString: [],
+            selectedFile: [],
+            addressInit: undefined,
+            adressId: undefined,
         })
     },
 }))

@@ -3,10 +3,12 @@ import { create } from "zustand"
 import type { IUseAnimateLoadPageState } from "../types/useAnimateLoadPage"
 
 export const useAnimateLoadPageState = create<IUseAnimateLoadPageState>(
-    (set) => ({
+    (set, get) => ({
         isAnimated: false,
         setIsAnimated(value) {
-            set({ isAnimated: value })
+            if (get().isAnimated !== value) {
+                set({ isAnimated: value })
+            }
         },
     }),
 )

@@ -12,6 +12,7 @@ import {
 } from "react"
 
 import type { TTextAreaSend } from "./types/types"
+import type { IRequestPostMessages } from "@/services/messages/types"
 
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
@@ -23,16 +24,15 @@ import { useWebSocket } from "@/context/WebSocketProvider"
 import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/text-area.module.scss"
-import { IRequestPostMessages } from "@/services/messages/types"
 
-export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
+export const TextAreaSend: TTextAreaSend = ({ photo, fullName, idUser }) => {
     const [text, setText] = useState("")
-    const { setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
     const { userId } = useAuth()
     const searchParams = useSearchParams()
-    const idUserInterlocutor = searchParams.get("user")
-    const idThread = searchParams.get("thread")
+    const idUserInterlocutor = searchParams?.get("user")
+    const idThread = searchParams?.get("thread")
     const { getSocketMessages } = useSocketMessages()
     const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
 
@@ -53,6 +53,10 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
                     },
                     (response: any) => {
                         console.log("message response :", response)
+                        setTimeout(() => {
+                            getSocketMessages(Number(idThread!))
+                        }, 100)
+                        setText("")
                     },
                 )
             } else {
@@ -66,7 +70,9 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
                     created: date,
                 }
                 serviceMessages.post(data).then((response) => {
-                    getSocketMessages(Number(idThread!))
+                    setTimeout(() => {
+                        getSocketMessages(Number(idThread!))
+                    }, 100)
                     setText("")
                 })
             }
@@ -157,6 +163,7 @@ export const TextAreaSend: TTextAreaSend = ({ photo, fullName }) => {
                                     dataProfile: {
                                         photo: photo,
                                         fullName: fullName,
+                                        idUser: idUser,
                                     },
                                 })
                             }}

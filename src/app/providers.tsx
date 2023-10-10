@@ -1,14 +1,17 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { ToastContainer } from "react-toastify"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
 
+import "@/context/DayJSDefault"
 import {
     ModalUpdateProfile,
     WelcomeModal,
     Barter,
+    CreateNewOptionModal,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import {
@@ -19,8 +22,17 @@ import {
 } from "@/components/layout"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import { OnSuccessToastify } from "@/components/common/Toastify"
+const PhotoPreviewModal = dynamic(
+    () => import("../components/templates/PhotoPreviewModal"),
+    { ssr: false },
+)
 
-import { YMapsProvider, WebSocketProvider, NextThemesProvider } from "@/context"
+import {
+    YMapsProvider,
+    WebSocketProvider,
+    NextThemesProvider,
+    ReduxProvider,
+} from "@/context"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { useMessages } from "@/store/state/useMessages"
@@ -29,13 +41,21 @@ import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
-const queryClient = new QueryClient({})
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
+            refetchInterval: 5 * 60 * 1000,
+        },
+    },
+})
 
 export default function Providers({ children }: { children: ReactNode }) {
-    const { changeAuth, token, userId } = useAuth()
+    const { token, userId, refresh } = useAuth()
     const searchParams = useSearchParams()
-    const verifyToken = searchParams.get("verify")
-    const passwordResetToken = searchParams.get("password-reset-token")
+    const verifyToken = searchParams?.get("verify")
+    const passwordResetToken = searchParams?.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { resetMessages } = useMessages()
     const { getCategories } = useOffersCategories()
@@ -43,8 +63,8 @@ export default function Providers({ children }: { children: ReactNode }) {
         useFetchingSession()
 
     useEffect(() => {
-        changeAuth()
-    }, [changeAuth])
+        refresh()
+    }, [refresh])
     useEffect(() => {
         if (passwordResetToken) {
             setVisibleAndType({
@@ -85,19 +105,25 @@ export default function Providers({ children }: { children: ReactNode }) {
         <>
             <NextThemesProvider>
                 <QueryClientProvider client={queryClient}>
-                    <WebSocketProvider>
-                        <YMapsProvider>
-                            {children}
-                            <ToastContainer />
-                            <FooterMenu />
-                            <SignPopup />
-                            <PhotoCarousel />
-                            <WelcomeModal />
-                            <ExchangesModalMobile />
-                            <Barter />
-                            {token && userId ? <ModalUpdateProfile /> : null}
-                        </YMapsProvider>
-                    </WebSocketProvider>
+                    <ReduxProvider>
+                        <WebSocketProvider>
+                            <YMapsProvider>
+                                {children}
+                                <ToastContainer />
+                                <FooterMenu />
+                                <SignPopup />
+                                <PhotoCarousel />
+                                <WelcomeModal />
+                                <ExchangesModalMobile />
+                                <Barter />
+                                <CreateNewOptionModal />
+                                <PhotoPreviewModal />
+                                {token && userId ? (
+                                    <ModalUpdateProfile />
+                                ) : null}
+                            </YMapsProvider>
+                        </WebSocketProvider>
+                    </ReduxProvider>
                 </QueryClientProvider>
             </NextThemesProvider>
             <AnimatedLoadPage />

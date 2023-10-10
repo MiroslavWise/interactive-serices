@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from "zustand/middleware"
 import type { IUseMessages } from "../types/useMessages"
 
 import { arrayHash } from "@/lib/hashArray"
-import { profileService } from "@/services/profile"
+import { serviceProfile } from "@/services/profile"
 
 export const useMessages = create(
     persist<IUseMessages>(
@@ -14,8 +14,8 @@ export const useMessages = create(
                 console.log("---setPhotoAndName---")
                 if (idThread && idUser) {
                     if (!get().data?.[idThread!]?.idUser) {
-                        profileService
-                            .getProfileThroughUserId(idUser!)
+                        serviceProfile
+                            .getUserId(idUser!)
                             .then((response) => {
                                 console.log("---setPhotoAndName response---", response)
                                 if (response.ok) {

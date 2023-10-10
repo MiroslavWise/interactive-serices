@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState, useMemo, type ReactNode } from "react"
+import { useState, useMemo, type ReactNode, memo } from "react"
 
 import type { TServiceBanner } from "./types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
@@ -17,7 +17,7 @@ import { SERVICES } from "./constants"
 
 import styles from "./styles/style.module.scss"
 
-export const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
+const $ServiceBanner: TServiceBanner = ({ active }) => {
     const [activeService, setActiveService] = useState<ISegmentValues>(
         SERVICES[0],
     )
@@ -25,11 +25,11 @@ export const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
     const content: ReactNode = useMemo(
         () =>
             ({
-                all: <Peoples setDataAndActive={setDataAndActive} />,
+                all: <Peoples />,
                 offers: <Offers />,
                 requests: <Requests />,
             })[activeService.value],
-        [activeService, setDataAndActive],
+        [activeService],
     )
 
     const onSearch = (value: string) => {}
@@ -70,3 +70,5 @@ export const ServiceBanner: TServiceBanner = ({ active, setDataAndActive }) => {
         </motion.div>
     )
 }
+
+export const ServiceBanner = memo($ServiceBanner)
