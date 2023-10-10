@@ -53,11 +53,15 @@ export const useVisibleModalBarterState = create<IUseVisibleModalBarter>(
             set({
                 isVisible: isVisible,
             })
-            if (dataProfile !== undefined && dataOffer !== undefined) {
+            if (dataProfile !== undefined) {
                 set({
                     dataProfile: dataProfile,
-                    dataOffer: dataOffer,
                 })
+                if (dataOffer !== undefined) {
+                    set({
+                        dataOffer: dataOffer,
+                    })
+                }
             } else {
                 setTimeout(() => {
                     set({

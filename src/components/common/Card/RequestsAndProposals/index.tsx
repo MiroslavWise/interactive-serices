@@ -1,22 +1,21 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo, memo } from "react"
-import { useSwipeable } from "react-swipeable"
 import { isMobile } from "react-device-detect"
+import { useSwipeable } from "react-swipeable"
+import { useState, useEffect, useCallback, useMemo, memo } from "react"
 
 import type { TRequestsAndProposals } from "./types"
 
 import { MotionLI } from "@/components/common/Motion"
-import { BadgeServices } from "@/components/common/Badge"
 import { ButtonDefault } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import { cx } from "@/lib/cx"
+import { usePush } from "@/helpers"
+import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./style.module.scss"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
-import { usePush } from "@/helpers"
 
 const $CardRequestsAndProposals: TRequestsAndProposals = ({
     id,

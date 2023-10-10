@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
+import { useQueries } from "react-query"
 
 import type { TDiscussionBalloonComponent } from "../types/types"
 
@@ -16,16 +16,23 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
 }) => {
     const { createGallery } = usePhotoVisible()
-    const { data } = useQuery({
-        queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
-        queryKey: ["discussion", stateBalloon.id!],
-        refetchOnMount: false,
-    })
-    const { data: dataProfile } = useQuery({
-        queryFn: () => serviceProfile.getUserId(Number(stateBalloon.idUser)),
-        queryKey: ["profile", stateBalloon.idUser!],
-        refetchOnMount: false,
-    })
+    const [{ data }, { data: dataProfile }] = useQueries([
+        {
+            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryKey: [
+                "offers",
+                stateBalloon.id!,
+                `provider=${stateBalloon.type}`,
+            ],
+            refetchOnMount: false,
+        },
+        {
+            queryFn: () =>
+                serviceProfile.getUserId(Number(stateBalloon.idUser)),
+            queryKey: ["profile", stateBalloon.idUser!],
+            refetchOnMount: false,
+        },
+    ])
 
     return (
         <>

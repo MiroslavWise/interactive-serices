@@ -14,9 +14,9 @@ import styles from "./styles/style.module.scss"
 export const ContainerSuggestions = () => {
     const { userId, user, imageProfile } = useAuth()
 
-    const { data, isLoading } = useQuery({
+    const { data } = useQuery({
         queryFn: () => serviceOffer.getUserId(userId!, { provider: "offer" }),
-        queryKey: ["offers", userId, "provider=offer"],
+        queryKey: ["offers", `user=${userId}`, "provider=offer"],
     })
 
     return (

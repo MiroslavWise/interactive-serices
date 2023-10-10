@@ -1,33 +1,38 @@
 "use client"
 
+import { useState } from "react"
+import { useQueries } from "react-query"
 import { isMobile } from "react-device-detect"
-import { useState, useMemo, type ReactNode } from "react"
+import { useSearchParams } from "next/navigation"
 
 import type { IValueServices } from "../types/types"
 import type { TContainerServices } from "./types/types"
 
+import { MotionUL } from "@/components/common/Motion"
 import { ButtonRadio } from "@/components/common/Buttons"
-import { ItemsProposalsRequests } from "./ItemsProposalsRequests"
+import { CardRequestsAndProposals } from "@/components/common/Card"
 
 import { cx } from "@/lib/cx"
+import { serviceOffer } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
 export const ContainerServices: TContainerServices = ({}) => {
     const [value, setValue] = useState<IValueServices>("proposals")
+    const id = useSearchParams().get("id")
 
-    const content: ReactNode = useMemo(
-        () =>
-            ({
-                proposals: (
-                    <ItemsProposalsRequests key="proposals" type="optional-3" />
-                ),
-                requests: (
-                    <ItemsProposalsRequests key="requests" type="optional-2" />
-                ),
-            })[value],
-        [value],
-    )
+    const [{ data: dataOffer }, { data: dataRequest }] = useQueries([
+        {
+            queryFn: () =>
+                serviceOffer.getUserId(Number(id), { provider: "offer" }),
+            queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
+        },
+        {
+            queryFn: () =>
+                serviceOffer.getUserId(Number(id), { provider: "request" }),
+            queryKey: ["offers", `user=${Number(id)}`, "provider=request"],
+        },
+    ])
 
     return (
         <section
@@ -45,7 +50,35 @@ export const ContainerServices: TContainerServices = ({}) => {
                     onClick={() => setValue("requests")}
                 />
             </div>
-            {content}
+            <MotionUL
+                classNames={[
+                    styles.containerRequestsAndProposals,
+                    isMobile && styles.mobile,
+                ]}
+            >
+                {value === "proposals"
+                    ? Array.isArray(dataOffer?.res)
+                        ? dataOffer?.res?.map((item) => (
+                              <CardRequestsAndProposals
+                                  key={`${item?.id}-item-key-offer`}
+                                  {...item}
+                                  type="optional-3"
+                              />
+                          ))
+                        : null
+                    : null}
+                {value === "requests"
+                    ? Array.isArray(dataRequest?.res)
+                        ? dataRequest?.res?.map((item) => (
+                              <CardRequestsAndProposals
+                                  key={`${item?.id}-item-key-offer`}
+                                  {...item}
+                                  type="optional-2"
+                              />
+                          ))
+                        : null
+                    : null}
+            </MotionUL>
         </section>
     )
 }

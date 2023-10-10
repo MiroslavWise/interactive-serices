@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQuery } from "react-query"
+import { useQueries } from "react-query"
 
 import type { TOfferBalloonComponent } from "../types/types"
 
@@ -20,16 +20,24 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
     const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
-    const { data } = useQuery({
-        queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
-        queryKey: ["offer", stateBalloon.id!],
-        refetchOnMount: false,
-    })
-    const { data: dataProfile } = useQuery({
-        queryFn: () => serviceProfile.getUserId(Number(stateBalloon.idUser)),
-        queryKey: ["profile", stateBalloon.idUser!],
-        refetchOnMount: false,
-    })
+
+    const [{ data }, { data: dataProfile }] = useQueries([
+        {
+            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryKey: [
+                "offers",
+                stateBalloon.id!,
+                `provider=${stateBalloon.type}`,
+            ],
+            refetchOnMount: false,
+        },
+        {
+            queryFn: () =>
+                serviceProfile.getUserId(Number(stateBalloon.idUser)),
+            queryKey: ["profile", stateBalloon.idUser!],
+            refetchOnMount: false,
+        },
+    ])
 
     const categoryTitle: string = useMemo(() => {
         return (

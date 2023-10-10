@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { useQuery } from "react-query"
+import { useQueries } from "react-query"
 
 import type { TAlertBalloonComponent } from "../types/types"
 
@@ -12,7 +12,6 @@ import { ButtonSuccessInBalloon } from "./ButtonSuccessInBalloon"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
-import { useVisibleModalBarter } from "@/store/hooks"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({
@@ -21,16 +20,23 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
     const [activeListComments, setActiveListComments] = useState(false)
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
-    const { data } = useQuery({
-        queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
-        queryKey: ["alert", stateBalloon.id!],
-        refetchOnMount: false,
-    })
-    const { data: dataProfile } = useQuery({
-        queryFn: () => serviceProfile.getUserId(Number(stateBalloon.idUser)),
-        queryKey: ["profile", stateBalloon.idUser!],
-        refetchOnMount: false,
-    })
+    const [{ data }, { data: dataProfile }] = useQueries([
+        {
+            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryKey: [
+                "offers",
+                stateBalloon.id!,
+                `provider=${stateBalloon.type}`,
+            ],
+            refetchOnMount: false,
+        },
+        {
+            queryFn: () =>
+                serviceProfile.getUserId(Number(stateBalloon.idUser)),
+            queryKey: ["profile", stateBalloon.idUser!],
+            refetchOnMount: false,
+        },
+    ])
 
     function handleHelp() {
         handlePush(`/messages?user=${stateBalloon.idUser}`)

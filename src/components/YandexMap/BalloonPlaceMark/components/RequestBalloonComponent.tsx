@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQuery } from "react-query"
+import { useQueries, useQuery } from "react-query"
 
 import type { TRequestBalloonComponent } from "../types/types"
 
@@ -12,6 +12,7 @@ import { daysAgo, usePush } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { useVisibleModalBarter } from "@/store/hooks"
+import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({
@@ -20,16 +21,24 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
     const { handlePush } = usePush()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { categories } = useOffersCategories()
-    const { data } = useQuery({
-        queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
-        queryKey: ["request", stateBalloon.id!],
-        refetchOnMount: false,
-    })
-    const { data: dataProfile } = useQuery({
-        queryFn: () => serviceProfile.getUserId(Number(stateBalloon.idUser)),
-        queryKey: ["profile", stateBalloon.idUser!],
-        refetchOnMount: false,
-    })
+    const { createGallery } = usePhotoVisible()
+    const [{ data }, { data: dataProfile }] = useQueries([
+        {
+            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryKey: [
+                "offers",
+                stateBalloon.id!,
+                `provider=${stateBalloon.type}`,
+            ],
+            refetchOnMount: false,
+        },
+        {
+            queryFn: () =>
+                serviceProfile.getUserId(Number(stateBalloon.idUser)),
+            queryKey: ["profile", stateBalloon.idUser!],
+            refetchOnMount: false,
+        },
+    ])
 
     const categoryTitle: string = useMemo(() => {
         return (
@@ -96,6 +105,43 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
                 </div>
                 <h3>{data?.res?.title}</h3>
+                {Array.isArray(data?.res?.images) &&
+                data?.res?.images?.length ? (
+                    <ul>
+                        {data?.res?.images?.slice(0, 4)?.map((item, index) => (
+                            <NextImageMotion
+                                onClick={() => {
+                                    createGallery(
+                                        data?.res!,
+                                        data?.res?.images!,
+                                        item,
+                                        index,
+                                        {
+                                            title: data?.res?.title!,
+                                            name: `${
+                                                dataProfile?.res?.firstName ||
+                                                ""
+                                            } ${
+                                                dataProfile?.res?.lastName || ""
+                                            }`,
+                                            urlPhoto:
+                                                dataProfile?.res?.image
+                                                    ?.attributes?.url!,
+                                            idUser: dataProfile?.res?.userId!,
+                                            time: data?.res?.updated!,
+                                        },
+                                    )
+                                }}
+                                key={`${item?.id}-image-offer`}
+                                src={item?.attributes?.url}
+                                alt="offer-image"
+                                width={400}
+                                height={400}
+                                className=""
+                            />
+                        ))}
+                    </ul>
+                ) : null}
                 <div data-footer-buttons>
                     <button data-request onClick={handleWantToHelp}>
                         <span>Хочу помочь!</span>
