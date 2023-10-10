@@ -34,6 +34,7 @@ export interface IProfileResponse {
 export interface IServiceProfile {
   private route: string
   public async get(value: { [key: string]: string | number }): Promise<IReturnData<IGetProfileIdResponse[]>>
+  public async getMe(): Promise<IReturnData<IGetProfileIdResponse>>
   public async getId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
   public async getUserId(id: number | string): Promise<IReturnData<IGetProfileIdResponse>>
   public async post(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>

@@ -81,12 +81,23 @@ export const ModalAddOffer = () => {
                 desired: true,
             }
             if (addressInit) {
-                serviceAddresses.post(addressInit!).then((response) => {
-                    if (response.ok) {
-                        if (response.res) {
-                            data.addresses = [Number(response?.res?.id)]
-                            postData(data)
-                        }
+                serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                    if (!response?.res?.id) {
+                        serviceAddresses
+                            .post(addressInit!)
+                            .then((response_) => {
+                                if (response_.ok) {
+                                    if (response_.res) {
+                                        data.addresses = [
+                                            Number(response_?.res?.id),
+                                        ]
+                                        postData(data)
+                                    }
+                                }
+                            })
+                    } else {
+                        data.addresses = [Number(response?.res?.id)]
+                        postData(data)
                     }
                 })
             } else {

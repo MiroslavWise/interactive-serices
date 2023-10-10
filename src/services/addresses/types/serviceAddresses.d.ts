@@ -46,6 +46,7 @@ export type IPatchAddress = Partial<IPostAddress>
 export interface IServiceAddresses{
     private route: string
     public get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
+    public getHash(value: string): Promise<IReturnData<IAddressesResponse>>
     public getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
     public post(value: IPostAddress): Promise<IReturnData<{id: number}>>
     public patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>

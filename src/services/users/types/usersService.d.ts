@@ -32,6 +32,7 @@ export interface IUserResponse {
 export interface IServiceUsers {
   private route: string
   public async get(value: Record<string, string | number>): Promise<IReturnData<IUserResponse[]>>
+  public async getMe(): Promise<IReturnData<IUserResponse>>
   public async getId(id: string | number): Promise<IReturnData<IUserResponse>>
   public async post(value: IPostDataUser): Promise<IReturnData<IResponseDataRegistration>>
   public async patch(value: IPatchDataUser, id: number | string): Promise<IReturnData<IUserResponse>>

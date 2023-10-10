@@ -19,6 +19,7 @@ import { Notifications } from "./Notifications"
 import { ListPlacemark } from "./ObjectsMap"
 import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
+import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 const BalloonPlaceMark = dynamic(() => import("./BalloonPlaceMark"), {
     ssr: false,
 })
@@ -27,10 +28,9 @@ import { useAuth } from "@/store/hooks"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
-import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
-import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()

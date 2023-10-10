@@ -13,6 +13,9 @@ export const usersService: IServiceUsers = {
     get(value) {
         return wrapperFetch.methodGet<IUserResponse[]>(this.route, value)
     },
+    getMe() {
+        return wrapperFetch.methodGet<IUserResponse>("/user")
+    },
     getId(id) {
         return wrapperFetch.methodGetId<IUserResponse>(this.route, id)
     },

@@ -92,17 +92,28 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const hash = generateShortHash(additional!)
         if (hash) value.hash = hash
 
-        serviceAddresses
-            .post(value)
-            .then((response) => {
-                console.log("response address: ", response)
+        serviceAddresses.getHash(hash)
+            .then(response => {
+                if (!response?.res?.id) {
+                    serviceAddresses
+                        .post(value)
+                        .then((response) => {
+                            console.log("response address: ", response)
+                        })
+                        .finally(() => {
+                            setActiveList(false)
+                            setValues(null)
+                            setText("")
+                            changeAuth()
+                        })
+                } else {
+                    setActiveList(false)
+                    setValues(null)
+                    setText("")
+                    changeAuth()
+                }
             })
-            .finally(() => {
-                setActiveList(false)
-                setValues(null)
-                setText("")
-                changeAuth()
-            })
+
     }
 
     return (

@@ -97,11 +97,17 @@ export const Start = () => {
         }
 
         if (addressInit) {
-            serviceAddresses.post(addressInit).then((response) => {
-                if (response.ok) {
-                    if (response.res) {
-                        postOffer([Number(response?.res?.id!)])
-                    }
+            serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                if (!response?.res?.id) {
+                    serviceAddresses.post(addressInit).then((response_) => {
+                        if (response_.ok) {
+                            if (response_.res) {
+                                postOffer([response_?.res?.id])
+                            }
+                        }
+                    })
+                } else {
+                    postOffer([response?.res?.id])
                 }
             })
         } else {
