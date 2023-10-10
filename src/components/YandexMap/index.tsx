@@ -32,6 +32,8 @@ import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 
+const COORD = [55.75, 37.67]
+
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
     const [visibleNotification, setVisibleNotification] = useState(false)
@@ -45,10 +47,16 @@ const YandexMap: TYandexMap = ({}) => {
     })
 
     useInsertionEffect(() => {
-        if (!!coordinatesAddresses && coordinatesAddresses?.length) {
-            dispatchMapCoordinates({ coordinates: coordinatesAddresses[0]! })
+        if (!coordinates) {
+            if (!!coordinatesAddresses && coordinatesAddresses?.length) {
+                dispatchMapCoordinates({
+                    coordinates: coordinatesAddresses[0]!,
+                })
+            } else {
+                dispatchMapCoordinates({ coordinates: COORD })
+            }
         }
-    }, [coordinatesAddresses])
+    }, [coordinatesAddresses, coordinates])
 
     function onContextMenu(e: any) {
         if (!userId) {

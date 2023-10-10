@@ -12,6 +12,7 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
@@ -39,6 +40,7 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
     const { categories } = useOffersCategories()
     const { handlePush } = usePush()
     const { dispatchMapCoordinates } = useMapCoordinates()
+    const { dispatch } = useBalloonCard()
 
     const handlers = useSwipeable({
         onSwipedLeft(event) {
@@ -89,6 +91,12 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
                 ?.reverse()
                 ?.map(Number),
             zoom: 20,
+        })
+        dispatch({
+            visible: true,
+            type: provider!,
+            id: id,
+            idUser: userId,
         })
     }
 
