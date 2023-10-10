@@ -44,7 +44,9 @@ type TTypeProvider =
     | "discussion"
     | "alert"
     | "request"
-    | "offer-request"
+    | "barter"
+
+type TTypeStatusBarter = "initiated" | "executed" | "completed" | "destroyed"
 
 export interface IProvider {
     type: TTypeProvider

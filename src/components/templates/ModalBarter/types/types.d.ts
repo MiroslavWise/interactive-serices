@@ -9,6 +9,7 @@ export interface IValuesForm {
     categoryId: number | null
     date: Date | string | null
     address: number | null
+    offerMyId: number | null
 }
 
 interface IContent {

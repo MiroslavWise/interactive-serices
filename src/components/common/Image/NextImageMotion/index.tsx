@@ -67,6 +67,7 @@ const ImageMotion: TImage = ({
                 objectFit: "cover",
             }}
             data-image={alt}
+            unoptimized
         />
     )
 }

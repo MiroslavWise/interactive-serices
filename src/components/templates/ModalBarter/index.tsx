@@ -16,10 +16,11 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
+import { serviceBarters } from "@/services/barters"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { serviceBarters } from "@/services/barters"
+import dayjs from "dayjs"
 
 export function Barter() {
     const { userId } = useAuth()
@@ -40,24 +41,25 @@ export function Barter() {
         useForm<IValuesForm>({})
 
     function onSubmit(values: IValuesForm) {
-        console.log("values barter: ", values)
-
-        const data: IPostDataBarter = {
-            provider: "offer-request",
+        console.log("IValuesForm: ", values)
+        const data = {
+            consignedId: dataOffer?.id!,
+            provider: "barter",
+            status: "initiated",
             title: dataOffer?.title!,
             enabled: true,
-        }
+        } as IPostDataBarter
 
         if (values.date) {
-        }
-        if (values.categoryId) {
-            data.categoryId = values.categoryId!
+            data.timestamp = dayjs(values.date).format()
         }
         if (addressId) {
             data.addresses = [Number(addressId)]
         }
-        data.userId = userId!
-        data.createdById = userId!
+        data.userId = Number(userId!)
+        data.initialId = Number(values?.offerMyId!)
+
+        console.log("data: ", data)
 
         serviceBarters.post(data)
     }
@@ -137,6 +139,7 @@ export function Barter() {
         <div
             className={cx(styles.wrapperContainer, isVisible && styles.visible)}
         >
+            {/* {isVisible ? ( */}
             <form
                 className={styles.contentModal}
                 onSubmit={handleSubmit(onSubmit)}
@@ -154,6 +157,7 @@ export function Barter() {
                 />
                 <Glasses />
             </form>
+            {/* ) : null} */}
         </div>
     )
 }

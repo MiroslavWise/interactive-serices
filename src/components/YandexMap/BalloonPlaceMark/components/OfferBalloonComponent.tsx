@@ -13,6 +13,7 @@ import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { useVisibleModalBarter } from "@/store/hooks"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = ({
     stateBalloon,
@@ -20,6 +21,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
     const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
 
     const [{ data }, { data: dataProfile }] = useQueries([
         {
@@ -46,6 +48,20 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
             )?.title || ""
         )
     }, [categories, data?.res])
+
+    function handleOpenBarter() {
+        dispatchVisibleBarter({
+            isVisible: true,
+            dataOffer: data?.res!,
+            dataProfile: {
+                photo: dataProfile?.res?.image?.attributes?.url!,
+                fullName: `${dataProfile?.res?.firstName || ""} ${
+                    dataProfile?.res?.lastName || ""
+                }`,
+                idUser: stateBalloon?.idUser!,
+            },
+        })
+    }
 
     return (
         <>
@@ -128,7 +144,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                     </ul>
                 ) : null}
                 <div data-footer-buttons>
-                    <button data-offer>
+                    <button data-offer onClick={handleOpenBarter}>
                         <span>Откликнуться</span>
                     </button>
                     <Image

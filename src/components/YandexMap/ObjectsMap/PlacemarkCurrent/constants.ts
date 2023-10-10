@@ -31,7 +31,7 @@ export const TYPE_ICON: Record<
         default: "/map/default-discussion.png",
         active: "/map/default-discussion-hover.png",
     },
-    "offer-request": {
+    barter: {
         default: "",
         active: "",
     },

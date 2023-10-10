@@ -1,4 +1,4 @@
-import type { TTypeProvider } from "@/services/file-upload/types"
+import type { TTypeProvider, TTypeStatusBarter } from "@/services/file-upload/types"
 import type { IReturnData } from "@/services/types/general"
 
 export interface IBarterResponse{
@@ -18,12 +18,15 @@ export interface IPostDataBarter{
   subscribers?: number[]
   provider: TTypeProvider
   title: string
-  imageId?: number
+  imageId?: number | null
   userId?: number
   orderBy?: number
-  createdById?: number
+  initialId: number
+  consignedId: number
   updatedById?: number
-  enabled: boolean //true
+  status: TTypeStatusBarter
+  timestamp?: Date | string
+  enabled: boolean
 }
 
 export type IPatchDataBarter = Partial<IPostDataBarter>

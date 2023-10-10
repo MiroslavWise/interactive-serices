@@ -47,7 +47,7 @@ const ListPlacemark_ = () => {
         }
 
         return array
-    }, [dataPlaces?.res])
+    }, [dataPlaces?.res, dispatch])
 
     return marks.map((item) => (
         <PlacemarkCurrent
