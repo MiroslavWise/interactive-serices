@@ -63,7 +63,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         Number.isFinite(get().userId)
     ) {
         set({ isAuth: true })
-        usersService.getId(get().userId!).then((response) => {
+        usersService.getMe().then((response) => {
             if (response?.ok) {
                 set({
                     createdUser: response?.res?.created!,
