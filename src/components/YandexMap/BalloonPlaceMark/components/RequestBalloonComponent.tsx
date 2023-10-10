@@ -27,7 +27,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
             queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
             queryKey: [
                 "offers",
-                stateBalloon.id!,
+                `offer=${stateBalloon.id!}`,
                 `provider=${stateBalloon.type}`,
             ],
             refetchOnMount: false,

@@ -81,8 +81,8 @@ export const ModalAddOffer = () => {
                 desired: true,
             }
             if (addressInit) {
-                serviceAddresses.getHash(addressInit.hash!).then((response) => {
-                    if (!response?.res?.id) {
+                // serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                //     if (!response?.res?.id) {
                         serviceAddresses
                             .post(addressInit!)
                             .then((response_) => {
@@ -95,11 +95,11 @@ export const ModalAddOffer = () => {
                                     }
                                 }
                             })
-                    } else {
-                        data.addresses = [Number(response?.res?.id)]
-                        postData(data)
-                    }
-                })
+                    // } else {
+                    //     data.addresses = [Number(response?.res?.id)]
+                    //     postData(data)
+                    // }
+                // })
             } else {
                 if (adressId?.id) {
                     data.addresses = [Number(adressId?.id)]

@@ -21,7 +21,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
             queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
             queryKey: [
                 "offers",
-                stateBalloon.id!,
+                `offer=${stateBalloon.id!}`,
                 `provider=${stateBalloon.type}`,
             ],
             refetchOnMount: false,
