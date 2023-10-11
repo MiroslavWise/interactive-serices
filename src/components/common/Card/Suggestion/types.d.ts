@@ -11,6 +11,7 @@ export interface ICardSuggestion extends IResponseOffers {
         average: number
         total: number
     }
+    refetch(): Promise<any>
 }
 
 export type TCardSuggestion = FC<ICardSuggestion>

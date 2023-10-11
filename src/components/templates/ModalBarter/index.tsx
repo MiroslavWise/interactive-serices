@@ -1,7 +1,10 @@
 "use client"
 
+import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
+import { toast } from "react-toastify"
+import { useTheme } from "next-themes"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 
@@ -20,10 +23,10 @@ import { serviceBarters } from "@/services/barters"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import dayjs from "dayjs"
 
 export function Barter() {
     const { userId } = useAuth()
+    const { systemTheme } = useTheme()
     const { isVisible, dispatchVisibleBarter, dataProfile, dataOffer } =
         useVisibleModalBarter()
     const address: string = useMemo(() => {
@@ -41,7 +44,6 @@ export function Barter() {
         useForm<IValuesForm>({})
 
     function onSubmit(values: IValuesForm) {
-        console.log("IValuesForm: ", values)
         const data = {
             consignedId: dataOffer?.id!,
             provider: "barter",
@@ -61,7 +63,27 @@ export function Barter() {
 
         console.log("data: ", data)
 
-        serviceBarters.post(data)
+        serviceBarters.post(data).then((response) => {
+            if (response?.ok) {
+                if (response?.res?.id) {
+                    toast(
+                        `${dataProfile?.fullName} получит ваше предлодение обмена! Подождите, пока он вам ответит`,
+                        {
+                            position: "top-center",
+                            toastId: response?.res?.id!,
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: systemTheme,
+                        },
+                    )
+                    dispatchVisibleBarter({ isVisible: false })
+                }
+            }
+        })
     }
 
     if (isMobile) {

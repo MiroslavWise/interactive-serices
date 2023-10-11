@@ -17,7 +17,7 @@ import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
 
-export const MainInfo: TMainInfo = ({ profile }) => {
+export const MainInfo: TMainInfo = ({ user }) => {
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { handlePush } = usePush()
 
@@ -25,10 +25,10 @@ export const MainInfo: TMainInfo = ({ profile }) => {
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.avatar}>
-                    {profile?.image?.attributes?.url ? (
+                    {user?.profile?.image?.attributes?.url ? (
                         <NextImageMotion
                             className={styles.photo}
-                            src={profile?.image?.attributes?.url!}
+                            src={user?.profile?.image?.attributes?.url!}
                             alt="avatar"
                             width={94}
                             height={94}
@@ -54,8 +54,8 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                     <div className={styles.titleAndButtons}>
                         <div className={styles.nameAndGeo}>
                             <h3>
-                                {profile?.firstName || "First"}{" "}
-                                {profile?.lastName || "Last"}
+                                {user?.profile?.firstName || "First"}{" "}
+                                {user?.profile?.lastName || "Last"}
                             </h3>
                             <GeoTagging location="Арбат, Москва" />
                         </div>
@@ -69,9 +69,7 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                                 src="/svg/message-dots-circle.svg"
                                 type="primary"
                                 onClick={() =>
-                                    handlePush(
-                                        `/messages?user=${profile.userId}`,
-                                    )
+                                    handlePush(`/messages?user=${user?.id}`)
                                 }
                             />
                             <ButtonsCircle
@@ -81,12 +79,12 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                                     dispatchVisibleBarter({
                                         isVisible: true,
                                         dataProfile: {
-                                            photo: profile?.image?.attributes
-                                                ?.url,
+                                            photo: user?.profile?.image
+                                                ?.attributes?.url,
                                             fullName: `${
-                                                profile?.firstName || ""
-                                            } ${profile?.lastName || ""}`,
-                                            idUser: profile?.userId!,
+                                                user?.profile?.firstName || ""
+                                            } ${user?.profile?.lastName || ""}`,
+                                            idUser: user?.profile?.userId!,
                                         },
                                     })
                                 }
@@ -94,7 +92,9 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                         </section>
                     </div>
                     <div className={styles.descriptionAndOther}>
-                        <p className={styles.description}>{profile?.about}</p>
+                        <p className={styles.description}>
+                            {user?.profile?.about}
+                        </p>
                         <BlockOther
                             label="Достижения"
                             classNames={[styles.achievements]}
@@ -153,8 +153,8 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                     <div className={styles.dividers} />
                     <p>
                         Присоединился{" "}
-                        {profile?.created
-                            ? dayjs(profile?.created).format("DD.MM.YYYY")
+                        {user?.profile?.created
+                            ? dayjs(user?.profile?.created).format("DD.MM.YYYY")
                             : null}
                     </p>
                 </div>

@@ -5,6 +5,7 @@ interface IGeoTagging {
     location: string
     fontSize?: number
     onClick?: DispatchWithoutAction
+    className?: string
 }
 
 export type TGeoTagging = FC<IGeoTagging>

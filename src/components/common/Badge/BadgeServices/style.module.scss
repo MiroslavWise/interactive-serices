@@ -21,24 +21,34 @@
     }
 
     p {
-        color: var(--gray-900);
+        color: var(--supporting-white);
         font-size: 14px;
         font-weight: 500;
         line-height: 20px;
         letter-spacing: -0.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &[data-type="offer"] {
+        background: var(--gradient-offer);
+    }
+    &[data-type="request"] {
+        background: var(--gradient-request);
     }
 }
 
 [data-theme="dark"] {
     .container {
-        background: var(--gray-200);
+        // background: var(--gray-200);
 
         .containerImgService {
-            background: var(--gray-100);
+            // background: var(--gray-100);
         }
 
         p {
-            color: var(--gray-500) !important;
+            // color: var(--gray-500) !important;
         }
     }
 }

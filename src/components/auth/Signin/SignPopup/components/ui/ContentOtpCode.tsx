@@ -15,7 +15,7 @@ import type { TContentOtpCode } from "./types/types"
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { useTokenHelper } from "@/helpers"
-import { usersService } from "@/services/users"
+import { serviceUsers } from "@/services/users"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useVisibleAndTypeAuthModal, useUpdateProfile } from "@/store/hooks"
 
@@ -88,7 +88,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
             .serviceOtp({ code: inputValues.join("") })
             .then((response) => {
                 if (response.ok) {
-                    usersService.getId(response?.res?.id!).then((data) => {
+                    serviceUsers.getId(response?.res?.id!).then((data) => {
                         setErrorCode("")
                         setToken({
                             ok: true,

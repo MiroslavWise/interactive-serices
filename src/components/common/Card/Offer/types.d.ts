@@ -1,15 +1,6 @@
 import type { FC } from "react"
 
-export interface ICardOffer{
-  name: string
-  photo: string
-  geo: string
-  date: string
-  finality: boolean
-  chatId?: string | number
-  price?: number
-  rating: number
-  proposals?: boolean
-}
+import type { IBarterResponse } from "@/services/barters/bartersService"
+export interface ICardOffer extends IBarterResponse {}
 
 export type TCardOffer = FC<ICardOffer>

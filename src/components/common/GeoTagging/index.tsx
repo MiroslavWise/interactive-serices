@@ -2,6 +2,8 @@ import Image from "next/image"
 
 import type { TGeoTagging } from "./types"
 
+import { cx } from "@/lib/cx"
+
 import styles from "./style.module.scss"
 
 export const GeoTagging: TGeoTagging = ({
@@ -9,6 +11,7 @@ export const GeoTagging: TGeoTagging = ({
     location,
     fontSize,
     onClick,
+    className,
 }) => {
     function handle(event: any) {
         event.preventDefault()
@@ -18,7 +21,7 @@ export const GeoTagging: TGeoTagging = ({
         }
     }
     return (
-        <div className={styles.geo} onClick={handle}>
+        <div className={cx(styles.geo, className)} onClick={handle}>
             <Image
                 src="/svg/geo-marker.svg"
                 alt="geo"

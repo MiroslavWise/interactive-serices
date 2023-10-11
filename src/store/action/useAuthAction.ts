@@ -5,7 +5,7 @@ import type {
     ISetToken,
 } from "../types/useAuthState"
 
-import { usersService } from "@/services/users"
+import { serviceUsers } from "@/services/users"
 
 export const signOutAction = (set: ISetAction) => {
     set({
@@ -63,7 +63,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         Number.isFinite(get().userId)
     ) {
         set({ isAuth: true })
-        usersService.getMe().then((response) => {
+        serviceUsers.getMe().then((response) => {
             if (response?.ok) {
                 set({
                     createdUser: response?.res?.created!,

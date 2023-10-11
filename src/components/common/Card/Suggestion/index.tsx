@@ -11,13 +11,9 @@ import { Buttons } from "./components/Buttons"
 
 import styles from "./style.module.scss"
 
-export const CardSuggestion: TCardSuggestion = ({
-    rating,
-    images,
-    profile,
-    categoryId,
-    title,
-}) => {
+export const CardSuggestion: TCardSuggestion = (props) => {
+    const { rating, images, profile, categoryId, title, id, refetch } = props
+
     return (
         <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
             <Header categoryId={categoryId!} rating={rating} title={title} />
@@ -31,7 +27,7 @@ export const CardSuggestion: TCardSuggestion = ({
                     }}
                 />
             ) : null}
-            <Buttons />
+            <Buttons id={id} refetch={refetch} />
         </MotionLI>
     )
 }

@@ -60,17 +60,7 @@ export const ModalUpdateProfile = () => {
         setError,
         setValue,
         watch,
-    } = useForm<IValuesProfile>({
-        defaultValues: {
-            firstName: user?.firstName || "",
-            lastName: user?.lastName || "",
-            username: user?.username || "",
-            day: dateOfBirth.day,
-            month: dateOfBirth.month,
-            year: dateOfBirth.year,
-            email: email,
-        },
-    })
+    } = useForm<IValuesProfile>({})
 
     useEffect(() => {
         if (user) {

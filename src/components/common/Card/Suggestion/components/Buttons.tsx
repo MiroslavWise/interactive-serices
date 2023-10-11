@@ -1,14 +1,40 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+
+import { serviceOffer } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
-export const Buttons = () => {
+export const Buttons = ({
+    id,
+    refetch,
+}: {
+    id: number
+    refetch(): Promise<any>
+}) => {
+    const [loading, setLoading] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
     const { systemTheme } = useTheme()
+
+    function handleDelete() {
+        if (!loading) {
+            setLoading(true)
+            if (id) {
+                serviceOffer.delete(id).then((response) => {
+                    console.log("delete offer!", response)
+                    requestAnimationFrame(() => {
+                        refetch().finally(() => setLoading(false))
+                    })
+                })
+            }
+        }
+    }
 
     return (
         <section className={styles.containerButtons}>
@@ -25,14 +51,44 @@ export const Buttons = () => {
                 }
                 classNames={styles.buttonFill}
             />
-            <div className={styles.buttonTrash}>
-                <Image
-                    src="/svg/trash-black.svg"
-                    alt="trash"
-                    width={16}
-                    height={16}
-                />
-            </div>
+            <motion.div
+                className={styles.buttonTrash}
+                data-open={isOpen}
+                layout
+                onClick={() => setIsOpen((prev) => !prev)}
+                initial={{ borderRadius: 16 }}
+            >
+                {isOpen ? (
+                    <>
+                        <ButtonFill
+                            handleClick={handleDelete}
+                            label="Удалить"
+                            type="primary"
+                            suffix={
+                                <Image
+                                    src="/svg/trash-black.svg"
+                                    alt="trash"
+                                    width={16}
+                                    height={16}
+                                />
+                            }
+                            classNames={styles.buttonDelete}
+                        />
+                        <ButtonDefault
+                            label="Отмена"
+                            type="primary"
+                            classNames={styles.buttonDelete}
+                        />
+                    </>
+                ) : (
+                    <Image
+                        src="/svg/trash-black.svg"
+                        alt="trash"
+                        width={16}
+                        height={16}
+                    />
+                )}
+            </motion.div>
         </section>
     )
 }

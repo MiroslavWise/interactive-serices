@@ -1,16 +1,14 @@
 import type { FC } from "react"
+import type { ISmallDataOfferBarter } from "@/services/barters/bartersService"
+import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IUserResponse } from "@/services/users/types/usersService"
 
-interface IBlockBarter{
-
+interface IBlockBarter {
+    consigner: ISmallDataOfferBarter
+    initiator: ISmallDataOfferBarter
 }
 
-interface IBlockTitle{
-  photo: string
-  name: string
-  geo: string
-  price?: number
-  rating: number
-}
+interface IBlockTitle extends IUserResponse {}
 
 export type TBlockBarter = FC<IBlockBarter>
 export type TBlockTitle = FC<IBlockTitle>

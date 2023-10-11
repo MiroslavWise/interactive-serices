@@ -34,6 +34,7 @@ import {
     ReduxProvider,
 } from "@/context"
 
+import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useMessages } from "@/store/state/useMessages"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
@@ -54,6 +55,7 @@ const queryClient = new QueryClient({
 export default function Providers({ children }: { children: ReactNode }) {
     const { token, userId, refresh } = useAuth()
     const searchParams = useSearchParams()
+    const { handleReplace } = usePush()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
@@ -81,11 +83,12 @@ export default function Providers({ children }: { children: ReactNode }) {
                         OnSuccessToastify(
                             "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
                         )
+                        handleReplace("/")
                     }
                 },
             )
         }
-    }, [verifyToken])
+    }, [verifyToken, handleReplace])
 
     useEffect(() => {
         if (typeof token === "undefined" && !token) {

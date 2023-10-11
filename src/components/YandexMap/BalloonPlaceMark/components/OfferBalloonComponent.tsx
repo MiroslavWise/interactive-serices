@@ -13,11 +13,12 @@ import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = ({
     stateBalloon,
 }) => {
+    const { userId } = useAuth()
     const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
@@ -143,24 +144,26 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                         ))}
                     </ul>
                 ) : null}
-                <div data-footer-buttons>
-                    <button data-offer onClick={handleOpenBarter}>
-                        <span>Откликнуться</span>
-                    </button>
-                    <Image
-                        src="/svg/chat-bubbles.svg"
-                        alt="chat-bubbles"
-                        width={32}
-                        height={32}
-                        onClick={() => {
-                            if (stateBalloon.idUser) {
-                                handlePush(
-                                    `/messages?user=${stateBalloon?.idUser!}`,
-                                )
-                            }
-                        }}
-                    />
-                </div>
+                {data && userId && userId !== data?.res?.userId ? (
+                    <div data-footer-buttons>
+                        <button data-offer onClick={handleOpenBarter}>
+                            <span>Откликнуться</span>
+                        </button>
+                        <Image
+                            src="/svg/chat-bubbles.svg"
+                            alt="chat-bubbles"
+                            width={32}
+                            height={32}
+                            onClick={() => {
+                                if (stateBalloon.idUser) {
+                                    handlePush(
+                                        `/messages?user=${stateBalloon?.idUser!}`,
+                                    )
+                                }
+                            }}
+                        />
+                    </div>
+                ) : null}
             </div>
         </>
     )

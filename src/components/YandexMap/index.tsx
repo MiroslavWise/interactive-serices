@@ -1,13 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import {
-    useEffect,
-    useState,
-    useReducer,
-    memo,
-    useInsertionEffect,
-} from "react"
+import { useState, memo, useInsertionEffect } from "react"
 import { isMobile } from "react-device-detect"
 import { Map } from "@pbe/react-yandex-maps"
 
@@ -41,10 +35,6 @@ const YandexMap: TYandexMap = ({}) => {
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
-    const [coord, setCoord] = useState({
-        x: "50%",
-        y: "50%",
-    })
 
     useInsertionEffect(() => {
         if (!coordinates) {
@@ -106,16 +96,6 @@ const YandexMap: TYandexMap = ({}) => {
             if (hash) data.hash = hash
             setAddressInit(data)
         })
-        const x = e?._sourceEvent?.originalEvent?.clientPixels?.[0]
-            ? e?._sourceEvent?.originalEvent?.clientPixels?.[0]
-            : "50%"
-        const y = e?._sourceEvent?.originalEvent?.clientPixels?.[1]
-            ? e?._sourceEvent?.originalEvent?.clientPixels?.[1]
-            : "50%"
-        setCoord({
-            x,
-            y,
-        })
     }
 
     return (
@@ -152,7 +132,6 @@ const YandexMap: TYandexMap = ({}) => {
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
                 refCreate={refCreate}
-                coord={coord}
                 addressInit={addressInit}
             />
             <MapCardNews />

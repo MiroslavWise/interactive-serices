@@ -2,6 +2,8 @@
     display: inline-flex;
     align-items: center !important;
     gap: 4px;
+    max-width: 250px;
+    width: 100%;
 
     p {
         color: var(--gray-500);

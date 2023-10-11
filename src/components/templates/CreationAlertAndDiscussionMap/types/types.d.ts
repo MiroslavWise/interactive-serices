@@ -4,10 +4,6 @@ import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 export interface ICreationAlertAndDiscussionMap {
     isOpen: boolean
-    coord: {
-        x: number | string
-        y: number | string
-    }
     addressInit: IPostAddress | null
     refCreate: LegacyRef<HTMLDivElement>
 

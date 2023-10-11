@@ -88,8 +88,8 @@ export const Start = () => {
 
     function handleNext() {
         if (addressInit) {
-            // serviceAddresses.getHash(addressInit.hash!).then((response) => {
-            //     if (!response?.res?.id) {
+            serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                if (!response?.res?.id) {
                     serviceAddresses.post(addressInit).then((response_) => {
                         if (response_.ok) {
                             if (response_.res) {
@@ -97,10 +97,10 @@ export const Start = () => {
                             }
                         }
                     })
-                // } else {
-                //     postOffer([response?.res?.id])
-                // }
-            // })
+                } else {
+                    postOffer([response?.res?.id])
+                }
+            })
         } else {
             if (adressId?.id) {
                 postOffer([Number(adressId?.id)])

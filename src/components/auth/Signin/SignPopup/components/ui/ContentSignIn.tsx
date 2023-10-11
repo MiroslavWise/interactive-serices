@@ -16,7 +16,7 @@ import {
     useVisibleAndTypeAuthModal,
     useWelcomeModal,
 } from "@/store/hooks"
-import { usersService } from "@/services/users"
+import { serviceUsers } from "@/services/users"
 import { useTokenHelper, regExEmail } from "@/helpers"
 
 import styles from "../styles/style.module.scss"
@@ -94,7 +94,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         response?.res?.refreshToken &&
                         response?.res?.tokenType
                     ) {
-                        usersService
+                        serviceUsers
                             .getId(response?.res?.id)
                             .then((responseUser) => {
                                 setToken({

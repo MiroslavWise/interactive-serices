@@ -13,7 +13,7 @@ import {
 import { MotionUL } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
-import { serviceProfile } from "@/services/profile"
+import { serviceUsers } from "@/services/users"
 
 import styles from "@/scss/page.module.scss"
 
@@ -21,8 +21,8 @@ export default function UserId() {
     const searchParams = useSearchParams()
     const id = searchParams?.get("id")
     const { data } = useQuery({
-        queryFn: () => serviceProfile.getUserId(id!),
-        queryKey: ["profile", id],
+        queryFn: () => serviceUsers.getId(id!),
+        queryKey: ["user", id],
     })
 
     return (
@@ -30,17 +30,17 @@ export default function UserId() {
             {isMobile ? (
                 <MotionUL classNames={[styles.containerMobile]} id="user-id">
                     <MobileMainInfo
-                        name={`${data?.res?.firstName} ${data?.res?.lastName}`}
-                        photo={data?.res?.image?.attributes?.url!}
-                        about={data?.res?.about!}
-                        userId={data?.res?.userId! || Number(id)}
-                        created={data?.res?.created!}
+                        name={`${data?.res?.profile?.firstName} ${data?.res?.profile?.lastName}`}
+                        photo={data?.res?.profile?.image?.attributes?.url!}
+                        about={data?.res?.profile?.about!}
+                        userId={data?.res?.profile?.userId! || Number(id)}
+                        created={data?.res?.profile?.created!}
                     />
                     <MobileInteractive />
                 </MotionUL>
             ) : (
                 <section className={styles.container}>
-                    <MainInfo profile={data?.res!} />
+                    <MainInfo user={data?.res!} />
                     <StatisticAndFeedback />
                 </section>
             )}

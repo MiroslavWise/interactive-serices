@@ -13,20 +13,20 @@ import { useUpdateProfile } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const BlockProfileAside: FC = () => {
-  const { setVisible } = useUpdateProfile()
+    const { setVisible } = useUpdateProfile()
 
-  return (
-    <section className={cx(styles.container, isMobile && styles.mobile)}>
-      <HeaderBlock />
-      {typeof isMobile !== "undefined" && !isMobile ? <Badges /> : null}
-      <div className={styles.buttons}>
-        <ButtonDefault
-          label="Редактировать профиль"
-          classNames={cx("w-100", styles.largeButton)}
-          disabled
-          handleClick={() => setVisible(true)}
-        />
-      </div>
-    </section>
-  )
+    return (
+        <section className={cx(styles.container, isMobile && styles.mobile)}>
+            <HeaderBlock />
+            {typeof isMobile !== "undefined" && !isMobile ? <Badges /> : null}
+            <div className={styles.buttons}>
+                <ButtonDefault
+                    label="Редактировать профиль"
+                    classNames={cx("w-100", styles.largeButton)}
+                    disabled
+                    handleClick={() => setVisible(true)}
+                />
+            </div>
+        </section>
+    )
 }

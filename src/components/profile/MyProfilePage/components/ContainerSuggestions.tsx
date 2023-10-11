@@ -14,7 +14,7 @@ import styles from "./styles/style.module.scss"
 export const ContainerSuggestions = () => {
     const { userId, user, imageProfile } = useAuth()
 
-    const { data } = useQuery({
+    const { data, refetch } = useQuery({
         queryFn: () => serviceOffer.getUserId(userId!, { provider: "offer" }),
         queryKey: ["offers", `user=${userId}`, "provider=offer"],
     })
@@ -42,6 +42,7 @@ export const ContainerSuggestions = () => {
                               userId: userId!,
                               photo: imageProfile?.attributes?.url!,
                           }}
+                          refetch={refetch}
                       />
                   ))
                 : null}

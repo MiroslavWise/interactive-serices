@@ -1,4 +1,8 @@
+"use client"
+
 import Image from "next/image"
+import dayjs from "dayjs"
+import { useQueries } from "react-query"
 
 import type { TCardOffer } from "./types"
 
@@ -7,28 +11,42 @@ import { BlockBarter } from "./components/BlockBarter"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 import { BlockTitle } from "./components/BlockTitle"
 
+import { serviceUsers } from "@/services/users"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
 
 export const CardOffer: TCardOffer = ({
-    name,
-    photo,
-    chatId,
-    finality,
-    price,
-    date,
-    geo,
-    rating,
-    proposals,
+    id,
+    parentId,
+    consignedId,
+    initialId,
+    title,
+    imageId,
+    userId,
+    updatedById,
+    provider,
+    created,
+    updated,
+    timestamp,
+    status,
+    initiator,
+    consigner,
 }) => {
     const { handlePush } = usePush()
+    const [{ data: dataUser }] = useQueries([
+        {
+            queryFn: () => serviceUsers.getId(userId!),
+            queryKey: ["user", userId],
+            refetchOnMount: false,
+        },
+    ])
 
     return (
         <MotionLI classNames={[styles.container]}>
             <section className={styles.main}>
-                <BlockTitle {...{ name, photo, geo, price, rating }} />
-                <BlockBarter />
+                <BlockTitle {...dataUser?.res!} />
+                <BlockBarter {...{consigner, initiator}} />
             </section>
             <footer>
                 <div className={styles.date}>
@@ -38,9 +56,9 @@ export const CardOffer: TCardOffer = ({
                         width={16}
                         height={16}
                     />
-                    <p>{date}</p>
+                    <p>{dayjs(timestamp!).format("DD/MM/YYYY")}</p>
                 </div>
-                {proposals ? (
+                {false ? (
                     <ButtonFill
                         label="посмотреть детали"
                         type="optional_pink"
@@ -48,7 +66,7 @@ export const CardOffer: TCardOffer = ({
                     />
                 ) : (
                     <div className={styles.end}>
-                        {finality ? (
+                        {status === "completed" ? (
                             <div className={styles.verification}>
                                 <Image
                                     src="/svg/success.svg"
@@ -63,7 +81,7 @@ export const CardOffer: TCardOffer = ({
                             icon="/svg/message-dots-circle.svg"
                             size={16}
                             handleClick={() =>
-                                handlePush(`/messages?user=${chatId}`)
+                                handlePush(`/messages?user=${userId}`)
                             }
                         />
                     </div>

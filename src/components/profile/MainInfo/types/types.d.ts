@@ -1,6 +1,6 @@
 import type { FC } from "react"
-import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IUserResponse } from "@/services/users/types/usersService"
 
 export type TMainInfo = FC<{
-  profile: IGetProfileIdResponse
+    user: IUserResponse
 }>

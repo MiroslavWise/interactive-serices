@@ -97,19 +97,19 @@ export const Start = () => {
         }
 
         if (addressInit) {
-            // serviceAddresses.getHash(addressInit.hash!).then((response) => {
-            // if (!response?.res?.id) {
-            serviceAddresses.post(addressInit).then((response_) => {
-                if (response_.ok) {
-                    if (response_.res) {
-                        postOffer([response_?.res?.id])
-                    }
+            serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                if (!response?.res?.id) {
+                    serviceAddresses.post(addressInit).then((response_) => {
+                        if (response_.ok) {
+                            if (response_.res) {
+                                postOffer([response_?.res?.id])
+                            }
+                        }
+                    })
+                } else {
+                    postOffer([response?.res?.id])
                 }
             })
-            //     } else {
-            //         postOffer([response?.res?.id])
-            //     }
-            // })
         } else {
             if (adressId?.id) {
                 postOffer([Number(adressId?.id)])
