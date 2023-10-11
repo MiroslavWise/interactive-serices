@@ -2,8 +2,10 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
+import { useMemo } from "react"
 
 import type { TMainInfo } from "./types/types"
+import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { BlockOther } from "./components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
@@ -20,6 +22,13 @@ import styles from "./styles/style.module.scss"
 export const MainInfo: TMainInfo = ({ user }) => {
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { handlePush } = usePush()
+
+    const geo: IAddressesResponse | null = useMemo(() => {
+        return (
+            user?.addresses?.find((item) => item?.addressType === "main") ||
+            null
+        )
+    }, [user?.addresses])
 
     return (
         <div className={styles.container}>
@@ -57,7 +66,9 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                 {user?.profile?.firstName || "First"}{" "}
                                 {user?.profile?.lastName || "Last"}
                             </h3>
-                            <GeoTagging location="Арбат, Москва" />
+                            {geo ? (
+                                <GeoTagging location={geo?.additional} />
+                            ) : null}
                         </div>
                         <section className={styles.buttons}>
                             <ButtonFill

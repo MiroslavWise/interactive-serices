@@ -29,13 +29,7 @@ export default function UserId() {
         <div className={cx(styles.page, isMobile && styles.mobile)}>
             {isMobile ? (
                 <MotionUL classNames={[styles.containerMobile]} id="user-id">
-                    <MobileMainInfo
-                        name={`${data?.res?.profile?.firstName} ${data?.res?.profile?.lastName}`}
-                        photo={data?.res?.profile?.image?.attributes?.url!}
-                        about={data?.res?.profile?.about!}
-                        userId={data?.res?.profile?.userId! || Number(id)}
-                        created={data?.res?.profile?.created!}
-                    />
+                    <MobileMainInfo user={data?.res!} />
                     <MobileInteractive />
                 </MotionUL>
             ) : (
