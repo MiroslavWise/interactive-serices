@@ -12,11 +12,20 @@ import { Buttons } from "./components/Buttons"
 import styles from "./style.module.scss"
 
 export const CardSuggestion: TCardSuggestion = (props) => {
-    const { rating, images, profile, categoryId, title, id, refetch } = props
+    const {
+        rating,
+        images,
+        profile,
+        categoryId,
+        title,
+        id,
+        refetch,
+        provider,
+    } = props
 
     return (
         <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
-            <Header categoryId={categoryId!} rating={rating} title={title} />
+            <Header categoryId={categoryId!} rating={rating} title={title} provider={provider} />
             {images?.length ? (
                 <ContainerPhotos
                     {...{
@@ -27,7 +36,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
                     }}
                 />
             ) : null}
-            <Buttons id={id} refetch={refetch} />
+            <Buttons id={id} refetch={refetch} provider={provider} />
         </MotionLI>
     )
 }

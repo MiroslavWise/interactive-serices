@@ -3,6 +3,8 @@
 import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 
+import type { TContainerSuggestions } from "./types/types"
+
 import { MotionUL } from "@/components/common/Motion"
 import { CardSuggestion } from "@/components/common/Card"
 
@@ -11,12 +13,16 @@ import { serviceOffer } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerSuggestions = () => {
+export const ContainerSuggestions: TContainerSuggestions = ({
+    isOfferOrRequest,
+    setIsOfferOrRequest,
+}) => {
     const { userId, user, imageProfile } = useAuth()
 
     const { data, refetch } = useQuery({
-        queryFn: () => serviceOffer.getUserId(userId!, { provider: "offer" }),
-        queryKey: ["offers", `user=${userId}`, "provider=offer"],
+        queryFn: () =>
+            serviceOffer.getUserId(userId!, { provider: isOfferOrRequest }),
+        queryKey: ["offers", `user=${userId}`, `provider=${isOfferOrRequest}`],
     })
 
     return (

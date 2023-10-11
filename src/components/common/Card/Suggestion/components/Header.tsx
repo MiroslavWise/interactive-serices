@@ -6,7 +6,7 @@ import styles from "./styles/style.module.scss"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 import { memo, useMemo } from "react"
 
-const $Header: IHeader = ({ categoryId, rating, title }) => {
+const $Header: IHeader = ({ categoryId, rating, title, provider }) => {
     const { categories } = useOffersCategories()
 
     const titleCategory = useMemo(() => {
@@ -30,7 +30,15 @@ const $Header: IHeader = ({ categoryId, rating, title }) => {
                 </div>
             </section>
             <section className={styles.containerCanService}>
-                <p>Могу:</p>
+                {["offer", "request"].includes(provider) ? (
+                    <p>
+                        {provider === "offer"
+                            ? "Могу:"
+                            : provider === "request"
+                            ? "Хочу:"
+                            : ""}
+                    </p>
+                ) : null}
                 <p className={styles.textCan}>{title}</p>
             </section>
         </header>

@@ -5,6 +5,8 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
 
+import type { TTypeProvider } from "@/services/file-upload/types"
+
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { serviceOffer } from "@/services/offers"
@@ -14,13 +16,15 @@ import styles from "./styles/style.module.scss"
 export const Buttons = ({
     id,
     refetch,
+    provider,
 }: {
     id: number
+    provider: TTypeProvider
     refetch(): Promise<any>
 }) => {
     const [loading, setLoading] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
     const { systemTheme } = useTheme()
+    const [isOpen, setIsOpen] = useState(false)
 
     function handleDelete() {
         if (!loading) {
@@ -40,7 +44,13 @@ export const Buttons = ({
         <section className={styles.containerButtons}>
             <ButtonFill
                 type={systemTheme === "dark" ? "primary" : "optional_pink"}
-                label="Изменить предложение"
+                label={
+                    provider === "offer"
+                        ? "Изменить предложение"
+                        : provider === "request"
+                        ? "Изменить запрос"
+                        : "Изменить"
+                }
                 prefix={
                     <Image
                         src="/svg/edit-white.svg"

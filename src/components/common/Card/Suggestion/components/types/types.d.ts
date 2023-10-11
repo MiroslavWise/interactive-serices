@@ -1,4 +1,5 @@
 import type { FC } from "react"
+import type { TTypeProvider } from "@/services/file-upload/types"
 
 export type IHeader = FC<{
     categoryId: number
@@ -7,6 +8,7 @@ export type IHeader = FC<{
         total: number
     }
     title: string
+    provider: TTypeProvider
 }>
 
 export type TContainerPhotos = FC<{
