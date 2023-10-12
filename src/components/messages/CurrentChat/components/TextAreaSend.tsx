@@ -4,13 +4,7 @@ import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
-import {
-    useCallback,
-    useEffect,
-    useInsertionEffect,
-    useRef,
-    useState,
-} from "react"
+import { useState } from "react"
 
 import type { TTextAreaSend } from "./types/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
@@ -22,7 +16,6 @@ import { cx } from "@/lib/cx"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { serviceMessages } from "@/services/messages"
 import { useWebSocket } from "@/context/WebSocketProvider"
-import { useSocketMessages } from "@/helpers/hooks/useSocketMessages"
 
 import styles from "./styles/text-area.module.scss"
 

@@ -38,7 +38,6 @@ import {
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
-import { useMessages } from "@/store/state/useMessages"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
@@ -62,7 +61,6 @@ export default function Providers({ children }: { children: ReactNode }) {
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-    const { resetMessages } = useMessages()
     const { getCategories } = useOffersCategories()
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
@@ -92,12 +90,6 @@ export default function Providers({ children }: { children: ReactNode }) {
             )
         }
     }, [verifyToken, handleReplace])
-
-    useEffect(() => {
-        if (typeof token === "undefined" && !token) {
-            resetMessages()
-        }
-    }, [token, resetMessages])
 
     useEffect(() => {
         if (offersCategories === false) {
