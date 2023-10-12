@@ -44,7 +44,7 @@ export const useAuth = create(
                 const refreshToken = get().refreshToken
                 const email = get().email
                 const expires = get().expires
-                console.log("refresh: ", isTokenExpired(expires))
+                console.log("fresh refresh: ", isTokenExpired(expires))
                 if (
                     !isTokenExpired(get().expires) &&
                     typeof expires === "number"
