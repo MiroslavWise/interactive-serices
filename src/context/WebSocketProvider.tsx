@@ -7,6 +7,7 @@ import {
     useEffect,
     useRef,
     useState,
+    useInsertionEffect,
 } from "react"
 import {
     io,
@@ -44,7 +45,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         console.info("--- error socket --- ", e)
     }
 
-    useEffect(() => {
+    useInsertionEffect(() => {
         function chatResponse(data: any) {
             console.log("chatResponse effect: ", data)
             if (Number(userId) !== Number(data?.emitterId)) {
@@ -57,63 +58,60 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                     draggable: true,
                     progress: undefined,
                     onClick() {
-                        handlePush(
-                            `/messages?user=${data?.emitterId}&thread=${data?.threadId}`,
-                        )
+                        handlePush(`/messages?thread=${data?.threadId}`)
                     },
                     theme: systemTheme,
                 })
             }
         }
-        if (token) {
-            if (fetchedRef.current) return
-            fetchedRef.current = true
-            const options: Partial<ManagerOptions & SocketOptions> = {
-                auth: {
-                    accessToken: token,
-                },
-                withCredentials: true,
-                autoConnect: false,
-                reconnection: false,
-                path: "/ws/socket.io",
-                transports: ["websocket"],
-                secure: true,
-                rejectUnauthorized: false,
-            }
-            const socket: Socket = io(env.websocket, options)
-            socket.on("connect", () => {
-                console.log("--- connect socket ---", socket)
-                const upgradedTransport = socket.io.engine.transport.name
-                console.log(
-                    "--- upgradedTransport socket --- ",
-                    upgradedTransport,
-                )
-                setSocketState(socket)
-            })
-            socket.on("connect_error", connectError)
-            socket.on("error", error)
-            socket.connect()
-            socket.on("chatResponse", chatResponse)
+        if (!fetchedRef.current) {
+            if (token) {
+                const options: Partial<ManagerOptions & SocketOptions> = {
+                    auth: {
+                        accessToken: token,
+                    },
+                    withCredentials: true,
+                    autoConnect: false,
+                    reconnection: false,
+                    path: "/ws/socket.io",
+                    transports: ["websocket", "polling"],
+                    secure: true,
+                    rejectUnauthorized: false,
+                }
+                const socket: Socket = io(env.websocket, options)
+                socket.on("connect", () => {
+                    console.log("--- connect socket ---", socket)
+                    const upgradedTransport = socket.io.engine.transport.name
+                    console.log(
+                        "--- connect upgradedTransport ---",
+                        upgradedTransport,
+                    )
+                    fetchedRef.current = true
+                    setSocketState(socket)
+                })
+                socket.on("connect_error", connectError)
+                socket.on("error", error)
+                socket.connect()
+                socket.on("chatResponse", chatResponse)
 
-            return () => {
-                socket.disconnect()
-                socket.off("connect")
-                socket.off("disconnect")
-                socket.off("connect_error")
-                socket.off("error")
-                socket.off("chat")
-                socket.off("heartbeat")
-                socket.off("chatResponse")
+                return () => {
+                    socket.disconnect()
+                    socket.off("connect")
+                    socket.off("disconnect")
+                    socket.off("connect_error")
+                    socket.off("error")
+                    socket.off("chat")
+                    socket.off("heartbeat")
+                    socket.off("chatResponse")
+                }
             }
-        }
 
-        if (!token) {
-            if (socketState) {
-                socketState.disconnect()
+            if (!token) {
                 setSocketState(null)
+                fetchedRef.current = false
             }
         }
-    }, [token, socketState, handlePush, systemTheme, userId])
+    }, [token, handlePush, systemTheme, userId])
 
     return (
         <CreateContextWebSocket.Provider value={{ socket: socketState! }}>

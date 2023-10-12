@@ -1,9 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useInsertionEffect, useMemo } from "react"
+import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
+import { useEffect, useInsertionEffect, useMemo } from "react"
 
 import type { IPostThreads, IThreadsMessages } from "@/services/threads/types"
 
@@ -14,13 +15,13 @@ import { TextAreaSend } from "./components/TextAreaSend"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
+import { useWebSocket } from "@/context"
+import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useAuth, usePopupMenuChat } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { useQuery } from "react-query"
-import { serviceUsers } from "@/services/users"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
@@ -28,11 +29,13 @@ export const CurrentChat = () => {
     const { userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
     const { handleReplace } = usePush()
+    const { socket } = useWebSocket() ?? {}
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
         queryKey: ["threads", `user=${userId}`, `id=${idThread}`],
         refetchOnMount: false,
+        refetchInterval: 10 * 1000,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
         refetchIntervalInBackground: false,
@@ -85,7 +88,19 @@ export const CurrentChat = () => {
         }
     }, [dataUser?.res, messages])
 
-    console.log("messages: ", messages)
+    useEffect(() => {
+        console.log("socket socket: ", socket)
+        function chatResponse(event: any) {
+            console.log("chatResponse event: ", event)
+            refetch()
+        }
+
+        socket?.on("chatResponse", chatResponse)
+
+        return () => {
+            socket?.off("chatResponse", chatResponse)
+        }
+    }, [socket, refetch])
 
     if (isMobile) {
         return (

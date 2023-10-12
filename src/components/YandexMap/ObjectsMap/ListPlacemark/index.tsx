@@ -49,6 +49,8 @@ const ListPlacemark_ = () => {
         return array
     }, [dataPlaces?.res, dispatch])
 
+    console.log("dataPlaces: ", dataPlaces)
+
     return marks.map((item) => (
         <PlacemarkCurrent
             key={`${item.id}-${item.provider}-list`}
