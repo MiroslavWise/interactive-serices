@@ -72,16 +72,17 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                         accessToken: token,
                     },
                     withCredentials: true,
-                    autoConnect: false,
-                    reconnection: false,
+                    //autoConnect: false,
+                    //reconnection: false,
                     path: "/ws/socket.io",
-                    transports: ["websocket", "polling"],
+                    transports: ["websocket"],
                     secure: true,
-                    rejectUnauthorized: false,
+                    //rejectUnauthorized: false,
                 }
+                console.log(options)
                 const socket: Socket = io(env.websocket, options)
                 socket.on("connect", () => {
-                    console.log("--- connect socket ---", socket)
+                    console.log("--- new connection socket ---", socket)
                     const upgradedTransport = socket.io.engine.transport.name
                     console.log(
                         "--- connect upgradedTransport ---",
