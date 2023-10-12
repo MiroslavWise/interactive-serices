@@ -35,8 +35,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/sheira/sheira-frontend/ && git pull && npm install && npm run build \
-            cd /home/sheira/sheira-core && rm rf .docker/nginx/html/frontend/* \
-            cp -r /home/sheira/sheira-frontend/out/  .docker/nginx/html/frontend/ \
+            cd /home/sheira/sheira-core && rm -rf .docker/nginx/html/frontend/* \
+            cp -r /home/sheira/sheira-frontend/out/*  .docker/nginx/html/frontend/ \
             docker-compose up -d
             ls -la
     
