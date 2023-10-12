@@ -64,7 +64,7 @@ export const TextAreaSend: TTextAreaSend = ({
                     const data: IRequestPostMessages = {
                         threadId: Number(idThread!),
                         message: message,
-                        parentId: 1,
+                        // parentId: 0,
                         emitterId: Number(userId),
                         receiverIds: receiverIds,
                         enabled: true,
