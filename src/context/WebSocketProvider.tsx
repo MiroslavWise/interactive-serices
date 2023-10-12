@@ -8,6 +8,7 @@ import {
     useRef,
     useState,
     useInsertionEffect,
+    useLayoutEffect,
 } from "react"
 import {
     io,
@@ -45,7 +46,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         console.info("--- error socket --- ", e)
     }
 
-    useInsertionEffect(() => {
+    useLayoutEffect(() => {
         function chatResponse(data: any) {
             console.log("chatResponse effect: ", data)
             if (Number(userId) !== Number(data?.emitterId)) {

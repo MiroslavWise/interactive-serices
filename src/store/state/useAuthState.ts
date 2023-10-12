@@ -72,24 +72,33 @@ export const useAuth = create(
                     isTokenExpired(expires) &&
                     typeof refreshToken === "string"
                 ) {
-                    return AuthService
-                        .refresh({
-                            email: email!,
-                            refreshToken: refreshToken!,
-                        })
-                        .then((response) => {
-                            if (response.ok) {
-                                set({
-                                    isAuth: true,
-                                    token: response?.res?.accessToken!,
-                                    expires: response?.res?.expires!,
-                                    userId: response?.res?.id!,
-                                })
-                                changeAuthAction(set, get)
-                            } else {
-                                set({ isAuth: false })
-                            }
-                        })
+                    return AuthService.refresh({
+                        email: email!,
+                        refreshToken: refreshToken!,
+                    }).then((response) => {
+                        if (response.ok) {
+                            set({
+                                isAuth: true,
+                                token: response?.res?.accessToken!,
+                                expires: response?.res?.expires!,
+                                userId: response?.res?.id!,
+                            })
+                            changeAuthAction(set, get)
+                        } else {
+                            set({
+                                email: undefined,
+                                token: undefined,
+                                refreshToken: undefined,
+                                userId: undefined,
+                                expires: undefined,
+                                profileId: undefined,
+                                isAuth: false,
+                                user: undefined,
+                                imageProfile: undefined,
+                                createdUser: undefined,
+                            })
+                        }
+                    })
                 }
                 set({
                     email: undefined,
