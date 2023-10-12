@@ -79,7 +79,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                     secure: true,
                     //rejectUnauthorized: false,
                 }
-                console.log(options)
+                console.log(env.websocket, options)
                 const socket: Socket = io(env.websocket, options)
                 socket.on("connect", () => {
                     console.log("--- new connection socket ---", socket)
