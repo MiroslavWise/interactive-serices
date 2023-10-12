@@ -19,8 +19,8 @@ const $List: TList = ({ items }) => {
             ]}
         >
             {items?.map((item, index) => (
-                <Fragment key={`${item.id}-${index}-item-chat`}>
-                    <ItemListChat item={item} />
+                <Fragment key={`${item?.thread?.id}-${index}-item-chat`}>
+                    <ItemListChat {...item} />
                     {index < items.length - 1 && !isMobile ? <Divider /> : null}
                 </Fragment>
             ))}
