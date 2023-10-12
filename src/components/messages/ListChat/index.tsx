@@ -1,46 +1,34 @@
 "use client"
 
-import { useEffect } from "react"
+import { useQuery } from "react-query"
+import { useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
 
 import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
 
 import { useAuth } from "@/store/hooks"
-import { useThread } from "@/store/state/useThreads"
-import { useMessages } from "@/store/state/useMessages"
-import { useSearchChats } from "@/helpers/hooks/useSearchChats"
+import { serviceThreads } from "@/services/threads"
 
 import styles from "./styles/style.module.scss"
 
 export const ListChat = () => {
-    const { setPhotoAndName } = useMessages()
-    const { threads, total, getThreads } = useThread()
-    const { filters } = useSearchChats()
-
     const { userId } = useAuth()
+    const [search, setSearch] = useState("")
+    const { data } = useQuery({
+        queryFn: () => serviceThreads.getUserId(userId!),
+        queryKey: ["threads", `user=${userId}`],
+        refetchOnMount: true,
+    })
 
-    useEffect(() => {
-        if (userId) {
-            getThreads(userId!)
-        }
-    }, [userId, getThreads])
-
-    useEffect(() => {
-        if (threads && threads.length) {
-            for (const thread of threads) {
-                setPhotoAndName({
-                    idThread: thread.id!,
-                    idUser: thread?.receiverIds?.[0]!,
-                })
-            }
-        }
-    }, [threads, setPhotoAndName])
+    const total = useMemo(() => {
+        return data?.res?.length || 0
+    }, [data?.res])
 
     return isMobile ? (
         <section className={styles.containerMobile}>
-            <SearchBlock />
-            <List items={filters} />
+            <SearchBlock {...{ search, setSearch }} />
+            <List items={data?.res || []} />
         </section>
     ) : (
         <section className={styles.container}>
@@ -54,8 +42,8 @@ export const ListChat = () => {
                     ) : null}
                 </div>
             </header>
-            <SearchBlock />
-            <List items={filters} />
+            <SearchBlock {...{ search, setSearch }} />
+            <List items={data?.res || []} />
         </section>
     )
 }

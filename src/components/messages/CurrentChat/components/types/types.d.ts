@@ -4,6 +4,7 @@ interface ITextAreaSend {
     photo: string
     fullName: string
     idUser: number
+    refetch(): Promise<any>
 }
 
 interface IItemMessage {

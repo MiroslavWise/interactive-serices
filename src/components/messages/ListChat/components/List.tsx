@@ -7,15 +7,16 @@ import type { TList } from "./types/types"
 
 import { ItemListChat } from "./ItemListChat"
 import { Divider } from "@/components/common/Divider"
+import { MotionUL } from "@/components/common/Motion"
 
 import styles from "./styles/style.module.scss"
 
-export const ComponentList: TList = ({ items }) => {
+const $List: TList = ({ items }) => {
     return (
-        <ul
-            className={
-                isMobile ? styles.containerListMobile : styles.containerList
-            }
+        <MotionUL
+            classNames={[
+                isMobile ? styles.containerListMobile : styles.containerList,
+            ]}
         >
             {items?.map((item, index) => (
                 <Fragment key={`${item.id}-${index}-item-chat`}>
@@ -23,8 +24,8 @@ export const ComponentList: TList = ({ items }) => {
                     {index < items.length - 1 && !isMobile ? <Divider /> : null}
                 </Fragment>
             ))}
-        </ul>
+        </MotionUL>
     )
 }
 
-export const List = memo(ComponentList)
+export const List = memo($List)

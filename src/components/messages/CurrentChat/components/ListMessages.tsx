@@ -7,7 +7,6 @@ import {
     useRef,
     useInsertionEffect,
 } from "react"
-import { useSearchParams } from "next/navigation"
 
 import type { IThreadsMessages } from "@/services/threads/types"
 
@@ -16,20 +15,18 @@ import { ItemMyMessage } from "./ItemMyMessage"
 import { ItemUserMessage } from "./ItemUserMessage"
 
 import { useAuth } from "@/store/hooks"
-import { useMessages } from "@/store/state/useMessages"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
+import { IUserResponse } from "@/services/users/types/usersService"
 
 export const ListMessages = memo(function ListMessages({
     messages,
+    dataUser,
 }: {
     messages: IThreadsMessages[]
+    dataUser: IUserResponse
 }) {
-    const searchParams = useSearchParams()
-    const idUser = searchParams?.get("user")
-    const idThread = searchParams?.get("thread")
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
-    const { data } = useMessages()
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
 
@@ -60,13 +57,13 @@ export const ListMessages = memo(function ListMessages({
                     )
                 }
                 if (
-                    Number(item.emitterId) === Number(idUser!) &&
+                    Number(item.emitterId) === Number(dataUser?.id!) &&
                     item.type === "messages"
                 ) {
                     return (
                         <ItemUserMessage
                             key={`${item?.id}_message_${item.id}`}
-                            photo={data[idThread!]?.photo!}
+                            photo={dataUser?.profile?.image?.attributes?.url!}
                             messages={item.messages!}
                         />
                     )
@@ -83,15 +80,7 @@ export const ListMessages = memo(function ListMessages({
             })
         }
         return null
-    }, [
-        messages,
-        data,
-        idThread,
-        idUser,
-        imageProfile?.attributes?.url,
-        join,
-        userId,
-    ])
+    }, [dataUser, messages, join, userId, imageProfile?.attributes?.url])
 
     return <ul ref={ulChat}>{messagesJoin}</ul>
 })

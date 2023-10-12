@@ -5,6 +5,8 @@ import { ToastContainer } from "react-toastify"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister"
 
 import "@/context/DayJSDefault"
 import {
@@ -47,7 +49,8 @@ const queryClient = new QueryClient({
         queries: {
             refetchOnWindowFocus: false,
             refetchOnMount: false,
-            refetchInterval: 5 * 60 * 1000,
+            refetchInterval: 30 * 60 * 1000,
+            cacheTime: 30 * 60 * 1000,
         },
     },
 })

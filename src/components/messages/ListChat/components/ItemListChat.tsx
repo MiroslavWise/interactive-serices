@@ -1,7 +1,8 @@
 "use client"
 
-import { memo } from "react"
 import Image from "next/image"
+import { useQuery } from "react-query"
+import { memo, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -11,28 +12,45 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
+import { useAuth } from "@/store/hooks"
+import { serviceUsers } from "@/services/users"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useMessages } from "@/store/state/useMessages"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
 
-const Item: TItemListChat = ({ item }) => {
+const $ItemListChat: TItemListChat = ({ item }) => {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
     const { handleReplace } = usePush()
-    const { data } = useMessages()
+    const { userId } = useAuth()
+
+    const idUser: number = useMemo(() => {
+        if (Number(item.emitterId) !== Number(userId))
+            return Number(item.emitterId)
+        return item.receiverIds[0] as number
+    }, [item.emitterId, item.receiverIds, userId])
+
+    const { data } = useQuery({
+        queryFn: () => serviceUsers.getId(idUser),
+        queryKey: ["user", idUser],
+    })
+
+    const adress: string | null = useMemo(() => {
+        return (
+            data?.res?.addresses?.find((item) => item?.addressType === "main")
+                ?.additional || null
+        )
+    }, [data?.res])
 
     function handleCurrentChat() {
-        handleReplace(
-            `/messages?user=${item.receiverIds[0]!}&thread=${item.id}`,
-        )
+        handleReplace(`/messages?thread=${item.id}`)
     }
 
     function lastMessage(): string {
         if (item?.messages?.length > 0) {
-            return item?.messages?.at(-1)?.message!
-                ? item?.messages?.at(-1)?.message!
+            return item?.messages?.[0]?.message!
+                ? item?.messages?.[0]?.message!
                 : ""
         }
 
@@ -43,7 +61,7 @@ const Item: TItemListChat = ({ item }) => {
         <li
             className={cx(
                 styles.containerItemListChat,
-                item.id.toString() === idThread?.toString() && styles.active,
+                Number(item.id) === Number(idThread) && styles.active,
                 isMobile && styles.mobileLI,
             )}
             onClick={handleCurrentChat}
@@ -51,9 +69,11 @@ const Item: TItemListChat = ({ item }) => {
             <div className={styles.header}>
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
-                        {data?.[item?.id]?.photo ? (
+                        {data?.res?.profile?.image?.attributes?.url ? (
                             <NextImageMotion
-                                src={data?.[item?.id]?.photo!}
+                                src={
+                                    data?.res?.profile?.image?.attributes?.url!
+                                }
                                 alt="avatar"
                                 width={400}
                                 height={400}
@@ -77,12 +97,17 @@ const Item: TItemListChat = ({ item }) => {
                         />
                     </div>
                     <div className={styles.nameAndGeo}>
-                        <h4>{data?.[item?.id]?.name}</h4>
-                        <GeoTagging
-                            location="Москва, Пролетарская"
-                            size={14}
-                            fontSize={12}
-                        />
+                        <h4>
+                            {data?.res?.profile?.firstName || " "}{" "}
+                            {data?.res?.profile?.lastName || " "}
+                        </h4>
+                        {adress ? (
+                            <GeoTagging
+                                location={adress}
+                                size={14}
+                                fontSize={12}
+                            />
+                        ) : null}
                     </div>
                 </div>
                 <p className={styles.timeAgo}>
@@ -96,4 +121,4 @@ const Item: TItemListChat = ({ item }) => {
     )
 }
 
-export const ItemListChat = memo(Item)
+export const ItemListChat = memo($ItemListChat)
