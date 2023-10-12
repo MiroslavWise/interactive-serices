@@ -65,6 +65,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 })
             }
         }
+        function checkOnline(data: any) {
+            console.log("response effect: ", data)
+        }
+        
         if (!fetchedRef.current) {
             if (token) {
                 const options: Partial<ManagerOptions & SocketOptions> = {
@@ -78,7 +82,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 }
                 
                 const socket: Socket = io(env.websocket, options)
-                
+
                 socket.on("connect", () => {
                     console.log("--- new connection socket ---", socket)
                     const upgradedTransport = socket.io.engine.transport.name
@@ -93,7 +97,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 socket.on("error", error)
                 socket.connect()
                 socket.on("chatResponse", chatResponse)
-
+                socket.on("online", checkOnline)
                 return () => {
                     socket.disconnect()
                     socket.off("connect")
@@ -103,6 +107,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                     socket.off("chat")
                     socket.off("heartbeat")
                     socket.off("chatResponse")
+                    socket.off("online")
                 }
             }
 
