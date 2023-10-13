@@ -14,13 +14,14 @@ import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { ACHIEVEMENTS } from "../MainInfo/constants"
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles.module.scss"
 
 export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
     const { dispatchVisibleBarter: setIsVisibleBarter } =
         useVisibleModalBarter()
+    const { userId } = useAuth()
     const { handlePush } = usePush()
 
     const geo: IAddressesResponse | null = useMemo(() => {
@@ -110,14 +111,22 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                     icon="/svg/message-dots-circle-primary.svg"
                     size={20}
                     classNames={styles.buttonCircle}
-                    handleClick={() => handlePush(`/messages?user=${user?.id}`)}
+                    handleClick={() => {
+                        if (Number(userId) === Number(user?.id)) {
+                            return
+                        }
+                        handlePush(`/messages?user=${user?.id}`)
+                    }}
                 />
                 <ButtonCircleGradient
                     type="primary"
                     icon="/svg/repeat-primary.svg"
                     size={20}
                     classNames={styles.buttonCircle}
-                    handleClick={() =>
+                    handleClick={() => {
+                        if (Number(userId) === Number(user?.id)) {
+                            return
+                        }
                         setIsVisibleBarter({
                             isVisible: true,
                             dataProfile: {
@@ -128,7 +137,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                                 idUser: user?.id!,
                             },
                         })
-                    }
+                    }}
                 />
             </div>
         </MotionLI>

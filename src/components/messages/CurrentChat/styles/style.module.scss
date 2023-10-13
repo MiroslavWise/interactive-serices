@@ -25,6 +25,12 @@
         gap: 32px;
         overflow-y: auto;
     }
+
+    &[data-barter="true"] {
+        ul {
+            padding-top: calc(22px + 170px);
+        }
+    }
 }
 
 .mobileHeader {

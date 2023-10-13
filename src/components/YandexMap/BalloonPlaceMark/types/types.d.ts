@@ -21,7 +21,6 @@ interface IAlertBalloonComponent extends IBalloonComponent {}
 interface IRequestBalloonComponent extends IBalloonComponent {}
 
 interface IButtonSuccessInBalloon {
-    idUser: number
     onClick: DispatchWithoutAction
 }
 

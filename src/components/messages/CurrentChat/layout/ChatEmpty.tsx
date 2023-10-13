@@ -1,0 +1,99 @@
+"use client"
+
+import { toast } from "react-toastify"
+import { useInsertionEffect } from "react"
+import { useTheme } from "next-themes"
+import { useSearchParams } from "next/navigation"
+
+import { usePush } from "@/helpers"
+import { useAuth } from "@/store/hooks"
+import { serviceThreads } from "@/services/threads"
+import { IPostThreads } from "@/services/threads/types"
+import { providerIsAscending } from "@/lib/sortIdAscending"
+
+import styles from "../styles/style.module.scss"
+
+export const ChatEmpty = () => {
+    const { systemTheme } = useTheme()
+    const idUser = useSearchParams().get("user")
+    const { userId } = useAuth()
+    const { handleReplace } = usePush()
+
+    async function createChat() {
+        async function getDataThread(emitterId: number, receiverId: number) {
+            const { res } = await serviceThreads.get({
+                user: emitterId,
+                provider: "personal",
+            })
+            return res?.find(
+                (item) =>
+                    ((item?.receiverIds?.find((id) => id === receiverId) &&
+                        item?.emitterId === emitterId) ||
+                        (item?.receiverIds?.find((id) => id === emitterId) &&
+                            item?.emitterId === receiverId)) &&
+                    item?.provider?.includes("personal"),
+            )
+        }
+
+        async function createThread(emitterId: number, receiverId: number) {
+            const provider = providerIsAscending({
+                type: "personal",
+                ids: [emitterId, receiverId],
+            })!
+            const data_: IPostThreads = {
+                title: provider,
+                emitterId: emitterId,
+                receiverIds: [receiverId],
+                provider: provider,
+                enabled: true,
+            }
+            const { res } = await serviceThreads.post(data_)
+
+            return res?.id
+        }
+
+        if (!idUser) {
+            return handleReplace("/messages")
+        }
+        const idUserReceiver: number = Number(idUser)
+        let thread = await getDataThread(idUserReceiver, userId!)
+        if (thread) {
+            return handleReplace(`/messages?thread=${thread?.id}`)
+        }
+        if (!thread) {
+            const idCreate = await createThread(Number(userId), idUserReceiver)
+
+            if (!idCreate) {
+                handleReplace("/messages")
+                toast(
+                    `Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен`,
+                    {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: systemTheme!,
+                    },
+                )
+                return
+            }
+
+            handleReplace(`/messages?thread=${idCreate}`)
+        }
+    }
+
+    useInsertionEffect(() => {
+        if (!idUser) {
+            handleReplace("/messages")
+        } else {
+            if (userId) {
+                createChat()
+            }
+        }
+    }, [idUser, userId])
+
+    return <section className={styles.container} />
+}

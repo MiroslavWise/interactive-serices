@@ -149,19 +149,24 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                         <button data-offer onClick={handleOpenBarter}>
                             <span>Откликнуться</span>
                         </button>
-                        <Image
-                            src="/svg/chat-bubbles.svg"
-                            alt="chat-bubbles"
-                            width={32}
-                            height={32}
-                            onClick={() => {
-                                if (stateBalloon.idUser) {
-                                    handlePush(
-                                        `/messages?user=${stateBalloon?.idUser!}`,
-                                    )
-                                }
-                            }}
-                        />
+                        {Number(stateBalloon.idUser) !== Number(userId) ? (
+                            <Image
+                                src="/svg/chat-bubbles.svg"
+                                alt="chat-bubbles"
+                                width={32}
+                                height={32}
+                                onClick={() => {
+                                    if (
+                                        Number(stateBalloon.idUser) !==
+                                        Number(userId)
+                                    ) {
+                                        handlePush(
+                                            `/messages?user=${stateBalloon?.idUser!}`,
+                                        )
+                                    }
+                                }}
+                            />
+                        ) : null}
                     </div>
                 ) : null}
             </div>

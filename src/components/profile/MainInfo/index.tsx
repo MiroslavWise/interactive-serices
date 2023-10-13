@@ -13,13 +13,14 @@ import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { usePush } from "@/helpers/hooks/usePush"
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ user }) => {
+    const { userId } = useAuth()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { handlePush } = usePush()
 
@@ -79,14 +80,20 @@ export const MainInfo: TMainInfo = ({ user }) => {
                             <ButtonsCircle
                                 src="/svg/message-dots-circle.svg"
                                 type="primary"
-                                onClick={() =>
+                                onClick={() => {
+                                    if (Number(userId) === Number(user?.id)) {
+                                        return
+                                    }
                                     handlePush(`/messages?user=${user?.id}`)
-                                }
+                                }}
                             />
                             <ButtonsCircle
                                 src="/svg/repeat-01.svg"
                                 type="primary"
-                                onClick={() =>
+                                onClick={() => {
+                                    if (Number(userId) === Number(user?.id)) {
+                                        return
+                                    }
                                     dispatchVisibleBarter({
                                         isVisible: true,
                                         dataProfile: {
@@ -98,7 +105,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                             idUser: user?.profile?.userId!,
                                         },
                                     })
-                                }
+                                }}
                             />
                         </section>
                     </div>

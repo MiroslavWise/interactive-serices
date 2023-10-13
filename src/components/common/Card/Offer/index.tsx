@@ -11,6 +11,7 @@ import { BlockBarter } from "./components/BlockBarter"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 import { BlockTitle } from "./components/BlockTitle"
 
+import { useAuth } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
 import { usePush } from "@/helpers/hooks/usePush"
 
@@ -33,20 +34,26 @@ export const CardOffer: TCardOffer = ({
     initiator,
     consigner,
 }) => {
+    const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
     const [{ data: dataUser }] = useQueries([
         {
             queryFn: () => serviceUsers.getId(userId!),
             queryKey: ["user", userId],
             refetchOnMount: false,
+            enabled: !!userId,
         },
     ])
+
+    function handleChatBarter() {
+        handlePush(`/messages?barter-id=${id}-${userId}`)
+    }
 
     return (
         <MotionLI classNames={[styles.container]}>
             <section className={styles.main}>
                 <BlockTitle {...dataUser?.res!} />
-                <BlockBarter {...{consigner, initiator}} />
+                <BlockBarter {...{ consigner, initiator }} />
             </section>
             <footer>
                 <div className={styles.date}>
@@ -76,14 +83,14 @@ export const CardOffer: TCardOffer = ({
                                 />
                             </div>
                         ) : null}
-                        <ButtonCircleGradient
-                            type="primary"
-                            icon="/svg/message-dots-circle.svg"
-                            size={16}
-                            handleClick={() =>
-                                handlePush(`/messages?user=${userId}`)
-                            }
-                        />
+                        {myUserId && myUserId !== userId ? (
+                            <ButtonCircleGradient
+                                type="primary"
+                                icon="/svg/message-dots-circle.svg"
+                                size={16}
+                                handleClick={handleChatBarter}
+                            />
+                        ) : null}
                     </div>
                 )}
             </footer>

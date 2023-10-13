@@ -20,8 +20,6 @@ export const OffersPage = () => {
         queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
     })
 
-    console.log("data: ", data)
-
     return isMobile ? (
         <ul className="p-top-5 p-left-5 p-right-5 p-bottom-14 w-100 h-100">
             <MobileSegments />

@@ -44,13 +44,15 @@ export interface IResponseThread {
     emitterId: number
     receiverIds: number[]
     enabled: boolean
+    provider: string
     created: Date | string
     updated: Date | string
     messages: IThreadsMessages[]
 }
 
 interface IQueryParams {
-    user: number | string
+    user?: number | string
+    provider?: TTypeProviderThreads
     [key: string]: any
 }
 

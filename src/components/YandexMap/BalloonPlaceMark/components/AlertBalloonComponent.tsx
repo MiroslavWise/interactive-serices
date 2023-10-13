@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useId, useState } from "react"
 import Image from "next/image"
 import { useQueries } from "react-query"
 
@@ -9,6 +9,7 @@ import type { TAlertBalloonComponent } from "../types/types"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { ButtonSuccessInBalloon } from "./ButtonSuccessInBalloon"
 
+import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffer } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
@@ -17,6 +18,7 @@ import { usePhotoVisible } from "../hooks/usePhotoVisible"
 export const AlertBalloonComponent: TAlertBalloonComponent = ({
     stateBalloon,
 }) => {
+    const { userId } = useAuth()
     const [activeListComments, setActiveListComments] = useState(false)
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
@@ -39,6 +41,9 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
     ])
 
     function handleHelp() {
+        if (Number(userId) === Number(stateBalloon?.idUser)) {
+            return
+        }
         handlePush(`/messages?user=${stateBalloon.idUser}`)
     }
 
@@ -54,7 +59,9 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                 }}
             />
             <header data-alert>
-                <ButtonSuccessInBalloon idUser={1} onClick={handleHelp} />
+                {Number(userId) !== Number(stateBalloon?.idUser) ? (
+                    <ButtonSuccessInBalloon onClick={handleHelp} />
+                ) : null}
             </header>
             <div data-container-balloon data-alert>
                 <div data-info-profile>
