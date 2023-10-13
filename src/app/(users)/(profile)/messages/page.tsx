@@ -10,10 +10,11 @@ import styles from "./style.module.scss"
 export default function Messages() {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
+    const idUser = searchParams?.get("user")
 
     return isMobile ? (
         <div className={styles.pageMobile}>
-            {idThread ? <Chat /> : <ListChat />}
+            {idUser || idThread ? <Chat /> : <ListChat />}
         </div>
     ) : (
         <div className={styles.page}>

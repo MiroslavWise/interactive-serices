@@ -43,10 +43,15 @@ export interface IResponseThread{
     messages: IThreadsMessages[]
 }
 
+interface IQueryParams{
+    user: number | string
+    [key: string]: any
+}
+
 export interface IThreads{
     private route: string
     public post(value: IPostThreads): Promise<IReturnData<IResponseCreate>>
-    public get(value: Record<string, string | number>): Promise<IReturnData<IResponseThreads[]>>
+    public get(value?: IQueryParams): Promise<IReturnData<IResponseThreads[]>>
     public patch(value: IPatchThreads, id: number | string): Promise<IReturnData<IResponseCreate>>
     public getId(id: number | string): Promise<IReturnData<IResponseThread>>
     public delete(id: number | string): Promise<IReturnData<IResponseCreate>>

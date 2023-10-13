@@ -19,8 +19,8 @@ export const ListChat = () => {
     const { userId } = useAuth()
     const [search, setSearch] = useState("")
     const { data } = useQuery({
-        queryFn: () => serviceThreads.getUserId(userId!),
-        queryKey: ["threads", `user=${userId}`],
+        queryFn: () => serviceThreads.get({ user: userId! }),
+        queryKey: ["threads", userId, `user=${userId}`],
         refetchOnMount: true,
     })
 
