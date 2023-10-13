@@ -54,9 +54,9 @@ export const CurrentChat = () => {
         queryFn: () => serviceUsers.getId(Number(idUser)),
         queryKey: ["user", idUser],
         enabled: !!idUser,
-        refetchOnMount: false,
+        refetchOnMount: true,
         refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
+        refetchOnReconnect: true,
         refetchIntervalInBackground: false,
     })
 
