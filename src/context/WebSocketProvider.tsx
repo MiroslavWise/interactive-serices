@@ -15,8 +15,6 @@ import {
     type Socket,
     type SocketOptions,
 } from "socket.io-client"
-import { toast } from "react-toastify"
-import { useTheme } from "next-themes"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
@@ -60,16 +58,15 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                         accessToken: token,
                     },
                     withCredentials: true,
-                    autoConnect: false,
-                    reconnection: false,
                     path: "/ws/socket.io",
-                    transports: ["websocket", "polling"],
+                    transports: ["websocket"],
                     secure: true,
-                    rejectUnauthorized: false,
                 }
+
                 const socket: Socket = io(env.websocket, options)
+
                 socket.on("connect", () => {
-                    console.log("--- connect socket ---", socket)
+                    console.log("--- new connection socket ---", socket)
                     const upgradedTransport = socket.io.engine.transport.name
                     console.log(
                         "--- connect upgradedTransport ---",
