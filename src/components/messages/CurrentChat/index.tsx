@@ -35,7 +35,6 @@ export const CurrentChat = () => {
         queryFn: () => serviceThreads.getId(Number(idThread)),
         queryKey: ["threads", `user=${userId}`, `id=${idThread}`],
         refetchOnMount: false,
-        refetchInterval: 10 * 1000,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
         refetchIntervalInBackground: false,
@@ -92,7 +91,9 @@ export const CurrentChat = () => {
         console.log("socket socket: ", socket)
         function chatResponse(event: any) {
             console.log("chatResponse event: ", event)
-            refetch()
+            if (event?.threadId === Number(idThread)) {
+                refetch()
+            }
         }
 
         socket?.on("chatResponse", chatResponse)
@@ -100,7 +101,7 @@ export const CurrentChat = () => {
         return () => {
             socket?.off("chatResponse", chatResponse)
         }
-    }, [socket, refetch])
+    }, [socket, refetch, idThread])
 
     if (isMobile) {
         return (

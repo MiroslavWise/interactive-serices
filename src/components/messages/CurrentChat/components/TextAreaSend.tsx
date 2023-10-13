@@ -31,10 +31,13 @@ export const TextAreaSend: TTextAreaSend = ({
     const { userId } = useAuth()
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
-    const { register, setValue, handleSubmit } = useForm<{ text: string }>({})
+    const { register, setValue, handleSubmit, watch } = useForm<{
+        text: string
+    }>({})
     const [loading, setLoading] = useState(false)
 
     function onSubmit({ text }: { text: string }) {
+        console.log("onSubmit: ", text)
         if (!loading) {
             setLoading(true)
             const date = new Date()
@@ -42,24 +45,24 @@ export const TextAreaSend: TTextAreaSend = ({
             const receiverIds = [Number(idUser)]
             if (message) {
                 if (socket?.connected) {
+                    console.log("socket?.connected: ", socket?.connected)
                     socket?.emit(
                         "chat",
                         {
                             receiverIds: receiverIds,
                             message: message,
-                            threadId: idThread!,
+                            threadId: Number(idThread!),
                             created: date,
                             parentId: undefined,
                         },
                         (response: any) => {
                             console.log("message response :", response)
-                            setTimeout(() => {
-                                refetch()
-                            }, 100)
-                            setValue("text", "")
-                            setLoading(false)
                         },
                     )
+                    requestAnimationFrame(() => {
+                        setValue("text", "")
+                        setLoading(false)
+                    })
                 } else {
                     const data: IRequestPostMessages = {
                         threadId: Number(idThread!),
@@ -70,9 +73,9 @@ export const TextAreaSend: TTextAreaSend = ({
                         created: date,
                     }
                     serviceMessages.post(data).then((response) => {
-                        setTimeout(() => {
+                        requestAnimationFrame(() => {
                             refetch()
-                        }, 100)
+                        })
                         setValue("text", "")
                         setLoading(false)
                     })
@@ -97,11 +100,13 @@ export const TextAreaSend: TTextAreaSend = ({
             ) : null}
             {isMobile ? (
                 <input
+                    value={watch("text")}
                     placeholder="Введите сообщение..."
                     {...register("text", { required: true })}
                 />
             ) : (
                 <textarea
+                    value={watch("text")}
                     placeholder="Введите сообщение..."
                     {...register("text", { required: true })}
                 />
