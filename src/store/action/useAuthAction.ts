@@ -7,6 +7,7 @@ import type {
 } from "../types/useAuthState"
 
 import { serviceUsers } from "@/services/users"
+import { initialStateAuth } from "../state/useAuthState"
 
 export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
     set((state) => ({ ...state, ...initialState, isAuth: false }))
@@ -51,7 +52,6 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         !!get().refreshToken &&
         Number.isFinite(get().userId)
     ) {
-        set({ isAuth: true })
         serviceUsers.getMe().then((response) => {
             if (response?.ok) {
                 set({
@@ -89,13 +89,20 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
                         profileId: id,
                         imageProfile: image || undefined,
                     })
+                    set({ isAuth: true })
                 }
                 return
             } else {
+                set((state) => ({
+                    ...state,
+                    ...initialStateAuth,
+                    isAuth: false,
+                }))
                 set({ isAuth: false })
             }
         })
     } else {
+        set((state) => ({ ...state, ...initialStateAuth, isAuth: false }))
         set({ isAuth: false })
     }
 }

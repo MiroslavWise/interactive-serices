@@ -12,7 +12,7 @@ import {
 
 import { AuthService } from "@/services/auth/authService"
 
-const initialState = {
+export const initialStateAuth = {
     email: undefined,
     token: undefined,
     refreshToken: undefined,
@@ -29,7 +29,7 @@ const initialState = {
 export const useAuth = create(
     persist<TUseAuth>(
         (set, get) => ({
-            ...initialState,
+            ...initialStateAuth,
             changeAuth() {
                 changeAuthAction(set, get)
             },
@@ -41,7 +41,7 @@ export const useAuth = create(
             },
             signOut() {
                 console.log("sign-out")
-                signOutAction(set, initialState)
+                signOutAction(set, initialStateAuth)
             },
 
             refresh() {
@@ -59,7 +59,7 @@ export const useAuth = create(
                 if (typeof refreshToken !== "string") {
                     set((state) => ({
                         ...state,
-                        ...initialState,
+                        ...initialStateAuth,
                         isAuth: false,
                     }))
                     return
@@ -84,7 +84,7 @@ export const useAuth = create(
                         } else {
                             set((state) => ({
                                 ...state,
-                                ...initialState,
+                                ...initialStateAuth,
                                 isAuth: false,
                             }))
                         }
@@ -92,7 +92,7 @@ export const useAuth = create(
                 }
                 set((state) => ({
                     ...state,
-                    ...initialState,
+                    ...initialStateAuth,
                     isAuth: false,
                 }))
             },
