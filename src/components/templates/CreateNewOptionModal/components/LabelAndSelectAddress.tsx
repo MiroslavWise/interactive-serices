@@ -21,6 +21,10 @@ export const LabelAndSelectAddress: TLabelAndSelectAddress = ({
     const { addresses } = useAuth()
 
     const list = useMemo(() => {
+        if (!addresses) {
+            return []
+        }
+
         return (
             addresses.map(
                 (item) =>
@@ -38,11 +42,11 @@ export const LabelAndSelectAddress: TLabelAndSelectAddress = ({
             <CustomSelect
                 placeholder="Введите свой адрес, чтобы мы могли показать ваше предложение на карте"
                 list={list}
-                value={value?.id || addresses?.[0]?.id}
+                value={value?.id || addresses?.[0]?.id!}
                 setValue={(value: TValue) => {
-                    const valueCategory = addresses.find(
+                    const valueCategory = addresses?.find(
                         (item) => Number(item.id) === Number(value),
-                    )
+                    )!
                     setValue({
                         id: valueCategory?.id!,
                     })

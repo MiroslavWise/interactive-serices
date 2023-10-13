@@ -4,7 +4,7 @@ import type {
     IActionBalloonCard,
 } from "../types/createBalloonCard"
 
-export const useBalloonCard = create<IUseBalloonCard>((set, get) => ({
+export const useBalloonCard = create<IUseBalloonCard>((set) => ({
     visible: false,
     type: undefined,
     id: undefined,
@@ -12,11 +12,6 @@ export const useBalloonCard = create<IUseBalloonCard>((set, get) => ({
 
     dispatch({ visible, id, idUser, type }) {
         const values: IActionBalloonCard = {}
-
-        const getVisible = get().visible
-        const getType = get().type
-        const getId = get().id
-        const getIdUser = get().idUser
 
         if (visible === false || type === null) {
             values.id = undefined
@@ -31,11 +26,15 @@ export const useBalloonCard = create<IUseBalloonCard>((set, get) => ({
             })
             return
         }
-        set({
-            visible: typeof visible === "undefined" ? getVisible : visible,
-            type: typeof type === "undefined" ? getType : type,
-            id: typeof id === "undefined" ? getId : id,
-            idUser: typeof idUser === "undefined" ? getIdUser : idUser,
-        })
+        set(
+            (state) => ({
+                visible:
+                    typeof visible === "undefined" ? state.visible : visible,
+                type: typeof type === "undefined" ? state.type : type,
+                id: typeof id === "undefined" ? state.id : id,
+                idUser: typeof idUser === "undefined" ? state.idUser : idUser,
+            }),
+            true,
+        )
     },
 }))

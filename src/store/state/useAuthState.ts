@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
-import type { IUseAuth } from "../types/useAuthState"
+import type { TUseAuth } from "../types/useAuthState"
 
 import {
     signOutAction,
@@ -12,21 +12,24 @@ import {
 
 import { AuthService } from "@/services/auth/authService"
 
-export const useAuth = create(
-    persist<IUseAuth>(
-        (set, get) => ({
-            email: undefined,
-            token: undefined,
-            refreshToken: undefined,
-            userId: undefined,
-            expires: undefined,
-            profileId: undefined,
-            isAuth: undefined,
-            user: undefined,
-            imageProfile: undefined,
-            createdUser: undefined,
-            addresses: [],
+const initialState = {
+    email: undefined,
+    token: undefined,
+    refreshToken: undefined,
+    userId: undefined,
+    expires: undefined,
+    profileId: undefined,
+    isAuth: undefined,
+    user: undefined,
+    imageProfile: undefined,
+    createdUser: undefined,
+    addresses: undefined,
+}
 
+export const useAuth = create(
+    persist<TUseAuth>(
+        (set, get) => ({
+            ...initialState,
             changeAuth() {
                 changeAuthAction(set, get)
             },
@@ -37,14 +40,15 @@ export const useAuth = create(
                 setUserAction(value, set)
             },
             signOut() {
-                signOutAction(set)
+                console.log("sign-out")
+                signOutAction(set, initialState)
             },
 
             refresh() {
                 const refreshToken = get().refreshToken
                 const email = get().email
                 const expires = get().expires
-                console.log("refresh: ", isTokenExpired(expires))
+
                 if (
                     !isTokenExpired(get().expires) &&
                     typeof expires === "number"
@@ -53,18 +57,11 @@ export const useAuth = create(
                     return
                 }
                 if (typeof refreshToken !== "string") {
-                    set({
-                        email: undefined,
-                        token: undefined,
-                        refreshToken: undefined,
-                        userId: undefined,
-                        expires: undefined,
-                        profileId: undefined,
+                    set((state) => ({
+                        ...state,
+                        ...initialState,
                         isAuth: false,
-                        user: undefined,
-                        imageProfile: undefined,
-                        createdUser: undefined,
-                    })
+                    }))
                     return
                 }
                 if (
@@ -85,33 +82,19 @@ export const useAuth = create(
                             })
                             changeAuthAction(set, get)
                         } else {
-                            set({
-                                email: undefined,
-                                token: undefined,
-                                refreshToken: undefined,
-                                userId: undefined,
-                                expires: undefined,
-                                profileId: undefined,
+                            set((state) => ({
+                                ...state,
+                                ...initialState,
                                 isAuth: false,
-                                user: undefined,
-                                imageProfile: undefined,
-                                createdUser: undefined,
-                            })
+                            }))
                         }
                     })
                 }
-                set({
-                    email: undefined,
-                    token: undefined,
-                    refreshToken: undefined,
-                    userId: undefined,
-                    expires: undefined,
-                    profileId: undefined,
+                set((state) => ({
+                    ...state,
+                    ...initialState,
                     isAuth: false,
-                    user: undefined,
-                    imageProfile: undefined,
-                    createdUser: undefined,
-                })
+                }))
             },
         }),
         {
@@ -129,7 +112,7 @@ export const useAuth = create(
                     imageProfile: state.imageProfile,
                     createdUser: state.createdUser,
                     addresses: state.addresses,
-                } as IUseAuth
+                } as TUseAuth
             },
         },
     ),

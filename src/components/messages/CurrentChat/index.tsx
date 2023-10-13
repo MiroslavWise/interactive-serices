@@ -40,6 +40,20 @@ export const CurrentChat = () => {
         refetchIntervalInBackground: false,
     })
 
+    useEffect(() => {
+        if (userId && data?.res) {
+            const replaceOut = () => {
+                return (
+                    Number(data?.res?.emitterId) === Number(userId) ||
+                    !!data?.res?.receiverIds?.includes(userId!)
+                )
+            }
+            if (!replaceOut()) {
+                handleReplace("/messages")
+            }
+        }
+    }, [userId, data?.res, handleReplace])
+
     const idUser: number | null = useMemo(() => {
         if (data?.res) {
             return Number(data?.res?.emitterId) === Number(userId)

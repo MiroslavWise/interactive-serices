@@ -3,24 +3,13 @@ import type {
     IGetAction,
     IUser,
     ISetToken,
+    IAuthState,
 } from "../types/useAuthState"
 
 import { serviceUsers } from "@/services/users"
 
-export const signOutAction = (set: ISetAction) => {
-    set({
-        token: undefined,
-        refreshToken: undefined,
-        userId: undefined,
-        isAuth: false,
-        user: undefined,
-        profileId: undefined,
-        imageProfile: undefined,
-        createdUser: undefined,
-        email: undefined,
-        addresses: [],
-        expires: undefined,
-    })
+export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
+    set((state) => ({ ...state, ...initialState, isAuth: false }))
 }
 
 export const setUserAction = (
