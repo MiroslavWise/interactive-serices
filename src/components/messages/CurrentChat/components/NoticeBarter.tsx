@@ -127,6 +127,9 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
             transition={{ duration: 0.5 }}
             exit={{ opacity: 0, visibility: "hidden" }}
             className={styles.wrapper}
+            data-destroyed={["canceled", "destroyed"]?.includes(
+                data?.res?.status!,
+            )}
             id="id-barter-header"
         >
             <div data-sub-header>
@@ -192,6 +195,12 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                     <p>
                         Ваш обмен с {dataUser?.res?.profile?.firstName} не
                         состоялся!
+                    </p>
+                ) : null}
+                {data?.res?.status === "canceled" ? (
+                    <p>
+                        Ваш обмен с {dataUser?.res?.profile?.firstName} был
+                        отклонён!
                     </p>
                 ) : null}
             </section>
