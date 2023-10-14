@@ -15,7 +15,6 @@ import styles from "./styles/style.module.scss"
 
 export const ContainerSuggestions: TContainerSuggestions = ({
     isOfferOrRequest,
-    setIsOfferOrRequest,
 }) => {
     const { userId, user, imageProfile } = useAuth()
 
@@ -27,10 +26,10 @@ export const ContainerSuggestions: TContainerSuggestions = ({
 
     return (
         <MotionUL
-            classNames={[
-                styles.containerSuggestions,
-                isMobile && styles.mobile,
-            ]}
+            classNames={[styles.containerSuggestions]}
+            data={{
+                "data-mobile": isMobile,
+            }}
         >
             {Array.isArray(data?.res)
                 ? data?.res.map((item, index) => (

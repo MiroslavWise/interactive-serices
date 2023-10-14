@@ -13,8 +13,8 @@
     flex-direction: column;
     gap: 12px;
 
-    &.mobile {
-        max-width: max-content;
+    &[data-mobile="true"] {
+        max-width: 100%;
     }
 }
 

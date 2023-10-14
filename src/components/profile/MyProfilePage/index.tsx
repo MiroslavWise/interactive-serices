@@ -26,6 +26,7 @@ export const MyProfilePage: TMyProfilePage = ({}) => {
                 styles.containerProfilePage,
                 isMobile && styles.mobile,
             )}
+            
         >
             {typeof isMobile !== "undefined" && !isMobile ? (
                 <ContainerAboutMe

@@ -205,10 +205,10 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                         type={data?.res?.initiator?.provider!}
                     />
                     <Image
-                        src="/icons/mobile/regular/sharing-regular.svg"
+                        src="/svg/repeat-white.svg"
                         alt="barter"
-                        width={18}
-                        height={18}
+                        width={24}
+                        height={24}
                     />
                     <BadgeServices
                         photo="/mocks/Nail.png"

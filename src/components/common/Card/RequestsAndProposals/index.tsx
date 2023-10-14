@@ -1,5 +1,6 @@
 "use client"
 
+import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
 import { useSwipeable } from "react-swipeable"
 import { useState, useEffect, useCallback, useMemo, memo } from "react"
@@ -7,16 +8,19 @@ import { useState, useEffect, useCallback, useMemo, memo } from "react"
 import type { TRequestsAndProposals } from "./types"
 
 import { MotionLI } from "@/components/common/Motion"
-import { ButtonDefault } from "@/components/common/Buttons"
+import { ButtonFill } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./style.module.scss"
+import { useQuery } from "react-query"
+import { serviceUsers } from "@/services/users"
 
 const $CardRequestsAndProposals: TRequestsAndProposals = ({
     id,
@@ -37,10 +41,13 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
     type,
 }) => {
     const [active, setActive] = useState(0)
+    const { systemTheme } = useTheme()
+    const { userId: myUserId } = useAuth()
     const { categories } = useOffersCategories()
     const { handlePush } = usePush()
     const { dispatchMapCoordinates } = useMapCoordinates()
     const { dispatch } = useBalloonCard()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
 
     const handlers = useSwipeable({
         onSwipedLeft(event) {
@@ -49,6 +56,12 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
         onSwipedRight(event) {
             slideImage("toRight")
         },
+    })
+
+    const { data: dataUser } = useQuery({
+        queryFn: () => serviceUsers.getId(userId!),
+        queryKey: ["user", id],
+        enabled: userId !== myUserId,
     })
 
     const categoryCurrent = useMemo(() => {
@@ -100,13 +113,47 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
         })
     }
 
+    function handleBarter() {
+        const dataOffer = {
+            id,
+            parentId,
+            categoryId,
+            provider,
+            title,
+            slug,
+            description,
+            content,
+            imageId,
+            featuredId,
+            bannerId,
+            userId,
+            addresses,
+            images,
+            updated,
+        }
+
+        const name = `${dataUser?.res?.profile?.firstName || " "} ${
+            dataUser?.res?.profile?.lastName || " "
+        }`
+        const dataProfile = {
+            photo: dataUser?.res?.profile?.image?.attributes?.url!,
+            fullName: name,
+            idUser: userId!,
+        }
+        dispatchVisibleBarter({
+            isVisible: true,
+            dataOffer: dataOffer,
+            dataProfile: dataProfile,
+        })
+    }
+
     return (
         <MotionLI
-            classNames={[
-                styles.container,
-                styles[type!],
-                isMobile && styles.mobile,
-            ]}
+            classNames={[styles.container]}
+            data={{
+                "data-mobile": isMobile,
+                "data-type": type,
+            }}
         >
             <header>
                 <ImageStatic
@@ -147,9 +194,20 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
                         </div>
                     </div>
                 ) : null}
-                <div className={styles.button} data-relative={!images?.length}>
-                    <ButtonDefault type="primary" label="Откликнутся" />
-                </div>
+                {userId !== myUserId && myUserId ? (
+                    <div
+                        className={styles.button}
+                        data-relative={!images?.length}
+                    >
+                        <ButtonFill
+                            type={
+                                systemTheme === "dark" ? "primary" : "secondary"
+                            }
+                            label="Откликнутся"
+                            handleClick={handleBarter}
+                        />
+                    </div>
+                ) : null}
             </section>
         </MotionLI>
     )

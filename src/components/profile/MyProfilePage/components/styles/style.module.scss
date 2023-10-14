@@ -173,8 +173,7 @@
         width: 100%;
         margin-bottom: 16px;
     }
-
-    &.mobile {
+    &[data-mobile="true"] {
         height: auto;
         display: flex;
         flex-direction: column;

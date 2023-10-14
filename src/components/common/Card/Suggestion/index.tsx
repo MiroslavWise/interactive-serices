@@ -24,8 +24,16 @@ export const CardSuggestion: TCardSuggestion = (props) => {
     } = props
 
     return (
-        <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
-            <Header categoryId={categoryId!} rating={rating} title={title} provider={provider} />
+        <MotionLI
+            classNames={[styles.container]}
+            data={{ "data-mobile": isMobile }}
+        >
+            <Header
+                categoryId={categoryId!}
+                rating={rating}
+                title={title}
+                provider={provider}
+            />
             {images?.length ? (
                 <ContainerPhotos
                     {...{

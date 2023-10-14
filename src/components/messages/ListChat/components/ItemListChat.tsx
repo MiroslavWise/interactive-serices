@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
 
+import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
@@ -15,11 +16,15 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { useQuery } from "react-query"
+import { serviceBarters } from "@/services/barters"
 
 const $ItemListChat: TItemListChat = ({ thread, people }) => {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
     const { handleReplace } = usePush()
+    const { categories } = useOffersCategories()
 
     const adress: string | null = useMemo(() => {
         return (
@@ -28,15 +33,51 @@ const $ItemListChat: TItemListChat = ({ thread, people }) => {
         )
     }, [people])
 
+    const idBarter = useMemo(() => {
+        if (!thread?.title) return null
+
+        if (thread?.title?.includes("barter")) {
+            return thread?.title?.split(":")?.[1]
+        }
+
+        return null
+    }, [thread.title])
+
+    const { data: dataBarter } = useQuery({
+        queryFn: () => serviceBarters.getId(Number(idBarter)),
+        queryKey: ["barters", `id=${idBarter}`],
+        enabled: !!idBarter,
+    })
+
+    const barter = useMemo(() => {
+        if (!dataBarter?.res && !categories) return null
+
+        const titleInitiator = categories?.find(
+            (item) => item.id === dataBarter?.res?.initiator?.categoryId!,
+        )
+        const titleConsigner = categories?.find(
+            (item) => item.id === dataBarter?.res?.consigner?.categoryId!,
+        )
+
+        return {
+            initiator: {
+                title: titleInitiator?.title,
+                type: dataBarter?.res?.initiator?.provider!,
+            },
+            consigner: {
+                title: titleConsigner?.title!,
+                type: dataBarter?.res?.consigner?.provider!,
+            },
+        }
+    }, [dataBarter?.res, categories])
+
     function handleCurrentChat() {
         handleReplace(`/messages?thread=${thread.id}`)
     }
 
     function lastMessage(): string {
         if (thread?.messages?.length > 0) {
-            return thread?.messages?.[0]?.message!
-                ? thread?.messages?.[0]?.message!
-                : ""
+            return thread?.messages?.at(-1)?.message! || ""
         }
 
         return ""
@@ -51,7 +92,10 @@ const $ItemListChat: TItemListChat = ({ thread, people }) => {
             )}
             onClick={handleCurrentChat}
         >
-            <div className={styles.header}>
+            <div
+                className={styles.header}
+                data-barter={thread?.title?.includes("barter")}
+            >
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
                         {people?.profile?.image?.attributes?.url ? (
@@ -80,10 +124,32 @@ const $ItemListChat: TItemListChat = ({ thread, people }) => {
                         />
                     </div>
                     <div className={styles.nameAndGeo}>
-                        <h4>
-                            {people?.profile?.firstName || " "}{" "}
-                            {people?.profile?.lastName || " "}
-                        </h4>
+                        {thread?.title?.includes("barter") ? (
+                            <div data-title-barter>
+                                <BadgeServices
+                                    photo="/mocks/Nail.png"
+                                    label={barter?.initiator?.title!}
+                                    type={barter?.initiator?.type!}
+                                />
+                                <Image
+                                    data-repeat
+                                    src="   /svg/repeat-white.svg"
+                                    alt="barter"
+                                    width={18}
+                                    height={18}
+                                />
+                                <BadgeServices
+                                    photo="/mocks/Nail.png"
+                                    label={barter?.consigner?.title!}
+                                    type={barter?.consigner?.type!}
+                                />
+                            </div>
+                        ) : (
+                            <h4>
+                                {people?.profile?.firstName || " "}{" "}
+                                {people?.profile?.lastName || " "}
+                            </h4>
+                        )}
                         {adress ? (
                             <GeoTagging
                                 location={adress}
@@ -93,9 +159,9 @@ const $ItemListChat: TItemListChat = ({ thread, people }) => {
                         ) : null}
                     </div>
                 </div>
-                <p className={styles.timeAgo}>
+                <div className={styles.timeAgo}>
                     {timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}
-                </p>
+                </div>
             </div>
             <div className={styles.blockLastMessage}>
                 <p>{lastMessage()}</p>
