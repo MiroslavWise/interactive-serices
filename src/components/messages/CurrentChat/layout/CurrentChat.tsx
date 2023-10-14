@@ -122,17 +122,6 @@ export const CurrentChat = () => {
         }
     }, [socket, refetch, idThread])
 
-    const height = useMemo(() => {
-        if (!isBarter) return 0
-        let i = 0
-        const header = document.getElementById("id-barter-header")
-        requestAnimationFrame(() => {
-            i = header?.clientHeight!
-        })
-
-        return i
-    }, [isBarter])
-
     if (isMobile) {
         return (
             <section className={styles.containerMobile}>
@@ -185,7 +174,6 @@ export const CurrentChat = () => {
                 <ListMessages
                     messages={messages}
                     dataUser={dataUser?.res!}
-                    height={height}
                     isBarter={isBarter}
                 />
                 <TextAreaSend
@@ -214,7 +202,6 @@ export const CurrentChat = () => {
             <ListMessages
                 messages={messages}
                 dataUser={dataUser?.res!}
-                height={height}
                 isBarter={isBarter}
             />
             <TextAreaSend

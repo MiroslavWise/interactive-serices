@@ -1,6 +1,13 @@
 "use client"
 
-import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
+import {
+    type ReactNode,
+    memo,
+    useMemo,
+    useRef,
+    useEffect,
+    useState,
+} from "react"
 
 import type { IThreadsMessages } from "@/services/threads/types"
 
@@ -15,18 +22,17 @@ import { IUserResponse } from "@/services/users/types/usersService"
 export const ListMessages = memo(function ListMessages({
     messages,
     dataUser,
-    height,
     isBarter,
 }: {
     messages: IThreadsMessages[]
     dataUser: IUserResponse
-    height: number | undefined
     isBarter: boolean
 }) {
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
+    const [height, setHeight] = useState(0)
 
     const messagesJoin: ReactNode = useMemo(() => {
         if (Array.isArray(messages)) {
@@ -83,14 +89,23 @@ export const ListMessages = memo(function ListMessages({
         })
     }, [messages, numberIdMessage])
 
+    useEffect(() => {
+        if (isBarter) {
+            requestAnimationFrame(() => {
+                const header = document.getElementById("id-barter-header")
+                setHeight(header?.clientHeight || 0)
+            })
+        }
+    }, [isBarter])
+
     return (
         <ul
             data-height={isBarter}
             ref={ulChat}
             style={{
                 paddingTop:
-                    typeof height !== "undefined"
-                        ? ` calc(22px + ${height}px)`
+                    isBarter && height
+                        ? ` calc(22px + ${height < 148 ? 148 : height}px)`
                         : 22,
             }}
         >

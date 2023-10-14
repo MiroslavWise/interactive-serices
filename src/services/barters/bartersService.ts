@@ -61,6 +61,7 @@ export interface IPostDataBarter {
 
 interface IQueries {
     status?: TTypeStatusBarter
+    user?: number
     [key: string]: any
 }
 

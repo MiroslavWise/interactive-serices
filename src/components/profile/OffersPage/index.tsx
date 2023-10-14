@@ -17,7 +17,7 @@ export const OffersPage = () => {
     const { data } = useQuery({
         queryFn: () =>
             serviceBarters.getReceiverId(userId!, { status: "initiated" }),
-        queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
+        queryKey: ["barters", `receiver=${userId}`, `status=initiated`], 
     })
 
     return isMobile ? (

@@ -17,7 +17,7 @@ import { VALUES } from "@/components/auth/Profile/ProfilePublic/constants"
 import styles from "./styles/style.module.scss"
 
 export const Interactive: TInteractive = ({}) => {
-    const [active, setActive] = useState<ISegmentValues>(VALUES[0])
+    const [active, setActive] = useState<ISegmentValues<string>>(VALUES[0])
     const { systemTheme } = useTheme()
 
     const Items: ReactNode = useMemo(() => {

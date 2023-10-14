@@ -4,12 +4,12 @@ import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import type { TTextAreaSend } from "./types/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
 
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
+import { ButtonFill } from "@/components/common/Buttons"
 import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
 import { cx } from "@/lib/cx"
@@ -31,12 +31,12 @@ export const TextAreaSend: TTextAreaSend = ({
     const { userId } = useAuth()
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
-    const { register, setValue, handleSubmit, watch } = useForm<{
+    const { register, setValue, handleSubmit, watch, control } = useForm<{
         text: string
     }>({})
     const [loading, setLoading] = useState(false)
 
-    function onSubmit({ text }: { text: string }) {
+    function $onSubmit({ text }: { text: string }) {
         console.log("onSubmit: ", text)
         if (!loading) {
             setLoading(true)
@@ -84,9 +84,11 @@ export const TextAreaSend: TTextAreaSend = ({
         }
     }
 
+    const onSubmit = handleSubmit($onSubmit)
+
     return (
         <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={onSubmit}
             className={cx(styles.container, isMobile && styles.mobile)}
         >
             {isMobile ? (
@@ -108,6 +110,11 @@ export const TextAreaSend: TTextAreaSend = ({
                 <textarea
                     value={watch("text")}
                     placeholder="Введите сообщение..."
+                    onKeyDown={(event) => {
+                        if (event.keyCode === 13 || event.code === "Enter") {
+                            onSubmit()
+                        }
+                    }}
                     {...register("text", { required: true })}
                 />
             )}

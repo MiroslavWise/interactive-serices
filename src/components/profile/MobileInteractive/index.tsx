@@ -16,7 +16,9 @@ import { ITEMS_INTERACTIVE } from "../StatisticAndFeedback/components/constants"
 import styles from "./style.module.scss"
 
 export const MobileInteractive = () => {
-    const [active, setActive] = useState<ISegmentValues>(ITEMS_INTERACTIVE[0])
+    const [active, setActive] = useState<ISegmentValues<string>>(
+        ITEMS_INTERACTIVE[0],
+    )
     const [isSticky, setIsSticky] = useState(false)
 
     const Items: ReactNode = useMemo(() => {

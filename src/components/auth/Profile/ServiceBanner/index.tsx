@@ -18,7 +18,7 @@ import { SERVICES } from "./constants"
 import styles from "./styles/style.module.scss"
 
 const $ServiceBanner: TServiceBanner = ({ active }) => {
-    const [activeService, setActiveService] = useState<ISegmentValues>(
+    const [activeService, setActiveService] = useState<ISegmentValues<string>>(
         SERVICES[0],
     )
 

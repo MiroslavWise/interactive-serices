@@ -1,7 +1,8 @@
 "use client"
 
-import Image from "next/image"
 import dayjs from "dayjs"
+import { useMemo } from "react"
+import Image from "next/image"
 import { useQueries } from "react-query"
 
 import type { TCardOffer } from "./types"
@@ -37,12 +38,20 @@ export const CardOffer: TCardOffer = ({
 }) => {
     const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
+
+    const idUser = useMemo(() => {
+        if (!initiator || !consigner) return null
+        return Number(initiator?.userId) === Number(myUserId)
+            ? Number(consigner?.userId)
+            : Number(initiator?.userId)
+    }, [consigner, initiator, myUserId])
+
     const [{ data: dataUser }] = useQueries([
         {
-            queryFn: () => serviceUsers.getId(userId!),
-            queryKey: ["user", userId],
+            queryFn: () => serviceUsers.getId(idUser!),
+            queryKey: ["user", idUser],
             refetchOnMount: false,
-            enabled: !!userId,
+            enabled: !!idUser,
         },
     ])
 
@@ -50,7 +59,7 @@ export const CardOffer: TCardOffer = ({
         if (!!threadId) {
             handlePush(`/messages?thread=${threadId}`)
         } else {
-            handlePush(`/messages?barter-id=${id}-${userId}`)
+            handlePush(`/messages?barter-id=${id}-${idUser}`)
         }
     }
 
@@ -88,14 +97,12 @@ export const CardOffer: TCardOffer = ({
                                 />
                             </div>
                         ) : null}
-                        {myUserId && myUserId !== userId ? (
-                            <ButtonCircleGradient
-                                type="primary"
-                                icon="/svg/message-dots-circle.svg"
-                                size={16}
-                                handleClick={handleChatBarter}
-                            />
-                        ) : null}
+                        <ButtonCircleGradient
+                            type="primary"
+                            icon="/svg/message-dots-circle.svg"
+                            size={16}
+                            handleClick={handleChatBarter}
+                        />
                     </div>
                 )}
             </footer>

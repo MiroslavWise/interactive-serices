@@ -152,8 +152,8 @@ h6 {
     --gradient-optional-3: linear-gradient(180deg, #ffa8c7 0%, #ee4381 100%);
     --gradient-barter: linear-gradient(
         90deg,
-        rgb(148, 125, 231) 0%,
-        rgb(191, 120, 196) 100%
+        rgba(148, 125, 231, 0.65) 0%,
+        rgba(191, 120, 196, 0.65) 100%
     );
 
     //Permanent
