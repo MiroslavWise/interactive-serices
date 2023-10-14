@@ -102,14 +102,14 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
         }
     }
 
-    function handleRejected() {
+    function handleCanceled() {
         if (!loading) {
             setLoading(true)
             serviceBarters
                 .patch(
                     {
                         updatedById: userId,
-                        status: "destroyed",
+                        status: "canceled",
                     },
                     idBarter!,
                 )
@@ -178,7 +178,7 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                 ) : null}
                 {data?.res?.status === "executed" ? (
                     <p>
-                        В настоящее время у вас есть постоянный обмен с{" "}
+                        В настоящее время у вас есть обмен с{" "}
                         {dataUser?.res?.profile?.firstName}
                     </p>
                 ) : null}
@@ -236,7 +236,7 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                         <ButtonDefault
                             classNames={styles.fill}
                             label="Отказаться"
-                            handleClick={handleRejected}
+                            handleClick={handleCanceled}
                             suffix={
                                 <Image
                                     src="/svg/x-close-primary.svg"
