@@ -23,6 +23,7 @@ export interface ISmallDataOfferBarter {
 
 export interface IBarterResponse {
     id: number
+    threadId?: number
     parentId: number | null
     consignedId: number // принимающий оффер
     initialId: number //инициализирующий оффер
@@ -42,6 +43,7 @@ export interface IBarterResponse {
 export interface IPostDataBarter {
     parentId?: number
     categoryId?: number
+    threadId?: number
     addresses?: number[]
     subscribers?: number[]
     provider: TTypeProvider

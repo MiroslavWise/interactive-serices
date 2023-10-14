@@ -12,6 +12,7 @@ export const ButtonDefault: TButtonPropsDefault = ({
     disabled,
     classNames,
     prefix,
+    suffix,
 }) => {
     return (
         <motion.button
@@ -21,6 +22,7 @@ export const ButtonDefault: TButtonPropsDefault = ({
         >
             {prefix ? prefix : null}
             <span>{label}</span>
+            {suffix ? suffix : null}
         </motion.button>
     )
 }

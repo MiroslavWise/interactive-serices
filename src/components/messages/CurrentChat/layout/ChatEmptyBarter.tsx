@@ -10,8 +10,10 @@ import { useAuth } from "@/store/hooks"
 import { serviceThreads } from "@/services/threads"
 import { IPostThreads } from "@/services/threads/types"
 import { providerIsAscending } from "@/lib/sortIdAscending"
+import { serviceBarters } from "@/services/barters"
 
 import styles from "../styles/style.module.scss"
+import { IPatchDataBarter } from "@/services/barters/bartersService"
 
 export const ChatEmptyBarter = () => {
     const { systemTheme } = useTheme()
@@ -54,7 +56,19 @@ export const ChatEmptyBarter = () => {
                 provider: provider,
                 enabled: true,
             }
+
             const { res } = await serviceThreads.post(data_)
+            if (res?.id) {
+                const dataBarter: IPatchDataBarter = {
+                    threadId: Number(res?.id),
+                    updatedById: userId,
+                }
+                const response = await serviceBarters.patch(
+                    dataBarter,
+                    Number(idBarter),
+                )
+                console.log("response updated barter: ", response)
+            }
 
             return res?.id
         }

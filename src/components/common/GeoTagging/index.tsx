@@ -21,7 +21,7 @@ export const GeoTagging: TGeoTagging = ({
         }
     }
     return (
-        <div className={cx(styles.geo, className)} onClick={handle}>
+        <div className={cx(styles.geo, className)} onClick={handle} data-geo>
             <Image
                 src="/svg/geo-marker.svg"
                 alt="geo"

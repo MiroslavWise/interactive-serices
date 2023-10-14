@@ -150,6 +150,11 @@ h6 {
     );
     --gradient-optional-2: linear-gradient(180deg, #8ccfff 0%, #3aaafa 100%);
     --gradient-optional-3: linear-gradient(180deg, #ffa8c7 0%, #ee4381 100%);
+    --gradient-barter: linear-gradient(
+        90deg,
+        rgb(148, 125, 231) 0%,
+        rgb(191, 120, 196) 100%
+    );
 
     //Permanent
     --supporting-white: #ffffff;

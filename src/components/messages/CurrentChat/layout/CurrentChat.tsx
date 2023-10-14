@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useQuery } from "react-query"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -122,7 +122,18 @@ export const CurrentChat = () => {
         }
     }, [socket, refetch, idThread])
 
-    console.log("data thresad: ", data)
+    const height = useMemo(() => {
+        if (!isBarter) return 0
+        let i = 0
+        const header = document.getElementById("id-barter-header")
+        requestAnimationFrame(() => {
+            i = header?.clientHeight!
+        })
+
+        return i
+    }, [isBarter])
+
+    console.log("height: ", height)
 
     if (isMobile) {
         return (
@@ -173,7 +184,11 @@ export const CurrentChat = () => {
                         />
                     </div>
                 </div>
-                <ListMessages messages={messages} dataUser={dataUser?.res!} />
+                <ListMessages
+                    messages={messages}
+                    dataUser={dataUser?.res!}
+                    height={height}
+                />
                 <TextAreaSend
                     photo={conversationPartner?.photo}
                     fullName={conversationPartner?.name}
@@ -197,7 +212,11 @@ export const CurrentChat = () => {
                     idBarter={Number(data?.res?.provider?.split(":")?.[1])}
                 />
             ) : null}
-            <ListMessages messages={messages} dataUser={dataUser?.res!} />
+            <ListMessages
+                messages={messages}
+                dataUser={dataUser?.res!}
+                height={height}
+            />
             <TextAreaSend
                 photo={conversationPartner?.photo}
                 fullName={conversationPartner?.name}

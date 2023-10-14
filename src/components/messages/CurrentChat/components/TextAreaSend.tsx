@@ -126,7 +126,7 @@ export const TextAreaSend: TTextAreaSend = ({
             <div className={styles.buttons}>
                 {!isMobile ? (
                     <>
-                        <ButtonCircleGradient
+                        {/* <ButtonCircleGradient
                             type="option-1"
                             icon="/svg/repeat-orange.svg"
                             size={20}
@@ -140,7 +140,7 @@ export const TextAreaSend: TTextAreaSend = ({
                                     },
                                 })
                             }}
-                        />
+                        /> */}
                         <ButtonFill
                             submit="submit"
                             type="secondary"

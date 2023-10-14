@@ -1,12 +1,6 @@
 "use client"
 
-import {
-    type ReactNode,
-    memo,
-    useMemo,
-    useRef,
-    useInsertionEffect,
-} from "react"
+import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IThreadsMessages } from "@/services/threads/types"
 
@@ -21,25 +15,16 @@ import { IUserResponse } from "@/services/users/types/usersService"
 export const ListMessages = memo(function ListMessages({
     messages,
     dataUser,
+    height,
 }: {
     messages: IThreadsMessages[]
     dataUser: IUserResponse
+    height: number | undefined
 }) {
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
-
-    useInsertionEffect(() => {
-        if (messages?.length > 0) {
-            if (ulChat.current) {
-                if (numberIdMessage.current !== messages?.at(-1)?.id) {
-                    ulChat.current.scrollTop = ulChat.current.scrollHeight
-                    numberIdMessage.current = messages?.at(-1)?.id!
-                }
-            }
-        }
-    }, [messages])
 
     const messagesJoin: ReactNode = useMemo(() => {
         if (Array.isArray(messages)) {
@@ -82,5 +67,31 @@ export const ListMessages = memo(function ListMessages({
         return null
     }, [dataUser, messages, join, userId, imageProfile?.attributes?.url])
 
-    return <ul ref={ulChat}>{messagesJoin}</ul>
+    useEffect(() => {
+        requestAnimationFrame(() => {
+            if (messages?.length > 0) {
+                if (ulChat.current) {
+                    if (numberIdMessage.current !== messages?.at(-1)?.id) {
+                        const top = ulChat.current.scrollHeight
+                        ulChat.current.scroll({ top: top, behavior: "smooth" })
+                        numberIdMessage.current = messages?.at(-1)?.id!
+                    }
+                }
+            }
+        })
+    }, [messages, numberIdMessage])
+
+    return (
+        <ul
+            ref={ulChat}
+            style={{
+                paddingTop:
+                    typeof height !== "undefined"
+                        ? ` calc(22px + ${height}px)`
+                        : 22,
+            }}
+        >
+            {messagesJoin}
+        </ul>
+    )
 })
