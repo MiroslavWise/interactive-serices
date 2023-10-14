@@ -16,10 +16,12 @@ export const ListMessages = memo(function ListMessages({
     messages,
     dataUser,
     height,
+    isBarter,
 }: {
     messages: IThreadsMessages[]
     dataUser: IUserResponse
     height: number | undefined
+    isBarter: boolean
 }) {
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
@@ -83,6 +85,7 @@ export const ListMessages = memo(function ListMessages({
 
     return (
         <ul
+            data-height={isBarter}
             ref={ulChat}
             style={{
                 paddingTop:

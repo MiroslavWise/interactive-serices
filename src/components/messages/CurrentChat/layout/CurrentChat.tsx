@@ -133,8 +133,6 @@ export const CurrentChat = () => {
         return i
     }, [isBarter])
 
-    console.log("height: ", height)
-
     if (isMobile) {
         return (
             <section className={styles.containerMobile}>
@@ -188,6 +186,7 @@ export const CurrentChat = () => {
                     messages={messages}
                     dataUser={dataUser?.res!}
                     height={height}
+                    isBarter={isBarter}
                 />
                 <TextAreaSend
                     photo={conversationPartner?.photo}
@@ -216,6 +215,7 @@ export const CurrentChat = () => {
                 messages={messages}
                 dataUser={dataUser?.res!}
                 height={height}
+                isBarter={isBarter}
             />
             <TextAreaSend
                 photo={conversationPartner?.photo}
