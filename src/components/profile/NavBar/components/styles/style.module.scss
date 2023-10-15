@@ -98,7 +98,7 @@
     }
 
     & > p {
-        color: var(--color-text);
+        color: var(--support-white);
         text-align: start;
         font-size: 20px;
         font-style: normal;
@@ -107,6 +107,7 @@
 
         & > span {
             color: var(--primary-500);
+            cursor: pointer;
         }
     }
 }
