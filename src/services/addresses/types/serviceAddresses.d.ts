@@ -44,7 +44,7 @@ export interface IPostAddress{
 export type IPatchAddress = Partial<IPostAddress>
 
 export interface IServiceAddresses{
-    private route: string
+    route: string
     public get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
     public getHash(value: string): Promise<IReturnData<IAddressesResponse>>
     public getId(id: string | number): Promise<IReturnData<IAddressesResponse>>

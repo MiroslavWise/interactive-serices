@@ -4,7 +4,7 @@ import { IReturnData } from "@/services/types/general"
 import { IForgotPasswordResponse, IResetPasswordResponse, IForgotPassword, IPasswordRecovery } from "@/services/auth/types/forgotPasswordService"
 
 export interface IForgotPasswordHelper{
-  private temporaryToken: string | null
+  temporaryToken: string | null
   public saveTemporaryToken: Dispatch<string>
 
   public async forgotPassword(value: IForgotPassword): Promise<IReturnData<IForgotPasswordResponse>>

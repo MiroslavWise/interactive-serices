@@ -20,7 +20,7 @@ interface IResponseOtp{
   refreshToken: string
 }
 export interface IUseTokenHelper {
-  private temporaryToken: string
+  temporaryToken: string
   private saveTemporaryToken: Dispatch<string>
 
   public async login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>

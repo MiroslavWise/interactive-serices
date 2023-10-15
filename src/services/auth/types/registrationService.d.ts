@@ -12,6 +12,6 @@ export interface IResponseDataRegistration {
 }
 
 export interface IRegistrationService {
-  public registration(value: IDataRegistration): Promise<IReturnData<IResponseDataRegistration>>
-  public verification(value: {code: string}): Promise<IReturnData<IResponseDataRegistration>>
+  registration(value: IDataRegistration): Promise<IReturnData<IResponseDataRegistration>>
+  verification(value: {code: string}): Promise<IReturnData<IResponseDataRegistration>>
 }

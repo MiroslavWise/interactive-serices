@@ -18,7 +18,7 @@ export interface IRefreshToken {
 }
 
 export interface IAuthService {
-  public authToken(): string
+  authToken(): string
   public login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
   public refresh(values: IRequestRefresh): Promise<IReturnData<IResponseRefresh>>
 }
