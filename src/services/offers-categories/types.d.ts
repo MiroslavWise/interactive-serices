@@ -14,6 +14,6 @@ export interface IServiceOffersCategories{
     // post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
     get(value?: Record<string, string | number>): Promise<IReturnData<IResponseOffersCategories[]>>
     // patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
-    public getId(id: number | string): Promise<IReturnData<IResponseOffersCategories>>
+    getId(id: number | string): Promise<IReturnData<IResponseOffersCategories>>
     // delete(id: number | string): Promise<IReturnData<IResponseCreate>>
 }

@@ -34,10 +34,10 @@ export interface IResponseMessage extends IResponseMessageProps{
 
 export interface IMessages{
     private route: string
-    public post(value: IRequestPostMessages): Promise<IReturnData<IResponseCreate>>
-    public get(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
-    public patch(value: IRequestPatchMessages, id: number | string): Promise<IReturnData<IResponseCreate>>
-    public getId(id: number | string): Promise<IReturnData<IResponseMessage>>
-    public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
-    public getUserId(id: number | string): Promise<IReturnData<IResponseMessage[]>>
+    post(value: IRequestPostMessages): Promise<IReturnData<IResponseCreate>>
+    get(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
+    patch(value: IRequestPatchMessages, id: number | string): Promise<IReturnData<IResponseCreate>>
+    getId(id: number | string): Promise<IReturnData<IResponseMessage>>
+    delete(id: number | string): Promise<IReturnData<IResponseCreate>>
+    getUserId(id: number | string): Promise<IReturnData<IResponseMessage[]>>
 }

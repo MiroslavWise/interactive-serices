@@ -59,6 +59,6 @@ export interface IResponseRefresh{
   expires: number
 }
 export interface IServiceAuth{
-  public login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
-  public refresh(values: IRequestRefresh): Promise<IReturnData<IResponseRefresh>>
+  login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
+  refresh(values: IRequestRefresh): Promise<IReturnData<IResponseRefresh>>
 }

@@ -21,10 +21,10 @@ interface IResponseOtp{
 }
 export interface IUseTokenHelper {
   temporaryToken: string
-  private saveTemporaryToken: Dispatch<string>
+  saveTemporaryToken: Dispatch<string>
 
-  public async login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
-  public async serviceOtp(value: IRequestOtp): Promise<IReturnData<IResponseOtp>>
+  login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
+  serviceOtp(value: IRequestOtp): Promise<IReturnData<IResponseOtp>>
 
   get authToken(): string
 }
