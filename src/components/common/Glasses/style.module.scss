@@ -1,28 +1,28 @@
 @mixin glassShadow {
-  position: absolute;
-  width: 231px;
-  height: 231px;
-  border-radius: 231px;
-  filter: blur(80px);
-  transform: translate(-50%, -50%);
-  z-index: 0;
+    position: absolute;
+    width: 231px;
+    height: 231px;
+    border-radius: 231px;
+    filter: blur(80px);
+    transform: translate(-50%, -50%);
+    z-index: 0;
 }
 
-.containerGlass1{
-  @include glassShadow;
-  background: rgba(100, 220, 246, 0.32);
-  top: 0;
-  left: 0;
+.containerGlass1 {
+    @include glassShadow;
+    background: rgba(100, 220, 246, 0.32);
+    top: 0;
+    left: 0;
 }
-.containerGlass2{
-  @include glassShadow;
-  background: rgba(135, 92, 255, 0.32);
-  top: 60%;
-  left: 100%;
+.containerGlass2 {
+    @include glassShadow;
+    background: rgba(135, 92, 255, 0.32);
+    top: 60%;
+    left: 100%;
 }
-.containerGlass3{
-  @include glassShadow;
-  background: rgba(243, 145, 114, 0.32);
-  top: 100%;
-  left: 0;
+.containerGlass3 {
+    @include glassShadow;
+    background: rgba(243, 145, 114, 0.32);
+    top: 100%;
+    left: 0;
 }

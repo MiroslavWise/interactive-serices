@@ -1,20 +1,18 @@
-import type { IBartersService } from "./bartersService"
+import { wrapperFetch } from "../requestsWrapper"
+import {
+    ICommentsResponse,
+    ICommentsService,
+    IPatchDataComment,
+    IPostDataComment,
+} from "./types"
 
-import { wrapperFetch } from "@/services/requestsWrapper"
-
-export const serviceBarters: IBartersService = {
-    route: "/barters",
+export const serviceComments: ICommentsService = {
+    route: "/comments",
     get(value) {
         return wrapperFetch.methodGet(this.route, value)
     },
     getId(id) {
         return wrapperFetch.methodGetId(this.route, id)
-    },
-    getUserId(id, queries) {
-        return wrapperFetch.methodGetId(`${this.route}/user`, id, queries)
-    },
-    getReceiverId(id, queries) {
-        return wrapperFetch.methodGetId(`${this.route}/receiver`, id, queries)
     },
     post(value) {
         return wrapperFetch.methodPost(this.route, value)

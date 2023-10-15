@@ -1,114 +1,114 @@
 @mixin glassShadow {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 300px;
-  filter: blur(80px);
-  transform: translate(-50%, -50%);
-  z-index: -1;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 300px;
+    filter: blur(80px);
+    transform: translate(-50%, -50%);
+    z-index: -1;
 }
 
 .container {
-  position: absolute;
-  padding-top: 28px;
-  top: 24px;
-  right: 24px;
-  max-width: 400px; 
-  width: 100%;
-  height: calc(100% - 48px);
-  flex-shrink: 0;
-  border-radius: var(--banner-border-radius);
-  background: var(--glass-bg-color);
-  overflow: hidden;
-  backdrop-filter: blur(4px); 
-  box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-  z-index: 59;
-
-  &.active {
-  }
-
-  .sectionSegments {
-    padding-left: 17px;
-    padding-right: 17px;
-  }
-
-  .titleAndSearch {
-    padding: 28px 24px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    position: absolute;
+    padding-top: 28px;
+    top: 24px;
+    right: 24px;
+    max-width: 400px;
     width: 100%;
+    height: calc(100% - 48px);
+    flex-shrink: 0;
+    border-radius: var(--banner-border-radius);
+    background: var(--glass-bg-color);
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+    z-index: 59;
 
-    h2 {
-      color: var(--gray-900);
-      font-size: 30px;
-      font-weight: 600;
-      line-height: 38px;
-      letter-spacing: -0.5px;
+    &.active {
     }
-  }
+
+    .sectionSegments {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .titleAndSearch {
+        padding: 28px 24px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+
+        h2 {
+            color: var(--gray-900);
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 38px;
+            letter-spacing: -0.5px;
+        }
+    }
 }
 
 .peopleContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 0 24px 20px;
-  overflow: hidden;
-
-  .titleWrapper {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 16px;
+    padding: 0 24px 20px;
+    overflow: hidden;
 
-    h3 {
-      color: var(--gray-900);
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 30px;
-      letter-spacing: -0.5px;
+    .titleWrapper {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+
+        h3 {
+            color: var(--gray-900);
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .totalOval {
+            display: flex;
+            padding: 4px 8px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            border-radius: 100px;
+            background: var(--gray-200);
+
+            span {
+                color: var(--primary-500);
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 24px;
+                letter-spacing: -0.5px;
+            }
+        }
     }
-
-    .totalOval {
-      display: flex;
-      padding: 4px 8px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-      border-radius: 100px;
-      background: var(--gray-200);
-
-      span {
-        color: var(--primary-500);
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 24px;
-        letter-spacing: -0.5px;
-      }
-    }
-  }
 }
 
 //GLASS SHADOW CIRCLE
 
 .glassShadowOne {
-  @include glassShadow;
-  background: rgba(100, 220, 246, 0.32);
-  top: 0;
-  left: 50%;
+    @include glassShadow;
+    background: rgba(100, 220, 246, 0.32);
+    top: 0;
+    left: 50%;
 }
 
 .glassShadowTwo {
-  @include glassShadow;
-  background: rgba(135, 92, 255, 0.32);
-  top: 50%;
-  left: 100%;
+    @include glassShadow;
+    background: rgba(135, 92, 255, 0.32);
+    top: 50%;
+    left: 100%;
 }
 
 .glassShadowThree {
-  @include glassShadow;
-  background: rgba(243, 145, 114, 0.32);
-  top: 95%;
-  left: 0;
+    @include glassShadow;
+    background: rgba(243, 145, 114, 0.32);
+    top: 95%;
+    left: 0;
 }

@@ -39,9 +39,7 @@ export const ChatEmptyBarter = () => {
             })
             return res?.find(
                 (item) =>
-                    (item?.provider?.includes("barter") &&
-                        Number(item?.provider?.split(":")?.[1]) ===
-                            Number(barterNumber?.id)) ||
+                    item?.provider?.includes("barter") &&
                     item?.barterId === Number(barterNumber?.id),
             )
         }
@@ -68,7 +66,7 @@ export const ChatEmptyBarter = () => {
                 }
                 const response = await serviceBarters.patch(
                     dataBarter,
-                    Number(idBarter),
+                    Number(barterNumber?.id),
                 )
                 console.log("response updated barter: ", response)
             }

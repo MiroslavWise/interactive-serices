@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import type { TBlockComments } from "../types/types"
 
 import { ItemComment } from "./ItemComment"
-import { ButtonDefault } from "@/components/common/Buttons"
+import { ButtonFill } from "@/components/common/Buttons"
 
 export const BlockComments: TBlockComments = () => {
     const {
@@ -40,7 +40,7 @@ export const BlockComments: TBlockComments = () => {
                     }}
                     {...register("text", { required: true })}
                 />
-                <ButtonDefault
+                <ButtonFill
                     type="primary"
                     label="Добавить комментарий"
                     submit="submit"

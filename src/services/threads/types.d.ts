@@ -59,7 +59,7 @@ interface IQueryParams {
     [key: string]: any
 }
 
-export interface IThreads {
+export interface IServiceThreads {
     route: string
     post(value: IPostThreads): Promise<IReturnData<IResponseCreate>>
     get(value?: IQueryParams): Promise<IReturnData<IResponseThreads[]>>

@@ -7,8 +7,8 @@ import type {
 import type { IUserResponse } from "@/services/users/types/usersService"
 
 interface IList {
+    items: IFiltersItems[]
     search: string
-    provider: TTypeProviderThreads
     setTotal: Dispatch<SetStateAction<number>>
 }
 
