@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
 
@@ -9,6 +8,7 @@ import type { TAddCreate } from "@/store/types/useAddCreateModal"
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
+import { ImageStatic } from "@/components/common/Image"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { useCloseCreateOptions } from "@/helpers/hooks/useCloseCreateOptions"
 
@@ -35,7 +35,7 @@ export const FinishScreen = () => {
     return (
         <div className={cx(styles.wrapper, isMobile && styles.mobile)}>
             <section>
-                <Image
+                <ImageStatic
                     src="/png/welcome/girl-fest.png"
                     alt="girl-fest"
                     height={294}
