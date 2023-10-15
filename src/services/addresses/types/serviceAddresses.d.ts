@@ -45,10 +45,10 @@ export type IPatchAddress = Partial<IPostAddress>
 
 export interface IServiceAddresses{
     route: string
-    public get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
-    public getHash(value: string): Promise<IReturnData<IAddressesResponse>>
-    public getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-    public post(value: IPostAddress): Promise<IReturnData<{id: number}>>
-    public patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
-    public delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
+    get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
+    getHash(value: string): Promise<IReturnData<IAddressesResponse>>
+    getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
+    post(value: IPostAddress): Promise<IReturnData<{id: number}>>
+    patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
+    delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
 }

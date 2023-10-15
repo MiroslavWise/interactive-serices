@@ -5,8 +5,8 @@ import { IForgotPasswordResponse, IResetPasswordResponse, IForgotPassword, IPass
 
 export interface IForgotPasswordHelper{
   temporaryToken: string | null
-  public saveTemporaryToken: Dispatch<string>
+  saveTemporaryToken: Dispatch<string>
 
-  public async forgotPassword(value: IForgotPassword): Promise<IReturnData<IForgotPasswordResponse>>
-  public async resetPassword(value: IPasswordRecovery): Promise<IReturnData<IResetPasswordResponse>>
+  forgotPassword(value: IForgotPassword): Promise<IReturnData<IForgotPasswordResponse>>
+  resetPassword(value: IPasswordRecovery): Promise<IReturnData<IResetPasswordResponse>>
 }
