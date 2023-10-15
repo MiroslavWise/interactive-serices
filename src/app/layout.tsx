@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description:
         "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
     keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
-    robots: "noindex, nofollow",
+    // robots: "noindex, nofollow",
 }
 
 export default function Layout({ children }: { children: ReactNode }) {

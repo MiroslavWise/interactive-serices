@@ -32,7 +32,7 @@ interface IQueries {
     status?: TTypeStatusComments
     barter?: number
     offer?: number
-    [key: string]: string
+    target?: number
 }
 
 export interface ICommentsService {

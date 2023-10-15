@@ -367,7 +367,7 @@
         & > article {
             position: relative;
             width: 100%;
-            max-height: calc(167px + 325px);
+            max-height: calc(167px + 225px);
             min-height: 167px;
             height: 100%;
             border-radius: 0px 0px 33px 33px;
@@ -376,7 +376,7 @@
             & > ul {
                 border-top: 1px solid var(--opacity-white-hard);
                 width: 100%;
-                max-height: calc(167px + 325px);
+                max-height: calc(167px + 225px);
                 overflow-y: auto;
                 padding-bottom: 167px;
 
@@ -408,8 +408,8 @@
                                 line-height: 18px;
                             }
                             & > img {
-                                height: 38px;
-                                width: 38px;
+                                height: 35px;
+                                width: 35px;
                                 border-radius: 8.143px;
                                 background: #d2c7ac;
                             }
@@ -418,19 +418,17 @@
                         & > p {
                             color: var(--supporting-white);
                             text-align: right;
-                            font-size: 12px;
+                            font-size: 10px;
                             font-style: normal;
                             font-weight: 400;
-                            line-height: 18px;
                         }
                     }
 
                     & > p {
                         color: var(--supporting-white);
-                        font-size: 16px;
+                        font-size: 13px;
                         font-style: normal;
-                        font-weight: 500;
-                        line-height: 24px;
+                        font-weight: 400;
                     }
                 }
             }

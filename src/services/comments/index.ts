@@ -1,10 +1,5 @@
+import type { ICommentsService } from "./types"
 import { wrapperFetch } from "../requestsWrapper"
-import {
-    ICommentsResponse,
-    ICommentsService,
-    IPatchDataComment,
-    IPostDataComment,
-} from "./types"
 
 export const serviceComments: ICommentsService = {
     route: "/comments",

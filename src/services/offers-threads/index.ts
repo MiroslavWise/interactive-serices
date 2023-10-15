@@ -1,8 +1,8 @@
-import type { IServiceOffers } from "./types"
+import type { IServiceOffersThreads } from "./types"
 import { wrapperFetch } from "../requestsWrapper"
 
-export const serviceOffer: IServiceOffers = {
-    route: "/offers",
+export const serviceOffersThreads: IServiceOffersThreads = {
+    route: "/offers-threads",
     post(value) {
         return wrapperFetch.methodPost(this.route, value)
     },
@@ -14,9 +14,6 @@ export const serviceOffer: IServiceOffers = {
     },
     getId(id) {
         return wrapperFetch.methodGetId(this.route, id)
-    },
-    getUserId(id, value) {
-        return wrapperFetch.methodGetId(`${this.route}/user`, id, value)
     },
     delete(id) {
         return wrapperFetch.methodDelete(this.route, id)

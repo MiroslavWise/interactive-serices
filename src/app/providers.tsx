@@ -12,6 +12,7 @@ import {
     WelcomeModal,
     Barter,
     CreateNewOptionModal,
+    AboutSheiraPopup,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import {
@@ -117,6 +118,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 {token && userId ? (
                                     <ModalUpdateProfile />
                                 ) : null}
+                                <AboutSheiraPopup />
                             </YMapsProvider>
                         </WebSocketProvider>
                     </ReduxProvider>

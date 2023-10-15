@@ -1,6 +1,5 @@
 "use client"
 
-import { useId, useState } from "react"
 import Image from "next/image"
 import { useQueries } from "react-query"
 
@@ -20,7 +19,6 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
     stateBalloon,
 }) => {
     const { userId } = useAuth()
-    const [activeListComments, setActiveListComments] = useState(false)
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
@@ -131,18 +129,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                     </ul>
                 ) : null}
             </div>
-            <footer data-alert>
-                <button>
-                    <span>125 комментариев</span>
-                    <Image
-                        src="/svg/chevron-down.svg"
-                        alt="chevron-down"
-                        width={18}
-                        height={18}
-                    />
-                </button>
-            </footer>
-            {!activeListComments ? <BlockComments /> : null}
+            <BlockComments type="alert" offerId={stateBalloon?.id!} />
         </>
     )
 }

@@ -30,7 +30,7 @@ export const ListMessages = memo(function ListMessages({
 }) {
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
-    const ulChat = useRef<HTMLUListElement>(null)
+    const ulChat = useRef<HTMLUListElement>(null) 
     const numberIdMessage = useRef<number | null>(null)
     const [height, setHeight] = useState(0)
 

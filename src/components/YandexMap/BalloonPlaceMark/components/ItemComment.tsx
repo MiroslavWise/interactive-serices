@@ -1,26 +1,41 @@
-import Image from "next/image"
+import { useQuery } from "react-query"
 
 import type { TItemComment } from "../types/types"
 
-import { daysAgo } from "@/helpers"
+import { NextImageMotion } from "@/components/common/Image"
 
-export const ItemComment: TItemComment = () => {
+import { daysAgo } from "@/helpers"
+import { serviceUsers } from "@/services/users"
+
+export const ItemComment: TItemComment = (props) => {
+    const { id, userId, message, created } = props ?? {}
+
+    const { data } = useQuery({
+        queryFn: () => serviceUsers.getId(userId!),
+        queryKey: ["user", userId],
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+    })
+
     return (
         <li>
             <header>
                 <div data-avatar-name>
-                    <Image
-                        src="/png/blur_avatar_default.jpg"
+                    <NextImageMotion
+                        src={data?.res?.profile?.image?.attributes?.url!}
                         alt="avatar"
                         width={400}
                         height={400}
-                        unoptimized
                     />
-                    <p>Кристина Пи</p>
+                    <p>
+                        {data?.res?.profile?.firstName || " "}{" "}
+                        {data?.res?.profile?.lastName || " "}
+                    </p>
                 </div>
-                <p>{daysAgo(new Date())}</p>
+                <p>{daysAgo(created)}</p>
             </header>
-            <p>Вы совсем кукухой поехали? На газоне нильзя паркаватся!!!!!</p>
+            <p>{message}</p>
         </li>
     )
 }

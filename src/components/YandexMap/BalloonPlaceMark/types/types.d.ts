@@ -8,6 +8,7 @@ import type {
 
 import type { IActionBalloon, IStateBalloon } from "../../types"
 import type { TTypeProvider } from "@/services/file-upload/types"
+import type { ICommentsResponse } from "@/services/comments/types"
 
 interface IBalloonPlaceMark {}
 
@@ -24,8 +25,11 @@ interface IButtonSuccessInBalloon {
     onClick: DispatchWithoutAction
 }
 
-export interface IItemComment {}
-export interface IBlockComments {}
+export interface IItemComment extends ICommentsResponse {}
+export interface IBlockComments {
+    offerId: number
+    type: "alert" | "discussion"
+}
 
 export type TBalloonPlaceMark = FC<IBalloonPlaceMark>
 export type TOfferBalloonComponent = FC<IOfferBalloonComponent>
