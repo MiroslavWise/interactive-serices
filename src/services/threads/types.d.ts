@@ -8,6 +8,7 @@ export interface IPostThreads {
     emitterId: number
     receiverIds: number[]
     provider: string
+    barterId?: number
     enabled?: boolean
 }
 //Partial
@@ -30,6 +31,7 @@ export interface IResponseThreads {
     emitterId: number
     receiverIds: number[]
     provider: string
+    barterId?: number
     messages: IThreadsMessages[]
 }
 
@@ -45,6 +47,7 @@ export interface IResponseThread {
     receiverIds: number[]
     enabled: boolean
     provider: string
+    barterId?: number
     created: Date | string
     updated: Date | string
     messages: IThreadsMessages[]

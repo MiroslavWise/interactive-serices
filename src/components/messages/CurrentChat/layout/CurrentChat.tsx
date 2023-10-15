@@ -66,7 +66,7 @@ export const CurrentChat = () => {
     }, [data?.res, userId])
 
     const isBarter = useMemo(() => {
-        return !!data?.res?.provider?.includes("barter")
+        return !!data?.res?.barterId!
     }, [data?.res])
 
     const { data: dataUser } = useQuery({
@@ -194,11 +194,7 @@ export const CurrentChat = () => {
 
     return (
         <section className={cx(styles.container)} data-barter={isBarter}>
-            {isBarter ? (
-                <NoticeBarter
-                    idBarter={Number(data?.res?.provider?.split(":")?.[1])}
-                />
-            ) : null}
+            {isBarter ? <NoticeBarter idBarter={data?.res?.barterId!} /> : null}
             <ListMessages
                 messages={messages}
                 dataUser={dataUser?.res!}

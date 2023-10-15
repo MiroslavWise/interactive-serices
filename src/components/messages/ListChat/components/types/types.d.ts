@@ -1,13 +1,20 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 
-import type { IResponseThreads } from "@/services/threads/types"
+import type {
+    IResponseThreads,
+    TTypeProviderThreads,
+} from "@/services/threads/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
 
 interface IList {
-    items: IFiltersItems[]
+    search: string
+    provider: TTypeProviderThreads
+    setTotal: Dispatch<SetStateAction<number>>
 }
 
-interface IItemListChat extends IFiltersItems {}
+interface IItemListChat extends IFiltersItems {
+    last: boolean
+}
 
 interface ISearchBlock {
     search: string

@@ -1,109 +1,54 @@
 "use client"
 
-import { useQueries, useQuery } from "react-query"
-import { useEffect, useMemo, useState } from "react"
+import { useState } from "react"
+import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
 
-import type { IFiltersItems } from "./components/types/types"
+import type { TTypeProviderThreads } from "@/services/threads/types"
+import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
+import { Segments } from "@/components/common/Segments"
 
-import { useAuth } from "@/store/hooks"
-import { serviceUsers } from "@/services/users"
-import { serviceThreads } from "@/services/threads"
+import { SEGMENTS_CHAT } from "./constants/segments"
 
 import styles from "./styles/style.module.scss"
 
 export const ListChat = () => {
-    const { userId } = useAuth()
+    const { systemTheme } = useTheme()
     const [search, setSearch] = useState("")
-    const { data } = useQuery({
-        queryFn: () => serviceThreads.get({ user: userId! }),
-        queryKey: ["threads", userId, `user=${userId}`],
-        refetchOnMount: true,
-    })
-
-    const arrayUsers = useQueries(
-        data?.res?.map((item) => {
-            const idUser =
-                Number(item?.emitterId) === Number(userId)
-                    ? Number(item?.receiverIds[0])
-                    : Number(item?.emitterId)
-            return {
-                queryFn: () => serviceUsers.getId(Number(idUser)),
-                queryKey: ["user", idUser],
-                enabled: !!data?.res,
-                refetchOnMount: false,
-                refetchOnWindowFocus: false,
-                refetchOnReconnect: false,
-                refetchIntervalInBackground: false,
-            }
-        }) || [],
+    const [value, setValue] = useState<ISegmentValues<TTypeProviderThreads>>(
+        SEGMENTS_CHAT[0],
     )
-
-    const items: IFiltersItems[] = useMemo(() => {
-        if (!data?.res) {
-            return []
-        }
-        const ITEMS: IFiltersItems[] = []
-        if (data?.res && arrayUsers?.every((item) => !item.isLoading)) {
-            data?.res?.forEach((item) => {
-                const idUser =
-                    Number(item?.emitterId) === Number(userId)
-                        ? Number(item?.receiverIds[0])
-                        : Number(item?.emitterId)
-                const people = arrayUsers.find(
-                    (item) =>
-                        Number(item?.data?.res?.id) === Number(idUser) &&
-                        item?.data?.res?.profile,
-                )
-                if (people) {
-                    ITEMS.push({
-                        thread: item!,
-                        people: people?.data?.res!,
-                    })
-                }
-            })
-        }
-
-        return ITEMS
-    }, [arrayUsers, data, userId])
-
-    const filters: IFiltersItems[] = useMemo(() => {
-        return (
-            items?.filter(
-                (item) =>
-                    `${item?.people?.profile?.firstName} ${item?.people?.profile?.lastName}`
-                        ?.toLowerCase()
-                        ?.includes(search?.toLowerCase()),
-            ) || []
-        )
-    }, [items, search])
-
-    const total = useMemo(() => {
-        return filters?.length || 0
-    }, [filters])
+    const [total, setTotal] = useState(0)
 
     return isMobile ? (
         <section className={styles.containerMobile}>
             <SearchBlock {...{ search, setSearch }} />
-            <List items={items} />
+            <List search={search} provider={value.value} setTotal={setTotal} />
         </section>
     ) : (
         <section className={styles.container}>
             <header>
-                <div className={styles.totalNumber}>
+                <div data-total-number>
                     <h4>Сообщения</h4>
                     {typeof total !== "undefined" ? (
-                        <div className={styles.divNumber}>
+                        <div data-total>
                             <p>{total || 0}</p>
                         </div>
                     ) : null}
                 </div>
+                <Segments
+                    type={systemTheme === "dark" ? "primary" : "optional-1"}
+                    active={value}
+                    values={SEGMENTS_CHAT}
+                    setActive={setValue}
+                    classNames={styles.segments}
+                />
             </header>
             <SearchBlock {...{ search, setSearch }} />
-            <List items={filters} />
+            <List search={search} provider={value.value} setTotal={setTotal} />
         </section>
     )
 }

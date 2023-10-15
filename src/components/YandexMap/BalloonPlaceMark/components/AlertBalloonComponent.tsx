@@ -6,8 +6,9 @@ import { useQueries } from "react-query"
 
 import type { TAlertBalloonComponent } from "../types/types"
 
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { BlockComments } from "./BlockComments"
 import { ButtonSuccessInBalloon } from "./ButtonSuccessInBalloon"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
@@ -141,6 +142,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                     />
                 </button>
             </footer>
+            {!activeListComments ? <BlockComments /> : null}
         </>
     )
 }

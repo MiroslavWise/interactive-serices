@@ -5,6 +5,7 @@ export type TMotion = FC<{
     classNames?: (string | any)[]
     onClick?: DispatchWithoutAction
     id?: string
-    ref?: Ref<HTMLLIElement>
+    ref?: Ref<HTMLUListElement> | any
     data?: Record<string, any>
+    notY?: boolean
 }>

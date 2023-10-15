@@ -2,8 +2,8 @@ import { motion } from "framer-motion"
 
 import type { TMotion } from "./types/types"
 
-import { motionItemOnOpacityY } from "@/lib/motion"
 import { cx } from "@/lib/cx"
+import { motionItemOnOpacity, motionItemOnOpacityY } from "@/lib/motion"
 
 export const MotionLI: TMotion = ({
     children,
@@ -12,6 +12,7 @@ export const MotionLI: TMotion = ({
     ref,
     id,
     data,
+    notY,
 }) => {
     const handleClick = () => {
         if (onClick) onClick()
@@ -20,7 +21,7 @@ export const MotionLI: TMotion = ({
     return (
         <motion.li
             className={cx(classNames)}
-            variants={motionItemOnOpacityY}
+            variants={notY ? motionItemOnOpacity : motionItemOnOpacityY}
             onClick={handleClick}
             ref={ref}
             id={id}

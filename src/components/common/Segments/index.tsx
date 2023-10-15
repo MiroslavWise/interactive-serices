@@ -1,27 +1,45 @@
-import { motion } from "framer-motion"
-
 import type { TSegments } from "./types"
 
+import { MotionLI, MotionUL } from "../Motion"
+
 import { borderClassNames } from "@/helpers"
-import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
 
-export const Segments: TSegments = ({ values, active, setActive, type, classNames, ref = null, id }) => {
-  return (
-    <div className={cx(styles.container, classNames)} ref={ref}>
-      {
-        values.map((item, index) => (
-          <motion.li
-            id={id}
-            key={item?.value}
-            onClick={() => setActive(item)}
-            className={cx(styles.button, styles[type], active.value === item.value && styles.active, active.value !== item.value && styles[borderClassNames(values.indexOf(active), index, values.length)])}
-          >
-            <p>{item.label}</p>
-          </motion.li>
-        ))
-      }
-    </div>
-  )
+export const Segments: TSegments = ({
+    values,
+    active,
+    setActive,
+    type,
+    classNames,
+    ref = null,
+    id,
+}) => {
+    return (
+        <MotionUL classNames={[styles.container, classNames]} ref={ref} notY>
+            {values.map((item, index) => (
+                <MotionLI
+                    id={id}
+                    key={item?.value}
+                    onClick={() => setActive(item)}
+                    notY
+                    classNames={[
+                        styles.button,
+                        styles[type],
+                        active.value === item.value && styles.active,
+                        active.value !== item.value &&
+                            styles[
+                                borderClassNames(
+                                    values.indexOf(active),
+                                    index,
+                                    values.length,
+                                )
+                            ],
+                    ]}
+                >
+                    <p>{item.label}</p>
+                </MotionLI>
+            ))}
+        </MotionUL>
+    )
 }

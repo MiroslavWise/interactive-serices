@@ -12,8 +12,28 @@ export const motionOpacityY: Variants = {
     },
 }
 
+export const motionOpacity: Variants = {
+    hidden: { opacity: 0, scale: 0 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            delayChildren: 0.03,
+            staggerChildren: 0.09,
+        },
+    },
+}
+
 export const motionItemOnOpacityY: Variants = {
     hidden: { y: 8, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+    },
+}
+
+export const motionItemOnOpacity: Variants = {
+    hidden: { y: 0, opacity: 0 },
     visible: {
         y: 0,
         opacity: 1,

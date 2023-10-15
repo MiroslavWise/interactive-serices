@@ -24,9 +24,15 @@ interface IButtonSuccessInBalloon {
     onClick: DispatchWithoutAction
 }
 
+export interface IItemComment {}
+export interface IBlockComments {}
+
 export type TBalloonPlaceMark = FC<IBalloonPlaceMark>
 export type TOfferBalloonComponent = FC<IOfferBalloonComponent>
 export type TDiscussionBalloonComponent = FC<IDiscussionBalloonComponent>
 export type TAlertBalloonComponent = FC<IAlertBalloonComponent>
 export type TRequestBalloonComponent = FC<IRequestBalloonComponent>
 export type TButtonSuccessInBalloon = FC<IButtonSuccessInBalloon>
+
+export type TItemComment = FC<IItemComment>
+export type TBlockComments = FC<IBlockComments>

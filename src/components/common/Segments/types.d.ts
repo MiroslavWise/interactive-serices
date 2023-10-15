@@ -6,7 +6,7 @@ interface ISegments {
     setActive: Dispatch<SetStateAction<ISegmentValues<any>>>
     type: "primary" | "optional-1"
     classNames?: string
-    ref?: Ref<HTMLDivElement>
+    ref?: Ref<HTMLUListElement>
     id?: string
 }
 

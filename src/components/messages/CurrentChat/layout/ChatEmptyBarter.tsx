@@ -39,9 +39,10 @@ export const ChatEmptyBarter = () => {
             })
             return res?.find(
                 (item) =>
-                    item?.provider?.includes("barter") &&
-                    Number(item?.provider?.split(":")?.[1]) ===
-                        Number(barterNumber?.id),
+                    (item?.provider?.includes("barter") &&
+                        Number(item?.provider?.split(":")?.[1]) ===
+                            Number(barterNumber?.id)) ||
+                    item?.barterId === Number(barterNumber?.id),
             )
         }
 
@@ -54,7 +55,8 @@ export const ChatEmptyBarter = () => {
                 title: provider,
                 emitterId: emitterId,
                 receiverIds: [receiverId],
-                provider: provider,
+                provider: "barter",
+                barterId: barterNumber?.id!,
                 enabled: true,
             }
 

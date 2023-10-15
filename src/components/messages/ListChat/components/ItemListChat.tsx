@@ -1,26 +1,26 @@
 "use client"
 
 import Image from "next/image"
+import { useQuery } from "react-query"
 import { memo, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
 
+import { MotionLI } from "@/components/common/Motion"
 import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { cx } from "@/lib/cx"
+import { serviceBarters } from "@/services/barters"
 import { usePush } from "@/helpers/hooks/usePush"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { useQuery } from "react-query"
-import { serviceBarters } from "@/services/barters"
 
-const $ItemListChat: TItemListChat = ({ thread, people }) => {
+const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
     const { handleReplace } = usePush()
@@ -77,20 +77,23 @@ const $ItemListChat: TItemListChat = ({ thread, people }) => {
 
     function lastMessage(): string {
         if (thread?.messages?.length > 0) {
-            return thread?.messages?.at(-1)?.message! || ""
+            return thread?.messages?.[0]?.message! || ""
         }
 
         return ""
     }
 
     return (
-        <li
-            className={cx(
+        <MotionLI
+            classNames={[
                 styles.containerItemListChat,
                 Number(thread.id) === Number(idThread) && styles.active,
                 isMobile && styles.mobileLI,
-            )}
+            ]}
             onClick={handleCurrentChat}
+            data={{
+                "data-last": last,
+            }}
         >
             <div
                 className={styles.header}
@@ -166,7 +169,7 @@ const $ItemListChat: TItemListChat = ({ thread, people }) => {
             <div className={styles.blockLastMessage}>
                 <p>{lastMessage()}</p>
             </div>
-        </li>
+        </MotionLI>
     )
 }
 

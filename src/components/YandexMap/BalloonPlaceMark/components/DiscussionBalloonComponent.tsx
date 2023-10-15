@@ -1,10 +1,12 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { useQueries } from "react-query"
 
 import type { TDiscussionBalloonComponent } from "../types/types"
 
+import { BlockComments } from "./BlockComments"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { daysAgo } from "@/helpers"
@@ -15,6 +17,7 @@ import { usePhotoVisible } from "../hooks/usePhotoVisible"
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
 }) => {
+    const [activeListComments, setActiveListComments] = useState(false)
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
@@ -133,6 +136,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                     <p>112</p>
                 </div>
             </footer>
+            {!activeListComments ? <BlockComments /> : null}
         </>
     )
 }

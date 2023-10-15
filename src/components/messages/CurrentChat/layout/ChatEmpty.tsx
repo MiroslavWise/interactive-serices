@@ -44,7 +44,7 @@ export const ChatEmpty = () => {
                 title: provider,
                 emitterId: emitterId,
                 receiverIds: [receiverId],
-                provider: provider,
+                provider: "personal",
                 enabled: true,
             }
             const { res } = await serviceThreads.post(data_)
