@@ -4,6 +4,14 @@ import type {
 } from "@/services/file-upload/types"
 import type { IReturnData } from "@/services/types/general"
 
+export interface ISmallThread {
+    id: number
+    title: string
+    parentId: number | null
+    emitterId: number
+    provider: TTypeProvider
+}
+
 export interface ISmallDataOfferBarter {
     id: number
     parentId: number | null
@@ -23,7 +31,7 @@ export interface ISmallDataOfferBarter {
 
 export interface IBarterResponse {
     id: number
-    threadId?: number
+    thread?: ISmallThread
     parentId: number | null
     consignedId: number // принимающий оффер
     initialId: number //инициализирующий оффер

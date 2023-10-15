@@ -22,7 +22,7 @@ export const CardOffer: TCardOffer = ({
     id,
     parentId,
     consignedId,
-    threadId,
+    thread,
     initialId,
     title,
     imageId,
@@ -56,8 +56,8 @@ export const CardOffer: TCardOffer = ({
     ])
 
     function handleChatBarter() {
-        if (!!threadId) {
-            handlePush(`/messages?thread=${threadId}`)
+        if (!!thread?.id) {
+            handlePush(`/messages?thread=${thread?.id}`)
         } else {
             handlePush(`/messages?barter-id=${id}-${idUser}`)
         }

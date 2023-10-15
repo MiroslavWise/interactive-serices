@@ -186,7 +186,7 @@ export const CurrentChat = () => {
                 <PopupMenu
                     photo={conversationPartner?.photo}
                     fullName={conversationPartner?.name}
-                    idUser={Number(idUser)}
+                    idUser={idUser!}
                 />
             </section>
         )

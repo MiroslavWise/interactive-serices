@@ -28,7 +28,6 @@ import { BadgeServices } from "@/components/common/Badge"
 export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
     const { userId, user } = useAuth()
     const { categories } = useOffersCategories()
-    const idThread = useSearchParams()?.get("thread")
     const [loading, setLoading] = useState(false)
     const { data, refetch } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
@@ -133,15 +132,19 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
             id="id-barter-header"
         >
             <div data-sub-header>
-                <section data-time>
-                    <Image
-                        src="/svg/calendar-black.svg"
-                        alt="calendar"
-                        width={14}
-                        height={14}
-                    />
-                    <p>{dayjs(data?.res?.timestamp).format("DD/MM/YYYY")}</p>
-                </section>
+                {data?.res?.timestamp ? (
+                    <section data-time>
+                        <Image
+                            src="/svg/calendar-black.svg"
+                            alt="calendar"
+                            width={14}
+                            height={14}
+                        />
+                        <p>
+                            {dayjs(data?.res?.timestamp).format("DD/MM/YYYY")}
+                        </p>
+                    </section>
+                ) : null}
                 {geo ? (
                     <section data-time>
                         <GeoTagging

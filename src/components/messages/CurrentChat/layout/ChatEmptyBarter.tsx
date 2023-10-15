@@ -54,7 +54,6 @@ export const ChatEmptyBarter = () => {
                 emitterId: emitterId,
                 receiverIds: [receiverId],
                 provider: "barter",
-                barterId: barterNumber?.id!,
                 enabled: true,
             }
 
