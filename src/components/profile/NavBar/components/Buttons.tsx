@@ -10,9 +10,10 @@ import {
     useVisibleBannerNewServices,
     useVisibleAndTypeAuthModal,
 } from "@/store/hooks"
-import { useAddress, usePush } from "@/helpers"
+import { useAddress, useOutsideClickEvent, usePush } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
+import { SpoilerNotAdress } from "./SpoilerNotAdress"
 
 export const Buttons = () => {
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
@@ -20,6 +21,7 @@ export const Buttons = () => {
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { isAuth } = useAuth()
     const { handlePush } = usePush()
+    const [active, setActive, ref] = useOutsideClickEvent()
 
     return !isMobile ? (
         isAuth ? (
@@ -32,6 +34,7 @@ export const Buttons = () => {
                     type="primary"
                     label="Создать новое"
                     classNames={styles.widthButton}
+                    ref={ref}
                     suffix={
                         <Image
                             src="/svg/plus.svg"
@@ -43,9 +46,12 @@ export const Buttons = () => {
                     handleClick={() => {
                         if (isAddresses) {
                             setIsVisibleNewServicesBanner(true)
+                        } else {
+                            setActive(true)
                         }
                     }}
                 />
+                <SpoilerNotAdress active={active} setActive={setActive} />
             </div>
         ) : (
             <div className={styles.buttons}>

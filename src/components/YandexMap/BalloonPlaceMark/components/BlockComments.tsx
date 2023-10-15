@@ -56,6 +56,9 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
     }, [dataComments, currentOffersThreads])
 
     function handleOnOpen() {
+        if (!activeListComments) {
+            setActiveListComments(false)
+        }
         if (!userId && data?.res?.length) {
             setActiveListComments(true)
             return

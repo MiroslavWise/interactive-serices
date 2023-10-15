@@ -36,10 +36,10 @@ export const FinishScreen = () => {
         <div className={cx(styles.wrapper, isMobile && styles.mobile)}>
             <section>
                 <Image
-                    src="/svg/success-create.svg"
-                    alt="success-create"
-                    height={120}
-                    width={120}
+                    src="/png/welcome/girl-fest.png"
+                    alt="girl-fest"
+                    height={294}
+                    width={654}
                 />
                 <h3>{content}</h3>
             </section>

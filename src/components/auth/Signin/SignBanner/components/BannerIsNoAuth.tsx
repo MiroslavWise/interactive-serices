@@ -11,9 +11,11 @@ import { Glasses } from "./Glasses"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "./styles/no-auth-banner.module.scss"
+import { useVisibleAbout } from "@/store/state/useVisibleAbout"
 
 export const BannerIsNoAuth = () => {
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchVisibleAbout } = useVisibleAbout()
 
     return (
         <motion.ul
@@ -66,7 +68,10 @@ export const BannerIsNoAuth = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.footer}>
+            <div
+                className={styles.footer}
+                onClick={() => dispatchVisibleAbout(true)}
+            >
                 <a>Всё о Шейре</a>
             </div>
             <Glasses />

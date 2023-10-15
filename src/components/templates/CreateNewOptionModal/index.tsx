@@ -15,7 +15,7 @@ import { ModalAddDiscussion } from "./ModalAddDiscussion"
 import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { useCloseCreateOptions, useAddress } from "@/helpers"
+import { useCloseCreateOptions } from "@/helpers"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import styles from "./styles/style.module.scss"

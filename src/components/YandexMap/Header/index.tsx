@@ -11,52 +11,10 @@ import { SearchElementMap } from "@/components/common/Inputs"
 
 import styles from "./styles/style.module.scss"
 
-export const Header: THeaderMobile = ({ setVisibleNotification }) => {
-    useEffect(() => {
-        function alignMiddleElement() {
-            setTimeout(() => {
-                const leftBanner = document.getElementById("SignBanner")
-                const rightBanner = document.getElementById("ServiceBanner")
-                const rightProfilePublic =
-                    document.getElementById("ProfilePublic")
-                const headerRef = document.getElementById("headerRef")
-                const container = window.innerWidth
-
-                const leftBannerWidth = (leftBanner?.offsetWidth || 0) + 24
-                const rightBannerWidth = (rightBanner?.offsetWidth || 0) + 25
-                const rightServiceBannerWidth =
-                    rightProfilePublic?.getBoundingClientRect()
-                const headerRefWidth = headerRef?.offsetWidth || 0
-                const rightWidth =
-                    rightServiceBannerWidth?.right === container
-                        ? rightServiceBannerWidth?.width
-                        : rightBannerWidth
-                const marginLeft =
-                    (container -
-                        leftBannerWidth -
-                        rightWidth -
-                        headerRefWidth) /
-                    2
-                if (headerRef) {
-                    headerRef.style.left = `${leftBannerWidth + marginLeft}px`
-                }
-                if (container - (leftBannerWidth + 420 + 40) < headerRefWidth) {
-                    if (headerRef) {
-                    }
-                }
-            }, 10)
-        }
-
-        if (!isMobile) {
-            alignMiddleElement()
-            window.addEventListener("resize", alignMiddleElement)
-        }
-
-        return () => {
-            window.removeEventListener("resize", alignMiddleElement)
-        }
-    }, [])
-
+export const Header: THeaderMobile = ({
+    setVisibleNotification,
+    handleAddressLocation,
+}) => {
     return isMobile ? (
         <motion.div
             className={styles.header}
@@ -89,7 +47,9 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
                     </div>
                 </div>
                 <div className={styles.segments}>
-                    <SearchElementMap />
+                    <SearchElementMap
+                        handleAddressLocation={handleAddressLocation}
+                    />
                 </div>
             </div>
         </motion.div>
@@ -102,7 +62,7 @@ export const Header: THeaderMobile = ({ setVisibleNotification }) => {
             transition={{ duration: 0.5 }}
             exit={{ top: -100 }}
         >
-            <SearchElementMap />
+            <SearchElementMap handleAddressLocation={handleAddressLocation} />
         </motion.div>
     )
 }

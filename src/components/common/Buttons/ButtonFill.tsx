@@ -17,6 +17,7 @@ export const ButtonFill: TButtonPropsFill = ({
     small,
     suffix,
     prefix,
+    ref,
 }) => {
     function click() {
         if (disabled) return
@@ -37,6 +38,7 @@ export const ButtonFill: TButtonPropsFill = ({
             variants={itemVariantsForMenu}
             onClick={click}
             type={submit || "button"}
+            ref={ref}
         >
             {prefix ? prefix : null}
             <span>{label}</span>

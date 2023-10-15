@@ -98,9 +98,31 @@ const YandexMap: TYandexMap = ({}) => {
         })
     }
 
+    function handleAddressLocation() {
+        if ("geolocation" in navigator) {
+            navigator?.geolocation?.getCurrentPosition(
+                (position) => {
+                    let latitude = position?.coords?.latitude
+                    let longitude = position?.coords?.longitude
+
+                    if (latitude && longitude) {
+                        dispatchMapCoordinates({
+                            coordinates: [latitude, longitude],
+                        })
+                    }
+                },
+                (error) => {
+                    console.log("error location: ", error)
+                },
+            )
+        } else {
+            console.error("Вы не дали доступ к геолокации")
+        }
+    }
+
     return (
         <>
-            <Header setVisibleNotification={setVisibleNotification} />
+            <Header setVisibleNotification={setVisibleNotification} handleAddressLocation={handleAddressLocation} />
             {isMobile ? (
                 <Notifications
                     visibleNotification={visibleNotification}

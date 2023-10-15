@@ -21,7 +21,7 @@ export interface IAddressesResponse {
 }
 
 type TAddressType = "main" | any
-export interface IPostAddress{
+export interface IPostAddress {
     userId: number
     addressType: TAddressType
     country?: string
@@ -43,12 +43,17 @@ export interface IPostAddress{
 
 export type IPatchAddress = Partial<IPostAddress>
 
-export interface IServiceAddresses{
+export interface IServiceAddresses {
     route: string
-    get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
+    get(
+        value: Record<string, string | number>,
+    ): Promise<IReturnData<IAddressesResponse[]>>
     getHash(value: string): Promise<IReturnData<IAddressesResponse>>
     getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-    post(value: IPostAddress): Promise<IReturnData<{id: number}>>
-    patch(value: IPostAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
+    post(value: IPostAddress): Promise<IReturnData<{ id: number }>>
+    patch(
+        value: IPostAddress,
+        id: number | string,
+    ): Promise<IReturnData<IAddressesResponse>>
     delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
 }

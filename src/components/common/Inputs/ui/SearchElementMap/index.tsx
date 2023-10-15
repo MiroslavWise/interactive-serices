@@ -16,7 +16,9 @@ import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./style.module.scss"
 
-export const SearchElementMap: TSearchElementMap = ({}) => {
+export const SearchElementMap: TSearchElementMap = ({
+    handleAddressLocation,
+}) => {
     const [text, setText] = useState("")
     const [activeList, setActiveList] = useState(false)
     const [values, setValues] = useState<IResponseGeocode | null>(null)
@@ -81,7 +83,7 @@ export const SearchElementMap: TSearchElementMap = ({}) => {
                     debouncedValue()
                 }}
             />
-            <div className={styles.circleMark}>
+            <div className={styles.circleMark} onClick={handleAddressLocation}>
                 <Image src="/svg/mark.svg" alt="mark" width={20} height={20} />
             </div>
             {activeList && values?.response ? (

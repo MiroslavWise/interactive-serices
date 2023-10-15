@@ -1,7 +1,6 @@
 import type { IReturnData } from "../types/general"
 
-
-export interface IRequestPostMessages{
+export interface IRequestPostMessages {
     threadId: number
     message: string
     parentId?: number | undefined | null
@@ -11,13 +10,13 @@ export interface IRequestPostMessages{
     created: Date | string
 }
 
-export interface IResponseCreate{
+export interface IResponseCreate {
     id: number
 }
 
 export type IRequestPatchMessages = Partial<IRequestPostMessages>
 
-export interface IResponseMessageProps{
+export interface IResponseMessageProps {
     id: number
     message: string
     parentId: number | null
@@ -26,17 +25,20 @@ export interface IResponseMessageProps{
     receiverIds: number[]
 }
 
-export interface IResponseMessage extends IResponseMessageProps{
+export interface IResponseMessage extends IResponseMessageProps {
     enabled?: boolean
     created?: Date | string
     updated?: Date | string
 }
 
-export interface IMessages{
+export interface IMessages {
     route: string
     post(value: IRequestPostMessages): Promise<IReturnData<IResponseCreate>>
     get(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
-    patch(value: IRequestPatchMessages, id: number | string): Promise<IReturnData<IResponseCreate>>
+    patch(
+        value: IRequestPatchMessages,
+        id: number | string,
+    ): Promise<IReturnData<IResponseCreate>>
     getId(id: number | string): Promise<IReturnData<IResponseMessage>>
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
     getUserId(id: number | string): Promise<IReturnData<IResponseMessage[]>>

@@ -19,6 +19,7 @@ interface IButtonProps {
     small?: boolean
     prefix?: ReactNode
     suffix?: ReactNode
+    ref?: any
 }
 
 interface IButtonFilter {
