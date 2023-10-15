@@ -33,7 +33,7 @@ export interface IResponseMessage extends IResponseMessageProps{
 }
 
 export interface IMessages{
-    private route: string
+    route: string
     post(value: IRequestPostMessages): Promise<IReturnData<IResponseCreate>>
     get(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
     patch(value: IRequestPatchMessages, id: number | string): Promise<IReturnData<IResponseCreate>>
