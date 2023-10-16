@@ -107,8 +107,6 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
             })
     }
 
-    console.log("currentOffersThreads: ", currentOffersThreads)
-
     const onSubmit = handleSubmit(submit)
 
     return (

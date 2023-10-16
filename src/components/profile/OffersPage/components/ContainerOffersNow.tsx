@@ -11,7 +11,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerOffersNow: TContainerOffersNow = ({ data }) => {
+export const ContainerOffersNow: TContainerOffersNow = ({ data, refetch }) => {
     return (
         <section
             className={cx(styles.containerOffersNow, isMobile && styles.mobile)}
@@ -22,6 +22,7 @@ export const ContainerOffersNow: TContainerOffersNow = ({ data }) => {
                           <CardOffer
                               key={`${item.id}-offer-page-${item.provider}`}
                               {...item}
+                              refetch={refetch}
                           />
                       ))
                     : null}

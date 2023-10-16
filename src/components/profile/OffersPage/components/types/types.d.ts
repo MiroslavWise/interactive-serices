@@ -8,6 +8,7 @@ interface IContainerHeader {
 
 interface IContainerOffersNow {
     data: IBarterResponse[]
+    refetch(): Promise<any>
 }
 
 interface IMobileSegments {}

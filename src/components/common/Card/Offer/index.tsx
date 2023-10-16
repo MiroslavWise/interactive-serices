@@ -1,7 +1,7 @@
 "use client"
 
 import dayjs from "dayjs"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import Image from "next/image"
 import { useQueries } from "react-query"
 
@@ -9,7 +9,11 @@ import type { TCardOffer } from "./types"
 
 import { MotionLI } from "@/components/common/Motion"
 import { BlockBarter } from "./components/BlockBarter"
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
+import {
+    ButtonCircleGradient,
+    ButtonDefault,
+    ButtonFill,
+} from "@/components/common/Buttons"
 import { BlockTitle } from "./components/BlockTitle"
 
 import { useAuth } from "@/store/hooks"
@@ -17,6 +21,7 @@ import { serviceUsers } from "@/services/users"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
+import { serviceBarters } from "@/services/barters"
 
 export const CardOffer: TCardOffer = ({
     id,
@@ -35,9 +40,11 @@ export const CardOffer: TCardOffer = ({
     status,
     initiator,
     consigner,
+    refetch,
 }) => {
     const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
+    const [loading, setLoading] = useState(false)
 
     const idUser = useMemo(() => {
         if (!initiator || !consigner) return null
@@ -56,10 +63,34 @@ export const CardOffer: TCardOffer = ({
     ])
 
     function handleChatBarter() {
-        if (!!thread?.id) {
-            handlePush(`/messages?thread=${thread?.id}`)
-        } else {
-            handlePush(`/messages?barter-id=${id}-${idUser}`)
+        if (!loading) {
+            setLoading(true)
+            if (!!thread?.id) {
+                handlePush(`/messages?thread=${thread?.id}`)
+            } else {
+                handlePush(`/messages?barter-id=${id}-${idUser}`)
+            }
+        }
+    }
+
+    function handleCancel() {
+        if (!loading) {
+            setLoading(true)
+            serviceBarters
+                .patch(
+                    {
+                        status: "canceled",
+                        updatedById: myUserId!,
+                    },
+                    id!,
+                )
+                .then(() => {
+                    requestAnimationFrame(() => {
+                        if (refetch) {
+                            refetch()
+                        }
+                    })
+                })
         }
     }
 
@@ -79,32 +110,21 @@ export const CardOffer: TCardOffer = ({
                     />
                     <p>{dayjs(timestamp!).format("DD/MM/YYYY")}</p>
                 </div>
-                {false ? (
-                    <ButtonFill
-                        label="посмотреть детали"
-                        type="optional_pink"
-                        classNames={styles.button}
-                    />
-                ) : (
-                    <div className={styles.end}>
-                        {status === "completed" ? (
-                            <div className={styles.verification}>
-                                <Image
-                                    src="/svg/success.svg"
-                                    alt="finality"
-                                    width={17}
-                                    height={17}
-                                />
-                            </div>
-                        ) : null}
-                        <ButtonCircleGradient
-                            type="primary"
-                            icon="/svg/message-dots-circle.svg"
-                            size={16}
-                            handleClick={handleChatBarter}
+                <div className={styles.end}>
+                    {status === "initiated" ? (
+                        <ButtonDefault
+                            label="Отклонить"
+                            handleClick={handleCancel}
+                            classNames={styles.button}
                         />
-                    </div>
-                )}
+                    ) : null}
+                    <ButtonCircleGradient
+                        type="primary"
+                        icon="/svg/message-dots-circle.svg"
+                        size={16}
+                        handleClick={handleChatBarter}
+                    />
+                </div>
             </footer>
         </MotionLI>
     )

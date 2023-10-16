@@ -3,6 +3,7 @@ import type {
     TTypeStatusBarter,
 } from "@/services/file-upload/types"
 import type { IReturnData } from "@/services/types/general"
+import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 
 export interface ISmallThread {
     id: number
@@ -24,9 +25,9 @@ export interface ISmallDataOfferBarter {
     created: Date
     updated: Date
     userId: number
-    addresses: number[]
     subscribers: number[]
     images: any[]
+    addresses: IAddressesResponse[]
 }
 
 export interface IBarterResponse {
