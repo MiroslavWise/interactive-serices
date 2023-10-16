@@ -56,10 +56,6 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
     }, [dataComments, currentOffersThreads])
 
     function handleOnOpen() {
-        if (!activeListComments) {
-            setActiveListComments(false)
-            return
-        }
         if (!userId && data?.res?.length) {
             setActiveListComments(true)
             return
@@ -119,7 +115,13 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
         <>
             {type === "alert" ? (
                 <footer data-alert>
-                    <button onClick={handleOnOpen}>
+                    <button
+                        onClick={() => {
+                            activeListComments
+                                ? setActiveListComments(false)
+                                : handleOnOpen()
+                        }}
+                    >
                         <span>{currentComments?.length || 0} комментариев</span>
                         <Image
                             src="/svg/chevron-down.svg"
