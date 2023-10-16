@@ -3,7 +3,8 @@
     inset: 0;
     opacity: 0;
     visibility: hidden;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(2.5px);
     z-index: 1;
     transition: var(--transition);
     display: flex;
