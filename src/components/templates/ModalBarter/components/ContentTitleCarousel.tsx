@@ -60,16 +60,11 @@ export const ContentTitleCarousel: TContent = ({
             }
 
             if (value) {
-                //+++
-                if (left < 0) setLeft((prev) => prev + 100)
+                if (left < 0) setLeft((prev) => prev + 250)
             } else {
-                //---
                 if (Math.abs(left) < width - 280 * 2)
-                    setLeft((prev) => prev - 100)
+                    setLeft((prev) => prev - 250)
             }
-
-            console.log("x: ", x)
-            console.log("width: ", width)
         }
     }
 

@@ -49,19 +49,33 @@ export const FooterMenu: TFooterMenu = ({}) => {
                             onClick={() => {
                                 if (item.path !== null) {
                                     handleGoToPage(item.path)
+                                    return
                                 }
                                 if (item.path === null && item.isCenter) {
                                     handleSignInOrSignUp()
+                                    return
                                 }
                                 if (visible) {
                                     setVisibleAndType({ visible: false })
+                                    return
                                 }
                                 setVisible(false)
                             }}
                         >
                             <div className={styles.itemsIconLabel}>
                                 {item.isCenter ? (
-                                    <div className={styles.centerPoligon}>
+                                    <div
+                                        className={styles.centerPoligon}
+                                        onClick={(event) => {
+                                            if (item.path === null) {
+                                                handleSignInOrSignUp()
+                                            } else {
+                                                handleGoToPage(item.path)
+                                            }
+                                            event.stopPropagation()
+                                            event.preventDefault()
+                                        }}
+                                    >
                                         <Image
                                             src={
                                                 valuePath === item.path

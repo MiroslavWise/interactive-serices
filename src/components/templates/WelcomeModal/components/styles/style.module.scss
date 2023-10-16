@@ -4,8 +4,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding-top: 54px;
-    padding-bottom: 54px;
     justify-content: space-between;
     overflow-y: auto;
     scrollbar-width: none;
@@ -22,7 +20,11 @@
     }
 
     footer {
-        width: 100%;
+        position: absolute;
+        transform: translateX(-50%);
+        width: min-content;
+        left: 50%;
+        bottom: 8%;
         display: inline-flex;
         flex-direction: row;
         align-items: center;
@@ -77,13 +79,6 @@
         flex-direction: column;
         align-items: center;
         gap: 0;
-
-        .divider {
-            height: 4px;
-            max-width: 376px;
-            width: 100%;
-            background: #ffe2c7;
-        }
     }
 
     .titleAndDescription {
@@ -129,9 +124,7 @@
     }
 }
 
-
 //4444444444444444444444444444444444444444444
 
-.contentPage4{
-    
+.contentPage4 {
 }

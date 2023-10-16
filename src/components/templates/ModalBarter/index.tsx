@@ -161,7 +161,6 @@ export function Barter() {
         <div
             className={cx(styles.wrapperContainer, isVisible && styles.visible)}
         >
-            {/* {isVisible ? ( */}
             <form
                 className={styles.contentModal}
                 onSubmit={handleSubmit(onSubmit)}
@@ -179,7 +178,6 @@ export function Barter() {
                 />
                 <Glasses />
             </form>
-            {/* ) : null} */}
         </div>
     )
 }

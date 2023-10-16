@@ -58,6 +58,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
     function handleOnOpen() {
         if (!activeListComments) {
             setActiveListComments(false)
+            return
         }
         if (!userId && data?.res?.length) {
             setActiveListComments(true)
