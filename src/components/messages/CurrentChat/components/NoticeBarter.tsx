@@ -247,7 +247,11 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                         )) ? (
                         <div data-buttons>
                             <ButtonFill
-                                label="Завершить обмен"
+                                label={
+                                    data?.res?.status === "completed"
+                                        ? "Оставить отзыв"
+                                        : "Завершить обмен"
+                                }
                                 handleClick={handleCompleted}
                             />
                         </div>
