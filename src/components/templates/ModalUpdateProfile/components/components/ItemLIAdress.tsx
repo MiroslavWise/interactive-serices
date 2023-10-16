@@ -92,9 +92,6 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const hash = generateShortHash(additional!)
         if (hash) value.hash = hash
 
-        // serviceAddresses.getHash(hash)
-        // .then(response => {
-        //     if (!response?.res?.id) {
         serviceAddresses
             .post(value)
             .then((response) => {
@@ -106,13 +103,6 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                 setText("")
                 changeAuth()
             })
-        // } else {
-        //     setActiveList(false)
-        //     setValues(null)
-        //     setText("")
-        //     changeAuth()
-        // }
-        // })
     }
 
     return (
@@ -129,6 +119,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     className={styles.geoBlack}
                 />
                 <input
+                    disabled={!!item}
                     value={text}
                     onChange={(value) => {
                         setText(value.target.value)

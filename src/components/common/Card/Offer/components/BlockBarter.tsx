@@ -2,7 +2,7 @@ import Image from "next/image"
 import { memo, useMemo } from "react"
 
 import type { TBlockBarter } from "./types/types"
-import type { ISmallDataOfferBarter } from "@/services/barters/bartersService"
+import type { ISmallDataOfferBarter } from "@/services/barters/types"
 
 import { BadgeServices } from "@/components/common/Badge"
 

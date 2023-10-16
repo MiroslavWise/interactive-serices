@@ -8,7 +8,7 @@ import { MotionUL } from "@/components/common/Motion"
 import { CardOffer } from "@/components/common/Card/Offer"
 
 import { useAuth } from "@/store/hooks"
-import { serviceBarters } from "@/services/barters"
+import { serviceBarters } from "@/services/barters/service"
 
 import styles from "./styles/style.module.scss"
 

@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 
 import type { IValuesForm } from "./types/types"
-import type { IPostDataBarter } from "@/services/barters/bartersService"
+import type { IPostDataBarter } from "@/services/barters/types"
 
 import { Header } from "./components/Header"
 import { Content } from "./components/Content"
@@ -19,7 +19,7 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { serviceBarters } from "@/services/barters"
+import { serviceBarters } from "@/services/barters/service"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"

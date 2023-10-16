@@ -10,9 +10,9 @@ import type { IPostThreads } from "@/services/threads/types"
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceThreads } from "@/services/threads"
-import { serviceBarters } from "@/services/barters"
+import { serviceBarters } from "@/services/barters/service"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { IPatchDataBarter } from "@/services/barters/bartersService"
+import { IPatchDataBarter } from "@/services/barters/types"
 
 import styles from "../styles/style.module.scss"
 

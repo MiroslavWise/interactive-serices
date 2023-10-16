@@ -1,6 +1,6 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 import type { TExchanges } from "@/store/types/useVisibleExchanges"
-import type { IBarterResponse } from "@/services/barters/bartersService"
+import type { IBarterResponse } from "@/services/barters/types"
 
 interface IContainerHeader {
     total: number

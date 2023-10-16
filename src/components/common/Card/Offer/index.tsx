@@ -21,7 +21,7 @@ import { serviceUsers } from "@/services/users"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
-import { serviceBarters } from "@/services/barters"
+import { serviceBarters } from "@/services/barters/service"
 
 export const CardOffer: TCardOffer = ({
     id,

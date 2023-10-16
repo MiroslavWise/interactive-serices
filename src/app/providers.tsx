@@ -41,6 +41,7 @@ import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { CompletionTransaction } from "@/components/templates/CompletionTransaction"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -119,6 +120,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                                     <ModalUpdateProfile />
                                 ) : null}
                                 <AboutSheiraPopup />
+                                <CompletionTransaction />
                             </YMapsProvider>
                         </WebSocketProvider>
                     </ReduxProvider>

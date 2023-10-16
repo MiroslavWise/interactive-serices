@@ -1,38 +1,39 @@
 "use client"
 
 import dayjs from "dayjs"
-import {
-    LegacyRef,
-    MutableRefObject,
-    Ref,
-    RefObject,
-    useEffect,
-    useMemo,
-    useState,
-} from "react"
 import Image from "next/image"
 import { useQuery } from "react-query"
 import { motion } from "framer-motion"
-import { useSearchParams } from "next/navigation"
+import { useMemo, useState } from "react"
+
+import { BadgeServices } from "@/components/common/Badge"
 
 import { useAuth } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
 import { serviceBarters } from "@/services/barters"
+import { serviceTestimonials } from "@/services/testimonials"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/notice-barter.module.scss"
-import { BadgeServices } from "@/components/common/Badge"
 
 export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
     const { userId, user } = useAuth()
     const { categories } = useOffersCategories()
     const [loading, setLoading] = useState(false)
+    const { dispatchCompletion } = useCompletionTransaction()
     const { data, refetch } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
         queryKey: ["barters", `id=${idBarter}`],
         enabled: !!idBarter,
+    })
+    const { data: dataTestimonials } = useQuery({
+        queryFn: () =>
+            serviceTestimonials.get({ target: idBarter, provider: "barter" }),
+        queryKey: ["testimonials", `barter=${idBarter}`],
+        enabled: ["destroyed", "completed"]?.includes(data?.res?.status!),
     })
 
     const idUser: number | null = useMemo(() => {
@@ -95,8 +96,9 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                     idBarter!,
                 )
                 .then((response) => {
-                    console.log("response barters: ", response)
-                    refetch().finally(() => setLoading(false))
+                    setTimeout(() => {
+                        refetch().finally(() => setLoading(false))
+                    }, 150)
                 })
         }
     }
@@ -113,11 +115,20 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                     idBarter!,
                 )
                 .then((response) => {
-                    console.log("response barters: ", response)
                     refetch().finally(() => setLoading(false))
                 })
         }
     }
+
+    function handleCompleted() {
+        dispatchCompletion({
+            visible: true,
+            dataBarter: data?.res!,
+            dataUser: dataUser?.res!,
+        })
+    }
+
+    //dataTestimonials
 
     return (
         <motion.div
@@ -211,22 +222,36 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                 data?.res?.status!,
             ) ? (
                 <footer data-executed>
-                    <BadgeServices
-                        photo="/mocks/Nail.png"
-                        label={infoOffers?.initiator?.title!}
-                        type={data?.res?.initiator?.provider!}
-                    />
-                    <Image
-                        src="/svg/repeat-white.svg"
-                        alt="barter"
-                        width={24}
-                        height={24}
-                    />
-                    <BadgeServices
-                        photo="/mocks/Nail.png"
-                        label={infoOffers?.consigner?.title!}
-                        type={data?.res?.consigner?.provider!}
-                    />
+                    <div data-badges>
+                        <BadgeServices
+                            photo="/mocks/Nail.png"
+                            label={infoOffers?.initiator?.title!}
+                            type={data?.res?.initiator?.provider!}
+                        />
+                        <Image
+                            src="/svg/repeat-white.svg"
+                            alt="barter"
+                            width={24}
+                            height={24}
+                        />
+                        <BadgeServices
+                            photo="/mocks/Nail.png"
+                            label={infoOffers?.consigner?.title!}
+                            type={data?.res?.consigner?.provider!}
+                        />
+                    </div>
+                    {["executed"]?.includes(data?.res?.status!) ||
+                    (data?.res?.status === "completed" &&
+                        !dataTestimonials?.res?.some(
+                            (item) => item?.targetId === idBarter,
+                        )) ? (
+                        <div data-buttons>
+                            <ButtonFill
+                                label="Завершить обмен"
+                                handleClick={handleCompleted}
+                            />
+                        </div>
+                    ) : null}
                 </footer>
             ) : null}
             {isMeInitiator === false && data?.res?.status === "initiated" ? (
