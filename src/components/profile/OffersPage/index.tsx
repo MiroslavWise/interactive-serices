@@ -8,7 +8,7 @@ import { ContainerOffersNow } from "./components/ContainerOffersNow"
 import { MobileSegments } from "./components/MobileSegments"
 
 import { useAuth } from "@/store/hooks"
-import { serviceBarters } from "@/services/barters/service"
+import { serviceBarters } from "@/services/barters"
 
 import styles from "./styles/style.module.scss"
 

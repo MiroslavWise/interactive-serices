@@ -63,9 +63,7 @@ export const BannerIsAuth = () => {
                     }}
                 />
                 <ButtonDefault
-                    label={
-                        profileId ? "Редактировать профиль" : "Создать профиль"
-                    }
+                    label="Редактировать профиль"
                     classNames={cx("w-100", styles.largeButton)}
                     handleClick={() => setVisible(true)}
                 />

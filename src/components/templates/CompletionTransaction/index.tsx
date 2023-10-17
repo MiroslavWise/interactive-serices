@@ -18,7 +18,6 @@ import styles from "./styles/style.module.scss"
 
 export const CompletionTransaction = () => {
     const { userId } = useAuth()
-
     const {
         register,
         formState: { errors },
@@ -40,20 +39,26 @@ export const CompletionTransaction = () => {
     })
 
     function submit(values: IValuesForm) {
-        console.log("values: ", values)
+        const idOffer =
+            dataBarter?.initiator?.userId === userId
+                ? dataBarter?.consignedId
+                : dataBarter?.initialId
         serviceTestimonials
             .post({
                 userId: userId!,
-                targetId: dataBarter?.id!,
-                provider: "barter",
+                targetId: idOffer!,
+                provider: "offer",
                 rating: values.rating.toString(),
                 message: values.message,
-                status: "published",
+                status: `barter-${dataBarter?.id!}-user-${userId!}`,
                 enabled: true,
             })
             .then((response) => {
                 console.log("serviceTestimonials response: ", response)
-                if (response?.ok) {
+                if (
+                    response?.ok &&
+                    !["completed", "destroyed"].includes(dataBarter?.status!)
+                ) {
                     requestAnimationFrame(() => {
                         serviceBarters
                             .patch(
@@ -70,6 +75,11 @@ export const CompletionTransaction = () => {
                                     dispatchCompletion({ visible: false })
                                 })
                             })
+                    })
+                } else {
+                    requestAnimationFrame(() => {
+                        refetch()
+                        dispatchCompletion({ visible: false })
                     })
                 }
             })

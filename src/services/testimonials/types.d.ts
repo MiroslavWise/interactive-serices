@@ -1,13 +1,13 @@
-import type { TTypeProviderThreads } from "../threads/types"
+import type { TTypeProvider } from "../file-upload/types"
 import type { IReturnData } from "../types/general"
 
 export interface IPostTestimonials {
     userId: number
     targetId: number
-    provider: TTypeProviderThreads
+    provider: TTypeProvider
     rating: string
     message: string
-    status: "published"
+    status: "published" | string
     enabled: boolean
 }
 
@@ -17,10 +17,10 @@ export interface IResponseTestimonials {
     id: number
     userId: number
     targetId: number
-    provider: TTypeProviderThreads
+    provider: TTypeProvider
     rating: string
     message: string
-    status: "published"
+    status: "published" | string
     enabled: boolean
     created: Date
     updated: Date
@@ -39,7 +39,7 @@ export interface IServiceTestimonials {
 }
 
 interface IQueries {
-    provider?: TTypeProviderThreads
+    provider?: TTypeProvider
     user?: number
     target?: number
     status?: string

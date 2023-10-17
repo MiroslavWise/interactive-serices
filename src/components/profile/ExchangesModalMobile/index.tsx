@@ -12,7 +12,7 @@ import { useAuth, useVisibleExchanges } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 import { useQueries } from "react-query"
-import { serviceBarters } from "@/services/barters/service"
+import { serviceBarters } from "@/services/barters"
 
 export const ExchangesModalMobile = () => {
     const { isAuth } = useAuth() ?? {}

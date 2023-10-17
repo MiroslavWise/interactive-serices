@@ -13,7 +13,7 @@ import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { serviceBarters } from "@/services/barters/service"
+import { serviceBarters } from "@/services/barters"
 import { usePush } from "@/helpers/hooks/usePush"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 import { useOffersCategories } from "@/store/state/useOffersCategories"

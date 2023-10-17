@@ -201,7 +201,7 @@ export const ModalUpdateProfile = () => {
         <div className={cx(styles.wrapper, isVisible && styles.active)}>
             <div className={styles.container}>
                 <h3 className={styles.updateProfileTitle}>
-                    {profileId ? "Редактировать профиль" : "Создать профиль"}{" "}
+                    Редактировать профиль
                 </h3>
                 <ul>
                     <form onSubmit={handleSubmit(onSubmit)}>

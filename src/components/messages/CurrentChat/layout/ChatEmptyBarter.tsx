@@ -6,13 +6,13 @@ import { useSearchParams } from "next/navigation"
 import { useInsertionEffect, useMemo } from "react"
 
 import type { IPostThreads } from "@/services/threads/types"
+import type { IPatchDataBarter } from "@/services/barters/types"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
+import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
-import { serviceBarters } from "@/services/barters/service"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { IPatchDataBarter } from "@/services/barters/types"
 
 import styles from "../styles/style.module.scss"
 
