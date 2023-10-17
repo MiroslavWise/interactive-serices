@@ -36,6 +36,8 @@ const YandexMap: TYandexMap = ({}) => {
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
 
+    console.log("coordinates: ", coordinates)
+
     useInsertionEffect(() => {
         if (!coordinates) {
             if (!!coordinatesAddresses && coordinatesAddresses?.length) {
@@ -122,7 +124,10 @@ const YandexMap: TYandexMap = ({}) => {
 
     return (
         <>
-            <Header setVisibleNotification={setVisibleNotification} handleAddressLocation={handleAddressLocation} />
+            <Header
+                setVisibleNotification={setVisibleNotification}
+                handleAddressLocation={handleAddressLocation}
+            />
             {isMobile ? (
                 <Notifications
                     visibleNotification={visibleNotification}

@@ -164,6 +164,58 @@
             height: 100%;
         }
     }
+
+    & > i {
+        color: var(--error-500);
+        font-size: 12px;
+        font-style: italic;
+        font-weight: 400;
+        line-height: 16px;
+    }
+
+    & > [data-create] {
+        width: 100%;
+        height: min-content;
+        padding: 0px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & > div {
+            padding: 12px;
+            width: fit-content;
+            height: min-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            background: var(--glass-bg-color-1);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            border: 2px solid var(--stroke-1);
+
+            & > h3,
+            & > h4 {
+                text-align: center;
+                font-style: normal;
+                font-weight: 500;
+            }
+
+            & > h3 {
+                color: var(--gray-900);
+                font-size: 24px;
+            }
+
+            & > h4 {
+                color: var(--gray-500);
+                font-size: 18px;
+            }
+        }
+
+        &[data-error="true"] {
+            background: var(--error-200);
+            border: 2px solid var(--error-600);
+        }
+    }
 }
 
 .barterContainer {
@@ -183,6 +235,14 @@
         align-items: flex-start;
         gap: 4px;
         align-self: stretch;
+
+        & > span {
+            color: var(--error-500);
+            font-size: 12px;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 16px;
+        }
 
         p {
             color: var(--gray-900);
@@ -338,20 +398,20 @@
     }
     & > [data-right-shadow="true"] {
         left: calc(100% - 12px - 16px);
-        background: linear-gradient(
-            90deg,
-            rgba(238, 240, 254, 0) -2.91%,
-            #d9d3fe 176.74%
-        );
+        // background: linear-gradient(
+        //     90deg,
+        //     rgba(238, 240, 254, 0) -2.91%,
+        //     #d9d3fe 176.74%
+        // );
     }
 
     & > [data-left-shadow="true"] {
         left: calc(12px + 16px);
-        background: linear-gradient(
-            -90deg,
-            rgba(238, 240, 254, 0) -2.91%,
-            #d9d3fe 176.74%
-        );
+        // background: linear-gradient(
+        //     -90deg,
+        //     rgba(238, 240, 254, 0) -2.91%,
+        //     #d9d3fe 176.74%
+        // );
     }
 }
 

@@ -111,7 +111,7 @@ export const CardOffer: TCardOffer = ({
                     <p>{dayjs(timestamp!).format("DD/MM/YYYY")}</p>
                 </div>
                 <div className={styles.end}>
-                    {status === "initiated" ? (
+                    {status === "initiated" && myUserId !== userId ? (
                         <ButtonDefault
                             label="Отклонить"
                             handleClick={handleCancel}

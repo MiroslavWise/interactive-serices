@@ -1,14 +1,17 @@
-import type { Dispatch, FC, SetStateAction } from "react"
+import type { Dispatch, DispatchWithoutAction, FC, SetStateAction } from "react"
 import type { TExchanges } from "@/store/types/useVisibleExchanges"
 import type { IBarterResponse } from "@/services/barters/types"
+import type { IActionOffers } from "../../types/types"
 
 interface IContainerHeader {
     total: number
+    isToMe: boolean
+    dispatch: Dispatch<IActionOffers>
 }
 
 interface IContainerOffersNow {
-    data: IBarterResponse[]
-    refetch(): Promise<any>
+    isToMe: boolean
+    dispatch: Dispatch<IActionOffers>
 }
 
 interface IMobileSegments {}

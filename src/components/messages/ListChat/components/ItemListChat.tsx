@@ -131,9 +131,7 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
                         {thread?.title?.includes("barter") ? (
                             <div data-title-barter>
                                 <BadgeServices
-                                    photo="/mocks/Nail.png"
-                                    label={barter?.initiator?.title!}
-                                    type={barter?.initiator?.type!}
+                                    {...dataBarter?.res?.initiator!}
                                 />
                                 <Image
                                     data-repeat
@@ -143,9 +141,7 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
                                     height={18}
                                 />
                                 <BadgeServices
-                                    photo="/mocks/Nail.png"
-                                    label={barter?.consigner?.title!}
-                                    type={barter?.consigner?.type!}
+                                    {...dataBarter?.res?.consigner!}
                                 />
                             </div>
                         ) : (

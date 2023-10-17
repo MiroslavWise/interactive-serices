@@ -9,6 +9,7 @@ import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
+import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
@@ -59,7 +60,7 @@ export const Buttons = ({
                         height={16}
                     />
                 }
-                classNames={styles.buttonFill}
+                classNames={cx(styles.buttonFill, styles[provider])}
             />
             <motion.div
                 className={styles.buttonTrash}

@@ -119,6 +119,13 @@
         height: 32px;
         z-index: 2;
 
+        &.offer {
+            background: var(--gradient-offer) !important;
+        }
+        &.request {
+            background: var(--gradient-request) !important;
+        }
+
         span {
             font-size: 14px;
         }

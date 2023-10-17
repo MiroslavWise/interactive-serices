@@ -9,7 +9,7 @@ export interface IValuesVisibleType {
 
 export interface IUseAddCreateModal {
     typeAdd: TAddCreate | undefined
-    isVisible: boolean
+    isVisible: boolean | undefined
 
-    setVisibleAndType: Dispatch<IValuesVisibleType | void>
+    dispatchVisibleTypeCreateOptionals: Dispatch<IValuesVisibleType | void>
 }

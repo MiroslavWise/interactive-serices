@@ -13,7 +13,7 @@ import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import styles from "./styles/styles.module.scss"
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
-    const { setVisibleAndType } = useAddCreateModal()
+    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
 
     function handleType() {

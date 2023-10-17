@@ -243,22 +243,14 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
             </section>
             <footer data-executed>
                 <div data-badges>
-                    <BadgeServices
-                        photo="/mocks/Nail.png"
-                        label={infoOffers?.initiator?.title!}
-                        type={data?.res?.initiator?.provider!}
-                    />
+                    <BadgeServices {...data?.res?.initiator!} isClickable />
                     <Image
                         src="/svg/repeat-white.svg"
-                        alt="barter"
+                        alt="repeat-white"
                         width={24}
                         height={24}
                     />
-                    <BadgeServices
-                        photo="/mocks/Nail.png"
-                        label={infoOffers?.consigner?.title!}
-                        type={data?.res?.consigner?.provider!}
-                    />
+                    <BadgeServices {...data?.res?.consigner!} isClickable />
                 </div>
                 {["executed", "completed", "destroyed"]?.includes(
                     data?.res?.status!,

@@ -41,54 +41,56 @@ export const Start = () => {
     }
 
     function postOffer(idsAddresses: number[]) {
-        const data: IPostOffers = {
-            provider: "request",
-            title: text,
-            userId: userId!,
-            categoryId: Number(selected?.id!),
-            slug: transliterateAndReplace(text!),
-            enabled: true,
-            desired: true,
-        }
-        if (idsAddresses) {
-            data.addresses = idsAddresses
-        }
-        serviceOffers.post(data).then((response) => {
-            if (response.ok) {
-                if (response.res) {
-                    if (files.length > 0) {
-                        Promise.all(
-                            files.map((item) =>
-                                fileUploadService(item!, {
-                                    type: "discussion",
-                                    userId: userId!,
-                                    idSupplements: response?.res?.id!,
-                                }),
-                            ),
-                        ).then((responses) => {
-                            const values: IPatchOffers = {}
-                            values.images = []
-                            responses.forEach((item) => {
-                                if (item.ok) {
-                                    if (item.res) {
-                                        values.images?.push(item?.res?.id!)
-                                    }
-                                }
-                            })
-                            serviceOffers
-                                .patch(values, response?.res?.id!)
-                                .then(() => {
-                                    setStepRequest("end")
-                                })
-                        })
-                    } else {
-                        setStepRequest("end")
-                    }
-                }
-            } else {
-                close()
+        if (text && selected?.id && (addressInit || adressId)) {
+            const data: IPostOffers = {
+                provider: "request",
+                title: text,
+                userId: userId!,
+                categoryId: Number(selected?.id!),
+                slug: transliterateAndReplace(text!),
+                enabled: true,
+                desired: true,
             }
-        })
+            if (idsAddresses) {
+                data.addresses = idsAddresses
+            }
+            serviceOffers.post(data).then((response) => {
+                if (response.ok) {
+                    if (response.res) {
+                        if (files.length > 0) {
+                            Promise.all(
+                                files.map((item) =>
+                                    fileUploadService(item!, {
+                                        type: "discussion",
+                                        userId: userId!,
+                                        idSupplements: response?.res?.id!,
+                                    }),
+                                ),
+                            ).then((responses) => {
+                                const values: IPatchOffers = {}
+                                values.images = []
+                                responses.forEach((item) => {
+                                    if (item.ok) {
+                                        if (item.res) {
+                                            values.images?.push(item?.res?.id!)
+                                        }
+                                    }
+                                })
+                                serviceOffers
+                                    .patch(values, response?.res?.id!)
+                                    .then(() => {
+                                        setStepRequest("end")
+                                    })
+                            })
+                        } else {
+                            setStepRequest("end")
+                        }
+                    }
+                } else {
+                    close()
+                }
+            })
+        }
     }
 
     function handleNext() {

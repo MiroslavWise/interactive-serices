@@ -40,48 +40,57 @@ export function Barter() {
         return address || null
     }, [dataOffer])
 
-    const { register, watch, setError, setValue, handleSubmit } =
-        useForm<IValuesForm>({})
+    const {
+        register,
+        watch,
+        setError,
+        setValue,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<IValuesForm>({})
 
     function onSubmit(values: IValuesForm) {
-        const data = {
-            consignedId: dataOffer?.id!,
-            provider: "barter",
-            status: "initiated",
-            title: dataOffer?.title!,
-            enabled: true,
-        } as IPostDataBarter
+        console.log("values: ", values)
 
-        if (values.date) {
-            data.timestamp = dayjs(values.date).format()
-        }
-        if (addressId) {
-            data.addresses = [Number(addressId)]
-        }
-        data.userId = Number(userId!)
-        data.initialId = Number(values?.offerMyId!)
+        // const data = {
+        //     consignedId: dataOffer?.id!,
+        //     provider: "barter",
+        //     status: "initiated",
+        //     title: dataOffer?.title!,
+        //     enabled: true,
+        // } as IPostDataBarter
 
-        console.log("data: ", data)
+        // if (values.date) {
+        //     data.timestamp = dayjs(values.date).format()
+        // }
+        // if (addressId) {
+        //     data.addresses = [Number(addressId)]
+        // }
+        // data.userId = Number(userId!)
+        // data.initialId = Number(values?.offerMyId!)
 
-        serviceBarters.post(data).then((response) => {
-            if (response?.ok) {
-                if (response?.res?.id) {
-                    on(
-                        `${dataProfile?.fullName} получит ваше предлодение обмена! Подождите, пока он вам ответит`,
-                    )
-                    dispatchVisibleBarter({ isVisible: false })
-                }
-            }
-        })
+        // console.log("data: ", data)
+
+        // serviceBarters.post(data).then((response) => {
+        //     if (response?.ok) {
+        //         if (response?.res?.id) {
+        //             on(
+        //                 `${dataProfile?.fullName} получит ваше предлодение обмена! Подождите, пока он вам ответит`,
+        //             )
+        //             dispatchVisibleBarter({ isVisible: false })
+        //         }
+        //     }
+        // })
     }
 
     if (isMobile) {
         return (
-            <div
+            <form
                 className={cx(
                     styles.wrapperContainerMobile,
                     isVisible && styles.visible,
                 )}
+                onSubmit={handleSubmit(onSubmit)}
             >
                 <header>
                     <div
@@ -141,8 +150,15 @@ export function Barter() {
                         </div>
                     </div>
                 </ul>
+                <Content
+                    register={register}
+                    setValue={setValue}
+                    watch={watch}
+                    address={address}
+                    errors={errors}
+                />
                 <Glasses />
-            </div>
+            </form>
         )
     }
 
@@ -164,6 +180,7 @@ export function Barter() {
                     setValue={setValue}
                     watch={watch}
                     address={address}
+                    errors={errors}
                 />
                 <Glasses />
             </form>

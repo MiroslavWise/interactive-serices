@@ -1,5 +1,6 @@
 import { FC } from "react"
 import type {
+    FieldErrors,
     UseFormRegister,
     UseFormSetValue,
     UseFormWatch,
@@ -17,6 +18,7 @@ interface IContent {
     setValue: UseFormSetValue<IValuesForm>
     watch: UseFormWatch<IValuesForm>
     address: string
+    errors: FieldErrors<IValuesForm>
 }
 
 export type TContent = FC<IContent>

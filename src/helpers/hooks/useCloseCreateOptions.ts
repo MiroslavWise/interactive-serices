@@ -13,7 +13,7 @@ export const useCloseCreateOptions = () => {
     const { resetAlert } = useCreateAlert()
     const { resetRequest } = useCreateRequest()
     const { resetDiscussion } = useCreateDiscussion()
-    const { setVisibleAndType, typeAdd } = useAddCreateModal()
+    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType, typeAdd } = useAddCreateModal()
 
     function close() {
         setVisibleAndType()

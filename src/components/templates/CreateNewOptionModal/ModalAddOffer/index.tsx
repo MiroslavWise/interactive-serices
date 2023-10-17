@@ -19,11 +19,7 @@ import { useCreateOffer } from "@/store/state/useCreateOffer"
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
-import {
-    transliterateAndReplace,
-    useAddress,
-    useCloseCreateOptions,
-} from "@/helpers"
+import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 import { serviceAddresses } from "@/services/addresses"
@@ -70,7 +66,7 @@ export const ModalAddOffer = () => {
     }
 
     function handleNext() {
-        if (step === 1) {
+        if (step === 1 && valueCategory?.id && (adressId || addressInit)) {
             const data: IPostOffers = {
                 provider: `offer`,
                 title: text!,
@@ -106,8 +102,9 @@ export const ModalAddOffer = () => {
                     postData(data)
                 }
             }
+            return
         }
-        if (step === 2) {
+        if (step === 2 && id) {
             const data: IPatchOffers = {}
             data.images = []
             Promise.all(
@@ -120,7 +117,6 @@ export const ModalAddOffer = () => {
                 ),
             ).then((responses) => {
                 console.log("responses: ", responses)
-
                 responses.forEach((item) => {
                     if (item.ok) {
                         if (item.res) {
@@ -128,11 +124,11 @@ export const ModalAddOffer = () => {
                         }
                     }
                 })
-
                 serviceOffers.patch(data, id!).then(() => {
                     next()
                 })
             })
+            return
         }
     }
 

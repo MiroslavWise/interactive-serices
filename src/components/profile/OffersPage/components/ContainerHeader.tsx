@@ -9,7 +9,11 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerHeader: TContainerHeader = ({ total }) => {
+export const ContainerHeader: TContainerHeader = ({
+    total,
+    dispatch,
+    isToMe,
+}) => {
     const stringTotal: string | number = useMemo(() => {
         if (total <= 9 && total >= -9) {
             return `0${total}`
@@ -22,7 +26,26 @@ export const ContainerHeader: TContainerHeader = ({ total }) => {
             <div className={styles.badgeTotal}>
                 <h4>{stringTotal}</h4>
             </div>
-            <h4>Люди, приславшие вам предложения обмена.</h4>
+            <h4>
+                Предложения обменов, пришедшие{" "}
+                <span
+                    data-active={isToMe}
+                    onClick={() => {
+                        dispatch({ isToMe: true })
+                    }}
+                >
+                    к Вам
+                </span>{" "}
+                и{" "}
+                <span
+                    data-active={!isToMe}
+                    onClick={() => {
+                        dispatch({ isToMe: false })
+                    }}
+                >
+                    от Вас
+                </span>
+            </h4>
         </div>
     )
 }

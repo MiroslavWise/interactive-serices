@@ -30,9 +30,25 @@ export const useAddress = () => {
 
         return null
     }, [addresses])
+    const addressMainMany: IAddressesResponse[] | null = useMemo(() => {
+        if (addresses?.length) {
+            return (
+                addresses?.filter((item) => item?.addressType === "main")! ||
+                null
+            )
+        }
+
+        return null
+    }, [addresses])
 
     const isAddresses: boolean =
-        Array.isArray(addresses) && addresses?.length > 0
+        Array.isArray(addresses) && addresses?.length > 0 && !!addressMain
 
-    return { idsAddresses, isAddresses, coordinatesAddresses, addressMain }
+    return {
+        idsAddresses,
+        isAddresses,
+        coordinatesAddresses,
+        addressMain,
+        addressMainMany,
+    }
 }

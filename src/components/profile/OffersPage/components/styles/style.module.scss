@@ -12,6 +12,20 @@
         line-height: 150%;
         letter-spacing: -0.5px;
         z-index: 1;
+
+        & > span {
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 150%;
+            letter-spacing: -0.5px;
+            &[data-active="true"] {
+                color: var(--primary-500);
+            }
+            &:not(&[data-active="true"]) {
+                cursor: pointer;
+            }
+        }
     }
 
     &.mobile {

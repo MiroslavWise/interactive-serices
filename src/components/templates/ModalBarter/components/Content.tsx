@@ -9,7 +9,7 @@ import type { TContent } from "../types/types"
 
 import styles from "./styles/style.module.scss"
 
-export const Content: TContent = ({ register, setValue, watch, address }) => {
+export const Content: TContent = ({ register, setValue, watch, address, errors }) => {
     const [active, setActive] = useState(false)
 
     return (
@@ -19,6 +19,7 @@ export const Content: TContent = ({ register, setValue, watch, address }) => {
                 setValue={setValue}
                 watch={watch}
                 address={address}
+                errors={errors}
             />
             <footer>
                 <div className={styles.toggleLabel}>
