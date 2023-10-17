@@ -10,7 +10,7 @@ import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
 import { useAuth } from "@/store/hooks"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
 import { AddressDescription } from "../../components/AddressDescription"
 import { ImagesUploadInput } from "../../components/ImagesUploadInput"
@@ -53,7 +53,7 @@ export const Start = () => {
         if (idsAddresses) {
             data.addresses = idsAddresses
         }
-        serviceOffer.post(data).then((response) => {
+        serviceOffers.post(data).then((response) => {
             if (response.ok) {
                 if (response.res) {
                     if (files.length > 0) {
@@ -75,7 +75,7 @@ export const Start = () => {
                                     }
                                 }
                             })
-                            serviceOffer
+                            serviceOffers
                                 .patch(values, response?.res?.id!)
                                 .then(() => {
                                     setStepRequest("end")

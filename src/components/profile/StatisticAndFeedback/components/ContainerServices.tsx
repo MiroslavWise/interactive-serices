@@ -13,7 +13,7 @@ import { ButtonRadio } from "@/components/common/Buttons"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
 import { cx } from "@/lib/cx"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
@@ -24,12 +24,12 @@ export const ContainerServices: TContainerServices = ({}) => {
     const [{ data: dataOffer }, { data: dataRequest }] = useQueries([
         {
             queryFn: () =>
-                serviceOffer.getUserId(Number(id), { provider: "offer" }),
+                serviceOffers.getUserId(Number(id), { provider: "offer" }),
             queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
         },
         {
             queryFn: () =>
-                serviceOffer.getUserId(Number(id), { provider: "request" }),
+                serviceOffers.getUserId(Number(id), { provider: "request" }),
             queryKey: ["offers", `user=${Number(id)}`, "provider=request"],
         },
     ])

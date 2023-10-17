@@ -11,7 +11,7 @@ import { ImagesUploadInput } from "../../components/ImagesUploadInput"
 import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
 import { useAuth } from "@/store/hooks"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { serviceAddresses } from "@/services/addresses"
 import { fileUploadService } from "@/services/file-upload"
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
@@ -45,7 +45,7 @@ export const Start = () => {
         if (idsAddresses) {
             data.addresses = idsAddresses
         }
-        serviceOffer.post(data).then((response) => {
+        serviceOffers.post(data).then((response) => {
             if (response.ok) {
                 if (response.res) {
                     if (files.length > 0) {
@@ -67,7 +67,7 @@ export const Start = () => {
                                     }
                                 }
                             })
-                            serviceOffer
+                            serviceOffers
                                 .patch(values, response?.res?.id!)
                                 .then(() => {
                                     setStepDiscussion("end")

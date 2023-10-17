@@ -9,7 +9,7 @@ import { MotionUL } from "@/components/common/Motion"
 import { CardSuggestion } from "@/components/common/Card"
 
 import { useAuth } from "@/store/hooks"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
@@ -20,7 +20,7 @@ export const ContainerSuggestions: TContainerSuggestions = ({
 
     const { data, refetch } = useQuery({
         queryFn: () =>
-            serviceOffer.getUserId(userId!, { provider: isOfferOrRequest }),
+            serviceOffers.getUserId(userId!, { provider: isOfferOrRequest }),
         queryKey: ["offers", `user=${userId}`, `provider=${isOfferOrRequest}`],
     })
 

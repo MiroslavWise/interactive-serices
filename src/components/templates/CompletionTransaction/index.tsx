@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { useMemo } from "react"
 import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
@@ -38,6 +39,32 @@ export const CompletionTransaction = () => {
     const { refetch } = useQuery({
         queryFn: () => serviceBarters.getId(dataBarter?.id!),
         queryKey: ["barters", `id=${dataBarter?.id!}`],
+        enabled: false,
+    })
+
+    const offerId: number | null = useMemo(() => {
+        if (!dataBarter || !userId) {
+            return null
+        }
+        if (Number(dataBarter?.initiator?.userId) === Number(userId)) {
+            return Number(dataBarter?.consignedId)
+        } else {
+            return Number(dataBarter?.initialId)
+        }
+    }, [dataBarter, userId])
+
+    const { refetch: refetchTestimonials } = useQuery({
+        queryFn: () =>
+            serviceTestimonials.get({
+                target: offerId!,
+                provider: "offer",
+                barter: dataBarter?.id!,
+            }),
+        queryKey: [
+            "testimonials",
+            `barter=${dataBarter?.id}`,
+            `offer=${offerId!}`,
+        ],
         enabled: false,
     })
 
@@ -87,6 +114,7 @@ export const CompletionTransaction = () => {
                                 }
                                 requestAnimationFrame(() => {
                                     refetch().finally(() => {
+                                        refetchTestimonials()
                                         reset()
                                         dispatchCompletion({ visible: false })
                                     })
@@ -107,6 +135,7 @@ export const CompletionTransaction = () => {
                     }
                     requestAnimationFrame(() => {
                         refetch().finally(() => {
+                            refetchTestimonials()
                             reset()
                             dispatchCompletion({ visible: false })
                         })

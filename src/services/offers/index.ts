@@ -1,7 +1,7 @@
 import type { IServiceOffers } from "./types"
 import { wrapperFetch } from "../requestsWrapper"
 
-export const serviceOffer: IServiceOffers = {
+export const serviceOffers: IServiceOffers = {
     route: "/offers",
     post(value) {
         return wrapperFetch.methodPost(this.route, value)

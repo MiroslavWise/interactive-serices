@@ -7,7 +7,7 @@ import type { TPeoples } from "./types/types"
 import { MotionUL } from "@/components/common/Motion"
 import { GeneralServiceAllItem } from "@/components/common/Card"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 import { useEffect } from "react"
@@ -15,7 +15,7 @@ import { useEffect } from "react"
 export const Peoples: TPeoples = ({ setTotal }) => {
     const { data } = useQuery({
         queryKey: ["offers"],
-        queryFn: () => serviceOffer.get(),
+        queryFn: () => serviceOffers.get(),
     })
 
     const { ok, res } = data ?? {}

@@ -10,7 +10,7 @@ import { BlockComments } from "./BlockComments"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { daysAgo } from "@/helpers"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
@@ -21,7 +21,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
-            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
             queryKey: [
                 "offers",
                 `offer=${stateBalloon.id!}`,

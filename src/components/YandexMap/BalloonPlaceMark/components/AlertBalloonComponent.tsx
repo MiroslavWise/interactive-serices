@@ -11,7 +11,7 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
@@ -23,7 +23,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
-            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
             queryKey: [
                 "offers",
                 `offer=${stateBalloon.id!}`,

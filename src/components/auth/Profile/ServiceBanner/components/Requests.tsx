@@ -6,7 +6,7 @@ import { useEffect, type Dispatch, type SetStateAction } from "react"
 import { MotionUL } from "@/components/common/Motion"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
@@ -16,7 +16,7 @@ export const Requests = ({
     setTotal: Dispatch<SetStateAction<number>>
 }) => {
     const { data } = useQuery({
-        queryFn: () => serviceOffer.get({ provider: "request" }),
+        queryFn: () => serviceOffers.get({ provider: "request" }),
         queryKey: ["offers", "provider=request"],
     })
 

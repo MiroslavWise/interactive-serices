@@ -52,17 +52,18 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
         }
     }, [data?.res, userId])
 
-    const { data: dataTestimonials } = useQuery({
+    const { data: dataTestimonials, refetch: refetchTestimonials } = useQuery({
         queryFn: () =>
             serviceTestimonials.get({
                 target: offerId!,
                 provider: "offer",
                 barter: idBarter!,
             }),
-        queryKey: ["testimonials", `barter=${idBarter}`],
+        queryKey: ["testimonials", `barter=${idBarter}`, `offer=${offerId!}`],
         enabled:
-            ["destroyed", "completed"]?.includes(data?.res?.status!) &&
-            !!offerId,
+            ["executed", "destroyed", "completed"]?.includes(
+                data?.res?.status!,
+            ) && !!offerId,
     })
 
     const isMeInitiator = useMemo(() => {

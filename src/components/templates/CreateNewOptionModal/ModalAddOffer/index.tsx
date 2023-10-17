@@ -13,7 +13,7 @@ import { AddingPhotos } from "./components/AddingPhotos"
 import { ServiceSelection } from "./components/ServiceSelection"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
 
 import { cx } from "@/lib/cx"
@@ -57,7 +57,7 @@ export const ModalAddOffer = () => {
     }
 
     function postData(data: IPostOffers) {
-        serviceOffer.post(data).then((response) => {
+        serviceOffers.post(data).then((response) => {
             if (response.ok) {
                 if (response?.res?.id!) {
                     setId(Number(response?.res?.id!))
@@ -129,7 +129,7 @@ export const ModalAddOffer = () => {
                     }
                 })
 
-                serviceOffer.patch(data, id!).then(() => {
+                serviceOffers.patch(data, id!).then(() => {
                     next()
                 })
             })

@@ -7,13 +7,13 @@ import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 const ListPlacemark_ = () => {
     const { data: dataPlaces } = useQuery({
         queryKey: ["offers"],
-        queryFn: () => serviceOffer.get(),
+        queryFn: () => serviceOffers.get(),
     })
     const { dispatch } = useBalloonCard()
 

@@ -10,7 +10,7 @@ import { ImageStatic } from "@/components/common/Image"
 import { CustomDatePicker } from "@/components/common/custom"
 
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
@@ -28,7 +28,7 @@ export const ContentTitleCarousel: TContent = ({
     const [left, setLeft] = useState(0)
     const { data } = useQuery({
         queryFn: () =>
-            serviceOffer.getUserId(userId!, {
+            serviceOffers.getUserId(userId!, {
                 provider: dataOffer?.provider === "offer" ? "request" : "offer",
             }),
         queryKey: [

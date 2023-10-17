@@ -10,7 +10,7 @@ import styles from "./styles/style.module.scss"
 export const ContainerReviews: TContainerReviews = ({}) => {
     return (
         <MotionUL classNames={[styles.containerReviews]}>
-            {MOCKS_REVIEW_VALUES.map((item, index) => (
+            {/* {MOCKS_REVIEW_VALUES.map((item, index) => (
                 <CardReview
                     key={`${item?.user}_${index}`}
                     user={item?.user}
@@ -19,7 +19,8 @@ export const ContainerReviews: TContainerReviews = ({}) => {
                     description={item?.description}
                     images={item?.images}
                 />
-            ))}
+            ))} */}
+            <></>
         </MotionUL>
     )
 }

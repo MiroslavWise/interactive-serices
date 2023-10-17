@@ -1,15 +1,16 @@
 .container {
-  width: min-content;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: transparent;
-
-  li {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
+    width: min-content;
+    display: grid;
     align-items: center;
-  }
+    gap: 3px;
+    grid-template-columns: repeat(5, calc(20% - 2.4px));
+    background-color: transparent;
+
+    li {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

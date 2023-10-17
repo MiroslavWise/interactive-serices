@@ -1,12 +1,6 @@
 import type { FC } from "react"
+import type { IResponseTestimonials } from "@/services/testimonials/types"
 
-export interface ICardReview {
-  user: string
-  date: string
-  rate: number
-  description: string
-  images: string[]
-  classNames?: string[]
-}
+export interface ICardReview extends IResponseTestimonials {}
 
 export type TCardReview = FC<ICardReview>

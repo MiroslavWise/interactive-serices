@@ -9,7 +9,7 @@ import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
@@ -30,7 +30,7 @@ export const Buttons = ({
         if (!loading) {
             setLoading(true)
             if (id) {
-                serviceOffer.delete(id).then((response) => {
+                serviceOffers.delete(id).then((response) => {
                     console.log("delete offer!", response)
                     requestAnimationFrame(() => {
                         refetch().finally(() => setLoading(false))
