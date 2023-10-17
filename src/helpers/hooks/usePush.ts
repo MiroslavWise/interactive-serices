@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { useAnimateLoadPage } from "@/store/hooks"
 
 export const usePush = () => {
-    const { push, replace } = useRouter()
+    const { push, replace, back } = useRouter()
     const pathname = usePathname()
     const { setIsAnimated } = useAnimateLoadPage()
 
@@ -21,5 +21,9 @@ export const usePush = () => {
         push(value)
     }
 
-    return { handlePush, handleReplace }
+    function backing() {
+        back()
+    }
+
+    return { handlePush, handleReplace, backing }
 }

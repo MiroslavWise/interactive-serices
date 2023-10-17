@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
@@ -13,17 +14,38 @@ import {
 import { MotionUL } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
+import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
+import { useToast } from "@/helpers/hooks/useToast"
 
 import styles from "@/scss/page.module.scss"
 
+let fetchOut = false
+
 export default function UserId() {
+    const { on } = useToast()
     const searchParams = useSearchParams()
+    const { handlePush } = usePush()
     const id = searchParams?.get("id")
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryFn: () => serviceUsers.getId(id!),
         queryKey: ["user", id],
+        enabled: id !== "undefined" && id !== "null" && typeof id !== undefined,
     })
+
+    useEffect(() => {
+        if (id === "undefined" || typeof id === "undefined" || id === "null") {
+            if (!fetchOut) on("Данный аккаунт не существует или приватный")
+            fetchOut = true
+            return handlePush("/")
+        }
+
+        if (data?.ok === false) {
+            if (!fetchOut) on("Данный аккаунт не существует или приватный")
+            fetchOut = true
+            return handlePush("/")
+        }
+    }, [data, id, isLoading, handlePush, on])
 
     return (
         <div className={cx(styles.page, isMobile && styles.mobile)}>

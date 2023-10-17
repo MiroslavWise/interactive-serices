@@ -22,7 +22,6 @@ import {
     Glasses,
 } from "@/components/layout"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
-import { OnSuccessToastify } from "@/components/common/Toastify"
 const PhotoPreviewModal = dynamic(
     () => import("../components/templates/PhotoPreviewModal"),
     { ssr: false },
@@ -34,6 +33,7 @@ import {
     NextThemesProvider,
     ReduxProvider,
 } from "@/context"
+import { CompletionTransaction } from "@/components/templates/CompletionTransaction"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
@@ -41,7 +41,8 @@ import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { CompletionTransaction } from "@/components/templates/CompletionTransaction"
+
+import { useToast } from "@/helpers/hooks/useToast"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -58,6 +59,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { token, userId, refresh } = useAuth()
     const searchParams = useSearchParams()
     const { handleReplace } = usePush()
+    const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
@@ -81,7 +83,7 @@ export default function Providers({ children }: { children: ReactNode }) {
             RegistrationService.verification({ code: verifyToken! }).then(
                 (response) => {
                     if (response.ok) {
-                        OnSuccessToastify(
+                        on(
                             "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
                         )
                         handleReplace("/")
@@ -89,7 +91,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                 },
             )
         }
-    }, [verifyToken, handleReplace])
+    }, [verifyToken, handleReplace, on])
 
     useEffect(() => {
         if (offersCategories === false) {

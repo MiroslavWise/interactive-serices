@@ -8,10 +8,10 @@ import type { TContentForgotPassword } from "./types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
-import { OnSuccessToastify } from "@/components/common/Toastify"
 
 import { cx } from "@/lib/cx"
 import { regExEmail } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
@@ -24,6 +24,7 @@ interface IValues {
 export const ContentForgotPassword: TContentForgotPassword = ({
     setValueEmail,
 }) => {
+    const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const {
@@ -40,18 +41,18 @@ export const ContentForgotPassword: TContentForgotPassword = ({
             .then((response) => {
                 if (response.ok && !!response?.res) {
                     setVisibleAndType({ visible: false })
-                    OnSuccessToastify(
+                    on(
                         "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
                     )
                 }
                 if (response?.error?.code === 401) {
                     setError("email", { message: "user is not verified" })
-                    OnSuccessToastify("Пользователь не верифицирован!")
+                    on("Пользователь не верифицирован!")
                     setVisibleAndType({ visible: false })
                 }
                 if (response?.error?.code === 404) {
                     setError("email", { message: "user not found" })
-                    OnSuccessToastify("Пользователя не существует!")
+                    on("Пользователя не существует!")
                     setVisibleAndType({ visible: false })
                 }
                 if (

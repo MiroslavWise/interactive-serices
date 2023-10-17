@@ -81,7 +81,10 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                 src="/svg/message-dots-circle.svg"
                                 type="primary"
                                 onClick={() => {
-                                    if (Number(userId) === Number(user?.id)) {
+                                    if (
+                                        Number(userId) === Number(user?.id) ||
+                                        !userId
+                                    ) {
                                         return
                                     }
                                     handlePush(`/messages?user=${user?.id}`)
@@ -91,7 +94,10 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                 src="/svg/repeat-01.svg"
                                 type="primary"
                                 onClick={() => {
-                                    if (Number(userId) === Number(user?.id)) {
+                                    if (
+                                        Number(userId) === Number(user?.id) ||
+                                        !userId
+                                    ) {
                                         return
                                     }
                                     dispatchVisibleBarter({

@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { toast } from "react-toastify"
 import { useForm } from "react-hook-form"
 
 import type { TContentSignIn, IValuesSignForm } from "./types/types"
@@ -17,11 +16,13 @@ import {
     useWelcomeModal,
 } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useTokenHelper, regExEmail } from "@/helpers"
 
 import styles from "../styles/style.module.scss"
 
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
+    const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setToken, changeAuth } = useAuth()
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
@@ -32,18 +33,6 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         formState: { errors },
         setError,
     } = useForm<IValuesSignForm>()
-
-    const onError = (value: string) =>
-        toast(value, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        })
 
     const onEnter = async (values: IValuesSignForm) => {
         setLoading(true)
@@ -64,7 +53,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     response.error?.code === 401 &&
                     response?.error?.message === "user is not verified"
                 ) {
-                    onError(
+                    on(
                         "Вы не потвердили профиль через уведомление, которое вам пришло на почту или номер телефона!",
                     )
                     return
@@ -85,7 +74,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         "ERROR ---У нас возникла ошибка, мы сейчас её решаем!---",
                         response?.error,
                     )
-                    onError("У нас возникла ошибка, мы сейчас её решаем!")
+                    on("У нас возникла ошибка, мы сейчас её решаем!")
                     return
                 }
                 if (response.ok) {

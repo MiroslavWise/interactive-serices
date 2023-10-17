@@ -1,20 +1,19 @@
 "use client"
 
-import { toast } from "react-toastify"
 import { useInsertionEffect } from "react"
-import { useTheme } from "next-themes"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceThreads } from "@/services/threads"
+import { useToast } from "@/helpers/hooks/useToast"
 import { IPostThreads } from "@/services/threads/types"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 
 import styles from "../styles/style.module.scss"
 
 export const ChatEmpty = () => {
-    const { systemTheme } = useTheme()
+    const { on } = useToast()
     const idUser = useSearchParams().get("user")
     const { userId } = useAuth()
     const { handleReplace } = usePush()
@@ -65,18 +64,8 @@ export const ChatEmpty = () => {
 
             if (!idCreate) {
                 handleReplace("/messages")
-                toast(
-                    `Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен`,
-                    {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: systemTheme!,
-                    },
+                on(
+                    "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
                 )
                 return
             }

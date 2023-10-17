@@ -6,10 +6,6 @@ import { useSearchParams } from "next/navigation"
 
 import type { TContentResetPassword } from "./types/types"
 
-import {
-    OnErrorToastify,
-    OnSuccessToastify,
-} from "@/components/common/Toastify"
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 
@@ -18,6 +14,7 @@ import {
     usePush,
     useForgotPasswordHelper,
 } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
@@ -28,6 +25,7 @@ interface IValues {
 }
 
 export const ContentResetPassword: TContentResetPassword = ({}) => {
+    const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const {
@@ -56,19 +54,17 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                     return
                 }
                 if ([401 || 403].includes(response?.code!)) {
-                    OnErrorToastify("Время восстановления пароля истекло")
+                    on("Время восстановления пароля истекло")
                     handleReplace("/")
                     return
                 }
                 if (response.code === 500) {
-                    OnErrorToastify(
+                    on(
                         "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
                     )
                 }
                 if (response.ok && !!response?.res) {
-                    OnSuccessToastify(
-                        "Пароль успешно изменён. Вы можете войти на аккаунт!",
-                    )
+                    on("Пароль успешно изменён. Вы можете войти на аккаунт!")
                     handleReplace("/")
                     setVisibleAndType({ type: "SignIn" })
                     return

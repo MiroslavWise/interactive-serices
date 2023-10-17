@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { toast } from "react-toastify"
 import { useForm } from "react-hook-form"
 
 import type { IValuesRegistrationForm, TContentSignUp } from "./types/types"
@@ -11,13 +10,15 @@ import { LinksSocial } from "./components/LinksSocial"
 import { ButtonFill } from "@/components/common/Buttons"
 import { LabelInputGroup } from "./components/LabelInputGroup"
 
-import { checkPasswordStrength, regExEmail } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { checkPasswordStrength, regExEmail } from "@/helpers"
 import { RegistrationService } from "@/services/auth/registrationService"
 
 import styles from "../styles/style.module.scss"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
+    const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const {
@@ -27,18 +28,6 @@ export const ContentSignUp: TContentSignUp = ({}) => {
         setError,
         formState: { errors },
     } = useForm<IValuesRegistrationForm>()
-
-    const onSuccess = (value: string) =>
-        toast(value, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        })
 
     const onRegister = async (values: IValuesRegistrationForm) => {
         setLoading(true)
@@ -53,7 +42,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                 }
                 if (response.ok) {
                     setVisibleAndType({ type: "SignIn" })
-                    onSuccess(
+                    on(
                         "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
                     )
                 }
