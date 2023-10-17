@@ -89,7 +89,6 @@ export const ModalUpdateProfile = () => {
             ).format("DD/MM/YYYY"),
             about: user?.about || "",
             enabled: true,
-            userId: Number(userId),
         }
 
         if (values.about) {
@@ -124,7 +123,6 @@ export const ModalUpdateProfile = () => {
                                 const data: IPostProfileData = {
                                     username: values.username,
                                     imageId: uploadResponse.res?.id,
-                                    userId: Number(userId),
                                 }
                                 serviceProfile
                                     .patch(data, response?.[0]?.res?.id!)
