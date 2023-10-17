@@ -35,13 +35,15 @@ export default function UserId() {
 
     useEffect(() => {
         if (id === "undefined" || typeof id === "undefined" || id === "null") {
-            if (!fetchOut) on("Данный аккаунт не существует или приватный")
+            if (!fetchOut)
+                on("Данный аккаунт не существует или приватный", "warning")
             fetchOut = true
             return handlePush("/")
         }
 
         if (data?.ok === false) {
-            if (!fetchOut) on("Данный аккаунт не существует или приватный")
+            if (!fetchOut)
+                on("Данный аккаунт не существует или приватный", "warning")
             fetchOut = true
             return handlePush("/")
         }

@@ -11,6 +11,7 @@ import { ButtonClose, ButtonFill } from "@/components/common/Buttons"
 
 import { useAuth } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
+import { useToast } from "@/helpers/hooks/useToast"
 import { serviceTestimonials } from "@/services/testimonials"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
@@ -18,12 +19,14 @@ import styles from "./styles/style.module.scss"
 
 export const CompletionTransaction = () => {
     const { userId } = useAuth()
+    const { on } = useToast()
     const {
         register,
         formState: { errors },
         handleSubmit,
         watch,
         setValue,
+        reset,
     } = useForm<IValuesForm>({
         defaultValues: {
             rating: 5,
@@ -35,7 +38,7 @@ export const CompletionTransaction = () => {
     const { refetch } = useQuery({
         queryFn: () => serviceBarters.getId(dataBarter?.id!),
         queryKey: ["barters", `id=${dataBarter?.id!}`],
-        enabled: visible,
+        enabled: false,
     })
 
     function submit(values: IValuesForm) {
@@ -48,9 +51,10 @@ export const CompletionTransaction = () => {
                 userId: userId!,
                 targetId: idOffer!,
                 provider: "offer",
-                rating: values.rating.toString(),
+                barterId: dataBarter?.id!,
+                rating: values.rating?.toString(),
                 message: values.message,
-                status: `barter-${dataBarter?.id!}-user-${userId!}`,
+                status: "published",
                 enabled: true,
             })
             .then((response) => {
@@ -70,16 +74,42 @@ export const CompletionTransaction = () => {
                             )
                             .then((res) => {
                                 console.log("serviceBarters response: ", res)
+                                if (res.ok) {
+                                    on(
+                                        `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
+                                        "barter",
+                                    )
+                                } else {
+                                    on(
+                                        `Ваш отзыв не был доставлен пользователю ${dataUser?.profile?.firstName}, у нас проблемы на сервере`,
+                                        "error",
+                                    )
+                                }
                                 requestAnimationFrame(() => {
-                                    refetch()
-                                    dispatchCompletion({ visible: false })
+                                    refetch().finally(() => {
+                                        reset()
+                                        dispatchCompletion({ visible: false })
+                                    })
                                 })
                             })
                     })
                 } else {
+                    if (response?.ok) {
+                        on(
+                            `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
+                            "barter",
+                        )
+                    } else {
+                        on(
+                            `Ваш отзыв не был доставлен пользователю ${dataUser?.profile?.firstName}, у нас проблемы на сервере`,
+                            "error",
+                        )
+                    }
                     requestAnimationFrame(() => {
-                        refetch()
-                        dispatchCompletion({ visible: false })
+                        refetch().finally(() => {
+                            reset()
+                            dispatchCompletion({ visible: false })
+                        })
                     })
                 }
             })

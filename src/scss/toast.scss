@@ -7,6 +7,24 @@
             border: 2px solid var(--primary-500) !important;
             box-shadow: 0px 8px 32px 0px rgba(152, 125, 232, 0.37) !important;
 
+            &.toast-success {
+                background: var(--success-500) !important;
+                border: 2px solid var(--stroke-1) !important;
+            }
+            &.toast-error {
+                background: var(--gradient-barter-red) !important;
+                border: 2px solid var(--stroke-1) !important;
+            }
+            &.toast-warning {
+                background: var(--gradient-optional-1-reverb) !important;
+                border: 2px solid var(--stroke-1) !important;
+            }
+
+            &.toast-barter{
+                background: var(--gradient-barter) !important;
+                border: 2px solid var(--stroke-1) !important;
+            }
+
             & > .Toastify__toast-body {
                 & > div {
                     color: var(--color-text);
@@ -14,12 +32,6 @@
                     font-style: normal;
                     font-weight: 500;
                 }
-            }
-
-            & > div {
-                // &[role="progressbar"] {
-                //     display: none;
-                // }
             }
         }
     }

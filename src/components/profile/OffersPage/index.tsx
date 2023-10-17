@@ -17,11 +17,11 @@ export const OffersPage = () => {
     const { data, refetch } = useQuery({
         queryFn: () =>
             serviceBarters.getReceiverId(userId!, { status: "initiated" }),
-        queryKey: ["barters", `receiver=${userId}`, `status=initiated`], 
+        queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
     })
 
     return isMobile ? (
-        <ul className="p-top-5 p-left-5 p-right-5 p-bottom-14 w-100 h-100">
+        <ul className="w-100 h-100">
             <MobileSegments />
             <ContainerHeader total={data?.res?.length || 0} />
             <ContainerOffersNow data={data?.res!} refetch={refetch} />

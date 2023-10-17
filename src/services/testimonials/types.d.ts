@@ -1,13 +1,16 @@
 import type { TTypeProvider } from "../file-upload/types"
 import type { IReturnData } from "../types/general"
 
+export type TStatusFeedback = "published" | "blocked" | "edited"
+
 export interface IPostTestimonials {
     userId: number
     targetId: number
     provider: TTypeProvider
     rating: string
+    barterId?: number
     message: string
-    status: "published" | string
+    status: TStatusFeedback
     enabled: boolean
 }
 
@@ -18,9 +21,10 @@ export interface IResponseTestimonials {
     userId: number
     targetId: number
     provider: TTypeProvider
+    barterId?: number
     rating: string
     message: string
-    status: "published" | string
+    status: TStatusFeedback
     enabled: boolean
     created: Date
     updated: Date
@@ -42,7 +46,7 @@ interface IQueries {
     provider?: TTypeProvider
     user?: number
     target?: number
-    status?: string
+    status?: TStatusFeedback
     barter?: number
     offer?: number
 }

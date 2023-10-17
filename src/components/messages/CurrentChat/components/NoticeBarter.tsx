@@ -29,12 +29,6 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
         queryKey: ["barters", `id=${idBarter}`],
         enabled: !!idBarter,
     })
-    const { data: dataTestimonials } = useQuery({
-        queryFn: () =>
-            serviceTestimonials.get({ target: idBarter, provider: "barter" }),
-        queryKey: ["testimonials", `barter=${idBarter}`],
-        enabled: ["destroyed", "completed"]?.includes(data?.res?.status!),
-    })
 
     const idUser: number | null = useMemo(() => {
         if (!data?.res || !userId) {
@@ -46,6 +40,30 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
             return Number(data?.res?.initiator?.userId)
         }
     }, [data?.res, userId])
+
+    const offerId: number | null = useMemo(() => {
+        if (!data?.res || !userId) {
+            return null
+        }
+        if (Number(data?.res?.initiator?.userId) === Number(userId)) {
+            return Number(data?.res?.consignedId)
+        } else {
+            return Number(data?.res?.initialId)
+        }
+    }, [data?.res, userId])
+
+    const { data: dataTestimonials } = useQuery({
+        queryFn: () =>
+            serviceTestimonials.get({
+                target: offerId!,
+                provider: "offer",
+                barter: idBarter!,
+            }),
+        queryKey: ["testimonials", `barter=${idBarter}`],
+        enabled:
+            ["destroyed", "completed"]?.includes(data?.res?.status!) &&
+            !!offerId,
+    })
 
     const isMeInitiator = useMemo(() => {
         return userId && data?.res?.initiator?.userId === userId
@@ -83,6 +101,12 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
             ) || null
         )
     }, [dataUser])
+
+    const isFeedback = useMemo(() => {
+        return dataTestimonials?.res?.some(
+            (item) => item?.userId === userId && item?.barterId === idBarter,
+        )
+    }, [userId, idBarter, dataTestimonials?.res])
 
     function handleSuccess() {
         if (!loading) {
@@ -127,8 +151,6 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
             dataUser: dataUser?.res!,
         })
     }
-
-    //dataTestimonials
 
     return (
         <motion.div
@@ -218,48 +240,43 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                     </p>
                 ) : null}
             </section>
-            {["executed", "completed", "destroyed"]?.includes(
-                data?.res?.status!,
-            ) ? (
-                <footer data-executed>
-                    <div data-badges>
-                        <BadgeServices
-                            photo="/mocks/Nail.png"
-                            label={infoOffers?.initiator?.title!}
-                            type={data?.res?.initiator?.provider!}
-                        />
-                        <Image
-                            src="/svg/repeat-white.svg"
-                            alt="barter"
-                            width={24}
-                            height={24}
-                        />
-                        <BadgeServices
-                            photo="/mocks/Nail.png"
-                            label={infoOffers?.consigner?.title!}
-                            type={data?.res?.consigner?.provider!}
+            <footer data-executed>
+                <div data-badges>
+                    <BadgeServices
+                        photo="/mocks/Nail.png"
+                        label={infoOffers?.initiator?.title!}
+                        type={data?.res?.initiator?.provider!}
+                    />
+                    <Image
+                        src="/svg/repeat-white.svg"
+                        alt="barter"
+                        width={24}
+                        height={24}
+                    />
+                    <BadgeServices
+                        photo="/mocks/Nail.png"
+                        label={infoOffers?.consigner?.title!}
+                        type={data?.res?.consigner?.provider!}
+                    />
+                </div>
+                {["executed", "completed", "destroyed"]?.includes(
+                    data?.res?.status!,
+                ) &&
+                !isFeedback &&
+                dataTestimonials?.ok ? (
+                    <div data-buttons>
+                        <ButtonFill
+                            label={
+                                data?.res?.status === "completed"
+                                    ? "Оставить отзыв"
+                                    : "Завершить обмен"
+                            }
+                            handleClick={handleCompleted}
                         />
                     </div>
-                    {["executed"]?.includes(data?.res?.status!) ||
-                    (data?.res?.status === "completed" &&
-                        !dataTestimonials?.res?.some(
-                            (item) => item?.targetId === idBarter,
-                        )) ? (
-                        <div data-buttons>
-                            <ButtonFill
-                                label={
-                                    data?.res?.status === "completed"
-                                        ? "Оставить отзыв"
-                                        : "Завершить обмен"
-                                }
-                                handleClick={handleCompleted}
-                            />
-                        </div>
-                    ) : null}
-                </footer>
-            ) : null}
-            {isMeInitiator === false && data?.res?.status === "initiated" ? (
-                <footer>
+                ) : null}
+                {isMeInitiator === false &&
+                data?.res?.status === "initiated" ? (
                     <section>
                         <ButtonFill
                             label="Принять"
@@ -288,8 +305,8 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                             }
                         />
                     </section>
-                </footer>
-            ) : null}
+                ) : null}
+            </footer>
         </motion.div>
     )
 }
