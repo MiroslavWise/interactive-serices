@@ -33,7 +33,7 @@ export const ContentTitleCarousel: TContent = ({
         useAddCreateModal()
     const refUL: RefObject<HTMLUListElement> = useRef(null)
     const [left, setLeft] = useState(0)
-    const { data, refetch } = useQuery({
+    const { data } = useQuery({
         queryFn: () =>
             serviceOffers.getUserId(userId!, {
                 provider: dataOffer?.provider === "offer" ? "request" : "offer",
@@ -91,17 +91,6 @@ export const ContentTitleCarousel: TContent = ({
             }
         }
     }
-
-    useEffect(() => {
-        if (
-            typeof isCreateVisible !== "undefined" &&
-            isCreateVisible === false
-        ) {
-            requestAnimationFrame(() => {
-                refetch()
-            })
-        }
-    }, [isCreateVisible, refetch])
 
     return (
         <section className={styles.containerTitleCarousel}>

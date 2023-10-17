@@ -1,20 +1,24 @@
 "use client"
 
 import { useMemo } from "react"
+import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
 import { ButtonFill } from "@/components/common/Buttons"
+import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { ImageStatic } from "@/components/common/Image"
+import { useAuth } from "@/store/hooks"
+import { serviceOffers } from "@/services/offers"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { useCloseCreateOptions } from "@/helpers/hooks/useCloseCreateOptions"
 
 import styles from "./styles/finish-screen.module.scss"
 
 export const FinishScreen = () => {
+    const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
     const { typeAdd } = useAddCreateModal()
 
@@ -32,6 +36,21 @@ export const FinishScreen = () => {
         return obj[typeAdd]
     }, [typeAdd])
 
+    const { refetch } = useQuery({
+        queryFn: () =>
+            serviceOffers.getUserId(userId!, {
+                provider: typeAdd,
+            }),
+        queryKey: ["offers", `user=${userId}`, `provider=${typeAdd!}`],
+        enabled: false,
+    })
+
+    function onClose() {
+        refetch().then(() => {
+            close()
+        })
+    }
+
     return (
         <div className={cx(styles.wrapper, isMobile && styles.mobile)}>
             <section>
@@ -46,7 +65,7 @@ export const FinishScreen = () => {
             <ButtonFill
                 type="primary"
                 label="Хорошо"
-                handleClick={close}
+                handleClick={onClose}
                 classNames={styles.button}
             />
         </div>

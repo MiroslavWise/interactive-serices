@@ -51,36 +51,35 @@ export function Barter() {
 
     function onSubmit(values: IValuesForm) {
         console.log("values: ", values)
+        const data = {
+            consignedId: dataOffer?.id!,
+            provider: "barter",
+            status: "initiated",
+            title: dataOffer?.title!,
+            enabled: true,
+        } as IPostDataBarter
 
-        // const data = {
-        //     consignedId: dataOffer?.id!,
-        //     provider: "barter",
-        //     status: "initiated",
-        //     title: dataOffer?.title!,
-        //     enabled: true,
-        // } as IPostDataBarter
+        if (values.date) {
+            data.timestamp = dayjs(values.date).format()
+        }
+        if (addressId) {
+            data.addresses = [Number(addressId)]
+        }
+        data.userId = Number(userId!)
+        data.initialId = Number(values?.offerMyId!)
 
-        // if (values.date) {
-        //     data.timestamp = dayjs(values.date).format()
-        // }
-        // if (addressId) {
-        //     data.addresses = [Number(addressId)]
-        // }
-        // data.userId = Number(userId!)
-        // data.initialId = Number(values?.offerMyId!)
+        console.log("data: ", data)
 
-        // console.log("data: ", data)
-
-        // serviceBarters.post(data).then((response) => {
-        //     if (response?.ok) {
-        //         if (response?.res?.id) {
-        //             on(
-        //                 `${dataProfile?.fullName} получит ваше предлодение обмена! Подождите, пока он вам ответит`,
-        //             )
-        //             dispatchVisibleBarter({ isVisible: false })
-        //         }
-        //     }
-        // })
+        serviceBarters.post(data).then((response) => {
+            if (response?.ok) {
+                if (response?.res?.id) {
+                    on(
+                        `${dataProfile?.fullName} получит ваше предлодение обмена! Подождите, пока он вам ответит`,
+                    )
+                    dispatchVisibleBarter({ isVisible: false })
+                }
+            }
+        })
     }
 
     if (isMobile) {
