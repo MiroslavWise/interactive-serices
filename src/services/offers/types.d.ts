@@ -49,12 +49,16 @@ export interface IResponseOffers {
     updated: Date
 }
 
+interface IQueries {
+    order?: "ASC" | "DESC"
+    user?: number
+    provider?: TTypeProvider
+}
+
 export interface IServiceOffers {
     route: string
     post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
-    get(
-        value?: Record<string, string | number>,
-    ): Promise<IReturnData<IResponseOffers[]>>
+    get(value?: IQueries): Promise<IReturnData<IResponseOffers[]>>
     patch(
         value: IPatchOffers,
         id: number | string,

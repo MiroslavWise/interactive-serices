@@ -93,9 +93,9 @@ export const ModalUpdateProfile = () => {
             enabled: true,
         }
 
-        if (!profileId) {
-            data.userId = userId!
-        }
+        // if (!profileId) {
+        //     data.userId = userId!
+        // }
 
         if (values.about) {
             data.about = values.about

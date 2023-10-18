@@ -22,7 +22,10 @@ export const ContainerOffersNow: TContainerOffersNow = ({
     const { userId } = useAuth()
     const { data: dataToMe, refetch: refetchToMe } = useQuery({
         queryFn: () =>
-            serviceBarters.getReceiverId(userId!, { status: "initiated" }),
+            serviceBarters.getReceiverId(userId!, {
+                status: "initiated",
+                order: "DESC",
+            }),
         queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
         refetchOnReconnect: false,
         queryHash: `barters-receiver=${userId}-status=initiated`,
@@ -30,7 +33,10 @@ export const ContainerOffersNow: TContainerOffersNow = ({
     })
     const { data: dataFromMe, refetch: refetchFromMe } = useQuery({
         queryFn: () =>
-            serviceBarters.getUserId(userId!, { status: "initiated" }),
+            serviceBarters.getUserId(userId!, {
+                status: "initiated",
+                order: "DESC",
+            }),
         queryKey: ["barters", `user=${userId}`, `status=initiated`],
         queryHash: `barters-user=${userId}-status=initiated`,
         refetchOnReconnect: false,

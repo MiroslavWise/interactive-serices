@@ -16,7 +16,7 @@ export const Offers = ({
     setTotal: Dispatch<SetStateAction<number>>
 }) => {
     const { data } = useQuery({
-        queryFn: () => serviceOffers.get({ provider: "offer" }),
+        queryFn: () => serviceOffers.get({ provider: "offer", order: "DESC" }),
         queryKey: ["offers", "provider=offer"],
     })
 

@@ -16,7 +16,11 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
     const { userId } = useAuth()
     const { data } = useQuery({
         queryFn: () =>
-            serviceBarters.get({ status: value.value, user: userId! }),
+            serviceBarters.get({
+                status: value.value,
+                user: userId!,
+                order: "DESC",
+            }),
         queryKey: ["barters", `user=${userId}`, `status=${value.value}`],
         refetchOnMount: false,
         refetchOnWindowFocus: false,

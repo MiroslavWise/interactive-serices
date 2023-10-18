@@ -15,7 +15,7 @@ import { useEffect } from "react"
 export const Peoples: TPeoples = ({ setTotal }) => {
     const { data } = useQuery({
         queryKey: ["offers"],
-        queryFn: () => serviceOffers.get(),
+        queryFn: () => serviceOffers.get({ order: "DESC" }),
     })
 
     const { ok, res } = data ?? {}
