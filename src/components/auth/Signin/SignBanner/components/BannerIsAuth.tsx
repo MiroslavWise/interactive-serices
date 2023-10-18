@@ -16,8 +16,8 @@ import { useAnimateLoadPage, useAuth, useUpdateProfile } from "@/store/hooks"
 import styles from "./styles/auth-banner.module.scss"
 
 export const BannerIsAuth = () => {
-    const { profileId } = useAuth()
-    const { setVisible } = useUpdateProfile()
+    // const { profileId } = useAuth()
+    // const { setVisible } = useUpdateProfile()
     const { handlePush } = usePush()
     const { setIsAnimated } = useAnimateLoadPage()
 
@@ -62,11 +62,11 @@ export const BannerIsAuth = () => {
                         handlePush(`/profile`)
                     }}
                 />
-                <ButtonDefault
+                {/* <ButtonDefault
                     label="Редактировать профиль"
                     classNames={cx("w-100", styles.largeButton)}
                     handleClick={() => setVisible(true)}
-                />
+                /> */}
             </section>
             <FooterAsideLeft />
         </motion.ul>
