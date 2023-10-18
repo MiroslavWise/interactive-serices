@@ -23,7 +23,7 @@ export const FooterButtons: TFooterButtons = ({
                 handleClick={handleExit}
             />
             <ButtonFill
-                label="Следующий"
+                label="Далее"
                 type="primary"
                 classNames={styles.button}
                 handleClick={handleNext}

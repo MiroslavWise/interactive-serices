@@ -164,7 +164,7 @@ export const ModalAddOffer = () => {
                         handleClick={close}
                     />
                     <ButtonFill
-                        label="Следующий"
+                        label="Далее"
                         type="primary"
                         classNames={styles.button}
                         handleClick={handleNext}

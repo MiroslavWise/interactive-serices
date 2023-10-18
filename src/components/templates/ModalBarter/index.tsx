@@ -74,7 +74,11 @@ export function Barter() {
             if (response?.ok) {
                 if (response?.res?.id) {
                     on(
-                        `${dataProfile?.fullName} получит ваше предлодение обмена! Подождите, пока он вам ответит`,
+                        `${dataProfile?.fullName} получит ${
+                            dataOffer?.provider === "offer"
+                                ? "ваш запрос"
+                                : "ваше предложение"
+                        } на обмен!`,
                     )
                     dispatchVisibleBarter({ isVisible: false })
                 }
