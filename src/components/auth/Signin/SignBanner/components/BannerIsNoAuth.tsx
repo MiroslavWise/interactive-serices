@@ -62,9 +62,9 @@ export const BannerIsNoAuth = () => {
                                 })
                             }
                         />
-                        <div className={styles.bannerContent}>
+                        {/* <div className={styles.bannerContent}>
                             <BannerCoins />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

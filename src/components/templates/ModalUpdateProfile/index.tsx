@@ -104,10 +104,7 @@ export const ModalUpdateProfile = () => {
                 console.log("response ok: ", response?.[0])
                 if (response[0]?.error?.code === 409)
                     return setError("username", { message: "user exists" })
-                if (
-                    response[0]?.error?.code === 401 ||
-                    response[0]?.error?.code === 400
-                ) {
+                if (response[0]?.error?.code === 401) {
                     setVisible(false)
                     out()
                     return
@@ -128,7 +125,7 @@ export const ModalUpdateProfile = () => {
                                     .patch(data, response?.[0]?.res?.id!)
                                     .then((responsePatch) => {
                                         if (
-                                            [400, 401].includes(
+                                            [401].includes(
                                                 responsePatch?.error?.code!,
                                             )
                                         ) {

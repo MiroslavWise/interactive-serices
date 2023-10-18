@@ -47,14 +47,14 @@ export const BannerIsAuth = () => {
                         />
                     ))}
                 </ul>
-                {!profileId ? (
+                {/* {!profileId ? (
                     <BadgeGradient
                         coins={2450}
                         handleClick={() => setVisible(true)}
                         type="optional-2"
                         about="Заработайте 500+ монет для успешных обменов."
                     />
-                ) : null}
+                ) : null} */}
                 <ButtonFill
                     label="Профиль"
                     classNames={cx("w-100", styles.largeButton)}
