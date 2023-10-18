@@ -100,17 +100,23 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                     ) {
                                         return
                                     }
-                                    dispatchVisibleBarter({
-                                        isVisible: true,
-                                        dataProfile: {
-                                            photo: user?.profile?.image
-                                                ?.attributes?.url,
-                                            fullName: `${
-                                                user?.profile?.firstName || ""
-                                            } ${user?.profile?.lastName || ""}`,
-                                            idUser: user?.profile?.userId!,
-                                        },
-                                    })
+                                    if (userId) {
+                                        dispatchVisibleBarter({
+                                            isVisible: true,
+                                            dataProfile: {
+                                                photo: user?.profile?.image
+                                                    ?.attributes?.url,
+                                                fullName: `${
+                                                    user?.profile?.firstName ||
+                                                    ""
+                                                } ${
+                                                    user?.profile?.lastName ||
+                                                    ""
+                                                }`,
+                                                idUser: user?.profile?.userId!,
+                                            },
+                                        })
+                                    }
                                 }}
                             />
                         </section>

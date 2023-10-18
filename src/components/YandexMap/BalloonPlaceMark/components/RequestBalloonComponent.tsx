@@ -50,17 +50,19 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
     }, [categories, data?.res])
 
     function handleWantToHelp() {
-        dispatchVisibleBarter({
-            isVisible: true,
-            dataOffer: data?.res!,
-            dataProfile: {
-                photo: dataProfile?.res?.image?.attributes?.url!,
-                fullName: `${dataProfile?.res?.firstName || ""} ${
-                    dataProfile?.res?.lastName || ""
-                }`,
-                idUser: stateBalloon?.idUser!,
-            },
-        })
+        if (userId) {
+            dispatchVisibleBarter({
+                isVisible: true,
+                dataOffer: data?.res!,
+                dataProfile: {
+                    photo: dataProfile?.res?.image?.attributes?.url!,
+                    fullName: `${dataProfile?.res?.firstName || ""} ${
+                        dataProfile?.res?.lastName || ""
+                    }`,
+                    idUser: stateBalloon?.idUser!,
+                },
+            })
+        }
     }
 
     return (

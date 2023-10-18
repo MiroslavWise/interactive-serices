@@ -114,37 +114,39 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
     }
 
     function handleBarter() {
-        const dataOffer = {
-            id,
-            parentId,
-            categoryId,
-            provider,
-            title,
-            slug,
-            description,
-            content,
-            imageId,
-            featuredId,
-            bannerId,
-            userId,
-            addresses,
-            images,
-            updated,
-        }
+        if (myUserId) {
+            const dataOffer = {
+                id,
+                parentId,
+                categoryId,
+                provider,
+                title,
+                slug,
+                description,
+                content,
+                imageId,
+                featuredId,
+                bannerId,
+                userId,
+                addresses,
+                images,
+                updated,
+            }
 
-        const name = `${dataUser?.res?.profile?.firstName || " "} ${
-            dataUser?.res?.profile?.lastName || " "
-        }`
-        const dataProfile = {
-            photo: dataUser?.res?.profile?.image?.attributes?.url!,
-            fullName: name,
-            idUser: userId!,
+            const name = `${dataUser?.res?.profile?.firstName || " "} ${
+                dataUser?.res?.profile?.lastName || " "
+            }`
+            const dataProfile = {
+                photo: dataUser?.res?.profile?.image?.attributes?.url!,
+                fullName: name,
+                idUser: userId!,
+            }
+            dispatchVisibleBarter({
+                isVisible: true,
+                dataOffer: dataOffer,
+                dataProfile: dataProfile,
+            })
         }
-        dispatchVisibleBarter({
-            isVisible: true,
-            dataOffer: dataOffer,
-            dataProfile: dataProfile,
-        })
     }
 
     return (

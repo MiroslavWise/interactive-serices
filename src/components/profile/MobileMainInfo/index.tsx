@@ -19,8 +19,7 @@ import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import styles from "./styles.module.scss"
 
 export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
-    const { dispatchVisibleBarter: setIsVisibleBarter } =
-        useVisibleModalBarter()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { userId } = useAuth()
     const { handlePush } = usePush()
 
@@ -127,16 +126,19 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                         if (Number(userId) === Number(user?.id)) {
                             return
                         }
-                        setIsVisibleBarter({
-                            isVisible: true,
-                            dataProfile: {
-                                photo: user?.profile?.image?.attributes?.url,
-                                fullName: `${
-                                    user?.profile?.firstName || "----"
-                                } ${user?.profile?.lastName || "----"}`,
-                                idUser: user?.id!,
-                            },
-                        })
+                        if (userId) {
+                            dispatchVisibleBarter({
+                                isVisible: true,
+                                dataProfile: {
+                                    photo: user?.profile?.image?.attributes
+                                        ?.url,
+                                    fullName: `${
+                                        user?.profile?.firstName || "----"
+                                    } ${user?.profile?.lastName || "----"}`,
+                                    idUser: user?.id!,
+                                },
+                            })
+                        }
                     }}
                 />
             </div>

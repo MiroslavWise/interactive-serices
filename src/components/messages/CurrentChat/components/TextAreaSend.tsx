@@ -25,7 +25,7 @@ export const TextAreaSend: TTextAreaSend = ({
     idUser,
     refetch,
 }) => {
-    const { dispatchVisibleBarter: setIsVisibleBarter } =
+    const { dispatchVisibleBarter } =
         useVisibleModalBarter()
     const { socket } = useWebSocket()
     const { userId } = useAuth()
