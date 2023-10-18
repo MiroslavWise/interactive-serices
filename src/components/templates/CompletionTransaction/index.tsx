@@ -62,8 +62,9 @@ export const CompletionTransaction = () => {
             }),
         queryKey: [
             "testimonials",
-            `barter=${dataBarter?.id}`,
             `offer=${offerId!}`,
+            `barter=${dataBarter?.id}`,
+            `provider=offer`,
         ],
         enabled: false,
     })

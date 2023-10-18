@@ -6,7 +6,6 @@ import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
 import type { TItemsReviews } from "./types/types"
-import type { ICardReview } from "@/components/common/Card/Review/types"
 
 import { CardReview } from "@/components/common/Card/Review"
 import { MotionUL } from "@/components/common/Motion"
@@ -38,13 +37,8 @@ export const ItemsReviews: TItemsReviews = ({}) => {
     const dataTestimonials = useQueries(
         idsOffers.map((item) => ({
             queryFn: () =>
-                serviceTestimonials.get({ offer: item!, provider: "offer" }),
-            queryKey: [
-                "testimonials",
-                `offer=${item}`,
-                `provider=offer`,
-                `user=${id}`,
-            ],
+                serviceTestimonials.get({ target: item!, provider: "offer" }),
+            queryKey: ["testimonials", `offer=${item}`, `provider=offer`],
             enabled: Array.isArray(idsOffers) && !!idsOffers?.length && !!id,
         })),
     )

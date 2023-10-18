@@ -10,18 +10,42 @@ import { ContainerPhotos } from "./components/ContainerPhotos"
 import { Buttons } from "./components/Buttons"
 
 import styles from "./style.module.scss"
+import { serviceTestimonials } from "@/services/testimonials"
+import { useMemo } from "react"
+import { useQuery } from "react-query"
 
 export const CardSuggestion: TCardSuggestion = (props) => {
-    const {
-        rating,
-        images,
-        profile,
-        categoryId,
-        title,
-        id,
-        refetch,
-        provider,
-    } = props
+    const { images, profile, categoryId, title, id, refetch, provider } = props
+
+    const { data: dataTestimonials } = useQuery({
+        queryFn: () =>
+            serviceTestimonials.get({ provider: "offer", target: id }),
+        queryKey: ["testimonials", `offer=${id}`, `provider=offer`],
+        enabled: !!id,
+    })
+
+    const rating = useMemo(() => {
+        if (!dataTestimonials?.res || !dataTestimonials?.res?.length) {
+            return null
+        }
+
+        let quantity = 0
+        let summer: number = 0
+
+        for (const item of dataTestimonials?.res) {
+            if (item.rating) {
+                quantity++
+                summer += +item.rating
+            }
+        }
+
+        return {
+            total: quantity,
+            average: summer / quantity,
+        }
+    }, [dataTestimonials?.res])
+
+    console.log("rating: ", rating)
 
     return (
         <MotionLI

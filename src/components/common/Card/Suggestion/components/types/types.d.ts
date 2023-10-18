@@ -6,7 +6,7 @@ export type IHeader = FC<{
     rating: {
         average: number
         total: number
-    }
+    } | null
     title: string
     provider: TTypeProvider
 }>

@@ -35,11 +35,7 @@ export const ContainerSuggestions: TContainerSuggestions = ({
                 ? data?.res.map((item, index) => (
                       <CardSuggestion
                           key={`${item.id}+${index}-offers`}
-                          {...item}
-                          rating={{
-                              average: 4.5,
-                              total: 21,
-                          }}
+                        {...item}
                           profile={{
                               name: `${user?.firstName || ""} ${
                                   user?.lastName || ""

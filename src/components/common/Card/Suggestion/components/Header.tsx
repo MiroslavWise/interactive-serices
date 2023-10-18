@@ -1,10 +1,12 @@
+import { memo, useMemo } from "react"
+
 import type { IHeader } from "./types/types"
 
 import { Rate } from "@/components/common/Rate"
 
-import styles from "./styles/style.module.scss"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { memo, useMemo } from "react"
+
+import styles from "./styles/style.module.scss"
 
 const $Header: IHeader = ({ categoryId, rating, title, provider }) => {
     const { categories } = useOffersCategories()
@@ -20,14 +22,16 @@ const $Header: IHeader = ({ categoryId, rating, title, provider }) => {
         <header className={styles.containerHeader}>
             <section className={styles.nameAndRating}>
                 <h4>{titleCategory}</h4>
-                <div className={styles.containerRate}>
-                    <Rate
-                        rate={rating.average}
-                        className={styles.rateGap}
-                        size={14}
-                    />
-                    <a>({rating.total})</a>
-                </div>
+                {rating ? (
+                    <div className={styles.containerRate}>
+                        <Rate
+                            rate={rating?.average! / 2}
+                            className={styles.rateGap}
+                            size={14}
+                        />
+                        <a>({rating?.total!})</a>
+                    </div>
+                ) : null}
             </section>
             <section className={styles.containerCanService}>
                 {["offer", "request"].includes(provider) ? (

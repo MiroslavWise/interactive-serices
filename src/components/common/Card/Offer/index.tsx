@@ -3,7 +3,7 @@
 import dayjs from "dayjs"
 import { useMemo, useState } from "react"
 import Image from "next/image"
-import { useQueries } from "react-query"
+import { useQueries, useQuery } from "react-query"
 
 import type { TCardOffer } from "./types"
 
@@ -12,7 +12,6 @@ import { BlockBarter } from "./components/BlockBarter"
 import {
     ButtonCircleGradient,
     ButtonDefault,
-    ButtonFill,
 } from "@/components/common/Buttons"
 import { BlockTitle } from "./components/BlockTitle"
 
@@ -22,6 +21,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
 import { serviceBarters } from "@/services/barters"
+import { serviceTestimonials } from "@/services/testimonials"
 
 export const CardOffer: TCardOffer = ({
     id,
