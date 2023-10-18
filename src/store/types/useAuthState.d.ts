@@ -17,6 +17,7 @@ interface ISetToken {
     userId: number
     expires: number
     ok: boolean
+    email: string
 }
 
 interface IUser {

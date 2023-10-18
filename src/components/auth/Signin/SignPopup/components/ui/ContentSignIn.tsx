@@ -92,6 +92,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                     refreshToken: response?.res?.refreshToken!,
                                     expires: response?.res?.expires!,
                                     userId: response?.res?.id!,
+                                    email: values?.email!,
                                 })
                                 if (!responseUser?.res?.profile) {
                                     setVisibleAndType({ visible: false })

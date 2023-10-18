@@ -14,7 +14,7 @@ import { useUpdateProfile, useVisibleAndTypeAuthModal } from "@/store/hooks"
 import styles from "../styles/style.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
-    const { setToken } = useAuth()
+    const { setToken, email } = useAuth()
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { setVisible } = useUpdateProfile()
@@ -72,6 +72,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                         refreshToken: response?.res?.refreshToken!,
                         expires: response?.res?.expires!,
                         userId: response?.res?.id!,
+                        email: email!,
                     })
                 }
                 if (!response.ok) {

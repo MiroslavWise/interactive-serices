@@ -13,10 +13,12 @@ export const ButtonDefault: TButtonPropsDefault = ({
     classNames,
     prefix,
     suffix,
+    submit,
 }) => {
     return (
         <motion.button
             variants={itemVariantsForMenu}
+            type={submit || "button"}
             className={cx("button-default", disabled && "disabled", classNames)}
             onClick={handleClick}
         >

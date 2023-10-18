@@ -34,13 +34,14 @@ export const setUserAction = (
 }
 
 export const setTokenAction = (value: ISetToken, set: ISetAction) => {
-    const { token, refreshToken, userId, ok, expires } = value ?? {}
+    const { token, refreshToken, userId, ok, expires, email } = value ?? {}
     if (ok) {
         set({
             token,
             refreshToken,
             userId,
             expires,
+            email,
             isAuth: true,
         })
     }
@@ -52,11 +53,12 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         !!get().refreshToken &&
         Number.isFinite(get().userId)
     ) {
-        serviceUsers.getMe().then((response) => {
+        serviceUsers.getId(get().userId!).then((response) => {
             if (response?.ok) {
                 set({
                     createdUser: response?.res?.created!,
                     email: response?.res?.email,
+                    isAuth: true,
                 })
                 if (response?.res?.addresses) {
                     set({
@@ -103,6 +105,5 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         })
     } else {
         set((state) => ({ ...state, ...initialStateAuth, isAuth: false }))
-        set({ isAuth: false })
     }
 }

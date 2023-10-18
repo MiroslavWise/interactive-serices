@@ -63,6 +63,9 @@ export const ModalUpdateProfile = () => {
     } = useForm<IValuesProfile>({})
 
     useEffect(() => {
+        if (email) {
+            setValue("email", email!)
+        }
         if (user) {
             setValue("firstName", user?.firstName)
             setValue("lastName", user?.lastName)
@@ -70,7 +73,6 @@ export const ModalUpdateProfile = () => {
             setValue("day", dateOfBirth.day)
             setValue("month", dateOfBirth.month)
             setValue("year", dateOfBirth.year)
-            setValue("email", email!)
             if (isMobile) {
                 setValue("about", user?.about || "")
             }
@@ -89,6 +91,10 @@ export const ModalUpdateProfile = () => {
             ).format("DD/MM/YYYY"),
             about: user?.about || "",
             enabled: true,
+        }
+
+        if (!profileId) {
+            data.userId = userId!
         }
 
         if (values.about) {

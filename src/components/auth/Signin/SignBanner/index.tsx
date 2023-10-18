@@ -12,7 +12,7 @@ import { useAuth } from "@/store/hooks"
 export const SignBanner: TSignBanner = () => {
     const { isAuth } = useAuth()
 
-    // if (typeof isAuth === "undefined") return null
+    if (typeof isAuth === "undefined") return null
 
     return !isMobile || isTablet ? (
         isAuth ? (
