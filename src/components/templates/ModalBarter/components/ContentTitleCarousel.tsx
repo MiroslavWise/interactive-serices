@@ -101,7 +101,10 @@ export const ContentTitleCarousel: TContent = ({
                     {...register("offerMyId", { required: true })}
                 >
                     <ul
-                        style={{ width: widthUL, left: left }}
+                        style={{
+                            width: `calc(${widthUL}px + 50%)`,
+                            left: left,
+                        }}
                         ref={refUL}
                         onScroll={(event) => {
                             console.log("onScroll event: ", event)

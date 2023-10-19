@@ -75,13 +75,12 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
         handleReplace(`/messages?thread=${thread.id}`)
     }
 
-    function lastMessage(): string {
-        if (thread?.messages?.length > 0) {
-            return thread?.messages?.[0]?.message! || ""
+    const lastMessage = useMemo(() => {
+        if (!thread?.messages || !thread?.messages?.length) {
+            return null
         }
-
-        return ""
-    }
+        return thread?.messages?.at(-1)?.message || " "
+    }, [thread?.messages])
 
     return (
         <MotionLI
@@ -106,16 +105,16 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
                             <NextImageMotion
                                 src={people?.profile?.image?.attributes?.url!}
                                 alt="avatar"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 className={styles.img}
                             />
                         ) : (
                             <ImageStatic
                                 src="/png/default_avatar.png"
                                 alt="avatar"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 classNames={[styles.img]}
                             />
                         )}
@@ -164,7 +163,7 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
                 </div>
             </div>
             <div className={styles.blockLastMessage}>
-                <p>{lastMessage()}</p>
+                <p>{lastMessage}</p>
             </div>
         </MotionLI>
     )

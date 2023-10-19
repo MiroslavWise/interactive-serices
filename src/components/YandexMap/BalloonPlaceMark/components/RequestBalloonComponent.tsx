@@ -65,6 +65,10 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
         }
     }
 
+    function handleProfile() {
+        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+    }
+
     return (
         <>
             <ImageStatic
@@ -72,9 +76,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                 alt="circle-offers-default"
                 width={61}
                 height={61}
-                rest={{
-                    "data-logo-ballon": true,
-                }}
+                data-logo-ballon
             />
             <header data-request>
                 <h3>{categoryTitle}</h3>
@@ -88,6 +90,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                             width={400}
                             height={400}
                             className=""
+                            onClick={handleProfile}
                         />
                         <div data-name-rate>
                             <p>
@@ -138,8 +141,8 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}
                                 alt="offer-image"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 className=""
                             />
                         ))}

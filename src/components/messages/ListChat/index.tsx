@@ -31,7 +31,11 @@ export const ListChat = () => {
 
     const { data } = useQuery({
         queryFn: () =>
-            serviceThreads.get({ user: userId!, provider: value.value }),
+            serviceThreads.get({
+                user: userId!,
+                provider: value.value,
+                order: "DESC",
+            }),
         queryKey: ["threads", `user=${userId}`, `provider=${value.value}`],
         refetchOnMount: false,
     })

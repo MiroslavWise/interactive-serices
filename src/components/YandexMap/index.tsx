@@ -146,6 +146,7 @@ const YandexMap: TYandexMap = ({}) => {
                 options={{
                     maxZoom: 21,
                     minZoom: 10,
+                    yandexMapDisablePoiInteractivity: true,
                 }}
                 onContextMenu={onContextMenu}
                 id="map_yandex"

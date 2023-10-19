@@ -90,7 +90,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     }
 
     return (
-        <MotionLI classNames={[styles.container, className]} onClick={handle}>
+        <MotionLI classNames={[styles.container, className]}>
             <header>
                 {typeImagePng ? (
                     <ImageStatic
@@ -99,6 +99,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
                         width={58}
                         height={58}
                         classNames={[styles.typeImage]}
+                        onClick={handle}
                     />
                 ) : (
                     <div className={styles.typeImage} />

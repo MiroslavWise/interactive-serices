@@ -66,6 +66,10 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
         }
     }
 
+    function handleProfile() {
+        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+    }
+
     return (
         <>
             <ImageStatic
@@ -73,9 +77,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                 alt="circle-offers-default"
                 width={61}
                 height={61}
-                rest={{
-                    "data-logo-ballon": true,
-                }}
+                data-logo-ballon
             />
             <header data-offer>
                 <h3>{categoryTitle}</h3>
@@ -86,9 +88,10 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                         <NextImageMotion
                             src={dataProfile?.res?.image?.attributes?.url!}
                             alt="avatar"
-                            width={400}
-                            height={400}
+                            width={40}
+                            height={40}
                             className=""
+                            onClick={handleProfile}
                         />
                         <div data-name-rate>
                             <p>
@@ -139,8 +142,8 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}
                                 alt="offer-image"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 className=""
                             />
                         ))}

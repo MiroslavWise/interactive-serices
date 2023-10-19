@@ -18,6 +18,7 @@ import { serviceMessages } from "@/services/messages"
 import { useWebSocket } from "@/context/WebSocketProvider"
 
 import styles from "./styles/text-area.module.scss"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 export const TextAreaSend: TTextAreaSend = ({
     photo,
@@ -25,8 +26,7 @@ export const TextAreaSend: TTextAreaSend = ({
     idUser,
     refetch,
 }) => {
-    const { dispatchVisibleBarter } =
-        useVisibleModalBarter()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
     const { userId } = useAuth()
     const searchParams = useSearchParams()
@@ -107,7 +107,7 @@ export const TextAreaSend: TTextAreaSend = ({
                     {...register("text", { required: true })}
                 />
             ) : (
-                <textarea
+                <TextArea
                     value={watch("text")}
                     placeholder="Введите сообщение..."
                     onKeyDown={(event) => {
@@ -116,6 +116,7 @@ export const TextAreaSend: TTextAreaSend = ({
                         }
                     }}
                     {...register("text", { required: true })}
+                    maxLength={512}
                 />
             )}
             {isMobile ? (

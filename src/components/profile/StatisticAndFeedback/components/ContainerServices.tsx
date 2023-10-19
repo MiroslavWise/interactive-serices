@@ -1,14 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQueries } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
+//@ts-ignore
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 
 import type { IValueServices } from "../types/types"
 import type { TContainerServices } from "./types/types"
 
-import { MotionUL } from "@/components/common/Motion"
+// import { MotionUL } from "@/components/common/Motion"
 import { ButtonRadio } from "@/components/common/Buttons"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
@@ -26,11 +28,13 @@ export const ContainerServices: TContainerServices = ({}) => {
             queryFn: () =>
                 serviceOffers.getUserId(Number(id), { provider: "offer" }),
             queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
+            enabled: value === "proposals",
         },
         {
             queryFn: () =>
                 serviceOffers.getUserId(Number(id), { provider: "request" }),
             queryKey: ["offers", `user=${Number(id)}`, "provider=request"],
+            enabled: value === "requests",
         },
     ])
 
@@ -38,7 +42,7 @@ export const ContainerServices: TContainerServices = ({}) => {
         <section
             className={cx(styles.containerServices, isMobile && styles.mobile)}
         >
-            <div className={styles.tabs}>
+            <nav className={styles.tabs}>
                 <ButtonRadio
                     label="Предложения"
                     active={value === "proposals"}
@@ -49,13 +53,8 @@ export const ContainerServices: TContainerServices = ({}) => {
                     active={value === "requests"}
                     onClick={() => setValue("requests")}
                 />
-            </div>
-            <MotionUL
-                classNames={[
-                    styles.containerRequestsAndProposals,
-                    isMobile && styles.mobile,
-                ]}
-            >
+            </nav>
+            <Masonry gutter="16px" columnsCount={3}>
                 {value === "proposals"
                     ? Array.isArray(dataOffer?.res)
                         ? dataOffer?.res?.map((item) => (
@@ -78,7 +77,7 @@ export const ContainerServices: TContainerServices = ({}) => {
                           ))
                         : null
                     : null}
-            </MotionUL>
+            </Masonry>
         </section>
     )
 }

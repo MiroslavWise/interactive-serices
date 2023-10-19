@@ -46,6 +46,10 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
         handlePush(`/messages?user=${stateBalloon.idUser}`)
     }
 
+    function handleProfile() {
+        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+    }
+
     return (
         <>
             <ImageStatic
@@ -53,9 +57,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                 alt="circle-alert"
                 width={61}
                 height={61}
-                rest={{
-                    "data-logo-ballon": true,
-                }}
+                data-logo-ballon
             />
             <header data-alert>
                 {Number(userId) !== Number(stateBalloon?.idUser) ? (
@@ -71,6 +73,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                             width={400}
                             height={400}
                             className=""
+                            onClick={handleProfile}
                         />
                         <div data-name-rate>
                             <p>
@@ -121,8 +124,8 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}
                                 alt="offer-image"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 className=""
                             />
                         ))}

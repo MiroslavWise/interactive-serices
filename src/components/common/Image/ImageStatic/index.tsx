@@ -5,12 +5,16 @@ import type { IPropsImageStatic } from "./types"
 
 import { cx } from "@/lib/cx"
 
-function $ImageStatic(props: IPropsImageStatic) {
-    const { src, alt, classNames, width, height, onClick, rest } = props ?? {}
+type TImage = typeof Image.defaultProps & IPropsImageStatic
+
+function $ImageStatic(props: TImage) {
+    const { src, alt, classNames, onClick } = props ?? {}
 
     return (
         <Image
-            onClick={() => {
+            {...props}
+            onClick={(event) => {
+                event.stopPropagation()
                 if (onClick) {
                     onClick()
                 }
@@ -18,15 +22,12 @@ function $ImageStatic(props: IPropsImageStatic) {
             src={src}
             alt={alt}
             className={cx(classNames)}
-            width={width}
-            height={height}
             loader={undefined}
             loading={undefined}
             style={{
                 objectFit: "cover",
             }}
             unoptimized
-            {...rest}
         />
     )
 }

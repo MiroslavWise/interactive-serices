@@ -312,7 +312,7 @@
 
     & > ul {
         position: relative;
-        padding-left: 16px;
+        padding-left: calc(50% - 140px);
         padding-right: 16px;
         display: flex;
         flex-direction: row;
@@ -362,7 +362,7 @@
             }
 
             &[data-active="true"] {
-                border-color: var(--error-700);
+                border-color: var(--primary-500);
             }
         }
     }

@@ -4,6 +4,8 @@ import { useQueries, useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
+//@ts-ignore
+import Masonry from "react-responsive-masonry"
 
 import type { TItemsReviews } from "./types/types"
 
@@ -60,11 +62,11 @@ export const ItemsReviews: TItemsReviews = ({}) => {
                 isMobile && styles.mobile,
             )}
         >
-            <MotionUL>
+            <Masonry data-row columnsCount={2} gutter="16px">
                 {listTestimonials.map((item) => (
                     <CardReview {...item!} key={`${item?.id}-card-review`} />
                 ))}
-            </MotionUL>
+            </Masonry>
         </div>
     )
 }

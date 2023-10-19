@@ -17,6 +17,7 @@ import { serviceTestimonials } from "@/services/testimonials"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/style.module.scss"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 export const CompletionTransaction = () => {
     const { userId } = useAuth()
@@ -169,11 +170,12 @@ export const CompletionTransaction = () => {
                 </h2>
                 <section>
                     <div data-groups>
-                        <textarea
+                        <TextArea
                             {...register("message", {
                                 required: true,
                                 minLength: 5,
                             })}
+                            value={watch("message")}
                             onKeyDown={(event) => {
                                 if (
                                     event.keyCode === 13 ||
@@ -182,6 +184,7 @@ export const CompletionTransaction = () => {
                                     onSubmit()
                                 }
                             }}
+                            maxLength={512}
                             placeholder="Оставте отзыв о совершённом обмене, или какие у вас остались впечатления о человеке?"
                         />
                         {errors?.message ? <i>Минимум 5 символов</i> : null}

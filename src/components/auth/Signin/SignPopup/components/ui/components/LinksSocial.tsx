@@ -30,7 +30,7 @@ const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
     {
         value: "vk",
         srcWorking: "/icons/fill/vk.svg",
-        srcNotWorking: "/icons/fill/disabled/apple.svg",
+        srcNotWorking: "/icons/fill/disabled/vk.svg",
         path: "/vk/login",
         isWorkingLink: false,
     },

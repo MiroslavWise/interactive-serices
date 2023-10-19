@@ -13,6 +13,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { serviceComments } from "@/services/comments"
 import { serviceOffersThreads } from "@/services/offers-threads"
 import { useAuth } from "@/store/hooks"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 export const BlockComments: TBlockComments = ({ type, offerId }) => {
     const { userId } = useAuth()
@@ -132,7 +133,13 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
             ) : null}
             {type === "discussion" ? (
                 <footer data-discussion>
-                    <button onClick={handleOnOpen}>
+                    <button
+                        onClick={() => {
+                            activeListComments
+                                ? setActiveListComments(false)
+                                : handleOnOpen()
+                        }}
+                    >
                         <span>{currentComments?.length || 0} комментариев</span>
                         <Image
                             src="/svg/chevron-down.svg"
@@ -160,7 +167,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                         ))}
                     </ul>
                     <form onSubmit={onSubmit}>
-                        <textarea
+                        <TextArea
                             disabled={!userId}
                             value={watch("text")}
                             placeholder="Напишите свой комментарий"
@@ -172,7 +179,11 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                                     onSubmit()
                                 }
                             }}
-                            {...register("text", { required: true })}
+                            {...register("text", {
+                                required: true,
+                                maxLength: 240,
+                            })}
+                            maxLength={240}
                         />
                         <ButtonFill
                             type="primary"

@@ -4,10 +4,11 @@ import { memo } from "react"
 import NextImage from "next/image"
 import { motion } from "framer-motion"
 
-import type { TImage } from "./types"
+import type { IProps } from "./types"
 
 import myImageLoader from "@/helpers/functions/myImageLoader"
 import { blurDefaultOffer, defaultAvatar } from "@/helpers/image/base64"
+import { ImageStatic } from "../ImageStatic"
 
 const MotionImage = motion(NextImage)
 
@@ -16,14 +17,11 @@ const altName = {
     "offer-image": "/png/blur-default-offers.jpg",
 }
 
-const ImageMotion: TImage = ({
-    src,
-    alt,
-    height,
-    width,
-    className,
-    onClick,
-}) => {
+type TTypes = typeof MotionImage.defaultProps & IProps
+
+const $NextImageMotion = (props: TTypes) => {
+    const { src, onClick, ref, alt, className, height, width, ...rest } =
+        props ?? {}
     function handleClick() {
         if (onClick) {
             onClick()
@@ -41,6 +39,7 @@ const ImageMotion: TImage = ({
                     ? blurDefaultOffer
                     : blurDefaultOffer
             }
+            ref={ref}
             className={className || ""}
             loader={myImageLoader}
             loading="lazy"
@@ -54,7 +53,8 @@ const ImageMotion: TImage = ({
             objectFit="cover"
         />
     ) : (
-        <NextImage
+        <ImageStatic
+            onClick={handleClick}
             src={
                 alt === "avatar"
                     ? "/png/default_avatar.png"
@@ -63,16 +63,13 @@ const ImageMotion: TImage = ({
             placeholder="blur"
             blurDataURL={blurDefaultOffer}
             alt={alt}
-            className={className}
+            classNames={[className]}
             height={height}
             width={width}
-            style={{
-                objectFit: "cover",
-            }}
             data-image={alt}
-            unoptimized
+            {...rest}
         />
     )
 }
 
-export const NextImageMotion = memo(ImageMotion)
+export const NextImageMotion = memo($NextImageMotion)

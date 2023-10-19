@@ -123,7 +123,7 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                 .then((response) => {
                     setTimeout(() => {
                         refetch().finally(() => setLoading(false))
-                    }, 450)
+                    }, 1650)
                 })
         }
     }

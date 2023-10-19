@@ -141,6 +141,7 @@
                             height: 38px;
                             width: 38px;
                             border-radius: 8.143px;
+                            cursor: pointer;
                         }
 
                         & > [data-name-rate="true"] {
@@ -413,6 +414,7 @@
                                 width: 35px;
                                 border-radius: 8.143px;
                                 background: #d2c7ac;
+                                cursor: pointer;
                             }
                         }
 
@@ -448,22 +450,8 @@
                 border-radius: 0px 0px 33px 33px;
                 backdrop-filter: blur(4px);
 
-                & > textarea {
-                    color: var(--gray-900);
-                    font-size: 16px;
-                    font-style: normal;
-                    font-weight: 400;
+                & > [data-div-text-area="true"] {
                     height: 87px;
-                    width: 100%;
-                    padding: 12px 14px;
-                    border-radius: 8px;
-                    border: 1px solid var(--gray-300);
-                    background: var(--background-input);
-                    border-radius: 10px;
-                    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-                    &::placeholder {
-                        color: var(--gray-500);
-                    }
                 }
 
                 & > button {

@@ -25,8 +25,8 @@ export const ItemComment: TItemComment = (props) => {
                     <NextImageMotion
                         src={data?.res?.profile?.image?.attributes?.url!}
                         alt="avatar"
-                        width={400}
-                        height={400}
+                        width={40}
+                        height={40}
                     />
                     <p>
                         {data?.res?.profile?.firstName || " "}{" "}

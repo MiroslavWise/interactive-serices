@@ -42,16 +42,16 @@ export const ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                     <NextImageMotion
                         src={photo}
                         alt="avatar"
-                        width={250}
-                        height={250}
+                        width={32}
+                        height={32}
                         className={styles.avatar}
                     />
                 ) : (
                     <ImageStatic
                         src="/png/default_avatar.png"
                         alt="avatar"
-                        width={250}
-                        height={250}
+                        width={32}
+                        height={32}
                         classNames={[styles.avatar]}
                     />
                 )

@@ -86,7 +86,6 @@
     height: min-content;
     padding: 12px;
     background: rgba(0, 0, 0, 0.82);
-
     backdrop-filter: blur(4px);
     border: 1px solid var(--stroke-1);
     border-radius: 16px;
@@ -109,5 +108,12 @@
             color: var(--primary-500);
             cursor: pointer;
         }
+    }
+}
+
+[data-theme="light"] {
+    .containerSpoiler {
+        background: var(--opacity-white-hard);
+        backdrop-filter: blur(2.5px);
     }
 }
