@@ -26,6 +26,12 @@ const PhotoPreviewModal = dynamic(
     () => import("../components/templates/PhotoPreviewModal"),
     { ssr: false },
 )
+const BalloonPlaceMark = dynamic(
+    () => import("../components/YandexMap/BalloonPlaceMark"),
+    {
+        ssr: false,
+    },
+)
 
 import {
     YMapsProvider,
@@ -123,6 +129,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 ) : null}
                                 <AboutSheiraPopup />
                                 <CompletionTransaction />
+                                <BalloonPlaceMark />
                             </YMapsProvider>
                         </WebSocketProvider>
                     </ReduxProvider>

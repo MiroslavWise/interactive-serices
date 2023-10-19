@@ -33,6 +33,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            z-index: 5;
         }
 
         & > [data-left="true"],
@@ -255,6 +256,34 @@
         }
     }
 
+    &[data-mobile="true"] {
+        padding: 0;
+        & > section {
+            max-width: 100%;
+            border-radius: 0 !important;
+            background: rgba(0, 0, 0, 0.27);
+            backdrop-filter: blur(2.5px);
+            & > [data-dark-header="true"] {
+                border-radius: 0 !important;
+            }
+
+            & > [data-close="true"] {
+                top: calc(16px + 15px + 12px);
+                right: 24px;
+                left: auto;
+            }
+
+            & > [data-left="true"],
+            & > [data-right="true"] {
+                display: none;
+            }
+
+            & > img {
+                border-radius: 0 !important;
+            }
+        }
+    }
+
     &.active {
         display: flex;
         flex-direction: row;
@@ -287,7 +316,7 @@
     }
 }
 
-@media screen and (max-width: 746px) {
+@media screen and (max-width: 946px) {
     .wrapper {
         padding: 30px 20px;
     }

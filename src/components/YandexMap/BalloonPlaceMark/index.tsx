@@ -1,7 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useMemo, useRef, memo, useEffect } from "react"
+import { isMobile } from "react-device-detect"
+import { useMemo, useRef, memo } from "react"
 
 import type { TBalloonPlaceMark } from "./types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
@@ -16,7 +17,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/styles.module.scss"
 
-const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
+const BalloonPlaceMark: TBalloonPlaceMark = ({ }) => {
     const refSection = useRef<HTMLElement>(null)
     const { visible, id, idUser, type, dispatch } = useBalloonCard()
 
@@ -61,6 +62,7 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 e.stopPropagation()
                 dispatch({ visible: false })
             }}
+            data-mobile={isMobile}
         >
             <section
                 data-type-offers={type || null}

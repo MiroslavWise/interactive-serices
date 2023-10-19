@@ -2,8 +2,11 @@
 
 import { useMemo } from "react"
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
+import { useSwipeable } from "react-swipeable"
 
 import type { TPhotoPreviewModal } from "./types/types"
+import type { IResponseOffers } from "@/services/offers/types"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { NextImageMotion } from "@/components/common/Image"
@@ -16,7 +19,6 @@ import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 
 import styles from "./styles/layout.module.scss"
-import { IResponseOffers } from "@/services/offers/types"
 
 const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { current, photos, dispatch, visible, author, offer } =
@@ -30,17 +32,32 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
         return photos.length * 90 + photos.length * 13 - 13 + 40 || 0
     }, [photos])
 
+    const handlers = useSwipeable({
+        onSwipedLeft: handleNext,
+        onSwipedRight: handlePrev,
+    })
+
     function handleClickUser() {
         handlePush(`/user?id=${author?.idUser!}`)
         dispatch({ visible: false, photos: null })
     }
 
     function handlePrev() {
-        dispatch({ payload: "prev" })
+        console.log("handlePrev: ")
+        if (current?.index === 0) {
+            dispatch({ current: photos.at(-1) })
+        } else {
+            dispatch({ payload: "prev" })
+        }
     }
 
     function handleNext() {
-        dispatch({ payload: "next" })
+        console.log("handleNext")
+        if (current?.index === photos?.length - 1) {
+            dispatch({ current: photos[0] })
+        } else {
+            dispatch({ payload: "next" })
+        }
     }
 
     function handleOpenBarter() {
@@ -80,8 +97,11 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     }
 
     return (
-        <main className={cx(styles.wrapper, visible && styles.active)}>
-            <section>
+        <main
+            className={cx(styles.wrapper, visible && styles.active)}
+            data-mobile={isMobile}
+        >
+            <section {...handlers}>
                 <div data-dark-header />
                 <div
                     data-close
@@ -116,6 +136,10 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                     <div data-title>
                         <div data-author onClick={handleClickUser}>
                             <NextImageMotion
+                                initial={{ opacity: 0, visibility: "hidden" }}
+                                animate={{ opacity: 1, visibility: "visible" }}
+                                exit={{ opacity: 0, visibility: "hidden" }}
+                                transition={{ duration: 0.5 }}
                                 src={author?.urlPhoto!}
                                 alt="avatar"
                                 width={400}

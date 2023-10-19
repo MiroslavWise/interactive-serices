@@ -160,37 +160,39 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                 </footer>
             ) : null}
             {activeListComments ? (
-                <article>
+                <article data-auth={!!userId}>
                     <ul ref={ulRef}>
                         {currentComments?.map((item) => (
                             <ItemComment key={`${item.id}-comment`} {...item} />
                         ))}
                     </ul>
-                    <form onSubmit={onSubmit}>
-                        <TextArea
-                            disabled={!userId}
-                            value={watch("text")}
-                            placeholder="Напишите свой комментарий"
-                            onKeyDown={(event) => {
-                                if (
-                                    event.keyCode === 13 ||
-                                    event.code === "Enter"
-                                ) {
-                                    onSubmit()
-                                }
-                            }}
-                            {...register("text", {
-                                required: true,
-                                maxLength: 240,
-                            })}
-                            maxLength={240}
-                        />
-                        <ButtonFill
-                            type="primary"
-                            label="Добавить комментарий"
-                            submit="submit"
-                        />
-                    </form>
+                    {userId ? (
+                        <form onSubmit={onSubmit}>
+                            <TextArea
+                                disabled={!userId}
+                                value={watch("text")}
+                                placeholder="Напишите свой комментарий"
+                                onKeyDown={(event) => {
+                                    if (
+                                        event.keyCode === 13 ||
+                                        event.code === "Enter"
+                                    ) {
+                                        onSubmit()
+                                    }
+                                }}
+                                {...register("text", {
+                                    required: true,
+                                    maxLength: 240,
+                                })}
+                                maxLength={240}
+                            />
+                            <ButtonFill
+                                type="primary"
+                                label="Добавить комментарий"
+                                submit="submit"
+                            />
+                        </form>
+                    ) : null}
                 </article>
             ) : null}
         </>

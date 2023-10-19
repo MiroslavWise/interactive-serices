@@ -46,8 +46,8 @@ export const MENU_ITEMS = (isAuth: boolean | undefined): IItemsMenu[] => [
         key: "MESSAGES_LAYOUT_MENU",
     },
     {
-        label: "Блог",
-        path: "notifications",
+        label: "Новости",
+        path: "news",
         icon: {
             fill: "/icons/mobile/fill/blog-filled.svg",
             regular: "/icons/mobile/regular/blog-regular.svg",

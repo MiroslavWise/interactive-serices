@@ -1,11 +1,10 @@
 .wrapper {
-    position: absolute;
+    position: fixed;
     inset: 0;
     opacity: 0;
     visibility: hidden;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
-    z-index: 1;
     transition: var(--transition);
     display: flex;
     flex-direction: row;
@@ -15,7 +14,7 @@
 
     & > section {
         position: relative;
-        min-height: calc(58px + 8px);
+        min-height: calc(66px + 38px + 16px + 16px) + 71px;
         height: fit-content;
         max-width: 338px;
         width: 100%;
@@ -124,7 +123,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 12px;
-                padding: 16px 12px 12px;
+                padding: 16px 12px;
 
                 & > [data-info-profile="true"] {
                     width: 100%;
@@ -132,6 +131,7 @@
                     flex-direction: row;
                     justify-content: space-between;
                     gap: 15px;
+                    height: 38px;
 
                     & > [data-avatar-name="true"] {
                         display: flex;
@@ -375,6 +375,12 @@
             border-radius: 0px 0px 33px 33px;
             overflow: hidden;
 
+            &[data-auth="false"] {
+                & > ul {
+                    padding-bottom: 0 !important;
+                }
+            }
+
             & > ul {
                 border-top: 1px solid var(--opacity-white-hard);
                 width: 100%;
@@ -460,6 +466,38 @@
                     height: 44px;
                     span {
                         font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+
+    &[data-mobile="true"] {
+        background: rgba(0, 0, 0, 0.27);
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+
+        & > section {
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 33px 33px 0 0;
+            max-width: 100%;
+            box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
+            position: sticky;
+
+            & > header {
+                
+            }
+
+            & > article {
+                max-height: fit-content;
+
+                & > form {
+                    border-radius: 0 !important;
+                    & > [data-div-text-area="true"] {
+                        height: calc(24px + 24px + 12px + 12px);
                     }
                 }
             }

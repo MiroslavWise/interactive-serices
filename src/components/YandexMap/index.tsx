@@ -14,9 +14,6 @@ import { ListPlacemark } from "./ObjectsMap"
 import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
 import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
-const BalloonPlaceMark = dynamic(() => import("./BalloonPlaceMark"), {
-    ssr: false,
-})
 
 import { useAuth } from "@/store/hooks"
 import { generateShortHash } from "@/lib/hash"
@@ -164,7 +161,6 @@ const YandexMap: TYandexMap = ({}) => {
             />
             <MapCardNews />
             <FilterFieldBottom />
-            <BalloonPlaceMark />
         </>
     )
 }
