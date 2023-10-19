@@ -1,9 +1,13 @@
-.container{
+.container {
     max-width: 420px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    & > [data-div-text-area="true"] {
+        max-height: 128px;
+    }
 
     p {
         color: var(--gray-900);
