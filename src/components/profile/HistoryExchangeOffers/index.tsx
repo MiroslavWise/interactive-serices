@@ -3,6 +3,7 @@
 import { useState } from "react"
 
 import type { THistoryExchangeOffers } from "./types/types"
+import type { TTypeStatusBarter } from "@/services/file-upload/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { Header } from "./components/Header"
@@ -12,13 +13,15 @@ import { SEGMENTS } from "./constants"
 
 import styles from "./styles/style.module.scss"
 
-export const HistoryExchangeOffers: THistoryExchangeOffers = ({ }) => {
-  const [value, setValue] = useState<ISegmentValues>(SEGMENTS[0])
+export const HistoryExchangeOffers: THistoryExchangeOffers = ({}) => {
+    const [value, setValue] = useState<ISegmentValues<TTypeStatusBarter>>(
+        SEGMENTS[0],
+    )
 
-  return (
-    <aside className={styles.container}>
-      <Header {...{ value, setValue }} />
-      <SentenceCards {...{ value }} />
-    </aside>
-  )
+    return (
+        <aside className={styles.container}>
+            <Header {...{ value, setValue }} />
+            <SentenceCards {...{ value }} />
+        </aside>
+    )
 }

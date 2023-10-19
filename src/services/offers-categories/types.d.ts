@@ -1,6 +1,6 @@
 import type { IReturnData, TProviderOffer } from "../types/general"
 
-export interface IResponseOffersCategories{
+export interface IResponseOffersCategories {
     id: number
     provider: TProviderOffer
     title: string
@@ -9,11 +9,13 @@ export interface IResponseOffersCategories{
     content: string | null
 }
 
-export interface IServiceOffersCategories{
-    private route: string
-    // public post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
-    public get(value?: Record<string, string | number>): Promise<IReturnData<IResponseOffersCategories[]>>
-    // public patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
-    public getId(id: number | string): Promise<IReturnData<IResponseOffersCategories>>
-    // public delete(id: number | string): Promise<IReturnData<IResponseCreate>>
+export interface IServiceOffersCategories {
+    route: string
+    // post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
+    get(
+        value?: Record<string, string | number>,
+    ): Promise<IReturnData<IResponseOffersCategories[]>>
+    // patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
+    getId(id: number | string): Promise<IReturnData<IResponseOffersCategories>>
+    // delete(id: number | string): Promise<IReturnData<IResponseCreate>>
 }

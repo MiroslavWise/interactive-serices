@@ -22,7 +22,7 @@ import { VALUES } from "./constants"
 import styles from "./styles/style.module.scss"
 
 export const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
-    const [activeSegment, setActiveSegment] = useState<ISegmentValues>(
+    const [activeSegment, setActiveSegment] = useState<ISegmentValues<string>>(
         VALUES[0],
     )
 

@@ -1,8 +1,9 @@
-import type { FC } from "react"
+import type { DispatchWithoutAction, FC } from "react"
+import type { TTypeProvider } from "@/services/file-upload/types"
+import type { ISmallDataOfferBarter } from "@/services/barters/types"
 
-export interface IBadgeServices {
-  photo: string
-  label: string
+export interface IBadgeServices extends ISmallDataOfferBarter {
+    isClickable?: boolean
 }
 
 export type TBadgeServices = FC<IBadgeServices>

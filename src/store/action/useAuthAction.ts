@@ -3,24 +3,14 @@ import type {
     IGetAction,
     IUser,
     ISetToken,
+    IAuthState,
 } from "../types/useAuthState"
 
-import { usersService } from "@/services/users"
+import { serviceUsers } from "@/services/users"
+import { initialStateAuth } from "../state/useAuthState"
 
-export const signOutAction = (set: ISetAction) => {
-    set({
-        token: undefined,
-        refreshToken: undefined,
-        userId: undefined,
-        isAuth: false,
-        user: undefined,
-        profileId: undefined,
-        imageProfile: undefined,
-        createdUser: undefined,
-        email: undefined,
-        addresses: [],
-        expires: undefined,
-    })
+export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
+    set((state) => ({ ...state, ...initialState, isAuth: false }))
 }
 
 export const setUserAction = (
@@ -44,13 +34,14 @@ export const setUserAction = (
 }
 
 export const setTokenAction = (value: ISetToken, set: ISetAction) => {
-    const { token, refreshToken, userId, ok, expires } = value ?? {}
+    const { token, refreshToken, userId, ok, expires, email } = value ?? {}
     if (ok) {
         set({
             token,
             refreshToken,
             userId,
             expires,
+            email,
             isAuth: true,
         })
     }
@@ -62,12 +53,12 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         !!get().refreshToken &&
         Number.isFinite(get().userId)
     ) {
-        set({ isAuth: true })
-        usersService.getId(get().userId!).then((response) => {
+        serviceUsers.getId(get().userId!).then((response) => {
             if (response?.ok) {
                 set({
                     createdUser: response?.res?.created!,
                     email: response?.res?.email,
+                    isAuth: true,
                 })
                 if (response?.res?.addresses) {
                     set({
@@ -100,13 +91,19 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
                         profileId: id,
                         imageProfile: image || undefined,
                     })
+                    set({ isAuth: true })
                 }
                 return
             } else {
+                set((state) => ({
+                    ...state,
+                    ...initialStateAuth,
+                    isAuth: false,
+                }))
                 set({ isAuth: false })
             }
         })
     } else {
-        set({ isAuth: false })
+        set((state) => ({ ...state, ...initialStateAuth, isAuth: false }))
     }
 }

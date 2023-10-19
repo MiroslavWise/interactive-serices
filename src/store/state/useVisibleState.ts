@@ -68,7 +68,7 @@ export const useVisibleModalBarterState = create<IUseVisibleModalBarter>(
                         dataProfile: undefined,
                         dataOffer: undefined,
                     })
-                }, 350)
+                }, 305)
             }
         },
     }),

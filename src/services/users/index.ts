@@ -8,10 +8,13 @@ import type {
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
-export const usersService: IServiceUsers = {
+export const serviceUsers: IServiceUsers = {
     route: "/users",
     get(value) {
         return wrapperFetch.methodGet<IUserResponse[]>(this.route, value)
+    },
+    getMe() {
+        return wrapperFetch.methodGet<IUserResponse>("/user")
     },
     getId(id) {
         return wrapperFetch.methodGetId<IUserResponse>(this.route, id)

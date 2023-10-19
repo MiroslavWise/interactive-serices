@@ -1,5 +1,6 @@
 import { FC } from "react"
 import type {
+    FieldErrors,
     UseFormRegister,
     UseFormSetValue,
     UseFormWatch,
@@ -9,6 +10,7 @@ export interface IValuesForm {
     categoryId: number | null
     date: Date | string | null
     address: number | null
+    offerMyId: number | null
 }
 
 interface IContent {
@@ -16,6 +18,7 @@ interface IContent {
     setValue: UseFormSetValue<IValuesForm>
     watch: UseFormWatch<IValuesForm>
     address: string
+    errors: FieldErrors<IValuesForm>
 }
 
 export type TContent = FC<IContent>

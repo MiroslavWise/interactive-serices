@@ -1,41 +1,24 @@
+import type { IServiceOffers } from "./types"
 import { wrapperFetch } from "../requestsWrapper"
-import type {
-    IServiceOffers,
-    IPatchOffers,
-    IPostOffers,
-    IResponseCreate,
-    IResponseOffers,
-} from "./types"
 
-export const serviceOffer: IServiceOffers = {
+export const serviceOffers: IServiceOffers = {
     route: "/offers",
     post(value) {
-        return wrapperFetch.methodPost<IPostOffers, IResponseCreate>(
-            this.route,
-            value,
-        )
+        return wrapperFetch.methodPost(this.route, value)
     },
     get(value) {
-        return wrapperFetch.methodGet<IResponseOffers[]>(this.route, value)
+        return wrapperFetch.methodGet(this.route, value)
     },
     patch(value, id) {
-        return wrapperFetch.methodPatch<IPatchOffers, IResponseCreate>(
-            this.route,
-            value,
-            id,
-        )
+        return wrapperFetch.methodPatch(this.route, value, id)
     },
     getId(id) {
-        return wrapperFetch.methodGetId<IResponseOffers>(this.route, id)
+        return wrapperFetch.methodGetId(this.route, id)
     },
     getUserId(id, value) {
-        return wrapperFetch.methodGetId<IResponseOffers[]>(
-            `${this.route}/user`,
-            id,
-            value,
-        )
+        return wrapperFetch.methodGetId(`${this.route}/user`, id, value)
     },
     delete(id) {
-        return wrapperFetch.methodDelete<IResponseCreate>(this.route, id)
+        return wrapperFetch.methodDelete(this.route, id)
     },
 }

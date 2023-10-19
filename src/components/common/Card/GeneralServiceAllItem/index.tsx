@@ -14,6 +14,7 @@ import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./style.module.scss"
+import { useAuth } from "@/store/hooks"
 
 export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     const {
@@ -32,6 +33,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         addresses,
         className,
     } = props ?? {}
+    const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { dispatch } = useBalloonCard()
@@ -81,6 +83,9 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     }
 
     function handleHelp() {
+        if (!myUserId || myUserId === userId) {
+            return
+        }
         handlePush(`/messages?user=${userId}`)
     }
 
@@ -99,7 +104,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
                     <div className={styles.typeImage} />
                 )}
                 {categoryOffer && <h3>{categoryOffer}</h3>}
-                {provider === "alert" ? (
+                {provider === "alert" && userId !== myUserId && myUserId ? (
                     <button
                         data-help
                         onClick={(event) => {

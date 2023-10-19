@@ -3,6 +3,7 @@
 import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
+import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 
@@ -15,10 +16,9 @@ import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
 
 import { useAuth } from "@/store/hooks"
+import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useThread } from "@/store/state/useThreads"
-import { useMessages } from "@/store/state/useMessages"
 import { BADGES } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
@@ -26,25 +26,37 @@ import styles from "./styles/style.module.scss"
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
     const { userId } = useAuth()
-    const idUser = searchParams?.get("user")
     const idThread = searchParams?.get("thread")
     const { handlePush, handleReplace } = usePush()
-    const { data } = useMessages()
 
-    const dataUser = useMemo(() => {
-        if (idThread! && data) {
-            return {
-                name: data?.[idThread]?.name!,
-                photo: data?.[idThread]?.photo!,
-                created: data?.[idThread]?.created!,
-                idUser: data?.[idThread]?.idUser!,
-            }
+    const { data } = useQuery({
+        queryFn: () => serviceThreads.getId(Number(idThread)),
+        queryKey: ["threads", `user=${userId}`, `id=${idThread}`],
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchIntervalInBackground: false,
+    })
+
+    const idUser: number | null = useMemo(() => {
+        if (data?.res) {
+            return Number(data?.res?.emitterId) === Number(userId)
+                ? Number(data?.res?.receiverIds[0])
+                : Number(data?.res?.emitterId)
         }
-    }, [idThread, data])
 
-    const { getThreads } = useThread((state) => ({
-        getThreads: state.getThreads,
-    }))
+        return null
+    }, [data?.res, userId])
+
+    const { data: dataUser } = useQuery({
+        queryFn: () => serviceUsers.getId(Number(idUser)),
+        queryKey: ["user", idUser],
+        enabled: !!idUser,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchIntervalInBackground: false,
+    })
 
     function handleGoProfile() {
         handlePush(`/user?id=${idUser}`)
@@ -53,10 +65,16 @@ export const InterviewerInfoCurrent = () => {
     function handleDeleteChat() {
         serviceThreads.delete(Number(idThread)).then((response) => {
             console.log("--- response delete ---", response)
-            getThreads(userId!)
             handleReplace("/messages")
         })
     }
+
+    const geo: string | null = useMemo(() => {
+        return (
+            dataUser?.res?.addresses?.find((_) => _.addressType === "main")
+                ?.additional || null
+        )
+    }, [dataUser])
 
     return (
         <motion.section
@@ -69,10 +87,13 @@ export const InterviewerInfoCurrent = () => {
             <div className={styles.contentProfile}>
                 <header className={stylesHeader.containerHeader}>
                     <div className={stylesHeader.avatar}>
-                        {dataUser?.photo ? (
+                        {dataUser?.res?.profile?.image?.attributes?.url ? (
                             <NextImageMotion
                                 className={stylesHeader.photo}
-                                src={dataUser?.photo!}
+                                src={
+                                    dataUser?.res?.profile?.image?.attributes
+                                        ?.url!
+                                }
                                 alt="avatar"
                                 width={94}
                                 height={94}
@@ -97,16 +118,23 @@ export const InterviewerInfoCurrent = () => {
                         ) : null}
                     </div>
                     <section className={stylesHeader.title}>
-                        <h4>{dataUser?.name!}</h4>
-                        <GeoTagging
-                            size={16}
-                            fontSize={14}
-                            location="Арбат, Москва"
-                        />
-                        {dataUser?.created! ? (
+                        <h4>
+                            {dataUser?.res?.profile?.firstName || ""}{" "}
+                            {dataUser?.res?.profile?.lastName}
+                        </h4>
+                        {geo ? (
+                            <GeoTagging
+                                size={16}
+                                fontSize={14}
+                                location={geo}
+                            />
+                        ) : null}
+                        {dataUser?.res?.profile?.created! ? (
                             <p>
                                 Присоединился{" "}
-                                {dayjs(dataUser?.created!).format("DD.MM.YYYY")}
+                                {dayjs(dataUser?.res?.profile?.created!).format(
+                                    "DD.MM.YYYY",
+                                )}
                             </p>
                         ) : null}
                     </section>
@@ -165,13 +193,7 @@ export const InterviewerInfoEmpty = () => (
 )
 
 export const InterviewerInfo = () => {
-    const searchParams = useSearchParams()
-    const idUser = searchParams?.get("user")
-    const idThread = searchParams?.get("thread")
+    const idThread = useSearchParams()?.get("thread")
 
-    return idUser && idThread ? (
-        <InterviewerInfoCurrent />
-    ) : (
-        <InterviewerInfoEmpty />
-    )
+    return idThread ? <InterviewerInfoCurrent /> : <InterviewerInfoEmpty />
 }

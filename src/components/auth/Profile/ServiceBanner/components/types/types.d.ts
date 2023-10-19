@@ -1,5 +1,3 @@
 import type { FC, Dispatch, SetStateAction } from "react"
 
-import type { IStateVisible } from "../../../types"
-
-export type TPeoples = FC<{}>
+export type TPeoples = FC<{ setTotal: Dispatch<SetStateAction<number>> }>

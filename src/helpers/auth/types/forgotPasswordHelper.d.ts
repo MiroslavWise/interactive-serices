@@ -1,12 +1,21 @@
 import type { Dispatch } from "react"
 
 import { IReturnData } from "@/services/types/general"
-import { IForgotPasswordResponse, IResetPasswordResponse, IForgotPassword, IPasswordRecovery } from "@/services/auth/types/forgotPasswordService"
+import {
+    IForgotPasswordResponse,
+    IResetPasswordResponse,
+    IForgotPassword,
+    IPasswordRecovery,
+} from "@/services/auth/types/forgotPasswordService"
 
-export interface IForgotPasswordHelper{
-  private temporaryToken: string | null
-  public saveTemporaryToken: Dispatch<string>
+export interface IForgotPasswordHelper {
+    temporaryToken: string | null
+    saveTemporaryToken: Dispatch<string>
 
-  public async forgotPassword(value: IForgotPassword): Promise<IReturnData<IForgotPasswordResponse>>
-  public async resetPassword(value: IPasswordRecovery): Promise<IReturnData<IResetPasswordResponse>>
+    forgotPassword(
+        value: IForgotPassword,
+    ): Promise<IReturnData<IForgotPasswordResponse>>
+    resetPassword(
+        value: IPasswordRecovery,
+    ): Promise<IReturnData<IResetPasswordResponse>>
 }

@@ -5,7 +5,7 @@ import type { IPropsImageStatic } from "./types"
 
 import { cx } from "@/lib/cx"
 
-export function ImageStaticMemo(props: IPropsImageStatic) {
+function $ImageStatic(props: IPropsImageStatic) {
     const { src, alt, classNames, width, height, onClick, rest } = props ?? {}
 
     return (
@@ -31,4 +31,4 @@ export function ImageStaticMemo(props: IPropsImageStatic) {
     )
 }
 
-export const ImageStatic = memo(ImageStaticMemo)
+export const ImageStatic = memo($ImageStatic)

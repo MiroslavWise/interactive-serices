@@ -16,8 +16,8 @@ import { useAnimateLoadPage, useAuth, useUpdateProfile } from "@/store/hooks"
 import styles from "./styles/auth-banner.module.scss"
 
 export const BannerIsAuth = () => {
-    const { profileId } = useAuth()
-    const { setVisible } = useUpdateProfile()
+    // const { profileId } = useAuth()
+    // const { setVisible } = useUpdateProfile()
     const { handlePush } = usePush()
     const { setIsAnimated } = useAnimateLoadPage()
 
@@ -47,14 +47,14 @@ export const BannerIsAuth = () => {
                         />
                     ))}
                 </ul>
-                {!profileId ? (
+                {/* {!profileId ? (
                     <BadgeGradient
                         coins={2450}
                         handleClick={() => setVisible(true)}
                         type="optional-2"
                         about="Заработайте 500+ монет для успешных обменов."
                     />
-                ) : null}
+                ) : null} */}
                 <ButtonFill
                     label="Профиль"
                     classNames={cx("w-100", styles.largeButton)}
@@ -62,13 +62,11 @@ export const BannerIsAuth = () => {
                         handlePush(`/profile`)
                     }}
                 />
-                <ButtonDefault
-                    label={
-                        profileId ? "Редактировать профиль" : "Создать профиль"
-                    }
+                {/* <ButtonDefault
+                    label="Редактировать профиль"
                     classNames={cx("w-100", styles.largeButton)}
                     handleClick={() => setVisible(true)}
-                />
+                /> */}
             </section>
             <FooterAsideLeft />
         </motion.ul>

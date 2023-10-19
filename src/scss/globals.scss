@@ -21,7 +21,8 @@ ul,
 form,
 aside,
 textarea,
-section {
+section,
+div {
     list-style: none;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
@@ -150,6 +151,16 @@ h6 {
     );
     --gradient-optional-2: linear-gradient(180deg, #8ccfff 0%, #3aaafa 100%);
     --gradient-optional-3: linear-gradient(180deg, #ffa8c7 0%, #ee4381 100%);
+    --gradient-barter: linear-gradient(
+        90deg,
+        rgba(148, 125, 231, 0.65) 0%,
+        rgba(191, 120, 196, 0.65) 100%
+    );
+    --gradient-barter-red: linear-gradient(
+        90deg,
+        rgba(219, 65, 65, 0.65) 0%,
+        rgba(191, 120, 196, 0.65) 100%
+    );
 
     //Permanent
     --supporting-white: #ffffff;

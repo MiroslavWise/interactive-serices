@@ -9,9 +9,9 @@ interface IInfoContainerProfile {
 interface IItemsBadges {}
 
 interface IItemSegments {
-    values: ISegmentValues[]
-    activeSegment: ISegmentValues
-    setActiveSegment: Dispatch<SetStateAction<ISegmentValues>>
+    values: ISegmentValues<string>[]
+    activeSegment: ISegmentValues<string>
+    setActiveSegment: Dispatch<SetStateAction<ISegmentValues<string>>>
 }
 
 interface IContainerReviews {}

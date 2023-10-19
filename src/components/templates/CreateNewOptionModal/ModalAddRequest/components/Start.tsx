@@ -10,7 +10,7 @@ import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
 import { useAuth } from "@/store/hooks"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
 import { AddressDescription } from "../../components/AddressDescription"
 import { ImagesUploadInput } from "../../components/ImagesUploadInput"
@@ -41,54 +41,56 @@ export const Start = () => {
     }
 
     function postOffer(idsAddresses: number[]) {
-        const data: IPostOffers = {
-            provider: "request",
-            title: text,
-            userId: userId!,
-            categoryId: Number(selected?.id!),
-            slug: transliterateAndReplace(text!),
-            enabled: true,
-            desired: true,
-        }
-        if (idsAddresses) {
-            data.addresses = idsAddresses
-        }
-        serviceOffer.post(data).then((response) => {
-            if (response.ok) {
-                if (response.res) {
-                    if (files.length > 0) {
-                        Promise.all(
-                            files.map((item) =>
-                                fileUploadService(item!, {
-                                    type: "discussion",
-                                    userId: userId!,
-                                    idSupplements: response?.res?.id!,
-                                }),
-                            ),
-                        ).then((responses) => {
-                            const values: IPatchOffers = {}
-                            values.images = []
-                            responses.forEach((item) => {
-                                if (item.ok) {
-                                    if (item.res) {
-                                        values.images?.push(item?.res?.id!)
-                                    }
-                                }
-                            })
-                            serviceOffer
-                                .patch(values, response?.res?.id!)
-                                .then(() => {
-                                    setStepRequest("end")
-                                })
-                        })
-                    } else {
-                        setStepRequest("end")
-                    }
-                }
-            } else {
-                close()
+        if (text && selected?.id && (addressInit || adressId)) {
+            const data: IPostOffers = {
+                provider: "request",
+                title: text,
+                userId: userId!,
+                categoryId: Number(selected?.id!),
+                slug: transliterateAndReplace(text!),
+                enabled: true,
+                desired: true,
             }
-        })
+            if (idsAddresses) {
+                data.addresses = idsAddresses
+            }
+            serviceOffers.post(data).then((response) => {
+                if (response.ok) {
+                    if (response.res) {
+                        if (files.length > 0) {
+                            Promise.all(
+                                files.map((item) =>
+                                    fileUploadService(item!, {
+                                        type: "discussion",
+                                        userId: userId!,
+                                        idSupplements: response?.res?.id!,
+                                    }),
+                                ),
+                            ).then((responses) => {
+                                const values: IPatchOffers = {}
+                                values.images = []
+                                responses.forEach((item) => {
+                                    if (item.ok) {
+                                        if (item.res) {
+                                            values.images?.push(item?.res?.id!)
+                                        }
+                                    }
+                                })
+                                serviceOffers
+                                    .patch(values, response?.res?.id!)
+                                    .then(() => {
+                                        setStepRequest("end")
+                                    })
+                            })
+                        } else {
+                            setStepRequest("end")
+                        }
+                    }
+                } else {
+                    close()
+                }
+            })
+        }
     }
 
     function handleNext() {
@@ -97,11 +99,17 @@ export const Start = () => {
         }
 
         if (addressInit) {
-            serviceAddresses.post(addressInit).then((response) => {
-                if (response.ok) {
-                    if (response.res) {
-                        postOffer([Number(response?.res?.id!)])
-                    }
+            serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                if (!response?.res?.id) {
+                    serviceAddresses.post(addressInit).then((response_) => {
+                        if (response_.ok) {
+                            if (response_.res) {
+                                postOffer([response_?.res?.id])
+                            }
+                        }
+                    })
+                } else {
+                    postOffer([response?.res?.id])
                 }
             })
         } else {

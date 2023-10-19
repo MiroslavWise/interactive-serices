@@ -13,7 +13,7 @@ import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 import { useCreateAlert } from "@/store/state/useCreateAlert"
 
 import { useAuth } from "@/store/hooks"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { fileUploadService } from "@/services/file-upload"
 import { serviceAddresses } from "@/services/addresses"
 import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
@@ -48,7 +48,7 @@ export const Start = () => {
             data.addresses = idsAddresses
         }
 
-        serviceOffer.post(data).then((response) => {
+        serviceOffers.post(data).then((response) => {
             if (response.ok) {
                 if (response.res) {
                     if (files.length > 0) {
@@ -70,7 +70,7 @@ export const Start = () => {
                                     }
                                 }
                             })
-                            serviceOffer
+                            serviceOffers
                                 .patch(values, response?.res?.id!)
                                 .then(() => {
                                     setStepAlert("end")
@@ -88,11 +88,17 @@ export const Start = () => {
 
     function handleNext() {
         if (addressInit) {
-            serviceAddresses.post(addressInit).then((response) => {
-                if (response.ok) {
-                    if (response.res) {
-                        postOffer([response?.res?.id])
-                    }
+            serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                if (!response?.res?.id) {
+                    serviceAddresses.post(addressInit).then((response_) => {
+                        if (response_.ok) {
+                            if (response_.res) {
+                                postOffer([response_?.res?.id])
+                            }
+                        }
+                    })
+                } else {
+                    postOffer([response?.res?.id])
                 }
             })
         } else {

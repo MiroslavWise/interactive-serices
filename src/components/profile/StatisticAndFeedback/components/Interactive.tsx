@@ -10,21 +10,21 @@ import { Segments } from "@/components/common/Segments"
 
 import { ItemsReviews } from "./ItemsReviews"
 import { ContainerServices } from "./ContainerServices"
-import { ItemsBlogMessages } from "./ItemsBlogMessages"
+// import { ItemsBlogMessages } from "./ItemsBlogMessages"
 
 import { VALUES } from "@/components/auth/Profile/ProfilePublic/constants"
 
 import styles from "./styles/style.module.scss"
 
 export const Interactive: TInteractive = ({}) => {
-    const [active, setActive] = useState<ISegmentValues>(VALUES[0])
     const { systemTheme } = useTheme()
+    const [active, setActive] = useState<ISegmentValues<string>>(VALUES[0])
 
     const Items: ReactNode = useMemo(() => {
         return {
             reviews: <ItemsReviews />,
             services: <ContainerServices />,
-            blogs: <ItemsBlogMessages />,
+            // blogs: <ItemsBlogMessages />,
         }[active.value]
     }, [active])
 

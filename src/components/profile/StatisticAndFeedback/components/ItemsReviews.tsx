@@ -1,98 +1,70 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion } from "framer-motion"
+import { useQueries, useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
+import { useMemo } from "react"
+import { useSearchParams } from "next/navigation"
 
 import type { TItemsReviews } from "./types/types"
-import type { ICardReview } from "@/components/common/Card/Review/types"
 
 import { CardReview } from "@/components/common/Card/Review"
 import { MotionUL } from "@/components/common/Motion"
 
-import { MOCKS_REVIEW_VALUES } from "@/mocks/components/auth/constants"
-import { motionOpacityY } from "@/lib/motion"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
+import { serviceOffers } from "@/services/offers"
+import { serviceTestimonials } from "@/services/testimonials"
 
-interface Column {
-  items: ICardReview[];
-}
+export const ItemsReviews: TItemsReviews = ({}) => {
+    const id = useSearchParams().get("id")
+    const { data: dataOffers } = useQuery({
+        queryFn: () => serviceOffers.getUserId(Number(id!)),
+        queryKey: ["offers", `user=${id}`],
+        enabled: !!id && typeof id !== "undefined",
+    })
 
-export const ItemsReviews: TItemsReviews = ({ }) => {
-  const column1Ref = useRef<HTMLDivElement>(null)
-  const column2Ref = useRef<HTMLDivElement>(null)
-  const [columns, setColumns] = useState<Column[] | Column>([])
-
-  useEffect(() => {
-    const distributeItems = () => {
-      const widthWindow = window.innerWidth
-      if (widthWindow > 1258) {
-        const middleIndex = Math.ceil(MOCKS_REVIEW_VALUES.length / 2)
-        const column1Items = MOCKS_REVIEW_VALUES.slice(0, middleIndex)
-        const column2Items = MOCKS_REVIEW_VALUES.slice(middleIndex)
-        setColumns([{ items: column1Items }, { items: column2Items }])
-      } else {
-        setColumns({ items: MOCKS_REVIEW_VALUES })
-      }
-    }
-    distributeItems()
-  }, [])
-
-  return (
-    <div className={cx(styles.containerItemsInteractive, isMobile && styles.mobile)}>
-      <MotionUL
-        classNames={[styles.ul]}
-      >
-        {
-          Array.isArray(columns)
-            ? (
-              <>
-                <motion.div
-                  className={styles.column} ref={column1Ref}
-                  variants={motionOpacityY}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {columns[0]?.items.map((item, index) => (
-                    <CardReview
-                      key={item.date + index + "columns1"}
-                      {...item}
-                      classNames={[styles.card]}
-                    />
-                  ))}
-                </motion.div>
-                <motion.div
-                  className={styles.column} ref={column2Ref}
-                  variants={motionOpacityY}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {columns[1]?.items.map((item, index) => (
-                    <CardReview
-                      key={item.date + index + "columns2"}
-                      {...item}
-                      classNames={[styles.card]}
-                    />
-                  ))}
-                </motion.div>
-              </>
-            ) : (
-              <MotionUL classNames={[styles.column, isMobile && styles.mobile]}>
-                {
-                  columns.items.map((item, index) => (
-                    <CardReview
-                      key={item.date + index + "columns1"}
-                      {...item}
-                      classNames={[styles.card]}
-                    />
-                  ))
-                }
-              </MotionUL>
-            )
+    const idsOffers = useMemo(() => {
+        if (!dataOffers?.res) {
+            return []
         }
-      </MotionUL>
-    </div>
-  )
+        if (dataOffers?.res) {
+            return dataOffers?.res?.map((item) => item?.id)!
+        }
+        return []
+    }, [dataOffers?.res])
+
+    const dataTestimonials = useQueries(
+        idsOffers.map((item) => ({
+            queryFn: () =>
+                serviceTestimonials.get({ target: item!, provider: "offer" }),
+            queryKey: ["testimonials", `offer=${item}`, `provider=offer`],
+            enabled: Array.isArray(idsOffers) && !!idsOffers?.length && !!id,
+        })),
+    )
+
+    const listTestimonials = useMemo(() => {
+        if (dataTestimonials?.some((item) => !item?.isLoading)) {
+            return dataTestimonials?.map((item) => item?.data?.res)?.flat()!
+        } else {
+            return []
+        }
+    }, [dataTestimonials])
+
+    console.log("listTestimonials: ", listTestimonials)
+
+    return (
+        <div
+            className={cx(
+                styles.containerItemsInteractive,
+                isMobile && styles.mobile,
+            )}
+        >
+            <MotionUL>
+                {listTestimonials.map((item) => (
+                    <CardReview {...item!} key={`${item?.id}-card-review`} />
+                ))}
+            </MotionUL>
+        </div>
+    )
 }

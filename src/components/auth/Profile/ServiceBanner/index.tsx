@@ -18,18 +18,19 @@ import { SERVICES } from "./constants"
 import styles from "./styles/style.module.scss"
 
 const $ServiceBanner: TServiceBanner = ({ active }) => {
-    const [activeService, setActiveService] = useState<ISegmentValues>(
+    const [activeService, setActiveService] = useState<ISegmentValues<string>>(
         SERVICES[0],
     )
+    const [total, setTotal] = useState(0)
 
     const content: ReactNode = useMemo(
         () =>
             ({
-                all: <Peoples />,
-                offers: <Offers />,
-                requests: <Requests />,
+                all: <Peoples setTotal={setTotal} />,
+                offers: <Offers setTotal={setTotal} />,
+                requests: <Requests setTotal={setTotal} />,
             })[activeService.value],
-        [activeService],
+        [activeService, setTotal],
     )
 
     const onSearch = (value: string) => {}
@@ -58,9 +59,11 @@ const $ServiceBanner: TServiceBanner = ({ active }) => {
             <div className={styles.peopleContainer}>
                 <div className={styles.titleWrapper}>
                     <h3>Популярные предложения</h3>
-                    <div className={styles.totalOval}>
-                        <span>80</span>
-                    </div>
+                    {total ? (
+                        <div className={styles.totalOval}>
+                            <span>{total}</span>
+                        </div>
+                    ) : null}
                 </div>
                 {content}
             </div>

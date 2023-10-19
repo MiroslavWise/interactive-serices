@@ -9,13 +9,20 @@ import { Glasses } from "@/components/common/Glasses"
 
 import { cx } from "@/lib/cx"
 import { useAuth, useVisibleExchanges } from "@/store/hooks"
-import { HISTORY_OFFERS_MOCKS } from "@/mocks/components/profile/constants"
 
 import styles from "./style.module.scss"
+import { useQueries } from "react-query"
+import { serviceBarters } from "@/services/barters"
 
 export const ExchangesModalMobile = () => {
     const { isAuth } = useAuth() ?? {}
     const { type, isVisible, setVisibleType } = useVisibleExchanges() ?? {}
+
+    // const [] = useQueries([
+    // {
+
+    // }
+    // ])
 
     return isMobile && isAuth ? (
         <div className={cx(styles.wrapper, isVisible && styles.active)}>
@@ -41,7 +48,7 @@ export const ExchangesModalMobile = () => {
                         : ""}
                 </h4>
             </header>
-            {type === "current" ? (
+            {/* {type === "current" ? (
                 <MotionUL>
                     {HISTORY_OFFERS_MOCKS.map((item) => (
                         <CardOffer key={item.name + type} {...item} />
@@ -54,7 +61,7 @@ export const ExchangesModalMobile = () => {
                         <CardOffer key={item.name + type} {...item} />
                     ))}
                 </MotionUL>
-            ) : null}
+            ) : null} */}
             <Glasses />
         </div>
     ) : null

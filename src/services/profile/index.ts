@@ -15,12 +15,15 @@ export const serviceProfile: IServiceProfile = {
             value,
         )
     },
+    getMe() {
+        return wrapperFetch.methodGet<IGetProfileIdResponse>("/profile")
+    },
     getId(id) {
         return wrapperFetch.methodGetId<IGetProfileIdResponse>(this.route, id)
     },
     getUserId(userId) {
         return wrapperFetch.methodGetId<IGetProfileIdResponse>(
-            `${this.route}/user_id`,
+            `${this.route}/user`,
             userId,
         )
     },

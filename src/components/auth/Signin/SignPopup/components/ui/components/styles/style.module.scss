@@ -1,214 +1,213 @@
 @mixin class-shadow {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
-  border-radius: 300px;
-  filter: blur(80px);
-  z-index: -1;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border-radius: 300px;
+    filter: blur(80px);
+    z-index: -1;
 }
 
 //CircleImageHeader
 
 .bigCircle {
-  height: 90px;
-  width: 90px;
-  border-radius: 50%;
-  background: var(--primary-50);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .middleCircle {
-    height: 63px;
-    width: 63px;
+    height: 90px;
+    width: 90px;
     border-radius: 50%;
+    background: var(--primary-50);
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--primary-100);
-  }
+
+    .middleCircle {
+        height: 63px;
+        width: 63px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--primary-100);
+    }
 }
 
-
 .orangeCircle {
-  @include class-shadow;
-  background: rgba(243, 145, 114, 0.32);
-  top: 0;
-  left: 0;
+    @include class-shadow;
+    background: rgba(243, 145, 114, 0.32);
+    top: 0;
+    left: 0;
 }
 
 .purpleCircle {
-  @include class-shadow;
-  background: rgba(135, 92, 255, 0.32);
-  top: 50%;
-  left: 100%;
+    @include class-shadow;
+    background: rgba(135, 92, 255, 0.32);
+    top: 50%;
+    left: 100%;
 }
 
 .lightBlueCircle {
-  @include class-shadow;
-  background: rgba(100, 220, 246, 0.32);
-  top: 100%;
-  left: 0;
+    @include class-shadow;
+    background: rgba(100, 220, 246, 0.32);
+    top: 100%;
+    left: 0;
 }
 
 //ButtonSelection
 
 .containerButtonSelection {
-  width: 231px;
-  height: 141px;
-  position: relative;
-  border-radius: 16px;
-  background: var(--background-input);
-  box-shadow: 0px 4px 24px 0px rgba(172, 178, 201, 0.39);
-  transition: background 0.3s ease-in-out;
-  cursor: pointer;
+    width: 231px;
+    height: 141px;
+    position: relative;
+    border-radius: 16px;
+    background: var(--background-input);
+    box-shadow: 0px 4px 24px 0px rgba(172, 178, 201, 0.39);
+    transition: background 0.3s ease-in-out;
+    cursor: pointer;
 
-  &.active {
-    &::before {
-      content: "";
-      position: absolute;
-      border-radius: 17px;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: var(--gradient-primary);
-      z-index: -1;
-      opacity: 1;
-      transition: opacity 0.3s;
+    &.active {
+        &::before {
+            content: "";
+            position: absolute;
+            border-radius: 17px;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-primary);
+            z-index: -1;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
     }
-  }
 
-  .contentIconType {
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    .contentIconType {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
 
-    h3 {
-      color: var(--1, #363757);
-      text-align: center;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 126%;
+        h3 {
+            color: var(--1, #363757);
+            text-align: center;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 126%;
+        }
     }
-  }
 }
 
 .checkBox {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-  border: 1px solid var(--gray-300);
-  background: var(--base-white);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.1s ease-in-out;
-
-  span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--gray-300);
     background: var(--base-white);
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-  }
-
-  &.active {
-    background: var(--primary-50);
-    border: 1px solid var(--primary-600);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease-in-out;
 
     span {
-      background: var(--primary-600);
+        background: var(--base-white);
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
     }
-  }
+
+    &.active {
+        background: var(--primary-50);
+        border: 1px solid var(--primary-600);
+
+        span {
+            background: var(--primary-600);
+        }
+    }
 }
 
 //File Uploader
 
 .imageUploader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-
-  .imageContainer {
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     width: 100%;
-    height: 150px;
-    transition: all 0.6s ease-in-out;
 
-    .inputFile {
-      display: none;
+    .imageContainer {
+        position: relative;
+        width: 100%;
+        height: 150px;
+        transition: all 0.6s ease-in-out;
+
+        .inputFile {
+            display: none;
+        }
+
+        .img {
+            height: auto;
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border: 4px solid var(--stroke-1);
+            border-radius: 26px;
+            box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+        }
+
+        .uploadButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 100%;
+            width: 100%;
+            transform: translate(-50%, -50%);
+            background: var(--glass-bg-color-1);
+            box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+            border-radius: 24px;
+            border: 2px solid var(--stroke-1);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+
+            p {
+                color: var(--gray-500);
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 150%;
+                letter-spacing: -0.5px;
+            }
+        }
+
+        &.imageActive {
+            height: auto;
+        }
     }
 
-    .img{
-      height: auto;
-      width: 100%;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      border: 4px solid var(--stroke-1);
-      border-radius: 26px;
-      box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+    &:hover {
+        .buttonsContainerImage {
+            visibility: visible;
+            opacity: 1;
+        }
     }
-
-    .uploadButton {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      height: 100%;
-      width: 100%;
-      transform: translate(-50%, -50%);
-      background: var(--glass-bg-color-1);
-      box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-      border-radius: 24px;
-      border: 2px solid var(--stroke-1);
-      backdrop-filter: blur(4px);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 2;
-
-      p {
-        color: var(--gray-500);
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-        letter-spacing: -0.5px;
-      }
-    }
-
-    &.imageActive {
-      height: auto;
-    }
-  }
-
-  &:hover{
-    .buttonsContainerImage{
-      visibility: visible;
-      opacity: 1;
-    }
-  }
 }
 
-.buttonsContainerImage{
-  position: absolute;
-  left: 50%;
-  bottom: 16px;
-  transform: translateX(-50%);
-  display: inline-flex;
-  gap: 16px;
-  height: auto;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s ease-in-out 0.05s;
+.buttonsContainerImage {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    display: inline-flex;
+    gap: 16px;
+    height: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out 0.05s;
 }

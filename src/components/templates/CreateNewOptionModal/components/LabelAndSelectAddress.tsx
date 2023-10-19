@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 
 import type {
     ISelectList,
@@ -8,9 +8,8 @@ import type {
 } from "@/components/common/custom/Select/types"
 import type { TLabelAndSelectAddress } from "./types/types"
 
+import { useAddress } from "@/helpers"
 import { CustomSelect } from "@/components/common/custom"
-
-import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/label-input.module.scss"
 
@@ -18,19 +17,22 @@ export const LabelAndSelectAddress: TLabelAndSelectAddress = ({
     value,
     setValue,
 }) => {
-    const { addresses } = useAuth()
+    const { addressMainMany, addressMain } = useAddress()
 
-    const list = useMemo(() => {
+    const list: ISelectList[] = useMemo(() => {
         return (
-            addresses.map(
-                (item) =>
-                    ({
-                        label: item.additional,
-                        value: item.id,
-                    }) as ISelectList,
-            ) || []
+            addressMainMany?.map((item) => ({
+                label: item?.additional!,
+                value: item?.id!,
+            })) || []
         )
-    }, [addresses])
+    }, [addressMainMany])
+
+    useEffect(() => {
+        if (addressMain) {
+            setValue({ id: addressMain?.id! })
+        }
+    }, [addressMain, setValue])
 
     return (
         <div className={styles.container}>
@@ -38,13 +40,10 @@ export const LabelAndSelectAddress: TLabelAndSelectAddress = ({
             <CustomSelect
                 placeholder="Введите свой адрес, чтобы мы могли показать ваше предложение на карте"
                 list={list}
-                value={value?.id || addresses?.[0]?.id}
+                value={value?.id!}
                 setValue={(value: TValue) => {
-                    const valueCategory = addresses.find(
-                        (item) => Number(item.id) === Number(value),
-                    )
                     setValue({
-                        id: valueCategory?.id!,
+                        id: Number(value!),
                     })
                 }}
             />

@@ -25,21 +25,22 @@
         justify-content: center;
         align-items: center;
         gap: 16px;
-        padding-left: calc(6px + 54px + 6px);
+        padding-left: calc(6px + 58px + 6px);
         padding-right: 6px;
 
-        height: calc(6px + 6px + 54px);
+        height: calc(6px + 6px + 58px);
 
         .typeImage {
             position: absolute;
             left: 6px;
             top: 6px;
 
-            width: 54px;
-            height: 54px;
-            border-radius: 27px;
+            width: 58px;
+            height: 58px;
+            border-radius: 29px;
             object-fit: cover;
             aspect-ratio: 1/1;
+            box-shadow: 0px 16px 12px 0px rgba(0, 0, 0, 0.28);
         }
 
         & > h3 {

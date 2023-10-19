@@ -7,13 +7,15 @@ import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 const ListPlacemark_ = () => {
     const { data: dataPlaces } = useQuery({
         queryKey: ["offers"],
-        queryFn: () => serviceOffer.get(),
+        queryFn: () => serviceOffers.get(),
     })
+    const { dispatch } = useBalloonCard()
 
     const marks: IPlacemarkCurrent[] = useMemo(() => {
         const array: IPlacemarkCurrent[] = []
@@ -39,15 +41,20 @@ const ListPlacemark_ = () => {
                         idUser: item?.userId!,
                         id: item?.id!,
                         title: title,
+                        dispatch: dispatch,
                     })
                 })
         }
 
         return array
-    }, [dataPlaces?.res])
+    }, [dataPlaces?.res, dispatch])
 
     return marks.map((item) => (
-        <PlacemarkCurrent key={`${item.id}-${item.provider}-list`} {...item} />
+        <PlacemarkCurrent
+            key={`${item.id}-${item.provider}-list`}
+            {...item}
+            dispatch={dispatch}
+        />
     ))
 }
 

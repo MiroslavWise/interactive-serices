@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 
 import type { TItemLIAdress } from "./types/types"
@@ -62,6 +62,20 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         }
     }
 
+    const exactAddresses = useMemo(() => {
+        if (!values) {
+            return null
+        }
+        return (
+            values?.response?.GeoObjectCollection?.featureMember?.filter(
+                (item) =>
+                    item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some(
+                        (_) => _?.kind === "house",
+                    ),
+            ) || null
+        )
+    }, [values])
+
     function handleAddress(item: IFeatureMember) {
         const coordinates = item?.GeoObject?.Point?.pos
         const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
@@ -119,6 +133,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     className={styles.geoBlack}
                 />
                 <input
+                    disabled={!!item}
                     value={text}
                     onChange={(value) => {
                         setText(value.target.value)
@@ -137,25 +152,32 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     />
                 </div>
                 <ul className={cx(values && activeList && styles.activeList)}>
-                    {Array.isArray(
+                    {values &&
+                    exactAddresses &&
+                    Array.isArray(
                         values?.response?.GeoObjectCollection?.featureMember,
-                    )
-                        ? values?.response?.GeoObjectCollection?.featureMember?.map(
-                              (item) => (
-                                  <li
-                                      key={`${item?.GeoObject?.uri}`}
-                                      onClick={() => handleAddress(item)}
-                                  >
-                                      <span>
-                                          {
-                                              item?.GeoObject?.metaDataProperty
-                                                  ?.GeocoderMetaData?.text
-                                          }
-                                      </span>
-                                  </li>
-                              ),
-                          )
-                        : null}
+                    ) &&
+                    Array.isArray(exactAddresses) &&
+                    exactAddresses?.length === 0 &&
+                    values?.response?.GeoObjectCollection?.featureMember
+                        ?.length > exactAddresses?.length ? (
+                        <h3>Введите более точный адрес</h3>
+                    ) : Array.isArray(exactAddresses) ? (
+                        exactAddresses?.map((item) => (
+                            <li
+                                key={`${item?.GeoObject?.uri}`}
+                                onClick={() => handleAddress(item)}
+                            >
+                                <span>
+                                    {
+                                        item?.GeoObject?.metaDataProperty
+                                            ?.GeocoderMetaData?.text
+                                    }
+                                </span>
+                            </li>
+                        ))
+                    ) : null}
+                    {}
                 </ul>
             </div>
         </li>

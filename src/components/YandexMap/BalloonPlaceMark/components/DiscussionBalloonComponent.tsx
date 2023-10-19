@@ -1,27 +1,30 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { useQueries } from "react-query"
 
 import type { TDiscussionBalloonComponent } from "../types/types"
 
+import { BlockComments } from "./BlockComments"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { daysAgo } from "@/helpers"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
 }) => {
+    const [activeListComments, setActiveListComments] = useState(false)
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
-            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
             queryKey: [
                 "offers",
-                stateBalloon.id!,
+                `offer=${stateBalloon.id!}`,
                 `provider=${stateBalloon.type}`,
             ],
             refetchOnMount: false,
@@ -113,26 +116,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                     </ul>
                 ) : null}
             </div>
-            <footer data-discussion>
-                <button>
-                    <span>125 комментариев</span>
-                    <Image
-                        src="/svg/chevron-down.svg"
-                        alt="chevron-down"
-                        width={18}
-                        height={18}
-                    />
-                </button>
-                <div data-likes>
-                    <Image
-                        src="/svg/thumbs-up.svg"
-                        alt="thumbs-up"
-                        width={18}
-                        height={18}
-                    />
-                    <p>112</p>
-                </div>
-            </footer>
+            <BlockComments type="discussion" offerId={stateBalloon?.id!} />
         </>
     )
 }

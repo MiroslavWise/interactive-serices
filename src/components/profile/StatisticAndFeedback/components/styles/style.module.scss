@@ -89,20 +89,28 @@
 //ITEMS Reviews
 
 .containerItemsInteractive {
-    padding: 24px 32px 0;
+    padding: 24px 24px 8px;
     width: 100%;
-    height: calc(100%);
+    height: calc(100vh - 366px);
+    overflow-y: scroll;
 
-    .ul {
-        display: inline-flex;
-        gap: 20px;
-        height: calc(100vh - 390px);
-        overflow-y: scroll;
+    & > ul {
+        -webkit-column-gap: 16px;
+        -moz-column-gap: 16px;
+        column-gap: 16px;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        @media screen and (max-width: 960px) {
+            -webkit-column-count: 1;
+            -moz-column-count: 1;
+            column-count: 1;
+        }
 
-        .column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        & > li {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 16px;
         }
     }
 
@@ -111,11 +119,9 @@
         height: auto;
         overflow-y: visible;
 
-        .ul {
+        & > ul {
             overflow-y: visible;
         }
-    }
-    @media screen and (max-width: 1258px) {
     }
 }
 
@@ -176,7 +182,7 @@
         margin-bottom: 16px;
     }
 
-    padding: 0 0 24px;
+    // padding: 0 0 24px;
     justify-content: center;
 
     &.mobile {

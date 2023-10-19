@@ -1,12 +1,13 @@
 "use client"
 
+import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 
 import type { IValuesForm } from "./types/types"
-import type { IPostDataBarter } from "@/services/barters/bartersService"
+import type { IPostDataBarter } from "@/services/barters/types"
 
 import { Header } from "./components/Header"
 import { Content } from "./components/Content"
@@ -15,13 +16,16 @@ import { ButtonClose } from "@/components/common/Buttons"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { cx } from "@/lib/cx"
+import { serviceBarters } from "@/services/barters"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
+import { cx } from "@/lib/cx"
+
 import styles from "./styles/style.module.scss"
-import { serviceBarters } from "@/services/barters"
+import { useToast } from "@/helpers/hooks/useToast"
 
 export function Barter() {
+    const { on } = useToast()
     const { userId } = useAuth()
     const { isVisible, dispatchVisibleBarter, dataProfile, dataOffer } =
         useVisibleModalBarter()
@@ -36,39 +40,60 @@ export function Barter() {
         return address || null
     }, [dataOffer])
 
-    const { register, watch, setError, setValue, handleSubmit } =
-        useForm<IValuesForm>({})
+    const {
+        register,
+        watch,
+        setError,
+        setValue,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<IValuesForm>({})
 
     function onSubmit(values: IValuesForm) {
-        console.log("values barter: ", values)
-
-        const data: IPostDataBarter = {
-            provider: "offer-request",
+        console.log("values: ", values)
+        const data = {
+            consignedId: dataOffer?.id!,
+            provider: "barter",
+            status: "initiated",
             title: dataOffer?.title!,
             enabled: true,
-        }
+        } as IPostDataBarter
 
         if (values.date) {
-        }
-        if (values.categoryId) {
-            data.categoryId = values.categoryId!
+            data.timestamp = dayjs(values.date).format()
         }
         if (addressId) {
             data.addresses = [Number(addressId)]
         }
-        data.userId = userId!
-        data.createdById = userId!
+        data.userId = Number(userId!)
+        data.initialId = Number(values?.offerMyId!)
 
-        serviceBarters.post(data)
+        console.log("data: ", data)
+
+        serviceBarters.post(data).then((response) => {
+            if (response?.ok) {
+                if (response?.res?.id) {
+                    on(
+                        `${dataProfile?.fullName} получит ${
+                            dataOffer?.provider === "offer"
+                                ? "ваш запрос"
+                                : "ваше предложение"
+                        } на обмен!`,
+                    )
+                    dispatchVisibleBarter({ isVisible: false })
+                }
+            }
+        })
     }
 
     if (isMobile) {
         return (
-            <div
+            <form
                 className={cx(
                     styles.wrapperContainerMobile,
                     isVisible && styles.visible,
                 )}
+                onSubmit={handleSubmit(onSubmit)}
             >
                 <header>
                     <div
@@ -128,8 +153,15 @@ export function Barter() {
                         </div>
                     </div>
                 </ul>
+                <Content
+                    register={register}
+                    setValue={setValue}
+                    watch={watch}
+                    address={address}
+                    errors={errors}
+                />
                 <Glasses />
-            </div>
+            </form>
         )
     }
 
@@ -151,6 +183,7 @@ export function Barter() {
                     setValue={setValue}
                     watch={watch}
                     address={address}
+                    errors={errors}
                 />
                 <Glasses />
             </form>

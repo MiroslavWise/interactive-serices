@@ -1,11 +1,8 @@
 import type { FC } from "react"
+import type { IUserResponse } from "@/services/users/types/usersService"
 
 interface IMobileMainInfo{
-  name: string
-  photo: string
-  about: string
-  userId: number
-  created: Date | string
+  user: IUserResponse
 }
 
 export type TMobileMainInfo = FC<IMobileMainInfo>

@@ -1,14 +1,14 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { motion } from "framer-motion"
+import { isMobile } from "react-device-detect"
 
+import { Content } from "./components/Content"
 import { Glasses } from "@/components/common/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
-import { Content } from "./components/Content"
 
-import { useWelcomeModal } from "@/store/hooks"
 import { cx } from "@/lib/cx"
+import { useWelcomeModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 

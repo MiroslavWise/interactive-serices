@@ -1,31 +1,32 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
 import { useQueries } from "react-query"
 
 import type { TAlertBalloonComponent } from "../types/types"
 
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { BlockComments } from "./BlockComments"
 import { ButtonSuccessInBalloon } from "./ButtonSuccessInBalloon"
+import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({
     stateBalloon,
 }) => {
-    const [activeListComments, setActiveListComments] = useState(false)
+    const { userId } = useAuth()
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
-            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
             queryKey: [
                 "offers",
-                stateBalloon.id!,
+                `offer=${stateBalloon.id!}`,
                 `provider=${stateBalloon.type}`,
             ],
             refetchOnMount: false,
@@ -39,6 +40,9 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
     ])
 
     function handleHelp() {
+        if (Number(userId) === Number(stateBalloon?.idUser)) {
+            return
+        }
         handlePush(`/messages?user=${stateBalloon.idUser}`)
     }
 
@@ -54,7 +58,9 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                 }}
             />
             <header data-alert>
-                <ButtonSuccessInBalloon idUser={1} onClick={handleHelp} />
+                {Number(userId) !== Number(stateBalloon?.idUser) ? (
+                    <ButtonSuccessInBalloon onClick={handleHelp} />
+                ) : null}
             </header>
             <div data-container-balloon data-alert>
                 <div data-info-profile>
@@ -123,17 +129,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                     </ul>
                 ) : null}
             </div>
-            <footer data-alert>
-                <button>
-                    <span>125 комментариев</span>
-                    <Image
-                        src="/svg/chevron-down.svg"
-                        alt="chevron-down"
-                        width={18}
-                        height={18}
-                    />
-                </button>
-            </footer>
+            <BlockComments type="alert" offerId={stateBalloon?.id!} />
         </>
     )
 }

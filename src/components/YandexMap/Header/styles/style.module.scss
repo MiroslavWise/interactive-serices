@@ -88,6 +88,8 @@
 
 .containerSearchTop {
     position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
     top: 40px;
     z-index: 2;
     max-width: 346px;

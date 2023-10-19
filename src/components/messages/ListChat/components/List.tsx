@@ -1,30 +1,46 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { Fragment, memo } from "react"
+import { memo, useEffect, useMemo } from "react"
 
-import type { TList } from "./types/types"
+import type { IFiltersItems, TList } from "./types/types"
 
 import { ItemListChat } from "./ItemListChat"
-import { Divider } from "@/components/common/Divider"
+import { MotionUL } from "@/components/common/Motion"
 
 import styles from "./styles/style.module.scss"
 
-export const ComponentList: TList = ({ items }) => {
+const $List: TList = ({ items, search, setTotal }) => {
+    const filters: IFiltersItems[] = useMemo(() => {
+        return (
+            items?.filter(
+                (item) =>
+                    `${item?.people?.profile?.firstName} ${item?.people?.profile?.lastName}`
+                        ?.toLowerCase()
+                        ?.includes(search?.toLowerCase()),
+            ) || []
+        )
+    }, [items, search])
+
+    useEffect(() => {
+        setTotal(filters?.length || 0)
+    }, [filters, setTotal])
+
     return (
-        <ul
-            className={
-                isMobile ? styles.containerListMobile : styles.containerList
-            }
+        <MotionUL
+            classNames={[
+                isMobile ? styles.containerListMobile : styles.containerList,
+            ]}
         >
-            {items?.map((item, index) => (
-                <Fragment key={`${item.id}-${index}-item-chat`}>
-                    <ItemListChat item={item} />
-                    {index < items.length - 1 && !isMobile ? <Divider /> : null}
-                </Fragment>
+            {filters?.map((item, index) => (
+                <ItemListChat
+                    key={`${item?.thread?.id}-${index}-item-chat`}
+                    {...item}
+                    last={index < filters.length - 1}
+                />
             ))}
-        </ul>
+        </MotionUL>
     )
 }
 
-export const List = memo(ComponentList)
+export const List = memo($List)

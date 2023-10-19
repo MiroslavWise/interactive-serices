@@ -9,20 +9,19 @@ import {
     useAuth,
     useVisibleBannerNewServices,
     useVisibleAndTypeAuthModal,
-    useVisibleNewServiceBarterRequests,
 } from "@/store/hooks"
-import { useAddress, usePush } from "@/helpers"
+import { useAddress, useOutsideClickEvent, usePush } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
+import { SpoilerNotAdress } from "./SpoilerNotAdress"
 
 export const Buttons = () => {
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { isAddresses } = useAddress()
-    const { setIsVisibleNewServiceBarterRequests } =
-        useVisibleNewServiceBarterRequests()
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { isAuth } = useAuth()
     const { handlePush } = usePush()
+    const [active, setActive, ref] = useOutsideClickEvent()
 
     return !isMobile ? (
         isAuth ? (
@@ -35,6 +34,7 @@ export const Buttons = () => {
                     type="primary"
                     label="Создать новое"
                     classNames={styles.widthButton}
+                    ref={ref}
                     suffix={
                         <Image
                             src="/svg/plus.svg"
@@ -46,27 +46,12 @@ export const Buttons = () => {
                     handleClick={() => {
                         if (isAddresses) {
                             setIsVisibleNewServicesBanner(true)
+                        } else {
+                            setActive(true)
                         }
                     }}
                 />
-                <ButtonFill
-                    type="primary"
-                    label="Запрос или услуга"
-                    classNames={styles.widthButton}
-                    suffix={
-                        <Image
-                            src="/svg/plus.svg"
-                            alt="plus"
-                            width={24}
-                            height={24}
-                        />
-                    }
-                    handleClick={() => {
-                        if (isAddresses) {
-                            setIsVisibleNewServiceBarterRequests(true)
-                        }
-                    }}
-                />
+                <SpoilerNotAdress active={active} setActive={setActive} />
             </div>
         ) : (
             <div className={styles.buttons}>

@@ -7,10 +7,10 @@
     align-items: center;
     border-radius: calc(29px + 6px);
 
-    &.optional-2 {
+    &[data-type="optional-2"] {
         background: var(--gradient-request);
     }
-    &.optional-3 {
+    &[data-type="optional-3"] {
         background: var(--gradient-offer);
     }
 
@@ -58,16 +58,19 @@
 
         & > [data-relative="true"] {
             position: relative;
-            width: 100%;
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            width: 100%;
             bottom: 0;
+            & > button {
+                width: min-content;
+            }
         }
     }
 
-    &.mobile {
+    &[data-mobile="true"] {
         max-width: 100%;
 
         .carouselPhotos {
@@ -144,4 +147,12 @@
     bottom: calc(12px + 12px);
     transform: translateX(-50%);
     left: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    & > button {
+        width: min-content;
+    }
 }

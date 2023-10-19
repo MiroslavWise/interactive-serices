@@ -105,34 +105,69 @@
 //containerButtons
 
 .containerButtons {
+    position: relative;
     width: 100%;
     padding-left: 12px;
-    padding-right: 12px;
     display: inline-flex;
     align-items: center;
     justify-self: flex-end;
     gap: 10px;
 
+    padding-right: calc(12px + 32px + 10px);
+
     .buttonFill {
         height: 32px;
+        z-index: 2;
+
+        &.offer {
+            background: var(--gradient-offer) !important;
+        }
+        &.request {
+            background: var(--gradient-request) !important;
+        }
 
         span {
             font-size: 14px;
-            line-height: 20px;
         }
     }
+}
 
-    .buttonTrash {
-        width: 32px;
-        height: 32px;
-        padding: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 100px;
-        border: 1px solid var(--gray-300);
-        background: var(--background-input);
-        box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
+.buttonTrash {
+    position: absolute;
+    bottom: 0;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 16px;
+    border: 1px solid var(--gray-300);
+    background: var(--background-input);
+    box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
+    cursor: pointer;
+    transition: var(--transition);
+    overflow: hidden;
+    z-index: 3;
+
+    &[data-open="true"] {
+        height: calc(8px + 8px + 8px + 32px + 32px);
+        width: calc(8px + 180px + 8px);
+        background: var(--opacity-white-hard);
+        border-radius: 16px;
+    }
+}
+
+.buttonDelete {
+    max-width: 180px;
+    width: 100%;
+    height: 32px;
+
+    span {
+        font-size: 14px;
     }
 }
 

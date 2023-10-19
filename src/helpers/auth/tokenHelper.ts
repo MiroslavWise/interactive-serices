@@ -38,9 +38,6 @@ export const useTokenHelper: IUseTokenHelper = {
             })
             const dataOtp = await responseOtp.json()
             if (dataOtp?.error === null && dataOtp?.data) {
-                const token = dataOtp?.result?.accessToken
-                const refreshToken = dataOtp?.result?.refreshToken
-                const userId = dataOtp?.result?.id
                 // AuthService.saveToken({ token, refreshToken, userId, ok: true })
                 return {
                     ok: true,

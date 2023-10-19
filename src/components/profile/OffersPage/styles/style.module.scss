@@ -1,8 +1,8 @@
-.containerOffersPage{
-  margin: 0 calc(24px + 400px) 0 calc(320px + 24px);
-  height: calc(100vh - 77px - 24px);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  gap: 16px;
+.containerOffersPage {
+    margin: 0 calc(24px + 400px) 0 calc(320px + 24px);
+    height: calc(100vh - 77px - 24px);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    gap: 16px;
 }

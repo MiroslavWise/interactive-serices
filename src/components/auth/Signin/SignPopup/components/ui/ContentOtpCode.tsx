@@ -15,14 +15,14 @@ import type { TContentOtpCode } from "./types/types"
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { useTokenHelper } from "@/helpers"
-import { usersService } from "@/services/users"
+import { serviceUsers } from "@/services/users"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useVisibleAndTypeAuthModal, useUpdateProfile } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
 export const ContentOtpCode: TContentOtpCode = ({}) => {
-    const { setToken, changeAuth } = useAuth()
+    const { setToken, changeAuth, email } = useAuth()
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { setVisible } = useUpdateProfile()
@@ -88,7 +88,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
             .serviceOtp({ code: inputValues.join("") })
             .then((response) => {
                 if (response.ok) {
-                    usersService.getId(response?.res?.id!).then((data) => {
+                    serviceUsers.getId(response?.res?.id!).then((data) => {
                         setErrorCode("")
                         setToken({
                             ok: true,
@@ -96,6 +96,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
                             refreshToken: response?.res?.refreshToken!,
                             expires: response?.res?.expires!,
                             userId: response?.res?.id!,
+                            email: email!,
                         })
                         if (!data?.res?.profile) {
                             setVisible(true)
@@ -120,7 +121,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
                     setLoading(false)
                 }
             })
-    }, [inputValues, setVisible, changeAuth, setToken, setVisibleAndType])
+    }, [inputValues, setVisible, changeAuth, setToken, setVisibleAndType, email])
 
     useEffect(() => {
         if (inputRefs.current[0]) {

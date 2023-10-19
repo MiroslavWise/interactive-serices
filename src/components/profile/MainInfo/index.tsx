@@ -2,8 +2,10 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
+import { useMemo } from "react"
 
 import type { TMainInfo } from "./types/types"
+import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { BlockOther } from "./components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
@@ -11,24 +13,32 @@ import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { usePush } from "@/helpers/hooks/usePush"
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
 
-export const MainInfo: TMainInfo = ({ profile }) => {
+export const MainInfo: TMainInfo = ({ user }) => {
+    const { userId } = useAuth()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { handlePush } = usePush()
+
+    const geo: IAddressesResponse | null = useMemo(() => {
+        return (
+            user?.addresses?.find((item) => item?.addressType === "main") ||
+            null
+        )
+    }, [user?.addresses])
 
     return (
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.avatar}>
-                    {profile?.image?.attributes?.url ? (
+                    {user?.profile?.image?.attributes?.url ? (
                         <NextImageMotion
                             className={styles.photo}
-                            src={profile?.image?.attributes?.url!}
+                            src={user?.profile?.image?.attributes?.url!}
                             alt="avatar"
                             width={94}
                             height={94}
@@ -54,10 +64,12 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                     <div className={styles.titleAndButtons}>
                         <div className={styles.nameAndGeo}>
                             <h3>
-                                {profile?.firstName || "First"}{" "}
-                                {profile?.lastName || "Last"}
+                                {user?.profile?.firstName || "First"}{" "}
+                                {user?.profile?.lastName || "Last"}
                             </h3>
-                            <GeoTagging location="Арбат, Москва" />
+                            {geo ? (
+                                <GeoTagging location={geo?.additional} />
+                            ) : null}
                         </div>
                         <section className={styles.buttons}>
                             <ButtonFill
@@ -68,33 +80,51 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                             <ButtonsCircle
                                 src="/svg/message-dots-circle.svg"
                                 type="primary"
-                                onClick={() =>
-                                    handlePush(
-                                        `/messages?user=${profile.userId}`,
-                                    )
-                                }
+                                onClick={() => {
+                                    if (
+                                        Number(userId) === Number(user?.id) ||
+                                        !userId
+                                    ) {
+                                        return
+                                    }
+                                    handlePush(`/messages?user=${user?.id}`)
+                                }}
                             />
                             <ButtonsCircle
                                 src="/svg/repeat-01.svg"
                                 type="primary"
-                                onClick={() =>
-                                    dispatchVisibleBarter({
-                                        isVisible: true,
-                                        dataProfile: {
-                                            photo: profile?.image?.attributes
-                                                ?.url,
-                                            fullName: `${
-                                                profile?.firstName || ""
-                                            } ${profile?.lastName || ""}`,
-                                            idUser: profile?.userId!,
-                                        },
-                                    })
-                                }
+                                onClick={() => {
+                                    if (
+                                        Number(userId) === Number(user?.id) ||
+                                        !userId
+                                    ) {
+                                        return
+                                    }
+                                    if (userId) {
+                                        dispatchVisibleBarter({
+                                            isVisible: true,
+                                            dataProfile: {
+                                                photo: user?.profile?.image
+                                                    ?.attributes?.url,
+                                                fullName: `${
+                                                    user?.profile?.firstName ||
+                                                    ""
+                                                } ${
+                                                    user?.profile?.lastName ||
+                                                    ""
+                                                }`,
+                                                idUser: user?.profile?.userId!,
+                                            },
+                                        })
+                                    }
+                                }}
                             />
                         </section>
                     </div>
                     <div className={styles.descriptionAndOther}>
-                        <p className={styles.description}>{profile?.about}</p>
+                        <p className={styles.description}>
+                            {user?.profile?.about}
+                        </p>
                         <BlockOther
                             label="Достижения"
                             classNames={[styles.achievements]}
@@ -153,8 +183,8 @@ export const MainInfo: TMainInfo = ({ profile }) => {
                     <div className={styles.dividers} />
                     <p>
                         Присоединился{" "}
-                        {profile?.created
-                            ? dayjs(profile?.created).format("DD.MM.YYYY")
+                        {user?.profile?.created
+                            ? dayjs(user?.profile?.created).format("DD.MM.YYYY")
                             : null}
                     </p>
                 </div>

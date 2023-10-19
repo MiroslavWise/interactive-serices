@@ -1,43 +1,42 @@
 "use client"
 
-import { useId } from "react"
 import { useQuery } from "react-query"
 
 import type { TSentenceCards } from "./types/types"
 
-import { CardOffer } from "@/components/common/Card/Offer"
 import { MotionUL } from "@/components/common/Motion"
+import { CardOffer } from "@/components/common/Card/Offer"
 
-import { serviceProfile } from "@/services/profile"
+import { useAuth } from "@/store/hooks"
+import { serviceBarters } from "@/services/barters"
 
 import styles from "./styles/style.module.scss"
-import dayjs from "dayjs"
 
 export const SentenceCards: TSentenceCards = ({ value }) => {
-  const id = useId()
-  const { data, isLoading, error } = useQuery(["profiles"], () => serviceProfile.get({ limit: 20 }))
+    const { userId } = useAuth()
+    const { data } = useQuery({
+        queryFn: () =>
+            serviceBarters.get({
+                status: value.value,
+                user: userId!,
+                order: "DESC",
+            }),
+        queryKey: ["barters", `user=${userId}`, `status=${value.value}`],
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        enabled: !!userId,
+    })
 
-  return (
-    <MotionUL classNames={[styles.containerCards]}>
-      {
-        data?.ok
-          ? (
-            data?.res?.map(item => (
-              <CardOffer
-                key={`${item.userId}_card_offer`}
-                name={`${item.firstName || ""} ${item.lastName || ""}`}
-                chatId={item.userId}
-                photo={item?.image?.attributes?.url!}
-                finality={Math.random() < 0.5}
-                price={400}
-                date={item?.created ? dayjs(item.created).format("DD/MM/YYYY") : "Not Date"}
-                geo="Владимирский спуск, 15, Владимир"
-                rating={item.id}
-              {...item}
-            />
-            ))
-        ) : null
-      }
-    </MotionUL>
-  )
+    return (
+        <MotionUL classNames={[styles.containerCards]}>
+            {Array.isArray(data?.res)
+                ? data?.res?.map((item) => (
+                      <CardOffer
+                          key={`${item.id}-history-page-${item.status}`}
+                          {...item}
+                      />
+                  ))
+                : null}
+        </MotionUL>
+    )
 }

@@ -1,19 +1,29 @@
 "use client"
 
 import { useQuery } from "react-query"
+import { useEffect, type Dispatch, type SetStateAction } from "react"
 
 import { MotionUL } from "@/components/common/Motion"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
-export const Requests = () => {
+export const Requests = ({
+    setTotal,
+}: {
+    setTotal: Dispatch<SetStateAction<number>>
+}) => {
     const { data } = useQuery({
-        queryFn: () => serviceOffer.get({ provider: "request" }),
+        queryFn: () =>
+            serviceOffers.get({ provider: "request", order: "DESC" }),
         queryKey: ["offers", "provider=request"],
     })
+
+    useEffect(() => {
+        setTotal(data?.res?.length || 0)
+    }, [setTotal, data?.res])
 
     return (
         <MotionUL classNames={[styles.peoples, styles.requestsAndProposals]}>

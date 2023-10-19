@@ -60,19 +60,12 @@ export const ModalUpdateProfile = () => {
         setError,
         setValue,
         watch,
-    } = useForm<IValuesProfile>({
-        defaultValues: {
-            firstName: user?.firstName || "",
-            lastName: user?.lastName || "",
-            username: user?.username || "",
-            day: dateOfBirth.day,
-            month: dateOfBirth.month,
-            year: dateOfBirth.year,
-            email: email,
-        },
-    })
+    } = useForm<IValuesProfile>({})
 
     useEffect(() => {
+        if (email) {
+            setValue("email", email!)
+        }
         if (user) {
             setValue("firstName", user?.firstName)
             setValue("lastName", user?.lastName)
@@ -80,7 +73,6 @@ export const ModalUpdateProfile = () => {
             setValue("day", dateOfBirth.day)
             setValue("month", dateOfBirth.month)
             setValue("year", dateOfBirth.year)
-            setValue("email", email!)
             if (isMobile) {
                 setValue("about", user?.about || "")
             }
@@ -99,8 +91,11 @@ export const ModalUpdateProfile = () => {
             ).format("DD/MM/YYYY"),
             about: user?.about || "",
             enabled: true,
-            userId: Number(userId),
         }
+
+        // if (!profileId) {
+        //     data.userId = userId!
+        // }
 
         if (values.about) {
             data.about = values.about
@@ -115,10 +110,7 @@ export const ModalUpdateProfile = () => {
                 console.log("response ok: ", response?.[0])
                 if (response[0]?.error?.code === 409)
                     return setError("username", { message: "user exists" })
-                if (
-                    response[0]?.error?.code === 401 ||
-                    response[0]?.error?.code === 400
-                ) {
+                if (response[0]?.error?.code === 401) {
                     setVisible(false)
                     out()
                     return
@@ -134,13 +126,12 @@ export const ModalUpdateProfile = () => {
                                 const data: IPostProfileData = {
                                     username: values.username,
                                     imageId: uploadResponse.res?.id,
-                                    userId: Number(userId),
                                 }
                                 serviceProfile
                                     .patch(data, response?.[0]?.res?.id!)
                                     .then((responsePatch) => {
                                         if (
-                                            [400, 401].includes(
+                                            [401].includes(
                                                 responsePatch?.error?.code!,
                                             )
                                         ) {
@@ -211,7 +202,7 @@ export const ModalUpdateProfile = () => {
         <div className={cx(styles.wrapper, isVisible && styles.active)}>
             <div className={styles.container}>
                 <h3 className={styles.updateProfileTitle}>
-                    {profileId ? "Редактировать профиль" : "Создать профиль"}{" "}
+                    Редактировать профиль
                 </h3>
                 <ul>
                     <form onSubmit={handleSubmit(onSubmit)}>

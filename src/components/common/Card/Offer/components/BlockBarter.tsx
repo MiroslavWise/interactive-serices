@@ -1,29 +1,29 @@
 import Image from "next/image"
+import { memo } from "react"
 
 import type { TBlockBarter } from "./types/types"
 
 import { BadgeServices } from "@/components/common/Badge"
 
+import { useOffersCategories } from "@/store/state/useOffersCategories"
+
 import styles from "./styles/style.module.scss"
 
-export const BlockBarter: TBlockBarter = ({ }) => {
+const $BlockBarter: TBlockBarter = ({ initiator, consigner }) => {
+    const { categories } = useOffersCategories()
 
-  return (
-    <section className={styles.contentBarter}>
-      <BadgeServices
-        photo="/mocks/Nail.png"
-        label="Ногти"
-      />
-      <Image
-        src="/icons/mobile/regular/sharing-regular.svg"
-        alt="barter"
-        width={24}
-        height={24}
-      />
-      <BadgeServices
-        photo="/mocks/hair.png"
-        label="Волосы"
-      />
-    </section>
-  )
+    return (
+        <section className={styles.contentBarter}>
+            <BadgeServices {...initiator!} isClickable />
+            <Image
+                src="/icons/mobile/regular/sharing-regular.svg"
+                alt="barter"
+                width={24}
+                height={24}
+            />
+            <BadgeServices {...consigner!} isClickable />
+        </section>
+    )
 }
+
+export const BlockBarter = memo($BlockBarter)

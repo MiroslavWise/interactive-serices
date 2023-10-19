@@ -1,13 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import {
-    useEffect,
-    useState,
-    useReducer,
-    memo,
-    useInsertionEffect,
-} from "react"
+import { useState, memo, useInsertionEffect } from "react"
 import { isMobile } from "react-device-detect"
 import { Map } from "@pbe/react-yandex-maps"
 
@@ -19,6 +13,7 @@ import { Notifications } from "./Notifications"
 import { ListPlacemark } from "./ObjectsMap"
 import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
+import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 const BalloonPlaceMark = dynamic(() => import("./BalloonPlaceMark"), {
     ssr: false,
 })
@@ -27,10 +22,11 @@ import { useAuth } from "@/store/hooks"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
-import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
-import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
+
+const COORD = [55.75, 37.67]
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
@@ -39,16 +35,20 @@ const YandexMap: TYandexMap = ({}) => {
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
-    const [coord, setCoord] = useState({
-        x: "50%",
-        y: "50%",
-    })
+
+    console.log("coordinates: ", coordinates)
 
     useInsertionEffect(() => {
-        if (!!coordinatesAddresses && coordinatesAddresses?.length) {
-            dispatchMapCoordinates({ coordinates: coordinatesAddresses[0]! })
+        if (!coordinates) {
+            if (!!coordinatesAddresses && coordinatesAddresses?.length) {
+                dispatchMapCoordinates({
+                    coordinates: coordinatesAddresses[0]!,
+                })
+            } else {
+                dispatchMapCoordinates({ coordinates: COORD })
+            }
         }
-    }, [coordinatesAddresses])
+    }, [coordinatesAddresses, coordinates])
 
     function onContextMenu(e: any) {
         if (!userId) {
@@ -98,21 +98,36 @@ const YandexMap: TYandexMap = ({}) => {
             if (hash) data.hash = hash
             setAddressInit(data)
         })
-        const x = e?._sourceEvent?.originalEvent?.clientPixels?.[0]
-            ? e?._sourceEvent?.originalEvent?.clientPixels?.[0]
-            : "50%"
-        const y = e?._sourceEvent?.originalEvent?.clientPixels?.[1]
-            ? e?._sourceEvent?.originalEvent?.clientPixels?.[1]
-            : "50%"
-        setCoord({
-            x,
-            y,
-        })
+    }
+
+    function handleAddressLocation() {
+        if ("geolocation" in navigator) {
+            navigator?.geolocation?.getCurrentPosition(
+                (position) => {
+                    let latitude = position?.coords?.latitude
+                    let longitude = position?.coords?.longitude
+
+                    if (latitude && longitude) {
+                        dispatchMapCoordinates({
+                            coordinates: [latitude, longitude],
+                        })
+                    }
+                },
+                (error) => {
+                    console.log("error location: ", error)
+                },
+            )
+        } else {
+            console.error("Вы не дали доступ к геолокации")
+        }
     }
 
     return (
         <>
-            <Header setVisibleNotification={setVisibleNotification} />
+            <Header
+                setVisibleNotification={setVisibleNotification}
+                handleAddressLocation={handleAddressLocation}
+            />
             {isMobile ? (
                 <Notifications
                     visibleNotification={visibleNotification}
@@ -144,7 +159,6 @@ const YandexMap: TYandexMap = ({}) => {
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
                 refCreate={refCreate}
-                coord={coord}
                 addressInit={addressInit}
             />
             <MapCardNews />

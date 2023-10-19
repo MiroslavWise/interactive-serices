@@ -51,19 +51,22 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
         }
 
         const dataOffer: IResponseOffers = offer!
-
-        dispatchVisibleBarter({
-            isVisible: true,
-            dataProfile: dataProfile,
-            dataOffer: dataOffer,
-        })
+        if (userId) {
+            dispatchVisibleBarter({
+                isVisible: true,
+                dataProfile: dataProfile,
+                dataOffer: dataOffer,
+            })
+        }
     }
 
     function handleHelp() {
         if (author?.idUser === userId) {
             return
         }
-        handlePush(`/messages?user=${author?.idUser!}`)
+        if (userId) {
+            handlePush(`/messages?user=${author?.idUser!}`)
+        }
     }
 
     function handleGeo() {

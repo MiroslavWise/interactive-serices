@@ -1,14 +1,10 @@
-import { alertBallon } from "../Balloons/alert"
-import { offerBallon } from "../Balloons/offer"
-import { discussionBallon } from "../Balloons/discussion"
+import type { TTypeProvider } from "@/services/file-upload/types"
 import type {
     IAlertBalloon,
     IOfferBallon,
     IDiscussionBallon,
     IRequestBallon,
-} from "../Balloons/types/types"
-import type { TTypeProvider } from "@/services/file-upload/types"
-import { requestBallon } from "../Balloons/request"
+} from "./types"
 import { DispatchWithoutAction } from "react"
 
 export const TYPE_ICON: Record<
@@ -35,26 +31,8 @@ export const TYPE_ICON: Record<
         default: "/map/default-discussion.png",
         active: "/map/default-discussion-hover.png",
     },
-    "offer-request": {
+    barter: {
         default: "",
         active: "",
     },
-}
-
-export const BALLON_TYPE: Record<
-    TTypeProvider,
-    (
-        values: IAlertBalloon &
-            IOfferBallon &
-            IDiscussionBallon &
-            IRequestBallon &
-            DispatchWithoutAction,
-    ) => string
-> = {
-    request: requestBallon,
-    profile: () => "",
-    offer: offerBallon,
-    alert: alertBallon,
-    discussion: discussionBallon,
-    "offer-request": (value: IOfferBallon) => "",
 }

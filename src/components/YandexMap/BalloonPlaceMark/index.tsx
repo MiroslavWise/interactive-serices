@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useMemo, useRef, memo } from "react"
+import { useMemo, useRef, memo, useEffect } from "react"
 
 import type { TBalloonPlaceMark } from "./types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"

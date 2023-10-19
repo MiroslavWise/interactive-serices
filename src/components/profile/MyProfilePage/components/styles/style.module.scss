@@ -90,6 +90,7 @@
 //Container tag and button
 
 .containerTagAndButton {
+    position: relative;
     width: 100%;
     display: inline-flex;
     align-items: center;
@@ -98,9 +99,27 @@
 
     h4 {
         @include h4;
+
+        & > span {
+            cursor: pointer;
+
+            &[data-active="true"] {
+                color: var(--primary-500);
+            }
+        }
     }
 
-    &.mobile {
+    .widthButton {
+        max-width: 180px;
+        width: 100%;
+        height: 32px;
+
+        & > span {
+            font-size: 14px;
+        }
+    }
+
+    &[data-mobile="true"] {
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -155,8 +174,7 @@
         width: 100%;
         margin-bottom: 16px;
     }
-
-    &.mobile {
+    &[data-mobile="true"] {
         height: auto;
         display: flex;
         flex-direction: column;

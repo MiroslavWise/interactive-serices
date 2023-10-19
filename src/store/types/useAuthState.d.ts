@@ -5,18 +5,19 @@ export type TAuthSuffix = "AuthJWT"
 export type TAuthPostfix = "RefreshToken" | "Token" | "UserId"
 export type ISetAction = (
     partial:
-        | IUseAuth
-        | Partial<IUseAuth>
-        | ((state: IUseAuth) => IUseAuth | Partial<IUseAuth>),
+        | TUseAuth
+        | Partial<TUseAuth>
+        | ((state: TUseAuth) => TUseAuth | Partial<TUseAuth>),
     replace?: boolean | undefined,
 ) => void
-export type IGetAction = () => IUseAuth
+export type IGetAction = () => TUseAuth
 interface ISetToken {
     token: string
     refreshToken: string
     userId: number
     expires: number
     ok: boolean
+    email: string
 }
 
 interface IUser {
@@ -45,7 +46,7 @@ export interface IImageData {
     }
 }
 
-export interface IUseAuth {
+export interface IAuthState {
     email: undefined | string
     expires: undefined | number
     token: string | undefined
@@ -56,11 +57,14 @@ export interface IUseAuth {
     user: IUser | undefined
     imageProfile: IImageData | undefined
     createdUser: string | undefined | Date
-    addresses: IAddressesResponse[]
+    addresses: IAddressesResponse[] | undefined
+}
 
+export interface IAuthAction {
     refresh: DispatchWithoutAction
     getUser: Dispatch<(IUser & { profileId: number }) | null>
     changeAuth: DispatchWithoutAction
     setToken: Dispatch<ISetToken>
     signOut: DispatchWithoutAction
 }
+export type TUseAuth = IAuthState & IAuthAction

@@ -13,17 +13,13 @@ import { AddingPhotos } from "./components/AddingPhotos"
 import { ServiceSelection } from "./components/ServiceSelection"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
-import {
-    transliterateAndReplace,
-    useAddress,
-    useCloseCreateOptions,
-} from "@/helpers"
+import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 import { serviceAddresses } from "@/services/addresses"
@@ -57,7 +53,7 @@ export const ModalAddOffer = () => {
     }
 
     function postData(data: IPostOffers) {
-        serviceOffer.post(data).then((response) => {
+        serviceOffers.post(data).then((response) => {
             if (response.ok) {
                 if (response?.res?.id!) {
                     setId(Number(response?.res?.id!))
@@ -70,7 +66,7 @@ export const ModalAddOffer = () => {
     }
 
     function handleNext() {
-        if (step === 1) {
+        if (step === 1 && valueCategory?.id && (adressId || addressInit)) {
             const data: IPostOffers = {
                 provider: `offer`,
                 title: text!,
@@ -81,12 +77,23 @@ export const ModalAddOffer = () => {
                 desired: true,
             }
             if (addressInit) {
-                serviceAddresses.post(addressInit!).then((response) => {
-                    if (response.ok) {
-                        if (response.res) {
-                            data.addresses = [Number(response?.res?.id)]
-                            postData(data)
-                        }
+                serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                    if (!response?.res?.id) {
+                        serviceAddresses
+                            .post(addressInit!)
+                            .then((response_) => {
+                                if (response_.ok) {
+                                    if (response_.res) {
+                                        data.addresses = [
+                                            Number(response_?.res?.id),
+                                        ]
+                                        postData(data)
+                                    }
+                                }
+                            })
+                    } else {
+                        data.addresses = [Number(response?.res?.id)]
+                        postData(data)
                     }
                 })
             } else {
@@ -95,8 +102,9 @@ export const ModalAddOffer = () => {
                     postData(data)
                 }
             }
+            return
         }
-        if (step === 2) {
+        if (step === 2 && id) {
             const data: IPatchOffers = {}
             data.images = []
             Promise.all(
@@ -109,7 +117,6 @@ export const ModalAddOffer = () => {
                 ),
             ).then((responses) => {
                 console.log("responses: ", responses)
-
                 responses.forEach((item) => {
                     if (item.ok) {
                         if (item.res) {
@@ -117,11 +124,11 @@ export const ModalAddOffer = () => {
                         }
                     }
                 })
-
-                serviceOffer.patch(data, id!).then(() => {
+                serviceOffers.patch(data, id!).then(() => {
                     next()
                 })
             })
+            return
         }
     }
 
@@ -157,7 +164,7 @@ export const ModalAddOffer = () => {
                         handleClick={close}
                     />
                     <ButtonFill
-                        label="Следующий"
+                        label="Далее"
                         type="primary"
                         classNames={styles.button}
                         handleClick={handleNext}

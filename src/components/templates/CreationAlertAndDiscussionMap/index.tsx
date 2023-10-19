@@ -22,10 +22,9 @@ import { useCreateRequest } from "@/store/state/useCreateRequest"
 export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     refCreate,
     isOpen,
-    coord,
     addressInit,
 }) => {
-    const { setVisibleAndType } = useAddCreateModal()
+    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { setAddressInit: setAddressInitAlert } = useCreateAlert()
     const { setAddressInit: setAddressInitDiscussion } = useCreateDiscussion()
@@ -61,10 +60,6 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
                 isMobile && styles.mobile,
             )}
             ref={refCreate}
-            style={{
-                top: coord.y,
-                left: coord.x,
-            }}
         >
             <h3>Я хочу создать</h3>
             <section>

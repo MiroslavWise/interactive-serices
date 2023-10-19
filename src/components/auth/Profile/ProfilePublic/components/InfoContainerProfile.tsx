@@ -18,7 +18,7 @@ import styles from "./styles/style.module.scss"
 export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
     const { userId } = useAuth()
     const { handlePush } = usePush()
-    const { dispatchVisibleBarter: setIsVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter } = useVisibleModalBarter()
     return (
         <section className={styles.infoContainerProfile}>
             <div className={styles.avatarAndAchievements}>
@@ -90,7 +90,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
                             type="primary"
                             onClick={() => {
                                 if (userId) {
-                                    setIsVisibleBarter({
+                                    dispatchVisibleBarter({
                                         isVisible: true,
                                         dataProfile: {
                                             photo: profile?.photo,

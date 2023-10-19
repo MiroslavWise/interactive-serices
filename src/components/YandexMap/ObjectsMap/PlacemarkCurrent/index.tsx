@@ -1,6 +1,6 @@
 "use client"
 
-import { type FC, memo } from "react"
+import { type FC, memo, useEffect } from "react"
 import { Placemark } from "@pbe/react-yandex-maps"
 
 import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
@@ -14,6 +14,7 @@ const PlacemarkCurrentStates: TPlacemarkCurrent = ({
     id,
     idUser,
     provider,
+    dispatch,
 }) => {
     return coordinates.map((item) => (
         <Place
@@ -23,6 +24,7 @@ const PlacemarkCurrentStates: TPlacemarkCurrent = ({
             id={id}
             idUser={idUser}
             title={title}
+            dispatch={dispatch}
         />
     ))
 }
@@ -30,8 +32,10 @@ export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
 
 const PlaceState: FC<
     Partial<IPlacemarkCurrent> & { item: [number, number] }
-> = ({ title, id, item, provider, idUser }) => {
-    const { dispatch } = useBalloonCard()
+> = ({ title, id, item, provider, idUser, dispatch }) => {
+    useEffect(() => {
+        console.log("dispatch: ", dispatch)
+    }, [dispatch])
 
     return (
         <Placemark
@@ -47,12 +51,14 @@ const PlaceState: FC<
                 zIndexActive: 50,
             }}
             onClick={(e: any) => {
-                dispatch({
-                    visible: true,
-                    type: provider!,
-                    id: Number(id),
-                    idUser: Number(idUser),
-                })
+                if (dispatch) {
+                    dispatch({
+                        visible: true,
+                        type: provider!,
+                        id: Number(id),
+                        idUser: Number(idUser),
+                    })
+                }
             }}
         />
     )

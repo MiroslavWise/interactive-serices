@@ -1,30 +1,71 @@
 "use client"
 
-// import Image from "next/image"
+import { useState } from "react"
+import Image from "next/image"
 import { isMobile } from "react-device-detect"
 
 import type { TContainerTagAndButton } from "./types/types"
 
-// import { ButtonDefault } from "@/components/common/Buttons"
+import { ButtonFill } from "@/components/common/Buttons"
+import { SpoilerNotAdress } from "../../NavBar/components/SpoilerNotAdress"
 
-import { cx } from "@/lib/cx"
+import { useAddress } from "@/helpers"
+import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {
+export const ContainerTagAndButton: TContainerTagAndButton = ({
+    isOfferOrRequest,
+    setIsOfferOrRequest,
+}) => {
+    const [active, setActive] = useState(false)
+    const { setIsVisibleNewServiceBarterRequests } =
+        useVisibleNewServiceBarterRequests()
+    const { isAddresses } = useAddress()
+
+    function handle(value: "offer" | "request") {
+        setIsOfferOrRequest(value)
+    }
+
     return (
-        <div
-            className={cx(
-                styles.containerTagAndButton,
-                isMobile && styles.mobile,
-            )}
-        >
-            <h4>Мои предложения</h4>
-            {/* <ButtonDefault
-        prefix={<Image src="/icons/fill/trash.svg" alt="trash" width={16} height={16} />}
-        label="Удалить все мои предложения"
-        classNames={cx(styles.classNamesButton)}
-      /> */}
+        <div data-mobile={isMobile} className={styles.containerTagAndButton}>
+            <h4>
+                Мои{" "}
+                <span
+                    data-active={isOfferOrRequest === "offer"}
+                    onClick={() => handle("offer")}
+                >
+                    предложения
+                </span>{" "}
+                и{" "}
+                <span
+                    data-active={isOfferOrRequest === "request"}
+                    onClick={() => handle("request")}
+                >
+                    запросы
+                </span>
+            </h4>
+            <ButtonFill
+                type="primary"
+                label="Добавить"
+                classNames={styles.widthButton}
+                suffix={
+                    <Image
+                        src="/svg/plus.svg"
+                        alt="plus"
+                        width={16}
+                        height={16}
+                    />
+                }
+                handleClick={() => {
+                    if (isAddresses) {
+                        setIsVisibleNewServiceBarterRequests(true)
+                    } else {
+                        setActive(true)
+                    }
+                }}
+            />
+            <SpoilerNotAdress {...{ active, setActive }} />
         </div>
     )
 }

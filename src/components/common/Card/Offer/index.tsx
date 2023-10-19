@@ -1,34 +1,104 @@
+"use client"
+
+import dayjs from "dayjs"
+import { useMemo, useState } from "react"
 import Image from "next/image"
+import { useQueries, useQuery } from "react-query"
 
 import type { TCardOffer } from "./types"
 
 import { MotionLI } from "@/components/common/Motion"
 import { BlockBarter } from "./components/BlockBarter"
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
+import {
+    ButtonCircleGradient,
+    ButtonDefault,
+} from "@/components/common/Buttons"
 import { BlockTitle } from "./components/BlockTitle"
 
+import { useAuth } from "@/store/hooks"
+import { serviceUsers } from "@/services/users"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
+import { serviceBarters } from "@/services/barters"
+import { serviceTestimonials } from "@/services/testimonials"
 
 export const CardOffer: TCardOffer = ({
-    name,
-    photo,
-    chatId,
-    finality,
-    price,
-    date,
-    geo,
-    rating,
-    proposals,
+    id,
+    parentId,
+    consignedId,
+    thread,
+    initialId,
+    title,
+    imageId,
+    userId,
+    updatedById,
+    provider,
+    created,
+    updated,
+    timestamp,
+    status,
+    initiator,
+    consigner,
+    refetch,
 }) => {
+    const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
+    const [loading, setLoading] = useState(false)
+
+    const idUser = useMemo(() => {
+        if (!initiator || !consigner) return null
+        return Number(initiator?.userId) === Number(myUserId)
+            ? Number(consigner?.userId)
+            : Number(initiator?.userId)
+    }, [consigner, initiator, myUserId])
+
+    const [{ data: dataUser }] = useQueries([
+        {
+            queryFn: () => serviceUsers.getId(idUser!),
+            queryKey: ["user", idUser],
+            refetchOnMount: false,
+            enabled: !!idUser,
+        },
+    ])
+
+    function handleChatBarter() {
+        if (!loading) {
+            setLoading(true)
+            if (!!thread?.id) {
+                handlePush(`/messages?thread=${thread?.id}`)
+            } else {
+                handlePush(`/messages?barter-id=${id}-${idUser}`)
+            }
+        }
+    }
+
+    function handleCancel() {
+        if (!loading) {
+            setLoading(true)
+            serviceBarters
+                .patch(
+                    {
+                        status: "canceled",
+                        updatedById: myUserId!,
+                    },
+                    id!,
+                )
+                .then(() => {
+                    requestAnimationFrame(() => {
+                        if (refetch) {
+                            refetch()
+                        }
+                    })
+                })
+        }
+    }
 
     return (
         <MotionLI classNames={[styles.container]}>
             <section className={styles.main}>
-                <BlockTitle {...{ name, photo, geo, price, rating }} />
-                <BlockBarter />
+                <BlockTitle {...dataUser?.res!} />
+                <BlockBarter {...{ consigner, initiator }} />
             </section>
             <footer>
                 <div className={styles.date}>
@@ -38,36 +108,23 @@ export const CardOffer: TCardOffer = ({
                         width={16}
                         height={16}
                     />
-                    <p>{date}</p>
+                    <p>{dayjs(timestamp!).format("DD/MM/YYYY")}</p>
                 </div>
-                {proposals ? (
-                    <ButtonFill
-                        label="посмотреть детали"
-                        type="optional_pink"
-                        classNames={styles.button}
-                    />
-                ) : (
-                    <div className={styles.end}>
-                        {finality ? (
-                            <div className={styles.verification}>
-                                <Image
-                                    src="/svg/success.svg"
-                                    alt="finality"
-                                    width={17}
-                                    height={17}
-                                />
-                            </div>
-                        ) : null}
-                        <ButtonCircleGradient
-                            type="primary"
-                            icon="/svg/message-dots-circle.svg"
-                            size={16}
-                            handleClick={() =>
-                                handlePush(`/messages?user=${chatId}`)
-                            }
+                <div className={styles.end}>
+                    {status === "initiated" && myUserId !== userId ? (
+                        <ButtonDefault
+                            label="Отклонить"
+                            handleClick={handleCancel}
+                            classNames={styles.button}
                         />
-                    </div>
-                )}
+                    ) : null}
+                    <ButtonCircleGradient
+                        type="primary"
+                        icon="/svg/message-dots-circle.svg"
+                        size={16}
+                        handleClick={handleChatBarter}
+                    />
+                </div>
             </footer>
         </MotionLI>
     )

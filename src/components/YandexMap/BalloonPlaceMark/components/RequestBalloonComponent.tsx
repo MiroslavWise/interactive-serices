@@ -9,25 +9,26 @@ import type { TRequestBalloonComponent } from "../types/types"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { daysAgo, usePush } from "@/helpers"
-import { serviceOffer } from "@/services/offers"
+import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
-import { useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({
     stateBalloon,
 }) => {
+    const { userId } = useAuth()
     const { handlePush } = usePush()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
-            queryFn: () => serviceOffer.getId(Number(stateBalloon.id!)),
+            queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
             queryKey: [
                 "offers",
-                stateBalloon.id!,
+                `offer=${stateBalloon.id!}`,
                 `provider=${stateBalloon.type}`,
             ],
             refetchOnMount: false,
@@ -49,17 +50,19 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
     }, [categories, data?.res])
 
     function handleWantToHelp() {
-        dispatchVisibleBarter({
-            isVisible: true,
-            dataOffer: data?.res!,
-            dataProfile: {
-                photo: dataProfile?.res?.image?.attributes?.url!,
-                fullName: `${dataProfile?.res?.firstName || ""} ${
-                    dataProfile?.res?.lastName || ""
-                }`,
-                idUser: stateBalloon?.idUser!,
-            },
-        })
+        if (userId) {
+            dispatchVisibleBarter({
+                isVisible: true,
+                dataOffer: data?.res!,
+                dataProfile: {
+                    photo: dataProfile?.res?.image?.attributes?.url!,
+                    fullName: `${dataProfile?.res?.firstName || ""} ${
+                        dataProfile?.res?.lastName || ""
+                    }`,
+                    idUser: stateBalloon?.idUser!,
+                },
+            })
+        }
     }
 
     return (
@@ -142,24 +145,26 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                         ))}
                     </ul>
                 ) : null}
-                <div data-footer-buttons>
-                    <button data-request onClick={handleWantToHelp}>
-                        <span>Хочу помочь!</span>
-                    </button>
-                    <Image
-                        src="/svg/chat-bubbles.svg"
-                        alt="chat-bubbles"
-                        width={32}
-                        height={32}
-                        onClick={() => {
-                            if (stateBalloon.idUser) {
-                                handlePush(
-                                    `/messages?user=${stateBalloon?.idUser!}`,
-                                )
-                            }
-                        }}
-                    />
-                </div>
+                {data && data?.res?.userId !== userId && userId ? (
+                    <div data-footer-buttons>
+                        <button data-request onClick={handleWantToHelp}>
+                            <span>Хочу помочь!</span>
+                        </button>
+                        <Image
+                            src="/svg/chat-bubbles.svg"
+                            alt="chat-bubbles"
+                            width={32}
+                            height={32}
+                            onClick={() => {
+                                if (stateBalloon.idUser) {
+                                    handlePush(
+                                        `/messages?user=${stateBalloon?.idUser!}`,
+                                    )
+                                }
+                            }}
+                        />
+                    </div>
+                ) : null}
             </div>
         </>
     )

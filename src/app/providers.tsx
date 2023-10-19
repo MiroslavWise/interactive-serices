@@ -12,6 +12,7 @@ import {
     WelcomeModal,
     Barter,
     CreateNewOptionModal,
+    AboutSheiraPopup,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import {
@@ -21,7 +22,6 @@ import {
     Glasses,
 } from "@/components/layout"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
-import { OnSuccessToastify } from "@/components/common/Toastify"
 const PhotoPreviewModal = dynamic(
     () => import("../components/templates/PhotoPreviewModal"),
     { ssr: false },
@@ -33,20 +33,24 @@ import {
     NextThemesProvider,
     ReduxProvider,
 } from "@/context"
+import { CompletionTransaction } from "@/components/templates/CompletionTransaction"
 
+import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
-import { useMessages } from "@/store/state/useMessages"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
+
+import { useToast } from "@/helpers/hooks/useToast"
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             refetchOnWindowFocus: false,
             refetchOnMount: false,
-            refetchInterval: 5 * 60 * 1000,
+            refetchInterval: 30 * 60 * 1000,
+            cacheTime: 30 * 60 * 1000,
         },
     },
 })
@@ -54,10 +58,11 @@ const queryClient = new QueryClient({
 export default function Providers({ children }: { children: ReactNode }) {
     const { token, userId, refresh } = useAuth()
     const searchParams = useSearchParams()
+    const { handleReplace } = usePush()
+    const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-    const { resetMessages } = useMessages()
     const { getCategories } = useOffersCategories()
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
@@ -78,20 +83,15 @@ export default function Providers({ children }: { children: ReactNode }) {
             RegistrationService.verification({ code: verifyToken! }).then(
                 (response) => {
                     if (response.ok) {
-                        OnSuccessToastify(
+                        on(
                             "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
                         )
+                        handleReplace("/")
                     }
                 },
             )
         }
-    }, [verifyToken])
-
-    useEffect(() => {
-        if (typeof token === "undefined" && !token) {
-            resetMessages()
-        }
-    }, [token, resetMessages])
+    }, [verifyToken, handleReplace, on])
 
     useEffect(() => {
         if (offersCategories === false) {
@@ -121,6 +121,8 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 {token && userId ? (
                                     <ModalUpdateProfile />
                                 ) : null}
+                                <AboutSheiraPopup />
+                                <CompletionTransaction />
                             </YMapsProvider>
                         </WebSocketProvider>
                     </ReduxProvider>
