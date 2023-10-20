@@ -10,8 +10,6 @@ import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import { serviceOffers } from "@/services/offers"
 
-import styles from "./style.module.scss"
-
 export default function News() {
     const { data } = useQuery({
         queryKey: ["offers"],
@@ -27,7 +25,7 @@ export default function News() {
     }, [data?.res])
 
     return isMobile ? (
-        <div className={styles.wrapper}>
+        <div className="page-news-page">
             <header>
                 <p>Популярное рядом</p>
                 <div data-total>{items?.length || 0}</div>

@@ -13,11 +13,7 @@ import { DiscussionBalloonComponent } from "./components/DiscussionBalloonCompon
 import { AlertBalloonComponent } from "./components/AlertBalloonComponent"
 import { RequestBalloonComponent } from "./components/RequestBalloonComponent"
 
-import { cx } from "@/lib/cx"
-
-import styles from "./styles/styles.module.scss"
-
-const BalloonPlaceMark: TBalloonPlaceMark = ({ }) => {
+const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
     const { visible, id, idUser, type, dispatch } = useBalloonCard()
 
@@ -57,7 +53,8 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({ }) => {
 
     return (
         <div
-            className={cx(styles.wrapper, visible && styles.active)}
+            className="modal-balloon-modal"
+            data-active={visible}
             onClick={(e) => {
                 e.stopPropagation()
                 dispatch({ visible: false })

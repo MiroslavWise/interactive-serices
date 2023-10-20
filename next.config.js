@@ -17,9 +17,9 @@ module.exports = {
         deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
         domains: [process.env.NEXT_PUBLIC_DOMAIN],
     },
-    sassOptions: {
-        includePaths: [path.join(__dirname, "scss/init")],
-    },
+    // sassOptions: {
+    //     includePaths: [path.join(__dirname, "scss/init")],
+    // },
     // plugins: [
     //     new webpack.IgnorePlugin({
     //         checkResource(resourse) {
