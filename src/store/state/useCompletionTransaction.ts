@@ -6,7 +6,12 @@ export const useCompletionTransaction = create<TUseCompletionTransaction>(
     (set, get) => ({
         visible: false,
 
-        dispatchCompletion({ visible, dataBarter, dataUser, cd }) {
+        dispatchCompletion({ visible, dataBarter, dataUser, cd, threadId }) {
+            if (typeof threadId !== "undefined") {
+                set({
+                    threadId: threadId,
+                })
+            }
             if (visible && !!dataBarter && !!dataUser) {
                 set({
                     visible,
@@ -20,6 +25,7 @@ export const useCompletionTransaction = create<TUseCompletionTransaction>(
                     visible: false,
                     dataBarter: undefined,
                     dataUser: undefined,
+                    threadId: undefined,
                 })
             }
         },

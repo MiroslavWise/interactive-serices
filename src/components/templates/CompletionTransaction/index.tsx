@@ -12,12 +12,13 @@ import { ButtonClose, ButtonFill } from "@/components/common/Buttons"
 
 import { useAuth } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
+import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { serviceTestimonials } from "@/services/testimonials"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/style.module.scss"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 export const CompletionTransaction = () => {
     const { userId } = useAuth()
@@ -34,12 +35,17 @@ export const CompletionTransaction = () => {
             rating: 5,
         },
     })
-    const { visible, dataBarter, dataUser, dispatchCompletion } =
+    const { visible, dataBarter, dataUser, dispatchCompletion, threadId } =
         useCompletionTransaction()
 
     const { refetch } = useQuery({
         queryFn: () => serviceBarters.getId(dataBarter?.id!),
         queryKey: ["barters", `id=${dataBarter?.id!}`],
+        enabled: false,
+    })
+    const { refetch: refetchThreads } = useQuery({
+        queryFn: () => serviceThreads.getId(threadId!),
+        queryKey: ["threads", `user=${userId}`, `id=${threadId}`],
         enabled: false,
     })
 
@@ -75,8 +81,9 @@ export const CompletionTransaction = () => {
             dataBarter?.initiator?.userId === userId
                 ? dataBarter?.consignedId
                 : dataBarter?.initialId
-        serviceTestimonials
-            .post({
+
+        Promise.all([
+            serviceTestimonials.post({
                 userId: userId!,
                 targetId: idOffer!,
                 provider: "offer",
@@ -85,11 +92,20 @@ export const CompletionTransaction = () => {
                 message: values.message,
                 status: "published",
                 enabled: true,
-            })
-            .then((response) => {
-                console.log("serviceTestimonials response: ", response)
+            }),
+            serviceThreads.patch(
+                {
+                    title: "completed",
+                    enabled: false,
+                },
+                threadId!,
+            ),
+        ]).then(async (responses) => {
+            await refetchThreads()
+            if (responses[0]) {
+                console.log("serviceTestimonials response: ", responses[0])
                 if (
-                    response?.ok &&
+                    responses[0]?.ok &&
                     !["completed", "destroyed"].includes(dataBarter?.status!)
                 ) {
                     requestAnimationFrame(() => {
@@ -118,13 +134,15 @@ export const CompletionTransaction = () => {
                                     refetch().finally(() => {
                                         refetchTestimonials()
                                         reset()
-                                        dispatchCompletion({ visible: false })
+                                        dispatchCompletion({
+                                            visible: false,
+                                        })
                                     })
                                 })
                             })
                     })
                 } else {
-                    if (response?.ok) {
+                    if (responses[0]?.ok) {
                         on(
                             `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
                             "barter",
@@ -143,7 +161,8 @@ export const CompletionTransaction = () => {
                         })
                     })
                 }
-            })
+            }
+        })
     }
 
     const onSubmit = handleSubmit(submit)
@@ -168,6 +187,10 @@ export const CompletionTransaction = () => {
                         {dataUser?.profile?.lastName}
                     </span>
                 </h2>
+                <h5>
+                    Внимание!!! Завершая бартер, вы автоматически удалите чат.
+                    Ваш собеседник сможет оставить уже только отзыв
+                </h5>
                 <section>
                     <div data-groups>
                         <TextArea

@@ -1,10 +1,12 @@
 "use client"
 
+import { motion } from "framer-motion"
+import { isMobile } from "react-device-detect"
+
 import { Item } from "./components/Item"
 import { ButtonClose } from "@/components/common/Buttons"
 import { Glasses } from "../NewServicesBanner/components/Glasses"
 
-import { cx } from "@/lib/cx"
 import { NEW_CREATE_REQUESTS } from "./constants"
 import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
 
@@ -16,18 +18,23 @@ export function NewServiceBarterRequests() {
         setIsVisibleNewServiceBarterRequests,
     } = useVisibleNewServiceBarterRequests()
 
-    return (
+    return isVisibleNewServiceBarterRequests ? (
         <div
-            className={cx(
-                styles.wrapper,
-                isVisibleNewServiceBarterRequests && styles.active,
-            )}
+            className={styles.wrapper}
+            data-mobile={isMobile}
+            data-active={isVisibleNewServiceBarterRequests}
         >
-            <div className={styles.container}>
-                <h4>
+            <motion.div
+                initial={{ opacity: 0, visibility: "hidden" }}
+                animate={{ opacity: 1, visibility: "visible" }}
+                exit={{ opacity: 0, visibility: "hidden" }}
+                transition={{ duration: 0.5 }}
+                data-container
+            >
+                <h3>
                     Вы можете предложить услугу или попросить сообщество помочь
                     вам в чем-то. Просто попробуйте!
-                </h4>
+                </h3>
                 <ul>
                     {NEW_CREATE_REQUESTS.map((item) => (
                         <Item key={`${item.imageSrc}-requests`} {...item} />
@@ -41,7 +48,7 @@ export function NewServiceBarterRequests() {
                     }}
                 />
                 <Glasses />
-            </div>
+            </motion.div>
         </div>
-    )
+    ) : null
 }

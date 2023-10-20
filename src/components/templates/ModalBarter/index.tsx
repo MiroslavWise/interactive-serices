@@ -20,13 +20,15 @@ import { serviceBarters } from "@/services/barters"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import { cx } from "@/lib/cx"
+import { useToast } from "@/helpers/hooks/useToast"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 import styles from "./styles/style.module.scss"
-import { useToast } from "@/helpers/hooks/useToast"
 
 export function Barter() {
     const { on } = useToast()
     const { userId } = useAuth()
+    const { dispatch } = useBalloonCard()
     const { isVisible, dispatchVisibleBarter, dataProfile, dataOffer } =
         useVisibleModalBarter()
     const address: string = useMemo(() => {
@@ -50,7 +52,6 @@ export function Barter() {
     } = useForm<IValuesForm>({})
 
     function onSubmit(values: IValuesForm) {
-        console.log("values: ", values)
         const data = {
             consignedId: dataOffer?.id!,
             provider: "barter",
@@ -68,8 +69,6 @@ export function Barter() {
         data.userId = Number(userId!)
         data.initialId = Number(values?.offerMyId!)
 
-        console.log("data: ", data)
-
         serviceBarters.post(data).then((response) => {
             if (response?.ok) {
                 if (response?.res?.id) {
@@ -80,6 +79,7 @@ export function Barter() {
                                 : "ваше предложение"
                         } на обмен!`,
                     )
+                    dispatch({ visible: false })
                     dispatchVisibleBarter({ isVisible: false })
                 }
             }
@@ -98,9 +98,10 @@ export function Barter() {
                 <header>
                     <div
                         className={styles.buttonBack}
-                        onClick={() =>
+                        onClick={() => {
+                            dispatch({ visible: false })
                             dispatchVisibleBarter({ isVisible: false })
-                        }
+                        }}
                     >
                         <Image
                             src="/svg/chevron-left.svg"

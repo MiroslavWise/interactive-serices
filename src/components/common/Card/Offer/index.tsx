@@ -118,12 +118,14 @@ export const CardOffer: TCardOffer = ({
                             classNames={styles.button}
                         />
                     ) : null}
-                    <ButtonCircleGradient
-                        type="primary"
-                        icon="/svg/message-dots-circle.svg"
-                        size={16}
-                        handleClick={handleChatBarter}
-                    />
+                    {!["completed", "destroyed"]?.includes(status) ? (
+                        <ButtonCircleGradient
+                            type="primary"
+                            icon="/svg/message-dots-circle.svg"
+                            size={16}
+                            handleClick={handleChatBarter}
+                        />
+                    ) : null}
                 </div>
             </footer>
         </MotionLI>

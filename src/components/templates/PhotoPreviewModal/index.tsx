@@ -15,6 +15,7 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { cx } from "@/lib/cx"
 import { daysAgo, usePush } from "@/helpers"
 import { usePhotoOffer } from "@/store/state/usePhotoOffer"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 
@@ -25,6 +26,7 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
         usePhotoOffer()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { dispatchMapCoordinates } = useMapCoordinates()
+    const { dispatch: dispatchBalloon } = useBalloonCard()
     const { userId } = useAuth()
     const { handlePush } = usePush()
 
@@ -38,6 +40,7 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     })
 
     function handleClickUser() {
+        dispatchBalloon({ visible: false })
         handlePush(`/user?id=${author?.idUser!}`)
         dispatch({ visible: false, photos: null })
     }
@@ -82,11 +85,13 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
             return
         }
         if (userId) {
+            dispatchBalloon({ visible: false })
             handlePush(`/messages?user=${author?.idUser!}`)
         }
     }
 
     function handleGeo() {
+        dispatchBalloon({ visible: false })
         dispatchMapCoordinates({
             coordinates: offer?.addresses?.[0]?.coordinates
                 ?.split(" ")

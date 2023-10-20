@@ -14,11 +14,13 @@ import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({
     stateBalloon,
 }) => {
     const { userId } = useAuth()
+    const { dispatch } = useBalloonCard()
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
@@ -43,10 +45,12 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
         if (Number(userId) === Number(stateBalloon?.idUser)) {
             return
         }
+        dispatch({ visible: false })
         handlePush(`/messages?user=${stateBalloon.idUser}`)
     }
 
     function handleProfile() {
+        dispatch({ visible: false })
         handlePush(`/user?id=${dataProfile?.res?.userId!}`)
     }
 

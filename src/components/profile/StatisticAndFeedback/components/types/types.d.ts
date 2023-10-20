@@ -1,10 +1,6 @@
 import type { FC } from "react"
 
-export type TBadges = FC<{
-    proposals: number
-    closedExchanges: number
-    rating: number
-}>
+export type TBadges = FC<{}>
 
 export type TInteractive = FC<{}>
 

@@ -12,8 +12,9 @@ import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
+import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = ({
     stateBalloon,
@@ -22,6 +23,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
     const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
+    const { dispatch } = useBalloonCard()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
 
     const [{ data }, { data: dataProfile }] = useQueries([
@@ -68,6 +70,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
 
     function handleProfile() {
         handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+        dispatch({ visible: false })
     }
 
     return (

@@ -62,11 +62,25 @@ export const ItemsReviews: TItemsReviews = ({}) => {
                 isMobile && styles.mobile,
             )}
         >
-            <Masonry data-row columnsCount={2} gutter="16px">
-                {listTestimonials.map((item) => (
-                    <CardReview {...item!} key={`${item?.id}-card-review`} />
-                ))}
-            </Masonry>
+            {isMobile ? (
+                <MotionUL>
+                    {listTestimonials.map((item) => (
+                        <CardReview
+                            {...item!}
+                            key={`${item?.id}-card-review`}
+                        />
+                    ))}
+                </MotionUL>
+            ) : (
+                <Masonry data-row columnsCount={2} gutter="16px">
+                    {listTestimonials.map((item) => (
+                        <CardReview
+                            {...item!}
+                            key={`${item?.id}-card-review`}
+                        />
+                    ))}
+                </Masonry>
+            )}
         </div>
     )
 }

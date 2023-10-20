@@ -1,5 +1,7 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
+
 import type { INewCreate, TNewCreate } from "../types/types"
 
 import { ImageStatic } from "@/components/common/Image"
@@ -24,7 +26,7 @@ export const Item: TNewCreate = (props: INewCreate) => {
         }
     }
     return (
-        <li className={styles.containerLi} onClick={handleType}>
+        <li className={styles.containerLi} onClick={handleType} data-mobile={isMobile}>
             <ImageStatic src={imageSrc} width={36} height={36} alt={imageSrc} />
             <p>{label}</p>
         </li>

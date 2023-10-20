@@ -1,9 +1,18 @@
 .budges {
     width: 100%;
-    display: inline-flex;
-    gap: 24px;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(4, calc(25% - 12px));
+    gap: 16px 16px;
     z-index: 2;
+    & > div {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .budges {
+        grid-template-columns: repeat(2, calc(50% - 8px));
+    }
 }
 
 .interactive {
@@ -228,6 +237,7 @@
 
     &.mobile {
         height: auto;
-        padding-top: 0;
+        padding: 0;
+        padding-bottom: 68px;
     }
 }

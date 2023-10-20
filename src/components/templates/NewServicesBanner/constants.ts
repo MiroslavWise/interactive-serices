@@ -11,11 +11,11 @@ export const NEW_CREATE_BADGES: INewCreateBadge[] = [
         label: "SOS",
         value: "alert",
     },
-    {
-        imageSrc: "/svg/3d/3d-attach.svg",
-        label: "Запись в блоге",
-        value: null,
-    },
+    // {
+    //     imageSrc: "/svg/3d/3d-attach.svg",
+    //     label: "Запись в блоге",
+    //     value: null,
+    // },
     {
         imageSrc: "/svg/3d/3d-message.svg",
         label: "Обсуждение",

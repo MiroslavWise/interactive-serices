@@ -1,9 +1,6 @@
 .wrapper {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     visibility: hidden;
     opacity: 0;
     transition: all 0.3s ease-in-out 0.05s;
@@ -17,12 +14,12 @@
     padding-top: 92px;
     padding-bottom: 92px;
 
-    &.active {
+    &[data-active="true"] {
         visibility: visible;
         opacity: 1;
     }
 
-    .container {
+    & > [data-container="true"] {
         position: relative;
         height: 100%;
         max-width: 584px;
@@ -35,6 +32,7 @@
         flex-direction: column;
         gap: 47px;
         align-items: center;
+        z-index: 2;
 
         h3 {
             color: var(--gray-900);
@@ -55,10 +53,10 @@
         }
     }
 
-    &.mobile {
+    &[data-mobile="true"] {
         padding: 0 20px;
 
-        .container {
+        & > [data-container="true"] {
             height: min-content;
             max-width: 100%;
             padding: 64px 20px 32px;

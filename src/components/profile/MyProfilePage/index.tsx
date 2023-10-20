@@ -1,10 +1,11 @@
 "use client"
 
+import { useState } from "react"
 import { isMobile } from "react-device-detect"
 
 import type { TMyProfilePage } from "./types/types"
 
-import { Badges } from "../BlockProfileAside/components/Badges"
+import { AchievementsCount } from "../AchievementsCount"
 import { ContainerAboutMe } from "./components/ContainerAboutMe"
 import { ContainerSuggestions } from "./components/ContainerSuggestions"
 import { ContainerTagAndButton } from "./components/ContainerTagAndButton"
@@ -13,7 +14,6 @@ import { M_ContainerAboutProfile } from "./components/M_ContainerAboutProfile"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { useState } from "react"
 
 export const MyProfilePage: TMyProfilePage = ({}) => {
     const [isOfferOrRequest, setIsOfferOrRequest] = useState<
@@ -26,7 +26,6 @@ export const MyProfilePage: TMyProfilePage = ({}) => {
                 styles.containerProfilePage,
                 isMobile && styles.mobile,
             )}
-            
         >
             {typeof isMobile !== "undefined" && !isMobile ? (
                 <ContainerAboutMe
@@ -34,7 +33,7 @@ export const MyProfilePage: TMyProfilePage = ({}) => {
                 />
             ) : null}
             {isMobile ? <M_ContainerAboutProfile /> : null}
-            {isMobile ? <Badges /> : null}
+            {isMobile ? <AchievementsCount /> : null}
             <ContainerTagAndButton
                 {...{ isOfferOrRequest, setIsOfferOrRequest }}
             />

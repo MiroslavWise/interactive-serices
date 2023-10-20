@@ -6,16 +6,17 @@ import Image from "next/image"
 import type { TContent } from "../types/types"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
-import { ImageStatic } from "@/components/common/Image"
+// import { ImageStatic } from "@/components/common/Image"
 import { CustomDatePicker } from "@/components/common/custom"
 
 import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
+// import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
 import { useAddress } from "@/helpers"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import { ListOffersBarter } from "@/components/common/ListOffersBarter"
 
 export const ContentTitleCarousel: TContent = ({
     register,
@@ -27,12 +28,12 @@ export const ContentTitleCarousel: TContent = ({
     const { dataOffer, isVisible } = useVisibleModalBarter()
     const { isAddresses } = useAddress()
     const { userId } = useAuth()
-    const { categories } = useOffersCategories()
+    // const { categories } = useOffersCategories()
     const { setVisible } = useUpdateProfile()
     const { dispatchVisibleTypeCreateOptionals, isVisible: isCreateVisible } =
         useAddCreateModal()
-    const refUL: RefObject<HTMLUListElement> = useRef(null)
-    const [left, setLeft] = useState(0)
+    // const refUL: RefObject<HTMLUListElement> = useRef(null)
+    // const [left, setLeft] = useState(0)
     const { data } = useQuery({
         queryFn: () =>
             serviceOffers.getUserId(userId!, {
@@ -46,30 +47,30 @@ export const ContentTitleCarousel: TContent = ({
         enabled: !!userId && !!dataOffer?.provider && isVisible,
     })
 
-    const widthUL: number = useMemo(() => {
-        if (!data?.res) {
-            return 0
-        }
-        return data?.res?.length * 280 + data?.res?.length * 16 + 16
-    }, [data?.res])
+    // const widthUL: number = useMemo(() => {
+    //     if (!data?.res) {
+    //         return 0
+    //     }
+    //     return data?.res?.length * 280 + data?.res?.length * 16 + 16
+    // }, [data?.res])
 
-    function handleCarousel(value: boolean) {
-        if (refUL.current) {
-            refUL.current.onscroll = (event) => {
-                event.preventDefault()
-                event.stopPropagation()
+    // function handleCarousel(value: boolean) {
+    //     if (refUL.current) {
+    //         refUL.current.onscroll = (event) => {
+    //             event.preventDefault()
+    //             event.stopPropagation()
 
-                console.log("event: ", event)
-            }
+    //             console.log("event: ", event)
+    //         }
 
-            if (value) {
-                if (left < 0) setLeft((prev) => prev + 250)
-            } else {
-                if (Math.abs(left) < widthUL - 280 * 2)
-                    setLeft((prev) => prev - 250)
-            }
-        }
-    }
+    //         if (value) {
+    //             if (left < 0) setLeft((prev) => prev + 250)
+    //         } else {
+    //             if (Math.abs(left) < widthUL - 280 * 2)
+    //                 setLeft((prev) => prev - 250)
+    //         }
+    //     }
+    // }
 
     function updateProfileOffers() {
         if (!isAddresses) {
@@ -96,75 +97,14 @@ export const ContentTitleCarousel: TContent = ({
         <section className={styles.containerTitleCarousel}>
             <h2>Пожалуйста, выберите параметры бартера</h2>
             {data?.res?.length ? (
-                <div
-                    className={styles.itemBarterContainerDIV}
+                <ListOffersBarter
                     {...register("offerMyId", { required: true })}
-                >
-                    <ul
-                        style={{
-                            width: `calc(${widthUL}px + 50%)`,
-                            left: left,
-                        }}
-                        ref={refUL}
-                        onScroll={(event) => {
-                            console.log("onScroll event: ", event)
-                        }}
-                    >
-                        {data?.res
-                            ? data?.res?.map((item) => (
-                                  <li
-                                      data-provider={item.provider}
-                                      data-active={
-                                          watch("offerMyId") == item.id
-                                      }
-                                      key={`${item.id}-offer-${item.provider}`}
-                                      onClick={() => {
-                                          setValue("offerMyId", item.id!)
-                                      }}
-                                  >
-                                      <ImageStatic
-                                          src="/map/circle-offers-default.png"
-                                          alt="offer"
-                                          width={58}
-                                          height={58}
-                                      />
-                                      <h3>
-                                          {
-                                              categories?.find(
-                                                  (item_) =>
-                                                      Number(item_.id) ===
-                                                      Number(item?.categoryId),
-                                              )?.title
-                                          }
-                                      </h3>
-                                  </li>
-                              ))
-                            : null}
-                    </ul>
-                    <div
-                        data-right-shadow
-                        onClick={() => handleCarousel(false)}
-                    >
-                        <div>
-                            <Image
-                                src="/svg/chevron-right-white.svg"
-                                alt="chevron-right-white"
-                                width={16}
-                                height={16}
-                            />
-                        </div>
-                    </div>
-                    <div data-left-shadow onClick={() => handleCarousel(true)}>
-                        <div>
-                            <Image
-                                src="/svg/chevron-left-white.svg"
-                                alt="chevron-left-white"
-                                width={16}
-                                height={16}
-                            />
-                        </div>
-                    </div>
-                </div>
+                    active={watch("offerMyId")!}
+                    items={data?.res}
+                    onClick={(value) => {
+                        setValue("offerMyId", value as number)
+                    }}
+                />
             ) : (
                 <div
                     data-create
@@ -203,7 +143,7 @@ export const ContentTitleCarousel: TContent = ({
             {errors?.offerMyId ? (
                 <i>Выберите услугу, которую вы хотите предложить взамен</i>
             ) : null}
-            <div className={styles.barterContainer}>
+            <div className={styles.barterContainer} data-time-address>
                 <div
                     className={styles.itemBarterContainer}
                     {...register("date", { required: true })}

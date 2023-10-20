@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
+import { useSearchParams } from "next/navigation"
 
 import { BadgeServices } from "@/components/common/Badge"
 
@@ -21,6 +22,7 @@ import styles from "./styles/notice-barter.module.scss"
 
 export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
     const { userId, user } = useAuth()
+    const threadId = useSearchParams().get("thread")
     const { categories } = useOffersCategories()
     const [loading, setLoading] = useState(false)
     const { dispatchCompletion } = useCompletionTransaction()
@@ -150,6 +152,7 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
             visible: true,
             dataBarter: data?.res!,
             dataUser: dataUser?.res!,
+            threadId: Number(threadId),
         })
     }
 

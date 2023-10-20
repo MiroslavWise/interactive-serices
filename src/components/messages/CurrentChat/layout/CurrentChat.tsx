@@ -42,6 +42,12 @@ export const CurrentChat = () => {
     })
 
     useEffect(() => {
+        if (data?.res?.enabled === false && data?.ok) {
+            handleReplace("/messages")
+        }
+    }, [data, handleReplace])
+
+    useEffect(() => {
         if (userId && data?.res) {
             const replaceOut = () => {
                 return (

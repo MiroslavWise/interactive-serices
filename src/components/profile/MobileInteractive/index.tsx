@@ -8,7 +8,7 @@ import { MotionLI } from "@/components/common/Motion"
 import { Segments } from "@/components/common/Segments"
 import { ItemsReviews } from "../StatisticAndFeedback/components/ItemsReviews"
 import { ContainerServices } from "../StatisticAndFeedback/components/ContainerServices"
-import { ItemsBlogMessages } from "../StatisticAndFeedback/components/ItemsBlogMessages"
+// import { ItemsBlogMessages } from "../StatisticAndFeedback/components/ItemsBlogMessages"
 
 import { cx } from "@/lib/cx"
 import { ITEMS_INTERACTIVE } from "../StatisticAndFeedback/components/constants"
@@ -25,7 +25,7 @@ export const MobileInteractive = () => {
         return {
             reviews: <ItemsReviews />,
             services: <ContainerServices />,
-            blogs: <ItemsBlogMessages />,
+            // blogs: <ItemsBlogMessages />,
         }[active.value]
     }, [active.value])
 

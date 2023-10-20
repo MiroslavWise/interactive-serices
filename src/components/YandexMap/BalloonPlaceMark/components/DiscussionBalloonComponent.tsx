@@ -13,11 +13,12 @@ import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
 }) => {
-    const [activeListComments, setActiveListComments] = useState(false)
+    const { dispatch } = useBalloonCard()
     const { createGallery } = usePhotoVisible()
     const { handlePush } = usePush()
     const [{ data }, { data: dataProfile }] = useQueries([
@@ -39,6 +40,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     ])
 
     function handleProfile() {
+        dispatch({visible: false})
         handlePush(`/user?id=${dataProfile?.res?.userId!}`)
     }
 

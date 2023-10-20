@@ -11,8 +11,9 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({
@@ -20,6 +21,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
 }) => {
     const { userId } = useAuth()
     const { handlePush } = usePush()
+    const { dispatch } = useBalloonCard()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
@@ -66,6 +68,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
     }
 
     function handleProfile() {
+        dispatch({ visible: false })
         handlePush(`/user?id=${dataProfile?.res?.userId!}`)
     }
 
@@ -160,6 +163,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                             height={32}
                             onClick={() => {
                                 if (stateBalloon.idUser) {
+                                    dispatch({ visible: false })
                                     handlePush(
                                         `/messages?user=${stateBalloon?.idUser!}`,
                                     )

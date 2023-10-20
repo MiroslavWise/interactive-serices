@@ -1,6 +1,5 @@
 "use client"
 
-import { useAuth } from "@/store/hooks"
 import type { TButtonSuccessInBalloon } from "../types/types"
 
 export const ButtonSuccessInBalloon: TButtonSuccessInBalloon = ({

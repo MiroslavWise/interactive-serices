@@ -13,7 +13,6 @@ import { cx } from "@/lib/cx"
 import styles from "./style.module.scss"
 
 export const UploadPhoto: TUploadPhoto = ({
-    files,
     index,
     selected,
     setFiles,

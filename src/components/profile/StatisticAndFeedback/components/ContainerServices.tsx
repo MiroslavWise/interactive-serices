@@ -18,6 +18,7 @@ import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
+import { MotionUL } from "@/components/common/Motion"
 
 export const ContainerServices: TContainerServices = ({}) => {
     const [value, setValue] = useState<IValueServices>("proposals")
@@ -54,30 +55,62 @@ export const ContainerServices: TContainerServices = ({}) => {
                     onClick={() => setValue("requests")}
                 />
             </nav>
-            <Masonry gutter="16px" columnsCount={3}>
-                {value === "proposals"
-                    ? Array.isArray(dataOffer?.res)
-                        ? dataOffer?.res?.map((item) => (
-                              <CardRequestsAndProposals
-                                  key={`${item?.id}-item-key-offer`}
-                                  {...item}
-                                  type="optional-3"
-                              />
-                          ))
-                        : null
-                    : null}
-                {value === "requests"
-                    ? Array.isArray(dataRequest?.res)
-                        ? dataRequest?.res?.map((item) => (
-                              <CardRequestsAndProposals
-                                  key={`${item?.id}-item-key-offer`}
-                                  {...item}
-                                  type="optional-2"
-                              />
-                          ))
-                        : null
-                    : null}
-            </Masonry>
+            {isMobile ? (
+                <MotionUL
+                    classNames={[
+                        styles.containerRequestsAndProposals,
+                        isMobile && styles.mobile,
+                    ]}
+                >
+                    {value === "proposals"
+                        ? Array.isArray(dataOffer?.res)
+                            ? dataOffer?.res?.map((item) => (
+                                  <CardRequestsAndProposals
+                                      key={`${item?.id}-item-key-offer`}
+                                      {...item}
+                                      type="optional-3"
+                                  />
+                              ))
+                            : null
+                        : null}
+                    {value === "requests"
+                        ? Array.isArray(dataRequest?.res)
+                            ? dataRequest?.res?.map((item) => (
+                                  <CardRequestsAndProposals
+                                      key={`${item?.id}-item-key-offer`}
+                                      {...item}
+                                      type="optional-2"
+                                  />
+                              ))
+                            : null
+                        : null}
+                </MotionUL>
+            ) : (
+                <Masonry gutter="16px" columnsCount={3}>
+                    {value === "proposals"
+                        ? Array.isArray(dataOffer?.res)
+                            ? dataOffer?.res?.map((item) => (
+                                  <CardRequestsAndProposals
+                                      key={`${item?.id}-item-key-offer`}
+                                      {...item}
+                                      type="optional-3"
+                                  />
+                              ))
+                            : null
+                        : null}
+                    {value === "requests"
+                        ? Array.isArray(dataRequest?.res)
+                            ? dataRequest?.res?.map((item) => (
+                                  <CardRequestsAndProposals
+                                      key={`${item?.id}-item-key-offer`}
+                                      {...item}
+                                      type="optional-2"
+                                  />
+                              ))
+                            : null
+                        : null}
+                </Masonry>
+            )}
         </section>
     )
 }

@@ -36,7 +36,7 @@ export const TextAreaSend: TTextAreaSend = ({
     }>({})
     const [loading, setLoading] = useState(false)
 
-    function $onSubmit({ text }: { text: string }) {
+    function submit({ text }: { text: string }) {
         console.log("onSubmit: ", text)
         if (!loading) {
             setLoading(true)
@@ -84,7 +84,7 @@ export const TextAreaSend: TTextAreaSend = ({
         }
     }
 
-    const onSubmit = handleSubmit($onSubmit)
+    const onSubmit = handleSubmit(submit)
 
     return (
         <form
@@ -108,7 +108,6 @@ export const TextAreaSend: TTextAreaSend = ({
                 />
             ) : (
                 <TextArea
-                    value={watch("text")}
                     placeholder="Введите сообщение..."
                     onKeyDown={(event) => {
                         if (event.keyCode === 13 || event.code === "Enter") {

@@ -80,6 +80,22 @@ export const ListChat = () => {
             }
         }
 
+        ITEMS.sort((prev, next) => {
+            const prevNumber = prev.thread.messages?.at(-1)?.created!
+                ? new Date(
+                      prev.thread.messages?.at(-1)?.created!,
+                  ).getMilliseconds()
+                : new Date(prev.thread?.created!).getMilliseconds()
+
+            const nextNumber = next.thread.messages?.at(-1)?.created!
+                ? new Date(
+                      next.thread.messages?.at(-1)?.created!,
+                  ).getMilliseconds()
+                : new Date(next.thread?.created).getMilliseconds()
+
+            return prevNumber - nextNumber
+        })
+
         return ITEMS
     }, [arrayUsers, data, userId])
 

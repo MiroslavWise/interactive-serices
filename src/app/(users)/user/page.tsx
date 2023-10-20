@@ -12,6 +12,7 @@ import {
     MainInfo,
 } from "@/components/profile"
 import { MotionUL } from "@/components/common/Motion"
+import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
@@ -54,6 +55,7 @@ export default function UserId() {
             {isMobile ? (
                 <MotionUL classNames={[styles.containerMobile]} id="user-id">
                     <MobileMainInfo user={data?.res!} />
+                    <Badges />
                     <MobileInteractive />
                 </MotionUL>
             ) : (
