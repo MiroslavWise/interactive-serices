@@ -16,4 +16,14 @@ module.exports = {
         deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
         domains: [process.env.NEXT_PUBLIC_DOMAIN],
     },
+    webpack(config) {
+        if (config.optimization.splitChunks) {
+            config.optimization.splitChunks.cacheGroups.shared = {
+                name: "app-other",
+                test: /\.css$/,
+                chunks: "all",
+                enforce: true,
+            }
+        }
+    },
 }
