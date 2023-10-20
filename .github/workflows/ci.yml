@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /home/sheira/sheira-frontend && git pull && npm install && npm run build
+            cd /home/sheira/sheira-frontend && git pull && npm upgrade npm -g  && npm install && npm run build
             docker exec -it sheira-nginx rm -rf /var/www/frontend/*
             docker cp out/. sheira-nginx:/var/www/frontend
             ls -la
