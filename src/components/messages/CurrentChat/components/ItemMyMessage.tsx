@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react"
 import { isMobile } from "react-device-detect"
 
 import type { TItemMessage } from "./types/types"
@@ -12,7 +13,7 @@ import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
 
-export const ItemMyMessage: TItemMessage = ({ photo, messages }) => {
+const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
     return (
         <li
             className={cx(
@@ -59,3 +60,5 @@ export const ItemMyMessage: TItemMessage = ({ photo, messages }) => {
         </li>
     )
 }
+
+export const ItemMyMessage = memo($ItemMyMessage)
