@@ -46,6 +46,7 @@ jobs:
             cd /home/sheira/sheira-frontend && git checkout ${{ github.ref }} && git pull && npm install && npm run build
             docker exec -it sheira-nginx rm -rf /var/www/frontend/*
             docker cp out/. sheira-nginx:/var/www/frontend
+            touch branch_${{ github.ref }}.txt
             ls -la
             docker restart sheira-nginx
     
