@@ -1,7 +1,4 @@
-
-
-
-export interface IPropsPageMessages{
+export interface IPropsPageMessages {
     params: any
     searchParams: {
         user?: string

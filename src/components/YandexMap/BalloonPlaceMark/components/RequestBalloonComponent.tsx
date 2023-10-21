@@ -11,8 +11,9 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({
@@ -20,6 +21,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
 }) => {
     const { userId } = useAuth()
     const { handlePush } = usePush()
+    const { dispatch } = useBalloonCard()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
@@ -65,6 +67,11 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
         }
     }
 
+    function handleProfile() {
+        dispatch({ visible: false })
+        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+    }
+
     return (
         <>
             <ImageStatic
@@ -72,9 +79,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                 alt="circle-offers-default"
                 width={61}
                 height={61}
-                rest={{
-                    "data-logo-ballon": true,
-                }}
+                data-logo-ballon
             />
             <header data-request>
                 <h3>{categoryTitle}</h3>
@@ -88,6 +93,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                             width={400}
                             height={400}
                             className=""
+                            onClick={handleProfile}
                         />
                         <div data-name-rate>
                             <p>
@@ -138,8 +144,8 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}
                                 alt="offer-image"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 className=""
                             />
                         ))}
@@ -157,6 +163,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                             height={32}
                             onClick={() => {
                                 if (stateBalloon.idUser) {
+                                    dispatch({ visible: false })
                                     handlePush(
                                         `/messages?user=${stateBalloon?.idUser!}`,
                                     )

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { isMobile } from "react-device-detect"
 
 import { ContentTitleCarousel } from "./ContentTitleCarousel"
 import { CustomToggle } from "@/components/common/custom"
@@ -9,11 +10,17 @@ import type { TContent } from "../types/types"
 
 import styles from "./styles/style.module.scss"
 
-export const Content: TContent = ({ register, setValue, watch, address, errors }) => {
+export const Content: TContent = ({
+    register,
+    setValue,
+    watch,
+    address,
+    errors,
+}) => {
     const [active, setActive] = useState(false)
 
     return (
-        <main className={styles.containerContent}>
+        <main className={styles.containerContent} data-mobile={isMobile}>
             <ContentTitleCarousel
                 register={register}
                 setValue={setValue}

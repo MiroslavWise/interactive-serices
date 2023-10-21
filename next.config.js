@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-module.exports = {
+const nextConfig = {
     output: "export",
     env: {
         PORT: 3000,
@@ -17,3 +17,5 @@ module.exports = {
         domains: [process.env.NEXT_PUBLIC_DOMAIN],
     },
 }
+
+module.exports = nextConfig

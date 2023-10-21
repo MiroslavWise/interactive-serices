@@ -33,33 +33,33 @@ export const MainInfo: TMainInfo = ({ user }) => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.content}>
-                <div className={styles.avatar}>
-                    {user?.profile?.image?.attributes?.url ? (
-                        <NextImageMotion
-                            className={styles.photo}
-                            src={user?.profile?.image?.attributes?.url!}
-                            alt="avatar"
-                            width={94}
-                            height={94}
-                        />
-                    ) : (
-                        <ImageStatic
-                            classNames={[styles.photo]}
-                            src="/png/default_avatar.png"
-                            alt="avatar"
-                            width={94}
-                            height={94}
-                        />
-                    )}
-                    <Image
-                        className={styles.verified}
-                        src="/svg/verified-tick.svg"
-                        alt="tick"
-                        width={32}
-                        height={32}
+            <div className={styles.avatar}>
+                {user?.profile?.image?.attributes?.url ? (
+                    <NextImageMotion
+                        className={styles.photo}
+                        src={user?.profile?.image?.attributes?.url!}
+                        alt="avatar"
+                        width={94}
+                        height={94}
                     />
-                </div>
+                ) : (
+                    <ImageStatic
+                        classNames={[styles.photo]}
+                        src="/png/default_avatar.png"
+                        alt="avatar"
+                        width={94}
+                        height={94}
+                    />
+                )}
+                <Image
+                    className={styles.verified}
+                    src="/svg/verified-tick.svg"
+                    alt="tick"
+                    width={32}
+                    height={32}
+                />
+            </div>
+            <div className={styles.content}>
                 <div className={styles.information}>
                     <div className={styles.titleAndButtons}>
                         <div className={styles.nameAndGeo}>

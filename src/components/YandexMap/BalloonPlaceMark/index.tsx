@@ -1,7 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useMemo, useRef, memo, useEffect } from "react"
+import { isMobile } from "react-device-detect"
+import { useMemo, useRef, memo } from "react"
 
 import type { TBalloonPlaceMark } from "./types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
@@ -11,10 +12,6 @@ import { OfferBalloonComponent } from "./components/OfferBalloonComponent"
 import { DiscussionBalloonComponent } from "./components/DiscussionBalloonComponent"
 import { AlertBalloonComponent } from "./components/AlertBalloonComponent"
 import { RequestBalloonComponent } from "./components/RequestBalloonComponent"
-
-import { cx } from "@/lib/cx"
-
-import styles from "./styles/styles.module.scss"
 
 const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
@@ -56,11 +53,13 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
 
     return (
         <div
-            className={cx(styles.wrapper, visible && styles.active)}
+            className="modal-balloon-modal"
+            data-active={visible}
             onClick={(e) => {
                 e.stopPropagation()
                 dispatch({ visible: false })
             }}
+            data-mobile={isMobile}
         >
             <section
                 data-type-offers={type || null}

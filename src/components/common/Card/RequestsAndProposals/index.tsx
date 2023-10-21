@@ -179,8 +179,8 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
                                 )}
                                 alt="image"
                                 src={item.attributes.url}
-                                width={400}
-                                height={400}
+                                width={48}
+                                height={48}
                             />
                         ))}
                         <div className={styles.containerDots}>

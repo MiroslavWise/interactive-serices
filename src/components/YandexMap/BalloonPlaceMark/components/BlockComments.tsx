@@ -13,6 +13,7 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { serviceComments } from "@/services/comments"
 import { serviceOffersThreads } from "@/services/offers-threads"
 import { useAuth } from "@/store/hooks"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 export const BlockComments: TBlockComments = ({ type, offerId }) => {
     const { userId } = useAuth()
@@ -132,7 +133,13 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
             ) : null}
             {type === "discussion" ? (
                 <footer data-discussion>
-                    <button onClick={handleOnOpen}>
+                    <button
+                        onClick={() => {
+                            activeListComments
+                                ? setActiveListComments(false)
+                                : handleOnOpen()
+                        }}
+                    >
                         <span>{currentComments?.length || 0} комментариев</span>
                         <Image
                             src="/svg/chevron-down.svg"
@@ -153,33 +160,39 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                 </footer>
             ) : null}
             {activeListComments ? (
-                <article>
+                <article data-auth={!!userId}>
                     <ul ref={ulRef}>
                         {currentComments?.map((item) => (
                             <ItemComment key={`${item.id}-comment`} {...item} />
                         ))}
                     </ul>
-                    <form onSubmit={onSubmit}>
-                        <textarea
-                            disabled={!userId}
-                            value={watch("text")}
-                            placeholder="Напишите свой комментарий"
-                            onKeyDown={(event) => {
-                                if (
-                                    event.keyCode === 13 ||
-                                    event.code === "Enter"
-                                ) {
-                                    onSubmit()
-                                }
-                            }}
-                            {...register("text", { required: true })}
-                        />
-                        <ButtonFill
-                            type="primary"
-                            label="Добавить комментарий"
-                            submit="submit"
-                        />
-                    </form>
+                    {userId ? (
+                        <form onSubmit={onSubmit}>
+                            <TextArea
+                                disabled={!userId}
+                                value={watch("text")}
+                                placeholder="Напишите свой комментарий"
+                                onKeyDown={(event) => {
+                                    if (
+                                        event.keyCode === 13 ||
+                                        event.code === "Enter"
+                                    ) {
+                                        onSubmit()
+                                    }
+                                }}
+                                {...register("text", {
+                                    required: true,
+                                    maxLength: 240,
+                                })}
+                                maxLength={240}
+                            />
+                            <ButtonFill
+                                type="primary"
+                                label="Добавить комментарий"
+                                submit="submit"
+                            />
+                        </form>
+                    ) : null}
                 </article>
             ) : null}
         </>

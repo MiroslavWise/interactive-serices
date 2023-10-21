@@ -2,7 +2,7 @@ import type { IOffersCard } from "./types/types"
 
 export const OFFERS_CARD: IOffersCard[] = [
   {
-    label: "Текущие биржи",
+    label: "Текущие обмены",
     src: "/svg/offer/hexagon_offer.svg",
     value: "current",
   },

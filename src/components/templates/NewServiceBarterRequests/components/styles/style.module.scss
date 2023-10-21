@@ -24,4 +24,10 @@
         line-height: 133%;
         letter-spacing: -0.5px;
     }
+
+    &[data-mobile="true"] {
+        & > p {
+            font-size: 18px;
+        }
+    }
 }

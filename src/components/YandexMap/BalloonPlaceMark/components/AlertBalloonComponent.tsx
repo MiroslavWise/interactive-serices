@@ -14,11 +14,13 @@ import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({
     stateBalloon,
 }) => {
     const { userId } = useAuth()
+    const { dispatch } = useBalloonCard()
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([
@@ -43,7 +45,13 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
         if (Number(userId) === Number(stateBalloon?.idUser)) {
             return
         }
+        dispatch({ visible: false })
         handlePush(`/messages?user=${stateBalloon.idUser}`)
+    }
+
+    function handleProfile() {
+        dispatch({ visible: false })
+        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
     }
 
     return (
@@ -53,9 +61,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                 alt="circle-alert"
                 width={61}
                 height={61}
-                rest={{
-                    "data-logo-ballon": true,
-                }}
+                data-logo-ballon
             />
             <header data-alert>
                 {Number(userId) !== Number(stateBalloon?.idUser) ? (
@@ -71,6 +77,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                             width={400}
                             height={400}
                             className=""
+                            onClick={handleProfile}
                         />
                         <div data-name-rate>
                             <p>
@@ -121,8 +128,8 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}
                                 alt="offer-image"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 className=""
                             />
                         ))}

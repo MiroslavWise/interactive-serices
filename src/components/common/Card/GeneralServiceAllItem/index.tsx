@@ -80,6 +80,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
                 ?.reverse()
                 ?.map(Number),
         })
+        handlePush("/")
     }
 
     function handleHelp() {

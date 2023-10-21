@@ -4,7 +4,7 @@ import { type FC } from "react"
 import { isMobile } from "react-device-detect"
 
 import { HeaderBlock } from "./components/HeaderBlock"
-import { Badges } from "./components/Badges"
+import { AchievementsCount } from "../AchievementsCount"
 import { ButtonDefault } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
@@ -18,7 +18,9 @@ export const BlockProfileAside: FC = () => {
     return (
         <section className={cx(styles.container, isMobile && styles.mobile)}>
             <HeaderBlock />
-            {typeof isMobile !== "undefined" && !isMobile ? <Badges /> : null}
+            {typeof isMobile !== "undefined" && !isMobile ? (
+                <AchievementsCount />
+            ) : null}
             <div className={styles.buttons}>
                 <ButtonDefault
                     label="Редактировать профиль"

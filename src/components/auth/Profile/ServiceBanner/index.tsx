@@ -58,7 +58,7 @@ const $ServiceBanner: TServiceBanner = ({ active }) => {
             </div>
             <div className={styles.peopleContainer}>
                 <div className={styles.titleWrapper}>
-                    <h3>Популярные предложения</h3>
+                    <h3>Популярное рядом</h3>
                     {total ? (
                         <div className={styles.totalOval}>
                             <span>{total}</span>

@@ -26,6 +26,12 @@ const PhotoPreviewModal = dynamic(
     () => import("../components/templates/PhotoPreviewModal"),
     { ssr: false },
 )
+const BalloonPlaceMark = dynamic(
+    () => import("../components/YandexMap/BalloonPlaceMark"),
+    {
+        ssr: false,
+    },
+)
 
 import {
     YMapsProvider,
@@ -37,12 +43,11 @@ import { CompletionTransaction } from "@/components/templates/CompletionTransact
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
-
-import { useToast } from "@/helpers/hooks/useToast"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -123,6 +128,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 ) : null}
                                 <AboutSheiraPopup />
                                 <CompletionTransaction />
+                                <BalloonPlaceMark />
                             </YMapsProvider>
                         </WebSocketProvider>
                     </ReduxProvider>

@@ -1,5 +1,6 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
 import type { TNewServicesBanner } from "./types/types"
@@ -8,7 +9,6 @@ import { Glasses } from "./components/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
 import { NewCreateBadge } from "./components/NewCreateBadge"
 
-import { cx } from "@/lib/cx"
 import { NEW_CREATE_BADGES } from "./constants"
 import { useVisibleBannerNewServices } from "@/store/hooks/useVisible"
 
@@ -22,15 +22,19 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
         setIsVisibleNewServicesBanner(false)
     }
 
-    return (
+    return isVisibleNewServicesBanner ? (
         <div
-            className={cx(
-                styles.wrapper,
-                isMobile && styles.mobile,
-                isVisibleNewServicesBanner && styles.active,
-            )}
+            className={styles.wrapper}
+            data-mobile={isMobile}
+            data-active={isVisibleNewServicesBanner}
         >
-            <div className={styles.container}>
+            <motion.div
+                initial={{ opacity: 0, visibility: "hidden" }}
+                animate={{ opacity: 1, visibility: "visible" }}
+                exit={{ opacity: 0, visibility: "hidden" }}
+                transition={{ duration: 0.5 }}
+                data-container
+            >
                 <h3>Я хочу создать</h3>
                 <ul>
                     {NEW_CREATE_BADGES.filter((_) => _.value !== "offer").map(
@@ -50,7 +54,7 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
                     }}
                 />
                 <Glasses />
-            </div>
+            </motion.div>
         </div>
-    )
+    ) : null
 }

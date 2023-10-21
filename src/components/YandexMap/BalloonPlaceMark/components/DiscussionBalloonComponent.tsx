@@ -9,16 +9,18 @@ import type { TDiscussionBalloonComponent } from "../types/types"
 import { BlockComments } from "./BlockComments"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { daysAgo } from "@/helpers"
+import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
 }) => {
-    const [activeListComments, setActiveListComments] = useState(false)
+    const { dispatch } = useBalloonCard()
     const { createGallery } = usePhotoVisible()
+    const { handlePush } = usePush()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
             queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
@@ -37,6 +39,11 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
         },
     ])
 
+    function handleProfile() {
+        dispatch({visible: false})
+        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+    }
+
     return (
         <>
             <ImageStatic
@@ -44,9 +51,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                 alt="circle-discussion"
                 width={61}
                 height={61}
-                rest={{
-                    "data-logo-ballon": true,
-                }}
+                data-logo-ballon
             />
             <header></header>
             <div data-container-balloon data-discussion>
@@ -58,6 +63,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                             width={400}
                             height={400}
                             className=""
+                            onClick={handleProfile}
                         />
                         <div data-name-rate>
                             <p>
@@ -108,8 +114,8 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}
                                 alt="offer-image"
-                                width={400}
-                                height={400}
+                                width={40}
+                                height={40}
                                 className=""
                             />
                         ))}

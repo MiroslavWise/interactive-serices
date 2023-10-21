@@ -2,8 +2,9 @@
 
 import type { TLabelAndInput } from "./types/types"
 
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
+
 import styles from "./styles/label-input.module.scss"
-import { CustomTextArea } from "@/components/common/custom"
 
 export const LabelAndInput: TLabelAndInput = ({
     title,
@@ -14,10 +15,11 @@ export const LabelAndInput: TLabelAndInput = ({
     return (
         <div className={styles.container}>
             <p>{title}</p>
-            <CustomTextArea
+            <TextArea
                 value={text}
-                setValue={setText}
+                onChange={(event) => setText(event.target.value)}
                 placeholder={placeholder}
+                maxLength={512}
             />
         </div>
     )

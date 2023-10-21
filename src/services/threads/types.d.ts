@@ -3,7 +3,7 @@ import type { IReturnData } from "../types/general"
 export type TTypeProviderThreads = "personal" | "barter"
 
 export interface IPostThreads {
-    title: string
+    title: "completed" | string
     parentId?: number
     emitterId: number
     receiverIds: number[]
@@ -33,6 +33,8 @@ export interface IResponseThreads {
     provider: string
     barterId?: number
     messages: IThreadsMessages[]
+    created: Date
+    updated: Date
 }
 
 export interface IResponseCreate {
@@ -56,6 +58,7 @@ export interface IResponseThread {
 interface IQueryParams {
     user?: number | string
     provider?: TTypeProviderThreads
+    order?: "ASC" | "DESC"
     [key: string]: any
 }
 

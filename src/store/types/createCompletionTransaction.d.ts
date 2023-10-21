@@ -6,6 +6,7 @@ export interface IStateCompletionTransaction {
     visible: boolean
     dataBarter?: IBarterResponse
     dataUser?: IUserResponse
+    threadId?: number | string
 }
 
 interface IDispatchCompletionTransaction {
@@ -13,6 +14,7 @@ interface IDispatchCompletionTransaction {
     dataBarter?: IBarterResponse
     dataUser?: IUserResponse
     cd?: DispatchWithoutAction
+    threadId?: number | string
 }
 
 export interface IActionCompletionTransaction {
