@@ -1,5 +1,4 @@
-FROM node:alpine AS builder
-
+FROM node:20.8.0-alpine AS builder
 
 ARG NEXT_PUBLIC_URL
 ARG NEXT_PUBLIC_AUTO_VERIFICATION
@@ -18,10 +17,11 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
+RUN npm install -g npm@10.2.1
 
 RUN npm ci
 
-FROM node:alpine
+FROM node:20.8.0-alpine
 
 ARG NEXT_PUBLIC_URL
 ARG NEXT_PUBLIC_AUTO_VERIFICATION

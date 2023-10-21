@@ -5,7 +5,7 @@ import { useQueries } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 //@ts-ignore
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+// import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 
 import type { IValueServices } from "../types/types"
 import type { TContainerServices } from "./types/types"
@@ -85,32 +85,32 @@ export const ContainerServices: TContainerServices = ({}) => {
                             : null
                         : null}
                 </MotionUL>
-            ) : (
-                <Masonry gutter="16px" columnsCount={3}>
-                    {value === "proposals"
-                        ? Array.isArray(dataOffer?.res)
-                            ? dataOffer?.res?.map((item) => (
-                                  <CardRequestsAndProposals
-                                      key={`${item?.id}-item-key-offer`}
-                                      {...item}
-                                      type="optional-3"
-                                  />
-                              ))
-                            : null
-                        : null}
-                    {value === "requests"
-                        ? Array.isArray(dataRequest?.res)
-                            ? dataRequest?.res?.map((item) => (
-                                  <CardRequestsAndProposals
-                                      key={`${item?.id}-item-key-offer`}
-                                      {...item}
-                                      type="optional-2"
-                                  />
-                              ))
-                            : null
-                        : null}
-                </Masonry>
-            )}
+            ) : null
+            // <Masonry gutter="16px" columnsCount={3}>
+            //     {value === "proposals"
+            //         ? Array.isArray(dataOffer?.res)
+            //             ? dataOffer?.res?.map((item) => (
+            //                   <CardRequestsAndProposals
+            //                       key={`${item?.id}-item-key-offer`}
+            //                       {...item}
+            //                       type="optional-3"
+            //                   />
+            //               ))
+            //             : null
+            //         : null}
+            //     {value === "requests"
+            //         ? Array.isArray(dataRequest?.res)
+            //             ? dataRequest?.res?.map((item) => (
+            //                   <CardRequestsAndProposals
+            //                       key={`${item?.id}-item-key-offer`}
+            //                       {...item}
+            //                       type="optional-2"
+            //                   />
+            //               ))
+            //             : null
+            //         : null}
+            // </Masonry>
+            }
         </section>
     )
 }
