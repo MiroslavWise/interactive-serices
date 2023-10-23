@@ -23,6 +23,7 @@ import styles from "./styles/text-area.module.scss"
 export const TextAreaSend: TTextAreaSend = ({
     photo,
     fullName,
+    isBarter,
     idUser,
     refetch,
 }) => {
@@ -119,7 +120,7 @@ export const TextAreaSend: TTextAreaSend = ({
                     maxLength={512}
                 />
             )}
-            {isMobile ? (
+            {isMobile && isBarter ? (
                 <ButtonCircleGradientFill
                     type="option-1"
                     image={{
