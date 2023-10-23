@@ -20,12 +20,7 @@ import { useAuth, usePopupMenuChat, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/text-area.module.scss"
 
-export const TextAreaSend: TTextAreaSend = ({
-    photo,
-    fullName,
-    idUser,
-    refetch,
-}) => {
+export const TextAreaSend: TTextAreaSend = ({ idUser, refetch }) => {
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
     const { userId } = useAuth()
