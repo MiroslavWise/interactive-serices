@@ -9,14 +9,14 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 // import { ImageStatic } from "@/components/common/Image"
 import { CustomDatePicker } from "@/components/common/custom"
 
-import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
+import { useAddress } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
+import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import { ListOffersBarter } from "@/components/common/ListOffersBarter"
+import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
 // import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
-import { useAddress } from "@/helpers"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
-import { ListOffersBarter } from "@/components/common/ListOffersBarter"
 
 export const ContentTitleCarousel: TContent = ({
     register,
@@ -28,49 +28,18 @@ export const ContentTitleCarousel: TContent = ({
     const { dataOffer, isVisible } = useVisibleModalBarter()
     const { isAddresses } = useAddress()
     const { userId } = useAuth()
-    // const { categories } = useOffersCategories()
     const { setVisible } = useUpdateProfile()
     const { dispatchVisibleTypeCreateOptionals, isVisible: isCreateVisible } =
         useAddCreateModal()
-    // const refUL: RefObject<HTMLUListElement> = useRef(null)
-    // const [left, setLeft] = useState(0)
     const { data } = useQuery({
         queryFn: () =>
             serviceOffers.getUserId(userId!, {
-                provider: dataOffer?.provider === "offer" ? "request" : "offer",
+                provider: "offer",
+                order: "DESC",
             }),
-        queryKey: [
-            "offers",
-            `user=${userId}`,
-            `provider=${dataOffer?.provider === "offer" ? "request" : "offer"}`,
-        ],
+        queryKey: ["offers", `user=${userId}`, `provider=offer`],
         enabled: !!userId && !!dataOffer?.provider && isVisible,
     })
-
-    // const widthUL: number = useMemo(() => {
-    //     if (!data?.res) {
-    //         return 0
-    //     }
-    //     return data?.res?.length * 280 + data?.res?.length * 16 + 16
-    // }, [data?.res])
-
-    // function handleCarousel(value: boolean) {
-    //     if (refUL.current) {
-    //         refUL.current.onscroll = (event) => {
-    //             event.preventDefault()
-    //             event.stopPropagation()
-
-    //             console.log("event: ", event)
-    //         }
-
-    //         if (value) {
-    //             if (left < 0) setLeft((prev) => prev + 250)
-    //         } else {
-    //             if (Math.abs(left) < widthUL - 280 * 2)
-    //                 setLeft((prev) => prev - 250)
-    //         }
-    //     }
-    // }
 
     function updateProfileOffers() {
         if (!isAddresses) {
@@ -78,18 +47,10 @@ export const ContentTitleCarousel: TContent = ({
             return
         }
         if (isAddresses) {
-            if (dataOffer?.provider === "offer") {
-                dispatchVisibleTypeCreateOptionals({
-                    visible: true,
-                    type: "request",
-                })
-            }
-            if (dataOffer?.provider === "request") {
-                dispatchVisibleTypeCreateOptionals({
-                    visible: true,
-                    type: "offer",
-                })
-            }
+            dispatchVisibleTypeCreateOptionals({
+                visible: true,
+                type: "offer",
+            })
         }
     }
 
@@ -112,12 +73,7 @@ export const ContentTitleCarousel: TContent = ({
                     {...register("offerMyId", { required: true })}
                 >
                     <div>
-                        <h3>
-                            У вас нет созданных{" "}
-                            {dataOffer?.provider === "offer"
-                                ? "запросов"
-                                : "предложений"}
-                        </h3>
+                        <h3>У вас нет созданных предложений</h3>
                         {!isAddresses ? (
                             <h4>
                                 У вас нет адреса, поэтому, для начала добавьте в
@@ -130,11 +86,7 @@ export const ContentTitleCarousel: TContent = ({
                             label={
                                 !isAddresses
                                     ? "Добавить адрес"
-                                    : `Добавить ${
-                                          dataOffer?.provider === "offer"
-                                              ? "запрос"
-                                              : "предложение"
-                                      }`
+                                    : `Добавить предложение`
                             }
                         />
                     </div>
@@ -148,7 +100,7 @@ export const ContentTitleCarousel: TContent = ({
                     className={styles.itemBarterContainer}
                     {...register("date", { required: true })}
                 >
-                    <p>Предлагаю</p>
+                    <p>Дата обмена</p>
                     <CustomDatePicker
                         setDate={(value) => setValue("date", value)}
                     />

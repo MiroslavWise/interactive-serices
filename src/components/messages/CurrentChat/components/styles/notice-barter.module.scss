@@ -154,6 +154,112 @@
     }
 }
 
+.wrapperMobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 84px;
+    padding: 12px 16px;
+    z-index: 95;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: var(--gradient-barter);
+    backdrop-filter: blur(7.5px);
+
+    &[data-destroyed="true"] {
+        background: var(--gradient-barter-red);
+    }
+
+    & > [data-button] {
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100px;
+        background: var(--background);
+        box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(4px);
+
+        &[data-dots] {
+        }
+
+        img {
+            filter: invert(1);
+        }
+    }
+
+    & > section {
+        width: 100%;
+        height: min-content;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 4px;
+
+        & > [data-sub-header] {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 4px;
+
+            & > img {
+                height: 30px;
+                width: 30px;
+                border-radius: 50%;
+            }
+
+            & > [data-avatar] {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                padding: 20px;
+            }
+            & > [data-barter] {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+                max-width: calc(100% - 16px - 16px - 30px - 4px);
+                width: min-content;
+
+                & > li {
+                    max-width: calc(50% - 4px - 9px);
+                    gap: 4px;
+
+                    & > div {
+                        height: 22px;
+                        width: 22px;
+                        padding: 4px;
+                        & > img {
+                            height: 14px;
+                            width: 14px;
+                        }
+                    }
+                }
+            }
+        }
+
+        & > [data-info] {
+            width: 100%;
+            overflow: hidden;
+            overflow-x: scroll;
+
+            & > p {
+                width: min-content;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
 [data-theme="dark"] {
     .wrapper {
         & > [data-sub-header="true"] {

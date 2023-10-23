@@ -14,7 +14,7 @@ export const ItemsBadges: TItemsBadges = ({}) => {
                     key={item.title}
                     title={item.title}
                     total={item.total}
-                    type={item?.rating_movement}
+                    // type={item?.rating_movement}
                 />
             ))}
         </ul>

@@ -67,6 +67,6 @@ export interface IServiceOffers {
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
     getUserId(
         id: number,
-        value?: Record<string, any>,
+        value?: IQueries,
     ): Promise<IReturnData<IResponseOffers[]>>
 }

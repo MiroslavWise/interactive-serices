@@ -30,7 +30,7 @@ export const ListMessages = memo(function ListMessages({
 }) {
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
-    const ulChat = useRef<HTMLUListElement>(null) 
+    const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
     const [height, setHeight] = useState(0)
 
@@ -79,15 +79,15 @@ export const ListMessages = memo(function ListMessages({
         requestAnimationFrame(() => {
             if (messages?.length > 0) {
                 if (ulChat.current) {
-                    if (numberIdMessage.current !== messages?.at(-1)?.id) {
-                        const top = ulChat.current.scrollHeight
-                        ulChat.current.scroll({ top: top, behavior: "smooth" })
-                        numberIdMessage.current = messages?.at(-1)?.id!
-                    }
+                    const top = ulChat.current.scrollHeight
+                    ulChat.current.scroll({
+                        top: top + 100,
+                        behavior: "smooth",
+                    })
                 }
             }
         })
-    }, [messages, numberIdMessage])
+    }, [messages, numberIdMessage, messagesJoin])
 
     useEffect(() => {
         if (isBarter) {

@@ -8,22 +8,22 @@ export const MOCK_ACHIEVEMENTS: string[] = [
 export const BADGES: {
     title: string
     total: number
-    rating_movement?: "up" | "down"
+    // rating_movement?: "up" | "down"
 }[] = [
     {
-        title: "Доступные предложения",
+        title: "Предложения",
         total: 24,
-        rating_movement: "up",
+        // rating_movement: "up",
     },
     {
-        title: "Обмены закрыты",
+        title: "Обмены",
         total: 18,
-        rating_movement: "down",
+        // rating_movement: "down",
     },
     {
-        title: "Обзор и рейтинг",
+        title: "Рейтинг",
         total: 4.5,
-        rating_movement: "up",
+        // rating_movement: "up",
     },
 ]
 

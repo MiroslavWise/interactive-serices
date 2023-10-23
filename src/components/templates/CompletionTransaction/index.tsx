@@ -5,6 +5,7 @@ import { useMemo } from "react"
 import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
+import { isMobile } from "react-device-detect"
 
 import type { IValuesForm } from "./types/types"
 
@@ -32,7 +33,7 @@ export const CompletionTransaction = () => {
         reset,
     } = useForm<IValuesForm>({
         defaultValues: {
-            rating: 5,
+            rating: 3,
         },
     })
     const { visible, dataBarter, dataUser, dispatchCompletion, threadId } =
@@ -168,14 +169,12 @@ export const CompletionTransaction = () => {
     const onSubmit = handleSubmit(submit)
 
     return visible ? (
-        <div className={styles.wrapper} data-visible={visible}>
-            <motion.form
-                initial={{ top: "30%", opacity: 0, visibility: "hidden" }}
-                animate={{ top: "40%", opacity: 1, visibility: "visible" }}
-                transition={{ duration: 0.5 }}
-                exit={{ top: "30%", opacity: 0, visibility: "hidden" }}
-                onSubmit={onSubmit}
-            >
+        <div
+            className={styles.wrapper}
+            data-visible={visible}
+            data-mobile={isMobile}
+        >
+            <motion.form onSubmit={onSubmit}>
                 <ButtonClose
                     onClick={() => dispatchCompletion({ visible: false })}
                     position={{ top: 12, right: 12 }}
@@ -217,7 +216,7 @@ export const CompletionTransaction = () => {
                             data-rating
                             {...register("rating", { required: false })}
                         >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                            {[1, 2, 3, 4, 5].map((item) => (
                                 <Image
                                     data-number={watch("rating")}
                                     data-active={item <= watch("rating")}

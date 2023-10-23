@@ -1,7 +1,7 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useQueries, useQuery } from "react-query"
 
@@ -19,17 +19,19 @@ import { serviceThreads } from "@/services/threads"
 import { SEGMENTS_CHAT } from "./constants/segments"
 
 import styles from "./styles/style.module.scss"
+import { useWebSocket } from "@/context"
 
 export const ListChat = () => {
     const { userId } = useAuth()
     const { systemTheme } = useTheme()
     const [search, setSearch] = useState("")
+    const { socket } = useWebSocket() ?? {}
     const [value, setValue] = useState<ISegmentValues<TTypeProviderThreads>>(
         SEGMENTS_CHAT[0],
     )
     const [total, setTotal] = useState(0)
 
-    const { data } = useQuery({
+    const { data, refetch } = useQuery({
         queryFn: () =>
             serviceThreads.get({
                 user: userId!,
@@ -98,6 +100,20 @@ export const ListChat = () => {
 
         return ITEMS
     }, [arrayUsers, data, userId])
+
+    useEffect(() => {
+        console.log("socket socket: ", socket)
+        function chatResponse(event: any) {
+            console.log("chatResponse event: ", event)
+            refetch()
+        }
+
+        socket?.on("chatResponse", chatResponse)
+
+        return () => {
+            socket?.off("chatResponse", chatResponse)
+        }
+    }, [socket, refetch])
 
     return isMobile ? (
         <section className={styles.containerMobile}>

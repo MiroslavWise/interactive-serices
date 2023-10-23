@@ -5,24 +5,34 @@ import Image from "next/image"
 import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
+import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
 import { BadgeServices } from "@/components/common/Badge"
 
+import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
-import { serviceUsers } from "@/services/users"
 import { serviceBarters } from "@/services/barters"
 import { serviceTestimonials } from "@/services/testimonials"
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { IUserResponse } from "@/services/users/types/usersService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/notice-barter.module.scss"
+import { NextImageMotion } from "@/components/common/Image"
 
-export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
+export const NoticeBarter = ({
+    idBarter,
+    userData,
+}: {
+    idBarter: number
+    userData?: IUserResponse | null
+}) => {
     const { userId, user } = useAuth()
     const threadId = useSearchParams().get("thread")
+    const { handleReplace } = usePush()
     const { categories } = useOffersCategories()
     const [loading, setLoading] = useState(false)
     const { dispatchCompletion } = useCompletionTransaction()
@@ -31,17 +41,6 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
         queryKey: ["barters", `id=${idBarter}`],
         enabled: !!idBarter,
     })
-
-    const idUser: number | null = useMemo(() => {
-        if (!data?.res || !userId) {
-            return null
-        }
-        if (Number(data?.res?.initiator?.userId) === Number(userId)) {
-            return Number(data?.res?.consigner?.userId)
-        } else {
-            return Number(data?.res?.initiator?.userId)
-        }
-    }, [data?.res, userId])
 
     const offerId: number | null = useMemo(() => {
         if (!data?.res || !userId) {
@@ -72,12 +71,6 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
         return userId && data?.res?.initiator?.userId === userId
     }, [data?.res, userId])
 
-    const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(idUser!),
-        queryKey: ["user", idUser],
-        enabled: !!idUser,
-    })
-
     const infoOffers = useMemo(() => {
         if (!categories.length || !data?.res) {
             return null
@@ -99,11 +92,10 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
 
     const geo = useMemo(() => {
         return (
-            dataUser?.res?.addresses?.find(
-                (item) => item?.addressType === "main",
-            ) || null
+            userData?.addresses?.find((item) => item?.addressType === "main") ||
+            null
         )
-    }, [dataUser])
+    }, [userData])
 
     const isFeedback = useMemo(() => {
         return dataTestimonials?.res?.some(
@@ -151,9 +143,127 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
         dispatchCompletion({
             visible: true,
             dataBarter: data?.res!,
-            dataUser: dataUser?.res!,
+            dataUser: userData!,
             threadId: Number(threadId),
         })
+    }
+
+    const textInfo = useMemo(() => {
+        if (!infoOffers || !data?.res) return null
+        const status = data?.res?.status!
+        if (infoOffers && status === "initiated") {
+            if (isMeInitiator) {
+                return (
+                    <p>
+                        Вы предлагаете{" "}
+                        <span>
+                            {infoOffers?.initiator?.title?.toLowerCase()}
+                        </span>{" "}
+                        взамен вы хотите{" "}
+                        <span>
+                            {infoOffers?.consigner?.title?.toLowerCase()}
+                        </span>
+                    </p>
+                )
+            } else {
+                return (
+                    <p>
+                        <span>{userData?.profile?.firstName}</span> предлагает
+                        вам{" "}
+                        <span>
+                            {infoOffers?.consigner?.title?.toLowerCase()}
+                        </span>{" "}
+                        взамен на{" "}
+                        <span>
+                            {infoOffers?.initiator?.title?.toLowerCase()}
+                        </span>
+                    </p>
+                )
+            }
+        }
+        return status === "executed" ? (
+            <p>
+                В настоящее время у вас есть обмен с{" "}
+                {userData?.profile?.firstName}
+            </p>
+        ) : status === "completed" ? (
+            <p>
+                Ваш обмен с {userData?.profile?.firstName} был успешно завершён!
+            </p>
+        ) : status === "destroyed" ? (
+            <p>Ваш обмен с {userData?.profile?.firstName} не состоялся!</p>
+        ) : status === "canceled" ? (
+            <p>Ваш обмен с {userData?.profile?.firstName} был отклонён!</p>
+        ) : null
+    }, [infoOffers, data?.res, isMeInitiator, userData])
+
+    if (isMobile) {
+        return (
+            <motion.div
+                initial={{ opacity: 0, visibility: "hidden" }}
+                animate={{ opacity: 1, visibility: "visible" }}
+                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, visibility: "hidden" }}
+                className={styles.wrapperMobile}
+                data-destroyed={["canceled", "destroyed"]?.includes(
+                    data?.res?.status!,
+                )}
+                id="id-barter-header"
+            >
+                {/* <div
+                    data-button
+                    onClick={() => {
+                        handleReplace(`/messages`)
+                    }}
+                >
+                    <Image
+                        src="/svg/chevron-left.svg"
+                        alt="chevron-left"
+                        width={24}
+                        height={24}
+                    />
+                </div> */}
+                <section>
+                    <div data-sub-header>
+                        {userData ? (
+                            <NextImageMotion
+                                src={userData?.profile?.image?.attributes?.url}
+                                alt="avatar"
+                                width={40}
+                                height={40}
+                            />
+                        ) : (
+                            <div data-avatar />
+                        )}
+                        <div data-barter>
+                            <BadgeServices
+                                {...data?.res?.initiator!}
+                                isClickable
+                            />
+                            <Image
+                                src="/svg/repeat-white.svg"
+                                alt="repeat-white"
+                                width={18}
+                                height={18}
+                            />
+                            <BadgeServices
+                                {...data?.res?.consigner!}
+                                isClickable
+                            />
+                        </div>
+                    </div>
+                    <div data-info>{textInfo}</div>
+                </section>
+                {/* <div data-button data-dots onClick={() => setIsVisible()}>
+                    <Image
+                        src="/svg/dots-vertical.svg"
+                        alt="dots-vertical"
+                        width={24}
+                        height={24}
+                    />
+                </div> */}
+            </motion.div>
+        )
     }
 
     return (
@@ -192,58 +302,7 @@ export const NoticeBarter = ({ idBarter }: { idBarter: number }) => {
                     </section>
                 ) : null}
             </div>
-            <section data-inform>
-                {infoOffers && data?.res?.status === "initiated" ? (
-                    isMeInitiator ? (
-                        <p>
-                            Вы предлагаете{" "}
-                            <span>
-                                {infoOffers?.initiator?.title?.toLowerCase()}
-                            </span>{" "}
-                            взамен вы хотите{" "}
-                            <span>
-                                {infoOffers?.consigner?.title?.toLowerCase()}
-                            </span>
-                        </p>
-                    ) : (
-                        <p>
-                            <span>{dataUser?.res?.profile?.firstName}</span>{" "}
-                            предлагает вам{" "}
-                            <span>
-                                {infoOffers?.consigner?.title?.toLowerCase()}
-                            </span>{" "}
-                            взамен на{" "}
-                            <span>
-                                {infoOffers?.initiator?.title?.toLowerCase()}
-                            </span>
-                        </p>
-                    )
-                ) : null}
-                {data?.res?.status === "executed" ? (
-                    <p>
-                        В настоящее время у вас есть обмен с{" "}
-                        {dataUser?.res?.profile?.firstName}
-                    </p>
-                ) : null}
-                {data?.res?.status === "completed" ? (
-                    <p>
-                        Ваш обмен с {dataUser?.res?.profile?.firstName} был
-                        успешно завершён!
-                    </p>
-                ) : null}
-                {data?.res?.status === "destroyed" ? (
-                    <p>
-                        Ваш обмен с {dataUser?.res?.profile?.firstName} не
-                        состоялся!
-                    </p>
-                ) : null}
-                {data?.res?.status === "canceled" ? (
-                    <p>
-                        Ваш обмен с {dataUser?.res?.profile?.firstName} был
-                        отклонён!
-                    </p>
-                ) : null}
-            </section>
+            <section data-inform>{textInfo}</section>
             <footer data-executed>
                 <div data-badges>
                     <BadgeServices {...data?.res?.initiator!} isClickable />

@@ -128,55 +128,66 @@ export const CurrentChat = () => {
         }
     }, [socket, refetch, idThread])
 
+    const height = useMemo(() => {
+        return document.documentElement.clientHeight || "100%"
+    }, [])
+
     if (isMobile) {
         return (
-            <section className={styles.containerMobile}>
-                <div className={styles.mobileHeader}>
-                    <div
-                        className={cx(styles.button)}
-                        onClick={() => {
-                            handleReplace(`/messages`)
-                        }}
-                    >
-                        <Image
-                            src="/svg/chevron-left.svg"
-                            alt="chevron-left"
-                            width={24}
-                            height={24}
-                        />
-                    </div>
-                    <div className={styles.blockAvatar}>
-                        {conversationPartner?.photo ? (
-                            <NextImageMotion
-                                src={conversationPartner?.photo!}
-                                alt="avatar"
-                                width={28}
-                                height={28}
-                                className={styles.avatar}
+            <section className={styles.containerMobile} style={{ height }}>
+                {isBarter ? (
+                    <NoticeBarter
+                        idBarter={data?.res?.barterId!}
+                        userData={dataUser?.res}
+                    />
+                ) : (
+                    <header data-header>
+                        <div
+                            className={cx(styles.button)}
+                            onClick={() => {
+                                handleReplace(`/messages`)
+                            }}
+                        >
+                            <Image
+                                src="/svg/chevron-left.svg"
+                                alt="chevron-left"
+                                width={24}
+                                height={24}
                             />
-                        ) : (
-                            <ImageStatic
-                                src="/png/default_avatar.png"
-                                alt="avatar"
-                                width={28}
-                                height={28}
-                                classNames={[styles.avatar]}
+                        </div>
+                        <div className={styles.blockAvatar}>
+                            {conversationPartner?.photo ? (
+                                <NextImageMotion
+                                    src={conversationPartner?.photo!}
+                                    alt="avatar"
+                                    width={28}
+                                    height={28}
+                                    className={styles.avatar}
+                                />
+                            ) : (
+                                <ImageStatic
+                                    src="/png/default_avatar.png"
+                                    alt="avatar"
+                                    width={28}
+                                    height={28}
+                                    classNames={[styles.avatar]}
+                                />
+                            )}
+                            <h3>{conversationPartner?.name!}</h3>
+                        </div>
+                        <div
+                            className={cx(styles.button, styles.dots)}
+                            onClick={() => setIsVisible()}
+                        >
+                            <Image
+                                src="/svg/dots-vertical.svg"
+                                alt="dots-vertical"
+                                width={24}
+                                height={24}
                             />
-                        )}
-                        <h3>{conversationPartner?.name!}</h3>
-                    </div>
-                    <div
-                        className={cx(styles.button, styles.dots)}
-                        onClick={() => setIsVisible()}
-                    >
-                        <Image
-                            src="/svg/dots-vertical.svg"
-                            alt="dots-vertical"
-                            width={24}
-                            height={24}
-                        />
-                    </div>
-                </div>
+                        </div>
+                    </header>
+                )}
                 <ListMessages
                     messages={messages}
                     dataUser={dataUser?.res!}
@@ -189,11 +200,7 @@ export const CurrentChat = () => {
                     refetch={refetch}
                 />
                 <Glasses />
-                <PopupMenu
-                    photo={conversationPartner?.photo}
-                    fullName={conversationPartner?.name}
-                    idUser={idUser!}
-                />
+                <PopupMenu dataUser={dataUser?.res} isBarter={isBarter} idBarter={data?.res?.barterId!} />
             </section>
         )
     }

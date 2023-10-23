@@ -160,7 +160,7 @@ export const InterviewerInfoCurrent = () => {
                             key={`${item.title}_is_auth_banner`}
                             title={item.title}
                             total={item.total}
-                            type={item.rating_movement}
+                            // type={item.rating_movement}
                         />
                     ))}
                 </ul>

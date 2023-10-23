@@ -77,6 +77,7 @@ interface IButtonCircleGradientFill {
     size: number
     disabled?: boolean
     onClick: DispatchWithoutAction
+    className?: string
 }
 
 export type TButtonPropsFill = FC<IButtonProps>

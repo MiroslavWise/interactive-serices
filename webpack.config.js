@@ -1,22 +1,22 @@
 module.exports = {
-    entry: "./index.js",
-    output: {
-        filename: "bundle.js",
-    },
-    mode: "none",
-    node: false,
-    module: {
-        rules: [
-            {
-                test: /\.m?js$/,
-                use: {
-                    loader: "sass-loader",
-                    // options: {
-                    //     presets: ["@babel/preset-env"], // ensure compatibility with older browsers
-                    //     plugins: ["@babel/plugin-transform-object-assign"], // ensure compatibility with IE 11
-                    // },
-                },
-            },
-        ],
-    },
+    // entry: "./index.js",
+    // output: {
+    //     filename: "bundle.js",
+    // },
+    // mode: "none",
+    // node: false,
+    // module: {
+    //     rules: [
+    //         {
+    //             test: /\.m?js$/,
+    //             use: {
+    //                 loader: "sass-loader",
+    //                 // options: {
+    //                 //     presets: ["@babel/preset-env"], // ensure compatibility with older browsers
+    //                 //     plugins: ["@babel/plugin-transform-object-assign"], // ensure compatibility with IE 11
+    //                 // },
+    //             },
+    //         },
+    //     ],
+    // },
 }

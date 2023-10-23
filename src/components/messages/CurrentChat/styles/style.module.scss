@@ -31,63 +31,60 @@
     }
 }
 
-.mobileHeader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 84px;
-    padding: 14px 20px;
-    z-index: 95;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(4px);
-    z-index: 1000;
-
-    ul {
-        padding: 84px 20px 84px;
-        gap: 20px;
-    }
-
-    .blockAvatar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 14px;
-        }
-
-        h3 {
-            color: var(--gray-900);
-            text-align: center;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 24px;
-            letter-spacing: -0.5px;
-        }
-    }
-}
-
 .containerMobile {
     position: relative;
+    inset: 0;
     width: 100%;
     height: 100vh;
     background: var(--background);
     z-index: 25;
+    padding-top: 84px;
+
+    & > [data-header="true"] {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 84px;
+        padding: 14px 20px;
+        z-index: 95;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+
+        .blockAvatar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .avatar {
+                width: 28px;
+                height: 28px;
+                border-radius: 14px;
+            }
+
+            h3 {
+                color: var(--gray-900);
+                text-align: center;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px;
+                letter-spacing: -0.5px;
+            }
+        }
+    }
 
     ul {
-        max-height: calc(100vh - 80px - 84px);
-        height: 100%;
+        width: 100%;
+        height: calc(100% - 84px);
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
-        padding: 100px 20px 20px;
+        padding: 20px !important;
         gap: 20px;
         z-index: 10;
     }

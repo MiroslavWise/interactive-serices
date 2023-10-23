@@ -65,11 +65,11 @@ export const Badges: TBadges = () => {
     return (
         <section className={styles.budges}>
             <BadgeAchievementsBorder
-                title="Доступные предложения"
+                title="Предложения"
                 total={countProperties.proposals.toFixed(0)}
             />
             <BadgeAchievementsBorder
-                title="Совершенные обмены"
+                title="Обмены"
                 total={countProperties.completed.toFixed(0)}
             />
             <BadgeAchievementsBorder

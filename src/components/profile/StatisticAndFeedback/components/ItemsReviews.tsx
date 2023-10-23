@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect"
 import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 //@ts-ignore
-// import Masonry from "react-responsive-masonry"
+import Masonry from "react-responsive-masonry"
 
 import type { TItemsReviews } from "./types/types"
 
@@ -13,10 +13,10 @@ import { CardReview } from "@/components/common/Card/Review"
 import { MotionUL } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
-
-import styles from "./styles/style.module.scss"
 import { serviceOffers } from "@/services/offers"
 import { serviceTestimonials } from "@/services/testimonials"
+
+import styles from "./styles/style.module.scss"
 
 export const ItemsReviews: TItemsReviews = ({}) => {
     const id = useSearchParams().get("id")
@@ -71,16 +71,16 @@ export const ItemsReviews: TItemsReviews = ({}) => {
                         />
                     ))}
                 </MotionUL>
-            ) : null
-            // <Masonry data-row columnsCount={2} gutter="16px">
-            //     {listTestimonials.map((item) => (
-            //         <CardReview
-            //             {...item!}
-            //             key={`${item?.id}-card-review`}
-            //         />
-            //     ))}
-            // </Masonry>
-            }
+            ) : (
+                <Masonry data-row columnsCount={2} gutter="16px">
+                    {listTestimonials.map((item) => (
+                        <CardReview
+                            {...item!}
+                            key={`${item?.id}-card-review`}
+                        />
+                    ))}
+                </Masonry>
+            )}
         </div>
     )
 }
