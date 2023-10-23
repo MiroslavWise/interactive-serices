@@ -47,5 +47,4 @@ jobs:
             docker exec -it sheira-nginx rm -rf /var/www/frontend/*
             docker cp out/. sheira-nginx:/var/www/frontend
             ls -la
-            docker restart sheira-nginx
     
