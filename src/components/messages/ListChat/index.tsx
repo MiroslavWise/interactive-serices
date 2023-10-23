@@ -118,7 +118,7 @@ export const ListChat = () => {
 
     return isMobile ? (
         <section className={styles.containerMobile}>
-            <SearchBlock {...{ search, setSearch }} />
+            <SearchBlock {...{ search, setSearch, value, setValue }} />
             <List search={search} setTotal={setTotal} items={items} />
         </section>
     ) : (
@@ -140,7 +140,7 @@ export const ListChat = () => {
                     classNames={styles.segments}
                 />
             </header>
-            <SearchBlock {...{ search, setSearch }} />
+            <SearchBlock {...{ search, setSearch, value, setValue }} />
             <List search={search} items={items} setTotal={setTotal} />
         </section>
     )

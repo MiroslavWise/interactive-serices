@@ -210,19 +210,6 @@ export const NoticeBarter = ({
                 )}
                 id="id-barter-header"
             >
-                {/* <div
-                    data-button
-                    onClick={() => {
-                        handleReplace(`/messages`)
-                    }}
-                >
-                    <Image
-                        src="/svg/chevron-left.svg"
-                        alt="chevron-left"
-                        width={24}
-                        height={24}
-                    />
-                </div> */}
                 <section>
                     <div data-sub-header>
                         {userData ? (
@@ -254,14 +241,6 @@ export const NoticeBarter = ({
                     </div>
                     <div data-info>{textInfo}</div>
                 </section>
-                {/* <div data-button data-dots onClick={() => setIsVisible()}>
-                    <Image
-                        src="/svg/dots-vertical.svg"
-                        alt="dots-vertical"
-                        width={24}
-                        height={24}
-                    />
-                </div> */}
             </motion.div>
         )
     }

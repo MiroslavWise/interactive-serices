@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import { useQueries } from "react-query"
 import { useSearchParams } from "next/navigation"
 
@@ -7,11 +8,11 @@ import type { TBadges } from "./types/types"
 
 import { BadgeAchievementsBorder } from "@/components/common/Badge/BadgeAchievementsBorder"
 
-import styles from "./styles/style.module.scss"
+import { serviceOffers } from "@/services/offers"
 import { serviceBarters } from "@/services/barters"
 import { serviceTestimonials } from "@/services/testimonials"
-import { serviceOffers } from "@/services/offers"
-import { useMemo } from "react"
+
+import styles from "./styles/style.module.scss"
 
 export const Badges: TBadges = () => {
     const id = useSearchParams()?.get("id")

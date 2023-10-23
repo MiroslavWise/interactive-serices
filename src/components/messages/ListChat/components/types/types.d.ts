@@ -5,6 +5,7 @@ import type {
     TTypeProviderThreads,
 } from "@/services/threads/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
+import type { ISegmentValues } from "@/components/common/Segments/types"
 
 interface IList {
     items: IFiltersItems[]
@@ -19,6 +20,13 @@ interface IItemListChat extends IFiltersItems {
 interface ISearchBlock {
     search: string
     setSearch: Dispatch<SetStateAction<string>>
+    value: ISegmentValues<TTypeProviderThreads>
+    setValue: Dispatch<SetStateAction<ISegmentValues<TTypeProviderThreads>>>
+}
+
+interface ISegmentChatMobile {
+    value: ISegmentValues<TTypeProviderThreads>
+    setValue: Dispatch<SetStateAction<ISegmentValues<TTypeProviderThreads>>>
 }
 
 export interface IFiltersItems {
@@ -29,3 +37,4 @@ export interface IFiltersItems {
 export type TList = FC<IList>
 export type TItemListChat = FC<IItemListChat>
 export type TSearchBlock = FC<ISearchBlock>
+export type TSegmentChatMobile = FC<ISegmentChatMobile>

@@ -115,7 +115,7 @@
                         overflow-x: hidden;
                     }
                     & > [data-geo] {
-                        max-width: calc(250px - 24px);
+                        max-width: calc(260px - 24px);
                     }
                 }
             }
@@ -155,7 +155,7 @@
 
             &[data-is-open="true"] {
                 width: 100%;
-                max-width: 250px;
+                max-width: 260px;
                 max-height: min-content;
                 & > [data-user] {
                     visibility: visible;

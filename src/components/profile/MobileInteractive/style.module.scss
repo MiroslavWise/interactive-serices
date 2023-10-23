@@ -1,50 +1,51 @@
 .containerInteractive {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 
-  z-index: 1;
+    z-index: 200;
 
-  &>span {
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  .segments {
-    position: sticky;
-    top: 0px;
-    width: 100%;
-
-    &::before{
-      content: '';
-      position: absolute;
-      top: -20px;
-      left: -20px;
-      right: -20px;
-      bottom: -20px;
-      background: transparent;
-      filter: blur(15px);
-      z-index: -1;
-      border-radius: 100px;
-      transition: all 0.3s ease-in-out 0.01s;
+    & > span {
+        opacity: 0;
+        visibility: hidden;
     }
 
-    &.sticky {
-      &::before {
-        background: rgba(200, 200, 200, 0.5);
-      }
+    .segments {
+        position: sticky;
+        top: 0px;
+        width: 100%;
+        z-index: 200;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: transparent;
+            filter: blur(15px);
+            z-index: -1;
+            border-radius: 100px;
+            transition: all 0.3s ease-in-out 0.01s;
+        }
+
+        &.sticky {
+            &::before {
+                background: rgba(200, 200, 200, 0.5);
+            }
+        }
     }
-  }
 }
 
-[data-theme='dark'] {
-  .containerInteractive {
-    .segments {
-      &.sticky {
-        &::before {
-          background: rgba(0, 0, 0, 0.5);
+[data-theme="dark"] {
+    .containerInteractive {
+        .segments {
+            &.sticky {
+                &::before {
+                    background: rgba(0, 0, 0, 0.5);
+                }
+            }
         }
-      }
     }
-  }
 }

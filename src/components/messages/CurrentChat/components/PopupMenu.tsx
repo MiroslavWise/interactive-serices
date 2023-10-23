@@ -258,6 +258,20 @@ export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
                             <p>{item.label}</p>
                         </li>
                     ))}
+                    <li
+                        key={`--back--`}
+                        onClick={() => {
+                            handleReplace("/messages")
+                        }}
+                    >
+                        <Image
+                            src="/svg/arrow-left.svg"
+                            alt="back"
+                            width={20}
+                            height={20}
+                        />
+                        <p>Назад</p>
+                    </li>
                 </motion.div>
             ) : (
                 <motion.ul
