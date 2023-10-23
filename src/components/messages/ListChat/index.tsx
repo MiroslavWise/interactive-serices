@@ -14,12 +14,12 @@ import { SearchBlock } from "./components/SearchBlock"
 import { Segments } from "@/components/common/Segments"
 
 import { useAuth } from "@/store/hooks"
+import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { SEGMENTS_CHAT } from "./constants/segments"
 
 import styles from "./styles/style.module.scss"
-import { useWebSocket } from "@/context"
 
 export const ListChat = () => {
     const { userId } = useAuth()
@@ -37,6 +37,8 @@ export const ListChat = () => {
                 user: userId!,
                 provider: value.value,
                 order: "DESC",
+                messagesLimit: 1,
+                messagesOrder: "DESC",
             }),
         queryKey: ["threads", `user=${userId}`, `provider=${value.value}`],
         refetchOnMount: false,
@@ -63,7 +65,7 @@ export const ListChat = () => {
     const items: IFiltersItems[] = useMemo(() => {
         const ITEMS: IFiltersItems[] = []
         if (data && arrayUsers?.every((item) => !item.isLoading)) {
-            for (const item of data?.res!) {
+            data?.res?.forEach((item) => {
                 const idUser =
                     Number(item?.emitterId) === Number(userId)
                         ? Number(item?.receiverIds[0])
@@ -79,24 +81,23 @@ export const ListChat = () => {
                         people: people?.data?.res!,
                     })
                 }
-            }
+            })
+            ITEMS.sort((prev, next) => {
+                const prevNumber = prev.thread.messages?.at(-1)?.created!
+                    ? new Date(
+                          prev.thread.messages?.at(-1)?.created!,
+                      ).getMilliseconds()
+                    : new Date(prev.thread?.created!).getMilliseconds()
+
+                const nextNumber = next.thread.messages?.at(-1)?.created!
+                    ? new Date(
+                          next.thread.messages?.at(-1)?.created!,
+                      ).getMilliseconds()
+                    : new Date(next.thread?.created).getMilliseconds()
+
+                return prevNumber - nextNumber
+            })
         }
-
-        ITEMS.sort((prev, next) => {
-            const prevNumber = prev.thread.messages?.at(-1)?.created!
-                ? new Date(
-                      prev.thread.messages?.at(-1)?.created!,
-                  ).getMilliseconds()
-                : new Date(prev.thread?.created!).getMilliseconds()
-
-            const nextNumber = next.thread.messages?.at(-1)?.created!
-                ? new Date(
-                      next.thread.messages?.at(-1)?.created!,
-                  ).getMilliseconds()
-                : new Date(next.thread?.created).getMilliseconds()
-
-            return prevNumber - nextNumber
-        })
 
         return ITEMS
     }, [arrayUsers, data, userId])

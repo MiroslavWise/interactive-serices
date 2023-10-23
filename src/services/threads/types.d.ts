@@ -59,7 +59,8 @@ interface IQueryParams {
     user?: number | string
     provider?: TTypeProviderThreads
     order?: "ASC" | "DESC"
-    [key: string]: any
+    messagesLimit?: number
+    messagesOrder?: "ASC" | "DESC"
 }
 
 export interface IServiceThreads {
