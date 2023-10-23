@@ -3,7 +3,6 @@
 const nextConfig = {
     output: "export",
     env: {
-        PORT: 3000,
         NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
         NEXT_PUBLIC_AUTO_VERIFICATION:
             process.env.NEXT_PUBLIC_AUTO_VERIFICATION,

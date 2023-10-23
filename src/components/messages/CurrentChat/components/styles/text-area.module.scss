@@ -8,7 +8,7 @@
 
     &.mobile {
         height: 84px;
-        padding: 20px 21px 16px 20px;
+        padding: 20px 20px 16px 20px;
         position: fixed;
         bottom: 0;
         display: flex;
@@ -64,4 +64,10 @@
     width: min-content;
     display: inline-flex;
     gap: 8px;
+}
+
+.info {
+    & > img {
+        filter: invert(1);
+    }
 }

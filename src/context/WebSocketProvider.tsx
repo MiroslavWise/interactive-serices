@@ -16,7 +16,6 @@ import {
     type SocketOptions,
 } from "socket.io-client"
 
-import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
 

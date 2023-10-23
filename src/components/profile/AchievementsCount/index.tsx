@@ -58,13 +58,13 @@ export const AchievementsCount = () => {
                 classNames={[styles.badge]}
                 title="Обмены закрыты"
                 total={counts.completed.toFixed(0)}
-                type="down"
+                // type="down"
             />
             <BadgeAchievements
                 classNames={[styles.badge]}
                 title="Обзор и рейтинг"
                 total={counts.average.toFixed(1)}
-                type="up"
+                // type="up"
             />
         </ul>
     )

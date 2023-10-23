@@ -15,6 +15,7 @@ export const ButtonCircleGradientFill: TButtonCircleGradientFill = ({
     image,
     onClick,
     submit,
+    className,
 }) => {
     return (
         <button
@@ -23,6 +24,7 @@ export const ButtonCircleGradientFill: TButtonCircleGradientFill = ({
                 styles.buttonCircleGradientFill,
                 styles[type],
                 disabled && styles.disabled,
+                className,
             )}
             style={{
                 width: size || 36,

@@ -1,3 +1,4 @@
+import { IUserResponse } from "@/services/users/types/usersService"
 import type { FC } from "react"
 
 interface ITextAreaSend {
@@ -17,9 +18,9 @@ interface IItemMessage {
 }
 
 interface IPopupMenu {
-    fullName: string
-    photo: string
-    idUser: number
+    dataUser?: IUserResponse | null
+    isBarter: boolean
+    idBarter: number
 }
 
 interface IItemTime {

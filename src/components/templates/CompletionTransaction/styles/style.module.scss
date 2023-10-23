@@ -79,7 +79,7 @@
 
                 & > [data-rating="true"] {
                     display: grid;
-                    grid-template-columns: repeat(10, 10%);
+                    grid-template-columns: repeat(5, 20%);
 
                     & > img {
                         aspect-ratio: 1/1;
@@ -101,6 +101,22 @@
         & > button {
             max-width: 360px;
             width: 100%;
+        }
+    }
+
+    &[data-mobile="true"] {
+        padding: 20px;
+        & > form {
+            max-width: calc(100% - 40px);
+            top: 50%;
+            padding: 28px 44px;
+            gap: 20px;
+            & > h2 {
+                font-size: 22px;
+            }
+            & > h5 {
+                font-size: 14px;
+            }
         }
     }
 }

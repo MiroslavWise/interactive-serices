@@ -9,7 +9,7 @@ export const BadgeAchievements: TBadgeAchievements = ({
     title,
     total,
     classNames,
-    type,
+    // type,
 }) => {
     return (
         <div className={cx(styles.container, classNames)}>
@@ -17,12 +17,12 @@ export const BadgeAchievements: TBadgeAchievements = ({
                 <p>{title}</p>
                 <section>
                     <h2>{total}</h2>
-                    <Image
+                    {/* <Image
                         src={`/svg/arrow-${type}.svg`}
                         alt="up"
                         width={20}
                         height={20}
-                    />
+                    /> */}
                 </section>
             </div>
         </div>
