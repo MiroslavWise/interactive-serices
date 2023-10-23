@@ -20,7 +20,13 @@ import { useAuth, usePopupMenuChat, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/text-area.module.scss"
 
-export const TextAreaSend: TTextAreaSend = ({ idUser, refetch }) => {
+export const TextAreaSend: TTextAreaSend = ({
+    photo,
+    fullName,
+    isBarter,
+    idUser,
+    refetch,
+}) => {
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { socket } = useWebSocket()
     const { userId } = useAuth()
@@ -114,7 +120,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch }) => {
                     maxLength={512}
                 />
             )}
-            {isMobile ? (
+            {isMobile && isBarter ? (
                 <ButtonCircleGradientFill
                     type="option-1"
                     image={{

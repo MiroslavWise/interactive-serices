@@ -5,6 +5,7 @@ interface ITextAreaSend {
     photo: string
     fullName: string
     idUser: number
+    isBarter: boolean
     refetch(): Promise<any>
 }
 

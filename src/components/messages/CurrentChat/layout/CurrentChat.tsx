@@ -198,9 +198,14 @@ export const CurrentChat = () => {
                     fullName={conversationPartner?.name}
                     idUser={Number(idUser)}
                     refetch={refetch}
+                    isBarter={isBarter}
                 />
                 <Glasses />
-                <PopupMenu dataUser={dataUser?.res} isBarter={isBarter} idBarter={data?.res?.barterId!} />
+                <PopupMenu
+                    dataUser={dataUser?.res}
+                    isBarter={isBarter}
+                    idBarter={data?.res?.barterId!}
+                />
             </section>
         )
     }
@@ -218,6 +223,7 @@ export const CurrentChat = () => {
                 fullName={conversationPartner?.name}
                 idUser={Number(idUser)}
                 refetch={refetch}
+                isBarter={isBarter}
             />
         </section>
     )
