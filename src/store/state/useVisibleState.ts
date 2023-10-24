@@ -127,6 +127,7 @@ export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
             }
         },
         setCurrentPhoto({ currentPhoto }) {
+            console.log("setCurrentPhoto: ", currentPhoto)
             set({
                 currentPhoto: currentPhoto,
             })

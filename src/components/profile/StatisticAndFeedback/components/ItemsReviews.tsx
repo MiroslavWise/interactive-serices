@@ -53,8 +53,6 @@ export const ItemsReviews: TItemsReviews = ({}) => {
         }
     }, [dataTestimonials])
 
-    console.log("listTestimonials: ", listTestimonials)
-
     return (
         <div
             className={cx(

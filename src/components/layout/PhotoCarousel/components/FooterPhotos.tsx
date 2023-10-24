@@ -1,4 +1,4 @@
-import { ImageStatic } from "@/components/common/Image"
+import { NextImageMotion } from "@/components/common/Image"
 import { MotionLI, MotionUL } from "@/components/common/Motion"
 
 import { useVisiblePhotosCarousel } from "@/store/hooks"
@@ -16,16 +16,16 @@ export function FooterPhotos() {
                         currentPhoto?.id === item?.id && styles.active,
                     ]}
                     key={`${item.url}_${item?.id}`}
-                    onClick={() => {
-                        setCurrentPhoto({ currentPhoto: item })
-                    }}
                 >
-                    <ImageStatic
+                    <NextImageMotion
                         src={item?.url!}
                         alt="photo"
                         width={1920}
                         height={1080}
-                        classNames={[]}
+                        onClick={() => {
+                            console.log("currentPhoto: ", item)
+                            setCurrentPhoto({ currentPhoto: item })
+                        }}
                     />
                 </MotionLI>
             ))}

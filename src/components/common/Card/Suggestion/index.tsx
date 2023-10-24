@@ -45,8 +45,6 @@ export const CardSuggestion: TCardSuggestion = (props) => {
         }
     }, [dataTestimonials?.res])
 
-    console.log("rating: ", rating)
-
     return (
         <MotionLI
             classNames={[styles.container]}

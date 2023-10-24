@@ -5,20 +5,21 @@ import Image from "next/image"
 import { useMemo } from "react"
 
 import type { TMainInfo } from "./types/types"
-import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
+import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { BlockOther } from "./components/BlockOther"
+import { ComplaintButton } from "./components/ComplaintButton"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { serviceFriends } from "@/services/friends"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
-import { ComplaintButton } from "./components/ComplaintButton"
 
 export const MainInfo: TMainInfo = ({ user }) => {
     const { userId } = useAuth()
@@ -31,6 +32,14 @@ export const MainInfo: TMainInfo = ({ user }) => {
             null
         )
     }, [user?.addresses])
+
+    function handleOnFriends() {
+        if (user?.id! !== userId! && userId) {
+            serviceFriends.post({ id: Number(user?.id!) }).then((response) => {
+                console.log("serviceFriends: ", response)
+            })
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -77,6 +86,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                 label="Добавить в друзья"
                                 small
                                 shadow
+                                handleClick={handleOnFriends}
                             />
                             <ButtonsCircle
                                 src="/svg/message-dots-circle.svg"

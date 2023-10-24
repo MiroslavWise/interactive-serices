@@ -9,23 +9,40 @@ import { useDroverFriends } from "@/store/state/useDroverFriends"
 import styles from "./styles/style.module.scss"
 import { Glasses } from "@/components/layout"
 import { Segments } from "@/components/common/Segments"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { SEGMENT_FRIENDS } from "./constants/segments"
 import { TTypeFriends } from "@/store/types/createDroverFriends"
 import { ISegmentValues } from "@/components/common/Segments/types"
 import { SearchInput } from "@/components/common/Inputs"
 import { ListFriends } from "./components/ListFrends"
+import { useQuery } from "react-query"
+import { serviceFriends } from "@/services/friends"
+import { useAuth } from "@/store/hooks"
+import { IFriendsResponse } from "@/services/friends/types"
 
 export function DroverFriends() {
+    const { userId } = useAuth()
     const { visibleFriends, dispatchFriends } = useDroverFriends()
     const [segment, setSegment] = useState<ISegmentValues<TTypeFriends>>(
         SEGMENT_FRIENDS[0],
     )
     const [search, setSearch] = useState("")
+    const { data } = useQuery({
+        queryFn: () => serviceFriends.get(),
+        queryKey: ["friends", `user=${userId}`],
+        enabled: visibleFriends && !!userId,
+    })
 
     function handleClose() {
         dispatchFriends({ visible: false })
     }
+
+    const list: IFriendsResponse[] = useMemo(() => {
+        if (!data?.res) {
+            return []
+        }
+        return data?.res || []
+    }, [data?.res])
 
     return (
         <div className={styles.wrapper}>
@@ -60,7 +77,7 @@ export function DroverFriends() {
                             placeholder="Поиск пользователя по имени"
                         />
                     </div>
-                    <ListFriends list={[]} type={segment.value} />
+                    <ListFriends list={list} type={segment.value} />
                 </article>
             </motion.section>
         </div>

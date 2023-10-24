@@ -14,15 +14,13 @@ export const MotionLI: TMotion = ({
     data,
     notY,
 }) => {
-    const handleClick = () => {
-        if (onClick) onClick()
-    }
-
     return (
         <motion.li
             className={cx(classNames)}
             variants={notY ? motionItemOnOpacity : motionItemOnOpacityY}
-            onClick={handleClick}
+            onClick={() => {
+                if (onClick) onClick()
+            }}
             ref={ref}
             id={id}
             {...data}

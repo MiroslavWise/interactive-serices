@@ -32,8 +32,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const [isFetch, setIsFetch] = useState(false)
     const [socketState, setSocketState] = useState<Socket | null>(null)
 
-    console.log("socketState: ", socketState)
-
     useEffect(() => {
         if (!socketState) {
             setIsFetch(false)
@@ -48,8 +46,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         function error(e: any) {
             console.info("--- error socket --- ", e)
         }
-
-        console.log("fetchedRef.current", isFetch)
         if (!isFetch) {
             if (token) {
                 const options: Partial<ManagerOptions & SocketOptions> = {
@@ -65,7 +61,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 const socket: Socket = io(env.websocket, options)
 
                 socket.on("connect", () => {
-                    console.log("--- new connection socket ---", socket)
                     const upgradedTransport = socket.io.engine.transport.name
                     console.log(
                         "--- connect upgradedTransport ---",

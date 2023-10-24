@@ -33,8 +33,6 @@ const YandexMap: TYandexMap = ({}) => {
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
 
-    console.log("coordinates: ", coordinates)
-
     useInsertionEffect(() => {
         if (!coordinates) {
             if (!!coordinatesAddresses && coordinatesAddresses?.length) {

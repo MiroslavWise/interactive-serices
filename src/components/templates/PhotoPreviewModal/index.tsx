@@ -185,13 +185,13 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                                   <li
                                       key={item.id + item.url}
                                       data-active={index === current?.index}
+                                      onClick={() => {
+                                          dispatch({
+                                              current: item,
+                                          })
+                                      }}
                                   >
                                       <NextImageMotion
-                                          onClick={() => {
-                                              dispatch({
-                                                  current: item,
-                                              })
-                                          }}
                                           src={item?.url}
                                           alt="offer-image"
                                           width={800}
