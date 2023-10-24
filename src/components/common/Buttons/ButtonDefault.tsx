@@ -21,6 +21,7 @@ export const ButtonDefault: TButtonPropsDefault = ({
             type={submit || "button"}
             className={cx("button-default", disabled && "disabled", classNames)}
             onClick={handleClick}
+            data-button-default
         >
             {prefix ? prefix : null}
             <span>{label}</span>

@@ -135,7 +135,7 @@ export const ListChat = () => {
                 <Segments
                     type={systemTheme === "dark" ? "primary" : "optional-1"}
                     active={value}
-                    values={SEGMENTS_CHAT}
+                    VALUES={SEGMENTS_CHAT}
                     setActive={setValue}
                     classNames={styles.segments}
                 />

@@ -7,7 +7,7 @@ import { borderClassNames } from "@/helpers"
 import styles from "./style.module.scss"
 
 export const Segments: TSegments = ({
-    values,
+    VALUES: values,
     active,
     setActive,
     type,
@@ -16,7 +16,9 @@ export const Segments: TSegments = ({
     id,
 }) => {
     return (
-        <MotionUL classNames={[styles.container, classNames]} ref={ref} notY>
+        <MotionUL classNames={[styles.container, classNames]} ref={ref} notY data={{
+            "data-segments": true,
+        }}>
             {values.map((item, index) => (
                 <MotionLI
                     id={id}

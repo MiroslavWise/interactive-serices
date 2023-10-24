@@ -15,7 +15,7 @@ export const SearchInput: TSearchInput = ({
     setValue,
 }) => {
     return (
-        <div className={cx(styles.container, classNames)}>
+        <div className={cx(styles.container, classNames)} data-search>
             <Image
                 className={styles.image}
                 src="/svg/search-lg.svg"

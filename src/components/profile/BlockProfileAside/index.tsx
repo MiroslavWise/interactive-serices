@@ -5,6 +5,7 @@ import { isMobile } from "react-device-detect"
 
 import { HeaderBlock } from "./components/HeaderBlock"
 import { AchievementsCount } from "../AchievementsCount"
+import { ButtonFriends } from "./components/ButtonFriends"
 import { ButtonDefault } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
@@ -21,6 +22,7 @@ export const BlockProfileAside: FC = () => {
             {typeof isMobile !== "undefined" && !isMobile ? (
                 <AchievementsCount />
             ) : null}
+            <ButtonFriends />
             <div className={styles.buttons}>
                 <ButtonDefault
                     label="Редактировать профиль"

@@ -34,7 +34,7 @@ export const Interactive: TInteractive = ({}) => {
                 <Segments
                     classNames={styles.segments}
                     type={systemTheme === "dark" ? "primary" : "optional-1"}
-                    values={VALUES}
+                    VALUES={VALUES}
                     active={active}
                     setActive={setActive}
                 />

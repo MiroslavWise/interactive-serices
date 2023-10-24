@@ -12,7 +12,7 @@ export const Header: THeader = ({ value, setValue }) => {
             <h4>История обмена предложениями</h4>
             <Segments
                 type="primary"
-                values={SEGMENTS}
+                VALUES={SEGMENTS}
                 active={value}
                 setActive={setValue}
             />

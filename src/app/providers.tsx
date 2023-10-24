@@ -48,6 +48,8 @@ import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { DroverFriends } from "@/components/templates/DroverFriends"
+import { useDroverFriends } from "@/store/state/useDroverFriends"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -61,7 +63,7 @@ const queryClient = new QueryClient({
 })
 
 export default function Providers({ children }: { children: ReactNode }) {
-    const { token, userId, refresh } = useAuth()
+    const { token, userId, refresh, isAuth } = useAuth()
     const searchParams = useSearchParams()
     const { handleReplace } = usePush()
     const { on } = useToast()
@@ -69,6 +71,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const passwordResetToken = searchParams?.get("password-reset-token")
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { getCategories } = useOffersCategories()
+    const { visibleFriends } = useDroverFriends()
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
 
@@ -129,6 +132,9 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 <AboutSheiraPopup />
                                 <CompletionTransaction />
                                 <BalloonPlaceMark />
+                                {token && visibleFriends ? (
+                                    <DroverFriends />
+                                ) : null}
                             </YMapsProvider>
                         </WebSocketProvider>
                     </ReduxProvider>
