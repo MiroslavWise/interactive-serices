@@ -18,6 +18,7 @@ import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
 import { PEOPLES } from "@/mocks/components/profile/constants"
 
 import styles from "./styles/style.module.scss"
+import { ComplaintButton } from "./components/ComplaintButton"
 
 export const MainInfo: TMainInfo = ({ user }) => {
     const { userId } = useAuth()
@@ -179,12 +180,11 @@ export const MainInfo: TMainInfo = ({ user }) => {
                     </div>
                 </div>
                 <div className={styles.statusActive}>
-                    <p>Активно 1 день назад</p>
+                    <ComplaintButton user={user!} />
                     <div className={styles.dividers} />
                     <p>
-                        Присоединился{" "}
-                        {user?.profile?.created
-                            ? dayjs(user?.profile?.created).format("DD.MM.YYYY")
+                        {user?.created
+                            ? dayjs(user?.created).format("DD.MM.YYYY")
                             : null}
                     </p>
                 </div>

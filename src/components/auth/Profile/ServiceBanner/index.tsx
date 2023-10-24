@@ -46,7 +46,7 @@ const $ServiceBanner: TServiceBanner = ({ active }) => {
         >
             <div className={styles.sectionSegments}>
                 <Segments
-                    values={SERVICES}
+                    VALUES={SERVICES}
                     active={activeService}
                     setActive={setActiveService}
                     type="primary"

@@ -48,7 +48,7 @@ export const MobileInteractive = () => {
     return (
         <MotionLI classNames={[styles.containerInteractive]}>
             <Segments
-                values={ITEMS_INTERACTIVE}
+                VALUES={ITEMS_INTERACTIVE}
                 active={active}
                 setActive={setActive}
                 type="optional-1"

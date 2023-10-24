@@ -43,7 +43,7 @@ export const ItemSegments: TItemSegments = ({
         >
             <Segments
                 type={systemTheme === "dark" ? "primary" : "optional-1"}
-                values={values}
+                VALUES={values}
                 active={activeSegment}
                 setActive={setActiveSegment}
             />

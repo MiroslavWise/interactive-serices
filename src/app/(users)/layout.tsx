@@ -4,6 +4,7 @@ import {
     NewServicesBanner,
     NewServiceBarterRequests,
 } from "@/components/templates"
+import { ComplaintModal } from "@/components/templates/ComplaintModal"
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
@@ -11,6 +12,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             {children}
             <NewServicesBanner />
             <NewServiceBarterRequests />
+            <ComplaintModal />
         </>
     )
 }

@@ -1,8 +1,8 @@
 import type { FC, ReactNode, Dispatch, SetStateAction, Ref } from "react"
 
 interface ISegments {
-    values: ISegmentValues<string>[]
-    active: ISegmentValues<string>
+    VALUES: ISegmentValues<any>[]
+    active: ISegmentValues<any>
     setActive: Dispatch<SetStateAction<ISegmentValues<any>>>
     type: "primary" | "optional-1"
     classNames?: string
