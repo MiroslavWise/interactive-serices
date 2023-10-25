@@ -36,7 +36,7 @@ jobs:
             cd /home/sheira/sheira-frontend
             git branch
             git stash
-            git checkout feature/update-friends
+            git checkout ${{ env.branch }}
             git pull
             npm install
             npm run build
