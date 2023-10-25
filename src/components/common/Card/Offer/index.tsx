@@ -1,18 +1,15 @@
 "use client"
 
 import dayjs from "dayjs"
-import { useMemo, useState } from "react"
 import Image from "next/image"
-import { useQueries, useQuery } from "react-query"
+import { useQueries } from "react-query"
+import { useMemo, useState } from "react"
 
 import type { TCardOffer } from "./types"
 
 import { MotionLI } from "@/components/common/Motion"
 import { BlockBarter } from "./components/BlockBarter"
-import {
-    ButtonCircleGradient,
-    ButtonDefault,
-} from "@/components/common/Buttons"
+import { ButtonDefault } from "@/components/common/Buttons"
 import { BlockTitle } from "./components/BlockTitle"
 
 import { useAuth } from "@/store/hooks"
@@ -20,27 +17,14 @@ import { serviceUsers } from "@/services/users"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
-import { serviceBarters } from "@/services/barters"
-import { serviceTestimonials } from "@/services/testimonials"
 
 export const CardOffer: TCardOffer = ({
     id,
-    parentId,
-    consignedId,
     thread,
-    initialId,
-    title,
-    imageId,
-    userId,
-    updatedById,
-    provider,
-    created,
-    updated,
     timestamp,
     status,
     initiator,
     consigner,
-    refetch,
 }) => {
     const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
@@ -73,27 +57,6 @@ export const CardOffer: TCardOffer = ({
         }
     }
 
-    function handleCancel() {
-        if (!loading) {
-            setLoading(true)
-            serviceBarters
-                .patch(
-                    {
-                        status: "canceled",
-                        updatedById: myUserId!,
-                    },
-                    id!,
-                )
-                .then(() => {
-                    requestAnimationFrame(() => {
-                        if (refetch) {
-                            refetch()
-                        }
-                    })
-                })
-        }
-    }
-
     return (
         <MotionLI classNames={[styles.container]}>
             <section className={styles.main}>
@@ -111,21 +74,13 @@ export const CardOffer: TCardOffer = ({
                     <p>{dayjs(timestamp!).format("DD/MM/YYYY")}</p>
                 </div>
                 <div className={styles.end}>
-                    {status === "initiated" && myUserId !== userId ? (
+                    {!["completed", "destroyed"]?.includes(status) && (
                         <ButtonDefault
-                            label="Отклонить"
-                            handleClick={handleCancel}
+                            label="Посмотреть"
+                            handleClick={handleChatBarter}
                             classNames={styles.button}
                         />
-                    ) : null}
-                    {!["completed", "destroyed"]?.includes(status) ? (
-                        <ButtonCircleGradient
-                            type="primary"
-                            icon="/svg/message-dots-circle.svg"
-                            size={16}
-                            handleClick={handleChatBarter}
-                        />
-                    ) : null}
+                    )}
                 </div>
             </footer>
         </MotionLI>

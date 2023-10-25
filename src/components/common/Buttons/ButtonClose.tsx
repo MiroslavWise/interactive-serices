@@ -38,6 +38,7 @@ export const ButtonClose: TButtonClose = ({
             onClick={() => {
                 if (onClick) onClick()
             }}
+            data-close
         >
             <Image src="/svg/x-close.svg" alt="x" width={20} height={20} />
         </div>

@@ -40,11 +40,19 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
     useInsertionEffect(() => {
         function connectError(e: any) {
-            console.log("--- connect_error ---", e)
+            console.log(
+                "%c--- connect_error ---",
+                "color: #f00; font-size: 20px;",
+                e,
+            )
         }
 
         function error(e: any) {
-            console.info("--- error socket --- ", e)
+            console.info(
+                "%c--- error socket --- ",
+                "color: #f00; font-size: 20px;",
+                e,
+            )
         }
         if (!isFetch) {
             if (token) {
@@ -63,7 +71,8 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 socket.on("connect", () => {
                     const upgradedTransport = socket.io.engine.transport.name
                     console.log(
-                        "--- connect upgradedTransport ---",
+                        "%c--- connect upgradedTransport ---",
+                        "color: #fd3412",
                         upgradedTransport,
                     )
                     setSocketState(socket)

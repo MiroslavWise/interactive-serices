@@ -27,7 +27,7 @@
         border-radius: 32px;
         background: var(--background);
         overflow: hidden;
-        padding: 72px 0;
+        padding: 72px 20px;
         display: flex;
         flex-direction: column;
         gap: 47px;
@@ -40,7 +40,6 @@
             font-size: 36px;
             font-style: normal;
             font-weight: 600;
-            line-height: 122%;
             letter-spacing: 0px;
         }
 
@@ -60,7 +59,6 @@
             height: min-content;
             max-width: 100%;
             padding: 64px 20px 32px;
-            overflow: visible;
             gap: 32px;
 
             h3 {

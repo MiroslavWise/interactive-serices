@@ -14,8 +14,10 @@ import { useAddress, useOutsideClickEvent, usePush } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 import { SpoilerNotAdress } from "./SpoilerNotAdress"
+import { usePathname } from "next/navigation"
 
 export const Buttons = () => {
+    const pathname = usePathname()
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { isAddresses } = useAddress()
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
@@ -26,10 +28,12 @@ export const Buttons = () => {
     return !isMobile ? (
         isAuth ? (
             <div className={styles.buttons}>
-                <ButtonDefault
-                    label="Просмотр карты"
-                    handleClick={() => handlePush(`/`)}
-                />
+                {pathname !== "/" ? (
+                    <ButtonDefault
+                        label="Просмотр карты"
+                        handleClick={() => handlePush(`/`)}
+                    />
+                ) : null}
                 <ButtonFill
                     type="primary"
                     label="Создать новое"

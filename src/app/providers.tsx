@@ -13,6 +13,8 @@ import {
     Barter,
     CreateNewOptionModal,
     AboutSheiraPopup,
+    NewServicesBanner,
+    NewServiceBarterRequests,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import {
@@ -33,12 +35,7 @@ const BalloonPlaceMark = dynamic(
     },
 )
 
-import {
-    YMapsProvider,
-    WebSocketProvider,
-    NextThemesProvider,
-    ReduxProvider,
-} from "@/context"
+import { YMapsProvider, WebSocketProvider, NextThemesProvider } from "@/context"
 import { CompletionTransaction } from "@/components/templates/CompletionTransaction"
 
 import { usePush } from "@/helpers"
@@ -113,31 +110,27 @@ export default function Providers({ children }: { children: ReactNode }) {
         <>
             <NextThemesProvider>
                 <QueryClientProvider client={queryClient}>
-                    <ReduxProvider>
-                        <WebSocketProvider>
-                            <YMapsProvider>
-                                {children}
-                                <ToastContainer />
-                                <FooterMenu />
-                                <SignPopup />
-                                <PhotoCarousel />
-                                <WelcomeModal />
-                                <ExchangesModalMobile />
-                                <Barter />
-                                <CreateNewOptionModal />
-                                <PhotoPreviewModal />
-                                {token && userId ? (
-                                    <ModalUpdateProfile />
-                                ) : null}
-                                <AboutSheiraPopup />
-                                <CompletionTransaction />
-                                <BalloonPlaceMark />
-                                {token && visibleFriends ? (
-                                    <DroverFriends />
-                                ) : null}
-                            </YMapsProvider>
-                        </WebSocketProvider>
-                    </ReduxProvider>
+                    <WebSocketProvider>
+                        <YMapsProvider>
+                            {children}
+                            <ToastContainer />
+                            <FooterMenu />
+                            <SignPopup />
+                            <PhotoCarousel />
+                            <WelcomeModal />
+                            <ExchangesModalMobile />
+                            <Barter />
+                            <CreateNewOptionModal />
+                            <PhotoPreviewModal />
+                            {token && userId ? <ModalUpdateProfile /> : null}
+                            <AboutSheiraPopup />
+                            <CompletionTransaction />
+                            <BalloonPlaceMark />
+                            {token && visibleFriends ? <DroverFriends /> : null}
+                            <NewServicesBanner />
+                            <NewServiceBarterRequests />
+                        </YMapsProvider>
+                    </WebSocketProvider>
                 </QueryClientProvider>
             </NextThemesProvider>
             <AnimatedLoadPage />

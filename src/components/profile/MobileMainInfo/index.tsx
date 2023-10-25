@@ -90,7 +90,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
 
                     <p className={styles.date}>
                         Присоединился{" "}
-                        {user?.profile?.created
+                        {user?.created
                             ? dayjs(user?.profile?.created).format("DD.MM.YYYY")
                             : null}
                     </p>

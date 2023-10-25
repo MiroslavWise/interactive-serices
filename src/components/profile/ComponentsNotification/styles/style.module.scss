@@ -1,0 +1,113 @@
+.container {
+    position: relative;
+    width: 100%;
+    padding: 14px 18px;
+    height: fit-content;
+    border-radius: 24px;
+    border: 2px solid var(--stroke-1);
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    &[data-provider="offer"] {
+        background: var(--gradient-offer);
+    }
+    &[data-provider="request"] {
+        background: var(--gradient-request);
+    }
+    &[data-provider="alert"] {
+        background: var(--SOS-CARD);
+    }
+    &[data-provider="discussion"] {
+        background: var(--gradient-optional-1);
+    }
+    &[data-name="Barter"] {
+        background: var(--gradient-barter);
+    }
+
+    & > [data-close] {
+        height: 32px;
+        width: 32px;
+
+        & > img {
+            height: 16px;
+            width: 16px;
+        }
+    }
+
+    & > [data-block-info] {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+
+        & > h3 {
+            color: var(--supporting-white);
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+
+            & > span {
+                color: var(--gray-700);
+                font-size: 14px;
+            }
+        }
+
+        & > [data-date] {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            gap: 6px;
+            border-radius: 72.917px;
+            border: 0.729px solid var(--gray-300);
+            background: var(--background-input);
+
+            p {
+                color: var(--gray-500);
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 150%;
+                letter-spacing: -0.5px;
+            }
+        }
+    }
+
+    & > [data-buttons] {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 8px;
+
+        & > [data-button-default] {
+            height: 36px;
+        }
+
+        & > [data-circle-gradient] {
+            height: 36px;
+            width: 36px;
+
+            & > img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .container {
+        & > [data-buttons] {
+            & > [data-circle-gradient] {
+                & > img {
+                    // filter: invert(1);
+                }
+            }
+        }
+    }
+}

@@ -171,6 +171,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                                         handlePush(
                                             `/messages?user=${stateBalloon?.idUser!}`,
                                         )
+                                        dispatch({ visible: false })
                                     }
                                 }}
                             />

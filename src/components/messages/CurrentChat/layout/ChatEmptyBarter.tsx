@@ -12,10 +12,12 @@ import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { providerIsAscending } from "@/lib/sortIdAscending"
+import { useRefetchListChat } from "../../hook/useRefetchListChat"
 
 import styles from "../styles/style.module.scss"
 
 export const ChatEmptyBarter = () => {
+    const refresh = useRefetchListChat()
     const { on } = useToast()
     const idBarter = useSearchParams()?.get("barter-id")
     const { userId } = useAuth()
@@ -89,8 +91,9 @@ export const ChatEmptyBarter = () => {
                 )
                 return
             }
-
-            handleReplace(`/messages?thread=${idCreate}`)
+            refresh("barter").finally(() => {
+                handleReplace(`/messages?thread=${idCreate}`)
+            })
         }
     }
 

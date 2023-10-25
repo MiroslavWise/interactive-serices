@@ -5,6 +5,7 @@
     gap: 16px;
     height: 84px;
     width: 100%;
+    max-width: 395px;
     border-radius: 100px;
     border: 2px solid var(--stroke-1);
     background: var(--glass-bg-color-1);
@@ -26,6 +27,9 @@
     }
 
     &[data-mobile="true"] {
+        height: 60px;
+        max-width: 100%;
+
         & > p {
             font-size: 18px;
         }

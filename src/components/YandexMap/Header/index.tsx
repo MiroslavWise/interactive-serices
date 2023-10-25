@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { memo } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
@@ -9,12 +9,16 @@ import type { THeaderMobile } from "./types"
 
 import { SearchElementMap } from "@/components/common/Inputs"
 
+import { useAuth } from "@/store/hooks"
+
 import styles from "./styles/style.module.scss"
 
-export const Header: THeaderMobile = ({
+export const Header: THeaderMobile = memo(function $Header({
     setVisibleNotification,
     handleAddressLocation,
-}) => {
+}) {
+    const { token } = useAuth()
+
     return isMobile ? (
         <motion.div
             className={styles.header}
@@ -58,11 +62,14 @@ export const Header: THeaderMobile = ({
             id="headerRef"
             className={styles.containerSearchTop}
             initial={{ top: -100 }}
-            animate={{ top: 40 }}
+            animate={{ top: !!token ? 77 + 40 : 40 }}
             transition={{ duration: 0.5 }}
             exit={{ top: -100 }}
+            style={{
+                top: !!token ? 77 + 40 : 40,
+            }}
         >
             <SearchElementMap handleAddressLocation={handleAddressLocation} />
         </motion.div>
     )
-}
+})

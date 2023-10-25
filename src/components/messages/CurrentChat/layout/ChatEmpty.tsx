@@ -9,10 +9,12 @@ import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { IPostThreads } from "@/services/threads/types"
 import { providerIsAscending } from "@/lib/sortIdAscending"
+import { useRefetchListChat } from "../../hook/useRefetchListChat"
 
 import styles from "../styles/style.module.scss"
 
 export const ChatEmpty = () => {
+    const refresh = useRefetchListChat()
     const { on } = useToast()
     const idUser = useSearchParams().get("user")
     const { userId } = useAuth()
@@ -69,8 +71,9 @@ export const ChatEmpty = () => {
                 )
                 return
             }
-
-            handleReplace(`/messages?thread=${idCreate}`)
+            refresh("personal").finally(() => {
+                handleReplace(`/messages?thread=${idCreate}`)
+            })
         }
     }
 

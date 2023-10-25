@@ -1,4 +1,7 @@
+"use client"
+
 import { motion } from "framer-motion"
+import { isMobile } from "react-device-detect"
 
 import type { TMotion } from "./types/types"
 
@@ -19,6 +22,7 @@ export const MotionUL: TMotion = ({
             variants={notY ? motionOpacity : motionOpacityY}
             initial="hidden"
             animate="visible"
+            data-mobile-ul={isMobile}
             id={id}
             ref={ref}
             {...data}

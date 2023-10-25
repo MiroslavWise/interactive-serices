@@ -11,11 +11,9 @@
 .container {
     position: absolute;
     padding-top: 24px;
-    top: 24px;
     right: 24px;
     max-width: 400px;
     width: 100%;
-    height: calc(100% - 48px);
     flex-shrink: 0;
     border-radius: var(--banner-border-radius);
     background: var(--glass-bg-color);

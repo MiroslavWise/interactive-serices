@@ -14,10 +14,12 @@ import { Segments } from "@/components/common/Segments"
 
 import { cx } from "@/lib/cx"
 import { SERVICES } from "./constants"
+import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 const $ServiceBanner: TServiceBanner = ({ active }) => {
+    const { token } = useAuth()
     const [activeService, setActiveService] = useState<ISegmentValues<string>>(
         SERVICES[0],
     )
@@ -43,6 +45,12 @@ const $ServiceBanner: TServiceBanner = ({ active }) => {
             animate={{ opacity: 1, visibility: "visible" }}
             exit={{ opacity: 0, visibility: "hidden" }}
             transition={{ duration: 0.8 }}
+            style={{
+                top: !!token ? 24 + 77 : 24,
+                height: !!token
+                    ? `calc(100% - 48px - 77px)`
+                    : `calc(100% - 48px)`,
+            }}
         >
             <div className={styles.sectionSegments}>
                 <Segments
