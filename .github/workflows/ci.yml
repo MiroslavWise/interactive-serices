@@ -24,6 +24,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/sheira/sheira-frontend
+            git branch
             git stash
             git checkout feature/update-friends
             git pull
