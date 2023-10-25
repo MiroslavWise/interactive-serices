@@ -5,7 +5,7 @@ export interface IStateDroverFriends {
     type: TTypeFriends
 }
 
-export type TTypeFriends = "list" | "request"
+export type TTypeFriends = "list" | "request" | "response"
 
 interface IDispatch {
     visible?: boolean

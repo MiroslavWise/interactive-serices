@@ -10,6 +10,9 @@ export const serviceFriends: IFriendsService = {
         values.order = "DESC"
         return wrapperFetch.methodGet(this.route, value)
     },
+    getId(id) {
+        return wrapperFetch.methodGetId(this.route, id)
+    },
     post(value) {
         return wrapperFetch.methodPost(this.route, value)
     },

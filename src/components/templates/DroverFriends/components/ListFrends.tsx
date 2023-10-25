@@ -5,7 +5,7 @@ import { ItemListFriend } from "./ItemListFriend"
 
 export const ListFriends: TListFriends = ({ list, type }) => {
     return (
-        <ul data-list>
+        <MotionUL data={{ "data-list": true }}>
             {list.map((item) => (
                 <ItemListFriend
                     key={`${item.id}-item-friend`}
@@ -13,6 +13,6 @@ export const ListFriends: TListFriends = ({ list, type }) => {
                     type={type}
                 />
             ))}
-        </ul>
+        </MotionUL>
     )
 }

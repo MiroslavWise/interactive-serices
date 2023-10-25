@@ -26,10 +26,18 @@ export function DroverFriends() {
     const [segment, setSegment] = useState<ISegmentValues<TTypeFriends>>(
         SEGMENT_FRIENDS[0],
     )
+
+    let re: Omit<TTypeFriends, "list">
+
     const [search, setSearch] = useState("")
     const { data } = useQuery({
-        queryFn: () => serviceFriends.get(),
-        queryKey: ["friends", `user=${userId}`],
+        queryFn: () =>
+            serviceFriends.get(
+                ["request", "response"].includes(segment.value)
+                    ? { filter: segment.value as Exclude<TTypeFriends, "list"> }
+                    : undefined,
+            ),
+        queryKey: ["friends", `user=${userId}`, `filter=${segment.value}`],
         enabled: visibleFriends && !!userId,
     })
 

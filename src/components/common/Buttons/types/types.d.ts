@@ -38,6 +38,7 @@ interface IButtonCircleGradient {
     type: "primary" | "option-1"
     icon: string
     size?: number
+    loading?: boolean
 }
 
 interface IButtonRadio {

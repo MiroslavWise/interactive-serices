@@ -17,6 +17,7 @@ import { ACHIEVEMENTS } from "../MainInfo/constants"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles.module.scss"
+import { AddFriend } from "../MainInfo/components/AddFriend"
 
 export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
     const { dispatchVisibleBarter } = useVisibleModalBarter()
@@ -100,11 +101,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                 </div>
             </div>
             <div className={styles.buttons}>
-                <ButtonFill
-                    label="Добавить в друзья"
-                    type="primary"
-                    classNames={styles.buttonFill}
-                />
+                <AddFriend user={user}/>
                 <ButtonCircleGradient
                     type="primary"
                     icon="/svg/message-dots-circle-primary.svg"

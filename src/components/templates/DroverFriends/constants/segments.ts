@@ -8,6 +8,10 @@ export const SEGMENT_FRIENDS: ISegmentValues<TTypeFriends>[] = [
     },
     {
         label: "Запросы",
+        value: "response",
+    },
+    {
+        label: "Мои заявки",
         value: "request",
     },
 ]

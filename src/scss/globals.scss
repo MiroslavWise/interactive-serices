@@ -3,6 +3,11 @@
     padding: 0;
     box-sizing: border-box;
     -webkit-touch-callout: none;
+
+    [data-loading-image="true"] {
+        border-radius: 50%;
+        animation: loading 11s infinite;
+    }
 }
 
 body {
@@ -255,6 +260,15 @@ h6 {
 
     .ymaps-2-1-79-ground-pane {
         filter: invert(1);
+    }
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(3600deg);
     }
 }
 

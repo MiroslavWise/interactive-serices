@@ -13,6 +13,7 @@ export const ButtonCircleGradient: TButtonCircleGradient = ({
     type,
     icon,
     size,
+    loading,
 }) => {
     return (
         <div
@@ -28,10 +29,11 @@ export const ButtonCircleGradient: TButtonCircleGradient = ({
             data-circle-gradient
         >
             <Image
-                src={icon}
+                src={loading ? "/svg/loading-03.svg" : icon}
                 alt="icon"
                 width={size || 40}
                 height={size || 40}
+                data-loading-image={loading}
             />
         </div>
     )

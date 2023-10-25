@@ -39,6 +39,7 @@ export const ButtonFill: TButtonPropsFill = ({
             onClick={click}
             type={submit || "button"}
             ref={ref}
+            data-button-fill
         >
             {prefix ? prefix : null}
             <span>{label}</span>
