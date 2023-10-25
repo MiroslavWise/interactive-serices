@@ -24,7 +24,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/sheira/sheira-frontend
-            git checkout develop
+            git checkout feature/update-friends
             git pull
             npm install
             npm run build
