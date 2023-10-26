@@ -25,7 +25,7 @@ const $Header: IHeader = ({ categoryId, rating, title, provider }) => {
                 {rating ? (
                     <div className={styles.containerRate}>
                         <Rate
-                            rate={rating?.average! / 2}
+                            rate={rating?.average!}
                             className={styles.rateGap}
                             size={14}
                         />

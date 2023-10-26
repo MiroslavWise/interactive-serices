@@ -51,14 +51,14 @@ export const AddFriend = ({ user }: { user: IUserResponse }) => {
         }
     }
 
-    console.log("%c ---friend: ", "color: #0f0", data)
+    console.log("%c ---friend: ", "color: #034234", data)
 
     const isFriend = useMemo(() => {
         if (!data?.res || !user) return null
         return data?.res?.some((item) => +item.id === +user?.id!)
     }, [data?.res, user])
 
-    console.log("%c ---isFriend: ", "color: #0f0", isFriend)
+    console.log("%c ---isFriend: ", "color: #0d0304", isFriend)
 
     return isFriend ? (
         <div data-is-friend>

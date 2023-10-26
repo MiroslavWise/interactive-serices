@@ -1,59 +1,53 @@
-.wrapper {
-    display: none;
+.wrapper,
+.wrapperMobile {
+    display: flex;
     opacity: 0;
     visibility: hidden;
     position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
+    z-index: 1220;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.62);
-    backdrop-filter: blur(2.5px);
-    z-index: 120;
-    padding: 15px;
 
-    &.visible {
-        display: flex;
+    &[data-visible="true"] {
         opacity: 1;
         visibility: visible;
     }
 }
 
-.container {
-    max-width: 886px;
-    width: 100%;
-    flex-shrink: 0;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
-    max-height: 667px;
-    height: 100%;
-    border-radius: 32px;
-    background: var(--background);
-    overflow: hidden;
-    z-index: 1;
+.wrapper {
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(2.5px);
+    padding: 15px;
+
+    &[data-container] {
+        max-width: 886px;
+        width: 100%;
+        flex-shrink: 0;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        max-height: 667px;
+        height: 100%;
+        border-radius: 32px;
+        background: var(--background);
+        overflow: hidden;
+        z-index: 1;
+    }
 }
 
 .wrapperMobile {
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 19;
-    background: var(--supporting-white);
+    background: var(--background);
 
-    &.visible {
-        display: flex;
-        opacity: 1;
-        visibility: visible;
+    & > ul {
+        position: relative;
+        &[data-mobile="true"] {
+            padding: 0 0 14px;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }

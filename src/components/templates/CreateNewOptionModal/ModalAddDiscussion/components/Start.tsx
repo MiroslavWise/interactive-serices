@@ -15,7 +15,11 @@ import { serviceOffers } from "@/services/offers"
 import { serviceAddresses } from "@/services/addresses"
 import { fileUploadService } from "@/services/file-upload"
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
-import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
+import {
+    replaceRussianMats,
+    transliterateAndReplace,
+    useCloseCreateOptions,
+} from "@/helpers"
 
 export const Start = () => {
     const { userId } = useAuth()
@@ -36,7 +40,7 @@ export const Start = () => {
     function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {
             provider: "discussion",
-            title: text,
+            title: replaceRussianMats(text),
             userId: userId!,
             slug: transliterateAndReplace(text!),
             enabled: true,
@@ -86,13 +90,13 @@ export const Start = () => {
         if (addressInit) {
             serviceAddresses.getHash(addressInit.hash!).then((response) => {
                 if (!response?.res?.id) {
-            serviceAddresses.post(addressInit).then((response_) => {
-                if (response_.ok) {
-                    if (response_.res) {
-                        postOffer([response_?.res?.id])
-                    }
-                }
-            })
+                    serviceAddresses.post(addressInit).then((response_) => {
+                        if (response_.ok) {
+                            if (response_.res) {
+                                postOffer([response_?.res?.id])
+                            }
+                        }
+                    })
                 } else {
                     postOffer([response?.res?.id])
                 }

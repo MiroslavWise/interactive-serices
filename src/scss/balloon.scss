@@ -350,6 +350,17 @@
                 border-radius: 20px;
                 background: var(--supporting-white);
                 box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.16);
+                cursor: pointer;
+
+                & > img {
+                    filter: grayscale(1);
+                }
+
+                &[data-active] {
+                    & > img {
+                        filter: grayscale(0);
+                    }
+                }
 
                 & > p {
                     color: var(--gray-400);
@@ -366,8 +377,6 @@
             position: relative;
             width: 100%;
             max-height: calc(167px + 225px);
-            min-height: 167px;
-            height: 100%;
             border-radius: 0px 0px 33px 33px;
             overflow: hidden;
 
@@ -439,7 +448,7 @@
             }
 
             & > form {
-                position: sticky;
+                position: absolute;
                 bottom: 0;
                 left: 0;
                 right: 0;

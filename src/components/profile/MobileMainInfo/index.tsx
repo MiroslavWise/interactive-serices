@@ -88,7 +88,6 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                             location={geo?.additional}
                         />
                     ) : null}
-
                     <p className={styles.date}>
                         Присоединился{" "}
                         {user?.created
@@ -100,45 +99,47 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                     ) : null}
                 </div>
             </div>
-            <div className={styles.buttons}>
-                <AddFriend user={user}/>
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/message-dots-circle-primary.svg"
-                    size={20}
-                    classNames={styles.buttonCircle}
-                    handleClick={() => {
-                        if (Number(userId) === Number(user?.id)) {
-                            return
-                        }
-                        handlePush(`/messages?user=${user?.id}`)
-                    }}
-                />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/repeat-primary.svg"
-                    size={20}
-                    classNames={styles.buttonCircle}
-                    handleClick={() => {
-                        if (Number(userId) === Number(user?.id)) {
-                            return
-                        }
-                        if (userId) {
-                            dispatchVisibleBarter({
-                                isVisible: true,
-                                dataProfile: {
-                                    photo: user?.profile?.image?.attributes
-                                        ?.url,
-                                    fullName: `${
-                                        user?.profile?.firstName || "----"
-                                    } ${user?.profile?.lastName || "----"}`,
-                                    idUser: user?.id!,
-                                },
-                            })
-                        }
-                    }}
-                />
-            </div>
+            {userId !== user?.id && userId ? (
+                <div className={styles.buttons}>
+                    <AddFriend user={user} />
+                    <ButtonCircleGradient
+                        type="primary"
+                        icon="/svg/message-dots-circle-primary.svg"
+                        size={20}
+                        classNames={styles.buttonCircle}
+                        handleClick={() => {
+                            if (Number(userId) === Number(user?.id)) {
+                                return
+                            }
+                            handlePush(`/messages?user=${user?.id}`)
+                        }}
+                    />
+                    <ButtonCircleGradient
+                        type="primary"
+                        icon="/svg/repeat-primary.svg"
+                        size={20}
+                        classNames={styles.buttonCircle}
+                        handleClick={() => {
+                            if (Number(userId) === Number(user?.id)) {
+                                return
+                            }
+                            if (userId) {
+                                dispatchVisibleBarter({
+                                    isVisible: true,
+                                    dataProfile: {
+                                        photo: user?.profile?.image?.attributes
+                                            ?.url,
+                                        fullName: `${
+                                            user?.profile?.firstName || "----"
+                                        } ${user?.profile?.lastName || "----"}`,
+                                        idUser: user?.id!,
+                                    },
+                                })
+                            }
+                        }}
+                    />
+                </div>
+            ) : null}
         </MotionLI>
     )
 }

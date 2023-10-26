@@ -71,7 +71,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
                             setLoading(false)
                         })
                     })
-                }, 350)
+                }, 850)
             })
         }
     }
@@ -91,7 +91,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
                             setLoading(false)
                         })
                     })
-                }, 350)
+                }, 850)
             })
         }
     }

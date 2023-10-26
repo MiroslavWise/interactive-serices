@@ -1,16 +1,15 @@
 "use client"
 
+import { useEffect } from "react"
 import { useQuery } from "react-query"
 
 import type { TPeoples } from "./types/types"
 
-import { MotionUL } from "@/components/common/Motion"
 import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
-import { useEffect } from "react"
 
 export const Peoples: TPeoples = ({ setTotal }) => {
     const { data } = useQuery({
@@ -25,7 +24,7 @@ export const Peoples: TPeoples = ({ setTotal }) => {
     }, [setTotal, data?.res])
 
     return (
-        <MotionUL classNames={[styles.peoples]}>
+        <ul className={styles.peoples}>
             {ok &&
                 res?.map((item) => (
                     <GeneralServiceAllItem
@@ -33,6 +32,6 @@ export const Peoples: TPeoples = ({ setTotal }) => {
                         {...item}
                     />
                 ))}
-        </MotionUL>
+        </ul>
     )
 }

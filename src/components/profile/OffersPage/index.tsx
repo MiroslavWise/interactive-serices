@@ -30,15 +30,18 @@ function reducer(state: IStateOffers, action: IActionOffers) {
 export const OffersPage = () => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    return isMobile ? (
-        <ul className="w-100 h-100">
-            <MobileSegments />
-            <ContainerHeader total={state.total || 0} dispatch={dispatch} isToMe={state.isToMe} />
-            <ContainerOffersNow isToMe={state.isToMe} dispatch={dispatch} />
-        </ul>
-    ) : (
-        <ul className={styles.containerOffersPage}>
-            <ContainerHeader total={state.total || 0} dispatch={dispatch} isToMe={state.isToMe} />
+    return (
+        <ul
+            className={
+                isMobile ? styles.mobileOffersPage : styles.containerOffersPage
+            }
+        >
+            {isMobile && <MobileSegments />}
+            <ContainerHeader
+                total={state.total || 0}
+                dispatch={dispatch}
+                isToMe={state.isToMe}
+            />
             <ContainerOffersNow isToMe={state.isToMe} dispatch={dispatch} />
         </ul>
     )

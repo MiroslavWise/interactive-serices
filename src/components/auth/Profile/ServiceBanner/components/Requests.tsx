@@ -3,9 +3,9 @@
 import { useQuery } from "react-query"
 import { useEffect, type Dispatch, type SetStateAction } from "react"
 
-import { MotionUL } from "@/components/common/Motion"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
+import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
@@ -26,7 +26,7 @@ export const Requests = ({
     }, [setTotal, data?.res])
 
     return (
-        <MotionUL classNames={[styles.peoples, styles.requestsAndProposals]}>
+        <ul className={cx(styles.peoples, styles.requestsAndProposals)}>
             {Array.isArray(data?.res)
                 ? data?.res?.map((item) => (
                       <CardRequestsAndProposals
@@ -36,6 +36,6 @@ export const Requests = ({
                       />
                   ))
                 : null}
-        </MotionUL>
+        </ul>
     )
 }

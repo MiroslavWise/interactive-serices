@@ -72,7 +72,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                     const upgradedTransport = socket.io.engine.transport.name
                     console.log(
                         "%c--- connect upgradedTransport ---",
-                        "color: #fd3412",
+                        `color:  #${upgradedTransport ? "0f0" : "fd3412"}`,
                         upgradedTransport,
                     )
                     setSocketState(socket)

@@ -62,11 +62,11 @@ export const Header: THeaderMobile = memo(function $Header({
             id="headerRef"
             className={styles.containerSearchTop}
             initial={{ top: -100 }}
-            animate={{ top: !!token ? 77 + 40 : 40 }}
+            animate={{ top: !!token ? 77 + 24 : 40 }}
             transition={{ duration: 0.5 }}
             exit={{ top: -100 }}
             style={{
-                top: !!token ? 77 + 40 : 40,
+                top: !!token ? 77 + 24 : 40,
             }}
         >
             <SearchElementMap handleAddressLocation={handleAddressLocation} />

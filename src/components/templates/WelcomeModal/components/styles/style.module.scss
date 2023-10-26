@@ -6,18 +6,6 @@
     gap: 20px;
     justify-content: space-between;
     overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
-    &.mobile {
-        padding-bottom: 140px;
-        padding-left: 30px;
-        padding-right: 30px;
-    }
 
     footer {
         position: absolute;
@@ -122,9 +110,4 @@
             letter-spacing: -0.5px;
         }
     }
-}
-
-//4444444444444444444444444444444444444444444
-
-.contentPage4 {
 }

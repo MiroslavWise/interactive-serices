@@ -45,7 +45,7 @@
                 }
             }
 
-            & > [data-segments="true"] {
+            & > [data-segments] {
                 height: 50px;
                 max-width: fit-content;
                 width: 100%;
@@ -74,6 +74,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                overflow-y: auto;
                 gap: 12px;
                 padding: 0 32px 32px;
                 z-index: 2;
@@ -86,7 +87,7 @@
                     flex-direction: row;
                     align-items: center;
                     justify-content: space-between;
-                    gap: 15px;
+                    gap: 16px;
                     border-radius: 16px;
                     border: 2px solid var(--stroke-1);
                     background: var(--background-input);
@@ -141,6 +142,68 @@
                             & > span {
                                 font-size: 14px;
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &[data-mobile="true"] {
+        & > section {
+            border-radius: 0;
+            max-width: 100%;
+            overflow-y: scroll;
+            gap: 12px;
+
+            & > article {
+                & > header {
+                    display: none;
+                }
+
+                & > [data-close-segment] {
+                    position: sticky;
+                    top: 12px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 100%;
+                    padding: 0 16px;
+                    gap: 16px;
+                    z-index: 50;
+                    & > [data-segments] {
+                        width: 100%;
+                        & > li {
+                            width: 30%;
+                            padding: 12px 3px;
+                        }
+                    }
+                    & > [data-close] {
+                        position: relative;
+                        inset: initial !important;
+                    }
+                }
+
+                & > [data-search-block] {
+                    max-width: 100%;
+                    padding: 0 16px;
+                    position: sticky;
+                    top: calc(12px + 50px + 12px);
+                    z-index: 50;
+                }
+
+                & > [data-list] {
+                    padding: 0 16px 16px;
+
+                    & > li {
+                        flex-direction: column;
+
+                        & > [data-block-profile] {
+                            width: 100%;
+                        }
+                        & > [data-block-buttons] {
+                            width: 100%;
+                            justify-content: flex-end;
                         }
                     }
                 }

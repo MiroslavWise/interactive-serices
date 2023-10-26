@@ -10,11 +10,12 @@ import { cx } from "@/lib/cx"
 import styles from "./style.module.scss"
 
 export const LeftAsideProfile = () => {
-
-  return (
-    <aside className={cx(styles.asideLeft, isMobile && styles.mobile)}>
-      <BlockProfileAside />
-      {typeof isMobile !== undefined && !isMobile ? <FooterAsideLeft /> : null}
-    </aside>
-  )
+    return (
+        <aside className={cx(styles.asideLeft, isMobile && styles.mobile)}>
+            <BlockProfileAside />
+            {typeof isMobile !== undefined && !isMobile ? (
+                <FooterAsideLeft />
+            ) : null}
+        </aside>
+    )
 }

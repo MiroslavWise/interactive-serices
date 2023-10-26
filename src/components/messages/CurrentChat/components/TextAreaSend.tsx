@@ -1,7 +1,7 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
-import { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
@@ -10,30 +10,24 @@ import type { TTextAreaSend } from "./types/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
 import { cx } from "@/lib/cx"
+import { replaceRussianMats } from "@/helpers"
 import { serviceMessages } from "@/services/messages"
 import { useWebSocket } from "@/context/WebSocketProvider"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
-import { useAuth, usePopupMenuChat, useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, usePopupMenuChat } from "@/store/hooks"
 
 import styles from "./styles/text-area.module.scss"
 
-export const TextAreaSend: TTextAreaSend = ({
-    photo,
-    fullName,
-    isBarter,
-    idUser,
-    refetch,
-}) => {
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
+export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
     const { socket } = useWebSocket()
     const { userId } = useAuth()
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
-    const { isVisible, setIsVisible } = usePopupMenuChat()
-    const { register, setValue, handleSubmit, watch, control } = useForm<{
+    const { setIsVisible } = usePopupMenuChat()
+    const { register, setValue, handleSubmit, watch } = useForm<{
         text: string
     }>({})
     const [loading, setLoading] = useState(false)
@@ -43,7 +37,7 @@ export const TextAreaSend: TTextAreaSend = ({
         if (!loading) {
             setLoading(true)
             const date = new Date()
-            const message = text.trim()
+            const message = replaceRussianMats(text.trim())
             const receiverIds = [Number(idUser)]
             if (message) {
                 if (socket?.connected) {

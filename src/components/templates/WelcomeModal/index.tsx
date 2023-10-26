@@ -19,15 +19,23 @@ export function WelcomeModal() {
         setVisible(false)
     }
 
-    return isMobile ? (
-        <div className={cx(styles.wrapperMobile, isVisible && styles.visible)}>
-            <Content />
-            <Glasses />
-        </div>
-    ) : (
-        <div className={cx(styles.wrapper, isVisible && styles.visible)}>
-            {isVisible ? (
+    return isVisible ? (
+        isMobile ? (
+            <div className={styles.wrapperMobile} data-visible={isVisible}>
+                <ButtonClose
+                    position={{
+                        right: 12,
+                        top: 12,
+                    }}
+                    onClick={close}
+                />
+                <Content />
+                <Glasses />
+            </div>
+        ) : (
+            <div className={styles.wrapper} data-visible={isVisible}>
                 <motion.div
+                    data-container
                     className={styles.container}
                     initial={{ opacity: 0, visibility: "hidden" }}
                     animate={{ opacity: 1, visibility: "visible" }}
@@ -44,7 +52,7 @@ export function WelcomeModal() {
                     />
                     <Glasses />
                 </motion.div>
-            ) : null}
-        </div>
-    )
+            </div>
+        )
+    ) : null
 }

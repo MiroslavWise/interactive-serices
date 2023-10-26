@@ -31,6 +31,10 @@ export interface IBlockComments {
     type: "alert" | "discussion"
 }
 
+export interface IBlockLikes {
+    id: number
+}
+
 export type TBalloonPlaceMark = FC<IBalloonPlaceMark>
 export type TOfferBalloonComponent = FC<IOfferBalloonComponent>
 export type TDiscussionBalloonComponent = FC<IDiscussionBalloonComponent>
@@ -40,3 +44,4 @@ export type TButtonSuccessInBalloon = FC<IButtonSuccessInBalloon>
 
 export type TItemComment = FC<IItemComment>
 export type TBlockComments = FC<IBlockComments>
+export type TBlockLikes = FC<IBlockLikes>

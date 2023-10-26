@@ -19,7 +19,11 @@ import { useCreateOffer } from "@/store/state/useCreateOffer"
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
-import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
+import {
+    replaceRussianMats,
+    transliterateAndReplace,
+    useCloseCreateOptions,
+} from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 import { serviceAddresses } from "@/services/addresses"
@@ -69,7 +73,7 @@ export const ModalAddOffer = () => {
         if (step === 1 && valueCategory?.id && (adressId || addressInit)) {
             const data: IPostOffers = {
                 provider: `offer`,
-                title: text!,
+                title: replaceRussianMats(text!),
                 categoryId: valueCategory?.id,
                 slug: transliterateAndReplace(text),
                 enabled: true,

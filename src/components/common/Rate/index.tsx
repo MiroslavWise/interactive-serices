@@ -22,7 +22,7 @@ export const Rate: TRate = ({ rate, className, size }) => {
             className={cx(styles.container, className)}
             style={{ height: size || 20 }}
         >
-            {createArray(Number(rate) / 2, 5).map((bool, index) => (
+            {createArray(Number(rate), 5).map((bool, index) => (
                 <li
                     key={`${index}_rate_${id}`}
                     style={{ width: size || 20, height: size || 20 }}
