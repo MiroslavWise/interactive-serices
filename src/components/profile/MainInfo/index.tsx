@@ -8,18 +8,18 @@ import type { TMainInfo } from "./types/types"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { BlockOther } from "./components/BlockOther"
+import { AddFriend } from "./components/AddFriend"
+import { ButtonsCircle } from "@/components/common/Buttons"
 import { ComplaintButton } from "./components/ComplaintButton"
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ButtonsCircle } from "@/components/common/Buttons"
+import { CircleOfCommunication } from "./components/CircleOfCommunication"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { usePush } from "@/helpers/hooks/usePush"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
-import { PEOPLES } from "@/mocks/components/profile/constants"
+import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { AddFriend } from "./components/AddFriend"
 
 export const MainInfo: TMainInfo = ({ user }) => {
     const { userId } = useAuth()
@@ -73,51 +73,56 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                 <GeoTagging location={geo?.additional} />
                             ) : null}
                         </div>
-                        <section className={styles.buttons}>
-                            <AddFriend user={user} />
-                            <ButtonsCircle
-                                src="/svg/message-dots-circle.svg"
-                                type="primary"
-                                onClick={() => {
-                                    if (
-                                        Number(userId) === Number(user?.id) ||
-                                        !userId
-                                    ) {
-                                        return
-                                    }
-                                    handlePush(`/messages?user=${user?.id}`)
-                                }}
-                            />
-                            <ButtonsCircle
-                                src="/svg/repeat-01.svg"
-                                type="primary"
-                                onClick={() => {
-                                    if (
-                                        Number(userId) === Number(user?.id) ||
-                                        !userId
-                                    ) {
-                                        return
-                                    }
-                                    if (userId) {
-                                        dispatchVisibleBarter({
-                                            isVisible: true,
-                                            dataProfile: {
-                                                photo: user?.profile?.image
-                                                    ?.attributes?.url,
-                                                fullName: `${
-                                                    user?.profile?.firstName ||
-                                                    ""
-                                                } ${
-                                                    user?.profile?.lastName ||
-                                                    ""
-                                                }`,
-                                                idUser: user?.profile?.userId!,
-                                            },
-                                        })
-                                    }
-                                }}
-                            />
-                        </section>
+                        {userId !== user?.id && userId ? (
+                            <section className={styles.buttons}>
+                                <AddFriend user={user} />
+                                <ButtonsCircle
+                                    src="/svg/message-dots-circle.svg"
+                                    type="primary"
+                                    onClick={() => {
+                                        if (
+                                            Number(userId) ===
+                                                Number(user?.id) ||
+                                            !userId
+                                        ) {
+                                            return
+                                        }
+                                        handlePush(`/messages?user=${user?.id}`)
+                                    }}
+                                />
+                                <ButtonsCircle
+                                    src="/svg/repeat-01.svg"
+                                    type="primary"
+                                    onClick={() => {
+                                        if (
+                                            Number(userId) ===
+                                                Number(user?.id) ||
+                                            !userId
+                                        ) {
+                                            return
+                                        }
+                                        if (userId) {
+                                            dispatchVisibleBarter({
+                                                isVisible: true,
+                                                dataProfile: {
+                                                    photo: user?.profile?.image
+                                                        ?.attributes?.url,
+                                                    fullName: `${
+                                                        user?.profile
+                                                            ?.firstName || ""
+                                                    } ${
+                                                        user?.profile
+                                                            ?.lastName || ""
+                                                    }`,
+                                                    idUser: user?.profile
+                                                        ?.userId!,
+                                                },
+                                            })
+                                        }
+                                    }}
+                                />
+                            </section>
+                        ) : null}
                     </div>
                     <div className={styles.descriptionAndOther}>
                         <p className={styles.description}>
@@ -152,28 +157,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                 />
                             ))}
                         </BlockOther>
-                        <BlockOther
-                            label="Круг общения"
-                            classNames={[styles.peoples]}
-                        >
-                            {PEOPLES.map((item) => (
-                                <div
-                                    key={item.assignment}
-                                    className={styles.people}
-                                >
-                                    <ImageStatic
-                                        src={item.src}
-                                        alt={item.assignment}
-                                        width={33}
-                                        height={33}
-                                        classNames={[styles.img]}
-                                    />
-                                </div>
-                            ))}
-                            <div className={styles.more}>
-                                <p>12+</p>
-                            </div>
-                        </BlockOther>
+                        <CircleOfCommunication user={user} />
                     </div>
                 </div>
                 <div className={styles.statusActive}>

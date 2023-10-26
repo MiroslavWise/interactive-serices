@@ -14,6 +14,7 @@ import { M_ContainerAboutProfile } from "./components/M_ContainerAboutProfile"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
+import { ButtonFriends } from "../BlockProfileAside/components/ButtonFriends"
 
 export const MyProfilePage: TMyProfilePage = ({}) => {
     const [isOfferOrRequest, setIsOfferOrRequest] = useState<
@@ -32,8 +33,9 @@ export const MyProfilePage: TMyProfilePage = ({}) => {
                     {...{ isOfferOrRequest, setIsOfferOrRequest }}
                 />
             ) : null}
-            {isMobile ? <M_ContainerAboutProfile /> : null}
-            {isMobile ? <AchievementsCount /> : null}
+            {isMobile && <M_ContainerAboutProfile />}
+            {isMobile && <ButtonFriends />}
+            {isMobile && <AchievementsCount />}
             <ContainerTagAndButton
                 {...{ isOfferOrRequest, setIsOfferOrRequest }}
             />

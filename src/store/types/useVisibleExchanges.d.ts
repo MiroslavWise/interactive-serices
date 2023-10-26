@@ -1,10 +1,9 @@
 import type { Dispatch } from "react"
-
-export type TExchanges = "current" | "completed"
+import type { TTypeStatusBarter } from "@/services/file-upload/types"
 
 export interface IUseVisibleExchanges {
     isVisible: boolean
-    type: TExchanges | undefined
+    type?: TTypeStatusBarter
 
     setVisibleType: Dispatch<{ visible?: boolean; type?: TExchanges }>
 }

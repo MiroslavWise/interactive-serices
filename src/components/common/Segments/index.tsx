@@ -1,13 +1,12 @@
 import type { TSegments } from "./types"
 
-import { MotionLI, MotionUL } from "../Motion"
-
 import { borderClassNames } from "@/helpers"
 
 import styles from "./style.module.scss"
+import { cx } from "@/lib/cx"
 
 export const Segments: TSegments = ({
-    VALUES: values,
+    VALUES,
     active,
     setActive,
     type,
@@ -16,32 +15,33 @@ export const Segments: TSegments = ({
     id,
 }) => {
     return (
-        <MotionUL classNames={[styles.container, classNames]} ref={ref} notY data={{
-            "data-segments": true,
-        }}>
-            {values.map((item, index) => (
-                <MotionLI
+        <ul
+            className={cx(styles.container, classNames)}
+            ref={ref}
+            data-segments
+        >
+            {VALUES.map((item, index) => (
+                <li
                     id={id}
                     key={item?.value}
                     onClick={() => setActive(item)}
-                    notY
-                    classNames={[
+                    className={cx(
                         styles.button,
                         styles[type],
                         active.value === item.value && styles.active,
                         active.value !== item.value &&
                             styles[
                                 borderClassNames(
-                                    values.indexOf(active),
+                                    VALUES.indexOf(active),
                                     index,
-                                    values.length,
+                                    VALUES.length,
                                 )
                             ],
-                    ]}
+                    )}
                 >
                     <p>{item.label}</p>
-                </MotionLI>
+                </li>
             ))}
-        </MotionUL>
+        </ul>
     )
 }

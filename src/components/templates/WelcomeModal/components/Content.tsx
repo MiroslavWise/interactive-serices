@@ -9,7 +9,6 @@ import { Three } from "./Three"
 import { Four } from "./Four"
 import { Pagination } from "./Pagination"
 
-import { cx } from "@/lib/cx"
 import { useWelcomeModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
@@ -29,7 +28,7 @@ export const Content = () => {
     )
 
     return (
-        <ul className={cx(styles.content, isMobile && styles.mobile)}>
+        <ul className={styles.content} data-mobile={isMobile}>
             {content}
             <Pagination />
         </ul>

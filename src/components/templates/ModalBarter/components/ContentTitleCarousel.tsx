@@ -1,12 +1,11 @@
 "use client"
 
-import { RefObject, useEffect, useMemo, useRef, useState } from "react"
-import { useQuery } from "react-query"
 import Image from "next/image"
+import { useQuery } from "react-query"
+
 import type { TContent } from "../types/types"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
-// import { ImageStatic } from "@/components/common/Image"
 import { CustomDatePicker } from "@/components/common/custom"
 
 import { useAddress } from "@/helpers"
@@ -14,7 +13,6 @@ import { serviceOffers } from "@/services/offers"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { ListOffersBarter } from "@/components/common/ListOffersBarter"
 import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
-// import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
 
@@ -29,8 +27,7 @@ export const ContentTitleCarousel: TContent = ({
     const { isAddresses } = useAddress()
     const { userId } = useAuth()
     const { setVisible } = useUpdateProfile()
-    const { dispatchVisibleTypeCreateOptionals, isVisible: isCreateVisible } =
-        useAddCreateModal()
+    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal()
     const { data } = useQuery({
         queryFn: () =>
             serviceOffers.getUserId(userId!, {

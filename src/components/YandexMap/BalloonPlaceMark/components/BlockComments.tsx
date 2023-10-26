@@ -1,19 +1,21 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
-import { useMutation, useQuery } from "react-query"
+import { useQuery } from "react-query"
 import { useForm } from "react-hook-form"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import type { TBlockComments } from "../types/types"
 
 import { ItemComment } from "./ItemComment"
 import { ButtonFill } from "@/components/common/Buttons"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
+import { useAuth } from "@/store/hooks"
+import { replaceRussianMats } from "@/helpers"
 import { serviceComments } from "@/services/comments"
 import { serviceOffersThreads } from "@/services/offers-threads"
-import { useAuth } from "@/store/hooks"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
+import { BlockLikes } from "./BlockLikes"
 
 export const BlockComments: TBlockComments = ({ type, offerId }) => {
     const { userId } = useAuth()
@@ -98,7 +100,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
             .post({
                 userId: userId!,
                 offerThreadId: currentOffersThreads?.id! || offerThreadId!,
-                message: values?.text,
+                message: replaceRussianMats(values?.text),
                 status: "published",
                 enabled: true,
             })
@@ -112,7 +114,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
 
     return (
         <>
-            {type === "alert" ? (
+            {/* {type === "alert" ? (
                 <footer data-alert>
                     <button
                         onClick={() => {
@@ -130,8 +132,8 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                         />
                     </button>
                 </footer>
-            ) : null}
-            {type === "discussion" ? (
+            ) : null} */}
+            {["discussion", "alert"].includes(type) ? (
                 <footer data-discussion>
                     <button
                         onClick={() => {
@@ -148,15 +150,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                             height={18}
                         />
                     </button>
-                    <div data-likes>
-                        <Image
-                            src="/svg/thumbs-up.svg"
-                            alt="thumbs-up"
-                            width={18}
-                            height={18}
-                        />
-                        <p>112</p>
-                    </div>
+                    <BlockLikes id={offerId!} />
                 </footer>
             ) : null}
             {activeListComments ? (

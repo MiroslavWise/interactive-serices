@@ -15,6 +15,7 @@ import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./style.module.scss"
 import { useAuth } from "@/store/hooks"
+import { cx } from "@/lib/cx"
 
 export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     const {
@@ -91,7 +92,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     }
 
     return (
-        <MotionLI classNames={[styles.container, className]} onClick={handle}>
+        <li className={cx(styles.container, className)} onClick={handle}>
             <header>
                 {typeImagePng ? (
                     <ImageStatic
@@ -119,6 +120,6 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
                 ) : null}
             </header>
             <section>{title && <h4>{title}</h4>}</section>
-        </MotionLI>
+        </li>
     )
 }

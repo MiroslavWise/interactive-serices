@@ -109,11 +109,11 @@ const YandexMap: TYandexMap = ({}) => {
                     }
                 },
                 (error) => {
-                    console.log("error location: ", error)
+                    console.log("%c error location: ", "color: #f00", error)
                 },
             )
         } else {
-            console.error("Вы не дали доступ к геолокации")
+            console.error("%c Вы не дали доступ к геолокации", "color: #f00")
         }
     }
 
@@ -144,7 +144,6 @@ const YandexMap: TYandexMap = ({}) => {
                     yandexMapDisablePoiInteractivity: true,
                 }}
                 onContextMenu={onContextMenu}
-                id="map_yandex"
             >
                 <ListPlacemark />
                 {addressInit ? (

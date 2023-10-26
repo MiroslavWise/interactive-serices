@@ -33,10 +33,6 @@ export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
 const PlaceState: FC<
     Partial<IPlacemarkCurrent> & { item: [number, number] }
 > = ({ title, id, item, provider, idUser, dispatch }) => {
-    useEffect(() => {
-        console.log("dispatch: ", dispatch)
-    }, [dispatch])
-
     return (
         <Placemark
             geometry={item.reverse()}

@@ -14,7 +14,11 @@ import { serviceOffers } from "@/services/offers"
 import { useCreateRequest } from "@/store/state/useCreateRequest"
 import { AddressDescription } from "../../components/AddressDescription"
 import { ImagesUploadInput } from "../../components/ImagesUploadInput"
-import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
+import {
+    replaceRussianMats,
+    transliterateAndReplace,
+    useCloseCreateOptions,
+} from "@/helpers"
 import { fileUploadService } from "@/services/file-upload"
 import { serviceAddresses } from "@/services/addresses"
 
@@ -44,7 +48,7 @@ export const Start = () => {
         if (text && selected?.id && (addressInit || adressId)) {
             const data: IPostOffers = {
                 provider: "request",
-                title: text,
+                title: replaceRussianMats(text),
                 userId: userId!,
                 categoryId: Number(selected?.id!),
                 slug: transliterateAndReplace(text!),

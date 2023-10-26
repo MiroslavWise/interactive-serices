@@ -2,6 +2,7 @@ import type { Dispatch, DispatchWithoutAction, FC, SetStateAction } from "react"
 import type { TExchanges } from "@/store/types/useVisibleExchanges"
 import type { IBarterResponse } from "@/services/barters/types"
 import type { IActionOffers } from "../../types/types"
+import type { TTypeStatusBarter } from "@/services/file-upload/types"
 
 interface IContainerHeader {
     total: number
@@ -19,7 +20,7 @@ interface IMobileSegments {}
 export interface IOffersCard {
     label: string
     src: string
-    value: TExchanges
+    value: TTypeStatusBarter
 }
 
 export type TMobileSegments = FC<IMobileSegments>

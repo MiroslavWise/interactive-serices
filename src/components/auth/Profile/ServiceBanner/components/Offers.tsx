@@ -9,6 +9,7 @@ import { CardRequestsAndProposals } from "@/components/common/Card"
 import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
+import { cx } from "@/lib/cx"
 
 export const Offers = ({
     setTotal,
@@ -25,7 +26,7 @@ export const Offers = ({
     }, [setTotal, data?.res])
 
     return (
-        <MotionUL classNames={[styles.peoples, styles.requestsAndProposals]}>
+        <ul className={cx(styles.peoples, styles.requestsAndProposals)}>
             {Array.isArray(data?.res)
                 ? data?.res?.map((item) => (
                       <CardRequestsAndProposals
@@ -35,6 +36,6 @@ export const Offers = ({
                       />
                   ))
                 : null}
-        </MotionUL>
+        </ul>
     )
 }

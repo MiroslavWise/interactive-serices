@@ -150,12 +150,10 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
     }
 
     return (
-        <MotionLI
-            classNames={[styles.container]}
-            data={{
-                "data-mobile": isMobile,
-                "data-type": type,
-            }}
+        <li
+            className={styles.container}
+            data-mobile={isMobile}
+            data-type={type}
         >
             <header>
                 <ImageStatic
@@ -211,7 +209,7 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
                     </div>
                 ) : null}
             </section>
-        </MotionLI>
+        </li>
     )
 }
 

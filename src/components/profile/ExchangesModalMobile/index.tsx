@@ -1,31 +1,37 @@
 "use client"
 
 import Image from "next/image"
+import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
 
+import { Glasses } from "@/components/common/Glasses"
 import { MotionUL } from "@/components/common/Motion"
 import { CardOffer } from "@/components/common/Card/Offer"
-import { Glasses } from "@/components/common/Glasses"
 
-import { cx } from "@/lib/cx"
+import { serviceBarters } from "@/services/barters"
 import { useAuth, useVisibleExchanges } from "@/store/hooks"
 
 import styles from "./style.module.scss"
-import { useQueries } from "react-query"
-import { serviceBarters } from "@/services/barters"
 
 export const ExchangesModalMobile = () => {
-    const { isAuth } = useAuth() ?? {}
+    const { userId } = useAuth() ?? {}
     const { type, isVisible, setVisibleType } = useVisibleExchanges() ?? {}
 
-    // const [] = useQueries([
-    // {
+    const { data } = useQuery({
+        queryFn: () =>
+            serviceBarters.get({
+                status: type,
+                user: userId!,
+                order: "DESC",
+            }),
+        queryKey: ["barters", `user=${userId}`, `status=${type}`],
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        enabled: !!userId && isVisible,
+    })
 
-    // }
-    // ])
-
-    return isMobile && isAuth ? (
-        <div className={cx(styles.wrapper, isVisible && styles.active)}>
+    return isMobile && userId ? (
+        <div className={styles.wrapper} data-visible={isVisible}>
             <header>
                 <div
                     className={styles.buttonBack}
@@ -41,27 +47,23 @@ export const ExchangesModalMobile = () => {
                     />
                 </div>
                 <h4>
-                    {type === "current"
+                    {type === "executed"
                         ? "Текущие"
                         : type === "completed"
                         ? "Завершённые"
                         : ""}
                 </h4>
             </header>
-            {/* {type === "current" ? (
-                <MotionUL>
-                    {HISTORY_OFFERS_MOCKS.map((item) => (
-                        <CardOffer key={item.name + type} {...item} />
-                    ))}
-                </MotionUL>
-            ) : null}
-            {type === "completed" ? (
-                <MotionUL>
-                    {HISTORY_OFFERS_MOCKS.map((item) => (
-                        <CardOffer key={item.name + type} {...item} />
-                    ))}
-                </MotionUL>
-            ) : null} */}
+            <MotionUL>
+                {Array.isArray(data?.res)
+                    ? data?.res?.map((item) => (
+                          <CardOffer
+                              key={`${item.id}-history-page-${item.status}`}
+                              {...item}
+                          />
+                      ))
+                    : null}
+            </MotionUL>
             <Glasses />
         </div>
     ) : null

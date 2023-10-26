@@ -161,7 +161,11 @@ export const useWelcomeModalState = create<IUseWelcomeModal>((set, get) => ({
         if (get().page > 1) set({ page: get().page - 1 })
     },
     setNext() {
-        if (get().page < 4) set({ page: get().page + 1 })
+        if (get().page < 4) {
+            set({ page: get().page + 1 })
+        } else {
+            set({ isVisible: false })
+        }
     },
     setPage(value) {
         if (value !== get().page) {

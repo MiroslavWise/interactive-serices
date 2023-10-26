@@ -16,7 +16,11 @@ import { useAuth } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
 import { fileUploadService } from "@/services/file-upload"
 import { serviceAddresses } from "@/services/addresses"
-import { transliterateAndReplace, useCloseCreateOptions } from "@/helpers"
+import {
+    replaceRussianMats,
+    transliterateAndReplace,
+    useCloseCreateOptions,
+} from "@/helpers"
 
 export const Start = () => {
     const { userId } = useAuth()
@@ -37,7 +41,7 @@ export const Start = () => {
     function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {
             provider: "alert",
-            title: text,
+            title: replaceRussianMats(text),
             userId: userId!,
             slug: transliterateAndReplace(text),
             enabled: true,

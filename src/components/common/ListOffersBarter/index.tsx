@@ -5,9 +5,11 @@ import { forwardRef, memo, useMemo } from "react"
 
 import type { TListOffersBarter } from "./types"
 
+import { ButtonDefault } from "../Buttons"
 import { ImageStatic } from "@/components/common/Image"
 
 import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import styles from "./style.module.scss"
 
@@ -16,12 +18,20 @@ const $ListOffersBarter = forwardRef(function ListOffersBarter(
 ) {
     const { items, active, onClick, ...rest } = props ?? {}
     const { categories } = useOffersCategories()
+    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal()
 
     const height = useMemo(() => {
         const length = items?.length || 70 + 32
 
         return 16 + length * 70 + (length - 1) * 8
     }, [items])
+
+    function updateProfileOffers() {
+        dispatchVisibleTypeCreateOptionals({
+            visible: true,
+            type: "offer",
+        })
+    }
 
     return (
         <article className={styles.container} {...rest} data-mobile={isMobile}>
@@ -55,7 +65,12 @@ const $ListOffersBarter = forwardRef(function ListOffersBarter(
                     </li>
                 ))}
             </ul>
-            {length ? <sup></sup> : null}
+            {/* {length ? <sup></sup> : null} */}
+            <ButtonDefault
+                handleClick={updateProfileOffers}
+                submit="button"
+                label="Добавить предложение"
+            />
         </article>
     )
 })
