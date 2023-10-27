@@ -1,0 +1,134 @@
+.containerAuthBanner,
+.containerNoAuth {
+    position: fixed;
+    left: 24px;
+    max-width: 296px;
+    width: 100%;
+    z-index: 59;
+    backdrop-filter: blur(4px);
+    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+    border-radius: var(--banner-border-radius);
+}
+
+.containerAuthBanner {
+    top: calc(24px + 77px);
+    bottom: 24px;
+    display: inline-flex;
+    padding: 24px 12px;
+    gap: 20px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border: 2px solid var(--stroke-1);
+    background: var(--glass-bg-color-1);
+    overflow-y: auto;
+
+    & > [data-content] {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        .badges {
+            display: inline-flex;
+            gap: 12px;
+            align-items: center;
+
+            .badge {
+                overflow: hidden;
+                width: 119px;
+                padding: 8px 8px 5px 16px;
+                flex: 1 0 0;
+
+                p {
+                    overflow: hidden;
+                }
+            }
+        }
+
+        & > [data-button-fill] {
+            height: 44px;
+            width: 100%;
+        }
+    }
+}
+
+.containerNoAuth {
+    top: 24px;
+    flex-shrink: 0;
+    background: var(--glass-bg-color);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out 0.01;
+
+    & > header {
+        width: 100%;
+        margin: 32px auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    & > section {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        margin: 12px 16px;
+        width: calc(100% - 32px);
+
+        & > article {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+
+            & > [data-description] {
+                color: var(--gray-500);
+                text-align: center;
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 28px;
+                letter-spacing: -0.5px;
+            }
+
+            & > [data-buttons] {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+        .bannerContent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+    }
+
+    & > footer {
+        display: inline-flex;
+        padding: 16px 0px;
+        align-items: flex-start;
+        gap: 10px;
+        width: 100%;
+        justify-content: center;
+
+        & > a {
+            color: var(--gray-900);
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 28px;
+            letter-spacing: -0.5px;
+            text-decoration-line: underline;
+            cursor: pointer;
+        }
+    }
+}

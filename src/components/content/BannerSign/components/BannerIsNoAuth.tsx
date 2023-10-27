@@ -1,46 +1,45 @@
 "use client"
 
+import { memo } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
-import { BannerCoins } from "./BannerCoins"
+import { GlassesBanner } from "@/components/common/Glasses"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { cx } from "@/lib/cx"
-import { Glasses } from "./Glasses"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-
-import styles from "./styles/no-auth-banner.module.scss"
 import { useVisibleAbout } from "@/store/state/useVisibleAbout"
 
-export const BannerIsNoAuth = () => {
+import styles from "../styles/banner.module.scss"
+
+export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { dispatchVisibleAbout } = useVisibleAbout()
 
     return (
         <motion.ul
             id="SignBanner"
-            className={cx(styles.container)}
+            className={styles.containerNoAuth}
             initial={{ opacity: 0, visibility: "hidden" }}
             animate={{ opacity: 1, visibility: "visible" }}
             transition={{ duration: 0.3 }}
             exit={{ opacity: 0, visibility: "hidden" }}
         >
-            <div className={styles.headerSign}>
+            <header>
                 <Image
                     src="/logo/wordmark.svg"
                     alt="sheira"
                     width={140}
                     height={37}
                 />
-            </div>
-            <div className={styles.content}>
-                <div className={styles.descriptionSign}>
-                    <p className={styles.description}>
+            </header>
+            <section data-content>
+                <article>
+                    <p data-description>
                         Зарегистрируйтесь в Шейре и добавляйте свои предложения
                         на карту.
                     </p>
-                    <div className={styles.buttons}>
+                    <div data-buttons>
                         <ButtonFill
                             type="primary"
                             label="Войти"
@@ -66,15 +65,12 @@ export const BannerIsNoAuth = () => {
                             <BannerCoins />
                         </div> */}
                     </div>
-                </div>
-            </div>
-            <div
-                className={styles.footer}
-                onClick={() => dispatchVisibleAbout(true)}
-            >
+                </article>
+            </section>
+            <footer onClick={() => dispatchVisibleAbout(true)}>
                 <a>Всё о Шейре</a>
-            </div>
-            <Glasses />
+            </footer>
+            <GlassesBanner />
         </motion.ul>
     )
-}
+})

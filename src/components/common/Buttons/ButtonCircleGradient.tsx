@@ -4,7 +4,7 @@ import type { TButtonCircleGradient } from "./types/types"
 
 import { cx } from "@/lib/cx"
 
-import styles from "./styles/style.module.scss"
+import styles from "./styles/circle-gradient.module.scss"
 
 export const ButtonCircleGradient: TButtonCircleGradient = ({
     classNames,
@@ -18,7 +18,7 @@ export const ButtonCircleGradient: TButtonCircleGradient = ({
     return (
         <div
             className={cx(
-                styles.circleGradient,
+                styles.container,
                 styles[type],
                 disabled && styles.disabled,
                 classNames,
@@ -26,6 +26,7 @@ export const ButtonCircleGradient: TButtonCircleGradient = ({
             onClick={() => {
                 handleClick ? handleClick() : null
             }}
+            data-loading={loading}
             data-circle-gradient
         >
             <Image

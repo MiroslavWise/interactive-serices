@@ -9,7 +9,6 @@ import { IResetEmailData } from "./types/types"
 import { ButtonClose } from "@/components/common/Buttons"
 import { Glasses } from "./components/Glasses"
 
-import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
@@ -20,39 +19,28 @@ export function ModalSign() {
     const { type, visible, setVisibleAndType } = useVisibleAndTypeAuthModal()
 
     return !isAuth ? (
-        isMobile ? (
-            visible ? (
-                <motion.div
-                    className={cx(
-                        styles.overviewMobile,
-                        visible && styles.visible,
-                    )}
-                    initial={{ opacity: 0, visibility: "hidden" }}
-                    animate={{ opacity: 1, visibility: "visible" }}
-                    transition={{ duration: 0.5 }}
-                    exit={{ opacity: 0, visibility: "hidden" }}
-                >
-                    <div data-content>
-                        {/* <HeaderModal
+        visible ? (
+            <motion.div
+                className={isMobile ? styles.overviewMobile : styles.overlay}
+                data-visible={visible}
+                initial={{ opacity: 0, visibility: "hidden" }}
+                animate={{ opacity: 1, visibility: "visible" }}
+                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, visibility: "hidden" }}
+            >
+                {isMobile ? (
+                    <>
+                        <div data-content>
+                            {/* <HeaderModal
                             email={valueEmail.email}
                             typeVerification={typeVerification}
                         />
                         {content} */}
-                    </div>
-                    <Glasses />
-                </motion.div>
-            ) : null
-        ) : (
-            <div className={cx(styles.overlay, visible && styles.visible)}>
-                {visible ? (
-                    <motion.div
-                        className={styles.modal}
-                        initial={{ opacity: 0, visibility: "hidden" }}
-                        animate={{ opacity: 1, visibility: "visible" }}
-                        transition={{ duration: 0.5 }}
-                        exit={{ opacity: 0, visibility: "hidden" }}
-                        data-mobile
-                    >
+                        </div>
+                        <Glasses />
+                    </>
+                ) : (
+                    <div data-modal>
                         <ButtonClose
                             onClick={() =>
                                 setVisibleAndType({
@@ -67,15 +55,15 @@ export function ModalSign() {
                         />
                         <div data-content>
                             {/* <HeaderModal
-                                email={valueEmail.email}
-                                typeVerification={typeVerification}
-                            />
-                            {content} */}
+                                    email={valueEmail.email}
+                                    typeVerification={typeVerification}
+                                />
+                                {content} */}
                         </div>
                         <Glasses />
-                    </motion.div>
-                ) : null}
-            </div>
-        )
+                    </div>
+                )}
+            </motion.div>
+        ) : null
     ) : null
 }
