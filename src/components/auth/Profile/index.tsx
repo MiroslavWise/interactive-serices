@@ -6,7 +6,6 @@ import { isMobile, isTablet } from "react-device-detect"
 import type { IStateVisible } from "./types"
 
 import { ProfilePublic } from "./ProfilePublic"
-import { ServiceBanner } from "./ServiceBanner"
 
 export const Profiles = ({}) => {
     const [serviceDataVisible, setServiceDataVisible] = useState<IStateVisible>(
@@ -19,10 +18,6 @@ export const Profiles = ({}) => {
 
     return !isMobile || isTablet ? (
         <>
-            <ServiceBanner
-                active={serviceDataVisible.isService}
-                setDataAndActive={setServiceDataVisible}
-            />
             <ProfilePublic
                 active={serviceDataVisible}
                 setActive={setServiceDataVisible}

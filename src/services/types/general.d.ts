@@ -31,3 +31,5 @@ export type TProviderOffer =
     | "children"
     | "games"
     | "rent"
+
+export type TOrder = "DESC" | "ASC"

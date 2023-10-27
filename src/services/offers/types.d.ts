@@ -1,7 +1,7 @@
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import type { TTypeProvider } from "../file-upload/types"
-import type { IReturnData } from "../types/general"
+import type { IReturnData, TOrder } from "../types/general"
 
 export interface IResponseCreate {
     id: number
@@ -50,7 +50,7 @@ export interface IResponseOffers {
 }
 
 interface IQueries {
-    order?: "ASC" | "DESC"
+    order?: TOrder
     user?: number
     provider?: TTypeProvider
 }
