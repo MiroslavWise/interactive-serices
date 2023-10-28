@@ -13,35 +13,7 @@
     touch-action: manipulation;
     background: transparent !important;
 
-    // &.primary {
-    //     background:
-    //         linear-gradient(
-    //                 var(--button-default-background),
-    //                 var(--button-default-background)
-    //             )
-    //             padding-box,
-    //         var(--gradient-primary) border-box !important;
-    // }
-
-    // &.option-1 {
-    //     background:
-    //         linear-gradient(
-    //                 var(--button-default-background),
-    //                 var(--button-default-background)
-    //             )
-    //             padding-box,
-    //         var(--gradient-optional-1) border-box !important;
-    // }
-
-    &::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        border: 2px solid transparent !important;
+    &.primary {
         background:
             linear-gradient(
                     var(--button-default-background),
@@ -51,28 +23,14 @@
             var(--gradient-primary) border-box !important;
     }
 
-    &.primary {
-        &::before {
-            background:
-                linear-gradient(
-                        var(--button-default-background),
-                        var(--button-default-background)
-                    )
-                    padding-box,
-                var(--gradient-primary) border-box !important;
-        }
-    }
-
     &.option-1 {
-        &::before {
-            background:
-                linear-gradient(
-                        var(--button-default-background),
-                        var(--button-default-background)
-                    )
-                    padding-box,
-                var(--gradient-optional-1) border-box !important;
-        }
+        background:
+            linear-gradient(
+                    var(--button-default-background),
+                    var(--button-default-background)
+                )
+                padding-box,
+            var(--gradient-optional-1) border-box !important;
     }
 
     &[data-loading="true"] {
