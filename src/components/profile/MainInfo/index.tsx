@@ -128,7 +128,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                         <p className={styles.description}>
                             {user?.profile?.about}
                         </p>
-                        <BlockOther
+                        {/* <BlockOther
                             label="Достижения"
                             classNames={[styles.achievements]}
                         >
@@ -141,7 +141,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                     height={36}
                                 />
                             ))}
-                        </BlockOther>
+                        </BlockOther> */}
                         <BlockOther
                             label="Социальные медиа"
                             classNames={[styles.social]}

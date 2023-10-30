@@ -138,7 +138,7 @@ export const InterviewerInfoCurrent = () => {
                             </p>
                         ) : null}
                     </section>
-                    <BlockOther
+                    {/* <BlockOther
                         label="Достижения"
                         classNames={[stylesHeader.achievements]}
                     >
@@ -151,7 +151,7 @@ export const InterviewerInfoCurrent = () => {
                                 height={25}
                             />
                         ))}
-                    </BlockOther>
+                    </BlockOther> */}
                 </header>
                 <ul className={styles.badges}>
                     {BADGES.slice(1, 3).map((item) => (

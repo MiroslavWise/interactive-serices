@@ -54,7 +54,7 @@ export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
                 {geo ? (
                     <GeoTagging size={14} fontSize={12} location={geo} />
                 ) : null}
-                <BlockCoin coin={300} />
+                {/* <BlockCoin coin={300} /> */}
             </div>
         </div>
     )

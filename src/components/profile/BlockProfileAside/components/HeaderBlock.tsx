@@ -68,7 +68,7 @@ export const HeaderBlock: THeaderBlock = () => {
                     </p>
                 ) : null}
             </section>
-            <BlockOther label="Достижения" classNames={[styles.achievements]}>
+            {/* <BlockOther label="Достижения" classNames={[styles.achievements]}>
                 {ACHIEVEMENTS.map((item) => (
                     <Image
                         key={item.assignment}
@@ -78,7 +78,7 @@ export const HeaderBlock: THeaderBlock = () => {
                         height={25}
                     />
                 ))}
-            </BlockOther>
+            </BlockOther> */}
         </header>
     )
 }

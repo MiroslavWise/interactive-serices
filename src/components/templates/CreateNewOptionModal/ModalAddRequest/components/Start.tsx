@@ -138,17 +138,17 @@ export const Start = () => {
                         setValue={setAddressId}
                     />
                 )}
-                <LabelAndSelectOffersCategories
-                    title="Предложение"
+                <LabelAndSelectOffersCategories 
+                    title="Я хочу"
                     placeholder="Выберите категории"
                     value={selected!}
                     setValue={setValueCategory}
                 />
                 <LabelAndInput
-                    title="Придумайте заголовок для вашего обсуждения."
+                    title="Добавьте текст, чтобы люди могли понять что вы хотите"
                     text={text}
                     setText={setText}
-                    placeholder="Что вы хотите обсудить?"
+                    placeholder="Опишите более подробно, в чём конкретно ваша просьба"
                 />
                 <p>Вы можете добавить фото, если хотите</p>
                 <ImagesUploadInput
