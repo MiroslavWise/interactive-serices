@@ -45,9 +45,9 @@ export const Header: THeaderMobile = memo(function $Header({
                             width={22}
                             height={22}
                         />
-                        <div className={styles.badge}>
+                        {/* <div className={styles.badge}>
                             <span>2</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className={styles.segments}>

@@ -1,16 +1,16 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
+// import { useQuery } from "react-query"
 
 import type { TNotifications } from "./types"
 
 import { MotionUL } from "@/components/common/Motion"
-import { PeopleCard } from "@/components/common/PeopleCard/Notifications"
+// import { PeopleCard } from "@/components/common/PeopleCard/Notifications"
 import { Glasses } from "@/components/common/Glasses"
 
 import { cx } from "@/lib/cx"
-import { serviceProfile } from "@/services/profile"
+// import { serviceProfile } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
 
@@ -18,10 +18,10 @@ export const Notifications: TNotifications = ({
     visibleNotification,
     setVisibleNotification,
 }) => {
-    const { data } = useQuery(["profiles"], () =>
-        serviceProfile.get({ limit: 20 }),
-    )
-    const { res, ok } = data ?? {}
+    // const { data } = useQuery(["profiles"], () =>
+    //     serviceProfile.get({ limit: 20 }),
+    // )
+    // const { res, ok } = data ?? {}
 
     return (
         <div
@@ -31,7 +31,7 @@ export const Notifications: TNotifications = ({
             )}
         >
             <header className={styles.header}>
-                <h4>Предложения</h4>
+                <h4>Уведомления</h4>
                 <div
                     className={styles.closeArrowDown}
                     onClick={() => setVisibleNotification(false)}
@@ -45,7 +45,8 @@ export const Notifications: TNotifications = ({
                 </div>
             </header>
             <MotionUL>
-                {ok &&
+                <></>
+                {/* {ok &&
                     res?.map((item) => (
                         <PeopleCard
                             key={`${item.id}_prof_notifications_${item.created}`}
@@ -57,7 +58,7 @@ export const Notifications: TNotifications = ({
                             path={`/user?id=${item.userId}`}
                             userId={item?.userId!}
                         />
-                    ))}
+                    ))} */}
             </MotionUL>
             <Glasses />
         </div>
