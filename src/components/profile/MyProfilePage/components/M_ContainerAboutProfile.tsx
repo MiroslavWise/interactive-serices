@@ -16,13 +16,18 @@ import {
 import { useAddress, useOut } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
+import { useMemo } from "react"
 
 export const M_ContainerAboutProfile = () => {
     const { isAddresses } = useAddress()
     const { setVisible } = useUpdateProfile()
     const { out } = useOut()
-    const { user, imageProfile, createdUser } = useAuth()
+    const { user, imageProfile, createdUser, addresses } = useAuth()
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+
+    const geo = useMemo(() => {
+        return addresses?.find((item) => item?.addressType === "main") || null
+    }, [addresses])
 
     return (
         <section className={styles.containerMAboutProfile}>
@@ -73,11 +78,13 @@ export const M_ContainerAboutProfile = () => {
                     <h4>
                         {user?.firstName} {user?.lastName}
                     </h4>
-                    <GeoTagging
-                        size={16}
-                        fontSize={12}
-                        location="Арбат, Москва"
-                    />
+                    {geo ? (
+                        <GeoTagging
+                            size={16}
+                            fontSize={12}
+                            location={geo?.additional}
+                        />
+                    ) : null}
                     <p className={styles.date}>
                         Присоединился{" "}
                         {createdUser
