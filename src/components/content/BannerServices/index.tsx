@@ -1,5 +1,6 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
 import { motion } from "framer-motion"
 import { useState, useMemo, type ReactNode, memo } from "react"
 
@@ -25,7 +26,7 @@ export const BannerServices = memo(function $BannerServices() {
 
     function onSearch(value: string) {}
 
-    return (
+    return !isMobile ? (
         <motion.div
             className={styles.container}
             initial={{ opacity: 0, visibility: "hidden" }}
@@ -67,5 +68,5 @@ export const BannerServices = memo(function $BannerServices() {
             </div>
             <GlassesBanner />
         </motion.div>
-    )
+    ) : null
 })
