@@ -113,9 +113,7 @@ export const CurrentChat = () => {
     }, [dataUser?.res, messages])
 
     useEffect(() => {
-        console.log("socket socket: ", socket)
         function chatResponse(event: any) {
-            console.log("chatResponse event: ", event)
             if (event?.threadId === Number(idThread)) {
                 refetch()
             }

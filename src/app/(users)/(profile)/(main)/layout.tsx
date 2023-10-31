@@ -6,10 +6,10 @@ import { isMobile } from "react-device-detect"
 import { HistoryExchangeOffers, LeftAsideProfile } from "@/components/profile"
 
 import { cx } from "@/lib/cx"
+import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 
 import styles from "@/scss/page.module.scss"
-import { usePush } from "@/helpers"
 
 export default function LayoutMainProfile({
     children,

@@ -103,9 +103,7 @@ export const ListChat = () => {
     }, [arrayUsers, data, userId])
 
     useEffect(() => {
-        console.log("socket socket: ", socket)
         function chatResponse(event: any) {
-            console.log("chatResponse event: ", event)
             refetch()
         }
 

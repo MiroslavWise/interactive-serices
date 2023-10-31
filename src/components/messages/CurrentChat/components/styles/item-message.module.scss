@@ -42,6 +42,11 @@
 
             p {
                 color: var(--gray-900);
+
+                & > [data-username] {
+                    color: var(--error-600);
+                    cursor: pointer;
+                }
             }
         }
     }
@@ -82,6 +87,11 @@
 
             p {
                 color: var(--supporting-white);
+
+                & > [data-username] {
+                    color: var(--error-600);
+                    cursor: pointer;
+                }
             }
 
             .time {

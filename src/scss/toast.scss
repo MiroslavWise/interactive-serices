@@ -1,5 +1,9 @@
 .Toastify {
     .Toastify__toast-container {
+        max-width: 786px;
+        padding: 0 20px;
+        width: 100%;
+
         .Toastify__toast {
             border-radius: 22px !important;
             background: var(--glass-bg-color-1) !important;
@@ -20,8 +24,13 @@
                 border: 2px solid var(--stroke-1) !important;
             }
 
-            &.toast-barter{
+            &.toast-barter {
                 background: var(--gradient-barter) !important;
+                border: 2px solid var(--stroke-1) !important;
+            }
+
+            &.toast-message {
+                background: var(--primary-500) !important;
                 border: 2px solid var(--stroke-1) !important;
             }
 

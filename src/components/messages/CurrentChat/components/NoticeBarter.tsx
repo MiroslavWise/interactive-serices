@@ -9,9 +9,11 @@ import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
 import { BadgeServices } from "@/components/common/Badge"
+import { NextImageMotion } from "@/components/common/Image"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
+import { useWebSocket } from "@/context"
 import { serviceBarters } from "@/services/barters"
 import { serviceTestimonials } from "@/services/testimonials"
 import { GeoTagging } from "@/components/common/GeoTagging"
@@ -21,7 +23,6 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/notice-barter.module.scss"
-import { NextImageMotion } from "@/components/common/Image"
 
 export const NoticeBarter = ({
     idBarter,
@@ -35,6 +36,7 @@ export const NoticeBarter = ({
     const { handleReplace } = usePush()
     const { categories } = useOffersCategories()
     const [loading, setLoading] = useState(false)
+    const { socket } = useWebSocket() ?? {}
     const { dispatchCompletion } = useCompletionTransaction()
     const { data, refetch } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
@@ -115,6 +117,23 @@ export const NoticeBarter = ({
                     idBarter!,
                 )
                 .then((response) => {
+                    if (response.ok) {
+                        const date = new Date()
+                        const receiverIds = [Number(userData?.id)]
+                        const message = `Пользователь @${user?.username} согласился принять ваш запрос на обмен!`
+                        console.log(
+                            "%c socket?.connected: ",
+                            `color: #${socket?.connected ? "0f0" : "f00"}`,
+                            socket?.connected,
+                        )
+                        socket?.emit("chat", {
+                            receiverIds: receiverIds,
+                            message: message,
+                            threadId: Number(threadId!),
+                            created: date,
+                            parentId: undefined,
+                        })
+                    }
                     setTimeout(() => {
                         refetch().finally(() => setLoading(false))
                     }, 1650)
