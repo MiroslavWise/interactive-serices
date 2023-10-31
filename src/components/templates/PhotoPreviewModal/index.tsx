@@ -20,6 +20,7 @@ import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 
 import styles from "./styles/layout.module.scss"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { current, photos, dispatch, visible, author, offer } =
@@ -27,6 +28,7 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { dispatchMapCoordinates } = useMapCoordinates()
     const { dispatch: dispatchBalloon } = useBalloonCard()
+    const { dispatchProfilePublic } = useProfilePublic()
     const { userId } = useAuth()
     const { handlePush } = usePush()
 
@@ -40,9 +42,7 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     })
 
     function handleClickUser() {
-        dispatchBalloon({ visible: false })
-        handlePush(`/user?id=${author?.idUser!}`)
-        dispatch({ visible: false, photos: null })
+        dispatchProfilePublic({ visible: true, idUser: author?.idUser! })
     }
 
     function handlePrev() {
@@ -101,10 +101,11 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
         })
     }
 
-    return (
+    return visible ? (
         <main
-            className={cx(styles.wrapper, visible && styles.active)}
+            className={cx("wrapper-fixed", styles.wrapper)}
             data-mobile={isMobile}
+            data-visible={visible}
         >
             <section {...handlers}>
                 <div data-dark-header />
@@ -237,7 +238,7 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                 </footer>
             </section>
         </main>
-    )
+    ) : null
 }
 
 export default PhotoPreviewModal

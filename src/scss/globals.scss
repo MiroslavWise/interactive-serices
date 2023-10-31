@@ -368,3 +368,18 @@ $cursors: "pointer", "default";
 .h-100 {
     height: 100%;
 }
+
+.wrapper-fixed {
+    position: fixed;
+    inset: 0;
+    visibility: hidden;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    transform: translate3d(0, 0, 0);
+
+    &[data-visible="true"] {
+        opacity: 1;
+        visibility: visible;
+    }
+}

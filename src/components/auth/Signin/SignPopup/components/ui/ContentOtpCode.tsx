@@ -88,7 +88,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
             .serviceOtp({ code: inputValues.join("") })
             .then((response) => {
                 if (response.ok) {
-                    serviceUsers.getId(response?.res?.id!).then((data) => {
+                    serviceUsers.getMe().then((data) => {
                         setErrorCode("")
                         setToken({
                             ok: true,
@@ -121,7 +121,14 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
                     setLoading(false)
                 }
             })
-    }, [inputValues, setVisible, changeAuth, setToken, setVisibleAndType, email])
+    }, [
+        inputValues,
+        setVisible,
+        changeAuth,
+        setToken,
+        setVisibleAndType,
+        email,
+    ])
 
     useEffect(() => {
         if (inputRefs.current[0]) {

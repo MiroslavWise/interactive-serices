@@ -21,6 +21,7 @@ function $ImageStatic(props: TImage) {
             }}
             src={src}
             alt={alt}
+            data-image={alt}
             className={cx(classNames)}
             loader={undefined}
             loading={undefined}

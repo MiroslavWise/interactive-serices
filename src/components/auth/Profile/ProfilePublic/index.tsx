@@ -44,7 +44,7 @@ export const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
                     active.isProfile && styles.active,
                 )}
             >
-                <ul className={cx(styles.content)} id="profile-public-id">
+                <ul className={cx(styles.content)} >
                     <InfoContainerProfile profile={active.dataProfile!} />
                     <ItemsBadges />
                     <ItemSegments

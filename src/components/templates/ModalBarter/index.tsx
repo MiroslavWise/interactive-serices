@@ -168,7 +168,8 @@ export function Barter() {
 
     return (
         <div
-            className={cx(styles.wrapperContainer, isVisible && styles.visible)}
+            className={cx("wrapper-fixed", styles.wrapperContainer)}
+            data-visible={isVisible}
         >
             <form
                 className={styles.contentModal}
