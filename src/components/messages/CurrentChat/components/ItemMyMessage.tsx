@@ -8,6 +8,7 @@ import type { TItemMessage } from "./types/types"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
+import { matchesUserName, regExUserName } from "@/helpers"
 import { stylesBlockRight } from "@/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
@@ -31,7 +32,23 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                         key={`${item.id}_${item.message}`}
                         id={`${item.id!}`}
                     >
-                        <p>{item.message}</p>
+                        <p>
+                            {matchesUserName(item.message!)
+                                ? item.message.split(" ").map((match, index) =>
+                                      regExUserName.test(match) ? (
+                                          <span
+                                              key={index + match + item.id}
+                                              data-username
+                                          >
+                                              {" "}
+                                              {match}
+                                          </span>
+                                      ) : (
+                                          ` ${match}`
+                                      ),
+                                  )
+                                : item.message}
+                        </p>
                         <p className={styles.time}>
                             {timeNowOrBeforeChat(item?.time)}
                         </p>

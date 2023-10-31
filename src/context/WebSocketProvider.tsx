@@ -15,9 +15,12 @@ import {
     type Socket,
     type SocketOptions,
 } from "socket.io-client"
+import { useSearchParams } from "next/navigation"
 
+import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
+import { useToast } from "@/helpers/hooks/useToast"
 
 interface IContextSocket {
     socket: Socket | undefined
@@ -29,6 +32,9 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const { token, userId } = useAuth()
+    const threadId = useSearchParams().get("thread")
+    const { on } = useToast()
+    const { handlePush } = usePush()
     const [isFetch, setIsFetch] = useState(false)
     const [socketState, setSocketState] = useState<Socket | null>(null)
 
@@ -36,7 +42,22 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         if (!socketState) {
             setIsFetch(false)
         }
-    }, [socketState])
+        const chatResponse = (event: IChatResponse) => {
+            console.log("%c chatResponse event: ", "color: #d0d", event)
+            if (Number(threadId) !== event.threadId) {
+                on(`${event.message}`, "message", () => {
+                    handlePush(`/messages?thread=${event.threadId}`)
+                })
+            }
+        }
+        if (socketState) {
+            socketState?.on("chatResponse", chatResponse)
+
+            return () => {
+                socketState?.off("chatResponse", chatResponse)
+            }
+        }
+    }, [socketState, on, threadId, handlePush])
 
     useInsertionEffect(() => {
         function connectError(e: any) {
@@ -104,4 +125,16 @@ export const useWebSocket = () => {
     }
 
     return context
+}
+
+interface IChatResponse {
+    created: Date
+    emitterId: number
+    id: number
+    images: any[]
+    message: string
+    parentId: number
+    receiverIds: number[]
+    threadId: number
+    updated: Date
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useId } from "react"
+import { DispatchWithoutAction, useId } from "react"
 import { toast } from "react-toastify"
 
 export const useToast = () => {
@@ -12,12 +12,17 @@ export const useToast = () => {
         warning: "toast-warning",
         barter: "toast-barter",
         default: "toast-default",
+        message: "toast-message",
     }
 
-    function on(value: string, type?: TTypeToast) {
+    function on(
+        value: string,
+        type?: TTypeToast,
+        onClick?: DispatchWithoutAction,
+    ) {
         return toast(value, {
             toastId: id,
-            position: "top-left",
+            position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: true,
             closeOnClick: true,
@@ -25,10 +30,19 @@ export const useToast = () => {
             draggable: true,
             progress: undefined,
             className: classNames?.[type!] || classNames.default,
+            onClick() {
+                if (onClick) onClick()
+            },
         })
     }
 
     return { on }
 }
 
-type TTypeToast = "success" | "error" | "warning" | "default" | "barter"
+type TTypeToast =
+    | "success"
+    | "error"
+    | "warning"
+    | "default"
+    | "barter"
+    | "message"

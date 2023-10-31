@@ -41,13 +41,12 @@
     padding-top: 84px;
 
     & > [data-header="true"] {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
         height: 84px;
         padding: 14px 20px;
-        z-index: 95;
         display: flex;
         flex-direction: row;
         justify-content: space-between;

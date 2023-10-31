@@ -12,6 +12,7 @@ import { stylesBlockRight } from "@/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
+import { matchesUserName, regExUserName } from "@/helpers"
 
 const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
     return (
@@ -50,7 +51,23 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                         key={`${item.id}_${item.message}`}
                         id={`${item.id!}`}
                     >
-                        <p>{item.message}</p>
+                        <p>
+                            {matchesUserName(item.message!)
+                                ? item.message.split(" ").map((match, index) =>
+                                      regExUserName.test(match) ? (
+                                          <span
+                                              key={index + match + item.id}
+                                              data-username
+                                          >
+                                              {" "}
+                                              {match}
+                                          </span>
+                                      ) : (
+                                          ` ${match}`
+                                      ),
+                                  )
+                                : item.message}
+                        </p>
                         <p className={styles.time}>
                             {timeNowOrBeforeChat(item?.time!)}
                         </p>
