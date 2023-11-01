@@ -6,19 +6,22 @@ import type { TSegmentChatMobile } from "./types/types"
 import type { TTypeProviderThreads } from "@/services/threads/types"
 
 import { SEGMENTS_CHAT } from "../constants/segments"
+import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "./styles/segment-chat-mobile.module.scss"
 
-export const SegmentChatMobile: TSegmentChatMobile = ({ value, setValue }) => {
+export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
+    const { type, dispatchMessagesType } = useMessagesType()
+
     function handle(value: TTypeProviderThreads) {
         const segment = SEGMENTS_CHAT.find((item) => item.value === value)!
-        setValue(segment)
+        dispatchMessagesType({ type: segment.value })
     }
 
     return (
         <div className={styles.container}>
             <button
-                data-active={value.value === "personal"}
+                data-active={type === "personal"}
                 onClick={() => {
                     handle("personal")
                 }}
@@ -31,7 +34,7 @@ export const SegmentChatMobile: TSegmentChatMobile = ({ value, setValue }) => {
                 />
             </button>
             <button
-                data-active={value.value === "barter"}
+                data-active={type === "barter"}
                 onClick={() => {
                     handle("barter")
                 }}

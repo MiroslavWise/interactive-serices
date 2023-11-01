@@ -20,14 +20,9 @@ interface IItemListChat extends IFiltersItems {
 interface ISearchBlock {
     search: string
     setSearch: Dispatch<SetStateAction<string>>
-    value: ISegmentValues<TTypeProviderThreads>
-    setValue: Dispatch<SetStateAction<ISegmentValues<TTypeProviderThreads>>>
 }
 
-interface ISegmentChatMobile {
-    value: ISegmentValues<TTypeProviderThreads>
-    setValue: Dispatch<SetStateAction<ISegmentValues<TTypeProviderThreads>>>
-}
+interface ISegmentChatMobile {}
 
 export interface IFiltersItems {
     thread: IResponseThreads

@@ -153,29 +153,38 @@ export const ModalUpdateProfile = () => {
             })
     }
 
-    if (isMobile) {
-        return (
-            <div
-                className={cx(
-                    mobileStyles.wrapper,
-                    isVisible && mobileStyles.visible,
-                )}
-            >
-                <div className={mobileStyles.headerTitle}>
-                    <h3>Редактировать профиль</h3>
-                    <div
-                        className={mobileStyles.back}
+    return (
+        <div
+            className={cx("wrapper-fixed", styles.wrapper)}
+            data-visible={isVisible}
+            data-mobile={isMobile}
+        >
+            <div data-container>
+                {!isMobile && (
+                    <ButtonClose
                         onClick={() => setVisible(false)}
-                    >
-                        <Image
-                            src="/svg/chevron-left.svg"
-                            alt="chevron-left"
-                            height={24}
-                            width={24}
-                        />
-                    </div>
-                </div>
-                <ul>
+                        position={{
+                            right: 12,
+                            top: 12,
+                        }}
+                    />
+                )}
+                {isMobile ? (
+                    <header data-header-title>
+                        <h3>Редактировать профиль</h3>
+                        <div data-back onClick={() => setVisible(false)}>
+                            <Image
+                                src="/svg/chevron-left.svg"
+                                alt="chevron-left"
+                                height={24}
+                                width={24}
+                            />
+                        </div>
+                    </header>
+                ) : (
+                    <h3 data-title>Редактировать профиль</h3>
+                )}
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Header
                         selectedImage={selectedImage}
                         setSelectedImage={setSelectedImage}
@@ -188,41 +197,7 @@ export const ModalUpdateProfile = () => {
                         setValue={setValue}
                     />
                     <Footer loading={loading} />
-                </ul>
-                <Glasses />
-            </div>
-        )
-    }
-
-    return (
-        <div className={cx(styles.wrapper, isVisible && styles.active)}>
-            <div className={styles.container}>
-                <h3 className={styles.updateProfileTitle}>
-                    Редактировать профиль
-                </h3>
-                <ul>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Header
-                            selectedImage={selectedImage}
-                            setSelectedImage={setSelectedImage}
-                            setFile={setFile}
-                        />
-                        <Content
-                            errors={errors}
-                            register={register}
-                            watch={watch}
-                            setValue={setValue}
-                        />
-                        <Footer loading={loading} />
-                    </form>
-                </ul>
-                <ButtonClose
-                    onClick={() => setVisible(false)}
-                    position={{
-                        right: 12,
-                        top: 12,
-                    }}
-                />
+                </form>
                 <Glasses />
             </div>
         </div>

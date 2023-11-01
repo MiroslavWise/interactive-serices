@@ -159,6 +159,11 @@ export const NoticeBarter = ({
     }
 
     function handleCompleted() {
+        console.log("%c data: ", "color: #ff0", {
+            dataBarter: data?.res!,
+            dataUser: userData!,
+        })
+
         dispatchCompletion({
             visible: true,
             dataBarter: data?.res!,

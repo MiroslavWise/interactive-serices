@@ -21,11 +21,13 @@ import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { NoticeBarter } from "../components/NoticeBarter"
 import { useAuth, usePopupMenuChat } from "@/store/hooks"
+import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "../styles/style.module.scss"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
+    const { dispatchMessagesType } = useMessagesType()
     const idThread = searchParams?.get("thread")
     const { userId } = useAuth()
     const { setIsVisible } = usePopupMenuChat()
@@ -126,6 +128,16 @@ export const CurrentChat = () => {
         }
     }, [socket, refetch, idThread])
 
+    useEffect(() => {
+        if (!!data?.res) {
+            if (!!data?.res?.barterId) {
+                dispatchMessagesType({ type: "barter" })
+            } else {
+                dispatchMessagesType({ type: "personal" })
+            }
+        }
+    }, [dispatchMessagesType, data?.res])
+
     const height = useMemo(() => {
         return document.documentElement.clientHeight || "100%"
     }, [])
@@ -210,7 +222,12 @@ export const CurrentChat = () => {
 
     return (
         <section className={cx(styles.container)} data-barter={isBarter}>
-            {isBarter ? <NoticeBarter idBarter={data?.res?.barterId!} /> : null}
+            {isBarter ? (
+                <NoticeBarter
+                    idBarter={data?.res?.barterId!}
+                    userData={dataUser?.res}
+                />
+            ) : null}
             <ListMessages
                 messages={messages}
                 dataUser={dataUser?.res!}

@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation"
 
 import { ListChat, Chat, InterviewerInfo } from "@/components/messages"
 
-import styles from "./style.module.css"
+import styles from "./style.module.scss"
 
 export default function Messages() {
     const searchParams = useSearchParams()
