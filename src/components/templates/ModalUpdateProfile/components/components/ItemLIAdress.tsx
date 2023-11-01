@@ -83,7 +83,6 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const additional =
             item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
         const value: IPostAddress = {
-            userId: userId!,
             addressType: "main",
             enabled: true,
         }

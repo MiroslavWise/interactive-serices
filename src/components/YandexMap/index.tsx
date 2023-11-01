@@ -55,7 +55,6 @@ const YandexMap: TYandexMap = ({}) => {
 
         getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then((response) => {
             const data: IPostAddress = {
-                userId: userId,
                 addressType: "",
                 enabled: false,
             }
