@@ -22,6 +22,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { BADGES } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
+import { IPatchThreads } from "@/services/threads/types"
 
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
@@ -63,8 +64,12 @@ export const InterviewerInfoCurrent = () => {
     }
 
     function handleDeleteChat() {
-        serviceThreads.delete(Number(idThread)).then((response) => {
-            console.log("--- response delete ---", response)
+        const data: IPatchThreads = {
+            // title: "completed",
+            enabled: false,
+        }
+        serviceThreads.patch(data, Number(idThread)).then((response) => {
+            console.log("%c --- response delete ---", "color: #f0f", response)
             handleReplace("/messages")
         })
     }

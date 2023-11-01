@@ -15,6 +15,7 @@ import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({
     stateBalloon,
@@ -23,6 +24,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
     const { dispatch } = useBalloonCard()
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
+    const { dispatchProfilePublic } = useProfilePublic()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
             queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
@@ -70,7 +72,15 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
             </header>
             <div data-container-balloon data-alert>
                 <div data-info-profile>
-                    <div data-avatar-name>
+                    <div
+                        data-avatar-name
+                        onClick={() => {
+                            dispatchProfilePublic({
+                                visible: true,
+                                idUser: stateBalloon?.idUser!,
+                            })
+                        }}
+                    >
                         <NextImageMotion
                             src={dataProfile?.res?.image?.attributes?.url!}
                             alt="avatar"

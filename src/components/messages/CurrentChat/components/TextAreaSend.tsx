@@ -85,7 +85,8 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
     return (
         <form
             onSubmit={onSubmit}
-            className={cx(styles.container, isMobile && styles.mobile)}
+            className={styles.container}
+            data-mobile={isMobile}
         >
             {isMobile ? (
                 <Image

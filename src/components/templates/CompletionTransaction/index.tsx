@@ -20,6 +20,7 @@ import { TextArea } from "@/components/common/Inputs/components/TextArea"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/style.module.scss"
+import { cx } from "@/lib/cx"
 
 export const CompletionTransaction = () => {
     const { userId } = useAuth()
@@ -170,7 +171,7 @@ export const CompletionTransaction = () => {
 
     return visible ? (
         <div
-            className={styles.wrapper}
+            className={cx("wrapper-fixed", styles.wrapper)}
             data-visible={visible}
             data-mobile={isMobile}
         >

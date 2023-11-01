@@ -1,13 +1,12 @@
 "use client"
 
+import dayjs from "dayjs"
 import { useTheme } from "next-themes"
-import { useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useQueries, useQuery } from "react-query"
+import { useEffect, useMemo, useState } from "react"
 
 import { IFiltersItems } from "./components/types/types"
-import type { TTypeProviderThreads } from "@/services/threads/types"
-import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
@@ -18,29 +17,28 @@ import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { SEGMENTS_CHAT } from "./constants/segments"
+import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "./styles/style.module.scss"
 
 export const ListChat = () => {
     const { userId } = useAuth()
+    const { dispatchMessagesType, type } = useMessagesType()
     const { systemTheme } = useTheme()
     const [search, setSearch] = useState("")
     const { socket } = useWebSocket() ?? {}
-    const [value, setValue] = useState<ISegmentValues<TTypeProviderThreads>>(
-        SEGMENTS_CHAT[0],
-    )
     const [total, setTotal] = useState(0)
 
     const { data, refetch } = useQuery({
         queryFn: () =>
             serviceThreads.get({
                 user: userId!,
-                provider: value.value,
+                provider: type,
                 order: "DESC",
                 messagesLimit: 1,
                 messagesOrder: "DESC",
             }),
-        queryKey: ["threads", `user=${userId}`, `provider=${value.value}`],
+        queryKey: ["threads", `user=${userId}`, `provider=${type}`],
         refetchOnMount: false,
     })
 
@@ -83,19 +81,15 @@ export const ListChat = () => {
                 }
             })
             ITEMS.sort((prev, next) => {
-                const prevNumber = prev.thread.messages?.at(-1)?.created!
-                    ? new Date(
-                          prev.thread.messages?.at(-1)?.created!,
-                      ).getMilliseconds()
-                    : new Date(prev.thread?.created!).getMilliseconds()
+                const prevNumber = prev.thread.messages?.[0]?.created!
+                    ? dayjs(prev.thread.messages?.[0]?.created!).valueOf()
+                    : 0
 
-                const nextNumber = next.thread.messages?.at(-1)?.created!
-                    ? new Date(
-                          next.thread.messages?.at(-1)?.created!,
-                      ).getMilliseconds()
-                    : new Date(next.thread?.created).getMilliseconds()
+                const nextNumber = next.thread.messages?.[0]?.created!
+                    ? dayjs(next.thread.messages?.[0]?.created!).valueOf()
+                    : 0
 
-                return prevNumber - nextNumber
+                return nextNumber - prevNumber
             })
         }
 
@@ -116,7 +110,7 @@ export const ListChat = () => {
 
     return isMobile ? (
         <section className={styles.containerMobile}>
-            <SearchBlock {...{ search, setSearch, value, setValue }} />
+            <SearchBlock {...{ search, setSearch }} />
             <List search={search} setTotal={setTotal} items={items} />
         </section>
     ) : (
@@ -132,13 +126,15 @@ export const ListChat = () => {
                 </div>
                 <Segments
                     type={systemTheme === "dark" ? "primary" : "optional-1"}
-                    active={value}
+                    active={SEGMENTS_CHAT.find((item) => item.value === type)!}
                     VALUES={SEGMENTS_CHAT}
-                    setActive={setValue}
+                    setActive={(values) => {
+                        dispatchMessagesType({ type: values.value })
+                    }}
                     classNames={styles.segments}
                 />
             </header>
-            <SearchBlock {...{ search, setSearch, value, setValue }} />
+            <SearchBlock {...{ search, setSearch }} />
             <List search={search} items={items} setTotal={setTotal} />
         </section>
     )

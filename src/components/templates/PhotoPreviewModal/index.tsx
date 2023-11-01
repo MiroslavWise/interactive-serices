@@ -16,11 +16,11 @@ import { cx } from "@/lib/cx"
 import { daysAgo, usePush } from "@/helpers"
 import { usePhotoOffer } from "@/store/state/usePhotoOffer"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 
 import styles from "./styles/layout.module.scss"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { current, photos, dispatch, visible, author, offer } =

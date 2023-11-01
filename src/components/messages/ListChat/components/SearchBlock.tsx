@@ -12,7 +12,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-const $SearchBlock: TSearchBlock = ({ search, setSearch, value, setValue }) => {
+const $SearchBlock: TSearchBlock = ({ search, setSearch }) => {
     if (isMobile) {
         return (
             <div className={cx(styles.blockSearch, styles.mobile)}>
@@ -21,7 +21,7 @@ const $SearchBlock: TSearchBlock = ({ search, setSearch, value, setValue }) => {
                     value={search}
                     setValue={setSearch}
                 />
-                <SegmentChatMobile {...{ value, setValue }} />
+                <SegmentChatMobile />
             </div>
         )
     }

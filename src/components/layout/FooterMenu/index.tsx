@@ -34,60 +34,47 @@ export const FooterMenu: TFooterMenu = ({}) => {
     const handleGoToPage = (path: string) => handlePush(`/${path}`)
 
     return isMobile && !isTablet ? (
-        <>
-            <motion.footer
-                className={styles.container}
-                initial={{ bottom: -70 }}
-                animate={{ bottom: 0 }}
-                transition={{ duration: 0.5 }}
-                exit={{ bottom: -70 }}
-            >
-                <ul>
-                    {MENU_ITEMS(isAuth).map((item) => (
-                        <li
-                            key={item.key}
-                            onClick={() => {
-                                if (item.path !== null) {
-                                    handleGoToPage(item.path)
-                                    return
-                                }
-                                if (item.path === null && item.isCenter) {
-                                    handleSignInOrSignUp()
-                                    return
-                                }
-                                if (visible) {
-                                    setVisibleAndType({ visible: false })
-                                    return
-                                }
-                                setVisible(false)
-                            }}
-                        >
-                            <div className={styles.itemsIconLabel}>
-                                {item.isCenter ? (
-                                    <div
-                                        className={styles.centerPoligon}
-                                        onClick={(event) => {
-                                            if (item.path === null) {
-                                                handleSignInOrSignUp()
-                                            } else {
-                                                handleGoToPage(item.path)
-                                            }
-                                            event.stopPropagation()
-                                            event.preventDefault()
-                                        }}
-                                    >
-                                        <Image
-                                            src={
-                                                valuePath === item.path
-                                                    ? item.icon.fill
-                                                    : item.icon.regular
-                                            }
-                                            alt={item.label}
-                                            width={28}
-                                            height={28}
-                                        />
-                                    </div>
-                                ) : (
+        <motion.footer
+            className={styles.container}
+            initial={{ bottom: -70 }}
+            animate={{ bottom: 0 }}
+            transition={{ duration: 0.5 }}
+            exit={{ bottom: -70 }}
+        >
+            <ul>
+                {MENU_ITEMS(isAuth).map((item) => (
+                    <li
+                        key={item.key}
+                        onClick={() => {
+                            if (item.path !== null) {
+                                handleGoToPage(item.path)
+                                return
+                            }
+                            if (item.path === null && item.isCenter) {
+                                handleSignInOrSignUp()
+                                return
+                            }
+                            if (visible) {
+                                setVisibleAndType({ visible: false })
+                                return
+                            }
+                            setVisible(false)
+                        }}
+                    >
+                        <div className={styles.itemsIconLabel}>
+                            {item.isCenter ? (
+                                <div
+                                    className={styles.centerPoligon}
+                                    onClick={(event) => {
+                                        if (item.path === null) {
+                                            handleSignInOrSignUp()
+                                        } else {
+                                            handleGoToPage(item.path)
+                                        }
+                                        event.stopPropagation()
+                                        event.preventDefault()
+                                    }}
+                                >
                                     <Image
                                         src={
                                             valuePath === item.path
@@ -95,16 +82,27 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                                 : item.icon.regular
                                         }
                                         alt={item.label}
-                                        width={24}
-                                        height={24}
+                                        width={28}
+                                        height={28}
                                     />
-                                )}
-                                <p>{item.label}</p>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </motion.footer>
-        </>
+                                </div>
+                            ) : (
+                                <Image
+                                    src={
+                                        valuePath === item.path
+                                            ? item.icon.fill
+                                            : item.icon.regular
+                                    }
+                                    alt={item.label}
+                                    width={24}
+                                    height={24}
+                                />
+                            )}
+                            <p>{item.label}</p>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </motion.footer>
     ) : null
 }
