@@ -22,7 +22,6 @@ export interface IAddressesResponse {
 
 type TAddressType = "main" | any
 export interface IPostAddress {
-    userId: number
     addressType: TAddressType
     country?: string
     region?: string
