@@ -15,6 +15,7 @@ import {
     AboutSheiraPopup,
     NewServicesBanner,
     NewServiceBarterRequests,
+    PublicProfile,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import {
@@ -129,6 +130,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                             {token && visibleFriends ? <DroverFriends /> : null}
                             <NewServicesBanner />
                             <NewServiceBarterRequests />
+                            <PublicProfile />
                         </YMapsProvider>
                     </WebSocketProvider>
                 </QueryClientProvider>

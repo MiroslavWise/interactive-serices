@@ -25,8 +25,8 @@ export default function Layout({ children }: { children: ReactNode }) {
             <head>
                 <meta
                     name="viewport"
-                    content="initial-scale=1.0, user-scalable=no, maximum-scale=1"
-                />
+                    content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
+                ></meta>
                 {/* <script src="/scripts/masonry.pkgd.min.js" async /> */}
             </head>
             <body className={inter.className}>

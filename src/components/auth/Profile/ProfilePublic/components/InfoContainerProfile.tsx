@@ -24,7 +24,6 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
             <div className={styles.avatarAndAchievements}>
                 <div
                     className={styles.avatar}
-                    onClick={() => handlePush(`/user?id=${profile.userId}`)}
                 >
                     {profile?.photo ? (
                         <NextImageMotion

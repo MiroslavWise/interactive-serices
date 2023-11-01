@@ -40,6 +40,7 @@ const $NextImageMotion = (props: TTypes) => {
                     : blurDefaultOffer
             }
             ref={ref}
+            data-image={alt}
             className={className || ""}
             loader={myImageLoader}
             loading="lazy"
@@ -66,7 +67,6 @@ const $NextImageMotion = (props: TTypes) => {
             classNames={[className]}
             height={height}
             width={width}
-            data-image={alt}
             {...rest}
         />
     )

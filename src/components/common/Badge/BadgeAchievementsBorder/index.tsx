@@ -17,17 +17,11 @@ export const BadgeAchievementsBorder: TBadgeAchievements = ({
             exit={{ opacity: 0, visibility: "hidden" }}
             transition={{ duration: 0.8 }}
             className={styles.container}
+            data-badge
         >
             <div className={styles.titleAndNumber}>
                 <p>{title}</p>
-                <motion.h2
-                    initial={{ opacity: 0, visibility: "hidden" }}
-                    animate={{ opacity: 1, visibility: "visible" }}
-                    exit={{ opacity: 0, visibility: "hidden" }}
-                    transition={{ duration: 0.5 }}
-                >
-                    {total}
-                </motion.h2>
+                <h2>{total}</h2>
             </div>
         </motion.div>
     )
