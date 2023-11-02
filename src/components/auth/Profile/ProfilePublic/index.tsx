@@ -44,7 +44,7 @@ export const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
                     active.isProfile && styles.active,
                 )}
             >
-                <ul className={cx(styles.content)} >
+                <ul className={cx(styles.content)}>
                     <InfoContainerProfile profile={active.dataProfile!} />
                     <ItemsBadges />
                     <ItemSegments
@@ -54,19 +54,6 @@ export const ProfilePublic: TProfilePublic = ({ active, setActive }) => {
                     />
                     {content}
                 </ul>
-                <ButtonClose
-                    position={{
-                        top: 12,
-                        left: 12,
-                    }}
-                    onClick={() =>
-                        setActive((data) => ({
-                            isProfile: false,
-                            isService: true,
-                            dataProfile: data.dataProfile,
-                        }))
-                    }
-                />
                 <Dots id={active.dataProfile?.userId!} />
                 <Glasses />
             </div>

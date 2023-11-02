@@ -1,17 +1,22 @@
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { FC } from "react"
-import type { FieldError, UseFormRegisterReturn, UseFormSetValue } from "react-hook-form"
+import type {
+    FieldError,
+    UseFormRegisterReturn,
+    UseFormSetValue,
+} from "react-hook-form"
 
-interface ILabelInput{
+interface ILabelInput {
     label: string
     rules?: boolean
     placeholder: string
     type: "text" | "email" | "password"
     propsInput: UseFormRegisterReturn
     errorMessage?: string
+    disabled?: boolean
 }
 
-interface IGroupSelectorDate{
+interface IGroupSelectorDate {
     watchDay: any
     watchMonth: any
     watchYear: any
@@ -28,11 +33,9 @@ interface IGroupSelectorDate{
     }
 }
 
-interface IItemsAdress{
+interface IItemsAdress {}
 
-}
-
-interface IItemLIAdress{
+interface IItemLIAdress {
     active: boolean
     item?: IAddressesResponse
 }

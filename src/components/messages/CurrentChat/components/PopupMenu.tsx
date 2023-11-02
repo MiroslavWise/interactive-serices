@@ -19,11 +19,13 @@ import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { serviceTestimonials } from "@/services/testimonials"
 import { useAuth, usePopupMenuChat } from "@/store/hooks"
+import { useMessagesType } from "@/store/state/useMessagesType"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import mainStyles from "../styles/style.module.scss"
 import styles from "./styles/popup-menu.module.scss"
+import { useRefetchListChat } from "../../hook/useRefetchListChat"
 
 export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
     const searchParams = useSearchParams()
@@ -32,7 +34,8 @@ export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
     const { isVisible, setIsVisible } = usePopupMenuChat()
     const [loading, setLoading] = useState(false)
     const { userId } = useAuth()
-    // const { dispatchVisibleBarter } = useVisibleModalBarter()
+    const refresh = useRefetchListChat()
+    const { type } = useMessagesType()
     const { handlePush, handleReplace } = usePush()
     const { data, refetch } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
@@ -90,9 +93,15 @@ export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
     }
 
     function handleDeleteChat() {
-        serviceThreads.delete(Number(idThread)).then((response) => {
-            handleReplace("/messages")
-        })
+        serviceThreads
+            .patch({ enabled: false }, Number(idThread))
+            .then((response) => {
+                refresh(type).finally(() => {
+                    requestAnimationFrame(() => {
+                        handleReplace("/messages")
+                    })
+                })
+            })
     }
 
     const geo = useMemo(() => {

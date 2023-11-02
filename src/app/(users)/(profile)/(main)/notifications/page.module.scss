@@ -5,6 +5,7 @@
     flex-direction: column;
     overflow-y: auto;
     overflow-x: visible;
+    -webkit-overflow-scrolling: touch;
     gap: 16px;
 
     & > header {

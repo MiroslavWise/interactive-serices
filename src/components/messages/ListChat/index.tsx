@@ -39,25 +39,36 @@ export const ListChat = () => {
                 messagesOrder: "DESC",
             }),
         queryKey: ["threads", `user=${userId}`, `provider=${type}`],
-        refetchOnMount: false,
+        refetchOnMount: true,
     })
 
+    const usersIds = useMemo(() => {
+        if (!!data?.res && !!userId) {
+            const idsArray =
+                data?.res?.map((item) => {
+                    return Number(item?.emitterId) === Number(userId)
+                        ? Number(item?.receiverIds[0])
+                        : Number(item?.emitterId)
+                }) || []
+            const ids = new Set(idsArray)
+            const array: number[] = []
+            ids.forEach((item) => {
+                array.push(item)
+            })
+            return array
+        }
+        return []
+    }, [data?.res, userId])
+
     const arrayUsers = useQueries(
-        data?.res?.map((item) => {
-            const idUser =
-                Number(item?.emitterId) === Number(userId)
-                    ? Number(item?.receiverIds[0])
-                    : Number(item?.emitterId)
-            return {
-                queryFn: () => serviceUsers.getId(Number(idUser)),
-                queryKey: ["user", idUser],
-                enabled: !!data,
-                refetchOnMount: false,
-                refetchOnWindowFocus: false,
-                refetchOnReconnect: false,
-                refetchIntervalInBackground: false,
-            }
-        }) || [],
+        usersIds.map((item) => ({
+            queryFn: () => serviceUsers.getId(Number(item)),
+            queryKey: ["user", item],
+            enabled: !!usersIds.length,
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+        })),
     )
 
     const items: IFiltersItems[] = useMemo(() => {

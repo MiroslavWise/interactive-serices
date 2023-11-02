@@ -391,6 +391,7 @@
                 width: 100%;
                 max-height: calc(167px + 225px);
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
                 padding-bottom: 167px;
 
                 & > li {

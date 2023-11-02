@@ -12,6 +12,7 @@
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
     z-index: 59;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
     & > header {
         padding-left: 17px;

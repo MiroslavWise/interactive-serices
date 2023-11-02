@@ -43,6 +43,7 @@
         align-items: center;
         gap: 30px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         height: calc(100% - 152px - 40px - 42px);
         z-index: 2;
     }

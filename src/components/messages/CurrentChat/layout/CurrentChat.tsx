@@ -82,9 +82,8 @@ export const CurrentChat = () => {
         queryKey: ["user", idUser],
         enabled: !!idUser,
         refetchOnMount: true,
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: true,
         refetchOnReconnect: true,
-        refetchIntervalInBackground: false,
     })
 
     const messages: IThreadsMessages[] = useMemo(() => {

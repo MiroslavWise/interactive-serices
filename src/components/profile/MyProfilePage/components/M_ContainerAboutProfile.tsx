@@ -2,6 +2,7 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
+import { useMemo } from "react"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
@@ -16,7 +17,6 @@ import {
 import { useAddress, useOut } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
-import { useMemo } from "react"
 
 export const M_ContainerAboutProfile = () => {
     const { isAddresses } = useAddress()

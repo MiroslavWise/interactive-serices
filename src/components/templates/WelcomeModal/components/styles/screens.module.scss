@@ -102,9 +102,9 @@
             top: initial;
             left: initial;
             bottom: initial;
-            aspect-ratio: 233/200;
+            aspect-ratio: 233/140;
             & > img {
-                width: 60%;
+                width: 40vw;
             }
         }
     }
@@ -180,7 +180,7 @@
     }
 
     & > [data-block-text="true"] {
-        max-width: calc(86%);
+        max-width: calc(86vw);
         width: 100%;
     }
 }
@@ -235,9 +235,9 @@
             align-items: center;
             justify-content: flex-start;
             inset: initial;
-            aspect-ratio: 233/200;
+            aspect-ratio: 233/140;
             & > img {
-                width: 50%;
+                width: 50vw;
             }
         }
     }

@@ -15,6 +15,7 @@ export const LabelInput: TLabelInput = ({
     type,
     propsInput,
     errorMessage,
+    disabled,
 }) => {
     return (
         <section
@@ -28,6 +29,7 @@ export const LabelInput: TLabelInput = ({
             </label>
             <div className={styles.groupInputAndError}>
                 <input
+                    disabled={disabled}
                     type={type}
                     placeholder={placeholder}
                     className={cx(errorMessage && styles.errorInput)}

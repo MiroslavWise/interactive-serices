@@ -11,9 +11,9 @@ import type { IPostProfileData } from "@/services/profile/types/profileService"
 
 import { Footer } from "./components/Footer"
 import { Header } from "./components/Header"
+import { Glasses } from "@/components/layout"
 import { Content } from "./components/Content"
-import { Glasses } from "@/components/layout/Glasses"
-import { ButtonClose } from "@/components/common/Buttons"
+import { ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { serviceProfile } from "@/services/profile"
@@ -22,7 +22,6 @@ import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import mobileStyles from "./styles/mobile.module.scss"
 
 export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
@@ -153,7 +152,7 @@ export const ModalUpdateProfile = () => {
             })
     }
 
-    return (
+    return isVisible ? (
         <div
             className={cx("wrapper-fixed", styles.wrapper)}
             data-visible={isVisible}
@@ -201,5 +200,5 @@ export const ModalUpdateProfile = () => {
                 <Glasses />
             </div>
         </div>
-    )
+    ) : null
 }

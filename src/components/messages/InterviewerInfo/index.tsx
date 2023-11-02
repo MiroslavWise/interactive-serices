@@ -10,25 +10,27 @@ import { useSearchParams } from "next/navigation"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { BadgeAchievements } from "@/components/common/Badge"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
-import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
-import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
-import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
 
 import { useAuth } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
+import { IPatchThreads } from "@/services/threads/types"
 import { BADGES } from "@/mocks/components/auth/constants"
+import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "./styles/style.module.scss"
-import { IPatchThreads } from "@/services/threads/types"
+import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
+import { useRefetchListChat } from "../hook/useRefetchListChat"
 
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
     const { userId } = useAuth()
+    const { type } = useMessagesType()
     const idThread = searchParams?.get("thread")
     const { handlePush, handleReplace } = usePush()
+    const refresh = useRefetchListChat()
 
     const { data } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
@@ -64,13 +66,18 @@ export const InterviewerInfoCurrent = () => {
     }
 
     function handleDeleteChat() {
-        const data: IPatchThreads = {
-            // title: "completed",
-            enabled: false,
-        }
+        const data: IPatchThreads = { enabled: false }
         serviceThreads.patch(data, Number(idThread)).then((response) => {
-            console.log("%c --- response delete ---", "color: #f0f", response)
-            handleReplace("/messages")
+            refresh(type).finally(() => {
+                requestAnimationFrame(() => {
+                    console.log(
+                        "%c --- response delete ---",
+                        "color: #f0f",
+                        response,
+                    )
+                    handleReplace("/messages")
+                })
+            })
         })
     }
 
@@ -143,20 +150,6 @@ export const InterviewerInfoCurrent = () => {
                             </p>
                         ) : null}
                     </section>
-                    {/* <BlockOther
-                        label="Достижения"
-                        classNames={[stylesHeader.achievements]}
-                    >
-                        {ACHIEVEMENTS.map((item) => (
-                            <Image
-                                key={item.assignment}
-                                src={item.src}
-                                alt={item.assignment}
-                                width={25}
-                                height={25}
-                            />
-                        ))}
-                    </BlockOther> */}
                 </header>
                 <ul className={styles.badges}>
                     {BADGES.slice(1, 3).map((item) => (
@@ -165,7 +158,6 @@ export const InterviewerInfoCurrent = () => {
                             key={`${item.title}_is_auth_banner`}
                             title={item.title}
                             total={item.total}
-                            // type={item.rating_movement}
                         />
                     ))}
                 </ul>

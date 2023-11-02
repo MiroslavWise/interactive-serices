@@ -187,10 +187,6 @@ export const CompletionTransaction = () => {
                         {dataUser?.profile?.lastName}
                     </span>
                 </h2>
-                <h5>
-                    Внимание!!! Завершая бартер, вы автоматически удалите чат.
-                    Ваш собеседник сможет оставить уже только отзыв
-                </h5>
                 <section>
                     <div data-groups>
                         <TextArea

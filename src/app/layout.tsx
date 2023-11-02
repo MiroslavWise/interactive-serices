@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     name="viewport"
                     content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
                 ></meta>
-                {/* <script src="/scripts/masonry.pkgd.min.js" async /> */}
+                <meta name="apple-mobile-web-app-capable" content="yes"></meta>
             </head>
             <body className={inter.className}>
                 <Providers>{children}</Providers>

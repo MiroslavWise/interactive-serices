@@ -51,7 +51,7 @@ export interface IServiceAddresses {
     getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
     post(value: IPostAddress): Promise<IReturnData<{ id: number }>>
     patch(
-        value: IPostAddress,
+        value: IPatchAddress,
         id: number | string,
     ): Promise<IReturnData<IAddressesResponse>>
     delete(id: number | string): Promise<IReturnData<IAddressesResponse>>
