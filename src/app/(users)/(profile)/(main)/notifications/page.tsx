@@ -9,6 +9,7 @@ import { ComponentsNotification } from "@/components/profile/ComponentsNotificat
 
 import { useAuth } from "@/store/hooks"
 import { serviceLogs } from "@/services/logs"
+import { serviceNotifications } from "@/services/notifications"
 
 import styles from "./page.module.scss"
 
@@ -19,6 +20,13 @@ export default function Notifications() {
         queryFn: () => serviceLogs.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],
     })
+
+    const { data: dataNotifications } = useQuery({
+        queryFn: () => serviceNotifications.get({ order: "DESC" }),
+        queryKey: ["notifications"],
+    })
+
+    console.log("%c dataNotifications", "color: #0ff", dataNotifications)
 
     const notifications = useMemo(() => {
         if (!data?.res || !userId) return []
@@ -31,7 +39,7 @@ export default function Notifications() {
         )
     }, [data?.res, userId])
 
-    console.log("%cnotifications: ", "color: #0f0", notifications)
+    console.log("%c notifications: ", "color: #0f0", notifications)
 
     return isMobile ? (
         <></>

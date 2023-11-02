@@ -58,6 +58,9 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
                     requestAnimationFrame(() => {
                         setValue("text", "")
                         setLoading(false)
+                        setTimeout(() => {
+                            refetch()
+                        }, 550)
                     })
                 } else {
                     const data: IRequestPostMessages = {
