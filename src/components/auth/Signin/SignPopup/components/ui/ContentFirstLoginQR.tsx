@@ -17,7 +17,6 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
     const { setToken, email } = useAuth()
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
-    const { setVisible } = useUpdateProfile()
     //todo
     const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
     const [errorCode, setErrorCode] = useState("")
@@ -65,7 +64,6 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
             .serviceOtp({ code: inputValues.join("") })
             .then((response) => {
                 if (response.ok) {
-                    setVisible(true)
                     setToken({
                         ok: true,
                         token: response?.res?.accessToken!,

@@ -80,6 +80,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                 <LabelInput
                     label="Электронная почта"
                     rules
+                    disabled
                     placeholder="Введите почту"
                     type="email"
                     propsInput={register("email", { required: true })}

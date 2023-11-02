@@ -37,6 +37,7 @@
     background: var(--glass-bg-color-2);
     backdrop-filter: blur(1px);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     z-index: 1;
     height: calc(100vh - 63px - 100px - 24px);
 }

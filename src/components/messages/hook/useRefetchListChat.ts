@@ -36,7 +36,7 @@ export const useRefetchListChat = () => {
             },
         ])
 
-    async function refreshThreads(value: TTypeProviderThreads) {
+    async function refreshThreads(value?: TTypeProviderThreads) {
         if (value === "barter") {
             return refetchBarter()
         } else if (value === "personal") {

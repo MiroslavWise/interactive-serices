@@ -13,12 +13,12 @@ import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { useDebounce } from "@/helpers"
+import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
 import { serviceAddresses } from "@/services/addresses"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
-import { generateShortHash } from "@/lib/hash"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     const { userId, changeAuth } = useAuth()
@@ -47,7 +47,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
 
     function deleteAddress() {
         if (item) {
-            serviceAddresses.delete(item.id).finally(() => {
+            serviceAddresses.patch({ enabled: false }, item.id).finally(() => {
                 requestAnimationFrame(() => {
                     changeAuth()
                 })
@@ -120,9 +120,9 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
 
     return (
         <li className={cx(active && styles.active)}>
-            <div className={cx(styles.checkBox)}>
+            {/* <div className={cx(styles.checkBox)}>
                 <div className={styles.center} />
-            </div>
+            </div> */}
             <div className={styles.containerInput}>
                 <Image
                     src="/svg/marker-pin-black.svg"
@@ -131,7 +131,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     width={20}
                     className={styles.geoBlack}
                 />
-                <input
+                <textarea
                     disabled={!!item}
                     value={text}
                     onChange={(value) => {

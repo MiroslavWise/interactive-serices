@@ -1,4 +1,4 @@
-import type { IItemsMenu } from "./types"
+import type { IItemsMenu } from "../types"
 
 export const MENU_ITEMS = (isAuth: boolean | undefined): IItemsMenu[] => [
     {

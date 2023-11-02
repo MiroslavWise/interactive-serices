@@ -2,7 +2,7 @@
 .containerNoAuth {
     position: fixed;
     left: 24px;
-    max-width: 296px;
+    max-width: 320px;
     width: 100%;
     z-index: 59;
     backdrop-filter: blur(4px);
@@ -24,6 +24,7 @@
     border: 2px solid var(--stroke-1);
     background: var(--glass-bg-color-1);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
     & > [data-content] {
         width: 100%;
@@ -50,8 +51,11 @@
         }
 
         & > [data-button-fill] {
-            height: 44px;
+            height: 36px;
             width: 100%;
+            span {
+                font-size: 16px;
+            }
         }
     }
 }

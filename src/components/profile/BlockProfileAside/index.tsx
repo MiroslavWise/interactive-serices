@@ -17,13 +17,13 @@ export const BlockProfileAside: FC = () => {
     const { setVisible } = useUpdateProfile()
 
     return (
-        <section className={cx(styles.container, isMobile && styles.mobile)}>
+        <section className={styles.container} data-mobile={isMobile}>
             <HeaderBlock />
             {typeof isMobile !== "undefined" && !isMobile ? (
                 <AchievementsCount />
             ) : null}
             <ButtonFriends />
-            <div className={styles.buttons}>
+            <div data-buttons>
                 <ButtonDefault
                     label="Редактировать профиль"
                     classNames={cx("w-100", styles.largeButton)}

@@ -6,6 +6,12 @@ import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
 
+import {
+    PhotoCarousel,
+    FooterMenu,
+    AnimatedLoadPage,
+    Glasses,
+} from "@/components/layout"
 import "@/context/DayJSDefault"
 import {
     ModalUpdateProfile,
@@ -18,24 +24,10 @@ import {
     PublicProfile,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
-import {
-    PhotoCarousel,
-    FooterMenu,
-    AnimatedLoadPage,
-    Glasses,
-} from "@/components/layout"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
-const PhotoPreviewModal = dynamic(
-    () => import("../components/templates/PhotoPreviewModal"),
-    { ssr: false },
-)
-const BalloonPlaceMark = dynamic(
-    () => import("../components/YandexMap/BalloonPlaceMark"),
-    {
-        ssr: false,
-    },
-)
-
+import { DroverFriends } from "@/components/templates/DroverFriends"
+import BalloonPlaceMark from "../components/YandexMap/BalloonPlaceMark"
+import PhotoPreviewModal from "../components/templates/PhotoPreviewModal"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider } from "@/context"
 import { CompletionTransaction } from "@/components/templates/CompletionTransaction"
 
@@ -43,11 +35,11 @@ import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useDroverFriends } from "@/store/state/useDroverFriends"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { DroverFriends } from "@/components/templates/DroverFriends"
-import { useDroverFriends } from "@/store/state/useDroverFriends"
+import { ComplaintModal } from "@/components/templates/ComplaintModal"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -131,6 +123,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                             <NewServicesBanner />
                             <NewServiceBarterRequests />
                             <PublicProfile />
+                            {token && <ComplaintModal />}
                         </YMapsProvider>
                     </WebSocketProvider>
                 </QueryClientProvider>

@@ -2,8 +2,8 @@
     "name": "sheira-frontend-next",
     "version": "0.1.0",
     "private": true,
-    "type": "commonjs",
     "scripts": {
+        "turbo": "next dev -p 3000 --turbo",
         "dev": "next dev -p 3000",
         "build": "next build",
         "start": "next start",
