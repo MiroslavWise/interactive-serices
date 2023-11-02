@@ -155,11 +155,11 @@
 }
 
 .wrapperMobile {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
-    height: 84px;
+    height: min-content;
     padding: 12px 16px;
     z-index: 95;
     display: flex;
@@ -185,9 +185,6 @@
         background: var(--background);
         box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
         backdrop-filter: blur(4px);
-
-        &[data-dots] {
-        }
 
         img {
             filter: invert(1);
@@ -250,11 +247,28 @@
         & > [data-info] {
             width: 100%;
             overflow: hidden;
-            overflow-x: scroll;
 
             & > p {
+                width: 100%;
+                font-size: 14px;
+            }
+        }
+
+        & > footer {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+
+            & > button {
+                height: 36px;
                 width: min-content;
-                white-space: nowrap;
+
+                span {
+                    font-size: 16px;
+                }
             }
         }
     }

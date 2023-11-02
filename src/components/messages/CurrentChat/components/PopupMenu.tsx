@@ -165,8 +165,9 @@ export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
 
     return (
         <div
-            className={cx(styles.wrapper, isVisible && styles.visible)}
+            className={styles.wrapper}
             data-is-barter={isBarter}
+            data-visible={isVisible}
         >
             <div
                 className={cx(mainStyles.button, styles.dots)}

@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useQuery } from "react-query"
-import { useEffect, useMemo, useRef } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -33,6 +33,7 @@ export const CurrentChat = () => {
     const { setIsVisible } = usePopupMenuChat()
     const { handleReplace } = usePush()
     const { socket } = useWebSocket() ?? {}
+    const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
@@ -120,12 +121,12 @@ export const CurrentChat = () => {
             }
         }
 
-        socket?.on("chatResponse", chatResponse)
+        socket?.on(`chatResponse-${userId}`, chatResponse)
 
         return () => {
-            socket?.off("chatResponse", chatResponse)
+            socket?.off(`chatResponse-${userId}`, chatResponse)
         }
-    }, [socket, refetch, idThread])
+    }, [socket, refetch, idThread, userId])
 
     useEffect(() => {
         if (!!data?.res) {
@@ -143,11 +144,15 @@ export const CurrentChat = () => {
 
     if (isMobile) {
         return (
-            <section className={styles.containerMobile} style={{ height }}>
+            <section
+                className={styles.containerMobile}
+                style={{ height, paddingTop: isBarter ? 0 : 84 }}
+            >
                 {isBarter ? (
                     <NoticeBarter
                         idBarter={data?.res?.barterId!}
                         userData={dataUser?.res}
+                        setIsLoadingFullInfo={setIsLoadingFullInfo}
                     />
                 ) : (
                     <header data-header>
@@ -201,6 +206,7 @@ export const CurrentChat = () => {
                     messages={messages}
                     dataUser={dataUser?.res!}
                     isBarter={isBarter}
+                    isLoadingFullInfo={isLoadingFullInfo}
                 />
                 <TextAreaSend
                     photo={conversationPartner?.photo}
@@ -225,12 +231,14 @@ export const CurrentChat = () => {
                 <NoticeBarter
                     idBarter={data?.res?.barterId!}
                     userData={dataUser?.res}
+                    setIsLoadingFullInfo={setIsLoadingFullInfo}
                 />
             ) : null}
             <ListMessages
                 messages={messages}
                 dataUser={dataUser?.res!}
                 isBarter={isBarter}
+                isLoadingFullInfo={isLoadingFullInfo}
             />
             <TextAreaSend
                 photo={conversationPartner?.photo}

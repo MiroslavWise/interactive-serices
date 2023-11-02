@@ -50,14 +50,14 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 })
             }
         }
-        if (socketState) {
-            socketState?.on("chatResponse", chatResponse)
+        if (socketState && userId) {
+            socketState?.on(`chatResponse-${userId}`, chatResponse)
 
             return () => {
-                socketState?.off("chatResponse", chatResponse)
+                socketState?.off(`chatResponse-${userId}`, chatResponse)
             }
         }
-    }, [socketState, on, threadId, handlePush])
+    }, [socketState, on, threadId, handlePush, userId])
 
     useInsertionEffect(() => {
         function connectError(e: any) {

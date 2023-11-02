@@ -9,6 +9,7 @@
     background: var(--glass-bg-color-3);
     backdrop-filter: blur(1px);
     transition: all 0.3s ease-in-out 0.01s;
+
     ul {
         padding: 8px 0 !important;
     }
@@ -36,7 +37,7 @@
         }
     }
 
-    &.visible {
+    &[data-visible="true"] {
         opacity: 1;
         visibility: visible;
         & > .dots {

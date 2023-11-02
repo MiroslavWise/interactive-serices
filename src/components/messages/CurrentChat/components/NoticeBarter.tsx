@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import Image from "next/image"
 import { useQuery } from "react-query"
 import { motion } from "framer-motion"
-import { useMemo, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
@@ -27,13 +27,14 @@ import styles from "./styles/notice-barter.module.scss"
 export const NoticeBarter = ({
     idBarter,
     userData,
+    setIsLoadingFullInfo,
 }: {
     idBarter: number
     userData?: IUserResponse | null
+    setIsLoadingFullInfo: Dispatch<SetStateAction<boolean>>
 }) => {
     const { userId, user } = useAuth()
     const threadId = useSearchParams().get("thread")
-    const { handleReplace } = usePush()
     const { categories } = useOffersCategories()
     const [loading, setLoading] = useState(false)
     const { socket } = useWebSocket() ?? {}
@@ -104,6 +105,14 @@ export const NoticeBarter = ({
             (item) => item?.userId === userId && item?.barterId === idBarter,
         )
     }, [userId, idBarter, dataTestimonials?.res])
+
+    useEffect(() => {
+        if (!!data?.res) {
+            requestAnimationFrame(() => {
+                setIsLoadingFullInfo(true)
+            })
+        }
+    }, [data, setIsLoadingFullInfo])
 
     function handleSuccess() {
         if (!loading) {
@@ -264,6 +273,55 @@ export const NoticeBarter = ({
                         </div>
                     </div>
                     <div data-info>{textInfo}</div>
+                    <footer>
+                        {["executed", "completed", "destroyed"]?.includes(
+                            data?.res?.status!,
+                        ) &&
+                        !isFeedback &&
+                        dataTestimonials?.ok ? (
+                            <div data-buttons>
+                                <ButtonFill
+                                    label={
+                                        data?.res?.status === "completed"
+                                            ? "Оставить отзыв"
+                                            : "Завершить обмен"
+                                    }
+                                    handleClick={handleCompleted}
+                                />
+                            </div>
+                        ) : null}
+                        {isMeInitiator === false &&
+                        data?.res?.status === "initiated" ? (
+                            <>
+                                <ButtonFill
+                                    label="Принять"
+                                    handleClick={handleSuccess}
+                                    classNames={styles.fill}
+                                    suffix={
+                                        <Image
+                                            src="/svg/check-white.svg"
+                                            alt="check-white"
+                                            width={16}
+                                            height={16}
+                                        />
+                                    }
+                                />
+                                <ButtonDefault
+                                    classNames={styles.fill}
+                                    label="Отказаться"
+                                    handleClick={handleCanceled}
+                                    suffix={
+                                        <Image
+                                            src="/svg/x-close-primary.svg"
+                                            alt="check-white"
+                                            width={16}
+                                            height={16}
+                                        />
+                                    }
+                                />
+                            </>
+                        ) : null}
+                    </footer>
                 </section>
             </motion.div>
         )

@@ -8,6 +8,7 @@ import {
     useEffect,
     useState,
 } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { IThreadsMessages } from "@/services/threads/types"
 
@@ -23,10 +24,12 @@ export const ListMessages = memo(function ListMessages({
     messages,
     dataUser,
     isBarter,
+    isLoadingFullInfo,
 }: {
     messages: IThreadsMessages[]
     dataUser: IUserResponse
     isBarter: boolean
+    isLoadingFullInfo: boolean
 }) {
     const { join } = useJoinMessage()
     const { imageProfile, userId } = useAuth()
@@ -81,7 +84,7 @@ export const ListMessages = memo(function ListMessages({
                 if (ulChat.current) {
                     const top = ulChat.current.scrollHeight
                     ulChat.current.scroll({
-                        top: top + 100,
+                        top: top + 200,
                         behavior: "smooth",
                     })
                 }
@@ -90,23 +93,24 @@ export const ListMessages = memo(function ListMessages({
     }, [messages, numberIdMessage, messagesJoin])
 
     useEffect(() => {
-        if (isBarter) {
+        if (isLoadingFullInfo) {
             requestAnimationFrame(() => {
                 const header = document.getElementById("id-barter-header")
                 setHeight(header?.clientHeight || 0)
+                console.log("%c header: ", "color: #f00", header?.clientHeight)
             })
         }
-    }, [isBarter])
+    }, [isLoadingFullInfo])
+
+    console.log("%c height: ", "color: #ff0", height)
 
     return (
         <ul
             data-height={isBarter}
             ref={ulChat}
             style={{
-                paddingTop:
-                    isBarter && height
-                        ? ` calc(22px + ${height < 148 ? 148 : height}px)`
-                        : 22,
+                paddingTop: 22,
+                paddingBottom: isMobile ? (height ? height + 84 : 168) : 0,
             }}
         >
             {messagesJoin}
