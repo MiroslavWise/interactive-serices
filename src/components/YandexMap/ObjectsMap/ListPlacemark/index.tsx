@@ -29,10 +29,15 @@ const ListPlacemark_ = () => {
                 )
                 ?.forEach((item, index) => {
                     const coordinates: [number, number][] =
-                        item?.addresses?.map((_item) => [
-                            Number(_item.coordinates.split(" ")[0]),
-                            Number(_item.coordinates.split(" ")[1]),
-                        ])
+                        item?.addresses?.map((_item) => {
+                            if (_item.coordinates) {
+                                return [
+                                    Number(_item.coordinates.split(" ")[0]),
+                                    Number(_item.coordinates.split(" ")[1]),
+                                ]    
+                            }
+                            return [0, 0]
+                        })
                     const provider = item?.provider
                     const title = item?.title
                     array.push({
