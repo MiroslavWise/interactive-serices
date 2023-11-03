@@ -88,7 +88,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
             .serviceOtp({ code: inputValues.join("") })
             .then((response) => {
                 if (response.ok) {
-                    serviceUsers.getMe().then((data) => {
+                    serviceUsers.getId(response?.res?.id!).then((data) => {
                         setErrorCode("")
                         setToken({
                             ok: true,
