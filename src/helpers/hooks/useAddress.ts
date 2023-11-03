@@ -16,7 +16,7 @@ export const useAddress = () => {
         if (!addresses) return null
         if (Array.isArray(addresses) && addresses.length === 0) return null
         const array: number[][] = addresses.map((item) =>
-            item.coordinates.split(" ").reverse().map(Number),
+            item.coordinates ? item.coordinates.split(" ").reverse().map(Number) : [0, 0]
         )
         return array
     }, [addresses])
