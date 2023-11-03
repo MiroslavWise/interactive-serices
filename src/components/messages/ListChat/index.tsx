@@ -112,12 +112,14 @@ export const ListChat = () => {
             refetch()
         }
 
-        socket?.on("chatResponse", chatResponse)
+        if (userId && socket) {
+            socket?.on(`chatResponse-${userId}`, chatResponse)
+        }
 
         return () => {
-            socket?.off("chatResponse", chatResponse)
+            socket?.off(`chatResponse-${userId}`, chatResponse)
         }
-    }, [socket, refetch])
+    }, [socket, refetch, userId])
 
     return isMobile ? (
         <section className={styles.containerMobile}>
