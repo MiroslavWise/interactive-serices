@@ -2,6 +2,7 @@
 
 import { memo } from "react"
 import Image from "next/image"
+import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
@@ -10,14 +11,20 @@ import type { THeaderMobile } from "./types"
 import { SearchElementMap } from "@/components/common/Inputs"
 
 import { useAuth } from "@/store/hooks"
+import { serviceNotifications } from "@/services/notifications"
+import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
 
 import styles from "./styles/style.module.scss"
 
 export const Header: THeaderMobile = memo(function $Header({
-    setVisibleNotification,
     handleAddressLocation,
 }) {
     const { token } = useAuth()
+    const { dispatchVisibleNotifications } = useVisibleNotifications()
+    const { data: dataNotifications } = useQuery({
+        queryFn: () => serviceNotifications.get({ order: "DESC" }),
+        queryKey: ["notifications"],
+    })
 
     return isMobile ? (
         <motion.div
@@ -37,7 +44,9 @@ export const Header: THeaderMobile = memo(function $Header({
                     />
                     <div
                         className={styles.containerNotification}
-                        onClick={() => setVisibleNotification(true)}
+                        onClick={() =>
+                            dispatchVisibleNotifications({ visible: true })
+                        }
                     >
                         <Image
                             src="/svg/bell.svg"
@@ -45,9 +54,13 @@ export const Header: THeaderMobile = memo(function $Header({
                             width={22}
                             height={22}
                         />
-                        {/* <div className={styles.badge}>
-                            <span>2</span>
-                        </div> */}
+                        {dataNotifications?.res?.length ? (
+                            <div className={styles.badge}>
+                                <span>
+                                    {dataNotifications?.res?.length || 0}
+                                </span>
+                            </div>
+                        ) : null}
                     </div>
                 </div>
                 <div className={styles.segments}>

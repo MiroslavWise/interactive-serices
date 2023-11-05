@@ -1,5 +1,8 @@
+"use client"
+
 import dayjs from "dayjs"
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 
 import type { TComponentsNotification } from "./types/types"
 
@@ -24,6 +27,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
             data={{
                 "data-provider": data?.entity?.provider,
                 "data-name": data?.name,
+                "data-mobile": isMobile,
             }}
         >
             <div data-block-info>
@@ -43,23 +47,46 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
                     ) : null}
                     {data?.entity?.title}
                 </h3>
-                <div data-date>
-                    <Image
-                        src="/svg/calendar.svg"
-                        alt="calendar"
-                        width={16}
-                        height={16}
+                {isMobile ? (
+                    <div data-footer>
+                        <div data-date>
+                            <Image
+                                src="/svg/calendar.svg"
+                                alt="calendar"
+                                width={16}
+                                height={16}
+                            />
+                            <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
+                        </div>
+                        <div data-buttons>
+                            <ButtonDefault label="Посмотреть" />
+                            <ButtonCircleGradient
+                                type="primary"
+                                icon="/svg/x-close-primary.svg"
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <div data-date>
+                        <Image
+                            src="/svg/calendar.svg"
+                            alt="calendar"
+                            width={16}
+                            height={16}
+                        />
+                        <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
+                    </div>
+                )}
+            </div>
+            {!isMobile && (
+                <div data-buttons>
+                    <ButtonDefault label="Посмотреть" />
+                    <ButtonCircleGradient
+                        type="primary"
+                        icon="/svg/x-close-primary.svg"
                     />
-                    <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
                 </div>
-            </div>
-            <div data-buttons>
-                <ButtonDefault label="Посмотреть" />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/x-close-primary.svg"
-                />
-            </div>
+            )}
         </MotionLI>
     )
 }
