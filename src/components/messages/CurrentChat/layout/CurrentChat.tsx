@@ -34,6 +34,7 @@ export const CurrentChat = () => {
     const { handleReplace } = usePush()
     const { socket } = useWebSocket() ?? {}
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)
+    const [screenHeight, setScreenHeight] = useState<string | number>("100%")
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
@@ -138,16 +139,18 @@ export const CurrentChat = () => {
         }
     }, [dispatchMessagesType, data?.res])
 
-    const height = useMemo(() => {
-        return document.documentElement.clientHeight || "100%"
+    useEffect(() => {
+        const height = document.documentElement.clientHeight
+        setScreenHeight(height || "100%")
     }, [])
 
     if (isMobile) {
         return (
             <section
-                className={styles.containerMobile}
-                style={{ height, paddingTop: isBarter ? 0 : 84 }}
+                className={cx(styles.containerMobile, "height100vh")}
+                style={{ height: screenHeight, paddingTop: isBarter ? 0 : 86 }}
             >
+                <p data-abs> {"height: " + screenHeight}</p>
                 {isBarter ? (
                     <NoticeBarter
                         idBarter={data?.res?.barterId!}
