@@ -9,6 +9,7 @@ import {
     useState,
 } from "react"
 import { isMobile } from "react-device-detect"
+import { useSearchParams } from "next/navigation"
 
 import type { IThreadsMessages } from "@/services/threads/types"
 
@@ -32,6 +33,7 @@ export const ListMessages = memo(function ListMessages({
     isLoadingFullInfo: boolean
 }) {
     const { join } = useJoinMessage()
+    const idThread = useSearchParams()?.get("thread")
     const { imageProfile, userId } = useAuth()
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
@@ -98,7 +100,7 @@ export const ListMessages = memo(function ListMessages({
             setHeight(header?.clientHeight || 0)
             console.log("%c header: ", "color: #f00", header?.clientHeight)
         }
-    }, [isLoadingFullInfo])
+    }, [isLoadingFullInfo, idThread])
 
     return isLoadingFullInfo ? (
         <ul
@@ -106,7 +108,11 @@ export const ListMessages = memo(function ListMessages({
             ref={ulChat}
             style={{
                 paddingTop:
-                    isMobile && isBarter ? (height ? height + 10 : 123) : 0,
+                    isMobile && isBarter
+                        ? height
+                            ? height + 10
+                            : 123
+                        : height,
                 paddingBottom: `84px !important`,
             }}
         >
