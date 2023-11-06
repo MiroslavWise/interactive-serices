@@ -93,7 +93,7 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
             data={{
                 "data-last": last,
             }}
-            notY
+            // notY
         >
             <div
                 className={styles.header}

@@ -53,17 +53,8 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
 
     function handleWantToHelp() {
         if (userId) {
-            dispatchVisibleBarter({
-                isVisible: true,
-                dataOffer: data?.res!,
-                dataProfile: {
-                    photo: dataProfile?.res?.image?.attributes?.url!,
-                    fullName: `${dataProfile?.res?.firstName || ""} ${
-                        dataProfile?.res?.lastName || ""
-                    }`,
-                    idUser: stateBalloon?.idUser!,
-                },
-            })
+            handlePush(`/messages?user=${userId}`)
+            dispatch({ visible: false })
         }
     }
 

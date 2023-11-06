@@ -18,7 +18,9 @@ export const MotionLI: TMotion = ({
         <motion.li
             className={cx(classNames)}
             variants={notY ? motionItemOnOpacity : motionItemOnOpacityY}
-            onClick={() => {
+            onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
                 if (onClick) onClick()
             }}
             ref={ref}
