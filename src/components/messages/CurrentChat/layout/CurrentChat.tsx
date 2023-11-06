@@ -150,7 +150,7 @@ export const CurrentChat = () => {
                 className={cx(styles.containerMobile, "height100vh")}
                 style={{ height: screenHeight, paddingTop: isBarter ? 0 : 86 }}
             >
-                <p data-abs> {"height: " + screenHeight}</p>
+                {/* <p data-abs> {"height: " + screenHeight}</p> */}
                 {isBarter ? (
                     <NoticeBarter
                         idBarter={data?.res?.barterId!}
@@ -210,7 +210,7 @@ export const CurrentChat = () => {
                     messages={messages}
                     dataUser={dataUser?.res!}
                     isBarter={isBarter}
-                    isLoadingFullInfo={isLoadingFullInfo}
+                    isLoadingFullInfo={isLoadingFullInfo || !isBarter}
                 />
                 <TextAreaSend
                     photo={conversationPartner?.photo}
@@ -243,7 +243,7 @@ export const CurrentChat = () => {
                 messages={messages}
                 dataUser={dataUser?.res!}
                 isBarter={isBarter}
-                isLoadingFullInfo={isLoadingFullInfo}
+                isLoadingFullInfo={isLoadingFullInfo || !isBarter}
             />
             <TextAreaSend
                 photo={conversationPartner?.photo}

@@ -110,12 +110,12 @@ export const NoticeBarter = ({
     }, [userId, idBarter, dataTestimonials?.res])
 
     useEffect(() => {
-        if (!!data?.res) {
+        if (!!data?.res && !!dataTestimonials?.res) {
             requestAnimationFrame(() => {
                 setIsLoadingFullInfo(true)
             })
         }
-    }, [data, setIsLoadingFullInfo])
+    }, [data?.res, setIsLoadingFullInfo, dataTestimonials?.res])
 
     function handleSuccess() {
         if (!loading) {

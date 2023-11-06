@@ -100,17 +100,17 @@ export const ListMessages = memo(function ListMessages({
         }
     }, [isLoadingFullInfo])
 
-    return (
+    return isLoadingFullInfo ? (
         <ul
             data-height={isBarter}
             ref={ulChat}
             style={{
                 paddingTop:
-                    isMobile && isBarter ? (height ? height + 78 : 168) : 0,
+                    isMobile && isBarter ? (height ? height + 10 : 123) : 0,
                 paddingBottom: `84px !important`,
             }}
         >
             {messagesJoin}
         </ul>
-    )
+    ) : null
 })
