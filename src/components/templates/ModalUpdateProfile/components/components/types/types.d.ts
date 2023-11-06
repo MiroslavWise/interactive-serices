@@ -17,6 +17,7 @@ interface ILabelInput {
 }
 
 interface IGroupSelectorDate {
+    label: string
     watchDay: any
     watchMonth: any
     watchYear: any

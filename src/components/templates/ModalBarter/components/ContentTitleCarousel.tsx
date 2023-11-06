@@ -6,13 +6,13 @@ import { useQuery } from "react-query"
 import type { TContent } from "../types/types"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
-import { CustomDatePicker } from "@/components/common/custom"
 
 import { useAddress } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { ListOffersBarter } from "@/components/common/ListOffersBarter"
 import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
+import { GroupSelectorDate } from "./GroupSelectorDate"
 
 import styles from "./styles/style.module.scss"
 
@@ -53,10 +53,11 @@ export const ContentTitleCarousel: TContent = ({
 
     return (
         <section className={styles.containerTitleCarousel}>
-            <h2>Пожалуйста, выберите параметры бартера</h2>
+            <h2 {...register("offerMyId", { required: true })}>
+                Пожалуйста, выберите параметры бартера
+            </h2>
             {data?.res?.length ? (
                 <ListOffersBarter
-                    {...register("offerMyId", { required: true })}
                     active={watch("offerMyId")!}
                     items={data?.res}
                     onClick={(value) => {
@@ -64,11 +65,7 @@ export const ContentTitleCarousel: TContent = ({
                     }}
                 />
             ) : (
-                <div
-                    data-create
-                    data-error={errors.offerMyId}
-                    {...register("offerMyId", { required: true })}
-                >
+                <div data-create data-error={errors.offerMyId}>
                     <div>
                         <h3>У вас нет созданных предложений</h3>
                         {!isAddresses ? (
@@ -93,15 +90,24 @@ export const ContentTitleCarousel: TContent = ({
                 <i>Выберите услугу, которую вы хотите предложить взамен</i>
             ) : null}
             <div className={styles.barterContainer} data-time-address>
-                <div
-                    className={styles.itemBarterContainer}
-                    {...register("date", { required: true })}
-                >
-                    <p>Дата обмена</p>
-                    <CustomDatePicker
-                        setDate={(value) => setValue("date", value)}
+                <div className={styles.itemBarterContainer}>
+                    <GroupSelectorDate
+                        label="Дата обмена"
+                        watchDay={watch("day")}
+                        watchMonth={watch("month")}
+                        watchYear={watch("year")}
+                        propsRegister={{
+                            day: register("day", { required: true }),
+                            month: register("month", { required: true }),
+                            year: register("year", { required: true }),
+                        }}
+                        set={setValue}
+                        errorDate={{
+                            day: errors.day,
+                            month: errors.month,
+                            year: errors.year,
+                        }}
                     />
-                    {errors?.date ? <span>Выберите дату</span> : null}
                     <p>По адресу</p>
                     <i>{address}</i>
                 </div>

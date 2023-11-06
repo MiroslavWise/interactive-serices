@@ -34,7 +34,7 @@ const $ListOffersBarter = forwardRef(function ListOffersBarter(
     }
 
     return (
-        <article className={styles.container} {...rest} data-mobile={isMobile}>
+        <article className={styles.container} data-mobile={isMobile} {...rest}>
             <ul style={{ height: height }}>
                 {items?.map((item) => (
                     <li
