@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { ToastContainer } from "react-toastify"
+import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
@@ -22,14 +23,16 @@ import {
     NewServicesBanner,
     NewServiceBarterRequests,
     PublicProfile,
+    NotificationsMobile,
+    ComplaintModal,
+    CompletionTransaction,
+    DroverFriends,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
-import { DroverFriends } from "@/components/templates/DroverFriends"
 import BalloonPlaceMark from "../components/YandexMap/BalloonPlaceMark"
 import PhotoPreviewModal from "../components/templates/PhotoPreviewModal"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider } from "@/context"
-import { CompletionTransaction } from "@/components/templates/CompletionTransaction"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
@@ -39,7 +42,7 @@ import { useDroverFriends } from "@/store/state/useDroverFriends"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { ComplaintModal } from "@/components/templates/ComplaintModal"
+import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -62,6 +65,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { getCategories } = useOffersCategories()
     const { visibleFriends } = useDroverFriends()
+    const { visible: visibleNotifications } = useVisibleNotifications()
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
 
@@ -106,6 +110,9 @@ export default function Providers({ children }: { children: ReactNode }) {
                     <WebSocketProvider>
                         <YMapsProvider>
                             {children}
+                            {isMobile && token && visibleNotifications && (
+                                <NotificationsMobile />
+                            )}
                             <ToastContainer />
                             <FooterMenu />
                             <SignPopup />

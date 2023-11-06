@@ -38,6 +38,7 @@ export const NoticeBarter = ({
     const { categories } = useOffersCategories()
     const [loading, setLoading] = useState(false)
     const { socket } = useWebSocket() ?? {}
+    const { handleReplace } = usePush()
     const { dispatchCompletion } = useCompletionTransaction()
     const { data, refetch } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
@@ -245,16 +246,19 @@ export const NoticeBarter = ({
             >
                 <section>
                     <div data-sub-header>
-                        {userData ? (
-                            <NextImageMotion
-                                src={userData?.profile?.image?.attributes?.url}
-                                alt="avatar"
-                                width={40}
-                                height={40}
+                        <div
+                            data-back
+                            onClick={() => {
+                                handleReplace("/messages")
+                            }}
+                        >
+                            <Image
+                                src="/svg/chevron-left.svg"
+                                alt="chevron-left"
+                                height={22}
+                                width={22}
                             />
-                        ) : (
-                            <div data-avatar />
-                        )}
+                        </div>
                         <div data-barter>
                             <BadgeServices
                                 {...data?.res?.initiator!}
@@ -271,6 +275,16 @@ export const NoticeBarter = ({
                                 isClickable
                             />
                         </div>
+                        {userData ? (
+                            <NextImageMotion
+                                src={userData?.profile?.image?.attributes?.url}
+                                alt="avatar"
+                                width={40}
+                                height={40}
+                            />
+                        ) : (
+                            <div data-avatar />
+                        )}
                     </div>
                     <div data-info>{textInfo}</div>
                     <footer>

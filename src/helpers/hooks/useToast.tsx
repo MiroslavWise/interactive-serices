@@ -1,7 +1,8 @@
 "use client"
 
-import { DispatchWithoutAction, useId } from "react"
 import { toast } from "react-toastify"
+import { isMobile } from "react-device-detect"
+import { DispatchWithoutAction, useId } from "react"
 
 export const useToast = () => {
     const id = useId()
@@ -22,7 +23,7 @@ export const useToast = () => {
     ) {
         return toast(value, {
             toastId: id,
-            position: "bottom-center",
+            position: isMobile ? "top-center" : "bottom-center",
             autoClose: 5000,
             hideProgressBar: true,
             closeOnClick: true,

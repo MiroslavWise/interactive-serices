@@ -1,10 +1,22 @@
 import type { IReturnData, TOrder } from "../types/general"
 
+export type TTypeOperation = "create"
+
 export interface IPostNotification {}
 
 export type TPatchNotification = Partial<IPostNotification>
 
-export interface IResponseNotifications {}
+export interface IResponseNotifications {
+    id: number
+    userId: number
+    operation: TTypeOperation
+    data: any
+    created: Date
+    updated: Date
+    email: boolean
+    sms: boolean
+    push: boolean
+}
 
 interface IQueries {
     order?: TOrder

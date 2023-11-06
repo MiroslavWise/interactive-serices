@@ -207,53 +207,6 @@ export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
                             ) : null}
                         </div>
                     </div>
-                    {["executed", "completed", "destroyed"]?.includes(
-                        data?.res?.status!,
-                    ) &&
-                    !isFeedback &&
-                    dataTestimonials?.ok ? (
-                        <div data-buttons>
-                            <ButtonFill
-                                label={
-                                    data?.res?.status === "completed"
-                                        ? "Оставить отзыв"
-                                        : "Завершить обмен"
-                                }
-                                handleClick={handleCompleted}
-                            />
-                        </div>
-                    ) : null}
-                    {isMeInitiator === false &&
-                    data?.res?.status === "initiated" ? (
-                        <section data-buttons-section>
-                            <ButtonFill
-                                label="Принять"
-                                handleClick={handleSuccess}
-                                classNames={styles.fill}
-                                suffix={
-                                    <Image
-                                        src="/svg/check-white.svg"
-                                        alt="check-white"
-                                        width={16}
-                                        height={16}
-                                    />
-                                }
-                            />
-                            <ButtonDefault
-                                classNames={styles.fill}
-                                label="Отказаться"
-                                handleClick={handleCanceled}
-                                suffix={
-                                    <Image
-                                        src="/svg/x-close-primary.svg"
-                                        alt="check-white"
-                                        width={16}
-                                        height={16}
-                                    />
-                                }
-                            />
-                        </section>
-                    ) : null}
                     {MENU_ITEM_POPUP.map((item) => (
                         <li
                             key={item.value}

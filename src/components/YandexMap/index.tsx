@@ -9,7 +9,6 @@ import type { TYandexMap } from "./types"
 
 import { Header } from "./Header"
 import { MapCardNews } from "./MapCard"
-import { Notifications } from "./Notifications"
 import { ListPlacemark } from "./ObjectsMap"
 import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
@@ -27,7 +26,6 @@ const COORD = [55.75, 37.67]
 
 const YandexMap: TYandexMap = ({}) => {
     const { userId } = useAuth()
-    const [visibleNotification, setVisibleNotification] = useState(false)
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
@@ -118,16 +116,7 @@ const YandexMap: TYandexMap = ({}) => {
 
     return (
         <>
-            <Header
-                setVisibleNotification={setVisibleNotification}
-                handleAddressLocation={handleAddressLocation}
-            />
-            {isMobile ? (
-                <Notifications
-                    visibleNotification={visibleNotification}
-                    setVisibleNotification={setVisibleNotification}
-                />
-            ) : null}
+            <Header handleAddressLocation={handleAddressLocation} />
             <Map
                 state={{
                     center: coordinates,
