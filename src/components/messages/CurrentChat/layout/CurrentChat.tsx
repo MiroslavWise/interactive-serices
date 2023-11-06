@@ -153,6 +153,7 @@ export const CurrentChat = () => {
                         idBarter={data?.res?.barterId!}
                         userData={dataUser?.res}
                         setIsLoadingFullInfo={setIsLoadingFullInfo}
+                        refetchThread={refetch}
                     />
                 ) : (
                     <header data-header>
@@ -232,6 +233,7 @@ export const CurrentChat = () => {
                     idBarter={data?.res?.barterId!}
                     userData={dataUser?.res}
                     setIsLoadingFullInfo={setIsLoadingFullInfo}
+                    refetchThread={refetch}
                 />
             ) : null}
             <ListMessages

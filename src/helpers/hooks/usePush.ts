@@ -15,7 +15,7 @@ export const usePush = () => {
     }
 
     function handlePush(value: string) {
-        if (pathname !== value) {
+        if (!value.includes(pathname) && value !== "/") {
             setIsAnimated(true)
         }
         push(value)

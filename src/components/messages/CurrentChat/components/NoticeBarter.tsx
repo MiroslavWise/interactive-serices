@@ -28,10 +28,12 @@ export const NoticeBarter = ({
     idBarter,
     userData,
     setIsLoadingFullInfo,
+    refetchThread,
 }: {
     idBarter: number
     userData?: IUserResponse | null
     setIsLoadingFullInfo: Dispatch<SetStateAction<boolean>>
+    refetchThread: () => Promise<any>
 }) => {
     const { userId, user } = useAuth()
     const threadId = useSearchParams().get("thread")
@@ -145,8 +147,11 @@ export const NoticeBarter = ({
                         })
                     }
                     setTimeout(() => {
-                        refetch().finally(() => setLoading(false))
-                    }, 1650)
+                        refetch().finally(() => {
+                            refetchThread()
+                            setLoading(false)
+                        })
+                    }, 750)
                 })
         }
     }
