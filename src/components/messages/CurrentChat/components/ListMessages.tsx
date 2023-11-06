@@ -109,7 +109,7 @@ export const ListMessages = memo(function ListMessages({
             data-height={isBarter}
             ref={ulChat}
             style={{
-                paddingTop: 22,
+                paddingTop: 22 + height,
                 paddingBottom: isMobile ? (height ? height + 84 : 168) : 0,
             }}
         >
