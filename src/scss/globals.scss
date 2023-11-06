@@ -78,6 +78,7 @@ h6 {
 }
 
 :root {
+    --vh: 1vh;
     --scroll-behavior: auto;
     --desktop: 1440px;
     --tablet: 834px;
@@ -397,4 +398,9 @@ $cursors: "pointer", "default";
 
     @media screen and (max-width: 746px) {
     }
+}
+
+.height100vh {
+    height: 100vh !important;
+    height: calc(var(--vh, 1vh) * 100) !important;
 }

@@ -6,6 +6,7 @@ import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { PrimeReactProvider, PrimeReactContext } from "primereact/api"
 
 import {
     PhotoCarousel,
@@ -103,37 +104,48 @@ export default function Providers({ children }: { children: ReactNode }) {
         }
     }, [getCategories, offersCategories, getFetchingOffersCategories])
 
+    useEffect(() => {
+        let vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty("--vh", `${vh}px`)
+    }, [])
+
     return (
         <>
             <NextThemesProvider>
-                <QueryClientProvider client={queryClient}>
-                    <WebSocketProvider>
-                        <YMapsProvider>
-                            {children}
-                            {isMobile && token && visibleNotifications && (
-                                <NotificationsMobile />
-                            )}
-                            <ToastContainer />
-                            <FooterMenu />
-                            <SignPopup />
-                            <PhotoCarousel />
-                            <WelcomeModal />
-                            <ExchangesModalMobile />
-                            <Barter />
-                            <CreateNewOptionModal />
-                            <PhotoPreviewModal />
-                            {token && userId ? <ModalUpdateProfile /> : null}
-                            <AboutSheiraPopup />
-                            <CompletionTransaction />
-                            <BalloonPlaceMark />
-                            {token && visibleFriends ? <DroverFriends /> : null}
-                            <NewServicesBanner />
-                            <NewServiceBarterRequests />
-                            <PublicProfile />
-                            {token && <ComplaintModal />}
-                        </YMapsProvider>
-                    </WebSocketProvider>
-                </QueryClientProvider>
+                <PrimeReactProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <WebSocketProvider>
+                            <YMapsProvider>
+                                {children}
+                                {isMobile && token && visibleNotifications && (
+                                    <NotificationsMobile />
+                                )}
+                                <ToastContainer />
+                                <FooterMenu />
+                                <SignPopup />
+                                <PhotoCarousel />
+                                <WelcomeModal />
+                                <ExchangesModalMobile />
+                                <Barter />
+                                <CreateNewOptionModal />
+                                <PhotoPreviewModal />
+                                {token && userId ? (
+                                    <ModalUpdateProfile />
+                                ) : null}
+                                <AboutSheiraPopup />
+                                <CompletionTransaction />
+                                <BalloonPlaceMark />
+                                {token && visibleFriends ? (
+                                    <DroverFriends />
+                                ) : null}
+                                <NewServicesBanner />
+                                <NewServiceBarterRequests />
+                                <PublicProfile />
+                                {token && <ComplaintModal />}
+                            </YMapsProvider>
+                        </WebSocketProvider>
+                    </QueryClientProvider>
+                </PrimeReactProvider>
             </NextThemesProvider>
             <AnimatedLoadPage />
             <Glasses />

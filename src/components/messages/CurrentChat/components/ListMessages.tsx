@@ -94,23 +94,20 @@ export const ListMessages = memo(function ListMessages({
 
     useEffect(() => {
         if (isLoadingFullInfo) {
-            requestAnimationFrame(() => {
-                const header = document.getElementById("id-barter-header")
-                setHeight(header?.clientHeight || 0)
-                console.log("%c header: ", "color: #f00", header?.clientHeight)
-            })
+            const header = document.getElementById("id-barter-header")
+            setHeight(header?.clientHeight || 0)
+            console.log("%c header: ", "color: #f00", header?.clientHeight)
         }
     }, [isLoadingFullInfo])
-
-    console.log("%c height: ", "color: #ff0", height)
 
     return (
         <ul
             data-height={isBarter}
             ref={ulChat}
             style={{
-                paddingTop: 22 + height,
-                paddingBottom: isMobile ? (height ? height + 84 : 168) : 0,
+                paddingTop:
+                    isMobile && isBarter ? (height ? height + 78 : 168) : 0,
+                paddingBottom: `84px !important`,
             }}
         >
             {messagesJoin}
