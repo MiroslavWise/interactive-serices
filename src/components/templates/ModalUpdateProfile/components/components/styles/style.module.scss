@@ -103,17 +103,6 @@
                 background: var(--error-100) !important;
             }
         }
-
-        .error {
-            color: var(--error-600);
-            font-size: 12px;
-            text-align: start;
-            font-weight: 500;
-            line-height: 18px;
-            letter-spacing: -0.5px;
-            margin-top: 4px;
-            margin-bottom: -5px;
-        }
     }
 
     &.mobile {
@@ -127,6 +116,17 @@
     align-items: flex-start;
     gap: 8px;
     align-self: stretch;
+}
+
+.error {
+    color: var(--error-600) !important;
+    font-size: 12px !important;
+    text-align: start;
+    font-weight: 400 !important;
+    line-height: 18px;
+    letter-spacing: -0.5px !important;
+    margin-top: 4px;
+    margin-bottom: -5px;
 }
 
 .containerItemsAdress {

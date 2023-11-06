@@ -51,6 +51,8 @@ export function Barter() {
         formState: { errors },
     } = useForm<IValuesForm>({})
 
+    console.log(errors)
+
     function onSubmit(values: IValuesForm) {
         const data = {
             consignedId: dataOffer?.id!,
@@ -60,9 +62,12 @@ export function Barter() {
             enabled: true,
         } as IPostDataBarter
 
-        if (values.date) {
-            data.timestamp = dayjs(values.date).format()
-        }
+        const day = values.day
+        const month = values.month
+        const year = values.year
+
+        data.timestamp = dayjs(`${day}/${month}/${year}`, "DD/MM/YYYY").format()
+
         if (addressId) {
             data.addresses = [Number(addressId)]
         }
@@ -73,11 +78,7 @@ export function Barter() {
             if (response?.ok) {
                 if (response?.res?.id) {
                     on(
-                        `${dataProfile?.fullName} получит ${
-                            dataOffer?.provider === "offer"
-                                ? "ваш запрос"
-                                : "ваше предложение"
-                        } на обмен!`,
+                        `${dataProfile?.fullName} получит ваше предложение на обмен!`,
                     )
                     dispatch({ visible: false })
                     dispatchVisibleBarter({ isVisible: false })

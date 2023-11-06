@@ -31,22 +31,22 @@ export const BadgeServices: TBadgeServices = (props) => {
 
     function handle() {
         if (addresses && id && isClickable) {
-            dispatchMapCoordinates({
-                coordinates: addresses?.[0]?.coordinates
-                    ?.split(" ")
-                    ?.reverse()
-                    ?.map(Number),
-                zoom: 20,
-            })
+            // dispatchMapCoordinates({
+            //     coordinates: addresses?.[0]?.coordinates
+            //         ?.split(" ")
+            //         ?.reverse()
+            //         ?.map(Number),
+            //     zoom: 20,
+            // })
             dispatch({
                 visible: true,
                 type: provider!,
                 id: id,
                 idUser: userId,
             })
-            requestAnimationFrame(() => {
-                handlePush("/")
-            })
+            // requestAnimationFrame(() => {
+            //     handlePush("/")
+            // })
         }
     }
 

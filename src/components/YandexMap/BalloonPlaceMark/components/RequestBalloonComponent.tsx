@@ -2,18 +2,18 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQueries, useQuery } from "react-query"
+import { useQueries } from "react-query"
 
 import type { TRequestBalloonComponent } from "../types/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({
@@ -22,7 +22,6 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
     const { userId } = useAuth()
     const { handlePush } = usePush()
     const { dispatch } = useBalloonCard()
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
     const [{ data }, { data: dataProfile }] = useQueries([

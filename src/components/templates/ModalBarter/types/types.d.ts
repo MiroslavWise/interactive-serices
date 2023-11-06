@@ -8,9 +8,29 @@ import type {
 
 export interface IValuesForm {
     categoryId: number | null
-    date: Date | string | null
     address: number | null
     offerMyId: number | null
+    day?: string
+    month?: string
+    year?: string
+}
+
+interface IGroupSelectorDate {
+    label: string
+    watchDay: any
+    watchMonth: any
+    watchYear: any
+    set: UseFormSetValue<any>
+    errorDate: {
+        day: FieldError | undefined
+        month: FieldError | undefined
+        year: FieldError | undefined
+    }
+    propsRegister: {
+        day: UseFormRegisterReturn
+        month: UseFormRegisterReturn
+        year: UseFormRegisterReturn
+    }
 }
 
 interface IContent {
@@ -22,3 +42,4 @@ interface IContent {
 }
 
 export type TContent = FC<IContent>
+export type TGroupSelectorDate = FC<IGroupSelectorDate>

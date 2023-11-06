@@ -4,7 +4,7 @@ import { isMobile } from "react-device-detect"
 import { useMemo } from "react"
 import dayjs from "dayjs"
 
-import type { TGroupSelectorDate } from "./types/types"
+import type { TGroupSelectorDate } from "../types/types"
 
 import { Selectors } from "@/components/common/Selectors"
 
@@ -33,7 +33,10 @@ export const GroupSelectorDate: TGroupSelectorDate = ({
                 label: item,
             })),
             months: MONTHS,
-            years: rangeArray(1900, Number(dayjs().format("YYYY")) - 18)
+            years: rangeArray(
+                Number(dayjs().format("YYYY")),
+                Number(dayjs().format("YYYY")) + 3,
+            )
                 .reverse()
                 .map((item) => ({ value: item, label: item })),
         }

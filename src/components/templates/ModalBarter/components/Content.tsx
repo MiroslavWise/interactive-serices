@@ -20,7 +20,7 @@ export const Content: TContent = ({
     const [active, setActive] = useState(false)
 
     return (
-        <main className={styles.containerContent} data-mobile={isMobile}>
+        <div className={styles.containerContent} data-mobile={isMobile}>
             <ContentTitleCarousel
                 register={register}
                 setValue={setValue}
@@ -34,6 +34,6 @@ export const Content: TContent = ({
                     <p>Он-лайн бартер</p>
                 </div>
             </footer>
-        </main>
+        </div>
     )
 }
