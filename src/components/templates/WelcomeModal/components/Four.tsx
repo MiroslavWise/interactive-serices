@@ -36,7 +36,6 @@ export const Four = () => {
             <div data-block-text>
                 <h1>{title}</h1>
                 <p>{description}</p>
-                <i>{placeholder}</i>
             </div>
         </motion.section>
     )
