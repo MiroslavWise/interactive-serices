@@ -1,4 +1,4 @@
-[USING_PUBLIC_API]
+## Getting Started
 
 ```bash
 npm run dev
@@ -7,5 +7,12 @@ yarn dev
 # or
 pnpm dev
 ```
-```(Explorer: Exclude Git Ignore)
-```
+## Getting Started DOCKER
+
+[MakeFile]
+
+```make build-run PORT=3000```
+
+## Getting Started NODEMON
+
+```nodemon --watch app --exec "next build && next start -p 4400"```

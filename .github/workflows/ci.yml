@@ -1,0 +1,45 @@
+name: Core CI/CD
+run-name: ${{ github.actor }} is starting GitHub Actions 🚀
+on:
+  push:
+    branches:
+      - 'develop'
+      - 'hotfix/*'
+      - 'feature/*'
+      - '!master'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - name: Declare variables
+        shell: bash
+        run: |
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
+ 
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Branch: ${{ env.branch }}"
+            echo "Sha: ${{ env.sha_short }}"
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /home/sheira/sheira-frontend
+            git branch
+            git stash
+            git checkout ${{ env.branch }}
+            git pull
+            npm install
+            npm run build
+            docker exec -it sheira-nginx rm -rf /var/www/frontend/*
+            docker cp out/. sheira-nginx:/var/www/frontend
+            ls -la

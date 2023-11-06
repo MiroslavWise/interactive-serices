@@ -1,0 +1,306 @@
+@mixin absoluteImage {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+.containerLabelInput {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+
+    label {
+        color: var(--gray-900);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+
+        sup {
+            color: var(--error-600);
+            font-weight: 500;
+            line-height: 16px;
+        }
+    }
+
+    .groupInputAndError {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        align-self: stretch;
+
+        input {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            align-self: stretch;
+            padding: 12px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--gray-300);
+            background: var(--background-input) !important;
+            outline: none !important;
+
+            &::placeholder {
+                color: var(--gray-400);
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 20px;
+                letter-spacing: -0.5px;
+            }
+
+            &[type="text"],
+            &[type="email"],
+            &[type="password"] {
+                color: var(--gray-900);
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 20px;
+                letter-spacing: -0.5px;
+            }
+
+            &.errorInput {
+                border: 1px solid var(--error-600) !important;
+                background: var(--error-100) !important;
+            }
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            height: calc(24px + 20px + 20px);
+            border-radius: 24px;
+            background: var(--background-input) !important;
+            outline: none !important;
+            resize: none;
+            transition: all 0.2s ease-in-out 0.01s;
+
+            &:focus {
+                height: calc(24px + 100px);
+            }
+
+            &::placeholder {
+                color: var(--gray-400);
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 20px;
+                letter-spacing: -0.5px;
+            }
+
+            color: var(--gray-900);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: -0.5px;
+
+            &.errorInput {
+                border: 1px solid var(--error-600) !important;
+                background: var(--error-100) !important;
+            }
+        }
+    }
+
+    &.mobile {
+        gap: 4px;
+    }
+}
+
+.selectors {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.error {
+    color: var(--error-600) !important;
+    font-size: 12px !important;
+    text-align: start;
+    font-weight: 400 !important;
+    line-height: 18px;
+    letter-spacing: -0.5px !important;
+    margin-top: 4px;
+    margin-bottom: -5px;
+}
+
+.containerItemsAdress {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    & > li {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        z-index: 50;
+
+        .checkBox {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            padding: 5px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            border: 1px solid var(--gray-300);
+            background: transparent;
+            transition: all 0.3s ease-in-out 0.01s;
+
+            .center {
+                height: 8px;
+                width: 8px;
+                border-radius: 4px;
+                background: transparent;
+            }
+        }
+
+        .containerInput {
+            position: relative;
+            height: 48px;
+            width: 100%;
+            z-index: 1;
+
+            textarea {
+                position: relative;
+                min-height: calc(20px + 12px + 12px);
+                max-height: min-content;
+                resize: none;
+                width: 100%;
+                padding: 12px 42px;
+                border-radius: 24px;
+                border: 1px solid var(--gray-300) !important;
+                outline: var(--gray-300) !important;
+                background: var(--background-input);
+                transition: all 0.3s ease-in-out 0.01s;
+                color: var(--gray-900);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 20px;
+                letter-spacing: -0.3px;
+                z-index: 1;
+
+                &::placeholder {
+                    color: var(--gray-400);
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 20px;
+                    letter-spacing: -0.3px;
+                }
+            }
+
+            .geoBlack {
+                @include absoluteImage();
+                left: 14px;
+                z-index: 2;
+            }
+
+            .containerRed {
+                @include absoluteImage();
+                right: 14px;
+                z-index: 2;
+            }
+
+            ul {
+                max-height: 192px;
+                position: absolute;
+                transform: translateY(100%);
+                opacity: 0;
+                visibility: hidden;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                bottom: -1px;
+                left: 0;
+                right: 0;
+                width: 100%;
+                padding: 12px;
+                border-radius: 12px;
+                background: var(--background);
+                box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.16);
+                transition: all 0.3s ease-in-out 0.01s;
+                z-index: 3;
+
+                & > li {
+                    width: 100%;
+                    padding: 8px 6px;
+                    border-radius: 6px;
+                    background: transparent;
+                    z-index: 4;
+
+                    span {
+                        color: var(--gray-900);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 20px;
+                        letter-spacing: -0.3px;
+                    }
+
+                    &:hover,
+                    :focus {
+                        background: var(--background-input);
+                    }
+                }
+
+                &.activeList {
+                    opacity: 1;
+                    visibility: visible;
+
+                    & > h3 {
+                        color: var(--primary-500);
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 24px;
+                        letter-spacing: -0.5px;
+                        text-decoration-line: underline;
+                    }
+                }
+            }
+        }
+
+        &.active {
+            .checkBox {
+                border-color: var(--primary-500);
+
+                .center {
+                    background: var(--primary-500);
+                }
+            }
+
+            .containerInput {
+                & > textarea {
+                    border: 1px solid var(--primary-500) !important;
+                    outline: var(--primary-500) !important;
+                    background: var(--primary-100);
+                }
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .containerItemsAdress {
+        li {
+            .containerInput {
+                .geoBlack {
+                    filter: invert(1);
+                }
+                ul {
+                    box-shadow: none !important;
+                }
+            }
+        }
+    }
+}

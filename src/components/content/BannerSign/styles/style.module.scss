@@ -1,0 +1,95 @@
+@mixin ellipse {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.61);
+    filter: blur(26px);
+    transform: translate(-50%, -50%);
+}
+
+.banner {
+    position: relative;
+    overflow: hidden;
+    width: 226px;
+    height: 218px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 28px;
+    background: var(--gradient-optional-2);
+    z-index: 20;
+
+    .description {
+        z-index: 21;
+        margin: 16px 16px auto;
+        color: var(--supporting-white);
+        text-align: center;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+    }
+
+    .coins {
+        position: absolute;
+        bottom: 0;
+        transform: translateX(-50%);
+        left: 50%;
+        z-index: 22;
+    }
+
+    .ellipseOne {
+        @include ellipse;
+        position: absolute;
+        left: 100%;
+        top: 50%;
+    }
+
+    .ellipseTwo {
+        @include ellipse;
+        position: absolute;
+        top: 100%;
+        left: 0%;
+    }
+
+    .ellipseBlue {
+        position: absolute;
+        width: 129px;
+        height: 129px;
+        flex-shrink: 0;
+        border-radius: 129px;
+        background: rgba(51, 168, 251, 0.58);
+        filter: blur(33.540000915527344px);
+        top: -60px;
+        left: 0;
+    }
+}
+
+@mixin glass {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 300px;
+    filter: blur(80px);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.glassOne {
+    @include glass;
+    background: rgba(243, 145, 114, 0.32);
+    top: 170px;
+    left: 100%;
+}
+
+.glassTwo {
+    @include glass;
+    background: rgba(148, 249, 48, 0.32);
+    top: 100%;
+    left: 0;
+}
+
+//containerAuthBanner

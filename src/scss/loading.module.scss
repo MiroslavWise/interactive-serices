@@ -1,0 +1,96 @@
+@mixin glasses {
+    position: absolute;
+    width: 431px;
+    height: 431px;
+    border-radius: 300px;
+    filter: blur(50px);
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease-in-out;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+}
+
+.containerLoading {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        color: var(--gray-900);
+    }
+}
+
+.glasses1 {
+    @include glasses();
+    background: rgba(243, 145, 114, 0.32);
+    animation: move_one 2s ease-in-out;
+}
+
+.glasses2 {
+    @include glasses();
+    background: rgba(100, 220, 246, 0.32);
+    animation: move_two 2s ease-in-out;
+}
+
+.glasses3 {
+    @include glasses();
+    background: rgba(148, 249, 48, 0.26);
+    animation: move_three 2s ease-in-out;
+}
+
+.glasses4 {
+    @include glasses();
+    background: rgba(135, 92, 255, 0.24);
+    animation: move_four 2s ease-in-out;
+}
+
+@keyframes move_one {
+    0% {
+        top: 50%;
+        left: 50%;
+    }
+
+    100% {
+        top: -40px;
+        left: 230px;
+    }
+}
+
+@keyframes move_two {
+    0% {
+        top: 50%;
+        left: 50%;
+    }
+
+    100% {
+        top: calc(100% - 300px);
+        left: -30px;
+    }
+}
+
+@keyframes move_three {
+    0% {
+        top: 50%;
+        left: 50%;
+    }
+
+    100% {
+        top: 60%;
+        left: 60%;
+    }
+}
+
+@keyframes move_four {
+    0% {
+        top: 50%;
+        left: 50%;
+    }
+
+    100% {
+        top: 100px;
+        left: 100%;
+    }
+}

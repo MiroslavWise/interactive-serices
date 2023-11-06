@@ -1,0 +1,114 @@
+.wrapper {
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(4px);
+    z-index: 1051;
+
+    & > form {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 584px;
+        width: 100%;
+        height: min-content;
+        border-radius: 32px;
+        background: var(--background);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 48px 94px;
+        gap: 47px;
+
+        & > h2 {
+            width: 100%;
+            color: var(--gray-500);
+            text-align: center;
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 600;
+
+            & > span {
+                color: var(--primary-500);
+            }
+        }
+
+        & > h5 {
+            width: 100%;
+            color: var(--warning-500);
+            text-align: center;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        & > section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+
+            & > [data-groups="true"] {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                & > [data-div-text-area="true"] {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                & > i {
+                    color: var(--error-600);
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 18px;
+                    letter-spacing: -0.3px;
+                }
+
+                & > [data-rating="true"] {
+                    display: grid;
+                    grid-template-columns: repeat(5, 20%);
+
+                    & > img {
+                        aspect-ratio: 1/1;
+                        width: 100%;
+                        height: auto;
+                        object-fit: cover;
+                        padding: 4;
+                        cursor: pointer;
+                        filter: grayscale(1);
+
+                        &[data-active="true"] {
+                            filter: grayscale(0);
+                        }
+                    }
+                }
+            }
+        }
+
+        & > button {
+            max-width: 360px;
+            width: 100%;
+        }
+    }
+
+    &[data-mobile="true"] {
+        padding: 20px;
+        & > form {
+            max-width: calc(100% - 40px);
+            top: 50%;
+            padding: 28px 44px;
+            gap: 20px;
+            & > h2 {
+                font-size: 22px;
+            }
+            & > h5 {
+                font-size: 14px;
+            }
+        }
+    }
+}

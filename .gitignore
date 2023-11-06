@@ -8,16 +8,12 @@
 # testing
 /coverage
 
-#environment variables
-#.env*
-
 # next.js
 /.next/
 /out/
 
 # production
 /build
-.history
 
 # misc
 .DS_Store
@@ -29,7 +25,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.history
 
 # vercel
 .vercel
@@ -37,3 +33,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.env
+
+#docker
+docker-compose.yml
+
+sheira-core.code-workspace

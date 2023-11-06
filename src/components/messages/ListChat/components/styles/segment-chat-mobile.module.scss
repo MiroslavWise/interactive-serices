@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: min-content;
+    gap: 0;
+    height: 50px;
+    padding: 4px;
+    background: var(--background-input);
+    border-radius: 25px;
+
+    & > button {
+        height: 42px;
+        width: 42px;
+        border-radius: 50%;
+        border: none;
+        outline: none !important;
+        background: var(--background);
+        padding: 12px;
+        & > img {
+            transition: all 0.2s ease-in-out 0.01s;
+        }
+
+        &[data-active="true"] {
+            background: var(--gradient-primary);
+        }
+    }
+}
+
+[data-theme="light"] {
+    .container {
+        & > button {
+            &[data-active="false"] {
+                & > img {
+                    filter: invert(1);
+                }
+            }
+        }
+    }
+}

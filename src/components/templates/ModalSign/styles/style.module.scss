@@ -1,0 +1,86 @@
+.overlay,
+.overviewMobile {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out 0.01s;
+
+    &[data-visible="true"] {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(2.5px);
+    z-index: 1019;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    & > [data-mobile="true"] {
+        position: relative;
+        max-width: 584px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background-color: wheat;
+        flex-shrink: 0;
+        border-radius: var(--banner-border-radius);
+        background-color: var(--background);
+        z-index: 101;
+        overflow: hidden;
+    }
+
+    & > [data-modal] {
+        position: relative;
+        padding-top: 48px;
+        padding-bottom: 48px;
+        overflow: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 32px;
+        width: 100%;
+        height: 100%;
+        max-width: 584px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: var(--banner-border-radius);
+        background-color: var(--background);
+        z-index: 101;
+
+        & > [data-content] {
+            gap: 32px;
+            width: 100%;
+            height: 100%;
+            max-width: 584px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+.overviewMobile {
+    z-index: 19;
+    background: var(--background);
+
+    & > [data-content] {
+        width: 100%;
+        padding: 28px 28px 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        height: calc(100%);
+    }
+}

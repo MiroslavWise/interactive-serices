@@ -1,0 +1,119 @@
+.isMobileLogo {
+    margin-left: -32px;
+    margin-top: -2px;
+}
+
+.buttons {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    z-index: 40;
+}
+
+.widthButton {
+    min-width: 142px;
+}
+
+//Links
+
+.linksWrapper {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+
+    li {
+        position: relative;
+        display: inline-flex;
+        height: 100%;
+        gap: 8px;
+        align-items: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-500, #6656db);
+            box-shadow: 0px 2px 8px 0px rgba(102, 86, 219, 0.49);
+            transform: scaleX(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        a {
+            color: var(--primary-500);
+            text-align: center;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 142.857%;
+            letter-spacing: -0.5px;
+        }
+        filter: grayscale(100%) brightness(0%);
+        &.active {
+            filter: grayscale(0%) brightness(100%);
+            &::before {
+                transform: scaleX(1);
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .linksWrapper {
+        li {
+            filter: grayscale(100%) brightness(0%) invert(1);
+            &.active {
+                filter: grayscale(0%) brightness(100%);
+            }
+        }
+    }
+}
+
+.containerSpoiler {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-width: 410px;
+    height: min-content;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--stroke-1);
+    border-radius: 16px;
+    z-index: 170;
+
+    &[data-visible="true"] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    & > p {
+        color: var(--support-white);
+        text-align: start;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 30px;
+
+        & > span {
+            color: var(--primary-500);
+            cursor: pointer;
+        }
+    }
+}
+
+[data-theme="light"] {
+    .containerSpoiler {
+        background: var(--opacity-white-hard);
+        backdrop-filter: blur(2.5px);
+    }
+}

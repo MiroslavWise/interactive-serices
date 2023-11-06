@@ -1,0 +1,19 @@
+@import "./button.scss";
+@import "./globals.scss";
+@import "./custom-element.scss";
+@import "./text-tags.scss";
+@import "./body.scss";
+@import "./toast.scss";
+
+//yandex
+@import "./yandex/yandex-balloon.scss";
+@import "./yandex/alert-balloon.scss";
+@import "./yandex/discussion-balloon.scss";
+@import "./yandex/offer-balloon.scss";
+@import "./yandex/request-balloon.scss";
+
+//ERRORS
+
+@import "./messages.scss";
+@import "./news-page.scss";
+@import "./balloon.scss";

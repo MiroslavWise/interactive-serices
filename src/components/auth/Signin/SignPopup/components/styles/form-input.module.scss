@@ -1,0 +1,88 @@
+.groupLabelAndInputWrap {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+
+  label {
+    color: var(--gray-900);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+
+    sup {
+      color: var(--error-600);
+      font-weight: 500;
+      line-height: 16px;
+    }
+  }
+
+  .groupInputError {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    input {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      align-self: stretch;
+      padding: 12px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--gray-300);
+      background: var(--background-input) !important;
+      outline: none !important;
+
+      &::placeholder {
+        color: var(--gray-400);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+      }
+
+      &[type="text"],
+      &[type="email"],
+      &[type="password"] {
+        color: var(--gray-900);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+      }
+
+      &.errorInput {
+        border: 1px solid var(--error-600) !important;
+        background: var(--error-100) !important;
+      }
+    }
+
+    .error {
+      color: var(--error-600);
+      font-size: 12px;
+      text-align: start;
+      font-weight: 500;
+      line-height: 18px;
+      letter-spacing: -0.5px;
+      margin-top: 4px;
+      margin-bottom: -5px;
+    }
+  }
+
+  &.mobile {
+    gap: 4px;
+  }
+}
+
+.selectors{
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+}

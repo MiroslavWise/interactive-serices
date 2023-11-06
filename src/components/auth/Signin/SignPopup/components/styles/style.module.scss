@@ -1,0 +1,346 @@
+//HEADER
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+
+    h3 {
+      color: var(--gray-900);
+      font-size: 30px;
+      text-align: center;
+      font-weight: 600;
+      line-height: 38px;
+      letter-spacing: -0.5px;
+      text-align: center;
+    }
+
+    p {
+      color: var(--gray-500);
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 28px;
+      letter-spacing: -0.5px;
+    }
+  }
+
+  &.mobile {
+    section {
+      gap: 4px;
+    }
+
+    h3 {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+}
+
+//CONTENT
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+
+  &.mobile {
+    gap: 16px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: 12px;
+  width: 100% !important;
+
+  p {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    color: var(--gray-900);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+
+    a {
+      color: var(--primary-500);
+      cursor: pointer;
+    }
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  align-self: stretch;
+}
+
+.RememberChange {
+  // margin-top: 12px;
+  // margin-bottom: 12px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+  .checkRemember {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    .checkbox input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .checkbox {
+      .checkmark {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--primary-500);
+        background: var(--primary-200);
+        cursor: pointer;
+        border-radius: 6px;
+
+        img {
+          position: absolute;
+          display: none;
+        }
+      }
+
+      input[type="checkbox"]:checked+.checkmark img {
+        display: flex;
+      }
+    }
+
+    p {
+      color: var(--gray-900);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: -0.5px;
+    }
+  }
+
+  a {
+    color: var(--primary-500);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+  }
+}
+
+.Register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+
+  p {
+    color: var(--gray-500);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  a {
+    color: var(--primary-500);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+  }
+}
+
+.contentFirstLogin {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+
+  h3 {
+    color: #363757;
+    text-align: center;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: -0.5px;
+  }
+}
+
+.headerOtpCode {
+  padding: 19.25px;
+}
+
+.contentOtpCode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  align-self: stretch;
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 20;
+
+}
+
+.inputs {
+  display: flex;
+  flex-direction: row;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+
+  input {
+    aspect-ratio: 1/1;
+    flex: 1;
+    flex-shrink: 0;
+    height: 50px;
+    width: 50px;
+    outline: none;
+
+    &.checking {
+      height: 64px;
+      width: 64px;
+    }
+
+    &:valid {
+      color: var(--primary-500);
+      text-align: center;
+      font-size: 36px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 45px;
+      letter-spacing: -0.5px;
+      border-radius: 8px;
+      border: 1px solid var(--primary-300);
+      background: var(--background-input);
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    }
+
+    &:invalid {
+      color: var(--gray-200);
+      text-align: center;
+      font-size: 36px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 45px;
+      letter-spacing: -0.5px;
+      border-radius: 8px;
+      border: 1px solid var(--gray-300);
+      background: var(--background-input);
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+//SOCIAL LINKS
+
+.wrapSocial {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+
+  .itemLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 55px;
+    padding: 10px;
+    gap: 12px;
+    border-radius: 100px;
+    border: 1px solid var(--gray-200);
+    background: var(--background-input);
+    box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.10);
+    cursor: pointer;
+  }
+}
+
+.headerSelect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 360px;
+  width: 100%;
+}
+
+.contentRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  z-index: 1;
+  margin: 0 auto;
+
+  &.isMobile {
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

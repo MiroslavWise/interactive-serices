@@ -1,0 +1,110 @@
+.container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 32px;
+    background: var(--background);
+    display: none;
+    max-width: 398px;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out 0.01s;
+    padding: 12px;
+    z-index: 25;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    transform: translate(-50%, -50%);
+
+    &.open {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    h3 {
+        color: var(--gray-900);
+        text-align: center;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 122%;
+        letter-spacing: 0px;
+    }
+
+    & > h4 {
+        color: var(--gray-600);
+        text-align: start;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 17px;
+        padding: 0 20px;
+
+        & > i {
+            color: var(--gray-500);
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 15px;
+        }
+    }
+
+    & > section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    &.mobile {
+        border-radius: 32px !important;
+        top: 50% !important;
+        left: 50% !important;
+        width: calc(100% - 20px);
+        transform: translate(-50%, -50%) !important;
+    }
+}
+
+.containerLiNew {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 84px;
+    max-width: 395px;
+    width: 100%;
+    border-radius: 100px;
+    border: 2px solid var(--stroke-1);
+    background: var(--glass-bg-color-1);
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
+    }
+
+    p {
+        color: var(--gray-900);
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 133%;
+        letter-spacing: 0px;
+    }
+
+    &.mobile {
+        height: 60px;
+        max-width: 100%;
+
+        p {
+            font-size: 18px;
+            line-height: 28px;
+        }
+    }
+}
