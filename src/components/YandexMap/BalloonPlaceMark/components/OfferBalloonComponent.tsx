@@ -13,6 +13,7 @@ import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
@@ -25,6 +26,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
     const { createGallery } = usePhotoVisible()
     const { dispatch } = useBalloonCard()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
+    const { dispatchProfilePublic } = useProfilePublic()
 
     const [{ data }, { data: dataProfile }] = useQueries([
         {
@@ -69,8 +71,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
     }
 
     function handleProfile() {
-        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
-        dispatch({ visible: false })
+        dispatchProfilePublic({ visible: true, idUser: stateBalloon.idUser! })
     }
 
     return (

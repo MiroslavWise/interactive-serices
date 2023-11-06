@@ -10,4 +10,5 @@ export const MONTHS = [
     { value: "09", label: "Сентябрь" },
     { value: "10", label: "Октябрь" },
     { value: "11", label: "Ноябрь" },
+    { value: "12", label: "Декабрь" },
 ]

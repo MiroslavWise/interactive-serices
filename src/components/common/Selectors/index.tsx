@@ -36,7 +36,9 @@ export const Selectors: TSelectors = ({
                 {...register}
             >
                 {watchField
-                    ? options.find((item) => item.value === watchField)?.label
+                    ? options.find(
+                          (item) => Number(item.value) === Number(watchField),
+                      )?.label
                     : label}
             </span>
             <Image

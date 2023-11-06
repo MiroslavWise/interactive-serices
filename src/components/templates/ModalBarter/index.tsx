@@ -49,9 +49,12 @@ export function Barter() {
         setValue,
         handleSubmit,
         formState: { errors },
-    } = useForm<IValuesForm>({})
-
-    console.log(errors)
+    } = useForm<IValuesForm>({
+        defaultValues: {
+            year: dayjs().format("YYYY"),
+            month: dayjs().format("MM")
+        },
+    })
 
     function onSubmit(values: IValuesForm) {
         const data = {
@@ -82,6 +85,13 @@ export function Barter() {
                     )
                     dispatch({ visible: false })
                     dispatchVisibleBarter({ isVisible: false })
+                }
+            } else {
+                if (response?.error) {
+                    on(
+                        `Обмен с ${dataProfile?.fullName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
+                        "error",
+                    )
                 }
             }
         })

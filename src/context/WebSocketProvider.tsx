@@ -21,6 +21,8 @@ import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
+import { useQuery } from "react-query"
+import { serviceThreads } from "@/services/threads"
 
 interface IContextSocket {
     socket: Socket | undefined
