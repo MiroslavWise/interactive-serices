@@ -14,6 +14,7 @@ import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
@@ -21,6 +22,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     const { dispatch } = useBalloonCard()
     const { createGallery } = usePhotoVisible()
     const { handlePush } = usePush()
+    const { dispatchProfilePublic } = useProfilePublic()
     const [{ data }, { data: dataProfile }] = useQueries([
         {
             queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
@@ -40,8 +42,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     ])
 
     function handleProfile() {
-        dispatch({visible: false})
-        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+        dispatchProfilePublic({ visible: true, idUser: stateBalloon.idUser! })
     }
 
     return (

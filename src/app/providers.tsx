@@ -38,7 +38,10 @@ import { YMapsProvider, WebSocketProvider, NextThemesProvider } from "@/context"
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import {
+    useVisibleAndTypeAuthModal,
+    useVisibleModalBarter,
+} from "@/store/hooks"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
 import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
@@ -66,6 +69,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { getCategories } = useOffersCategories()
     const { visibleFriends } = useDroverFriends()
+    const { isVisible } = useVisibleModalBarter()
     const { visible: visibleNotifications } = useVisibleNotifications()
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
@@ -128,7 +132,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 <PhotoCarousel />
                                 <WelcomeModal />
                                 <ExchangesModalMobile />
-                                <Barter />
+                                {isVisible && <Barter />}
                                 <CreateNewOptionModal />
                                 <PhotoPreviewModal />
                                 {token && userId ? (

@@ -24,8 +24,17 @@
     &[data-provider="discussion"] {
         background: var(--gradient-optional-1);
     }
-    &[data-name="Barter"] {
+    &[data-name="barter"] {
         background: var(--gradient-barter);
+    }
+
+    [data-footer] {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
     }
 
     &[data-mobile="true"] {
@@ -41,13 +50,6 @@
                 & > span {
                     font-size: 12px !important;
                 }
-            }
-            [data-footer] {
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
             }
 
             [data-date] {
