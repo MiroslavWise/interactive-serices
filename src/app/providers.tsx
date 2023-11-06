@@ -107,6 +107,8 @@ export default function Providers({ children }: { children: ReactNode }) {
     useEffect(() => {
         let vh = window.innerHeight * 0.01
         document.documentElement.style.setProperty("--vh", `${vh}px`)
+        document.documentElement.style.height =
+            window.innerHeight.toString() + "px"
     }, [])
 
     return (
