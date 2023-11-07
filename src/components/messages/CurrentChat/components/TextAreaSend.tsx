@@ -33,11 +33,11 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
     const [loading, setLoading] = useState(false)
 
     function submit({ text }: { text: string }) {
-        console.log("onSubmit: ", text)
         if (!loading) {
             setLoading(true)
             const date = new Date()
-            const message = replaceRussianMats(text.trim())
+            const message = replaceRussianMats(text)
+            console.log("onSubmit: ", message)
             const receiverIds = [Number(idUser)]
             if (message) {
                 if (socket?.connected) {
