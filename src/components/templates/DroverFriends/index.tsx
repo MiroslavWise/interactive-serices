@@ -1,9 +1,9 @@
 "use client"
 
-import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { IFriendsResponse } from "@/services/friends/types"
 import type { TTypeFriends } from "@/store/types/createDroverFriends"

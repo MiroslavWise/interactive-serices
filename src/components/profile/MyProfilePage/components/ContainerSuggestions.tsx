@@ -1,7 +1,7 @@
 "use client"
 
-import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TContainerSuggestions } from "./types/types"
 
@@ -35,7 +35,7 @@ export const ContainerSuggestions: TContainerSuggestions = ({
                 ? data?.res.map((item, index) => (
                       <CardSuggestion
                           key={`${item.id}+${index}-offers`}
-                        {...item}
+                          {...item}
                           profile={{
                               name: `${user?.firstName || ""} ${
                                   user?.lastName || ""

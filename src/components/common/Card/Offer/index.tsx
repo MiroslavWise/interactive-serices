@@ -2,7 +2,7 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { useQueries } from "react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
 
 import type { TCardOffer } from "./types"
@@ -37,14 +37,12 @@ export const CardOffer: TCardOffer = ({
             : Number(initiator?.userId)
     }, [consigner, initiator, myUserId])
 
-    const [{ data: dataUser }] = useQueries([
-        {
-            queryFn: () => serviceUsers.getId(idUser!),
-            queryKey: ["user", idUser],
-            refetchOnMount: false,
-            enabled: !!idUser,
-        },
-    ])
+    const { data: dataUser } = useQuery({
+        queryFn: () => serviceUsers.getId(idUser!),
+        queryKey: ["user", idUser],
+        refetchOnMount: false,
+        enabled: !!idUser,
+    })
 
     function handleChatBarter() {
         if (!loading) {

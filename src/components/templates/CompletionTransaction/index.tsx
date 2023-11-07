@@ -2,15 +2,16 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { IValuesForm } from "./types/types"
 
 import { ButtonClose, ButtonFill } from "@/components/common/Buttons"
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
@@ -20,7 +21,6 @@ import { TextArea } from "@/components/common/Inputs/components/TextArea"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/style.module.scss"
-import { cx } from "@/lib/cx"
 
 export const CompletionTransaction = () => {
     const { userId } = useAuth()
@@ -181,7 +181,7 @@ export const CompletionTransaction = () => {
                     position={{ top: 12, right: 12 }}
                 />
                 <h2>
-                    Отзыв о бартере с{" "}
+                    Отзыв об обмене с{" "}
                     <span>
                         {dataUser?.profile?.firstName || " "}{" "}
                         {dataUser?.profile?.lastName}

@@ -31,7 +31,7 @@ export const Content: TContent = ({
             <footer>
                 <div className={styles.toggleLabel}>
                     <CustomToggle isActive={active} setIsActive={setActive} />
-                    <p>Он-лайн бартер</p>
+                    <p>Он-лайн обмен</p>
                 </div>
             </footer>
         </div>

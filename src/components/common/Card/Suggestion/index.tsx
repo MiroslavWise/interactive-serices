@@ -1,18 +1,18 @@
 "use client"
 
+import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TCardSuggestion } from "./types"
 
-import { MotionLI } from "@/components/common/Motion"
 import { Header } from "./components/Header"
-import { ContainerPhotos } from "./components/ContainerPhotos"
 import { Buttons } from "./components/Buttons"
+import { MotionLI } from "@/components/common/Motion"
+import { serviceTestimonials } from "@/services/testimonials"
+import { ContainerPhotos } from "./components/ContainerPhotos"
 
 import styles from "./style.module.scss"
-import { serviceTestimonials } from "@/services/testimonials"
-import { useMemo } from "react"
-import { useQuery } from "react-query"
 
 export const CardSuggestion: TCardSuggestion = (props) => {
     const { images, profile, categoryId, title, id, refetch, provider } = props

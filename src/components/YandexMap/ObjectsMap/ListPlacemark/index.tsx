@@ -1,6 +1,6 @@
 "use client"
 
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { memo, useEffect, useMemo } from "react"
 
 import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
@@ -34,7 +34,7 @@ const ListPlacemark_ = () => {
                                 return [
                                     Number(_item.coordinates.split(" ")[0]),
                                     Number(_item.coordinates.split(" ")[1]),
-                                ]    
+                                ]
                             }
                             return [0, 0]
                         })

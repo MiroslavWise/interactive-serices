@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TContent } from "../types/types"
 
@@ -54,7 +54,7 @@ export const ContentTitleCarousel: TContent = ({
     return (
         <section className={styles.containerTitleCarousel}>
             <h2 {...register("offerMyId", { required: true })}>
-                Пожалуйста, выберите параметры бартера
+                Пожалуйста, выберите параметры обмена
             </h2>
             {data?.res?.length ? (
                 <ListOffersBarter
@@ -116,7 +116,7 @@ export const ContentTitleCarousel: TContent = ({
                 <ButtonFill
                     submit="submit"
                     type="primary"
-                    label="Предложить бартер"
+                    label="Предложить обмен"
                     suffix={
                         <Image
                             src="/svg/arrow-right.svg"

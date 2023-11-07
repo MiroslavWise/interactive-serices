@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import { Glasses } from "@/components/common/Glasses"
 import { MotionUL } from "@/components/common/Motion"

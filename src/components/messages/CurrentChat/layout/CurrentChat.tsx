@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"

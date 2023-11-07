@@ -1,10 +1,9 @@
 "use client"
 
 import { useMemo } from "react"
-import { useQueries } from "react-query"
+import { useQueries } from "@tanstack/react-query"
 
 import type { TItemsBadges } from "../types/types"
-import type { TBadges } from "@/components/profile/BlockProfileAside/components/types/types"
 
 import { BadgeAchievementsBorder } from "@/components/common/Badge/BadgeAchievementsBorder"
 
@@ -13,24 +12,29 @@ import { serviceBarters } from "@/services/barters"
 import { serviceTestimonials } from "@/services/testimonials"
 
 export const ItemsBadges: TItemsBadges = ({ id }) => {
-    const dataQueries = useQueries([
-        {
-            queryFn: () => serviceOffers.getUserId(Number(id)),
-            queryKey: ["offers", `user=${id}`],
-            enabled: !!id,
-        },
-        {
-            queryFn: () =>
-                serviceBarters.get({ user: Number(id), status: "completed" }),
-            queryKey: ["barters", `user=${id}`],
-            enabled: !!id,
-        },
-        {
-            queryFn: () => serviceTestimonials.get({ user: Number(id) }),
-            queryKey: ["testimonials", `user=${Number(id)}`],
-            enabled: !!id,
-        },
-    ])
+    const dataQueries = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceOffers.getUserId(Number(id)),
+                queryKey: ["offers", `user=${id}`],
+                enabled: !!id,
+            },
+            {
+                queryFn: () =>
+                    serviceBarters.get({
+                        user: Number(id),
+                        status: "completed",
+                    }),
+                queryKey: ["barters", `user=${id}`],
+                enabled: !!id,
+            },
+            {
+                queryFn: () => serviceTestimonials.get({ user: Number(id) }),
+                queryKey: ["testimonials", `user=${Number(id)}`],
+                enabled: !!id,
+            },
+        ],
+    })
 
     const countProperties = useMemo(() => {
         const offers = dataQueries?.[0]?.data?.res

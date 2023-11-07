@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
 import { memo, useMemo } from "react"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
