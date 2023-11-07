@@ -22,6 +22,7 @@ import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
+import { useToast } from "@/helpers/hooks/useToast"
 
 export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
@@ -30,6 +31,7 @@ export const ModalUpdateProfile = () => {
     const { isVisible, setVisible } = useUpdateProfile()
     const { user, email, profileId, userId, changeAuth } = useAuth()
     const { out } = useOut()
+    const { on } = useToast()
     const dateOfBirth = useMemo(() => {
         const dateOfBirth: any = {
             day: "",
@@ -107,6 +109,10 @@ export const ModalUpdateProfile = () => {
                     return setError("username", { message: "user exists" })
                 if (response[0]?.error?.code === 401) {
                     setVisible(false)
+                    on({
+                        message:
+                            "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
+                    })
                     out()
                     return
                 }
@@ -145,6 +151,14 @@ export const ModalUpdateProfile = () => {
                         changeAuth()
                     }
                 } else {
+                    on(
+                        {
+                            message: `Ошибка: ${
+                                response[0]?.error?.message || ""
+                            }`,
+                        },
+                        "error",
+                    )
                     setVisible(false)
                     changeAuth()
                 }

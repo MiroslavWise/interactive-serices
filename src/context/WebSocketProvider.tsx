@@ -20,6 +20,7 @@ import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
+import { IGetProfileIdResponse } from "@/services/profile/types/profileService"
 
 interface IContextSocket {
     socket: Socket | undefined
@@ -43,10 +44,26 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         }
         const chatResponse = (event: IChatResponse) => {
             console.log("%c chatResponse event: ", "color: #d0d", event)
-            if (Number(threadId) !== event.threadId) {
-                on(`${event.message}`, "message", () => {
-                    handlePush(`/messages?thread=${event.threadId}`)
-                })
+            if (
+                Number(threadId) !== event.threadId &&
+                userId !== event?.emitterId
+            ) {
+                on(
+                    {
+                        message: `${event.message}`,
+                        userId: event.emitterId,
+                        photo:
+                            event.emitter?.profile?.image?.attributes?.url! ||
+                            "",
+                        name: event?.emitter?.profile?.firstName || "",
+                        username: event?.emitter?.profile?.username || "",
+                        id: event.id,
+                    },
+                    "message",
+                    () => {
+                        handlePush(`/messages?thread=${event.threadId}`)
+                    },
+                )
             }
         }
         if (socketState && userId) {
@@ -136,4 +153,7 @@ interface IChatResponse {
     receiverIds: number[]
     threadId: number
     updated: Date
+    emitter: {
+        profile: IGetProfileIdResponse
+    }
 }

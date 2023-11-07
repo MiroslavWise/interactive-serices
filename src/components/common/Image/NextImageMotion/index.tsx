@@ -48,9 +48,6 @@ const $NextImageMotion = (props: TTypes) => {
             alt={alt}
             height={height}
             width={width}
-            style={{
-                objectFit: "cover",
-            }}
             objectFit="cover"
         />
     ) : (
@@ -67,6 +64,7 @@ const $NextImageMotion = (props: TTypes) => {
             classNames={[className]}
             height={height}
             width={width}
+            objectFit="cover"
             {...rest}
         />
     )

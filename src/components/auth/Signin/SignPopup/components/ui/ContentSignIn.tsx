@@ -54,7 +54,11 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     response?.error?.message === "user is not verified"
                 ) {
                     on(
-                        "Вы не потвердили профиль через уведомление, которое вам пришло на почту или номер телефона!",
+                        {
+                            message:
+                                "Вы не потвердили профиль через уведомление, которое вам пришло на почту или номер телефона!",
+                        },
+                        "warning",
                     )
                     return
                 }
@@ -74,7 +78,13 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         "ERROR ---У нас возникла ошибка, мы сейчас её решаем!---",
                         response?.error,
                     )
-                    on("У нас возникла ошибка, мы сейчас её решаем!")
+                    on(
+                        {
+                            message:
+                                "У нас возникла ошибка, мы сейчас её решаем!",
+                        },
+                        "warning",
+                    )
                     return
                 }
                 if (response.ok) {
