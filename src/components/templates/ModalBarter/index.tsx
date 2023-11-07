@@ -52,7 +52,7 @@ export function Barter() {
     } = useForm<IValuesForm>({
         defaultValues: {
             year: dayjs().format("YYYY"),
-            month: dayjs().format("MM")
+            month: dayjs().format("MM"),
         },
     })
 
@@ -81,7 +81,10 @@ export function Barter() {
             if (response?.ok) {
                 if (response?.res?.id) {
                     on(
-                        `${dataProfile?.fullName} получит ваше предложение на обмен!`,
+                        {
+                            message: `${dataProfile?.fullName} получит ваше предложение на обмен!`,
+                        },
+                        "success",
                     )
                     dispatch({ visible: false })
                     dispatchVisibleBarter({ isVisible: false })
@@ -89,7 +92,9 @@ export function Barter() {
             } else {
                 if (response?.error) {
                     on(
-                        `Обмен с ${dataProfile?.fullName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
+                        {
+                            message: `Обмен с ${dataProfile?.fullName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
+                        },
                         "error",
                     )
                 }

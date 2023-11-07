@@ -41,18 +41,19 @@ export const ContentForgotPassword: TContentForgotPassword = ({
             .then((response) => {
                 if (response.ok && !!response?.res) {
                     setVisibleAndType({ visible: false })
-                    on(
-                        "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
-                    )
+                    on({
+                        message:
+                            "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
+                    })
                 }
                 if (response?.error?.code === 401) {
                     setError("email", { message: "user is not verified" })
-                    on("Пользователь не верифицирован!")
+                    on({ message: "Пользователь не верифицирован!" }, "error")
                     setVisibleAndType({ visible: false })
                 }
                 if (response?.error?.code === 404) {
                     setError("email", { message: "user not found" })
-                    on("Пользователя не существует!")
+                    on({ message: "Пользователя не существует!" }, "error")
                     setVisibleAndType({ visible: false })
                 }
                 if (
