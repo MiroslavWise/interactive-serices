@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TNotifications } from "./types"
 

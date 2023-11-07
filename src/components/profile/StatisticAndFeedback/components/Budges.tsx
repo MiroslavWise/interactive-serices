@@ -1,8 +1,8 @@
 "use client"
 
 import { useMemo } from "react"
-import { useQueries } from "react-query"
 import { useSearchParams } from "next/navigation"
+import { useQueries } from "@tanstack/react-query"
 
 import type { TBadges } from "./types/types"
 
@@ -17,24 +17,29 @@ import styles from "./styles/style.module.scss"
 export const Badges: TBadges = () => {
     const id = useSearchParams()?.get("id")
 
-    const dataQueries = useQueries([
-        {
-            queryFn: () => serviceOffers.getUserId(Number(id)),
-            queryKey: ["offers", `user=${id}`],
-            enabled: !!id,
-        },
-        {
-            queryFn: () =>
-                serviceBarters.get({ user: Number(id), status: "completed" }),
-            queryKey: ["barters", `user=${id}`],
-            enabled: !!id,
-        },
-        {
-            queryFn: () => serviceTestimonials.get({ user: Number(id) }),
-            queryKey: ["testimonials", `user=${Number(id)}`],
-            enabled: !!id,
-        },
-    ])
+    const dataQueries = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceOffers.getUserId(Number(id)),
+                queryKey: ["offers", `user=${id}`],
+                enabled: !!id,
+            },
+            {
+                queryFn: () =>
+                    serviceBarters.get({
+                        user: Number(id),
+                        status: "completed",
+                    }),
+                queryKey: ["barters", `user=${id}`],
+                enabled: !!id,
+            },
+            {
+                queryFn: () => serviceTestimonials.get({ user: Number(id) }),
+                queryKey: ["testimonials", `user=${Number(id)}`],
+                enabled: !!id,
+            },
+        ],
+    })
 
     const countProperties = useMemo(() => {
         const offers = dataQueries?.[0]?.data?.res

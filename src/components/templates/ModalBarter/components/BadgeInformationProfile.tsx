@@ -19,7 +19,7 @@ export const BadgeInformationProfile = ({}) => {
 
     return (
         <div className={styles.containerBadgeInformationProfile}>
-            <h4>Бартер с:</h4>
+            <h4>Обмен с:</h4>
             <section>
                 <div className={styles.avatar}>
                     {dataProfile?.photo ? (

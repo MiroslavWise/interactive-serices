@@ -140,6 +140,9 @@ export const ModalUpdateProfile = () => {
                                 return
                             }
                         })
+                    } else {
+                        setVisible(false)
+                        changeAuth()
                     }
                 } else {
                     setVisible(false)

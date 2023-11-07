@@ -1,9 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { motion } from "framer-motion"
-import { isMobile } from "react-device-detect"
 import { useMemo, type DispatchWithoutAction, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
@@ -19,13 +18,13 @@ import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { serviceTestimonials } from "@/services/testimonials"
 import { useAuth, usePopupMenuChat } from "@/store/hooks"
+import { useRefetchListChat } from "../../hook/useRefetchListChat"
 import { useMessagesType } from "@/store/state/useMessagesType"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import mainStyles from "../styles/style.module.scss"
 import styles from "./styles/popup-menu.module.scss"
-import { useRefetchListChat } from "../../hook/useRefetchListChat"
 
 export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
     const searchParams = useSearchParams()

@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useQueries } from "react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
+import { useQueries } from "@tanstack/react-query"
 //@ts-ignore
 import Masonry from "react-responsive-masonry"
 
@@ -23,20 +23,24 @@ export const ContainerServices: TContainerServices = ({}) => {
     const [value, setValue] = useState<IValueServices>("proposals")
     const id = useSearchParams().get("id")
 
-    const [{ data: dataOffer }, { data: dataRequest }] = useQueries([
-        {
-            queryFn: () =>
-                serviceOffers.getUserId(Number(id), { provider: "offer" }),
-            queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
-            enabled: value === "proposals",
-        },
-        {
-            queryFn: () =>
-                serviceOffers.getUserId(Number(id), { provider: "request" }),
-            queryKey: ["offers", `user=${Number(id)}`, "provider=request"],
-            enabled: value === "requests",
-        },
-    ])
+    const [{ data: dataOffer }, { data: dataRequest }] = useQueries({
+        queries: [
+            {
+                queryFn: () =>
+                    serviceOffers.getUserId(Number(id), { provider: "offer" }),
+                queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
+                enabled: value === "proposals",
+            },
+            {
+                queryFn: () =>
+                    serviceOffers.getUserId(Number(id), {
+                        provider: "request",
+                    }),
+                queryKey: ["offers", `user=${Number(id)}`, "provider=request"],
+                enabled: value === "requests",
+            },
+        ],
+    })
 
     return (
         <section

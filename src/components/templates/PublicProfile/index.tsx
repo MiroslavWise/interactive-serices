@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TTypeSegment } from "./types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"

@@ -3,8 +3,8 @@
 import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQuery } from "react-query"
 import { motion } from "framer-motion"
+import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
 import { GeoTagging } from "@/components/common/GeoTagging"

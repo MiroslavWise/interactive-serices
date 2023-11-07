@@ -1,5 +1,6 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
 import { useSwipeable } from "react-swipeable"
@@ -13,14 +14,13 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
+import { serviceUsers } from "@/services/users"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./style.module.scss"
-import { useQuery } from "react-query"
-import { serviceUsers } from "@/services/users"
 
 const $CardRequestsAndProposals: TRequestsAndProposals = ({
     id,

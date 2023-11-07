@@ -210,7 +210,7 @@ const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                     />
                     {["offer"].includes(offer?.provider!) ? (
                         <ButtonFill
-                            label="Откликнуться на бартер"
+                            label="Откликнуться на обмен"
                             handleClick={handleOpenBarter}
                             suffix={
                                 <Image

@@ -2,9 +2,9 @@
 
 import { memo } from "react"
 import Image from "next/image"
-import { useQuery } from "react-query"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { THeaderMobile } from "./types"
 

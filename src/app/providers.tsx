@@ -5,8 +5,7 @@ import { ToastContainer } from "react-toastify"
 import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { QueryClient, QueryClientProvider } from "react-query"
-import { PrimeReactProvider, PrimeReactContext } from "primereact/api"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import {
     PhotoCarousel,
@@ -28,6 +27,7 @@ import {
     ComplaintModal,
     CompletionTransaction,
     DroverFriends,
+    TermsOfUse,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { SignPopup } from "@/components/auth/Signin/SignPopup"
@@ -47,6 +47,7 @@ import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
+import { useTermsOfUse } from "@/store/state/useTermsOfUse"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -54,7 +55,6 @@ const queryClient = new QueryClient({
             refetchOnWindowFocus: false,
             refetchOnMount: false,
             refetchInterval: 30 * 60 * 1000,
-            cacheTime: 30 * 60 * 1000,
         },
     },
 })
@@ -73,6 +73,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { visible: visibleNotifications } = useVisibleNotifications()
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
+    const { visiblePolicy, visibleRules } = useTermsOfUse()
 
     useEffect(() => {
         refresh()
@@ -118,40 +119,37 @@ export default function Providers({ children }: { children: ReactNode }) {
     return (
         <>
             <NextThemesProvider>
-                <PrimeReactProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <WebSocketProvider>
-                            <YMapsProvider>
-                                {children}
-                                {isMobile && token && visibleNotifications && (
-                                    <NotificationsMobile />
-                                )}
-                                <ToastContainer />
-                                <FooterMenu />
-                                <SignPopup />
-                                <PhotoCarousel />
-                                <WelcomeModal />
-                                <ExchangesModalMobile />
-                                {isVisible && <Barter />}
-                                <CreateNewOptionModal />
-                                <PhotoPreviewModal />
-                                {token && userId ? (
-                                    <ModalUpdateProfile />
-                                ) : null}
-                                <AboutSheiraPopup />
-                                <CompletionTransaction />
-                                <BalloonPlaceMark />
-                                {token && visibleFriends ? (
-                                    <DroverFriends />
-                                ) : null}
-                                <NewServicesBanner />
-                                <NewServiceBarterRequests />
-                                <PublicProfile />
-                                {token && <ComplaintModal />}
-                            </YMapsProvider>
-                        </WebSocketProvider>
-                    </QueryClientProvider>
-                </PrimeReactProvider>
+                <QueryClientProvider client={queryClient}>
+                    <WebSocketProvider>
+                        <YMapsProvider>
+                            {children}
+                            {isMobile && token && visibleNotifications && (
+                                <NotificationsMobile />
+                            )}
+                            <ToastContainer />
+                            <FooterMenu />
+                            <SignPopup />
+                            <PhotoCarousel />
+                            <WelcomeModal />
+                            <ExchangesModalMobile />
+                            {isVisible && <Barter />}
+                            <CreateNewOptionModal />
+                            <PhotoPreviewModal />
+                            {token && userId ? <ModalUpdateProfile /> : null}
+                            <AboutSheiraPopup />
+                            <CompletionTransaction />
+                            <BalloonPlaceMark />
+                            {token && visibleFriends ? <DroverFriends /> : null}
+                            <NewServicesBanner />
+                            <NewServiceBarterRequests />
+                            <PublicProfile />
+                            {token && <ComplaintModal />}
+                            {visiblePolicy || visibleRules ? (
+                                <TermsOfUse />
+                            ) : null}
+                        </YMapsProvider>
+                    </WebSocketProvider>
+                </QueryClientProvider>
             </NextThemesProvider>
             <AnimatedLoadPage />
             <Glasses />

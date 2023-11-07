@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
-import { useQueries } from "react-query"
+import { useQueries } from "@tanstack/react-query"
 
 import { BadgeAchievements } from "@/components/common/Badge"
 
@@ -14,19 +14,21 @@ import styles from "./style.module.scss"
 export const AchievementsCount = () => {
     const { userId } = useAuth()
 
-    const queries = useQueries([
-        {
-            queryFn: () =>
-                serviceBarters.get({ user: userId!, status: "completed" }),
-            queryKey: ["barters", `user=${userId}`, `status=completed`],
-            enabled: !!userId,
-        },
-        {
-            queryFn: () => serviceTestimonials.get({ user: userId! }),
-            queryKey: ["testimonials", `user=${userId}`],
-            enabled: !!userId,
-        },
-    ])
+    const queries = useQueries({
+        queries: [
+            {
+                queryFn: () =>
+                    serviceBarters.get({ user: userId!, status: "completed" }),
+                queryKey: ["barters", `user=${userId}`, `status=completed`],
+                enabled: !!userId,
+            },
+            {
+                queryFn: () => serviceTestimonials.get({ user: userId! }),
+                queryKey: ["testimonials", `user=${userId}`],
+                enabled: !!userId,
+            },
+        ],
+    })
 
     const counts = useMemo(() => {
         const barters = queries?.[0]?.data?.res

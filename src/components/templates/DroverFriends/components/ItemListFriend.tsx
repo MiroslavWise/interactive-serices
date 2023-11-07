@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { useQueries, useQuery } from "react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 
 import type { TItemListFriend } from "../types/types"
 
@@ -28,8 +28,8 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
         enabled: !!id,
     })
 
-    const refreshes = useQueries(
-        ["list", "request", "response"].map((item) => ({
+    const refreshes = useQueries({
+        queries: ["list", "request", "response"].map((item) => ({
             queryFn: () =>
                 serviceFriends.get(
                     ["request", "response"].includes(item)
@@ -39,7 +39,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
             queryKey: ["friends", `user=${userId}`, `filter=${item}`],
             enabled: false,
         })),
-    )
+    })
 
     async function refresh() {
         return Promise.all(refreshes.map((item) => item.refetch()))

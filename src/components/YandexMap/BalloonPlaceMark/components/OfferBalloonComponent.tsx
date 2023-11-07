@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQueries } from "react-query"
+import { useQueries } from "@tanstack/react-query"
 
 import type { TOfferBalloonComponent } from "../types/types"
 
@@ -28,23 +28,25 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { dispatchProfilePublic } = useProfilePublic()
 
-    const [{ data }, { data: dataProfile }] = useQueries([
-        {
-            queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
-            queryKey: [
-                "offers",
-                `offer=${stateBalloon.id!}`,
-                `provider=${stateBalloon.type}`,
-            ],
-            refetchOnMount: false,
-        },
-        {
-            queryFn: () =>
-                serviceProfile.getUserId(Number(stateBalloon.idUser)),
-            queryKey: ["profile", stateBalloon.idUser!],
-            refetchOnMount: false,
-        },
-    ])
+    const [{ data }, { data: dataProfile }] = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
+                queryKey: [
+                    "offers",
+                    `offer=${stateBalloon.id!}`,
+                    `provider=${stateBalloon.type}`,
+                ],
+                refetchOnMount: false,
+            },
+            {
+                queryFn: () =>
+                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
+                queryKey: ["profile", stateBalloon.idUser!],
+                refetchOnMount: false,
+            },
+        ],
+    })
 
     const categoryTitle: string = useMemo(() => {
         return (

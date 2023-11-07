@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
-import { useQueries, useQuery } from "react-query"
+import { useQueries } from "@tanstack/react-query"
+import { useEffect, useMemo, useState } from "react"
 
 import type { TBlockLikes } from "../types/types"
 
@@ -13,18 +13,20 @@ export const BlockLikes: TBlockLikes = ({ id }) => {
     const { userId } = useAuth()
     const [loading, setLoading] = useState(false)
     const [{ data: dataLikesMy, refetch: refetchLikesMy }, { data, refetch }] =
-        useQueries([
-            {
-                queryFn: () => serviceLikes.get(),
-                queryKey: ["likes", `user=${userId}`],
-                enabled: !!userId,
-            },
-            {
-                queryFn: () => serviceLikes.getTargetId("offer", id),
-                queryKey: ["likes", `provider=offer`, `id=${id}`],
-                enabled: !!id,
-            },
-        ])
+        useQueries({
+            queries: [
+                {
+                    queryFn: () => serviceLikes.get(),
+                    queryKey: ["likes", `user=${userId}`],
+                    enabled: !!userId,
+                },
+                {
+                    queryFn: () => serviceLikes.getTargetId("offer", id),
+                    queryKey: ["likes", `provider=offer`, `id=${id}`],
+                    enabled: !!id,
+                },
+            ],
+        })
 
     const isLikes = useMemo(() => {
         if (!userId || !dataLikesMy?.res || !id) return false

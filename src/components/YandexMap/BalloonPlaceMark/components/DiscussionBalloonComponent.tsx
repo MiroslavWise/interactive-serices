@@ -1,8 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
-import { useQueries } from "react-query"
+import { useQueries } from "@tanstack/react-query"
 
 import type { TDiscussionBalloonComponent } from "../types/types"
 
@@ -23,23 +22,25 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     const { createGallery } = usePhotoVisible()
     const { handlePush } = usePush()
     const { dispatchProfilePublic } = useProfilePublic()
-    const [{ data }, { data: dataProfile }] = useQueries([
-        {
-            queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
-            queryKey: [
-                "offers",
-                `offer=${stateBalloon.id!}`,
-                `provider=${stateBalloon.type}`,
-            ],
-            refetchOnMount: false,
-        },
-        {
-            queryFn: () =>
-                serviceProfile.getUserId(Number(stateBalloon.idUser)),
-            queryKey: ["profile", stateBalloon.idUser!],
-            refetchOnMount: false,
-        },
-    ])
+    const [{ data }, { data: dataProfile }] = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
+                queryKey: [
+                    "offers",
+                    `offer=${stateBalloon.id!}`,
+                    `provider=${stateBalloon.type}`,
+                ],
+                refetchOnMount: false,
+            },
+            {
+                queryFn: () =>
+                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
+                queryKey: ["profile", stateBalloon.idUser!],
+                refetchOnMount: false,
+            },
+        ],
+    })
 
     function handleProfile() {
         dispatchProfilePublic({ visible: true, idUser: stateBalloon.idUser! })
