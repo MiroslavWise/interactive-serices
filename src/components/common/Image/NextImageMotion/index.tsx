@@ -51,7 +51,6 @@ const $NextImageMotion = (props: TTypes) => {
             style={{
                 objectFit: "cover",
             }}
-            objectFit="cover"
         />
     ) : (
         <ImageStatic
@@ -67,6 +66,9 @@ const $NextImageMotion = (props: TTypes) => {
             classNames={[className]}
             height={height}
             width={width}
+            style={{
+                objectFit: "cover",
+            }}
             {...rest}
         />
     )

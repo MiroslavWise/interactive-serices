@@ -67,7 +67,11 @@ export const ChatEmpty = () => {
             if (!idCreate) {
                 handleReplace("/messages")
                 on(
-                    "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+                    {
+                        message:
+                            "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+                    },
+                    "warning",
                 )
                 return
             }

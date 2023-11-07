@@ -47,7 +47,6 @@ const YandexMap: TYandexMap = ({}) => {
         if (!userId) {
             return
         }
-        setIsOpen(true)
         const mapOne: number = e?._sourceEvent?.originalEvent?.coords?.[0]
         const mapTwo: number = e?._sourceEvent?.originalEvent?.coords?.[1]
 
@@ -90,6 +89,7 @@ const YandexMap: TYandexMap = ({}) => {
             if (hash) data.hash = hash
             setAddressInit(data)
         })
+        setIsOpen(true)
     }
 
     function handleAddressLocation() {
@@ -124,14 +124,24 @@ const YandexMap: TYandexMap = ({}) => {
                     behaviors: ["default", "scrollZoom"],
                     type: "yandex#map",
                 }}
+                
                 width={"100%"}
                 height={"100%"}
-                options={{
+                defaultOptions={{
                     maxZoom: 21,
                     minZoom: 10,
                     yandexMapDisablePoiInteractivity: true,
                 }}
                 onContextMenu={onContextMenu}
+                onMouseMove={(event: any) => {
+                    console.log("%c onMouseMove map", "color: #f0f", event)
+                }}
+                onScroll={(event: any) => {
+                    console.log("%c onScroll map", "color: #00f", event)
+                }}
+                onDrag={(event: any) => {
+                    console.log("%c onDrag map", "color: #0ff", event)
+                }}
             >
                 <ListPlacemark />
                 {addressInit ? (

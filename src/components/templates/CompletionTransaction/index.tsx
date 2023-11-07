@@ -123,12 +123,17 @@ export const CompletionTransaction = () => {
                                 console.log("serviceBarters response: ", res)
                                 if (res.ok) {
                                     on(
-                                        `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
-                                        "barter",
+                                        {
+                                            message:
+                                                "`Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`",
+                                        },
+                                        "success",
                                     )
                                 } else {
                                     on(
-                                        `Ваш отзыв не был доставлен пользователю ${dataUser?.profile?.firstName}, у нас проблемы на сервере`,
+                                        {
+                                            message: `Ваш отзыв не был доставлен пользователю ${dataUser?.profile?.firstName}, у нас проблемы на сервере`,
+                                        },
                                         "error",
                                     )
                                 }
@@ -146,12 +151,16 @@ export const CompletionTransaction = () => {
                 } else {
                     if (responses[0]?.ok) {
                         on(
-                            `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
-                            "barter",
+                            {
+                                message: `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
+                            },
+                            "success",
                         )
                     } else {
                         on(
-                            `Ваш отзыв не был доставлен пользователю ${dataUser?.profile?.firstName}, у нас проблемы на сервере`,
+                            {
+                                message: `Ваш отзыв не был доставлен пользователю ${dataUser?.profile?.firstName}, у нас проблемы на сервере`,
+                            },
                             "error",
                         )
                     }

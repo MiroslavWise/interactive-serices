@@ -91,9 +91,10 @@ export default function Providers({ children }: { children: ReactNode }) {
             RegistrationService.verification({ code: verifyToken! }).then(
                 (response) => {
                     if (response.ok) {
-                        on(
-                            "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
-                        )
+                        on({
+                            message:
+                                "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
+                        })
                         handleReplace("/")
                     }
                 },
@@ -126,7 +127,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                             {isMobile && token && visibleNotifications && (
                                 <NotificationsMobile />
                             )}
-                            <ToastContainer />
+                            <ToastContainer limit={3} />
                             <FooterMenu />
                             <SignPopup />
                             <PhotoCarousel />

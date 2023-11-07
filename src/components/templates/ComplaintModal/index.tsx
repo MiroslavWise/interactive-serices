@@ -30,7 +30,9 @@ export const ComplaintModal = () => {
 
     function submit(values: IValuesForm) {
         on(
-            `Ваша жалоба на пользователя @${user?.profile?.username} отправлена`,
+            {
+                message: `Ваша жалоба на пользователя @${user?.profile?.username} отправлена`,
+            },
             "error",
         )
         requestAnimationFrame(() => {

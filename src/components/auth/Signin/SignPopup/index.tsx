@@ -79,15 +79,25 @@ export function SignPopup() {
         isMobile ? (
             visible ? (
                 <motion.div
-                    className={cx(
-                        styles.overviewMobile,
-                        visible && styles.visible,
-                    )}
+                    className={cx("wrapper-fixed", styles.overviewMobile)}
+                    data-visible={visible}
                     initial={{ opacity: 0, visibility: "hidden" }}
                     animate={{ opacity: 1, visibility: "visible" }}
                     transition={{ duration: 0.5 }}
                     exit={{ opacity: 0, visibility: "hidden" }}
                 >
+                    <ButtonClose
+                        onClick={() =>
+                            setVisibleAndType({
+                                visible: false,
+                                type: type,
+                            })
+                        }
+                        position={{
+                            right: 12,
+                            top: 12,
+                        }}
+                    />
                     <div className={styles.contentMobile}>
                         <HeaderModal
                             email={valueEmail.email}
@@ -99,7 +109,10 @@ export function SignPopup() {
                 </motion.div>
             ) : null
         ) : (
-            <div className={cx(styles.overlay, visible && styles.visible)}>
+            <div
+                className={cx("wrapper-fixed", styles.overlay)}
+                data-visible={visible}
+            >
                 {visible ? (
                     <motion.div
                         className={styles.modal}

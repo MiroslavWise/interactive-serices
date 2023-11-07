@@ -54,17 +54,30 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                     return
                 }
                 if ([401 || 403].includes(response?.code!)) {
-                    on("Время восстановления пароля истекло")
+                    on(
+                        { message: "Время восстановления пароля истекло" },
+                        "warning",
+                    )
                     handleReplace("/")
                     return
                 }
                 if (response.code === 500) {
                     on(
-                        "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
+                        {
+                            message:
+                                "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
+                        },
+                        "error",
                     )
                 }
                 if (response.ok && !!response?.res) {
-                    on("Пароль успешно изменён. Вы можете войти на аккаунт!")
+                    on(
+                        {
+                            message:
+                                "Пароль успешно изменён. Вы можете войти на аккаунт!",
+                        },
+                        "success",
+                    )
                     handleReplace("/")
                     setVisibleAndType({ type: "SignIn" })
                     return
