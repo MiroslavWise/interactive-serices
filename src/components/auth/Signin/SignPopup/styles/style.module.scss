@@ -1,32 +1,18 @@
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     z-index: 1019;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: 50px 20px;
     transition: all 0.35s ease-in-out;
-    opacity: 0;
-    visibility: hidden;
-
-    &.visible {
-        opacity: 1;
-        visibility: visible;
-        display: flex;
-    }
 }
 
 .overviewMobile {
     background: var(--background);
     transition: all 0.35s ease-in-out;
-    z-index: 1999;
+    z-index: 1019;
 
     & > [data-close] {
         height: 36px;
