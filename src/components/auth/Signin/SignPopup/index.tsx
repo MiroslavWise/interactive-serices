@@ -109,7 +109,10 @@ export function SignPopup() {
                 </motion.div>
             ) : null
         ) : (
-            <div className={cx(styles.overlay, visible && styles.visible)}>
+            <div
+                className={cx("wrapper-fixed", styles.overlay)}
+                data-visible={visible}
+            >
                 {visible ? (
                     <motion.div
                         className={styles.modal}
