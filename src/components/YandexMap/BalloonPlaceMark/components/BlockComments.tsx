@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "react-query"
 import { useForm } from "react-hook-form"
+import { useQuery } from "@tanstack/react-query"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import type { TBlockComments } from "../types/types"

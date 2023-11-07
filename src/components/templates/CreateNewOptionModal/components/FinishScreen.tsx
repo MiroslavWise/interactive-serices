@@ -1,8 +1,8 @@
 "use client"
 
 import { useMemo } from "react"
-import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 

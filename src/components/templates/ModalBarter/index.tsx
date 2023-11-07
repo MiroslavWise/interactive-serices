@@ -126,7 +126,7 @@ export function Barter() {
                 </header>
                 <ul>
                     <div className={styles.badgeInfoProfile}>
-                        <p>Бартер с:</p>
+                        <p>Обмен с:</p>
                         <div className={styles.infoProfile}>
                             <div className={styles.avatar}>
                                 {dataProfile?.photo ? (

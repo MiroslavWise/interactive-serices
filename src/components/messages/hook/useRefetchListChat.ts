@@ -1,6 +1,6 @@
 "use client"
 
-import { useQueries } from "react-query"
+import { useQueries } from "@tanstack/react-query"
 
 import { useAuth } from "@/store/hooks"
 import { serviceThreads } from "@/services/threads"
@@ -9,32 +9,38 @@ import { TTypeProviderThreads } from "@/services/threads/types"
 export const useRefetchListChat = () => {
     const { userId } = useAuth()
     const [{ refetch: refetchPersonal }, { refetch: refetchBarter }] =
-        useQueries([
-            {
-                queryFn: () =>
-                    serviceThreads.get({
-                        user: userId!,
-                        provider: "personal",
-                        order: "DESC",
-                        messagesLimit: 1,
-                        messagesOrder: "DESC",
-                    }),
-                queryKey: ["threads", `user=${userId}`, `provider=personal`],
-                enabled: false,
-            },
-            {
-                queryFn: () =>
-                    serviceThreads.get({
-                        user: userId!,
-                        provider: "barter",
-                        order: "DESC",
-                        messagesLimit: 1,
-                        messagesOrder: "DESC",
-                    }),
-                queryKey: ["threads", `user=${userId}`, `provider=barter`],
-                enabled: false,
-            },
-        ])
+        useQueries({
+            queries: [
+                {
+                    queryFn: () =>
+                        serviceThreads.get({
+                            user: userId!,
+                            provider: "personal",
+                            order: "DESC",
+                            messagesLimit: 1,
+                            messagesOrder: "DESC",
+                        }),
+                    queryKey: [
+                        "threads",
+                        `user=${userId}`,
+                        `provider=personal`,
+                    ],
+                    enabled: false,
+                },
+                {
+                    queryFn: () =>
+                        serviceThreads.get({
+                            user: userId!,
+                            provider: "barter",
+                            order: "DESC",
+                            messagesLimit: 1,
+                            messagesOrder: "DESC",
+                        }),
+                    queryKey: ["threads", `user=${userId}`, `provider=barter`],
+                    enabled: false,
+                },
+            ],
+        })
 
     async function refreshThreads(value?: TTypeProviderThreads) {
         if (value === "barter") {

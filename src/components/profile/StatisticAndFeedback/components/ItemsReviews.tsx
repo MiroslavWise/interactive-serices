@@ -1,9 +1,9 @@
 "use client"
 
-import { useQueries, useQuery } from "react-query"
-import { isMobile } from "react-device-detect"
 import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
+import { useQueries, useQuery } from "@tanstack/react-query"
 //@ts-ignore
 import Masonry from "react-responsive-masonry"
 
@@ -36,14 +36,14 @@ export const ItemsReviews: TItemsReviews = ({}) => {
         return []
     }, [dataOffers?.res])
 
-    const dataTestimonials = useQueries(
-        idsOffers.map((item) => ({
+    const dataTestimonials = useQueries({
+        queries: idsOffers.map((item) => ({
             queryFn: () =>
                 serviceTestimonials.get({ target: item!, provider: "offer" }),
             queryKey: ["testimonials", `offer=${item}`, `provider=offer`],
             enabled: Array.isArray(idsOffers) && !!idsOffers?.length && !!id,
         })),
-    )
+    })
 
     const listTestimonials = useMemo(() => {
         if (dataTestimonials?.some((item) => !item?.isLoading)) {

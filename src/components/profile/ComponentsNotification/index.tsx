@@ -3,8 +3,8 @@
 import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQuery } from "react-query"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TComponentsNotification } from "./types/types"
 

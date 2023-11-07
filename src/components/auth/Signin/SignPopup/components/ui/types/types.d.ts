@@ -55,6 +55,7 @@ export interface IValuesRegistrationForm {
     email: string
     password: string
     repeat_password: string
+    checkbox: boolean
 }
 
 export interface IValuesSignForm {

@@ -3,8 +3,8 @@
 import dayjs from "dayjs"
 import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
-import { useQueries, useQuery } from "react-query"
 import { useEffect, useMemo, useState } from "react"
+import { useQueries, useQuery } from "@tanstack/react-query"
 
 import { IFiltersItems } from "./components/types/types"
 
@@ -60,8 +60,8 @@ export const ListChat = () => {
         return []
     }, [data?.res, userId])
 
-    const arrayUsers = useQueries(
-        usersIds.map((item) => ({
+    const arrayUsers = useQueries({
+        queries: usersIds.map((item) => ({
             queryFn: () => serviceUsers.getId(Number(item)),
             queryKey: ["user", item],
             enabled: !!usersIds.length,
@@ -69,7 +69,7 @@ export const ListChat = () => {
             refetchOnWindowFocus: false,
             refetchOnReconnect: false,
         })),
-    )
+    })
 
     const items: IFiltersItems[] = useMemo(() => {
         const ITEMS: IFiltersItems[] = []

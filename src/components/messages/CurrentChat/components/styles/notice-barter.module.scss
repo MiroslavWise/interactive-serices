@@ -236,8 +236,8 @@
                 flex-direction: row;
                 align-items: center;
                 gap: 4px;
-                max-width: calc(100% - 16px - 16px - 30px - 4px - 4px - 30px);
-                width: min-content;
+                max-width: calc(100vw - 16px - 16px - 30px - 4px - 4px - 30px);
+                width: fit-content;
 
                 & > li {
                     max-width: calc(50% - 4px - 9px);

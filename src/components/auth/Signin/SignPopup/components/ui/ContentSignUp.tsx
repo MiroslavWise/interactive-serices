@@ -13,6 +13,7 @@ import { LabelInputGroup } from "./components/LabelInputGroup"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 import { checkPasswordStrength, regExEmail } from "@/helpers"
+import { useTermsOfUse } from "@/store/state/useTermsOfUse"
 import { RegistrationService } from "@/services/auth/registrationService"
 
 import styles from "../styles/style.module.scss"
@@ -21,6 +22,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchPolicy, dispatchRules } = useTermsOfUse()
     const {
         register,
         watch,
@@ -121,11 +123,41 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         }
                     />
                 </section>
-                <p>
-                    Регистрируясь, вы соглашаетесь с{" "}
-                    <a>Правилами пользования</a> и{" "}
-                    <a>Политикой конфиденциальности</a>
-                </p>
+                <div className={styles.RememberChange}>
+                    <div className={styles.checkRemember}>
+                        <label className={styles.checkbox}>
+                            <input
+                                type="checkbox"
+                                defaultChecked={false}
+                                {...register("checkbox", { required: true })}
+                                className=""
+                            />
+                            <span className={styles.checkmark}>
+                                <Image
+                                    src="/svg/check.svg"
+                                    alt="check"
+                                    width={16}
+                                    height={16}
+                                />
+                            </span>
+                        </label>
+                        <p data-terms data-error={!!errors.checkbox}>
+                            Регистрируясь, вы соглашаетесь с{" "}
+                            <a onClick={() => dispatchRules({ visible: true })}>
+                                Правилами пользования
+                            </a>{" "}
+                            и{" "}
+                            <a
+                                onClick={() =>
+                                    dispatchPolicy({ visible: true })
+                                }
+                            >
+                                Политикой конфиденциальности
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
                 <ButtonFill
                     disabled={loading}
                     label="Зарегистрироваться"
