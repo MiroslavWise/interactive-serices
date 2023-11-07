@@ -1,5 +1,3 @@
-import { replaceAll } from "string-ts"
-
 export const regExEmail =
     /^([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z]{2,6}$/g
 
@@ -66,7 +64,5 @@ export const reqExRussianMats =
 
 export const replaceRussianMats = (value: string) =>
     typeof value === "string"
-        ? replaceAll(value, reqExRussianMats, "  ***  ")
-              .trim()
-              .replaceAll(/\s+/, " ")
+        ? value.replaceAll(reqExRussianMats, " *** ").trim()
         : value
