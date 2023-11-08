@@ -125,7 +125,7 @@ export const CompletionTransaction = () => {
                                     on(
                                         {
                                             message:
-                                                "`Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`",
+                                                `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
                                         },
                                         "success",
                                     )
