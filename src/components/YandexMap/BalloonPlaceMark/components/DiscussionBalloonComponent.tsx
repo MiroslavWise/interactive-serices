@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
 import type { TDiscussionBalloonComponent } from "../types/types"
@@ -43,7 +44,15 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     })
 
     function handleProfile() {
-        dispatchProfilePublic({ visible: true, idUser: stateBalloon.idUser! })
+        if (isMobile) {
+            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            dispatch({ visible: false })
+        } else {
+            dispatchProfilePublic({
+                visible: true,
+                idUser: stateBalloon.idUser!,
+            })
+        }
     }
 
     return (

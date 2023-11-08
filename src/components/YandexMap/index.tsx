@@ -124,7 +124,6 @@ const YandexMap: TYandexMap = ({}) => {
                     behaviors: ["default", "scrollZoom"],
                     type: "yandex#map",
                 }}
-                
                 width={"100%"}
                 height={"100%"}
                 defaultOptions={{
@@ -133,15 +132,6 @@ const YandexMap: TYandexMap = ({}) => {
                     yandexMapDisablePoiInteractivity: true,
                 }}
                 onContextMenu={onContextMenu}
-                onMouseMove={(event: any) => {
-                    console.log("%c onMouseMove map", "color: #f0f", event)
-                }}
-                onScroll={(event: any) => {
-                    console.log("%c onScroll map", "color: #00f", event)
-                }}
-                onDrag={(event: any) => {
-                    console.log("%c onDrag map", "color: #0ff", event)
-                }}
             >
                 <ListPlacemark />
                 {addressInit ? (

@@ -15,13 +15,13 @@ import { ContainerPhotos } from "./components/ContainerPhotos"
 import styles from "./style.module.scss"
 
 export const CardSuggestion: TCardSuggestion = (props) => {
-    const { images, profile, categoryId, title, id, refetch, provider } = props
+    const { profile, refetch, ...rest } = props
 
     const { data: dataTestimonials } = useQuery({
         queryFn: () =>
-            serviceTestimonials.get({ provider: "offer", target: id }),
-        queryKey: ["testimonials", `offer=${id}`, `provider=offer`],
-        enabled: !!id,
+            serviceTestimonials.get({ provider: "offer", target: rest.id }),
+        queryKey: ["testimonials", `offer=${rest.id}`, `provider=offer`],
+        enabled: !!rest.id,
     })
 
     const rating = useMemo(() => {
@@ -53,22 +53,22 @@ export const CardSuggestion: TCardSuggestion = (props) => {
             }}
         >
             <Header
-                categoryId={categoryId!}
+                categoryId={rest.categoryId!}
                 rating={rating}
-                title={title}
-                provider={provider}
+                title={rest.title}
+                provider={rest.provider}
             />
-            {images?.length ? (
+            {rest.images?.length ? (
                 <ContainerPhotos
                     {...{
-                        photos: images.map((item) => ({
+                        photos: rest.images.map((item) => ({
                             url: item?.attributes?.url,
                             id: item?.id,
                         })),
                     }}
                 />
             ) : null}
-            <Buttons id={id} refetch={refetch} provider={provider} />
+            <Buttons refetch={refetch} offer={rest} />
         </MotionLI>
     )
 }

@@ -175,10 +175,20 @@ h6 {
         rgba(148, 125, 231, 0.65) 0%,
         rgba(191, 120, 196, 0.65) 100%
     );
+    --gradient-barter-1: linear-gradient(
+        90deg,
+        rgba(148, 125, 231, 1) 0%,
+        rgba(191, 120, 196, 1) 100%
+    );
     --gradient-barter-red: linear-gradient(
         90deg,
         rgba(219, 65, 65, 0.65) 0%,
         rgba(191, 120, 196, 0.65) 100%
+    );
+    --gradient-barter-red-1: linear-gradient(
+        90deg,
+        rgba(219, 65, 65, 1) 0%,
+        rgba(191, 120, 196, 1) 100%
     );
 
     //Permanent

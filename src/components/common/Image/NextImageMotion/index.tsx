@@ -6,9 +6,10 @@ import { motion } from "framer-motion"
 
 import type { IProps } from "./types"
 
-import myImageLoader from "@/helpers/functions/myImageLoader"
-import { blurDefaultOffer, defaultAvatar } from "@/helpers/image/base64"
 import { ImageStatic } from "../ImageStatic"
+
+import { myImageLoader } from "@/helpers/functions/myImageLoader"
+import { blurDefaultOffer, defaultAvatar } from "@/helpers/image/base64"
 
 const MotionImage = motion(NextImage)
 
@@ -22,15 +23,19 @@ type TTypes = typeof MotionImage.defaultProps & IProps
 const $NextImageMotion = (props: TTypes) => {
     const { src, onClick, ref, alt, className, height, width, ...rest } =
         props ?? {}
-    function handleClick() {
+    function handleClick(e: any) {
         if (onClick) {
+            e.preventDefault()
+            e.stopPropagation()
             onClick()
         }
     }
 
     return src?.includes("http") ? (
         <MotionImage
-            onClick={handleClick}
+            onClick={(e) => {
+                handleClick(e)
+            }}
             placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
             blurDataURL={
                 altName.hasOwnProperty(alt) && alt === "avatar"
@@ -54,7 +59,7 @@ const $NextImageMotion = (props: TTypes) => {
         />
     ) : (
         <ImageStatic
-            onClick={handleClick}
+            onClick={(e: any) => handleClick(e)}
             src={
                 alt === "avatar"
                     ? "/png/default_avatar.png"

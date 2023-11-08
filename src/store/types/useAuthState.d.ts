@@ -61,6 +61,7 @@ export interface IAuthState {
 }
 
 export interface IAuthAction {
+    updateProfile: DispatchWithoutAction
     refresh: DispatchWithoutAction
     getUser: Dispatch<(IUser & { profileId: number }) | null>
     changeAuth: DispatchWithoutAction

@@ -33,19 +33,16 @@ export const CreateNewOptionModal = () => {
             alert: <ModalAddAlert />,
             discussion: <ModalAddDiscussion />,
         }
-
         return obj[typeAdd]
     }, [typeAdd])
 
     return (
         <div
-            className={cx(
-                styles.wrapper,
-                isMobile && styles.mobile,
-                isVisible && styles.visible,
-            )}
+            className={cx("wrapper-fixed", styles.wrapper)}
+            data-mobile={isMobile}
+            data-visible={isVisible}
         >
-            <div className={cx(styles.container, isMobile && styles.mobile)}>
+            <div className={styles.container} data-mobile={isMobile}>
                 {isMobile ? (
                     <div className={cx(styles.headerMobile)} onClick={close}>
                         <Image
