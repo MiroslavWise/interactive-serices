@@ -86,9 +86,13 @@ export const UpdateMutualOffer = () => {
                     ?.filter((item) => !deleteIdPhotos.includes(item.id!))
                     .map((item) => item.id) || []
 
+            const lengthDataImages = photoIds.length
+            const lengthMinus =
+                9 - lengthDataImages < 0 ? 0 : 9 - lengthDataImages
+
             if (
                 !Object.keys(dataSheets).length &&
-                photoIds.length !== data?.images?.length &&
+                photoIds.length === data?.images?.length &&
                 !files.length
             ) {
                 setLoading(false)
@@ -100,7 +104,7 @@ export const UpdateMutualOffer = () => {
 
             Promise.all(
                 files.length
-                    ? files.map((item) =>
+                    ? files.slice(0, lengthMinus).map((item) =>
                           fileUploadService(item!, {
                               type: data?.provider!,
                               userId: userId!,
@@ -233,19 +237,21 @@ export const UpdateMutualOffer = () => {
                                     deleteFile={deleteFile}
                                 />
                             ))}
-                            <UploadPhoto
-                                key={`upload-000`}
-                                index={strings.length}
-                                selected={""}
-                                files={files[files.length]}
-                                setFiles={(value) =>
-                                    setFiles((prev) => [...prev, value])
-                                }
-                                setSelectedImage={(value) =>
-                                    setStrings((prev) => [...prev, value])
-                                }
-                                deleteFile={deleteFile}
-                            />
+                            {files.length <= 9 ? (
+                                <UploadPhoto
+                                    key={`upload-000`}
+                                    index={strings.length}
+                                    selected={""}
+                                    files={files[files.length]}
+                                    setFiles={(value) =>
+                                        setFiles((prev) => [...prev, value])
+                                    }
+                                    setSelectedImage={(value) =>
+                                        setStrings((prev) => [...prev, value])
+                                    }
+                                    deleteFile={deleteFile}
+                                />
+                            ) : null}
                         </div>
                     </div>
                     <footer>

@@ -154,6 +154,11 @@
                 & > [data-div] {
                     & > [data-photos] {
                         grid-template-columns: repeat(2, calc(50% - 8px));
+                        &>[data-upload]{
+                            &[data-mobile=true]{
+                                aspect-ratio: 3/4;
+                            }
+                        }
                     }
                 }
             }
