@@ -29,7 +29,7 @@ export const ModalUpdateProfile = () => {
     const [file, setFile] = useState<File | null>(null)
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const { isVisible, setVisible } = useUpdateProfile()
-    const { user, email, profileId, userId, changeAuth } = useAuth()
+    const { user, email, profileId, userId, updateProfile } = useAuth()
     const { out } = useOut()
     const { on } = useToast()
     const dateOfBirth = useMemo(() => {
@@ -109,10 +109,13 @@ export const ModalUpdateProfile = () => {
                     return setError("username", { message: "user exists" })
                 if (response[0]?.error?.code === 401) {
                     setVisible(false)
-                    on({
-                        message:
-                            "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
-                    })
+                    on(
+                        {
+                            message:
+                                "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
+                        },
+                        "warning",
+                    )
                     out()
                     return
                 }
@@ -140,15 +143,15 @@ export const ModalUpdateProfile = () => {
                                             out()
                                             return
                                         }
+                                        updateProfile()
                                         setVisible(false)
-                                        changeAuth()
                                     })
                                 return
                             }
                         })
                     } else {
                         setVisible(false)
-                        changeAuth()
+                        updateProfile()
                     }
                 } else {
                     on(
@@ -160,7 +163,7 @@ export const ModalUpdateProfile = () => {
                         "error",
                     )
                     setVisible(false)
-                    changeAuth()
+                    updateProfile()
                 }
             })
             .finally(() => {

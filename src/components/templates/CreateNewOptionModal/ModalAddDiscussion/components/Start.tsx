@@ -20,10 +20,12 @@ import {
     transliterateAndReplace,
     useCloseCreateOptions,
 } from "@/helpers"
+import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
     const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
+    const refresh = useRefresh()
     const {
         text,
         files,
@@ -74,10 +76,12 @@ export const Start = () => {
                             serviceOffers
                                 .patch(values, response?.res?.id!)
                                 .then(() => {
+                                    refresh()
                                     setStepDiscussion("end")
                                 })
                         })
                     } else {
+                        refresh()
                         setStepDiscussion("end")
                     }
                 }

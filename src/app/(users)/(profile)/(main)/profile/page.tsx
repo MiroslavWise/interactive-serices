@@ -1,5 +1,3 @@
 import { MyProfilePage } from "@/components/profile"
-
-export default function Profile() {
-    return <MyProfilePage />
-}
+const Page = () => <MyProfilePage />
+export default Page

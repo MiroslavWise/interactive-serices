@@ -15,7 +15,9 @@ export const ButtonClose: TButtonClose = ({
     className,
 }) => {
     const position: IPositionAbsolute = useMemo(() => {
-        const pos: IPositionAbsolute = {}
+        const pos: IPositionAbsolute = {
+            top: 12,
+        }
         if (top) {
             pos.top = top
         }

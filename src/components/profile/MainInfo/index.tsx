@@ -128,20 +128,6 @@ export const MainInfo: TMainInfo = ({ user }) => {
                         <p className={styles.description}>
                             {user?.profile?.about}
                         </p>
-                        {/* <BlockOther
-                            label="Достижения"
-                            classNames={[styles.achievements]}
-                        >
-                            {ACHIEVEMENTS.map((item) => (
-                                <Image
-                                    key={item.assignment}
-                                    src={item.src}
-                                    alt={item.assignment}
-                                    width={36}
-                                    height={36}
-                                />
-                            ))}
-                        </BlockOther> */}
                         <BlockOther
                             label="Социальные медиа"
                             classNames={[styles.social]}

@@ -49,10 +49,6 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
         enabled: !!type,
     })
 
-    console.log("%c data: ", "color: blue", data)
-    console.log("%c type: ", "color: green", type)
-    console.log("%c typeOffers: ", "color: red", typeOffers)
-
     const items = useMemo(() => {
         return data?.res || []
     }, [data?.res])

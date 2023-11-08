@@ -41,7 +41,10 @@ export const UploadPhoto: TUploadPhoto = ({
     }
 
     return (
-        <div className={cx(styles.container, isMobile && styles.mobile)}>
+        <div
+            className={cx(styles.container, isMobile && styles.mobile)}
+            data-upload
+        >
             {selected ? (
                 <ImageStatic
                     src={selected}

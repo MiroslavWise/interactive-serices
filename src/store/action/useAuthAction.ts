@@ -48,8 +48,8 @@ export const setTokenAction = (value: ISetToken, set: ISetAction) => {
 }
 
 export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
-    if (!!get().token && !!get().refreshToken) {
-        serviceUsers.getMe().then((response) => {
+    if (!!get().token && !!get().refreshToken && !!get().userId) {
+        serviceUsers.getId(get().userId!).then((response) => {
             if (response?.ok) {
                 set({
                     createdUser: response?.res?.created!,
