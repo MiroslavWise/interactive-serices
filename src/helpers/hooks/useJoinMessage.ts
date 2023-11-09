@@ -1,12 +1,12 @@
 import dayjs from "dayjs"
 import { useId } from "react"
 
-import type { IThreadsMessages } from "@/services/threads/types"
+import { IResponseMessage } from "@/services/messages/types"
 
 function useJoinMessage() {
     const idMessage = useId()
 
-    function join(item_messages: IThreadsMessages[]): IReturnMessages[] {
+    function join(item_messages: IResponseMessage[]): IReturnMessages[] {
         const items: IReturnMessages[] = []
 
         if (item_messages) {
@@ -33,7 +33,7 @@ function useJoinMessage() {
                     items.at(-1)?.messages?.push({
                         message: message?.message || "",
                         id: `${message?.id}-${idMessage}`,
-                        time: message?.created,
+                        time: message?.created!,
                     })
                 } else {
                     items.push({
@@ -44,7 +44,7 @@ function useJoinMessage() {
                             {
                                 message: message?.message,
                                 id: `${message?.id}-${idMessage}`,
-                                time: message?.created,
+                                time: message?.created!,
                             },
                         ],
                     })

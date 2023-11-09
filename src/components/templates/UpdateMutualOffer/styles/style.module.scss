@@ -129,7 +129,6 @@
 
     &[data-mobile="true"] {
         padding: 0;
-        position: absolute !important;
         & > section {
             border-radius: 0;
             max-width: 100%;
@@ -154,8 +153,8 @@
                 & > [data-div] {
                     & > [data-photos] {
                         grid-template-columns: repeat(2, calc(50% - 8px));
-                        &>[data-upload]{
-                            &[data-mobile=true]{
+                        & > [data-upload] {
+                            &[data-mobile="true"] {
                                 aspect-ratio: 3/4;
                             }
                         }
