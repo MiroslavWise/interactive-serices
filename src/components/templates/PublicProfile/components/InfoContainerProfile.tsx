@@ -10,6 +10,7 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { usePush } from "@/helpers"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
+import { AddFriend } from "@/components/profile/MainInfo/components/AddFriend"
 
 export const InfoContainerProfile: TInfoContainerProfile = (props) => {
     const { profile, addresses, id } = props ?? {}
@@ -87,9 +88,9 @@ export const InfoContainerProfile: TInfoContainerProfile = (props) => {
                     </div>
                     <p data-description>{profile?.about}</p>
                 </div>
-                {userId !== profile?.userId ? (
+                {userId !== profile?.userId && !!userId ? (
                     <section data-buttons>
-                        <ButtonFill label="Добавить в друзья" small shadow />
+                        <AddFriend user={props!} />
                         <ButtonsCircle
                             src="/svg/message-dots-circle.svg"
                             type="primary"

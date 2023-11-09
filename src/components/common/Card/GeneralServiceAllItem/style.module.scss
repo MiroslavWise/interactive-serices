@@ -31,7 +31,7 @@
         height: calc(6px + 6px + 58px);
 
         &[data-provider="discussion"] {
-            justify-content: flex-end;
+            justify-content: center;
             padding: 6px calc(12px + 24px + 6px) 6px calc(6px + 58px + 6px);
         }
 

@@ -49,7 +49,7 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({
     const profiles = useMemo(() => {
         if (dataUsers?.every((item) => !!item?.data?.res)) {
             return dataUsers?.map((item) => ({
-                id: item?.data?.res?.id,
+                id: item?.data?.res?.userId,
                 photo: item?.data?.res?.image?.attributes?.url!,
             }))
         }
@@ -61,13 +61,11 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({
         return dataUsers.some((item) => item.isLoading)
     }, [dataUsers])
 
-    console.log("%c profiles", "color: #0f0", profiles)
-
     return (
         <BlockOther label="Круг общения">
             {profiles
                 ? profiles
-                      ?.slice(0, 4)
+                      ?.slice(0, 6)
                       ?.map((item, index) => (
                           <NextImageMotion
                               key={`${item?.id}-image-${index}`}
@@ -82,16 +80,16 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({
                           />
                       ))
                 : isLoader || isLoading || !user
-                ? [1, 2, 3, 4].map((item) => (
+                ? [1, 2, 3, 4, 5].map((item) => (
                       <div
                           className={cx(styles.moreSkeleton, "skeleton")}
                           key={`${item}-skeleton`}
                       />
                   ))
                 : null}
-            {profiles && profiles?.length >= 5 ? (
+            {profiles && profiles?.length >= 7 ? (
                 <div className={styles.more}>
-                    <p>+{profiles?.length - 4}</p>
+                    <p>+{profiles?.length - 6}</p>
                 </div>
             ) : null}
         </BlockOther>

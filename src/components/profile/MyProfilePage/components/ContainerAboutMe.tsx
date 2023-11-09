@@ -16,7 +16,7 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
     const { out } = useOut()
     const [isEditing, setIsEditing] = useState(false)
     const [textEditing, setTextEditing] = useState("")
-    const { userId, profileId, user, changeAuth } = useAuth()
+    const { userId, profileId, user, updateProfile } = useAuth()
 
     useEffect(() => {
         const textArea = document?.getElementById("textArea")!
@@ -47,8 +47,8 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
                     }
                 })
                 .finally(() => {
+                    updateProfile()
                     setIsEditing(false)
-                    changeAuth()
                 })
         } else {
             setIsEditing(true)

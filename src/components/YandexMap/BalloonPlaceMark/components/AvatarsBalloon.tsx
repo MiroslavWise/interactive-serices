@@ -1,17 +1,25 @@
 import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
 import type { TAvatarsBalloon } from "../types/types"
 
 import { NextImageMotion } from "@/components/common/Image"
 
+import { usePush } from "@/helpers"
 import { serviceProfile } from "@/services/profile"
 import { serviceComments } from "@/services/comments"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { serviceOffersThreads } from "@/services/offers-threads"
 
 import styles from "../styles/avatars-balloon.module.scss"
 
 export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
+    const { handlePush } = usePush()
+    const { dispatch } = useBalloonCard()
+    const { dispatchProfilePublic } = useProfilePublic()
+
     const { data } = useQuery({
         queryFn: () =>
             serviceOffersThreads.get({
@@ -55,14 +63,25 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
 
     const usersAvatar = useMemo(() => {
         if (dataUsers.every((item) => !item?.isLoading)) {
-            return dataUsers?.map(
-                (item) => item?.data?.res?.image?.attributes?.url!,
-            )
+            return dataUsers?.map((item) => ({
+                photo: item?.data?.res?.image?.attributes?.url!,
+                id: item?.data?.res?.userId,
+            }))
         }
         return null
     }, [dataUsers])
 
-    console.log("usersAvatar: ", usersAvatar)
+    function handleUser(idUser: number) {
+        if (isMobile) {
+            handlePush(`/user?id=${idUser!}`)
+            dispatch({ visible: false })
+        } else {
+            dispatchProfilePublic({
+                visible: true,
+                idUser: idUser!,
+            })
+        }
+    }
 
     return (
         <ul className={styles.container}>
@@ -71,8 +90,9 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
                       .slice(0, 6)
                       .map((item, index) => (
                           <NextImageMotion
-                              key={item! + index}
-                              src={item}
+                              onClick={() => handleUser(item.id!)}
+                              key={item.id! + index}
+                              src={item.photo!}
                               alt="avatar"
                               height={80}
                               width={80}

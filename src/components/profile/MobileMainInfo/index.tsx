@@ -99,7 +99,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                     ) : null}
                 </div>
             </div>
-            {userId !== user?.id && userId ? (
+            {userId !== user?.id && !!userId ? (
                 <div className={styles.buttons}>
                     <AddFriend user={user} />
                     <ButtonCircleGradient
