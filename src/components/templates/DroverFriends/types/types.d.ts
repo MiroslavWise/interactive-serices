@@ -7,6 +7,11 @@ export interface IListFriends {
     type: TTypeFriends
 }
 
+export interface IEnabledHook {
+    enabled?: boolean
+    type?: TTypeFriends | "list"
+}
+
 export interface IItemListFriend {
     id: number
     type: TTypeFriends
