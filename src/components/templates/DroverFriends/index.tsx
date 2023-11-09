@@ -51,14 +51,6 @@ export function DroverFriends() {
         return data?.res || []
     }, [data?.res])
 
-    // const filterList: IFriendsResponse[] = useMemo(() => {
-    //     return list.filter((item) =>
-    //         `${item.profile?.firstName} ${item?.profile?.lastName}`
-    //             .toLowerCase()
-    //             .includes(search.toLowerCase()),
-    //     )
-    // }, [list, search])
-
     return (
         <div className={styles.wrapper} data-mobile={isMobile}>
             <motion.section

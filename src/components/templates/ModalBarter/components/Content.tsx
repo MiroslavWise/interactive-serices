@@ -28,12 +28,12 @@ export const Content: TContent = ({
                 address={address}
                 errors={errors}
             />
-            <footer>
+            {/* <footer>
                 <div className={styles.toggleLabel}>
                     <CustomToggle isActive={active} setIsActive={setActive} />
                     <p>Он-лайн обмен</p>
                 </div>
-            </footer>
+            </footer> */}
         </div>
     )
 }
