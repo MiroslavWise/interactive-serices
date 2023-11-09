@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 
 import type { TBlockComments } from "../types/types"
 
+import { BlockLikes } from "./BlockLikes"
 import { ItemComment } from "./ItemComment"
 import { ButtonFill } from "@/components/common/Buttons"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
@@ -15,7 +16,6 @@ import { useAuth } from "@/store/hooks"
 import { replaceRussianMats } from "@/helpers"
 import { serviceComments } from "@/services/comments"
 import { serviceOffersThreads } from "@/services/offers-threads"
-import { BlockLikes } from "./BlockLikes"
 
 export const BlockComments: TBlockComments = ({ type, offerId }) => {
     const { userId } = useAuth()
@@ -43,10 +43,12 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
         return data?.res?.find((item) => item?.offerId === offerId) || null
     }, [data?.res, offerId])
 
+    console.log("%c data: ", "color: #ff0", data)
+
     const { data: dataComments, refetch: refetchComments } = useQuery({
         queryFn: () =>
-            serviceComments.get({ target: currentOffersThreads?.id! }),
-        queryKey: ["comments", `target=${currentOffersThreads?.id!}`],
+            serviceComments.get({ offer: currentOffersThreads?.id! }),
+        queryKey: ["comments", `offer=${currentOffersThreads?.id!}`],
         enabled: !!currentOffersThreads?.id!,
     })
 
@@ -71,11 +73,11 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                 })
                 .then((response) => {
                     setOfferThreadId(response?.res?.id!)
-                    setTimeout(() => {
+                    requestAnimationFrame(() => {
                         refetch().finally(() => {
                             setActiveListComments(true)
                         })
-                    }, 1000)
+                    })
                 })
         }
         if (data?.res?.length && currentOffersThreads) {
@@ -114,25 +116,6 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
 
     return (
         <>
-            {/* {type === "alert" ? (
-                <footer data-alert>
-                    <button
-                        onClick={() => {
-                            activeListComments
-                                ? setActiveListComments(false)
-                                : handleOnOpen()
-                        }}
-                    >
-                        <span>{currentComments?.length || 0} комментариев</span>
-                        <Image
-                            src="/svg/chevron-down.svg"
-                            alt="chevron-down"
-                            width={18}
-                            height={18}
-                        />
-                    </button>
-                </footer>
-            ) : null} */}
             {["discussion", "alert"].includes(type) ? (
                 <footer data-discussion>
                     <button

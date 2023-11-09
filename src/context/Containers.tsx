@@ -33,6 +33,7 @@ import {
     useVisibleNotifications,
     useUpdateMutualOffer,
 } from "@/store/hooks"
+import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 export const Containers = () => {
     const { token } = useAuth()
@@ -41,6 +42,7 @@ export const Containers = () => {
     const { visibleFriends } = useDroverFriends()
     const { visiblePolicy, visibleRules } = useTermsOfUse()
     const { visibleUpdateMutual } = useUpdateMutualOffer()
+    const { visible } = useBalloonCard()
 
     return (
         <>
@@ -49,11 +51,9 @@ export const Containers = () => {
             <FooterMenu />
             <PhotoCarousel />
             <WelcomeModal />
-            <BalloonPlaceMark />
             <AboutSheiraPopup />
             <PhotoPreviewModal />
             {isVisible && <Barter />}
-            <ExchangesModalMobile />
             <ToastContainer limit={3} />
             {token && (
                 <>
@@ -61,8 +61,10 @@ export const Containers = () => {
                     <NewServicesBanner />
                     <ModalUpdateProfile />
                     <CompletionTransaction />
+                    <ExchangesModalMobile />
                     <CreateNewOptionModal />
                     <NewServiceBarterRequests />
+                    {visible && <BalloonPlaceMark />}
                     {isMobile && visibleNotifications && (
                         <NotificationsMobile />
                     )}

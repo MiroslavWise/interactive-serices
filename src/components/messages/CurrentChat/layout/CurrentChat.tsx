@@ -24,6 +24,8 @@ import { useAuth, usePopupMenuChat } from "@/store/hooks"
 import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "../styles/style.module.scss"
+import { serviceMessages } from "@/services/messages"
+import { IResponseMessage } from "@/services/messages/types"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
@@ -36,9 +38,18 @@ export const CurrentChat = () => {
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)
     const [screenHeight, setScreenHeight] = useState<string | number>("100%")
 
-    const { data, refetch } = useQuery({
+    const { data } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
         queryKey: ["threads", `user=${userId}`, `id=${idThread}`],
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchIntervalInBackground: false,
+    })
+
+    const { data: dataMessages, refetch } = useQuery({
+        queryFn: () => serviceMessages.get({ thread: idThread }),
+        queryKey: ["messages", `user=${userId}`, `thread=${idThread}`],
         refetchOnMount: true,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
@@ -88,13 +99,13 @@ export const CurrentChat = () => {
         refetchOnReconnect: true,
     })
 
-    const messages: IThreadsMessages[] = useMemo(() => {
-        if (data?.res) {
-            return data?.res?.messages || []
+    const messages: IResponseMessage[] = useMemo(() => {
+        if (dataMessages?.res) {
+            return dataMessages?.res || []
         }
 
         return []
-    }, [data?.res])
+    }, [dataMessages?.res])
 
     useEffect(
         () => () => {

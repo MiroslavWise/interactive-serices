@@ -14,6 +14,7 @@ import { serviceUsers } from "@/services/users"
 import { serviceFriends } from "@/services/friends"
 
 import styles from "../styles/circle-of-communication.module.scss"
+import { serviceProfile } from "@/services/profile"
 
 export const CircleOfCommunication = memo(function $CircleOfCommunication({
     user,
@@ -36,8 +37,8 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({
     const dataUsers = useQueries({
         queries: !!peoples
             ? peoples.map((item) => ({
-                  queryFn: () => serviceUsers.getId(item!),
-                  queryKey: ["user", item],
+                  queryFn: () => serviceProfile.getUserId(item!),
+                  queryKey: ["user", `userId=${item}`],
                   enabled: !!peoples && !!item,
               }))
             : [],
@@ -49,7 +50,7 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({
         if (dataUsers?.every((item) => !!item?.data?.res)) {
             return dataUsers?.map((item) => ({
                 id: item?.data?.res?.id,
-                photo: item?.data?.res?.profile?.image?.attributes?.url!,
+                photo: item?.data?.res?.image?.attributes?.url!,
             }))
         }
 

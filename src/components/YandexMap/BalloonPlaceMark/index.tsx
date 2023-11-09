@@ -7,6 +7,7 @@ import { useMemo, useRef, memo } from "react"
 import type { TBalloonPlaceMark } from "./types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
+import { cx } from "@/lib/cx"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { OfferBalloonComponent } from "./components/OfferBalloonComponent"
 import { DiscussionBalloonComponent } from "./components/DiscussionBalloonComponent"
@@ -51,10 +52,10 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
         return null
     }, [type, id, idUser, visible])
 
-    return (
+    return visible ? (
         <div
-            className="modal-balloon-modal"
-            data-active={visible}
+            className={cx("wrapper-fixed", "modal-balloon-modal")}
+            data-visible={visible}
             onClick={(e) => {
                 e.stopPropagation()
                 dispatch({ visible: false })
@@ -82,7 +83,7 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 {typeContent}
             </section>
         </div>
-    )
+    ) : null
 }
 
 export default memo(BalloonPlaceMark)

@@ -43,7 +43,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
             {
                 queryFn: () =>
                     serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", stateBalloon.idUser!],
+                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
                 refetchOnMount: false,
             },
         ],

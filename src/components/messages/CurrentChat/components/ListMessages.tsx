@@ -11,7 +11,8 @@ import {
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
-import type { IThreadsMessages } from "@/services/threads/types"
+import type { IResponseMessage } from "@/services/messages/types"
+import type { IUserResponse } from "@/services/users/types/usersService"
 
 import { ItemTime } from "./ItemTime"
 import { ItemMyMessage } from "./ItemMyMessage"
@@ -19,7 +20,6 @@ import { ItemUserMessage } from "./ItemUserMessage"
 
 import { useAuth } from "@/store/hooks"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
-import { IUserResponse } from "@/services/users/types/usersService"
 
 export const ListMessages = memo(function ListMessages({
     messages,
@@ -27,7 +27,7 @@ export const ListMessages = memo(function ListMessages({
     isBarter,
     isLoadingFullInfo,
 }: {
-    messages: IThreadsMessages[]
+    messages: IResponseMessage[]
     dataUser: IUserResponse
     isBarter: boolean
     isLoadingFullInfo: boolean
@@ -38,6 +38,8 @@ export const ListMessages = memo(function ListMessages({
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
     const [height, setHeight] = useState(0)
+
+    console.log("%c messages: ", "color: #0f0", messages)
 
     const messagesJoin: ReactNode = useMemo(() => {
         if (Array.isArray(messages)) {
