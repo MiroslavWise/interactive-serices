@@ -17,7 +17,7 @@ import { useActivePath } from "@/helpers/hooks/useActivePash"
 
 import styles from "./styles/style.module.scss"
 
-export const FooterMenu: TFooterMenu = ({ }) => {
+export const FooterMenu: TFooterMenu = ({}) => {
     const { visible, type, setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { setVisible } = useWelcomeModal()
     const { isAuth } = useAuth()
@@ -25,7 +25,6 @@ export const FooterMenu: TFooterMenu = ({ }) => {
     const { handlePush } = usePush()
 
     const handleSignInOrSignUp = () => {
-        alert('login')
         setVisibleAndType({
             visible: !visible,
             type: ["SignIn", "SignUp"].includes(type!) ? type : "SignIn",
@@ -46,31 +45,36 @@ export const FooterMenu: TFooterMenu = ({ }) => {
                 {MENU_ITEMS(isAuth).map((item) => (
                     <li
                         key={item.key}
-                    // onClick={(event) => {
-                    //     event.preventDefault()
-                    //     event.stopPropagation()
-                    //     if (item.path !== null) {
-                    //         handleGoToPage(item.path)
-                    //     }
-                    //     if (item.path === null && item.isCenter) {
-                    //         //setVisibleAndType({ visible: false })
-                    //         handleSignInOrSignUp()
-                    //     }
-                    // }}
+                        onClick={() => {
+                            alert('click on li')
+                            if (item.path !== null) {
+                                handleGoToPage(item.path)
+                            }
+                            // if (item.path === null && item.isCenter) {
+                            //     handleSignInOrSignUp()
+                            // }
+                            // if (visible) {
+                            //     setVisibleAndType({ visible: false })
+                            //     return
+                            // }
+                            // setVisible(false)
+                        }}
                     >
-                        {item.isCenter ? (
-                            <div className={styles.itemsIconLabel}>
-                                <div className={styles.centerPoligon}
+                        <div className={styles.itemsIconLabel}>
+                            {item.isCenter ? (
+                                <div
+                                    className={styles.centerPoligon}
                                     onClick={(event) => {
-                                        alert('CLICK')
+                                        alert('click on icon')
                                         handleSignInOrSignUp()
                                         // if (item.path === null) {
                                         //     handleSignInOrSignUp()
                                         // } else {
                                         //     handleGoToPage(item.path)
                                         // }
+                                        event.preventDefault()
+                                        event.stopPropagation()
                                     }}
-
                                 >
                                     <Image
                                         src={
@@ -83,10 +87,7 @@ export const FooterMenu: TFooterMenu = ({ }) => {
                                         height={28}
                                     />
                                 </div>
-                                <p>{item.label}</p>
-                            </div>
-                        ) : (
-                            <div className={styles.itemsIconLabel} >
+                            ) : (
                                 <Image
                                     src={
                                         valuePath === item.path
@@ -97,10 +98,9 @@ export const FooterMenu: TFooterMenu = ({ }) => {
                                     width={24}
                                     height={24}
                                 />
-                                <p>{item.label}</p>
-                            </div>
-
-                        )}
+                            )}
+                            <p>{item.label}</p>
+                        </div>
                     </li>
                 ))}
             </ul>
