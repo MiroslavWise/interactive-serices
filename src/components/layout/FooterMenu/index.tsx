@@ -17,7 +17,7 @@ import { useActivePath } from "@/helpers/hooks/useActivePash"
 
 import styles from "./styles/style.module.scss"
 
-export const FooterMenu: TFooterMenu = ({}) => {
+export const FooterMenu: TFooterMenu = ({ }) => {
     const { visible, type, setVisibleAndType } = useVisibleAndTypeAuthModal()
     const { setVisible } = useWelcomeModal()
     const { isAuth } = useAuth()
@@ -56,21 +56,20 @@ export const FooterMenu: TFooterMenu = ({}) => {
                             }
                         }}
                     >
-                        <div className={styles.itemsIconLabel} >
-                            {item.isCenter ? (
-                                <div
-                                    className={styles.centerPoligon}
-                                    onClick={(event) => {
-                                        event.preventDefault()
-                                        alert(item.path)
-                                        if (item.path === null) {
-                                            handleSignInOrSignUp()
-                                        } else {
-                                            handleGoToPage(item.path)
-                                        }
-                                    }}
-                                >
-                                    {/* <Image
+                        {item.isCenter ? (
+                            <div className={styles.itemsIconLabel}
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    alert('CLICK')
+                                    if (item.path === null) {
+                                        handleSignInOrSignUp()
+                                    } else {
+                                        handleGoToPage(item.path)
+                                    }
+                                }}
+                            >
+                                <div className={styles.centerPoligon}>
+                                    <Image
                                         src={
                                             valuePath === item.path
                                                 ? item.icon.fill
@@ -79,9 +78,12 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                         alt={item.label}
                                         width={28}
                                         height={28}
-                                    /> */}
+                                    />
                                 </div>
-                            ) : (
+                                <p>{item.label}</p>
+                            </div>
+                        ) : (
+                            <div className={styles.itemsIconLabel} >
                                 <Image
                                     src={
                                         valuePath === item.path
@@ -92,9 +94,10 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                     width={24}
                                     height={24}
                                 />
-                            )}
-                            <p>{item.label}</p>
-                        </div>
+                                <p>{item.label}</p>
+                            </div>
+
+                        )}
                     </li>
                 ))}
             </ul>
