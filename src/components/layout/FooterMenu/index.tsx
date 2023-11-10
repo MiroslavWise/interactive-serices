@@ -48,17 +48,14 @@ export const FooterMenu: TFooterMenu = ({}) => {
                         onClick={() => {
                             if (item.path !== null) {
                                 handleGoToPage(item.path)
-                                return
                             }
                             if (item.path === null && item.isCenter) {
                                 handleSignInOrSignUp()
-                                return
                             }
                             if (visible) {
                                 setVisibleAndType({ visible: false })
-                                return
                             }
-                            setVisible(false)
+                            //setVisible(false)
                         }}
                     >
                         <div className={styles.itemsIconLabel}>
