@@ -64,7 +64,9 @@ textarea {
     -webkit-appearance: none;
 }
 
-input {
+input[type="email"],
+input[type="password"],
+input[type="text"] {
     width: 100%;
     padding: 12px 14px;
     height: 48px;

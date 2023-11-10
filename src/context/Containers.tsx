@@ -56,7 +56,9 @@ export const Containers = () => {
             <PhotoPreviewModal />
             {isVisible && <Barter />}
             <ToastContainer limit={3} />
-            {visibleAuth && <ModalSign />}
+            {visible && <BalloonPlaceMark />}
+            {visibleAuth && !token && <ModalSign />}
+            {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
             {token && (
                 <>
                     <ComplaintModal />
@@ -66,7 +68,6 @@ export const Containers = () => {
                     <ExchangesModalMobile />
                     <CreateNewOptionModal />
                     <NewServiceBarterRequests />
-                    {visible && <BalloonPlaceMark />}
                     {isMobile && visibleNotifications && (
                         <NotificationsMobile />
                     )}
@@ -74,7 +75,6 @@ export const Containers = () => {
                     {visibleUpdateMutual && <UpdateMutualOffer />}
                 </>
             )}
-            {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
         </>
     )
 }
