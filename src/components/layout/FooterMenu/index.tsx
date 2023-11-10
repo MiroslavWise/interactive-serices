@@ -46,18 +46,10 @@ export const FooterMenu: TFooterMenu = ({}) => {
                     <li
                         key={item.key}
                         onClick={() => {
-                            alert('click on li')
                             if (item.path !== null) {
                                 handleGoToPage(item.path)
                             }
-                            // if (item.path === null && item.isCenter) {
-                            //     handleSignInOrSignUp()
-                            // }
-                            // if (visible) {
-                            //     setVisibleAndType({ visible: false })
-                            //     return
-                            // }
-                            // setVisible(false)
+                            setVisible(false)
                         }}
                     >
                         <div className={styles.itemsIconLabel}>
@@ -65,15 +57,9 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                 <div
                                     className={styles.centerPoligon}
                                     onClick={(event) => {
-                                        alert('click on icon')
                                         handleSignInOrSignUp()
-                                        // if (item.path === null) {
-                                        //     handleSignInOrSignUp()
-                                        // } else {
-                                        //     handleGoToPage(item.path)
-                                        // }
-                                        event.preventDefault()
-                                        event.stopPropagation()
+                                        // event.preventDefault()
+                                        // event.stopPropagation()
                                     }}
                                 >
                                     <Image
