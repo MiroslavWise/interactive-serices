@@ -60,27 +60,26 @@ export const FooterMenu: TFooterMenu = ({}) => {
                             {item.isCenter ? (
                                 <div
                                     className={styles.centerPoligon}
+                                    onClick={(event) => {
+                                        event.preventDefault()
+                                        alert(item.path)
+                                        if (item.path === null) {
+                                            handleSignInOrSignUp()
+                                        } else {
+                                            handleGoToPage(item.path)
+                                        }
+                                    }}
                                 >
-                                    <Image
+                                    {/* <Image
                                         src={
                                             valuePath === item.path
                                                 ? item.icon.fill
                                                 : item.icon.regular
                                         }
-                                        onClick={(event) => {
-                                            event.preventDefault()
-                                            alert(item.path)
-                                            if (item.path === null) {
-                                                handleSignInOrSignUp()
-                                            } else {
-                                                handleGoToPage(item.path)
-                                            }
-                                        }}
-                                        
                                         alt={item.label}
                                         width={28}
                                         height={28}
-                                    />
+                                    /> */}
                                 </div>
                             ) : (
                                 <Image
