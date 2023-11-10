@@ -36,12 +36,8 @@ export const useVisibleAndTypeAuthModalState =
         type: null,
         setVisibleAndType({ visible, type }) {
             set({
-                visible: visible 
-                    ? visible 
-                    : get().visible,
-                type: type 
-                    ? type 
-                    : get().type,
+                visible,
+                type,
             })
         },
     }))
