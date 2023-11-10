@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify"
 
 import {
     Barter,
+    ModalSign,
     TermsOfUse,
     PublicProfile,
     DroverFriends,
@@ -22,31 +23,31 @@ import {
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
-import { SignPopup } from "@/components/auth/Signin/SignPopup"
 import BalloonPlaceMark from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
     useAuth,
     useTermsOfUse,
+    useBalloonCard,
     useDroverFriends,
     useVisibleModalBarter,
     useVisibleNotifications,
     useUpdateMutualOffer,
+    useVisibleAndTypeAuthModal,
 } from "@/store/hooks"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 export const Containers = () => {
     const { token } = useAuth()
+    const { visible } = useBalloonCard()
     const { isVisible } = useVisibleModalBarter()
-    const { visible: visibleNotifications } = useVisibleNotifications()
     const { visibleFriends } = useDroverFriends()
     const { visiblePolicy, visibleRules } = useTermsOfUse()
     const { visibleUpdateMutual } = useUpdateMutualOffer()
-    const { visible } = useBalloonCard()
+    const { visible: visibleAuth } = useVisibleAndTypeAuthModal()
+    const { visible: visibleNotifications } = useVisibleNotifications()
 
     return (
         <>
-            <SignPopup />
             <PublicProfile />
             <FooterMenu />
             <PhotoCarousel />
@@ -55,6 +56,7 @@ export const Containers = () => {
             <PhotoPreviewModal />
             {isVisible && <Barter />}
             <ToastContainer limit={3} />
+            {visibleAuth && <ModalSign />}
             {token && (
                 <>
                     <ComplaintModal />

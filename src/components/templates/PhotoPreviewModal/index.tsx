@@ -151,16 +151,6 @@ export const PhotoPreviewModal: TPhotoPreviewModal = memo(
                         <div data-title>
                             <div data-author onClick={handleClickUser}>
                                 <NextImageMotion
-                                    initial={{
-                                        opacity: 0,
-                                        visibility: "hidden",
-                                    }}
-                                    animate={{
-                                        opacity: 1,
-                                        visibility: "visible",
-                                    }}
-                                    exit={{ opacity: 0, visibility: "hidden" }}
-                                    transition={{ duration: 0.5 }}
                                     src={author?.urlPhoto!}
                                     alt="avatar"
                                     width={400}

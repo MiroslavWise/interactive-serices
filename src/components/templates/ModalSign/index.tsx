@@ -1,8 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
+import { Content } from "./content/content"
 import { ButtonClose } from "@/components/common/Buttons"
 import { GlassesBanner } from "@/components/common/Glasses"
 
@@ -16,55 +16,44 @@ export function ModalSign() {
     const { isAuth } = useAuth()
     const { type, visible, setVisibleAndType } = useVisibleAndTypeAuthModal()
 
+    const buttonClose = (
+        <ButtonClose
+            onClick={() =>
+                setVisibleAndType({
+                    visible: false,
+                    type: type,
+                })
+            }
+            position={{
+                right: 12,
+                top: 12,
+            }}
+        />
+    )
+
     return !isAuth ? (
-        visible ? (
-            <motion.div
-                className={cx(
-                    "wrapper-fixed",
-                    isMobile ? styles.overviewMobile : styles.overlay,
-                )}
-                data-visible={visible}
-                initial={{ opacity: 0, visibility: "hidden" }}
-                animate={{ opacity: 1, visibility: "visible" }}
-                transition={{ duration: 0.5 }}
-                exit={{ opacity: 0, visibility: "hidden" }}
-            >
-                {isMobile ? (
-                    <>
-                        <ButtonClose
-                            onClick={() =>
-                                setVisibleAndType({
-                                    visible: false,
-                                    type: type,
-                                })
-                            }
-                            position={{
-                                right: 12,
-                                top: 12,
-                            }}
-                        />
-                        <div data-content></div>
-                        <GlassesBanner />
-                    </>
-                ) : (
-                    <div data-modal>
-                        <ButtonClose
-                            onClick={() =>
-                                setVisibleAndType({
-                                    visible: false,
-                                    type: type,
-                                })
-                            }
-                            position={{
-                                right: 12,
-                                top: 12,
-                            }}
-                        />
-                        <div data-content></div>
-                        <GlassesBanner />
+        <div
+            className={cx(
+                "wrapper-fixed",
+                isMobile ? styles.overviewMobile : styles.overlay,
+            )}
+            data-visible={visible}
+        >
+            {isMobile ? (
+                <>
+                    {buttonClose}
+                    <div data-content>
+                        <Content />
                     </div>
-                )}
-            </motion.div>
-        ) : null
+                    <GlassesBanner />
+                </>
+            ) : (
+                <div data-content>
+                    {buttonClose}
+                    <Content />
+                    <GlassesBanner />
+                </div>
+            )}
+        </div>
     ) : null
 }

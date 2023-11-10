@@ -2,7 +2,6 @@
 
 import { memo } from "react"
 import NextImage from "next/image"
-import { motion } from "framer-motion"
 
 import type { IProps } from "./types"
 
@@ -11,14 +10,12 @@ import { ImageStatic } from "../ImageStatic"
 import { myImageLoader } from "@/helpers/functions/myImageLoader"
 import { blurDefaultOffer, defaultAvatar } from "@/helpers/image/base64"
 
-const MotionImage = motion(NextImage)
-
 const altName = {
     avatar: "/png/blur_avatar_default.jpg",
     "offer-image": "/png/blur-default-offers.jpg",
 }
 
-type TTypes = typeof MotionImage.defaultProps & IProps
+type TTypes = typeof NextImage.defaultProps & IProps
 
 const $NextImageMotion = (props: TTypes) => {
     const { src, onClick, ref, alt, className, height, width, ...rest } =
@@ -32,7 +29,7 @@ const $NextImageMotion = (props: TTypes) => {
     }
 
     return src?.includes("http") ? (
-        <MotionImage
+        <NextImage
             onClick={(e) => {
                 handleClick(e)
             }}
