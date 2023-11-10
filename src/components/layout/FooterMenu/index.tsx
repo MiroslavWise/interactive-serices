@@ -63,11 +63,12 @@ export const FooterMenu: TFooterMenu = ({ }) => {
                                 <div className={styles.centerPoligon}
                                     onClick={(event) => {
                                         alert('CLICK')
-                                        if (item.path === null) {
-                                            handleSignInOrSignUp()
-                                        } else {
-                                            handleGoToPage(item.path)
-                                        }
+                                        handleSignInOrSignUp()
+                                        // if (item.path === null) {
+                                        //     handleSignInOrSignUp()
+                                        // } else {
+                                        //     handleGoToPage(item.path)
+                                        // }
                                     }}
 
                                 >
