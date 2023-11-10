@@ -11,6 +11,7 @@ import {
 } from "../action/useAuthAction"
 
 import { AuthService } from "@/services/auth/authService"
+import { serviceProfile } from "@/services/profile"
 
 export const initialStateAuth = {
     email: undefined,
@@ -42,6 +43,25 @@ export const useAuth = create(
             signOut() {
                 console.log("sign-out")
                 signOutAction(set, initialStateAuth)
+            },
+            updateProfile() {
+                serviceProfile.getMe().then((response) => {
+                    if (response?.ok) {
+                        if (!!response?.res) {
+                            const data = response?.res
+                            set({
+                                user: {
+                                    firstName: data.firstName,
+                                    lastName: data?.lastName,
+                                    username: data?.username,
+                                    birthdate: data?.birthdate,
+                                    about: data?.about,
+                                    enabled: true,
+                                },
+                            })
+                        }
+                    }
+                })
             },
 
             refresh() {

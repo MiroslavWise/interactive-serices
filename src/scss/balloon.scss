@@ -1,8 +1,4 @@
 .modal-balloon-modal {
-    position: fixed;
-    inset: 0;
-    opacity: 0;
-    visibility: hidden;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     transition: var(--transition);
@@ -61,6 +57,14 @@
             height: 66px;
             width: 100%;
             border-bottom: 1px solid var(--opacity-white-hard);
+
+            &[data-avatars="true"] {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                padding: 4px calc(12px + 24px + 4px) 4px calc(4px + 58px + 4px);
+            }
 
             &[data-alert="true"] {
                 display: flex;
@@ -504,11 +508,6 @@
                 }
             }
         }
-    }
-
-    &[data-active="true"] {
-        opacity: 1;
-        visibility: visible;
     }
 
     .close {

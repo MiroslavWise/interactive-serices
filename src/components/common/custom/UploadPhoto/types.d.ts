@@ -1,6 +1,6 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 
-export interface IUploadPhoto{
+export interface IUploadPhoto {
     files: File
     index: number
     selected: string

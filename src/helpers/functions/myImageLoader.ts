@@ -1,6 +1,6 @@
 import { ImageLoaderProps } from "next/image"
 
-export default function myImageLoader({
+export function myImageLoader({
     src,
     width,
     quality,

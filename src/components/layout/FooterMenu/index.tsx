@@ -48,15 +48,6 @@ export const FooterMenu: TFooterMenu = ({}) => {
                         onClick={() => {
                             if (item.path !== null) {
                                 handleGoToPage(item.path)
-                                return
-                            }
-                            if (item.path === null && item.isCenter) {
-                                handleSignInOrSignUp()
-                                return
-                            }
-                            if (visible) {
-                                setVisibleAndType({ visible: false })
-                                return
                             }
                             setVisible(false)
                         }}
@@ -66,13 +57,9 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                 <div
                                     className={styles.centerPoligon}
                                     onClick={(event) => {
-                                        if (item.path === null) {
-                                            handleSignInOrSignUp()
-                                        } else {
-                                            handleGoToPage(item.path)
-                                        }
-                                        event.stopPropagation()
-                                        event.preventDefault()
+                                        handleSignInOrSignUp()
+                                        // event.preventDefault()
+                                        // event.stopPropagation()
                                     }}
                                 >
                                     <Image

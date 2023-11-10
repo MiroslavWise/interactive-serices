@@ -20,21 +20,18 @@ import styles from "./styles/style.module.scss"
 
 export const ItemsReviews: TItemsReviews = ({}) => {
     const id = useSearchParams().get("id")
-    const { data: dataOffers } = useQuery({
+    const { data: dataOffers, isLoading } = useQuery({
         queryFn: () => serviceOffers.getUserId(Number(id!)),
         queryKey: ["offers", `user=${id}`],
         enabled: !!id && typeof id !== "undefined",
     })
 
     const idsOffers = useMemo(() => {
-        if (!dataOffers?.res) {
-            return []
-        }
-        if (dataOffers?.res) {
+        if (dataOffers?.res && !isLoading) {
             return dataOffers?.res?.map((item) => item?.id)!
         }
         return []
-    }, [dataOffers?.res])
+    }, [dataOffers?.res, isLoading])
 
     const dataTestimonials = useQueries({
         queries: idsOffers.map((item) => ({
@@ -46,12 +43,14 @@ export const ItemsReviews: TItemsReviews = ({}) => {
     })
 
     const listTestimonials = useMemo(() => {
-        if (dataTestimonials?.some((item) => !item?.isLoading)) {
+        if (dataTestimonials?.every((item) => !item?.isLoading)) {
             return dataTestimonials?.map((item) => item?.data?.res)?.flat()!
         } else {
             return []
         }
     }, [dataTestimonials])
+
+    console.log("listTestimonials: ", listTestimonials)
 
     return (
         <div

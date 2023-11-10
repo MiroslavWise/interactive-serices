@@ -21,10 +21,12 @@ import {
 } from "@/helpers"
 import { fileUploadService } from "@/services/file-upload"
 import { serviceAddresses } from "@/services/addresses"
+import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
     const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
+    const refresh = useRefresh()
     const {
         text,
         files,
@@ -83,10 +85,12 @@ export const Start = () => {
                                 serviceOffers
                                     .patch(values, response?.res?.id!)
                                     .then(() => {
+                                        refresh()
                                         setStepRequest("end")
                                     })
                             })
                         } else {
+                            refresh()
                             setStepRequest("end")
                         }
                     }
@@ -138,7 +142,7 @@ export const Start = () => {
                         setValue={setAddressId}
                     />
                 )}
-                <LabelAndSelectOffersCategories 
+                <LabelAndSelectOffersCategories
                     title="Я хочу"
                     placeholder="Выберите категории"
                     value={selected!}

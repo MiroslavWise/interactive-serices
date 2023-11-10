@@ -1,0 +1,53 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    & > label {
+        color: var(--gray-900);
+        font-size: 14px;
+        font-style: normal;
+        line-height: 14px;
+        font-weight: 500;
+        margin-bottom: 4px;
+
+        & > sup {
+            color: var(--error-600);
+        }
+    }
+
+    & > i {
+        color: var(--error-600);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18px;
+    }
+
+    &[data-password] > div {
+        width: 100%;
+    }
+
+    &[data-password] {
+        & > div {
+            position: relative;
+            & > [data-eye] {
+                position: absolute;
+                transform: translateY(-50%);
+                top: 50%;
+                right: 14px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &[data-mobile="true"] {
+        & > input,
+        &[data-password] > div > input {
+            padding: 10px;
+            height: 44px;
+            border-radius: 22px;
+        }
+    }
+}

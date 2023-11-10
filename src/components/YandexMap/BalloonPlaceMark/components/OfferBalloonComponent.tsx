@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
 import type { TOfferBalloonComponent } from "../types/types"
@@ -42,7 +43,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
             {
                 queryFn: () =>
                     serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", stateBalloon.idUser!],
+                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
                 refetchOnMount: false,
             },
         ],
@@ -73,7 +74,15 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
     }
 
     function handleProfile() {
-        dispatchProfilePublic({ visible: true, idUser: stateBalloon.idUser! })
+        if (isMobile) {
+            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            dispatch({ visible: false })
+        } else {
+            dispatchProfilePublic({
+                visible: true,
+                idUser: stateBalloon.idUser!,
+            })
+        }
     }
 
     return (

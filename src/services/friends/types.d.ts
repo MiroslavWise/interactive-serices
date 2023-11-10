@@ -21,7 +21,7 @@ export interface IFriendsResponse {
 export interface IFriendResponseId {
     created: Date
     email: string
-    id: string
+    id: number
 }
 
 interface IQueries {

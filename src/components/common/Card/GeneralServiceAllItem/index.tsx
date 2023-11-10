@@ -16,6 +16,7 @@ import { useOffersCategories } from "@/store/state/useOffersCategories"
 import styles from "./style.module.scss"
 import { useAuth } from "@/store/hooks"
 import { cx } from "@/lib/cx"
+import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/components/AvatarsBalloon"
 
 export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     const {
@@ -93,7 +94,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
 
     return (
         <li className={cx(styles.container, className)} onClick={handle}>
-            <header>
+            <header data-provider={provider}>
                 {typeImagePng ? (
                     <ImageStatic
                         src={typeImagePng}
@@ -117,6 +118,9 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
                     >
                         <span>Могу помочь!</span>
                     </button>
+                ) : null}
+                {provider === "discussion" ? (
+                    <AvatarsBalloon offerId={id} />
                 ) : null}
             </header>
             <section>{title && <h4>{title}</h4>}</section>

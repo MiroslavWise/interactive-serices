@@ -1,9 +1,8 @@
 "use client"
 
-import Image from "next/image"
 import { toast } from "react-toastify"
 import { isMobile } from "react-device-detect"
-import { type DispatchWithoutAction, useId } from "react"
+import { type DispatchWithoutAction } from "react"
 import { ButtonCircleGradient, ButtonDefault } from "@/components/common"
 import { NextImageMotion } from "@/components/common/Image"
 
@@ -49,29 +48,31 @@ export const useToast = () => {
         const message = (
             <div className="toast-data-render" data-mobile={isMobile}>
                 {type === "message" ? (
-                    <div data-content className="message">
-                        <div data-user>
-                            <NextImageMotion
-                                src={value?.photo!}
-                                alt="avatar"
-                                height={40}
-                                width={40}
-                            />
-                            <i>
-                                {value?.name}{" "}
-                                {value?.username ? (
-                                    <span>@{value?.username}</span>
-                                ) : null}
-                            </i>
+                    <>
+                        <div data-content className="message">
+                            <div data-user>
+                                <NextImageMotion
+                                    src={value?.photo!}
+                                    alt="avatar"
+                                    height={40}
+                                    width={40}
+                                />
+                                <i>
+                                    {value?.name}{" "}
+                                    {value?.username ? (
+                                        <span>@{value?.username}</span>
+                                    ) : null}
+                                </i>
+                            </div>
+                            <p>{value?.message || ""}</p>
                         </div>
-                        <p>{value?.message || ""}</p>
-                    </div>
+                        {buttons}
+                    </>
                 ) : (
                     <div data-content>
                         <p>{value?.message || ""}</p>
                     </div>
                 )}
-                {buttons}
             </div>
         )
 

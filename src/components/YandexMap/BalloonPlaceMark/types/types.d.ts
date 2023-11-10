@@ -35,6 +35,11 @@ export interface IBlockLikes {
     id: number
 }
 
+interface IAvatarsBalloon {
+    offerId: number
+}
+
+export type TAvatarsBalloon = FC<IAvatarsBalloon>
 export type TBalloonPlaceMark = FC<IBalloonPlaceMark>
 export type TOfferBalloonComponent = FC<IOfferBalloonComponent>
 export type TDiscussionBalloonComponent = FC<IDiscussionBalloonComponent>

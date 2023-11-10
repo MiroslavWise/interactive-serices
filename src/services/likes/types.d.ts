@@ -16,7 +16,7 @@ export interface IResponseLikes {
 
 export interface ILikesService {
     route: string
-    post(value: IPostDataLikes): Promise<IReturnData<{}>>
+    post(value: IPostDataLikes): Promise<IReturnData<number>>
     get(): Promise<IReturnData<IResponseLikes[]>>
     getTargetId(
         provider: TProviderLikes,

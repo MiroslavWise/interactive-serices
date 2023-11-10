@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
 import type { TAlertBalloonComponent } from "../types/types"
@@ -54,8 +55,15 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
     }
 
     function handleProfile() {
-        dispatch({ visible: false })
-        handlePush(`/user?id=${dataProfile?.res?.userId!}`)
+        if (isMobile) {
+            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            dispatch({ visible: false })
+        } else {
+            dispatchProfilePublic({
+                visible: true,
+                idUser: stateBalloon.idUser!,
+            })
+        }
     }
 
     return (

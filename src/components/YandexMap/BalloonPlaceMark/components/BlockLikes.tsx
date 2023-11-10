@@ -12,6 +12,8 @@ import styles from "../styles/likes.module.scss"
 export const BlockLikes: TBlockLikes = ({ id }) => {
     const { userId } = useAuth()
     const [loading, setLoading] = useState(false)
+    const [count, setCount] = useState(0)
+    const [myLike, setMyLike] = useState(false)
     const [{ data: dataLikesMy, refetch: refetchLikesMy }, { data, refetch }] =
         useQueries({
             queries: [
@@ -19,23 +21,34 @@ export const BlockLikes: TBlockLikes = ({ id }) => {
                     queryFn: () => serviceLikes.get(),
                     queryKey: ["likes", `user=${userId}`],
                     enabled: !!userId,
+                    refetchOnMount: true,
                 },
                 {
                     queryFn: () => serviceLikes.getTargetId("offer", id),
                     queryKey: ["likes", `provider=offer`, `id=${id}`],
                     enabled: !!id,
+                    refetchOnMount: true,
                 },
             ],
         })
 
-    const isLikes = useMemo(() => {
-        if (!userId || !dataLikesMy?.res || !id) return false
-        return !!dataLikesMy?.res?.some(
+    useEffect(() => {
+        if (!!data?.res) {
+            setCount(data?.res)
+        }
+    }, [data])
+
+    useEffect(() => {
+        const isLike = !!dataLikesMy?.res?.some(
             (item) =>
                 Number(item?.id) === Number(id) &&
                 Number(item?.userId) === Number(userId) &&
                 item.provider === "offer",
         )
+
+        if (isLike) {
+            setMyLike(isLike)
+        }
     }, [userId, dataLikesMy?.res, id])
 
     function handle() {
@@ -46,42 +59,18 @@ export const BlockLikes: TBlockLikes = ({ id }) => {
                     id: id!,
                     provider: "offer",
                 })
-                .then((response) => {
-                    setTimeout(() => {
-                        Promise.all([refetch(), refetchLikesMy()]).then(
-                            (responses) => {
-                                console.log(
-                                    "%c --refresh responses: ",
-                                    `color: blue`,
-                                    responses,
-                                )
-                                setLoading(false)
-                            },
-                        )
-                    }, 1500)
+                .then(async (response) => {
                     if (response?.ok) {
-                        console.log(
-                            "%c ---post like: ",
-                            "color: #0f0",
-                            response?.res,
-                        )
-                    } else {
-                        console.log(
-                            "%c ---post like: ",
-                            "color: #f00",
-                            response?.res,
-                        )
+                        setCount(response?.res!)
                     }
+                    setMyLike((prev) => !prev)
+                    setLoading(false)
                 })
         }
     }
 
     return (
-        <div
-            className={styles.container}
-            onClick={handle}
-            data-active={isLikes}
-        >
+        <div className={styles.container} onClick={handle} data-active={myLike}>
             <Image
                 src={loading ? "/svg/loading-03.svg" : "/svg/thumbs-up.svg"}
                 alt="thumbs-up"
@@ -89,7 +78,7 @@ export const BlockLikes: TBlockLikes = ({ id }) => {
                 height={18}
                 data-loading-image={loading}
             />
-            <p>{data?.res || 0}</p>
+            <p>{count || 0}</p>
         </div>
     )
 }

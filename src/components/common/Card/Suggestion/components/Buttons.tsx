@@ -5,33 +5,40 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
 
-import type { TTypeProvider } from "@/services/file-upload/types"
+import type { IResponseOffers } from "@/services/offers/types"
 
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
+import { useUpdateMutualOffer } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const Buttons = ({
-    id,
     refetch,
-    provider,
+    offer,
 }: {
-    id: number
-    provider: TTypeProvider
+    offer: IResponseOffers
     refetch(): Promise<any>
 }) => {
     const [loading, setLoading] = useState(false)
     const { systemTheme } = useTheme()
     const [isOpen, setIsOpen] = useState(false)
+    const { dispatchUpdateMutual } = useUpdateMutualOffer()
+
+    function handleUpdate() {
+        dispatchUpdateMutual({
+            visible: true,
+            data: offer!,
+        })
+    }
 
     function handleDelete() {
         if (!loading) {
             setLoading(true)
-            if (id) {
-                serviceOffers.delete(id).then((response) => {
+            if (offer.id) {
+                serviceOffers.delete(offer.id).then((response) => {
                     console.log("delete offer!", response)
                     requestAnimationFrame(() => {
                         refetch().finally(() => setLoading(false))
@@ -46,12 +53,13 @@ export const Buttons = ({
             <ButtonFill
                 type={systemTheme === "dark" ? "primary" : "optional_pink"}
                 label={
-                    provider === "offer"
+                    offer?.provider === "offer"
                         ? "Изменить предложение"
-                        : provider === "request"
+                        : offer?.provider === "request"
                         ? "Изменить запрос"
                         : "Изменить"
                 }
+                handleClick={handleUpdate}
                 prefix={
                     <Image
                         src="/svg/edit-white.svg"
@@ -60,7 +68,7 @@ export const Buttons = ({
                         height={16}
                     />
                 }
-                classNames={cx(styles.buttonFill, styles[provider])}
+                classNames={cx(styles.buttonFill, styles[offer?.provider!])}
             />
             <motion.div
                 className={styles.buttonTrash}

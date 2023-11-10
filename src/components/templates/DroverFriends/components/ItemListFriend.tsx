@@ -1,49 +1,35 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { useQueries, useQuery } from "@tanstack/react-query"
+import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
 import type { TItemListFriend } from "../types/types"
+import type { TTypeFriends } from "@/store/types/createDroverFriends"
 
 import { MotionLI } from "@/components/common/Motion"
 import { NextImageMotion } from "@/components/common/Image"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonCircleGradient } from "@/components/common/Buttons"
 
-import { useAuth } from "@/store/hooks"
+import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { serviceFriends } from "@/services/friends"
-import { TTypeFriends } from "@/store/types/createDroverFriends"
-import { usePush } from "@/helpers"
+import { useReloadFriends } from "../hooks/useReloadFriends"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
 
 export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     const [loading, setLoading] = useState(false)
     const { dispatchFriends } = useDroverFriends()
+    const { refresh } = useReloadFriends({ enabled: false, type: type })
+    const { dispatchProfilePublic } = useProfilePublic()
     const { handlePush } = usePush()
-    const { userId } = useAuth()
-    const { data, refetch } = useQuery({
+    const { data } = useQuery({
         queryFn: () => serviceUsers.getId(id!),
         queryKey: ["users", `user=${id}`],
         enabled: !!id,
     })
-
-    const refreshes = useQueries({
-        queries: ["list", "request", "response"].map((item) => ({
-            queryFn: () =>
-                serviceFriends.get(
-                    ["request", "response"].includes(item)
-                        ? { filter: item as Exclude<TTypeFriends, "list"> }
-                        : undefined,
-                ),
-            queryKey: ["friends", `user=${userId}`, `filter=${item}`],
-            enabled: false,
-        })),
-    })
-
-    async function refresh() {
-        return Promise.all(refreshes.map((item) => item.refetch()))
-    }
 
     const geo = useMemo(() => {
         if (!data?.res?.addresses || !data?.res?.addresses?.length) {
@@ -61,7 +47,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
             setLoading(true)
             serviceFriends.post({ id: id }).then((response) => {
                 setTimeout(() => {
-                    refresh().then((response) => {
+                    refresh([type, "list"]).then((response) => {
                         console.log(
                             "%c ---response: ---",
                             "color: #0f0",
@@ -81,7 +67,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
             setLoading(true)
             serviceFriends.delete(id!).then((response) => {
                 setTimeout(() => {
-                    refresh().then((response) => {
+                    refresh([type]).then((response) => {
                         console.log(
                             "%c ---response: ---",
                             "color: #0f0",
@@ -96,10 +82,19 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
         }
     }
 
+    function handleProfile() {
+        if (isMobile) {
+            handlePush(`/user?id=${id}`)
+            dispatchFriends({ visible: false })
+        } else {
+            dispatchProfilePublic({ visible: true, idUser: id! })
+        }
+    }
+
     return (
         <MotionLI>
             <div data-block-profile>
-                <div data-block-avatar>
+                <div data-block-avatar onClick={handleProfile}>
                     <NextImageMotion
                         src={data?.res?.profile?.image?.attributes?.url!}
                         alt="avatar"

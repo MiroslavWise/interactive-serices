@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    & > img {
+        margin-left: -21px;
+        height: 42px;
+        width: 42px;
+        border-radius: 21px !important;
+        background: var(--background);
+        border: 1.8px solid var(--supporting-white) !important;
+        cursor: pointer;
+        z-index: 22;
+        transition: all 0.2s ease-in-out;
+    }
+}

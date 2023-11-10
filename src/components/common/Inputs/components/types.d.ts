@@ -4,7 +4,7 @@ interface ITextArea {
     sup?: string
 }
 
-type TTypeTextArea = DetailedHTMLProps<
+export type TTypeTextArea = DetailedHTMLProps<
     TextareaHTMLAttributes<HTMLTextAreaElement>,
     HTMLTextAreaElement
 > &

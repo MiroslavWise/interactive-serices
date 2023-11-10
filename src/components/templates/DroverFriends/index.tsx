@@ -18,6 +18,7 @@ import { Segments } from "@/components/common/Segments"
 import { useAuth } from "@/store/hooks"
 import { serviceFriends } from "@/services/friends"
 import { SEGMENT_FRIENDS } from "./constants/segments"
+import { useReloadFriends } from "./hooks/useReloadFriends"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
 
 import styles from "./styles/style.module.scss"
@@ -28,17 +29,12 @@ export function DroverFriends() {
     const [segment, setSegment] = useState<ISegmentValues<TTypeFriends>>(
         SEGMENT_FRIENDS[0],
     )
-    const [search, setSearch] = useState("")
-    const { data } = useQuery({
-        queryFn: () =>
-            serviceFriends.get(
-                ["request", "response"].includes(segment.value)
-                    ? { filter: segment.value as Exclude<TTypeFriends, "list"> }
-                    : undefined,
-            ),
-        queryKey: ["friends", `user=${userId}`, `filter=${segment.value}`],
-        enabled: visibleFriends && !!userId,
+
+    const { data } = useReloadFriends({
+        enabled: !!visibleFriends && !!userId,
+        type: segment.value!,
     })
+    const [search, setSearch] = useState("")
 
     function handleClose() {
         dispatchFriends({ visible: false })
@@ -50,14 +46,6 @@ export function DroverFriends() {
         }
         return data?.res || []
     }, [data?.res])
-
-    // const filterList: IFriendsResponse[] = useMemo(() => {
-    //     return list.filter((item) =>
-    //         `${item.profile?.firstName} ${item?.profile?.lastName}`
-    //             .toLowerCase()
-    //             .includes(search.toLowerCase()),
-    //     )
-    // }, [list, search])
 
     return (
         <div className={styles.wrapper} data-mobile={isMobile}>
@@ -103,7 +91,6 @@ export function DroverFriends() {
                             setActive={setSegment}
                         />
                     )}
-
                     <div data-search-block>
                         <SearchInput
                             value={search}

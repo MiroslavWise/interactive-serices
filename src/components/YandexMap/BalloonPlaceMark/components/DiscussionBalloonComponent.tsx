@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
 import type { TDiscussionBalloonComponent } from "../types/types"
@@ -14,6 +15,7 @@ import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
+import { AvatarsBalloon } from "./AvatarsBalloon"
 
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
     stateBalloon,
@@ -36,14 +38,22 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
             {
                 queryFn: () =>
                     serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", stateBalloon.idUser!],
+                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
                 refetchOnMount: false,
             },
         ],
     })
 
     function handleProfile() {
-        dispatchProfilePublic({ visible: true, idUser: stateBalloon.idUser! })
+        if (isMobile) {
+            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            dispatch({ visible: false })
+        } else {
+            dispatchProfilePublic({
+                visible: true,
+                idUser: stateBalloon.idUser!,
+            })
+        }
     }
 
     return (
@@ -55,7 +65,9 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                 height={61}
                 data-logo-ballon
             />
-            <header></header>
+            <header data-avatars>
+                <AvatarsBalloon offerId={stateBalloon.id!} />
+            </header>
             <div data-container-balloon data-discussion>
                 <div data-info-profile>
                     <div data-avatar-name>

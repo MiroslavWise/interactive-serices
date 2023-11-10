@@ -1,0 +1,19 @@
+.bigCircle {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    background: var(--primary-50);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .middleCircle {
+        height: 63px;
+        width: 63px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--primary-100);
+    }
+}

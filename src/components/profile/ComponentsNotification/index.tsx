@@ -18,11 +18,13 @@ import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
 import { serviceNotifications } from "@/services/notifications"
+import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
 
 import styles from "./styles/style.module.scss"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
     const { userId } = useAuth()
+    const { dispatchVisibleNotifications } = useVisibleNotifications()
     const { data, created, operation, provider, id } = props ?? {}
     const { handlePush } = usePush()
 
@@ -42,6 +44,9 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     })
 
     function handleCancel() {
+        if (isMobile) {
+            dispatchVisibleNotifications({ visible: false })
+        }
         serviceNotifications.patch(
             {
                 enabled: false,

@@ -25,8 +25,10 @@ import {
     useCloseCreateOptions,
 } from "@/helpers"
 
-import styles from "./styles/style.module.scss"
+import { useRefresh } from "../hooks/useRefresh"
 import { serviceAddresses } from "@/services/addresses"
+
+import styles from "./styles/style.module.scss"
 
 const DESCRIPTIONS = [1, 2, 3]
 
@@ -36,6 +38,7 @@ export const ModalAddOffer = () => {
     const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
     const [step, setStep] = useState<TSteps>(1)
+    const refresh = useRefresh()
     const { files, setId, id, text, valueCategory, adressId, addressInit } =
         useCreateOffer()
 
@@ -129,6 +132,7 @@ export const ModalAddOffer = () => {
                     }
                 })
                 serviceOffers.patch(data, id!).then(() => {
+                    refresh()
                     next()
                 })
             })

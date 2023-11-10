@@ -30,6 +30,11 @@
 
         height: calc(6px + 6px + 58px);
 
+        &[data-provider="discussion"] {
+            justify-content: center;
+            padding: 6px calc(12px + 24px + 6px) 6px calc(6px + 58px + 6px);
+        }
+
         .typeImage {
             position: absolute;
             left: 6px;
