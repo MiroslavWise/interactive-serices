@@ -25,6 +25,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
     const { handlePush } = usePush()
 
     const handleSignInOrSignUp = () => {
+        alert('login')
         setVisibleAndType({
             visible: !visible,
             type: ["SignIn", "SignUp"].includes(type!) ? type : "SignIn",
@@ -46,15 +47,16 @@ export const FooterMenu: TFooterMenu = ({}) => {
                     <li
                         key={item.key}
                         onClick={() => {
+                            alert('click')
                             if (item.path !== null) {
                                 handleGoToPage(item.path)
                             }
                             if (item.path === null && item.isCenter) {
                                 handleSignInOrSignUp()
                             }
-                            if (visible) {
-                                setVisibleAndType({ visible: false })
-                            }
+                            // if (visible) {
+                            //     setVisibleAndType({ visible: false })
+                            // }
                             //setVisible(false)
                         }}
                     >
@@ -68,8 +70,8 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                         } else {
                                             handleGoToPage(item.path)
                                         }
-                                        event.stopPropagation()
-                                        event.preventDefault()
+                                        //event.stopPropagation()
+                                        //event.preventDefault()
                                     }}
                                 >
                                     <Image
