@@ -38,91 +38,94 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     })
 
     const onEnter = async (values: IValuesSignForm) => {
-        setLoading(true)
-        useTokenHelper
-            .login({
-                email: values.email,
-                password: values.password,
-            })
-            .then((response) => {
-                if (
-                    response?.error?.code === 401 &&
-                    response?.error?.message === "Unauthorized"
-                ) {
-                    setError("password", { message: "invalid password" })
-                    return
-                }
-                if (
-                    response.error?.code === 401 &&
-                    response?.error?.message === "user is not verified"
-                ) {
-                    on(
-                        {
-                            message:
-                                "Вы не потвердили профиль через уведомление, которое вам пришло на почту или номер телефона!",
-                        },
-                        "warning",
-                    )
-                    return
-                }
-                if (response.error?.code === 404) {
-                    setError("email", { message: "user not found" })
-                    return
-                }
-                if (response?.res?.secret && response?.res?.otpAuthUrl) {
-                    setValueSecret({
-                        secret: response?.res?.secret!,
-                        url: response?.res?.otpAuthUrl!,
-                    })
-                    return setVisibleAndType({ type: "FirstLoginQR" })
-                }
-                if (response?.error) {
-                    console.log(
-                        "ERROR ---У нас возникла ошибка, мы сейчас её решаем!---",
-                        response?.error,
-                    )
-                    on(
-                        {
-                            message:
-                                "У нас возникла ошибка, мы сейчас её решаем!",
-                        },
-                        "warning",
-                    )
-                    return
-                }
-                if (response.ok) {
+        if (!loading) {
+            setLoading(true)
+            useTokenHelper
+                .login({
+                    email: values.email,
+                    password: values.password,
+                })
+                .then((response) => {
                     if (
-                        response.res?.accessToken &&
-                        response?.res?.refreshToken &&
-                        response?.res?.tokenType
+                        response?.error?.code === 401 &&
+                        response?.error?.message === "Unauthorized"
                     ) {
-                        serviceUsers
-                            .getId(response?.res?.id)
-                            .then((responseUser) => {
-                                setToken({
-                                    ok: true,
-                                    token: response?.res?.accessToken!,
-                                    refreshToken: response?.res?.refreshToken!,
-                                    expires: response?.res?.expires!,
-                                    userId: response?.res?.id!,
-                                    email: values?.email!,
-                                })
-                                if (!responseUser?.res?.profile) {
-                                    setVisibleAndType({ visible: false })
-                                    return setVisible(true)
-                                }
-                                if (!!responseUser?.res?.profile) {
-                                    return changeAuth()
-                                }
-                            })
-                        return setVisibleAndType({ visible: false })
+                        setError("password", { message: "invalid password" })
+                        return
                     }
-                    return setVisibleAndType({ type: "OtpCode" })
-                }
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+                    if (
+                        response.error?.code === 401 &&
+                        response?.error?.message === "user is not verified"
+                    ) {
+                        on(
+                            {
+                                message:
+                                    "Вы не потвердили профиль через уведомление, которое вам пришло на почту или номер телефона!",
+                            },
+                            "warning",
+                        )
+                        return
+                    }
+                    if (response.error?.code === 404) {
+                        setError("email", { message: "user not found" })
+                        return
+                    }
+                    if (response?.res?.secret && response?.res?.otpAuthUrl) {
+                        setValueSecret({
+                            secret: response?.res?.secret!,
+                            url: response?.res?.otpAuthUrl!,
+                        })
+                        return setVisibleAndType({ type: "FirstLoginQR" })
+                    }
+                    if (response?.error) {
+                        console.log(
+                            "ERROR ---У нас возникла ошибка, мы сейчас её решаем!---",
+                            response?.error,
+                        )
+                        on(
+                            {
+                                message:
+                                    "У нас возникла ошибка, мы сейчас её решаем!",
+                            },
+                            "warning",
+                        )
+                        return
+                    }
+                    if (response.ok) {
+                        if (
+                            response.res?.accessToken &&
+                            response?.res?.refreshToken &&
+                            response?.res?.tokenType
+                        ) {
+                            serviceUsers
+                                .getId(response?.res?.id)
+                                .then((responseUser) => {
+                                    setToken({
+                                        ok: true,
+                                        token: response?.res?.accessToken!,
+                                        refreshToken:
+                                            response?.res?.refreshToken!,
+                                        expires: response?.res?.expires!,
+                                        userId: response?.res?.id!,
+                                        email: values?.email!,
+                                    })
+                                    if (!responseUser?.res?.profile) {
+                                        setVisibleAndType({ visible: false })
+                                        return setVisible(true)
+                                    }
+                                    if (!!responseUser?.res?.profile) {
+                                        return changeAuth()
+                                    }
+                                })
+                            return setVisibleAndType({ visible: false })
+                        }
+                        return setVisibleAndType({ type: "OtpCode" })
+                    }
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
+        }
     }
 
     return (
@@ -188,9 +191,10 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         <p>Запомнить на 30 дней</p>
                     </div>
                     <a
-                        onClick={() =>
+                        onClick={() => {
+                            console.log("ForgotPassword")
                             setVisibleAndType({ type: "ForgotPassword" })
-                        }
+                        }}
                     >
                         Забыли пароль?
                     </a>

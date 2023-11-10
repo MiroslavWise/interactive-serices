@@ -1,8 +1,8 @@
 .page-news-page {
     position: relative;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    z-index: 2;
+    z-index: 1;
     background: var(--background);
 
     & > header {
@@ -55,8 +55,8 @@
         height: 100%;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        z-index: 2;
         padding-bottom: calc(68px + 16px);
+        z-index: 3 !important;
 
         & > ul {
             width: 100%;
@@ -64,7 +64,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            z-index: 2;
+            z-index: 5;
 
             & > h3 {
                 width: 100%;
@@ -76,7 +76,7 @@
             }
 
             & > li {
-                z-index: 1;
+                z-index: 4;
             }
         }
     }
