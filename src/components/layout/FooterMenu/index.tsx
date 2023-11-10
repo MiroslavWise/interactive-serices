@@ -47,32 +47,19 @@ export const FooterMenu: TFooterMenu = ({}) => {
                     <li
                         key={item.key}
                         onClick={() => {
-                            alert('click')
                             if (item.path !== null) {
                                 handleGoToPage(item.path)
                             }
                             if (item.path === null && item.isCenter) {
+                                setVisibleAndType({ visible: false })
                                 handleSignInOrSignUp()
                             }
-                            // if (visible) {
-                            //     setVisibleAndType({ visible: false })
-                            // }
-                            //setVisible(false)
                         }}
                     >
-                        <div className={styles.itemsIconLabel}>
+                        <div className={styles.itemsIconLabel} >
                             {item.isCenter ? (
                                 <div
                                     className={styles.centerPoligon}
-                                    onClick={(event) => {
-                                        if (item.path === null) {
-                                            handleSignInOrSignUp()
-                                        } else {
-                                            handleGoToPage(item.path)
-                                        }
-                                        //event.stopPropagation()
-                                        //event.preventDefault()
-                                    }}
                                 >
                                     <Image
                                         src={
@@ -80,6 +67,15 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                                 ? item.icon.fill
                                                 : item.icon.regular
                                         }
+                                        onClick={(event) => {
+                                            if (item.path === null) {
+                                                handleSignInOrSignUp()
+                                            } else {
+                                                handleGoToPage(item.path)
+                                            }
+                                            //event.stopPropagation()
+                                            //event.preventDefault()
+                                        }}
                                         alt={item.label}
                                         width={28}
                                         height={28}
