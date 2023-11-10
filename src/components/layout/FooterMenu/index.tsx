@@ -46,29 +46,31 @@ export const FooterMenu: TFooterMenu = ({ }) => {
                 {MENU_ITEMS(isAuth).map((item) => (
                     <li
                         key={item.key}
-                        onClick={() => {
-                            if (item.path !== null) {
-                                handleGoToPage(item.path)
-                            }
-                            if (item.path === null && item.isCenter) {
-                                //setVisibleAndType({ visible: false })
-                                handleSignInOrSignUp()
-                            }
-                        }}
+                    // onClick={(event) => {
+                    //     event.preventDefault()
+                    //     event.stopPropagation()
+                    //     if (item.path !== null) {
+                    //         handleGoToPage(item.path)
+                    //     }
+                    //     if (item.path === null && item.isCenter) {
+                    //         //setVisibleAndType({ visible: false })
+                    //         handleSignInOrSignUp()
+                    //     }
+                    // }}
                     >
                         {item.isCenter ? (
-                            <div className={styles.itemsIconLabel}
-                                onClick={(event) => {
-                                    event.preventDefault()
-                                    alert('CLICK')
-                                    if (item.path === null) {
-                                        handleSignInOrSignUp()
-                                    } else {
-                                        handleGoToPage(item.path)
-                                    }
-                                }}
-                            >
-                                <div className={styles.centerPoligon}>
+                            <div className={styles.itemsIconLabel}>
+                                <div className={styles.centerPoligon}
+                                    onClick={(event) => {
+                                        alert('CLICK')
+                                        if (item.path === null) {
+                                            handleSignInOrSignUp()
+                                        } else {
+                                            handleGoToPage(item.path)
+                                        }
+                                    }}
+
+                                >
                                     <Image
                                         src={
                                             valuePath === item.path
