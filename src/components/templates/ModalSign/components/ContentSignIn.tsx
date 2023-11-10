@@ -204,7 +204,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     classNames="w-100"
                     type="primary"
                     submit="submit"
-                    // disabled={loading}
+                    disabled={loading}
                 />
                 <LinksSocial />
             </form>

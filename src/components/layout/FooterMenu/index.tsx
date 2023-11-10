@@ -56,10 +56,8 @@ export const FooterMenu: TFooterMenu = ({}) => {
                             {item.isCenter ? (
                                 <div
                                     className={styles.centerPoligon}
-                                    onClick={(event) => {
+                                    onClick={() => {
                                         handleSignInOrSignUp()
-                                        // event.preventDefault()
-                                        // event.stopPropagation()
                                     }}
                                 >
                                     <Image
