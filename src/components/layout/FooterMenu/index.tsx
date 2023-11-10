@@ -51,7 +51,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                 handleGoToPage(item.path)
                             }
                             if (item.path === null && item.isCenter) {
-                                setVisibleAndType({ visible: false })
+                                //setVisibleAndType({ visible: false })
                                 handleSignInOrSignUp()
                             }
                         }}
@@ -68,14 +68,15 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                                 : item.icon.regular
                                         }
                                         onClick={(event) => {
+                                            event.preventDefault()
+                                            alert(item.path)
                                             if (item.path === null) {
                                                 handleSignInOrSignUp()
                                             } else {
                                                 handleGoToPage(item.path)
                                             }
-                                            //event.stopPropagation()
-                                            //event.preventDefault()
                                         }}
+                                        
                                         alt={item.label}
                                         width={28}
                                         height={28}
