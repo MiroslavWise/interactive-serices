@@ -36,9 +36,12 @@ export const useVisibleAndTypeAuthModalState =
         type: null,
         setVisibleAndType({ visible, type }) {
             set({
-                visible:
-                    typeof visible !== "undefined" ? visible : get().visible,
-                type: typeof type !== "undefined" ? type : get().type,
+                visible: visible 
+                    ? visible 
+                    : get().visible,
+                type: type 
+                    ? type 
+                    : get().type,
             })
         },
     }))

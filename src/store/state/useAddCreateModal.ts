@@ -8,8 +8,8 @@ export const useAddCreateModal = create<IUseAddCreateModal>((set, get) => ({
 
     dispatchVisibleTypeCreateOptionals(props) {
         const { type, visible } = props ?? {}
-        const getVisible = get().isVisible
-        if (visible && type && !getVisible) {
+        
+        if (visible) {
             set({
                 typeAdd: type,
                 isVisible: visible,
@@ -18,14 +18,11 @@ export const useAddCreateModal = create<IUseAddCreateModal>((set, get) => ({
         }
 
         if (!visible) {
-            set({ isVisible: false })
-            setTimeout(() => {
-                set({ typeAdd: undefined })
-            }, 250)
-            setTimeout(() => {
-                set({ isVisible: undefined })
-            }, 260)
-            return
+            set({
+                typeAdd: undefined,
+                isVisible: false,
+            })
+                        return
         }
     },
 }))
