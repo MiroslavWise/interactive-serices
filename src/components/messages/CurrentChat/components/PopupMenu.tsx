@@ -114,54 +114,6 @@ export const PopupMenu: TPopupMenu = ({ dataUser, isBarter, idBarter }) => {
             ?.additional
     }, [dataUser?.addresses])
 
-    function handleCanceled() {
-        if (!loading) {
-            setLoading(true)
-            serviceBarters
-                .patch(
-                    {
-                        updatedById: userId,
-                        status: "canceled",
-                    },
-                    idBarter!,
-                )
-                .then((response) => {
-                    refetch().finally(() => setLoading(false))
-                    setIsVisible(false)
-                })
-        }
-    }
-
-    function handleCompleted() {
-        dispatchCompletion({
-            visible: true,
-            dataBarter: data?.res!,
-            dataUser: dataUser!,
-            threadId: Number(idThread),
-        })
-        setIsVisible(false)
-    }
-
-    function handleSuccess() {
-        if (!loading) {
-            setLoading(true)
-            serviceBarters
-                .patch(
-                    {
-                        updatedById: userId,
-                        status: "executed",
-                    },
-                    idBarter!,
-                )
-                .then((response) => {
-                    setTimeout(() => {
-                        refetch().finally(() => setLoading(false))
-                        setIsVisible(false)
-                    }, 1650)
-                })
-        }
-    }
-
     return (
         <div
             className={styles.wrapper}

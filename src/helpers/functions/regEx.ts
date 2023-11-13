@@ -2,7 +2,7 @@ export const regExEmail =
     /^([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z]{2,6}$/g
 
 export const regExUserName = /@[\w-]+/g
-export const matchesUserName = (value: string) => value.match(regExUserName)
+export const matchesUserName = (value: string) => regExUserName.test(value)
 
 export const checkPasswordStrength = (password: string): boolean =>
     /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/g.test(password)

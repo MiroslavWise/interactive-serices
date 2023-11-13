@@ -14,8 +14,8 @@ import {
     usePush,
     useForgotPasswordHelper,
 } from "@/helpers"
+import { useModalAuth } from "@/store/hooks"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
@@ -27,7 +27,7 @@ interface IValues {
 export const ContentResetPassword: TContentResetPassword = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     const {
         register,
         watch,

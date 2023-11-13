@@ -5,7 +5,6 @@ import { isMobile } from "react-device-detect"
 
 import { HistoryExchangeOffers, LeftAsideProfile } from "@/components/profile"
 
-import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 
@@ -26,24 +25,12 @@ export default function LayoutMainProfile({
     }, [isAuth, handlePush])
 
     return isMobile ? (
-        <div className={cx(styles.page, isMobile && styles.mobile)}>
-            <div
-                className={cx(
-                    styles.containerProfile,
-                    isMobile && styles.mobile,
-                )}
-            >
-                {children}
-            </div>
+        <div className={styles.page}>
+            <div className={styles.containerProfile}>{children}</div>
         </div>
     ) : (
-        <div className={cx(styles.page)}>
-            <div
-                className={cx(
-                    styles.containerProfile,
-                    isMobile && styles.mobile,
-                )}
-            >
+        <div className={styles.page}>
+            <div className={styles.containerProfile}>
                 <LeftAsideProfile />
                 {children}
                 <HistoryExchangeOffers />

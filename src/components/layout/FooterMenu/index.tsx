@@ -6,11 +6,7 @@ import { isMobile, isTablet } from "react-device-detect"
 
 import type { TFooterMenu } from "./types"
 
-import {
-    useAuth,
-    useVisibleAndTypeAuthModal,
-    useWelcomeModal,
-} from "@/store/hooks"
+import { useAuth, useModalAuth, useWelcomeModal } from "@/store/hooks"
 import { MENU_ITEMS } from "./constants"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useActivePath } from "@/helpers/hooks/useActivePash"
@@ -18,7 +14,7 @@ import { useActivePath } from "@/helpers/hooks/useActivePash"
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
-    const { visible, type, setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { visible, type, setVisibleAndType } = useModalAuth()
     const { setVisible } = useWelcomeModal()
     const { isAuth } = useAuth()
     const valuePath = useActivePath()

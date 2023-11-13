@@ -9,9 +9,8 @@ import type { TContentForgotPassword } from "../types/types"
 import { ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { regExEmail } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
@@ -26,7 +25,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({
 }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     const {
         register,
         handleSubmit,

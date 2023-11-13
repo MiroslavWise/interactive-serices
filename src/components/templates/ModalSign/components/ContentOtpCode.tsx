@@ -16,15 +16,14 @@ import { ButtonFill } from "@/components/common/Buttons"
 
 import { useTokenHelper } from "@/helpers"
 import { serviceUsers } from "@/services/users"
-import { useAuth } from "@/store/hooks/useAuth"
-import { useVisibleAndTypeAuthModal, useUpdateProfile } from "@/store/hooks"
+import { useModalAuth, useUpdateProfile, useAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentOtpCode: TContentOtpCode = ({}) => {
     const { setToken, changeAuth, email } = useAuth()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     const { setVisible } = useUpdateProfile()
     const [inputValues, setInputValues] = useState(Array(6).fill(""))
     const [errorCode, setErrorCode] = useState("")

@@ -6,7 +6,19 @@ interface IInputData {
     rules?: boolean
 }
 
+interface IButton {
+    label?: string
+    
+}
+
 export type TTypeInput = DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
-> & IInputData
+> &
+    IInputData
+
+export type TTypeButton = DetailedHTMLProps<
+    InputHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+> &
+    IButton

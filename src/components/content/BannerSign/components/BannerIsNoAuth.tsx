@@ -7,13 +7,13 @@ import { motion } from "framer-motion"
 import { GlassesBanner } from "@/components/common/Glasses"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 import { useVisibleAbout } from "@/store/state/useVisibleAbout"
 
 import styles from "../styles/banner.module.scss"
 
 export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     const { dispatchVisibleAbout } = useVisibleAbout()
 
     return (

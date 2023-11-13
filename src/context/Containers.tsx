@@ -27,13 +27,13 @@ import BalloonPlaceMark from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
     useAuth,
+    useModalAuth,
     useTermsOfUse,
     useBalloonCard,
     useDroverFriends,
     useVisibleModalBarter,
     useVisibleNotifications,
     useUpdateMutualOffer,
-    useVisibleAndTypeAuthModal,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -41,9 +41,9 @@ export const Containers = () => {
     const { visible } = useBalloonCard()
     const { isVisible } = useVisibleModalBarter()
     const { visibleFriends } = useDroverFriends()
+    const { visible: visibleAuth } = useModalAuth()
     const { visiblePolicy, visibleRules } = useTermsOfUse()
     const { visibleUpdateMutual } = useUpdateMutualOffer()
-    const { visible: visibleAuth } = useVisibleAndTypeAuthModal()
     const { visible: visibleNotifications } = useVisibleNotifications()
 
     return (

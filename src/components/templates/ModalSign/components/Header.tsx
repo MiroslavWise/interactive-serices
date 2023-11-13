@@ -9,11 +9,11 @@ import { LogoSheira } from "./LogoSheira"
 import { CircleImageHeader } from "./CircleImageHeader"
 import { MotionSectionOpacity } from "@/components/common/Motion"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 
 export const HeaderAuth: THeaderModal = memo(
     function $HeaderAuth(email, typeVerification) {
-        const { type } = useVisibleAndTypeAuthModal()
+        const { type } = useModalAuth()
 
         const content: { h3: string; p: string } | null = useMemo(() => {
             if (type === null || type === "SelectVerification") {

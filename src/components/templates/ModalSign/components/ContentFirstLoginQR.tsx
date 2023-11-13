@@ -10,14 +10,14 @@ import { ButtonFill } from "@/components/common/Buttons"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
     const { setToken, email } = useAuth()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     //todo
     const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
     const [errorCode, setErrorCode] = useState("")
