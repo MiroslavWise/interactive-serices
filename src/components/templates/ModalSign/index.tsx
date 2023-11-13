@@ -8,13 +8,13 @@ import { GlassesBanner } from "@/components/common/Glasses"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks/useAuth"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export function ModalSign() {
     const { isAuth } = useAuth()
-    const { type, visible, setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { type, visible, setVisibleAndType } = useModalAuth()
 
     const buttonClose = (
         <ButtonClose

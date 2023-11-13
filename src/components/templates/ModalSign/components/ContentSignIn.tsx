@@ -9,12 +9,12 @@ import { LinksSocial } from "./LinksSocial"
 import { ButtonFill } from "@/components/common/Buttons"
 import { Input, InputPassword } from "@/components/common"
 
+import { useAuth, useModalAuth, useWelcomeModal } from "@/store/hooks"
 import {
-    useAuth,
-    useVisibleAndTypeAuthModal,
-    useWelcomeModal,
-} from "@/store/hooks"
-import { useTokenHelper } from "@/helpers"
+    checkPasswordStrength,
+    matchesUserName,
+    useTokenHelper,
+} from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 
@@ -24,7 +24,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setToken, changeAuth } = useAuth()
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     const { setVisible } = useWelcomeModal()
     const {
         watch,
@@ -34,11 +34,19 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         setError,
         setValue,
     } = useForm<IValuesSignForm>({
-        mode: "onBlur",
+        mode: "onSubmit",
+        reValidateMode: "onChange",
     })
 
     const onEnter = async (values: IValuesSignForm) => {
         if (!loading) {
+            if (!matchesUserName(values.email)) {
+                return setError("email", { message: "email not valid" })
+            }
+            if (!checkPasswordStrength(values?.password)) {
+                setError("password", { message: "invalid password" })
+                return
+            }
             setLoading(true)
             useTokenHelper
                 .login({
@@ -130,7 +138,11 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
 
     return (
         <div className={styles.content} data-mobile={isMobile}>
-            <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
+            <form
+                className={styles.form}
+                onSubmit={handleSubmit(onEnter)}
+                noValidate
+            >
                 <section className={styles.section}>
                     <Input
                         label="Email"
@@ -146,9 +158,9 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             errors.email &&
                             errors.email?.message === "user not found"
                                 ? "Такого пользователя не существует"
-                                : errors.email
+                                : errors.email?.message === "email not valid"
                                 ? "Требуется email"
-                                : ""
+                                : "Какая-то ошибка с Email"
                         }
                     />
                     <InputPassword

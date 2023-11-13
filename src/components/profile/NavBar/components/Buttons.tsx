@@ -8,7 +8,7 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import {
     useAuth,
     useVisibleBannerNewServices,
-    useVisibleAndTypeAuthModal,
+    useModalAuth,
 } from "@/store/hooks"
 import { useAddress, useOutsideClickEvent, usePush } from "@/helpers"
 
@@ -20,7 +20,7 @@ export const Buttons = () => {
     const pathname = usePathname()
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { isAddresses } = useAddress()
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     const { isAuth } = useAuth()
     const { handlePush } = usePush()
     const [active, setActive, ref] = useOutsideClickEvent()

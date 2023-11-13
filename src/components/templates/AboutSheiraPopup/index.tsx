@@ -1,23 +1,18 @@
 "use client"
 
 import { Glasses } from "@/components/common/Glasses"
+import { ButtonClose } from "@/components/common/Buttons"
+
 import { useVisibleAbout } from "@/store/state/useVisibleAbout"
-import { motion } from "framer-motion"
 
 import styles from "./styles/style.module.scss"
-import { ButtonClose } from "@/components/common/Buttons"
 
 export const AboutSheiraPopup = () => {
     const { visible, dispatchVisibleAbout } = useVisibleAbout()
 
     return (
         <div data-visible={visible} className={styles.wrapper}>
-            <motion.section
-                initial={{ opacity: 0, visibility: "hidden" }}
-                animate={{ opacity: 1, visibility: "visible" }}
-                exit={{ opacity: 0, visibility: "hidden" }}
-                transition={{ duration: 0.8 }}
-            >
+            <section>
                 <ul>
                     <h2>Аккаунт и профиль:</h2>
                     <li>
@@ -107,7 +102,7 @@ export const AboutSheiraPopup = () => {
                     }}
                 />
                 <Glasses />
-            </motion.section>
+            </section>
         </div>
     )
 }

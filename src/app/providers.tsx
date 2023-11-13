@@ -13,13 +13,16 @@ import {
 import "@/context/DayJSDefault"
 import { AnimatedLoadPage, Glasses } from "@/components/layout"
 
+import {
+    useAuth,
+    useModalAuth,
+    useFetchingSession,
+    useOffersCategories,
+} from "@/store/hooks"
 import { usePush } from "@/helpers"
-import { useAuth } from "@/store/hooks/useAuth"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { isMobile } from "react-device-detect"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -38,7 +41,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
     const { getCategories } = useOffersCategories()
 
     const { offersCategories, getFetchingOffersCategories } =
@@ -84,6 +87,12 @@ export default function Providers({ children }: { children: ReactNode }) {
         document.documentElement.style.setProperty("--vh", `${vh}px`)
         document.documentElement.style.height =
             window.innerHeight.toString() + "px"
+    }, [])
+
+    useEffect(() => {
+        if (typeof isMobile !== "undefined") {
+            document.documentElement.dataset.mobile = `${isMobile}`
+        }
     }, [])
 
     return (

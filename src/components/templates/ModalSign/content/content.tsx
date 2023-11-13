@@ -14,10 +14,10 @@ import { ContentForgotPassword } from "../components/ContentForgotPassword"
 import { ContentCodeVerification } from "../components/ContentCodeVerification"
 import { ContentSelectVerification } from "../components/ContentSelectVerification"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 
 export const Content = memo(function Content() {
-    const { type } = useVisibleAndTypeAuthModal()
+    const { type } = useModalAuth()
     const [valueEmail, setValueEmail] = useState<IResetEmailData>({
         email: "",
         password_reset_expires: null,

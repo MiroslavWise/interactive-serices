@@ -1,7 +1,6 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { isMobile } from "react-device-detect"
 
 import { MotionUL } from "@/components/common/Motion"
 import { ComponentsNotification } from "@/components/profile/ComponentsNotification"
@@ -19,11 +18,7 @@ export default function Notifications() {
         queryKey: ["notifications"],
     })
 
-    console.log("%c dataNotifications", "color: #0ff", dataNotifications)
-
-    return isMobile ? (
-        <></>
-    ) : (
+    return (
         <section className={styles.wrapper}>
             <header>
                 <div data-total>

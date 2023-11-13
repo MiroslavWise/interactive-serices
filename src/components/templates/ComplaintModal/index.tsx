@@ -1,7 +1,6 @@
 "use client"
 
 import { useForm } from "react-hook-form"
-import { isMobile } from "react-device-detect"
 
 import type { IValuesForm } from "./types/types"
 
@@ -10,6 +9,7 @@ import { ButtonClose, ButtonDefault } from "@/components/common/Buttons"
 import { useComplaintModal } from "@/store/state/useComplaintModal"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
 import { useToast } from "@/helpers/hooks/useToast"
+import { cx } from "@/lib/cx"
 
 export const ComplaintModal = () => {
     const {
@@ -45,9 +45,8 @@ export const ComplaintModal = () => {
 
     return visibleComplaint ? (
         <div
-            className={styles.wrapper}
+            className={cx("wrapper-fixed", styles.wrapper)}
             data-visible={visibleComplaint}
-            data-mobile={isMobile}
         >
             <form onSubmit={onSubmit}>
                 <ButtonClose

@@ -30,18 +30,6 @@ export const useVisibleNewServiceBarterRequests =
         },
     }))
 
-export const useVisibleAndTypeAuthModalState =
-    create<IUseVisibleAndTypeAuthModalState>((set, get) => ({
-        visible: false,
-        type: null,
-        setVisibleAndType({ visible, type }) {
-            set({
-                visible: typeof visible !== "undefined" ? visible : get().visible,
-                type: typeof type !== "undefined" ? type : get().type,
-            })
-        },
-    }))
-
 export const useVisibleModalBarterState = create<IUseVisibleModalBarter>(
     (set, get) => ({
         isVisible: false,

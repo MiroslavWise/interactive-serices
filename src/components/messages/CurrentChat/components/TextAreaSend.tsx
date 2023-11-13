@@ -115,21 +115,6 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
                     maxLength={512}
                 />
             )}
-            {isMobile && isBarter ? (
-                <ButtonCircleGradientFill
-                    type="option-1"
-                    image={{
-                        src: "/svg/message-alert-circle.svg",
-                        size: 24,
-                    }}
-                    size={48}
-                    onClick={() => {
-                        setIsVisible(true)
-                    }}
-                    submit="button"
-                    className={styles.info}
-                />
-            ) : null}
             {isMobile ? (
                 <ButtonCircleGradientFill
                     submit="submit"

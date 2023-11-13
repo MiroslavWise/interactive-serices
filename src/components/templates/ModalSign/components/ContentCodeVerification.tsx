@@ -12,7 +12,7 @@ import type { TContentCodeVerification } from "../types/types"
 
 import { ButtonFill } from "@/components/common/Buttons"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
@@ -24,7 +24,7 @@ export const ContentCodeVerification: TContentCodeVerification = ({
     const [inputValues, setInputValues] = useState(Array(4).fill(""))
     const [errorCode, setErrorCode] = useState("")
     const inputRefs = useRef<HTMLInputElement[]>([])
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { setVisibleAndType } = useModalAuth()
 
     const handleChange = (
         event: ChangeEvent<HTMLInputElement>,

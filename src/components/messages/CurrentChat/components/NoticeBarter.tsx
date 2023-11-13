@@ -2,38 +2,41 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { useQuery } from "@tanstack/react-query"
-import { motion } from "framer-motion"
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
+
+import type { IUserResponse } from "@/services/users/types/usersService"
 
 import { BadgeServices } from "@/components/common/Badge"
+import { GeoTagging } from "@/components/common/GeoTagging"
 import { NextImageMotion } from "@/components/common/Image"
+import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
+import {
+    useAuth,
+    useOffersCategories,
+    useCompletionTransaction,
+    usePopupMenuChat,
+} from "@/store/hooks"
 import { usePush } from "@/helpers"
-import { useAuth } from "@/store/hooks"
 import { useWebSocket } from "@/context"
 import { serviceBarters } from "@/services/barters"
 import { serviceTestimonials } from "@/services/testimonials"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { IUserResponse } from "@/services/users/types/usersService"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
-import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/notice-barter.module.scss"
 
 export const NoticeBarter = ({
     idBarter,
     userData,
-    setIsLoadingFullInfo,
     refetchThread,
+    setIsLoadingFullInfo,
 }: {
     idBarter: number
     userData?: IUserResponse | null
-    setIsLoadingFullInfo: Dispatch<SetStateAction<boolean>>
     refetchThread: () => Promise<any>
+    setIsLoadingFullInfo: Dispatch<SetStateAction<boolean>>
 }) => {
     const { userId, user } = useAuth()
     const threadId = useSearchParams().get("thread")
@@ -41,6 +44,7 @@ export const NoticeBarter = ({
     const [loading, setLoading] = useState(false)
     const { socket } = useWebSocket() ?? {}
     const { handleReplace } = usePush()
+    const { setIsVisible } = usePopupMenuChat()
     const { dispatchCompletion } = useCompletionTransaction()
     const { data, refetch } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
@@ -238,11 +242,7 @@ export const NoticeBarter = ({
 
     if (isMobile) {
         return (
-            <motion.div
-                initial={{ opacity: 0, visibility: "hidden" }}
-                animate={{ opacity: 1, visibility: "visible" }}
-                transition={{ duration: 0.5 }}
-                exit={{ opacity: 0, visibility: "hidden" }}
+            <div
                 className={styles.wrapperMobile}
                 data-destroyed={["canceled", "destroyed"]?.includes(
                     data?.res?.status!,
@@ -260,10 +260,43 @@ export const NoticeBarter = ({
                             <Image
                                 src="/svg/chevron-left.svg"
                                 alt="chevron-left"
-                                height={22}
-                                width={22}
+                                data-image-back
+                                height={24}
+                                width={24}
                             />
                         </div>
+                        <div data-user>
+                            {userData ? (
+                                <NextImageMotion
+                                    src={
+                                        userData?.profile?.image?.attributes
+                                            ?.url
+                                    }
+                                    alt="avatar"
+                                    width={40}
+                                    height={40}
+                                />
+                            ) : (
+                                <div data-avatar />
+                            )}
+                            <h5>
+                                {userData?.profile?.firstName || " "}{" "}
+                                {userData?.profile?.lastName || " "}
+                            </h5>
+                        </div>
+                        <div
+                            data-dots
+                            onClick={() => setIsVisible()}
+                        >
+                            <Image
+                                src="/svg/dots-vertical.svg"
+                                alt="dots-vertical"
+                                width={24}
+                                height={24}
+                            />
+                        </div>
+                    </div>
+                    <div data-sub-header>
                         <div data-barter>
                             <BadgeServices
                                 {...data?.res?.initiator!}
@@ -280,16 +313,6 @@ export const NoticeBarter = ({
                                 isClickable
                             />
                         </div>
-                        {userData ? (
-                            <NextImageMotion
-                                src={userData?.profile?.image?.attributes?.url}
-                                alt="avatar"
-                                width={40}
-                                height={40}
-                            />
-                        ) : (
-                            <div data-avatar />
-                        )}
                     </div>
                     <div data-info>{textInfo}</div>
                     <footer>
@@ -342,16 +365,12 @@ export const NoticeBarter = ({
                         ) : null}
                     </footer>
                 </section>
-            </motion.div>
+            </div>
         )
     }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, visibility: "hidden" }}
-            animate={{ opacity: 1, visibility: "visible" }}
-            transition={{ duration: 0.5 }}
-            exit={{ opacity: 0, visibility: "hidden" }}
+        <div
             className={styles.wrapper}
             data-destroyed={["canceled", "destroyed"]?.includes(
                 data?.res?.status!,
@@ -442,6 +461,6 @@ export const NoticeBarter = ({
                     </section>
                 ) : null}
             </footer>
-        </motion.div>
+        </div>
     )
 }

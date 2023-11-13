@@ -46,3 +46,9 @@
         padding-bottom: 24px;
     }
 }
+
+[data-mobile="true"] {
+    .wrapper {
+        display: none;
+    }
+}
