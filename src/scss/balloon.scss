@@ -38,6 +38,7 @@
                 top: 12px;
                 right: 12px;
                 cursor: pointer;
+                z-index: 121;
                 &[data-visible="true"] {
                     display: none;
                 }

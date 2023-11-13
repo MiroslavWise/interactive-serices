@@ -57,7 +57,7 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
             className={cx("wrapper-fixed", "modal-balloon-modal")}
             data-visible={visible}
             onClick={(e) => {
-                e.stopPropagation()
+                // e.stopPropagation()
                 dispatch({ visible: false })
             }}
             data-mobile={isMobile}
@@ -66,6 +66,7 @@ const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 data-type-offers={type || null}
                 onClick={(event) => {
                     event.stopPropagation()
+                    event.preventDefault()
                 }}
                 ref={refSection}
             >
