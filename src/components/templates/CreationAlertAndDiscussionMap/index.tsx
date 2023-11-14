@@ -1,7 +1,6 @@
 "use client"
 
 import { memo } from "react"
-import { isMobile } from "react-device-detect"
 
 import type { TCreationAlertAndDiscussionMap } from "./types/types"
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
@@ -13,7 +12,7 @@ import { useVisibleBannerNewServices } from "@/store/hooks"
 import { useCreateAlert } from "@/store/state/useCreateAlert"
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
-import { NEW_CREATE_BADGES_ALERT_OR_DISCUSSION } from "../NewServicesBanner/constants"
+import { NEW_CREATE_BADGES } from "../NewServicesBanner/constants"
 
 import styles from "./styles/style.module.scss"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
@@ -24,7 +23,8 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     isOpen,
     addressInit,
 }) => {
-    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
+    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } =
+        useAddCreateModal()
     const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { setAddressInit: setAddressInitAlert } = useCreateAlert()
     const { setAddressInit: setAddressInitDiscussion } = useCreateDiscussion()
@@ -54,22 +54,15 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
 
     return (
         <div
-            className={cx(
-                styles.container,
-                isOpen && styles.open,
-                isMobile && styles.mobile,
-            )}
+            className={cx(styles.container, isOpen && styles.open)}
             ref={refCreate}
         >
             <h3>Я хочу создать</h3>
             <section>
-                {NEW_CREATE_BADGES_ALERT_OR_DISCUSSION.map((item) => (
+                {NEW_CREATE_BADGES.map((item) => (
                     <li
                         key={`${item.value}-map-absolute`}
-                        className={cx(
-                            styles.containerLiNew,
-                            isMobile && styles.mobile,
-                        )}
+                        className={cx(styles.containerLiNew)}
                         onClick={() => handleType(item.value!)}
                     >
                         <ImageStatic

@@ -30,7 +30,6 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                         }
                     />
                 ) : null}
-
                 <LabelInput
                     label="Имя"
                     rules
@@ -61,7 +60,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                         errors.username ? "Это поле не может быть пустым" : ""
                     }
                 />
-                <GroupSelectorDate 
+                <GroupSelectorDate
                     label="Дата рождения"
                     watchDay={watch("day")}
                     watchMonth={watch("month")}

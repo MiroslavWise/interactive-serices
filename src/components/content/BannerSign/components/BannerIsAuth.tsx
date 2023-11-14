@@ -1,9 +1,8 @@
 "use client"
 
-import { memo } from "react"
 import { motion } from "framer-motion"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 import { GlassesBanner } from "@/components/common/Glasses"
 import { AchievementsCount } from "@/components/profile/AchievementsCount"
 import { FooterAsideLeft } from "@/components/profile/LeftAsideProfile/components/Footer"
@@ -13,7 +12,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/banner.module.scss"
 
-export const BannerIsAuth = memo(function $BannerIsAuth() {
+export const BannerIsAuth = () => {
     const { handlePush } = usePush()
 
     return (
@@ -27,15 +26,14 @@ export const BannerIsAuth = memo(function $BannerIsAuth() {
             <section data-content>
                 <HeaderBlock />
                 <AchievementsCount />
-                <ButtonFill
+                <Button
                     label="Профиль"
-                    handleClick={() => {
-                        handlePush(`/profile`)
-                    }}
+                    typeButton="fill-primary"
+                    onClick={() => handlePush(`/profile`)}
                 />
             </section>
             <FooterAsideLeft />
             <GlassesBanner />
         </motion.ul>
     )
-})
+}

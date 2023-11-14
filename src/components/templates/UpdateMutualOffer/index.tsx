@@ -10,6 +10,7 @@ import type { IValuesForm } from "./types/types"
 import type { IPatchOffers } from "@/services/offers/types"
 
 import {
+    Button,
     ButtonClose,
     ButtonDefault,
     ButtonFill,
@@ -255,16 +256,18 @@ export const UpdateMutualOffer = () => {
                         </div>
                     </div>
                     <footer>
-                        <ButtonDefault
+                        <Button
                             label="Отмена"
-                            submit="button"
-                            handleClick={cancel}
-                            suffix={load}
+                            typeButton="regular-primary"
+                            type="button"
+                            onClick={cancel}
+                            loading={loading}
                         />
-                        <ButtonFill
+                        <Button
                             label="Обновить"
-                            submit="submit"
-                            suffix={load}
+                            typeButton="fill-primary"
+                            type="submit"
+                            loading={loading}
                         />
                     </footer>
                 </form>

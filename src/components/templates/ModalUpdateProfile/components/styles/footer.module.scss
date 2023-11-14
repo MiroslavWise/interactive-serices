@@ -9,8 +9,11 @@
 
 .button {
     max-width: 300px;
+}
 
-    &.mobile {
+[data-mobile="true"] {
+    .button {
         max-width: 100%;
+        width: 100%;
     }
 }

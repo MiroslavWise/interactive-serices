@@ -6,15 +6,17 @@ import { ButtonDefault } from "@/components/common/Buttons"
 
 import styles from "./styles/style.module.scss"
 import { useOut } from "@/helpers/hooks/useOut"
+import { Button } from "@/components/common"
 
 export const FooterAsideLeft = () => {
     const { out } = useOut()
 
     return (
         <footer className={styles.footer}>
-            <ButtonDefault
+            <Button
                 label="Выйти"
-                prefix={
+                typeButton="regular-primary"
+                prefixIcon={
                     <Image
                         src="/svg/log-out.svg"
                         alt="out"
@@ -22,7 +24,7 @@ export const FooterAsideLeft = () => {
                         height={16}
                     />
                 }
-                handleClick={out}
+                onClick={out}
             />
             <section>
                 <p>Нужна помощь?</p>

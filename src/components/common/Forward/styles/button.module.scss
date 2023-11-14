@@ -1,0 +1,89 @@
+.container {
+    position: relative;
+    border: none;
+    outline: none;
+    width: 100%;
+    border-radius: 20px;
+    padding: 6px 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    touch-action: manipulation;
+    z-index: 2;
+    height: 40px;
+
+    & > span {
+        font-size: 18px;
+        font-weight: 500;
+        white-space: nowrap;
+        letter-spacing: -0.2px;
+
+        &::selection {
+            background-color: transparent;
+            color: inherit;
+        }
+    }
+
+    @media screen and (max-width: 746px) {
+        height: 36px;
+        border-radius: 18px;
+        & > span {
+            font-size: 14px;
+        }
+    }
+
+    &[data-type-button="fill-primary"] {
+        background: var(--gradient-primary);
+        &:focus {
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        }
+        & > span {
+            color: var(--supporting-white);
+        }
+    }
+    &[data-type-button="fill-orange"] {
+        background: var(--gradient-optional-1);
+        &:focus {
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+        }
+        & > span {
+            color: var(--supporting-white);
+        }
+    }
+    &[data-type-button="regular-primary"] {
+        border: 2px solid transparent !important;
+        background:
+            linear-gradient(
+                    var(--button-default-background),
+                    var(--button-default-background)
+                )
+                padding-box,
+            var(--gradient-primary) border-box !important;
+
+        & > span {
+            color: var(--primary-500);
+        }
+    }
+    &[data-type-button="regular-orange"] {
+        border: 2px solid transparent !important;
+        background:
+            linear-gradient(
+                    var(--button-default-background),
+                    var(--button-default-background)
+                )
+                padding-box,
+            var(--gradient-optional-1) border-box !important;
+
+        & > span {
+            color: #ee4e29;
+        }
+    }
+
+    &:disabled {
+        background: var(--gray-200) !important;
+    }
+}

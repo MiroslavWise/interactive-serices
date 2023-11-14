@@ -20,6 +20,7 @@ import {
     CompletionTransaction,
     CreateNewOptionModal,
     NewServiceBarterRequests,
+    DataConfirmationPopUp,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -34,6 +35,7 @@ import {
     useVisibleModalBarter,
     useVisibleNotifications,
     useUpdateMutualOffer,
+    useDataConfirmationPopUp,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -45,6 +47,7 @@ export const Containers = () => {
     const { visiblePolicy, visibleRules } = useTermsOfUse()
     const { visibleUpdateMutual } = useUpdateMutualOffer()
     const { visible: visibleNotifications } = useVisibleNotifications()
+    const { visibleDataConfirmation } = useDataConfirmationPopUp()
 
     return (
         <>
@@ -59,6 +62,7 @@ export const Containers = () => {
             {visible && <BalloonPlaceMark />}
             {visibleAuth && !token && <ModalSign />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
+            {visibleDataConfirmation && <DataConfirmationPopUp />}
             {token && (
                 <>
                     <ComplaintModal />

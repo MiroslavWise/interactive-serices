@@ -19,7 +19,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 
-    &.mobile {
+    &[data-mobile="true"] {
         padding: 16px;
         border-radius: 16px;
         border-width: 1px;

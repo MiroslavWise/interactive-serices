@@ -1,12 +1,8 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import type { TFooterButtons } from "./types/types"
 
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
-
-import { cx } from "@/lib/cx"
+import { Button } from "@/components/common"
 
 import styles from "./styles/footer-buttons.module.scss"
 
@@ -14,20 +10,22 @@ export const FooterButtons: TFooterButtons = ({
     disabled,
     handleNext,
     handleExit,
+    loading,
 }) => {
     return (
-        <footer className={cx(styles.footer, isMobile && styles.mobile)}>
-            <ButtonDefault
+        <footer className={styles.footer}>
+            <Button
                 label="Отмена"
-                classNames={styles.button}
-                handleClick={handleExit}
+                typeButton="regular-primary"
+                onClick={handleExit}
+                loading={loading}
             />
-            <ButtonFill
+            <Button
                 label="Далее"
-                type="primary"
-                classNames={styles.button}
-                handleClick={handleNext}
-                disabled={disabled}
+                typeButton="fill-primary"
+                onClick={handleNext}
+                disabled={!!disabled}
+                loading={loading}
             />
         </footer>
     )
