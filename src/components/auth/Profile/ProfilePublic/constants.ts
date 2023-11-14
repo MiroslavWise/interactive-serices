@@ -7,7 +7,7 @@ export const VALUES: ISegmentValues<string>[] = [
     },
     {
         value: "services",
-        label: "Услуги",
+        label: "Предложения",
     },
     // {
     //     value: "blogs",
