@@ -1,4 +1,9 @@
-import type { DetailedHTMLProps, InputHTMLAttributes } from "react"
+import type {
+    ButtonHTMLAttributes,
+    DetailedHTMLProps,
+    InputHTMLAttributes,
+    ReactNode,
+} from "react"
 
 interface IInputData {
     label?: string
@@ -6,9 +11,18 @@ interface IInputData {
     rules?: boolean
 }
 
+type TTypeButtonPrimary =
+    | "fill-primary"
+    | "fill-orange"
+    | "regular-primary"
+    | "regular-orange"
+
 interface IButton {
     label?: string
-    
+    loading?: boolean
+    suffixIcon?: ReactNode
+    prefixIcon?: ReactNode
+    typeButton?: TTypeButtonPrimary
 }
 
 export type TTypeInput = DetailedHTMLProps<
@@ -18,7 +32,7 @@ export type TTypeInput = DetailedHTMLProps<
     IInputData
 
 export type TTypeButton = DetailedHTMLProps<
-    InputHTMLAttributes<HTMLButtonElement>,
+    ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
 > &
     IButton

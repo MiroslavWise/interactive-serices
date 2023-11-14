@@ -1,7 +1,7 @@
 .wrapper {
     z-index: 1001;
     transition: all 0.3s ease-in-out 0.01s;
-    position: absolute !important;
+    position: fixed;
 
     & > [data-container] {
         position: relative;
@@ -29,8 +29,10 @@
             z-index: 2;
         }
     }
+}
 
-    &[data-mobile="false"] {
+[data-mobile="false"] {
+    .wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -69,7 +71,9 @@
             }
         }
     }
-    &[data-mobile="true"] {
+}
+[data-mobile="true"] {
+    .wrapper {
         background: var(--background);
 
         & > [data-container] {

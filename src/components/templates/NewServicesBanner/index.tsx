@@ -1,14 +1,12 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { isMobile } from "react-device-detect"
-
 import type { TNewServicesBanner } from "./types/types"
 
 import { Glasses } from "./components/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
 import { NewCreateBadge } from "./components/NewCreateBadge"
 
+import { cx } from "@/lib/cx"
 import { NEW_CREATE_BADGES } from "./constants"
 import { useVisibleBannerNewServices } from "@/store/hooks/useVisible"
 
@@ -24,27 +22,18 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
 
     return isVisibleNewServicesBanner ? (
         <div
-            className={styles.wrapper}
-            data-mobile={isMobile}
-            data-active={isVisibleNewServicesBanner}
+            className={cx("wrapper-fixed", styles.wrapper)}
+            data-visible={isVisibleNewServicesBanner}
         >
-            <motion.div
-                initial={{ opacity: 0, visibility: "hidden" }}
-                animate={{ opacity: 1, visibility: "visible" }}
-                exit={{ opacity: 0, visibility: "hidden" }}
-                transition={{ duration: 0.5 }}
-                data-container
-            >
+            <div data-container>
                 <h3>Я хочу создать</h3>
                 <ul>
-                    {NEW_CREATE_BADGES.filter((_) => _.value !== "offer").map(
-                        (item) => (
-                            <NewCreateBadge
-                                key={`${item.value}_${item.label}`}
-                                {...item}
-                            />
-                        ),
-                    )}
+                    {NEW_CREATE_BADGES.map((item) => (
+                        <NewCreateBadge
+                            key={`${item.value}_${item.label}`}
+                            {...item}
+                        />
+                    ))}
                 </ul>
                 <ButtonClose
                     onClick={close}
@@ -54,7 +43,7 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
                     }}
                 />
                 <Glasses />
-            </motion.div>
+            </div>
         </div>
     ) : null
 }

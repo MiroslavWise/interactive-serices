@@ -7,8 +7,10 @@
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease-in-out 0.01s;
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .wrapper {
         padding: 0;
     }
 }
@@ -31,16 +33,18 @@
         gap: 30px;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        height: calc(100% - 152px - 40px - 42px);
+        height: calc(100% - 78px);
         z-index: 2;
     }
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .container {
         border-radius: 0;
         max-width: 100%;
-
         & > ul {
-            padding: 20px;
+            height: calc(100% - 66px);
+            padding: 16px;
         }
     }
 }

@@ -12,7 +12,7 @@ import type { IValuesForm } from "./types/types"
 import { ButtonClose, ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store/hooks"
+import { useAuth, useDataConfirmationPopUp } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -39,6 +39,7 @@ export const CompletionTransaction = () => {
     })
     const { visible, dataBarter, dataUser, dispatchCompletion, threadId } =
         useCompletionTransaction()
+    const { dispatchDataConfirmation } = useDataConfirmationPopUp()
 
     const { refetch } = useQuery({
         queryFn: () => serviceBarters.getId(dataBarter?.id!),
@@ -122,13 +123,18 @@ export const CompletionTransaction = () => {
                             .then((res) => {
                                 console.log("serviceBarters response: ", res)
                                 if (res.ok) {
-                                    on(
-                                        {
-                                            message:
-                                                `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
-                                        },
-                                        "success",
-                                    )
+                                    dispatchDataConfirmation({
+                                        visible: true,
+                                        type: "feedback",
+                                        nameFeedback:
+                                            dataUser?.profile?.firstName!,
+                                    })
+                                    // on(
+                                    //     {
+                                    //         message: `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
+                                    //     },
+                                    //     "success",
+                                    // )
                                 } else {
                                     on(
                                         {
@@ -150,12 +156,11 @@ export const CompletionTransaction = () => {
                     })
                 } else {
                     if (responses[0]?.ok) {
-                        on(
-                            {
-                                message: `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
-                            },
-                            "success",
-                        )
+                        dispatchDataConfirmation({
+                            visible: true,
+                            type: "feedback",
+                            nameFeedback: dataUser?.profile?.firstName!,
+                        })
                     } else {
                         on(
                             {

@@ -113,7 +113,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                                 {dataProfile?.res?.firstName}{" "}
                                 {dataProfile?.res?.lastName}
                             </p>
-                            <div data-rate>
+                            {/* <div data-rate>
                                 <Image
                                     src="/svg/star.svg"
                                     alt="star"
@@ -121,7 +121,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                                     width={7.16}
                                 />
                                 <span>{4.5}</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>

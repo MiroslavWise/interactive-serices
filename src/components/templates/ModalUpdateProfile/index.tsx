@@ -18,11 +18,11 @@ import { ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
+import { useToast } from "@/helpers/hooks/useToast"
 import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { useToast } from "@/helpers/hooks/useToast"
 
 export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
@@ -176,7 +176,6 @@ export const ModalUpdateProfile = () => {
         <div
             className={cx("wrapper-fixed", styles.wrapper)}
             data-visible={isVisible}
-            data-mobile={isMobile}
         >
             <div data-container>
                 {!isMobile && (

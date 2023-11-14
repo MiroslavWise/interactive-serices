@@ -8,7 +8,7 @@ export const VALUES: ISegmentValues<TTypeSegment>[] = [
     },
     {
         value: "services",
-        label: "Услуги",
+        label: "Предложения",
     },
     // {
     //     value: "blogs",

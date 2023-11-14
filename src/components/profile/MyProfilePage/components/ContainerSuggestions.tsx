@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TContainerSuggestions } from "./types/types"
@@ -13,24 +12,16 @@ import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerSuggestions: TContainerSuggestions = ({
-    isOfferOrRequest,
-}) => {
+export const ContainerSuggestions: TContainerSuggestions = () => {
     const { userId, user, imageProfile } = useAuth()
 
     const { data, refetch } = useQuery({
-        queryFn: () =>
-            serviceOffers.getUserId(userId!, { provider: isOfferOrRequest }),
-        queryKey: ["offers", `user=${userId}`, `provider=${isOfferOrRequest}`],
+        queryFn: () => serviceOffers.getUserId(userId!, { provider: "offer" }),
+        queryKey: ["offers", `user=${userId}`, `provider=offer`],
     })
 
     return (
-        <MotionUL
-            classNames={[styles.containerSuggestions]}
-            data={{
-                "data-mobile": isMobile,
-            }}
-        >
+        <MotionUL classNames={[styles.containerSuggestions]}>
             {Array.isArray(data?.res)
                 ? data?.res.map((item, index) => (
                       <CardSuggestion

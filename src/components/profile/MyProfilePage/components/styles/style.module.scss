@@ -118,8 +118,10 @@
             font-size: 14px;
         }
     }
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .containerTagAndButton {
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -175,6 +177,18 @@
         margin-bottom: 16px;
     }
     &[data-mobile="true"] {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 16px;
+        overflow-y: visible;
+    }
+}
+
+[data-mobile="true"] {
+    .containerSuggestions {
         height: auto;
         display: flex;
         flex-direction: column;

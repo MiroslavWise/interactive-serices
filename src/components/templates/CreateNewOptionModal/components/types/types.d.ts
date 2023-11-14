@@ -22,6 +22,7 @@ interface ILabelAndSelectAddress {
 
 interface IFooterButtons {
     disabled: boolean
+    loading: boolean
     handleNext: DispatchWithoutAction
     handleExit: DispatchWithoutAction
 }

@@ -39,12 +39,11 @@ export const CreateNewOptionModal = () => {
     return (
         <div
             className={cx("wrapper-fixed", styles.wrapper)}
-            data-mobile={isMobile}
             data-visible={isVisible}
         >
-            <div className={styles.container} data-mobile={isMobile}>
+            <div className={styles.container}>
                 {isMobile ? (
-                    <div className={cx(styles.headerMobile)} onClick={close}>
+                    <div className={styles.headerMobile} onClick={close}>
                         <Image
                             src="/svg/chevron-left.svg"
                             alt="chevron-left"

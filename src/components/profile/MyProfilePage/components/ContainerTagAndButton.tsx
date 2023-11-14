@@ -1,51 +1,28 @@
 "use client"
 
-import { useState } from "react"
-import Image from "next/image"
-import { isMobile } from "react-device-detect"
+// import { useState } from "react"
+// import Image from "next/image"
 
 import type { TContainerTagAndButton } from "./types/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
-import { SpoilerNotAdress } from "../../NavBar/components/SpoilerNotAdress"
+// import { ButtonFill } from "@/components/common/Buttons"
+// import { SpoilerNotAdress } from "../../NavBar/components/SpoilerNotAdress"
 
-import { useAddress } from "@/helpers"
-import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
+// import { useAddress } from "@/helpers"
+// import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerTagAndButton: TContainerTagAndButton = ({
-    isOfferOrRequest,
-    setIsOfferOrRequest,
-}) => {
-    const [active, setActive] = useState(false)
-    const { setIsVisibleNewServiceBarterRequests } =
-        useVisibleNewServiceBarterRequests()
-    const { isAddresses } = useAddress()
-
-    function handle(value: "offer" | "request") {
-        setIsOfferOrRequest(value)
-    }
+export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {
+    // const [active, setActive] = useState(false)
+    // const { setIsVisibleNewServiceBarterRequests } =
+    //     useVisibleNewServiceBarterRequests()
+    // const { isAddresses } = useAddress()
 
     return (
-        <div data-mobile={isMobile} className={styles.containerTagAndButton}>
-            <h4>
-                Мои{" "}
-                <span
-                    data-active={isOfferOrRequest === "offer"}
-                    onClick={() => handle("offer")}
-                >
-                    предложения
-                </span>{" "}
-                и{" "}
-                <span
-                    data-active={isOfferOrRequest === "request"}
-                    onClick={() => handle("request")}
-                >
-                    запросы
-                </span>
-            </h4>
-            <ButtonFill
+        <div className={styles.containerTagAndButton}>
+            <h4>Мои предложения</h4>
+            {/* <ButtonFill
                 type="primary"
                 label="Добавить"
                 classNames={styles.widthButton}
@@ -64,8 +41,8 @@ export const ContainerTagAndButton: TContainerTagAndButton = ({
                         setActive(true)
                     }
                 }}
-            />
-            <SpoilerNotAdress {...{ active, setActive }} />
+            /> */}
+            {/* <SpoilerNotAdress {...{ active, setActive }} /> */}
         </div>
     )
 }

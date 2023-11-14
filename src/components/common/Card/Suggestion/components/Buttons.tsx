@@ -7,7 +7,7 @@ import { useTheme } from "next-themes"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
@@ -50,8 +50,10 @@ export const Buttons = ({
 
     return (
         <section className={styles.containerButtons}>
-            <ButtonFill
-                type={systemTheme === "dark" ? "primary" : "optional_pink"}
+            <Button
+                typeButton={
+                    systemTheme === "dark" ? "fill-primary" : "fill-orange"
+                }
                 label={
                     offer?.provider === "offer"
                         ? "Изменить предложение"
@@ -59,8 +61,8 @@ export const Buttons = ({
                         ? "Изменить запрос"
                         : "Изменить"
                 }
-                handleClick={handleUpdate}
-                prefix={
+                onClick={handleUpdate}
+                prefixIcon={
                     <Image
                         src="/svg/edit-white.svg"
                         alt="edit"
@@ -68,7 +70,7 @@ export const Buttons = ({
                         height={16}
                     />
                 }
-                classNames={cx(styles.buttonFill, styles[offer?.provider!])}
+                className={cx(styles.buttonFill, styles[offer?.provider!])}
             />
             <motion.div
                 className={styles.buttonTrash}
@@ -79,11 +81,10 @@ export const Buttons = ({
             >
                 {isOpen ? (
                     <>
-                        <ButtonFill
-                            handleClick={handleDelete}
+                        <Button
                             label="Удалить"
-                            type="primary"
-                            suffix={
+                            typeButton="fill-primary"
+                            suffixIcon={
                                 <Image
                                     src="/svg/trash-black.svg"
                                     alt="trash"
@@ -91,12 +92,13 @@ export const Buttons = ({
                                     height={16}
                                 />
                             }
-                            classNames={styles.buttonDelete}
+                            onClick={handleDelete}
+                            className={styles.buttonDelete}
                         />
-                        <ButtonDefault
+                        <Button
                             label="Отмена"
-                            type="primary"
-                            classNames={styles.buttonDelete}
+                            typeButton="regular-primary"
+                            className={styles.buttonDelete}
                         />
                     </>
                 ) : (

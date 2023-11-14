@@ -12,7 +12,11 @@ import { ButtonFill } from "@/components/common/Buttons"
 import { Input, InputPassword } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { useModalAuth, useTermsOfUse } from "@/store/hooks"
+import {
+    useModalAuth,
+    useTermsOfUse,
+    useDataConfirmationPopUp,
+} from "@/store/hooks"
 import { checkPasswordStrength, matchesUserName } from "@/helpers"
 import { RegistrationService } from "@/services/auth/registrationService"
 
@@ -23,6 +27,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
     const [loading, setLoading] = useState(false)
     const { setVisibleAndType } = useModalAuth()
     const { dispatchPolicy, dispatchRules } = useTermsOfUse()
+    const { dispatchDataConfirmation } = useDataConfirmationPopUp()
     const {
         register,
         watch,
@@ -61,14 +66,18 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         setError("email", { message: "user already exists" })
                     }
                     if (response.ok) {
-                        setVisibleAndType({ type: "SignIn" })
-                        on(
-                            {
-                                message:
-                                    "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
-                            },
-                            "success",
-                        )
+                        setVisibleAndType({ visible: false })
+                        dispatchDataConfirmation({
+                            visible: true,
+                            type: "register",
+                        })
+                        // on(
+                        //     {
+                        //         message:
+                        //             "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
+                        //     },
+                        //     "success",
+                        // )
                     }
                 })
                 .finally(() => {
