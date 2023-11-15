@@ -4,8 +4,10 @@
     padding-left: 32px;
     padding-right: 32px;
     z-index: 20;
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .container {
         height: 84px;
         padding: 20px 20px 16px 20px;
         position: fixed;

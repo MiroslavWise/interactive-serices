@@ -17,10 +17,11 @@ import {
     UpdateMutualOffer,
     ModalUpdateProfile,
     PhotoPreviewModal,
+    HasClustererBalloons,
     CompletionTransaction,
     CreateNewOptionModal,
-    NewServiceBarterRequests,
     DataConfirmationPopUp,
+    NewServiceBarterRequests,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -31,6 +32,7 @@ import {
     useModalAuth,
     useTermsOfUse,
     useBalloonCard,
+    useHasBalloons,
     useDroverFriends,
     useVisibleModalBarter,
     useVisibleNotifications,
@@ -44,6 +46,7 @@ export const Containers = () => {
     const { isVisible } = useVisibleModalBarter()
     const { visibleFriends } = useDroverFriends()
     const { visible: visibleAuth } = useModalAuth()
+    const { visibleHasBalloon } = useHasBalloons()
     const { visiblePolicy, visibleRules } = useTermsOfUse()
     const { visibleUpdateMutual } = useUpdateMutualOffer()
     const { visible: visibleNotifications } = useVisibleNotifications()
@@ -61,6 +64,7 @@ export const Containers = () => {
             <ToastContainer limit={3} />
             {visible && <BalloonPlaceMark />}
             {visibleAuth && !token && <ModalSign />}
+            {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
             {visibleDataConfirmation && <DataConfirmationPopUp />}
             {token && (

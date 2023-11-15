@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
-import type { IThreadsMessages } from "@/services/threads/types"
+import { IResponseMessage } from "@/services/messages/types"
 
 import { Glasses } from "@/components/layout"
 import { PopupMenu } from "../components/PopupMenu"
@@ -19,13 +19,12 @@ import { usePush } from "@/helpers"
 import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
+import { serviceMessages } from "@/services/messages"
 import { NoticeBarter } from "../components/NoticeBarter"
 import { useAuth, usePopupMenuChat } from "@/store/hooks"
 import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "../styles/style.module.scss"
-import { serviceMessages } from "@/services/messages"
-import { IResponseMessage } from "@/services/messages/types"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
@@ -37,6 +36,9 @@ export const CurrentChat = () => {
     const { socket } = useWebSocket() ?? {}
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)
     const [screenHeight, setScreenHeight] = useState<string | number>("100%")
+    const [stateMessages, setStateMessages] = useState<
+        (IResponseMessage & { temporary?: boolean })[]
+    >([])
 
     const { data } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
@@ -99,12 +101,10 @@ export const CurrentChat = () => {
         refetchOnReconnect: true,
     })
 
-    const messages: IResponseMessage[] = useMemo(() => {
-        if (dataMessages?.res) {
-            return dataMessages?.res || []
+    useEffect(() => {
+        if (dataMessages?.res && Array.isArray(dataMessages?.res)) {
+            setStateMessages(dataMessages?.res!)
         }
-
-        return []
     }, [dataMessages?.res])
 
     useEffect(
@@ -122,9 +122,9 @@ export const CurrentChat = () => {
             name: `${dataUser?.res?.profile?.firstName || " "} ${
                 dataUser?.res?.profile?.lastName || " "
             }`,
-            messages: messages,
+            messages: stateMessages,
         }
-    }, [dataUser?.res, messages])
+    }, [dataUser?.res, stateMessages])
 
     useEffect(() => {
         function chatResponse(event: any) {
@@ -161,7 +161,6 @@ export const CurrentChat = () => {
                 className={cx(styles.containerMobile, "height100vh")}
                 style={{ height: screenHeight, paddingTop: isBarter ? 0 : 86 }}
             >
-                {/* <p data-abs> {"height: " + screenHeight}</p> */}
                 {isBarter ? (
                     <NoticeBarter
                         idBarter={data?.res?.barterId!}
@@ -218,7 +217,7 @@ export const CurrentChat = () => {
                     </header>
                 )}
                 <ListMessages
-                    messages={messages}
+                    messages={stateMessages}
                     dataUser={dataUser?.res!}
                     isBarter={isBarter}
                     isLoadingFullInfo={isLoadingFullInfo || !isBarter}
@@ -226,22 +225,19 @@ export const CurrentChat = () => {
                 <TextAreaSend
                     photo={conversationPartner?.photo}
                     fullName={conversationPartner?.name}
+                    setStateMessages={setStateMessages}
                     idUser={Number(idUser)}
                     refetch={refetch}
                     isBarter={isBarter}
                 />
                 <Glasses />
-                <PopupMenu
-                    dataUser={dataUser?.res}
-                    isBarter={isBarter}
-                    idBarter={data?.res?.barterId!}
-                />
+                <PopupMenu dataUser={dataUser?.res} isBarter={isBarter} />
             </section>
         )
     }
 
     return (
-        <section className={cx(styles.container)} data-barter={isBarter}>
+        <section className={styles.container} data-barter={isBarter}>
             {isBarter ? (
                 <NoticeBarter
                     idBarter={data?.res?.barterId!}
@@ -251,7 +247,7 @@ export const CurrentChat = () => {
                 />
             ) : null}
             <ListMessages
-                messages={messages}
+                messages={stateMessages}
                 dataUser={dataUser?.res!}
                 isBarter={isBarter}
                 isLoadingFullInfo={isLoadingFullInfo || !isBarter}
@@ -259,6 +255,7 @@ export const CurrentChat = () => {
             <TextAreaSend
                 photo={conversationPartner?.photo}
                 fullName={conversationPartner?.name}
+                setStateMessages={setStateMessages}
                 idUser={Number(idUser)}
                 refetch={refetch}
                 isBarter={isBarter}

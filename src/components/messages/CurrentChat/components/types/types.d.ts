@@ -1,11 +1,15 @@
-import { IUserResponse } from "@/services/users/types/usersService"
-import type { FC } from "react"
+import type { Dispatch, FC, SetStateAction } from "react"
+import type { IResponseMessage } from "@/services/messages/types"
+import type { IUserResponse } from "@/services/users/types/usersService"
 
 interface ITextAreaSend {
     photo: string
     fullName: string
     idUser: number
     isBarter: boolean
+    setStateMessages: Dispatch<
+        SetStateAction<(IResponseMessage & { temporary?: boolean })[]>
+    >
     refetch(): Promise<any>
 }
 
@@ -15,13 +19,13 @@ interface IItemMessage {
         id: number | string
         message: string
         time: Date | string
+        temporary?: boolean
     }[]
 }
 
 interface IPopupMenu {
     dataUser?: IUserResponse | null
     isBarter: boolean
-    idBarter: number
 }
 
 interface IItemTime {

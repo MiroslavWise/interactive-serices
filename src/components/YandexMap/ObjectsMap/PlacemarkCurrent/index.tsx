@@ -36,6 +36,13 @@ const PlaceState: FC<
     return (
         <Placemark
             geometry={item.reverse()}
+            properties={{
+                id: id!,
+                title: title!,
+                idUser: idUser,
+                item: item,
+                provider: provider,
+            }}
             options={{
                 iconLayout: "default#image",
                 iconImageHref:
@@ -46,7 +53,7 @@ const PlaceState: FC<
                 balloonZIndex: "42",
                 zIndexActive: 50,
             }}
-            onClick={(e: any) => {
+            onClick={(event: any) => {
                 if (dispatch) {
                     dispatch({
                         visible: true,
@@ -55,6 +62,8 @@ const PlaceState: FC<
                         idUser: Number(idUser),
                     })
                 }
+                event.preventDefault()
+                event.stopPropagation()
             }}
         />
     )

@@ -6,7 +6,9 @@ import { IResponseMessage } from "@/services/messages/types"
 function useJoinMessage() {
     const idMessage = useId()
 
-    function join(item_messages: IResponseMessage[]): IReturnMessages[] {
+    function join(
+        item_messages: (IResponseMessage & { temporary?: boolean })[],
+    ): IReturnMessages[] {
         const items: IReturnMessages[] = []
 
         if (item_messages) {
@@ -34,6 +36,7 @@ function useJoinMessage() {
                         message: message?.message || "",
                         id: `${message?.id}-${idMessage}`,
                         time: message?.created!,
+                        temporary: !!message?.temporary,
                     })
                 } else {
                     items.push({
@@ -45,6 +48,7 @@ function useJoinMessage() {
                                 message: message?.message,
                                 id: `${message?.id}-${idMessage}`,
                                 time: message?.created!,
+                                temporary: !!message?.temporary,
                             },
                         ],
                     })
@@ -63,6 +67,7 @@ interface IReturnMessages {
         message: string
         id: string | number
         time: string | Date
+        temporary?: boolean
     }[]
     type: "messages" | "time"
     time?: string

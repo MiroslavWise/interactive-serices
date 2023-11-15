@@ -11,6 +11,7 @@ export const YMapsProvider = ({ children }: { children: ReactNode }) => {
             query={{
                 apikey: env.api_key_yandex,
                 lang: "ru_RU",
+                mode: "release",
             }}
             preload={false}
         >

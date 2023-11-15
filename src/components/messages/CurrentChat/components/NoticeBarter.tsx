@@ -1,11 +1,18 @@
 "use client"
 
+import {
+    memo,
+    useState,
+    Dispatch,
+    useEffect,
+    useMemo,
+    SetStateAction,
+} from "react"
 import dayjs from "dayjs"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 
 import type { IUserResponse } from "@/services/users/types/usersService"
 
@@ -27,7 +34,7 @@ import { serviceTestimonials } from "@/services/testimonials"
 
 import styles from "./styles/notice-barter.module.scss"
 
-export const NoticeBarter = ({
+export const NoticeBarter = memo(function $NoticeBarter({
     idBarter,
     userData,
     refetchThread,
@@ -37,7 +44,7 @@ export const NoticeBarter = ({
     userData?: IUserResponse | null
     refetchThread: () => Promise<any>
     setIsLoadingFullInfo: Dispatch<SetStateAction<boolean>>
-}) => {
+}) {
     const { userId, user } = useAuth()
     const threadId = useSearchParams().get("thread")
     const { categories } = useOffersCategories()
@@ -284,10 +291,7 @@ export const NoticeBarter = ({
                                 {userData?.profile?.lastName || " "}
                             </h5>
                         </div>
-                        <div
-                            data-dots
-                            onClick={() => setIsVisible()}
-                        >
+                        <div data-dots onClick={() => setIsVisible()}>
                             <Image
                                 src="/svg/dots-vertical.svg"
                                 alt="dots-vertical"
@@ -463,4 +467,4 @@ export const NoticeBarter = ({
             </footer>
         </div>
     )
-}
+})

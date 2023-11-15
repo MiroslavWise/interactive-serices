@@ -74,7 +74,6 @@ export function Barter() {
         if (addressId) {
             data.addresses = [Number(addressId)]
         }
-        data.userId = Number(userId!)
         data.initialId = Number(values?.offerMyId!)
 
         serviceBarters.post(data).then((response) => {
