@@ -15,7 +15,7 @@
         "prod": "next lint --no-cache && next build && npx serve@latest out -p 3000"
     },
     "dependencies": {
-        "@pbe/react-yandex-maps": "^1.2.4",
+        "@pbe/react-yandex-maps": "1.2.5",
         "@tanstack/react-query": "^5.7.2",
         "dayjs": "^1.11.8",
         "dotenv": "^16.3.1",

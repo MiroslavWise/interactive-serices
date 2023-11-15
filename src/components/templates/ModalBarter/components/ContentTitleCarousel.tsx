@@ -91,7 +91,7 @@ export const ContentTitleCarousel: TContent = ({
             ) : null}
             <div className={styles.barterContainer} data-time-address>
                 <div className={styles.itemBarterContainer}>
-                    <GroupSelectorDate
+                    {/* <GroupSelectorDate
                         label="Дата обмена"
                         watchDay={watch("day")}
                         watchMonth={watch("month")}
@@ -107,7 +107,7 @@ export const ContentTitleCarousel: TContent = ({
                             month: errors.month,
                             year: errors.year,
                         }}
-                    />
+                    /> */}
                     <p>По адресу</p>
                     <i>{address}</i>
                 </div>

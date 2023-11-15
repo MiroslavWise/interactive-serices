@@ -58,7 +58,6 @@ export interface IPostDataBarter {
     provider: TTypeProvider
     title: string
     imageId?: number | null
-    userId?: number
     orderBy?: number
     initialId: number
     consignedId: number

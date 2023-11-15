@@ -25,7 +25,10 @@ interface IButtonSuccessInBalloon {
     onClick: DispatchWithoutAction
 }
 
-export interface IItemComment extends ICommentsResponse {}
+export interface IItemComment extends ICommentsResponse {
+    isTemporary?: boolean
+    isErrorRequest?: boolean
+}
 export interface IBlockComments {
     offerId: number
     type: "alert" | "discussion"

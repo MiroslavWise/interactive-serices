@@ -8,7 +8,8 @@ import { daysAgo } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 
 export const ItemComment: TItemComment = (props) => {
-    const { id, userId, message, created } = props ?? {}
+    const { id, userId, message, created, isTemporary, isErrorRequest } =
+        props ?? {}
 
     const { data } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
@@ -19,7 +20,7 @@ export const ItemComment: TItemComment = (props) => {
     })
 
     return (
-        <li>
+        <li data-temporary={isTemporary} data-is-error={isErrorRequest}>
             <header>
                 <div data-avatar-name>
                     <NextImageMotion
@@ -33,7 +34,7 @@ export const ItemComment: TItemComment = (props) => {
                         {data?.res?.profile?.lastName || " "}
                     </p>
                 </div>
-                <p>{daysAgo(created)}</p>
+                <p>{daysAgo(created!)}</p>
             </header>
             <p>{message}</p>
         </li>

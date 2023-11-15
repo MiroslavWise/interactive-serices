@@ -406,6 +406,14 @@
                     flex-direction: column;
                     border-bottom: 1px solid var(--opacity-white-hard);
 
+                    &[data-temporary="true"] {
+                        background: var(--glass-bg-color-3);
+                    }
+
+                    &[data-is-error="true"] {
+                        background: var(--error-600);
+                    }
+
                     & > header {
                         width: 100%;
                         display: flex;
@@ -469,6 +477,12 @@
 
                 & > [data-div-text-area="true"] {
                     height: 87px;
+
+                    & > textarea {
+                        &::placeholder {
+                            font-size: 12px;
+                        }
+                    }
                 }
 
                 & > button {

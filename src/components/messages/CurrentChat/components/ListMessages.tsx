@@ -39,8 +39,6 @@ export const ListMessages = memo(function ListMessages({
     const numberIdMessage = useRef<number | null>(null)
     const [height, setHeight] = useState(0)
 
-    console.log("%c messages: ", "color: #0f0", messages)
-
     const messagesJoin: ReactNode = useMemo(() => {
         if (Array.isArray(messages)) {
             return join(messages).map((item, index) => {

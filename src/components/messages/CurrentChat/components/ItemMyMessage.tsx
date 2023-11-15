@@ -14,14 +14,12 @@ import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
 
-const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
+export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({
+    photo,
+    messages,
+}) {
     return (
-        <li
-            className={cx(
-                styles.containerItemMyMessage,
-                isMobile && styles.mobile,
-            )}
-        >
+        <li className={styles.containerItemMyMessage}>
             <div className={styles.messages}>
                 {messages?.map((item, index) => (
                     <div
@@ -29,6 +27,7 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                             styles.blockMessage,
                             styles[stylesBlockRight(messages?.length!, index)],
                         )}
+                        data-temporary={!!item?.temporary}
                         key={`${item.id}_${item.message}`}
                         id={`${item.id!}`}
                     >
@@ -76,6 +75,4 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
             ) : null}
         </li>
     )
-}
-
-export const ItemMyMessage = memo($ItemMyMessage)
+})
