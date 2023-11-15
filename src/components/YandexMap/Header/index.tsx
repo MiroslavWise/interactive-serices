@@ -10,20 +10,18 @@ import type { THeaderMobile } from "./types"
 
 import { SearchElementMap } from "@/components/common/Inputs"
 
-import { useAuth } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
-import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
+import { useAuth, useVisibleNotifications } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const Header: THeaderMobile = memo(function $Header({
-    handleAddressLocation,
-}) {
-    const { token } = useAuth()
+export const Header: THeaderMobile = ({ handleAddressLocation }) => {
+    const { token, userId } = useAuth()
     const { dispatchVisibleNotifications } = useVisibleNotifications()
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications"],
+        queryKey: ["notifications", `user=${userId}`],
+        enabled: !!token && !!userId,
     })
 
     return isMobile ? (
@@ -42,26 +40,30 @@ export const Header: THeaderMobile = memo(function $Header({
                         width={107}
                         height={28.3}
                     />
-                    <div
-                        className={styles.containerNotification}
-                        onClick={() =>
-                            dispatchVisibleNotifications({ visible: true })
-                        }
-                    >
-                        <Image
-                            src="/svg/bell.svg"
-                            alt="bell"
-                            width={22}
-                            height={22}
-                        />
-                        {dataNotifications?.res?.length ? (
-                            <div className={styles.badge}>
-                                <span>
-                                    {dataNotifications?.res?.length || 0}
-                                </span>
-                            </div>
-                        ) : null}
-                    </div>
+                    {!!token ? (
+                        <div
+                            className={styles.containerNotification}
+                            onClick={() =>
+                                dispatchVisibleNotifications({ visible: true })
+                            }
+                        >
+                            <Image
+                                src="/svg/bell.svg"
+                                alt="bell"
+                                width={22}
+                                height={22}
+                            />
+                            {dataNotifications?.res?.length ? (
+                                <div className={styles.badge}>
+                                    <span>
+                                        {dataNotifications?.res?.length || 0}
+                                    </span>
+                                </div>
+                            ) : null}
+                        </div>
+                    ) : (
+                        <div data-not />
+                    )}
                 </div>
                 <div className={styles.segments}>
                     <SearchElementMap
@@ -85,4 +87,4 @@ export const Header: THeaderMobile = memo(function $Header({
             <SearchElementMap handleAddressLocation={handleAddressLocation} />
         </motion.div>
     )
-})
+}

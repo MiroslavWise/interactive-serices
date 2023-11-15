@@ -6,7 +6,7 @@ import { type ChangeEvent, type KeyboardEvent, useRef, useState } from "react"
 
 import type { TContentFirstLoginQR } from "../types/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
@@ -127,14 +127,16 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                     {errorCode}
                 </p>
             ) : null}
-            <ButtonFill
+            <Button
+                type="button"
+                typeButton="fill-primary"
+                label="Подтвердить код"
+                className="w-100"
+                loading={loading}
                 disabled={
-                    loading ||
                     inputValues.filter((item) => item !== "").length !== 6
                 }
-                classNames="w-100"
-                label="Подтвердить код"
-                handleClick={onInputValues}
+                onClick={onInputValues}
             />
         </div>
     )

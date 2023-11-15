@@ -15,6 +15,7 @@ import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
 import { GroupSelectorDate } from "./GroupSelectorDate"
 
 import styles from "./styles/style.module.scss"
+import { Button } from "@/components/common"
 
 export const ContentTitleCarousel: TContent = ({
     register,
@@ -113,11 +114,11 @@ export const ContentTitleCarousel: TContent = ({
                 </div>
             </div>
             <div className={styles.button}>
-                <ButtonFill
-                    submit="submit"
-                    type="primary"
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Предложить обмен"
-                    suffix={
+                    suffixIcon={
                         <Image
                             src="/svg/arrow-right.svg"
                             alt="arrow-right"

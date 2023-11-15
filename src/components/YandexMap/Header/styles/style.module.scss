@@ -71,6 +71,12 @@
                     }
                 }
             }
+
+            & > [data-not] {
+                height: 44px;
+                padding: 22px;
+                width: 44px;
+            }
         }
 
         .segments {

@@ -10,7 +10,7 @@ import {
 
 import type { TContentCodeVerification } from "../types/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 
 import { useModalAuth } from "@/store/hooks"
 
@@ -93,11 +93,9 @@ export const ContentCodeVerification: TContentCodeVerification = ({
                     {errorCode}
                 </p>
             ) : null}
-            <ButtonFill
-                disabled={
-                    loading ||
-                    inputValues.filter((item) => item !== "").length !== 4
-                }
+            <Button
+                type="submit"
+                typeButton="fill-primary"
                 label={`Подтвердить ${
                     typeVerification === "email"
                         ? "email"
@@ -105,10 +103,12 @@ export const ContentCodeVerification: TContentCodeVerification = ({
                         ? "номер"
                         : ""
                 }`}
-                classNames="w-100"
-                type="primary"
-                submit="submit"
-                handleClick={onInputValues}
+                className="w-100"
+                loading={loading}
+                disabled={
+                    inputValues.filter((item) => item !== "").length !== 4
+                }
+                onClick={onInputValues}
             />
             <section className={styles.Register}>
                 <p>

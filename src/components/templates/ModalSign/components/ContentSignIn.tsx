@@ -6,8 +6,7 @@ import { isMobile } from "react-device-detect"
 import type { TContentSignIn, IValuesSignForm } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
-import { ButtonFill } from "@/components/common/Buttons"
-import { Input, InputPassword } from "@/components/common"
+import { Button, Input, InputPassword } from "@/components/common"
 
 import { useAuth, useModalAuth, useWelcomeModal } from "@/store/hooks"
 import {
@@ -211,12 +210,12 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         Забыли пароль?
                     </a>
                 </div>
-                <ButtonFill
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Войти"
-                    classNames="w-100"
-                    type="primary"
-                    submit="submit"
-                    disabled={loading}
+                    className="w-100"
+                    loading={loading}
                 />
                 <LinksSocial />
             </form>
