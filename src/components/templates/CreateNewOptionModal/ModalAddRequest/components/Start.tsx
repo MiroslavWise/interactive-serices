@@ -54,7 +54,6 @@ export const Start = () => {
             const data: IPostOffers = {
                 provider: "request",
                 title: replaceRussianMats(text),
-                userId: userId!,
                 categoryId: Number(selected?.id!),
                 slug: transliterateAndReplace(text!),
                 enabled: true,

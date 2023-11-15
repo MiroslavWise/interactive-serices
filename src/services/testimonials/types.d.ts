@@ -4,7 +4,6 @@ import type { IReturnData } from "../types/general"
 export type TStatusFeedback = "published" | "blocked" | "edited"
 
 export interface IPostTestimonials {
-    userId: number
     targetId: number
     provider: TTypeProvider
     rating: string

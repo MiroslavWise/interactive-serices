@@ -87,7 +87,6 @@ export const CompletionTransaction = () => {
 
         Promise.all([
             serviceTestimonials.post({
-                userId: userId!,
                 targetId: idOffer!,
                 provider: "offer",
                 barterId: dataBarter?.id!,

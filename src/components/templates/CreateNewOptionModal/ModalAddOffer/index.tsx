@@ -78,7 +78,6 @@ export const ModalAddOffer = () => {
                 categoryId: valueCategory?.id,
                 slug: transliterateAndReplace(text),
                 enabled: true,
-                userId: userId!,
                 desired: true,
             }
             if (addressInit) {

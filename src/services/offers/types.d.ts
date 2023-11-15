@@ -20,7 +20,6 @@ export interface IPostOffers {
     imageId?: number | null
     featuredId?: number | null
     bannerId?: number | null
-    userId: number
     orderBy?: number
     createdById?: number
     updatedById?: number

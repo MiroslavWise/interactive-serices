@@ -46,7 +46,6 @@ export const Start = () => {
         const data: IPostOffers = {
             provider: "discussion",
             title: replaceRussianMats(text),
-            userId: userId!,
             slug: transliterateAndReplace(text!),
             enabled: true,
             desired: true,
