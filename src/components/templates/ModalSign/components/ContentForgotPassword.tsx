@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 
 import type { TContentForgotPassword } from "../types/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button, Input } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -14,7 +14,6 @@ import { useModalAuth } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
-import { Input } from "@/components/common"
 
 interface IValues {
     email: string
@@ -103,12 +102,12 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                         }
                     />
                 </section>
-                <ButtonFill
-                    disabled={loading}
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Сброс пароля"
-                    classNames="w-100"
-                    type="primary"
-                    submit="submit"
+                    className="w-100"
+                    loading={loading}
                 />
             </form>
             <section

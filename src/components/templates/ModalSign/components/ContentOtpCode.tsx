@@ -12,7 +12,7 @@ import { isMobile } from "react-device-detect"
 
 import type { TContentOtpCode } from "../types/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 
 import { useTokenHelper } from "@/helpers"
 import { serviceUsers } from "@/services/users"
@@ -172,11 +172,12 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
                 ))}
             </div>
             {isMobile ? (
-                <ButtonFill
+                <Button
+                    type="button"
+                    typeButton="fill-primary"
                     label="Вставить"
-                    classNames="w-100"
-                    type="primary"
-                    handleClick={clip}
+                    className="w-100"
+                    onClick={clip}
                 />
             ) : null}
             {errorCode ? (
@@ -187,16 +188,16 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
                     {errorCode}
                 </p>
             ) : null}
-            <ButtonFill
+            <Button
+                type="submit"
+                typeButton="fill-primary"
+                label="Подтвердить код"
                 disabled={
-                    loading ||
                     inputValues.filter((item) => item !== "").length !== 6
                 }
-                label="Подтвердить код"
-                classNames="w-100"
-                type="primary"
-                submit="submit"
-                handleClick={onInputValues}
+                loading={loading}
+                onClick={onInputValues}
+                className="w-100"
             />
         </div>
     )

@@ -9,7 +9,7 @@ import type { IValuesRegistrationForm, TContentSignUp } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
 import { ButtonFill } from "@/components/common/Buttons"
-import { Input, InputPassword } from "@/components/common"
+import { Button, Input, InputPassword } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import {
@@ -193,12 +193,12 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         </p>
                     </div>
                 </div>
-                <ButtonFill
-                    disabled={loading}
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Зарегистрироваться"
-                    classNames="w-100"
-                    type="primary"
-                    submit="submit"
+                    loading={loading}
+                    className="w-100"
                 />
                 <LinksSocial />
             </form>

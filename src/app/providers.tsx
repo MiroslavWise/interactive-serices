@@ -1,5 +1,6 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
@@ -22,7 +23,6 @@ import {
 import { usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { isMobile } from "react-device-detect"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -68,11 +68,15 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
                         })
                         handleReplace("/")
+                        setVisibleAndType({
+                            visible: true,
+                            type: "SignIn",
+                        })
                     }
                 },
             )
         }
-    }, [verifyToken, handleReplace, on])
+    }, [verifyToken, handleReplace, on, setVisibleAndType])
 
     useEffect(() => {
         if (offersCategories === false) {

@@ -1,7 +1,7 @@
 import type { IReturnData } from "@/services/types/general"
 import type { IGetProfileIdResponse } from "../profile/types/profileService"
-import { IAddressesResponse } from "../addresses/types/serviceAddresses"
-import { TTypeFriends } from "@/store/types/createDroverFriends"
+import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
+import type { TTypeFriends } from "@/store/types/createDroverFriends"
 
 export interface IPostDataFriends {
     id: number
