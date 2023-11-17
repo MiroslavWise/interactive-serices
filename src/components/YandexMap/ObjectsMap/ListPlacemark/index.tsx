@@ -1,7 +1,7 @@
 "use client"
 
+import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useEffect, useMemo } from "react"
 
 import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
@@ -10,7 +10,7 @@ import { PlacemarkCurrent } from "../PlacemarkCurrent"
 import { serviceOffers } from "@/services/offers"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 
-const ListPlacemark_ = () => {
+const $ListPlacemark = () => {
     const { data: dataPlaces } = useQuery({
         queryKey: ["offers"],
         queryFn: () => serviceOffers.get(),
@@ -63,4 +63,4 @@ const ListPlacemark_ = () => {
     ))
 }
 
-export const ListPlacemark = memo(ListPlacemark_)
+export const ListPlacemark = memo($ListPlacemark)

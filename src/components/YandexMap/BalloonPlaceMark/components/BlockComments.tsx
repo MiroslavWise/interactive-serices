@@ -30,13 +30,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
             isErrorRequest?: boolean
         })[]
     >([])
-    const {
-        register,
-        watch,
-        setValue,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<IValues>({})
+    const { register, watch, setValue, handleSubmit } = useForm<IValues>({})
 
     const { data, refetch } = useQuery({
         queryFn: () =>
@@ -105,6 +99,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
     }, [currentComments, activeListComments])
 
     function submit(values: IValues) {
+        console.log("submit: ", values)
         if (!userId) return
         if (!loading) {
             if (values.text.trim().length >= 3) {
@@ -197,7 +192,15 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                         <form onSubmit={onSubmit}>
                             <TextArea
                                 disabled={!userId}
+                                {...register("text", {
+                                    required: true,
+                                    minLength: 3,
+                                    maxLength: 240,
+                                })}
                                 value={watch("text")}
+                                onChange={(event) =>
+                                    setValue("text", event.target.value)
+                                }
                                 placeholder="Напишите свой комментарий (мин. 3 символа)"
                                 onKeyDown={(event) => {
                                     if (
@@ -207,11 +210,6 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                                         onSubmit()
                                     }
                                 }}
-                                {...register("text", {
-                                    required: true,
-                                    minLength: 3,
-                                    maxLength: 240,
-                                })}
                                 maxLength={240}
                             />
                             <Button

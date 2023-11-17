@@ -1,9 +1,9 @@
 "use client"
 
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
-import { useState, memo, useEffect, useCallback } from "react"
+import { useState, memo, useEffect, useCallback, useRef } from "react"
 
-import type { TYandexMap } from "./types"
+import type { TTypeInstantsMap, TYandexMap } from "./types"
 
 import { Header } from "./Header"
 import { MapCardNews } from "./MapCard"
@@ -14,12 +14,12 @@ import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
-import { useAuth, useHasBalloons } from "@/store/hooks"
+import { useAuth, useBounds, useHasBalloons } from "@/store/hooks"
+import { TTypeProvider } from "@/services/file-upload/types"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
-import { TTypeProvider } from "@/services/file-upload/types"
 
 const COORD = [55.75, 37.67]
 
@@ -30,6 +30,8 @@ const YandexMap: TYandexMap = ({}) => {
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
     const { dispatchHasBalloon } = useHasBalloons()
+    const instanceRef: TTypeInstantsMap = useRef()
+    const { dispatchBounds, bounds } = useBounds()
 
     async function get({ mapTwo, mapOne }: { mapOne: number; mapTwo: number }) {
         return getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then(
@@ -115,8 +117,6 @@ const YandexMap: TYandexMap = ({}) => {
                 dispatchMapCoordinates({
                     coordinates: coordinatesAddresses[0]!,
                 })
-            } else {
-                dispatchMapCoordinates({ coordinates: COORD })
             }
             console.error("%c Вы не дали доступ к геолокации", "color: #f00")
         }
@@ -132,32 +132,51 @@ const YandexMap: TYandexMap = ({}) => {
         <>
             <Header handleAddressLocation={handleAddressLocation} />
             <Map
+                instanceRef={instanceRef}
+                onLoad={(event) => {
+                    event.ready().then(() => {
+                        if (!bounds?.length) {
+                            const bounds = instanceRef.current?.getBounds()
+                            dispatchBounds({ bounds })
+                        }
+
+                        instanceRef.current?.events
+                            .add("contextmenu", (events) => {
+                                onContextMenu(events)
+                            })
+                            .add("actionend", (events: any) => {
+                                const bounds: number[][] | undefined =
+                                    events.originalEvent?.target?._bounds
+                                dispatchBounds({ bounds })
+                            })
+                    })
+                }}
                 state={{
-                    center: coordinates,
+                    center: coordinates || COORD,
                     zoom: zoom,
-                    behaviors: ["default", "scrollZoom"],
+                    behaviors: ["default"],
                     type: "yandex#map",
                 }}
+                options={{}}
                 width={"100%"}
                 height={"100%"}
                 defaultOptions={{
                     maxZoom: 21,
-                    minZoom: 10,
+                    minZoom: 7,
                     yandexMapDisablePoiInteractivity: true,
                 }}
-                onContextMenu={onContextMenu}
                 modules={[]}
-                onLoad={(events) => {
-                    console.log("%c onLoad map events: ", "color: #f0f", events)
-                }}
             >
                 <Clusterer
                     options={{
-                        preset: "islands#invertedVioletClusterIcons",
-                        groupByCoordinates: true,
+                        iconLayout: "cluster#pieChart",
+                        iconContentLayout: "cluster#pieChart",
+                        hasBalloon: false,
+                        iconPieChartStrokeWidth: 2,
+                        clusterDisableClickZoom: true,
+                        iconPieChartCoreRadius: 10,
                     }}
                     onClick={async (event: any) => {
-                        console.log("%c Clusterer: ", "color: yellow", event)
                         const coord = event?.originalEvent?.currentTarget
                             ?._mapChildComponent?._map?._bounds as number[][]
                         const length = coord?.length || 2
@@ -166,7 +185,6 @@ const YandexMap: TYandexMap = ({}) => {
                             acc[1] / length + current[1] / length,
                         ])
                         let ids: { id: number; provider: TTypeProvider }[] = []
-                        console.log("%c coord c: ", "color: orange", c)
                         if (event?.originalEvent?.currentTarget?._objects) {
                             const maps = Object.values(
                                 event?.originalEvent?.currentTarget
@@ -179,12 +197,11 @@ const YandexMap: TYandexMap = ({}) => {
                                 )
                                 ?.filter(
                                     (item) =>
-                                        (item?.item[0] >= c[0] - 0.1 ||
-                                            item?.item[0] <= c[0] + 0.1) &&
-                                        (item?.item[1] >= c[1] - 0.1 ||
-                                            item?.item[1] <= c[1] + 0.1),
+                                        (item?.item[0] >= coord[0][0] ||
+                                            item?.item[0] <= coord[1][0]) &&
+                                        (item?.item[1] >= coord[0][1] ||
+                                            item?.item[1] <= coord[1][1]),
                                 )
-                            console.log("%c maps: ", "color: blue", maps)
 
                             ids = maps.map((item) => ({
                                 id: item?.id,

@@ -5,23 +5,25 @@ import { memo } from "react"
 import type { TCreationAlertAndDiscussionMap } from "./types/types"
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
+import { ButtonClose } from "@/components/common"
 import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useVisibleBannerNewServices } from "@/store/hooks"
 import { useCreateAlert } from "@/store/state/useCreateAlert"
+import { useCreateOffer } from "@/store/state/useCreateOffer"
+import { useVisibleBannerNewServices } from "@/store/hooks"
+import { useCreateRequest } from "@/store/state/useCreateRequest"
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { NEW_CREATE_BADGES } from "../NewServicesBanner/constants"
 
 import styles from "./styles/style.module.scss"
-import { useCreateOffer } from "@/store/state/useCreateOffer"
-import { useCreateRequest } from "@/store/state/useCreateRequest"
 
 export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     refCreate,
     isOpen,
     addressInit,
+    setIsOpen,
 }) => {
     const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } =
         useAddCreateModal()
@@ -57,6 +59,10 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
             className={cx(styles.container, isOpen && styles.open)}
             ref={refCreate}
         >
+            <ButtonClose
+                onClick={() => setIsOpen(false)}
+                position={{ top: 12, right: 12 }}
+            />
             <h3>Я хочу создать</h3>
             <section>
                 {NEW_CREATE_BADGES.map((item) => (

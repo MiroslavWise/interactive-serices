@@ -1,4 +1,5 @@
-import type { FC } from "react"
+import ymaps from "yandex-maps"
+import type { FC, MutableRefObject } from "react"
 
 interface IYandexMap {}
 
@@ -10,6 +11,11 @@ export interface IStateBalloon {
     id?: number | null
     idUser?: number | null
 }
+
+export type TTypeInstantsMap =
+    | ((value: ymaps.Map) => void)
+    | MutableRefObject<ymaps.Map | undefined>
+    | undefined
 
 export interface IActionBalloon {
     visible: boolean
