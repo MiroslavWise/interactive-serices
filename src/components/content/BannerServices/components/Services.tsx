@@ -1,29 +1,28 @@
 "use client"
 
+import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useEffect, useMemo } from "react"
 
 import type { TServicesFC } from "../types/types"
 import type { TOrder } from "@/services/types/general"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
 import {
-    CardRequestsAndProposals,
     GeneralServiceAllItem,
+    CardRequestsAndProposals,
 } from "@/components/common/Card"
 
+import { cx } from "@/lib/cx"
+import { useBounds } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
 
-import { cx } from "@/lib/cx"
-
 import styles from "../styles/style.module.scss"
-
-//services
 
 export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
     setTotal,
     type,
 }) {
+    const { bounds } = useBounds()
     const typeOffers = useMemo(() => {
         if (["offer", "request"].includes(type)) {
             return {
@@ -50,8 +49,41 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
     })
 
     const items = useMemo(() => {
+        if (!data?.res) {
+            return []
+        }
+        if (bounds && data?.res) {
+            const minCoords = bounds[0]
+            const maxCoors = bounds[1]
+
+            return data?.res?.filter((item) => {
+                if (!item?.addresses?.length) {
+                    return false
+                }
+                const coordinates = item?.addresses[0]?.coordinates
+                    ?.split(" ")
+                    .reverse()
+                    .map(Number)
+                    .filter(Boolean)
+                if (!coordinates) {
+                    return false
+                }
+
+                if (
+                    coordinates[0] < maxCoors[0] &&
+                    coordinates[0] > minCoords[0] &&
+                    coordinates[1] < maxCoors[1] &&
+                    coordinates[1] > minCoords[1]
+                ) {
+                    return true
+                }
+
+                return false
+            })
+        }
+
         return data?.res || []
-    }, [data?.res])
+    }, [data?.res, bounds])
 
     return (
         <ul

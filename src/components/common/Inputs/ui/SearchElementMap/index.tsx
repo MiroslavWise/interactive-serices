@@ -54,7 +54,6 @@ export const SearchElementMap: TSearchElementMap = ({
             const latitude = value?.GeoObject?.Point?.pos?.split(" ")[1]
 
             const coordinates = [Number(latitude), Number(longitude)]
-            console.log("coordinates: ", coordinates)
             dispatchMapCoordinates({
                 coordinates: coordinates,
                 zoom: 18,

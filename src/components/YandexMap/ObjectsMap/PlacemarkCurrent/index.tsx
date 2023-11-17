@@ -1,12 +1,11 @@
 "use client"
 
-import { type FC, memo, useEffect } from "react"
+import { type FC, memo } from "react"
 import { Placemark } from "@pbe/react-yandex-maps"
 
 import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
 
 import { TYPE_ICON } from "./constants"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
 
 const PlacemarkCurrentStates: TPlacemarkCurrent = ({
     coordinates,
@@ -52,6 +51,16 @@ const PlaceState: FC<
                 zIndex: 45,
                 balloonZIndex: "42",
                 zIndexActive: 50,
+                iconColor:
+                    provider === "alert"
+                        ? "#eb3f5e"
+                        : provider === "offer"
+                        ? "#a26be8"
+                        : provider === "request"
+                        ? "#3cb7fd"
+                        : provider === "discussion"
+                        ? "#ee4e29"
+                        : "#000",
             }}
             onClick={(event: any) => {
                 if (dispatch) {
