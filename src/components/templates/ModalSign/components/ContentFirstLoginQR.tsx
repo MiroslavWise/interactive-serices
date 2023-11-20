@@ -17,7 +17,7 @@ import styles from "../styles/form.module.scss"
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
     const { setToken, email } = useAuth()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     //todo
     const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
     const [errorCode, setErrorCode] = useState("")

@@ -15,7 +15,7 @@ import styles from "./styles/style.module.scss"
 export function NewServiceBarterRequests() {
     const {
         isVisibleNewServiceBarterRequests,
-        setIsVisibleNewServiceBarterRequests,
+        dispatchNewServiceBarterRequests: setIsVisibleNewServiceBarterRequests,
     } = useVisibleNewServiceBarterRequests()
 
     return isVisibleNewServiceBarterRequests ? (

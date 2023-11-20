@@ -17,9 +17,9 @@ import { Button } from "@/components/common"
 
 export const Buttons = () => {
     const pathname = usePathname()
-    const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { isAddresses } = useAddress()
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { isAuth } = useAuth()
     const { handlePush } = usePush()
     const [active, setActive, ref] = useOutsideClickEvent()

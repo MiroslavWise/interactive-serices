@@ -27,7 +27,7 @@ interface IValues {
 export const ContentResetPassword: TContentResetPassword = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const {
         register,
         watch,

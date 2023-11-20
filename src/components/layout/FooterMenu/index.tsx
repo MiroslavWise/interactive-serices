@@ -14,7 +14,7 @@ import { useActivePath } from "@/helpers/hooks/useActivePash"
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
-    const { visible, type, setVisibleAndType } = useModalAuth()
+    const { visible, type, dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { setVisible } = useWelcomeModal()
     const { isAuth } = useAuth()
     const valuePath = useActivePath()

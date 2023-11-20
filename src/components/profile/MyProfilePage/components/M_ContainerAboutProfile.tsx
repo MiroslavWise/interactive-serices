@@ -23,7 +23,7 @@ export const M_ContainerAboutProfile = () => {
     const { setVisible } = useUpdateProfile()
     const { out } = useOut()
     const { user, imageProfile, createdUser, addresses } = useAuth()
-    const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
 
     const geo = useMemo(() => {
         return addresses?.find((item) => item?.addressType === "main") || null

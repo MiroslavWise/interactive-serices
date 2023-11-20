@@ -14,7 +14,7 @@ import styles from "./styles/style.module.scss"
 
 export function ModalSign() {
     const { isAuth } = useAuth()
-    const { type, visible, setVisibleAndType } = useModalAuth()
+    const { type, visible, dispatchAuthModal: setVisibleAndType } = useModalAuth()
 
     const buttonClose = (
         <ButtonClose

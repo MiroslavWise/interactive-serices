@@ -23,7 +23,7 @@ import styles from "../styles/form.module.scss"
 export const ContentOtpCode: TContentOtpCode = ({}) => {
     const { setToken, changeAuth, email } = useAuth()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { setVisible } = useUpdateProfile()
     const [inputValues, setInputValues] = useState(Array(6).fill(""))
     const [errorCode, setErrorCode] = useState("")

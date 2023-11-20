@@ -13,7 +13,7 @@ import { useVisibleAbout } from "@/store/state/useVisibleAbout"
 import styles from "../styles/banner.module.scss"
 
 export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { dispatchVisibleAbout } = useVisibleAbout()
 
     return (

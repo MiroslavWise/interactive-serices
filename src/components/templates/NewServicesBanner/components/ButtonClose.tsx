@@ -5,7 +5,7 @@ import { useVisibleBannerNewServices } from "@/store/hooks/useVisible"
 import styles from "./styles/styles.module.scss"
 
 export const ButtonClose = () => {
-  const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices() ?? {}
+  const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices() ?? {}
   return (
     <div className={styles.containerClose} onClick={() => setIsVisibleNewServicesBanner(false)}>
       <Image

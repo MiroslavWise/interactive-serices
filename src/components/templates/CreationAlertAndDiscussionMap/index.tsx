@@ -27,7 +27,7 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
 }) => {
     const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } =
         useAddCreateModal()
-    const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { setAddressInit: setAddressInitAlert } = useCreateAlert()
     const { setAddressInit: setAddressInitDiscussion } = useCreateDiscussion()
     const { setAddressInit: setAddressInitOffer } = useCreateOffer()

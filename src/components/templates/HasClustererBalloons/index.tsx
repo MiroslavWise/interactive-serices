@@ -53,12 +53,12 @@ export const HasClustererBalloons = () => {
                     }}
                     position={{ right: 12, top: 12 }}
                 />
-                <header>
+                {/* <header>
                     <p>
                         Сервисы по адресу:{" "}
                         <span>{data?.address?.additional}</span>
                     </p>
-                </header>
+                </header> */}
                 <ul>
                     {offers.map((item) => (
                         <GeneralServiceAllItem

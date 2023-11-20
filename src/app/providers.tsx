@@ -41,7 +41,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { getCategories } = useOffersCategories()
 
     const { offersCategories, getFetchingOffersCategories } =

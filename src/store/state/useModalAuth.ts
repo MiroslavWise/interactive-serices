@@ -5,7 +5,7 @@ export const useModalAuth = create<IUseVisibleAndTypeAuthModalState>(
     (set, get) => ({
         visible: false,
         type: null,
-        setVisibleAndType({ visible, type }) {
+        dispatchAuthModal({ visible, type }) {
             set({
                 visible:
                     typeof visible !== "undefined" ? visible : get().visible,
