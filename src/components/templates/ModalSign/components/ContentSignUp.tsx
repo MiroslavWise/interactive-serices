@@ -25,7 +25,7 @@ import styles from "../styles/form.module.scss"
 export const ContentSignUp: TContentSignUp = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { dispatchPolicy, dispatchRules } = useTermsOfUse()
     const { dispatchDataConfirmation } = useDataConfirmationPopUp()
     const {
@@ -110,6 +110,8 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                 ? "Пользователь уже существует"
                                 : errors?.email
                                 ? "Требуется email"
+                                : errors.email
+                                ? "Какая-то ошибка с Email"
                                 : ""
                         }
                     />

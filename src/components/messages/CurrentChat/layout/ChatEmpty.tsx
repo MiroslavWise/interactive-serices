@@ -43,7 +43,6 @@ export const ChatEmpty = () => {
             })!
             const data_: IPostThreads = {
                 title: provider,
-                emitterId: emitterId,
                 receiverIds: [receiverId],
                 provider: "personal",
                 enabled: true,

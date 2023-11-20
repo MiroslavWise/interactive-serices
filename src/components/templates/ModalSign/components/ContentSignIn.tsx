@@ -23,7 +23,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setToken, changeAuth } = useAuth()
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { setVisible } = useWelcomeModal()
     const {
         watch,
@@ -159,7 +159,9 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 ? "Такого пользователя не существует"
                                 : errors.email?.message === "email not valid"
                                 ? "Требуется email"
-                                : "Какая-то ошибка с Email"
+                                : errors.email
+                                ? "Какая-то ошибка с Email"
+                                : ""
                         }
                     />
                     <InputPassword

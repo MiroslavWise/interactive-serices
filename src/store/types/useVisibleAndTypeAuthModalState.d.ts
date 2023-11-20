@@ -15,5 +15,5 @@ export interface IUseVisibleAndTypeAuthModalState {
     visible: boolean
     type: TTypeSign
 
-    setVisibleAndType: Dispatch<{ visible?: boolean; type?: TTypeSign }>
+    dispatchAuthModal: Dispatch<{ visible?: boolean; type?: TTypeSign }>
 }

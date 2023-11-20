@@ -52,7 +52,6 @@ export const ChatEmptyBarter = () => {
             })!
             const data_: IPostThreads = {
                 title: provider,
-                emitterId: emitterId,
                 receiverIds: [receiverId],
                 provider: "barter",
                 enabled: true,

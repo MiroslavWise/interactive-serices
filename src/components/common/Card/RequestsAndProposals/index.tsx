@@ -1,45 +1,26 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
+import Image from "next/image"
 import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
-import { useSwipeable } from "react-swipeable"
-import { useState, useEffect, useCallback, useMemo, memo } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useState, useEffect, useCallback, useMemo } from "react"
 
 import type { TRequestsAndProposals } from "./types"
 
-import { MotionLI } from "@/components/common/Motion"
-import { ButtonFill } from "@/components/common/Buttons"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
-import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
 
-const $CardRequestsAndProposals: TRequestsAndProposals = ({
-    id,
-    parentId,
-    categoryId,
-    provider,
-    title,
-    slug,
-    description,
-    content,
-    imageId,
-    featuredId,
-    bannerId,
-    userId,
-    addresses,
-    images,
-    updated,
-    type,
-}) => {
+export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const [active, setActive] = useState(0)
     const { systemTheme } = useTheme()
     const { userId: myUserId } = useAuth()
@@ -48,26 +29,21 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
     const { dispatchMapCoordinates } = useMapCoordinates()
     const { dispatch } = useBalloonCard()
     const { dispatchVisibleBarter } = useVisibleModalBarter()
+    const { createGallery } = usePhotoVisible()
 
-    const handlers = useSwipeable({
-        onSwipedLeft(event) {
-            slideImage("toLeft")
-        },
-        onSwipedRight(event) {
-            slideImage("toRight")
-        },
-    })
+    const { id, categoryId, provider, title, userId, addresses, images, type } =
+        props ?? {}
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
         queryKey: ["user", id],
-        enabled: userId !== myUserId,
+        enabled: !!userId,
     })
 
     const categoryCurrent = useMemo(() => {
         return categories?.find(
             (item) => Number(item?.id) === Number(categoryId),
-        )
+        )!
     }, [categories, categoryId])
 
     const slideImage = useCallback(
@@ -116,24 +92,6 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
     function handleBarter() {
         if (myUserId) {
             if (provider === "offer") {
-                const dataOffer = {
-                    id,
-                    parentId,
-                    categoryId,
-                    provider,
-                    title,
-                    slug,
-                    description,
-                    content,
-                    imageId,
-                    featuredId,
-                    bannerId,
-                    userId,
-                    addresses,
-                    images,
-                    updated,
-                }
-
                 const name = `${dataUser?.res?.profile?.firstName || " "} ${
                     dataUser?.res?.profile?.lastName || " "
                 }`
@@ -144,7 +102,7 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
                 }
                 dispatchVisibleBarter({
                     isVisible: true,
-                    dataOffer: dataOffer,
+                    dataOffer: props,
                     dataProfile: dataProfile,
                 })
             }
@@ -156,62 +114,121 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
         }
     }
 
+    function handleImages() {
+        const { type, ...data } = props ?? {}
+        if (data?.images?.length) {
+            createGallery(data, data?.images, data?.images[0], 0, {
+                title: data?.title!,
+                name: `${dataUser?.res?.profile?.firstName || ""} ${
+                    dataUser?.res?.profile?.lastName || ""
+                }`,
+                urlPhoto: dataUser?.res?.profile?.image?.attributes?.url!,
+                idUser: dataUser?.res?.id!,
+                time: data?.updated!,
+            })
+        }
+    }
+
+    const geo = useMemo(() => {
+        if (addresses && addresses.length) {
+            return addresses?.find((item) => item?.addressType === "main")
+        }
+        return null
+    }, [addresses])
+
+    const [src, setSrc] = useState(`/svg/category/${categoryId}.svg`)
+
     return (
         <li
             className={styles.container}
             data-mobile={isMobile}
             data-type={type}
+            onClick={handleCoordinates}
         >
             <header>
-                <ImageStatic
-                    src="/map/circle-offers-default.png"
+                <Image
+                    src={src}
                     alt="offer"
                     width={58}
                     height={58}
-                    onClick={handleCoordinates}
+                    onError={(error) => {
+                        console.log("ing error: ", error)
+                        console.log("ing error: ", src)
+                        setSrc("/svg/category/broom.svg")
+                    }}
                 />
                 <h4>{categoryCurrent?.title || ""}</h4>
             </header>
             <section>
-                <h5>{title}</h5>
-                {images?.length ? (
-                    <div className={styles.carouselPhotos} {...handlers}>
-                        {images?.map((item, index) => (
-                            <NextImageMotion
-                                key={`${item.attributes.hash}-image`}
-                                className={cx(
-                                    index === active && styles.active,
-                                )}
-                                alt="image"
-                                src={item.attributes.url}
-                                width={48}
-                                height={48}
-                            />
-                        ))}
-                        <div className={styles.containerDots}>
-                            {images.map((item, index) => (
-                                <span
-                                    key={index + id + "dots"}
-                                    className={cx(
-                                        active === index && styles.active,
-                                    )}
-                                    onClick={() => setActive(index)}
-                                />
-                            ))}
+                <div data-profile>
+                    <div
+                        data-circle
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            handleImages()
+                        }}
+                    >
+                        <div data-r>
+                            {images?.length
+                                ? images?.map((item, index) => (
+                                      <div
+                                          data-l
+                                          key={`${item.id}-1`}
+                                          style={{
+                                              transform: `rotate(${
+                                                  (360 / images.length) * index
+                                              }deg)`,
+                                          }}
+                                      >
+                                          <div data-c />
+                                      </div>
+                                  ))
+                                : null}
                         </div>
+                        <NextImageMotion
+                            data-is-length={!!images?.length}
+                            src={
+                                dataUser?.res?.profile?.image?.attributes?.url!
+                            }
+                            alt="avatar"
+                            width={200}
+                            height={200}
+                        />
                     </div>
-                ) : null}
+                    <div data-info>
+                        <p>
+                            {dataUser?.res?.profile?.firstName || " "}{" "}
+                            {dataUser?.res?.profile?.lastName || " "}
+                        </p>
+                        {geo ? (
+                            <GeoTagging
+                                location={geo?.additional}
+                                fontSize={12}
+                                size={14}
+                            />
+                        ) : null}
+                    </div>
+                </div>
+                <h5>{title}</h5>
                 {userId !== myUserId && myUserId ? (
                     <div
                         className={styles.button}
                         data-relative={!images?.length}
                     >
-                        <ButtonFill
-                            type={
-                                systemTheme === "dark" ? "primary" : "secondary"
+                        <Button
+                            type="button"
+                            typeButton={
+                                systemTheme === "dark"
+                                    ? "fill-primary"
+                                    : "fill-orange"
                             }
                             label="Откликнутся"
-                            handleClick={handleBarter}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                event.preventDefault()
+                                handleBarter()
+                            }}
                         />
                     </div>
                 ) : null}
@@ -219,5 +236,3 @@ const $CardRequestsAndProposals: TRequestsAndProposals = ({
         </li>
     )
 }
-
-export const CardRequestsAndProposals = memo($CardRequestsAndProposals)

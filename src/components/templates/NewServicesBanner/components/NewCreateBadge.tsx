@@ -14,7 +14,7 @@ import styles from "./styles/styles.module.scss"
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
     const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
-    const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
 
     function handleType() {
         if (!value) {

@@ -13,8 +13,8 @@ export const useBounds = create(
             },
         }),
         {
-            name: "auth",
-            storage: createJSONStorage(() => sessionStorage),
+            name: "bounds",
+            storage: createJSONStorage(() => localStorage),
         },
     ),
 )

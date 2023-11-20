@@ -5,7 +5,6 @@ export type TTypeProviderThreads = "personal" | "barter"
 export interface IPostThreads {
     title: "completed" | string
     parentId?: number
-    emitterId: number
     receiverIds: number[]
     provider: string
     barterId?: number

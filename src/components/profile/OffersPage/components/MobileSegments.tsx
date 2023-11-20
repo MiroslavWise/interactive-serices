@@ -8,7 +8,7 @@ import { useVisibleExchanges } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const MobileSegments: TMobileSegments = () => {
-    const { setVisibleType } = useVisibleExchanges() ?? {}
+    const { dispatchExchanges: setVisibleType } = useVisibleExchanges() ?? {}
 
     return (
         <ul className={styles.containerOffersCardMobile}>

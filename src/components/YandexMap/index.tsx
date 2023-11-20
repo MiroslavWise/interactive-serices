@@ -30,6 +30,10 @@ const YandexMap: TYandexMap = ({}) => {
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
     const { dispatchHasBalloon } = useHasBalloons()
+    const insCoords = useRef(
+        JSON.parse(localStorage.getItem("coordinates")!)?.state?.coordinates ||
+            COORD,
+    )
     const instanceRef: TTypeInstantsMap = useRef()
     const { dispatchBounds, bounds } = useBounds()
 
@@ -106,6 +110,7 @@ const YandexMap: TYandexMap = ({}) => {
                         dispatchMapCoordinates({
                             coordinates: [latitude, longitude],
                         })
+                        instanceRef?.current?.setCenter([latitude, longitude])
                     }
                 },
                 (error) => {
@@ -117,10 +122,11 @@ const YandexMap: TYandexMap = ({}) => {
                 dispatchMapCoordinates({
                     coordinates: coordinatesAddresses[0]!,
                 })
+                instanceRef?.current?.setCenter(coordinatesAddresses[0]!)
             }
             console.error("%c Вы не дали доступ к геолокации", "color: #f00")
         }
-    }, [coordinatesAddresses, dispatchMapCoordinates])
+    }, [coordinatesAddresses, dispatchMapCoordinates, instanceRef])
 
     useEffect(() => {
         if (!coordinates) {
@@ -133,38 +139,50 @@ const YandexMap: TYandexMap = ({}) => {
             <Header handleAddressLocation={handleAddressLocation} />
             <Map
                 instanceRef={instanceRef}
+                onContextMenu={onContextMenu}
                 onLoad={(event) => {
                     event.ready().then(() => {
                         if (!bounds?.length) {
                             const bounds = instanceRef.current?.getBounds()
+                            const center = instanceRef.current?.getCenter()
                             dispatchBounds({ bounds })
+                            instanceRef?.current?.setCenter(
+                                coordinates! || center || COORD,
+                            )
                         }
 
-                        instanceRef.current?.events
-                            .add("contextmenu", (events) => {
-                                onContextMenu(events)
-                            })
-                            .add("actionend", (events: any) => {
+                        instanceRef.current?.events.add(
+                            "actionend",
+                            (events: any) => {
                                 const bounds: number[][] | undefined =
                                     events.originalEvent?.target?._bounds
                                 dispatchBounds({ bounds })
-                            })
+                                if (bounds) {
+                                    const center =
+                                        instanceRef.current?.getCenter()
+
+                                    console.log("useEffect bounds: ", center)
+                                    dispatchMapCoordinates({
+                                        coordinates: center,
+                                    })
+                                }
+                            },
+                        )
                     })
                 }}
                 state={{
-                    center: coordinates || COORD,
+                    center: insCoords.current! || COORD,
                     zoom: zoom,
                     behaviors: ["default"],
                     type: "yandex#map",
                 }}
-                options={{}}
-                width={"100%"}
-                height={"100%"}
-                defaultOptions={{
+                options={{
                     maxZoom: 21,
                     minZoom: 7,
                     yandexMapDisablePoiInteractivity: true,
                 }}
+                width={"100%"}
+                height={"100%"}
                 modules={[]}
             >
                 <Clusterer

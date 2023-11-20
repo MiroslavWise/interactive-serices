@@ -24,7 +24,7 @@ export const ContentCodeVerification: TContentCodeVerification = ({
     const [inputValues, setInputValues] = useState(Array(4).fill(""))
     const [errorCode, setErrorCode] = useState("")
     const inputRefs = useRef<HTMLInputElement[]>([])
-    const { setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
 
     const handleChange = (
         event: ChangeEvent<HTMLInputElement>,
