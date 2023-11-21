@@ -4,7 +4,7 @@ import { forwardRef, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
-import type { IGeneralServiceAllItem, TGeneralServiceAllItem } from "./types"
+import type { IGeneralServiceAllItem } from "./types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { GeoTagging, ImageStatic, NextImageMotion } from "@/components/common"
@@ -26,7 +26,6 @@ import styles from "./style.module.scss"
 
 export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
     props: IGeneralServiceAllItem,
-    ref: any,
 ) {
     const {
         id,
@@ -48,7 +47,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
     const { dispatchProfilePublic } = useProfilePublic()
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
-        queryKey: ["user", id],
+        queryKey: ["user", userId],
         enabled: userId !== myUserId,
     })
 
@@ -116,7 +115,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
         if (isMobile) {
             handlePush(`/user?id=${id}`)
         } else {
-            dispatchProfilePublic({ visible: true, idUser: id! })
+            dispatchProfilePublic({ visible: true, idUser: userId! })
         }
     }
 
@@ -127,7 +126,6 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
             className={cx(styles.container, className)}
             onClick={handle}
             style={style}
-            ref={ref}
         >
             <header data-provider={provider}>
                 {typeImagePng ? (

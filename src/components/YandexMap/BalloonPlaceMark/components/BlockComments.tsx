@@ -99,7 +99,6 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
     }, [currentComments, activeListComments])
 
     function submit(values: IValues) {
-        console.log("submit: ", values)
         if (!userId) return
         if (!loading) {
             if (values.text.trim().length >= 3) {

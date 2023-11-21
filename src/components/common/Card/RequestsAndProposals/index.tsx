@@ -34,7 +34,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
-        queryKey: ["user", id],
+        queryKey: ["user", userId],
         enabled: !!userId,
     })
 

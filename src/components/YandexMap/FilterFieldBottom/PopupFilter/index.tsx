@@ -5,17 +5,22 @@ import Image from "next/image"
 
 import type { TPopupFilter } from "./types"
 
-import { ImageStatic } from "@/components/common/Image"
 import { SearchInput } from "@/components/common/Inputs"
 
 import { cx } from "@/lib/cx"
-import { BUTTON_PAGINATION, LIST_FILTERS } from "./constants"
+import { useFilterMap } from "@/store/hooks"
+import { BUTTON_PAGINATION } from "./constants"
+import { useOffersCategories } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const PopupFilter: TPopupFilter = ({ visible }) => {
-    const [actives, setActives] = useState<string[]>([])
+    const { idTarget, dispatchTarget } = useFilterMap()
+    const { categories } = useOffersCategories()
     const [value, setValue] = useState("")
+
+    const categoriesMain =
+        categories?.filter((item) => item?.provider === "main") || []
 
     return (
         <div className={cx(styles.popupFilter, visible && styles.visible)}>
@@ -25,35 +30,22 @@ export const PopupFilter: TPopupFilter = ({ visible }) => {
                 placeholder="Что Вы ищете"
                 classNames={[styles.inputSearch]}
             />
-            <ul className={cx(styles.content)}>
-                {LIST_FILTERS.map((item) => (
+            <ul>
+                {categoriesMain.map((item) => (
                     <li
-                        key={`${item.value}_filters`}
+                        key={`${item.id}_filters`}
                         onClick={() => {
-                            if (actives.includes(item.value)) {
-                                setActives((state) =>
-                                    state.filter(
-                                        (item_) => item_ !== item.value,
-                                    ),
-                                )
-                            } else {
-                                setActives((state) => [...state, item.value])
-                            }
+                            dispatchTarget(item.id)
                         }}
-                        className={cx(
-                            actives.includes(item.value) && styles.active,
-                        )}
+                        className={cx(idTarget === item.id && styles.active)}
                     >
-                        <div className={styles.icon}>
-                            <ImageStatic
-                                src={item.image.src}
-                                alt={item.image.alt}
-                                width={16}
-                                height={16}
-                                classNames={[]}
-                            />
-                        </div>
-                        <p>{item.label}</p>
+                        <div
+                            data-icon
+                            style={{
+                                backgroundImage: `url(/svg/category/${item.id}.svg)`,
+                            }}
+                        />
+                        <p>{item.title}</p>
                     </li>
                 ))}
             </ul>

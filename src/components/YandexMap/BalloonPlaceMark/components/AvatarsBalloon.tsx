@@ -85,7 +85,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
                       .slice(0, 6)
                       .map((item, index) => (
                           <NextImageMotion
-                              onClick={() => handleUser(item.id!)}
+                              onClick={() => handleUser(item?.id!)}
                               key={item.id! + index}
                               src={item.photo!}
                               alt="avatar"
