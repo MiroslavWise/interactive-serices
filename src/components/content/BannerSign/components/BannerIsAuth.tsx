@@ -16,24 +16,26 @@ export const BannerIsAuth = () => {
     const { handlePush } = usePush()
 
     return (
-        <motion.ul
+        <motion.div
             className={styles.containerAuthBanner}
             initial={{ opacity: 0, visibility: "hidden" }}
             animate={{ opacity: 1, visibility: "visible" }}
             transition={{ duration: 0.3 }}
             exit={{ opacity: 0, visibility: "hidden" }}
         >
-            <section data-content>
-                <HeaderBlock />
-                <AchievementsCount />
-                <Button
-                    label="Профиль"
-                    typeButton="fill-primary"
-                    onClick={() => handlePush(`/profile`)}
-                />
-            </section>
-            <FooterAsideLeft />
-            <GlassesBanner />
-        </motion.ul>
+            <ul>
+                <section data-content>
+                    <HeaderBlock />
+                    <AchievementsCount />
+                    <Button
+                        label="Профиль"
+                        typeButton="fill-primary"
+                        onClick={() => handlePush(`/profile`)}
+                    />
+                </section>
+                <FooterAsideLeft />
+                <GlassesBanner />
+            </ul>
+        </motion.div>
     )
 }

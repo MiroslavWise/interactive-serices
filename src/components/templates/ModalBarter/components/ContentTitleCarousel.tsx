@@ -92,23 +92,6 @@ export const ContentTitleCarousel: TContent = ({
             ) : null}
             <div className={styles.barterContainer} data-time-address>
                 <div className={styles.itemBarterContainer}>
-                    {/* <GroupSelectorDate
-                        label="Дата обмена"
-                        watchDay={watch("day")}
-                        watchMonth={watch("month")}
-                        watchYear={watch("year")}
-                        propsRegister={{
-                            day: register("day", { required: true }),
-                            month: register("month", { required: true }),
-                            year: register("year", { required: true }),
-                        }}
-                        set={setValue}
-                        errorDate={{
-                            day: errors.day,
-                            month: errors.month,
-                            year: errors.year,
-                        }}
-                    /> */}
                     <p>По адресу</p>
                     <i>{address}</i>
                 </div>

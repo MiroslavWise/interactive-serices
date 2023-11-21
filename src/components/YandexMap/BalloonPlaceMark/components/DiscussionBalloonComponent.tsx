@@ -17,28 +17,27 @@ import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { AvatarsBalloon } from "./AvatarsBalloon"
 
-export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
-    stateBalloon,
-}) => {
-    const { dispatch } = useBalloonCard()
+export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
     const { createGallery } = usePhotoVisible()
     const { handlePush } = usePush()
     const { dispatchProfilePublic } = useProfilePublic()
+    const { id, idUser, type, dispatch } = useBalloonCard()
+
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
+                queryFn: () => serviceOffers.getId(Number(id!)),
                 queryKey: [
                     "offers",
-                    `offer=${stateBalloon.id!}`,
-                    `provider=${stateBalloon.type}`,
+                    `offer=${id!}`,
+                    `provider=${type}`,
                 ],
                 refetchOnMount: false,
             },
             {
                 queryFn: () =>
-                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
+                    serviceProfile.getUserId(Number(idUser)),
+                queryKey: ["profile", `userId=${idUser!}`],
                 refetchOnMount: false,
             },
         ],
@@ -46,12 +45,12 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
 
     function handleProfile() {
         if (isMobile) {
-            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            handlePush(`/user?id=${idUser!}`)
             dispatch({ visible: false })
         } else {
             dispatchProfilePublic({
                 visible: true,
-                idUser: stateBalloon.idUser!,
+                idUser: idUser!,
             })
         }
     }
@@ -66,7 +65,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                 data-logo-ballon
             />
             <header data-avatars>
-                <AvatarsBalloon offerId={stateBalloon.id!} />
+                <AvatarsBalloon offerId={id!} />
             </header>
             <div data-container-balloon data-discussion>
                 <div data-info-profile>
@@ -136,7 +135,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                     </ul>
                 ) : null}
             </div>
-            <BlockComments type="discussion" offerId={stateBalloon?.id!} />
+            <BlockComments type="discussion" offerId={id!} />
         </>
     )
 }

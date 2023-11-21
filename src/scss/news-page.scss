@@ -55,12 +55,13 @@
         position: relative;
         width: 100%;
         height: calc(100vh);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
         padding-bottom: calc(68px + 16px);
         z-index: 3 !important;
 
         & > ul {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            height: 100%;
             width: 100%;
             padding: calc(68px + 16px) 16px calc(68px + 16px) 16px;
             display: flex;

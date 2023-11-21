@@ -18,30 +18,24 @@ import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
-export const RequestBalloonComponent: TRequestBalloonComponent = ({
-    stateBalloon,
-}) => {
+export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
     const { userId } = useAuth()
     const { handlePush } = usePush()
-    const { dispatch } = useBalloonCard()
     const { categories } = useOffersCategories()
     const { createGallery } = usePhotoVisible()
     const { dispatchProfilePublic } = useProfilePublic()
+    const { id, idUser, type, dispatch } = useBalloonCard()
+
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
-                queryKey: [
-                    "offers",
-                    `offer=${stateBalloon.id!}`,
-                    `provider=${stateBalloon.type}`,
-                ],
+                queryFn: () => serviceOffers.getId(Number(id!)),
+                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
                 refetchOnMount: false,
             },
             {
-                queryFn: () =>
-                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
+                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryKey: ["profile", `userId=${idUser!}`],
                 refetchOnMount: false,
             },
         ],
@@ -64,12 +58,12 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
 
     function handleProfile() {
         if (isMobile) {
-            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            handlePush(`/user?id=${idUser!}`)
             dispatch({ visible: false })
         } else {
             dispatchProfilePublic({
                 visible: true,
-                idUser: stateBalloon.idUser!,
+                idUser: idUser!,
             })
         }
     }
@@ -164,11 +158,9 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                             width={32}
                             height={32}
                             onClick={() => {
-                                if (stateBalloon.idUser) {
+                                if (idUser) {
                                     dispatch({ visible: false })
-                                    handlePush(
-                                        `/messages?user=${stateBalloon?.idUser!}`,
-                                    )
+                                    handlePush(`/messages?user=${idUser!}`)
                                 }
                             }}
                         />

@@ -17,29 +17,24 @@ const altName = {
 
 type TTypes = typeof NextImage.defaultProps & IProps
 
-const $NextImageMotion = (props: TTypes) => {
+export const NextImageMotion = (props: TTypes) => {
     const { src, onClick, ref, alt, className, height, width, ...rest } =
         props ?? {}
-    function handleClick(e: any) {
-        if (onClick) {
-            e.preventDefault()
-            e.stopPropagation()
-            onClick()
-        }
-    }
 
     return src?.includes("http") ? (
         <NextImage
-            onClick={(e) => {
-                handleClick(e)
+            onClick={() => {
+                if (onClick) {
+                    onClick()
+                }
             }}
             placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
             blurDataURL={
                 altName.hasOwnProperty(alt) && alt === "avatar"
                     ? defaultAvatar
                     : alt === "offer-image"
-                    ? blurDefaultOffer
-                    : blurDefaultOffer
+                      ? blurDefaultOffer
+                      : blurDefaultOffer
             }
             ref={ref}
             data-image={alt}
@@ -56,7 +51,11 @@ const $NextImageMotion = (props: TTypes) => {
         />
     ) : (
         <ImageStatic
-            onClick={(e: any) => handleClick(e)}
+            onClick={(e: any) => {
+                if (onClick) {
+                    onClick()
+                }
+            }}
             src={
                 alt === "avatar"
                     ? "/png/default_avatar.png"
@@ -75,5 +74,3 @@ const $NextImageMotion = (props: TTypes) => {
         />
     )
 }
-
-export const NextImageMotion = memo($NextImageMotion)

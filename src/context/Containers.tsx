@@ -25,7 +25,7 @@ import {
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
-import BalloonPlaceMark from "@/components/YandexMap/BalloonPlaceMark"
+import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
     useAuth,
@@ -39,6 +39,7 @@ import {
     useUpdateMutualOffer,
     useDataConfirmationPopUp,
 } from "@/store/hooks"
+import { usePhotoOffer } from "@/store/state/usePhotoOffer"
 
 export const Containers = () => {
     const { token } = useAuth()
@@ -51,6 +52,7 @@ export const Containers = () => {
     const { visibleUpdateMutual } = useUpdateMutualOffer()
     const { visible: visibleNotifications } = useVisibleNotifications()
     const { visibleDataConfirmation } = useDataConfirmationPopUp()
+    const { visible: visiblePhotoOffer } = usePhotoOffer()
 
     return (
         <>
@@ -59,11 +61,11 @@ export const Containers = () => {
             <PhotoCarousel />
             <WelcomeModal />
             <AboutSheiraPopup />
-            <PhotoPreviewModal />
             {isVisible && <Barter />}
             <ToastContainer limit={3} />
             {visible && <BalloonPlaceMark />}
             {visibleAuth && !token && <ModalSign />}
+            {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
             {visibleDataConfirmation && <DataConfirmationPopUp />}

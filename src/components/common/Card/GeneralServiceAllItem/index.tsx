@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo } from "react"
+import { forwardRef, useMemo } from "react"
+import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
-import type { TGeneralServiceAllItem } from "./types"
+import type { IGeneralServiceAllItem, TGeneralServiceAllItem } from "./types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { GeoTagging, ImageStatic, NextImageMotion } from "@/components/common"
@@ -18,11 +19,15 @@ import {
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
 
-export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
+export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
+    props: IGeneralServiceAllItem,
+    ref: any,
+) {
     const {
         id,
         categoryId,
@@ -32,6 +37,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         addresses,
         className,
         images,
+        style,
     } = props ?? {}
     const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
@@ -39,7 +45,7 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
     const { dispatch } = useBalloonCard()
     const { dispatchMapCoordinates } = useMapCoordinates()
     const { createGallery } = usePhotoVisible()
-
+    const { dispatchProfilePublic } = useProfilePublic()
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
         queryKey: ["user", id],
@@ -57,37 +63,31 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         return obj[provider] || null
     }, [provider])
 
-    const categoryOffer: string | null = useMemo(() => {
-        if (
-            ["request", "offer"].includes(provider) &&
-            categoryId &&
-            categories.length
-        ) {
-            return categories.find(
-                (item) => Number(item.id) === Number(categoryId),
-            )?.title!
-        }
-
-        return null
-    }, [provider, categoryId, categories])
-
-    //
+    const categoryOffer: string | null =
+        ["request", "offer"].includes(provider) &&
+        categoryId &&
+        categories.length
+            ? categories.find((item) => Number(item.id) === Number(categoryId))
+                  ?.title!
+            : null
 
     function handle() {
         const [address, ...rest] = addresses
-        dispatch({
-            visible: true,
-            id: id,
-            idUser: userId,
-            type: provider || null,
-        })
-        dispatchMapCoordinates({
-            coordinates: address?.coordinates
-                ?.split(" ")
-                ?.reverse()
-                ?.map(Number),
-        })
         handlePush("/")
+        requestAnimationFrame(() => {
+            dispatch({
+                visible: true,
+                id: id,
+                idUser: userId,
+                type: provider || null,
+            })
+            dispatchMapCoordinates({
+                coordinates: address?.coordinates
+                    ?.split(" ")
+                    ?.reverse()
+                    ?.map(Number),
+            })
+        })
     }
 
     function handleHelp() {
@@ -112,15 +112,23 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         }
     }
 
-    const geo = useMemo(() => {
-        if (addresses && addresses.length) {
-            return addresses?.find((item) => item?.addressType === "main")
+    function handleProfile() {
+        if (isMobile) {
+            handlePush(`/user?id=${id}`)
+        } else {
+            dispatchProfilePublic({ visible: true, idUser: id! })
         }
-        return null
-    }, [addresses])
+    }
+
+    const geo = addresses && !!addresses.length && addresses[0]
 
     return (
-        <li className={cx(styles.container, className)} onClick={handle}>
+        <li
+            className={cx(styles.container, className)}
+            onClick={handle}
+            style={style}
+            ref={ref}
+        >
             <header data-provider={provider}>
                 {typeImagePng ? (
                     <ImageStatic
@@ -188,7 +196,14 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
                             height={200}
                         />
                     </div>
-                    <div data-info>
+                    <div
+                        data-info
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            handleProfile()
+                        }}
+                    >
                         <p>
                             {dataUser?.res?.profile?.firstName || " "}{" "}
                             {dataUser?.res?.profile?.lastName || " "}
@@ -206,4 +221,4 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
             </section>
         </li>
     )
-}
+})

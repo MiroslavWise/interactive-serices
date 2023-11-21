@@ -1,13 +1,11 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TItemListFriend } from "../types/types"
-import type { TTypeFriends } from "@/store/types/createDroverFriends"
 
-import { MotionLI } from "@/components/common/Motion"
 import { NextImageMotion } from "@/components/common/Image"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonCircleGradient } from "@/components/common/Buttons"
@@ -17,11 +15,9 @@ import { serviceUsers } from "@/services/users"
 import { serviceFriends } from "@/services/friends"
 import { useReloadFriends } from "../hooks/useReloadFriends"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
-import { useDroverFriends } from "@/store/state/useDroverFriends"
 
 export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     const [loading, setLoading] = useState(false)
-    const { dispatchFriends } = useDroverFriends()
     const { refresh } = useReloadFriends({ enabled: false, type: type })
     const { dispatchProfilePublic } = useProfilePublic()
     const { handlePush } = usePush()
@@ -31,16 +27,9 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
         enabled: !!id,
     })
 
-    const geo = useMemo(() => {
-        if (!data?.res?.addresses || !data?.res?.addresses?.length) {
-            return null
-        }
-
-        return (
-            data?.res?.addresses?.find((item) => item.addressType === "main") ||
-            null
-        )
-    }, [data?.res])
+    const geo =
+        data?.res?.addresses?.find((item) => item.addressType === "main") ||
+        null
 
     function handleSuccess() {
         if (!loading) {
@@ -85,14 +74,13 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     function handleProfile() {
         if (isMobile) {
             handlePush(`/user?id=${id}`)
-            dispatchFriends({ visible: false })
         } else {
             dispatchProfilePublic({ visible: true, idUser: id! })
         }
     }
 
     return (
-        <MotionLI>
+        <li>
             <div data-block-profile>
                 <div data-block-avatar onClick={handleProfile}>
                     <NextImageMotion
@@ -123,7 +111,6 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
                     size={20}
                     handleClick={() => {
                         handlePush(`/messages?user=${id}`)
-                        dispatchFriends({ visible: false })
                     }}
                 />
                 <ButtonCircleGradient
@@ -145,6 +132,6 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
                     </>
                 ) : null}
             </div>
-        </MotionLI>
+        </li>
     )
 }

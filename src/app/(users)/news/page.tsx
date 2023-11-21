@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query"
 import { isMobile } from "react-device-detect"
 
 import { Glasses } from "@/components/layout"
-import { MotionUL } from "@/components/common/Motion"
 import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import { useBounds } from "@/store/hooks"
@@ -64,7 +63,7 @@ export default function News() {
                 <div data-total>{items?.length || 0}</div>
             </header>
             <article>
-                <MotionUL>
+                <ul>
                     {typeof items === "string" ? (
                         <h3>{items}</h3>
                     ) : items?.length ? (
@@ -75,7 +74,7 @@ export default function News() {
                             />
                         ))
                     ) : null}
-                </MotionUL>
+                </ul>
             </article>
             <Glasses />
         </div>
