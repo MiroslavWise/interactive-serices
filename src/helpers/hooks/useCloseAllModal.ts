@@ -10,6 +10,8 @@ import {
     useVisiblePhotosCarousel,
     useVisibleBannerNewServices,
 } from "@/store/hooks"
+import { usePhotoOffer } from "@/store/state/usePhotoOffer"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const useCloseAllModal = () => {
     const { dispatch: dispatchBallonCard } = useBalloonCard()
@@ -22,8 +24,11 @@ export const useCloseAllModal = () => {
     const { dispatchVisibleBarter } = useVisibleModalBarter()
     const { dispatchVisibleCarousel } = useVisiblePhotosCarousel()
     const { dispatchNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchPhotoOffer } = usePhotoOffer()
+    const { dispatchProfilePublic } = useProfilePublic()
 
     function close() {
+        console.log("close: ---------------------------------------")
         dispatchBallonCard({ visible: false })
         dispatchCompletion({ visible: false })
         dispatchFriends({ visible: false })
@@ -34,6 +39,8 @@ export const useCloseAllModal = () => {
         dispatchVisibleBarter({ isVisible: false })
         dispatchVisibleCarousel({ visible: false })
         dispatchNewServicesBanner(false)
+        dispatchPhotoOffer({ visible: false, photos: null })
+        dispatchProfilePublic({visible: false})
     }
 
     return close

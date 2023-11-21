@@ -1,10 +1,9 @@
 "use client"
 
-import Image from "next/image"
+import { useState } from "react"
 import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
-import { useState, useEffect, useCallback, useMemo } from "react"
 
 import type { TRequestsAndProposals } from "./types"
 
@@ -21,7 +20,6 @@ import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/u
 import styles from "./style.module.scss"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
-    const [active, setActive] = useState(0)
     const { systemTheme } = useTheme()
     const { userId: myUserId } = useAuth()
     const { categories } = useOffersCategories()
@@ -40,52 +38,25 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
         enabled: !!userId,
     })
 
-    const categoryCurrent = useMemo(() => {
-        return categories?.find(
-            (item) => Number(item?.id) === Number(categoryId),
-        )!
-    }, [categories, categoryId])
-
-    const slideImage = useCallback(
-        (direction: "toLeft" | "toRight") => {
-            if (direction === "toLeft") {
-                active >= images.length - 1
-                    ? setActive(0)
-                    : setActive((prev) => prev + 1)
-            }
-            if (direction === "toRight") {
-                if (active <= 0) {
-                    setActive(images.length - 1)
-                } else {
-                    setActive((prev) => prev - 1)
-                }
-            }
-        },
-        [active, images],
-    )
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            slideImage("toLeft")
-        }, 3333)
-
-        return () => clearInterval(interval)
-    }, [slideImage])
+    const categoryCurrent = categories?.find(
+        (item) => Number(item?.id) === Number(categoryId),
+    )!
 
     function handleCoordinates() {
         handlePush("/")
-        dispatchMapCoordinates({
-            coordinates: addresses?.[0]?.coordinates
-                ?.split(" ")
-                ?.reverse()
-                ?.map(Number),
-            zoom: 20,
-        })
-        dispatch({
-            visible: true,
-            type: provider!,
-            id: id,
-            idUser: userId,
+        requestAnimationFrame(() => {
+            dispatchMapCoordinates({
+                coordinates: addresses?.[0]?.coordinates
+                    ?.split(" ")
+                    ?.reverse()
+                    ?.map(Number),
+            })
+            dispatch({
+                visible: true,
+                type: provider!,
+                id: id,
+                idUser: userId,
+            })
         })
     }
 
@@ -129,12 +100,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
         }
     }
 
-    const geo = useMemo(() => {
-        if (addresses && addresses.length) {
-            return addresses?.find((item) => item?.addressType === "main")
-        }
-        return null
-    }, [addresses])
+    const geo = addresses && !!addresses.length && addresses[0]
 
     const [src, setSrc] = useState(`/svg/category/${categoryId}.svg`)
 
@@ -146,16 +112,11 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
             onClick={handleCoordinates}
         >
             <header>
-                <Image
-                    src={src}
-                    alt="offer"
-                    width={58}
-                    height={58}
-                    onError={(error) => {
-                        console.log("ing error: ", error)
-                        console.log("ing error: ", src)
-                        setSrc("/svg/category/broom.svg")
+                <div
+                    style={{
+                        backgroundImage: `url(${src})`,
                     }}
+                    onError={(err) => console.log("err div: ", err)}
                 />
                 <h4>{categoryCurrent?.title || ""}</h4>
             </header>

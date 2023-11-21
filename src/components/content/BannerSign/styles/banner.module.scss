@@ -11,50 +11,47 @@
 }
 
 .containerAuthBanner {
+    height: calc((100% - 48px) - 77px);
     top: calc(24px + 77px);
     bottom: 24px;
-    display: inline-flex;
-    padding: 24px 12px;
-    gap: 20px;
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
     border: 2px solid var(--stroke-1);
     background: var(--glass-bg-color-1);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
 
-    & > [data-content] {
+    & > ul {
+        height: 100%;
         width: 100%;
-        display: flex;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        display: inline-flex;
         flex-direction: column;
+        justify-content: space-between;
         align-items: center;
         gap: 20px;
+        padding: 24px 12px;
 
-        .badges {
-            display: inline-flex;
-            gap: 12px;
-            align-items: center;
-
-            .badge {
-                overflow: hidden;
-                width: 119px;
-                padding: 8px 8px 5px 16px;
-                flex: 1 0 0;
-
-                p {
-                    overflow: hidden;
-                }
-            }
-        }
-
-        & > [data-button-fill] {
-            height: 36px;
+        & > [data-content] {
             width: 100%;
-            span {
-                font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+
+            .badges {
+                display: inline-flex;
+                gap: 12px;
+                align-items: center;
+
+                .badge {
+                    overflow: hidden;
+                    width: 119px;
+                    padding: 8px 8px 5px 16px;
+                    flex: 1 0 0;
+
+                    p {
+                        overflow: hidden;
+                    }
+                }
             }
         }
     }

@@ -9,7 +9,8 @@ export const usePhotoOffer = create<IUsePhotoOffer>((set, get) => ({
     visible: false,
     author: undefined,
 
-    dispatch({ current, photos, payload, visible, author, offer }) {
+    dispatchPhotoOffer({ current, photos, payload, visible, author, offer }) {
+        console.log("dispatchPhotoOffer: close----", visible)
         const value: Partial<{
             current: IPhoto
             photos: IPhoto[]

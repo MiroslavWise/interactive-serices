@@ -17,7 +17,7 @@ import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const BannerServices = memo(function $BannerServices() {
+export const BannerServices = () => {
     const { token } = useAuth()
     const [activeService, setActiveService] = useState<
         ISegmentValues<TServices>
@@ -69,4 +69,4 @@ export const BannerServices = memo(function $BannerServices() {
             <GlassesBanner />
         </motion.div>
     ) : null
-})
+}

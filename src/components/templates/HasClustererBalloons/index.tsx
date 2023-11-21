@@ -1,14 +1,13 @@
 "use client"
 
-import { useMemo } from "react"
 import { useQueries } from "@tanstack/react-query"
 
 import { ButtonClose } from "@/components/common"
+import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
 import { useHasBalloons } from "@/store/hooks"
-import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import styles from "./styles/style.module.scss"
 
@@ -29,17 +28,9 @@ export const HasClustererBalloons = () => {
             })) || [],
     })
 
-    const offers = useMemo(() => {
-        if (dataOffers.every((item) => !item?.isLoading)) {
-            return dataOffers?.map((item) => item?.data?.res)
-        }
-
-        return []
-    }, [dataOffers])
-
-    const isLoading = useMemo(() => {
-        return dataOffers.some((item) => item.isLoading)
-    }, [dataOffers])
+    const offers = dataOffers.every((item) => !item?.isLoading)
+        ? dataOffers?.map((item) => item?.data?.res!)
+        : []
 
     return (
         <div
@@ -53,12 +44,6 @@ export const HasClustererBalloons = () => {
                     }}
                     position={{ right: 12, top: 12 }}
                 />
-                {/* <header>
-                    <p>
-                        Сервисы по адресу:{" "}
-                        <span>{data?.address?.additional}</span>
-                    </p>
-                </header> */}
                 <ul>
                     {offers.map((item) => (
                         <GeneralServiceAllItem

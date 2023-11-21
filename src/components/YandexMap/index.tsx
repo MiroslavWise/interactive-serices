@@ -30,10 +30,6 @@ const YandexMap: TYandexMap = ({}) => {
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
     const { dispatchHasBalloon } = useHasBalloons()
-    const insCoords = useRef(
-        JSON.parse(localStorage.getItem("coordinates")!)?.state?.coordinates ||
-            COORD,
-    )
     const instanceRef: TTypeInstantsMap = useRef()
     const { dispatchBounds, bounds } = useBounds()
 
@@ -144,11 +140,7 @@ const YandexMap: TYandexMap = ({}) => {
                     event.ready().then(() => {
                         if (!bounds?.length) {
                             const bounds = instanceRef.current?.getBounds()
-                            const center = instanceRef.current?.getCenter()
                             dispatchBounds({ bounds })
-                            instanceRef?.current?.setCenter(
-                                coordinates! || center || COORD,
-                            )
                         }
 
                         instanceRef.current?.events.add(
@@ -162,16 +154,16 @@ const YandexMap: TYandexMap = ({}) => {
                                         instanceRef.current?.getCenter()
 
                                     console.log("useEffect bounds: ", center)
-                                    dispatchMapCoordinates({
-                                        coordinates: center,
-                                    })
+                                    // dispatchMapCoordinates({
+                                    //     coordinates: center,
+                                    // })
                                 }
                             },
                         )
                     })
                 }}
                 state={{
-                    center: insCoords.current! || COORD,
+                    center: coordinates || COORD,
                     zoom: zoom,
                     behaviors: ["default"],
                     type: "yandex#map",

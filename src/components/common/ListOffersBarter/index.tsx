@@ -1,19 +1,18 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { forwardRef, memo, useMemo } from "react"
+import { forwardRef, useMemo } from "react"
 
 import type { TListOffersBarter } from "./types"
 
 import { ButtonDefault } from "../Buttons"
-import { ImageStatic } from "@/components/common/Image"
 
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 
 import styles from "./style.module.scss"
 
-const $ListOffersBarter = forwardRef(function ListOffersBarter(
+export const ListOffersBarter = forwardRef(function ListOffersBarter(
     props: TListOffersBarter,
 ) {
     const { items, active, onClick, ...rest } = props ?? {}
@@ -47,11 +46,11 @@ const $ListOffersBarter = forwardRef(function ListOffersBarter(
                             onClick(item.id)
                         }}
                     >
-                        <ImageStatic
-                            src="/map/circle-offers-default.png"
-                            alt="offer"
-                            width={58}
-                            height={58}
+                        <div
+                            data-image
+                            style={{
+                                backgroundImage: `url(/svg/category/${item.categoryId}.svg)`,
+                            }}
                         />
                         <h3>
                             {
@@ -65,7 +64,6 @@ const $ListOffersBarter = forwardRef(function ListOffersBarter(
                     </li>
                 ))}
             </ul>
-            {/* {length ? <sup></sup> : null} */}
             <ButtonDefault
                 handleClick={updateProfileOffers}
                 submit="button"
@@ -74,5 +72,3 @@ const $ListOffersBarter = forwardRef(function ListOffersBarter(
         </article>
     )
 })
-
-export const ListOffersBarter = memo($ListOffersBarter)

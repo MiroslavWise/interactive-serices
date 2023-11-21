@@ -1,11 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { isMobile } from "react-device-detect"
-import { useQuery } from "@tanstack/react-query"
 
-import type { IFriendsResponse } from "@/services/friends/types"
 import type { TTypeFriends } from "@/store/types/createDroverFriends"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
@@ -16,7 +13,6 @@ import { ButtonClose } from "@/components/common/Buttons"
 import { Segments } from "@/components/common/Segments"
 
 import { useAuth } from "@/store/hooks"
-import { serviceFriends } from "@/services/friends"
 import { SEGMENT_FRIENDS } from "./constants/segments"
 import { useReloadFriends } from "./hooks/useReloadFriends"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
@@ -40,21 +36,11 @@ export function DroverFriends() {
         dispatchFriends({ visible: false })
     }
 
-    const list: IFriendsResponse[] = useMemo(() => {
-        if (!data?.res) {
-            return []
-        }
-        return data?.res || []
-    }, [data?.res])
+    const list = data?.res || []
 
     return (
         <div className={styles.wrapper} data-mobile={isMobile}>
-            <motion.section
-                initial={{ opacity: 0, visibility: "hidden" }}
-                animate={{ opacity: 1, visibility: "visible" }}
-                transition={{ duration: 0.3 }}
-                exit={{ opacity: 0, visibility: "hidden" }}
-            >
+            <section>
                 {!isMobile && (
                     <ButtonClose
                         onClick={handleClose}
@@ -100,7 +86,7 @@ export function DroverFriends() {
                     </div>
                     <ListFriends list={list} type={segment.value} />
                 </article>
-            </motion.section>
+            </section>
         </div>
     )
 }

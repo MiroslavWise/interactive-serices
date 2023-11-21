@@ -213,7 +213,8 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                                 maxLength={240}
                             />
                             <Button
-                                type="submit"
+                                type="button"
+                                onClick={onSubmit}
                                 label="Добавить комментарий"
                                 typeButton="fill-primary"
                             />

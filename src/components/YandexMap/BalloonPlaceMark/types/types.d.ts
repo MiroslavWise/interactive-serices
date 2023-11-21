@@ -12,9 +12,7 @@ import type { ICommentsResponse } from "@/services/comments/types"
 
 interface IBalloonPlaceMark {}
 
-interface IBalloonComponent {
-    stateBalloon: IStateBalloon
-}
+interface IBalloonComponent {}
 
 interface IOfferBalloonComponent extends IBalloonComponent {}
 interface IDiscussionBalloonComponent extends IBalloonComponent {}

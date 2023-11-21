@@ -27,19 +27,38 @@ button {
     cursor: pointer;
 }
 
-ul,
 form,
 aside,
 textarea,
 section,
-article,
-div {
+article {
     list-style: none;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
 
     &::-webkit-scrollbar {
         display: none !important;
+    }
+}
+
+ul,
+div {
+    scrollbar-color: var(--primary-300) rgba(255, 255, 255, 0.1) !important;
+    scrollbar-width: 6px;
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        cursor: pointer;
+        background-color: var(--primary-300);
+
+        &:hover {
+            background-color: var(--primary-400) !important;
+        }
     }
 }
 

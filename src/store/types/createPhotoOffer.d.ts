@@ -34,5 +34,5 @@ export interface IUsePhotoOffer {
     visible: boolean
     author?: IAuthor
 
-    dispatch: Dispatch<IActionPhoto>
+    dispatchPhotoOffer: Dispatch<IActionPhoto>
 }
