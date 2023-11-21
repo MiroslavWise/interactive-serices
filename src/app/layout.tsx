@@ -11,8 +11,7 @@ const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
-const viewport =
-    "width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, height=device-height"
+const viewport = "width=device-width, initial-scale=1, user-scalable=no"
 
 export const metadata: Metadata = {
     title: "Sheira",
