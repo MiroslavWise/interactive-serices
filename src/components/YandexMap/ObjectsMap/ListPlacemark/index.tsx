@@ -9,11 +9,16 @@ import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
 import { serviceOffers } from "@/services/offers"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useFilterMap } from "@/store/hooks"
 
 const $ListPlacemark = () => {
+    const { idTarget } = useFilterMap()
+
+    const obj = idTarget ? { category: idTarget } : {}
+
     const { data: dataPlaces } = useQuery({
-        queryKey: ["offers"],
-        queryFn: () => serviceOffers.get(),
+        queryKey: ["offers", `category=${idTarget}`],
+        queryFn: () => serviceOffers.get(obj),
     })
     const { dispatch } = useBalloonCard()
 

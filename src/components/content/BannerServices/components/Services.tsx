@@ -13,7 +13,7 @@ import {
 } from "@/components/common/Card"
 
 import { cx } from "@/lib/cx"
-import { useBounds } from "@/store/hooks"
+import { useBounds, useFilterMap } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
 
 import styles from "../styles/style.module.scss"
@@ -22,7 +22,9 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
     setTotal,
     type,
 }) {
+    const { idTarget } = useFilterMap()
     const { bounds } = useBounds()
+    const obj = idTarget ? { category: idTarget } : {}
     const typeOffers = useMemo(() => {
         if (["offer", "request"].includes(type)) {
             return {
@@ -43,8 +45,8 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
     }, [type])
 
     const { data } = useQuery({
-        queryFn: () => serviceOffers.get(typeOffers.get!),
-        queryKey: typeOffers.keys,
+        queryFn: () => serviceOffers.get({ ...typeOffers.get!, ...obj }),
+        queryKey: [...typeOffers.keys, `category=${idTarget}`],
         enabled: !!type,
     })
 

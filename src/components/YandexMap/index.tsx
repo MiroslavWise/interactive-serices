@@ -1,7 +1,8 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
-import { useState, memo, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 
 import type { TTypeInstantsMap, TYandexMap } from "./types"
 
@@ -245,9 +246,9 @@ const YandexMap: TYandexMap = ({}) => {
                 addressInit={addressInit}
             />
             <MapCardNews />
-            <FilterFieldBottom />
+            {!isMobile ? <FilterFieldBottom /> : null}
         </>
     )
 }
 
-export default memo(YandexMap)
+export default YandexMap

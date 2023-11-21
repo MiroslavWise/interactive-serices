@@ -14,8 +14,6 @@ export const GeoTagging: TGeoTagging = ({
     className,
 }) => {
     function handle(event: any) {
-        event.preventDefault()
-        event.stopPropagation()
         if (onClick) {
             onClick()
         }
