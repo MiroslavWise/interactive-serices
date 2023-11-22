@@ -10,11 +10,13 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useModalAuth } from "@/store/hooks"
 
-import styles from "./styles/style.module.scss"
-
 export function ModalSign() {
     const { isAuth } = useAuth()
-    const { type, visible, dispatchAuthModal: setVisibleAndType } = useModalAuth()
+    const {
+        type,
+        visible,
+        dispatchAuthModal: setVisibleAndType,
+    } = useModalAuth()
 
     const buttonClose = (
         <ButtonClose
@@ -35,7 +37,7 @@ export function ModalSign() {
         <div
             className={cx(
                 "wrapper-fixed",
-                isMobile ? styles.overviewMobile : styles.overlay,
+                isMobile ? "authOverviewMobile" : "authOverlay",
             )}
             data-visible={visible}
         >

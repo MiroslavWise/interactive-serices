@@ -1,18 +1,27 @@
-self.addEventListener("install", () => {
-    console.log("service worker installed")
-})
+const installEvent = () => {
+    self.addEventListener("install", () => {
+        console.log("service worker installed")
+    })
+}
+installEvent()
 
-self.addEventListener("activate", () => {
-    console.log("service worker activated")
-})
+const activateEvent = () => {
+    self.addEventListener("activate", () => {
+        console.log("service worker activated")
+    })
+}
+activateEvent()
 
-const cacheName = "v2"
+const cacheName = "v-11434"
 
 const cacheClone = async (e) => {
     const res = await fetch(e.request)
+    console.log("res: r", res)
     const resClone = res.clone()
+    console.log("resClone: r", resClone)
 
     const cache = await caches.open(cacheName)
+    console.log("cache: r", cache)
     await cache.put(e.request, resClone)
     return res
 }

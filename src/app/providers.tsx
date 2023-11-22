@@ -1,7 +1,8 @@
 "use client"
 
+// import { Workbox } from "workbox-window"
 import { isMobile } from "react-device-detect"
-import { type ReactNode, useEffect, useLayoutEffect } from "react"
+import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
@@ -12,7 +13,7 @@ import {
     Containers,
 } from "@/context"
 import "@/context/DayJSDefault"
-import { AnimatedLoadPage, Glasses } from "@/components/layout"
+import { AnimatedLoadPage } from "@/components/layout"
 
 import {
     useAuth,
@@ -47,10 +48,14 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         window.addEventListener("load", () => {
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("/service/service-worker.js")
+                navigator.serviceWorker
+                    .register("/service-worker.js")
+                    .then((response) => {
+                        console.log("serviceWorker: ", response.scope)
+                    })
             }
         })
     }, [])
@@ -120,7 +125,6 @@ export default function Providers({ children }: { children: ReactNode }) {
                 </QueryClientProvider>
             </NextThemesProvider>
             <AnimatedLoadPage />
-            <Glasses />
         </>
     )
 }

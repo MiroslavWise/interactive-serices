@@ -15,7 +15,7 @@ export const Segments: TSegments = ({
     id,
 }) => {
     return (
-        <ul
+        <article
             className={cx(styles.container, classNames)}
             ref={ref}
             data-segments
@@ -42,6 +42,6 @@ export const Segments: TSegments = ({
                     <p>{item.label}</p>
                 </li>
             ))}
-        </ul>
+        </article>
     )
 }
