@@ -1,7 +1,7 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { type ReactNode, useEffect } from "react"
+import { type ReactNode, useEffect, useLayoutEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
@@ -46,6 +46,14 @@ export default function Providers({ children }: { children: ReactNode }) {
 
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
+
+    useLayoutEffect(() => {
+        window.addEventListener("load", () => {
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("/service/service-worker.js")
+            }
+        })
+    }, [])
 
     useEffect(() => {
         refresh()

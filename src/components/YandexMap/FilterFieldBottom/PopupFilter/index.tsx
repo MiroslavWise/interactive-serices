@@ -37,7 +37,10 @@ export const PopupFilter: TPopupFilter = ({ visible }) => {
                         onClick={() => {
                             dispatchTarget(item.id)
                         }}
-                        className={cx(idTarget === item.id && styles.active)}
+                        className={cx(
+                            idTarget?.toString() === item.id?.toString() &&
+                                styles.active,
+                        )}
                     >
                         <div
                             data-icon

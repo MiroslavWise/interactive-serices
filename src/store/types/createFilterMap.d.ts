@@ -1,7 +1,7 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
 
 interface IStateFilterMap {
-    idTarget: null | number
+    idTarget: null | string
 }
 
 interface IActionFilterMap {
