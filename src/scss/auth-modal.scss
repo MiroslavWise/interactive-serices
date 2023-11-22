@@ -1,5 +1,5 @@
-.overlay,
-.overviewMobile {
+.authOverlay,
+.authOverviewMobile {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +59,7 @@
     }
 }
 
-.overlay {
+.authOverlay {
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     padding: 50px 20px;
@@ -82,7 +82,7 @@
     }
 }
 
-.overviewMobile {
+.authOverviewMobile {
     background: var(--background);
 
     & > [data-close] {

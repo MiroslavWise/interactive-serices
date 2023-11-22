@@ -1,4 +1,4 @@
-.container {
+.buttonSelectionContainer {
     width: 231px;
     height: 141px;
     position: relative;
@@ -8,7 +8,7 @@
     transition: background 0.3s ease-in-out;
     cursor: pointer;
 
-    .contentIconType {
+    .buttonSelectionContentIconType {
         margin: auto;
         display: flex;
         flex-direction: column;
@@ -25,7 +25,7 @@
         }
     }
 
-    .checkBox {
+    .buttonSelectionCheckBox {
         position: absolute;
         top: 10px;
         left: 10px;
@@ -62,7 +62,7 @@
             transition: opacity 0.3s;
         }
 
-        .checkBox {
+        .buttonSelectionCheckBox {
             background: var(--primary-50);
             border: 1px solid var(--primary-600);
 

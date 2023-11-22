@@ -32,10 +32,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         formState: { errors },
         setError,
         setValue,
-    } = useForm<IValuesSignForm>({
-        mode: "onSubmit",
-        reValidateMode: "onChange",
-    })
+    } = useForm<IValuesSignForm>({})
 
     const onEnter = async (values: IValuesSignForm) => {
         if (!loading) {
@@ -137,11 +134,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
 
     return (
         <div className={styles.content} data-mobile={isMobile}>
-            <form
-                className={styles.form}
-                onSubmit={handleSubmit(onEnter)}
-                noValidate
-            >
+            <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
                 <section className={styles.section}>
                     <Input
                         label="Email"
@@ -158,10 +151,10 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             errors.email?.message === "user not found"
                                 ? "Такого пользователя не существует"
                                 : errors.email?.message === "email not valid"
-                                ? "Требуется email"
-                                : errors.email
-                                ? "Какая-то ошибка с Email"
-                                : ""
+                                  ? "Требуется email"
+                                  : errors.email
+                                    ? "Какая-то ошибка с Email"
+                                    : ""
                         }
                     />
                     <InputPassword
@@ -178,8 +171,8 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             errors.password.message === "invalid password"
                                 ? "Не верный пароль"
                                 : errors.password
-                                ? "Требуется пароль"
-                                : ""
+                                  ? "Требуется пароль"
+                                  : ""
                         }
                     />
                 </section>
