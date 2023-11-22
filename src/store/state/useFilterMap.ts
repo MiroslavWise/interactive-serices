@@ -5,10 +5,10 @@ export const useFilterMap = create<TUseFilterMap>((set, get) => ({
     idTarget: null,
 
     dispatchTarget(value) {
-        if (value === get().idTarget) {
+        if (value?.toString() === get().idTarget) {
             set({ idTarget: null })
         } else {
-            set({ idTarget: value })
+            set({ idTarget: value?.toString() })
         }
     },
 }))

@@ -49,7 +49,7 @@ export interface IResponseOffers {
 }
 
 interface IQueries {
-    category?: number
+    category?: string
     order?: TOrder
     user?: number
     provider?: TTypeProvider
