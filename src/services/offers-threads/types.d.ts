@@ -1,4 +1,3 @@
-import { NoInfer } from "react-redux"
 import { TTypeProvider } from "../file-upload/types"
 import { IReturnData } from "../types/general"
 

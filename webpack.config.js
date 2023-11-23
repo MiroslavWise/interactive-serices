@@ -11,10 +11,6 @@ module.exports = {
                 test: /\.m?js$/,
                 use: {
                     loader: "sass-loader",
-                    // options: {
-                    //     presets: ["@babel/preset-env"], // ensure compatibility with older browsers
-                    //     plugins: ["@babel/plugin-transform-object-assign"], // ensure compatibility with IE 11
-                    // },
                 },
             },
         ],

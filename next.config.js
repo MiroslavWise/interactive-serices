@@ -3,6 +3,7 @@
 const nextConfig = {
     output: "export",
     skipMiddlewareUrlNormalize: true,
+    swcMinify: true,
     env: {
         NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
         NEXT_PUBLIC_AUTO_VERIFICATION:
@@ -13,8 +14,11 @@ const nextConfig = {
     },
     images: {
         formats: ["image/avif", "image/webp"],
-        deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
         domains: [process.env.NEXT_PUBLIC_DOMAIN],
+    },
+    webpack: (config, { isServer }) => {
+        config.optimization.splitChunks = false
+        return config
     },
 }
 

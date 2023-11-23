@@ -13,7 +13,7 @@ const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
-const viewport = "width=device-width, initial-scale=1, user-scalable=no"
+const viewport = "width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"
 
 export const metadata: Metadata = {
     title: "Sheira",
@@ -27,6 +27,16 @@ export default function Layout({ children }: { children: ReactNode }) {
         <html lang="ru">
             <Head>
                 <meta name="viewport" content={viewport} />
+                <meta
+                    name="theme-color"
+                    media="(color-scheme: light)"
+                    content="#f9fafb"
+                />
+                <meta
+                    name="theme-color"
+                    media="(color-scheme: dark)"
+                    content="#232738"
+                />
             </Head>
             <body className={inter.className}>
                 <Providers>{children}</Providers>
