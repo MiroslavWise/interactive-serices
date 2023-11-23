@@ -59,6 +59,18 @@ const installEvent = () => {
                         "/svg/verified-tick.svg",
                         "/svg/verification.svg",
                         "/svg/users-03.svg",
+                        "/svg/trash-black.svg",
+                        "/svg/edit.svg",
+                        "/svg/stars/star-fill.svg",
+                        "/svg/stars/star-outline.svg",
+                        "/svg/arrow-right.svg",
+                        "/svg/geo-marker.svg",
+                        "/svg/log-out.svg",
+                        "/svg/loading-03.svg",
+                        "/svg/eye-off.svg",
+                        "/svg/eye.svg",
+                        "/svg/sliders-01.svg",
+                        "/svg/calendar.svg",
                     ]),
                 )
         }
