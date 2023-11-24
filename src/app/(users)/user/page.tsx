@@ -14,7 +14,6 @@ import {
 import { MotionUL } from "@/components/common/Motion"
 import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
 
-import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"

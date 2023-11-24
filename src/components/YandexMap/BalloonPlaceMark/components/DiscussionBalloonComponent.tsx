@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
@@ -20,23 +19,25 @@ import { AvatarsBalloon } from "./AvatarsBalloon"
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
     const { createGallery } = usePhotoVisible()
     const { handlePush } = usePush()
-    const { dispatchProfilePublic } = useProfilePublic()
-    const { id, idUser, type, dispatch } = useBalloonCard()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
+        id: _.id,
+        idUser: _.idUser,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
             {
                 queryFn: () => serviceOffers.getId(Number(id!)),
-                queryKey: [
-                    "offers",
-                    `offer=${id!}`,
-                    `provider=${type}`,
-                ],
+                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
                 refetchOnMount: false,
             },
             {
-                queryFn: () =>
-                    serviceProfile.getUserId(Number(idUser)),
+                queryFn: () => serviceProfile.getUserId(Number(idUser)),
                 queryKey: ["profile", `userId=${idUser!}`],
                 refetchOnMount: false,
             },

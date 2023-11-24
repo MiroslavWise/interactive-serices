@@ -12,7 +12,7 @@ import { useAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const ItemsAdress: TItemsAdress = ({}) => {
-    const { addresses } = useAuth()
+    const { addresses } = useAuth((_) => ({ addresses: _.addresses }))
 
     const listAdress: IAddressesResponse[] = useMemo(() => {
         if (addresses && addresses?.length > 0) {

@@ -15,7 +15,7 @@ import { useModalAuth } from "@/store/hooks"
 import styles from "../styles/form.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
-    const { setToken, email } = useAuth()
+    const { setToken, email } = useAuth(state => ({setToken: state.setToken, email: state.email}))
     const [loading, setLoading] = useState(false)
     const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     //todo

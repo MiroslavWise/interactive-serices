@@ -1,6 +1,5 @@
 "use client"
 
-import { memo } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
@@ -16,8 +15,13 @@ import { useAuth, useVisibleNotifications } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const Header: THeaderMobile = ({ handleAddressLocation }) => {
-    const { token, userId } = useAuth()
-    const { dispatchVisibleNotifications } = useVisibleNotifications()
+    const { token, userId } = useAuth((_) => ({
+        token: _.token,
+        userId: _.userId,
+    }))
+    const { dispatchVisibleNotifications } = useVisibleNotifications((_) => ({
+        dispatchVisibleNotifications: _.dispatchVisibleNotifications,
+    }))
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],

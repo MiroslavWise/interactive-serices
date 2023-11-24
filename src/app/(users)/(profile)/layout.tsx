@@ -1,7 +1,7 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { type ReactNode, useEffect } from "react"
+import { type ReactNode, useInsertionEffect } from "react"
 
 import { NavBarProfile } from "@/components/profile"
 
@@ -11,17 +11,23 @@ import { usePush } from "@/helpers/hooks/usePush"
 import styles from "@/scss/page.module.scss"
 
 export default function LayoutProfile({ children }: { children: ReactNode }) {
-    const { userId } = useAuth()
+    const isAuth = useAuth((state) => state.isAuth)
     const { handlePush } = usePush()
 
-    useEffect(() => {
-        if (userId) {
-        } else {
+    useInsertionEffect(() => {
+        console.log("LayoutProfile start")
+        let num = 0
+        if (typeof isAuth !== "undefined" && !isAuth) {
+            console.log("LayoutProfile handlePush")
             handlePush("/")
+            num += 1
         }
-    }, [userId, handlePush])
+        console.log("LayoutProfile num ", num)
+        console.log("LayoutProfile isAuth ", isAuth)
+        console.log("LayoutProfile end")
+    }, [isAuth, handlePush])
 
-    return userId ? (
+    return isAuth ? (
         <main className={styles.profileLayout}>
             {isMobile ? (
                 children

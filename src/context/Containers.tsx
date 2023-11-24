@@ -29,7 +29,6 @@ import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
     useAuth,
-    useModalAuth,
     useTermsOfUse,
     useBalloonCard,
     useHasBalloons,
@@ -42,11 +41,10 @@ import {
 import { usePhotoOffer } from "@/store/state/usePhotoOffer"
 
 export const Containers = () => {
-    const { token } = useAuth()
+    const { token, isAuth } = useAuth()
     const { visible } = useBalloonCard()
     const { isVisible } = useVisibleModalBarter()
     const { visibleFriends } = useDroverFriends()
-    const { visible: visibleAuth } = useModalAuth()
     const { visibleHasBalloon } = useHasBalloons()
     const { visiblePolicy, visibleRules } = useTermsOfUse()
     const { visibleUpdateMutual } = useUpdateMutualOffer()
@@ -60,11 +58,11 @@ export const Containers = () => {
             <FooterMenu />
             <PhotoCarousel />
             <WelcomeModal />
+            <BalloonPlaceMark />
             <AboutSheiraPopup />
             {isVisible && <Barter />}
+            {!token && !isAuth && <ModalSign />}
             <ToastContainer limit={3} />
-            {visible && <BalloonPlaceMark />}
-            {visibleAuth && !token && <ModalSign />}
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}

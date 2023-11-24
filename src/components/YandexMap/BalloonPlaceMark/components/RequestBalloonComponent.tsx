@@ -19,12 +19,21 @@ import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
-    const { categories } = useOffersCategories()
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic()
-    const { id, idUser, type, dispatch } = useBalloonCard()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
+        id: _.id,
+        idUser: _.idUser,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [

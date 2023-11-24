@@ -24,12 +24,29 @@ import styles from "./styles/layout.module.scss"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { current, photos, dispatchPhotoOffer, visible, author, offer } =
-        usePhotoOffer()
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
-    const { dispatchMapCoordinates } = useMapCoordinates()
-    const { dispatch: dispatchBalloon } = useBalloonCard()
-    const { dispatchProfilePublic } = useProfilePublic()
-    const { userId } = useAuth()
+        usePhotoOffer((_) => ({
+            current: _.current,
+            photos: _.photos,
+            dispatchPhotoOffer: _.dispatchPhotoOffer,
+            visible: _.visible,
+            author: _.author,
+            offer: _.offer,
+        }))
+    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
+        dispatchVisibleBarter: _.dispatchVisibleBarter,
+    }))
+    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
+        dispatchMapCoordinates: _.dispatchMapCoordinates,
+    }))
+    const { dispatchBalloon } = useBalloonCard((_) => ({
+        dispatchBalloon: _.dispatch,
+    }))
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { userId } = useAuth((_) => ({
+        userId: _.userId,
+    }))
     const { handlePush } = usePush()
 
     const widthCarousel: number = useMemo(() => {

@@ -16,7 +16,11 @@ import { TTypeProvider } from "@/services/file-upload/types"
 
 export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
-    const { visible, type, dispatch } = useBalloonCard()
+    const { visible, type, dispatch } = useBalloonCard((_) => ({
+        visible: _.visible,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
 
     const typeContent: Partial<Record<TTypeProvider, ReactNode>> = {
         offer: <OfferBalloonComponent />,
@@ -25,7 +29,7 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
         request: <RequestBalloonComponent />,
     }
 
-    return visible ? (
+    return (
         <div
             className={cx("wrapper-fixed", "modal-balloon-modal")}
             data-visible={visible}
@@ -56,5 +60,5 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 {typeContent.hasOwnProperty(type!) ? typeContent[type!] : null}
             </section>
         </div>
-    ) : null
+    )
 }

@@ -18,7 +18,7 @@ export const Header: THeader = ({
     setFile,
     setSelectedImage,
 }) => {
-    const { imageProfile } = useAuth()
+    const { imageProfile } = useAuth((_) => ({ imageProfile: _.imageProfile }))
 
     function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0]
