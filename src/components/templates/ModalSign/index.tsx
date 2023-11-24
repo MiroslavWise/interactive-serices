@@ -9,11 +9,11 @@ import { GlassesBanner } from "@/components/common/Glasses"
 import { useModalAuth } from "@/store/hooks"
 
 export function ModalSign() {
-    const { type, visible, dispatchAuthModal } = useModalAuth((state) => ({
-        type: state.type,
-        visible: state.visible,
-        dispatchAuthModal: state.dispatchAuthModal,
-    }))
+    const type = useModalAuth(({ type }) => type)
+    const visible = useModalAuth(({ visible }) => visible)
+    const dispatchAuthModal = useModalAuth(
+        ({ dispatchAuthModal }) => dispatchAuthModal,
+    )
 
     const buttonClose = (
         <ButtonClose

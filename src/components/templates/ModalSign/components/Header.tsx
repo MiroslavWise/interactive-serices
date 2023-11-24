@@ -11,7 +11,7 @@ import { MotionSectionOpacity } from "@/components/common/Motion"
 import { useModalAuth } from "@/store/hooks"
 
 export const HeaderAuth: THeaderModal = (email, typeVerification) => {
-    const { type } = useModalAuth((_) => ({ type: _.type }))
+    const type = useModalAuth(({ type }) => type)
 
     const content: { h3: string; p: string } | null = useMemo(() => {
         if (type === null || type === "SelectVerification") {

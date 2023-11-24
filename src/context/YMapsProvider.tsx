@@ -13,7 +13,7 @@ export const YMapsProvider = ({ children }: { children: ReactNode }) => {
                 lang: "ru_RU",
                 mode: "release",
             }}
-            preload={false}
+            preload={true}
         >
             {children}
         </YMaps>

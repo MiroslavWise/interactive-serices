@@ -24,16 +24,15 @@ import styles from "../styles/form.module.scss"
 export const ContentSignUp: TContentSignUp = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
-    const { dispatchPolicy, dispatchRules } = useTermsOfUse((_) => ({
-        dispatchPolicy: _.dispatchPolicy,
-        dispatchRules: _.dispatchRules,
-    }))
-    const { dispatchDataConfirmation } = useDataConfirmationPopUp((_) => ({
-        dispatchDataConfirmation: _.dispatchDataConfirmation,
-    }))
+    const dispatchAuthModal = useModalAuth(
+        ({ dispatchAuthModal }) => dispatchAuthModal,
+    )
+    const dispatchPolicy = useTermsOfUse(({ dispatchPolicy }) => dispatchPolicy)
+    const dispatchRules = useTermsOfUse(({ dispatchRules }) => dispatchRules)
+    const dispatchDataConfirmation = useDataConfirmationPopUp(
+        ({ dispatchDataConfirmation }) => dispatchDataConfirmation,
+    )
+
     const {
         register,
         watch,
@@ -52,7 +51,9 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                 return setError("__iremqwer__", { message: "email not valid" })
             }
             if (values.__wererfsdfwef__ !== values.__rwersdf__asdfsadf__) {
-                return setError("__rwersdf__asdfsadf__", { message: "no_repeat" })
+                return setError("__rwersdf__asdfsadf__", {
+                    message: "no_repeat",
+                })
             }
             if (!values.checkbox) {
                 return setError("checkbox", { message: "it's true?" })
@@ -69,7 +70,9 @@ export const ContentSignUp: TContentSignUp = ({}) => {
             })
                 .then((response) => {
                     if (response?.code === 409) {
-                        setError("__iremqwer__", { message: "user already exists" })
+                        setError("__iremqwer__", {
+                            message: "user already exists",
+                        })
                     }
                     if (response.ok) {
                         dispatchAuthModal({ visible: false })
@@ -112,7 +115,8 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         }
                         error={
                             errors.__iremqwer__ &&
-                            errors?.__iremqwer__?.message === "user already exists"
+                            errors?.__iremqwer__?.message ===
+                                "user already exists"
                                 ? "Пользователь уже существует"
                                 : errors?.__iremqwer__
                                 ? "Требуется email"
@@ -134,7 +138,8 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                             setValue("__wererfsdfwef__", event.target.value)
                         }
                         error={
-                            errors.__wererfsdfwef__?.message === "validate_register"
+                            errors.__wererfsdfwef__?.message ===
+                            "validate_register"
                                 ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
                                 : errors.__wererfsdfwef__
                                 ? "Требуется пароль"
@@ -155,11 +160,15 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         })}
                         value={watch("__rwersdf__asdfsadf__")}
                         onChange={(event) =>
-                            setValue("__rwersdf__asdfsadf__", event.target.value)
+                            setValue(
+                                "__rwersdf__asdfsadf__",
+                                event.target.value,
+                            )
                         }
                         error={
                             errors?.__rwersdf__asdfsadf__ &&
-                            errors?.__rwersdf__asdfsadf__?.message === "no_repeat"
+                            errors?.__rwersdf__asdfsadf__?.message ===
+                                "no_repeat"
                                 ? "Пароли не совпадают"
                                 : errors?.__rwersdf__asdfsadf__
                                 ? "Требуется пароль"

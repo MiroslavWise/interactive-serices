@@ -10,7 +10,7 @@ import { serviceUsers } from "@/services/users"
 import { initialStateAuth } from "../state/useAuthState"
 
 export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
-    set((state) => ({ ...state, ...initialState, isAuth: false }))
+    set((state) => ({ ...initialState, isAuth: false }))
 }
 
 export const setUserAction = (

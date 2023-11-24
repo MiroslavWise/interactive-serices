@@ -13,11 +13,11 @@ import { useAuth } from "@/store/hooks"
 import styles from "@/scss/page.module.scss"
 
 export default function Home() {
-    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
+    const { is } = useAuth((_) => ({ is: _.isAuth }))
 
     return (
         <main className={styles.main}>
-            {isAuth && <NavBarProfile />}
+            {is && <NavBarProfile />}
             <YandexMap />
             <BannerSign />
             <BannerServices />

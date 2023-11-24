@@ -27,9 +27,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
         categories: _.categories,
     }))
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
+    const dispatchProfilePublic = useProfilePublic(({dispatchProfilePublic}) => dispatchProfilePublic)
     const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
         id: _.id,
         idUser: _.idUser,

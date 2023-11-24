@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
-import type { TUseAuth } from "../types/useAuthState"
+import type { IAuthState, TUseAuth } from "../types/useAuthState"
 
 import {
     signOutAction,
@@ -13,7 +13,7 @@ import {
 import { AuthService } from "@/services/auth/authService"
 import { serviceProfile } from "@/services/profile"
 
-export const initialStateAuth = {
+export const initialStateAuth: IAuthState = {
     email: undefined,
     token: undefined,
     refreshToken: undefined,

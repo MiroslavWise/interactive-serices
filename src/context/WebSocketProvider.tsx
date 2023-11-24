@@ -8,6 +8,7 @@ import {
     useState,
     useInsertionEffect,
 } from "react"
+import { shallow } from "zustand/shallow"
 import {
     io,
     type ManagerOptions,
@@ -31,10 +32,8 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 })
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
-    const { token, userId } = useAuth((_) => ({
-        token: _.token,
-        userId: _.userId,
-    }))
+    const token = useAuth(({ token }) => token)
+    const userId = useAuth(({ userId }) => userId)
     const threadId = useSearchParams().get("thread")
     const { on } = useToast()
     const { handlePush } = usePush()

@@ -13,13 +13,10 @@ import { useTermsOfUse } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const TermsOfUse = () => {
-    const { visiblePolicy, visibleRules, dispatchPolicy, dispatchRules } =
-        useTermsOfUse((_) => ({
-            visiblePolicy: _.visiblePolicy,
-            visibleRules: _.visibleRules,
-            dispatchPolicy: _.dispatchPolicy,
-            dispatchRules: _.dispatchRules,
-        }))
+    const visiblePolicy = useTermsOfUse(({ visiblePolicy }) => visiblePolicy)
+    const visibleRules = useTermsOfUse(({ visibleRules }) => visibleRules)
+    const dispatchPolicy = useTermsOfUse(({ dispatchPolicy }) => dispatchPolicy)
+    const dispatchRules = useTermsOfUse(({ dispatchRules }) => dispatchRules)
 
     const h = useMemo(() => {
         if (visiblePolicy) return "Политика обработки персональных данных"

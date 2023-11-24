@@ -1,5 +1,4 @@
 import { useState } from "react"
-import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 
@@ -22,16 +21,13 @@ import styles from "../styles/form.module.scss"
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setToken, changeAuth } = useAuth((_) => ({
-        setToken: _.setToken,
-        changeAuth: _.changeAuth,
-    }))
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
-    const { setVisible } = useWelcomeModal((_) => ({
-        setVisible: _.setVisible,
-    }))
+    const setToken = useAuth(({ setToken }) => setToken)
+    const changeAuth = useAuth(({ changeAuth }) => changeAuth)
+    const dispatchAuthModal = useModalAuth(
+        ({ dispatchAuthModal }) => dispatchAuthModal,
+    )
+    const setVisible = useWelcomeModal(({ setVisible }) => setVisible)
+
     const {
         watch,
         register,

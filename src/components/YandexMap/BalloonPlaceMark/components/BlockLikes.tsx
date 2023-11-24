@@ -10,7 +10,7 @@ import { serviceLikes } from "@/services/likes"
 import styles from "../styles/likes.module.scss"
 
 export const BlockLikes: TBlockLikes = ({ id }) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const [loading, setLoading] = useState(false)
     const [count, setCount] = useState(0)
     const [myLike, setMyLike] = useState(false)

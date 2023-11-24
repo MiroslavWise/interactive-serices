@@ -18,7 +18,7 @@ import { serviceOffersThreads } from "@/services/offers-threads"
 import { ICommentsResponse } from "@/services/comments/types"
 
 export const BlockComments: TBlockComments = ({ type, offerId }) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const [loading, setLoading] = useState(false)
     const ulRef = useRef<HTMLUListElement>(null)
     const [activeListComments, setActiveListComments] = useState(false)

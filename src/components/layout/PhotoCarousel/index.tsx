@@ -13,11 +13,9 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function PhotoCarousel() {
-    const { isVisible, dispatchVisibleCarousel } = useVisiblePhotosCarousel(
-        (_) => ({
-            isVisible: _.isVisible,
-            dispatchVisibleCarousel: _.dispatchVisibleCarousel,
-        }),
+    const isVisible = useVisiblePhotosCarousel(({ isVisible }) => isVisible)
+    const dispatchVisibleCarousel = useVisiblePhotosCarousel(
+        ({ dispatchVisibleCarousel }) => dispatchVisibleCarousel,
     )
 
     return (

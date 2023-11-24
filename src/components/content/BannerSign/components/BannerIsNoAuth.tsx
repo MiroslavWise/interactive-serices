@@ -1,6 +1,5 @@
 "use client"
 
-import { memo } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
@@ -11,13 +10,13 @@ import { useModalAuth, useVisibleAbout } from "@/store/hooks"
 
 import styles from "../styles/banner.module.scss"
 
-export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
-    const { dispatchVisibleAbout } = useVisibleAbout((_) => ({
-        dispatchVisibleAbout: _.dispatchVisibleAbout,
-    }))
+export const BannerIsNoAuth = () => {
+    const dispatchAuthModal = useModalAuth(
+        ({ dispatchAuthModal }) => dispatchAuthModal,
+    )
+    const dispatchVisibleAbout = useVisibleAbout(
+        ({ dispatchVisibleAbout }) => dispatchVisibleAbout,
+    )
 
     return (
         <motion.ul
@@ -77,4 +76,4 @@ export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
             <GlassesBanner />
         </motion.ul>
     )
-})
+}

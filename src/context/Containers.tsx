@@ -40,32 +40,26 @@ import {
 } from "@/store/hooks"
 
 export const Containers = () => {
-    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
-    const { isVisible } = useVisibleModalBarter((_) => ({
-        isVisible: _.isVisible,
-    }))
+    const is = useAuth(({ isAuth }) => isAuth)
+    const isVisible = useVisibleModalBarter(({ isVisible }) => isVisible)
     const { visibleFriends } = useDroverFriends((_) => ({
         visibleFriends: _.visibleFriends,
     }))
-    const { visibleHasBalloon } = useHasBalloons((_) => ({
-        visibleHasBalloon: _.visibleHasBalloon,
-    }))
-    const { visiblePolicy, visibleRules } = useTermsOfUse((_) => ({
-        visiblePolicy: _.visiblePolicy,
-        visibleRules: _.visibleRules,
-    }))
-    const { visibleUpdateMutual } = useUpdateMutualOffer((_) => ({
-        visibleUpdateMutual: _.visibleUpdateMutual,
-    }))
-    const { visibleNotifications } = useVisibleNotifications((_) => ({
-        visibleNotifications: _.visible,
-    }))
-    const { visibleDataConfirmation } = useDataConfirmationPopUp((_) => ({
-        visibleDataConfirmation: _.visibleDataConfirmation,
-    }))
-    const { visiblePhotoOffer } = usePhotoOffer((_) => ({
-        visiblePhotoOffer: _.visible,
-    }))
+    const visibleHasBalloon = useHasBalloons(
+        ({ visibleHasBalloon }) => visibleHasBalloon,
+    )
+    const visiblePolicy = useTermsOfUse(({ visiblePolicy }) => visiblePolicy)
+    const visibleRules = useTermsOfUse(({ visibleRules }) => visibleRules)
+    const visibleUpdateMutual = useUpdateMutualOffer(
+        ({ visibleUpdateMutual }) => visibleUpdateMutual,
+    )
+    const visibleNotifications = useVisibleNotifications(
+        ({ visible }) => visible,
+    )
+    const visibleDataConfirmation = useDataConfirmationPopUp(
+        ({ visibleDataConfirmation }) => visibleDataConfirmation,
+    )
+    const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
 
     return (
         <>
@@ -76,13 +70,13 @@ export const Containers = () => {
             <BalloonPlaceMark />
             <AboutSheiraPopup />
             {isVisible && <Barter />}
-            {!isAuth && !isAuth && <ModalSign />}
+            {!is && <ModalSign />}
             <ToastContainer limit={3} />
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
             {visibleDataConfirmation && <DataConfirmationPopUp />}
-            {isAuth && (
+            {is && (
                 <>
                     <ComplaintModal />
                     <NewServicesBanner />

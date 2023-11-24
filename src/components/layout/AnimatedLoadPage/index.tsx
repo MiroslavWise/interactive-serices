@@ -10,10 +10,10 @@ import styles from "./style.module.scss"
 
 export function AnimatedLoadPage() {
     const pathname = usePathname()
-    const { isAnimated, setIsAnimated } = useAnimateLoadPage((_) => ({
-        isAnimated: _.isAnimated,
-        setIsAnimated: _.setIsAnimated,
-    }))
+    const isAnimated = useAnimateLoadPage(({ isAnimated }) => isAnimated)
+    const setIsAnimated = useAnimateLoadPage(
+        ({ setIsAnimated }) => setIsAnimated,
+    )
 
     useInsertionEffect(() => {
         setIsAnimated(false)

@@ -44,8 +44,13 @@ article {
     }
 }
 
+li {
+    list-style: none;
+}
+
 ul,
 div {
+    list-style: none;
     scrollbar-color: var(--primary-300) rgba(255, 255, 255, 0.1) !important;
     scrollbar-width: 6px;
     &::-webkit-scrollbar {

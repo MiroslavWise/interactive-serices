@@ -26,31 +26,23 @@ import {
 import styles from "./styles/layout.module.scss"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
-    const { current, photos, dispatchPhotoOffer, visible, author, offer } =
-        usePhotoOffer((_) => ({
-            current: _.current,
-            photos: _.photos,
-            dispatchPhotoOffer: _.dispatchPhotoOffer,
-            visible: _.visible,
-            author: _.author,
-            offer: _.offer,
-        }))
-    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
-        dispatchVisibleBarter: _.dispatchVisibleBarter,
-    }))
-    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
-        dispatchMapCoordinates: _.dispatchMapCoordinates,
-    }))
-    const { dispatchBalloon } = useBalloonCard((_) => ({
-        dispatchBalloon: _.dispatch,
-    }))
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
-    const { userId } = useAuth((_) => ({
-        userId: _.userId,
-    }))
     const { handlePush } = usePush()
+    const current = usePhotoOffer(({ current }) => current)
+    const photos = usePhotoOffer(({ photos }) => photos)
+    const dispatchPhotoOffer = usePhotoOffer(
+        ({ dispatchPhotoOffer }) => dispatchPhotoOffer,
+    )
+    const visible = usePhotoOffer(({ visible }) => visible)
+    const author = usePhotoOffer(({ author }) => author)
+    const offer = usePhotoOffer(({ offer }) => offer)
+    const dispatchVisibleBarter = useVisibleModalBarter(
+        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
+    )
+    const dispatchBalloon = useBalloonCard(({ dispatch }) => dispatch)
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
+    const userId = useAuth(({ userId }) => userId)
 
     const widthCarousel: number = useMemo(() => {
         return photos.length * 90 + photos.length * 13 - 13 + 40 || 0
@@ -74,7 +66,6 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     }
 
     function handlePrev() {
-        console.log("handlePrev: ")
         if (current?.index === 0) {
             dispatchPhotoOffer({ current: photos.at(-1) })
         } else {
@@ -83,7 +74,6 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     }
 
     function handleNext() {
-        console.log("handleNext")
         if (current?.index === photos?.length - 1) {
             dispatchPhotoOffer({ current: photos[0] })
         } else {
@@ -121,21 +111,6 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const geo =
         (offer?.addresses && offer?.addresses?.length && offer?.addresses[0]) ||
         null
-
-    function handleGeo() {
-        if (geo) {
-            dispatchBalloon({ visible: false })
-            dispatchMapCoordinates({
-                coordinates: geo?.coordinates
-                    ?.split(" ")
-                    ?.reverse()
-                    ?.map(Number),
-            })
-        }
-    }
-
-    console.log("offer: ", offer)
-    console.log("geo: ", geo)
 
     return visible ? (
         <main

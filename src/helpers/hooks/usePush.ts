@@ -8,9 +8,9 @@ import { useCloseAllModal } from "./useCloseAllModal"
 export const usePush = () => {
     const { push, replace, back } = useRouter()
     const pathname = usePathname()
-    const { setIsAnimated } = useAnimateLoadPage((_) => ({
-        setIsAnimated: _.setIsAnimated,
-    }))
+    const setIsAnimated = useAnimateLoadPage(
+        ({ setIsAnimated }) => setIsAnimated,
+    )
     const close = useCloseAllModal()
 
     function handleReplace(value: string) {
@@ -20,12 +20,11 @@ export const usePush = () => {
     }
 
     function handlePush(value: string) {
-        // close()
-        // if (pathname !== value) {
-        //     setIsAnimated(true)
-        // }
-        console.log("push: ----", value)
-        push(value)
+        if (pathname !== value) {
+            setIsAnimated(true)
+            close()
+        }
+        push(value, { scroll: false })
     }
 
     function backing() {

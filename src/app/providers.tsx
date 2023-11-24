@@ -36,7 +36,7 @@ const queryClient = new QueryClient({
 })
 
 export default function Providers({ children }: { children: ReactNode }) {
-    const { refresh } = useAuth((_) => ({ refresh: _.refresh }))
+    const { refresh } = useAuth()
     const searchParams = useSearchParams()
     const { handleReplace } = usePush()
     const { on } = useToast()
@@ -50,7 +50,10 @@ export default function Providers({ children }: { children: ReactNode }) {
     }))
 
     const { offersCategories, getFetchingOffersCategories } =
-        useFetchingSession()
+        useFetchingSession((_) => ({
+            offersCategories: _.offersCategories,
+            getFetchingOffersCategories: _.getFetchingOffersCategories,
+        }))
 
     useEffect(() => {
         window.addEventListener("load", () => {
@@ -65,6 +68,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     }, [])
 
     useEffect(() => {
+        console.log("refresh: ", refresh)
         refresh()
     }, [refresh])
     useEffect(() => {

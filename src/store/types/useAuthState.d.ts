@@ -47,17 +47,17 @@ export interface IImageData {
 }
 
 export interface IAuthState {
-    email: undefined | string
-    expires: undefined | number
-    token: string | undefined
-    refreshToken: string | undefined
-    userId: number | undefined
-    profileId: number | undefined
-    isAuth: boolean | undefined
-    user: IUser | undefined
-    imageProfile: IImageData | undefined
-    createdUser: string | undefined | Date
-    addresses: IAddressesResponse[] | undefined
+    email?: string
+    expires?: number
+    token?: string
+    refreshToken?: string
+    userId?: number
+    profileId?: number
+    isAuth?: boolean
+    user?: IUser
+    imageProfile?: IImageData
+    createdUser?: string | Date
+    addresses?: IAddressesResponse[]
 }
 
 export interface IAuthAction {

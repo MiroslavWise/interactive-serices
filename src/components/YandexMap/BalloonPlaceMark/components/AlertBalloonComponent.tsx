@@ -21,9 +21,9 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
     const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
     const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
         id: _.id,
         idUser: _.idUser,

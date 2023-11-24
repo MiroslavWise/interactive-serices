@@ -42,31 +42,18 @@ export const useCloseAllModal = () => {
     )
 
     function close() {
-        console.log("close: ------------------- dispatchBallonCard")
         dispatchBallonCard({ visible: false })
-        console.log("close: ------------------- dispatchCompletion")
         dispatchCompletion({ visible: false })
-        console.log("close: ------------------- dispatchFriends")
         dispatchFriends({ visible: false })
-        console.log("close: ------------------- dispatchHasBalloon")
         dispatchHasBalloon({ visible: false })
-        console.log("close: ------------------- dispatchAuthModal")
         dispatchAuthModal({ visible: false })
-        console.log("close: ------------------- setIsVisible")
         setIsVisible(false)
-        console.log("close: ------------------- dispatchUpdateMutual")
         dispatchUpdateMutual({ visible: false })
-        console.log("close: ------------------- dispatchVisibleBarter")
         dispatchVisibleBarter({ isVisible: false })
-        console.log("close: ------------------- dispatchVisibleCarousel")
         dispatchVisibleCarousel({ visible: false })
-        console.log("close: ------------------- dispatchNewServicesBanner")
         dispatchNewServicesBanner(false)
-        console.log("close: ------------------- dispatchPhotoOffer")
         dispatchPhotoOffer({ visible: false })
-        console.log("close: ------------------- dispatchProfilePublic")
         dispatchProfilePublic({ visible: false })
-        console.log("close: ------------------- end")
     }
 
     return close

@@ -28,12 +28,8 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
         categories: _.categories,
     }))
     const { createGallery } = usePhotoVisible()
-    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
-        dispatchVisibleBarter: _.dispatchVisibleBarter,
-    }))
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
+    const dispatchVisibleBarter = useVisibleModalBarter(({dispatchVisibleBarter}) => dispatchVisibleBarter)
+    const dispatchProfilePublic = useProfilePublic(({dispatchProfilePublic}) => dispatchProfilePublic)
     const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
         id: _.id,
         idUser: _.idUser,

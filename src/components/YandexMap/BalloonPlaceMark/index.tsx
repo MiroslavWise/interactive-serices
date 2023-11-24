@@ -16,11 +16,9 @@ import { TTypeProvider } from "@/services/file-upload/types"
 
 export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
-    const { visible, type, dispatch } = useBalloonCard((_) => ({
-        visible: _.visible,
-        type: _.type,
-        dispatch: _.dispatch,
-    }))
+    const visible = useBalloonCard(({ visible }) => visible)
+    const type = useBalloonCard(({ type }) => type)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const typeContent: Partial<Record<TTypeProvider, ReactNode>> = {
         offer: <OfferBalloonComponent />,

@@ -24,13 +24,13 @@ export const Buttons = () => {
     const { dispatchAuthModal } = useModalAuth((_) => ({
         dispatchAuthModal: _.dispatchAuthModal,
     }))
-    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
+    const { is } = useAuth((_) => ({ is: _.isAuth }))
     const { handlePush } = usePush()
     const [active, setActive, ref] = useOutsideClickEvent()
 
     return !isMobile ? (
-        typeof isAuth !== "undefined" ? (
-            isAuth ? (
+        typeof is !== "undefined" ? (
+            is ? (
                 <div className={styles.buttons}>
                     {pathname !== "/" ? (
                         <Button

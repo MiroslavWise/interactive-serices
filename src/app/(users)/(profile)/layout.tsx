@@ -11,17 +11,17 @@ import { usePush } from "@/helpers/hooks/usePush"
 import styles from "@/scss/page.module.scss"
 
 export default function LayoutProfile({ children }: { children: ReactNode }) {
-    const isAuth = useAuth((_) => _.isAuth)
+    const { is } = useAuth((_) => ({ is: _.isAuth }))
     const { handlePush } = usePush()
 
     useEffect(() => {
-        console.log("useInsertionEffect: ", isAuth)
-        if (typeof isAuth !== "undefined" && !isAuth) {
+        console.log("useInsertionEffect: ", is)
+        if (typeof is !== "undefined" && !is) {
             handlePush("/")
         }
-    }, [isAuth, handlePush])
+    }, [is, handlePush])
 
-    return isAuth ? (
+    return is ? (
         <main className={styles.profileLayout}>
             {isMobile ? (
                 children
