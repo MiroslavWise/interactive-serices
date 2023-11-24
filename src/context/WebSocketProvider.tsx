@@ -31,7 +31,10 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 })
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
-    const { token, userId } = useAuth()
+    const { token, userId } = useAuth((_) => ({
+        token: _.token,
+        userId: _.userId,
+    }))
     const threadId = useSearchParams().get("thread")
     const { on } = useToast()
     const { handlePush } = usePush()

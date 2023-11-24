@@ -13,9 +13,8 @@ import { NextImageMotion } from "@/components/common/Image"
 import { cx } from "@/lib/cx"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
-import { usePopupMenuChat } from "@/store/hooks"
+import { usePopupMenuChat, useMessagesType } from "@/store/hooks"
 import { useRefetchListChat } from "../../hook/useRefetchListChat"
-import { useMessagesType } from "@/store/state/useMessagesType"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
 
 import mainStyles from "../styles/style.module.scss"
@@ -27,9 +26,12 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
 }) {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
-    const { isVisible, setIsVisible } = usePopupMenuChat()
+    const { isVisible, setIsVisible } = usePopupMenuChat((_) => ({
+        isVisible: _.isVisible,
+        setIsVisible: _.setIsVisible,
+    }))
     const refresh = useRefetchListChat()
-    const { type } = useMessagesType()
+    const { type } = useMessagesType((_) => ({ type: _.type }))
     const { handlePush, handleReplace } = usePush()
 
     function handleClickMenu(value: TTypeActionMenu) {

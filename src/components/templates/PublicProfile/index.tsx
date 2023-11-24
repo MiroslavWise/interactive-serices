@@ -17,14 +17,19 @@ import { InfoContainerProfile } from "./components/InfoContainerProfile"
 
 import { cx } from "@/lib/cx"
 import { serviceUsers } from "@/services/users"
+import { useProfilePublic } from "@/store/hooks"
 import { VALUES } from "./constants/SEGMENTS"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 import styles from "./styles/style.module.scss"
 
 export const PublicProfile = () => {
     const { visibleProfilePublic, idUser, dispatchProfilePublic, isLeft } =
-        useProfilePublic()
+        useProfilePublic((_) => ({
+            visibleProfilePublic: _.visibleProfilePublic,
+            idUser: _.idUser,
+            dispatchProfilePublic: _.dispatchProfilePublic,
+            isLeft: _.isLeft,
+        }))
     const [activeSegment, setActiveSegment] = useState<
         ISegmentValues<TTypeSegment>
     >(VALUES[0])

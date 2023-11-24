@@ -7,8 +7,7 @@ import type { TListOffersBarter } from "./types"
 
 import { ButtonDefault } from "../Buttons"
 
-import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import { useOffersCategories, useAddCreateModal } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -16,8 +15,13 @@ export const ListOffersBarter = forwardRef(function ListOffersBarter(
     props: TListOffersBarter,
 ) {
     const { items, active, onClick, ...rest } = props ?? {}
-    const { categories } = useOffersCategories()
-    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal()
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
+    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
+        dispatchVisibleTypeCreateOptionals:
+            _.dispatchVisibleTypeCreateOptionals,
+    }))
 
     const height = useMemo(() => {
         const length = items?.length || 70 + 32

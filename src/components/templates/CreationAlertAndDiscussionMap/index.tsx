@@ -9,12 +9,14 @@ import { ButtonClose } from "@/components/common"
 import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useCreateAlert } from "@/store/state/useCreateAlert"
-import { useCreateOffer } from "@/store/state/useCreateOffer"
-import { useVisibleBannerNewServices } from "@/store/hooks"
-import { useCreateRequest } from "@/store/state/useCreateRequest"
-import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import {
+    useVisibleBannerNewServices,
+    useCreateOffer,
+    useCreateAlert,
+    useCreateDiscussion,
+    useAddCreateModal,
+    useCreateRequest,
+} from "@/store/hooks"
 import { NEW_CREATE_BADGES } from "../NewServicesBanner/constants"
 
 import styles from "./styles/style.module.scss"
@@ -25,13 +27,24 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     addressInit,
     setIsOpen,
 }) => {
-    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } =
-        useAddCreateModal()
-    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
-    const { setAddressInit: setAddressInitAlert } = useCreateAlert()
-    const { setAddressInit: setAddressInitDiscussion } = useCreateDiscussion()
-    const { setAddressInit: setAddressInitOffer } = useCreateOffer()
-    const { setAddressInit: setAddressInitRequest } = useCreateRequest()
+    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
+        dispatchVisibleTypeCreateOptionals:
+            _.dispatchVisibleTypeCreateOptionals,
+    }))
+    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } =
+        useVisibleBannerNewServices()
+    const { setAddressInitAlert } = useCreateAlert((_) => ({
+        setAddressInitAlert: _.setAddressInit,
+    }))
+    const { setAddressInitDiscussion } = useCreateDiscussion((_) => ({
+        setAddressInitDiscussion: _.setAddressInit,
+    }))
+    const { setAddressInitOffer } = useCreateOffer((_) => ({
+        setAddressInitOffer: _.setAddressInit,
+    }))
+    const { setAddressInitRequest } = useCreateRequest((_) => ({
+        setAddressInitRequest: _.setAddressInit,
+    }))
 
     function handleType(value: TAddCreate) {
         if (value === "alert") {
@@ -49,7 +62,7 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
         if (!value) {
             setIsVisibleNewServicesBanner(false)
         } else {
-            setVisibleAndType({ visible: true, type: value })
+            dispatchVisibleTypeCreateOptionals({ visible: true, type: value })
             setIsVisibleNewServicesBanner(false)
         }
     }

@@ -12,8 +12,10 @@ import { useDroverFriends } from "@/store/state/useDroverFriends"
 import styles from "./styles/button-friends.module.scss"
 
 export const ButtonFriends = () => {
-    const { dispatchFriends } = useDroverFriends()
-    const { userId } = useAuth()
+    const { dispatchFriends } = useDroverFriends((_) => ({
+        dispatchFriends: _.dispatchFriends,
+    }))
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
 
     const { data } = useQuery({
         queryFn: () => serviceFriends.get(),

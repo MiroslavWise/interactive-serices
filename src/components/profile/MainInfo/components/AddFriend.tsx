@@ -16,7 +16,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 
 export const AddFriend = ({ user }: { user: IUserResponse }) => {
     const [loading, setLoading] = useState(false)
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const [isFriends, setIsFriends] = useState(false)
     const [isRequest, setIsRequest] = useState(false)
     const [isResponse, setIsResponse] = useState(false)

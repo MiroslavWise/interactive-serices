@@ -11,9 +11,8 @@ import { SelectAndTextarea } from "../../components/SelectAndTextarea"
 import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
-import { useAuth } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
-import { useCreateRequest } from "@/store/state/useCreateRequest"
+import { useAuth, useCreateRequest } from "@/store/hooks"
 import { AddressDescription } from "../../components/AddressDescription"
 import { ImagesUploadInput } from "../../components/ImagesUploadInput"
 import {
@@ -26,7 +25,7 @@ import { serviceAddresses } from "@/services/addresses"
 import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { close } = useCloseCreateOptions()
     const [loading, setLoading] = useState(false)
     const refresh = useRefresh()
@@ -43,7 +42,20 @@ export const Start = () => {
         addressInit,
         adressId,
         setAddressId,
-    } = useCreateRequest()
+    } = useCreateRequest((_) => ({
+        text: _.text,
+        files: _.files,
+        selectedFile: _.selectedFile,
+        setFile: _.setFile,
+        setText: _.setText,
+        setSelectedFile: _.setSelectedFile,
+        setStepRequest: _.setStepRequest,
+        selected: _.selected,
+        setValueCategory: _.setValueCategory,
+        addressInit: _.addressInit,
+        adressId: _.adressId,
+        setAddressId: _.setAddressId,
+    }))
 
     function handleExit() {
         close()

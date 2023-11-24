@@ -3,12 +3,13 @@
 import { LabelAndInput } from "../../components/LabelAndInput"
 import { LabelAndSelectOffersCategories } from "../../components/LabelAndSelectOffersCategories"
 
-import { useCreateOffer } from "@/store/state/useCreateOffer"
-
-import styles from "./styles/service-selection.module.scss"
 import { SelectAndTextarea } from "../../components/SelectAndTextarea"
 import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 import { AddressDescription } from "../../components/AddressDescription"
+
+import { useCreateOffer } from "@/store/hooks"
+
+import styles from "./styles/service-selection.module.scss"
 
 export const ServiceSelection = () => {
     const {
@@ -19,7 +20,15 @@ export const ServiceSelection = () => {
         setValueCategory,
         adressId,
         setAddressId,
-    } = useCreateOffer()
+    } = useCreateOffer((_) => ({
+        text: _.text,
+        addressInit: _.addressInit,
+        valueCategory: _.valueCategory,
+        setText: _.setText,
+        setValueCategory: _.setValueCategory,
+        adressId: _.adressId,
+        setAddressId: _.setAddressId,
+    }))
 
     return (
         <section className={styles.wrapper}>

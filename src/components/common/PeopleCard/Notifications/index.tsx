@@ -23,7 +23,7 @@ export const PeopleCard: TPeopleCardNotifications = ({
     path,
     userId,
 }) => {
-    const { userId: myId } = useAuth()
+    const { myId } = useAuth((_) => ({ myId: _.userId }))
     const { handlePush } = usePush()
 
     return (

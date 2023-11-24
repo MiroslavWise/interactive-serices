@@ -12,11 +12,10 @@ import { AddressDescription } from "../../components/AddressDescription"
 import { ImagesUploadInput } from "../../components/ImagesUploadInput"
 import { LabelAndSelectAddress } from "../../components/LabelAndSelectAddress"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth, useCreateDiscussion } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
 import { serviceAddresses } from "@/services/addresses"
 import { fileUploadService } from "@/services/file-upload"
-import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 import {
     replaceRussianMats,
     transliterateAndReplace,
@@ -25,7 +24,7 @@ import {
 import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { close } = useCloseCreateOptions()
     const [loading, setLoading] = useState(false)
     const refresh = useRefresh()
@@ -40,7 +39,18 @@ export const Start = () => {
         addressInit,
         adressId,
         setAddressId,
-    } = useCreateDiscussion()
+    } = useCreateDiscussion((_) => ({
+        text: _.text,
+        files: _.files,
+        selectedFile: _.selectedFile,
+        setFile: _.setFile,
+        setText: _.setText,
+        setSelectedFile: _.setSelectedFile,
+        setStepDiscussion: _.setStepDiscussion,
+        addressInit: _.addressInit,
+        adressId: _.adressId,
+        setAddressId: _.setAddressId,
+    }))
 
     async function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {

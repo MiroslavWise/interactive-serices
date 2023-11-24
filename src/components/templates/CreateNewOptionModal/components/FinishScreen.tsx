@@ -18,9 +18,13 @@ import { useCloseCreateOptions } from "@/helpers/hooks/useCloseCreateOptions"
 import styles from "./styles/finish-screen.module.scss"
 
 export const FinishScreen = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({
+        userId: _.userId,
+    }))
     const { close } = useCloseCreateOptions()
-    const { typeAdd } = useAddCreateModal()
+    const { typeAdd } = useAddCreateModal((_) => ({
+        typeAdd: _.typeAdd,
+    }))
 
     const content: string | null = useMemo(() => {
         if (!typeAdd) return null

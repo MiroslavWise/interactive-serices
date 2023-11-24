@@ -52,15 +52,15 @@ export type TContentCodeVerification = FC<{
 }>
 
 export interface IValuesRegistrationForm {
-    email: string
-    password: string
-    repeat_password: string
-    checkbox: boolean
+    __iremqwer__: string //email
+    __wererfsdfwef__: string //password
+    __rwersdf__asdfsadf__: string //repeat_password
+    checkbox: boolean //checkbox
 }
 
 export interface IValuesSignForm {
-    email: string
-    password: string
+    finaly_qwer: string
+    _qwer_rrewwrerq: string
     checkbox: boolean
 }
 

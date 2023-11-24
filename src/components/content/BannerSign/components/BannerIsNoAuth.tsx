@@ -7,14 +7,17 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/common"
 import { GlassesBanner } from "@/components/common/Glasses"
 
-import { useModalAuth } from "@/store/hooks"
-import { useVisibleAbout } from "@/store/state/useVisibleAbout"
+import { useModalAuth, useVisibleAbout } from "@/store/hooks"
 
 import styles from "../styles/banner.module.scss"
 
 export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
-    const { dispatchVisibleAbout } = useVisibleAbout()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
+    const { dispatchVisibleAbout } = useVisibleAbout((_) => ({
+        dispatchVisibleAbout: _.dispatchVisibleAbout,
+    }))
 
     return (
         <motion.ul
@@ -45,7 +48,7 @@ export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
                             typeButton="fill-primary"
                             label="Войти"
                             onClick={() => {
-                                setVisibleAndType({
+                                dispatchAuthModal({
                                     visible: true,
                                     type: "SignIn",
                                 })
@@ -56,7 +59,7 @@ export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
                             typeButton="regular-primary"
                             label="Зарегистрироваться"
                             onClick={() => {
-                                setVisibleAndType({
+                                dispatchAuthModal({
                                     visible: true,
                                     type: "SignUp",
                                 })

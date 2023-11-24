@@ -8,18 +8,22 @@ import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import {
+    useBalloonCard,
+    useOffersCategories,
+    useMapCoordinates,
+} from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
 export const BadgeServices: TBadgeServices = (props) => {
     const { id, provider, categoryId, userId, addresses, isClickable } = props
-    const { handlePush } = usePush()
-    const { categories } = useOffersCategories()
-    const { dispatchMapCoordinates } = useMapCoordinates()
-    const { dispatch } = useBalloonCard()
+    // const { handlePush } = usePush()
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
+    // const { dispatchMapCoordinates } = useMapCoordinates()
+    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
 
     const infoCategory = useMemo(() => {
         if (!categories.length || !categoryId) {

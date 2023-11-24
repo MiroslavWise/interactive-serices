@@ -13,7 +13,7 @@ import { useAuth } from "@/store/hooks"
 import styles from "@/scss/page.module.scss"
 
 export default function Home() {
-    const { isAuth } = useAuth()
+    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
 
     return (
         <main className={styles.main}>

@@ -18,7 +18,7 @@ import { useAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const BannerServices = () => {
-    const { token } = useAuth()
+    const { token } = useAuth((_) => ({ token: _.token }))
     const [activeService, setActiveService] = useState<
         ISegmentValues<TServices>
     >(SERVICES[0])

@@ -8,12 +8,12 @@ import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
 import { serviceOffers } from "@/services/offers"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useFilterMap } from "@/store/hooks"
 import { IQueriesOffers } from "@/services/offers/types"
+import { useFilterMap, useBalloonCard } from "@/store/hooks"
 
 const $ListPlacemark = () => {
     const { idTarget } = useFilterMap((_) => ({ idTarget: _.idTarget }))
+    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
 
     const obj = idTarget
         ? ({ category: idTarget, order: "DESC" } as IQueriesOffers)
@@ -23,7 +23,6 @@ const $ListPlacemark = () => {
         queryKey: ["offers", `category=${idTarget}`],
         queryFn: () => serviceOffers.get(obj),
     })
-    const { dispatch } = useBalloonCard()
 
     const marks: IPlacemarkCurrent[] = useMemo(() => {
         const array: IPlacemarkCurrent[] = []

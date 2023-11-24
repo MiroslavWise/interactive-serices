@@ -17,10 +17,14 @@ import { Button } from "@/components/common"
 
 export const Buttons = () => {
     const pathname = usePathname()
-    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchNewServicesBanner } = useVisibleBannerNewServices((_) => ({
+        dispatchNewServicesBanner: _.dispatchNewServicesBanner,
+    }))
     const { isAddresses } = useAddress()
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
-    const { isAuth } = useAuth()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
+    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
     const { handlePush } = usePush()
     const [active, setActive, ref] = useOutsideClickEvent()
 
@@ -51,7 +55,7 @@ export const Buttons = () => {
                         }
                         onClick={() => {
                             if (isAddresses) {
-                                setIsVisibleNewServicesBanner(true)
+                                dispatchNewServicesBanner(true)
                             } else {
                                 setActive(true)
                             }
@@ -66,7 +70,7 @@ export const Buttons = () => {
                         typeButton="fill-primary"
                         className={styles.widthButton}
                         onClick={() =>
-                            setVisibleAndType({ visible: true, type: "SignIn" })
+                            dispatchAuthModal({ visible: true, type: "SignIn" })
                         }
                     />
                     <Button
@@ -74,7 +78,7 @@ export const Buttons = () => {
                         typeButton="regular-primary"
                         className={styles.widthButton}
                         onClick={() =>
-                            setVisibleAndType({ visible: true, type: "SignUp" })
+                            dispatchAuthModal({ visible: true, type: "SignUp" })
                         }
                     />
                 </div>

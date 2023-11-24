@@ -16,21 +16,23 @@ import { ButtonClose } from "@/components/common/Buttons"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { serviceBarters } from "@/services/barters"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
-
 import { cx } from "@/lib/cx"
+import { serviceBarters } from "@/services/barters"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useVisibleModalBarter, useBalloonCard } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export function Barter() {
     const { on } = useToast()
-    const { userId } = useAuth()
-    const { dispatch } = useBalloonCard()
+    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
     const { isVisible, dispatchVisibleBarter, dataProfile, dataOffer } =
-        useVisibleModalBarter()
+        useVisibleModalBarter((_) => ({
+            isVisible: _.isVisible,
+            dispatchVisibleBarter: _.dispatchVisibleBarter,
+            dataProfile: _.dataProfile,
+            dataOffer: _.dataOffer,
+        }))
     const address: string = useMemo(() => {
         const addressOne = dataOffer?.addresses?.[0]?.additional
 
@@ -45,7 +47,6 @@ export function Barter() {
     const {
         register,
         watch,
-        setError,
         setValue,
         handleSubmit,
         formState: { errors },

@@ -13,26 +13,41 @@ import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
 import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 
+import {
+    useAuth,
+    useBounds,
+    useHasBalloons,
+    useMapCoordinates,
+} from "@/store/hooks"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
-import { useAuth, useBounds, useHasBalloons } from "@/store/hooks"
 import { TTypeProvider } from "@/services/file-upload/types"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 
 const COORD = [55.75, 37.67]
 
 const YandexMap: TYandexMap = ({}) => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
-    const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates()
-    const { dispatchHasBalloon } = useHasBalloons()
+    const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates(
+        (_) => ({
+            coordinates: _.coordinates,
+            zoom: _.zoom,
+            dispatchMapCoordinates: _.dispatchMapCoordinates,
+        }),
+    )
+    const { dispatchHasBalloon } = useHasBalloons((_) => ({
+        dispatchHasBalloon: _.dispatchHasBalloon,
+    }))
     const instanceRef: TTypeInstantsMap = useRef()
-    const { dispatchBounds, bounds } = useBounds()
+    const { dispatchBounds, bounds } = useBounds((_) => ({
+        dispatchBounds: _.dispatchBounds,
+        bounds: _.bounds,
+    }))
 
     async function get({ mapTwo, mapOne }: { mapOne: number; mapTwo: number }) {
         return getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then(
@@ -46,8 +61,7 @@ const YandexMap: TYandexMap = ({}) => {
                 if (!elem) return null
                 if (elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind) {
                     data.addressType =
-                        elem.GeoObject?.metaDataProperty?.GeocoderMetaData
-                            ?.kind!
+                        elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind!
                 }
                 const longitude = elem?.GeoObject?.Point?.pos?.split(" ")[0]
                 const latitude = elem?.GeoObject?.Point?.pos?.split(" ")[1]

@@ -11,9 +11,9 @@ import {
     useVisibleModalBarter,
     useVisiblePhotosCarousel,
     useVisibleBannerNewServices,
+    useProfilePublic,
+    usePhotoOffer,
 } from "@/store/hooks"
-import { usePhotoOffer } from "@/store/state/usePhotoOffer"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const useCloseAllModal = () => {
     const dispatchBallonCard = useBalloonCard((state) => state.dispatch)

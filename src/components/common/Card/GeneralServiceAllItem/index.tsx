@@ -15,11 +15,11 @@ import {
     useBalloonCard,
     useMapCoordinates,
     useOffersCategories,
+    useProfilePublic,
 } from "@/store/hooks"
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
@@ -38,13 +38,19 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
         images,
         style,
     } = props ?? {}
-    const { userId: myUserId } = useAuth()
+    const { myUserId } = useAuth((_) => ({ myUserId: _.userId }))
     const { handlePush } = usePush()
-    const { categories } = useOffersCategories()
-    const { dispatch } = useBalloonCard()
-    const { dispatchMapCoordinates } = useMapCoordinates()
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
+    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
+    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
+        dispatchMapCoordinates: _.dispatchMapCoordinates,
+    }))
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
         queryKey: ["user", userId],

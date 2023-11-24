@@ -7,21 +7,25 @@ import type { TNewCreateBadge } from "../types/types"
 import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useVisibleBannerNewServices } from "@/store/hooks"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import { useVisibleBannerNewServices, useAddCreateModal } from "@/store/hooks"
 
 import styles from "./styles/styles.module.scss"
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
-    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
-    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
+        dispatchVisibleTypeCreateOptionals:
+            _.dispatchVisibleTypeCreateOptionals,
+    }))
+    const { dispatchNewServicesBanner } = useVisibleBannerNewServices((_) => ({
+        dispatchNewServicesBanner: _.dispatchNewServicesBanner,
+    }))
 
     function handleType() {
         if (!value) {
-            setIsVisibleNewServicesBanner(false)
+            dispatchNewServicesBanner(false)
         } else {
-            setVisibleAndType({ visible: true, type: value })
-            setIsVisibleNewServicesBanner(false)
+            dispatchVisibleTypeCreateOptionals({ visible: true, type: value })
+            dispatchNewServicesBanner(false)
         }
     }
 

@@ -8,7 +8,12 @@ import styles from "./styles/style.module.scss"
 const PAGES = [1, 2, 3, 4]
 
 export const Pagination = () => {
-    const { page, setPage, setPrev, setNext } = useWelcomeModal()
+    const { page, setPage, setPrev, setNext } = useWelcomeModal((_) => ({
+        page: _.page,
+        setPage: _.setPage,
+        setPrev: _.setPrev,
+        setNext: _.setNext,
+    }))
 
     return (
         <footer>

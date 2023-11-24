@@ -4,16 +4,13 @@
     right: 24px;
     max-width: 400px;
     width: 100%;
-    flex-shrink: 0;
     border-radius: var(--banner-border-radius);
     background: var(--glass-bg-color);
-    overflow: hidden;
     backdrop-filter: blur(4px);
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
     z-index: 59;
     overflow: hidden;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
 
     & > header {
         padding-left: 17px;
@@ -46,7 +43,7 @@
         align-items: flex-start;
         gap: 16px;
         padding: 0 20px 20px;
-        overflow: hidden;
+        // overflow: hidden;
 
         & > section {
             display: flex;
@@ -89,8 +86,6 @@
     align-items: flex-start;
     gap: 16px;
     overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
     height: fit-content;
     &.requestsAndProposals {
         align-items: center;
@@ -99,5 +94,16 @@
             max-width: 100%;
             width: 100%;
         }
+    }
+}
+
+[data-mobile="true"] {
+    .container {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .services {
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
 }

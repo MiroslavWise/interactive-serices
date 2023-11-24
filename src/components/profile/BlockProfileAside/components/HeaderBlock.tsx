@@ -3,18 +3,20 @@ import Image from "next/image"
 
 import type { THeaderBlock } from "./types/types"
 
-import { BlockOther } from "@/components/profile/MainInfo/components/BlockOther"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { useAddress } from "@/helpers"
 import { useAuth } from "@/store/hooks"
-import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 
 import styles from "./styles/style.module.scss"
 
 export const HeaderBlock: THeaderBlock = () => {
-    const { user, imageProfile, createdUser } = useAuth()
+    const { user, imageProfile, createdUser } = useAuth((_) => ({
+        user: _.user,
+        imageProfile: _.imageProfile,
+        createdUser: _.createdUser,
+    }))
     const { addressMain } = useAddress()
 
     return (

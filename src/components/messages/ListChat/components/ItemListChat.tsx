@@ -8,23 +8,25 @@ import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
 
-import { MotionLI } from "@/components/common/Motion"
 import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import { cx } from "@/lib/cx"
 import { serviceBarters } from "@/services/barters"
 import { usePush } from "@/helpers/hooks/usePush"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
 
-const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
+export const ItemListChat: TItemListChat = memo(function ItemListChat({
+    thread,
+    people,
+    last,
+}) {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
     const { handleReplace } = usePush()
-    const { categories } = useOffersCategories()
 
     const adress: string | null = useMemo(() => {
         return (
@@ -49,28 +51,6 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
         enabled: !!idBarter,
     })
 
-    const barter = useMemo(() => {
-        if (!dataBarter?.res && !categories) return null
-
-        const titleInitiator = categories?.find(
-            (item) => item.id === dataBarter?.res?.initiator?.categoryId!,
-        )
-        const titleConsigner = categories?.find(
-            (item) => item.id === dataBarter?.res?.consigner?.categoryId!,
-        )
-
-        return {
-            initiator: {
-                title: titleInitiator?.title,
-                type: dataBarter?.res?.initiator?.provider!,
-            },
-            consigner: {
-                title: titleConsigner?.title!,
-                type: dataBarter?.res?.consigner?.provider!,
-            },
-        }
-    }, [dataBarter?.res, categories])
-
     function handleCurrentChat() {
         handleReplace(`/messages?thread=${thread.id}`)
     }
@@ -83,17 +63,14 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
     }, [thread?.messages])
 
     return (
-        <MotionLI
-            classNames={[
+        <li
+            className={cx(
                 styles.containerItemListChat,
                 Number(thread.id) === Number(idThread) && styles.active,
                 isMobile && styles.mobileLI,
-            ]}
+            )}
             onClick={handleCurrentChat}
-            data={{
-                "data-last": last,
-            }}
-            // notY
+            data-last={last}
         >
             <div
                 className={styles.header}
@@ -165,8 +142,6 @@ const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
             <div className={styles.blockLastMessage}>
                 <p>{lastMessage}</p>
             </div>
-        </MotionLI>
+        </li>
     )
-}
-
-export const ItemListChat = memo($ItemListChat)
+})

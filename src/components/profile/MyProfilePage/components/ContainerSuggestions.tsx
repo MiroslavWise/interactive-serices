@@ -13,7 +13,11 @@ import { serviceOffers } from "@/services/offers"
 import styles from "./styles/style.module.scss"
 
 export const ContainerSuggestions: TContainerSuggestions = () => {
-    const { userId, user, imageProfile } = useAuth()
+    const { userId, user, imageProfile } = useAuth((_) => ({
+        userId: _.userId,
+        user: _.user,
+        imageProfile: _.imageProfile,
+    }))
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: "offer" }),

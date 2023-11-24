@@ -12,7 +12,13 @@ import { useHasBalloons } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const HasClustererBalloons = () => {
-    const { visibleHasBalloon, dispatchHasBalloon, data } = useHasBalloons()
+    const { visibleHasBalloon, dispatchHasBalloon, data } = useHasBalloons(
+        (_) => ({
+            visibleHasBalloon: _.visibleHasBalloon,
+            dispatchHasBalloon: _.dispatchHasBalloon,
+            data: _.data,
+        }),
+    )
 
     const dataOffers = useQueries({
         queries:

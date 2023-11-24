@@ -27,7 +27,9 @@ interface IValues {
 export const ContentResetPassword: TContentResetPassword = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
     const {
         register,
         watch,
@@ -80,7 +82,7 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                         "success",
                     )
                     handleReplace("/")
-                    setVisibleAndType({ type: "SignIn" })
+                    dispatchAuthModal({ type: "SignIn" })
                     return
                 }
             })

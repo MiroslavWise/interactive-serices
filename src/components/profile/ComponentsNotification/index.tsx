@@ -23,8 +23,10 @@ import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
 import styles from "./styles/style.module.scss"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
-    const { userId } = useAuth()
-    const { dispatchVisibleNotifications } = useVisibleNotifications()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { dispatchVisibleNotifications } = useVisibleNotifications((_) => ({
+        dispatchVisibleNotifications: _.dispatchVisibleNotifications,
+    }))
     const { data, created, operation, provider, id } = props ?? {}
     const { handlePush } = usePush()
 
@@ -71,8 +73,9 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
             if (userId === data?.initiator?.userId) {
                 return `Вы предлагаете ${data?.initiator?.title?.toLowerCase()} взамен вы хотите ${data?.consigner?.title?.toLowerCase()}`
             } else {
-                return `${userData?.res?.profile
-                    ?.firstName} предлагает вам ${data?.consigner?.title?.toLowerCase()} взамен на ${data?.initiator?.title?.toLowerCase()}`
+                return `${
+                    userData?.res?.profile?.firstName
+                } предлагает вам ${data?.consigner?.title?.toLowerCase()} взамен на ${data?.initiator?.title?.toLowerCase()}`
             }
         }
         return null

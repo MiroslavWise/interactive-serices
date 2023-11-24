@@ -21,17 +21,20 @@ import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { serviceMessages } from "@/services/messages"
 import { NoticeBarter } from "../components/NoticeBarter"
-import { useAuth, usePopupMenuChat } from "@/store/hooks"
-import { useMessagesType } from "@/store/state/useMessagesType"
+import { useAuth, usePopupMenuChat, useMessagesType } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
 export const CurrentChat = () => {
     const searchParams = useSearchParams()
-    const { dispatchMessagesType } = useMessagesType()
+    const { dispatchMessagesType } = useMessagesType((_) => ({
+        dispatchMessagesType: _.dispatchMessagesType,
+    }))
     const idThread = searchParams?.get("thread")
-    const { userId } = useAuth()
-    const { setIsVisible } = usePopupMenuChat()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { setIsVisible } = usePopupMenuChat((_) => ({
+        setIsVisible: _.setIsVisible,
+    }))
     const { handleReplace } = usePush()
     const { socket } = useWebSocket() ?? {}
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)

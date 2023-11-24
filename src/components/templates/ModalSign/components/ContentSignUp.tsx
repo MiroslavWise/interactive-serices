@@ -8,7 +8,6 @@ import { isMobile } from "react-device-detect"
 import type { IValuesRegistrationForm, TContentSignUp } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
-import { ButtonFill } from "@/components/common/Buttons"
 import { Button, Input, InputPassword } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
@@ -25,9 +24,16 @@ import styles from "../styles/form.module.scss"
 export const ContentSignUp: TContentSignUp = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
-    const { dispatchPolicy, dispatchRules } = useTermsOfUse()
-    const { dispatchDataConfirmation } = useDataConfirmationPopUp()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
+    const { dispatchPolicy, dispatchRules } = useTermsOfUse((_) => ({
+        dispatchPolicy: _.dispatchPolicy,
+        dispatchRules: _.dispatchRules,
+    }))
+    const { dispatchDataConfirmation } = useDataConfirmationPopUp((_) => ({
+        dispatchDataConfirmation: _.dispatchDataConfirmation,
+    }))
     const {
         register,
         watch,
@@ -42,31 +48,31 @@ export const ContentSignUp: TContentSignUp = ({}) => {
 
     const onRegister = async (values: IValuesRegistrationForm) => {
         if (!loading) {
-            if (!matchesUserName(values.email)) {
-                return setError("email", { message: "email not valid" })
+            if (!matchesUserName(values.__iremqwer__)) {
+                return setError("__iremqwer__", { message: "email not valid" })
             }
-            if (values.password !== values.repeat_password) {
-                return setError("repeat_password", { message: "no_repeat" })
+            if (values.__wererfsdfwef__ !== values.__rwersdf__asdfsadf__) {
+                return setError("__rwersdf__asdfsadf__", { message: "no_repeat" })
             }
             if (!values.checkbox) {
                 return setError("checkbox", { message: "it's true?" })
             }
-            if (!checkPasswordStrength(values.password)) {
-                setError("password", { message: "validate_register" })
+            if (!checkPasswordStrength(values.__wererfsdfwef__)) {
+                setError("__wererfsdfwef__", { message: "validate_register" })
                 return
             }
             setLoading(true)
             RegistrationService.registration({
-                email: values.email,
-                password: values.password,
-                repeat: values.repeat_password,
+                email: values.__iremqwer__,
+                password: values.__wererfsdfwef__,
+                repeat: values.__rwersdf__asdfsadf__,
             })
                 .then((response) => {
                     if (response?.code === 409) {
-                        setError("email", { message: "user already exists" })
+                        setError("__iremqwer__", { message: "user already exists" })
                     }
                     if (response.ok) {
-                        setVisibleAndType({ visible: false })
+                        dispatchAuthModal({ visible: false })
                         dispatchDataConfirmation({
                             visible: true,
                             type: "register",
@@ -99,18 +105,18 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         rules
                         type="email"
                         placeholder="Введите свой email"
-                        {...register("email", { required: true })}
-                        value={watch("email")}
+                        {...register("__iremqwer__", { required: true })}
+                        value={watch("__iremqwer__")}
                         onChange={(event) =>
-                            setValue("email", event.target.value)
+                            setValue("__iremqwer__", event.target.value)
                         }
                         error={
-                            errors.email &&
-                            errors?.email?.message === "user already exists"
+                            errors.__iremqwer__ &&
+                            errors?.__iremqwer__?.message === "user already exists"
                                 ? "Пользователь уже существует"
-                                : errors?.email
+                                : errors?.__iremqwer__
                                 ? "Требуется email"
-                                : errors.email
+                                : errors.__iremqwer__
                                 ? "Какая-то ошибка с Email"
                                 : ""
                         }
@@ -119,18 +125,18 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         label="Пароль"
                         rules
                         placeholder="Введите свой пароль"
-                        {...register("password", {
+                        {...register("__wererfsdfwef__", {
                             required: true,
                             minLength: 5,
                         })}
-                        value={watch("password")}
+                        value={watch("__wererfsdfwef__")}
                         onChange={(event) =>
-                            setValue("password", event.target.value)
+                            setValue("__wererfsdfwef__", event.target.value)
                         }
                         error={
-                            errors.password?.message === "validate_register"
+                            errors.__wererfsdfwef__?.message === "validate_register"
                                 ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
-                                : errors.password
+                                : errors.__wererfsdfwef__
                                 ? "Требуется пароль"
                                 : ""
                         }
@@ -139,23 +145,23 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         label="Подтвердите пароль"
                         rules
                         placeholder="Введите пароль еще раз"
-                        {...register("repeat_password", {
+                        {...register("__rwersdf__asdfsadf__", {
                             required: true,
                             minLength: 5,
                             validate: (value) =>
-                                value === watch("repeat_password")
+                                value === watch("__rwersdf__asdfsadf__")
                                     ? true
                                     : "no_repeat",
                         })}
-                        value={watch("repeat_password")}
+                        value={watch("__rwersdf__asdfsadf__")}
                         onChange={(event) =>
-                            setValue("repeat_password", event.target.value)
+                            setValue("__rwersdf__asdfsadf__", event.target.value)
                         }
                         error={
-                            errors?.repeat_password &&
-                            errors?.repeat_password?.message === "no_repeat"
+                            errors?.__rwersdf__asdfsadf__ &&
+                            errors?.__rwersdf__asdfsadf__?.message === "no_repeat"
                                 ? "Пароли не совпадают"
-                                : errors?.repeat_password
+                                : errors?.__rwersdf__asdfsadf__
                                 ? "Требуется пароль"
                                 : ""
                         }
@@ -206,7 +212,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
             </form>
             <section
                 className={`${styles.Register} cursor-pointer`}
-                onClick={() => setVisibleAndType({ type: "SignIn" })}
+                onClick={() => dispatchAuthModal({ type: "SignIn" })}
             >
                 <Image
                     src="/svg/arrow-left.svg"

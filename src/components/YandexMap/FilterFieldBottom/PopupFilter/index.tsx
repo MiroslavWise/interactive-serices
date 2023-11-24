@@ -15,8 +15,13 @@ import { useOffersCategories } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const PopupFilter: TPopupFilter = ({ visible }) => {
-    const { idTarget, dispatchTarget } = useFilterMap()
-    const { categories } = useOffersCategories()
+    const { idTarget, dispatchTarget } = useFilterMap((_) => ({
+        idTarget: _.idTarget,
+        dispatchTarget: _.dispatchTarget,
+    }))
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
     const [value, setValue] = useState("")
 
     const categoriesMain =

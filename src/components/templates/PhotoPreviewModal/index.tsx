@@ -14,11 +14,14 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
 import { daysAgo, usePush } from "@/helpers"
-import { usePhotoOffer } from "@/store/state/usePhotoOffer"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import {
+    useAuth,
+    useVisibleModalBarter,
+    useProfilePublic,
+    useBalloonCard,
+    usePhotoOffer,
+    useMapCoordinates,
+} from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
 
