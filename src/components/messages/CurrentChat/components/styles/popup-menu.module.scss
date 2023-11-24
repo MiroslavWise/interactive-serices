@@ -8,7 +8,7 @@
     z-index: 1001;
     background: var(--glass-bg-color-3);
     backdrop-filter: blur(1px);
-    transition: all 0.3s ease-in-out 0.01s;
+    transition: opacity 0.3s ease-in-out;
 
     ul {
         padding: 8px 0 !important;
@@ -18,7 +18,7 @@
         position: absolute;
         opacity: 0;
         visibility: hidden;
-        transition: all 0.3s ease-in-out 0.01s;
+        transition: opacity 0.3s ease-in-out;
     }
 
     &[data-is-barter="true"] {

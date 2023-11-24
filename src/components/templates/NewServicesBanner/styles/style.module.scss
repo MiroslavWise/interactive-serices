@@ -1,5 +1,4 @@
 .wrapper {
-    transition: all 0.3s ease-in-out;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     z-index: 1050;
@@ -9,6 +8,7 @@
     align-items: center;
     padding-top: 92px;
     padding-bottom: 92px;
+    transition: opacity 0.3s ease-in-out;
 
     & > [data-container="true"] {
         position: relative;

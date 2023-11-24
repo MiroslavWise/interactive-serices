@@ -18,9 +18,6 @@
         outline: none !important;
         background: var(--background);
         padding: 12px;
-        & > img {
-            transition: all 0.2s ease-in-out 0.01s;
-        }
 
         &[data-active="true"] {
             background: var(--gradient-primary);

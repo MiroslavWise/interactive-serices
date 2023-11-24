@@ -157,7 +157,7 @@ h6 {
     --opacity-white-hard-1: rgba(255, 255, 255, 0.1);
     --stroke-1: #fff;
     --button-default-background: #fff;
-    --transition: all 0.3s ease-in-out 0.01s;
+    --transition: all 0.3s ease-in-out;
 
     //Color Gary
     --gray-900: #101828;
@@ -475,7 +475,6 @@ $cursors: "pointer", "default";
     opacity: 0;
     width: 100%;
     transform: translate3d(0, 0, 0);
-    transition: all 0.3s ease-in-out;
 
     &[data-visible="true"] {
         opacity: 1;

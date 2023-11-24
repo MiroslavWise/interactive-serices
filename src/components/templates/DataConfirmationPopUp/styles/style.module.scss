@@ -2,9 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease-in-out 0.01s;
     z-index: 1019;
-    transition: all 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     padding-top: 92px;

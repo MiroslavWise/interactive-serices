@@ -8,7 +8,7 @@
     width: 7%;
     height: 100%;
     cursor: pointer;
-    transition: all 0.2s ease-in-out 0.03s;
+    transition: background 0.3s ease-in-out;
 
     &:hover {
         background: rgba(#fff, 0.1);
@@ -63,7 +63,7 @@
     li {
         height: 100%;
         aspect-ratio: 9/16;
-        transition: all 0.5s ease-in-out 0.02s;
+        transition: aspect-ratio, border-color 0.3s ease-in-out;
         border: 2px solid var(--gray-800);
         border-radius: 5px;
         cursor: pointer;

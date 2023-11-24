@@ -13,7 +13,7 @@
     backdrop-filter: blur(4px);
     flex-shrink: 0;
     z-index: 5;
-    transition: all 0.5s ease-in-out 0.05s;
+    transition: opacity 0.3s ease-in-out;
 
     &.visible {
         visibility: visible;
@@ -45,6 +45,7 @@
             border: 1px solid var(--gray-200);
             background: var(--button-default-background);
             cursor: pointer;
+            transition: background 0.3s ease-in-out;
 
             & > [data-icon] {
                 width: 28px;
@@ -67,7 +68,6 @@
 
             &.active {
                 background: var(--gradient-optional-1);
-                transition: all 0.2s ease-in-out 0.01s;
                 p {
                     color: var(--supporting-white);
                 }

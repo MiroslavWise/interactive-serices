@@ -58,7 +58,6 @@
     background: var(--glass-bg-color-1);
     cursor: pointer;
     z-index: 2;
-    transition: all 0.3s ease-in-out;
 
     &:hover {
         box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
@@ -72,8 +71,10 @@
         line-height: 133%;
         letter-spacing: 0px;
     }
+}
 
-    &.mobile {
+[data-mobile="true"] {
+    .containerLiNew {
         height: 60px;
         max-width: 100%;
 

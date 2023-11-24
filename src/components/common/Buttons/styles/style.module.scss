@@ -65,7 +65,6 @@
         font-weight: 500;
         line-height: 24px;
         letter-spacing: -0.5px;
-        transition: all 0.1s ease-in-out;
         user-select: none;
     }
 
@@ -113,7 +112,6 @@
         transform: translateY(-50%);
         border-radius: 100px;
         background: var(--opacity-white-hard);
-        transition: all 0.1s ease-in-out;
 
         &.active {
             background: var(--gradient-primary);
@@ -140,7 +138,6 @@
     border: 2px solid var(--supporting-white);
     background: var(--supporting-white);
     box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
-    transition: all 0.3s ease-in-out;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
@@ -155,14 +152,12 @@
         border-radius: 8px;
         border: 1px solid var(--gray-300);
         background: var(--supporting-white);
-        transition: all 0.3s ease-in-out;
 
         span {
             height: 6px;
             width: 6px;
             border-radius: 3px;
             background-color: transparent;
-            transition: all 0.3s ease-in-out;
         }
     }
 
@@ -173,7 +168,6 @@
         font-weight: 500;
         line-height: 142.857%;
         letter-spacing: -0.5px;
-        transition: all 0.3s ease-in-out;
     }
 
     &.active {

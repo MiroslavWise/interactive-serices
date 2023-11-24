@@ -37,16 +37,14 @@
 
 .containerItemListChat {
     width: 100%;
-    // position: relative;
     height: auto;
     padding: 16px;
     background: transparent;
-    transition: all 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     gap: 16px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out 0.01s;
 
     &[data-last="true"] {
         border-bottom: 1px solid var(--gray-300);

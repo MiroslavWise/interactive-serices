@@ -9,7 +9,7 @@
     width: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease-in-out 0.01s;
+    transition: opacity 0.3s ease-in-out;
     padding: 12px;
     z-index: 25;
     padding-bottom: 20px;
@@ -79,7 +79,6 @@
     background: var(--glass-bg-color-1);
     cursor: pointer;
     z-index: 2;
-    transition: all 0.3s ease-in-out;
 
     &:hover {
         box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);

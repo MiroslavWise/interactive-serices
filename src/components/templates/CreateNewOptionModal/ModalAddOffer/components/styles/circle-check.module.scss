@@ -7,7 +7,7 @@
     border-radius: 16px;
     background: transparent;
     border: 2px solid var(--gray-300);
-    transition: all 0.3s ease-in-out 0.01s;
+    transition: padding 0.3s ease-in-out 0.01s;
 
     &.finished {
         background: var(--primary-500);

@@ -4,7 +4,7 @@
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
     backdrop-filter: blur(4px);
     z-index: 1000 !important;
-    transition: all 0.6s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 
     ul {
         position: relative;

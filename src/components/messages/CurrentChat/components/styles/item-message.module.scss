@@ -26,7 +26,7 @@
         .blockMessage {
             background: var(--background-input);
             border-radius: 12px 12px 12px 2px;
-            transition: all 0.3s ease-in-out;
+            transition: background, border-radius 0.3s ease-in-out;
 
             &.only {
                 border-radius: 12px 12px 12px 12px;
@@ -94,8 +94,7 @@
             &[data-temporary="true"] {
                 overflow: hidden;
                 background: var(--gradient-primary);
-                box-shadow:
-                    0 -140px 70px -120px plum inset,
+                box-shadow: 0 -140px 70px -120px plum inset,
                     0 -210px 70px -120px teal inset,
                     0 -280px 70px -120px mediumorchid inset;
                 animation: background 4s infinite alternate;
@@ -107,10 +106,8 @@
 @keyframes background {
     50% {
         background: var(--primary-500);
-        box-shadow:
-            0 -140px 70px -120px mediumorchid inset,
-            0 -210px 70px -120px teal inset,
-            0 -280px 70px -120px plum inset;
+        box-shadow: 0 -140px 70px -120px mediumorchid inset,
+            0 -210px 70px -120px teal inset, 0 -280px 70px -120px plum inset;
     }
 }
 

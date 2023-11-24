@@ -8,7 +8,7 @@
     bottom: 0;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease-in-out 0.03s;
+    transition: opacity 0.3s ease-in-out;
     z-index: 22;
 
     &.active {
