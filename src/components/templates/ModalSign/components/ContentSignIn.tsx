@@ -6,15 +6,14 @@ import { isMobile } from "react-device-detect"
 import type { TContentSignIn, IValuesSignForm } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
-import { ButtonFill } from "@/components/common/Buttons"
-import { Input, InputPassword } from "@/components/common"
+import { Button, Input, InputPassword } from "@/components/common"
 
+import { useAuth, useModalAuth, useWelcomeModal } from "@/store/hooks"
 import {
-    useAuth,
-    useVisibleAndTypeAuthModal,
-    useWelcomeModal,
-} from "@/store/hooks"
-import { useTokenHelper } from "@/helpers"
+    checkPasswordStrength,
+    matchesUserName,
+    useTokenHelper,
+} from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 
@@ -24,7 +23,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const { setToken, changeAuth } = useAuth()
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { setVisible } = useWelcomeModal()
     const {
         watch,
@@ -33,12 +32,17 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         formState: { errors },
         setError,
         setValue,
-    } = useForm<IValuesSignForm>({
-        mode: "onBlur",
-    })
+    } = useForm<IValuesSignForm>({})
 
     const onEnter = async (values: IValuesSignForm) => {
         if (!loading) {
+            if (!matchesUserName(values.email)) {
+                return setError("email", { message: "email not valid" })
+            }
+            if (!checkPasswordStrength(values?.password)) {
+                setError("password", { message: "invalid password" })
+                return
+            }
             setLoading(true)
             useTokenHelper
                 .login({
@@ -60,7 +64,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         on(
                             {
                                 message:
-                                    "Вы не потвердили профиль через уведомление, которое вам пришло на почту или номер телефона!",
+                                    "Вы не потвердили профиль через уведомление, которое вам пришло на почту!",
                             },
                             "warning",
                         )
@@ -146,9 +150,11 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             errors.email &&
                             errors.email?.message === "user not found"
                                 ? "Такого пользователя не существует"
-                                : errors.email
-                                ? "Требуется email"
-                                : ""
+                                : errors.email?.message === "email not valid"
+                                  ? "Требуется email"
+                                  : errors.email
+                                    ? "Какая-то ошибка с Email"
+                                    : ""
                         }
                     />
                     <InputPassword
@@ -165,8 +171,8 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             errors.password.message === "invalid password"
                                 ? "Не верный пароль"
                                 : errors.password
-                                ? "Требуется пароль"
-                                : ""
+                                  ? "Требуется пароль"
+                                  : ""
                         }
                     />
                 </section>
@@ -199,12 +205,12 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         Забыли пароль?
                     </a>
                 </div>
-                <ButtonFill
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Войти"
-                    classNames="w-100"
-                    type="primary"
-                    submit="submit"
-                    disabled={loading}
+                    className="w-100"
+                    loading={loading}
                 />
                 <LinksSocial />
             </form>

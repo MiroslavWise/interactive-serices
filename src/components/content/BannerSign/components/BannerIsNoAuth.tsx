@@ -4,16 +4,16 @@ import { memo } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
+import { Button } from "@/components/common"
 import { GlassesBanner } from "@/components/common/Glasses"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 import { useVisibleAbout } from "@/store/state/useVisibleAbout"
 
 import styles from "../styles/banner.module.scss"
 
 export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { dispatchVisibleAbout } = useVisibleAbout()
 
     return (
@@ -40,26 +40,27 @@ export const BannerIsNoAuth = memo(function $BannerIsNoAuth() {
                         на карту.
                     </p>
                     <div data-buttons>
-                        <ButtonFill
-                            type="primary"
+                        <Button
+                            type="button"
+                            typeButton="fill-primary"
                             label="Войти"
-                            classNames="w-100"
-                            handleClick={() =>
+                            onClick={() => {
                                 setVisibleAndType({
                                     visible: true,
                                     type: "SignIn",
                                 })
-                            }
+                            }}
                         />
-                        <ButtonDefault
+                        <Button
+                            type="button"
+                            typeButton="regular-primary"
                             label="Зарегистрироваться"
-                            classNames="w-100"
-                            handleClick={() =>
+                            onClick={() => {
                                 setVisibleAndType({
                                     visible: true,
                                     type: "SignUp",
                                 })
-                            }
+                            }}
                         />
                         {/* <div className={styles.bannerContent}>
                             <BannerCoins />

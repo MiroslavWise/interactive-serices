@@ -4,7 +4,9 @@ import type { IAuthor } from "@/store/types/createPhotoOffer"
 import { IResponseOffers } from "@/services/offers/types"
 
 export const usePhotoVisible = () => {
-    const { dispatch } = usePhotoOffer()
+    const { dispatchPhotoOffer } = usePhotoOffer((_) => ({
+        dispatchPhotoOffer: _.dispatchPhotoOffer,
+    }))
 
     function createGallery(
         offer: IResponseOffers,
@@ -13,7 +15,7 @@ export const usePhotoVisible = () => {
         index: number,
         author?: IAuthor,
     ) {
-        dispatch({
+        dispatchPhotoOffer({
             offer: offer,
             current: {
                 id: item?.id,

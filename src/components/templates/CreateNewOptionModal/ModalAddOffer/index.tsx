@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { type ReactNode, useMemo, useState } from "react"
 
 import type { TActiveCheck } from "./components/types/types"
@@ -14,9 +13,9 @@ import { ServiceSelection } from "./components/ServiceSelection"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { serviceOffers } from "@/services/offers"
+import { Button } from "@/components/common"
 import { useCreateOffer } from "@/store/state/useCreateOffer"
 
-import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
 import {
@@ -24,7 +23,6 @@ import {
     transliterateAndReplace,
     useCloseCreateOptions,
 } from "@/helpers"
-
 import { useRefresh } from "../hooks/useRefresh"
 import { serviceAddresses } from "@/services/addresses"
 
@@ -80,7 +78,6 @@ export const ModalAddOffer = () => {
                 categoryId: valueCategory?.id,
                 slug: transliterateAndReplace(text),
                 enabled: true,
-                userId: userId!,
                 desired: true,
             }
             if (addressInit) {
@@ -165,17 +162,20 @@ export const ModalAddOffer = () => {
             </section>
             {content}
             {step !== 3 ? (
-                <footer className={cx(isMobile && styles.mobile)}>
-                    <ButtonDefault
+                <footer>
+                    <Button
                         label="Отмена"
-                        classNames={styles.button}
-                        handleClick={close}
+                        type="button"
+                        typeButton="regular-primary"
+                        className={styles.button}
+                        onClick={close}
                     />
-                    <ButtonFill
+                    <Button
                         label="Далее"
-                        type="primary"
-                        classNames={styles.button}
-                        handleClick={handleNext}
+                        type="button"
+                        typeButton="fill-primary"
+                        className={styles.button}
+                        onClick={handleNext}
                     />
                 </footer>
             ) : null}

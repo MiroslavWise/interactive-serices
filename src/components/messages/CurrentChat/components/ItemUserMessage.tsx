@@ -9,19 +9,17 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
 import { stylesBlockRight } from "@/lib/styles-block-message"
+import { matchesUserName, regExUserName } from "@/helpers"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
-import { matchesUserName, regExUserName } from "@/helpers"
 
-const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
+export const ItemUserMessage: TItemMessage = memo(function $ItemUserMessage({
+    photo,
+    messages,
+}) {
     return (
-        <li
-            className={cx(
-                styles.containerItemUserMessage,
-                isMobile && styles.mobile,
-            )}
-        >
+        <li className={styles.containerItemUserMessage}>
             {!isMobile ? (
                 photo ? (
                     <NextImageMotion
@@ -76,6 +74,4 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
             </div>
         </li>
     )
-}
-
-export const ItemUserMessage = memo($ItemUserMessage)
+})

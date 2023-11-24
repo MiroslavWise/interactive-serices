@@ -9,24 +9,25 @@ import { useSearchParams } from "next/navigation"
 import type { TTextAreaSend } from "./types/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
 import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
-import { cx } from "@/lib/cx"
-import { replaceRussianMats } from "@/helpers"
+import { useAuth } from "@/store/hooks"
 import { serviceMessages } from "@/services/messages"
 import { useWebSocket } from "@/context/WebSocketProvider"
-import { useAuth, usePopupMenuChat } from "@/store/hooks"
 
 import styles from "./styles/text-area.module.scss"
 
-export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
+export const TextAreaSend: TTextAreaSend = ({
+    idUser,
+    refetch,
+    setStateMessages,
+}) => {
     const { socket } = useWebSocket()
     const { userId } = useAuth()
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
-    const { setIsVisible } = usePopupMenuChat()
     const { register, setValue, handleSubmit, watch } = useForm<{
         text: string
     }>({})
@@ -36,10 +37,22 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
         if (!loading) {
             setLoading(true)
             const date = new Date()
-            const message = replaceRussianMats(text)
-            console.log("onSubmit: ", message)
+            const message = text
             const receiverIds = [Number(idUser)]
             if (message) {
+                setStateMessages((prev) => [
+                    ...prev,
+                    {
+                        id: Math.random(),
+                        message: message,
+                        parentId: null,
+                        threadId: Number(idThread!),
+                        emitterId: Number(userId),
+                        receiverIds: receiverIds,
+                        temporary: true,
+                        created: date,
+                    },
+                ])
                 if (socket?.connected) {
                     console.log("socket?.connected: ", socket?.connected)
                     socket?.emit(
@@ -83,11 +96,7 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
     const onSubmit = handleSubmit(submit)
 
     return (
-        <form
-            onSubmit={onSubmit}
-            className={styles.container}
-            data-mobile={isMobile}
-        >
+        <form onSubmit={onSubmit} className={styles.container}>
             {isMobile ? (
                 <Image
                     src="/svg/paperclip-gray.svg"
@@ -115,21 +124,6 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
                     maxLength={512}
                 />
             )}
-            {isMobile && isBarter ? (
-                <ButtonCircleGradientFill
-                    type="option-1"
-                    image={{
-                        src: "/svg/message-alert-circle.svg",
-                        size: 24,
-                    }}
-                    size={48}
-                    onClick={() => {
-                        setIsVisible(true)
-                    }}
-                    submit="button"
-                    className={styles.info}
-                />
-            ) : null}
             {isMobile ? (
                 <ButtonCircleGradientFill
                     submit="submit"
@@ -144,11 +138,11 @@ export const TextAreaSend: TTextAreaSend = ({ isBarter, idUser, refetch }) => {
             ) : null}
             <div className={styles.buttons}>
                 {!isMobile ? (
-                    <ButtonFill
-                        submit="submit"
-                        type="secondary"
+                    <Button
+                        type="submit"
                         label="Отправить"
-                        suffix={
+                        typeButton="fill-orange"
+                        suffixIcon={
                             <Image
                                 src="/svg/send-white.svg"
                                 alt="send"

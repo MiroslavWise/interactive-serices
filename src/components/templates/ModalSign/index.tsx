@@ -6,20 +6,19 @@ import { Content } from "./content/content"
 import { ButtonClose } from "@/components/common/Buttons"
 import { GlassesBanner } from "@/components/common/Glasses"
 
-import { cx } from "@/lib/cx"
-import { useAuth } from "@/store/hooks/useAuth"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-
-import styles from "./styles/style.module.scss"
+import { useModalAuth } from "@/store/hooks"
 
 export function ModalSign() {
-    const { isAuth } = useAuth()
-    const { type, visible, setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { type, visible, dispatchAuthModal } = useModalAuth((state) => ({
+        type: state.type,
+        visible: state.visible,
+        dispatchAuthModal: state.dispatchAuthModal,
+    }))
 
     const buttonClose = (
         <ButtonClose
             onClick={() =>
-                setVisibleAndType({
+                dispatchAuthModal({
                     visible: false,
                     type: type,
                 })
@@ -31,12 +30,11 @@ export function ModalSign() {
         />
     )
 
-    return !isAuth ? (
+    return (
         <div
-            className={cx(
-                "wrapper-fixed",
-                isMobile ? styles.overviewMobile : styles.overlay,
-            )}
+            className={`wrapper-fixed ${
+                isMobile ? "authOverviewMobile" : "authOverlay"
+            }`}
             data-visible={visible}
         >
             {isMobile ? (
@@ -55,5 +53,5 @@ export function ModalSign() {
                 </div>
             )}
         </div>
-    ) : null
+    )
 }

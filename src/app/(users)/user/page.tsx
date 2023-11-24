@@ -14,7 +14,6 @@ import {
 import { MotionUL } from "@/components/common/Motion"
 import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
 
-import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -57,7 +56,7 @@ export default function UserId() {
     }, [data, id, isLoading, handlePush, on])
 
     return (
-        <div className={cx(styles.page, isMobile && styles.mobile)}>
+        <div className={styles.page}>
             {isMobile ? (
                 <MotionUL classNames={[styles.containerMobile]} id="user-id">
                     <MobileMainInfo user={data?.res!} />

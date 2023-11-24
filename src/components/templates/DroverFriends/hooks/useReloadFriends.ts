@@ -1,11 +1,11 @@
-import { useQuery, useQueries } from "@tanstack/react-query"
+import { useMemo } from "react"
+import { useQueries } from "@tanstack/react-query"
 
 import type { IEnabledHook } from "../types/types"
 
 import { useAuth } from "@/store/hooks"
 import { serviceFriends } from "@/services/friends"
 import { TTypeFriends } from "@/store/types/createDroverFriends"
-import { useMemo } from "react"
 
 export const useReloadFriends = ({ enabled, type }: IEnabledHook) => {
     const { userId } = useAuth()

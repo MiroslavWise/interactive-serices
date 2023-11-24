@@ -1,31 +1,33 @@
 "use client"
 
 import { memo } from "react"
-import { isMobile } from "react-device-detect"
 
 import type { TCreationAlertAndDiscussionMap } from "./types/types"
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
+import { ButtonClose } from "@/components/common"
 import { ImageStatic } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useVisibleBannerNewServices } from "@/store/hooks"
 import { useCreateAlert } from "@/store/state/useCreateAlert"
+import { useCreateOffer } from "@/store/state/useCreateOffer"
+import { useVisibleBannerNewServices } from "@/store/hooks"
+import { useCreateRequest } from "@/store/state/useCreateRequest"
 import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 import { useAddCreateModal } from "@/store/state/useAddCreateModal"
-import { NEW_CREATE_BADGES_ALERT_OR_DISCUSSION } from "../NewServicesBanner/constants"
+import { NEW_CREATE_BADGES } from "../NewServicesBanner/constants"
 
 import styles from "./styles/style.module.scss"
-import { useCreateOffer } from "@/store/state/useCreateOffer"
-import { useCreateRequest } from "@/store/state/useCreateRequest"
 
 export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     refCreate,
     isOpen,
     addressInit,
+    setIsOpen,
 }) => {
-    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
-    const { setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } =
+        useAddCreateModal()
+    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
     const { setAddressInit: setAddressInitAlert } = useCreateAlert()
     const { setAddressInit: setAddressInitDiscussion } = useCreateDiscussion()
     const { setAddressInit: setAddressInitOffer } = useCreateOffer()
@@ -54,22 +56,19 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
 
     return (
         <div
-            className={cx(
-                styles.container,
-                isOpen && styles.open,
-                isMobile && styles.mobile,
-            )}
+            className={cx(styles.container, isOpen && styles.open)}
             ref={refCreate}
         >
+            <ButtonClose
+                onClick={() => setIsOpen(false)}
+                position={{ top: 12, right: 12 }}
+            />
             <h3>Я хочу создать</h3>
             <section>
-                {NEW_CREATE_BADGES_ALERT_OR_DISCUSSION.map((item) => (
+                {NEW_CREATE_BADGES.map((item) => (
                     <li
                         key={`${item.value}-map-absolute`}
-                        className={cx(
-                            styles.containerLiNew,
-                            isMobile && styles.mobile,
-                        )}
+                        className={cx(styles.containerLiNew)}
                         onClick={() => handleType(item.value!)}
                     >
                         <ImageStatic

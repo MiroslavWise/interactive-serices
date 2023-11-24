@@ -1,9 +1,8 @@
 "use client"
 
-import { memo } from "react"
 import { motion } from "framer-motion"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 import { GlassesBanner } from "@/components/common/Glasses"
 import { AchievementsCount } from "@/components/profile/AchievementsCount"
 import { FooterAsideLeft } from "@/components/profile/LeftAsideProfile/components/Footer"
@@ -13,29 +12,30 @@ import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/banner.module.scss"
 
-export const BannerIsAuth = memo(function $BannerIsAuth() {
+export const BannerIsAuth = () => {
     const { handlePush } = usePush()
 
     return (
-        <motion.ul
+        <motion.div
             className={styles.containerAuthBanner}
             initial={{ opacity: 0, visibility: "hidden" }}
             animate={{ opacity: 1, visibility: "visible" }}
             transition={{ duration: 0.3 }}
             exit={{ opacity: 0, visibility: "hidden" }}
         >
-            <section data-content>
-                <HeaderBlock />
-                <AchievementsCount />
-                <ButtonFill
-                    label="Профиль"
-                    handleClick={() => {
-                        handlePush(`/profile`)
-                    }}
-                />
-            </section>
-            <FooterAsideLeft />
-            <GlassesBanner />
-        </motion.ul>
+            <ul>
+                <section data-content>
+                    <HeaderBlock />
+                    <AchievementsCount />
+                    <Button
+                        label="Профиль"
+                        typeButton="fill-primary"
+                        onClick={() => handlePush(`/profile`)}
+                    />
+                </section>
+                <FooterAsideLeft />
+                <GlassesBanner />
+            </ul>
+        </motion.div>
     )
-})
+}

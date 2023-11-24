@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
@@ -17,28 +16,29 @@ import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { AvatarsBalloon } from "./AvatarsBalloon"
 
-export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
-    stateBalloon,
-}) => {
-    const { dispatch } = useBalloonCard()
+export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
     const { createGallery } = usePhotoVisible()
     const { handlePush } = usePush()
-    const { dispatchProfilePublic } = useProfilePublic()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
+        id: _.id,
+        idUser: _.idUser,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
+
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
-                queryKey: [
-                    "offers",
-                    `offer=${stateBalloon.id!}`,
-                    `provider=${stateBalloon.type}`,
-                ],
+                queryFn: () => serviceOffers.getId(Number(id!)),
+                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
                 refetchOnMount: false,
             },
             {
-                queryFn: () =>
-                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
+                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryKey: ["profile", `userId=${idUser!}`],
                 refetchOnMount: false,
             },
         ],
@@ -46,12 +46,12 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
 
     function handleProfile() {
         if (isMobile) {
-            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            handlePush(`/user?id=${idUser!}`)
             dispatch({ visible: false })
         } else {
             dispatchProfilePublic({
                 visible: true,
-                idUser: stateBalloon.idUser!,
+                idUser: idUser!,
             })
         }
     }
@@ -66,7 +66,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                 data-logo-ballon
             />
             <header data-avatars>
-                <AvatarsBalloon offerId={stateBalloon.id!} />
+                <AvatarsBalloon offerId={id!} />
             </header>
             <div data-container-balloon data-discussion>
                 <div data-info-profile>
@@ -84,7 +84,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                                 {dataProfile?.res?.firstName}{" "}
                                 {dataProfile?.res?.lastName}
                             </p>
-                            <div data-rate>
+                            {/* <div data-rate>
                                 <Image
                                     src="/svg/star.svg"
                                     alt="star"
@@ -92,7 +92,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                                     width={7.16}
                                 />
                                 <span>{4.5}</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
@@ -136,7 +136,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({
                     </ul>
                 ) : null}
             </div>
-            <BlockComments type="discussion" offerId={stateBalloon?.id!} />
+            <BlockComments type="discussion" offerId={id!} />
         </>
     )
 }

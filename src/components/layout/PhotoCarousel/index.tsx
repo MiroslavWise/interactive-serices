@@ -13,13 +13,18 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function PhotoCarousel() {
-    const { isVisible, setVisibleCarousel } = useVisiblePhotosCarousel()
+    const { isVisible, dispatchVisibleCarousel } = useVisiblePhotosCarousel(
+        (_) => ({
+            isVisible: _.isVisible,
+            dispatchVisibleCarousel: _.dispatchVisibleCarousel,
+        }),
+    )
 
     return (
         <div className={cx(styles.wrapper, isVisible && styles.active)}>
             <ButtonClose
                 onClick={() => {
-                    setVisibleCarousel({ visible: false })
+                    dispatchVisibleCarousel({ visible: false })
                 }}
                 position={{ right: 20, top: 20 }}
             />

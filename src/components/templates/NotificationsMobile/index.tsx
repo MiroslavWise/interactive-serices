@@ -18,7 +18,12 @@ import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
 import styles from "./styles/style.module.scss"
 
 export const NotificationsMobile: TNotifications = ({}) => {
-    const { visible, dispatchVisibleNotifications } = useVisibleNotifications()
+    const { visible, dispatchVisibleNotifications } = useVisibleNotifications(
+        (_) => ({
+            visible: _.visible,
+            dispatchVisibleNotifications: _.dispatchVisibleNotifications,
+        }),
+    )
 
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),

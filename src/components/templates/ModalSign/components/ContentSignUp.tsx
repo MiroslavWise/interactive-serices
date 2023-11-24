@@ -9,12 +9,15 @@ import type { IValuesRegistrationForm, TContentSignUp } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
 import { ButtonFill } from "@/components/common/Buttons"
-import { Input, InputPassword } from "@/components/common"
+import { Button, Input, InputPassword } from "@/components/common"
 
-import { checkPasswordStrength } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { useTermsOfUse } from "@/store/state/useTermsOfUse"
+import {
+    useModalAuth,
+    useTermsOfUse,
+    useDataConfirmationPopUp,
+} from "@/store/hooks"
+import { checkPasswordStrength, matchesUserName } from "@/helpers"
 import { RegistrationService } from "@/services/auth/registrationService"
 
 import styles from "../styles/form.module.scss"
@@ -22,8 +25,9 @@ import styles from "../styles/form.module.scss"
 export const ContentSignUp: TContentSignUp = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { dispatchPolicy, dispatchRules } = useTermsOfUse()
+    const { dispatchDataConfirmation } = useDataConfirmationPopUp()
     const {
         register,
         watch,
@@ -32,11 +36,25 @@ export const ContentSignUp: TContentSignUp = ({}) => {
         setValue,
         formState: { errors },
     } = useForm<IValuesRegistrationForm>({
-        mode: "onBlur",
+        mode: "onSubmit",
+        reValidateMode: "onChange",
     })
 
     const onRegister = async (values: IValuesRegistrationForm) => {
         if (!loading) {
+            if (!matchesUserName(values.email)) {
+                return setError("email", { message: "email not valid" })
+            }
+            if (values.password !== values.repeat_password) {
+                return setError("repeat_password", { message: "no_repeat" })
+            }
+            if (!values.checkbox) {
+                return setError("checkbox", { message: "it's true?" })
+            }
+            if (!checkPasswordStrength(values.password)) {
+                setError("password", { message: "validate_register" })
+                return
+            }
             setLoading(true)
             RegistrationService.registration({
                 email: values.email,
@@ -48,14 +66,18 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         setError("email", { message: "user already exists" })
                     }
                     if (response.ok) {
-                        setVisibleAndType({ type: "SignIn" })
-                        on(
-                            {
-                                message:
-                                    "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
-                            },
-                            "success",
-                        )
+                        setVisibleAndType({ visible: false })
+                        dispatchDataConfirmation({
+                            visible: true,
+                            type: "register",
+                        })
+                        // on(
+                        //     {
+                        //         message:
+                        //             "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
+                        //     },
+                        //     "success",
+                        // )
                     }
                 })
                 .finally(() => {
@@ -66,7 +88,11 @@ export const ContentSignUp: TContentSignUp = ({}) => {
 
     return (
         <div className={styles.content} data-mobile={isMobile}>
-            <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
+            <form
+                className={styles.form}
+                onSubmit={handleSubmit(onRegister)}
+                noValidate
+            >
                 <section className={styles.section}>
                     <Input
                         label="Email"
@@ -84,6 +110,8 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                 ? "Пользователь уже существует"
                                 : errors?.email
                                 ? "Требуется email"
+                                : errors.email
+                                ? "Какая-то ошибка с Email"
                                 : ""
                         }
                     />
@@ -94,10 +122,6 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         {...register("password", {
                             required: true,
                             minLength: 5,
-                            validate: (value) =>
-                                checkPasswordStrength(value)
-                                    ? true
-                                    : "validate_register",
                         })}
                         value={watch("password")}
                         onChange={(event) =>
@@ -119,7 +143,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                             required: true,
                             minLength: 5,
                             validate: (value) =>
-                                value === watch("password")
+                                value === watch("repeat_password")
                                     ? true
                                     : "no_repeat",
                         })}
@@ -171,12 +195,12 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         </p>
                     </div>
                 </div>
-                <ButtonFill
-                    disabled={loading}
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Зарегистрироваться"
-                    classNames="w-100"
-                    type="primary"
-                    submit="submit"
+                    loading={loading}
+                    className="w-100"
                 />
                 <LinksSocial />
             </form>

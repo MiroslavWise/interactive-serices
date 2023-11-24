@@ -1,7 +1,7 @@
 "use client"
 
+import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useEffect, useMemo } from "react"
 
 import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
@@ -9,11 +9,19 @@ import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
 import { serviceOffers } from "@/services/offers"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { useFilterMap } from "@/store/hooks"
+import { IQueriesOffers } from "@/services/offers/types"
 
-const ListPlacemark_ = () => {
+const $ListPlacemark = () => {
+    const { idTarget } = useFilterMap((_) => ({ idTarget: _.idTarget }))
+
+    const obj = idTarget
+        ? ({ category: idTarget, order: "DESC" } as IQueriesOffers)
+        : ({ order: "DESC" } as IQueriesOffers)
+
     const { data: dataPlaces } = useQuery({
-        queryKey: ["offers"],
-        queryFn: () => serviceOffers.get(),
+        queryKey: ["offers", `category=${idTarget}`],
+        queryFn: () => serviceOffers.get(obj),
     })
     const { dispatch } = useBalloonCard()
 
@@ -63,4 +71,4 @@ const ListPlacemark_ = () => {
     ))
 }
 
-export const ListPlacemark = memo(ListPlacemark_)
+export const ListPlacemark = memo($ListPlacemark)

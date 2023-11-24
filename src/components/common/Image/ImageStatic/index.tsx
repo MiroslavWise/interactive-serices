@@ -7,7 +7,7 @@ import { cx } from "@/lib/cx"
 
 type TImage = typeof Image.defaultProps & IPropsImageStatic
 
-function $ImageStatic(props: TImage) {
+export function ImageStatic(props: TImage) {
     const { src, alt, classNames, onClick } = props ?? {}
 
     return (
@@ -32,5 +32,3 @@ function $ImageStatic(props: TImage) {
         />
     )
 }
-
-export const ImageStatic = memo($ImageStatic)

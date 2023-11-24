@@ -20,7 +20,6 @@ export interface IPostOffers {
     imageId?: number | null
     featuredId?: number | null
     bannerId?: number | null
-    userId: number
     orderBy?: number
     createdById?: number
     updatedById?: number
@@ -49,7 +48,8 @@ export interface IResponseOffers {
     updated: Date
 }
 
-interface IQueries {
+export interface IQueriesOffers {
+    category?: string
     order?: TOrder
     user?: number
     provider?: TTypeProvider
@@ -58,7 +58,7 @@ interface IQueries {
 export interface IServiceOffers {
     route: string
     post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
-    get(value?: IQueries): Promise<IReturnData<IResponseOffers[]>>
+    get(value?: IQueriesOffers): Promise<IReturnData<IResponseOffers[]>>
     patch(
         value: IPatchOffers,
         id: number | string,
@@ -67,6 +67,6 @@ export interface IServiceOffers {
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
     getUserId(
         id: number,
-        value?: IQueries,
+        value?: IQueriesOffers,
     ): Promise<IReturnData<IResponseOffers[]>>
 }

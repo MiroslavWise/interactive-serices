@@ -4,15 +4,16 @@
 @import "./text-tags.scss";
 @import "./body.scss";
 @import "./toast.scss";
+@import "./auth-modal.scss";
+//yandex--------------------------------------------------
 
-//yandex
 @import "./yandex/yandex-balloon.scss";
 @import "./yandex/alert-balloon.scss";
 @import "./yandex/discussion-balloon.scss";
 @import "./yandex/offer-balloon.scss";
 @import "./yandex/request-balloon.scss";
 
-//ERRORS
+//----------------------------------------------------------
 
 @import "./messages.scss";
 @import "./news-page.scss";

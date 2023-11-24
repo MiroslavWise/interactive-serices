@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+
 import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
 import { SubTitle } from "../../components/SubTitle"
@@ -25,6 +27,7 @@ import { useRefresh } from "../../hooks/useRefresh"
 export const Start = () => {
     const { userId } = useAuth()
     const { close } = useCloseCreateOptions()
+    const [loading, setLoading] = useState(false)
     const refresh = useRefresh()
     const {
         text,
@@ -39,11 +42,10 @@ export const Start = () => {
         setAddressId,
     } = useCreateDiscussion()
 
-    function postOffer(idsAddresses: number[]) {
+    async function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {
             provider: "discussion",
             title: replaceRussianMats(text),
-            userId: userId!,
             slug: transliterateAndReplace(text!),
             enabled: true,
             desired: true,
@@ -51,7 +53,7 @@ export const Start = () => {
         if (idsAddresses) {
             data.addresses = idsAddresses
         }
-        serviceOffers.post(data).then((response) => {
+        return serviceOffers.post(data).then((response) => {
             if (response.ok) {
                 if (response.res) {
                     if (files.length > 0) {
@@ -91,23 +93,37 @@ export const Start = () => {
         })
     }
     function handleNext() {
-        if (addressInit) {
-            serviceAddresses.getHash(addressInit.hash!).then((response) => {
-                if (!response?.res?.id) {
-                    serviceAddresses.post(addressInit).then((response_) => {
-                        if (response_.ok) {
-                            if (response_.res) {
-                                postOffer([response_?.res?.id])
+        if (!text) {
+            return
+        }
+
+        if (!loading) {
+            if (addressInit) {
+                serviceAddresses.getHash(addressInit.hash!).then((response) => {
+                    if (!response?.res?.id) {
+                        serviceAddresses.post(addressInit).then((response_) => {
+                            if (response_.ok) {
+                                if (response_.res) {
+                                    postOffer([response_?.res?.id]).finally(
+                                        () => {
+                                            setLoading(false)
+                                        },
+                                    )
+                                }
                             }
-                        }
+                        })
+                    } else {
+                        postOffer([response?.res?.id]).finally(() => {
+                            setLoading(false)
+                        })
+                    }
+                })
+            } else {
+                if (adressId?.id) {
+                    postOffer([Number(adressId?.id)]).finally(() => {
+                        setLoading(false)
                     })
-                } else {
-                    postOffer([response?.res?.id])
                 }
-            })
-        } else {
-            if (adressId?.id) {
-                postOffer([Number(adressId?.id)])
             }
         }
     }
@@ -145,6 +161,7 @@ export const Start = () => {
             </SelectAndTextarea>
             <FooterButtons
                 disabled={!text}
+                loading={loading}
                 handleNext={handleNext}
                 handleExit={close}
             />

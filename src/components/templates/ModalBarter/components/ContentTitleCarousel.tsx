@@ -15,6 +15,7 @@ import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
 import { GroupSelectorDate } from "./GroupSelectorDate"
 
 import styles from "./styles/style.module.scss"
+import { Button } from "@/components/common"
 
 export const ContentTitleCarousel: TContent = ({
     register,
@@ -91,33 +92,16 @@ export const ContentTitleCarousel: TContent = ({
             ) : null}
             <div className={styles.barterContainer} data-time-address>
                 <div className={styles.itemBarterContainer}>
-                    <GroupSelectorDate
-                        label="Дата обмена"
-                        watchDay={watch("day")}
-                        watchMonth={watch("month")}
-                        watchYear={watch("year")}
-                        propsRegister={{
-                            day: register("day", { required: true }),
-                            month: register("month", { required: true }),
-                            year: register("year", { required: true }),
-                        }}
-                        set={setValue}
-                        errorDate={{
-                            day: errors.day,
-                            month: errors.month,
-                            year: errors.year,
-                        }}
-                    />
                     <p>По адресу</p>
                     <i>{address}</i>
                 </div>
             </div>
             <div className={styles.button}>
-                <ButtonFill
-                    submit="submit"
-                    type="primary"
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Предложить обмен"
-                    suffix={
+                    suffixIcon={
                         <Image
                             src="/svg/arrow-right.svg"
                             alt="arrow-right"

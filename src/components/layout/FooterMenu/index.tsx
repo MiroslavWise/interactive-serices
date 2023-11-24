@@ -1,37 +1,40 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { usePathname } from "next/navigation"
 import { isMobile, isTablet } from "react-device-detect"
 
 import type { TFooterMenu } from "./types"
 
-import {
-    useAuth,
-    useVisibleAndTypeAuthModal,
-    useWelcomeModal,
-} from "@/store/hooks"
 import { MENU_ITEMS } from "./constants"
-import { usePush } from "@/helpers/hooks/usePush"
 import { useActivePath } from "@/helpers/hooks/useActivePash"
+import { useAnimateLoadPage, useAuth, useModalAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
-    const { visible, type, setVisibleAndType } = useVisibleAndTypeAuthModal()
-    const { setVisible } = useWelcomeModal()
-    const { isAuth } = useAuth()
+    const { visible, type, dispatchAuthModal } = useModalAuth((_) => ({
+        visible: _.visible,
+        type: _.type,
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
+    const pathname = usePathname()
+    const { setIsAnimated } = useAnimateLoadPage((_) => ({
+        setIsAnimated: _.setIsAnimated,
+    }))
+    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
     const valuePath = useActivePath()
-    const { handlePush } = usePush()
 
     const handleSignInOrSignUp = () => {
-        setVisibleAndType({
+        dispatchAuthModal({
             visible: !visible,
             type: ["SignIn", "SignUp"].includes(type!) ? type : "SignIn",
         })
     }
 
-    const handleGoToPage = (path: string) => handlePush(`/${path}`)
+    const handleGoToPage = (path: string) => (path ? `/${path}` : "/")
 
     return isMobile && !isTablet ? (
         <motion.footer
@@ -43,21 +46,29 @@ export const FooterMenu: TFooterMenu = ({}) => {
         >
             <ul>
                 {MENU_ITEMS(isAuth).map((item) => (
-                    <li
+                    <Link
                         key={item.key}
                         onClick={() => {
-                            if (item.path !== null) {
-                                handleGoToPage(item.path)
+                            if (
+                                `/${item.path}` !== pathname &&
+                                item.path !== null
+                            ) {
+                                setIsAnimated(true)
+                                return
                             }
-                            setVisible(false)
+                            if (item.path === null) {
+                                handleSignInOrSignUp()
+                                return
+                            }
                         }}
+                        href={handleGoToPage(item.path!)}
                     >
                         <div className={styles.itemsIconLabel}>
                             {item.isCenter ? (
                                 <div
                                     className={styles.centerPoligon}
                                     onClick={() => {
-                                        handleSignInOrSignUp()
+                                        // handleSignInOrSignUp()
                                     }}
                                 >
                                     <Image
@@ -85,7 +96,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                             )}
                             <p>{item.label}</p>
                         </div>
-                    </li>
+                    </Link>
                 ))}
             </ul>
         </motion.footer>

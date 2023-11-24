@@ -1,11 +1,10 @@
 import type { TListFriends } from "../types/types"
 
-import { MotionUL } from "@/components/common/Motion"
 import { ItemListFriend } from "./ItemListFriend"
 
 export const ListFriends: TListFriends = ({ list, type }) => {
     return (
-        <MotionUL data={{ "data-list": true }}>
+        <ul data-list>
             {list.map((item) => (
                 <ItemListFriend
                     key={`${item.id}-item-friend`}
@@ -13,6 +12,6 @@ export const ListFriends: TListFriends = ({ list, type }) => {
                     type={type}
                 />
             ))}
-        </MotionUL>
+        </ul>
     )
 }

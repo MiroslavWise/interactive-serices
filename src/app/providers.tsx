@@ -1,5 +1,7 @@
 "use client"
 
+// import { Workbox } from "workbox-window"
+import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
@@ -11,15 +13,17 @@ import {
     Containers,
 } from "@/context"
 import "@/context/DayJSDefault"
-import { AnimatedLoadPage, Glasses } from "@/components/layout"
+import { AnimatedLoadPage } from "@/components/layout"
 
+import {
+    useAuth,
+    useModalAuth,
+    useFetchingSession,
+    useOffersCategories,
+} from "@/store/hooks"
 import { usePush } from "@/helpers"
-import { useAuth } from "@/store/hooks/useAuth"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
-import { useFetchingSession } from "@/store/state/useFetchingSession"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -38,11 +42,23 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const { getCategories } = useOffersCategories()
 
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
+
+    useEffect(() => {
+        window.addEventListener("load", () => {
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker
+                    .register("/service-worker.js")
+                    .then((response) => {
+                        console.log("serviceWorker: ", response.scope)
+                    })
+            }
+        })
+    }, [])
 
     useEffect(() => {
         refresh()
@@ -65,11 +81,15 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
                         })
                         handleReplace("/")
+                        setVisibleAndType({
+                            visible: true,
+                            type: "SignIn",
+                        })
                     }
                 },
             )
         }
-    }, [verifyToken, handleReplace, on])
+    }, [verifyToken, handleReplace, on, setVisibleAndType])
 
     useEffect(() => {
         if (offersCategories === false) {
@@ -86,6 +106,12 @@ export default function Providers({ children }: { children: ReactNode }) {
             window.innerHeight.toString() + "px"
     }, [])
 
+    useEffect(() => {
+        if (typeof isMobile !== "undefined") {
+            document.documentElement.dataset.mobile = `${isMobile}`
+        }
+    }, [])
+
     return (
         <>
             <NextThemesProvider>
@@ -99,7 +125,6 @@ export default function Providers({ children }: { children: ReactNode }) {
                 </QueryClientProvider>
             </NextThemesProvider>
             <AnimatedLoadPage />
-            <Glasses />
         </>
     )
 }

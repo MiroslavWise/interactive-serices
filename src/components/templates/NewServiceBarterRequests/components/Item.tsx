@@ -14,7 +14,7 @@ import styles from "./styles/style.module.scss"
 export const Item: TNewCreate = (props: INewCreate) => {
     const { imageSrc, label, value } = props ?? {}
     const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
-    const { setIsVisibleNewServiceBarterRequests } =
+    const { dispatchNewServiceBarterRequests: setIsVisibleNewServiceBarterRequests } =
         useVisibleNewServiceBarterRequests()
 
     function handleType() {

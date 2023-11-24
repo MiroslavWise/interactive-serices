@@ -11,7 +11,7 @@ export const serviceBarters: IBartersService = {
         return wrapperFetch.methodGetId(this.route, id)
     },
     getUserId(id, queries) {
-        return wrapperFetch.methodGetId(`${this.route}/user`, id, queries)
+        return wrapperFetch.methodGetId(`${this.route}/initiator`, id, queries)
     },
     getReceiverId(id, queries) {
         return wrapperFetch.methodGetId(`${this.route}/receiver`, id, queries)

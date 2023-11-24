@@ -122,16 +122,6 @@
             margin-bottom: 16px;
         }
     }
-
-    &.mobile {
-        padding: 0;
-        height: auto;
-        overflow-y: visible;
-
-        & > ul {
-            overflow-y: visible;
-        }
-    }
 }
 
 //Items Blog Messages
@@ -187,36 +177,15 @@
 
     // padding: 0 0 24px;
     justify-content: center;
-
-    &.mobile {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        overflow-y: visible;
-    }
 }
 
 //ContainerServices
 
 .containerServices {
+    padding: 24px 24px 8px;
     width: 100%;
     height: calc(100vh - 366px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 16px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-
-    .tabs {
-        width: 100%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding-left: calc(50% - 259px - 8px);
-        gap: 16px;
-    }
+    overflow-y: scroll;
 
     & > div {
         width: 100%;
@@ -229,10 +198,29 @@
         gap: 16px 16px;
         flex-wrap: wrap;
     }
+}
 
-    &.mobile {
+[data-mobile="true"] {
+    .containerServices {
         height: auto;
         padding: 0;
         padding-bottom: 68px;
+    }
+
+    .containerRequestsAndProposals {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: visible;
+    }
+
+    .containerItemsInteractive {
+        padding: 0;
+        height: auto;
+        overflow-y: visible;
+
+        & > ul {
+            overflow-y: visible;
+        }
     }
 }

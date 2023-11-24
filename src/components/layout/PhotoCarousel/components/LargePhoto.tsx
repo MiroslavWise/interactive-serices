@@ -9,7 +9,13 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function LargePhoto() {
-    const { currentPhoto, setNext, setPrev } = useVisiblePhotosCarousel()
+    const { currentPhoto, setNext, setPrev } = useVisiblePhotosCarousel(
+        (_) => ({
+            currentPhoto: _.currentPhoto,
+            setNext: _.setNext,
+            setPrev: _.setPrev,
+        }),
+    )
 
     const handlers = useSwipeable({
         onSwipedLeft: setNext,

@@ -17,34 +17,40 @@ import {
     UpdateMutualOffer,
     ModalUpdateProfile,
     PhotoPreviewModal,
+    HasClustererBalloons,
     CompletionTransaction,
     CreateNewOptionModal,
+    DataConfirmationPopUp,
     NewServiceBarterRequests,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
-import BalloonPlaceMark from "@/components/YandexMap/BalloonPlaceMark"
+import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
     useAuth,
     useTermsOfUse,
     useBalloonCard,
+    useHasBalloons,
     useDroverFriends,
     useVisibleModalBarter,
     useVisibleNotifications,
     useUpdateMutualOffer,
-    useVisibleAndTypeAuthModal,
+    useDataConfirmationPopUp,
 } from "@/store/hooks"
+import { usePhotoOffer } from "@/store/state/usePhotoOffer"
 
 export const Containers = () => {
-    const { token } = useAuth()
+    const { token, isAuth } = useAuth()
     const { visible } = useBalloonCard()
     const { isVisible } = useVisibleModalBarter()
     const { visibleFriends } = useDroverFriends()
+    const { visibleHasBalloon } = useHasBalloons()
     const { visiblePolicy, visibleRules } = useTermsOfUse()
     const { visibleUpdateMutual } = useUpdateMutualOffer()
-    const { visible: visibleAuth } = useVisibleAndTypeAuthModal()
     const { visible: visibleNotifications } = useVisibleNotifications()
+    const { visibleDataConfirmation } = useDataConfirmationPopUp()
+    const { visible: visiblePhotoOffer } = usePhotoOffer()
 
     return (
         <>
@@ -52,13 +58,15 @@ export const Containers = () => {
             <FooterMenu />
             <PhotoCarousel />
             <WelcomeModal />
+            <BalloonPlaceMark />
             <AboutSheiraPopup />
-            <PhotoPreviewModal />
             {isVisible && <Barter />}
+            {!token && !isAuth && <ModalSign />}
             <ToastContainer limit={3} />
-            {visible && <BalloonPlaceMark />}
-            {visibleAuth && !token && <ModalSign />}
+            {visiblePhotoOffer && <PhotoPreviewModal />}
+            {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
+            {visibleDataConfirmation && <DataConfirmationPopUp />}
             {token && (
                 <>
                     <ComplaintModal />

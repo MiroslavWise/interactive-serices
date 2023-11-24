@@ -1,3 +1,5 @@
+"use client"
+
 import { type DispatchWithoutAction } from "react"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"

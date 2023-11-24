@@ -18,18 +18,27 @@ import { ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
+import { useToast } from "@/helpers/hooks/useToast"
 import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useUpdateProfile } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { useToast } from "@/helpers/hooks/useToast"
 
 export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
-    const { isVisible, setVisible } = useUpdateProfile()
-    const { user, email, profileId, userId, updateProfile } = useAuth()
+    const { isVisible, setVisible } = useUpdateProfile((_) => ({
+        isVisible: _.isVisible,
+        setVisible: _.setVisible,
+    }))
+    const { user, email, profileId, userId, updateProfile } = useAuth((_) => ({
+        user: _.user,
+        email: _.email,
+        profileId: _.profileId,
+        userId: _.userId,
+        updateProfile: _.updateProfile,
+    }))
     const { out } = useOut()
     const { on } = useToast()
     const dateOfBirth = useMemo(() => {
@@ -176,7 +185,6 @@ export const ModalUpdateProfile = () => {
         <div
             className={cx("wrapper-fixed", styles.wrapper)}
             data-visible={isVisible}
-            data-mobile={isMobile}
         >
             <div data-container>
                 {!isMobile && (

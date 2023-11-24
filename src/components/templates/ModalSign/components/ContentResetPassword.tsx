@@ -6,16 +6,16 @@ import { useSearchParams } from "next/navigation"
 
 import type { TContentResetPassword } from "../types/types"
 
-import { InputPassword } from "@/components/common"
+import { InputPassword, Button } from "@/components/common"
 import { ButtonFill } from "@/components/common/Buttons"
 
 import {
-    checkPasswordStrength,
     usePush,
+    checkPasswordStrength,
     useForgotPasswordHelper,
 } from "@/helpers"
+import { useModalAuth } from "@/store/hooks"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
@@ -27,7 +27,7 @@ interface IValues {
 export const ContentResetPassword: TContentResetPassword = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     const {
         register,
         watch,
@@ -143,12 +143,12 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                         }
                     />
                 </section>
-                <ButtonFill
-                    disabled={loading}
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
+                    className="w-100"
                     label="Изменить"
-                    classNames="w-100"
-                    type="primary"
-                    submit="submit"
+                    loading={loading}
                 />
             </form>
         </div>

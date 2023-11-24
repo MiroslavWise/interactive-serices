@@ -1,18 +1,18 @@
 import type { IReturnData } from "@/services/types/general"
 
-export type TTypeStatusComments = "published"
+export type TTypeStatusComments = "published" | "create"
 
 export interface ICommentsResponse {
     id: number
-    parentId: number
+    parentId: number | null
     userId: number
-    offerThreadId: number
-    barterThreadId: number
+    offerThreadId?: number
+    barterThreadId?: number
     message: string
     status: TTypeStatusComments
     enabled: boolean
-    created: Date
-    updated: Date
+    created?: Date
+    updated?: Date
 }
 
 export interface IPostDataComment {

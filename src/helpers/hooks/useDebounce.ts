@@ -1,6 +1,7 @@
+"use client"
+
 import { debounce } from "@/lib/debounce"
 import { useEffect, useMemo, useCallback, useLayoutEffect, useRef } from "react"
-
 
 export function useDebounce<Fn extends (...args: any[]) => any>(
     fn: Fn,

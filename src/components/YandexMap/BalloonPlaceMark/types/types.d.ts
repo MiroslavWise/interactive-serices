@@ -12,9 +12,7 @@ import type { ICommentsResponse } from "@/services/comments/types"
 
 interface IBalloonPlaceMark {}
 
-interface IBalloonComponent {
-    stateBalloon: IStateBalloon
-}
+interface IBalloonComponent {}
 
 interface IOfferBalloonComponent extends IBalloonComponent {}
 interface IDiscussionBalloonComponent extends IBalloonComponent {}
@@ -25,7 +23,10 @@ interface IButtonSuccessInBalloon {
     onClick: DispatchWithoutAction
 }
 
-export interface IItemComment extends ICommentsResponse {}
+export interface IItemComment extends ICommentsResponse {
+    isTemporary?: boolean
+    isErrorRequest?: boolean
+}
 export interface IBlockComments {
     offerId: number
     type: "alert" | "discussion"

@@ -2,20 +2,20 @@ import Image from "next/image"
 
 import type { TButtonSelection } from "../types/types"
 
-import styles from "../styles/button-selection.module.scss"
+import "../styles/button-selection.scss"
 
 export const ButtonSelection: TButtonSelection = (props) => {
     const { active, label, onClick, image } = props ?? {}
     return (
         <div
-            className={styles.container}
+            className="buttonSelectionContainer"
             data-active={active}
             onClick={onClick}
         >
-            <div className={styles.checkBox}>
+            <div className="buttonSelectionCheckBox">
                 <span />
             </div>
-            <div className={styles.contentIconType}>
+            <div className="buttonSelectionContentIconType">
                 <Image src={image} alt={image} width={56} height={56} />
                 <h3>{label}</h3>
             </div>

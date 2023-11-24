@@ -13,6 +13,9 @@
 
 html {
     overflow: hidden;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
@@ -27,19 +30,38 @@ button {
     cursor: pointer;
 }
 
-ul,
 form,
 aside,
 textarea,
 section,
-article,
-div {
+article {
     list-style: none;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
 
     &::-webkit-scrollbar {
         display: none !important;
+    }
+}
+
+ul,
+div {
+    scrollbar-color: var(--primary-300) rgba(255, 255, 255, 0.1) !important;
+    scrollbar-width: 6px;
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        cursor: pointer;
+        background-color: var(--primary-300);
+
+        &:hover {
+            background-color: var(--primary-400) !important;
+        }
     }
 }
 
@@ -224,6 +246,21 @@ h6 {
         90deg,
         rgba(219, 65, 65, 1) 0%,
         rgba(191, 120, 196, 1) 100%
+    );
+
+    --rainbow-linear-gradient: linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 1) 0%,
+        rgba(255, 154, 0, 1) 10%,
+        rgba(208, 222, 33, 1) 20%,
+        rgba(79, 220, 74, 1) 30%,
+        rgba(63, 218, 216, 1) 40%,
+        rgba(47, 201, 226, 1) 50%,
+        rgba(28, 127, 238, 1) 60%,
+        rgba(95, 21, 242, 1) 70%,
+        rgba(186, 12, 248, 1) 80%,
+        rgba(251, 7, 217, 1) 90%,
+        rgba(255, 0, 0, 1) 100%
     );
 
     //Permanent

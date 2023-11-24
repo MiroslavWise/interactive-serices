@@ -6,16 +6,14 @@ import { useForm } from "react-hook-form"
 
 import type { TContentForgotPassword } from "../types/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button, Input } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { regExEmail } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
-import { Input } from "@/components/common"
 
 interface IValues {
     email: string
@@ -26,7 +24,9 @@ export const ContentForgotPassword: TContentForgotPassword = ({
 }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
     const {
         register,
         handleSubmit,
@@ -42,7 +42,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({
             .forgotPassword({ email: values.email })
             .then((response) => {
                 if (response.ok && !!response?.res) {
-                    setVisibleAndType({ visible: false })
+                    dispatchAuthModal({ visible: false })
                     on({
                         message:
                             "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
@@ -51,12 +51,12 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                 if (response?.error?.code === 401) {
                     setError("email", { message: "user is not verified" })
                     on({ message: "Пользователь не верифицирован!" }, "error")
-                    setVisibleAndType({ visible: false })
+                    dispatchAuthModal({ visible: false })
                 }
                 if (response?.error?.code === 404) {
                     setError("email", { message: "user not found" })
                     on({ message: "Пользователя не существует!" }, "error")
-                    setVisibleAndType({ visible: false })
+                    dispatchAuthModal({ visible: false })
                 }
                 if (
                     response?.code &&
@@ -104,17 +104,17 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                         }
                     />
                 </section>
-                <ButtonFill
-                    disabled={loading}
+                <Button
+                    type="submit"
+                    typeButton="fill-primary"
                     label="Сброс пароля"
-                    classNames="w-100"
-                    type="primary"
-                    submit="submit"
+                    className="w-100"
+                    loading={loading}
                 />
             </form>
             <section
                 className={cx(styles.Register, "cursor-pointer")}
-                onClick={() => setVisibleAndType({ type: "SignIn" })}
+                onClick={() => dispatchAuthModal({ type: "SignIn" })}
             >
                 <Image
                     src="/svg/arrow-left.svg"

@@ -7,7 +7,7 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const ContainerPhotos: TContainerPhotos = ({ photos }) => {
-    const { setVisibleCarousel } = useVisiblePhotosCarousel()
+    const { dispatchVisibleCarousel: setVisibleCarousel } = useVisiblePhotosCarousel()
 
     return (
         <ul className={styles.containerPhotos}>

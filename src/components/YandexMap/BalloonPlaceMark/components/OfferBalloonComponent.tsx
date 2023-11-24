@@ -18,32 +18,36 @@ import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
-export const OfferBalloonComponent: TOfferBalloonComponent = ({
-    stateBalloon,
-}) => {
-    const { userId } = useAuth()
+export const OfferBalloonComponent: TOfferBalloonComponent = () => {
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
-    const { categories } = useOffersCategories()
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
     const { createGallery } = usePhotoVisible()
-    const { dispatch } = useBalloonCard()
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
-    const { dispatchProfilePublic } = useProfilePublic()
+    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
+        dispatchVisibleBarter: _.dispatchVisibleBarter,
+    }))
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
+        id: _.id,
+        idUser: _.idUser,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
-                queryKey: [
-                    "offers",
-                    `offer=${stateBalloon.id!}`,
-                    `provider=${stateBalloon.type}`,
-                ],
+                queryFn: () => serviceOffers.getId(Number(id!)),
+                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
                 refetchOnMount: false,
             },
             {
-                queryFn: () =>
-                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
+                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryKey: ["profile", `userId=${idUser!}`],
                 refetchOnMount: false,
             },
         ],
@@ -67,7 +71,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                     fullName: `${dataProfile?.res?.firstName || ""} ${
                         dataProfile?.res?.lastName || ""
                     }`,
-                    idUser: stateBalloon?.idUser!,
+                    idUser: idUser!,
                 },
             })
         }
@@ -75,12 +79,12 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
 
     function handleProfile() {
         if (isMobile) {
-            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            handlePush(`/user?id=${idUser!}`)
             dispatch({ visible: false })
         } else {
             dispatchProfilePublic({
                 visible: true,
-                idUser: stateBalloon.idUser!,
+                idUser: idUser!,
             })
         }
     }
@@ -113,7 +117,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                                 {dataProfile?.res?.firstName}{" "}
                                 {dataProfile?.res?.lastName}
                             </p>
-                            <div data-rate>
+                            {/* <div data-rate>
                                 <Image
                                     src="/svg/star.svg"
                                     alt="star"
@@ -121,7 +125,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                                     width={7.16}
                                 />
                                 <span>{4.5}</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
@@ -169,20 +173,15 @@ export const OfferBalloonComponent: TOfferBalloonComponent = ({
                         <button data-offer onClick={handleOpenBarter}>
                             <span>Откликнуться</span>
                         </button>
-                        {Number(stateBalloon.idUser) !== Number(userId) ? (
+                        {Number(idUser) !== Number(userId) ? (
                             <Image
                                 src="/svg/chat-bubbles.svg"
                                 alt="chat-bubbles"
                                 width={32}
                                 height={32}
                                 onClick={() => {
-                                    if (
-                                        Number(stateBalloon.idUser) !==
-                                        Number(userId)
-                                    ) {
-                                        handlePush(
-                                            `/messages?user=${stateBalloon?.idUser!}`,
-                                        )
+                                    if (Number(idUser) !== Number(userId)) {
+                                        handlePush(`/messages?user=${idUser!}`)
                                         dispatch({ visible: false })
                                     }
                                 }}

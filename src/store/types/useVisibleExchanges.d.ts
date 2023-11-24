@@ -5,5 +5,5 @@ export interface IUseVisibleExchanges {
     isVisible: boolean
     type?: TTypeStatusBarter
 
-    setVisibleType: Dispatch<{ visible?: boolean; type?: TExchanges }>
+    dispatchExchanges: Dispatch<{ visible?: boolean; type?: TExchanges }>
 }

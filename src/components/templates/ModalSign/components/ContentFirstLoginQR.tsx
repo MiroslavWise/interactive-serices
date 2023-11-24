@@ -6,18 +6,18 @@ import { type ChangeEvent, type KeyboardEvent, useRef, useState } from "react"
 
 import type { TContentFirstLoginQR } from "../types/types"
 
-import { ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 
 import { useAuth } from "@/store/hooks/useAuth"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import { useVisibleAndTypeAuthModal } from "@/store/hooks"
+import { useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
-    const { setToken, email } = useAuth()
+    const { setToken, email } = useAuth(state => ({setToken: state.setToken, email: state.email}))
     const [loading, setLoading] = useState(false)
-    const { setVisibleAndType } = useVisibleAndTypeAuthModal()
+    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
     //todo
     const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
     const [errorCode, setErrorCode] = useState("")
@@ -127,14 +127,16 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                     {errorCode}
                 </p>
             ) : null}
-            <ButtonFill
+            <Button
+                type="button"
+                typeButton="fill-primary"
+                label="Подтвердить код"
+                className="w-100"
+                loading={loading}
                 disabled={
-                    loading ||
                     inputValues.filter((item) => item !== "").length !== 6
                 }
-                classNames="w-100"
-                label="Подтвердить код"
-                handleClick={onInputValues}
+                onClick={onInputValues}
             />
         </div>
     )

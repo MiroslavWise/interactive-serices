@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
@@ -18,50 +17,51 @@ import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 
-export const AlertBalloonComponent: TAlertBalloonComponent = ({
-    stateBalloon,
-}) => {
-    const { userId } = useAuth()
-    const { dispatch } = useBalloonCard()
+export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
+        id: _.id,
+        idUser: _.idUser,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
+
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
-                queryKey: [
-                    "offers",
-                    `offer=${stateBalloon.id!}`,
-                    `provider=${stateBalloon.type}`,
-                ],
+                queryFn: () => serviceOffers.getId(Number(id!)),
+                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
                 refetchOnMount: false,
             },
             {
-                queryFn: () =>
-                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", stateBalloon.idUser!],
+                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryKey: ["profile", idUser!],
                 refetchOnMount: false,
             },
         ],
     })
 
     function handleHelp() {
-        if (Number(userId) === Number(stateBalloon?.idUser)) {
+        if (Number(userId) === Number(idUser)) {
             return
         }
         dispatch({ visible: false })
-        handlePush(`/messages?user=${stateBalloon.idUser}`)
+        handlePush(`/messages?user=${idUser}`)
     }
 
     function handleProfile() {
         if (isMobile) {
-            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            handlePush(`/user?id=${idUser!}`)
             dispatch({ visible: false })
         } else {
             dispatchProfilePublic({
                 visible: true,
-                idUser: stateBalloon.idUser!,
+                idUser: idUser!,
             })
         }
     }
@@ -76,7 +76,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                 data-logo-ballon
             />
             <header data-alert>
-                {Number(userId) !== Number(stateBalloon?.idUser) ? (
+                {Number(userId) !== Number(idUser) ? (
                     <ButtonSuccessInBalloon onClick={handleHelp} />
                 ) : null}
             </header>
@@ -87,7 +87,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                         onClick={() => {
                             dispatchProfilePublic({
                                 visible: true,
-                                idUser: stateBalloon?.idUser!,
+                                idUser: idUser!,
                             })
                         }}
                     >
@@ -104,15 +104,6 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                                 {dataProfile?.res?.firstName}{" "}
                                 {dataProfile?.res?.lastName}
                             </p>
-                            <div data-rate>
-                                <Image
-                                    src="/svg/star.svg"
-                                    alt="star"
-                                    height={7.16}
-                                    width={7.16}
-                                />
-                                <span>{4.5}</span>
-                            </div>
                         </div>
                     </div>
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
@@ -156,7 +147,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({
                     </ul>
                 ) : null}
             </div>
-            <BlockComments type="alert" offerId={stateBalloon?.id!} />
+            <BlockComments type="alert" offerId={id!} />
         </>
     )
 }

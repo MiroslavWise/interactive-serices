@@ -1,45 +1,55 @@
 "use client"
 
-import { useMemo } from "react"
+import { forwardRef, useMemo } from "react"
+import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 
-import type { TGeneralServiceAllItem } from "./types"
+import type { IGeneralServiceAllItem } from "./types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
-import { MotionLI } from "@/components/common/Motion"
-import { ImageStatic } from "@/components/common/Image"
-
-import { usePush } from "@/helpers"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
-
-import styles from "./style.module.scss"
-import { useAuth } from "@/store/hooks"
-import { cx } from "@/lib/cx"
+import { GeoTagging, ImageStatic, NextImageMotion } from "@/components/common"
 import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/components/AvatarsBalloon"
 
-export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
+import {
+    useAuth,
+    useBalloonCard,
+    useMapCoordinates,
+    useOffersCategories,
+} from "@/store/hooks"
+import { cx } from "@/lib/cx"
+import { usePush } from "@/helpers"
+import { serviceUsers } from "@/services/users"
+import { useProfilePublic } from "@/store/state/useProfilePublic"
+import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
+
+import styles from "./style.module.scss"
+
+export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
+    props: IGeneralServiceAllItem,
+) {
     const {
         id,
-        parentId,
         categoryId,
         provider,
         title,
-        slug,
-        description,
-        content,
-        imageId,
-        featuredId,
-        bannerId,
         userId,
         addresses,
         className,
+        images,
+        style,
     } = props ?? {}
     const { userId: myUserId } = useAuth()
     const { handlePush } = usePush()
     const { categories } = useOffersCategories()
     const { dispatch } = useBalloonCard()
     const { dispatchMapCoordinates } = useMapCoordinates()
+    const { createGallery } = usePhotoVisible()
+    const { dispatchProfilePublic } = useProfilePublic()
+    const { data: dataUser } = useQuery({
+        queryFn: () => serviceUsers.getId(userId!),
+        queryKey: ["user", userId],
+        enabled: userId !== myUserId,
+    })
 
     const typeImagePng: string | null = useMemo(() => {
         const obj: Readonly<Partial<Record<TTypeProvider, any>>> = {
@@ -52,37 +62,31 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         return obj[provider] || null
     }, [provider])
 
-    const categoryOffer: string | null = useMemo(() => {
-        if (
-            ["request", "offer"].includes(provider) &&
-            categoryId &&
-            categories.length
-        ) {
-            return categories.find(
-                (item) => Number(item.id) === Number(categoryId),
-            )?.title!
-        }
-
-        return null
-    }, [provider, categoryId, categories])
-
-    //
+    const categoryOffer: string | null =
+        ["request", "offer"].includes(provider) &&
+        categoryId &&
+        categories.length
+            ? categories.find((item) => Number(item.id) === Number(categoryId))
+                  ?.title!
+            : null
 
     function handle() {
         const [address, ...rest] = addresses
-        dispatch({
-            visible: true,
-            id: id,
-            idUser: userId,
-            type: provider || null,
-        })
-        dispatchMapCoordinates({
-            coordinates: address?.coordinates
-                ?.split(" ")
-                ?.reverse()
-                ?.map(Number),
-        })
         handlePush("/")
+        requestAnimationFrame(() => {
+            dispatch({
+                visible: true,
+                id: id,
+                idUser: userId,
+                type: provider || null,
+            })
+            dispatchMapCoordinates({
+                coordinates: address?.coordinates
+                    ?.split(" ")
+                    ?.reverse()
+                    ?.map(Number),
+            })
+        })
     }
 
     function handleHelp() {
@@ -92,8 +96,37 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
         handlePush(`/messages?user=${userId}`)
     }
 
+    function handleImages() {
+        const { ...data } = props ?? {}
+        if (images?.length) {
+            createGallery(data, images, images[0], 0, {
+                title: data?.title!,
+                name: `${dataUser?.res?.profile?.firstName || ""} ${
+                    dataUser?.res?.profile?.lastName || ""
+                }`,
+                urlPhoto: dataUser?.res?.profile?.image?.attributes?.url!,
+                idUser: dataUser?.res?.id!,
+                time: data?.updated!,
+            })
+        }
+    }
+
+    function handleProfile() {
+        if (isMobile) {
+            handlePush(`/user?id=${userId}`)
+        } else {
+            dispatchProfilePublic({ visible: true, idUser: userId! })
+        }
+    }
+
+    const geo = addresses && !!addresses.length && addresses[0]
+
     return (
-        <li className={cx(styles.container, className)} onClick={handle}>
+        <li
+            className={cx(styles.container, className)}
+            onClick={handle}
+            style={style}
+        >
             <header data-provider={provider}>
                 {typeImagePng ? (
                     <ImageStatic
@@ -123,7 +156,67 @@ export const GeneralServiceAllItem: TGeneralServiceAllItem = (props) => {
                     <AvatarsBalloon offerId={id} />
                 ) : null}
             </header>
-            <section>{title && <h4>{title}</h4>}</section>
+            <section>
+                <div data-profile>
+                    <div
+                        data-circle
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            handleImages()
+                        }}
+                    >
+                        <div data-r>
+                            {images?.length && images?.length !== 1
+                                ? images?.map((item, index) => (
+                                      <div
+                                          data-l
+                                          key={`${item.id}-1`}
+                                          style={{
+                                              transform: `rotate(${
+                                                  (360 / images.length) * index
+                                              }deg)`,
+                                          }}
+                                      >
+                                          <div data-c />
+                                      </div>
+                                  ))
+                                : null}
+                        </div>
+                        <NextImageMotion
+                            data-avatar
+                            data-is-length={!!images?.length}
+                            src={
+                                dataUser?.res?.profile?.image?.attributes?.url!
+                            }
+                            alt="avatar"
+                            width={200}
+                            height={200}
+                        />
+                    </div>
+                    <div
+                        data-info
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            handleProfile()
+                        }}
+                    >
+                        <p>
+                            {dataUser?.res?.profile?.firstName || " "}{" "}
+                            {dataUser?.res?.profile?.lastName || " "}
+                        </p>
+                        {geo ? (
+                            <GeoTagging
+                                location={geo?.additional}
+                                fontSize={12}
+                                size={14}
+                            />
+                        ) : null}
+                    </div>
+                </div>
+                {title && <h4>{title}</h4>}
+            </section>
         </li>
     )
-}
+})

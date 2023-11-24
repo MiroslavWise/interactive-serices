@@ -10,8 +10,8 @@ export const SERVICES: ISegmentValues<TServices>[] = [
         value: "offer",
         label: "Предложения",
     },
-    {
-        value: "request",
-        label: "Запросы",
-    },
+    // {
+    //     value: "request",
+    //     label: "Запросы",
+    // },
 ]

@@ -22,8 +22,13 @@
             max-width: 240px;
             width: 100%;
         }
+    }
+}
 
-        &.mobile {
+[data-mobile="true"] {
+    .container {
+        & > footer {
+            gap: 8px;
             position: static;
             padding: 0 32px 40px;
             .button {

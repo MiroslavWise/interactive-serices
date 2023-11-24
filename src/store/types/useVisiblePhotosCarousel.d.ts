@@ -13,7 +13,7 @@ export interface IUseVisiblePhotosCarousel {
     setPrev: DispatchWithoutAction
     setNext: DispatchWithoutAction
     setCurrentPhoto: Dispatch<{ currentPhoto: IPhoto }>
-    setVisibleCarousel: Dispatch<{
+    dispatchVisibleCarousel: Dispatch<{
         visible: boolean
         photos?: IPhoto[]
         idPhoto?: number

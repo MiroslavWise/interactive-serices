@@ -15,7 +15,7 @@ import type { IUseVisibleAndTypeAuthModalState } from "../types/useVisibleAndTyp
 export const useVisibleBannerNewServicesState =
     create<IUseVisibleBannerNewServicesState>((set, get) => ({
         isVisibleNewServicesBanner: false,
-        setIsVisibleNewServicesBanner(value) {
+        dispatchNewServicesBanner(value) {
             set({
                 isVisibleNewServicesBanner: value,
             })
@@ -25,20 +25,8 @@ export const useVisibleBannerNewServicesState =
 export const useVisibleNewServiceBarterRequests =
     create<IUseVisibleNewServiceBarterRequests>((set, get) => ({
         isVisibleNewServiceBarterRequests: false,
-        setIsVisibleNewServiceBarterRequests(value) {
+        dispatchNewServiceBarterRequests(value) {
             set({ isVisibleNewServiceBarterRequests: value })
-        },
-    }))
-
-export const useVisibleAndTypeAuthModalState =
-    create<IUseVisibleAndTypeAuthModalState>((set, get) => ({
-        visible: false,
-        type: null,
-        setVisibleAndType({ visible, type }) {
-            set({
-                visible: typeof visible !== "undefined" ? visible : get().visible,
-                type: typeof type !== "undefined" ? type : get().type,
-            })
         },
     }))
 
@@ -78,7 +66,7 @@ export const useVisibleExchangesState = create<IUseVisibleExchanges>(
         isVisible: false,
         type: undefined,
 
-        setVisibleType({ visible, type }) {
+        dispatchExchanges({ visible, type }) {
             set({
                 isVisible:
                     typeof visible !== "undefined" ? visible : get().isVisible,
@@ -131,7 +119,7 @@ export const useVisiblePhotosCarouselState = create<IUseVisiblePhotosCarousel>(
                 currentPhoto: currentPhoto,
             })
         },
-        setVisibleCarousel({ photos, idPhoto, visible }) {
+        dispatchVisibleCarousel({ photos, idPhoto, visible }) {
             set({
                 isVisible: visible,
             })

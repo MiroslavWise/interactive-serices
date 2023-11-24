@@ -15,7 +15,7 @@ import styles from "./style.module.scss"
 
 export const ExchangesModalMobile = () => {
     const { userId } = useAuth() ?? {}
-    const { type, isVisible, setVisibleType } = useVisibleExchanges() ?? {}
+    const { type, isVisible, dispatchExchanges: setVisibleType } = useVisibleExchanges() ?? {}
 
     const { data } = useQuery({
         queryFn: () =>

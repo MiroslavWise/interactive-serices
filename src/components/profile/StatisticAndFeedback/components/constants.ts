@@ -11,7 +11,7 @@ export const ITEMS_INTERACTIVE: IItemsInteractive[] = [
         value: "reviews",
     },
     {
-        label: "Услуги",
+        label: "Предложения",
         value: "services",
     },
     // {

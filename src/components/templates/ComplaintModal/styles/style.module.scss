@@ -1,22 +1,12 @@
 .wrapper {
-    position: fixed;
-    inset: 0;
     z-index: 800;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     padding: 20px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    &[data-visible="true"] {
-        opacity: 1;
-        visibility: visible;
-    }
 
     & > form {
         position: relative;
@@ -73,8 +63,16 @@
             }
         }
     }
+}
 
-    &[data-mobile="true"] {
+[data-theme="dark"] {
+    .wrapper {
+        backdrop-filter: blur(5px);
+    }
+}
+
+[data-mobile="true"] {
+    .wrapper {
         padding: 20px;
         & > form {
             max-width: calc(100% - 40px);
@@ -88,11 +86,5 @@
                 font-size: 14px;
             }
         }
-    }
-}
-
-[data-theme="dark"] {
-    .wrapper {
-        backdrop-filter: blur(5px);
     }
 }

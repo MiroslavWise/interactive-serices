@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
@@ -9,14 +9,9 @@ import { useQuery } from "@tanstack/react-query"
 import type { IValuesForm } from "./types/types"
 import type { IPatchOffers } from "@/services/offers/types"
 
-import {
-    ButtonClose,
-    ButtonDefault,
-    ButtonFill,
-    Glasses,
-} from "@/components/common"
 import { UploadPhoto } from "@/components/common/custom"
 import { NextImageMotion } from "@/components/common/Image"
+import { Button, ButtonClose, Glasses } from "@/components/common"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 import { cx } from "@/lib/cx"
@@ -57,15 +52,10 @@ export const UpdateMutualOffer = () => {
 
     const position = isMobile ? { left: 12 } : { right: 12 }
 
-    const title = useMemo(() => {
-        if (!categories || !data) return null
+    const title =
+        categories?.find((item) => item.id === data?.categoryId)?.title || null
 
-        return categories?.find((item) => item.id === data?.categoryId)?.title
-    }, [categories, data])
-
-    const photos = useMemo(() => {
-        return data?.images || []
-    }, [data?.images])
+    const photos = data?.images || []
 
     function cancel() {
         dispatchUpdateMutual({ visible: false })
@@ -137,16 +127,6 @@ export const UpdateMutualOffer = () => {
         setStrings((prev) => prev.filter((_, index) => index !== value))
     }
 
-    const load = loading ? (
-        <Image
-            src="/svg/loading-03.svg"
-            alt="loading"
-            data-loading-image
-            height={20}
-            width={20}
-        />
-    ) : null
-
     return visibleUpdateMutual ? (
         <div
             className={cx("wrapper-fixed", styles.wrapper)}
@@ -173,8 +153,8 @@ export const UpdateMutualOffer = () => {
                                 data?.provider === "offer"
                                     ? "Напишите что-нибудь"
                                     : data?.provider === "request"
-                                    ? "Опишите более подробно, в чём конкретно ваша просьба"
-                                    : ""
+                                      ? "Опишите более подробно, в чём конкретно ваша просьба"
+                                      : ""
                             }
                             maxLength={512}
                         />
@@ -255,16 +235,18 @@ export const UpdateMutualOffer = () => {
                         </div>
                     </div>
                     <footer>
-                        <ButtonDefault
+                        <Button
                             label="Отмена"
-                            submit="button"
-                            handleClick={cancel}
-                            suffix={load}
+                            typeButton="regular-primary"
+                            type="button"
+                            onClick={cancel}
+                            loading={loading}
                         />
-                        <ButtonFill
+                        <Button
                             label="Обновить"
-                            submit="submit"
-                            suffix={load}
+                            typeButton="fill-primary"
+                            type="submit"
+                            loading={loading}
                         />
                     </footer>
                 </form>

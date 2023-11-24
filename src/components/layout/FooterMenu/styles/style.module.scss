@@ -19,13 +19,14 @@
         justify-content: space-around;
         backdrop-filter: blur(4px);
 
-        li {
+        a {
             height: 100%;
             flex: 1;
             flex-shrink: 0;
             display: flex;
             padding: 12px 4.5px;
             flex-direction: column;
+            text-decoration: none !important;
 
             .itemsIconLabel {
                 height: 100%;
@@ -35,6 +36,7 @@
                 gap: 2px;
 
                 p {
+                    text-decoration: none !important;
                     margin-top: auto;
                     justify-self: flex-end;
                     color: var(--gray-500);
@@ -60,7 +62,6 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                //pointer-events: none;
                 cursor: pointer;
                 z-index: 1000;
             }

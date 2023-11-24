@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { usePathname } from "next/navigation"
@@ -17,16 +18,14 @@ export const Links = () => {
     return !isMobile ? (
         <ul className={styles.linksWrapper}>
             {LINKS_PROFILE.map(({ path, label, icon }) => (
-                <li
+                <Link
                     key={path + "link"}
-                    onClick={() => {
-                        handlePush(path!)
-                    }}
-                    className={cx(active?.includes(path) && styles.active)}
+                    className={cx(active?.includes(path) && styles.active, styles.item)}
+                    href={path!}
                 >
                     <Image src={icon} alt={icon} width={24} height={24} />
-                    <a>{label}</a>
-                </li>
+                    <p>{label}</p>
+                </Link>
             ))}
         </ul>
     ) : null

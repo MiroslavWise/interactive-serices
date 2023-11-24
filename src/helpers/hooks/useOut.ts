@@ -1,21 +1,17 @@
 "use client"
 
-import { usePush } from "./usePush"
 import { useAuth } from "@/store/hooks"
-import { useThread } from "@/store/state/useThreads"
-import { useWebSocket } from "@/context/WebSocketProvider"
 
 export const useOut = () => {
-    const { reset } = useThread()
     const { signOut } = useAuth()
-    const { socket } = useWebSocket()
-    const { handlePush } = usePush()
 
     function out() {
-        handlePush(`/`)
-        if (reset) reset()
+        console.log("out start")
+        // handlePush(`/`)
+        console.log("out ///////")
+        console.log("out requestAnimationFrame")
         signOut()
-        if (socket) socket?.disconnect()
+        console.log("out signOut")
     }
 
     return { out }

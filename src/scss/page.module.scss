@@ -35,10 +35,6 @@
         padding: 100px 24px 24px;
         background: transparent;
 
-        &.mobile {
-            padding: 0;
-        }
-
         .container {
             height: 100%;
             display: grid;
@@ -86,13 +82,6 @@
     // gap: 24px 24px;
     // grid-template-columns: calc(320px) calc(100% - 320px - 400px - 48px) calc(400px);
     background: transparent;
-
-    &.mobile {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-    }
 }
 
 .containerMobile {
@@ -103,4 +92,19 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+}
+
+[data-mobile="true"] {
+    .containerProfile {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .profileLayout{
+        .page{
+            padding: 0;
+        }
+    }
 }

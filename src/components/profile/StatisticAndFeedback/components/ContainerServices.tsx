@@ -1,116 +1,53 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
-import { useQueries } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 //@ts-ignore
 import Masonry from "react-responsive-masonry"
 
-import type { IValueServices } from "../types/types"
 import type { TContainerServices } from "./types/types"
 
 import { MotionUL } from "@/components/common/Motion"
-import { ButtonRadio } from "@/components/common/Buttons"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
-import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
 
 import styles from "./styles/style.module.scss"
 
 export const ContainerServices: TContainerServices = ({}) => {
-    const [value, setValue] = useState<IValueServices>("proposals")
     const id = useSearchParams().get("id")
 
-    const [{ data: dataOffer }, { data: dataRequest }] = useQueries({
-        queries: [
-            {
-                queryFn: () =>
-                    serviceOffers.getUserId(Number(id), { provider: "offer" }),
-                queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
-                enabled: value === "proposals",
-            },
-            {
-                queryFn: () =>
-                    serviceOffers.getUserId(Number(id), {
-                        provider: "request",
-                    }),
-                queryKey: ["offers", `user=${Number(id)}`, "provider=request"],
-                enabled: value === "requests",
-            },
-        ],
+    const { data: dataOffer } = useQuery({
+        queryFn: () =>
+            serviceOffers.getUserId(Number(id), { provider: "offer" }),
+        queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
     })
 
     return (
-        <section
-            className={cx(styles.containerServices, isMobile && styles.mobile)}
-        >
-            <nav className={styles.tabs}>
-                <ButtonRadio
-                    label="Предложения"
-                    active={value === "proposals"}
-                    onClick={() => setValue("proposals")}
-                />
-                <ButtonRadio
-                    label="Запросы"
-                    active={value === "requests"}
-                    onClick={() => setValue("requests")}
-                />
-            </nav>
+        <section className={styles.containerServices}>
             {isMobile ? (
-                <MotionUL
-                    classNames={[
-                        styles.containerRequestsAndProposals,
-                        isMobile && styles.mobile,
-                    ]}
-                >
-                    {value === "proposals"
-                        ? Array.isArray(dataOffer?.res)
-                            ? dataOffer?.res?.map((item) => (
-                                  <CardRequestsAndProposals
-                                      key={`${item?.id}-item-key-offer`}
-                                      {...item}
-                                      type="optional-3"
-                                  />
-                              ))
-                            : null
-                        : null}
-                    {value === "requests"
-                        ? Array.isArray(dataRequest?.res)
-                            ? dataRequest?.res?.map((item) => (
-                                  <CardRequestsAndProposals
-                                      key={`${item?.id}-item-key-offer`}
-                                      {...item}
-                                      type="optional-2"
-                                  />
-                              ))
-                            : null
+                <MotionUL classNames={[styles.containerRequestsAndProposals]}>
+                    {Array.isArray(dataOffer?.res)
+                        ? dataOffer?.res?.map((item) => (
+                              <CardRequestsAndProposals
+                                  key={`${item?.id}-item-key-offer`}
+                                  {...item}
+                                  type="optional-3"
+                              />
+                          ))
                         : null}
                 </MotionUL>
             ) : (
                 <Masonry gutter="16px" columnsCount={3}>
-                    {value === "proposals"
-                        ? Array.isArray(dataOffer?.res)
-                            ? dataOffer?.res?.map((item) => (
-                                  <CardRequestsAndProposals
-                                      key={`${item?.id}-item-key-offer`}
-                                      {...item}
-                                      type="optional-3"
-                                  />
-                              ))
-                            : null
-                        : null}
-                    {value === "requests"
-                        ? Array.isArray(dataRequest?.res)
-                            ? dataRequest?.res?.map((item) => (
-                                  <CardRequestsAndProposals
-                                      key={`${item?.id}-item-key-offer`}
-                                      {...item}
-                                      type="optional-2"
-                                  />
-                              ))
-                            : null
+                    {Array.isArray(dataOffer?.res)
+                        ? dataOffer?.res?.map((item) => (
+                              <CardRequestsAndProposals
+                                  key={`${item?.id}-item-key-offer`}
+                                  {...item}
+                                  type="optional-3"
+                              />
+                          ))
                         : null}
                 </Masonry>
             )}

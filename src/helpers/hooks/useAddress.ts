@@ -1,3 +1,5 @@
+"use client"
+
 import { useMemo } from "react"
 import { useAuth } from "@/store/hooks"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
@@ -16,7 +18,9 @@ export const useAddress = () => {
         if (!addresses) return null
         if (Array.isArray(addresses) && addresses.length === 0) return null
         const array: number[][] = addresses.map((item) =>
-            item.coordinates ? item.coordinates.split(" ").reverse().map(Number) : [0, 0]
+            item.coordinates
+                ? item.coordinates.split(" ").reverse().map(Number)
+                : [0, 0],
         )
         return array
     }, [addresses])

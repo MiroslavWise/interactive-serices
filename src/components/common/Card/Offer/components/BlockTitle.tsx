@@ -37,7 +37,7 @@ export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
                     height={400}
                     className={styles.photo}
                 />
-                <div className={styles.rating}>
+                {/* <div className={styles.rating}>
                     <Image
                         src="/svg/star.svg"
                         alt="stars"
@@ -45,7 +45,7 @@ export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
                         height={9.8}
                     />
                     <p>{4.5}</p>
-                </div>
+                </div> */}
             </div>
             <div className={styles.nameGeo}>
                 <h4>

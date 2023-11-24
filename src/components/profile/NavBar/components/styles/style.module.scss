@@ -1,6 +1,12 @@
-.isMobileLogo {
-    margin-left: -32px;
-    margin-top: -2px;
+.logo {
+    cursor: pointer;
+}
+
+[data-mobile="true"] {
+    .logo {
+        margin-left: -32px;
+        margin-top: -2px;
+    }
 }
 
 .buttons {
@@ -13,6 +19,7 @@
 
 .widthButton {
     min-width: 142px;
+    width: fit-content;
 }
 
 //Links
@@ -22,7 +29,7 @@
     align-items: center;
     height: 100%;
 
-    li {
+    .item {
         position: relative;
         display: inline-flex;
         height: 100%;
@@ -32,6 +39,7 @@
         padding-right: 20px;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
+        text-decoration: none !important;
 
         &::before {
             content: "";
@@ -46,7 +54,8 @@
             transition: transform 0.3s ease-in-out;
         }
 
-        a {
+        p {
+            text-decoration: none;
             color: var(--primary-500);
             text-align: center;
             font-size: 14px;
@@ -67,7 +76,7 @@
 
 [data-theme="dark"] {
     .linksWrapper {
-        li {
+        .item {
             filter: grayscale(100%) brightness(0%) invert(1);
             &.active {
                 filter: grayscale(0%) brightness(100%);

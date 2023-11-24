@@ -18,30 +18,33 @@ import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 import { useOffersCategories } from "@/store/state/useOffersCategories"
 
-export const RequestBalloonComponent: TRequestBalloonComponent = ({
-    stateBalloon,
-}) => {
-    const { userId } = useAuth()
+export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
-    const { dispatch } = useBalloonCard()
-    const { categories } = useOffersCategories()
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
+        id: _.id,
+        idUser: _.idUser,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
+
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getId(Number(stateBalloon.id!)),
-                queryKey: [
-                    "offers",
-                    `offer=${stateBalloon.id!}`,
-                    `provider=${stateBalloon.type}`,
-                ],
+                queryFn: () => serviceOffers.getId(Number(id!)),
+                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
                 refetchOnMount: false,
             },
             {
-                queryFn: () =>
-                    serviceProfile.getUserId(Number(stateBalloon.idUser)),
-                queryKey: ["profile", `userId=${stateBalloon.idUser!}`],
+                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryKey: ["profile", `userId=${idUser!}`],
                 refetchOnMount: false,
             },
         ],
@@ -64,12 +67,12 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
 
     function handleProfile() {
         if (isMobile) {
-            handlePush(`/user?id=${stateBalloon.idUser!}`)
+            handlePush(`/user?id=${idUser!}`)
             dispatch({ visible: false })
         } else {
             dispatchProfilePublic({
                 visible: true,
-                idUser: stateBalloon.idUser!,
+                idUser: idUser!,
             })
         }
     }
@@ -102,7 +105,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                                 {dataProfile?.res?.firstName}{" "}
                                 {dataProfile?.res?.lastName}
                             </p>
-                            <div data-rate>
+                            {/* <div data-rate>
                                 <Image
                                     src="/svg/star.svg"
                                     alt="star"
@@ -110,7 +113,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                                     width={7.16}
                                 />
                                 <span>{4.5}</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
@@ -164,11 +167,9 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({
                             width={32}
                             height={32}
                             onClick={() => {
-                                if (stateBalloon.idUser) {
+                                if (idUser) {
                                     dispatch({ visible: false })
-                                    handlePush(
-                                        `/messages?user=${stateBalloon?.idUser!}`,
-                                    )
+                                    handlePush(`/messages?user=${idUser!}`)
                                 }
                             }}
                         />

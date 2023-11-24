@@ -17,8 +17,12 @@ import styles from "../styles/avatars-balloon.module.scss"
 
 export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
     const { handlePush } = usePush()
-    const { dispatch } = useBalloonCard()
-    const { dispatchProfilePublic } = useProfilePublic()
+    const { dispatch } = useBalloonCard((_) => ({
+        dispatch: _.dispatch,
+    }))
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
 
     const { data } = useQuery({
         queryFn: () =>
@@ -29,9 +33,8 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
         enabled: !!offerId!,
     })
 
-    const currentOffersThreads = useMemo(() => {
-        return data?.res?.find((item) => item?.offerId === offerId) || null
-    }, [data?.res, offerId])
+    const currentOffersThreads =
+        data?.res?.find((item) => item?.offerId === offerId) || null
 
     const { data: dataComments } = useQuery({
         queryFn: () =>
@@ -40,18 +43,14 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
         enabled: !!currentOffersThreads?.id!,
     })
 
-    const currentComments = useMemo(() => {
-        return (
-            dataComments?.res?.filter(
-                (item) => item.offerThreadId === currentOffersThreads?.id,
-            ) || []
-        )
-    }, [dataComments, currentOffersThreads])
+    const currentComments =
+        dataComments?.res?.filter(
+            (item) => item.offerThreadId === currentOffersThreads?.id,
+        ) || []
 
-    const users = useMemo(() => {
-        const set = new Set([...currentComments.map((item) => item?.userId)])
-        return Array.from(set)
-    }, [currentComments])
+    const users = Array.from(
+        new Set([...currentComments.map((item) => item?.userId)]),
+    )
 
     const dataUsers = useQueries({
         queries: users.map((item) => ({
@@ -90,7 +89,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
                       .slice(0, 6)
                       .map((item, index) => (
                           <NextImageMotion
-                              onClick={() => handleUser(item.id!)}
+                              onClick={() => handleUser(item?.id!)}
                               key={item.id! + index}
                               src={item.photo!}
                               alt="avatar"

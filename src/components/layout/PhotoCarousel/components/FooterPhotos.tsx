@@ -6,7 +6,13 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function FooterPhotos() {
-    const { photos, currentPhoto, setCurrentPhoto } = useVisiblePhotosCarousel()
+    const { photos, currentPhoto, setCurrentPhoto } = useVisiblePhotosCarousel(
+        (_) => ({
+            photos: _.photos,
+            currentPhoto: _.currentPhoto,
+            setCurrentPhoto: _.setCurrentPhoto,
+        }),
+    )
 
     return (
         <MotionUL classNames={[styles.containerFooterPhotos]}>

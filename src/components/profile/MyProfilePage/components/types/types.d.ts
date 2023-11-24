@@ -1,9 +1,6 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 
-interface IContainer {
-    isOfferOrRequest: "offer" | "request"
-    setIsOfferOrRequest: Dispatch<SetStateAction<"offer" | "request">>
-}
+interface IContainer {}
 
 export type TContainerAboutMe = FC<IContainer>
 export type TContainerTagAndButton = FC<IContainer>
