@@ -1,4 +1,3 @@
-import Head from "next/head"
 import { type Metadata } from "next"
 import dynamic from "next/dynamic"
 import { type ReactNode } from "react"
@@ -13,31 +12,24 @@ const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
-const viewport = "width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"
-
 export const metadata: Metadata = {
     title: "Sheira",
     description:
         "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
     keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+        userScalable: false,
+        maximumScale: 1,
+        minimumScale: 1,
+        height: "device-height",
+    },
 }
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
         <html lang="ru">
-            <Head>
-                <meta name="viewport" content={viewport} />
-                <meta
-                    name="theme-color"
-                    media="(color-scheme: light)"
-                    content="#f9fafb"
-                />
-                <meta
-                    name="theme-color"
-                    media="(color-scheme: dark)"
-                    content="#232738"
-                />
-            </Head>
             <body className={inter.className}>
                 <Providers>{children}</Providers>
                 <Glasses />

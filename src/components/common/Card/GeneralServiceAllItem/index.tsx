@@ -113,7 +113,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
 
     function handleProfile() {
         if (isMobile) {
-            handlePush(`/user?id=${id}`)
+            handlePush(`/user?id=${userId}`)
         } else {
             dispatchProfilePublic({ visible: true, idUser: userId! })
         }

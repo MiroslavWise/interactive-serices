@@ -54,9 +54,11 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                 item.path !== null
                             ) {
                                 setIsAnimated(true)
+                                return
                             }
                             if (item.path === null) {
                                 handleSignInOrSignUp()
+                                return
                             }
                         }}
                         href={handleGoToPage(item.path!)}
