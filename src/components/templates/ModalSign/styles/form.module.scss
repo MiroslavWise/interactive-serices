@@ -104,13 +104,16 @@
                 cursor: pointer;
                 border-radius: 6px;
 
-                img {
+                & > [data-check] {
                     position: absolute;
                     display: none;
+                    width: 16px;
+                    height: 16px;
+                    background-size: cover;
                 }
             }
 
-            input[type="checkbox"]:checked + .checkmark img {
+            input[type="checkbox"]:checked + .checkmark [data-check] {
                 display: flex;
             }
         }

@@ -2,6 +2,7 @@
     "extends": "next/core-web-vitals",
     "rules": {
         "semi": ["error", "never"],
-        "no-document-import-in-page": "off"
+        "no-document-import-in-page": "off",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }

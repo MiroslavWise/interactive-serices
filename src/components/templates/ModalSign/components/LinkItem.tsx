@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+// import Image from "next/image"
 
 import type { TLinkItem } from "../types/types"
 
@@ -21,7 +21,8 @@ export const LinkItem: TLinkItem = ({ src, path, isActive }) => {
                 }
             }}
         >
-            <Image src={src} alt={src} height={24} width={24} />
+            <div style={{ backgroundImage: `url(${src})` }} data-img />
+            {/* <Image src={src} alt={src} height={24} width={24} /> */}
         </div>
     )
 }

@@ -197,11 +197,11 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 className=""
                             />
                             <span className={styles.checkmark}>
-                                <Image
-                                    src="/svg/check.svg"
-                                    alt="check"
-                                    width={16}
-                                    height={16}
+                                <div
+                                    data-check
+                                    style={{
+                                        backgroundImage: `url(/svg/check.svg)`,
+                                    }}
                                 />
                             </span>
                         </label>

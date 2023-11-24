@@ -288,7 +288,7 @@
     .wrapper {
         & > section {
             & > [data-close="true"] {
-                & > img {
+                & > object {
                     filter: invert(1);
                 }
             }

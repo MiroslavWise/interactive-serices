@@ -42,7 +42,7 @@ export const ButtonClose: TButtonClose = ({
             }}
             data-close
         >
-            <Image src="/svg/x-close.svg" alt="x" width={20} height={20} />
+            <div style={{ backgroundImage: `url(/svg/x-close.svg)` }} />
         </div>
     )
 }

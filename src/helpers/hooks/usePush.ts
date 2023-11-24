@@ -20,10 +20,11 @@ export const usePush = () => {
     }
 
     function handlePush(value: string) {
-        if (!value.includes(pathname) && pathname !== value) {
-            setIsAnimated(true)
-        }
-        close()
+        // close()
+        // if (pathname !== value) {
+        //     setIsAnimated(true)
+        // }
+        console.log("push: ----", value)
         push(value)
     }
 
