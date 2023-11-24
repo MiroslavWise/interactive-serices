@@ -28,8 +28,17 @@ export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
-    const { isVisible, setVisible } = useUpdateProfile()
-    const { user, email, profileId, userId, updateProfile } = useAuth()
+    const { isVisible, setVisible } = useUpdateProfile((_) => ({
+        isVisible: _.isVisible,
+        setVisible: _.setVisible,
+    }))
+    const { user, email, profileId, userId, updateProfile } = useAuth((_) => ({
+        user: _.user,
+        email: _.email,
+        profileId: _.profileId,
+        userId: _.userId,
+        updateProfile: _.updateProfile,
+    }))
     const { out } = useOut()
     const { on } = useToast()
     const dateOfBirth = useMemo(() => {

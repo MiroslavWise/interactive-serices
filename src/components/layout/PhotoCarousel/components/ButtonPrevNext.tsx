@@ -6,7 +6,10 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const ButtonPrevNext = () => {
-    const { setPrev, setNext } = useVisiblePhotosCarousel()
+    const { setPrev, setNext } = useVisiblePhotosCarousel((_) => ({
+        setPrev: _.setPrev,
+        setNext: _.setNext,
+    }))
 
     return (
         <>

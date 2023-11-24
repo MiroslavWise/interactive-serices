@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
@@ -19,11 +18,18 @@ import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic()
-    const { id, idUser, type, dispatch } = useBalloonCard()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
+        id: _.id,
+        idUser: _.idUser,
+        type: _.type,
+        dispatch: _.dispatch,
+    }))
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [

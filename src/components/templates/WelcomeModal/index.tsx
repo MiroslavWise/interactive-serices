@@ -12,7 +12,10 @@ import { useWelcomeModal } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function WelcomeModal() {
-    const { isVisible, setVisible } = useWelcomeModal()
+    const { isVisible, setVisible } = useWelcomeModal((_) => ({
+        isVisible: _.isVisible,
+        setVisible: _.setVisible,
+    }))
 
     function close() {
         setVisible(false)

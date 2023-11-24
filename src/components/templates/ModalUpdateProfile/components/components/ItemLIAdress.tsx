@@ -21,7 +21,7 @@ import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import styles from "./styles/style.module.scss"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
-    const { userId, changeAuth } = useAuth()
+    const { changeAuth } = useAuth(_ => ({changeAuth: _.changeAuth}))
     const [text, setText] = useState("")
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const [activeList, setActiveList] = useState(false)

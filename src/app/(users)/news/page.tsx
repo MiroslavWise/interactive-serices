@@ -11,7 +11,7 @@ import { useBounds } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
 
 export default function News() {
-    const { bounds } = useBounds()
+    const { bounds } = useBounds((_) => ({ bounds: _.bounds }))
     const { data } = useQuery({
         queryKey: ["offers"],
         queryFn: () => serviceOffers.get({ order: "DESC" }),

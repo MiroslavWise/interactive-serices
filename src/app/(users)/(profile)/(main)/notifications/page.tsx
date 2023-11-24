@@ -5,14 +5,11 @@ import { useQuery } from "@tanstack/react-query"
 import { MotionUL } from "@/components/common/Motion"
 import { ComponentsNotification } from "@/components/profile/ComponentsNotification"
 
-import { useAuth } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
 
 import styles from "./page.module.scss"
 
 export default function Notifications() {
-    const { userId } = useAuth()
-
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications"],
