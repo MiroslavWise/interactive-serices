@@ -11,9 +11,8 @@ import { MotionUL } from "@/components/common/Motion"
 import { ComponentsNotification } from "@/components/profile"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store/hooks"
+import { useAuth, useVisibleNotifications } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
-import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
 
 import styles from "./styles/style.module.scss"
 

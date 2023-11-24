@@ -6,27 +6,39 @@ import type { INewCreate, TNewCreate } from "../types/types"
 
 import { ImageStatic } from "@/components/common/Image"
 
-import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import {
+    useVisibleNewServiceBarterRequests,
+    useAddCreateModal,
+} from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const Item: TNewCreate = (props: INewCreate) => {
     const { imageSrc, label, value } = props ?? {}
-    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType } = useAddCreateModal()
-    const { dispatchNewServiceBarterRequests: setIsVisibleNewServiceBarterRequests } =
-        useVisibleNewServiceBarterRequests()
+    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
+        dispatchVisibleTypeCreateOptionals:
+            _.dispatchVisibleTypeCreateOptionals,
+    }))
+    const { dispatchNewServiceBarterRequests } =
+        useVisibleNewServiceBarterRequests((_) => ({
+            dispatchNewServiceBarterRequests:
+                _.dispatchNewServiceBarterRequests,
+        }))
 
     function handleType() {
         if (!value) {
-            setIsVisibleNewServiceBarterRequests(false)
+            dispatchNewServiceBarterRequests(false)
         } else {
-            setVisibleAndType({ visible: true, type: value })
-            setIsVisibleNewServiceBarterRequests(false)
+            dispatchVisibleTypeCreateOptionals({ visible: true, type: value })
+            dispatchNewServiceBarterRequests(false)
         }
     }
     return (
-        <li className={styles.containerLi} onClick={handleType} data-mobile={isMobile}>
+        <li
+            className={styles.containerLi}
+            onClick={handleType}
+            data-mobile={isMobile}
+        >
             <ImageStatic src={imageSrc} width={36} height={36} alt={imageSrc} />
             <p>{label}</p>
         </li>

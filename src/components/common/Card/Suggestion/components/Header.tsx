@@ -1,15 +1,17 @@
-import { memo, useMemo } from "react"
+import { useMemo } from "react"
 
 import type { IHeader } from "./types/types"
 
 import { Rate } from "@/components/common/Rate"
 
-import { useOffersCategories } from "@/store/state/useOffersCategories"
+import { useOffersCategories } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-const $Header: IHeader = ({ categoryId, rating, title, provider }) => {
-    const { categories } = useOffersCategories()
+export const Header: IHeader = ({ categoryId, rating, title, provider }) => {
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
 
     const titleCategory = useMemo(() => {
         return (
@@ -48,5 +50,3 @@ const $Header: IHeader = ({ categoryId, rating, title, provider }) => {
         </header>
     )
 }
-
-export const Header = memo($Header)

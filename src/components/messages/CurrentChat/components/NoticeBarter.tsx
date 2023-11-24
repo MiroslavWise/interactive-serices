@@ -45,14 +45,23 @@ export const NoticeBarter = memo(function $NoticeBarter({
     refetchThread: () => Promise<any>
     setIsLoadingFullInfo: Dispatch<SetStateAction<boolean>>
 }) {
-    const { userId, user } = useAuth()
     const threadId = useSearchParams().get("thread")
-    const { categories } = useOffersCategories()
+    const { userId, user } = useAuth((_) => ({
+        userId: _.userId,
+        user: _.user,
+    }))
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
     const [loading, setLoading] = useState(false)
     const { socket } = useWebSocket() ?? {}
     const { handleReplace } = usePush()
-    const { setIsVisible } = usePopupMenuChat()
-    const { dispatchCompletion } = useCompletionTransaction()
+    const { setIsVisible } = usePopupMenuChat((_) => ({
+        setIsVisible: _.setIsVisible,
+    }))
+    const { dispatchCompletion } = useCompletionTransaction((_) => ({
+        dispatchCompletion: _.dispatchCompletion,
+    }))
     const { data, refetch } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
         queryKey: ["barters", `id=${idBarter}`],

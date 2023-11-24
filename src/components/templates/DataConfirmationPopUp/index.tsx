@@ -13,7 +13,12 @@ export const DataConfirmationPopUp = () => {
         nameFeedback,
         visibleDataConfirmation,
         dispatchDataConfirmation,
-    } = useDataConfirmationPopUp()
+    } = useDataConfirmationPopUp((_) => ({
+        type: _.type,
+        nameFeedback: _.nameFeedback,
+        visibleDataConfirmation: _.visibleDataConfirmation,
+        dispatchDataConfirmation: _.dispatchDataConfirmation,
+    }))
 
     return (
         <div

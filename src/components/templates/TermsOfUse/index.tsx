@@ -8,13 +8,18 @@ import { ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { RULES } from "./constants/rules"
 import { POLICY } from "./constants/policy"
-import { useTermsOfUse } from "@/store/state/useTermsOfUse"
+import { useTermsOfUse } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const TermsOfUse = () => {
     const { visiblePolicy, visibleRules, dispatchPolicy, dispatchRules } =
-        useTermsOfUse()
+        useTermsOfUse((_) => ({
+            visiblePolicy: _.visiblePolicy,
+            visibleRules: _.visibleRules,
+            dispatchPolicy: _.dispatchPolicy,
+            dispatchRules: _.dispatchRules,
+        }))
 
     const h = useMemo(() => {
         if (visiblePolicy) return "Политика обработки персональных данных"

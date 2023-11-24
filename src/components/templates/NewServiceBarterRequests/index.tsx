@@ -15,8 +15,11 @@ import styles from "./styles/style.module.scss"
 export function NewServiceBarterRequests() {
     const {
         isVisibleNewServiceBarterRequests,
-        dispatchNewServiceBarterRequests: setIsVisibleNewServiceBarterRequests,
-    } = useVisibleNewServiceBarterRequests()
+        dispatchNewServiceBarterRequests,
+    } = useVisibleNewServiceBarterRequests((_) => ({
+        isVisibleNewServiceBarterRequests: _.isVisibleNewServiceBarterRequests,
+        dispatchNewServiceBarterRequests: _.dispatchNewServiceBarterRequests,
+    }))
 
     return isVisibleNewServiceBarterRequests ? (
         <div
@@ -41,7 +44,7 @@ export function NewServiceBarterRequests() {
                     ))}
                 </ul>
                 <ButtonClose
-                    onClick={() => setIsVisibleNewServiceBarterRequests(false)}
+                    onClick={() => dispatchNewServiceBarterRequests(false)}
                     position={{
                         right: 12,
                         top: 12,

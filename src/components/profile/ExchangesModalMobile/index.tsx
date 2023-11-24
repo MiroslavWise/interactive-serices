@@ -14,8 +14,12 @@ import { useAuth, useVisibleExchanges } from "@/store/hooks"
 import styles from "./style.module.scss"
 
 export const ExchangesModalMobile = () => {
-    const { userId } = useAuth() ?? {}
-    const { type, isVisible, dispatchExchanges: setVisibleType } = useVisibleExchanges() ?? {}
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { type, isVisible, dispatchExchanges } = useVisibleExchanges((_) => ({
+        type: _.type,
+        isVisible: _.isVisible,
+        dispatchExchanges: _.dispatchExchanges,
+    }))
 
     const { data } = useQuery({
         queryFn: () =>
@@ -36,7 +40,7 @@ export const ExchangesModalMobile = () => {
                 <div
                     className={styles.buttonBack}
                     onClick={() => {
-                        setVisibleType({ visible: false })
+                        dispatchExchanges({ visible: false })
                     }}
                 >
                     <Image

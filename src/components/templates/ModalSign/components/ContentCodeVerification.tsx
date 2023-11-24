@@ -24,7 +24,9 @@ export const ContentCodeVerification: TContentCodeVerification = ({
     const [inputValues, setInputValues] = useState(Array(4).fill(""))
     const [errorCode, setErrorCode] = useState("")
     const inputRefs = useRef<HTMLInputElement[]>([])
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
 
     const handleChange = (
         event: ChangeEvent<HTMLInputElement>,
@@ -122,7 +124,7 @@ export const ContentCodeVerification: TContentCodeVerification = ({
                 </p>
                 <a
                     onClick={() =>
-                        setVisibleAndType({ type: "ForgotPassword" })
+                        dispatchAuthModal({ type: "ForgotPassword" })
                     }
                 >
                     {" "}

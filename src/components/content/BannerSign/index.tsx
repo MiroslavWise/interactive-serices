@@ -9,7 +9,7 @@ import { BannerIsNoAuth } from "./components/BannerIsNoAuth"
 import { useAuth } from "@/store/hooks"
 
 export const BannerSign = memo(function $BannerSign() {
-    const { isAuth } = useAuth()
+    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
 
     if (typeof isAuth === "undefined") return null
     if (isMobile) return null

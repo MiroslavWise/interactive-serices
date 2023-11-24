@@ -20,10 +20,19 @@ import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
     const { isAddresses } = useAddress()
-    const { setVisible } = useUpdateProfile()
+    const { setVisible } = useUpdateProfile((_) => ({
+        setVisible: _.setVisible,
+    }))
     const { out } = useOut()
-    const { user, imageProfile, createdUser, addresses } = useAuth()
-    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const { user, imageProfile, createdUser, addresses } = useAuth((_) => ({
+        user: _.user,
+        imageProfile: _.imageProfile,
+        createdUser: _.createdUser,
+        addresses: _.addresses,
+    }))
+    const { dispatchNewServicesBanner } = useVisibleBannerNewServices((_) => ({
+        dispatchNewServicesBanner: _.dispatchNewServicesBanner,
+    }))
 
     const geo = useMemo(() => {
         return addresses?.find((item) => item?.addressType === "main") || null
@@ -108,7 +117,7 @@ export const M_ContainerAboutProfile = () => {
                     }
                     handleClick={() => {
                         if (isAddresses) {
-                            setIsVisibleNewServicesBanner(true)
+                            dispatchNewServicesBanner(true)
                         }
                     }}
                 />

@@ -15,9 +15,14 @@ import { useModalAuth } from "@/store/hooks"
 import styles from "../styles/form.module.scss"
 
 export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
-    const { setToken, email } = useAuth(state => ({setToken: state.setToken, email: state.email}))
+    const { setToken, email } = useAuth((state) => ({
+        setToken: state.setToken,
+        email: state.email,
+    }))
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
     //todo
     const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
     const [errorCode, setErrorCode] = useState("")
@@ -86,7 +91,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                 }
             })
             .finally(() => {
-                setVisibleAndType({ visible: false, type: null })
+                dispatchAuthModal({ visible: false, type: null })
                 setLoading(false)
             })
     }

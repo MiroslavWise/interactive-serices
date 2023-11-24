@@ -5,18 +5,15 @@ import { type ReactNode, useMemo, useState } from "react"
 import type { TActiveCheck } from "./components/types/types"
 import type { IPatchOffers, IPostOffers } from "@/services/offers/types"
 
+import { Button } from "@/components/common"
 import { CircleCheck } from "./components/CircleCheck"
 import { FinishScreen } from "../components/FinishScreen"
 import { Divider } from "@/components/common/Divider"
 import { AddingPhotos } from "./components/AddingPhotos"
 import { ServiceSelection } from "./components/ServiceSelection"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { serviceOffers } from "@/services/offers"
-import { Button } from "@/components/common"
-import { useCreateOffer } from "@/store/state/useCreateOffer"
-
-import { useAuth } from "@/store/hooks"
+import { useAuth, useCreateOffer } from "@/store/hooks"
 import { fileUploadService } from "@/services/file-upload"
 import {
     replaceRussianMats,
@@ -33,12 +30,20 @@ const DESCRIPTIONS = [1, 2, 3]
 type TSteps = 1 | 2 | 3
 
 export const ModalAddOffer = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { close } = useCloseCreateOptions()
     const [step, setStep] = useState<TSteps>(1)
     const refresh = useRefresh()
     const { files, setId, id, text, valueCategory, adressId, addressInit } =
-        useCreateOffer()
+        useCreateOffer((_) => ({
+            files: _.files,
+            setId: _.setId,
+            id: _.id,
+            text: _.text,
+            valueCategory: _.valueCategory,
+            adressId: _.adressId,
+            addressInit: _.addressInit,
+        }))
 
     const content: ReactNode = useMemo(() => {
         const obj: Record<TSteps, ReactNode> = {

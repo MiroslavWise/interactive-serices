@@ -9,14 +9,17 @@ import type { TOfferBalloonComponent } from "../types/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
+import {
+    useAuth,
+    useOffersCategories,
+    useVisibleModalBarter,
+} from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = () => {
     const { userId } = useAuth((_) => ({ userId: _.userId }))

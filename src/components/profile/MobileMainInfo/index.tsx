@@ -20,8 +20,10 @@ import styles from "./styles.module.scss"
 import { AddFriend } from "../MainInfo/components/AddFriend"
 
 export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
+        dispatchVisibleBarter: _.dispatchVisibleBarter,
+    }))
     const { handlePush } = usePush()
 
     const geo: IAddressesResponse | null = useMemo(() => {

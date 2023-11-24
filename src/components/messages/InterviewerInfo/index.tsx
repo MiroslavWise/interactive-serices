@@ -12,13 +12,12 @@ import { BadgeAchievements } from "@/components/common/Badge"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { useAuth } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { IPatchThreads } from "@/services/threads/types"
+import { useAuth, useMessagesType } from "@/store/hooks"
 import { BADGES } from "@/mocks/components/auth/constants"
-import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "./styles/style.module.scss"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
@@ -26,8 +25,8 @@ import { useRefetchListChat } from "../hook/useRefetchListChat"
 
 export const InterviewerInfoCurrent = () => {
     const searchParams = useSearchParams()
-    const { userId } = useAuth()
-    const { type } = useMessagesType()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { type } = useMessagesType((_) => ({ type: _.type }))
     const idThread = searchParams?.get("thread")
     const { handlePush, handleReplace } = usePush()
     const refresh = useRefetchListChat()

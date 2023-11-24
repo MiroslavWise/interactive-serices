@@ -22,9 +22,16 @@ import styles from "../styles/form.module.scss"
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { setToken, changeAuth } = useAuth()
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
-    const { setVisible } = useWelcomeModal()
+    const { setToken, changeAuth } = useAuth((_) => ({
+        setToken: _.setToken,
+        changeAuth: _.changeAuth,
+    }))
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
+    const { setVisible } = useWelcomeModal((_) => ({
+        setVisible: _.setVisible,
+    }))
     const {
         watch,
         register,
@@ -36,25 +43,27 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
 
     const onEnter = async (values: IValuesSignForm) => {
         if (!loading) {
-            if (!matchesUserName(values.email)) {
-                return setError("email", { message: "email not valid" })
+            if (!matchesUserName(values.finaly_qwer)) {
+                return setError("finaly_qwer", { message: "email not valid" })
             }
-            if (!checkPasswordStrength(values?.password)) {
-                setError("password", { message: "invalid password" })
+            if (!checkPasswordStrength(values?._qwer_rrewwrerq)) {
+                setError("_qwer_rrewwrerq", { message: "invalid password" })
                 return
             }
             setLoading(true)
             useTokenHelper
                 .login({
-                    email: values.email,
-                    password: values.password,
+                    email: values.finaly_qwer,
+                    password: values._qwer_rrewwrerq,
                 })
                 .then((response) => {
                     if (
                         response?.error?.code === 401 &&
                         response?.error?.message === "Unauthorized"
                     ) {
-                        setError("password", { message: "invalid password" })
+                        setError("_qwer_rrewwrerq", {
+                            message: "invalid password",
+                        })
                         return
                     }
                     if (
@@ -71,7 +80,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         return
                     }
                     if (response.error?.code === 404) {
-                        setError("email", { message: "user not found" })
+                        setError("finaly_qwer", { message: "user not found" })
                         return
                     }
                     if (response?.res?.secret && response?.res?.otpAuthUrl) {
@@ -79,7 +88,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             secret: response?.res?.secret!,
                             url: response?.res?.otpAuthUrl!,
                         })
-                        return setVisibleAndType({ type: "FirstLoginQR" })
+                        return dispatchAuthModal({ type: "FirstLoginQR" })
                     }
                     if (response?.error) {
                         console.log(
@@ -111,19 +120,19 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                             response?.res?.refreshToken!,
                                         expires: response?.res?.expires!,
                                         userId: response?.res?.id!,
-                                        email: values?.email!,
+                                        email: values?.finaly_qwer!,
                                     })
                                     if (!responseUser?.res?.profile) {
-                                        setVisibleAndType({ visible: false })
+                                        dispatchAuthModal({ visible: false })
                                         return setVisible(true)
                                     }
                                     if (!!responseUser?.res?.profile) {
                                         return changeAuth()
                                     }
                                 })
-                            return setVisibleAndType({ visible: false })
+                            return dispatchAuthModal({ visible: false })
                         }
-                        return setVisibleAndType({ type: "OtpCode" })
+                        return dispatchAuthModal({ type: "OtpCode" })
                     }
                 })
                 .finally(() => {
@@ -139,40 +148,42 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     <Input
                         label="Email"
                         rules
-                        {...register("email", { required: true })}
-                        value={watch("email")}
+                        {...register("finaly_qwer", { required: true })}
+                        value={watch("finaly_qwer")}
                         placeholder="Введите свой email"
                         type="email"
                         onChange={(event) =>
-                            setValue("email", event.target.value)
+                            setValue("finaly_qwer", event.target.value)
                         }
                         error={
-                            errors.email &&
-                            errors.email?.message === "user not found"
+                            errors.finaly_qwer &&
+                            errors.finaly_qwer?.message === "user not found"
                                 ? "Такого пользователя не существует"
-                                : errors.email?.message === "email not valid"
-                                  ? "Требуется email"
-                                  : errors.email
-                                    ? "Какая-то ошибка с Email"
-                                    : ""
+                                : errors.finaly_qwer?.message ===
+                                  "email not valid"
+                                ? "Требуется email"
+                                : errors.finaly_qwer
+                                ? "Какая-то ошибка с Email"
+                                : ""
                         }
                     />
                     <InputPassword
                         label="Пароль"
                         rules
                         placeholder="Введите свой пароль"
-                        {...register("password", { required: true })}
-                        value={watch("password")}
+                        {...register("_qwer_rrewwrerq", { required: true })}
+                        value={watch("_qwer_rrewwrerq")}
                         onChange={(event) =>
-                            setValue("password", event.target.value)
+                            setValue("_qwer_rrewwrerq", event.target.value)
                         }
                         error={
-                            errors.password &&
-                            errors.password.message === "invalid password"
+                            errors._qwer_rrewwrerq &&
+                            errors._qwer_rrewwrerq.message ===
+                                "invalid password"
                                 ? "Не верный пароль"
-                                : errors.password
-                                  ? "Требуется пароль"
-                                  : ""
+                                : errors._qwer_rrewwrerq
+                                ? "Требуется пароль"
+                                : ""
                         }
                     />
                 </section>
@@ -199,7 +210,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     <a
                         onClick={() => {
                             console.log("ForgotPassword")
-                            setVisibleAndType({ type: "ForgotPassword" })
+                            dispatchAuthModal({ type: "ForgotPassword" })
                         }}
                     >
                         Забыли пароль?
@@ -216,7 +227,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
             </form>
             <section className={styles.Register}>
                 <p>Нет аккаунта?</p>
-                <a onClick={() => setVisibleAndType({ type: "SignUp" })}>
+                <a onClick={() => dispatchAuthModal({ type: "SignUp" })}>
                     Зарегистрироваться
                 </a>
             </section>

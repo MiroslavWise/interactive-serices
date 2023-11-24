@@ -29,8 +29,8 @@ import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
     useAuth,
+    usePhotoOffer,
     useTermsOfUse,
-    useBalloonCard,
     useHasBalloons,
     useDroverFriends,
     useVisibleModalBarter,
@@ -38,19 +38,34 @@ import {
     useUpdateMutualOffer,
     useDataConfirmationPopUp,
 } from "@/store/hooks"
-import { usePhotoOffer } from "@/store/state/usePhotoOffer"
 
 export const Containers = () => {
-    const { token, isAuth } = useAuth()
-    const { visible } = useBalloonCard()
-    const { isVisible } = useVisibleModalBarter()
-    const { visibleFriends } = useDroverFriends()
-    const { visibleHasBalloon } = useHasBalloons()
-    const { visiblePolicy, visibleRules } = useTermsOfUse()
-    const { visibleUpdateMutual } = useUpdateMutualOffer()
-    const { visible: visibleNotifications } = useVisibleNotifications()
-    const { visibleDataConfirmation } = useDataConfirmationPopUp()
-    const { visible: visiblePhotoOffer } = usePhotoOffer()
+    const { isAuth } = useAuth((_) => ({ isAuth: _.isAuth }))
+    const { isVisible } = useVisibleModalBarter((_) => ({
+        isVisible: _.isVisible,
+    }))
+    const { visibleFriends } = useDroverFriends((_) => ({
+        visibleFriends: _.visibleFriends,
+    }))
+    const { visibleHasBalloon } = useHasBalloons((_) => ({
+        visibleHasBalloon: _.visibleHasBalloon,
+    }))
+    const { visiblePolicy, visibleRules } = useTermsOfUse((_) => ({
+        visiblePolicy: _.visiblePolicy,
+        visibleRules: _.visibleRules,
+    }))
+    const { visibleUpdateMutual } = useUpdateMutualOffer((_) => ({
+        visibleUpdateMutual: _.visibleUpdateMutual,
+    }))
+    const { visibleNotifications } = useVisibleNotifications((_) => ({
+        visibleNotifications: _.visible,
+    }))
+    const { visibleDataConfirmation } = useDataConfirmationPopUp((_) => ({
+        visibleDataConfirmation: _.visibleDataConfirmation,
+    }))
+    const { visiblePhotoOffer } = usePhotoOffer((_) => ({
+        visiblePhotoOffer: _.visible,
+    }))
 
     return (
         <>
@@ -61,13 +76,13 @@ export const Containers = () => {
             <BalloonPlaceMark />
             <AboutSheiraPopup />
             {isVisible && <Barter />}
-            {!token && !isAuth && <ModalSign />}
+            {!isAuth && !isAuth && <ModalSign />}
             <ToastContainer limit={3} />
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
             {visibleDataConfirmation && <DataConfirmationPopUp />}
-            {token && (
+            {isAuth && (
                 <>
                     <ComplaintModal />
                     <NewServicesBanner />

@@ -16,15 +16,15 @@ import { MOCK_ACHIEVEMENTS } from "@/mocks/components/auth/constants"
 import styles from "./styles/style.module.scss"
 
 export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
+    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
+        dispatchVisibleBarter: _.dispatchVisibleBarter,
+    }))
     return (
         <section className={styles.infoContainerProfile}>
             <div className={styles.avatarAndAchievements}>
-                <div
-                    className={styles.avatar}
-                >
+                <div className={styles.avatar}>
                     {profile?.photo ? (
                         <NextImageMotion
                             className={styles.photo}

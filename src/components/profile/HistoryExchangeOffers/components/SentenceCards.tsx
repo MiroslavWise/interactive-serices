@@ -13,7 +13,7 @@ import { serviceBarters } from "@/services/barters"
 import styles from "./styles/style.module.scss"
 
 export const SentenceCards: TSentenceCards = ({ value }) => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { data } = useQuery({
         queryFn: () =>
             serviceBarters.get({

@@ -11,7 +11,10 @@ import { useVisibleModalBarter } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const BadgeInformationProfile = ({}) => {
-    const { dataProfile, dataOffer } = useVisibleModalBarter()
+    const { dataProfile, dataOffer } = useVisibleModalBarter((_) => ({
+        dataProfile: _.dataProfile,
+        dataOffer: _.dataOffer,
+    }))
 
     const address = useMemo(() => {
         return dataOffer?.addresses?.[0]?.additional || ""

@@ -12,7 +12,7 @@ import { serviceTestimonials } from "@/services/testimonials"
 import styles from "./style.module.scss"
 
 export const AchievementsCount = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
 
     const queries = useQueries({
         queries: [

@@ -9,24 +9,33 @@ import type { TRequestsAndProposals } from "./types"
 
 import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
+import {
+    useAuth,
+    useVisibleModalBarter,
+    useBalloonCard,
+    useMapCoordinates,
+    useOffersCategories,
+} from "@/store/hooks"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const { systemTheme } = useTheme()
-    const { userId: myUserId } = useAuth()
-    const { categories } = useOffersCategories()
+    const { myUserId } = useAuth((_) => ({ myUserId: _.userId }))
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
     const { handlePush } = usePush()
-    const { dispatchMapCoordinates } = useMapCoordinates()
-    const { dispatch } = useBalloonCard()
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
+    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
+        dispatchMapCoordinates: _.dispatchMapCoordinates,
+    }))
+    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
+    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
+        dispatchVisibleBarter: _.dispatchVisibleBarter,
+    }))
     const { createGallery } = usePhotoVisible()
 
     const { id, categoryId, provider, title, userId, addresses, images, type } =

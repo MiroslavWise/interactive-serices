@@ -36,14 +36,18 @@ const queryClient = new QueryClient({
 })
 
 export default function Providers({ children }: { children: ReactNode }) {
-    const { refresh } = useAuth()
+    const { refresh } = useAuth((_) => ({ refresh: _.refresh }))
     const searchParams = useSearchParams()
     const { handleReplace } = usePush()
     const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
-    const { getCategories } = useOffersCategories()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
+    const { getCategories } = useOffersCategories((_) => ({
+        getCategories: _.getCategories,
+    }))
 
     const { offersCategories, getFetchingOffersCategories } =
         useFetchingSession()
@@ -65,12 +69,12 @@ export default function Providers({ children }: { children: ReactNode }) {
     }, [refresh])
     useEffect(() => {
         if (passwordResetToken) {
-            setVisibleAndType({
+            dispatchAuthModal({
                 visible: true,
                 type: "ResetPassword",
             })
         }
-    }, [passwordResetToken, setVisibleAndType])
+    }, [passwordResetToken, dispatchAuthModal])
     useEffect(() => {
         if (verifyToken) {
             RegistrationService.verification({ code: verifyToken! }).then(
@@ -81,7 +85,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                                 "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
                         })
                         handleReplace("/")
-                        setVisibleAndType({
+                        dispatchAuthModal({
                             visible: true,
                             type: "SignIn",
                         })
@@ -89,7 +93,7 @@ export default function Providers({ children }: { children: ReactNode }) {
                 },
             )
         }
-    }, [verifyToken, handleReplace, on, setVisibleAndType])
+    }, [verifyToken, handleReplace, on, dispatchAuthModal])
 
     useEffect(() => {
         if (offersCategories === false) {

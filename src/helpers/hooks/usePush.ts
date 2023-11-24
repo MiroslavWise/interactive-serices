@@ -8,7 +8,9 @@ import { useCloseAllModal } from "./useCloseAllModal"
 export const usePush = () => {
     const { push, replace, back } = useRouter()
     const pathname = usePathname()
-    const { setIsAnimated } = useAnimateLoadPage()
+    const { setIsAnimated } = useAnimateLoadPage((_) => ({
+        setIsAnimated: _.setIsAnimated,
+    }))
     const close = useCloseAllModal()
 
     function handleReplace(value: string) {

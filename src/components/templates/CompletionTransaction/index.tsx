@@ -12,18 +12,18 @@ import type { IValuesForm } from "./types/types"
 import { ButtonClose, ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { useAuth, useDataConfirmationPopUp } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { serviceTestimonials } from "@/services/testimonials"
+import { useAuth, useDataConfirmationPopUp } from "@/store/hooks"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
 import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/style.module.scss"
 
 export const CompletionTransaction = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { on } = useToast()
     const {
         register,
@@ -38,8 +38,16 @@ export const CompletionTransaction = () => {
         },
     })
     const { visible, dataBarter, dataUser, dispatchCompletion, threadId } =
-        useCompletionTransaction()
-    const { dispatchDataConfirmation } = useDataConfirmationPopUp()
+        useCompletionTransaction((_) => ({
+            visible: _.visible,
+            dataBarter: _.dataBarter,
+            dataUser: _.dataUser,
+            dispatchCompletion: _.dispatchCompletion,
+            threadId: _.threadId,
+        }))
+    const { dispatchDataConfirmation } = useDataConfirmationPopUp((_) => ({
+        dispatchDataConfirmation: _.dispatchDataConfirmation,
+    }))
 
     const { refetch } = useQuery({
         queryFn: () => serviceBarters.getId(dataBarter?.id!),

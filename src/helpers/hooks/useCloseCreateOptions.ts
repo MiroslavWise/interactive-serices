@@ -4,21 +4,33 @@ import { type DispatchWithoutAction } from "react"
 
 import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
-import { useCreateAlert } from "@/store/state/useCreateAlert"
-import { useCreateOffer } from "@/store/state/useCreateOffer"
-import { useCreateRequest } from "@/store/state/useCreateRequest"
-import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
+import {
+    useCreateAlert,
+    useCreateOffer,
+    useCreateRequest,
+    useCreateDiscussion,
+    useAddCreateModal,
+} from "@/store/hooks"
 
 export const useCloseCreateOptions = () => {
-    const { reset } = useCreateOffer()
-    const { resetAlert } = useCreateAlert()
-    const { resetRequest } = useCreateRequest()
-    const { resetDiscussion } = useCreateDiscussion()
-    const { dispatchVisibleTypeCreateOptionals: setVisibleAndType, typeAdd } = useAddCreateModal()
+    const { reset } = useCreateOffer((_) => ({ reset: _.reset }))
+    const { resetAlert } = useCreateAlert((_) => ({ resetAlert: _.resetAlert }))
+    const { resetRequest } = useCreateRequest((_) => ({
+        resetRequest: _.resetRequest,
+    }))
+    const { resetDiscussion } = useCreateDiscussion((_) => ({
+        resetDiscussion: _.resetDiscussion,
+    }))
+    const { dispatchVisibleTypeCreateOptionals, typeAdd } = useAddCreateModal(
+        (_) => ({
+            dispatchVisibleTypeCreateOptionals:
+                _.dispatchVisibleTypeCreateOptionals,
+            typeAdd: _.typeAdd,
+        }),
+    )
 
     function close() {
-        setVisibleAndType()
+        dispatchVisibleTypeCreateOptionals()
         const obj: Record<TAddCreate, DispatchWithoutAction> = {
             offer: reset,
             request: resetRequest,

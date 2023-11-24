@@ -3,7 +3,7 @@
 import dayjs from "dayjs"
 import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
-import { useEffect, useMemo, useState } from "react"
+import { memo, useEffect, useMemo, useState } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
 import { IFiltersItems } from "./components/types/types"
@@ -12,18 +12,21 @@ import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
 import { Segments } from "@/components/common/Segments"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth, useMessagesType } from "@/store/hooks"
 import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { SEGMENTS_CHAT } from "./constants/segments"
-import { useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "./styles/style.module.scss"
+import { TotalDiv } from "./components/TotalDiv"
 
-export const ListChat = () => {
-    const { userId } = useAuth()
-    const { dispatchMessagesType, type } = useMessagesType()
+export const ListChat = memo(function ListChat() {
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { dispatchMessagesType, type } = useMessagesType((_) => ({
+        type: _.type,
+        dispatchMessagesType: _.dispatchMessagesType,
+    }))
     const { systemTheme } = useTheme()
     const [search, setSearch] = useState("")
     const { socket } = useWebSocket() ?? {}
@@ -131,11 +134,7 @@ export const ListChat = () => {
             <header>
                 <div data-total-number>
                     <h4>Сообщения</h4>
-                    {typeof total !== "undefined" ? (
-                        <div data-total>
-                            <p>{total || 0}</p>
-                        </div>
-                    ) : null}
+                    <TotalDiv {...{ total }} />
                 </div>
                 <Segments
                     type={systemTheme === "dark" ? "primary" : "optional-1"}
@@ -151,4 +150,4 @@ export const ListChat = () => {
             <List search={search} items={items} setTotal={setTotal} />
         </section>
     )
-}
+})

@@ -11,7 +11,7 @@ import type { TSearchElementMap } from "./types"
 
 import { cx } from "@/lib/cx"
 import { useDebounce } from "@/helpers"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import { useMapCoordinates } from "@/store/hooks"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./style.module.scss"
@@ -24,7 +24,9 @@ export const SearchElementMap: TSearchElementMap = ({
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const debouncedValue = useDebounce(onValueFunc, 1500)
 
-    const { dispatchMapCoordinates } = useMapCoordinates()
+    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
+        dispatchMapCoordinates: _.dispatchMapCoordinates,
+    }))
 
     function onFocus() {
         setActiveList(true)

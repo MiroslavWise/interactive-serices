@@ -25,7 +25,9 @@ export const Buttons = ({
     const [loading, setLoading] = useState(false)
     const { systemTheme } = useTheme()
     const [isOpen, setIsOpen] = useState(false)
-    const { dispatchUpdateMutual } = useUpdateMutualOffer()
+    const { dispatchUpdateMutual } = useUpdateMutualOffer((_) => ({
+        dispatchUpdateMutual: _.dispatchUpdateMutual,
+    }))
 
     function handleUpdate() {
         dispatchUpdateMutual({

@@ -20,7 +20,7 @@ export const ChatEmptyBarter = () => {
     const refresh = useRefetchListChat()
     const { on } = useToast()
     const idBarter = useSearchParams()?.get("barter-id")
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handleReplace } = usePush()
 
     const barterNumber = useMemo(() => {

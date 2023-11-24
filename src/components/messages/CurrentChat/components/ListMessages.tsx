@@ -34,7 +34,10 @@ export const ListMessages = memo(function ListMessages({
 }) {
     const { join } = useJoinMessage()
     const idThread = useSearchParams()?.get("thread")
-    const { imageProfile, userId } = useAuth()
+    const { imageProfile, userId } = useAuth((_) => ({
+        imageProfile: _.imageProfile,
+        userId: _.userId,
+    }))
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
     const [height, setHeight] = useState(0)

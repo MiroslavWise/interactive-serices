@@ -26,7 +26,7 @@ import {
 import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { close } = useCloseCreateOptions()
     const [loading, setLoading] = useState(false)
     const refresh = useRefresh()
@@ -41,7 +41,18 @@ export const Start = () => {
         addressInit,
         adressId,
         setAddressId,
-    } = useCreateAlert()
+    } = useCreateAlert((_) => ({
+        text: _.text,
+        files: _.files,
+        selectedFile: _.selectedFile,
+        setText: _.setText,
+        setStepAlert: _.setStepAlert,
+        setFile: _.setFile,
+        setSelectedFile: _.setSelectedFile,
+        addressInit: _.addressInit,
+        adressId: _.adressId,
+        setAddressId: _.setAddressId,
+    }))
 
     async function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {

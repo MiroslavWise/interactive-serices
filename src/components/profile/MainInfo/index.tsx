@@ -16,14 +16,16 @@ import { CircleOfCommunication } from "./components/CircleOfCommunication"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { usePush } from "@/helpers/hooks/usePush"
-import { ACHIEVEMENTS, SOCIAL_MEDIA } from "./constants"
+import { SOCIAL_MEDIA } from "./constants"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ user }) => {
-    const { userId } = useAuth()
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
+        dispatchVisibleBarter: _.dispatchVisibleBarter,
+    }))
     const { handlePush } = usePush()
 
     const geo: IAddressesResponse | null = useMemo(() => {

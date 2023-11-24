@@ -7,7 +7,7 @@ import { serviceThreads } from "@/services/threads"
 import { TTypeProviderThreads } from "@/services/threads/types"
 
 export const useRefetchListChat = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const [{ refetch: refetchPersonal }, { refetch: refetchBarter }] =
         useQueries({
             queries: [

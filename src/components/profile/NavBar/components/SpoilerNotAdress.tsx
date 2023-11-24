@@ -12,7 +12,9 @@ export const SpoilerNotAdress = ({
     active: boolean
     setActive: Dispatch<SetStateAction<boolean>>
 }) => {
-    const { setVisible } = useUpdateProfile()
+    const { setVisible } = useUpdateProfile((_) => ({
+        setVisible: _.setVisible,
+    }))
 
     return (
         <motion.div

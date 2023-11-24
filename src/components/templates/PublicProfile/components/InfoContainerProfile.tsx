@@ -8,16 +8,16 @@ import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { usePush } from "@/helpers"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, useProfilePublic } from "@/store/hooks"
 import { AddFriend } from "@/components/profile/MainInfo/components/AddFriend"
 
 export const InfoContainerProfile: TInfoContainerProfile = (props) => {
     const { profile, addresses, id } = props ?? {}
-    const { dispatchProfilePublic } = useProfilePublic()
-    const { userId } = useAuth()
+    const { dispatchProfilePublic } = useProfilePublic((_) => ({
+        dispatchProfilePublic: _.dispatchProfilePublic,
+    }))
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { handlePush } = usePush()
-    const { dispatchVisibleBarter } = useVisibleModalBarter()
 
     const geo = useMemo(() => {
         if (!addresses || !Array.isArray(addresses)) {

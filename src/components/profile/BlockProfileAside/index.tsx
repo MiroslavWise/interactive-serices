@@ -13,7 +13,9 @@ import { useUpdateProfile } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const BlockProfileAside: FC = () => {
-    const { setVisible } = useUpdateProfile()
+    const { setVisible } = useUpdateProfile((_) => ({
+        setVisible: _.setVisible,
+    }))
 
     return (
         <section className={styles.container} data-mobile={isMobile}>

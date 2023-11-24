@@ -12,14 +12,14 @@ import { useCreateOffer } from "@/store/state/useCreateOffer"
 import styles from "./styles/service-selection.module.scss"
 
 export const AddingPhotos: TAddingPhotos = () => {
-    const {
-        files,
-        setFile,
-        selectedFile,
-        setSelectedFile,
-        deleteFile,
-        adressId,
-    } = useCreateOffer()
+    const { files, setFile, selectedFile, setSelectedFile, deleteFile } =
+        useCreateOffer((_) => ({
+            files: _.files,
+            setFile: _.setFile,
+            selectedFile: _.selectedFile,
+            setSelectedFile: _.setSelectedFile,
+            deleteFile: _.deleteFile,
+        }))
 
     return (
         <section className={cx(styles.wrapper, isMobile && styles.mobile)}>

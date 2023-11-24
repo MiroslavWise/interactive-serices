@@ -9,7 +9,7 @@ import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import styles from "./styles/style.module.scss"
 
 export const Header = () => {
-    const { typeAdd } = useAddCreateModal()
+    const { typeAdd } = useAddCreateModal((_) => ({ typeAdd: _.typeAdd }))
 
     const text: { title: string } = useMemo(() => {
         if (!typeAdd) return { title: "", subTitle: "" }

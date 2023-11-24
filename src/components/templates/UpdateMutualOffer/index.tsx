@@ -24,10 +24,16 @@ import { useUpdateMutualOffer } from "@/store/state/useUpdateMutualOffer"
 import styles from "./styles/style.module.scss"
 
 export const UpdateMutualOffer = () => {
-    const { userId } = useAuth()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
     const { data, visibleUpdateMutual, dispatchUpdateMutual } =
-        useUpdateMutualOffer()
-    const { categories } = useOffersCategories()
+        useUpdateMutualOffer((_) => ({
+            data: _.data,
+            visibleUpdateMutual: _.visibleUpdateMutual,
+            dispatchUpdateMutual: _.dispatchUpdateMutual,
+        }))
+    const { categories } = useOffersCategories((_) => ({
+        categories: _.categories,
+    }))
     const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [strings, setStrings] = useState<string[]>([])
@@ -153,8 +159,8 @@ export const UpdateMutualOffer = () => {
                                 data?.provider === "offer"
                                     ? "Напишите что-нибудь"
                                     : data?.provider === "request"
-                                      ? "Опишите более подробно, в чём конкретно ваша просьба"
-                                      : ""
+                                    ? "Опишите более подробно, в чём конкретно ваша просьба"
+                                    : ""
                             }
                             maxLength={512}
                         />

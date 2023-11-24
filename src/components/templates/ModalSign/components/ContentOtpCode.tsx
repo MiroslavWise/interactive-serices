@@ -21,10 +21,18 @@ import { useModalAuth, useUpdateProfile, useAuth } from "@/store/hooks"
 import styles from "../styles/form.module.scss"
 
 export const ContentOtpCode: TContentOtpCode = ({}) => {
-    const { setToken, changeAuth, email } = useAuth()
+    const { setToken, changeAuth, email } = useAuth((_) => ({
+        setToken: _.setToken,
+        changeAuth: _.changeAuth,
+        email: _.email,
+    }))
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
-    const { setVisible } = useUpdateProfile()
+    const { dispatchAuthModal } = useModalAuth((_) => ({
+        dispatchAuthModal: _.dispatchAuthModal,
+    }))
+    const { setVisible } = useUpdateProfile((_) => ({
+        setVisible: _.setVisible,
+    }))
     const [inputValues, setInputValues] = useState(Array(6).fill(""))
     const [errorCode, setErrorCode] = useState("")
     const inputRefs = useRef<HTMLInputElement[]>([])
@@ -104,7 +112,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
                         if (!!data?.res?.profile) {
                             changeAuth()
                         }
-                        setVisibleAndType({ type: null, visible: false })
+                        dispatchAuthModal({ type: null, visible: false })
                         return
                     })
                 }
@@ -125,7 +133,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
         setVisible,
         changeAuth,
         setToken,
-        setVisibleAndType,
+        dispatchAuthModal,
         email,
     ])
 

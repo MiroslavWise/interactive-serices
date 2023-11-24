@@ -37,7 +37,7 @@
 
 .containerItemListChat {
     width: 100%;
-    position: relative;
+    // position: relative;
     height: auto;
     padding: 16px;
     background: transparent;
@@ -178,7 +178,6 @@
 }
 
 .timeAgo {
-    position: absolute;
     top: 16px;
     right: 16px;
     white-space: nowrap;

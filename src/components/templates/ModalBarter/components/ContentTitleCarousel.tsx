@@ -5,17 +5,19 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TContent } from "../types/types"
 
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
 
 import { useAddress } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
-import { useAddCreateModal } from "@/store/state/useAddCreateModal"
 import { ListOffersBarter } from "@/components/common/ListOffersBarter"
-import { useAuth, useUpdateProfile, useVisibleModalBarter } from "@/store/hooks"
-import { GroupSelectorDate } from "./GroupSelectorDate"
+import {
+    useAuth,
+    useUpdateProfile,
+    useVisibleModalBarter,
+    useAddCreateModal,
+} from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { Button } from "@/components/common"
 
 export const ContentTitleCarousel: TContent = ({
     register,
@@ -24,11 +26,19 @@ export const ContentTitleCarousel: TContent = ({
     address,
     errors,
 }) => {
-    const { dataOffer, isVisible } = useVisibleModalBarter()
+    const { dataOffer, isVisible } = useVisibleModalBarter((_) => ({
+        dataOffer: _.dataOffer,
+        isVisible: _.isVisible,
+    }))
     const { isAddresses } = useAddress()
-    const { userId } = useAuth()
-    const { setVisible } = useUpdateProfile()
-    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal()
+    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const { setVisible } = useUpdateProfile((_) => ({
+        setVisible: _.setVisible,
+    }))
+    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
+        dispatchVisibleTypeCreateOptionals:
+            _.dispatchVisibleTypeCreateOptionals,
+    }))
     const { data } = useQuery({
         queryFn: () =>
             serviceOffers.getUserId(userId!, {
@@ -75,14 +85,15 @@ export const ContentTitleCarousel: TContent = ({
                                 профиле его!
                             </h4>
                         ) : null}
-                        <ButtonDefault
-                            handleClick={updateProfileOffers}
-                            submit="button"
+                        <Button
+                            type="submit"
+                            typeButton="regular-primary"
                             label={
                                 !isAddresses
                                     ? "Добавить адрес"
                                     : `Добавить предложение`
                             }
+                            onClick={updateProfileOffers}
                         />
                     </div>
                 </div>

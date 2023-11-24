@@ -26,7 +26,7 @@ export const CardOffer: TCardOffer = ({
     initiator,
     consigner,
 }) => {
-    const { userId: myUserId } = useAuth()
+    const { myUserId } = useAuth((_) => ({ myUserId: _.userId }))
     const { handlePush } = usePush()
     const [loading, setLoading] = useState(false)
 
