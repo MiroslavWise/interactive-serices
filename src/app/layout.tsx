@@ -13,16 +13,6 @@ const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
-export const viewport: Viewport = {
-    width: "device-width",
-    initialScale: 1,
-    userScalable: false,
-    maximumScale: 1,
-    minimumScale: 1,
-    height: "device-height",
-    viewportFit: "cover",
-}
-
 export function generateViewport(): Viewport {
     return {
         width: "device-width",
