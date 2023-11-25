@@ -191,6 +191,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                     alt="check"
                                     width={16}
                                     height={16}
+                                    unoptimized
                                 />
                             </span>
                         </label>
@@ -228,6 +229,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                     alt="arrow"
                     width={20}
                     height={20}
+                    unoptimized
                 />
                 <p>Назад к странице входа</p>
             </section>

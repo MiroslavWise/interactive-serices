@@ -68,6 +68,7 @@ export const CardOffer: TCardOffer = ({
                         alt="calendar"
                         width={16}
                         height={16}
+                        unoptimized
                     />
                     <p>{dayjs(timestamp!).format("DD/MM/YYYY")}</p>
                 </div>

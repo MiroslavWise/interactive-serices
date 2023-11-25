@@ -16,7 +16,13 @@ export const ButtonSelection: TButtonSelection = (props) => {
                 <span />
             </div>
             <div className="buttonSelectionContentIconType">
-                <Image src={image} alt={image} width={56} height={56} />
+                <Image
+                    src={image}
+                    alt={image}
+                    width={56}
+                    height={56}
+                    unoptimized
+                />
                 <h3>{label}</h3>
             </div>
         </div>

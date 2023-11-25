@@ -46,6 +46,7 @@ export const BadgeInformationProfile = ({}) => {
                         height={16}
                         width={16}
                         className={styles.verified}
+                        unoptimized
                     />
                 </div>
                 <div className={styles.textInformation}>

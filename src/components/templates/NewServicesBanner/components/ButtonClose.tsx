@@ -13,7 +13,13 @@ export const ButtonClose = () => {
             className={styles.containerClose}
             onClick={() => dispatchNewServicesBanner(false)}
         >
-            <Image src="/svg/x-close.svg" alt="x" width={20} height={20} />
+            <Image
+                src="/svg/x-close.svg"
+                alt="x"
+                width={20}
+                height={20}
+                unoptimized
+            />
         </div>
     )
 }

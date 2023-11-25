@@ -32,6 +32,7 @@ export const Button = forwardRef(function Button(
                     data-loading-image
                     height={20}
                     width={20}
+                    unoptimized
                 />
             )
         }

@@ -62,6 +62,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                                 alt="tick"
                                 width={24}
                                 height={24}
+                                unoptimized
                             />
                         ) : null}
                     </div>

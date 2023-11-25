@@ -162,8 +162,8 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                                 dataUser?.res?.profile?.image?.attributes?.url!
                             }
                             alt="avatar"
-                            width={200}
-                            height={200}
+                            width={42}
+                            height={42}
                         />
                     </div>
                     <div data-info>

@@ -2,11 +2,11 @@
 
 import Image from "next/image"
 
-import { ButtonDefault } from "@/components/common/Buttons"
+import { Button } from "@/components/common"
+
+import { useOut } from "@/helpers/hooks/useOut"
 
 import styles from "./styles/style.module.scss"
-import { useOut } from "@/helpers/hooks/useOut"
-import { Button } from "@/components/common"
 
 export const FooterAsideLeft = () => {
     const { out } = useOut()
@@ -22,6 +22,7 @@ export const FooterAsideLeft = () => {
                         alt="out"
                         width={16}
                         height={16}
+                        unoptimized
                     />
                 }
                 onClick={out}

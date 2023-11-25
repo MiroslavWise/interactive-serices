@@ -86,6 +86,7 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
                     alt="dots-vertical"
                     width={24}
                     height={24}
+                    unoptimized
                 />
             </div>
             {isBarter ? (
@@ -140,6 +141,7 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
                             alt="back"
                             width={20}
                             height={20}
+                            unoptimized
                         />
                         <p>Назад</p>
                     </li>

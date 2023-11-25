@@ -10,15 +10,14 @@
     background: var(--gray-100);
     cursor: pointer;
 
-    .containerImgService {
-        display: flex;
+    & > [data-img] {
         width: 28px;
         height: 28px;
-        padding: 6px;
-        justify-content: center;
-        align-items: center;
-        border-radius: 100px;
+        border-radius: 50%;
+        background-size: cover;
+        padding: 14px;
         background: var(--supporting-white);
+        overflow: hidden;
     }
 
     p {

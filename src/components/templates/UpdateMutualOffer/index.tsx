@@ -204,6 +204,7 @@ export const UpdateMutualOffer = () => {
                                             alt="trash"
                                             width={16}
                                             height={16}
+                                            unoptimized
                                         />
                                     </div>
                                 </div>

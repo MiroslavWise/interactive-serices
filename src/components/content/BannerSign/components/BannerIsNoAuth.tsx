@@ -33,6 +33,7 @@ export const BannerIsNoAuth = () => {
                     alt="sheira"
                     width={140}
                     height={37}
+                    unoptimized
                 />
             </header>
             <section data-content>

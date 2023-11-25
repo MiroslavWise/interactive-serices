@@ -8,7 +8,7 @@ export const CircleImageHeader: TCircleImageHeader = ({ src }) => {
     return (
         <div className={styles.bigCircle}>
             <div className={styles.middleCircle}>
-                <Image src={src} alt={src} width={35} height={35} />
+                <Image src={src} alt={src} width={35} height={35} unoptimized />
             </div>
         </div>
     )

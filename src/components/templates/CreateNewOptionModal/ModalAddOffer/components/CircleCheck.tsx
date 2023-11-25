@@ -15,6 +15,7 @@ export const CircleCheck: TCircleCheck = ({ type }) => {
                     alt="check-icon-tick"
                     height={26}
                     width={26}
+                    unoptimized
                 />
             ) : null}
             {["in_process", "not_active"].includes(type) ? (

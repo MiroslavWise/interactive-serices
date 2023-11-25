@@ -77,6 +77,7 @@ export const Header: THeader = ({
                         alt="image-plus"
                         height={18}
                         width={18}
+                        unoptimized
                     />
                 </div>
             </div>

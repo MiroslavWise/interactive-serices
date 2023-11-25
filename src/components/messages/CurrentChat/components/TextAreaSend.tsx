@@ -104,6 +104,7 @@ export const TextAreaSend: TTextAreaSend = ({
                     width={16.5}
                     height={16.5}
                     className={styles.paperclip}
+                    unoptimized
                 />
             ) : null}
             {isMobile ? (
@@ -148,6 +149,7 @@ export const TextAreaSend: TTextAreaSend = ({
                                 alt="send"
                                 width={24}
                                 height={24}
+                                unoptimized
                             />
                         }
                     />

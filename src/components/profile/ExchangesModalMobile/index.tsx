@@ -48,6 +48,7 @@ export const ExchangesModalMobile = () => {
                         alt="arrow-left"
                         width={24}
                         height={24}
+                        unoptimized
                     />
                 </div>
                 <h4>

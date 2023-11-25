@@ -44,6 +44,7 @@ export const ButtonFriends = () => {
                 alt="arrow-right"
                 width={24}
                 height={24}
+                unoptimized
             />
         </div>
     )

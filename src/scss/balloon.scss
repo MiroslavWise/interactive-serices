@@ -54,6 +54,20 @@
             }
         }
 
+        & > [data-logo-ballon-offer] {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 58px;
+            height: 58px;
+            border-radius: 29px;
+            padding: 29px;
+            box-shadow: 0px 16px 12px 0px rgba(0, 0, 0, 0.28);
+            background-color: var(--supporting-white);
+            background-size: cover;
+            border: 2px solid var(--stroke-1);
+        }
+
         & > header {
             height: 66px;
             width: 100%;

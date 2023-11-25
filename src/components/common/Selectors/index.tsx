@@ -47,6 +47,7 @@ export const Selectors: TSelectors = ({
                 width={20}
                 height={20}
                 className={cx(styles.chevron, isOpen && styles.active)}
+                unoptimized
             />
             <ul className={cx(isOpen && styles.active)}>
                 {Array.isArray(options)

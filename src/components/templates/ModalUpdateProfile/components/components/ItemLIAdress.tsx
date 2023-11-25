@@ -21,7 +21,7 @@ import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import styles from "./styles/style.module.scss"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
-    const { changeAuth } = useAuth(_ => ({changeAuth: _.changeAuth}))
+    const { changeAuth } = useAuth((_) => ({ changeAuth: _.changeAuth }))
     const [text, setText] = useState("")
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const [activeList, setActiveList] = useState(false)
@@ -130,6 +130,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     height={20}
                     width={20}
                     className={styles.geoBlack}
+                    unoptimized
                 />
                 <textarea
                     disabled={!!item}
@@ -148,6 +149,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                         alt="trash-red"
                         width={20}
                         height={20}
+                        unoptimized
                     />
                 </div>
                 <ul className={cx(values && activeList && styles.activeList)}>

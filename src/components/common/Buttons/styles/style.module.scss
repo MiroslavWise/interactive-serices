@@ -214,11 +214,13 @@
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
     touch-action: manipulation;
+    width: fit-content !important;
+    height: fit-content !important;
 
     & > div {
         background-size: cover;
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
     }
 }
 
@@ -226,6 +228,7 @@
     .containerCloseButton {
         border-color: var(--gray-200);
         background: var(--gray-100);
+        box-shadow: none !important;
 
         & > div {
             filter: invert(1);

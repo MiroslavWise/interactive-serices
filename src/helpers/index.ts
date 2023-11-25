@@ -1,7 +1,6 @@
 export * from "./functions/regEx"
 export * from "./url"
 export * from "./functions/classNames"
-export * from "./functions/myImageLoader"
 export * from "./functions/rangeArray"
 export * from "./functions/months"
 export * from "./functions/daysAgo"

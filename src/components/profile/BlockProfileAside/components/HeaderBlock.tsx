@@ -38,8 +38,8 @@ export const HeaderBlock: THeaderBlock = () => {
                     <ImageStatic
                         src="/png/default_avatar.png"
                         alt="avatar"
-                        width={400}
-                        height={400}
+                        width={94}
+                        height={94}
                         classNames={[styles.photo]}
                     />
                 )}
@@ -50,6 +50,7 @@ export const HeaderBlock: THeaderBlock = () => {
                         alt="tick"
                         width={32}
                         height={32}
+                        unoptimized
                     />
                 ) : null}
             </div>

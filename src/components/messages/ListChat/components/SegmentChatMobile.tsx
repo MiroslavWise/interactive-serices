@@ -34,6 +34,7 @@ export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
                     alt="repeat-white"
                     width={18}
                     height={18}
+                    unoptimized
                 />
             </button>
             <button
@@ -47,6 +48,7 @@ export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
                     alt="repeat-white"
                     width={18}
                     height={18}
+                    unoptimized
                 />
             </button>
         </div>

@@ -128,6 +128,7 @@ export const HeaderAuth: THeaderModal = (email, typeVerification) => {
                         alt="ver"
                         height={160}
                         width={160}
+                        unoptimized
                     />
                     <MotionSectionOpacity>
                         <h3>Для авторизации я хочу использовать свой</h3>

@@ -205,6 +205,7 @@ export const ModalUpdateProfile = () => {
                                 alt="chevron-left"
                                 height={24}
                                 width={24}
+                                unoptimized
                             />
                         </div>
                     </header>

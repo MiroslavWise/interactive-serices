@@ -54,6 +54,7 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                     onClick={() => {
                         dispatch({ visible: false })
                     }}
+                    unoptimized
                 />
                 {typeContent.hasOwnProperty(type!) ? typeContent[type!] : null}
             </section>

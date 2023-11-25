@@ -37,6 +37,7 @@ export const ButtonCircleGradientFill: TButtonCircleGradientFill = ({
                 alt="button-image"
                 width={image?.size || image?.width}
                 height={image?.size || image?.height}
+                unoptimized
             />
         </button>
     )

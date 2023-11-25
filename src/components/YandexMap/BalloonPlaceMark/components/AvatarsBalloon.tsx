@@ -93,8 +93,8 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
                               key={item.id! + index}
                               src={item.photo!}
                               alt="avatar"
-                              height={80}
-                              width={80}
+                              height={42}
+                              width={42}
                           />
                       ))
                 : null}

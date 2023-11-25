@@ -32,6 +32,7 @@ export const InputPassword = forwardRef(function Input(props: TTypeInput) {
                     width={20}
                     height={20}
                     data-eye
+                    unoptimized
                 />
             </div>
             {error ? <i>{error}</i> : null}

@@ -7,7 +7,7 @@ import type { IProps } from "./types"
 
 import { ImageStatic } from "../ImageStatic"
 
-import { myImageLoader } from "@/helpers/functions/myImageLoader"
+// import { myImageLoader } from "@/helpers/functions/myImageLoader"
 import { blurDefaultOffer, defaultAvatar } from "@/helpers/image/base64"
 
 const altName = {
@@ -33,13 +33,13 @@ export const NextImageMotion = (props: TTypes) => {
                 altName.hasOwnProperty(alt) && alt === "avatar"
                     ? defaultAvatar
                     : alt === "offer-image"
-                      ? blurDefaultOffer
-                      : blurDefaultOffer
+                    ? blurDefaultOffer
+                    : blurDefaultOffer
             }
             ref={ref}
             data-image={alt}
             className={className || ""}
-            loader={myImageLoader}
+            // loader={myImageLoader}
             loading="lazy"
             src={src}
             alt={alt}
@@ -64,6 +64,7 @@ export const NextImageMotion = (props: TTypes) => {
             placeholder="blur"
             blurDataURL={blurDefaultOffer}
             alt={alt}
+            unoptimized
             classNames={[className]}
             height={height}
             width={width}

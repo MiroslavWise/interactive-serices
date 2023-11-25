@@ -9,5 +9,6 @@ export const LogoSheira = () => (
         alt="sheira"
         width={isMobile ? 119 : 140}
         height={isMobile ? 31 : 37}
+        unoptimized
     />
 )

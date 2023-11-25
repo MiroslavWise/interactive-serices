@@ -86,6 +86,7 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
                     alt="edit"
                     width={16}
                     height={16}
+                    unoptimized
                 />
             </div>
         </div>

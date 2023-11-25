@@ -71,6 +71,7 @@ export const SearchElementMap: TSearchElementMap = ({
                 alt="geo"
                 width={20}
                 height={20}
+                unoptimized
             />
             <input
                 type="text"
@@ -85,7 +86,13 @@ export const SearchElementMap: TSearchElementMap = ({
                 }}
             />
             <div className={styles.circleMark} onClick={handleAddressLocation}>
-                <Image src="/svg/mark.svg" alt="mark" width={20} height={20} />
+                <Image
+                    src="/svg/mark.svg"
+                    alt="mark"
+                    width={20}
+                    height={20}
+                    unoptimized
+                />
             </div>
             {activeList && values?.response ? (
                 <ul className={cx(activeList && styles.active)}>

@@ -75,6 +75,7 @@ export const InfoContainerProfile: TInfoContainerProfile = (props) => {
                         alt="tick"
                         width={32}
                         height={32}
+                        unoptimized
                     />
                 </div>
             </div>

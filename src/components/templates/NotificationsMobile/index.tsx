@@ -51,17 +51,18 @@ export const NotificationsMobile: TNotifications = ({}) => {
                         alt="arrow-down"
                         width={24}
                         height={24}
+                        unoptimized
                     />
                 </div>
             </header>
-            <MotionUL>
+            <ul>
                 {maps.map((item) => (
                     <ComponentsNotification
                         key={item.id + "-notification"}
                         {...item}
                     />
                 ))}
-            </MotionUL>
+            </ul>
             <Glasses />
         </div>
     )

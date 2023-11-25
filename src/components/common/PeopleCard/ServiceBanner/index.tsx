@@ -63,6 +63,7 @@ const $PeopleCard: TPeopleCard = ({
                         alt="star"
                         width={12}
                         height={12}
+                        unoptimized
                     />
                     <p>{rate}</p>
                 </div>

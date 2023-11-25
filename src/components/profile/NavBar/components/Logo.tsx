@@ -14,6 +14,7 @@ export const Logo = () => {
                 alt="logo"
                 width={isMobile ? 107 : 117}
                 height={isMobile ? 28 : 30}
+                unoptimized
             />
         </Link>
     )

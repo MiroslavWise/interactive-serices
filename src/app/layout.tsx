@@ -1,3 +1,4 @@
+import Head from "next/head"
 import { type Metadata } from "next"
 import dynamic from "next/dynamic"
 import { type ReactNode } from "react"
@@ -10,6 +11,8 @@ import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
 
 const Providers = dynamic(() => import("./providers"), { ssr: false })
+
+import { LinkImagesPreload } from "@/helpers/assets/link-images"
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
@@ -40,6 +43,11 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: ReactNode }) {
     return (
         <html lang="ru">
+            <Head>
+                {LinkImagesPreload.map((item) => (
+                    <link key={item} rel="prefetch prerender" href={item} />
+                ))}
+            </Head>
             <body className={inter.className}>
                 <Providers>{children}</Providers>
                 <Glasses />

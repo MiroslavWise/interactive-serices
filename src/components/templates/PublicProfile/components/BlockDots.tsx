@@ -21,12 +21,14 @@ export const BlockDots: TDots = ({ id }) => {
                         handlePush(`/user?id=${id}`)
                     }
                 }}
+                unoptimized
             />
             <Image
                 src="/svg/dots-vertical-gray.svg"
                 alt="max"
                 width={28}
                 height={28}
+                unoptimized
             />
         </div>
     )

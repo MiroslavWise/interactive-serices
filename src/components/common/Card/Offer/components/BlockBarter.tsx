@@ -15,6 +15,7 @@ export const BlockBarter: TBlockBarter = ({ initiator, consigner }) => {
                 alt="barter"
                 width={24}
                 height={24}
+                unoptimized
             />
             <BadgeServices {...consigner!} isClickable />
         </section>

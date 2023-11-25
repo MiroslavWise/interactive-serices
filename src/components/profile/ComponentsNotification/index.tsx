@@ -82,13 +82,11 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     }, [data, userId, userData])
 
     return (
-        <MotionLI
-            classNames={[styles.container]}
-            data={{
-                "data-provider": props.provider,
-                "data-name": props.provider,
-                "data-mobile": isMobile,
-            }}
+        <li
+            className={styles.container}
+            data-provider={props.provider}
+            data-name={props.provider}
+            data-mobile={isMobile}
         >
             <div data-block-info>
                 <h3>
@@ -106,6 +104,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
                             alt="calendar"
                             width={16}
                             height={16}
+                            unoptimized
                         />
                         <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
                     </div>
@@ -122,6 +121,6 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
                     </div>
                 </div>
             </div>
-        </MotionLI>
+        </li>
     )
 }

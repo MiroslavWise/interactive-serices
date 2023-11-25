@@ -67,6 +67,7 @@ export const M_ContainerAboutProfile = () => {
                                 alt="tick"
                                 width={24}
                                 height={24}
+                                unoptimized
                             />
                         ) : null}
                     </div>
@@ -78,6 +79,7 @@ export const M_ContainerAboutProfile = () => {
                                     alt={item.assignment}
                                     width={23}
                                     height={23}
+                                    unoptimized
                                 />
                             </li>
                         ))}
@@ -113,6 +115,7 @@ export const M_ContainerAboutProfile = () => {
                             alt="plus"
                             width={24}
                             height={24}
+                            unoptimized
                         />
                     }
                     handleClick={() => {

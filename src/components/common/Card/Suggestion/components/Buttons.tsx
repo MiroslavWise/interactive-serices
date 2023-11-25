@@ -70,6 +70,7 @@ export const Buttons = ({
                         alt="edit"
                         width={16}
                         height={16}
+                        unoptimized
                     />
                 }
                 className={cx(styles.buttonFill, styles[offer?.provider!])}
@@ -92,6 +93,7 @@ export const Buttons = ({
                                     alt="trash"
                                     width={16}
                                     height={16}
+                                    unoptimized
                                 />
                             }
                             onClick={handleDelete}
@@ -109,6 +111,7 @@ export const Buttons = ({
                         alt="trash"
                         width={16}
                         height={16}
+                        unoptimized
                     />
                 )}
             </motion.div>

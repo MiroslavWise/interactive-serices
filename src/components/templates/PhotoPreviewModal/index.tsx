@@ -131,6 +131,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                         alt="x-close"
                         width={16}
                         height={16}
+                        unoptimized
                     />
                 </div>
                 <div data-left onClick={handlePrev}>
@@ -139,6 +140,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                         alt="arrow-left"
                         width={20}
                         height={20}
+                        unoptimized
                     />
                 </div>
                 <div data-right onClick={handleNext}>
@@ -147,6 +149,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                         alt="arrow-right"
                         width={20}
                         height={20}
+                        unoptimized
                     />
                 </div>
                 <header>
@@ -221,6 +224,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                                     alt="/repeat-black"
                                     width={24}
                                     height={24}
+                                    unoptimized
                                 />
                             }
                             type="primary"

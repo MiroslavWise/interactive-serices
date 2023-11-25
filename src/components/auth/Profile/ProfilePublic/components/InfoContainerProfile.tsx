@@ -48,6 +48,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
                         alt="tick"
                         width={32}
                         height={32}
+                        unoptimized
                     />
                 </div>
                 <ul className={styles.achievements}>

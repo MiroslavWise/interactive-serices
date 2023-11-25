@@ -23,12 +23,14 @@ export const Dots: TDots = ({ id }) => {
                 onClick={() => {
                     handlePush(`/user?id=${id}`)
                 }}
+                unoptimized
             />
             <Image
                 src="/svg/dots-vertical-gray.svg"
                 alt="max"
                 width={28}
                 height={28}
+                unoptimized
             />
         </div>
     )

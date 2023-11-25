@@ -22,6 +22,7 @@ export const SearchInput: TSearchInput = ({
                 alt="search"
                 width={20}
                 height={20}
+                unoptimized
             />
             <input
                 type="text"

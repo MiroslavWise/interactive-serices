@@ -27,7 +27,9 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
         categories: _.categories,
     }))
     const { createGallery } = usePhotoVisible()
-    const dispatchProfilePublic = useProfilePublic(({dispatchProfilePublic}) => dispatchProfilePublic)
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
     const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
         id: _.id,
         idUser: _.idUser,
@@ -172,6 +174,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
                                     handlePush(`/messages?user=${idUser!}`)
                                 }
                             }}
+                            unoptimized
                         />
                     </div>
                 ) : null}

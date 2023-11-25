@@ -25,6 +25,7 @@ export const GeoTagging: TGeoTagging = ({
                 alt="geo"
                 width={size || 20}
                 height={size || 20}
+                unoptimized
             />
             <p style={{ fontSize: fontSize || 16 }}>{location}</p>
         </div>

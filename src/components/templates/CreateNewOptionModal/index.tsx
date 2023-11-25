@@ -52,6 +52,7 @@ export const CreateNewOptionModal = () => {
                             alt="chevron-left"
                             height={24}
                             width={24}
+                            unoptimized
                         />
                     </div>
                 ) : (

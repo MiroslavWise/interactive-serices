@@ -175,6 +175,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                             alt="chevron-down"
                             width={18}
                             height={18}
+                            unoptimized
                         />
                     </button>
                     <BlockLikes id={offerId!} />

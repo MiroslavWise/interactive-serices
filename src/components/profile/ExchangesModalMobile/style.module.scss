@@ -61,7 +61,7 @@
     }
 }
 
-&[data-mobile="true"] {
+[data-mobile="true"] {
     .wrapper {
         -webkit-overflow-scrolling: touch;
     }

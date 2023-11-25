@@ -44,6 +44,7 @@ export const SearchField: TSearchField = ({ onSearch }) => {
                 width={20}
                 height={20}
                 className={styles.searchImg}
+                unoptimized
             />
             <div className={styles.filtersDiv} onClick={() => {}}>
                 <Image
@@ -51,6 +52,7 @@ export const SearchField: TSearchField = ({ onSearch }) => {
                     alt="slide"
                     width={20}
                     height={20}
+                    unoptimized
                 />
             </div>
         </div>

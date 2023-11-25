@@ -14,7 +14,14 @@ export const ButtonsCircle: TButtonsCircle = ({ src, type, onClick }) => {
                 if (onClick) onClick()
             }}
         >
-            <Image key={src} src={src} alt={src} width={20} height={20} />
+            <Image
+                key={src}
+                src={src}
+                alt={src}
+                width={20}
+                height={20}
+                unoptimized
+            />
         </div>
     )
 }

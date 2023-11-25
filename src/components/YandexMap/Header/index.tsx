@@ -43,6 +43,7 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
                         alt="logo"
                         width={107}
                         height={28.3}
+                        unoptimized
                     />
                     {!!token ? (
                         <div
@@ -56,6 +57,7 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
                                 alt="bell"
                                 width={22}
                                 height={22}
+                                unoptimized
                             />
                             {dataNotifications?.res?.length ? (
                                 <div className={styles.badge}>

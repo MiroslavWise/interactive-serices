@@ -77,6 +77,7 @@ export const BlockLikes: TBlockLikes = ({ id }) => {
                 width={18}
                 height={18}
                 data-loading-image={loading}
+                unoptimized
             />
             <p>{count || 0}</p>
         </div>

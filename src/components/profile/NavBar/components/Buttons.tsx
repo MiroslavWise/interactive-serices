@@ -51,6 +51,7 @@ export const Buttons = () => {
                                 alt="plus"
                                 width={24}
                                 height={24}
+                                unoptimized
                             />
                         }
                         onClick={() => {

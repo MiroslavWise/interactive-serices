@@ -28,8 +28,12 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
         categories: _.categories,
     }))
     const { createGallery } = usePhotoVisible()
-    const dispatchVisibleBarter = useVisibleModalBarter(({dispatchVisibleBarter}) => dispatchVisibleBarter)
-    const dispatchProfilePublic = useProfilePublic(({dispatchProfilePublic}) => dispatchProfilePublic)
+    const dispatchVisibleBarter = useVisibleModalBarter(
+        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
+    )
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
     const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
         id: _.id,
         idUser: _.idUser,
@@ -90,12 +94,12 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
 
     return (
         <>
-            <ImageStatic
-                src="/map/circle-offers-default.png"
-                alt="circle-offers-default"
-                width={61}
-                height={61}
-                data-logo-ballon
+            <div
+                data-logo-ballon-offer
+                style={{
+                    backgroundImage: `url(/svg/category/${data?.res
+                        ?.categoryId!}.svg)`,
+                }}
             />
             <header data-offer>
                 <h3>{categoryTitle}</h3>
@@ -184,6 +188,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                                         dispatch({ visible: false })
                                     }
                                 }}
+                                unoptimized
                             />
                         ) : null}
                     </div>

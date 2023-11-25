@@ -126,6 +126,7 @@ export const AddFriend = ({ user }: { user: IUserResponse }) => {
             data-loading-image
             height={20}
             width={20}
+            unoptimized
         />
     ) : null
 

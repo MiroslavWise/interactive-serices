@@ -244,6 +244,7 @@ export const CompletionTransaction = () => {
                                     key={`${item}-start`}
                                     height={20}
                                     width={20}
+                                    unoptimized
                                 />
                             ))}
                         </div>

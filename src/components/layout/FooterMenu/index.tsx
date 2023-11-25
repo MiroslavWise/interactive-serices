@@ -65,6 +65,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                         alt={item.label}
                                         width={28}
                                         height={28}
+                                        unoptimized
                                     />
                                 </div>
                             ) : (
@@ -77,6 +78,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                     alt={item.label}
                                     width={24}
                                     height={24}
+                                    unoptimized
                                 />
                             )}
                             <p>{item.label}</p>

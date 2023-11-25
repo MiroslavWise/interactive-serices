@@ -184,6 +184,7 @@ export const CurrentChat = () => {
                                 alt="chevron-left"
                                 width={24}
                                 height={24}
+                                unoptimized
                             />
                         </div>
                         <div className={styles.blockAvatar}>
@@ -215,6 +216,7 @@ export const CurrentChat = () => {
                                 alt="dots-vertical"
                                 width={24}
                                 height={24}
+                                unoptimized
                             />
                         </div>
                     </header>

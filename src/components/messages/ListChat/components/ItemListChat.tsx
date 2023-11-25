@@ -101,6 +101,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({
                             width={16}
                             height={16}
                             className={styles.verified}
+                            unoptimized
                         />
                     </div>
                     <div className={styles.nameAndGeo}>
@@ -115,6 +116,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({
                                     alt="barter"
                                     width={18}
                                     height={18}
+                                    unoptimized
                                 />
                                 <BadgeServices
                                     {...dataBarter?.res?.consigner!}

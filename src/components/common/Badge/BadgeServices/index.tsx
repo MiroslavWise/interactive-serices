@@ -4,8 +4,6 @@ import { useMemo } from "react"
 
 import type { TBadgeServices } from "./types"
 
-import { ImageStatic } from "@/components/common/Image"
-
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import {
@@ -60,14 +58,12 @@ export const BadgeServices: TBadgeServices = (props) => {
             data-type={provider}
             onClick={handle}
         >
-            <div className={styles.containerImgService}>
-                <ImageStatic
-                    src={"/mocks/Nail.png"}
-                    alt="mocks"
-                    width={16}
-                    height={16}
+                <div
+                    data-img
+                    style={{
+                        backgroundImage: `url(/svg/category/${categoryId}.svg)`,
+                    }}
                 />
-            </div>
             <p>{infoCategory?.title! || "---{}---"}</p>
         </li>
     )

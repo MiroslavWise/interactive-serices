@@ -122,6 +122,7 @@ export function Barter() {
                             alt="chevron-left"
                             width={24}
                             height={24}
+                            unoptimized
                         />
                     </div>
                     <p>Послать запрос</p>
@@ -155,6 +156,7 @@ export function Barter() {
                                     height={16}
                                     width={16}
                                     className={styles.verified}
+                                    unoptimized
                                 />
                             </div>
                             <div className={styles.nameGeo}>

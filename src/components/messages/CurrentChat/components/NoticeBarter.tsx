@@ -279,6 +279,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                                 data-image-back
                                 height={24}
                                 width={24}
+                                unoptimized
                             />
                         </div>
                         <div data-user>
@@ -306,6 +307,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                                 alt="dots-vertical"
                                 width={24}
                                 height={24}
+                                unoptimized
                             />
                         </div>
                     </div>
@@ -320,6 +322,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                                 alt="repeat-white"
                                 width={18}
                                 height={18}
+                                unoptimized
                             />
                             <BadgeServices
                                 {...data?.res?.consigner!}
@@ -358,6 +361,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                                             alt="check-white"
                                             width={16}
                                             height={16}
+                                            unoptimized
                                         />
                                     }
                                 />
@@ -371,6 +375,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                                             alt="check-white"
                                             width={16}
                                             height={16}
+                                            unoptimized
                                         />
                                     }
                                 />
@@ -398,6 +403,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                             alt="calendar"
                             width={14}
                             height={14}
+                            unoptimized
                         />
                         <p>
                             {dayjs(data?.res?.timestamp).format("DD/MM/YYYY")}
@@ -423,6 +429,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                         alt="repeat-white"
                         width={24}
                         height={24}
+                        unoptimized
                     />
                     <BadgeServices {...data?.res?.consigner!} isClickable />
                 </div>
@@ -455,6 +462,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                                     alt="check-white"
                                     width={16}
                                     height={16}
+                                    unoptimized
                                 />
                             }
                         />
@@ -468,6 +476,7 @@ export const NoticeBarter = memo(function $NoticeBarter({
                                     alt="check-white"
                                     width={16}
                                     height={16}
+                                    unoptimized
                                 />
                             }
                         />

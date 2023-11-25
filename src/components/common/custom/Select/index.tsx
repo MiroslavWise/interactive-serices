@@ -58,6 +58,7 @@ export const CustomSelect: TCustomSelect = ({
                     styles.chevron,
                     isOptionsVisible && styles.active,
                 )}
+                unoptimized
             />
             <ul className={cx(isOptionsVisible && styles.active)}>
                 {list &&

@@ -121,6 +121,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                     alt="arrow"
                     width={20}
                     height={20}
+                    unoptimized
                 />
                 <p>Назад к странице входа</p>
             </section>
