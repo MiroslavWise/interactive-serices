@@ -24,9 +24,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({
 }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
+    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
     const {
         register,
         handleSubmit,

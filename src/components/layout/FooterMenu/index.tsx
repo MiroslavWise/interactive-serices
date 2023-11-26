@@ -15,14 +15,12 @@ import { useAuth, useModalAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
-    const { visible, type, dispatchAuthModal } = useModalAuth((_) => ({
-        visible: _.visible,
-        type: _.type,
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
+    const visible = useModalAuth(({visible}) => visible)
+    const type = useModalAuth(({type}) => type)
+    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
     const pathname = usePathname()
     const { handlePush } = usePush()
-    const { is } = useAuth((_) => ({ is: _.isAuth }))
+    const is = useAuth(({isAuth}) => isAuth)
     const valuePath = useActivePath()
 
     const handleSignInOrSignUp = (path: string | null) => {

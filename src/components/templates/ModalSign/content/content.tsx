@@ -17,9 +17,7 @@ import { ContentSelectVerification } from "../components/ContentSelectVerificati
 import { useModalAuth } from "@/store/hooks"
 
 export const Content = memo(function Content() {
-    const { type } = useModalAuth((_) => ({
-        type: _.type,
-    }))
+    const type = useModalAuth(({type}) => type)
     const [valueEmail, setValueEmail] = useState<IResetEmailData>({
         email: "",
         password_reset_expires: null,

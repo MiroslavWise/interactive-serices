@@ -20,9 +20,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
         email: state.email,
     }))
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
+    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
     //todo
     const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
     const [errorCode, setErrorCode] = useState("")

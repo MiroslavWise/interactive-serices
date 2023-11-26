@@ -63,7 +63,6 @@ export const Containers = () => {
 
     return (
         <>
-            <PublicProfile />
             <FooterMenu />
             <PhotoCarousel />
             <WelcomeModal />
@@ -72,6 +71,7 @@ export const Containers = () => {
             {isVisible && <Barter />}
             {!is && <ModalSign />}
             <ToastContainer limit={3} />
+            {!isMobile && <PublicProfile />}
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}

@@ -15,13 +15,9 @@ import { useOffersCategories } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const PopupFilter: TPopupFilter = ({ visible }) => {
-    const { idTarget, dispatchTarget } = useFilterMap((_) => ({
-        idTarget: _.idTarget,
-        dispatchTarget: _.dispatchTarget,
-    }))
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
+    const idTarget = useFilterMap(({idTarget}) => idTarget)
+    const categories = useOffersCategories(({ categories }) => categories)
+    const dispatchTarget = useFilterMap(({dispatchTarget}) => dispatchTarget)
     const [value, setValue] = useState("")
 
     const categoriesMain =
@@ -67,6 +63,7 @@ export const PopupFilter: TPopupFilter = ({ visible }) => {
                         alt={item.image.alt}
                         height={18}
                         width={18}
+                        unoptimized
                     />
                 </div>
             ))}

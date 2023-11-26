@@ -22,7 +22,6 @@ import { RegistrationService } from "@/services/auth/registrationService"
 import styles from "../styles/form.module.scss"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
-    const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const dispatchAuthModal = useModalAuth(
         ({ dispatchAuthModal }) => dispatchAuthModal,

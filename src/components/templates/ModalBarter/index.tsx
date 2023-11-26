@@ -25,14 +25,15 @@ import styles from "./styles/style.module.scss"
 
 export function Barter() {
     const { on } = useToast()
-    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
-    const { isVisible, dispatchVisibleBarter, dataProfile, dataOffer } =
-        useVisibleModalBarter((_) => ({
-            isVisible: _.isVisible,
-            dispatchVisibleBarter: _.dispatchVisibleBarter,
-            dataProfile: _.dataProfile,
-            dataOffer: _.dataOffer,
-        }))
+    const dispatch = useBalloonCard(({dispatch}) => dispatch)
+    const isVisible =
+        useVisibleModalBarter(({isVisible}) => isVisible)
+    const dispatchVisibleBarter =
+        useVisibleModalBarter(({dispatchVisibleBarter}) => dispatchVisibleBarter)
+    const dataProfile =
+        useVisibleModalBarter(({dataProfile}) => dataProfile)
+    const dataOffer =
+        useVisibleModalBarter(({dataOffer}) => dataOffer)
     const address: string = useMemo(() => {
         const addressOne = dataOffer?.addresses?.[0]?.additional
 

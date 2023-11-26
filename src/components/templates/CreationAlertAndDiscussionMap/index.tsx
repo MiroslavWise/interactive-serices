@@ -27,24 +27,13 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     addressInit,
     setIsOpen,
 }) => {
-    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
-        dispatchVisibleTypeCreateOptionals:
-            _.dispatchVisibleTypeCreateOptionals,
-    }))
+    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(({dispatchVisibleTypeCreateOptionals}) =>dispatchVisibleTypeCreateOptionals)
     const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } =
         useVisibleBannerNewServices()
-    const { setAddressInitAlert } = useCreateAlert((_) => ({
-        setAddressInitAlert: _.setAddressInit,
-    }))
-    const { setAddressInitDiscussion } = useCreateDiscussion((_) => ({
-        setAddressInitDiscussion: _.setAddressInit,
-    }))
-    const { setAddressInitOffer } = useCreateOffer((_) => ({
-        setAddressInitOffer: _.setAddressInit,
-    }))
-    const { setAddressInitRequest } = useCreateRequest((_) => ({
-        setAddressInitRequest: _.setAddressInit,
-    }))
+    const setAddressInitAlert = useCreateAlert(({setAddressInit}) =>setAddressInit)
+    const setAddressInitDiscussion = useCreateDiscussion(({setAddressInit}) => setAddressInit)
+    const setAddressInitOffer = useCreateOffer(({setAddressInit}) => setAddressInit)
+    const setAddressInitRequest = useCreateRequest(({setAddressInit}) => setAddressInit)
 
     function handleType(value: TAddCreate) {
         if (value === "alert") {

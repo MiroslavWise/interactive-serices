@@ -7,7 +7,6 @@ import { useSearchParams } from "next/navigation"
 import type { TContentResetPassword } from "../types/types"
 
 import { InputPassword, Button } from "@/components/common"
-import { ButtonFill } from "@/components/common/Buttons"
 
 import {
     usePush,
@@ -27,9 +26,7 @@ interface IValues {
 export const ContentResetPassword: TContentResetPassword = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
+    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
     const {
         register,
         watch,

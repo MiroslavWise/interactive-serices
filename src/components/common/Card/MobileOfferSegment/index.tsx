@@ -11,7 +11,7 @@ export const MobileOfferSegment: TMobileOfferSegment = ({
 }) => {
     return (
         <li className={styles.container} onClick={handleClick}>
-            <Image src={src} alt={src} width={60} height={60} />
+            <Image src={src} alt={src} width={60} height={60} unoptimized />
             <h3>{label}</h3>
         </li>
     )
