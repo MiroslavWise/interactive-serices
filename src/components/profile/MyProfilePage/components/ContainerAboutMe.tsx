@@ -16,12 +16,10 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
     const { out } = useOut()
     const [isEditing, setIsEditing] = useState(false)
     const [textEditing, setTextEditing] = useState("")
-    const { userId, profileId, user, updateProfile } = useAuth((_) => ({
-        userId: _.userId,
-        profileId: _.profileId,
-        user: _.user,
-        updateProfile: _.updateProfile,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const profileId = useAuth(({ profileId }) => profileId)
+    const user = useAuth(({ user }) => user)
+    const updateProfile = useAuth(({ updateProfile }) => updateProfile)
 
     useEffect(() => {
         const textArea = document?.getElementById("textArea")!

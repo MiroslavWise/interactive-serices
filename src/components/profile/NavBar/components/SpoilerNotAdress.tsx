@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import { Dispatch, SetStateAction } from "react"
 
 import { useUpdateProfile } from "@/store/hooks"
@@ -12,12 +11,10 @@ export const SpoilerNotAdress = ({
     active: boolean
     setActive: Dispatch<SetStateAction<boolean>>
 }) => {
-    const { setVisible } = useUpdateProfile((_) => ({
-        setVisible: _.setVisible,
-    }))
+    const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
 
     return (
-        <motion.div
+        <div
             data-visible={active}
             className={styles.containerSpoiler}
             onClick={() => setActive(false)}
@@ -33,6 +30,6 @@ export const SpoilerNotAdress = ({
                 адрес в разделе “Редактирование профиля”, чтобы создавать
                 предложения и запросы на карте Sheira
             </p>
-        </motion.div>
+        </div>
     )
 }

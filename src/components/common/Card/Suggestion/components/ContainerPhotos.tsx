@@ -7,9 +7,9 @@ import { useVisiblePhotosCarousel } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const ContainerPhotos: TContainerPhotos = ({ photos }) => {
-    const { dispatchVisibleCarousel } = useVisiblePhotosCarousel((_) => ({
-        dispatchVisibleCarousel: _.dispatchVisibleCarousel,
-    }))
+    const dispatchVisibleCarousel = useVisiblePhotosCarousel(
+        ({ dispatchVisibleCarousel }) => dispatchVisibleCarousel,
+    )
 
     return (
         <ul className={styles.containerPhotos}>
@@ -19,7 +19,7 @@ export const ContainerPhotos: TContainerPhotos = ({ photos }) => {
                           data-photo
                           key={`${item.id}_my_offers`}
                           onClick={() => {
-                            dispatchVisibleCarousel({
+                              dispatchVisibleCarousel({
                                   visible: true,
                                   photos: photos,
                                   idPhoto: item.id,

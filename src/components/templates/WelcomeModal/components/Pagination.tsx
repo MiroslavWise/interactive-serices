@@ -1,19 +1,17 @@
 import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
-import { useWelcomeModal } from "@/store/hooks"
 import { cx } from "@/lib/cx"
+import { useWelcomeModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 const PAGES = [1, 2, 3, 4]
 
 export const Pagination = () => {
-    const { page, setPage, setPrev, setNext } = useWelcomeModal((_) => ({
-        page: _.page,
-        setPage: _.setPage,
-        setPrev: _.setPrev,
-        setNext: _.setNext,
-    }))
+    const page = useWelcomeModal(({ page }) => page)
+    const setPage = useWelcomeModal(({ setPage }) => setPage)
+    const setPrev = useWelcomeModal(({ setPrev }) => setPrev)
+    const setNext = useWelcomeModal(({ setNext }) => setNext)
 
     return (
         <footer>

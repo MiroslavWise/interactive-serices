@@ -3,6 +3,8 @@
     inset: 0;
     width: 100%;
     z-index: 1;
+    opacity: 1;
+    visibility: visible;
     background: var(--background);
 
     & > header {
@@ -80,6 +82,17 @@
             & > li {
                 z-index: 4;
             }
+        }
+    }
+}
+
+[data-mobile="true"] {
+    .page-news-page {
+        transition: opacity, visibility var(--transition);
+        &[data-is-modal-auth="true"] {
+            opacity: 1;
+            visibility: visible;
+            display: none;
         }
     }
 }

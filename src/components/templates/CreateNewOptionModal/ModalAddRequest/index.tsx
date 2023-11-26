@@ -10,9 +10,7 @@ import { useCreateRequest } from "@/store/state/useCreateRequest"
 import styles from "./style.module.scss"
 
 export const ModalAddRequest = () => {
-    const { stepRequest } = useCreateRequest((_) => ({
-        stepRequest: _.stepRequest,
-    }))
+    const stepRequest = useCreateRequest(({ stepRequest }) => stepRequest)
 
     const content: ReactNode = useMemo(
         () =>

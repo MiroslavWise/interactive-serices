@@ -14,7 +14,7 @@ import { useWelcomeModal } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const Content = () => {
-    const { page } = useWelcomeModal((_) => ({ page: _.page }))
+    const page = useWelcomeModal(({ page }) => page)
 
     const content: ReactNode = useMemo(
         () =>

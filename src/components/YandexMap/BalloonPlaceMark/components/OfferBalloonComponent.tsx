@@ -7,7 +7,7 @@ import { useQueries } from "@tanstack/react-query"
 
 import type { TOfferBalloonComponent } from "../types/types"
 
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { NextImageMotion } from "@/components/common"
 
 import {
     useAuth,
@@ -22,11 +22,9 @@ import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
+    const categories = useOffersCategories(({ categories }) => categories)
     const { createGallery } = usePhotoVisible()
     const dispatchVisibleBarter = useVisibleModalBarter(
         ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
@@ -34,12 +32,10 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
     const dispatchProfilePublic = useProfilePublic(
         ({ dispatchProfilePublic }) => dispatchProfilePublic,
     )
-    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
-        id: _.id,
-        idUser: _.idUser,
-        type: _.type,
-        dispatch: _.dispatch,
-    }))
+    const id = useBalloonCard(({ id }) => id)
+    const idUser = useBalloonCard(({ idUser }) => idUser)
+    const type = useBalloonCard(({ type }) => type)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [

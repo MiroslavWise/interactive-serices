@@ -21,21 +21,17 @@ import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 
 export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
+    const categories = useOffersCategories(({ categories }) => categories)
     const { createGallery } = usePhotoVisible()
     const dispatchProfilePublic = useProfilePublic(
         ({ dispatchProfilePublic }) => dispatchProfilePublic,
     )
-    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
-        id: _.id,
-        idUser: _.idUser,
-        type: _.type,
-        dispatch: _.dispatch,
-    }))
+    const id = useBalloonCard(({ id }) => id)
+    const idUser = useBalloonCard(({ idUser }) => idUser)
+    const type = useBalloonCard(({ type }) => type)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [

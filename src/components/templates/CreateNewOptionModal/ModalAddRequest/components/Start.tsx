@@ -25,37 +25,28 @@ import { serviceAddresses } from "@/services/addresses"
 import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { close } = useCloseCreateOptions()
     const [loading, setLoading] = useState(false)
     const refresh = useRefresh()
-    const {
-        text,
-        files,
-        selectedFile,
-        setFile,
-        setText,
-        setSelectedFile,
-        setStepRequest,
-        selected,
-        setValueCategory,
-        addressInit,
-        adressId,
-        setAddressId,
-    } = useCreateRequest((_) => ({
-        text: _.text,
-        files: _.files,
-        selectedFile: _.selectedFile,
-        setFile: _.setFile,
-        setText: _.setText,
-        setSelectedFile: _.setSelectedFile,
-        setStepRequest: _.setStepRequest,
-        selected: _.selected,
-        setValueCategory: _.setValueCategory,
-        addressInit: _.addressInit,
-        adressId: _.adressId,
-        setAddressId: _.setAddressId,
-    }))
+    const text = useCreateRequest(({ text }) => text)
+    const files = useCreateRequest(({ files }) => files)
+    const selectedFile = useCreateRequest(({ selectedFile }) => selectedFile)
+    const setFile = useCreateRequest(({ setFile }) => setFile)
+    const setText = useCreateRequest(({ setText }) => setText)
+    const setSelectedFile = useCreateRequest(
+        ({ setSelectedFile }) => setSelectedFile,
+    )
+    const setStepRequest = useCreateRequest(
+        ({ setStepRequest }) => setStepRequest,
+    )
+    const selected = useCreateRequest(({ selected }) => selected)
+    const setValueCategory = useCreateRequest(
+        ({ setValueCategory }) => setValueCategory,
+    )
+    const addressInit = useCreateRequest(({ addressInit }) => addressInit)
+    const adressId = useCreateRequest(({ adressId }) => adressId)
+    const setAddressId = useCreateRequest(({ setAddressId }) => setAddressId)
 
     function handleExit() {
         close()

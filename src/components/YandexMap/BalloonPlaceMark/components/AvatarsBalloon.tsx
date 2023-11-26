@@ -17,12 +17,10 @@ import styles from "../styles/avatars-balloon.module.scss"
 
 export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
     const { handlePush } = usePush()
-    const { dispatch } = useBalloonCard((_) => ({
-        dispatch: _.dispatch,
-    }))
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
 
     const { data } = useQuery({
         queryFn: () =>

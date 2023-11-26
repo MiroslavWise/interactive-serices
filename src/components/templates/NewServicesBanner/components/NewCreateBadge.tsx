@@ -12,13 +12,13 @@ import { useVisibleBannerNewServices, useAddCreateModal } from "@/store/hooks"
 import styles from "./styles/styles.module.scss"
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
-    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
-        dispatchVisibleTypeCreateOptionals:
-            _.dispatchVisibleTypeCreateOptionals,
-    }))
-    const { dispatchNewServicesBanner } = useVisibleBannerNewServices((_) => ({
-        dispatchNewServicesBanner: _.dispatchNewServicesBanner,
-    }))
+    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
+        ({ dispatchVisibleTypeCreateOptionals }) =>
+            dispatchVisibleTypeCreateOptionals,
+    )
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(
+        ({ dispatchNewServicesBanner }) => dispatchNewServicesBanner,
+    )
 
     function handleType() {
         if (!value) {

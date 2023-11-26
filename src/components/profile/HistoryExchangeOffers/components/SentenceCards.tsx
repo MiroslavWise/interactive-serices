@@ -13,7 +13,7 @@ import { serviceBarters } from "@/services/barters"
 import styles from "./styles/style.module.scss"
 
 export const SentenceCards: TSentenceCards = ({ value }) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { data } = useQuery({
         queryFn: () =>
             serviceBarters.get({
@@ -28,7 +28,7 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
     })
 
     return (
-        <MotionUL classNames={[styles.containerCards]}>
+        <ul className={styles.containerCards}>
             {Array.isArray(data?.res)
                 ? data?.res?.map((item) => (
                       <CardOffer
@@ -37,6 +37,6 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
                       />
                   ))
                 : null}
-        </MotionUL>
+        </ul>
     )
 }

@@ -26,7 +26,7 @@ export const CardOffer: TCardOffer = ({
     initiator,
     consigner,
 }) => {
-    const { myUserId } = useAuth((_) => ({ myUserId: _.userId }))
+    const myUserId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
     const [loading, setLoading] = useState(false)
 
@@ -56,7 +56,7 @@ export const CardOffer: TCardOffer = ({
     }
 
     return (
-        <MotionLI classNames={[styles.container]}>
+        <li className={styles.container}>
             <section className={styles.main}>
                 <BlockTitle {...dataUser?.res!} />
                 <BlockBarter {...{ consigner, initiator }} />
@@ -82,6 +82,6 @@ export const CardOffer: TCardOffer = ({
                     )}
                 </div>
             </footer>
-        </MotionLI>
+        </li>
     )
 }

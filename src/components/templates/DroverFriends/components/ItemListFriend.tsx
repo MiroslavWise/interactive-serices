@@ -19,9 +19,9 @@ import { useProfilePublic } from "@/store/state/useProfilePublic"
 export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     const [loading, setLoading] = useState(false)
     const { refresh } = useReloadFriends({ enabled: false, type: type })
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
     const { handlePush } = usePush()
     const { data } = useQuery({
         queryFn: () => serviceUsers.getId(id!),

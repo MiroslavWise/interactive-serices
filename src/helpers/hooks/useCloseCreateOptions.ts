@@ -13,20 +13,16 @@ import {
 } from "@/store/hooks"
 
 export const useCloseCreateOptions = () => {
-    const { reset } = useCreateOffer((_) => ({ reset: _.reset }))
-    const { resetAlert } = useCreateAlert((_) => ({ resetAlert: _.resetAlert }))
-    const { resetRequest } = useCreateRequest((_) => ({
-        resetRequest: _.resetRequest,
-    }))
-    const { resetDiscussion } = useCreateDiscussion((_) => ({
-        resetDiscussion: _.resetDiscussion,
-    }))
-    const { dispatchVisibleTypeCreateOptionals, typeAdd } = useAddCreateModal(
-        (_) => ({
-            dispatchVisibleTypeCreateOptionals:
-                _.dispatchVisibleTypeCreateOptionals,
-            typeAdd: _.typeAdd,
-        }),
+    const reset = useCreateOffer(({ reset }) => reset)
+    const resetAlert = useCreateAlert(({ resetAlert }) => resetAlert)
+    const resetRequest = useCreateRequest(({ resetRequest }) => resetRequest)
+    const resetDiscussion = useCreateDiscussion(
+        ({ resetDiscussion }) => resetDiscussion,
+    )
+    const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
+    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
+        ({ dispatchVisibleTypeCreateOptionals }) =>
+            dispatchVisibleTypeCreateOptionals,
     )
 
     function close() {

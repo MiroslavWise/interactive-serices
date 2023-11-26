@@ -1,27 +1,23 @@
 "use client"
 
 import Image from "next/image"
-import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TNotifications } from "./types"
 
 import { Glasses } from "@/components/common/Glasses"
-import { MotionUL } from "@/components/common/Motion"
 import { ComponentsNotification } from "@/components/profile"
 
 import { cx } from "@/lib/cx"
-import { useAuth, useVisibleNotifications } from "@/store/hooks"
+import { useVisibleNotifications } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
 
 import styles from "./styles/style.module.scss"
 
 export const NotificationsMobile: TNotifications = ({}) => {
-    const { visible, dispatchVisibleNotifications } = useVisibleNotifications(
-        (_) => ({
-            visible: _.visible,
-            dispatchVisibleNotifications: _.dispatchVisibleNotifications,
-        }),
+    const visible = useVisibleNotifications(({ visible }) => visible)
+    const dispatchVisibleNotifications = useVisibleNotifications(
+        ({ dispatchVisibleNotifications }) => dispatchVisibleNotifications,
     )
 
     const { data: dataNotifications } = useQuery({
@@ -29,9 +25,7 @@ export const NotificationsMobile: TNotifications = ({}) => {
         queryKey: ["notifications"],
     })
 
-    const maps = useMemo(() => {
-        return dataNotifications?.res || []
-    }, [dataNotifications])
+    const maps = dataNotifications?.res || []
 
     return (
         <div

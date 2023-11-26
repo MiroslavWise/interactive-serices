@@ -20,11 +20,13 @@ import { useDroverFriends } from "@/store/state/useDroverFriends"
 import styles from "./styles/style.module.scss"
 
 export function DroverFriends() {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { visibleFriends, dispatchFriends } = useDroverFriends((_) => ({
-        visibleFriends: _.visibleFriends,
-        dispatchFriends: _.dispatchFriends,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const visibleFriends = useDroverFriends(
+        ({ visibleFriends }) => visibleFriends,
+    )
+    const dispatchFriends = useDroverFriends(
+        ({ dispatchFriends }) => dispatchFriends,
+    )
     const [segment, setSegment] = useState<ISegmentValues<TTypeFriends>>(
         SEGMENT_FRIENDS[0],
     )

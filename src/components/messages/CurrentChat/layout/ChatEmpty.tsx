@@ -17,7 +17,7 @@ export const ChatEmpty = () => {
     const refresh = useRefetchListChat()
     const { on } = useToast()
     const idUser = useSearchParams().get("user")
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { handleReplace } = usePush()
 
     async function createChat() {

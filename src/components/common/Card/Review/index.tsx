@@ -36,7 +36,7 @@ export const CardReview: TCardReview = (props) => {
     })
 
     return (
-        <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
+        <MotionLI classNames={[styles.container]}>
             <div className={styles.content}>
                 <header className={styles.header}>
                     <div className={styles.userDate}>

@@ -16,14 +16,17 @@ import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { serviceTestimonials } from "@/services/testimonials"
-import { useAuth, useDataConfirmationPopUp } from "@/store/hooks"
+import {
+    useAuth,
+    useDataConfirmationPopUp,
+    useCompletionTransaction,
+} from "@/store/hooks"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
-import { useCompletionTransaction } from "@/store/state/useCompletionTransaction"
 
 import styles from "./styles/style.module.scss"
 
 export const CompletionTransaction = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { on } = useToast()
     const {
         register,
@@ -37,17 +40,16 @@ export const CompletionTransaction = () => {
             rating: 3,
         },
     })
-    const { visible, dataBarter, dataUser, dispatchCompletion, threadId } =
-        useCompletionTransaction((_) => ({
-            visible: _.visible,
-            dataBarter: _.dataBarter,
-            dataUser: _.dataUser,
-            dispatchCompletion: _.dispatchCompletion,
-            threadId: _.threadId,
-        }))
-    const { dispatchDataConfirmation } = useDataConfirmationPopUp((_) => ({
-        dispatchDataConfirmation: _.dispatchDataConfirmation,
-    }))
+    const visible = useCompletionTransaction(({ visible }) => visible)
+    const dataBarter = useCompletionTransaction(({ dataBarter }) => dataBarter)
+    const dataUser = useCompletionTransaction(({ dataUser }) => dataUser)
+    const dispatchCompletion = useCompletionTransaction(
+        ({ dispatchCompletion }) => dispatchCompletion,
+    )
+    const threadId = useCompletionTransaction(({ threadId }) => threadId)
+    const dispatchDataConfirmation = useDataConfirmationPopUp(
+        ({ dispatchDataConfirmation }) => dispatchDataConfirmation,
+    )
 
     const { refetch } = useQuery({
         queryFn: () => serviceBarters.getId(dataBarter?.id!),

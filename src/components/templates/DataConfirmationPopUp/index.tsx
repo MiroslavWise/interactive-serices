@@ -8,17 +8,16 @@ import { useDataConfirmationPopUp } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const DataConfirmationPopUp = () => {
-    const {
-        type,
-        nameFeedback,
-        visibleDataConfirmation,
-        dispatchDataConfirmation,
-    } = useDataConfirmationPopUp((_) => ({
-        type: _.type,
-        nameFeedback: _.nameFeedback,
-        visibleDataConfirmation: _.visibleDataConfirmation,
-        dispatchDataConfirmation: _.dispatchDataConfirmation,
-    }))
+    const type = useDataConfirmationPopUp(({ type }) => type)
+    const nameFeedback = useDataConfirmationPopUp(
+        ({ nameFeedback }) => nameFeedback,
+    )
+    const visibleDataConfirmation = useDataConfirmationPopUp(
+        ({ visibleDataConfirmation }) => visibleDataConfirmation,
+    )
+    const dispatchDataConfirmation = useDataConfirmationPopUp(
+        ({ dispatchDataConfirmation }) => dispatchDataConfirmation,
+    )
 
     return (
         <div

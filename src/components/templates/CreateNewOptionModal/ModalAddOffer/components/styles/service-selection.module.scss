@@ -22,8 +22,10 @@
         gap: 20px;
         width: 100%;
     }
+}
 
-    &.mobile {
+[data-mobile="true"] {
+    .wrapper {
         gap: 20px;
         & > p {
             font-size: 16px;

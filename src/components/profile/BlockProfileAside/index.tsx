@@ -1,6 +1,5 @@
 "use client"
 
-import { type FC } from "react"
 import { isMobile } from "react-device-detect"
 
 import { Button } from "@/components/common"
@@ -12,10 +11,8 @@ import { useUpdateProfile } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const BlockProfileAside: FC = () => {
-    const { setVisible } = useUpdateProfile((_) => ({
-        setVisible: _.setVisible,
-    }))
+export const BlockProfileAside = () => {
+    const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
 
     return (
         <section className={styles.container} data-mobile={isMobile}>

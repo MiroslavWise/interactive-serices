@@ -23,10 +23,10 @@ import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
 import styles from "./styles/style.module.scss"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { dispatchVisibleNotifications } = useVisibleNotifications((_) => ({
-        dispatchVisibleNotifications: _.dispatchVisibleNotifications,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const dispatchVisibleNotifications = useVisibleNotifications(
+        ({ dispatchVisibleNotifications }) => dispatchVisibleNotifications,
+    )
     const { data, created, operation, provider, id } = props ?? {}
     const { handlePush } = usePush()
 

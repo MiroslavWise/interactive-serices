@@ -26,19 +26,15 @@ export const ContentTitleCarousel: TContent = ({
     address,
     errors,
 }) => {
-    const { dataOffer, isVisible } = useVisibleModalBarter((_) => ({
-        dataOffer: _.dataOffer,
-        isVisible: _.isVisible,
-    }))
+    const dataOffer = useVisibleModalBarter(({ dataOffer }) => dataOffer)
+    const isVisible = useVisibleModalBarter(({ isVisible }) => isVisible)
     const { isAddresses } = useAddress()
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { setVisible } = useUpdateProfile((_) => ({
-        setVisible: _.setVisible,
-    }))
-    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
-        dispatchVisibleTypeCreateOptionals:
-            _.dispatchVisibleTypeCreateOptionals,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
+    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
+        ({ dispatchVisibleTypeCreateOptionals }) =>
+            dispatchVisibleTypeCreateOptionals,
+    )
     const { data } = useQuery({
         queryFn: () =>
             serviceOffers.getUserId(userId!, {

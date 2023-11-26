@@ -9,9 +9,7 @@ import { useOffersCategories } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const Header: IHeader = ({ categoryId, rating, title, provider }) => {
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
+    const categories = useOffersCategories(({ categories }) => categories)
 
     const titleCategory = useMemo(() => {
         return (

@@ -5,8 +5,10 @@
     gap: 24px;
     max-width: 360px;
     width: 100%;
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .content {
         max-width: 100%;
         gap: 16px;
     }
@@ -45,6 +47,64 @@
     gap: 12px;
     width: 100%;
     align-self: stretch;
+
+    [data-label-input] {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        & > label {
+            color: var(--gray-900);
+            font-size: 14px;
+            font-style: normal;
+            line-height: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+
+            & > sup {
+                color: var(--error-600);
+            }
+        }
+
+        & > i {
+            color: var(--error-600);
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        &[data-password] > div {
+            width: 100%;
+        }
+
+        &[data-password] {
+            & > div {
+                position: relative;
+                & > [data-eye] {
+                    position: absolute;
+                    transform: translateY(-50%);
+                    top: 50%;
+                    right: 14px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+[data-mobile="true"] {
+    .section {
+        & > [data-label-input] {
+            & > input,
+            &[data-password] > div > input {
+                padding: 10px;
+                height: 44px;
+                border-radius: 22px;
+            }
+        }
+    }
 }
 
 .Register {
@@ -170,8 +230,10 @@
     max-width: 360px;
     width: 100%;
     z-index: 20;
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .contentOtpCode {
         max-width: 100%;
     }
 }
@@ -197,8 +259,10 @@
         line-height: 38px;
         letter-spacing: -0.5px;
     }
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .contentFirstLogin {
         max-width: 100%;
     }
 }
@@ -271,8 +335,10 @@
     gap: 20px;
     z-index: 1;
     margin: 0 auto;
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .contentRow {
         flex-direction: column;
         margin-left: auto;
         margin-right: auto;

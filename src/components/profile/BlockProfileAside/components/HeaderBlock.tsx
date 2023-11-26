@@ -12,11 +12,9 @@ import { useAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const HeaderBlock: THeaderBlock = () => {
-    const { user, imageProfile, createdUser } = useAuth((_) => ({
-        user: _.user,
-        imageProfile: _.imageProfile,
-        createdUser: _.createdUser,
-    }))
+    const user = useAuth(({ user }) => user)
+    const imageProfile = useAuth(({ imageProfile }) => imageProfile)
+    const createdUser = useAuth(({ createdUser }) => createdUser)
     const { addressMain } = useAddress()
 
     return (

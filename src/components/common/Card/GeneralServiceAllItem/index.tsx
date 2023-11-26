@@ -38,19 +38,17 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
         images,
         style,
     } = props ?? {}
-    const { myUserId } = useAuth((_) => ({ myUserId: _.userId }))
+    const myUserId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
-    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
-    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
-        dispatchMapCoordinates: _.dispatchMapCoordinates,
-    }))
+    const categories = useOffersCategories(({ categories }) => categories)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
+    const dispatchMapCoordinates = useMapCoordinates(
+        ({ dispatchMapCoordinates }) => dispatchMapCoordinates,
+    )
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
         queryKey: ["user", userId],

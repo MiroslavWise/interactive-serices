@@ -30,20 +30,17 @@ const DESCRIPTIONS = [1, 2, 3]
 type TSteps = 1 | 2 | 3
 
 export const ModalAddOffer = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { close } = useCloseCreateOptions()
     const [step, setStep] = useState<TSteps>(1)
     const refresh = useRefresh()
-    const { files, setId, id, text, valueCategory, adressId, addressInit } =
-        useCreateOffer((_) => ({
-            files: _.files,
-            setId: _.setId,
-            id: _.id,
-            text: _.text,
-            valueCategory: _.valueCategory,
-            adressId: _.adressId,
-            addressInit: _.addressInit,
-        }))
+    const files = useCreateOffer(({ files }) => files)
+    const setId = useCreateOffer(({ setId }) => setId)
+    const id = useCreateOffer(({ id }) => id)
+    const text = useCreateOffer(({ text }) => text)
+    const valueCategory = useCreateOffer(({ valueCategory }) => valueCategory)
+    const adressId = useCreateOffer(({ adressId }) => adressId)
+    const addressInit = useCreateOffer(({ addressInit }) => addressInit)
 
     const content: ReactNode = useMemo(() => {
         const obj: Record<TSteps, ReactNode> = {

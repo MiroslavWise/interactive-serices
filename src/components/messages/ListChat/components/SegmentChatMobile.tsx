@@ -11,10 +11,10 @@ import { useMessagesType } from "@/store/state/useMessagesType"
 import styles from "./styles/segment-chat-mobile.module.scss"
 
 export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
-    const { type, dispatchMessagesType } = useMessagesType((_) => ({
-        type: _.type,
-        dispatchMessagesType: _.dispatchMessagesType,
-    }))
+    const type = useMessagesType(({ type }) => type)
+    const dispatchMessagesType = useMessagesType(
+        ({ dispatchMessagesType }) => dispatchMessagesType,
+    )
 
     function handle(value: TTypeProviderThreads) {
         const segment = SEGMENTS_CHAT.find((item) => item.value === value)!

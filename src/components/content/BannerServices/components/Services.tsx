@@ -22,8 +22,8 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
     setTotal,
     type,
 }) {
-    const { idTarget } = useFilterMap((_) => ({ idTarget: _.idTarget }))
-    const { bounds } = useBounds((_) => ({ bounds: _.bounds }))
+    const idTarget = useFilterMap(({idTarget}) => idTarget)
+    const bounds = useBounds(({bounds}) => bounds)
     const obj = idTarget ? { category: idTarget } : {}
     const typeOffers = useMemo(() => {
         if (["offer", "request"].includes(type)) {

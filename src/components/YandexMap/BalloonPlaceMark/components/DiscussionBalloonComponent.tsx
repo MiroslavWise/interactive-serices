@@ -22,12 +22,10 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
     const dispatchProfilePublic = useProfilePublic(
         ({ dispatchProfilePublic }) => dispatchProfilePublic,
     )
-    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
-        id: _.id,
-        idUser: _.idUser,
-        type: _.type,
-        dispatch: _.dispatch,
-    }))
+    const id = useBalloonCard(({ id }) => id)
+    const idUser = useBalloonCard(({ idUser }) => idUser)
+    const type = useBalloonCard(({ type }) => type)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
