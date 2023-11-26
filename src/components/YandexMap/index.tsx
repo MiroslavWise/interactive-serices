@@ -33,21 +33,19 @@ const YandexMap: TYandexMap = ({}) => {
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
-    const { coordinates, zoom, dispatchMapCoordinates } = useMapCoordinates(
-        (_) => ({
-            coordinates: _.coordinates,
-            zoom: _.zoom,
-            dispatchMapCoordinates: _.dispatchMapCoordinates,
-        }),
+    const coordinates = useMapCoordinates(
+        ({coordinates}) => coordinates
     )
-    const { dispatchHasBalloon } = useHasBalloons((_) => ({
-        dispatchHasBalloon: _.dispatchHasBalloon,
-    }))
+    const zoom = useMapCoordinates(
+        ({zoom}) => zoom
+    )
+    const dispatchMapCoordinates = useMapCoordinates(
+        ({dispatchMapCoordinates}) => dispatchMapCoordinates
+    )
+    const dispatchHasBalloon = useHasBalloons(({dispatchHasBalloon}) =>dispatchHasBalloon)
     const instanceRef: TTypeInstantsMap = useRef()
-    const { dispatchBounds, bounds } = useBounds((_) => ({
-        dispatchBounds: _.dispatchBounds,
-        bounds: _.bounds,
-    }))
+    const bounds = useBounds(({bounds}) => bounds)
+    const dispatchBounds = useBounds(({dispatchBounds}) =>dispatchBounds)
 
     async function get({ mapTwo, mapOne }: { mapOne: number; mapTwo: number }) {
         return getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then(

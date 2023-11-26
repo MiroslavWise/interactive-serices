@@ -36,24 +36,19 @@ const queryClient = new QueryClient({
 })
 
 export default function Providers({ children }: { children: ReactNode }) {
-    const { refresh } = useAuth()
+    const refresh = useAuth(({refresh}) => refresh)
     const searchParams = useSearchParams()
     const { handleReplace } = usePush()
     const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
-    const { getCategories } = useOffersCategories((_) => ({
-        getCategories: _.getCategories,
-    }))
+    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
+    const getCategories = useOffersCategories(({getCategories}) => getCategories)
 
-    const { offersCategories, getFetchingOffersCategories } =
-        useFetchingSession((_) => ({
-            offersCategories: _.offersCategories,
-            getFetchingOffersCategories: _.getFetchingOffersCategories,
-        }))
+    const offersCategories =
+        useFetchingSession(({offersCategories}) => offersCategories)
+    const getFetchingOffersCategories =
+        useFetchingSession(({getFetchingOffersCategories}) => getFetchingOffersCategories)
 
     useEffect(() => {
         window.addEventListener("load", () => {

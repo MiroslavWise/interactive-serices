@@ -17,14 +17,10 @@ import { Button } from "@/components/common"
 
 export const Buttons = () => {
     const pathname = usePathname()
-    const { dispatchNewServicesBanner } = useVisibleBannerNewServices((_) => ({
-        dispatchNewServicesBanner: _.dispatchNewServicesBanner,
-    }))
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(({dispatchNewServicesBanner}) => dispatchNewServicesBanner)
     const { isAddresses } = useAddress()
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
-    const { is } = useAuth((_) => ({ is: _.isAuth }))
+    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
+    const is = useAuth(({isAuth}) => isAuth)
     const { handlePush } = usePush()
     const [active, setActive, ref] = useOutsideClickEvent()
 

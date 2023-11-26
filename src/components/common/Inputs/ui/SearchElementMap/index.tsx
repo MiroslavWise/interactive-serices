@@ -24,9 +24,7 @@ export const SearchElementMap: TSearchElementMap = ({
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const debouncedValue = useDebounce(onValueFunc, 1500)
 
-    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
-        dispatchMapCoordinates: _.dispatchMapCoordinates,
-    }))
+    const dispatchMapCoordinates = useMapCoordinates(({dispatchMapCoordinates}) => dispatchMapCoordinates)
 
     function onFocus() {
         setActiveList(true)

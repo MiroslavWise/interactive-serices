@@ -5,7 +5,7 @@
     border-radius: 300px;
     filter: blur(90px);
     transform: translate(-50%, -50%);
-    z-index: 0;
+    z-index: -1;
 
     @media screen and (max-width: 750px) {
         width: 265px;

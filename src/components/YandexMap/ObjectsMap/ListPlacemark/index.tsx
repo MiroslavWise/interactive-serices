@@ -12,8 +12,8 @@ import { IQueriesOffers } from "@/services/offers/types"
 import { useFilterMap, useBalloonCard } from "@/store/hooks"
 
 const $ListPlacemark = () => {
-    const { idTarget } = useFilterMap((_) => ({ idTarget: _.idTarget }))
-    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
+    const idTarget = useFilterMap(({idTarget}) => idTarget)
+    const dispatch = useBalloonCard(({dispatch}) => dispatch)
 
     const obj = idTarget
         ? ({ category: idTarget, order: "DESC" } as IQueriesOffers)

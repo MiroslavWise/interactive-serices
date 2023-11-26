@@ -8,7 +8,8 @@ import { useVisibleAbout } from "@/store/state/useVisibleAbout"
 import styles from "./styles/style.module.scss"
 
 export const AboutSheiraPopup = () => {
-    const { visible, dispatchVisibleAbout } = useVisibleAbout()
+    const visible = useVisibleAbout(({visible}) => visible)
+    const dispatchVisibleAbout = useVisibleAbout(({dispatchVisibleAbout}) => dispatchVisibleAbout)
 
     return (
         <div data-visible={visible} className={styles.wrapper}>

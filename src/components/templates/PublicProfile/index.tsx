@@ -23,13 +23,14 @@ import { VALUES } from "./constants/SEGMENTS"
 import styles from "./styles/style.module.scss"
 
 export const PublicProfile = () => {
-    const { visibleProfilePublic, idUser, dispatchProfilePublic, isLeft } =
-        useProfilePublic((_) => ({
-            visibleProfilePublic: _.visibleProfilePublic,
-            idUser: _.idUser,
-            dispatchProfilePublic: _.dispatchProfilePublic,
-            isLeft: _.isLeft,
-        }))
+    const visibleProfilePublic =
+        useProfilePublic(({visibleProfilePublic}) => visibleProfilePublic)
+    const idUser =
+        useProfilePublic(({idUser}) =>idUser)
+    const dispatchProfilePublic =
+        useProfilePublic(({dispatchProfilePublic}) => dispatchProfilePublic)
+    const isLeft =
+        useProfilePublic(({isLeft}) => isLeft)
     const [activeSegment, setActiveSegment] = useState<
         ISegmentValues<TTypeSegment>
     >(VALUES[0])

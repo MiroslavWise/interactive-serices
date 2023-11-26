@@ -19,7 +19,7 @@ export const ContainerOffersNow: TContainerOffersNow = ({
     isToMe,
     dispatch,
 }) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({userId}) => userId)
     const { data: dataToMe, refetch: refetchToMe } = useQuery({
         queryFn: () =>
             serviceBarters.getReceiverId(userId!, {
