@@ -26,33 +26,22 @@ import {
 import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { close } = useCloseCreateOptions()
     const [loading, setLoading] = useState(false)
     const refresh = useRefresh()
-    const {
-        text,
-        files,
-        selectedFile,
-        setText,
-        setStepAlert,
-        setFile,
-        setSelectedFile,
-        addressInit,
-        adressId,
-        setAddressId,
-    } = useCreateAlert((_) => ({
-        text: _.text,
-        files: _.files,
-        selectedFile: _.selectedFile,
-        setText: _.setText,
-        setStepAlert: _.setStepAlert,
-        setFile: _.setFile,
-        setSelectedFile: _.setSelectedFile,
-        addressInit: _.addressInit,
-        adressId: _.adressId,
-        setAddressId: _.setAddressId,
-    }))
+    const text = useCreateAlert(({ text }) => text)
+    const files = useCreateAlert(({ files }) => files)
+    const selectedFile = useCreateAlert(({ selectedFile }) => selectedFile)
+    const setText = useCreateAlert(({ setText }) => setText)
+    const setStepAlert = useCreateAlert(({ setStepAlert }) => setStepAlert)
+    const setFile = useCreateAlert(({ setFile }) => setFile)
+    const setSelectedFile = useCreateAlert(
+        ({ setSelectedFile }) => setSelectedFile,
+    )
+    const addressInit = useCreateAlert(({ addressInit }) => addressInit)
+    const adressId = useCreateAlert(({ adressId }) => adressId)
+    const setAddressId = useCreateAlert(({ setAddressId }) => setAddressId)
 
     async function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {

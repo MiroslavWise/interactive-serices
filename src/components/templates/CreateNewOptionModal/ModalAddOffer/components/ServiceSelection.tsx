@@ -12,23 +12,15 @@ import { useCreateOffer } from "@/store/hooks"
 import styles from "./styles/service-selection.module.scss"
 
 export const ServiceSelection = () => {
-    const {
-        text,
-        addressInit,
-        valueCategory,
-        setText,
-        setValueCategory,
-        adressId,
-        setAddressId,
-    } = useCreateOffer((_) => ({
-        text: _.text,
-        addressInit: _.addressInit,
-        valueCategory: _.valueCategory,
-        setText: _.setText,
-        setValueCategory: _.setValueCategory,
-        adressId: _.adressId,
-        setAddressId: _.setAddressId,
-    }))
+    const text = useCreateOffer(({ text }) => text)
+    const addressInit = useCreateOffer(({ addressInit }) => addressInit)
+    const valueCategory = useCreateOffer(({ valueCategory }) => valueCategory)
+    const setText = useCreateOffer(({ setText }) => setText)
+    const setValueCategory = useCreateOffer(
+        ({ setValueCategory }) => setValueCategory,
+    )
+    const adressId = useCreateOffer(({ adressId }) => adressId)
+    const setAddressId = useCreateOffer(({ setAddressId }) => setAddressId)
 
     return (
         <section className={styles.wrapper}>

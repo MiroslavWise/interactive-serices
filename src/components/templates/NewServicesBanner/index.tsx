@@ -13,11 +13,12 @@ import { useVisibleBannerNewServices } from "@/store/hooks/useVisible"
 import styles from "./styles/style.module.scss"
 
 export const NewServicesBanner: TNewServicesBanner = ({}) => {
-    const { isVisibleNewServicesBanner, dispatchNewServicesBanner } =
-        useVisibleBannerNewServices((_) => ({
-            isVisibleNewServicesBanner: _.isVisibleNewServicesBanner,
-            dispatchNewServicesBanner: _.dispatchNewServicesBanner,
-        }))
+    const isVisibleNewServicesBanner = useVisibleBannerNewServices(
+        ({ isVisibleNewServicesBanner }) => isVisibleNewServicesBanner,
+    )
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(
+        ({ dispatchNewServicesBanner }) => dispatchNewServicesBanner,
+    )
 
     function close() {
         dispatchNewServicesBanner(false)

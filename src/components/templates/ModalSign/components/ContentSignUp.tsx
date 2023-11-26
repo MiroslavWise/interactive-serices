@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { useForm } from "react-hook-form"
-import { isMobile } from "react-device-detect"
+import { useForm, Controller } from "react-hook-form"
 
 import type { IValuesRegistrationForm, TContentSignUp } from "../types/types"
 
@@ -23,6 +22,9 @@ import styles from "../styles/form.module.scss"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
     const [loading, setLoading] = useState(false)
+    const [isPass, setIsPass] = useState(false)
+    const [isPass_, setIsPass_] = useState(false)
+    const { on } = useToast()
     const dispatchAuthModal = useModalAuth(
         ({ dispatchAuthModal }) => dispatchAuthModal,
     )
@@ -38,6 +40,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
         handleSubmit,
         setError,
         setValue,
+        control,
         formState: { errors },
     } = useForm<IValuesRegistrationForm>({
         mode: "onSubmit",
@@ -79,13 +82,13 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                             visible: true,
                             type: "register",
                         })
-                        // on(
-                        //     {
-                        //         message:
-                        //             "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
-                        //     },
-                        //     "success",
-                        // )
+                        on(
+                            {
+                                message:
+                                    "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
+                            },
+                            "success",
+                        )
                     }
                 })
                 .finally(() => {
@@ -95,85 +98,135 @@ export const ContentSignUp: TContentSignUp = ({}) => {
     }
 
     return (
-        <div className={styles.content} data-mobile={isMobile}>
-            <form
-                className={styles.form}
-                onSubmit={handleSubmit(onRegister)}
-                noValidate
-            >
+        <div className={styles.content}>
+            <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
                 <section className={styles.section}>
-                    <Input
-                        label="Email"
-                        rules
-                        type="email"
-                        placeholder="Введите свой email"
-                        {...register("__iremqwer__", { required: true })}
-                        value={watch("__iremqwer__")}
-                        onChange={(event) =>
-                            setValue("__iremqwer__", event.target.value)
-                        }
-                        error={
-                            errors.__iremqwer__ &&
-                            errors?.__iremqwer__?.message ===
-                                "user already exists"
-                                ? "Пользователь уже существует"
-                                : errors?.__iremqwer__
-                                ? "Требуется email"
-                                : errors.__iremqwer__
-                                ? "Какая-то ошибка с Email"
-                                : ""
-                        }
-                    />
-                    <InputPassword
-                        label="Пароль"
-                        rules
-                        placeholder="Введите свой пароль"
-                        {...register("__wererfsdfwef__", {
-                            required: true,
-                            minLength: 5,
-                        })}
-                        value={watch("__wererfsdfwef__")}
-                        onChange={(event) =>
-                            setValue("__wererfsdfwef__", event.target.value)
-                        }
-                        error={
-                            errors.__wererfsdfwef__?.message ===
-                            "validate_register"
-                                ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
-                                : errors.__wererfsdfwef__
-                                ? "Требуется пароль"
-                                : ""
-                        }
-                    />
-                    <InputPassword
-                        label="Подтвердите пароль"
-                        rules
-                        placeholder="Введите пароль еще раз"
-                        {...register("__rwersdf__asdfsadf__", {
-                            required: true,
-                            minLength: 5,
-                            validate: (value) =>
-                                value === watch("__rwersdf__asdfsadf__")
-                                    ? true
-                                    : "no_repeat",
-                        })}
-                        value={watch("__rwersdf__asdfsadf__")}
-                        onChange={(event) =>
-                            setValue(
-                                "__rwersdf__asdfsadf__",
-                                event.target.value,
-                            )
-                        }
-                        error={
-                            errors?.__rwersdf__asdfsadf__ &&
-                            errors?.__rwersdf__asdfsadf__?.message ===
-                                "no_repeat"
-                                ? "Пароли не совпадают"
-                                : errors?.__rwersdf__asdfsadf__
-                                ? "Требуется пароль"
-                                : ""
-                        }
-                    />
+                    <div data-label-input>
+                        <label>
+                            Email <sup>*</sup>
+                        </label>
+                        <Controller
+                            name="__iremqwer__"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <input
+                                    type="email"
+                                    placeholder="Введите свой email"
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.__iremqwer__ ? (
+                            <i>
+                                {errors.__iremqwer__ &&
+                                errors?.__iremqwer__?.message ===
+                                    "user already exists"
+                                    ? "Пользователь уже существует"
+                                    : errors?.__iremqwer__
+                                    ? "Требуется email"
+                                    : errors.__iremqwer__
+                                    ? "Какая-то ошибка с Email"
+                                    : ""}
+                            </i>
+                        ) : null}
+                    </div>
+                    <div data-label-input data-password>
+                        <label>
+                            Пароль <sup>*</sup>
+                        </label>
+                        <Controller
+                            name="__wererfsdfwef__"
+                            control={control}
+                            rules={{ required: true, minLength: 5 }}
+                            render={({ field }) => (
+                                <div>
+                                    <input
+                                        {...field}
+                                        placeholder="Введите свой пароль"
+                                        type={isPass ? "text" : "password"}
+                                    />
+                                    <Image
+                                        onClick={() =>
+                                            setIsPass((prev) => !prev)
+                                        }
+                                        src={
+                                            isPass
+                                                ? "/svg/eye.svg"
+                                                : "/svg/eye-off.svg"
+                                        }
+                                        alt="eye"
+                                        width={20}
+                                        height={20}
+                                        data-eye
+                                        unoptimized
+                                    />
+                                </div>
+                            )}
+                        />
+                        {errors.__wererfsdfwef__ ? (
+                            <i>
+                                {errors.__wererfsdfwef__?.message ===
+                                "validate_register"
+                                    ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
+                                    : errors.__wererfsdfwef__
+                                    ? "Требуется пароль"
+                                    : ""}
+                            </i>
+                        ) : null}
+                    </div>
+                    <div data-label-input data-password>
+                        <label>
+                            Подтвердите пароль <sup>*</sup>
+                        </label>
+                        <Controller
+                            name="__rwersdf__asdfsadf__"
+                            control={control}
+                            rules={{
+                                required: true,
+                                minLength: 5,
+                                validate: (value) =>
+                                    value === watch("__rwersdf__asdfsadf__")
+                                        ? true
+                                        : "no_repeat",
+                            }}
+                            render={({ field }) => (
+                                <div>
+                                    <input
+                                        {...field}
+                                        placeholder="Введите пароль еще раз"
+                                        type={isPass ? "text" : "password"}
+                                    />
+                                    <Image
+                                        onClick={() =>
+                                            setIsPass_((prev) => !prev)
+                                        }
+                                        src={
+                                            isPass_
+                                                ? "/svg/eye.svg"
+                                                : "/svg/eye-off.svg"
+                                        }
+                                        alt="eye"
+                                        width={20}
+                                        height={20}
+                                        data-eye
+                                        unoptimized
+                                    />
+                                </div>
+                            )}
+                        />
+                        {errors.__rwersdf__asdfsadf__ ? (
+                            <i>
+                                {errors?.__rwersdf__asdfsadf__ &&
+                                errors?.__rwersdf__asdfsadf__?.message ===
+                                    "no_repeat"
+                                    ? "Пароли не совпадают"
+                                    : errors?.__rwersdf__asdfsadf__
+                                    ? "Требуется пароль"
+                                    : ""}
+                            </i>
+                        ) : null}
+                    </div>
                 </section>
                 <div className={styles.RememberChange}>
                     <div className={styles.checkRemember}>

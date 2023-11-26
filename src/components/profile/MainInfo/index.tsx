@@ -22,10 +22,10 @@ import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ user }) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
-        dispatchVisibleBarter: _.dispatchVisibleBarter,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const dispatchVisibleBarter = useVisibleModalBarter(
+        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
+    )
     const { handlePush } = usePush()
 
     const geo: IAddressesResponse | null = useMemo(() => {

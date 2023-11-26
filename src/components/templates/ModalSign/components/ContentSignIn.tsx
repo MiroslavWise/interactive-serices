@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 
 import type { TContentSignIn, IValuesSignForm } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
-import { Button, Input, InputPassword } from "@/components/common"
+import { Button } from "@/components/common"
 
 import { useAuth, useModalAuth, useWelcomeModal } from "@/store/hooks"
 import {
@@ -17,10 +17,12 @@ import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 
 import styles from "../styles/form.module.scss"
+import Image from "next/image"
 
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
+    const [isPass, setIsPass] = useState(false)
     const setToken = useAuth(({ setToken }) => setToken)
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
     const dispatchAuthModal = useModalAuth(
@@ -30,12 +32,16 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
 
     const {
         watch,
+        control,
         register,
         handleSubmit,
         formState: { errors },
         setError,
         setValue,
-    } = useForm<IValuesSignForm>({})
+    } = useForm<IValuesSignForm>({
+        mode: "onSubmit",
+        reValidateMode: "onSubmit",
+    })
 
     const onEnter = async (values: IValuesSignForm) => {
         if (!loading) {
@@ -141,47 +147,81 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         <div className={styles.content} data-mobile={isMobile}>
             <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
                 <section className={styles.section}>
-                    <Input
-                        label="Email"
-                        rules
-                        {...register("finaly_qwer", { required: true })}
-                        value={watch("finaly_qwer")}
-                        placeholder="Введите свой email"
-                        type="email"
-                        onChange={(event) =>
-                            setValue("finaly_qwer", event.target.value)
-                        }
-                        error={
-                            errors.finaly_qwer &&
-                            errors.finaly_qwer?.message === "user not found"
-                                ? "Такого пользователя не существует"
-                                : errors.finaly_qwer?.message ===
-                                  "email not valid"
-                                ? "Требуется email"
-                                : errors.finaly_qwer
-                                ? "Какая-то ошибка с Email"
-                                : ""
-                        }
-                    />
-                    <InputPassword
-                        label="Пароль"
-                        rules
-                        placeholder="Введите свой пароль"
-                        {...register("_qwer_rrewwrerq", { required: true })}
-                        value={watch("_qwer_rrewwrerq")}
-                        onChange={(event) =>
-                            setValue("_qwer_rrewwrerq", event.target.value)
-                        }
-                        error={
-                            errors._qwer_rrewwrerq &&
-                            errors._qwer_rrewwrerq.message ===
-                                "invalid password"
-                                ? "Не верный пароль"
-                                : errors._qwer_rrewwrerq
-                                ? "Требуется пароль"
-                                : ""
-                        }
-                    />
+                    <div data-label-input>
+                        <label>
+                            Email <sup>*</sup>
+                        </label>
+                        <Controller
+                            name="finaly_qwer"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <input
+                                    type="email"
+                                    placeholder="Введите свой email"
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.finaly_qwer ? (
+                            <i>
+                                {errors.finaly_qwer &&
+                                errors.finaly_qwer?.message === "user not found"
+                                    ? "Такого пользователя не существует"
+                                    : errors.finaly_qwer?.message ===
+                                      "email not valid"
+                                    ? "Требуется email"
+                                    : errors.finaly_qwer
+                                    ? "Какая-то ошибка с Email"
+                                    : ""}
+                            </i>
+                        ) : null}
+                    </div>
+                    <div data-label-input data-password>
+                        <label>
+                            Пароль <sup>*</sup>
+                        </label>
+                        <Controller
+                            name="_qwer_rrewwrerq"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <div>
+                                    <input
+                                        {...field}
+                                        placeholder="Введите свой пароль"
+                                        type={isPass ? "text" : "password"}
+                                    />
+                                    <Image
+                                        onClick={() =>
+                                            setIsPass((prev) => !prev)
+                                        }
+                                        src={
+                                            isPass
+                                                ? "/svg/eye.svg"
+                                                : "/svg/eye-off.svg"
+                                        }
+                                        alt="eye"
+                                        width={20}
+                                        height={20}
+                                        data-eye
+                                        unoptimized
+                                    />
+                                </div>
+                            )}
+                        />
+                        {errors._qwer_rrewwrerq ? (
+                            <i>
+                                {errors._qwer_rrewwrerq &&
+                                errors._qwer_rrewwrerq.message ===
+                                    "invalid password"
+                                    ? "Не верный пароль"
+                                    : errors._qwer_rrewwrerq
+                                    ? "Требуется пароль"
+                                    : ""}
+                            </i>
+                        ) : null}
+                    </div>
                 </section>
                 <div className={styles.RememberChange}>
                     <div className={styles.checkRemember}>
@@ -204,10 +244,9 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         <p>Запомнить на 30 дней</p>
                     </div>
                     <a
-                        onClick={() => {
-                            console.log("ForgotPassword")
+                        onClick={() =>
                             dispatchAuthModal({ type: "ForgotPassword" })
-                        }}
+                        }
                     >
                         Забыли пароль?
                     </a>

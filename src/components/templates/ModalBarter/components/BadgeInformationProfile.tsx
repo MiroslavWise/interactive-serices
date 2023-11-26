@@ -1,6 +1,5 @@
 "use client"
 
-import { useMemo } from "react"
 import Image from "next/image"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
@@ -11,14 +10,10 @@ import { useVisibleModalBarter } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const BadgeInformationProfile = ({}) => {
-    const { dataProfile, dataOffer } = useVisibleModalBarter((_) => ({
-        dataProfile: _.dataProfile,
-        dataOffer: _.dataOffer,
-    }))
+    const dataProfile = useVisibleModalBarter(({ dataProfile }) => dataProfile)
+    const dataOffer = useVisibleModalBarter(({ dataOffer }) => dataOffer)
 
-    const address = useMemo(() => {
-        return dataOffer?.addresses?.[0]?.additional || ""
-    }, [dataOffer?.addresses])
+    const address = dataOffer?.addresses?.[0]?.additional || ""
 
     return (
         <div className={styles.containerBadgeInformationProfile}>

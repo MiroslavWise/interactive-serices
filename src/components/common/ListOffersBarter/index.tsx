@@ -15,13 +15,11 @@ export const ListOffersBarter = forwardRef(function ListOffersBarter(
     props: TListOffersBarter,
 ) {
     const { items, active, onClick, ...rest } = props ?? {}
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
-    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
-        dispatchVisibleTypeCreateOptionals:
-            _.dispatchVisibleTypeCreateOptionals,
-    }))
+    const categories = useOffersCategories(({ categories }) => categories)
+    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
+        ({ dispatchVisibleTypeCreateOptionals }) =>
+            dispatchVisibleTypeCreateOptionals,
+    )
 
     const height = useMemo(() => {
         const length = items?.length || 70 + 32

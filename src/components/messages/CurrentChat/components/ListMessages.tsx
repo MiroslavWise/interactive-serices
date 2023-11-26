@@ -34,10 +34,8 @@ export const ListMessages = memo(function ListMessages({
 }) {
     const { join } = useJoinMessage()
     const idThread = useSearchParams()?.get("thread")
-    const { imageProfile, userId } = useAuth((_) => ({
-        imageProfile: _.imageProfile,
-        userId: _.userId,
-    }))
+    const { attributes } = useAuth(({ imageProfile }) => imageProfile) ?? {}
+    const userId = useAuth(({ userId }) => userId)
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<number | null>(null)
     const [height, setHeight] = useState(0)
@@ -52,7 +50,7 @@ export const ListMessages = memo(function ListMessages({
                     return (
                         <ItemMyMessage
                             key={`${item.id}_message_${item.id}`}
-                            photo={imageProfile?.attributes?.url!}
+                            photo={attributes?.url!}
                             messages={item.messages!}
                         />
                     )
@@ -81,7 +79,7 @@ export const ListMessages = memo(function ListMessages({
             })
         }
         return null
-    }, [dataUser, messages, join, userId, imageProfile?.attributes?.url])
+    }, [dataUser, messages, join, userId, attributes?.url])
 
     useEffect(() => {
         requestAnimationFrame(() => {

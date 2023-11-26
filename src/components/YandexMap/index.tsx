@@ -29,23 +29,21 @@ import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
 const COORD = [55.75, 37.67]
 
 const YandexMap: TYandexMap = ({}) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
-    const coordinates = useMapCoordinates(
-        ({coordinates}) => coordinates
-    )
-    const zoom = useMapCoordinates(
-        ({zoom}) => zoom
-    )
+    const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
+    const zoom = useMapCoordinates(({ zoom }) => zoom)
     const dispatchMapCoordinates = useMapCoordinates(
-        ({dispatchMapCoordinates}) => dispatchMapCoordinates
+        ({ dispatchMapCoordinates }) => dispatchMapCoordinates,
     )
-    const dispatchHasBalloon = useHasBalloons(({dispatchHasBalloon}) =>dispatchHasBalloon)
+    const dispatchHasBalloon = useHasBalloons(
+        ({ dispatchHasBalloon }) => dispatchHasBalloon,
+    )
     const instanceRef: TTypeInstantsMap = useRef()
-    const bounds = useBounds(({bounds}) => bounds)
-    const dispatchBounds = useBounds(({dispatchBounds}) =>dispatchBounds)
+    const bounds = useBounds(({ bounds }) => bounds)
+    const dispatchBounds = useBounds(({ dispatchBounds }) => dispatchBounds)
 
     async function get({ mapTwo, mapOne }: { mapOne: number; mapTwo: number }) {
         return getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then(

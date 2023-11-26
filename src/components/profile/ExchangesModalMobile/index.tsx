@@ -14,12 +14,12 @@ import { useAuth, useVisibleExchanges } from "@/store/hooks"
 import styles from "./style.module.scss"
 
 export const ExchangesModalMobile = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { type, isVisible, dispatchExchanges } = useVisibleExchanges((_) => ({
-        type: _.type,
-        isVisible: _.isVisible,
-        dispatchExchanges: _.dispatchExchanges,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const type = useVisibleExchanges(({ type }) => type)
+    const isVisible = useVisibleExchanges(({ isVisible }) => isVisible)
+    const dispatchExchanges = useVisibleExchanges(
+        ({ dispatchExchanges }) => dispatchExchanges,
+    )
 
     const { data } = useQuery({
         queryFn: () =>

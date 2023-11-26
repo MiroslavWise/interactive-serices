@@ -14,14 +14,14 @@
     visibility: visible;
 
     transition: opacity, visibility var(--transition);
-    // z-index: 1;
 }
 
 [data-mobile="true"] {
     .main {
         &[data-is-modal-auth="true"] {
-            opacity: 1;
-            visibility: visible;
+            opacity: 0;
+            visibility: hidden;
+            display: none;
         }
     }
 }

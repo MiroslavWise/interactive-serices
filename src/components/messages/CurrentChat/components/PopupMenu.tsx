@@ -26,12 +26,10 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
 }) {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
-    const { isVisible, setIsVisible } = usePopupMenuChat((_) => ({
-        isVisible: _.isVisible,
-        setIsVisible: _.setIsVisible,
-    }))
+    const type = useMessagesType(({ type }) => type)
+    const isVisible = usePopupMenuChat(({ isVisible }) => isVisible)
+    const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
     const refresh = useRefetchListChat()
-    const { type } = useMessagesType((_) => ({ type: _.type }))
     const { handlePush, handleReplace } = usePush()
 
     function handleClickMenu(value: TTypeActionMenu) {

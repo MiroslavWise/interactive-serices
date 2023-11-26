@@ -1,10 +1,9 @@
-import { useMemo } from "react"
 import Image from "next/image"
 
 import type { TInfoContainerProfile } from "../types/types"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ButtonFill, ButtonsCircle } from "@/components/common/Buttons"
+import { ButtonsCircle } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { usePush } from "@/helpers"
@@ -13,21 +12,15 @@ import { AddFriend } from "@/components/profile/MainInfo/components/AddFriend"
 
 export const InfoContainerProfile: TInfoContainerProfile = (props) => {
     const { profile, addresses, id } = props ?? {}
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
+    const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
 
-    const geo = useMemo(() => {
-        if (!addresses || !Array.isArray(addresses)) {
-            return null
-        }
-        return (
-            addresses?.find((item) => item.addressType === "main")
-                ?.additional || null
-        )
-    }, [addresses])
+    const geo =
+        addresses?.find((item) => item.addressType === "main")?.additional ||
+        null
 
     function handleMessage() {
         if (userId) {

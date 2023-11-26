@@ -1,8 +1,8 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
+import { useState } from "react"
 import { motion } from "framer-motion"
-import { useState, useMemo, type ReactNode, memo } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TServices } from "./types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
@@ -18,7 +18,7 @@ import { useAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const BannerServices = () => {
-    const { token } = useAuth((_) => ({ token: _.token }))
+    const token = useAuth(({ token }) => token)
     const [activeService, setActiveService] = useState<
         ISegmentValues<TServices>
     >(SERVICES[0])

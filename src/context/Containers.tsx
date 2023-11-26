@@ -42,9 +42,9 @@ import {
 export const Containers = () => {
     const is = useAuth(({ isAuth }) => isAuth)
     const isVisible = useVisibleModalBarter(({ isVisible }) => isVisible)
-    const { visibleFriends } = useDroverFriends((_) => ({
-        visibleFriends: _.visibleFriends,
-    }))
+    const visibleFriends = useDroverFriends(
+        ({ visibleFriends }) => visibleFriends,
+    )
     const visibleHasBalloon = useHasBalloons(
         ({ visibleHasBalloon }) => visibleHasBalloon,
     )

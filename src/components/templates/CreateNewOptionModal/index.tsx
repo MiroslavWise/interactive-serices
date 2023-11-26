@@ -22,10 +22,8 @@ import styles from "./styles/style.module.scss"
 
 export const CreateNewOptionModal = () => {
     const { close } = useCloseCreateOptions()
-    const { isVisible, typeAdd } = useAddCreateModal((_) => ({
-        isVisible: _.isVisible,
-        typeAdd: _.typeAdd,
-    }))
+    const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
+    const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
 
     const content: ReactNode | null = useMemo(() => {
         if (!typeAdd) return null

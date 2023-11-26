@@ -98,7 +98,7 @@ const activateEvent = () => {
 }
 activateEvent()
 
-const cacheName = "v--123-0"
+const cacheName = "v-27-11-2023"
 
 self.addEventListener("fetch", (event) => {
     if (event.request.mode === "navigate") {

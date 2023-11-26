@@ -7,8 +7,8 @@ import { isMobile } from "react-device-detect"
 import { Glasses } from "@/components/layout"
 import { GeneralServiceAllItem } from "@/components/common/Card"
 
-import { useBounds } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
+import { useBounds, useModalAuth } from "@/store/hooks"
 
 export default function News() {
     const bounds = useBounds(({ bounds }) => bounds)
@@ -17,6 +17,7 @@ export default function News() {
         queryFn: () => serviceOffers.get({ order: "DESC" }),
         enabled: isMobile,
     })
+    const visible = useModalAuth(({ visible }) => visible)
 
     const items = useMemo(() => {
         if (data?.res && Array.isArray(data?.res) && data?.res?.length === 0) {
@@ -57,7 +58,7 @@ export default function News() {
     }, [data?.res, bounds])
 
     return isMobile ? (
-        <div className="page-news-page">
+        <div className="page-news-page" data-is-modal-auth={visible}>
             <header>
                 <p>Популярное рядом</p>
                 <div data-total>{items?.length || 0}</div>

@@ -13,13 +13,15 @@ import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function NewServiceBarterRequests() {
-    const {
-        isVisibleNewServiceBarterRequests,
-        dispatchNewServiceBarterRequests,
-    } = useVisibleNewServiceBarterRequests((_) => ({
-        isVisibleNewServiceBarterRequests: _.isVisibleNewServiceBarterRequests,
-        dispatchNewServiceBarterRequests: _.dispatchNewServiceBarterRequests,
-    }))
+    const isVisibleNewServiceBarterRequests =
+        useVisibleNewServiceBarterRequests(
+            ({ isVisibleNewServiceBarterRequests }) =>
+                isVisibleNewServiceBarterRequests,
+        )
+    const dispatchNewServiceBarterRequests = useVisibleNewServiceBarterRequests(
+        ({ dispatchNewServiceBarterRequests }) =>
+            dispatchNewServiceBarterRequests,
+    )
 
     return isVisibleNewServiceBarterRequests ? (
         <div

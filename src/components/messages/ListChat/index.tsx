@@ -22,15 +22,15 @@ import styles from "./styles/style.module.scss"
 import { TotalDiv } from "./components/TotalDiv"
 
 export const ListChat = memo(function ListChat() {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { dispatchMessagesType, type } = useMessagesType((_) => ({
-        type: _.type,
-        dispatchMessagesType: _.dispatchMessagesType,
-    }))
+    const [total, setTotal] = useState(0)
     const { systemTheme } = useTheme()
     const [search, setSearch] = useState("")
     const { socket } = useWebSocket() ?? {}
-    const [total, setTotal] = useState(0)
+    const userId = useAuth(({ userId }) => userId)
+    const type = useMessagesType(({ type }) => type)
+    const dispatchMessagesType = useMessagesType(
+        ({ dispatchMessagesType }) => dispatchMessagesType,
+    )
 
     const { data, refetch } = useQuery({
         queryFn: () =>

@@ -5,7 +5,7 @@ import { useAuth } from "@/store/hooks"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 export const useAddress = () => {
-    const addresses = useAuth(({addresses}) =>addresses)
+    const addresses = useAuth(({ addresses }) => addresses)
 
     const idsAddresses: number[] | null = useMemo(() => {
         if (!addresses) return null

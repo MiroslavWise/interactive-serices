@@ -16,9 +16,7 @@ import styles from "./styles/label-input.module.scss"
 
 export const LabelAndSelectOffersCategories: TLabelAndSelectOffersCategories =
     ({ title, placeholder, value, setValue }) => {
-        const { categories } = useOffersCategories((_) => ({
-            categories: _.categories,
-        }))
+        const categories = useOffersCategories(({ categories }) => categories)
 
         const list = useMemo(() => {
             return (

@@ -2,7 +2,6 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { useMemo } from "react"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
@@ -19,24 +18,15 @@ import { useAddress, useOut } from "@/helpers"
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
-    const { isAddresses } = useAddress()
-    const { setVisible } = useUpdateProfile((_) => ({
-        setVisible: _.setVisible,
-    }))
+    const { isAddresses, addressMain } = useAddress()
+    const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
     const { out } = useOut()
-    const { user, imageProfile, createdUser, addresses } = useAuth((_) => ({
-        user: _.user,
-        imageProfile: _.imageProfile,
-        createdUser: _.createdUser,
-        addresses: _.addresses,
-    }))
-    const { dispatchNewServicesBanner } = useVisibleBannerNewServices((_) => ({
-        dispatchNewServicesBanner: _.dispatchNewServicesBanner,
-    }))
-
-    const geo = useMemo(() => {
-        return addresses?.find((item) => item?.addressType === "main") || null
-    }, [addresses])
+    const user = useAuth(({ user }) => user)
+    const imageProfile = useAuth(({ imageProfile }) => imageProfile)
+    const createdUser = useAuth(({ createdUser }) => createdUser)
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(
+        ({ dispatchNewServicesBanner }) => dispatchNewServicesBanner,
+    )
 
     return (
         <section className={styles.containerMAboutProfile}>
@@ -89,11 +79,11 @@ export const M_ContainerAboutProfile = () => {
                     <h4>
                         {user?.firstName} {user?.lastName}
                     </h4>
-                    {geo ? (
+                    {addressMain ? (
                         <GeoTagging
                             size={16}
                             fontSize={12}
-                            location={geo?.additional}
+                            location={addressMain?.additional}
                         />
                     ) : null}
                     <p className={styles.date}>

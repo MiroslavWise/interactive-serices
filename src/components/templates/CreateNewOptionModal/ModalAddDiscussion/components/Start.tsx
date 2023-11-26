@@ -24,33 +24,24 @@ import {
 import { useRefresh } from "../../hooks/useRefresh"
 
 export const Start = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { close } = useCloseCreateOptions()
     const [loading, setLoading] = useState(false)
     const refresh = useRefresh()
-    const {
-        text,
-        files,
-        selectedFile,
-        setFile,
-        setText,
-        setSelectedFile,
-        setStepDiscussion,
-        addressInit,
-        adressId,
-        setAddressId,
-    } = useCreateDiscussion((_) => ({
-        text: _.text,
-        files: _.files,
-        selectedFile: _.selectedFile,
-        setFile: _.setFile,
-        setText: _.setText,
-        setSelectedFile: _.setSelectedFile,
-        setStepDiscussion: _.setStepDiscussion,
-        addressInit: _.addressInit,
-        adressId: _.adressId,
-        setAddressId: _.setAddressId,
-    }))
+    const text = useCreateDiscussion(({ text }) => text)
+    const files = useCreateDiscussion(({ files }) => files)
+    const selectedFile = useCreateDiscussion(({ selectedFile }) => selectedFile)
+    const setFile = useCreateDiscussion(({ setFile }) => setFile)
+    const setText = useCreateDiscussion(({ setText }) => setText)
+    const setSelectedFile = useCreateDiscussion(
+        ({ setSelectedFile }) => setSelectedFile,
+    )
+    const setStepDiscussion = useCreateDiscussion(
+        ({ setStepDiscussion }) => setStepDiscussion,
+    )
+    const addressInit = useCreateDiscussion(({ addressInit }) => addressInit)
+    const adressId = useCreateDiscussion(({ adressId }) => adressId)
+    const setAddressId = useCreateDiscussion(({ setAddressId }) => setAddressId)
 
     async function postOffer(idsAddresses: number[]) {
         const data: IPostOffers = {

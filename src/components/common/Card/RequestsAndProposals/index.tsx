@@ -24,18 +24,16 @@ import styles from "./style.module.scss"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const { systemTheme } = useTheme()
-    const { myUserId } = useAuth((_) => ({ myUserId: _.userId }))
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
+    const myUserId = useAuth(({ userId }) => userId)
+    const categories = useOffersCategories(({ categories }) => categories)
     const { handlePush } = usePush()
-    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
-        dispatchMapCoordinates: _.dispatchMapCoordinates,
-    }))
-    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
-    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
-        dispatchVisibleBarter: _.dispatchVisibleBarter,
-    }))
+    const dispatchMapCoordinates = useMapCoordinates(
+        ({ dispatchMapCoordinates }) => dispatchMapCoordinates,
+    )
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
+    const dispatchVisibleBarter = useVisibleModalBarter(
+        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
+    )
     const { createGallery } = usePhotoVisible()
 
     const { id, categoryId, provider, title, userId, addresses, images, type } =

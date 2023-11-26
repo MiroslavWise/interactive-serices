@@ -15,15 +15,14 @@ import styles from "./styles/style.module.scss"
 
 export const Item: TNewCreate = (props: INewCreate) => {
     const { imageSrc, label, value } = props ?? {}
-    const { dispatchVisibleTypeCreateOptionals } = useAddCreateModal((_) => ({
-        dispatchVisibleTypeCreateOptionals:
-            _.dispatchVisibleTypeCreateOptionals,
-    }))
-    const { dispatchNewServiceBarterRequests } =
-        useVisibleNewServiceBarterRequests((_) => ({
-            dispatchNewServiceBarterRequests:
-                _.dispatchNewServiceBarterRequests,
-        }))
+    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
+        ({ dispatchVisibleTypeCreateOptionals }) =>
+            dispatchVisibleTypeCreateOptionals,
+    )
+    const dispatchNewServiceBarterRequests = useVisibleNewServiceBarterRequests(
+        ({ dispatchNewServiceBarterRequests }) =>
+            dispatchNewServiceBarterRequests,
+    )
 
     function handleType() {
         if (!value) {

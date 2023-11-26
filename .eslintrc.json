@@ -3,6 +3,6 @@
     "rules": {
         "semi": ["error", "never"],
         "no-document-import-in-page": "off",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": 0
     }
 }

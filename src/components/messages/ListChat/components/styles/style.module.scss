@@ -4,8 +4,10 @@
     padding-left: 14px;
     padding-right: 14px;
     z-index: 3;
+}
 
-    &.mobile {
+[data-mobile="true"] {
+    .blockSearch {
         position: fixed;
         top: 0;
         width: 100%;
@@ -113,12 +115,7 @@
                         & > div {
                             width: 20px;
                             height: 20px;
-                            padding: 4px;
-
-                            & > img {
-                                width: 12px;
-                                height: 12px;
-                            }
+                            padding: 10px;
                         }
 
                         & > p {

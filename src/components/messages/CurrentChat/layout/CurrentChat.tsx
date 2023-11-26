@@ -26,15 +26,12 @@ import { useAuth, usePopupMenuChat, useMessagesType } from "@/store/hooks"
 import styles from "../styles/style.module.scss"
 
 export const CurrentChat = () => {
-    const searchParams = useSearchParams()
-    const { dispatchMessagesType } = useMessagesType((_) => ({
-        dispatchMessagesType: _.dispatchMessagesType,
-    }))
-    const idThread = searchParams?.get("thread")
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { setIsVisible } = usePopupMenuChat((_) => ({
-        setIsVisible: _.setIsVisible,
-    }))
+    const idThread = useSearchParams()?.get("thread")
+    const userId = useAuth(({ userId }) => userId)
+    const dispatchMessagesType = useMessagesType(
+        ({ dispatchMessagesType }) => dispatchMessagesType,
+    )
+    const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
     const { handleReplace } = usePush()
     const { socket } = useWebSocket() ?? {}
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)

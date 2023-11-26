@@ -3,7 +3,7 @@
 import { useAuth } from "@/store/hooks"
 
 export const useOut = () => {
-    const signOut = useAuth((_) => _.signOut)
+    const signOut = useAuth(({ signOut }) => signOut)
 
     function out() {
         signOut()

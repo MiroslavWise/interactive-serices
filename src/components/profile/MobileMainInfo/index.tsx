@@ -9,21 +9,21 @@ import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { MotionLI } from "@/components/common/Motion"
 import { GeoTagging } from "@/components/common/GeoTagging"
+import { ButtonCircleGradient } from "@/components/common/Buttons"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { ACHIEVEMENTS } from "../MainInfo/constants"
+import { AddFriend } from "../MainInfo/components/AddFriend"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./styles.module.scss"
-import { AddFriend } from "../MainInfo/components/AddFriend"
 
 export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
-        dispatchVisibleBarter: _.dispatchVisibleBarter,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const dispatchVisibleBarter = useVisibleModalBarter(
+        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
+    )
     const { handlePush } = usePush()
 
     const geo: IAddressesResponse | null = useMemo(() => {
@@ -34,7 +34,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
     }, [user?.addresses])
 
     return (
-        <MotionLI classNames={[styles.containerMain]}>
+        <li className={styles.containerMain}>
             <div className={styles.blockAboutPhoto}>
                 <div className={styles.blockPhotoAch}>
                     <div className={styles.avatar}>
@@ -143,6 +143,6 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                     />
                 </div>
             ) : null}
-        </MotionLI>
+        </li>
     )
 }

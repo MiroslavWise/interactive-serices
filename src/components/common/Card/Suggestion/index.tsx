@@ -1,14 +1,12 @@
 "use client"
 
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TCardSuggestion } from "./types"
 
 import { Header } from "./components/Header"
 import { Buttons } from "./components/Buttons"
-import { MotionLI } from "@/components/common/Motion"
 import { serviceTestimonials } from "@/services/testimonials"
 import { ContainerPhotos } from "./components/ContainerPhotos"
 
@@ -46,12 +44,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
     }, [dataTestimonials?.res])
 
     return (
-        <MotionLI
-            classNames={[styles.container]}
-            data={{
-                "data-mobile": isMobile,
-            }}
-        >
+        <li className={styles.container}>
             <Header
                 categoryId={rest.categoryId!}
                 rating={rating}
@@ -69,6 +62,6 @@ export const CardSuggestion: TCardSuggestion = (props) => {
                 />
             ) : null}
             <Buttons refetch={refetch} offer={rest} />
-        </MotionLI>
+        </li>
     )
 }

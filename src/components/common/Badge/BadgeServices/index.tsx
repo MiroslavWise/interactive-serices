@@ -4,24 +4,14 @@ import { useMemo } from "react"
 
 import type { TBadgeServices } from "./types"
 
-import { cx } from "@/lib/cx"
-import { usePush } from "@/helpers"
-import {
-    useBalloonCard,
-    useOffersCategories,
-    useMapCoordinates,
-} from "@/store/hooks"
+import { useBalloonCard, useOffersCategories } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
 export const BadgeServices: TBadgeServices = (props) => {
     const { id, provider, categoryId, userId, addresses, isClickable } = props
-    // const { handlePush } = usePush()
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
-    // const { dispatchMapCoordinates } = useMapCoordinates()
-    const { dispatch } = useBalloonCard((_) => ({ dispatch: _.dispatch }))
+    const categories = useOffersCategories(({ categories }) => categories)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const infoCategory = useMemo(() => {
         if (!categories.length || !categoryId) {
@@ -53,17 +43,13 @@ export const BadgeServices: TBadgeServices = (props) => {
     }
 
     return (
-        <li
-            className={cx(styles.container)}
-            data-type={provider}
-            onClick={handle}
-        >
-                <div
-                    data-img
-                    style={{
-                        backgroundImage: `url(/svg/category/${categoryId}.svg)`,
-                    }}
-                />
+        <li className={styles.container} data-type={provider} onClick={handle}>
+            <div
+                data-img
+                style={{
+                    backgroundImage: `url(/svg/category/${categoryId}.svg)`,
+                }}
+            />
             <p>{infoCategory?.title! || "---{}---"}</p>
         </li>
     )

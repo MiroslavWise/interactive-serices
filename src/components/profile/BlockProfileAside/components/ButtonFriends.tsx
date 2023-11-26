@@ -12,10 +12,10 @@ import { useDroverFriends } from "@/store/state/useDroverFriends"
 import styles from "./styles/button-friends.module.scss"
 
 export const ButtonFriends = () => {
-    const { dispatchFriends } = useDroverFriends((_) => ({
-        dispatchFriends: _.dispatchFriends,
-    }))
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const dispatchFriends = useDroverFriends(
+        ({ dispatchFriends }) => dispatchFriends,
+    )
+    const userId = useAuth(({ userId }) => userId)
 
     const { data } = useQuery({
         queryFn: () => serviceFriends.get(),
@@ -28,8 +28,7 @@ export const ButtonFriends = () => {
     }
 
     const friends = useMemo(() => {
-        if (!data?.res) return null
-        return data?.res?.length
+        return data?.res?.length || 0
     }, [data?.res])
 
     return (

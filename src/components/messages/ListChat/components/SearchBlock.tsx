@@ -15,7 +15,7 @@ import styles from "./styles/style.module.scss"
 const $SearchBlock: TSearchBlock = ({ search, setSearch }) => {
     if (isMobile) {
         return (
-            <div className={cx(styles.blockSearch, styles.mobile)}>
+            <div className={styles.blockSearch}>
                 <SearchInput
                     placeholder="Поиск пользователя"
                     value={search}

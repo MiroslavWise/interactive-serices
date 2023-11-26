@@ -10,9 +10,9 @@ import { useCreateDiscussion } from "@/store/state/useCreateDiscussion"
 import styles from "./style.module.scss"
 
 export const ModalAddDiscussion = () => {
-    const { stepDiscussion } = useCreateDiscussion((_) => ({
-        stepDiscussion: _.stepDiscussion,
-    }))
+    const stepDiscussion = useCreateDiscussion(
+        ({ stepDiscussion }) => stepDiscussion,
+    )
 
     const content: ReactNode = useMemo(
         () =>

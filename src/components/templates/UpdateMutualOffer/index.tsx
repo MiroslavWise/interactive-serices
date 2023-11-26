@@ -24,16 +24,15 @@ import { useUpdateMutualOffer } from "@/store/state/useUpdateMutualOffer"
 import styles from "./styles/style.module.scss"
 
 export const UpdateMutualOffer = () => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
-    const { data, visibleUpdateMutual, dispatchUpdateMutual } =
-        useUpdateMutualOffer((_) => ({
-            data: _.data,
-            visibleUpdateMutual: _.visibleUpdateMutual,
-            dispatchUpdateMutual: _.dispatchUpdateMutual,
-        }))
-    const { categories } = useOffersCategories((_) => ({
-        categories: _.categories,
-    }))
+    const userId = useAuth(({ userId }) => userId)
+    const data = useUpdateMutualOffer(({ data }) => data)
+    const categories = useOffersCategories(({ categories }) => categories)
+    const visibleUpdateMutual = useUpdateMutualOffer(
+        ({ visibleUpdateMutual }) => visibleUpdateMutual,
+    )
+    const dispatchUpdateMutual = useUpdateMutualOffer(
+        ({ dispatchUpdateMutual }) => dispatchUpdateMutual,
+    )
     const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [strings, setStrings] = useState<string[]>([])

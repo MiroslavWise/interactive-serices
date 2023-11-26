@@ -26,7 +26,7 @@ export const TextAreaSend: TTextAreaSend = ({
 }) => {
     const searchParams = useSearchParams()
     const { socket } = useWebSocket()
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const idThread = searchParams?.get("thread")
     const { register, setValue, handleSubmit, watch } = useForm<{
         text: string
