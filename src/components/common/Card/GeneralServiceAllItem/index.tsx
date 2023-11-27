@@ -23,6 +23,7 @@ import { serviceUsers } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
+import { ButtonCanHelp } from "../../custom/ButtonCanHelp"
 
 export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
     props: IGeneralServiceAllItem,
@@ -144,17 +145,8 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
                     <div className={styles.typeImage} />
                 )}
                 {categoryOffer && <h3>{categoryOffer}</h3>}
-                {provider === "alert" && userId !== myUserId && myUserId ? (
-                    <button
-                        data-help
-                        onClick={(event) => {
-                            event.preventDefault()
-                            event.stopPropagation()
-                            handleHelp()
-                        }}
-                    >
-                        <span>Могу помочь!</span>
-                    </button>
+                {provider === "alert" ? (
+                    <ButtonCanHelp id={id!} idUser={userId!} />
                 ) : null}
                 {provider === "discussion" ? (
                     <AvatarsBalloon offerId={id} />

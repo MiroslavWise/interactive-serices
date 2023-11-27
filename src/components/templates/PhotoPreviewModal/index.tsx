@@ -20,10 +20,10 @@ import {
     useProfilePublic,
     useBalloonCard,
     usePhotoOffer,
-    useMapCoordinates,
 } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
+import { ButtonCanHelp } from "@/components/common/custom/ButtonCanHelp"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { handlePush } = usePush()
@@ -231,16 +231,10 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                         />
                     ) : null}
                     {["alert"]?.includes(offer?.provider!) ? (
-                        <button
-                            data-success
-                            onClick={(event) => {
-                                event.preventDefault()
-                                event.stopPropagation()
-                                handleHelp()
-                            }}
-                        >
-                            <span>Могу помочь!</span>
-                        </button>
+                        <ButtonCanHelp
+                            id={offer?.id!}
+                            idUser={offer?.userId!}
+                        />
                     ) : null}
                 </footer>
             </section>

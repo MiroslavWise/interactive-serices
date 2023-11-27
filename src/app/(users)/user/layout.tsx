@@ -1,17 +1,18 @@
-import { type Metadata } from "next"
+"use client"
+
 import { type ReactNode } from "react"
 
 import { NavBarUser } from "@/components/profile"
 
-export const metadata: Metadata = {
-    title: "Sheira - Юзер",
-}
+import { useModalAuth } from "@/store/hooks"
 
 import styles from "@/scss/page.module.scss"
 
 export default function LayoutProfileId({ children }: { children: ReactNode }) {
+    const visible = useModalAuth(({ visible }) => visible)
+
     return (
-        <main className={styles.profileLayout}>
+        <main className={styles.profileLayout} data-is-modal-auth={visible}>
             <NavBarUser />
             {children}
         </main>

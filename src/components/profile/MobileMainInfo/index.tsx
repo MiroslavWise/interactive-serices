@@ -74,6 +74,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                                     alt={item.assignment}
                                     width={23}
                                     height={23}
+                                    unoptimized
                                 />
                             </li>
                         ))}

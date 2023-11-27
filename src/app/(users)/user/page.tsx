@@ -20,10 +20,12 @@ import { useToast } from "@/helpers/hooks/useToast"
 
 import styles from "@/scss/page.module.scss"
 
+
 let fetchOut = false
 
 export default function UserId() {
     const { on } = useToast()
+
     const searchParams = useSearchParams()
     const { handlePush } = usePush()
     const id = searchParams?.get("id")

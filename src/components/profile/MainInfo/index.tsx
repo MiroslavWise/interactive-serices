@@ -143,6 +143,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                     width={28}
                                     height={28}
                                     className="cursor-pointer"
+                                    unoptimized
                                 />
                             ))}
                         </BlockOther>
