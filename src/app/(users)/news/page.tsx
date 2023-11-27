@@ -11,13 +11,13 @@ import { serviceOffers } from "@/services/offers"
 import { useBounds, useModalAuth } from "@/store/hooks"
 
 export default function News() {
+    const visible = useModalAuth(({ visible }) => visible)
     const bounds = useBounds(({ bounds }) => bounds)
     const { data } = useQuery({
         queryKey: ["offers"],
         queryFn: () => serviceOffers.get({ order: "DESC" }),
         enabled: isMobile,
     })
-    const visible = useModalAuth(({ visible }) => visible)
 
     const items = useMemo(() => {
         if (data?.res && Array.isArray(data?.res) && data?.res?.length === 0) {

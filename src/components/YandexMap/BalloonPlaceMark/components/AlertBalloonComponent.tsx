@@ -6,8 +6,8 @@ import { useQueries } from "@tanstack/react-query"
 import type { TAlertBalloonComponent } from "../types/types"
 
 import { BlockComments } from "./BlockComments"
-import { ButtonSuccessInBalloon } from "./ButtonSuccessInBalloon"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ButtonCanHelp } from "@/components/common/custom/ButtonCanHelp"
 
 import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
@@ -75,7 +75,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
             />
             <header data-alert>
                 {Number(userId) !== Number(idUser) ? (
-                    <ButtonSuccessInBalloon onClick={handleHelp} />
+                    <ButtonCanHelp id={id!} idUser={idUser!} />
                 ) : null}
             </header>
             <div data-container-balloon data-alert>
