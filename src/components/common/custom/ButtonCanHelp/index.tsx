@@ -43,8 +43,11 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
                 {visible ? (
                     <div data-enter>
                         <ButtonClose
-                            position={{ top: 0, right: 0 }}
-                            onClick={() => setVisible(false)}
+                            position={{ top: "0px", right: "0px" }}
+                            onClick={(event) => {
+                                event?.stopPropagation()
+                                setVisible(false)
+                            }}
                         />
                         <h3>
                             Для того чтобы, создавать предложения, совершать

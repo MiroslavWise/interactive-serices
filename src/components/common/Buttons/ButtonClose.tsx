@@ -37,8 +37,8 @@ export const ButtonClose: TButtonClose = ({
         <div
             className={cx(styles.containerCloseButton, className)}
             style={position}
-            onClick={() => {
-                if (onClick) onClick()
+            onClick={(event) => {
+                if (onClick) onClick(event)
             }}
             data-close
         >
