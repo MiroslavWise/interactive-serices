@@ -19,20 +19,13 @@ import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
 
-export const ItemListChat: TItemListChat = memo(function ItemListChat({
-    thread,
-    people,
-    last,
-}) {
+export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, people, last }) {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
     const { handleReplace } = usePush()
 
     const adress: string | null = useMemo(() => {
-        return (
-            people?.addresses?.find((item) => item?.addressType === "main")
-                ?.additional || null
-        )
+        return people?.addresses?.find((item) => item?.addressType === "main")?.additional || null
     }, [people])
 
     const idBarter = useMemo(() => {
@@ -49,6 +42,8 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({
         queryFn: () => serviceBarters.getId(Number(idBarter)),
         queryKey: ["barters", `id=${idBarter}`],
         enabled: !!idBarter,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
     function handleCurrentChat() {
@@ -72,10 +67,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({
             onClick={handleCurrentChat}
             data-last={last}
         >
-            <div
-                className={styles.header}
-                data-barter={thread?.title?.includes("barter")}
-            >
+            <div className={styles.header} data-barter={thread?.title?.includes("barter")}>
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
                         {people?.profile?.image?.attributes?.url ? (
@@ -87,59 +79,26 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({
                                 className={styles.img}
                             />
                         ) : (
-                            <ImageStatic
-                                src="/png/default_avatar.png"
-                                alt="avatar"
-                                width={40}
-                                height={40}
-                                classNames={[styles.img]}
-                            />
+                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={40} height={40} classNames={[styles.img]} />
                         )}
-                        <Image
-                            src="/svg/verified-tick.svg"
-                            alt="verified"
-                            width={16}
-                            height={16}
-                            className={styles.verified}
-                            unoptimized
-                        />
+                        <Image src="/svg/verified-tick.svg" alt="verified" width={16} height={16} className={styles.verified} unoptimized />
                     </div>
                     <div className={styles.nameAndGeo}>
                         {thread?.title?.includes("barter") ? (
                             <div data-title-barter>
-                                <BadgeServices
-                                    {...dataBarter?.res?.initiator!}
-                                />
-                                <Image
-                                    data-repeat
-                                    src="   /svg/repeat-white.svg"
-                                    alt="barter"
-                                    width={18}
-                                    height={18}
-                                    unoptimized
-                                />
-                                <BadgeServices
-                                    {...dataBarter?.res?.consigner!}
-                                />
+                                <BadgeServices {...dataBarter?.res?.initiator!} />
+                                <Image data-repeat src="   /svg/repeat-white.svg" alt="barter" width={18} height={18} unoptimized />
+                                <BadgeServices {...dataBarter?.res?.consigner!} />
                             </div>
                         ) : (
                             <h4>
-                                {people?.profile?.firstName || " "}{" "}
-                                {people?.profile?.lastName || " "}
+                                {people?.profile?.firstName || " "} {people?.profile?.lastName || " "}
                             </h4>
                         )}
-                        {adress ? (
-                            <GeoTagging
-                                location={adress}
-                                size={14}
-                                fontSize={12}
-                            />
-                        ) : null}
+                        {adress ? <GeoTagging location={adress} size={14} fontSize={12} /> : null}
                     </div>
                 </div>
-                <div className={styles.timeAgo}>
-                    {timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}
-                </div>
+                <div className={styles.timeAgo}>{timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}</div>
             </div>
             <div className={styles.blockLastMessage}>
                 <p>{lastMessage}</p>

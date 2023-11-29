@@ -12,21 +12,17 @@ import styles from "./style.module.scss"
 
 export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
     const [visible, setVisible] = useState(false)
-    const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
     const { systemTheme } = useTheme()
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
-    )
-    const dispatchAuthModal = useModalAuth(
-        ({ dispatchAuthModal }) => dispatchAuthModal,
-    )
+    const userId = useAuth(({ userId }) => userId)
+    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
+    const dispatchAuthModal = useModalAuth(({ dispatchAuthModal }) => dispatchAuthModal)
 
     function handleBarter() {
+        console.log("handleBarter: offer", offer)
+        console.log("handleBarter: dataProfile", user)
         const provider = offer?.provider!
-        const name = `${user?.profile?.firstName || " "} ${
-            user?.profile?.lastName || " "
-        }`
+        const name = `${user?.profile?.firstName || " "} ${user?.profile?.lastName || " "}`
         const photo = user?.profile?.image?.attributes?.url
         if (userId) {
             if (provider === "offer") {
@@ -68,8 +64,8 @@ export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
                         label="Откликнутся"
                         disabled={userId === offer?.userId}
                         onClick={(event) => {
-                            event.stopPropagation()
                             handle()
+                            event.stopPropagation()
                         }}
                     />
                     <ButtonCircleGradient
@@ -81,9 +77,7 @@ export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
                             }
                             if (userId !== offer?.userId) {
                                 if (!!userId) {
-                                    handlePush(
-                                        `/messages?user=${offer?.userId!}`,
-                                    )
+                                    handlePush(`/messages?user=${offer?.userId!}`)
                                 } else if (!userId) {
                                     setVisible(true)
                                 }
@@ -95,14 +89,12 @@ export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
                 <Button
                     data-reply
                     type="button"
-                    typeButton={
-                        systemTheme === "light" ? "fill-orange" : "fill-primary"
-                    }
+                    typeButton={systemTheme === "light" ? "fill-orange" : "fill-primary"}
                     label="Откликнутся"
                     disabled={userId === offer?.userId}
                     onClick={(event) => {
-                        event.stopPropagation()
                         handle()
+                        event.stopPropagation()
                     }}
                 />
             )}
@@ -117,9 +109,8 @@ export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
                             }}
                         />
                         <h3>
-                            Для того чтобы, создавать предложения, совершать
-                            обмены и оставлять отзывы и комментарии вам нужно
-                            войти или зарегистрироваться
+                            Для того чтобы, создавать предложения, совершать обмены и оставлять отзывы и комментарии вам нужно войти или
+                            зарегистрироваться
                         </h3>
                         <Button
                             type="button"

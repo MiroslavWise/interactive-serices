@@ -9,17 +9,17 @@ import { useQueries, useQuery } from "@tanstack/react-query"
 import { IFiltersItems } from "./components/types/types"
 
 import { List } from "./components/List"
+import { TotalDiv } from "./components/TotalDiv"
 import { SearchBlock } from "./components/SearchBlock"
 import { Segments } from "@/components/common/Segments"
 
-import { useAuth, useMessagesType } from "@/store/hooks"
 import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { SEGMENTS_CHAT } from "./constants/segments"
+import { useAuth, useMessagesType } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { TotalDiv } from "./components/TotalDiv"
 
 export const ListChat = memo(function ListChat() {
     const [total, setTotal] = useState(0)
@@ -28,9 +28,7 @@ export const ListChat = memo(function ListChat() {
     const { socket } = useWebSocket() ?? {}
     const userId = useAuth(({ userId }) => userId)
     const type = useMessagesType(({ type }) => type)
-    const dispatchMessagesType = useMessagesType(
-        ({ dispatchMessagesType }) => dispatchMessagesType,
-    )
+    const dispatchMessagesType = useMessagesType(({ dispatchMessagesType }) => dispatchMessagesType)
 
     const { data, refetch } = useQuery({
         queryFn: () =>
@@ -49,9 +47,7 @@ export const ListChat = memo(function ListChat() {
         if (!!data?.res && !!userId) {
             const idsArray =
                 data?.res?.map((item) => {
-                    return Number(item?.emitterId) === Number(userId)
-                        ? Number(item?.receiverIds[0])
-                        : Number(item?.emitterId)
+                    return Number(item?.emitterId) === Number(userId) ? Number(item?.receiverIds[0]) : Number(item?.emitterId)
                 }) || []
             const ids = new Set(idsArray)
             const array: number[] = []
@@ -78,15 +74,8 @@ export const ListChat = memo(function ListChat() {
         const ITEMS: IFiltersItems[] = []
         if (data && arrayUsers?.every((item) => !item.isLoading)) {
             data?.res?.forEach((item) => {
-                const idUser =
-                    Number(item?.emitterId) === Number(userId)
-                        ? Number(item?.receiverIds[0])
-                        : Number(item?.emitterId)
-                const people = arrayUsers.find(
-                    (item) =>
-                        Number(item?.data?.res?.id) === Number(idUser) &&
-                        item?.data?.res?.profile,
-                )
+                const idUser = Number(item?.emitterId) === Number(userId) ? Number(item?.receiverIds[0]) : Number(item?.emitterId)
+                const people = arrayUsers.find((item) => Number(item?.data?.res?.id) === Number(idUser) && item?.data?.res?.profile)
                 if (people) {
                     ITEMS.push({
                         thread: item!,
@@ -95,13 +84,9 @@ export const ListChat = memo(function ListChat() {
                 }
             })
             ITEMS.sort((prev, next) => {
-                const prevNumber = prev.thread.messages?.[0]?.created!
-                    ? dayjs(prev.thread.messages?.[0]?.created!).valueOf()
-                    : 0
+                const prevNumber = prev.thread.messages?.[0]?.created! ? dayjs(prev.thread.messages?.[0]?.created!).valueOf() : 0
 
-                const nextNumber = next.thread.messages?.[0]?.created!
-                    ? dayjs(next.thread.messages?.[0]?.created!).valueOf()
-                    : 0
+                const nextNumber = next.thread.messages?.[0]?.created! ? dayjs(next.thread.messages?.[0]?.created!).valueOf() : 0
 
                 return nextNumber - prevNumber
             })

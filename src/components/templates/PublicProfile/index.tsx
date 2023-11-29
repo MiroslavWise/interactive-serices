@@ -17,23 +17,17 @@ import { InfoContainerProfile } from "./components/InfoContainerProfile"
 
 import { cx } from "@/lib/cx"
 import { serviceUsers } from "@/services/users"
-import { useProfilePublic } from "@/store/hooks"
 import { VALUES } from "./constants/SEGMENTS"
+import { useProfilePublic } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const PublicProfile = () => {
-    const visibleProfilePublic =
-        useProfilePublic(({visibleProfilePublic}) => visibleProfilePublic)
-    const idUser =
-        useProfilePublic(({idUser}) =>idUser)
-    const dispatchProfilePublic =
-        useProfilePublic(({dispatchProfilePublic}) => dispatchProfilePublic)
-    const isLeft =
-        useProfilePublic(({isLeft}) => isLeft)
-    const [activeSegment, setActiveSegment] = useState<
-        ISegmentValues<TTypeSegment>
-    >(VALUES[0])
+    const isLeft = useProfilePublic(({ isLeft }) => isLeft)
+    const idUser = useProfilePublic(({ idUser }) => idUser)
+    const visibleProfilePublic = useProfilePublic(({ visibleProfilePublic }) => visibleProfilePublic)
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
+    const [activeSegment, setActiveSegment] = useState<ISegmentValues<TTypeSegment>>(VALUES[0])
 
     const { data } = useQuery({
         queryFn: () => serviceUsers.getId(idUser!),
@@ -46,17 +40,9 @@ export const PublicProfile = () => {
     }
 
     return visibleProfilePublic ? (
-        <div
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-visible={visibleProfilePublic}
-            data-left={isLeft}
-            data-mobile={isMobile}
-        >
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft} data-mobile={isMobile}>
             <section>
-                <ButtonClose
-                    onClick={handleClose}
-                    position={{ top: 12, left: 12 }}
-                />
+                <ButtonClose onClick={handleClose} position={{ top: 12, left: 12 }} />
                 <BlockDots id={idUser!} />
                 <Glasses />
                 <ul data-opacity={!!data?.res} id="profile-public-id">
