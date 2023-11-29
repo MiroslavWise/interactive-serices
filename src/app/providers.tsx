@@ -30,25 +30,30 @@ const queryClient = new QueryClient({
         queries: {
             refetchOnWindowFocus: false,
             refetchOnMount: false,
-            refetchInterval: 30 * 60 * 1000,
         },
     },
 })
 
 export default function Providers({ children }: { children: ReactNode }) {
-    const refresh = useAuth(({refresh}) => refresh)
+    const refresh = useAuth(({ refresh }) => refresh)
     const searchParams = useSearchParams()
     const { handleReplace } = usePush()
     const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
-    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
-    const getCategories = useOffersCategories(({getCategories}) => getCategories)
+    const dispatchAuthModal = useModalAuth(
+        ({ dispatchAuthModal }) => dispatchAuthModal,
+    )
+    const getCategories = useOffersCategories(
+        ({ getCategories }) => getCategories,
+    )
 
-    const offersCategories =
-        useFetchingSession(({offersCategories}) => offersCategories)
-    const getFetchingOffersCategories =
-        useFetchingSession(({getFetchingOffersCategories}) => getFetchingOffersCategories)
+    const offersCategories = useFetchingSession(
+        ({ offersCategories }) => offersCategories,
+    )
+    const getFetchingOffersCategories = useFetchingSession(
+        ({ getFetchingOffersCategories }) => getFetchingOffersCategories,
+    )
 
     useEffect(() => {
         window.addEventListener("load", () => {

@@ -2,12 +2,10 @@
 
 import dayjs from "dayjs"
 import { useQuery } from "@tanstack/react-query"
-import { isMobile } from "react-device-detect"
 
 import type { TCardReview } from "./types"
 
 import { Rate } from "@/components/common/Rate"
-import { MotionLI } from "@/components/common/Motion"
 
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
@@ -36,7 +34,7 @@ export const CardReview: TCardReview = (props) => {
     })
 
     return (
-        <MotionLI classNames={[styles.container]}>
+        <li className={styles.container}>
             <div className={styles.content}>
                 <header className={styles.header}>
                     <div className={styles.userDate}>
@@ -49,6 +47,6 @@ export const CardReview: TCardReview = (props) => {
                 </header>
                 <p className={styles.description}>{message}</p>
             </div>
-        </MotionLI>
+        </li>
     )
 }

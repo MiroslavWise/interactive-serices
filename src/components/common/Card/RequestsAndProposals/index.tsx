@@ -1,62 +1,45 @@
 "use client"
 
 import { useState } from "react"
-import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TRequestsAndProposals } from "./types"
 
-import { Button, GeoTagging, NextImageMotion } from "@/components/common"
+import { ButtonReplyPrimary } from "../../custom/ButtonReply"
+import { GeoTagging, NextImageMotion } from "@/components/common"
 
-import {
-    useAuth,
-    useVisibleModalBarter,
-    useBalloonCard,
-    useMapCoordinates,
-    useOffersCategories,
-} from "@/store/hooks"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
+import { useBalloonCard, useMapCoordinates, useOffersCategories } from "@/store/hooks"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
-import { ButtonReplyPrimary } from "../../custom/ButtonReply"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
-    const myUserId = useAuth(({ userId }) => userId)
-    const categories = useOffersCategories(({ categories }) => categories)
     const { handlePush } = usePush()
-    const dispatchMapCoordinates = useMapCoordinates(
-        ({ dispatchMapCoordinates }) => dispatchMapCoordinates,
-    )
-    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
-    )
     const { createGallery } = usePhotoVisible()
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
+    const categories = useOffersCategories(({ categories }) => categories)
+    const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
 
-    const { id, categoryId, provider, title, userId, addresses, images, type } =
-        props ?? {}
+    const { id, categoryId, provider, title, userId, addresses, images, type } = props ?? {}
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
         queryKey: ["user", userId],
         enabled: !!userId,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
-    const categoryCurrent = categories?.find(
-        (item) => Number(item?.id) === Number(categoryId),
-    )!
+    const categoryCurrent = categories?.find((item) => Number(item?.id) === Number(categoryId))!
 
     function handleCoordinates() {
         handlePush("/")
         requestAnimationFrame(() => {
             dispatchMapCoordinates({
-                coordinates: addresses?.[0]?.coordinates
-                    ?.split(" ")
-                    ?.reverse()
-                    ?.map(Number),
+                coordinates: addresses?.[0]?.coordinates?.split(" ")?.reverse()?.map(Number),
             })
             dispatch({
                 visible: true,
@@ -67,34 +50,12 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
         })
     }
 
-    function handleBarter() {
-        if (myUserId) {
-            if (provider === "offer") {
-                const name = `${dataUser?.res?.profile?.firstName || " "} ${
-                    dataUser?.res?.profile?.lastName || " "
-                }`
-                const dataProfile = {
-                    photo: dataUser?.res?.profile?.image?.attributes?.url!,
-                    fullName: name,
-                    idUser: userId!,
-                }
-                dispatchVisibleBarter({
-                    isVisible: true,
-                    dataOffer: props,
-                    dataProfile: dataProfile,
-                })
-            }
-        }
-    }
-
     function handleImages() {
         const { type, ...data } = props ?? {}
         if (data?.images?.length) {
             createGallery(data, data?.images, data?.images[0], 0, {
                 title: data?.title!,
-                name: `${dataUser?.res?.profile?.firstName || ""} ${
-                    dataUser?.res?.profile?.lastName || ""
-                }`,
+                name: `${dataUser?.res?.profile?.firstName || ""} ${dataUser?.res?.profile?.lastName || ""}`,
                 urlPhoto: dataUser?.res?.profile?.image?.attributes?.url!,
                 idUser: dataUser?.res?.id!,
                 time: data?.updated!,
@@ -107,12 +68,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const [src, setSrc] = useState(`/svg/category/${categoryId}.svg`)
 
     return (
-        <li
-            className={styles.container}
-            data-mobile={isMobile}
-            data-type={type}
-            onClick={handleCoordinates}
-        >
+        <li className={styles.container} data-mobile={isMobile} data-type={type} data-offers-card onClick={handleCoordinates}>
             <header>
                 <div
                     style={{
@@ -128,7 +84,6 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                         data-circle
                         onClick={(event) => {
                             event.stopPropagation()
-                            event.preventDefault()
                             handleImages()
                         }}
                     >
@@ -139,9 +94,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                                           data-l
                                           key={`${item.id}-1`}
                                           style={{
-                                              transform: `rotate(${
-                                                  (360 / images.length) * index
-                                              }deg)`,
+                                              transform: `rotate(${(360 / images.length) * index}deg)`,
                                           }}
                                       >
                                           <div data-c />
@@ -151,9 +104,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                         </div>
                         <NextImageMotion
                             data-is-length={!!images?.length}
-                            src={
-                                dataUser?.res?.profile?.image?.attributes?.url!
-                            }
+                            src={dataUser?.res?.profile?.image?.attributes?.url!}
                             alt="avatar"
                             width={42}
                             height={42}
@@ -161,16 +112,9 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                     </div>
                     <div data-info>
                         <p>
-                            {dataUser?.res?.profile?.firstName || " "}{" "}
-                            {dataUser?.res?.profile?.lastName || " "}
+                            {dataUser?.res?.profile?.firstName || " "} {dataUser?.res?.profile?.lastName || " "}
                         </p>
-                        {geo ? (
-                            <GeoTagging
-                                location={geo?.additional}
-                                fontSize={12}
-                                size={14}
-                            />
-                        ) : null}
+                        {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
                     </div>
                 </div>
                 <h5>{title}</h5>

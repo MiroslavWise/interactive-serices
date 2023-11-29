@@ -10,7 +10,6 @@ import Masonry from "react-responsive-masonry"
 import type { TItemsReviews } from "./types/types"
 
 import { CardReview } from "@/components/common/Card/Review"
-import { MotionUL } from "@/components/common/Motion"
 
 import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
@@ -35,8 +34,7 @@ export const ItemsReviews: TItemsReviews = ({}) => {
 
     const dataTestimonials = useQueries({
         queries: idsOffers.map((item) => ({
-            queryFn: () =>
-                serviceTestimonials.get({ target: item!, provider: "offer" }),
+            queryFn: () => serviceTestimonials.get({ target: item!, provider: "offer" }),
             queryKey: ["testimonials", `offer=${item}`, `provider=offer`],
             enabled: Array.isArray(idsOffers) && !!idsOffers?.length && !!id,
         })),
@@ -50,31 +48,18 @@ export const ItemsReviews: TItemsReviews = ({}) => {
         }
     }, [dataTestimonials])
 
-    console.log("listTestimonials: ", listTestimonials)
-
     return (
-        <div
-            className={cx(
-                styles.containerItemsInteractive,
-                isMobile && styles.mobile,
-            )}
-        >
+        <div className={cx(styles.containerItemsInteractive, isMobile && styles.mobile)}>
             {isMobile ? (
-                <MotionUL>
+                <ul>
                     {listTestimonials.map((item) => (
-                        <CardReview
-                            {...item!}
-                            key={`${item?.id}-card-review`}
-                        />
+                        <CardReview {...item!} key={`${item?.id}-card-review`} />
                     ))}
-                </MotionUL>
+                </ul>
             ) : (
                 <Masonry data-row columnsCount={2} gutter="16px">
                     {listTestimonials.map((item) => (
-                        <CardReview
-                            {...item!}
-                            key={`${item?.id}-card-review`}
-                        />
+                        <CardReview {...item!} key={`${item?.id}-card-review`} />
                     ))}
                 </Masonry>
             )}

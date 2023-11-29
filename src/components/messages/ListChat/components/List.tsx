@@ -27,17 +27,9 @@ export const List: TList = memo(function List({ items, search, setTotal }) {
     }, [search, items, setTotal])
 
     return (
-        <ul
-            className={
-                isMobile ? styles.containerListMobile : styles.containerList
-            }
-        >
+        <ul className={isMobile ? styles.containerListMobile : styles.containerList}>
             {state?.map((item, index) => (
-                <ItemListChat
-                    key={`${item?.thread?.id}-${index}-item-chat`}
-                    {...item}
-                    last={index < state.length - 1}
-                />
+                <ItemListChat key={`${item?.thread?.id}-${index}-item-chat`} {...item} last={index < state.length - 1} />
             ))}
         </ul>
     )
