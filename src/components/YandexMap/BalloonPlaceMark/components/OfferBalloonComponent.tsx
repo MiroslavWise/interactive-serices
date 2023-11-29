@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
@@ -10,25 +9,20 @@ import type { TOfferBalloonComponent } from "../types/types"
 import { NextImageMotion } from "@/components/common"
 
 import {
-    useAuth,
     useOffersCategories,
-    useVisibleModalBarter,
+    useProfilePublic,
+    useBalloonCard,
 } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
+import { serviceUsers } from "@/services/users"
 import { serviceOffers } from "@/services/offers"
-import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
+import { ButtonReplyPrimary } from "@/components/common/custom"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = () => {
-    const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
     const categories = useOffersCategories(({ categories }) => categories)
     const { createGallery } = usePhotoVisible()
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
-    )
     const dispatchProfilePublic = useProfilePublic(
         ({ dispatchProfilePublic }) => dispatchProfilePublic,
     )
@@ -37,7 +31,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
     const type = useBalloonCard(({ type }) => type)
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
-    const [{ data }, { data: dataProfile }] = useQueries({
+    const [{ data }, { data: dataUser }] = useQueries({
         queries: [
             {
                 queryFn: () => serviceOffers.getId(Number(id!)),
@@ -45,8 +39,9 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                 refetchOnMount: false,
             },
             {
-                queryFn: () => serviceProfile.getUserId(Number(idUser)),
-                queryKey: ["profile", `userId=${idUser!}`],
+                queryFn: () => serviceUsers.getId(Number(idUser)),
+                queryKey: ["user", idUser!],
+                enabled: !!idUser!,
                 refetchOnMount: false,
             },
         ],
@@ -59,22 +54,6 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
             )?.title || ""
         )
     }, [categories, data?.res])
-
-    function handleOpenBarter() {
-        if (userId) {
-            dispatchVisibleBarter({
-                isVisible: true,
-                dataOffer: data?.res!,
-                dataProfile: {
-                    photo: dataProfile?.res?.image?.attributes?.url!,
-                    fullName: `${dataProfile?.res?.firstName || ""} ${
-                        dataProfile?.res?.lastName || ""
-                    }`,
-                    idUser: idUser!,
-                },
-            })
-        }
-    }
 
     function handleProfile() {
         if (isMobile) {
@@ -104,7 +83,9 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                 <div data-info-profile>
                     <div data-avatar-name>
                         <NextImageMotion
-                            src={dataProfile?.res?.image?.attributes?.url!}
+                            src={
+                                dataUser?.res?.profile?.image?.attributes?.url!
+                            }
                             alt="avatar"
                             width={40}
                             height={40}
@@ -113,8 +94,8 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                         />
                         <div data-name-rate>
                             <p>
-                                {dataProfile?.res?.firstName}{" "}
-                                {dataProfile?.res?.lastName}
+                                {dataUser?.res?.profile?.firstName}{" "}
+                                {dataUser?.res?.profile?.lastName}
                             </p>
                             {/* <div data-rate>
                                 <Image
@@ -144,15 +125,17 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                                         {
                                             title: data?.res?.title!,
                                             name: `${
-                                                dataProfile?.res?.firstName ||
-                                                ""
+                                                dataUser?.res?.profile
+                                                    ?.firstName || ""
                                             } ${
-                                                dataProfile?.res?.lastName || ""
+                                                dataUser?.res?.profile
+                                                    ?.lastName || ""
                                             }`,
                                             urlPhoto:
-                                                dataProfile?.res?.image
+                                                dataUser?.res?.profile?.image
                                                     ?.attributes?.url!,
-                                            idUser: dataProfile?.res?.userId!,
+                                            idUser: dataUser?.res?.profile
+                                                ?.userId!,
                                             time: data?.res?.updated!,
                                         },
                                     )
@@ -167,28 +150,11 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                         ))}
                     </ul>
                 ) : null}
-                {data && userId && userId !== data?.res?.userId ? (
-                    <div data-footer-buttons>
-                        <button data-offer onClick={handleOpenBarter}>
-                            <span>Откликнуться</span>
-                        </button>
-                        {Number(idUser) !== Number(userId) ? (
-                            <Image
-                                src="/svg/chat-bubbles.svg"
-                                alt="chat-bubbles"
-                                width={32}
-                                height={32}
-                                onClick={() => {
-                                    if (Number(idUser) !== Number(userId)) {
-                                        handlePush(`/messages?user=${idUser!}`)
-                                        dispatch({ visible: false })
-                                    }
-                                }}
-                                unoptimized
-                            />
-                        ) : null}
-                    </div>
-                ) : null}
+                <ButtonReplyPrimary
+                    isBalloon
+                    offer={data?.res!}
+                    user={dataUser?.res!}
+                />
             </div>
         </>
     )

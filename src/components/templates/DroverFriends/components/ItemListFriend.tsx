@@ -27,6 +27,9 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
         queryFn: () => serviceUsers.getId(id!),
         queryKey: ["users", `user=${id}`],
         enabled: !!id,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     })
 
     const geo =

@@ -8,8 +8,8 @@ import { useSwipeable } from "react-swipeable"
 import type { TPhotoPreviewModal } from "./types/types"
 import type { IResponseOffers } from "@/services/offers/types"
 
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { NextImageMotion } from "@/components/common/Image"
+import { ButtonCanHelp } from "@/components/common/custom"
+import { GeoTagging, NextImageMotion } from "@/components/common"
 import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
@@ -23,7 +23,6 @@ import {
 } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
-import { ButtonCanHelp } from "@/components/common/custom/ButtonCanHelp"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { handlePush } = usePush()

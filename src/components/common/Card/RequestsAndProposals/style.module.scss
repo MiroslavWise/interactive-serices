@@ -1,4 +1,5 @@
 .container {
+    position: relative;
     max-width: 280px;
     width: 100%;
     height: auto;
@@ -6,6 +7,7 @@
     flex-direction: column;
     align-items: center;
     border-radius: calc(29px + 6px);
+    overflow: hidden;
 
     &[data-type="optional-2"] {
         background: var(--gradient-request);
@@ -47,7 +49,6 @@
     }
 
     & > section {
-        position: relative;
         width: 100%;
         display: flex;
         flex-direction: column;

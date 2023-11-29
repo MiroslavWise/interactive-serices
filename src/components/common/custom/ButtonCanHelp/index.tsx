@@ -19,6 +19,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
     const [visible, setVisible] = useState(false)
 
     function handle() {
+        console.log("handle: -----")
         if (idUser === userId && !!userId) {
             return
         } else if (userId !== idUser) {

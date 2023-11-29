@@ -3,7 +3,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity, visibility, position var(--transition);
+    transition: var(--transition);
+    transition-property: opacity, visibility, position;
     z-index: 1019;
 
     & > [data-content] {
