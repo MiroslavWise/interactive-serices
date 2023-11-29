@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query"
 import type { IGeneralServiceAllItem } from "./types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
+import { ButtonCanHelp } from "@/components/common/custom"
 import { GeoTagging, ImageStatic, NextImageMotion } from "@/components/common"
 import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/components/AvatarsBalloon"
 
@@ -23,7 +24,6 @@ import { serviceUsers } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
-import { ButtonCanHelp } from "../../custom/ButtonCanHelp"
 
 export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(
     props: IGeneralServiceAllItem,

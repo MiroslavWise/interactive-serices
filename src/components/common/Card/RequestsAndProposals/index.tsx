@@ -21,9 +21,9 @@ import { serviceUsers } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
+import { ButtonReplyPrimary } from "../../custom/ButtonReply"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
-    const { systemTheme } = useTheme()
     const myUserId = useAuth(({ userId }) => userId)
     const categories = useOffersCategories(({ categories }) => categories)
     const { handlePush } = usePush()
@@ -83,11 +83,6 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                     dataOffer: props,
                     dataProfile: dataProfile,
                 })
-            }
-            if (provider === "request") {
-                if (userId) {
-                    handlePush(`/messages?user=${userId}`)
-                }
             }
         }
     }
@@ -179,27 +174,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                     </div>
                 </div>
                 <h5>{title}</h5>
-                {userId !== myUserId && myUserId ? (
-                    <div
-                        className={styles.button}
-                        data-relative={!images?.length}
-                    >
-                        <Button
-                            type="button"
-                            typeButton={
-                                systemTheme === "dark"
-                                    ? "fill-primary"
-                                    : "fill-orange"
-                            }
-                            label="Откликнутся"
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                event.preventDefault()
-                                handleBarter()
-                            }}
-                        />
-                    </div>
-                ) : null}
+                {<ButtonReplyPrimary user={dataUser?.res!} offer={props} />}
             </section>
         </li>
     )

@@ -6,8 +6,8 @@ import { useQueries } from "@tanstack/react-query"
 import type { TAlertBalloonComponent } from "../types/types"
 
 import { BlockComments } from "./BlockComments"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
-import { ButtonCanHelp } from "@/components/common/custom/ButtonCanHelp"
+import { ButtonCanHelp } from "@/components/common/custom"
+import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
