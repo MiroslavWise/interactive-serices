@@ -25,10 +25,10 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
         isMobile ? (
             children
         ) : (
-            <>
+            <main className={styles.profileLayout}>
                 <NavBarProfile />
                 {children}
-            </>
+            </main>
         )
     ) : null
 }
