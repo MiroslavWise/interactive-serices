@@ -41,9 +41,7 @@ export const InterviewerInfoCurrent = () => {
 
     const idUser: number | null = useMemo(() => {
         if (data?.res) {
-            return Number(data?.res?.emitterId) === Number(userId)
-                ? Number(data?.res?.receiverIds[0])
-                : Number(data?.res?.emitterId)
+            return Number(data?.res?.emitterId) === Number(userId) ? Number(data?.res?.receiverIds[0]) : Number(data?.res?.emitterId)
         }
 
         return null
@@ -68,11 +66,7 @@ export const InterviewerInfoCurrent = () => {
         serviceThreads.patch(data, Number(idThread)).then((response) => {
             refresh(type).finally(() => {
                 requestAnimationFrame(() => {
-                    console.log(
-                        "%c --- response delete ---",
-                        "color: #f0f",
-                        response,
-                    )
+                    console.log("%c --- response delete ---", "color: #f0f", response)
                     handleReplace("/messages")
                 })
             })
@@ -80,10 +74,7 @@ export const InterviewerInfoCurrent = () => {
     }
 
     const geo: string | null = useMemo(() => {
-        return (
-            dataUser?.res?.addresses?.find((_) => _.addressType === "main")
-                ?.additional || null
-        )
+        return dataUser?.res?.addresses?.find((_) => _.addressType === "main")?.additional || null
     }, [dataUser])
 
     return (
@@ -100,22 +91,13 @@ export const InterviewerInfoCurrent = () => {
                         {dataUser?.res?.profile?.image?.attributes?.url ? (
                             <NextImageMotion
                                 className={stylesHeader.photo}
-                                src={
-                                    dataUser?.res?.profile?.image?.attributes
-                                        ?.url!
-                                }
+                                src={dataUser?.res?.profile?.image?.attributes?.url!}
                                 alt="avatar"
                                 width={94}
                                 height={94}
                             />
                         ) : (
-                            <ImageStatic
-                                src="/png/default_avatar.png"
-                                alt="avatar"
-                                width={94}
-                                height={94}
-                                classNames={[stylesHeader.photo]}
-                            />
+                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={94} height={94} className={stylesHeader.photo} />
                         )}
                         {true ? (
                             <Image
@@ -130,23 +112,11 @@ export const InterviewerInfoCurrent = () => {
                     </div>
                     <section className={stylesHeader.title}>
                         <h4>
-                            {dataUser?.res?.profile?.firstName || ""}{" "}
-                            {dataUser?.res?.profile?.lastName}
+                            {dataUser?.res?.profile?.firstName || ""} {dataUser?.res?.profile?.lastName}
                         </h4>
-                        {geo ? (
-                            <GeoTagging
-                                size={16}
-                                fontSize={14}
-                                location={geo}
-                            />
-                        ) : null}
+                        {geo ? <GeoTagging size={16} fontSize={14} location={geo} /> : null}
                         {dataUser?.res?.profile?.created! ? (
-                            <p>
-                                Присоединился{" "}
-                                {dayjs(dataUser?.res?.profile?.created!).format(
-                                    "DD.MM.YYYY",
-                                )}
-                            </p>
+                            <p>Присоединился {dayjs(dataUser?.res?.profile?.created!).format("DD.MM.YYYY")}</p>
                         ) : null}
                     </section>
                 </header>
@@ -162,17 +132,8 @@ export const InterviewerInfoCurrent = () => {
                 </ul>
             </div>
             <div className={styles.buttons}>
-                <ButtonFill
-                    type="primary"
-                    label="Посмотреть профиль"
-                    handleClick={handleGoProfile}
-                />
-                <ButtonDefault
-                    type="primary"
-                    disabled
-                    label="Удалить чат"
-                    handleClick={handleDeleteChat}
-                />
+                <ButtonFill type="primary" label="Посмотреть профиль" handleClick={handleGoProfile} />
+                <ButtonDefault type="primary" disabled label="Удалить чат" handleClick={handleDeleteChat} />
             </div>
         </motion.section>
     )

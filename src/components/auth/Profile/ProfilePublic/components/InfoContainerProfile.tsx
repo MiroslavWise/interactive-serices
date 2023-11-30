@@ -18,48 +18,21 @@ import styles from "./styles/style.module.scss"
 export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
     const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
-    )
+    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
     return (
         <section className={styles.infoContainerProfile}>
             <div className={styles.avatarAndAchievements}>
                 <div className={styles.avatar}>
                     {profile?.photo ? (
-                        <NextImageMotion
-                            className={styles.photo}
-                            alt="avatar"
-                            src={profile?.photo}
-                            width={94}
-                            height={94}
-                        />
+                        <NextImageMotion className={styles.photo} alt="avatar" src={profile?.photo} width={94} height={94} />
                     ) : (
-                        <ImageStatic
-                            src="/png/default_avatar.png"
-                            alt="avatar"
-                            width={94}
-                            height={94}
-                            classNames={[styles.photo]}
-                        />
+                        <ImageStatic src="/png/default_avatar.png" alt="avatar" width={94} height={94} className={styles.photo} />
                     )}
-                    <Image
-                        className={styles.verified}
-                        src="/svg/verified-tick.svg"
-                        alt="tick"
-                        width={32}
-                        height={32}
-                        unoptimized
-                    />
+                    <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} unoptimized />
                 </div>
                 <ul className={styles.achievements}>
                     {MOCK_ACHIEVEMENTS.map((item) => (
-                        <Image
-                            src={item}
-                            alt={item}
-                            key={item}
-                            width={36}
-                            height={36}
-                        />
+                        <Image src={item} alt={item} key={item} width={36} height={36} />
                     ))}
                 </ul>
             </div>
@@ -79,9 +52,7 @@ export const InfoContainerProfile: TInfoContainerProfile = ({ profile }) => {
                             type="primary"
                             onClick={() => {
                                 if (userId) {
-                                    handlePush(
-                                        `/messages?user=${profile.userId}`,
-                                    )
+                                    handlePush(`/messages?user=${profile.userId}`)
                                 }
                             }}
                         />

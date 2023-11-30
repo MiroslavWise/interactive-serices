@@ -11,37 +11,17 @@ import { useModalAuth, useVisibleAbout } from "@/store/hooks"
 import styles from "../styles/banner.module.scss"
 
 export const BannerIsNoAuth = () => {
-    const dispatchAuthModal = useModalAuth(
-        ({ dispatchAuthModal }) => dispatchAuthModal,
-    )
-    const dispatchVisibleAbout = useVisibleAbout(
-        ({ dispatchVisibleAbout }) => dispatchVisibleAbout,
-    )
+    const dispatchAuthModal = useModalAuth(({ dispatchAuthModal }) => dispatchAuthModal)
+    const dispatchVisibleAbout = useVisibleAbout(({ dispatchVisibleAbout }) => dispatchVisibleAbout)
 
     return (
-        <motion.ul
-            id="SignBanner"
-            className={styles.containerNoAuth}
-            initial={{ opacity: 0, visibility: "hidden" }}
-            animate={{ opacity: 1, visibility: "visible" }}
-            transition={{ duration: 0.3 }}
-            exit={{ opacity: 0, visibility: "hidden" }}
-        >
+        <div id="SignBanner" className={styles.containerNoAuth}>
             <header>
-                <Image
-                    src="/logo/wordmark.svg"
-                    alt="sheira"
-                    width={140}
-                    height={37}
-                    unoptimized
-                />
+                <Image src="/logo/wordmark.svg" alt="sheira" width={140} height={37} unoptimized />
             </header>
             <section data-content>
                 <article>
-                    <p data-description>
-                        Зарегистрируйтесь в Шейре и добавляйте свои предложения
-                        на карту.
-                    </p>
+                    <p data-description>Зарегистрируйтесь в Шейре и добавляйте свои предложения на карту.</p>
                     <div data-buttons>
                         <Button
                             type="button"
@@ -65,9 +45,6 @@ export const BannerIsNoAuth = () => {
                                 })
                             }}
                         />
-                        {/* <div className={styles.bannerContent}>
-                            <BannerCoins />
-                        </div> */}
                     </div>
                 </article>
             </section>
@@ -75,6 +52,6 @@ export const BannerIsNoAuth = () => {
                 <a>Всё о Шейре</a>
             </footer>
             <GlassesBanner />
-        </motion.ul>
+        </div>
     )
 }

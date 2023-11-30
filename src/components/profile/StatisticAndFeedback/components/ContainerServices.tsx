@@ -19,8 +19,7 @@ export const ContainerServices: TContainerServices = ({}) => {
     const id = useSearchParams().get("id")
 
     const { data: dataOffer } = useQuery({
-        queryFn: () =>
-            serviceOffers.getUserId(Number(id), { provider: "offer" }),
+        queryFn: () => serviceOffers.getUserId(Number(id), { provider: "offer" }),
         queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
     })
 
@@ -30,11 +29,7 @@ export const ContainerServices: TContainerServices = ({}) => {
                 <MotionUL classNames={[styles.containerRequestsAndProposals]}>
                     {Array.isArray(dataOffer?.res)
                         ? dataOffer?.res?.map((item) => (
-                              <CardRequestsAndProposals
-                                  key={`${item?.id}-item-key-offer`}
-                                  {...item}
-                                  type="optional-3"
-                              />
+                              <CardRequestsAndProposals key={`${item?.id}-item-key-offer`} {...item} type="optional-3" />
                           ))
                         : null}
                 </MotionUL>
@@ -42,11 +37,7 @@ export const ContainerServices: TContainerServices = ({}) => {
                 <Masonry gutter="16px" columnsCount={3}>
                     {Array.isArray(dataOffer?.res)
                         ? dataOffer?.res?.map((item) => (
-                              <CardRequestsAndProposals
-                                  key={`${item?.id}-item-key-offer`}
-                                  {...item}
-                                  type="optional-3"
-                              />
+                              <CardRequestsAndProposals key={`${item?.id}-item-key-offer`} {...item} type="optional-3" />
                           ))
                         : null}
                 </Masonry>

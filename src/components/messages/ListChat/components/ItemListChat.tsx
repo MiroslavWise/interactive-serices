@@ -79,7 +79,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
                                 className={styles.img}
                             />
                         ) : (
-                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={40} height={40} classNames={[styles.img]} />
+                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={40} height={40} className={styles.img} />
                         )}
                         <Image src="/svg/verified-tick.svg" alt="verified" width={16} height={16} className={styles.verified} unoptimized />
                     </div>

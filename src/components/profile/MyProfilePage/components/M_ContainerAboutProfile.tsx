@@ -8,11 +8,7 @@ import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
-import {
-    useAuth,
-    useUpdateProfile,
-    useVisibleBannerNewServices,
-} from "@/store/hooks"
+import { useAuth, useUpdateProfile, useVisibleBannerNewServices } from "@/store/hooks"
 import { useAddress, useOut } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
@@ -24,9 +20,7 @@ export const M_ContainerAboutProfile = () => {
     const user = useAuth(({ user }) => user)
     const imageProfile = useAuth(({ imageProfile }) => imageProfile)
     const createdUser = useAuth(({ createdUser }) => createdUser)
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(
-        ({ dispatchNewServicesBanner }) => dispatchNewServicesBanner,
-    )
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
     return (
         <section className={styles.containerMAboutProfile}>
@@ -42,35 +36,16 @@ export const M_ContainerAboutProfile = () => {
                                 height={94}
                             />
                         ) : (
-                            <ImageStatic
-                                src="/png/default_avatar.png"
-                                alt="avatar"
-                                width={400}
-                                height={400}
-                                classNames={[styles.photo]}
-                            />
+                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={400} height={400} className={styles.photo} />
                         )}
                         {user ? (
-                            <Image
-                                className={styles.verified}
-                                src="/svg/verified-tick.svg"
-                                alt="tick"
-                                width={24}
-                                height={24}
-                                unoptimized
-                            />
+                            <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={24} height={24} unoptimized />
                         ) : null}
                     </div>
                     <ul className={styles.blockAchievements}>
                         {ACHIEVEMENTS.map((item) => (
                             <li key={item.assignment + item.src}>
-                                <Image
-                                    src={item.src}
-                                    alt={item.assignment}
-                                    width={23}
-                                    height={23}
-                                    unoptimized
-                                />
+                                <Image src={item.src} alt={item.assignment} width={23} height={23} unoptimized />
                             </li>
                         ))}
                     </ul>
@@ -79,19 +54,8 @@ export const M_ContainerAboutProfile = () => {
                     <h4>
                         {user?.firstName} {user?.lastName}
                     </h4>
-                    {addressMain ? (
-                        <GeoTagging
-                            size={16}
-                            fontSize={12}
-                            location={addressMain?.additional}
-                        />
-                    ) : null}
-                    <p className={styles.date}>
-                        Присоединился{" "}
-                        {createdUser
-                            ? dayjs(createdUser).format("DD.MM.YYYY")
-                            : null}
-                    </p>
+                    {addressMain ? <GeoTagging size={16} fontSize={12} location={addressMain?.additional} /> : null}
+                    <p className={styles.date}>Присоединился {createdUser ? dayjs(createdUser).format("DD.MM.YYYY") : null}</p>
                     <p className={styles.about}>{user?.about}</p>
                 </div>
             </div>
@@ -99,15 +63,7 @@ export const M_ContainerAboutProfile = () => {
                 <ButtonFill
                     label="Создать новое"
                     classNames={styles.buttonFill}
-                    suffix={
-                        <Image
-                            src="/svg/plus.svg"
-                            alt="plus"
-                            width={24}
-                            height={24}
-                            unoptimized
-                        />
-                    }
+                    suffix={<Image src="/svg/plus.svg" alt="plus" width={24} height={24} unoptimized />}
                     handleClick={() => {
                         if (isAddresses) {
                             dispatchNewServicesBanner(true)
