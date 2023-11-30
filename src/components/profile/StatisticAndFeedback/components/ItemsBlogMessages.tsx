@@ -10,9 +10,7 @@ import styles from "./styles/style.module.scss"
 
 export const ItemsBlogMessages: TItemsBlogMessages = ({}) => {
     return (
-        <MotionUL
-            classNames={[styles.listBlogMessages, isMobile && styles.mobile]}
-        >
+        <MotionUL classNames={[styles.listBlogMessages, isMobile && styles.mobile]}>
             {/* {
         MOCKS_BLOGS_CARD.map((item, index) => (
           <CardBlog

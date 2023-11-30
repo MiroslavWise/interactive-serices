@@ -15,6 +15,7 @@ import { useBalloonCard, useMapCoordinates, useOffersCategories } from "@/store/
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
+import Image from "next/image"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const { handlePush } = usePush()
@@ -70,11 +71,16 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     return (
         <li className={styles.container} data-mobile={isMobile} data-type={type} data-offers-card onClick={handleCoordinates}>
             <header>
-                <div
-                    style={{
-                        backgroundImage: `url(${src})`,
+                <Image
+                    src={src}
+                    alt="point"
+                    width={58}
+                    height={58}
+                    onError={(err) => {
+                        console.log("err div: ", err)
+                        setSrc(`/svg/category/default.svg`)
                     }}
-                    onError={(err) => console.log("err div: ", err)}
+                    unoptimized
                 />
                 <h4>{categoryCurrent?.title || ""}</h4>
             </header>

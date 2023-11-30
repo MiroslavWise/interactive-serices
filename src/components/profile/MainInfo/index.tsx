@@ -23,16 +23,11 @@ import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ user }) => {
     const userId = useAuth(({ userId }) => userId)
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
-    )
+    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
     const { handlePush } = usePush()
 
     const geo: IAddressesResponse | null = useMemo(() => {
-        return (
-            user?.addresses?.find((item) => item?.addressType === "main") ||
-            null
-        )
+        return user?.addresses?.find((item) => item?.addressType === "main") || null
     }, [user?.addresses])
 
     return (
@@ -47,34 +42,18 @@ export const MainInfo: TMainInfo = ({ user }) => {
                         height={94}
                     />
                 ) : (
-                    <ImageStatic
-                        classNames={[styles.photo]}
-                        src="/png/default_avatar.png"
-                        alt="avatar"
-                        width={94}
-                        height={94}
-                    />
+                    <ImageStatic className={styles.photo} src="/png/default_avatar.png" alt="avatar" width={94} height={94} />
                 )}
-                <Image
-                    className={styles.verified}
-                    src="/svg/verified-tick.svg"
-                    alt="tick"
-                    width={32}
-                    height={32}
-                    unoptimized
-                />
+                <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} unoptimized />
             </div>
             <div className={styles.content}>
                 <div className={styles.information}>
                     <div className={styles.titleAndButtons}>
                         <div className={styles.nameAndGeo}>
                             <h3>
-                                {user?.profile?.firstName || "First"}{" "}
-                                {user?.profile?.lastName || "Last"}
+                                {user?.profile?.firstName || "First"} {user?.profile?.lastName || "Last"}
                             </h3>
-                            {geo ? (
-                                <GeoTagging location={geo?.additional} />
-                            ) : null}
+                            {geo ? <GeoTagging location={geo?.additional} /> : null}
                         </div>
                         {userId !== user?.id && userId ? (
                             <section className={styles.buttons}>
@@ -83,11 +62,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                     src="/svg/message-dots-circle.svg"
                                     type="primary"
                                     onClick={() => {
-                                        if (
-                                            Number(userId) ===
-                                                Number(user?.id) ||
-                                            !userId
-                                        ) {
+                                        if (Number(userId) === Number(user?.id) || !userId) {
                                             return
                                         }
                                         handlePush(`/messages?user=${user?.id}`)
@@ -97,28 +72,16 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                     src="/svg/repeat-01.svg"
                                     type="primary"
                                     onClick={() => {
-                                        if (
-                                            Number(userId) ===
-                                                Number(user?.id) ||
-                                            !userId
-                                        ) {
+                                        if (Number(userId) === Number(user?.id) || !userId) {
                                             return
                                         }
                                         if (userId) {
                                             dispatchVisibleBarter({
                                                 isVisible: true,
                                                 dataProfile: {
-                                                    photo: user?.profile?.image
-                                                        ?.attributes?.url,
-                                                    fullName: `${
-                                                        user?.profile
-                                                            ?.firstName || ""
-                                                    } ${
-                                                        user?.profile
-                                                            ?.lastName || ""
-                                                    }`,
-                                                    idUser: user?.profile
-                                                        ?.userId!,
+                                                    photo: user?.profile?.image?.attributes?.url,
+                                                    fullName: `${user?.profile?.firstName || ""} ${user?.profile?.lastName || ""}`,
+                                                    idUser: user?.profile?.userId!,
                                                 },
                                             })
                                         }
@@ -128,13 +91,8 @@ export const MainInfo: TMainInfo = ({ user }) => {
                         ) : null}
                     </div>
                     <div className={styles.descriptionAndOther}>
-                        <p className={styles.description}>
-                            {user?.profile?.about}
-                        </p>
-                        <BlockOther
-                            label="Социальные медиа"
-                            classNames={[styles.social]}
-                        >
+                        <p className={styles.description}>{user?.profile?.about}</p>
+                        <BlockOther label="Социальные медиа" classNames={[styles.social]}>
                             {SOCIAL_MEDIA.map((item) => (
                                 <Image
                                     key={item.assignment}
@@ -153,11 +111,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                 <div className={styles.statusActive}>
                     <ComplaintButton user={user!} />
                     <div className={styles.dividers} />
-                    <p>
-                        {user?.created
-                            ? dayjs(user?.created).format("DD.MM.YYYY")
-                            : null}
-                    </p>
+                    <p>{user?.created ? dayjs(user?.created).format("DD.MM.YYYY") : null}</p>
                 </div>
             </div>
         </div>

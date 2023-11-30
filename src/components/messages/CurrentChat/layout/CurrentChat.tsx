@@ -28,17 +28,13 @@ import styles from "../styles/style.module.scss"
 export const CurrentChat = () => {
     const idThread = useSearchParams()?.get("thread")
     const userId = useAuth(({ userId }) => userId)
-    const dispatchMessagesType = useMessagesType(
-        ({ dispatchMessagesType }) => dispatchMessagesType,
-    )
+    const dispatchMessagesType = useMessagesType(({ dispatchMessagesType }) => dispatchMessagesType)
     const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
     const { handleReplace } = usePush()
     const { socket } = useWebSocket() ?? {}
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)
     const [screenHeight, setScreenHeight] = useState<string | number>("100%")
-    const [stateMessages, setStateMessages] = useState<
-        (IResponseMessage & { temporary?: boolean })[]
-    >([])
+    const [stateMessages, setStateMessages] = useState<(IResponseMessage & { temporary?: boolean })[]>([])
 
     const { data } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
@@ -67,10 +63,7 @@ export const CurrentChat = () => {
     useEffect(() => {
         if (userId && data?.res) {
             const replaceOut = () => {
-                return (
-                    Number(data?.res?.emitterId) === Number(userId) ||
-                    !!data?.res?.receiverIds?.includes(userId!)
-                )
+                return Number(data?.res?.emitterId) === Number(userId) || !!data?.res?.receiverIds?.includes(userId!)
             }
             if (!replaceOut()) {
                 handleReplace("/messages")
@@ -80,9 +73,7 @@ export const CurrentChat = () => {
 
     const idUser: number | null = useMemo(() => {
         if (data?.res) {
-            return Number(data?.res?.emitterId) === Number(userId)
-                ? Number(data?.res?.receiverIds[0])
-                : Number(data?.res?.emitterId)
+            return Number(data?.res?.emitterId) === Number(userId) ? Number(data?.res?.receiverIds[0]) : Number(data?.res?.emitterId)
         }
 
         return null
@@ -119,9 +110,7 @@ export const CurrentChat = () => {
     const conversationPartner = useMemo(() => {
         return {
             photo: dataUser?.res?.profile?.image?.attributes?.url!,
-            name: `${dataUser?.res?.profile?.firstName || " "} ${
-                dataUser?.res?.profile?.lastName || " "
-            }`,
+            name: `${dataUser?.res?.profile?.firstName || " "} ${dataUser?.res?.profile?.lastName || " "}`,
             messages: stateMessages,
         }
     }, [dataUser?.res, stateMessages])
@@ -157,10 +146,7 @@ export const CurrentChat = () => {
 
     if (isMobile) {
         return (
-            <section
-                className={cx(styles.containerMobile, "height100vh")}
-                style={{ height: screenHeight, paddingTop: isBarter ? 0 : 86 }}
-            >
+            <section className={cx(styles.containerMobile, "height100vh")} style={{ height: screenHeight, paddingTop: isBarter ? 0 : 86 }}>
                 {isBarter ? (
                     <NoticeBarter
                         idBarter={data?.res?.barterId!}
@@ -176,13 +162,7 @@ export const CurrentChat = () => {
                                 handleReplace(`/messages`)
                             }}
                         >
-                            <Image
-                                src="/svg/chevron-left.svg"
-                                alt="chevron-left"
-                                width={24}
-                                height={24}
-                                unoptimized
-                            />
+                            <Image src="/svg/chevron-left.svg" alt="chevron-left" width={24} height={24} unoptimized />
                         </div>
                         <div className={styles.blockAvatar}>
                             {conversationPartner?.photo ? (
@@ -194,27 +174,12 @@ export const CurrentChat = () => {
                                     className={styles.avatar}
                                 />
                             ) : (
-                                <ImageStatic
-                                    src="/png/default_avatar.png"
-                                    alt="avatar"
-                                    width={28}
-                                    height={28}
-                                    classNames={[styles.avatar]}
-                                />
+                                <ImageStatic src="/png/default_avatar.png" alt="avatar" width={28} height={28} className={styles.avatar} />
                             )}
                             <h3>{conversationPartner?.name!}</h3>
                         </div>
-                        <div
-                            className={cx(styles.button, styles.dots)}
-                            onClick={() => setIsVisible()}
-                        >
-                            <Image
-                                src="/svg/dots-vertical.svg"
-                                alt="dots-vertical"
-                                width={24}
-                                height={24}
-                                unoptimized
-                            />
+                        <div className={cx(styles.button, styles.dots)} onClick={() => setIsVisible()}>
+                            <Image src="/svg/dots-vertical.svg" alt="dots-vertical" width={24} height={24} unoptimized />
                         </div>
                     </header>
                 )}

@@ -6,25 +6,16 @@ import styles from "./styles/style.module.scss"
 
 export function FooterPhotos() {
     const photos = useVisiblePhotosCarousel(({ photos }) => photos)
-    const currentPhoto = useVisiblePhotosCarousel(
-        ({ currentPhoto }) => currentPhoto,
-    )
-    const setCurrentPhoto = useVisiblePhotosCarousel(
-        ({ setCurrentPhoto }) => setCurrentPhoto,
-    )
+    const currentPhoto = useVisiblePhotosCarousel(({ currentPhoto }) => currentPhoto)
+    const setCurrentPhoto = useVisiblePhotosCarousel(({ setCurrentPhoto }) => setCurrentPhoto)
 
     return (
         <ul className={styles.containerFooterPhotos}>
             {photos?.map((item) => (
-                <li
-                    className={
-                        currentPhoto?.id === item?.id ? styles.active : ""
-                    }
-                    key={`${item.url}_${item?.id}`}
-                >
+                <li className={currentPhoto?.id === item?.id ? styles.active : ""} key={`${item.url}_${item?.id}`}>
                     <NextImageMotion
                         src={item?.url!}
-                        alt="photo"
+                        alt="offer-image"
                         width={1920}
                         height={1080}
                         onClick={() => {

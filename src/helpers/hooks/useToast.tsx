@@ -25,11 +25,7 @@ export const useToast = () => {
         message: "toast-message",
     }
 
-    function on(
-        value: IValue,
-        type?: TTypeToast,
-        onClick?: DispatchWithoutAction,
-    ) {
+    function on(value: IValue, type?: TTypeToast, onClick?: DispatchWithoutAction) {
         const buttons = (
             <div data-buttons>
                 <ButtonDefault
@@ -38,10 +34,7 @@ export const useToast = () => {
                         if (onClick) onClick()
                     }}
                 />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/x-close-primary.svg"
-                />
+                <ButtonCircleGradient type="primary" icon="/svg/x-close-primary.svg" />
             </div>
         )
 
@@ -51,17 +44,9 @@ export const useToast = () => {
                     <>
                         <div data-content className="message">
                             <div data-user>
-                                <NextImageMotion
-                                    src={value?.photo!}
-                                    alt="avatar"
-                                    height={40}
-                                    width={40}
-                                />
+                                <NextImageMotion src={value?.photo!} alt="avatar" height={40} width={40} />
                                 <i>
-                                    {value?.name}{" "}
-                                    {value?.username ? (
-                                        <span>@{value?.username}</span>
-                                    ) : null}
+                                    {value?.name} {value?.username ? <span>@{value?.username}</span> : null}
                                 </i>
                             </div>
                             <p>{value?.message || ""}</p>
@@ -92,10 +77,4 @@ export const useToast = () => {
     return { on }
 }
 
-type TTypeToast =
-    | "success"
-    | "error"
-    | "warning"
-    | "default"
-    | "barter"
-    | "message"
+type TTypeToast = "success" | "error" | "warning" | "default" | "barter" | "message"

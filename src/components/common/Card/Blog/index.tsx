@@ -12,13 +12,7 @@ export const CardBlog: TCardBlog = ({ title, photo, services }) => {
     return (
         <MotionLI classNames={[styles.container, isMobile && styles.mobile]}>
             <div className={styles.photo}>
-                <ImageStatic
-                    src={photo}
-                    alt="title"
-                    width={300}
-                    height={216}
-                    classNames={[]}
-                />
+                <ImageStatic src={photo} alt="title" width={300} height={216} />
             </div>
             <section>
                 {/* {isMobile ? (

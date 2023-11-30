@@ -18,8 +18,7 @@ const altName = {
 type TTypes = typeof NextImage.defaultProps & IProps
 
 export const NextImageMotion = (props: TTypes) => {
-    const { src, onClick, ref, alt, className, height, width, ...rest } =
-        props ?? {}
+    const { src, onClick, ref, alt, className, height, width, ...rest } = props ?? {}
 
     return src?.includes("http") ? (
         <NextImage
@@ -39,7 +38,6 @@ export const NextImageMotion = (props: TTypes) => {
             ref={ref}
             data-image={alt}
             className={className || ""}
-            // loader={myImageLoader}
             loading="lazy"
             src={src}
             alt={alt}
@@ -56,16 +54,12 @@ export const NextImageMotion = (props: TTypes) => {
                     onClick()
                 }
             }}
-            src={
-                alt === "avatar"
-                    ? "/png/default_avatar.png"
-                    : "/png/blur-default-offers.jpg"
-            }
+            src={alt === "avatar" ? "/png/default_avatar.png" : "/png/blur-default-offers.jpg"}
             placeholder="blur"
             blurDataURL={blurDefaultOffer}
             alt={alt}
             unoptimized
-            classNames={[className]}
+            className={className}
             height={height}
             width={width}
             style={{

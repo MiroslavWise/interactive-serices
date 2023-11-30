@@ -23,51 +23,24 @@ export const HeaderBlock: THeaderBlock = () => {
                 {imageProfile?.attributes?.url ? (
                     <NextImageMotion
                         className={styles.photo}
-                        src={
-                            imageProfile?.attributes?.url!
-                                ? imageProfile?.attributes?.url!
-                                : "/png/default_avatar.png"
-                        }
+                        src={imageProfile?.attributes?.url! ? imageProfile?.attributes?.url! : "/png/default_avatar.png"}
                         alt="avatar"
                         width={94}
                         height={94}
                     />
                 ) : (
-                    <ImageStatic
-                        src="/png/default_avatar.png"
-                        alt="avatar"
-                        width={94}
-                        height={94}
-                        classNames={[styles.photo]}
-                    />
+                    <ImageStatic src="/png/default_avatar.png" alt="avatar" width={94} height={94} className={styles.photo} />
                 )}
                 {true ? (
-                    <Image
-                        className={styles.verified}
-                        src="/svg/verified-tick.svg"
-                        alt="tick"
-                        width={32}
-                        height={32}
-                        unoptimized
-                    />
+                    <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} unoptimized />
                 ) : null}
             </div>
             <section className={styles.title}>
                 <h4>
                     {user?.firstName || "Имя"} {user?.lastName || "Фамилия"}
                 </h4>
-                {addressMain ? (
-                    <GeoTagging
-                        size={16}
-                        fontSize={14}
-                        location={addressMain?.additional}
-                    />
-                ) : null}
-                {createdUser ? (
-                    <p>
-                        Присоединился {dayjs(createdUser!).format("DD.MM.YYYY")}
-                    </p>
-                ) : null}
+                {addressMain ? <GeoTagging size={16} fontSize={14} location={addressMain?.additional} /> : null}
+                {createdUser ? <p>Присоединился {dayjs(createdUser!).format("DD.MM.YYYY")}</p> : null}
             </section>
             {/* <BlockOther label="Достижения" classNames={[styles.achievements]}>
                 {ACHIEVEMENTS.map((item) => (

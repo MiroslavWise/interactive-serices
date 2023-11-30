@@ -5,21 +5,9 @@ import { borderClassNames } from "@/helpers"
 import styles from "./style.module.scss"
 import { cx } from "@/lib/cx"
 
-export const Segments: TSegments = ({
-    VALUES,
-    active,
-    setActive,
-    type,
-    classNames,
-    ref = null,
-    id,
-}) => {
+export const Segments: TSegments = ({ VALUES, active, setActive, type, classNames, ref = null, id }) => {
     return (
-        <article
-            className={cx(styles.container, classNames)}
-            ref={ref}
-            data-segments
-        >
+        <article className={cx(styles.container, classNames)} ref={ref} data-segments>
             {VALUES.map((item, index) => (
                 <li
                     id={id}
@@ -29,14 +17,7 @@ export const Segments: TSegments = ({
                         styles.button,
                         styles[type],
                         active.value === item.value && styles.active,
-                        active.value !== item.value &&
-                            styles[
-                                borderClassNames(
-                                    VALUES.indexOf(active),
-                                    index,
-                                    VALUES.length,
-                                )
-                            ],
+                        active.value !== item.value && styles[borderClassNames(VALUES.indexOf(active), index, VALUES.length)],
                     )}
                 >
                     <p>{item.label}</p>

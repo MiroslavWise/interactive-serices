@@ -7,23 +7,17 @@ import type { TServicesFC } from "../types/types"
 import type { TOrder } from "@/services/types/general"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
-import {
-    GeneralServiceAllItem,
-    CardRequestsAndProposals,
-} from "@/components/common/Card"
+import { GeneralServiceAllItem, CardRequestsAndProposals } from "@/components/common/Card"
 
 import { cx } from "@/lib/cx"
-import { useBounds, useFilterMap } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
+import { useBounds, useFilterMap } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
-export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
-    setTotal,
-    type,
-}) {
-    const idTarget = useFilterMap(({idTarget}) => idTarget)
-    const bounds = useBounds(({bounds}) => bounds)
+export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({ setTotal, type }) {
+    const idTarget = useFilterMap(({ idTarget }) => idTarget)
+    const bounds = useBounds(({ bounds }) => bounds)
     const obj = idTarget ? { category: idTarget } : {}
     const typeOffers = useMemo(() => {
         if (["offer", "request"].includes(type)) {
@@ -62,11 +56,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
                 if (!item?.addresses?.length) {
                     return false
                 }
-                const coordinates = item?.addresses[0]?.coordinates
-                    ?.split(" ")
-                    .reverse()
-                    .map(Number)
-                    .filter(Boolean)
+                const coordinates = item?.addresses[0]?.coordinates?.split(" ").reverse().map(Number).filter(Boolean)
                 if (!coordinates) {
                     return false
                 }
@@ -88,13 +78,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
     }, [data?.res, bounds])
 
     return (
-        <ul
-            className={cx(
-                styles.services,
-                ["offer", "request"].includes(type) &&
-                    styles.requestsAndProposals,
-            )}
-        >
+        <ul className={cx(styles.services, ["offer", "request"].includes(type) && styles.requestsAndProposals)}>
             {items.map((item) =>
                 type === "all" ? (
                     <GeneralServiceAllItem key={`${item.id}-all`} {...item} />

@@ -25,15 +25,11 @@ import styles from "./styles/style.module.scss"
 
 export function Barter() {
     const { on } = useToast()
-    const dispatch = useBalloonCard(({dispatch}) => dispatch)
-    const isVisible =
-        useVisibleModalBarter(({isVisible}) => isVisible)
-    const dispatchVisibleBarter =
-        useVisibleModalBarter(({dispatchVisibleBarter}) => dispatchVisibleBarter)
-    const dataProfile =
-        useVisibleModalBarter(({dataProfile}) => dataProfile)
-    const dataOffer =
-        useVisibleModalBarter(({dataOffer}) => dataOffer)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
+    const isVisible = useVisibleModalBarter(({ isVisible }) => isVisible)
+    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
+    const dataProfile = useVisibleModalBarter(({ dataProfile }) => dataProfile)
+    const dataOffer = useVisibleModalBarter(({ dataOffer }) => dataOffer)
     const address: string = useMemo(() => {
         const addressOne = dataOffer?.addresses?.[0]?.additional
 
@@ -103,13 +99,7 @@ export function Barter() {
 
     if (isMobile) {
         return (
-            <form
-                className={cx(
-                    styles.wrapperContainerMobile,
-                    isVisible && styles.visible,
-                )}
-                onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className={cx(styles.wrapperContainerMobile, isVisible && styles.visible)} onSubmit={handleSubmit(onSubmit)}>
                 <header>
                     <div
                         className={styles.buttonBack}
@@ -118,13 +108,7 @@ export function Barter() {
                             dispatchVisibleBarter({ isVisible: false })
                         }}
                     >
-                        <Image
-                            src="/svg/chevron-left.svg"
-                            alt="chevron-left"
-                            width={24}
-                            height={24}
-                            unoptimized
-                        />
+                        <Image src="/svg/chevron-left.svg" alt="chevron-left" width={24} height={24} unoptimized />
                     </div>
                     <p>Послать запрос</p>
                     <div className={styles.end} />
@@ -148,7 +132,7 @@ export function Barter() {
                                         alt="avatar"
                                         height={400}
                                         width={400}
-                                        classNames={[styles.photo]}
+                                        className={styles.photo}
                                     />
                                 )}
                                 <Image
@@ -162,48 +146,23 @@ export function Barter() {
                             </div>
                             <div className={styles.nameGeo}>
                                 <h3>{dataProfile?.fullName}</h3>
-                                <GeoTagging
-                                    location={address}
-                                    fontSize={12}
-                                    size={14}
-                                />
+                                <GeoTagging location={address} fontSize={12} size={14} />
                             </div>
                         </div>
                     </div>
                 </ul>
-                <Content
-                    register={register}
-                    setValue={setValue}
-                    watch={watch}
-                    address={address}
-                    errors={errors}
-                />
+                <Content register={register} setValue={setValue} watch={watch} address={address} errors={errors} />
                 <Glasses />
             </form>
         )
     }
 
     return (
-        <div
-            className={cx("wrapper-fixed", styles.wrapperContainer)}
-            data-visible={isVisible}
-        >
-            <form
-                className={styles.contentModal}
-                onSubmit={handleSubmit(onSubmit)}
-            >
-                <ButtonClose
-                    onClick={() => dispatchVisibleBarter({ isVisible: false })}
-                    position={{ top: 12, right: 12 }}
-                />
+        <div className={cx("wrapper-fixed", styles.wrapperContainer)} data-visible={isVisible}>
+            <form className={styles.contentModal} onSubmit={handleSubmit(onSubmit)}>
+                <ButtonClose onClick={() => dispatchVisibleBarter({ isVisible: false })} position={{ top: 12, right: 12 }} />
                 <Header />
-                <Content
-                    register={register}
-                    setValue={setValue}
-                    watch={watch}
-                    address={address}
-                    errors={errors}
-                />
+                <Content register={register} setValue={setValue} watch={watch} address={address} errors={errors} />
                 <Glasses />
             </form>
         </div>

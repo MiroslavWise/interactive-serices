@@ -54,20 +54,10 @@ export const FinishScreen = () => {
     return (
         <div className={cx(styles.wrapper, isMobile && styles.mobile)}>
             <section>
-                <ImageStatic
-                    src="/png/welcome/girl-fest.png"
-                    alt="girl-fest"
-                    height={294}
-                    width={654}
-                />
+                <ImageStatic src="/png/welcome/girl-fest.png" alt="girl-fest" height={294} width={654} />
                 <h3>{content}</h3>
             </section>
-            <ButtonFill
-                type="primary"
-                label="Хорошо"
-                handleClick={onClose}
-                classNames={styles.button}
-            />
+            <ButtonFill type="primary" label="Хорошо" handleClick={onClose} classNames={styles.button} />
         </div>
     )
 }
