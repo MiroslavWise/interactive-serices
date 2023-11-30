@@ -15,12 +15,12 @@ import { useAuth, useModalAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
-    const visible = useModalAuth(({visible}) => visible)
-    const type = useModalAuth(({type}) => type)
-    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
+    const visible = useModalAuth(({ visible }) => visible)
+    const type = useModalAuth(({ type }) => type)
+    const dispatchAuthModal = useModalAuth(({ dispatchAuthModal }) => dispatchAuthModal)
     const pathname = usePathname()
     const { handlePush } = usePush()
-    const is = useAuth(({isAuth}) => isAuth)
+    const is = useAuth(({ isAuth }) => isAuth)
     const valuePath = useActivePath()
 
     const handleSignInOrSignUp = (path: string | null) => {
@@ -39,27 +39,17 @@ export const FooterMenu: TFooterMenu = ({}) => {
             className={styles.container}
             initial={{ bottom: -70 }}
             animate={{ bottom: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
             exit={{ bottom: -70 }}
         >
             <ul>
                 {MENU_ITEMS(is).map((item) => (
-                    <li
-                        key={item.key}
-                        onClick={() => handleSignInOrSignUp(item.path)}
-                    >
+                    <li key={item.key} onClick={() => handleSignInOrSignUp(item.path)}>
                         <div className={styles.itemsIconLabel}>
                             {item.isCenter ? (
-                                <div
-                                    className={styles.centerPoligon}
-                                    onClick={() => {}}
-                                >
+                                <div className={styles.centerPoligon} onClick={() => {}}>
                                     <Image
-                                        src={
-                                            valuePath === item.path
-                                                ? item.icon.fill
-                                                : item.icon.regular
-                                        }
+                                        src={valuePath === item.path ? item.icon.fill : item.icon.regular}
                                         alt={item.label}
                                         width={28}
                                         height={28}
@@ -68,11 +58,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                 </div>
                             ) : (
                                 <Image
-                                    src={
-                                        valuePath === item.path
-                                            ? item.icon.fill
-                                            : item.icon.regular
-                                    }
+                                    src={valuePath === item.path ? item.icon.fill : item.icon.regular}
                                     alt={item.label}
                                     width={24}
                                     height={24}

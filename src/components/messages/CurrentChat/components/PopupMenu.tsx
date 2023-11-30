@@ -20,10 +20,7 @@ import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
 import mainStyles from "../styles/style.module.scss"
 import styles from "./styles/popup-menu.module.scss"
 
-export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
-    dataUser,
-    isBarter,
-}) {
+export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser, isBarter }) {
     const searchParams = useSearchParams()
     const idThread = searchParams?.get("thread")
     const type = useMessagesType(({ type }) => type)
@@ -47,15 +44,13 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
     }
 
     function handleDeleteChat() {
-        serviceThreads
-            .patch({ enabled: false }, Number(idThread))
-            .then((response) => {
-                refresh(type).finally(() => {
-                    requestAnimationFrame(() => {
-                        handleReplace("/messages")
-                    })
+        serviceThreads.patch({ enabled: false }, Number(idThread)).then((response) => {
+            refresh(type).finally(() => {
+                requestAnimationFrame(() => {
+                    handleReplace("/messages")
                 })
             })
+        })
     }
 
     const geo = useMemo(() => {
@@ -65,66 +60,28 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
         if (Array.isArray(dataUser?.addresses) && !dataUser?.addresses.length) {
             return null
         }
-        return dataUser?.addresses?.find((item) => item?.addressType === "main")
-            ?.additional
+        return dataUser?.addresses?.find((item) => item?.addressType === "main")?.additional
     }, [dataUser?.addresses])
 
     return (
-        <div
-            className={styles.wrapper}
-            data-is-barter={isBarter}
-            data-visible={isVisible}
-        >
-            <div
-                className={cx(mainStyles.button, styles.dots)}
-                onClick={() => setIsVisible()}
-            >
-                <Image
-                    src="/svg/x-close.svg"
-                    alt="dots-vertical"
-                    width={24}
-                    height={24}
-                    unoptimized
-                />
+        <div className={styles.wrapper} data-is-barter={isBarter} data-visible={isVisible}>
+            <div className={cx(mainStyles.button, styles.dots)} onClick={() => setIsVisible()}>
+                <Image src="/svg/x-close.svg" alt="dots-vertical" width={24} height={24} unoptimized />
             </div>
             {isBarter ? (
-                <motion.div
-                    data-is-open={isVisible}
-                    initial={{ borderRadius: 12 }}
-                    data-menu
-                >
+                <motion.div data-is-open={isVisible} initial={{ borderRadius: 12 }} data-menu>
                     <div data-user>
-                        <NextImageMotion
-                            src={dataUser?.profile?.image?.attributes?.url!}
-                            alt="avatar"
-                            width={250}
-                            height={250}
-                        />
+                        <NextImageMotion src={dataUser?.profile?.image?.attributes?.url!} alt="avatar" width={250} height={250} />
                         <div data-title>
                             <h2 data-title>
-                                {dataUser?.profile?.firstName || "--"}{" "}
-                                {dataUser?.profile?.lastName || "--"}
+                                {dataUser?.profile?.firstName || "--"} {dataUser?.profile?.lastName || "--"}
                             </h2>
-                            {geo ? (
-                                <GeoTagging
-                                    location={geo}
-                                    fontSize={12}
-                                    size={16}
-                                />
-                            ) : null}
+                            {geo ? <GeoTagging location={geo} fontSize={12} size={16} /> : null}
                         </div>
                     </div>
                     {MENU_ITEM_POPUP.map((item) => (
-                        <li
-                            key={item.value}
-                            onClick={() => handleClickMenu(item.value)}
-                        >
-                            <Image
-                                src={item.image.url}
-                                alt={item.image.alt}
-                                width={20}
-                                height={20}
-                            />
+                        <li key={item.value} onClick={() => handleClickMenu(item.value)}>
+                            <Image src={item.image.url} alt={item.image.alt} width={20} height={20} unoptimized />
                             <p>{item.label}</p>
                         </li>
                     ))}
@@ -134,34 +91,15 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({
                             handleReplace("/messages")
                         }}
                     >
-                        <Image
-                            src="/svg/arrow-left.svg"
-                            alt="back"
-                            width={20}
-                            height={20}
-                            unoptimized
-                        />
+                        <Image src="/svg/arrow-left.svg" alt="back" width={20} height={20} unoptimized />
                         <p>Назад</p>
                     </li>
                 </motion.div>
             ) : (
-                <motion.ul
-                    layout
-                    data-is-open={isVisible}
-                    className={cx(styles.menu)}
-                    initial={{ borderRadius: 12 }}
-                >
+                <motion.ul layout data-is-open={isVisible} className={cx(styles.menu)} initial={{ borderRadius: 12 }}>
                     {MENU_ITEM_POPUP.map((item) => (
-                        <li
-                            key={item.value}
-                            onClick={() => handleClickMenu(item.value)}
-                        >
-                            <Image
-                                src={item.image.url}
-                                alt={item.image.alt}
-                                width={20}
-                                height={20}
-                            />
+                        <li key={item.value} onClick={() => handleClickMenu(item.value)}>
+                            <Image src={item.image.url} alt={item.image.alt} width={20} height={20} unoptimized />
                             <p>{item.label}</p>
                         </li>
                     ))}

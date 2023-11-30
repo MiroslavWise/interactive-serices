@@ -22,15 +22,13 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
     }, [isAuth, handlePush])
 
     return isAuth ? (
-        <main className={styles.profileLayout}>
-            {isMobile ? (
-                children
-            ) : (
-                <>
-                    <NavBarProfile />
-                    {children}
-                </>
-            )}
-        </main>
+        isMobile ? (
+            children
+        ) : (
+            <>
+                <NavBarProfile />
+                {children}
+            </>
+        )
     ) : null
 }

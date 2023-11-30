@@ -12,7 +12,6 @@
 }
 
 html {
-    overflow: hidden;
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -23,7 +22,6 @@ body {
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
     background: var(--background);
-    overflow: hidden;
 }
 
 button {
@@ -225,33 +223,13 @@ h6 {
     --SOS-CARD: linear-gradient(180deg, #ff8da2 0%, #eb3f5e 49.32%);
     --gradient-primary: linear-gradient(180deg, #ada2fc 0%, #6e5cf0 100%);
     --gradient-optional-1: linear-gradient(180deg, #ff9e88 0%, #ee4e29 100%);
-    --gradient-optional-1-reverb: linear-gradient(
-        180deg,
-        #ee4e29 0%,
-        #ff9e88 100%
-    );
+    --gradient-optional-1-reverb: linear-gradient(180deg, #ee4e29 0%, #ff9e88 100%);
     --gradient-optional-2: linear-gradient(180deg, #8ccfff 0%, #3aaafa 100%);
     --gradient-optional-3: linear-gradient(180deg, #ffa8c7 0%, #ee4381 100%);
-    --gradient-barter: linear-gradient(
-        90deg,
-        rgba(148, 125, 231, 0.65) 0%,
-        rgba(191, 120, 196, 0.65) 100%
-    );
-    --gradient-barter-1: linear-gradient(
-        90deg,
-        rgba(148, 125, 231, 1) 0%,
-        rgba(191, 120, 196, 1) 100%
-    );
-    --gradient-barter-red: linear-gradient(
-        90deg,
-        rgba(219, 65, 65, 0.65) 0%,
-        rgba(191, 120, 196, 0.65) 100%
-    );
-    --gradient-barter-red-1: linear-gradient(
-        90deg,
-        rgba(219, 65, 65, 1) 0%,
-        rgba(191, 120, 196, 1) 100%
-    );
+    --gradient-barter: linear-gradient(90deg, rgba(148, 125, 231, 0.65) 0%, rgba(191, 120, 196, 0.65) 100%);
+    --gradient-barter-1: linear-gradient(90deg, rgba(148, 125, 231, 1) 0%, rgba(191, 120, 196, 1) 100%);
+    --gradient-barter-red: linear-gradient(90deg, rgba(219, 65, 65, 0.65) 0%, rgba(191, 120, 196, 0.65) 100%);
+    --gradient-barter-red-1: linear-gradient(90deg, rgba(219, 65, 65, 1) 0%, rgba(191, 120, 196, 1) 100%);
 
     --rainbow-linear-gradient: linear-gradient(
         90deg,
