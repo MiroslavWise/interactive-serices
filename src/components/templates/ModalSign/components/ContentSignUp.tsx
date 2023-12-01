@@ -7,16 +7,11 @@ import { useForm, Controller } from "react-hook-form"
 import type { IValuesRegistrationForm, TContentSignUp } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
-import { Button, Input, InputPassword } from "@/components/common"
+import { Button } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import {
-    useModalAuth,
-    useTermsOfUse,
-    useDataConfirmationPopUp,
-} from "@/store/hooks"
-import { checkPasswordStrength, matchesUserName } from "@/helpers"
 import { RegistrationService } from "@/services/auth/registrationService"
+import { dispatchAuthModal, useTermsOfUse, useDataConfirmationPopUp } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
@@ -25,54 +20,45 @@ export const ContentSignUp: TContentSignUp = ({}) => {
     const [isPass, setIsPass] = useState(false)
     const [isPass_, setIsPass_] = useState(false)
     const { on } = useToast()
-    const dispatchAuthModal = useModalAuth(
-        ({ dispatchAuthModal }) => dispatchAuthModal,
-    )
     const dispatchPolicy = useTermsOfUse(({ dispatchPolicy }) => dispatchPolicy)
     const dispatchRules = useTermsOfUse(({ dispatchRules }) => dispatchRules)
-    const dispatchDataConfirmation = useDataConfirmationPopUp(
-        ({ dispatchDataConfirmation }) => dispatchDataConfirmation,
-    )
+    const dispatchDataConfirmation = useDataConfirmationPopUp(({ dispatchDataConfirmation }) => dispatchDataConfirmation)
 
     const {
         register,
         watch,
         handleSubmit,
         setError,
-        setValue,
         control,
         formState: { errors },
-    } = useForm<IValuesRegistrationForm>({
-        mode: "onSubmit",
-        reValidateMode: "onChange",
-    })
+    } = useForm<IValuesRegistrationForm>()
 
     const onRegister = async (values: IValuesRegistrationForm) => {
         if (!loading) {
-            if (!matchesUserName(values.__iremqwer__)) {
-                return setError("__iremqwer__", { message: "email not valid" })
-            }
-            if (values.__wererfsdfwef__ !== values.__rwersdf__asdfsadf__) {
-                return setError("__rwersdf__asdfsadf__", {
-                    message: "no_repeat",
-                })
-            }
-            if (!values.checkbox) {
-                return setError("checkbox", { message: "it's true?" })
-            }
-            if (!checkPasswordStrength(values.__wererfsdfwef__)) {
-                setError("__wererfsdfwef__", { message: "validate_register" })
-                return
-            }
+            // if (!matchesUserName(values.__iremqwer__)) {
+            //     return setError("__iremqwer__", { message: "email not valid" })
+            // }
+            // if (values.__wererfsdfwef__ !== values.__rwersdf__asdfsadf__) {
+            //     return setError("__rwersdf__asdfsadf__", {
+            //         message: "no_repeat",
+            //     })
+            // }
+            // if (!values.checkbox) {
+            //     return setError("checkbox", { message: "it's true?" })
+            // }
+            // if (!checkPasswordStrength(values.__wererfsdfwef__)) {
+            //     setError("__wererfsdfwef__", { message: "validate_register" })
+            //     return
+            // }
             setLoading(true)
             RegistrationService.registration({
-                email: values.__iremqwer__,
-                password: values.__wererfsdfwef__,
-                repeat: values.__rwersdf__asdfsadf__,
+                email: values.email,
+                password: values.password,
+                repeat: values.repeat_password,
             })
                 .then((response) => {
                     if (response?.code === 409) {
-                        setError("__iremqwer__", {
+                        setError("email", {
                             message: "user already exists",
                         })
                     }
@@ -84,8 +70,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         })
                         on(
                             {
-                                message:
-                                    "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
+                                message: "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
                             },
                             "success",
                         )
@@ -102,59 +87,41 @@ export const ContentSignUp: TContentSignUp = ({}) => {
             <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
                 <section className={styles.section}>
                     <div data-label-input>
-                        <label>
+                        <label htmlFor="email">
                             Email <sup>*</sup>
                         </label>
                         <Controller
-                            name="__iremqwer__"
+                            name="email"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => (
-                                <input
-                                    type="email"
-                                    placeholder="Введите свой email"
-                                    {...field}
-                                />
-                            )}
+                            render={({ field }) => <input type="email" placeholder="Введите свой email" {...field} />}
                         />
-                        {errors.__iremqwer__ ? (
+                        {errors.email ? (
                             <i>
-                                {errors.__iremqwer__ &&
-                                errors?.__iremqwer__?.message ===
-                                    "user already exists"
+                                {errors.email && errors?.email?.message === "user already exists"
                                     ? "Пользователь уже существует"
-                                    : errors?.__iremqwer__
+                                    : errors?.email
                                     ? "Требуется email"
-                                    : errors.__iremqwer__
+                                    : errors.email
                                     ? "Какая-то ошибка с Email"
                                     : ""}
                             </i>
                         ) : null}
                     </div>
                     <div data-label-input data-password>
-                        <label>
+                        <label htmlFor="password">
                             Пароль <sup>*</sup>
                         </label>
                         <Controller
-                            name="__wererfsdfwef__"
+                            name="password"
                             control={control}
                             rules={{ required: true, minLength: 5 }}
                             render={({ field }) => (
                                 <div>
-                                    <input
-                                        {...field}
-                                        placeholder="Введите свой пароль"
-                                        type={isPass ? "text" : "password"}
-                                    />
+                                    <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
                                     <Image
-                                        onClick={() =>
-                                            setIsPass((prev) => !prev)
-                                        }
-                                        src={
-                                            isPass
-                                                ? "/svg/eye.svg"
-                                                : "/svg/eye-off.svg"
-                                        }
+                                        onClick={() => setIsPass((prev) => !prev)}
+                                        src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
                                         alt="eye"
                                         width={20}
                                         height={20}
@@ -164,48 +131,34 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                 </div>
                             )}
                         />
-                        {errors.__wererfsdfwef__ ? (
+                        {errors.password ? (
                             <i>
-                                {errors.__wererfsdfwef__?.message ===
-                                "validate_register"
+                                {errors.password?.message === "validate_register"
                                     ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
-                                    : errors.__wererfsdfwef__
+                                    : errors.password
                                     ? "Требуется пароль"
                                     : ""}
                             </i>
                         ) : null}
                     </div>
                     <div data-label-input data-password>
-                        <label>
+                        <label htmlFor="repeat_password">
                             Подтвердите пароль <sup>*</sup>
                         </label>
                         <Controller
-                            name="__rwersdf__asdfsadf__"
+                            name="repeat_password"
                             control={control}
                             rules={{
                                 required: true,
                                 minLength: 5,
-                                validate: (value) =>
-                                    value === watch("__rwersdf__asdfsadf__")
-                                        ? true
-                                        : "no_repeat",
+                                validate: (value) => (value === watch("repeat_password") ? true : "no_repeat"),
                             }}
                             render={({ field }) => (
                                 <div>
-                                    <input
-                                        {...field}
-                                        placeholder="Введите пароль еще раз"
-                                        type={isPass ? "text" : "password"}
-                                    />
+                                    <input {...field} placeholder="Введите пароль еще раз" type={isPass ? "text" : "password"} />
                                     <Image
-                                        onClick={() =>
-                                            setIsPass_((prev) => !prev)
-                                        }
-                                        src={
-                                            isPass_
-                                                ? "/svg/eye.svg"
-                                                : "/svg/eye-off.svg"
-                                        }
+                                        onClick={() => setIsPass_((prev) => !prev)}
+                                        src={isPass_ ? "/svg/eye.svg" : "/svg/eye-off.svg"}
                                         alt="eye"
                                         width={20}
                                         height={20}
@@ -215,13 +168,11 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                 </div>
                             )}
                         />
-                        {errors.__rwersdf__asdfsadf__ ? (
+                        {errors.repeat_password ? (
                             <i>
-                                {errors?.__rwersdf__asdfsadf__ &&
-                                errors?.__rwersdf__asdfsadf__?.message ===
-                                    "no_repeat"
+                                {errors?.repeat_password && errors?.repeat_password?.message === "no_repeat"
                                     ? "Пароли не совпадают"
-                                    : errors?.__rwersdf__asdfsadf__
+                                    : errors?.repeat_password
                                     ? "Требуется пароль"
                                     : ""}
                             </i>
@@ -231,58 +182,22 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                 <div className={styles.RememberChange}>
                     <div className={styles.checkRemember}>
                         <label className={styles.checkbox}>
-                            <input
-                                type="checkbox"
-                                defaultChecked={false}
-                                {...register("checkbox", { required: true })}
-                                className=""
-                            />
+                            <input type="checkbox" defaultChecked={false} {...register("checkbox", { required: true })} className="" />
                             <span className={styles.checkmark}>
-                                <Image
-                                    src="/svg/check.svg"
-                                    alt="check"
-                                    width={16}
-                                    height={16}
-                                    unoptimized
-                                />
+                                <Image src="/svg/check.svg" alt="check" width={16} height={16} unoptimized />
                             </span>
                         </label>
                         <p data-terms data-error={!!errors.checkbox}>
-                            Регистрируясь, вы соглашаетесь с{" "}
-                            <a onClick={() => dispatchRules({ visible: true })}>
-                                Правилами пользования
-                            </a>{" "}
-                            и{" "}
-                            <a
-                                onClick={() =>
-                                    dispatchPolicy({ visible: true })
-                                }
-                            >
-                                Политикой конфиденциальности
-                            </a>
+                            Регистрируясь, вы соглашаетесь с <a onClick={() => dispatchRules({ visible: true })}>Правилами пользования</a> и{" "}
+                            <a onClick={() => dispatchPolicy({ visible: true })}>Политикой конфиденциальности</a>
                         </p>
                     </div>
                 </div>
-                <Button
-                    type="submit"
-                    typeButton="fill-primary"
-                    label="Зарегистрироваться"
-                    loading={loading}
-                    className="w-100"
-                />
+                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" loading={loading} className="w-100" />
                 <LinksSocial />
             </form>
-            <section
-                className={`${styles.Register} cursor-pointer`}
-                onClick={() => dispatchAuthModal({ type: "SignIn" })}
-            >
-                <Image
-                    src="/svg/arrow-left.svg"
-                    alt="arrow"
-                    width={20}
-                    height={20}
-                    unoptimized
-                />
+            <section className={`${styles.Register} cursor-pointer`} onClick={() => dispatchAuthModal({ type: "SignIn" })}>
+                <Image src="/svg/arrow-left.svg" alt="arrow" width={20} height={20} unoptimized />
                 <p>Назад к странице входа</p>
             </section>
         </div>

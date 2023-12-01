@@ -11,9 +11,11 @@ export type TTypeSign =
     | "CodeVerification"
     | null
 
+export interface IAction {
+    visible?: boolean
+    type?: TTypeSign
+}
 export interface IUseVisibleAndTypeAuthModalState {
     visible: boolean
     type: TTypeSign
-
-    dispatchAuthModal: Dispatch<{ visible?: boolean; type?: TTypeSign }>
 }

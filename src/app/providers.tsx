@@ -6,24 +6,14 @@ import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import {
-    YMapsProvider,
-    WebSocketProvider,
-    NextThemesProvider,
-    Containers,
-} from "@/context"
 import "@/context/DayJSDefault"
 import { AnimatedLoadPage } from "@/components/layout"
+import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers } from "@/context"
 
-import {
-    useAuth,
-    useModalAuth,
-    useFetchingSession,
-    useOffersCategories,
-} from "@/store/hooks"
 import { usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { RegistrationService } from "@/services/auth/registrationService"
+import { useAuth, dispatchAuthModal, useFetchingSession, useOffersCategories } from "@/store/hooks"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -41,28 +31,17 @@ export default function Providers({ children }: { children: ReactNode }) {
     const { on } = useToast()
     const verifyToken = searchParams?.get("verify")
     const passwordResetToken = searchParams?.get("password-reset-token")
-    const dispatchAuthModal = useModalAuth(
-        ({ dispatchAuthModal }) => dispatchAuthModal,
-    )
-    const getCategories = useOffersCategories(
-        ({ getCategories }) => getCategories,
-    )
+    const getCategories = useOffersCategories(({ getCategories }) => getCategories)
 
-    const offersCategories = useFetchingSession(
-        ({ offersCategories }) => offersCategories,
-    )
-    const getFetchingOffersCategories = useFetchingSession(
-        ({ getFetchingOffersCategories }) => getFetchingOffersCategories,
-    )
+    const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
+    const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
 
     useEffect(() => {
         window.addEventListener("load", () => {
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker
-                    .register("/service-worker.js")
-                    .then((response) => {
-                        console.log("serviceWorker: ", response.scope)
-                    })
+                navigator.serviceWorker.register("/service-worker.js").then((response) => {
+                    console.log("serviceWorker: ", response.scope)
+                })
             }
         })
     }, [])
@@ -78,26 +57,23 @@ export default function Providers({ children }: { children: ReactNode }) {
                 type: "ResetPassword",
             })
         }
-    }, [passwordResetToken, dispatchAuthModal])
+    }, [passwordResetToken])
     useEffect(() => {
         if (verifyToken) {
-            RegistrationService.verification({ code: verifyToken! }).then(
-                (response) => {
-                    if (response.ok) {
-                        on({
-                            message:
-                                "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
-                        })
-                        handleReplace("/")
-                        dispatchAuthModal({
-                            visible: true,
-                            type: "SignIn",
-                        })
-                    }
-                },
-            )
+            RegistrationService.verification({ code: verifyToken! }).then((response) => {
+                if (response.ok) {
+                    on({
+                        message: "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
+                    })
+                    handleReplace("/")
+                    dispatchAuthModal({
+                        visible: true,
+                        type: "SignIn",
+                    })
+                }
+            })
         }
-    }, [verifyToken, handleReplace, on, dispatchAuthModal])
+    }, [verifyToken])
 
     useEffect(() => {
         if (offersCategories === false) {
@@ -105,13 +81,12 @@ export default function Providers({ children }: { children: ReactNode }) {
                 getFetchingOffersCategories(value)
             })
         }
-    }, [getCategories, offersCategories, getFetchingOffersCategories])
+    }, [offersCategories])
 
     useEffect(() => {
         let vh = window.innerHeight * 0.01
         document.documentElement.style.setProperty("--vh", `${vh}px`)
-        document.documentElement.style.height =
-            window.innerHeight.toString() + "px"
+        document.documentElement.style.height = window.innerHeight.toString() + "px"
     }, [])
 
     useEffect(() => {

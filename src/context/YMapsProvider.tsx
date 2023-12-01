@@ -5,7 +5,7 @@ import { YMaps } from "@pbe/react-yandex-maps"
 
 import env from "@/config/environment"
 
-export const YMapsProvider = ({ children }: { children: ReactNode }) => {
+export function YMapsProvider({ children }: { children: ReactNode }) {
     return (
         <YMaps
             query={{
@@ -13,7 +13,7 @@ export const YMapsProvider = ({ children }: { children: ReactNode }) => {
                 lang: "ru_RU",
                 mode: "release",
             }}
-            preload={true}
+            preload={false}
         >
             {children}
         </YMaps>

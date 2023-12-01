@@ -8,13 +8,9 @@ import type { TContentResetPassword } from "../types/types"
 
 import { InputPassword, Button } from "@/components/common"
 
-import {
-    usePush,
-    checkPasswordStrength,
-    useForgotPasswordHelper,
-} from "@/helpers"
-import { useModalAuth } from "@/store/hooks"
+import { dispatchAuthModal } from "@/store/hooks"
 import { useToast } from "@/helpers/hooks/useToast"
+import { usePush, checkPasswordStrength, useForgotPasswordHelper } from "@/helpers"
 
 import styles from "../styles/form.module.scss"
 
@@ -26,7 +22,6 @@ interface IValues {
 export const ContentResetPassword: TContentResetPassword = ({}) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
     const {
         register,
         watch,
@@ -54,18 +49,14 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                     return
                 }
                 if ([401 || 403].includes(response?.code!)) {
-                    on(
-                        { message: "Время восстановления пароля истекло" },
-                        "warning",
-                    )
+                    on({ message: "Время восстановления пароля истекло" }, "warning")
                     handleReplace("/")
                     return
                 }
                 if (response.code === 500) {
                     on(
                         {
-                            message:
-                                "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
+                            message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
                         },
                         "error",
                     )
@@ -73,8 +64,7 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                 if (response.ok && !!response?.res) {
                     on(
                         {
-                            message:
-                                "Пароль успешно изменён. Вы можете войти на аккаунт!",
+                            message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
                         },
                         "success",
                     )
@@ -99,15 +89,10 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                         {...register("password", {
                             required: true,
                             minLength: 5,
-                            validate: (value) =>
-                                checkPasswordStrength(value)
-                                    ? true
-                                    : "validate_register",
+                            validate: (value) => (checkPasswordStrength(value) ? true : "validate_register"),
                         })}
                         value={watch("password")}
-                        onChange={(event) =>
-                            setValue("password", event.target.value)
-                        }
+                        onChange={(event) => setValue("password", event.target.value)}
                         error={
                             errors.password?.message === "validate_register"
                                 ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
@@ -123,18 +108,12 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                         {...register("repeat_password", {
                             required: true,
                             minLength: 5,
-                            validate: (value) =>
-                                value === watch("password")
-                                    ? true
-                                    : "no_repeat",
+                            validate: (value) => (value === watch("password") ? true : "no_repeat"),
                         })}
                         value={watch("repeat_password")}
-                        onChange={(event) =>
-                            setValue("repeat_password", event.target.value)
-                        }
+                        onChange={(event) => setValue("repeat_password", event.target.value)}
                         error={
-                            errors?.repeat_password &&
-                            errors?.repeat_password?.message === "no_repeat"
+                            errors?.repeat_password && errors?.repeat_password?.message === "no_repeat"
                                 ? "Пароли не совпадают"
                                 : errors?.repeat_password
                                 ? "Требуется пароль"
@@ -142,13 +121,7 @@ export const ContentResetPassword: TContentResetPassword = ({}) => {
                         }
                     />
                 </section>
-                <Button
-                    type="submit"
-                    typeButton="fill-primary"
-                    className="w-100"
-                    label="Изменить"
-                    loading={loading}
-                />
+                <Button type="submit" typeButton="fill-primary" className="w-100" label="Изменить" loading={loading} />
             </form>
         </div>
     )

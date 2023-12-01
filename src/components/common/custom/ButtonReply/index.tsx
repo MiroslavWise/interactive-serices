@@ -6,7 +6,7 @@ import type { TProps } from "./types"
 import { Button, ButtonCircleGradient, ButtonClose } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { useAuth, useModalAuth, useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, dispatchAuthModal, useVisibleModalBarter } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -16,11 +16,8 @@ export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
     const { systemTheme } = useTheme()
     const userId = useAuth(({ userId }) => userId)
     const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
-    const dispatchAuthModal = useModalAuth(({ dispatchAuthModal }) => dispatchAuthModal)
 
     function handleBarter() {
-        console.log("handleBarter: offer", offer)
-        console.log("handleBarter: dataProfile", user)
         const provider = offer?.provider!
         const name = `${user?.profile?.firstName || " "} ${user?.profile?.lastName || " "}`
         const photo = user?.profile?.image?.attributes?.url

@@ -1,45 +1,32 @@
 "use client"
 
 import {
-    useBalloonCard,
-    useCompletionTransaction,
-    useDroverFriends,
-    useHasBalloons,
-    useModalAuth,
-    usePopupMenuChat,
-    useUpdateMutualOffer,
-    useVisibleModalBarter,
-    useVisiblePhotosCarousel,
-    useVisibleBannerNewServices,
-    useProfilePublic,
     usePhotoOffer,
+    useProfilePublic,
+    useHasBalloons,
+    useBalloonCard,
+    useDroverFriends,
+    dispatchAuthModal,
+    usePopupMenuChat,
+    useVisibleModalBarter,
+    useUpdateMutualOffer,
+    useVisiblePhotosCarousel,
+    useCompletionTransaction,
+    useVisibleBannerNewServices,
 } from "@/store/hooks"
 
 export const useCloseAllModal = () => {
     const dispatchBallonCard = useBalloonCard((_) => _.dispatch)
-    const dispatchCompletion = useCompletionTransaction(
-        (_) => _.dispatchCompletion,
-    )
+    const dispatchCompletion = useCompletionTransaction((_) => _.dispatchCompletion)
     const dispatchFriends = useDroverFriends((_) => _.dispatchFriends)
     const dispatchHasBalloon = useHasBalloons((_) => _.dispatchHasBalloon)
-    const dispatchAuthModal = useModalAuth((_) => _.dispatchAuthModal)
     const setIsVisible = usePopupMenuChat((_) => _.setIsVisible)
-    const dispatchUpdateMutual = useUpdateMutualOffer(
-        (_) => _.dispatchUpdateMutual,
-    )
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        (_) => _.dispatchVisibleBarter,
-    )
-    const dispatchVisibleCarousel = useVisiblePhotosCarousel(
-        (_) => _.dispatchVisibleCarousel,
-    )
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(
-        (_) => _.dispatchNewServicesBanner,
-    )
+    const dispatchUpdateMutual = useUpdateMutualOffer((_) => _.dispatchUpdateMutual)
+    const dispatchVisibleBarter = useVisibleModalBarter((_) => _.dispatchVisibleBarter)
+    const dispatchVisibleCarousel = useVisiblePhotosCarousel((_) => _.dispatchVisibleCarousel)
+    const dispatchNewServicesBanner = useVisibleBannerNewServices((_) => _.dispatchNewServicesBanner)
     const dispatchPhotoOffer = usePhotoOffer((_) => _.dispatchPhotoOffer)
-    const dispatchProfilePublic = useProfilePublic(
-        (_) => _.dispatchProfilePublic,
-    )
+    const dispatchProfilePublic = useProfilePublic((_) => _.dispatchProfilePublic)
 
     function close() {
         dispatchBallonCard({ visible: false })

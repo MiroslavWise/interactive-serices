@@ -1,37 +1,22 @@
 "use client"
 
-import {
-    useRef,
-    useState,
-    useEffect,
-    type ChangeEvent,
-    type KeyboardEvent,
-} from "react"
+import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent } from "react"
 
 import type { TContentCodeVerification } from "../types/types"
 
 import { Button } from "@/components/common"
 
-import { useModalAuth } from "@/store/hooks"
+import { dispatchAuthModal } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
-export const ContentCodeVerification: TContentCodeVerification = ({
-    typeVerification,
-    valueEmail,
-}) => {
+export const ContentCodeVerification: TContentCodeVerification = ({ typeVerification, valueEmail }) => {
     const [loading, setLoading] = useState(false)
     const [inputValues, setInputValues] = useState(Array(4).fill(""))
     const [errorCode, setErrorCode] = useState("")
     const inputRefs = useRef<HTMLInputElement[]>([])
-    const dispatchAuthModal = useModalAuth(
-        ({ dispatchAuthModal }) => dispatchAuthModal,
-    )
 
-    const handleChange = (
-        event: ChangeEvent<HTMLInputElement>,
-        index: number,
-    ) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
         const { value } = event.target
         const newInputValues = [...inputValues]
         newInputValues[index] = value
@@ -42,15 +27,8 @@ export const ContentCodeVerification: TContentCodeVerification = ({
         }
     }
 
-    const handleKeyDown = (
-        event: KeyboardEvent<HTMLInputElement>,
-        index: number,
-    ) => {
-        if (
-            event.key === "Backspace" &&
-            index > 0 &&
-            inputValues[index] === ""
-        ) {
+    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, index: number) => {
+        if (event.key === "Backspace" && index > 0 && inputValues[index] === "") {
             const prevInputRef = inputRefs.current[index - 1]
             prevInputRef.focus()
             const newInputValues = [...inputValues]
@@ -88,48 +66,22 @@ export const ContentCodeVerification: TContentCodeVerification = ({
                 ))}
             </div>
             {errorCode ? (
-                <p
-                    className="error-p"
-                    style={{ marginTop: -15, marginBottom: -15 }}
-                >
+                <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>
                     {errorCode}
                 </p>
             ) : null}
             <Button
                 type="submit"
                 typeButton="fill-primary"
-                label={`Подтвердить ${
-                    typeVerification === "email"
-                        ? "email"
-                        : typeVerification === "phone"
-                        ? "номер"
-                        : ""
-                }`}
+                label={`Подтвердить ${typeVerification === "email" ? "email" : typeVerification === "phone" ? "номер" : ""}`}
                 className="w-100"
                 loading={loading}
-                disabled={
-                    inputValues.filter((item) => item !== "").length !== 4
-                }
+                disabled={inputValues.filter((item) => item !== "").length !== 4}
                 onClick={onInputValues}
             />
             <section className={styles.Register}>
-                <p>
-                    Не получили{" "}
-                    {typeVerification === "email"
-                        ? "email"
-                        : typeVerification === "phone"
-                        ? "код"
-                        : ""}
-                    ?
-                </p>
-                <a
-                    onClick={() =>
-                        dispatchAuthModal({ type: "ForgotPassword" })
-                    }
-                >
-                    {" "}
-                    Отправить еще раз
-                </a>
+                <p>Не получили {typeVerification === "email" ? "email" : typeVerification === "phone" ? "код" : ""}?</p>
+                <a onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}> Отправить еще раз</a>
             </section>
         </div>
     )
