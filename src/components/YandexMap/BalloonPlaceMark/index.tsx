@@ -1,23 +1,24 @@
 "use client"
 
 import Image from "next/image"
-import { isMobile } from "react-device-detect"
 import { ReactNode, useRef } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TBalloonPlaceMark } from "./types/types"
+import type { TTypeProvider } from "@/services/file-upload/types"
+
+import { AlertBalloonComponent } from "./components/AlertBalloonComponent"
+import { OfferBalloonComponent } from "./components/OfferBalloonComponent"
+import { RequestBalloonComponent } from "./components/RequestBalloonComponent"
+import { DiscussionBalloonComponent } from "./components/DiscussionBalloonComponent"
 
 import { cx } from "@/lib/cx"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { OfferBalloonComponent } from "./components/OfferBalloonComponent"
-import { DiscussionBalloonComponent } from "./components/DiscussionBalloonComponent"
-import { AlertBalloonComponent } from "./components/AlertBalloonComponent"
-import { RequestBalloonComponent } from "./components/RequestBalloonComponent"
-import { TTypeProvider } from "@/services/file-upload/types"
 
 export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
-    const visible = useBalloonCard(({ visible }) => visible)
     const type = useBalloonCard(({ type }) => type)
+    const visible = useBalloonCard(({ visible }) => visible)
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const typeContent: Partial<Record<TTypeProvider, ReactNode>> = {
@@ -40,7 +41,6 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 data-type-offers={type || null}
                 onClick={(event) => {
                     event.stopPropagation()
-                    event.preventDefault()
                 }}
                 ref={refSection}
             >

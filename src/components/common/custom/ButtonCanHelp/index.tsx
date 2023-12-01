@@ -5,17 +5,14 @@ import type { IProps } from "./types"
 
 import { Button, ButtonClose } from "@/components/common"
 
-import { useOutsideClickEvent, usePush } from "@/helpers"
-import { useAuth, useModalAuth } from "@/store/hooks"
+import { usePush } from "@/helpers"
+import { useAuth, dispatchAuthModal } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
 export const ButtonCanHelp = ({ id, idUser }: IProps) => {
     const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
-    const dispatchAuthModal = useModalAuth(
-        ({ dispatchAuthModal }) => dispatchAuthModal,
-    )
     const [visible, setVisible] = useState(false)
 
     function handle() {
@@ -51,9 +48,8 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
                             }}
                         />
                         <h3>
-                            Для того чтобы, создавать предложения, совершать
-                            обмены и оставлять отзывы и комментарии вам нужно
-                            войти или зарегистрироваться
+                            Для того чтобы, создавать предложения, совершать обмены и оставлять отзывы и комментарии вам нужно войти или
+                            зарегистрироваться
                         </h3>
                         <Button
                             type="button"

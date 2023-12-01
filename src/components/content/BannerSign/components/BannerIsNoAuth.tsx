@@ -1,17 +1,15 @@
 "use client"
 
 import Image from "next/image"
-import { motion } from "framer-motion"
 
 import { Button } from "@/components/common"
 import { GlassesBanner } from "@/components/common/Glasses"
 
-import { useModalAuth, useVisibleAbout } from "@/store/hooks"
+import { dispatchAuthModal, useVisibleAbout } from "@/store/hooks"
 
 import styles from "../styles/banner.module.scss"
 
 export const BannerIsNoAuth = () => {
-    const dispatchAuthModal = useModalAuth(({ dispatchAuthModal }) => dispatchAuthModal)
     const dispatchVisibleAbout = useVisibleAbout(({ dispatchVisibleAbout }) => dispatchVisibleAbout)
 
     return (

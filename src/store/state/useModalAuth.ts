@@ -1,16 +1,14 @@
 import { create } from "zustand"
-import { IUseVisibleAndTypeAuthModalState } from "../types/useVisibleAndTypeAuthModalState"
 
-export const useModalAuth = create<IUseVisibleAndTypeAuthModalState>(
-    (set, get) => ({
-        visible: false,
-        type: null,
-        dispatchAuthModal({ visible, type }) {
-            set({
-                visible:
-                    typeof visible !== "undefined" ? visible : get().visible,
-                type: typeof type !== "undefined" ? type : get().type,
-            })
-        },
-    }),
-)
+import type { IUseVisibleAndTypeAuthModalState, IAction } from "../types/useVisibleAndTypeAuthModalState"
+
+export const useModalAuth = create<IUseVisibleAndTypeAuthModalState>(() => ({
+    visible: false,
+    type: null,
+}))
+
+export const dispatchAuthModal = ({ visible, type }: IAction) =>
+    useModalAuth.setState((_) => ({
+        visible: typeof visible !== "undefined" ? visible : _.visible,
+        type: typeof type !== "undefined" ? type : _.type,
+    }))

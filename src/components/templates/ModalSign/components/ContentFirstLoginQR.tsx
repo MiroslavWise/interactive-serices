@@ -8,9 +8,8 @@ import type { TContentFirstLoginQR } from "../types/types"
 
 import { Button } from "@/components/common"
 
-import { useAuth } from "@/store/hooks/useAuth"
+import { dispatchAuthModal, useAuth } from "@/store/hooks"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import { useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
@@ -20,7 +19,6 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
         email: state.email,
     }))
     const [loading, setLoading] = useState(false)
-    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
     //todo
     const [inputValues, setInputValues] = useState(["", "", "", "", "", ""])
     const [errorCode, setErrorCode] = useState("")
@@ -29,10 +27,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
         navigator.clipboard.writeText(valueSecret.secret)
     }
 
-    const handleChange = (
-        event: ChangeEvent<HTMLInputElement>,
-        index: number,
-    ) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
         let { value } = event.target
 
         const newInputValues = [...inputValues]
@@ -45,15 +40,8 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
         }
     }
 
-    const handleKeyDown = (
-        event: KeyboardEvent<HTMLInputElement>,
-        index: number,
-    ) => {
-        if (
-            event.key === "Backspace" &&
-            index > 0 &&
-            inputValues[index] === ""
-        ) {
+    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, index: number) => {
+        if (event.key === "Backspace" && index > 0 && inputValues[index] === "") {
             const prevInputRef = inputRefs.current[index - 1]
             prevInputRef.focus()
             const newInputValues = [...inputValues]
@@ -78,13 +66,8 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                     })
                 }
                 if (!response.ok) {
-                    if (
-                        response.error?.code === 401 &&
-                        response?.error?.message === "2fa code is not correct"
-                    ) {
-                        setErrorCode(
-                            "Код, введённый вами, не является действительным!",
-                        )
+                    if (response.error?.code === 401 && response?.error?.message === "2fa code is not correct") {
+                        setErrorCode("Код, введённый вами, не является действительным!")
                     }
                 }
             })
@@ -123,10 +106,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                 ))}
             </div>
             {errorCode ? (
-                <p
-                    className="error-p"
-                    style={{ marginTop: -15, marginBottom: -15 }}
-                >
+                <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>
                     {errorCode}
                 </p>
             ) : null}
@@ -136,9 +116,7 @@ export const ContentFirstLoginQR: TContentFirstLoginQR = ({ valueSecret }) => {
                 label="Подтвердить код"
                 className="w-100"
                 loading={loading}
-                disabled={
-                    inputValues.filter((item) => item !== "").length !== 6
-                }
+                disabled={inputValues.filter((item) => item !== "").length !== 6}
                 onClick={onInputValues}
             />
         </div>

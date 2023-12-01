@@ -10,17 +10,16 @@ import type { TFooterMenu } from "./types"
 import { usePush } from "@/helpers"
 import { MENU_ITEMS } from "./constants"
 import { useActivePath } from "@/helpers/hooks/useActivePash"
-import { useAuth, useModalAuth } from "@/store/hooks"
+import { useAuth, useModalAuth, dispatchAuthModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
+    const isAuth = useAuth(({ isAuth }) => isAuth)
     const visible = useModalAuth(({ visible }) => visible)
     const type = useModalAuth(({ type }) => type)
-    const dispatchAuthModal = useModalAuth(({ dispatchAuthModal }) => dispatchAuthModal)
     const pathname = usePathname()
     const { handlePush } = usePush()
-    const is = useAuth(({ isAuth }) => isAuth)
     const valuePath = useActivePath()
 
     const handleSignInOrSignUp = (path: string | null) => {
@@ -43,7 +42,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
             exit={{ bottom: -70 }}
         >
             <ul>
-                {MENU_ITEMS(is).map((item) => (
+                {MENU_ITEMS(isAuth).map((item) => (
                     <li key={item.key} onClick={() => handleSignInOrSignUp(item.path)}>
                         <div className={styles.itemsIconLabel}>
                             {item.isCenter ? (

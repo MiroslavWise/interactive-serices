@@ -1,12 +1,13 @@
 .modal-balloon-modal {
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
-    transition: var(--transition);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     z-index: 119;
+    transition: var(--transition);
+    transition-property: opacity, visibility;
 
     & > section {
         position: relative;

@@ -10,7 +10,7 @@ import { Button, Input } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useModalAuth } from "@/store/hooks"
+import { dispatchAuthModal } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
@@ -19,12 +19,9 @@ interface IValues {
     email: string
 }
 
-export const ContentForgotPassword: TContentForgotPassword = ({
-    setValueEmail,
-}) => {
+export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail }) => {
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
-    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
     const {
         register,
         handleSubmit,
@@ -42,8 +39,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                 if (response.ok && !!response?.res) {
                     dispatchAuthModal({ visible: false })
                     on({
-                        message:
-                            "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
+                        message: "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
                     })
                 }
                 if (response?.error?.code === 401) {
@@ -56,11 +52,7 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                     on({ message: "Пользователя не существует!" }, "error")
                     dispatchAuthModal({ visible: false })
                 }
-                if (
-                    response?.code &&
-                    response?.code >= 500 &&
-                    response?.code <= 599
-                ) {
+                if (response?.code && response?.code >= 500 && response?.code <= 599) {
                     setError("email", { message: "something went wrong" })
                 }
             })
@@ -82,19 +74,13 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                             required: true,
                         })}
                         value={watch("email")}
-                        onChange={(event) =>
-                            setValue("email", event.target.value)
-                        }
+                        onChange={(event) => setValue("email", event.target.value)}
                         error={
-                            errors.email &&
-                            errors?.email?.message === "user is not verified"
+                            errors.email && errors?.email?.message === "user is not verified"
                                 ? "Пользователь не верифицирован"
-                                : errors.email &&
-                                  errors?.email?.message === "user not found"
+                                : errors.email && errors?.email?.message === "user not found"
                                 ? "Пользователя не существует"
-                                : errors.email &&
-                                  errors?.email?.message ===
-                                      "something went wrong"
+                                : errors.email && errors?.email?.message === "something went wrong"
                                 ? "У нас проблемы с сервером, извините :("
                                 : errors.email
                                 ? "Требуется email"
@@ -102,25 +88,10 @@ export const ContentForgotPassword: TContentForgotPassword = ({
                         }
                     />
                 </section>
-                <Button
-                    type="submit"
-                    typeButton="fill-primary"
-                    label="Сброс пароля"
-                    className="w-100"
-                    loading={loading}
-                />
+                <Button type="submit" typeButton="fill-primary" label="Сброс пароля" className="w-100" loading={loading} />
             </form>
-            <section
-                className={cx(styles.Register, "cursor-pointer")}
-                onClick={() => dispatchAuthModal({ type: "SignIn" })}
-            >
-                <Image
-                    src="/svg/arrow-left.svg"
-                    alt="arrow"
-                    width={20}
-                    height={20}
-                    unoptimized
-                />
+            <section className={cx(styles.Register, "cursor-pointer")} onClick={() => dispatchAuthModal({ type: "SignIn" })}>
+                <Image src="/svg/arrow-left.svg" alt="arrow" width={20} height={20} unoptimized />
                 <p>Назад к странице входа</p>
             </section>
         </div>

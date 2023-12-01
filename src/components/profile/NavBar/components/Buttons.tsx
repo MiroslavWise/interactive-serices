@@ -2,31 +2,27 @@
 
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
+import { usePathname } from "next/navigation"
 
-import {
-    useAuth,
-    useVisibleBannerNewServices,
-    useModalAuth,
-} from "@/store/hooks"
+import { Button } from "@/components/common"
+import { SpoilerNotAdress } from "./SpoilerNotAdress"
+
 import { useAddress, useOutsideClickEvent, usePush } from "@/helpers"
+import { useAuth, useVisibleBannerNewServices, dispatchAuthModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { SpoilerNotAdress } from "./SpoilerNotAdress"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/common"
 
 export const Buttons = () => {
     const pathname = usePathname()
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(({dispatchNewServicesBanner}) => dispatchNewServicesBanner)
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
     const { isAddresses } = useAddress()
-    const dispatchAuthModal = useModalAuth(({dispatchAuthModal}) => dispatchAuthModal)
-    const is = useAuth(({isAuth}) => isAuth)
+    const isAuth = useAuth(({ isAuth }) => isAuth)
     const { handlePush } = usePush()
     const [active, setActive, ref] = useOutsideClickEvent()
 
     return !isMobile ? (
-        typeof is !== "undefined" ? (
-            is ? (
+        typeof isAuth !== "undefined" ? (
+            isAuth ? (
                 <div className={styles.buttons}>
                     {pathname !== "/" ? (
                         <Button
@@ -41,15 +37,7 @@ export const Buttons = () => {
                         typeButton="fill-primary"
                         className={styles.widthButton}
                         ref={ref}
-                        suffixIcon={
-                            <Image
-                                src="/svg/plus.svg"
-                                alt="plus"
-                                width={24}
-                                height={24}
-                                unoptimized
-                            />
-                        }
+                        suffixIcon={<Image src="/svg/plus.svg" alt="plus" width={24} height={24} unoptimized />}
                         onClick={() => {
                             if (isAddresses) {
                                 dispatchNewServicesBanner(true)
@@ -66,17 +54,13 @@ export const Buttons = () => {
                         label="Войти"
                         typeButton="fill-primary"
                         className={styles.widthButton}
-                        onClick={() =>
-                            dispatchAuthModal({ visible: true, type: "SignIn" })
-                        }
+                        onClick={() => dispatchAuthModal({ visible: true, type: "SignIn" })}
                     />
                     <Button
                         label="Зарегистрироваться"
                         typeButton="regular-primary"
                         className={styles.widthButton}
-                        onClick={() =>
-                            dispatchAuthModal({ visible: true, type: "SignUp" })
-                        }
+                        onClick={() => dispatchAuthModal({ visible: true, type: "SignUp" })}
                     />
                 </div>
             )

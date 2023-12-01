@@ -6,14 +6,11 @@ import { Content } from "./content/content"
 import { ButtonClose } from "@/components/common/Buttons"
 import { GlassesBanner } from "@/components/common/Glasses"
 
-import { useModalAuth } from "@/store/hooks"
+import { useModalAuth, dispatchAuthModal } from "@/store/hooks"
 
 export function ModalSign() {
     const type = useModalAuth(({ type }) => type)
     const visible = useModalAuth(({ visible }) => visible)
-    const dispatchAuthModal = useModalAuth(
-        ({ dispatchAuthModal }) => dispatchAuthModal,
-    )
 
     const buttonClose = (
         <ButtonClose
@@ -31,12 +28,7 @@ export function ModalSign() {
     )
 
     return (
-        <div
-            className={`wrapper-fixed ${
-                isMobile ? "authOverviewMobile" : "authOverlay"
-            }`}
-            data-visible={visible}
-        >
+        <div className={`wrapper-fixed ${isMobile ? "authOverviewMobile" : "authOverlay"}`} data-visible={visible}>
             {isMobile ? (
                 <>
                     {buttonClose}
