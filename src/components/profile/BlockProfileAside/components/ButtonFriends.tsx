@@ -10,11 +10,10 @@ import { serviceFriends } from "@/services/friends"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
 
 import styles from "./styles/button-friends.module.scss"
+import { DeclensionQuantityFriends } from "@/lib/declension"
 
 export const ButtonFriends = () => {
-    const dispatchFriends = useDroverFriends(
-        ({ dispatchFriends }) => dispatchFriends,
-    )
+    const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
     const userId = useAuth(({ userId }) => userId)
 
     const { data } = useQuery({
@@ -32,19 +31,9 @@ export const ButtonFriends = () => {
     }, [data?.res])
 
     return (
-        <div
-            className={styles.container}
-            onClick={handleOpen}
-            data-mobile={isMobile}
-        >
-            <p>{friends ? `Всего ${friends} друга` : `Нет друзей`}</p>
-            <Image
-                src="/svg/arrow-right.svg"
-                alt="arrow-right"
-                width={24}
-                height={24}
-                unoptimized
-            />
+        <div className={styles.container} onClick={handleOpen} data-mobile={isMobile}>
+            <p>{DeclensionQuantityFriends(friends)}</p>
+            <Image src="/svg/arrow-right.svg" alt="arrow-right" width={24} height={24} unoptimized />
         </div>
     )
 }

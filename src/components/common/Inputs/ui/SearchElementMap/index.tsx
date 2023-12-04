@@ -3,10 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 
-import type {
-    IFeatureMember,
-    IResponseGeocode,
-} from "@/services/addresses/types/geocodeSearch"
+import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 import type { TSearchElementMap } from "./types"
 
 import { cx } from "@/lib/cx"
@@ -16,15 +13,13 @@ import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 
 import styles from "./style.module.scss"
 
-export const SearchElementMap: TSearchElementMap = ({
-    handleAddressLocation,
-}) => {
+export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) => {
     const [text, setText] = useState("")
     const [activeList, setActiveList] = useState(false)
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const debouncedValue = useDebounce(onValueFunc, 1500)
 
-    const dispatchMapCoordinates = useMapCoordinates(({dispatchMapCoordinates}) => dispatchMapCoordinates)
+    const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
 
     function onFocus() {
         setActiveList(true)
@@ -63,14 +58,7 @@ export const SearchElementMap: TSearchElementMap = ({
 
     return (
         <div className={cx(styles.container)} id="searchElementMap">
-            <Image
-                className={styles.geoImage}
-                src="/svg/geo-marker.svg"
-                alt="geo"
-                width={20}
-                height={20}
-                unoptimized
-            />
+            <Image className={styles.geoImage} src="/svg/geo-marker.svg" alt="geo" width={20} height={20} unoptimized />
             <input
                 type="text"
                 onFocus={onFocus}
@@ -78,42 +66,27 @@ export const SearchElementMap: TSearchElementMap = ({
                 placeholder="Выберите местоположение"
                 className={styles.input}
                 onChange={(event) => {
-                    event.preventDefault()
+                    event.stopPropagation()
                     setText(event.target.value)
                     debouncedValue()
                 }}
             />
             <div className={styles.circleMark} onClick={handleAddressLocation}>
-                <Image
-                    src="/svg/mark.svg"
-                    alt="mark"
-                    width={20}
-                    height={20}
-                    unoptimized
-                />
+                <Image src="/svg/mark.svg" alt="mark" width={20} height={20} unoptimized />
             </div>
             {activeList && values?.response ? (
                 <ul className={cx(activeList && styles.active)}>
-                    {values?.response?.GeoObjectCollection?.featureMember?.map(
-                        (item) => (
-                            <li
-                                key={`${item.GeoObject.uri}-key-item-map`}
-                                onClick={(event) => {
-                                    event.preventDefault()
-                                    event.isPropagationStopped()
-                                    event.stopPropagation()
-                                    handleAddress(item)
-                                }}
-                            >
-                                <span>
-                                    {
-                                        item?.GeoObject?.metaDataProperty
-                                            ?.GeocoderMetaData?.text
-                                    }
-                                </span>
-                            </li>
-                        ),
-                    )}
+                    {values?.response?.GeoObjectCollection?.featureMember?.map((item) => (
+                        <li
+                            key={`${item.GeoObject.uri}-key-item-map`}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleAddress(item)
+                            }}
+                        >
+                            <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                        </li>
+                    ))}
                 </ul>
             ) : null}
         </div>
