@@ -4,16 +4,29 @@ import { memo } from "react"
 import { isMobile } from "react-device-detect"
 
 import type { TItemMessage } from "./types/types"
+import type { IPhoto } from "@/store/types/useVisiblePhotosCarousel"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
+import { useVisiblePhotosCarousel } from "@/store/hooks"
 import { stylesBlockRight } from "@/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
+import { IImageData } from "@/store/types/useAuthState"
 
 export const ItemUserMessage: TItemMessage = memo(function $ItemUserMessage({ photo, messages }) {
+    const dispatchVisibleCarousel = useVisiblePhotosCarousel(({ dispatchVisibleCarousel }) => dispatchVisibleCarousel)
+
+    function handleImage(id: number, photos: IPhoto[]) {
+        dispatchVisibleCarousel({
+            visible: true,
+            idPhoto: id,
+            photos: photos,
+        })
+    }
+
     return (
         <li className={styles.containerItemUserMessage}>
             {!isMobile ? (
@@ -30,8 +43,28 @@ export const ItemUserMessage: TItemMessage = memo(function $ItemUserMessage({ ph
                         key={`${item.id}_${item.message}`}
                         id={`${item.id!}`}
                     >
+                        {item?.images?.map((item_) =>
+                            typeof item_ !== "string" ? (
+                                <NextImageMotion
+                                    key={`${item_.id}-images-message`}
+                                    src={item_.attributes?.url}
+                                    alt="offer-image"
+                                    width={240}
+                                    height={160}
+                                    onClick={() => {
+                                        handleImage(
+                                            item_.id,
+                                            item?.images?.map((item_) => ({
+                                                url: typeof item_ !== "string" ? item_!?.attributes?.url! : "",
+                                                id: typeof item_ !== "string" ? item_!?.id! : 0,
+                                            })) as IPhoto[],
+                                        )
+                                    }}
+                                />
+                            ) : null,
+                        )}
                         <p>{item.message}</p>
-                        <p className={styles.time}>{timeNowOrBeforeChat(item?.time!)}</p>
+                        <time className={styles.time}>{timeNowOrBeforeChat(item?.time!)}</time>
                     </div>
                 ))}
             </div>

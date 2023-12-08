@@ -7,7 +7,7 @@ import { isMobile } from "react-device-detect"
 import { useEffect, useMemo, useState } from "react"
 
 import type { IValuesProfile } from "./components/types/types"
-import type { IPostProfileData } from "@/services/profile/types/profileService"
+import type { IPatchProfileData, IPostProfileData } from "@/services/profile/types/profileService"
 
 import { Footer } from "./components/Footer"
 import { Header } from "./components/Header"
@@ -44,15 +44,9 @@ export const ModalUpdateProfile = () => {
             year: "",
         }
         if (user) {
-            const day = user?.birthdate
-                ? Number(dayjs(user?.birthdate).format("DD"))
-                : ""
-            const month = user?.birthdate
-                ? dayjs(user?.birthdate).format("MM")
-                : ""
-            const year = user?.birthdate
-                ? Number(dayjs(user?.birthdate).format("YYYY"))
-                : ""
+            const day = user?.birthdate ? Number(dayjs(user?.birthdate).format("DD")) : ""
+            const month = user?.birthdate ? dayjs(user?.birthdate).format("MM") : ""
+            const year = user?.birthdate ? Number(dayjs(user?.birthdate).format("YYYY")) : ""
             dateOfBirth.day = day
             dateOfBirth.month = month
             dateOfBirth.year = year
@@ -87,37 +81,31 @@ export const ModalUpdateProfile = () => {
 
     async function onSubmit(values: IValuesProfile) {
         setLoading(true)
-        const data: IPostProfileData = {
+        const data: IPatchProfileData = {
             firstName: values.firstName,
             lastName: values.lastName,
             username: values.username,
-            birthdate: dayjs(
-                `${values.month}/${values.day}/${values.year}`,
-                "MM/DD/YYYY",
-            ).format("DD/MM/YYYY"),
             about: user?.about || "",
             enabled: true,
+        }
+
+        if (values.month && values.day && values.year) {
+            data.birthdate = dayjs(`${values.month}/${values.day}/${values.year}`, "MM/DD/YYYY").format("DD/MM/YYYY")
         }
 
         if (values.about) {
             data.about = values.about
         }
 
-        Promise.all([
-            !!profileId
-                ? serviceProfile.patch(data, profileId!)
-                : serviceProfile.post(data),
-        ])
+        Promise.all([!!profileId ? serviceProfile.patch(data, profileId!) : serviceProfile.post(data)])
             .then((response) => {
                 console.log("response ok: ", response?.[0])
-                if (response[0]?.error?.code === 409)
-                    return setError("username", { message: "user exists" })
+                if (response[0]?.error?.code === 409) return setError("username", { message: "user exists" })
                 if (response[0]?.error?.code === 401) {
                     setVisible(false)
                     on(
                         {
-                            message:
-                                "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
+                            message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
                         },
                         "warning",
                     )
@@ -136,21 +124,15 @@ export const ModalUpdateProfile = () => {
                                     username: values.username,
                                     imageId: uploadResponse.res?.id,
                                 }
-                                serviceProfile
-                                    .patch(data, response?.[0]?.res?.id!)
-                                    .then((responsePatch) => {
-                                        if (
-                                            [401].includes(
-                                                responsePatch?.error?.code!,
-                                            )
-                                        ) {
-                                            setVisible(false)
-                                            out()
-                                            return
-                                        }
-                                        updateProfile()
+                                serviceProfile.patch(data, response?.[0]?.res?.id!).then((responsePatch) => {
+                                    if ([401].includes(responsePatch?.error?.code!)) {
                                         setVisible(false)
-                                    })
+                                        out()
+                                        return
+                                    }
+                                    updateProfile()
+                                    setVisible(false)
+                                })
                                 return
                             }
                         })
@@ -161,9 +143,7 @@ export const ModalUpdateProfile = () => {
                 } else {
                     on(
                         {
-                            message: `Ошибка: ${
-                                response[0]?.error?.message || ""
-                            }`,
+                            message: `Ошибка: ${response[0]?.error?.message || ""}`,
                         },
                         "error",
                     )
@@ -178,10 +158,7 @@ export const ModalUpdateProfile = () => {
     }
 
     return isVisible ? (
-        <div
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-visible={isVisible}
-        >
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
             <div data-container>
                 {!isMobile && (
                     <ButtonClose
@@ -196,30 +173,15 @@ export const ModalUpdateProfile = () => {
                     <header data-header-title>
                         <h3>Редактировать профиль</h3>
                         <div data-back onClick={() => setVisible(false)}>
-                            <Image
-                                src="/svg/chevron-left.svg"
-                                alt="chevron-left"
-                                height={24}
-                                width={24}
-                                unoptimized
-                            />
+                            <Image src="/svg/chevron-left.svg" alt="chevron-left" height={24} width={24} unoptimized />
                         </div>
                     </header>
                 ) : (
                     <h3 data-title>Редактировать профиль</h3>
                 )}
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Header
-                        selectedImage={selectedImage}
-                        setSelectedImage={setSelectedImage}
-                        setFile={setFile}
-                    />
-                    <Content
-                        errors={errors}
-                        register={register}
-                        watch={watch}
-                        setValue={setValue}
-                    />
+                    <Header selectedImage={selectedImage} setSelectedImage={setSelectedImage} setFile={setFile} />
+                    <Content errors={errors} register={register} watch={watch} setValue={setValue} />
                     <Footer loading={loading} />
                 </form>
                 <Glasses />

@@ -12,9 +12,7 @@ export function ImageStatic(props: TImage) {
             {...props}
             onClick={(event) => {
                 event.stopPropagation()
-                if (onClick) {
-                    onClick()
-                }
+                if (onClick) onClick(event)
             }}
             src={src}
             alt={alt}

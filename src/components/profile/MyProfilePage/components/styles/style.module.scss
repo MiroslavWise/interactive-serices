@@ -96,6 +96,51 @@
     justify-content: space-between;
     z-index: 1;
 
+    & > nav {
+        display: flex;
+        flex-direction: row;
+
+        & > a {
+            padding: 4px 8px;
+            position: relative;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--primary-500, #6656db);
+                box-shadow: 0px 2px 8px 0px rgba(102, 86, 219, 0.49);
+                transform: scaleX(0);
+                transition: transform 0.3s ease-in-out;
+            }
+
+            & > span {
+                color: var(--color-text);
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 600;
+                letter-spacing: -0.3px;
+                transition: color var(--transition);
+            }
+
+            &[data-active="false"] {
+                cursor: pointer;
+            }
+
+            &[data-active="true"] {
+                & > span {
+                    color: var(--primary-500);
+                }
+                &::before {
+                    transform: scaleX(1);
+                }
+            }
+        }
+    }
+
     h4 {
         @include h4;
 
@@ -237,8 +282,7 @@
                 .photo {
                     border-radius: 18px;
                     border: 3px solid var(--stroke-1);
-                    box-shadow: 0px 9.191489219665527px 18.382978439331055px 0px
-                        rgba(0, 0, 0, 0.16);
+                    box-shadow: 0px 9.191489219665527px 18.382978439331055px 0px rgba(0, 0, 0, 0.16);
                     overflow: hidden;
                     width: 72px;
                     height: 72px;

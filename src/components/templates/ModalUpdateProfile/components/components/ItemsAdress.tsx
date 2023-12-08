@@ -24,11 +24,7 @@ export const ItemsAdress: TItemsAdress = ({}) => {
     return (
         <ul className={styles.containerItemsAdress}>
             {listAdress.map((item) => (
-                <ItemLIAdress
-                    key={`${item.id}_adress`}
-                    active={item.enabled!}
-                    item={item}
-                />
+                <ItemLIAdress key={`${item.id}_adress`} active={item.enabled!} item={item} />
             ))}
             {!listAdress.length ? <ItemLIAdress active={false} /> : null}
         </ul>

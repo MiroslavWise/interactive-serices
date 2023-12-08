@@ -1,16 +1,8 @@
 import type { TTypeProvider } from "@/services/file-upload/types"
-import type {
-    IAlertBalloon,
-    IOfferBallon,
-    IDiscussionBallon,
-    IRequestBallon,
-} from "./types"
+import type { IAlertBalloon, IOfferBallon, IDiscussionBallon, IRequestBallon } from "./types"
 import { DispatchWithoutAction } from "react"
 
-export const TYPE_ICON: Record<
-    TTypeProvider,
-    { default: string; active: string }
-> = {
+export const TYPE_ICON: Record<TTypeProvider, { default: string; active: string }> = {
     profile: {
         default: "",
         active: "",
@@ -32,6 +24,10 @@ export const TYPE_ICON: Record<
         active: "/map/default-discussion-hover.png",
     },
     barter: {
+        default: "",
+        active: "",
+    },
+    threads: {
         default: "",
         active: "",
     },

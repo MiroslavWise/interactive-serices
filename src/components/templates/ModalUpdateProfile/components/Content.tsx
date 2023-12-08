@@ -12,8 +12,7 @@ import { GroupSelectorDate } from "./components/GroupSelectorDate"
 
 import styles from "./styles/content.module.scss"
 
-const textAboutAddress =
-    "Вы можете добавить несколько местоположений, но одновременно выбрать можно только одно."
+const textAboutAddress = "Вы можете добавить несколько местоположений, но одновременно выбрать можно только одно."
 
 export const Content: TContent = ({ errors, register, watch, setValue }) => {
     function FirstColumn() {
@@ -25,9 +24,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                         placeholder="Расскажите чем вы занимаетесь или что вас интересует?(до 256 символов)"
                         type="text"
                         propsInput={register("about", { required: false })}
-                        errorMessage={
-                            errors.about ? "Это поле не может быть пустым" : ""
-                        }
+                        errorMessage={errors.about ? "Это поле не может быть пустым" : ""}
                     />
                 ) : null}
                 <LabelInput
@@ -36,9 +33,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                     placeholder="Введите своё имя"
                     type="text"
                     propsInput={register("firstName", { required: true })}
-                    errorMessage={
-                        errors.firstName ? "Это поле не может быть пустым" : ""
-                    }
+                    errorMessage={errors.firstName ? "Это поле не может быть пустым" : ""}
                 />
                 <LabelInput
                     label="Фамилия"
@@ -46,9 +41,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                     placeholder="Введите своё фамилия"
                     type="text"
                     propsInput={register("lastName", { required: true })}
-                    errorMessage={
-                        errors.lastName ? "Это поле не может быть пустым" : ""
-                    }
+                    errorMessage={errors.lastName ? "Это поле не может быть пустым" : ""}
                 />
                 <LabelInput
                     label="Ник"
@@ -56,9 +49,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                     placeholder="Введите желаемый ник"
                     type="text"
                     propsInput={register("username", { required: true })}
-                    errorMessage={
-                        errors.username ? "Это поле не может быть пустым" : ""
-                    }
+                    errorMessage={errors.username ? "Это поле не может быть пустым" : ""}
                 />
                 <GroupSelectorDate
                     label="Дата рождения"
@@ -66,9 +57,9 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                     watchMonth={watch("month")}
                     watchYear={watch("year")}
                     propsRegister={{
-                        day: register("day", { required: true }),
-                        month: register("month", { required: true }),
-                        year: register("year", { required: true }),
+                        day: register("day", { required: false }),
+                        month: register("month", { required: false }),
+                        year: register("year", { required: false }),
                     }}
                     set={setValue}
                     errorDate={{
@@ -84,9 +75,7 @@ export const Content: TContent = ({ errors, register, watch, setValue }) => {
                     placeholder="Введите почту"
                     type="email"
                     propsInput={register("email", { required: true })}
-                    errorMessage={
-                        errors.email ? "Это поле не может быть пустым" : ""
-                    }
+                    errorMessage={errors.email ? "Это поле не может быть пустым" : ""}
                 />
             </>
         )

@@ -4,11 +4,8 @@ import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 
 import type { TItemLIAdress } from "./types/types"
-import type {
-    IResponseGeocode,
-    IFeatureMember,
-} from "@/services/addresses/types/geocodeSearch"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import type { IResponseGeocode, IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
@@ -67,11 +64,8 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
             return null
         }
         return (
-            values?.response?.GeoObjectCollection?.featureMember?.filter(
-                (item) =>
-                    item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some(
-                        (_) => _?.kind === "house",
-                    ),
+            values?.response?.GeoObjectCollection?.featureMember?.filter((item) =>
+                item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some((_) => _?.kind === "house"),
             ) || null
         )
     }, [values])
@@ -80,8 +74,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const coordinates = item?.GeoObject?.Point?.pos
         const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
         const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
-        const additional =
-            item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
+        const additional = item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
         const value: IPostAddress = {
             addressType: "main",
             enabled: true,
@@ -120,9 +113,6 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
 
     return (
         <li className={cx(active && styles.active)}>
-            {/* <div className={cx(styles.checkBox)}>
-                <div className={styles.center} />
-            </div> */}
             <div className={styles.containerInput}>
                 <Image
                     src="/svg/marker-pin-black.svg"
@@ -144,37 +134,20 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     onBlur={onBlur}
                 />
                 <div className={styles.containerRed} onClick={deleteAddress}>
-                    <Image
-                        src="/svg/trash-red.svg"
-                        alt="trash-red"
-                        width={20}
-                        height={20}
-                        unoptimized
-                    />
+                    <Image src="/svg/trash-red.svg" alt="trash-red" width={20} height={20} unoptimized />
                 </div>
                 <ul className={cx(values && activeList && styles.activeList)}>
                     {values &&
                     exactAddresses &&
-                    Array.isArray(
-                        values?.response?.GeoObjectCollection?.featureMember,
-                    ) &&
+                    Array.isArray(values?.response?.GeoObjectCollection?.featureMember) &&
                     Array.isArray(exactAddresses) &&
                     exactAddresses?.length === 0 &&
-                    values?.response?.GeoObjectCollection?.featureMember
-                        ?.length > exactAddresses?.length ? (
+                    values?.response?.GeoObjectCollection?.featureMember?.length > exactAddresses?.length ? (
                         <h3>Введите более точный адрес</h3>
                     ) : Array.isArray(exactAddresses) ? (
                         exactAddresses?.map((item) => (
-                            <li
-                                key={`${item?.GeoObject?.uri}`}
-                                onClick={() => handleAddress(item)}
-                            >
-                                <span>
-                                    {
-                                        item?.GeoObject?.metaDataProperty
-                                            ?.GeocoderMetaData?.text
-                                    }
-                                </span>
+                            <li key={`${item?.GeoObject?.uri}`} onClick={() => handleAddress(item)}>
+                                <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
                             </li>
                         ))
                     ) : null}
