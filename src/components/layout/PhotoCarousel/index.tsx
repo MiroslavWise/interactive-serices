@@ -14,12 +14,10 @@ import styles from "./styles/style.module.scss"
 
 export function PhotoCarousel() {
     const isVisible = useVisiblePhotosCarousel(({ isVisible }) => isVisible)
-    const dispatchVisibleCarousel = useVisiblePhotosCarousel(
-        ({ dispatchVisibleCarousel }) => dispatchVisibleCarousel,
-    )
+    const dispatchVisibleCarousel = useVisiblePhotosCarousel(({ dispatchVisibleCarousel }) => dispatchVisibleCarousel)
 
     return (
-        <div className={cx(styles.wrapper, isVisible && styles.active)}>
+        <div className={cx(styles.wrapper, "wrapper-fixed")} data-visible={isVisible}>
             <ButtonClose
                 onClick={() => {
                     dispatchVisibleCarousel({ visible: false })

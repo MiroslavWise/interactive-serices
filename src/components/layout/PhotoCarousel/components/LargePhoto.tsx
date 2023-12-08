@@ -20,7 +20,7 @@ export function LargePhoto() {
 
     return (
         <div className={styles.containerLargePhoto} {...handlers}>
-            <NextImageMotion src={currentPhoto?.url!} onClick={setNext} alt="offer-image" height={1080} width={1920} />
+            <NextImageMotion src={currentPhoto?.url!} onClick={setNext} alt="offer-image" height={590} width={960} />
         </div>
     )
 }

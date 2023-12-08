@@ -14,13 +14,7 @@ import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
 import { daysAgo, usePush } from "@/helpers"
-import {
-    useAuth,
-    useVisibleModalBarter,
-    useProfilePublic,
-    useBalloonCard,
-    usePhotoOffer,
-} from "@/store/hooks"
+import { useAuth, useVisibleModalBarter, useProfilePublic, useBalloonCard, usePhotoOffer } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
 
@@ -28,19 +22,13 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const { handlePush } = usePush()
     const current = usePhotoOffer(({ current }) => current)
     const photos = usePhotoOffer(({ photos }) => photos)
-    const dispatchPhotoOffer = usePhotoOffer(
-        ({ dispatchPhotoOffer }) => dispatchPhotoOffer,
-    )
+    const dispatchPhotoOffer = usePhotoOffer(({ dispatchPhotoOffer }) => dispatchPhotoOffer)
     const visible = usePhotoOffer(({ visible }) => visible)
     const author = usePhotoOffer(({ author }) => author)
     const offer = usePhotoOffer(({ offer }) => offer)
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        ({ dispatchVisibleBarter }) => dispatchVisibleBarter,
-    )
+    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
     const dispatchBalloon = useBalloonCard(({ dispatch }) => dispatch)
-    const dispatchProfilePublic = useProfilePublic(
-        ({ dispatchProfilePublic }) => dispatchProfilePublic,
-    )
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const userId = useAuth(({ userId }) => userId)
 
     const widthCarousel: number = useMemo(() => {
@@ -107,136 +95,82 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
         }
     }
 
-    const geo =
-        (offer?.addresses && offer?.addresses?.length && offer?.addresses[0]) ||
-        null
+    const geo = (offer?.addresses && offer?.addresses?.length && offer?.addresses[0]) || null
 
-    return visible ? (
-        <main
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-mobile={isMobile}
-            data-visible={visible}
-        >
-            <section {...handlers}>
-                <div data-dark-header />
-                <div
-                    data-close
-                    onClick={() => {
-                        dispatchPhotoOffer({ visible: false, photos: null })
-                    }}
-                >
-                    <Image
-                        src="/svg/x-close.svg"
-                        alt="x-close"
-                        width={16}
-                        height={16}
-                        unoptimized
-                    />
-                </div>
-                <div data-left onClick={handlePrev}>
-                    <Image
-                        src="/svg/arrow-left.svg"
-                        alt="arrow-left"
-                        width={20}
-                        height={20}
-                        unoptimized
-                    />
-                </div>
-                <div data-right onClick={handleNext}>
-                    <Image
-                        src="/svg/arrow-right.svg"
-                        alt="arrow-right"
-                        width={20}
-                        height={20}
-                        unoptimized
-                    />
-                </div>
-                <header>
-                    <div data-title>
-                        <div data-author onClick={handleClickUser}>
-                            <NextImageMotion
-                                src={author?.urlPhoto!}
-                                alt="avatar"
-                                width={400}
-                                height={400}
-                                onClick={handleClickUser}
-                            />
-                            <div data-title-name-geo>
-                                <h2>{author?.name}</h2>
-                                {geo ? (
-                                    <GeoTagging
-                                        location={geo?.additional!}
-                                        fontSize={12}
-                                        size={14}
-                                    />
-                                ) : null}
-                            </div>
+    return (
+        <main className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
+            {visible ? (
+                <>
+                    <section {...handlers}>
+                        <div data-dark-header />
+                        <div
+                            data-close
+                            onClick={() => {
+                                dispatchPhotoOffer({ visible: false, photos: null })
+                            }}
+                        >
+                            <Image src="/svg/x-close.svg" alt="x-close" width={16} height={16} unoptimized />
                         </div>
-                        <p>{daysAgo(author?.time!)}</p>
-                    </div>
-                    <h3>{author?.title!}</h3>
-                </header>
-                {current ? (
-                    <NextImageMotion
-                        src={current?.url}
-                        alt="offer-image"
-                        width={800}
-                        height={800}
-                    />
-                ) : null}
-                <div data-images>
-                    <ul style={{ width: widthCarousel }}>
-                        {photos
-                            ? photos.map((item, index) => (
-                                  <li
-                                      key={item.id + item.url}
-                                      data-active={index === current?.index}
-                                      onClick={() => {
-                                          dispatchPhotoOffer({
-                                              current: item,
-                                          })
-                                      }}
-                                  >
-                                      <NextImageMotion
-                                          src={item?.url}
-                                          alt="offer-image"
-                                          width={800}
-                                          height={800}
-                                      />
-                                  </li>
-                              ))
-                            : null}
-                    </ul>
-                </div>
-                <footer>
-                    <ButtonDefault
-                        label="Подробнее"
-                        handleClick={handleClickUser}
-                    />
-                    {["offer"].includes(offer?.provider!) ? (
-                        <ButtonFill
-                            label="Откликнуться на обмен"
-                            handleClick={handleOpenBarter}
-                            suffix={
-                                <Image
-                                    src="/svg/repeat-black.svg"
-                                    alt="/repeat-black"
-                                    width={24}
-                                    height={24}
-                                    unoptimized
+                        <div data-left onClick={handlePrev}>
+                            <Image src="/svg/arrow-left.svg" alt="arrow-left" width={20} height={20} unoptimized />
+                        </div>
+                        <div data-right onClick={handleNext}>
+                            <Image src="/svg/arrow-right.svg" alt="arrow-right" width={20} height={20} unoptimized />
+                        </div>
+                        <header>
+                            <div data-title>
+                                <div data-author onClick={handleClickUser}>
+                                    <NextImageMotion
+                                        src={author?.urlPhoto!}
+                                        alt="avatar"
+                                        width={400}
+                                        height={400}
+                                        onClick={handleClickUser}
+                                    />
+                                    <div data-title-name-geo>
+                                        <h2>{author?.name}</h2>
+                                        {geo ? <GeoTagging location={geo?.additional!} fontSize={12} size={14} /> : null}
+                                    </div>
+                                </div>
+                                <p>{daysAgo(author?.time!)}</p>
+                            </div>
+                            <h3>{author?.title!}</h3>
+                        </header>
+                        {current ? <NextImageMotion src={current?.url} alt="offer-image" width={800} height={800} /> : null}
+                        <div data-images>
+                            <ul style={{ width: widthCarousel }}>
+                                {photos.length
+                                    ? photos.map((item, index) => (
+                                          <li
+                                              key={item.id + item.url}
+                                              data-active={index === current?.index}
+                                              onClick={() => {
+                                                  dispatchPhotoOffer({
+                                                      current: item,
+                                                  })
+                                              }}
+                                          >
+                                              <NextImageMotion src={item?.url} alt="offer-image" width={800} height={800} />
+                                          </li>
+                                      ))
+                                    : null}
+                            </ul>
+                        </div>
+                        <footer>
+                            <ButtonDefault label="Подробнее" handleClick={handleClickUser} />
+                            {["offer"].includes(offer?.provider!) ? (
+                                <ButtonFill
+                                    label="Откликнуться на обмен"
+                                    handleClick={handleOpenBarter}
+                                    suffix={<Image src="/svg/repeat-black.svg" alt="/repeat-black" width={24} height={24} unoptimized />}
+                                    type="primary"
                                 />
-                            }
-                            type="primary"
-                        />
-                    ) : null}
-                    {["alert"]?.includes(offer?.provider!) ? (
-                        <ButtonCanHelp
-                            id={offer?.id!}
-                            idUser={offer?.userId!}
-                        />
-                    ) : null}
-                </footer>
-            </section>
+                            ) : null}
+                            {["alert"]?.includes(offer?.provider!) ? <ButtonCanHelp id={offer?.id!} idUser={offer?.userId!} /> : null}
+                        </footer>
+                    </section>
+                </>
+            ) : null}
         </main>
-    ) : null
+    )
 }

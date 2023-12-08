@@ -33,14 +33,18 @@ export function ModalSign() {
                 <>
                     {buttonClose}
                     <div data-content>
-                        <Content />
+                        <ul>
+                            <Content />
+                        </ul>
                     </div>
                     <GlassesBanner />
                 </>
             ) : (
                 <div data-content>
                     {buttonClose}
-                    <Content />
+                    <ul>
+                        <Content />
+                    </ul>
                     <GlassesBanner />
                 </div>
             )}

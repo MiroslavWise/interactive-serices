@@ -1,10 +1,4 @@
-import type {
-    ISetAction,
-    IGetAction,
-    IUser,
-    ISetToken,
-    IAuthState,
-} from "../types/useAuthState"
+import type { ISetAction, IGetAction, IUser, ISetToken, IAuthState } from "../types/useAuthState"
 
 import { serviceUsers } from "@/services/users"
 import { initialStateAuth } from "../state/useAuthState"
@@ -13,13 +7,9 @@ export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
     set((state) => ({ ...initialState, isAuth: false }))
 }
 
-export const setUserAction = (
-    value: (IUser & { profileId: number }) | null,
-    set: ISetAction,
-) => {
+export const setUserAction = (value: (IUser & { profileId: number }) | null, set: ISetAction) => {
     if (value) {
-        const { firstName, lastName, username, birthdate, enabled, profileId } =
-            value ?? {}
+        const { firstName, lastName, username, birthdate, enabled, profileId } = value ?? {}
         set({
             user: {
                 firstName: firstName,
@@ -49,7 +39,7 @@ export const setTokenAction = (value: ISetToken, set: ISetAction) => {
 
 export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
     if (!!get().token && !!get().refreshToken && !!get().userId) {
-        serviceUsers.getId(get().userId!).then((response) => {
+        serviceUsers.getMe().then((response) => {
             if (response?.ok) {
                 set({
                     createdUser: response?.res?.created!,
@@ -58,23 +48,11 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
                 })
                 if (response?.res?.addresses) {
                     set({
-                        addresses:
-                            response?.res?.addresses?.filter(
-                                (item) => item.addressType === "main",
-                            ) || [],
+                        addresses: response?.res?.addresses?.filter((item) => item.addressType === "main") || [],
                     })
                 }
                 if (!!response?.res?.profile) {
-                    const {
-                        firstName,
-                        lastName,
-                        username,
-                        about,
-                        birthdate,
-                        enabled,
-                        id,
-                        image,
-                    } = response?.res?.profile ?? {}
+                    const { firstName, lastName, username, about, birthdate, enabled, id, image } = response?.res?.profile ?? {}
                     set({
                         user: {
                             firstName: firstName,

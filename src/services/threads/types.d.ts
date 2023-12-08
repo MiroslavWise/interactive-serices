@@ -1,6 +1,6 @@
 import type { IReturnData } from "../types/general"
 
-export type TTypeProviderThreads = "personal" | "barter"
+export type TTypeProviderThreads = "personal" | "barter" | "groups"
 
 export interface IPostThreads {
     title: "completed" | string
@@ -66,10 +66,7 @@ export interface IServiceThreads {
     route: string
     post(value: IPostThreads): Promise<IReturnData<IResponseCreate>>
     get(value?: IQueryParams): Promise<IReturnData<IResponseThreads[]>>
-    patch(
-        value: IPatchThreads,
-        id: number | string,
-    ): Promise<IReturnData<IResponseCreate>>
+    patch(value: IPatchThreads, id: number | string): Promise<IReturnData<IResponseCreate>>
     getId(id: number | string): Promise<IReturnData<IResponseThread>>
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
     getUserId(userId: number | string): Promise<IReturnData<IResponseThreads[]>>
