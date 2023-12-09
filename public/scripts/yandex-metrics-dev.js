@@ -16,16 +16,6 @@
     ;(k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]), (k.async = 1), (k.src = r), a.parentNode.insertBefore(k, a)
 })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym")
 
-ym(95807535, "init", {
-    clickmap: true,
-
-    trackLinks: true,
-
-    accurateTrackBounce: true,
-
-    webvisor: true,
-})
-
 ym(95807492, "init", {
     clickmap: true,
 
