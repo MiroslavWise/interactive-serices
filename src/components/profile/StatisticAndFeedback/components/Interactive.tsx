@@ -12,13 +12,13 @@ import { ItemsReviews } from "./ItemsReviews"
 import { ContainerServices } from "./ContainerServices"
 // import { ItemsBlogMessages } from "./ItemsBlogMessages"
 
-import { VALUES } from "@/components/auth/Profile/ProfilePublic/constants"
+import { ITEMS_INTERACTIVE } from "./constants"
 
 import styles from "./styles/style.module.scss"
 
 export const Interactive: TInteractive = ({}) => {
     const { systemTheme } = useTheme()
-    const [active, setActive] = useState<ISegmentValues<string>>(VALUES[0])
+    const [active, setActive] = useState<ISegmentValues<string>>(ITEMS_INTERACTIVE[0])
 
     const Items: ReactNode = useMemo(() => {
         return {
@@ -33,7 +33,7 @@ export const Interactive: TInteractive = ({}) => {
                 <Segments
                     classNames={styles.segments}
                     type={systemTheme === "dark" ? "primary" : "optional-1"}
-                    VALUES={VALUES}
+                    VALUES={ITEMS_INTERACTIVE}
                     active={active}
                     setActive={setActive}
                 />
