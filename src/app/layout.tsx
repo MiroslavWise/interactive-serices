@@ -6,11 +6,12 @@ import { type ReactNode } from "react"
 import { Inter } from "next/font/google"
 
 import { Glasses } from "@/components/layout"
+const Providers = dynamic(() => import("./providers"), { ssr: false })
+
+import env from "@/config/environment"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
-
-const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
@@ -44,15 +45,18 @@ export default function Layout({ children }: { children: ReactNode }) {
     return (
         <html lang="ru">
             <head>
-                <Script src="/scripts/yandex-metrics.js" />
+                <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
                 <noscript>
                     <div>
-                        <img src="https://mc.yandex.ru/watch/95807535" style={{ position: "absolute", left: -9999 }} alt="" />
-                    </div>
-                </noscript>
-                <noscript>
-                    <div>
-                        <img src="https://mc.yandex.ru/watch/95807492" style={{ position: "absolute", left: -9999 }} alt="" />
+                        <img
+                            src={
+                                env!?.server!?.host!?.includes("dev")
+                                    ? "https://mc.yandex.ru/watch/95807492"
+                                    : "https://mc.yandex.ru/watch/95807535"
+                            }
+                            style={{ position: "absolute", left: -9999 }}
+                            alt=""
+                        />
                     </div>
                 </noscript>
             </head>
