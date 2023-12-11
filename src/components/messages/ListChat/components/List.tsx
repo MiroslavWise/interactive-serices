@@ -13,8 +13,6 @@ export const List: TList = memo(function List({ items, search, setTotal }) {
     const [state, setState] = useState<IFiltersItems[]>([])
 
     useEffect(() => {
-        console.log("useEffect items: ", items)
-
         if (items.length) {
             const filters =
                 items?.filter((item) =>

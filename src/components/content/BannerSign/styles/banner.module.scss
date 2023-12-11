@@ -2,6 +2,7 @@
 .containerNoAuth {
     position: fixed;
     left: 24px;
+    top: calc(24px + 77px);
     max-width: 320px;
     width: 100%;
     z-index: 59;
@@ -12,7 +13,6 @@
 
 .containerAuthBanner {
     height: calc((100% - 48px) - 77px);
-    top: calc(24px + 77px);
     bottom: 24px;
     border: 2px solid var(--stroke-1);
     background: var(--glass-bg-color-1);
@@ -80,7 +80,6 @@
 }
 
 .containerNoAuth {
-    top: 24px;
     flex-shrink: 0;
     background: var(--glass-bg-color);
     overflow: hidden;

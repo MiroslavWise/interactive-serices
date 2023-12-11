@@ -2,26 +2,23 @@
 
 import { useRouter, usePathname } from "next/navigation"
 
-import { useAnimateLoadPage } from "@/store/hooks"
+import { dispatchAnimated } from "@/store/hooks"
 import { useCloseAllModal } from "./useCloseAllModal"
 
 export const usePush = () => {
     const { push, replace, back } = useRouter()
     const pathname = usePathname()
-    const setIsAnimated = useAnimateLoadPage(
-        ({ setIsAnimated }) => setIsAnimated,
-    )
     const close = useCloseAllModal()
 
     function handleReplace(value: string) {
         replace(value)
         close()
-        setIsAnimated(false)
+        dispatchAnimated(false)
     }
 
     function handlePush(value: string) {
         if (pathname !== value) {
-            setIsAnimated(true)
+            dispatchAnimated(true)
             close()
         }
         push(value, { scroll: false })

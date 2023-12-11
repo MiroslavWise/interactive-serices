@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import { useTheme } from "next-themes"
 
@@ -6,7 +8,7 @@ import { IResponseOffers } from "@/services/offers/types"
 import { Button } from "../../Forward"
 import { NextImageMotion } from "../../Image"
 
-import { useBalloonCard, useVisiblePhotosCarousel } from "@/store/hooks"
+import { useBalloonCard, dispatchPhotoCarousel } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -14,7 +16,6 @@ export function CardDiscussion(props: IResponseOffers) {
     const { title, images, provider, id, userId } = props ?? {}
     const { systemTheme } = useTheme()
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
-    const dispatchVisibleCarousel = useVisiblePhotosCarousel(({ dispatchVisibleCarousel }) => dispatchVisibleCarousel)
 
     function handleOpenMore() {
         dispatch({
@@ -42,7 +43,7 @@ export function CardDiscussion(props: IResponseOffers) {
                                     width={90}
                                     height={90}
                                     onClick={() => {
-                                        dispatchVisibleCarousel({
+                                        dispatchPhotoCarousel({
                                             visible: true,
                                             photos: images.map((item) => ({
                                                 id: item.id,

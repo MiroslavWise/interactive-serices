@@ -16,9 +16,9 @@ import { useBounds, useFilterMap } from "@/store/hooks"
 import styles from "../styles/style.module.scss"
 
 export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({ setTotal, type }) {
-    const idTarget = useFilterMap(({ idTarget }) => idTarget)
+    const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
     const bounds = useBounds(({ bounds }) => bounds)
-    const obj = idTarget ? { category: idTarget } : {}
+    const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
     const typeOffers = useMemo(() => {
         if (["offer", "request"].includes(type)) {
             return {
@@ -40,7 +40,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
 
     const { data } = useQuery({
         queryFn: () => serviceOffers.get({ ...typeOffers.get!, ...obj }),
-        queryKey: [...typeOffers.keys, `category=${idTarget}`],
+        queryKey: [...typeOffers.keys, `category=${idsNumber.join(":")}`],
         enabled: !!type,
     })
 

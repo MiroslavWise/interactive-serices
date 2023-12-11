@@ -24,7 +24,7 @@ import stylesHeader from "@/components/profile/BlockProfileAside/components/styl
 import { useRefetchListChat } from "../hook/useRefetchListChat"
 
 export const InterviewerInfoCurrent = () => {
-    const idThread = useSearchParams()?.get("thread")
+    const idThread = useSearchParams().get("thread")
     const userId = useAuth(({ userId }) => userId)
     const type = useMessagesType(({ type }) => type)
     const { handlePush, handleReplace } = usePush()

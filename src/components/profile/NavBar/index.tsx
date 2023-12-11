@@ -2,6 +2,7 @@
 
 import { isMobile } from "react-device-detect"
 
+import { useAuth } from "@/store/hooks"
 import { Links } from "./components/Links"
 import { Logo } from "./components/Logo"
 import { Buttons } from "./components/Buttons"
@@ -18,10 +19,12 @@ export const NavBarUser = () => {
 }
 
 export const NavBarProfile = () => {
+    const isAuth = useAuth(({ isAuth }) => isAuth)
+
     return typeof isMobile !== "undefined" && !isMobile ? (
         <nav className={styles.nav}>
             <Logo />
-            <Links />
+            {isAuth && <Links />}
             <Buttons />
         </nav>
     ) : null

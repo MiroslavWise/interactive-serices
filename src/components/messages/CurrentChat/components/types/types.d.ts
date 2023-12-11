@@ -21,6 +21,7 @@ interface IItemMessage {
         time: Date | string
         temporary?: boolean
         images: IImageData[] | string[]
+        reading: boolean
     }[]
 }
 

@@ -6,25 +6,18 @@ import { isMobile } from "react-device-detect"
 import type { TItemMessage } from "./types/types"
 import type { IPhoto } from "@/store/types/useVisiblePhotosCarousel"
 
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { useVisiblePhotosCarousel } from "@/store/hooks"
+import { dispatchPhotoCarousel } from "@/store/hooks"
 import { stylesBlockRight } from "@/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
-import { IImageData } from "@/store/types/useAuthState"
 
 export const ItemUserMessage: TItemMessage = memo(function $ItemUserMessage({ photo, messages }) {
-    const dispatchVisibleCarousel = useVisiblePhotosCarousel(({ dispatchVisibleCarousel }) => dispatchVisibleCarousel)
-
     function handleImage(id: number, photos: IPhoto[]) {
-        dispatchVisibleCarousel({
-            visible: true,
-            idPhoto: id,
-            photos: photos,
-        })
+        dispatchPhotoCarousel({ visible: true, idPhoto: id, photos })
     }
 
     return (

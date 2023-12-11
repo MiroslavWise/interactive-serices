@@ -5,21 +5,15 @@ import { useQuery } from "@tanstack/react-query"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
-import {
-    MobileInteractive,
-    MobileMainInfo,
-    StatisticAndFeedback,
-    MainInfo,
-} from "@/components/profile"
 import { MotionUL } from "@/components/common/Motion"
 import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
+import { MobileInteractive, MobileMainInfo, StatisticAndFeedback, MainInfo } from "@/components/profile"
 
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 
 import styles from "@/scss/page.module.scss"
-
 
 let fetchOut = false
 
@@ -37,21 +31,13 @@ export default function UserId() {
 
     useEffect(() => {
         if (id === "undefined" || typeof id === "undefined" || id === "null") {
-            if (!fetchOut)
-                on(
-                    { message: "Данный аккаунт не существует или приватный" },
-                    "warning",
-                )
+            if (!fetchOut) on({ message: "Данный аккаунт не существует или приватный" }, "warning")
             fetchOut = true
             return handlePush("/")
         }
 
         if (data?.ok === false) {
-            if (!fetchOut)
-                on(
-                    { message: "Данный аккаунт не существует или приватный" },
-                    "warning",
-                )
+            if (!fetchOut) on({ message: "Данный аккаунт не существует или приватный" }, "warning")
             fetchOut = true
             return handlePush("/")
         }

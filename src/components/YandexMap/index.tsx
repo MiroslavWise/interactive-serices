@@ -13,20 +13,15 @@ import { FilterFieldBottom } from "./FilterFieldBottom"
 import { CreationAlertAndDiscussionMap } from "../templates"
 import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 
-import {
-    useAuth,
-    useBounds,
-    useHasBalloons,
-    useMapCoordinates,
-} from "@/store/hooks"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
 import { TTypeProvider } from "@/services/file-upload/types"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
+import { useAuth, useBounds, useHasBalloons, useMapCoordinates } from "@/store/hooks"
 
-const COORD = [55.75, 37.67]
+const COORD = [59.57, 30.19]
 
 const YandexMap: TYandexMap = ({}) => {
     const userId = useAuth(({ userId }) => userId)
@@ -35,59 +30,50 @@ const YandexMap: TYandexMap = ({}) => {
     const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
     const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
     const zoom = useMapCoordinates(({ zoom }) => zoom)
-    const dispatchMapCoordinates = useMapCoordinates(
-        ({ dispatchMapCoordinates }) => dispatchMapCoordinates,
-    )
-    const dispatchHasBalloon = useHasBalloons(
-        ({ dispatchHasBalloon }) => dispatchHasBalloon,
-    )
+    const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
+    const dispatchHasBalloon = useHasBalloons(({ dispatchHasBalloon }) => dispatchHasBalloon)
     const instanceRef: TTypeInstantsMap = useRef()
     const bounds = useBounds(({ bounds }) => bounds)
     const dispatchBounds = useBounds(({ dispatchBounds }) => dispatchBounds)
 
     async function get({ mapTwo, mapOne }: { mapOne: number; mapTwo: number }) {
-        return getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then(
-            (response) => {
-                const data: IPostAddress = {
-                    addressType: "",
-                    enabled: false,
-                }
-                const elem =
-                    response?.response?.GeoObjectCollection?.featureMember[0]
-                if (!elem) return null
-                if (elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind) {
-                    data.addressType =
-                        elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind!
-                }
-                const longitude = elem?.GeoObject?.Point?.pos?.split(" ")[0]
-                const latitude = elem?.GeoObject?.Point?.pos?.split(" ")[1]
-                const country = getLocationName(elem, "country")
-                const street = getLocationName(elem, "street")
-                const house = getLocationName(elem, "house")
-                const city = getLocationName(elem, "locality")
-                const region = getLocationName(elem, "province")
-                const district = getLocationName(elem, "area")
-                const additional =
-                    elem?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
-                const coordinates = elem?.GeoObject?.Point?.pos
-                if (longitude) data.longitude = longitude
-                if (latitude) data.latitude = latitude
-                if (country) data.country = country
-                if (street) data.street = street
-                if (house) data.house = house
-                if (city) data.city = city
-                if (region) data.region = region
-                if (district) data.district = district
-                if (coordinates) data.coordinates = coordinates
-                if (additional) {
-                    data.additional = additional
-                }
-                const hash = generateShortHash(additional!)
-                if (hash) data.hash = hash
+        return getGeocodeSearchCoords(`${mapTwo},${mapOne}`).then((response) => {
+            const data: IPostAddress = {
+                addressType: "",
+                enabled: false,
+            }
+            const elem = response?.response?.GeoObjectCollection?.featureMember[0]
+            if (!elem) return null
+            if (elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind) {
+                data.addressType = elem.GeoObject?.metaDataProperty?.GeocoderMetaData?.kind!
+            }
+            const longitude = elem?.GeoObject?.Point?.pos?.split(" ")[0]
+            const latitude = elem?.GeoObject?.Point?.pos?.split(" ")[1]
+            const country = getLocationName(elem, "country")
+            const street = getLocationName(elem, "street")
+            const house = getLocationName(elem, "house")
+            const city = getLocationName(elem, "locality")
+            const region = getLocationName(elem, "province")
+            const district = getLocationName(elem, "area")
+            const additional = elem?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
+            const coordinates = elem?.GeoObject?.Point?.pos
+            if (longitude) data.longitude = longitude
+            if (latitude) data.latitude = latitude
+            if (country) data.country = country
+            if (street) data.street = street
+            if (house) data.house = house
+            if (city) data.city = city
+            if (region) data.region = region
+            if (district) data.district = district
+            if (coordinates) data.coordinates = coordinates
+            if (additional) {
+                data.additional = additional
+            }
+            const hash = generateShortHash(additional!)
+            if (hash) data.hash = hash
 
-                return data!
-            },
-        )
+            return data!
+        })
     }
 
     function onContextMenu(e: any) {
@@ -154,23 +140,10 @@ const YandexMap: TYandexMap = ({}) => {
                             dispatchBounds({ bounds })
                         }
 
-                        instanceRef.current?.events.add(
-                            "actionend",
-                            (events: any) => {
-                                const bounds: number[][] | undefined =
-                                    events.originalEvent?.target?._bounds
-                                dispatchBounds({ bounds })
-                                if (bounds) {
-                                    const center =
-                                        instanceRef.current?.getCenter()
-
-                                    console.log("useEffect bounds: ", center)
-                                    // dispatchMapCoordinates({
-                                    //     coordinates: center,
-                                    // })
-                                }
-                            },
-                        )
+                        instanceRef.current?.events.add("actionend", (events: any) => {
+                            const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
+                            dispatchBounds({ bounds })
+                        })
                     })
                 }}
                 state={{
@@ -198,8 +171,7 @@ const YandexMap: TYandexMap = ({}) => {
                         iconPieChartCoreRadius: 10,
                     }}
                     onClick={async (event: any) => {
-                        const coord = event?.originalEvent?.currentTarget
-                            ?._mapChildComponent?._map?._bounds as number[][]
+                        const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
                         const length = coord?.length || 2
                         const c = coord?.reduce((acc, current) => [
                             acc[0] / length + current[0] / length,
@@ -207,21 +179,13 @@ const YandexMap: TYandexMap = ({}) => {
                         ])
                         let ids: { id: number; provider: TTypeProvider }[] = []
                         if (event?.originalEvent?.currentTarget?._objects) {
-                            const maps = Object.values(
-                                event?.originalEvent?.currentTarget
-                                    ?._objects as object,
-                            )
+                            const maps = Object.values(event?.originalEvent?.currentTarget?._objects as object)
                                 .filter((value) => !!value?.cluster)
-                                ?.map(
-                                    (value) =>
-                                        value?.geoObject?.properties?._data,
-                                )
+                                ?.map((value) => value?.geoObject?.properties?._data)
                                 ?.filter(
                                     (item) =>
-                                        (item?.item[0] >= coord[0][0] ||
-                                            item?.item[0] <= coord[1][0]) &&
-                                        (item?.item[1] >= coord[0][1] ||
-                                            item?.item[1] <= coord[1][1]),
+                                        (item?.item[0] >= coord[0][0] || item?.item[0] <= coord[1][0]) &&
+                                        (item?.item[1] >= coord[0][1] || item?.item[1] <= coord[1][1]),
                                 )
 
                             ids = maps.map((item) => ({
@@ -245,16 +209,9 @@ const YandexMap: TYandexMap = ({}) => {
                 >
                     <ListPlacemark />
                 </Clusterer>
-                {addressInit ? (
-                    <StandardContextMenu addressInit={addressInit} />
-                ) : null}
+                {addressInit ? <StandardContextMenu addressInit={addressInit} /> : null}
             </Map>
-            <CreationAlertAndDiscussionMap
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                refCreate={refCreate}
-                addressInit={addressInit}
-            />
+            <CreationAlertAndDiscussionMap isOpen={isOpen} setIsOpen={setIsOpen} refCreate={refCreate} addressInit={addressInit} />
             <MapCardNews />
             {!isMobile ? <FilterFieldBottom /> : null}
         </>

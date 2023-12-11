@@ -8,40 +8,30 @@ import type { TPopupFilter } from "./types"
 import { SearchInput } from "@/components/common/Inputs"
 
 import { cx } from "@/lib/cx"
-import { useFilterMap } from "@/store/hooks"
 import { BUTTON_PAGINATION } from "./constants"
 import { useOffersCategories } from "@/store/hooks"
+import { useFilterMap, dispatchFilterMap } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const PopupFilter: TPopupFilter = ({ visible }) => {
-    const idTarget = useFilterMap(({idTarget}) => idTarget)
+    const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
     const categories = useOffersCategories(({ categories }) => categories)
-    const dispatchTarget = useFilterMap(({dispatchTarget}) => dispatchTarget)
     const [value, setValue] = useState("")
 
-    const categoriesMain =
-        categories?.filter((item) => item?.provider === "main") || []
+    const categoriesMain = categories?.filter((item) => item?.provider === "main") || []
 
     return (
         <div className={cx(styles.popupFilter, visible && styles.visible)}>
-            <SearchInput
-                value={value}
-                setValue={setValue}
-                placeholder="Что Вы ищете"
-                classNames={[styles.inputSearch]}
-            />
+            <SearchInput value={value} setValue={setValue} placeholder="Что Вы ищете" classNames={[styles.inputSearch]} />
             <ul>
                 {categoriesMain.map((item) => (
                     <li
                         key={`${item.id}_filters`}
                         onClick={() => {
-                            dispatchTarget(item.id)
+                            dispatchFilterMap(item.id)
                         }}
-                        className={cx(
-                            idTarget?.toString() === item.id?.toString() &&
-                                styles.active,
-                        )}
+                        data-active={idsNumber.includes(item.id)}
                     >
                         <div
                             data-icon
@@ -54,17 +44,8 @@ export const PopupFilter: TPopupFilter = ({ visible }) => {
                 ))}
             </ul>
             {BUTTON_PAGINATION.map((item) => (
-                <div
-                    key={`${item.image.alt}`}
-                    className={cx(styles.button, styles[item.className])}
-                >
-                    <Image
-                        src={item.image.src}
-                        alt={item.image.alt}
-                        height={18}
-                        width={18}
-                        unoptimized
-                    />
+                <div key={`${item.image.alt}`} className={cx(styles.button, styles[item.className])}>
+                    <Image src={item.image.src} alt={item.image.alt} height={18} width={18} unoptimized />
                 </div>
             ))}
         </div>

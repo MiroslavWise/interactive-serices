@@ -15,8 +15,10 @@
     &[data-theme="dark"] {
         backdrop-filter: blur(10px);
     }
+}
 
-    &.isMobile {
+[data-mobile="true"] {
+    .nav {
         display: none;
     }
 }

@@ -75,6 +75,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                         id: Math.random(),
                         message: message || "",
                         parentId: null,
+                        reading: null,
                         threadId: Number(idThread!),
                         emitterId: Number(userId),
                         receiverIds: receiverIds,

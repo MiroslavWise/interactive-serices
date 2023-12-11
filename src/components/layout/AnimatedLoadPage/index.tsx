@@ -4,19 +4,16 @@ import { useInsertionEffect } from "react"
 import { usePathname } from "next/navigation"
 
 import { cx } from "@/lib/cx"
-import { useAnimateLoadPage } from "@/store/hooks"
+import { useAnimateLoadPage, dispatchAnimated } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
 export function AnimatedLoadPage() {
     const pathname = usePathname()
     const isAnimated = useAnimateLoadPage(({ isAnimated }) => isAnimated)
-    const setIsAnimated = useAnimateLoadPage(
-        ({ setIsAnimated }) => setIsAnimated,
-    )
 
     useInsertionEffect(() => {
-        setIsAnimated(false)
+        dispatchAnimated(false)
     }, [pathname])
 
     return (
