@@ -132,6 +132,7 @@ h3,
 h4,
 h5,
 h6 {
+    text-decoration: none;
     letter-spacing: 0px;
     font-style: normal;
     -webkit-tap-highlight-color: transparent;
@@ -155,7 +156,7 @@ h6 {
     --opacity-white-hard-1: rgba(255, 255, 255, 0.1);
     --stroke-1: #fff;
     --button-default-background: #fff;
-    --transition: 0.3s ease-in-out;
+    --transition: 0.15s ease-in-out;
 
     //Color Gary
     --gray-900: #101828;
@@ -452,18 +453,11 @@ $cursors: "pointer", "default";
     visibility: hidden;
     opacity: 0;
     width: 100%;
-    transform: translate3d(0, 0, 0);
+    transition: var(--transition);
+    transition-property: opacity, visibility;
 
     &[data-visible="true"] {
         opacity: 1;
         visibility: visible;
     }
-
-    @media screen and (max-width: 746px) {
-    }
-}
-
-.height100vh {
-    height: 100vh !important;
-    height: calc(var(--vh, 1vh) * 100) !important;
 }

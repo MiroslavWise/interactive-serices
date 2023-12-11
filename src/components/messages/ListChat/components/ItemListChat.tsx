@@ -1,8 +1,8 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
 import { memo, useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
@@ -12,17 +12,13 @@ import { BadgeServices } from "@/components/common/Badge"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { cx } from "@/lib/cx"
 import { serviceBarters } from "@/services/barters"
-import { usePush } from "@/helpers/hooks/usePush"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
 
 export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, people, last }) {
-    const searchParams = useSearchParams()
-    const idThread = searchParams?.get("thread")
-    const { handleReplace } = usePush()
+    const idThread = useSearchParams().get("thread")
 
     const adress: string | null = useMemo(() => {
         return people?.addresses?.find((item) => item?.addressType === "main")?.additional || null
@@ -46,25 +42,18 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
         refetchOnWindowFocus: false,
     })
 
-    function handleCurrentChat() {
-        handleReplace(`/messages?thread=${thread.id}`)
-    }
-
     const lastMessage = useMemo(() => {
         if (!thread?.messages || !thread?.messages?.length) {
             return null
         }
-        return thread?.messages?.at(-1)?.message || " "
+        return thread?.messages?.at(-1)?.message ? thread?.messages?.at(-1)?.message : ""
     }, [thread?.messages])
 
     return (
-        <li
-            className={cx(
-                styles.containerItemListChat,
-                Number(thread.id) === Number(idThread) && styles.active,
-                isMobile && styles.mobileLI,
-            )}
-            onClick={handleCurrentChat}
+        <Link
+            className={styles.containerItemListChat}
+            data-active={Number(thread.id) === Number(idThread)}
+            href={{ query: { thread: thread.id } }}
             data-last={last}
         >
             <div className={styles.header} data-barter={thread?.title?.includes("barter")}>
@@ -103,6 +92,6 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
             <div className={styles.blockLastMessage}>
                 <p>{lastMessage}</p>
             </div>
-        </li>
+        </Link>
     )
 })

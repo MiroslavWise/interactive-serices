@@ -16,8 +16,8 @@ import styles from "./styles/style.module.scss"
 
 export const Header: THeaderMobile = ({ handleAddressLocation }) => {
     const token = useAuth(({ token }) => token)
-    const userId = useAuth(({userId}) => userId)
-    const dispatchVisibleNotifications = useVisibleNotifications(({dispatchVisibleNotifications}) => dispatchVisibleNotifications)
+    const userId = useAuth(({ userId }) => userId)
+    const dispatchVisibleNotifications = useVisibleNotifications(({ dispatchVisibleNotifications }) => dispatchVisibleNotifications)
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],
@@ -34,32 +34,13 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
         >
             <div className={styles.container}>
                 <div className={styles.logoAndNotifications}>
-                    <Image
-                        src="/logo/wordmark.svg"
-                        alt="logo"
-                        width={107}
-                        height={28.3}
-                        unoptimized
-                    />
+                    <Image src="/logo/wordmark.svg" alt="logo" width={107} height={28.3} unoptimized />
                     {!!token ? (
-                        <div
-                            className={styles.containerNotification}
-                            onClick={() =>
-                                dispatchVisibleNotifications({ visible: true })
-                            }
-                        >
-                            <Image
-                                src="/svg/bell.svg"
-                                alt="bell"
-                                width={22}
-                                height={22}
-                                unoptimized
-                            />
+                        <div className={styles.containerNotification} onClick={() => dispatchVisibleNotifications({ visible: true })}>
+                            <Image src="/svg/bell.svg" alt="bell" width={22} height={22} unoptimized />
                             {dataNotifications?.res?.length ? (
                                 <div className={styles.badge}>
-                                    <span>
-                                        {dataNotifications?.res?.length || 0}
-                                    </span>
+                                    <span>{dataNotifications?.res?.length || 0}</span>
                                 </div>
                             ) : null}
                         </div>
@@ -68,9 +49,7 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
                     )}
                 </div>
                 <div className={styles.segments}>
-                    <SearchElementMap
-                        handleAddressLocation={handleAddressLocation}
-                    />
+                    <SearchElementMap handleAddressLocation={handleAddressLocation} />
                 </div>
             </div>
         </motion.div>
@@ -79,11 +58,11 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
             id="headerRef"
             className={styles.containerSearchTop}
             initial={{ top: -100 }}
-            animate={{ top: !!token ? 77 + 24 : 40 }}
+            animate={{ top: 77 + 24 }}
             transition={{ duration: 0.5 }}
             exit={{ top: -100 }}
             style={{
-                top: !!token ? 77 + 24 : 40,
+                top: 77 + 24,
             }}
         >
             <SearchElementMap handleAddressLocation={handleAddressLocation} />

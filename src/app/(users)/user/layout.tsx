@@ -13,7 +13,6 @@ export default function LayoutProfileId({ children }: { children: ReactNode }) {
 
     return (
         <main className={styles.profileLayout} data-is-modal-auth={visible}>
-            <NavBarUser />
             {children}
         </main>
     )

@@ -6,8 +6,6 @@
     align-items: center;
     justify-content: center;
     z-index: 119;
-    transition: var(--transition);
-    transition-property: opacity, visibility;
 
     & > section {
         position: relative;

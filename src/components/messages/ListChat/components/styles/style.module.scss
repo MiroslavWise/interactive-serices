@@ -24,8 +24,6 @@
     }
 }
 
-//containerList
-
 .containerList {
     display: flex;
     height: auto;
@@ -35,14 +33,13 @@
     -webkit-overflow-scrolling: touch;
 }
 
-//containerItemListChat
-
 .containerItemListChat {
     width: 100%;
     height: auto;
     padding: 16px;
     background: transparent;
-    transition: background 0.3s ease-in-out;
+    transition: var(--transition);
+    transition-property: background;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -52,8 +49,8 @@
         border-bottom: 1px solid var(--gray-300);
     }
 
-    &.active {
-        background: var(--primary-200);
+    &[data-active="true"] {
+        background: var(--glass-bg-color-2);
         cursor: default;
     }
 
@@ -186,12 +183,10 @@
 
 [data-theme="dark"] {
     .containerItemListChat {
-        &.active {
+        &[data-active="true"] {
             background: var(--gray-100);
         }
-    }
 
-    .containerItemListChat {
         .header {
             .titleBlock {
                 .nameAndGeo {

@@ -9,12 +9,7 @@ import type { TRequestBalloonComponent } from "../types/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import {
-    useAuth,
-    useBalloonCard,
-    useProfilePublic,
-    useOffersCategories,
-} from "@/store/hooks"
+import { useAuth, useBalloonCard, useProfilePublic, useOffersCategories } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceOffers } from "@/services/offers"
 import { serviceProfile } from "@/services/profile"
@@ -25,9 +20,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
     const { handlePush } = usePush()
     const categories = useOffersCategories(({ categories }) => categories)
     const { createGallery } = usePhotoVisible()
-    const dispatchProfilePublic = useProfilePublic(
-        ({ dispatchProfilePublic }) => dispatchProfilePublic,
-    )
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const id = useBalloonCard(({ id }) => id)
     const idUser = useBalloonCard(({ idUser }) => idUser)
     const type = useBalloonCard(({ type }) => type)
@@ -49,16 +42,12 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
     })
 
     const categoryTitle: string = useMemo(() => {
-        return (
-            categories?.find(
-                (item) => Number(item.id) === Number(data?.res?.categoryId),
-            )?.title || ""
-        )
+        return categories?.find((item) => Number(item.id) === Number(data?.res?.categoryId))?.title || ""
     }, [categories, data?.res])
 
     function handleWantToHelp() {
         if (userId) {
-            handlePush(`/messages?user=${userId}`)
+            handlePush(`/messages?user=${idUser}`)
             dispatch({ visible: false })
         }
     }
@@ -77,13 +66,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
 
     return (
         <>
-            <ImageStatic
-                src="/map/circle-offers-default.png"
-                alt="circle-offers-default"
-                width={61}
-                height={61}
-                data-logo-ballon
-            />
+            <ImageStatic src="/map/circle-offers-default.png" alt="circle-offers-default" width={61} height={61} data-logo-ballon />
             <header data-request>
                 <h3>{categoryTitle}</h3>
             </header>
@@ -100,8 +83,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
                         />
                         <div data-name-rate>
                             <p>
-                                {dataProfile?.res?.firstName}{" "}
-                                {dataProfile?.res?.lastName}
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                             </p>
                             {/* <div data-rate>
                                 <Image
@@ -117,32 +99,18 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
                 </div>
                 <h3>{data?.res?.title}</h3>
-                {Array.isArray(data?.res?.images) &&
-                data?.res?.images?.length ? (
+                {Array.isArray(data?.res?.images) && data?.res?.images?.length ? (
                     <ul>
                         {data?.res?.images?.slice(0, 4)?.map((item, index) => (
                             <NextImageMotion
                                 onClick={() => {
-                                    createGallery(
-                                        data?.res!,
-                                        data?.res?.images!,
-                                        item,
-                                        index,
-                                        {
-                                            title: data?.res?.title!,
-                                            name: `${
-                                                dataProfile?.res?.firstName ||
-                                                ""
-                                            } ${
-                                                dataProfile?.res?.lastName || ""
-                                            }`,
-                                            urlPhoto:
-                                                dataProfile?.res?.image
-                                                    ?.attributes?.url!,
-                                            idUser: dataProfile?.res?.userId!,
-                                            time: data?.res?.updated!,
-                                        },
-                                    )
+                                    createGallery(data?.res!, data?.res?.images!, item, index, {
+                                        title: data?.res?.title!,
+                                        name: `${dataProfile?.res?.firstName || ""} ${dataProfile?.res?.lastName || ""}`,
+                                        urlPhoto: dataProfile?.res?.image?.attributes?.url!,
+                                        idUser: dataProfile?.res?.userId!,
+                                        time: data?.res?.updated!,
+                                    })
                                 }}
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}

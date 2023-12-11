@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { isMobile } from "react-device-detect"
 import { usePathname } from "next/navigation"
 
 import { cx } from "@/lib/cx"
@@ -13,7 +12,7 @@ import styles from "./styles/style.module.scss"
 export const Links = () => {
     const active = usePathname()
 
-    return !isMobile ? (
+    return (
         <ul className={styles.linksWrapper}>
             {LINKS_PROFILE.map(({ path, label, icon }) => (
                 <Link key={path + "link"} className={cx(active?.includes(path) && styles.active, styles.item)} href={path!}>
@@ -22,5 +21,5 @@ export const Links = () => {
                 </Link>
             ))}
         </ul>
-    ) : null
+    )
 }

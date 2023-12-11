@@ -1,13 +1,12 @@
-import { NextImageMotion } from "@/components/common/Image"
+import { NextImageMotion } from "@/components/common"
 
-import { useVisiblePhotosCarousel } from "@/store/hooks"
+import { useVisiblePhotosCarousel, dispatchCurrentPhoto } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export function FooterPhotos() {
     const photos = useVisiblePhotosCarousel(({ photos }) => photos)
     const currentPhoto = useVisiblePhotosCarousel(({ currentPhoto }) => currentPhoto)
-    const setCurrentPhoto = useVisiblePhotosCarousel(({ setCurrentPhoto }) => setCurrentPhoto)
 
     return (
         <ul className={styles.containerFooterPhotos}>
@@ -19,7 +18,7 @@ export function FooterPhotos() {
                         width={192}
                         height={108}
                         onClick={() => {
-                            setCurrentPhoto({ currentPhoto: item })
+                            dispatchCurrentPhoto({ currentPhoto: item })
                         }}
                     />
                 </li>

@@ -10,7 +10,7 @@ import {
     usePopupMenuChat,
     useVisibleModalBarter,
     useUpdateMutualOffer,
-    useVisiblePhotosCarousel,
+    dispatchPhotoCarousel,
     useCompletionTransaction,
     useVisibleBannerNewServices,
 } from "@/store/hooks"
@@ -23,7 +23,6 @@ export const useCloseAllModal = () => {
     const setIsVisible = usePopupMenuChat((_) => _.setIsVisible)
     const dispatchUpdateMutual = useUpdateMutualOffer((_) => _.dispatchUpdateMutual)
     const dispatchVisibleBarter = useVisibleModalBarter((_) => _.dispatchVisibleBarter)
-    const dispatchVisibleCarousel = useVisiblePhotosCarousel((_) => _.dispatchVisibleCarousel)
     const dispatchNewServicesBanner = useVisibleBannerNewServices((_) => _.dispatchNewServicesBanner)
     const dispatchPhotoOffer = usePhotoOffer((_) => _.dispatchPhotoOffer)
     const dispatchProfilePublic = useProfilePublic((_) => _.dispatchProfilePublic)
@@ -37,7 +36,7 @@ export const useCloseAllModal = () => {
         setIsVisible(false)
         dispatchUpdateMutual({ visible: false })
         dispatchVisibleBarter({ isVisible: false })
-        dispatchVisibleCarousel({ visible: false })
+        dispatchPhotoCarousel({ visible: false })
         dispatchNewServicesBanner(false)
         dispatchPhotoOffer({ visible: false })
         dispatchProfilePublic({ visible: false })

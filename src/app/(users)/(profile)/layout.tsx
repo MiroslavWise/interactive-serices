@@ -1,17 +1,16 @@
 "use client"
 
 import { isMobile } from "react-device-detect"
-import { type ReactNode, useEffect } from "react"
+import { useEffect, type ReactNode } from "react"
 
-import { NavBarProfile } from "@/components/profile"
-
+import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
-import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "@/scss/page.module.scss"
 
 export default function LayoutProfile({ children }: { children: ReactNode }) {
     const isAuth = useAuth(({ isAuth }) => isAuth)
+
     const { handlePush } = usePush()
 
     useEffect(() => {
@@ -21,14 +20,5 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
         }
     }, [isAuth, handlePush])
 
-    return isAuth ? (
-        isMobile ? (
-            children
-        ) : (
-            <main className={styles.profileLayout}>
-                <NavBarProfile />
-                {children}
-            </main>
-        )
-    ) : null
+    return isAuth ? isMobile ? children : <main className={styles.profileLayout}>{children}</main> : null
 }

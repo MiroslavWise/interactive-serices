@@ -12,6 +12,7 @@ import env from "@/config/environment"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
+import { NavBarProfile } from "@/components/profile"
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
@@ -61,7 +62,10 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </noscript>
             </head>
             <body className={inter.className}>
-                <Providers>{children}</Providers>
+                <Providers>
+                    <NavBarProfile />
+                    {children}
+                </Providers>
                 <Glasses />
             </body>
         </html>

@@ -8,13 +8,12 @@
     width: 7%;
     height: 100%;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
+
+    transition: var(--transition);
+    transition-property: background;
 
     &:hover {
         background: rgba(#fff, 0.1);
-    }
-
-    &.disabled {
     }
 }
 
@@ -41,7 +40,7 @@
     img {
         height: 100%;
         width: 100%;
-        object-fit: contain;
+        object-fit: contain !important;
         cursor: pointer;
     }
 }
@@ -63,10 +62,10 @@
     li {
         height: 100%;
         aspect-ratio: 9/16;
-        transition: var(--transition);
         border: 2px solid var(--gray-800);
         border-radius: 5px;
         cursor: pointer;
+        transition: var(--transition);
         transition-property: aspect-ratio, border;
 
         img {

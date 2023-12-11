@@ -50,6 +50,10 @@ const SVG = [
     "/svg/sliders-01.svg",
     "/svg/calendar.svg",
     "/svg/category/default.svg",
+    "/svg/messages/check.svg",
+    "/svg/messages/double-tick-black.svg",
+    "/svg/messages/double-tick-gray.svg",
+    "/svg/messages/double-tick-white.svg",
 ]
 
 const PNG = [

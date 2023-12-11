@@ -4,23 +4,20 @@ import { memo } from "react"
 import { isMobile } from "react-device-detect"
 
 import type { TItemMessage } from "./types/types"
-import type { IImageData } from "@/store/types/useAuthState"
 import type { IPhoto } from "@/store/types/useVisiblePhotosCarousel"
 
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { useVisiblePhotosCarousel } from "@/store/hooks"
+import { dispatchPhotoCarousel } from "@/store/hooks"
 import { stylesBlockRight } from "@/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
 
 export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo, messages }) {
-    const dispatchVisibleCarousel = useVisiblePhotosCarousel(({ dispatchVisibleCarousel }) => dispatchVisibleCarousel)
-
     function handleImage(id: number, photos: IPhoto[]) {
-        dispatchVisibleCarousel({
+        dispatchPhotoCarousel({
             visible: true,
             idPhoto: id,
             photos: photos,
@@ -33,7 +30,6 @@ export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo,
                 {messages?.map((item, index) => (
                     <div
                         className={cx(styles.blockMessage, styles[stylesBlockRight(messages?.length!, index)])}
-                        data-temporary={!!item?.temporary}
                         key={`${item.id}_${item.message}`}
                         id={`${item.id!}`}
                     >
@@ -79,7 +75,21 @@ export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo,
                             </div>
                         ) : null}
                         <p>{item.message}</p>
-                        <time className={styles.time}>{timeNowOrBeforeChat(item?.time)}</time>
+                        <time className={styles.time}>
+                            {timeNowOrBeforeChat(item?.time)}{" "}
+                            <img
+                                src={
+                                    item?.reading === null
+                                        ? "/public/svg/messages/check.svg"
+                                        : item?.reading
+                                        ? "/svg/messages/double-tick-white.svg"
+                                        : "/svg/messages/double-tick-gray.svg"
+                                }
+                                alt="check"
+                                width={14}
+                                height={14}
+                            />
+                        </time>
                     </div>
                 ))}
             </div>

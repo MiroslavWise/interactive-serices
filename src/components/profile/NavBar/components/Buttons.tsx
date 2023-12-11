@@ -17,21 +17,21 @@ export const Buttons = () => {
     const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
     const { isAddresses } = useAddress()
     const isAuth = useAuth(({ isAuth }) => isAuth)
-    const { handlePush } = usePush()
+    // const { handlePush } = usePush()
     const [active, setActive, ref] = useOutsideClickEvent()
 
     return !isMobile ? (
         typeof isAuth !== "undefined" ? (
             isAuth ? (
                 <div className={styles.buttons}>
-                    {pathname !== "/" ? (
+                    {/* {pathname !== "/" ? (
                         <Button
                             label="Просмотр карты"
                             typeButton="regular-primary"
                             className={styles.widthButton}
                             onClick={() => handlePush(`/`)}
                         />
-                    ) : null}
+                    ) : null} */}
                     <Button
                         label="Создать новое"
                         typeButton="fill-primary"

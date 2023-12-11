@@ -1,15 +1,8 @@
 "use client"
 
-import {
-    type ReactNode,
-    memo,
-    useMemo,
-    useRef,
-    useEffect,
-    useState,
-} from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
+import { type ReactNode, memo, useMemo, useRef, useEffect, useState } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
@@ -42,38 +35,21 @@ export const ListMessages = memo(function ListMessages({
 
     const messagesJoin: ReactNode = useMemo(() => {
         if (Array.isArray(messages)) {
-            return join(messages).map((item, index) => {
-                if (
-                    Number(item.emitterId) === Number(userId) &&
-                    item.type === "messages"
-                ) {
-                    return (
-                        <ItemMyMessage
-                            key={`${item.id}_message_${item.id}`}
-                            photo={attributes?.url!}
-                            messages={item.messages!}
-                        />
-                    )
+            return join(messages).map((item) => {
+                if (Number(item.emitterId) === Number(userId) && item.type === "messages") {
+                    return <ItemMyMessage key={`${item.id}-message-${item.id}`} photo={attributes?.url!} messages={item.messages!} />
                 }
-                if (
-                    Number(item.emitterId) === Number(dataUser?.id!) &&
-                    item.type === "messages"
-                ) {
+                if (Number(item.emitterId) === Number(dataUser?.id!) && item.type === "messages") {
                     return (
                         <ItemUserMessage
-                            key={`${item?.id}_message_${item.id}`}
+                            key={`${item?.id}-message-${item.id}`}
                             photo={dataUser?.profile?.image?.attributes?.url!}
                             messages={item.messages!}
                         />
                     )
                 }
                 if (item.type === "time") {
-                    return (
-                        <ItemTime
-                            time={item.time!}
-                            key={`${item.time}_time_block`}
-                        />
-                    )
+                    return <ItemTime time={item.time!} key={`${item.time}-time-block`} />
                 }
                 return null
             })
@@ -108,12 +84,7 @@ export const ListMessages = memo(function ListMessages({
             data-height={isBarter}
             ref={ulChat}
             style={{
-                paddingTop:
-                    isMobile && isBarter
-                        ? height
-                            ? height + 10
-                            : 123
-                        : height,
+                paddingTop: isMobile && isBarter ? (height ? height + 10 : 123) : height,
                 paddingBottom: `84px !important`,
             }}
         >
