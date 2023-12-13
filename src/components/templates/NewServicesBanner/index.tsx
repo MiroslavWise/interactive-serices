@@ -13,30 +13,20 @@ import { useVisibleBannerNewServices } from "@/store/hooks/useVisible"
 import styles from "./styles/style.module.scss"
 
 export const NewServicesBanner: TNewServicesBanner = ({}) => {
-    const isVisibleNewServicesBanner = useVisibleBannerNewServices(
-        ({ isVisibleNewServicesBanner }) => isVisibleNewServicesBanner,
-    )
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(
-        ({ dispatchNewServicesBanner }) => dispatchNewServicesBanner,
-    )
+    const isVisibleNewServicesBanner = useVisibleBannerNewServices(({ isVisibleNewServicesBanner }) => isVisibleNewServicesBanner)
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
     function close() {
         dispatchNewServicesBanner(false)
     }
 
-    return isVisibleNewServicesBanner ? (
-        <div
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-visible={isVisibleNewServicesBanner}
-        >
+    return (
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisibleNewServicesBanner}>
             <div data-container>
                 <h3>Я хочу создать</h3>
                 <ul>
                     {NEW_CREATE_BADGES.map((item) => (
-                        <NewCreateBadge
-                            key={`${item.value}_${item.label}`}
-                            {...item}
-                        />
+                        <NewCreateBadge key={`${item.value}_${item.label}`} {...item} />
                     ))}
                 </ul>
                 <ButtonClose
@@ -49,5 +39,5 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
                 <Glasses />
             </div>
         </div>
-    ) : null
+    )
 }

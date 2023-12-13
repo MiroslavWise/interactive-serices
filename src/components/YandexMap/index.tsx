@@ -27,7 +27,7 @@ const YandexMap: TYandexMap = ({}) => {
     const userId = useAuth(({ userId }) => userId)
     const { coordinatesAddresses } = useAddress()
     const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
-    const [addressInit, setAddressInit] = useState<IPostAddress | null>(null)
+    const [addressInit, setAddressInit] = useState<IPostAddress | undefined>(undefined)
     const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
     const zoom = useMapCoordinates(({ zoom }) => zoom)
     const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)

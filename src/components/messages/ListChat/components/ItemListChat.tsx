@@ -57,6 +57,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
             data-last={last}
         >
             <div className={styles.header} data-barter={thread?.title?.includes("barter")}>
+                <time>{timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}</time>
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
                         {people?.profile?.image?.attributes?.url ? (
@@ -87,7 +88,6 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
                         {adress ? <GeoTagging location={adress} size={14} fontSize={12} /> : null}
                     </div>
                 </div>
-                <div className={styles.timeAgo}>{timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}</div>
             </div>
             <div className={styles.blockLastMessage}>
                 <p>{lastMessage}</p>

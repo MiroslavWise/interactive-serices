@@ -13,9 +13,10 @@
     backdrop-filter: blur(4px);
     flex-shrink: 0;
     z-index: 5;
-    transition: opacity 0.3s ease-in-out;
+    transition: var(--transition);
+    transition-property: visibility, opacity;
 
-    &.visible {
+    &[data-visible="true"] {
         visibility: visible;
         opacity: 1;
     }
@@ -45,7 +46,8 @@
             border: 1px solid var(--gray-200);
             background: var(--button-default-background);
             cursor: pointer;
-            transition: background 0.3s ease-in-out;
+            transition: var(--transition);
+            transition-property: background;
 
             & > [data-icon] {
                 width: 28px;

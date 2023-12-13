@@ -1,15 +1,15 @@
 "use client"
 
 import { useEffect } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { redirect } from "next/navigation"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
 import { MotionUL } from "@/components/common/Motion"
 import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
 import { MobileInteractive, MobileMainInfo, StatisticAndFeedback, MainInfo } from "@/components/profile"
 
-import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 
@@ -18,11 +18,8 @@ import styles from "@/scss/page.module.scss"
 let fetchOut = false
 
 export default function UserId() {
+    const id = useSearchParams()?.get("id")
     const { on } = useToast()
-
-    const searchParams = useSearchParams()
-    const { handlePush } = usePush()
-    const id = searchParams?.get("id")
     const { data, isLoading } = useQuery({
         queryFn: () => serviceUsers.getId(id!),
         queryKey: ["user", id],
@@ -33,15 +30,15 @@ export default function UserId() {
         if (id === "undefined" || typeof id === "undefined" || id === "null") {
             if (!fetchOut) on({ message: "Данный аккаунт не существует или приватный" }, "warning")
             fetchOut = true
-            return handlePush("/")
+            return redirect("/")
         }
 
         if (data?.ok === false) {
             if (!fetchOut) on({ message: "Данный аккаунт не существует или приватный" }, "warning")
             fetchOut = true
-            return handlePush("/")
+            return redirect("/")
         }
-    }, [data, id, isLoading, handlePush, on])
+    }, [data, id, isLoading])
 
     return (
         <div className={styles.page}>

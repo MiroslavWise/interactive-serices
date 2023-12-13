@@ -15,6 +15,11 @@
     flex-direction: row;
     gap: 12px;
     z-index: 40;
+
+    & > a {
+        min-width: 142px;
+        width: fit-content;
+    }
 }
 
 .widthButton {
@@ -80,41 +85,6 @@
             &.active {
                 filter: grayscale(0%) brightness(100%);
             }
-        }
-    }
-}
-
-.containerSpoiler {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    top: 0;
-    right: 0;
-    max-width: 410px;
-    height: min-content;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.82);
-    backdrop-filter: blur(4px);
-    border: 1px solid var(--stroke-1);
-    border-radius: 16px;
-    z-index: 170;
-
-    &[data-visible="true"] {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    & > p {
-        color: var(--support-white);
-        text-align: start;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 30px;
-
-        & > span {
-            color: var(--primary-500);
-            cursor: pointer;
         }
     }
 }

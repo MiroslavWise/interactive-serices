@@ -1,12 +1,10 @@
 "use client"
 
-// import { Workbox } from "workbox-window"
 import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import "@/context/DayJSDefault"
 import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers } from "@/context"
 
@@ -14,6 +12,7 @@ import { usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { RegistrationService } from "@/services/auth/registrationService"
 import { useAuth, dispatchAuthModal, useFetchingSession, useOffersCategories } from "@/store/hooks"
+import "@/context/DayJSDefault"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -47,7 +46,6 @@ export default function Providers({ children }: { children: ReactNode }) {
     }, [])
 
     useEffect(() => {
-        console.log("refresh: ", refresh)
         refresh()
     }, [refresh])
     useEffect(() => {

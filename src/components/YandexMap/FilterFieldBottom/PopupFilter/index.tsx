@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
+import { useMemo, useState } from "react"
 
 import type { TPopupFilter } from "./types"
+import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import { SearchInput } from "@/components/common/Inputs"
 
@@ -19,15 +20,24 @@ export const PopupFilter: TPopupFilter = ({ visible }) => {
     const categories = useOffersCategories(({ categories }) => categories)
     const [value, setValue] = useState("")
 
-    const categoriesMain = categories?.filter((item) => item?.provider === "main") || []
+    const categoriesMain: IResponseOffersCategories[] = useMemo(() => {
+        const array = Array.from(
+            new Set(categories?.filter((item) => item?.title?.toLowerCase().includes(value?.toLowerCase())).map((item) => item.provider)),
+        )
+        const arrayMain = categories
+            ?.filter((item) => item.provider === "main")
+            ?.filter((item) => array.some((_) => _.includes(item.slug)) || item.title?.toLowerCase()?.includes(value?.toLowerCase()))
+
+        return [...arrayMain]
+    }, [categories, value])
 
     return (
-        <div className={cx(styles.popupFilter, visible && styles.visible)}>
-            <SearchInput value={value} setValue={setValue} placeholder="Что Вы ищете" classNames={[styles.inputSearch]} />
+        <div className={styles.popupFilter} data-visible={visible}>
+            <SearchInput value={value} setValue={setValue} placeholder="Что именно вы хотите найти?" classNames={[styles.inputSearch]} />
             <ul>
                 {categoriesMain.map((item) => (
                     <li
-                        key={`${item.id}_filters`}
+                        key={`${item.id}-filters`}
                         onClick={() => {
                             dispatchFilterMap(item.id)
                         }}

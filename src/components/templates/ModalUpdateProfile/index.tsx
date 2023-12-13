@@ -157,7 +157,7 @@ export const ModalUpdateProfile = () => {
             })
     }
 
-    return isVisible ? (
+    return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
             <div data-container>
                 {!isMobile && (
@@ -187,5 +187,5 @@ export const ModalUpdateProfile = () => {
                 <Glasses />
             </div>
         </div>
-    ) : null
+    )
 }

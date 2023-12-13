@@ -1,14 +1,14 @@
 import { create } from "zustand"
 
 import type { IUseAddCreateModal } from "../types/useAddCreateModal"
+import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { TTypeProvider } from "@/services/file-upload/types"
 
 export const useAddCreateModal = create<IUseAddCreateModal>((set, get) => ({
-    typeAdd: undefined,
-    isVisible: undefined,
-
+    isVisible: false,
     dispatchVisibleTypeCreateOptionals(props) {
         const { type, visible } = props ?? {}
-        
+
         if (visible) {
             set({
                 typeAdd: type,
@@ -22,7 +22,24 @@ export const useAddCreateModal = create<IUseAddCreateModal>((set, get) => ({
                 typeAdd: undefined,
                 isVisible: false,
             })
-                        return
+            return
         }
     },
 }))
+
+export const openCreateOffers = (value: TTypeProvider) =>
+    useAddCreateModal.setState(() => ({
+        isVisible: true,
+        typeAdd: value,
+    }))
+
+export const closeCreateOffers = () =>
+    useAddCreateModal.setState(() => ({
+        isVisible: false,
+        addressInit: undefined,
+    }))
+
+export const dispatchAddressOffers = (value?: IPostAddress) =>
+    useAddCreateModal.setState(() => ({
+        addressInit: value,
+    }))

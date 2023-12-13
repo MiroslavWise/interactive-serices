@@ -4,6 +4,7 @@ import { isMobile } from "react-device-detect"
 import { ToastContainer } from "react-toastify"
 
 import {
+    Intro,
     Barter,
     ModalSign,
     TermsOfUse,
@@ -40,25 +41,15 @@ import {
 } from "@/store/hooks"
 
 export const Containers = () => {
-    const is = useAuth(({ isAuth }) => isAuth)
+    const isAuth = useAuth(({ isAuth }) => isAuth)
     const isVisible = useVisibleModalBarter(({ isVisible }) => isVisible)
-    const visibleFriends = useDroverFriends(
-        ({ visibleFriends }) => visibleFriends,
-    )
-    const visibleHasBalloon = useHasBalloons(
-        ({ visibleHasBalloon }) => visibleHasBalloon,
-    )
+    const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
+    const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
     const visiblePolicy = useTermsOfUse(({ visiblePolicy }) => visiblePolicy)
     const visibleRules = useTermsOfUse(({ visibleRules }) => visibleRules)
-    const visibleUpdateMutual = useUpdateMutualOffer(
-        ({ visibleUpdateMutual }) => visibleUpdateMutual,
-    )
-    const visibleNotifications = useVisibleNotifications(
-        ({ visible }) => visible,
-    )
-    const visibleDataConfirmation = useDataConfirmationPopUp(
-        ({ visibleDataConfirmation }) => visibleDataConfirmation,
-    )
+    const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
+    const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
+    const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
 
     return (
@@ -69,14 +60,19 @@ export const Containers = () => {
             <BalloonPlaceMark />
             <AboutSheiraPopup />
             {isVisible && <Barter />}
-            {!is && <ModalSign />}
+            {!isAuth && (
+                <>
+                    <Intro />
+                    <ModalSign />
+                </>
+            )}
             <ToastContainer limit={3} />
             {!isMobile && <PublicProfile />}
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
             {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
             {visibleDataConfirmation && <DataConfirmationPopUp />}
-            {is && (
+            {isAuth && (
                 <>
                     <ComplaintModal />
                     <NewServicesBanner />
@@ -85,9 +81,7 @@ export const Containers = () => {
                     <ExchangesModalMobile />
                     <CreateNewOptionModal />
                     <NewServiceBarterRequests />
-                    {isMobile && visibleNotifications && (
-                        <NotificationsMobile />
-                    )}
+                    {isMobile && visibleNotifications && <NotificationsMobile />}
                     {visibleFriends && <DroverFriends />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}
                 </>

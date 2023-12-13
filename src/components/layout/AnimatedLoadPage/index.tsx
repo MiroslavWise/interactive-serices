@@ -3,7 +3,6 @@
 import { useInsertionEffect } from "react"
 import { usePathname } from "next/navigation"
 
-import { cx } from "@/lib/cx"
 import { useAnimateLoadPage, dispatchAnimated } from "@/store/hooks"
 
 import styles from "./style.module.scss"
@@ -17,7 +16,7 @@ export function AnimatedLoadPage() {
     }, [pathname])
 
     return (
-        <div className={cx(styles.wrapper, isAnimated && styles.active)}>
+        <div className={styles.wrapper} data-active={isAnimated}>
             <div className={styles.container} />
         </div>
     )

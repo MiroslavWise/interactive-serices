@@ -1,8 +1,8 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-import { useMemo } from "react"
 import dayjs from "dayjs"
+import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TGroupSelectorDate } from "./types/types"
 
@@ -13,15 +13,7 @@ import { MONTHS, rangeArray } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const GroupSelectorDate: TGroupSelectorDate = ({
-    watchDay,
-    watchMonth,
-    watchYear,
-    errorDate,
-    set,
-    propsRegister,
-    label,
-}) => {
+export const GroupSelectorDate: TGroupSelectorDate = ({ watchDay, watchMonth, watchYear, errorDate, set, propsRegister, label }) => {
     const rangeDate: {
         days: { value: any; label: any }[]
         months: { value: any; label: any }[]
@@ -44,12 +36,7 @@ export const GroupSelectorDate: TGroupSelectorDate = ({
     }, [errorDate])
 
     return (
-        <div
-            className={cx(
-                styles.containerLabelInput,
-                isMobile && styles.mobile,
-            )}
-        >
+        <div className={cx(styles.containerLabelInput, isMobile && styles.mobile)}>
             <label>
                 {label} <sup>*</sup>
             </label>
@@ -80,9 +67,7 @@ export const GroupSelectorDate: TGroupSelectorDate = ({
                         register={propsRegister.year}
                     />
                 </div>
-                {error ? (
-                    <p className={styles.error}>Данное поле обязательно</p>
-                ) : null}
+                {error ? <p className={styles.error}>Данное поле обязательно</p> : null}
             </div>
         </div>
     )

@@ -18,11 +18,7 @@ export const FilterFieldBottom: TFilterFieldBottom = ({}) => {
 
     return (
         <div className={styles.container}>
-            <ButtonFilter
-                label="Настроить фильтры"
-                active={active}
-                handleClick={handleClick}
-            />
+            <ButtonFilter label="Настроить фильтры" active={active} handleClick={handleClick} />
             <PopupFilter visible={active} setVisible={setActive} />
         </div>
     )

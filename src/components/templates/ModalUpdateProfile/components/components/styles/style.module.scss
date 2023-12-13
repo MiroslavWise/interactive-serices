@@ -1,7 +1,6 @@
 @mixin absoluteImage {
     position: absolute;
-    transform: translateY(-50%);
-    top: 50%;
+    top: 12px;
     width: 20px;
     height: 20px;
 }
@@ -139,7 +138,7 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         gap: 8px;
         cursor: pointer;
         z-index: 50;
@@ -172,8 +171,8 @@
 
             textarea {
                 position: relative;
-                min-height: calc(20px + 12px + 12px);
-                max-height: min-content;
+                min-height: calc(18px + 12px + 12px);
+                // max-height: min-content;
                 resize: none;
                 width: 100%;
                 padding: 12px 42px;
@@ -181,12 +180,13 @@
                 border: 1px solid var(--gray-300) !important;
                 outline: var(--gray-300) !important;
                 background: var(--background-input);
-                transition: border, outline, background 0.3s ease-in-out 0.01s;
+                transition: var(--transition);
+                transition-property: border, outline, background;
                 color: var(--gray-900);
                 font-size: 14px;
                 font-style: normal;
                 font-weight: 500;
-                line-height: 20px;
+                line-height: 18px;
                 letter-spacing: -0.3px;
                 z-index: 1;
 
@@ -213,7 +213,7 @@
             }
 
             ul {
-                max-height: 192px;
+                max-height: 292px;
                 position: absolute;
                 transform: translateY(100%);
                 opacity: 0;
@@ -224,11 +224,13 @@
                 left: 0;
                 right: 0;
                 width: 100%;
-                padding: 12px;
+                padding: 6px;
                 border-radius: 12px;
                 background: var(--background);
-                box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.16);
                 z-index: 3;
+
+                transition: var(--transition);
+                transition-property: opacity, visibility;
 
                 & > li {
                     width: 100%;
@@ -236,6 +238,7 @@
                     border-radius: 6px;
                     background: transparent;
                     z-index: 4;
+                    cursor: pointer;
 
                     span {
                         color: var(--gray-900);
@@ -252,7 +255,22 @@
                     }
                 }
 
-                &.activeList {
+                & > [data-load] {
+                    width: 100%;
+                    border-radius: 6px;
+                    padding: 12px;
+
+                    & > p {
+                        color: var(--gray-500);
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 24px;
+                        letter-spacing: -0.2px;
+                    }
+                }
+
+                &[data-active-list="true"] {
                     opacity: 1;
                     visibility: visible;
 
@@ -269,7 +287,7 @@
             }
         }
 
-        &.active {
+        &[data-active="true"] {
             .checkBox {
                 border-color: var(--primary-500);
 

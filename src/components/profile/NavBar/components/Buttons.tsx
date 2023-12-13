@@ -4,10 +4,7 @@ import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { usePathname } from "next/navigation"
 
-import { Button } from "@/components/common"
-import { SpoilerNotAdress } from "./SpoilerNotAdress"
-
-import { useAddress, useOutsideClickEvent, usePush } from "@/helpers"
+import { Button, ButtonLink } from "@/components/common"
 import { useAuth, useVisibleBannerNewServices, dispatchAuthModal } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
@@ -15,38 +12,22 @@ import styles from "./styles/style.module.scss"
 export const Buttons = () => {
     const pathname = usePathname()
     const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
-    const { isAddresses } = useAddress()
     const isAuth = useAuth(({ isAuth }) => isAuth)
-    // const { handlePush } = usePush()
-    const [active, setActive, ref] = useOutsideClickEvent()
 
     return !isMobile ? (
         typeof isAuth !== "undefined" ? (
             isAuth ? (
                 <div className={styles.buttons}>
-                    {/* {pathname !== "/" ? (
-                        <Button
-                            label="Просмотр карты"
-                            typeButton="regular-primary"
-                            className={styles.widthButton}
-                            onClick={() => handlePush(`/`)}
-                        />
-                    ) : null} */}
+                    {pathname !== "/" ? <ButtonLink href={{ pathname: "/" }} label="Просмотр карты" typeButton="regular-primary" /> : null}
                     <Button
                         label="Создать новое"
                         typeButton="fill-primary"
                         className={styles.widthButton}
-                        ref={ref}
                         suffixIcon={<Image src="/svg/plus.svg" alt="plus" width={24} height={24} unoptimized />}
                         onClick={() => {
-                            if (isAddresses) {
-                                dispatchNewServicesBanner(true)
-                            } else {
-                                setActive(true)
-                            }
+                            dispatchNewServicesBanner(true)
                         }}
                     />
-                    <SpoilerNotAdress active={active} setActive={setActive} />
                 </div>
             ) : (
                 <div className={styles.buttons}>
