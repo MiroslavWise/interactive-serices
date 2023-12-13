@@ -1,8 +1,4 @@
 .wrapper {
-    position: fixed;
-    inset: 0;
-    visibility: hidden;
-    opacity: 0;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     z-index: 1050;
@@ -12,12 +8,6 @@
     align-items: center;
     padding-top: 92px;
     padding-bottom: 92px;
-    transition: opacity 0.3s ease-in-out;
-
-    &[data-active="true"] {
-        visibility: visible;
-        opacity: 1;
-    }
 
     & > [data-container="true"] {
         position: relative;
@@ -51,8 +41,10 @@
             gap: 20px;
         }
     }
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .wrapper {
         padding: 0 20px;
 
         & > [data-container="true"] {

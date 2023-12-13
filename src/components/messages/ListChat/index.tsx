@@ -107,7 +107,7 @@ export const ListChat = memo(function ListChat() {
         return () => {
             socket?.off(`chatResponse-${userId}`, chatResponse)
         }
-    }, [socket, refetch, userId])
+    }, [socket, userId])
 
     return isMobile ? (
         <section className={styles.containerMobile}>

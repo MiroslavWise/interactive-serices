@@ -7,7 +7,6 @@ import type { TItemLIAdress } from "./types/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode, IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
-import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { useDebounce } from "@/helpers"
 import { generateShortHash } from "@/lib/hash"
@@ -19,6 +18,7 @@ import styles from "./styles/style.module.scss"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
+    const [loading, setLoading] = useState(false)
     const [text, setText] = useState("")
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const [activeList, setActiveList] = useState(false)
@@ -45,9 +45,9 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     function deleteAddress() {
         if (item) {
             serviceAddresses.patch({ enabled: false }, item.id).finally(() => {
-                requestAnimationFrame(() => {
+                setTimeout(() => {
                     changeAuth()
-                })
+                }, 80)
             })
         }
     }
@@ -55,7 +55,11 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     function onValueFunc() {
         console.log("debounce: ", text)
         if (text.length > 2 && activeList) {
-            getGeocodeSearch(text).then((response) => setValues(response))
+            getGeocodeSearch(text)
+                .then((response) => setValues(response))
+                .finally(() => {
+                    setLoading(false)
+                })
         }
     }
 
@@ -112,7 +116,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     }
 
     return (
-        <li className={cx(active && styles.active)}>
+        <li data-active={active}>
             <div className={styles.containerInput}>
                 <Image
                     src="/svg/marker-pin-black.svg"
@@ -123,9 +127,9 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     unoptimized
                 />
                 <textarea
-                    disabled={!!item}
                     value={text}
                     onChange={(value) => {
+                        setLoading(true)
                         setText(value.target.value)
                         debouncedValue()
                     }}
@@ -136,22 +140,31 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                 <div className={styles.containerRed} onClick={deleteAddress}>
                     <Image src="/svg/trash-red.svg" alt="trash-red" width={20} height={20} unoptimized />
                 </div>
-                <ul className={cx(values && activeList && styles.activeList)}>
-                    {values &&
-                    exactAddresses &&
-                    Array.isArray(values?.response?.GeoObjectCollection?.featureMember) &&
-                    Array.isArray(exactAddresses) &&
-                    exactAddresses?.length === 0 &&
-                    values?.response?.GeoObjectCollection?.featureMember?.length > exactAddresses?.length ? (
+                <ul data-active-list={!!((values && activeList) || loading)}>
+                    {loading ? (
+                        <div data-load>
+                            <p>Загрузка списка адресов...</p>
+                        </div>
+                    ) : values &&
+                      exactAddresses &&
+                      Array.isArray(values?.response?.GeoObjectCollection?.featureMember) &&
+                      Array.isArray(exactAddresses) &&
+                      exactAddresses?.length === 0 &&
+                      values?.response?.GeoObjectCollection?.featureMember?.length > exactAddresses?.length ? (
                         <h3>Введите более точный адрес</h3>
                     ) : Array.isArray(exactAddresses) ? (
                         exactAddresses?.map((item) => (
-                            <li key={`${item?.GeoObject?.uri}`} onClick={() => handleAddress(item)}>
+                            <li
+                                key={`${item?.GeoObject?.uri}`}
+                                onClick={(event) => {
+                                    event.stopPropagation
+                                    handleAddress(item)
+                                }}
+                            >
                                 <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
                             </li>
                         ))
                     ) : null}
-                    {}
                 </ul>
             </div>
         </li>

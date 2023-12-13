@@ -1,6 +1,5 @@
 .wrapper {
     z-index: 1001;
-    transition: opacity 0.3s ease-in-out;
     position: fixed;
 
     & > [data-container] {

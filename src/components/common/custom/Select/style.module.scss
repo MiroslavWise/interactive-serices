@@ -53,6 +53,9 @@
             gap: 8px;
             border-radius: 6px;
 
+            transition: var(--transition);
+            transition-property: background;
+
             .containerImage {
                 width: 24px;
                 height: 24px;

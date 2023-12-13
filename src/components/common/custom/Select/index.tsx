@@ -1,17 +1,17 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useId, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import type { TCustomSelect, TValue } from "./types"
+
+import { ImageStatic } from "../../Image"
 
 import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
-import { ImageStatic } from "../../Image"
 
 export const CustomSelect: TCustomSelect = ({ placeholder, list, value, setValue }) => {
-    const id = useId()
     const [isOptionsVisible, setOptionsVisible] = useState(false)
     const selectRef = useRef<HTMLDivElement>(null)
     function handleOptions() {
@@ -45,7 +45,7 @@ export const CustomSelect: TCustomSelect = ({ placeholder, list, value, setValue
                 {list &&
                     list.map((item, index) => (
                         <li
-                            key={`${item.value}_${index}_${id}`}
+                            key={`${item.value}_${index}`}
                             className={cx(item?.value === value && styles.value)}
                             onClick={() => handleValue(item.value)}
                         >

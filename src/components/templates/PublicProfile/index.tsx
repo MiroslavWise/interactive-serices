@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TTypeSegment } from "./types/types"
@@ -40,7 +39,7 @@ export const PublicProfile = () => {
     }
 
     return visibleProfilePublic ? (
-        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft} data-mobile={isMobile}>
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft}>
             <section>
                 <ButtonClose onClick={handleClose} position={{ top: 12, left: 12 }} />
                 <BlockDots id={idUser!} />

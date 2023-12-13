@@ -4,8 +4,6 @@ import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
-import type { TAddCreate } from "@/store/types/useAddCreateModal"
-
 import { ButtonFill } from "@/components/common/Buttons"
 import { ImageStatic } from "@/components/common/Image"
 
@@ -24,7 +22,7 @@ export const FinishScreen = () => {
 
     const content: string | null = useMemo(() => {
         if (!typeAdd) return null
-        const obj: Record<TAddCreate, string> = {
+        const obj: Record<string, string> = {
             offer: "Поздравляем! Скоро мы добавим ваше предложение на карту Шейры. Ваше предложение увидят сотни людей — просто будьте готовы ответить.",
             request:
                 "Поздравляем! Скоро мы добавим ваш запрос на карту Шейры. Ваш запрос увидят сотни людей — просто будьте готовы ответить.",
