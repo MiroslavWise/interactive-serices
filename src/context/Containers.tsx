@@ -58,14 +58,14 @@ export const Containers = () => {
             <PhotoCarousel />
             <WelcomeModal />
             <BalloonPlaceMark />
-            <AboutSheiraPopup />
-            {isVisible && <Barter />}
-            {!isAuth && (
+            {isAuth === false && (
                 <>
                     <Intro />
                     <ModalSign />
+                    <AboutSheiraPopup />
                 </>
             )}
+            {isVisible && <Barter />}
             <ToastContainer limit={3} />
             {!isMobile && <PublicProfile />}
             {visiblePhotoOffer && <PhotoPreviewModal />}

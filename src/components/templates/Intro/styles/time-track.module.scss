@@ -1,0 +1,68 @@
+.container {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    z-index: 12;
+
+    & > ul {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        & > li {
+            position: relative;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--glass-bg-color-1);
+            overflow: hidden;
+
+            & > div {
+                width: 100%;
+                transform: translateX(-100%);
+                height: 4px;
+                border-radius: 2px;
+                background: #fff;
+            }
+
+            &[data-null="true"] {
+                & > div {
+                    transform: translateX(-100%);
+                }
+            }
+
+            &[data-active="true"] {
+                & > div {
+                    animation: left linear 10s;
+                }
+            }
+
+            &[data-full="true"] {
+                background: #fff;
+                & > div {
+                    transform: translateX(0);
+                }
+            }
+        }
+    }
+}
+
+[data-mobile=true]{
+    .container{
+        top: 10px;
+        left: 20px;
+        right: 20px;
+    }
+}
+
+@keyframes left {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}

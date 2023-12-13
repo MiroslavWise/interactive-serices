@@ -459,7 +459,7 @@ $cursors: "pointer", "default";
     opacity: 0;
     width: 100%;
     transition: var(--transition);
-    transition-property: opacity, visibility;
+    transition-property: opacity;
 
     &[data-visible="true"] {
         opacity: 1;
