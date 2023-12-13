@@ -18,6 +18,7 @@ import styles from "./styles/style.module.scss"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
+    const addressesUser = useAuth(({ addresses }) => addresses)
     const [loading, setLoading] = useState(false)
     const [text, setText] = useState("")
     const [values, setValues] = useState<IResponseGeocode | null>(null)
@@ -102,17 +103,30 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const hash = generateShortHash(additional!)
         if (hash) value.hash = hash
 
-        serviceAddresses
-            .post(value)
-            .then((response) => {
+        Promise.all(
+            addressesUser
+                ? addressesUser
+                      .filter((item) => item?.addressType === "main" && item?.enabled)
+                      .map((item) =>
+                          serviceAddresses.patch(
+                              {
+                                  enabled: false,
+                              },
+                              item.id,
+                          ),
+                      )
+                : [],
+        ).then((responses) => {
+            serviceAddresses.post(value).then((response) => {
                 console.log("response address: ", response)
-            })
-            .finally(() => {
                 setActiveList(false)
                 setValues(null)
                 setText("")
-                changeAuth()
+                requestAnimationFrame(() => {
+                    changeAuth()
+                })
             })
+        })
     }
 
     return (

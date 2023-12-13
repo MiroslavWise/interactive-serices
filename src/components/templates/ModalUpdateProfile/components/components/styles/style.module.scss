@@ -165,14 +165,12 @@
 
         .containerInput {
             position: relative;
-            height: 48px;
             width: 100%;
             z-index: 1;
 
             textarea {
                 position: relative;
                 min-height: calc(18px + 12px + 12px);
-                // max-height: min-content;
                 resize: none;
                 width: 100%;
                 padding: 12px 42px;

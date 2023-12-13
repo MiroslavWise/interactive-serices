@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import type { IFormValues } from "./types/types"
 import type { IPostOffers } from "@/services/offers/types"
 import type { ISelectList } from "@/components/common/custom/Select/types"
+import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 import { Glasses } from "@/components/common/Glasses"
 import { Button, ImageStatic } from "@/components/common"
@@ -13,20 +14,20 @@ import { ButtonClose } from "@/components/common/Buttons"
 import { CustomSelect } from "@/components/common/custom"
 
 import { cx } from "@/lib/cx"
+import { generateShortHash } from "@/lib/hash"
 import { useRefresh } from "./hooks/useRefresh"
 import { serviceOffers } from "@/services/offers"
-import { transliterateAndReplace, useDebounce } from "@/helpers"
+import { serviceAddresses } from "@/services/addresses"
+import { getLocationName } from "@/lib/location-name"
 import { fileUploadService } from "@/services/file-upload"
 import { useAuth, useOffersCategories } from "@/store/hooks"
+import { transliterateAndReplace, useDebounce } from "@/helpers"
 import { useAddCreateModal, closeCreateOffers } from "@/store/hooks"
-
-import styles from "./styles/style.module.scss"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
-import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import { getLocationName } from "@/lib/location-name"
-import { generateShortHash } from "@/lib/hash"
-import { serviceAddresses } from "@/services/addresses"
+
+import styles from "./styles/style.module.scss"
+import { FinishScreen } from "./components/FinishScreen"
 
 export const CreateNewOptionModal = () => {
     const [loading, setLoading] = useState(false)
@@ -36,12 +37,12 @@ export const CreateNewOptionModal = () => {
     const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
     const debouncedValue = useDebounce(onChangeAddress, 600)
     const [isFocus, setIsFocus] = useState(false)
+    const [isFirst, setIsFirst] = useState(true)
     const userId = useAuth(({ userId }) => userId)
     const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
     const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
     const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
     const categories = useOffersCategories(({ categories }) => categories)
-    const refresh = useRefresh()
 
     const list = useMemo(() => {
         return (
@@ -94,14 +95,16 @@ export const CreateNewOptionModal = () => {
                                     id,
                                 )
                                 .then(() => {
-                                    refresh()
                                     setLoading(false)
-                                    handleClose()
+                                    setIsFirst(false)
+                                    reset()
+                                    //----------------------------------------------------------------
                                 })
                         } else {
                             setLoading(false)
-                            handleClose()
-                            refresh()
+                            setIsFirst(false)
+                            reset()
+                            //---------------------------------------------------------------------
                         }
                     })
                 }
@@ -284,6 +287,7 @@ export const CreateNewOptionModal = () => {
             setFiles([])
             setStrings([])
             reset()
+            setIsFirst(true)
         }, 151)
     }
 
@@ -292,126 +296,139 @@ export const CreateNewOptionModal = () => {
             <section>
                 <ButtonClose position={{ top: 12, right: 12 }} onClick={handleClose} />
                 <Glasses />
-                {typeAdd ? (
-                    <header>
-                        <h3>{headerTitle}</h3>
-                    </header>
-                ) : null}
-                <ul>
-                    <h4>{description}</h4>
-                    <form onSubmit={onSubmit}>
-                        <fieldset>
-                            <label htmlFor="address">
-                                {addressInit?.additional ? "По адресу" : titleAddress} <sup>*</sup>
-                            </label>
-                            {addressInit?.additional ? (
-                                <p>{addressInit?.additional}</p>
-                            ) : (
-                                <div data-input-selector {...register("addressFeature", { required: true })}>
-                                    <input
-                                        {...register("address", { required: true })}
-                                        onChange={(event) => {
-                                            setValue("address", event.target.value)
-                                            debouncedValue()
-                                            setLoadingAddresses(true)
-                                        }}
-                                        onFocus={() => setIsFocus(true)}
-                                        onBlur={() => setIsFocus(false)}
-                                        placeholder={placeholderInput || ""}
-                                    />
-                                    <div data-select-icon>
-                                        <img
-                                            src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
-                                            alt="chevron"
-                                            width={20}
-                                            height={20}
-                                            data-chevron
-                                            data-loading={loadingAddresses}
+                {isFirst ? (
+                    <>
+                        {typeAdd ? (
+                            <header>
+                                <h3>{headerTitle}</h3>
+                            </header>
+                        ) : null}
+                        <ul>
+                            <h4>{description}</h4>
+                            <form onSubmit={onSubmit}>
+                                <fieldset>
+                                    <label htmlFor="address">
+                                        {addressInit?.additional ? "По адресу" : titleAddress} <sup>*</sup>
+                                    </label>
+                                    {addressInit?.additional ? (
+                                        <p>{addressInit?.additional}</p>
+                                    ) : (
+                                        <div data-input-selector {...register("addressFeature", { required: true })}>
+                                            <input
+                                                {...register("address", { required: true })}
+                                                onChange={(event) => {
+                                                    setValue("address", event.target.value)
+                                                    debouncedValue()
+                                                    setLoadingAddresses(true)
+                                                }}
+                                                onFocus={() => setIsFocus(true)}
+                                                onBlur={() => setIsFocus(false)}
+                                                placeholder={placeholderInput || ""}
+                                            />
+                                            <div data-select-icon>
+                                                <img
+                                                    src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
+                                                    alt="chevron"
+                                                    width={20}
+                                                    height={20}
+                                                    data-chevron
+                                                    data-loading={loadingAddresses}
+                                                />
+                                            </div>
+                                            <ul data-active={isFocus}>
+                                                {Array.isArray(exactAddresses) ? (
+                                                    exactAddresses.map((item, index) => (
+                                                        <li
+                                                            key={`${item.GeoObject.uri}-${index}`}
+                                                            onClick={() => {
+                                                                setValue("addressFeature", item)
+                                                                setValue(
+                                                                    "address",
+                                                                    item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
+                                                                )
+                                                            }}
+                                                        >
+                                                            <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                                                        </li>
+                                                    ))
+                                                ) : (
+                                                    <p>{loadingAddresses ? "Идёт загрузка адресов" : "Не найдено подходящих адресов"}</p>
+                                                )}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </fieldset>
+                                {["offer"].includes(typeAdd!) ? (
+                                    <fieldset {...register("categoryId", { required: true })}>
+                                        <label>
+                                            Предложение <sup>*</sup>
+                                        </label>
+                                        <CustomSelect
+                                            placeholder="Выберите категории"
+                                            list={list}
+                                            value={watch("categoryId")}
+                                            setValue={(value) => {
+                                                if (value) {
+                                                    setValue("categoryId", value as number)
+                                                }
+                                            }}
                                         />
+                                        {errors?.categoryId ? <i>Важное поле</i> : null}
+                                    </fieldset>
+                                ) : null}
+                                <fieldset>
+                                    <label htmlFor="title">
+                                        {title} <sup>*</sup>
+                                    </label>
+                                    <div data-text-area>
+                                        <textarea
+                                            maxLength={512}
+                                            {...register("title", { required: true })}
+                                            placeholder="Напиши что-нибудь"
+                                        />
+                                        <sup>{watch("title")?.length || 0}/512</sup>
                                     </div>
-                                    <ul data-active={isFocus}>
-                                        {Array.isArray(exactAddresses) ? (
-                                            exactAddresses.map((item, index) => (
-                                                <li
-                                                    key={`${item.GeoObject.uri}-${index}`}
+                                    {errors?.title ? <i>Обязательное поле</i> : null}
+                                </fieldset>
+                                <fieldset data-photos>
+                                    <label>Вы можете добавить фото, если хотите</label>
+                                    <div data-images>
+                                        {strings.map((item, index) => (
+                                            <div key={`${index}-image`} data-image>
+                                                <ImageStatic data-img src={item} alt="offer" width={304} height={392} />
+                                                <div
+                                                    data-trash
                                                     onClick={() => {
-                                                        setValue("addressFeature", item)
-                                                        setValue("address", item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
+                                                        deletePhoto(index)
                                                     }}
                                                 >
-                                                    <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
-                                                </li>
-                                            ))
-                                        ) : (
-                                            <p>{loadingAddresses ? "Идёт загрузка адресов" : "Не найдено подходящих адресов"}</p>
-                                        )}
-                                    </ul>
-                                </div>
-                            )}
-                        </fieldset>
-                        {["offer"].includes(typeAdd!) ? (
-                            <fieldset {...register("categoryId", { required: true })}>
-                                <label>
-                                    Предложение <sup>*</sup>
-                                </label>
-                                <CustomSelect
-                                    placeholder="Выберите категории"
-                                    list={list}
-                                    value={watch("categoryId")}
-                                    setValue={(value) => {
-                                        if (value) {
-                                            setValue("categoryId", value as number)
-                                        }
-                                    }}
-                                />
-                                {errors?.categoryId ? <i>Важное поле</i> : null}
-                            </fieldset>
-                        ) : null}
-                        <fieldset>
-                            <label htmlFor="title">
-                                {title} <sup>*</sup>
-                            </label>
-                            <div data-text-area>
-                                <textarea maxLength={512} {...register("title", { required: true })} placeholder="Напиши что-нибудь" />
-                                <sup>{watch("title")?.length || 0}/512</sup>
-                            </div>
-                            {errors?.title ? <i>Обязательное поле</i> : null}
-                        </fieldset>
-                        <fieldset data-photos>
-                            <label>Вы можете добавить фото, если хотите</label>
-                            <div data-images>
-                                {strings.map((item, index) => (
-                                    <div key={`${index}-image`} data-image>
-                                        <ImageStatic data-img src={item} alt="offer" width={304} height={392} />
-                                        <div
-                                            data-trash
-                                            onClick={() => {
-                                                deletePhoto(index)
-                                            }}
-                                        >
-                                            <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
+                                                    <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <div data-image>
+                                            <img src="/svg/plus-gray.svg" data-plus alt="plus-gray" height={60} width={60} />
+                                            <input type="file" accept="image/*" onChange={handleImageChange} multiple />
                                         </div>
                                     </div>
-                                ))}
-                                <div data-image>
-                                    <img src="/svg/plus-gray.svg" data-plus alt="plus-gray" height={60} width={60} />
-                                    <input type="file" accept="image/*" onChange={handleImageChange} multiple />
+                                </fieldset>
+                                <div data-footer>
+                                    <Button
+                                        type="button"
+                                        typeButton="regular-primary"
+                                        label="Отмена"
+                                        onClick={handleClose}
+                                        disabled={loading}
+                                        loading={loading}
+                                    />
+                                    <Button type="submit" typeButton="fill-primary" label="Далее" disabled={loading} loading={loading} />
                                 </div>
-                            </div>
-                        </fieldset>
-                        <div data-footer>
-                            <Button
-                                type="button"
-                                typeButton="regular-primary"
-                                label="Отмена"
-                                onClick={handleClose}
-                                disabled={loading}
-                                loading={loading}
-                            />
-                            <Button type="submit" typeButton="fill-primary" label="Далее" disabled={loading} loading={loading} />
-                        </div>
-                    </form>
-                </ul>
+                            </form>
+                        </ul>
+                    </>
+                ) : (
+                    <FinishScreen typeAdd={typeAdd!} setIsFirst={setIsFirst} />
+                )}
             </section>
         </div>
     )
