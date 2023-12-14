@@ -54,6 +54,16 @@ const SVG = [
     "/svg/messages/double-tick-black.svg",
     "/svg/messages/double-tick-gray.svg",
     "/svg/messages/double-tick-white.svg",
+
+    "/intro/0/0.svg",
+    "/intro/0/1.svg",
+    "/intro/0/2.svg",
+    "/intro/0/3.svg",
+    "/intro/0/4.svg",
+    "/intro/0/5.svg",
+    "/intro/2/base.svg",
+    "/intro/4/background.svg",
+    "/intro/5/illustration.svg",
 ]
 
 const PNG = [
@@ -74,6 +84,16 @@ const PNG = [
     "/png/welcome/one.png",
     "/png/welcome/three.png",
     "/png/welcome/two.png",
+    "/intro/1/first-avatar.png",
+    "/intro/1/second-avatar.png",
+    "/intro/2/avatar.png",
+    "/intro/2/background.avif",
+    "/intro/4/0.png",
+    "/intro/4/1.png",
+    "/intro/4/2.png",
+    "/intro/4/3.png",
+    "/intro/4/4.png",
+    "/intro/4/5.png",
 ]
 
 const installEvent = () => {

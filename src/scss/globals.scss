@@ -46,6 +46,11 @@ li {
     list-style: none;
 }
 
+time {
+    padding: 0;
+    margin: 0;
+}
+
 ul,
 div {
     list-style: none;
@@ -90,12 +95,14 @@ select {
 
 input[type="text"],
 input[type="submit"],
+input[type="tel"],
 textarea {
     -webkit-appearance: none;
 }
 
 input[type="email"],
 input[type="password"],
+input[type="tel"],
 input[type="text"] {
     width: 100%;
     padding: 12px 14px;

@@ -1,17 +1,8 @@
 "use client"
 
-import { dispatchIntro } from "@/store/hooks"
+import { isMobile } from "react-device-detect"
 
-import styles from "./styles/style.module.scss"
+import { BannerAboutMobile } from "./components/Mobile"
+import { BannerAboutDesktop } from "./components/Desktop"
 
-export const BannerAbout = () => {
-    return (
-        <div className={styles.container}>
-            <p>Шейра - кто мы и чем можем быть полезны?</p>
-            <section onClick={() => dispatchIntro(true)}>
-                <p>Узнать</p>
-                <img src="/svg/arrow-right.svg" alt="arrow" width={24} height={24} />
-            </section>
-        </div>
-    )
-}
+export const BannerAbout = () => (isMobile ? <BannerAboutMobile /> : <BannerAboutDesktop />)

@@ -11,7 +11,6 @@ export function ImageStatic(props: TImage) {
         <Image
             {...props}
             onClick={(event) => {
-                event.stopPropagation()
                 if (onClick) onClick(event)
             }}
             src={src}

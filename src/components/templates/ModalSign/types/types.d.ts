@@ -62,6 +62,7 @@ export interface IValuesSignForm {
     email: string
     password: string
     checkbox: boolean
+    phone: string
 }
 
 export interface IValuesPersonForm {
