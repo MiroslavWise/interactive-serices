@@ -18,7 +18,8 @@ export default function Home() {
     return (
         <main className={styles.main} data-is-modal-auth={visible}>
             <YandexMap />
-            {isAuth ? <BannerSign /> : <BannerAbout />}
+            {isAuth && <BannerSign />}
+            {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
             <BannerServices />
         </main>
     )

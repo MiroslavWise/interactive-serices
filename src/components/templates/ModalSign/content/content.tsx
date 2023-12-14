@@ -32,7 +32,7 @@ export const Content = memo(function Content() {
     >("email")
 
     return (
-        <>
+        <ul>
             <HeaderAuth {...{ email: valueEmail.email, typeVerification }} />
             {type === "SignIn" ? (
                 <ContentSignIn {...{ setValueSecret }} />
@@ -55,6 +55,6 @@ export const Content = memo(function Content() {
                     {...{ typeVerification, setTypeVerification }}
                 />
             ) : null}
-        </>
+        </ul>
     )
 })

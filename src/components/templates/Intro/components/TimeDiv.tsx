@@ -11,7 +11,6 @@ export const TimeDiv = ({ index }: { index: number }) => {
                 console.log("setTimeout: start: page: ", page, "index: ", index)
                 dispatchPage()
             }, 10 * 1000 - 1)
-
             return () => clearTimeout(time)
         }
     }, [page, index])

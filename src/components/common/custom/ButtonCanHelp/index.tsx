@@ -23,13 +23,14 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
             if (!userId) {
                 setVisible(true)
             } else if (!!userId) {
-                handlePush(`/messages?user=${userId}`)
+                handlePush(`/messages?user=${idUser}`)
             }
         }
     }
 
     return (
         <div
+            button-can-help
             className={styles.container}
             data-is-me={idUser === userId && !!userId}
             onClick={(event) => {

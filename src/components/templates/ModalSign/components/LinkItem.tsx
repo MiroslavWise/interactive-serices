@@ -18,7 +18,6 @@ export const LinkItem: TLinkItem = ({ src, path, isActive }) => {
             }}
         >
             <div style={{ backgroundImage: `url(${src})` }} data-img />
-            {/* <Image src={src} alt={src} height={24} width={24} /> */}
         </div>
     )
 }

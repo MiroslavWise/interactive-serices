@@ -42,15 +42,15 @@ import {
 
 export const Containers = () => {
     const isAuth = useAuth(({ isAuth }) => isAuth)
+    const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
     const isVisible = useVisibleModalBarter(({ isVisible }) => isVisible)
+    const visibleRules = useTermsOfUse(({ visibleRules }) => visibleRules)
+    const visiblePolicy = useTermsOfUse(({ visiblePolicy }) => visiblePolicy)
+    const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
     const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
     const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
-    const visiblePolicy = useTermsOfUse(({ visiblePolicy }) => visiblePolicy)
-    const visibleRules = useTermsOfUse(({ visibleRules }) => visibleRules)
     const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
-    const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
     const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
-    const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
 
     return (
         <>

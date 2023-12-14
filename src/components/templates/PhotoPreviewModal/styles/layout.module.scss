@@ -249,6 +249,12 @@
             }
         }
     }
+
+    [button-can-help] {
+        & > [data-is-motion] {
+            transform: translate(-50%, -50%) !important;
+        }
+    }
 }
 
 [data-theme="dark"] {

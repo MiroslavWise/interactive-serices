@@ -7,6 +7,26 @@ export const useIntro = create<TUseIntro>((set, get) => ({
     page: 0,
 }))
 
+export const dispatchPrevIntro = () =>
+    useIntro.setState((_) => {
+        if (_.page !== 0) {
+            return {
+                page: _.page - 1,
+            }
+        }
+        return {}
+    })
+
+export const dispatchNextIntro = () =>
+    useIntro.setState((_) => {
+        if (_.page < 5) {
+            return {
+                page: _.page + 1,
+            }
+        }
+        return {}
+    })
+
 export const dispatchIntro = (value: boolean) =>
     useIntro.setState(() => ({
         visible: value,
