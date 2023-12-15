@@ -12,7 +12,6 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
     const isAuth = useAuth(({ isAuth }) => isAuth)
 
     useEffect(() => {
-        console.log("useInsertionEffect: ", isAuth)
         if (typeof isAuth !== "undefined" && !isAuth) {
             redirect("/")
         }

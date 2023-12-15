@@ -23,6 +23,7 @@ import {
     CreateNewOptionModal,
     DataConfirmationPopUp,
     NewServiceBarterRequests,
+    MobileFiltersMap,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -54,7 +55,6 @@ export const Containers = () => {
 
     return (
         <>
-            <FooterMenu />
             <PhotoCarousel />
             <WelcomeModal />
             <BalloonPlaceMark />
@@ -67,6 +67,12 @@ export const Containers = () => {
             )}
             {isVisible && <Barter />}
             <ToastContainer limit={3} />
+            {isMobile && (
+                <>
+                    <FooterMenu />
+                    <MobileFiltersMap />
+                </>
+            )}
             {!isMobile && <PublicProfile />}
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}

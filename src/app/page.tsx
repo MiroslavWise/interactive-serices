@@ -1,8 +1,9 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import { isMobile } from "react-device-detect"
 
-import { BannerServices, BannerSign, BannerAbout } from "@/components/content"
+import { BannerServices, BannerSign, BannerAbout, MobileFilterMap } from "@/components/content"
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
     ssr: false,
 })
@@ -20,6 +21,7 @@ export default function Home() {
             <YandexMap />
             {isAuth && <BannerSign />}
             {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
+            {isMobile && <MobileFilterMap />}
             <BannerServices />
         </main>
     )

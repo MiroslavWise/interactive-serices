@@ -219,15 +219,6 @@
         width: 100%;
         margin-bottom: 16px;
     }
-    &[data-mobile="true"] {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 16px;
-        overflow-y: visible;
-    }
 }
 
 [data-mobile="true"] {
@@ -237,8 +228,12 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        gap: 16px;
+        gap: 12px;
         overflow-y: visible;
+
+        & > * {
+            margin-bottom: 0;
+        }
     }
 }
 

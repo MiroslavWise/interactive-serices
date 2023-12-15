@@ -1,0 +1,105 @@
+.wrapper {
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 450;
+
+    & > section {
+        height: 80%;
+        padding: 16px;
+        width: 100%;
+        border-radius: 32px 32px 0 0;
+        background: var(--background);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 24px;
+
+        & > h3 {
+            color: var(--color-text);
+            text-align: center;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 30px;
+            letter-spacing: -0.3px;
+        }
+
+        & > input {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px;
+            height: 44px;
+            border-radius: 22px;
+            border: 1px solid var(--gray-300);
+            background: var(--background-input);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: -0.3px;
+            width: 100%;
+
+            &::placeholder {
+                color: var(--gray-400);
+            }
+        }
+
+        & > ul {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 16px;
+            padding-bottom: 24px;
+            overflow: hidden;
+            overflow-y: auto;
+
+            & > li {
+                height: 38px;
+                width: min-content;
+                display: flex;
+                padding: 5px 12px 5px 5px;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                border-radius: 19px;
+                border: 1px solid var(--gray-200);
+                background: var(--button-default-background);
+                cursor: pointer;
+                transition: var(--transition);
+                transition-property: background;
+
+                & > [data-icon] {
+                    width: 28px;
+                    height: 28px;
+                    padding: 14px;
+                    border-radius: 14px;
+                    background: var(--button-default-background);
+                    border: 1px solid var(--stroke-1);
+                }
+
+                & > p {
+                    color: var(--gray-900);
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 20px;
+                    letter-spacing: -0.5px;
+                    white-space: nowrap;
+                }
+
+                &[data-active="true"] {
+                    background: var(--gradient-optional-1);
+                    p {
+                        color: var(--supporting-white);
+                    }
+                }
+            }
+        }
+    }
+}

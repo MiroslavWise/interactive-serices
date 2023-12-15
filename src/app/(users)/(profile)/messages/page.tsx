@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation"
 
 import { ListChat, Chat, InterviewerInfo } from "@/components/messages"
 
-import styles from "./style.module.scss"
+import "./page.scss"
 
 export default function Messages() {
     const searchParams = useSearchParams()
@@ -13,15 +13,21 @@ export default function Messages() {
     const idBarter = searchParams.get("barter-id")
     const idUser = searchParams?.get("user")
 
-    return isMobile ? (
-        <div className={styles.pageMobile}>
-            {idUser || idThread || idBarter ? <Chat /> : <ListChat />}
-        </div>
-    ) : (
-        <div className={styles.page}>
-            <ListChat />
-            <Chat />
-            <InterviewerInfo />
+    return (
+        <div className="__page-messages__">
+            {isMobile ? (
+                idUser || idThread || idBarter ? (
+                    <Chat />
+                ) : (
+                    <ListChat />
+                )
+            ) : (
+                <>
+                    <ListChat />
+                    <Chat />
+                    <InterviewerInfo />
+                </>
+            )}
         </div>
     )
 }
