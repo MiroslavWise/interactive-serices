@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation"
 import { Button, ButtonLink } from "@/components/common"
 import { useAuth, useVisibleBannerNewServices, dispatchAuthModal } from "@/store/hooks"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/components.module.scss"
 
 export const Buttons = () => {
     const pathname = usePathname()

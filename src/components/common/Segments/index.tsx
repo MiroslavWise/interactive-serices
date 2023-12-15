@@ -2,8 +2,9 @@ import type { TSegments } from "./types"
 
 import { borderClassNames } from "@/helpers"
 
-import styles from "./style.module.scss"
 import { cx } from "@/lib/cx"
+
+import styles from "./style.module.scss"
 
 export const Segments: TSegments = ({ VALUES, active, setActive, type, classNames, ref = null, id }) => {
     return (
@@ -13,10 +14,10 @@ export const Segments: TSegments = ({ VALUES, active, setActive, type, className
                     id={id}
                     key={item?.value}
                     onClick={() => setActive(item)}
+                    data-type={type}
+                    data-active={active.value === item.value}
                     className={cx(
                         styles.button,
-                        styles[type],
-                        active.value === item.value && styles.active,
                         active.value !== item.value && styles[borderClassNames(VALUES.indexOf(active), index, VALUES.length)],
                     )}
                 >

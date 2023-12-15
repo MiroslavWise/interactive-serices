@@ -3,13 +3,14 @@
 import { type ReactNode } from "react"
 import { useSwipeable } from "react-swipeable"
 
-import { TimeTrack } from "./components/TimeTrack"
-
+import { StartPage } from "./components/StartPage"
 import { ScreenZero } from "./components/0"
 import { ScreenOne } from "./components/1"
 import { ScreenTwo } from "./components/2"
+import { ScreenThree } from "./components/3"
 import { ScreenFour } from "./components/4"
 import { ScreenFive } from "./components/5"
+import { TimeTrack } from "./components/TimeTrack"
 import { ItemsPages } from "./components/ItemsPages"
 import { PhotoContainer } from "./components/PhotoContainer"
 import { ButtonClose, ButtonsSwipePage } from "./components/Buttons"
@@ -21,12 +22,13 @@ import { dispatchPage, useIntro, dispatchAuthModal, dispatchIntro, dispatchPrevI
 import styles from "./styles/style.module.scss"
 
 const SCREENS_IMAGES: Record<number, ReactNode> = {
-    0: <ScreenZero />,
-    1: <ScreenOne />,
-    2: <ScreenTwo />,
-    3: <ScreenZero />,
-    4: <ScreenFour />,
-    5: <ScreenFive />,
+    0: <StartPage />,
+    1: <ScreenZero />,
+    2: <ScreenOne />,
+    3: <ScreenTwo />,
+    4: <ScreenThree />,
+    5: <ScreenFour />,
+    6: <ScreenFive />,
 }
 
 export const Intro = () => {
@@ -40,7 +42,7 @@ export const Intro = () => {
             }
         },
         onSwipedRight(event) {
-            if (event.deltaX > 170) {
+            if (event.deltaX > 120) {
                 dispatchPrevIntro()
             }
         },
@@ -50,12 +52,14 @@ export const Intro = () => {
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
             <section {...handlers} onClick={dispatchPage}>
                 <TimeTrack />
-                <ItemsPages>
+                <ItemsPages page={page}>
                     <PhotoContainer>{SCREENS_IMAGES[page]}</PhotoContainer>
                     <footer>
                         <h3>{SCREENS[page].title}</h3>
-                        {SCREENS[page].description ? <p>{SCREENS[page].description}</p> : null}
-                        {page === 5 ? (
+                        {SCREENS[page].description.length
+                            ? SCREENS[page].description.map((item, index) => <p key={index + "-description-intro"}>{item}</p>)
+                            : null}
+                        {page === 6 ? (
                             <button onClick={() => dispatchAuthModal({ visible: true, type: "SignUp" })}>
                                 <span>Зарегистрироваться</span>
                             </button>

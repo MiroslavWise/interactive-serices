@@ -1,20 +1,20 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
+
 import type { TContainerTagAndButton } from "./types/types"
+import type { ISegmentValues } from "@/components/common/Segments/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
+
+import { Segments } from "@/components/common/Segments"
 
 import { useProviderProfileOffer, dispatchProvider } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-interface ITabs {
-    label: string
-    value: TTypeProvider
-}
-
-const TABS: ITabs[] = [
+const TABS: ISegmentValues<TTypeProvider>[] = [
     {
-        label: "Мои предложения",
+        label: isMobile ? "Предложения" : "Мои предложения",
         value: "offer",
     },
     {
@@ -32,20 +32,14 @@ export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {
 
     return (
         <div className={styles.containerTagAndButton}>
-            <nav>
-                {TABS.map((item) => (
-                    <a
-                        key={`${item.value}-provider`}
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            dispatchProvider(item.value)
-                        }}
-                        data-active={stateProvider === item.value}
-                    >
-                        <span>{item.label}</span>
-                    </a>
-                ))}
-            </nav>
+            <Segments
+                type="primary"
+                VALUES={TABS}
+                active={TABS.find((_) => _.value === stateProvider)!}
+                setActive={({ value }) => {
+                    dispatchProvider(value)
+                }}
+            />
         </div>
     )
 }

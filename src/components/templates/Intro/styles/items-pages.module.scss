@@ -12,6 +12,12 @@
     gap: 24px;
     height: 100%;
 
+    &[data-page="0"] {
+        background: linear-gradient(180deg, rgba(23, 15, 38, 0) 27.32%, rgba(23, 15, 38, 0.18) 47.38%, rgba(23, 15, 38, 0.4) 100%),
+            linear-gradient(180deg, rgba(106, 89, 230, 0.2) 0%, rgba(106, 89, 230, 0.88) 32.55%, rgba(106, 89, 230, 0.98) 63.36%),
+            url("/intro/start/map.avif"), lightgray 50% / cover no-repeat;
+    }
+
     & > [data-photo-container] {
         width: 100%;
         margin: auto 0;
@@ -76,14 +82,11 @@
     .container {
         padding: calc(10px + 4px + 20px) 0 30px;
         gap: 16px;
+        border-radius: 0;
 
         & > footer {
             padding-inline: 20px;
             gap: 12px;
-            & > button {
-                & > span {
-                }
-            }
         }
     }
 }

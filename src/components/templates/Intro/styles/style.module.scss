@@ -21,6 +21,16 @@
         background: linear-gradient(180deg, rgba(23, 15, 38, 0) 24.51%, rgba(23, 15, 38, 0.09) 64.31%, rgba(23, 15, 38, 0.2) 100%), #6a59e6;
         cursor: pointer;
     }
+
+    [data-start-page-image] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 6;
+        width: 100%;
+        height: auto;
+    }
 }
 
 [data-mobile="true"] {

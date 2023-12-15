@@ -1,4 +1,3 @@
-export * from "./NavBar"
 export * from "./StatisticAndFeedback"
 export * from "./MainInfo"
 export * from "./MyProfilePage"

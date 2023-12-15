@@ -5,14 +5,13 @@ import dynamic from "next/dynamic"
 import { type ReactNode } from "react"
 import { Inter } from "next/font/google"
 
-import { Glasses } from "@/components/layout"
+import { Glasses, NavBarProfile } from "@/components/layout"
 const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 import env from "@/config/environment"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
-import { NavBarProfile } from "@/components/profile"
 
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
