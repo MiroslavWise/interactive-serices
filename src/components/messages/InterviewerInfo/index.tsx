@@ -116,7 +116,7 @@ export const InterviewerInfoCurrent = () => {
                         </h4>
                         {geo ? <GeoTagging size={16} fontSize={14} location={geo} /> : null}
                         {dataUser?.res?.profile?.created! ? (
-                            <p>Присоединился {dayjs(dataUser?.res?.profile?.created!).format("DD.MM.YYYY")}</p>
+                            <p>На Sheira с {dayjs(dataUser?.res?.profile?.created!).format("DD.MM.YYYY")}</p>
                         ) : null}
                     </section>
                 </header>

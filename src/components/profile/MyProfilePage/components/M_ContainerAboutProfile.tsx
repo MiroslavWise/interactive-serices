@@ -55,7 +55,7 @@ export const M_ContainerAboutProfile = () => {
                         {user?.firstName} {user?.lastName}
                     </h4>
                     {addressMain ? <GeoTagging size={16} fontSize={12} location={addressMain?.additional} /> : null}
-                    <p className={styles.date}>Присоединился {createdUser ? dayjs(createdUser).format("DD.MM.YYYY") : null}</p>
+                    <p className={styles.date}>На Sheira с {createdUser ? dayjs(createdUser).format("DD.MM.YYYY") : null}</p>
                     <p className={styles.about}>{user?.about}</p>
                 </div>
             </div>

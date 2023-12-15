@@ -9,8 +9,16 @@
     background: var(--glass-bg-color-1);
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
     z-index: 99;
+    opacity: 1;
+    visibility: visible;
 
-    & > ul {
+    &[data-not-active="true"] {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        bottom: -100px !important;
+    }
+
+    & > nav {
         padding: 0 2px;
         height: 100%;
         display: flex;
@@ -18,7 +26,6 @@
         justify-content: space-around;
         backdrop-filter: blur(4px);
 
-        & > li,
         & > a {
             height: 100%;
             flex: 1;

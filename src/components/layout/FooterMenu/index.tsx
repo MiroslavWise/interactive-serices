@@ -2,9 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { motion } from "framer-motion"
-import { usePathname } from "next/navigation"
-import { isMobile, isTablet } from "react-device-detect"
+import { usePathname, useSearchParams } from "next/navigation"
 
 import type { TFooterMenu } from "./types"
 
@@ -15,21 +13,16 @@ import { useAuth, useModalAuth, dispatchAuthModal } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const FooterMenu: TFooterMenu = ({}) => {
+    const pathname = usePathname()
+    const thread = useSearchParams()?.get("thread")
     const isAuth = useAuth(({ isAuth }) => isAuth)
     const visible = useModalAuth(({ visible }) => visible)
     const type = useModalAuth(({ type }) => type)
-    const pathname = usePathname()
     const valuePath = useActivePath()
 
-    return isMobile && !isTablet ? (
-        <motion.footer
-            className={styles.container}
-            initial={{ bottom: -70 }}
-            animate={{ bottom: 0 }}
-            transition={{ duration: 0.15 }}
-            exit={{ bottom: -70 }}
-        >
-            <ul>
+    return (
+        <footer className={styles.container} data-not-active={pathname.includes("messages") && !!thread}>
+            <nav>
                 {MENU_ITEMS(isAuth).map((item) => (
                     <Link
                         key={item.key}
@@ -68,7 +61,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                         </div>
                     </Link>
                 ))}
-            </ul>
-        </motion.footer>
-    ) : null
+            </nav>
+        </footer>
+    )
 }
