@@ -24,6 +24,7 @@ export const Buttons = () => {
                         typeButton="fill-primary"
                         className={styles.widthButton}
                         suffixIcon={<Image src="/svg/plus.svg" alt="plus" width={24} height={24} unoptimized />}
+                        style={{ width: "100%" }}
                         onClick={() => {
                             dispatchNewServicesBanner(true)
                         }}

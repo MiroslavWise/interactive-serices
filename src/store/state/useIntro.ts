@@ -38,7 +38,6 @@ export const dispatchPage = () =>
         if (_.page >= 5) {
             return {
                 visible: false,
-                page: 0,
             }
         } else {
             return {

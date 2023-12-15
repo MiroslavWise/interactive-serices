@@ -16,7 +16,7 @@ import { ButtonClose, ButtonsSwipePage } from "./components/Buttons"
 
 import { cx } from "@/lib/cx"
 import { SCREENS } from "./constants/screens"
-import { dispatchPage, useIntro, dispatchAuthModal, dispatchIntro } from "@/store/hooks"
+import { dispatchPage, useIntro, dispatchAuthModal, dispatchIntro, dispatchPrevIntro } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
@@ -37,6 +37,11 @@ export const Intro = () => {
         onSwipedDown(event) {
             if (event.deltaY > 150) {
                 dispatchIntro(false)
+            }
+        },
+        onSwipedRight(event) {
+            if (event.deltaX > 170) {
+                dispatchPrevIntro()
             }
         },
     })
