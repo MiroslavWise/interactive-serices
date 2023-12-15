@@ -63,6 +63,7 @@ export function CardDiscussion(props: IResponseOffers) {
                         label="Изменить"
                         typeButton={systemTheme === "dark" ? "fill-primary" : "fill-orange"}
                         prefixIcon={<Image src="/svg/edit-white.svg" alt="edit" width={14} height={14} unoptimized />}
+                        disabled
                     />
                     <Button type="button" typeButton="regular-primary" label="Обзор" onClick={handleOpenMore} />
                 </div>

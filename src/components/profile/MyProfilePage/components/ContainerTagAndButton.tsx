@@ -21,10 +21,10 @@ const TABS: ITabs[] = [
         label: "Дискуссии",
         value: "discussion",
     },
-    // {
-    //     label: "SOS",
-    //     value: "alert",
-    // },
+    {
+        label: "SOS",
+        value: "alert",
+    },
 ]
 
 export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {

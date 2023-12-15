@@ -24,7 +24,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
 
     return (
         <ul className={styles.containerSuggestions}>
-            {Array.isArray(data?.res) && ["offer", "alert"].includes(stateProvider)
+            {Array.isArray(data?.res) && ["offer"].includes(stateProvider)
                 ? data?.res.map((item, index) => (
                       <CardSuggestion
                           key={`${item.id}+${index}-${stateProvider}`}
@@ -37,8 +37,8 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
                           refetch={refetch}
                       />
                   ))
-                : Array.isArray(data?.res) && stateProvider === "discussion"
-                ? data?.res.map((item, index) => <CardDiscussion key={`${item.id}-discussion`} {...item} />)
+                : Array.isArray(data?.res) && ["discussion", "alert"].includes(stateProvider)
+                ? data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
                 : null}
         </ul>
     )

@@ -26,7 +26,8 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
             {...rest}
             className={cx(styles.container, className)}
             data-type-button={typeButton || "fill-primary"}
-            disabled={!!loading}
+            disabled={!!loading || rest.disabled}
+            data-disabled={rest.disabled}
             ref={ref}
         >
             {prefixIcon}

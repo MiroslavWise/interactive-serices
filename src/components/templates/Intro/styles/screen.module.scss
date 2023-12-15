@@ -43,7 +43,7 @@
         width: 100%;
         max-width: 270px;
         border-radius: 12px;
-        background-color: var(--background);
+        background-color: #f9fafb;
         box-shadow: 0px 2.893px 17.355px 0px rgba(128, 136, 143, 0.13), 0px 2.893px 17.355px 0px rgba(0, 0, 0, 0.12),
             0px 2.893px 17.355px 0px rgba(0, 0, 0, 0.12);
         transform: translateY(-60%);
@@ -87,7 +87,7 @@
                     margin: 0 auto 0 0;
 
                     & > h4 {
-                        color: var(--gray-900);
+                        color: #101828;
                         font-size: 11.57px;
                         font-style: normal;
                         font-weight: 500;
@@ -103,7 +103,7 @@
                         gap: 3px;
 
                         & > span {
-                            color: var(--gray-500);
+                            color: #98a2b3;
                             font-size: 8.678px;
                             font-style: normal;
                             font-weight: 500;
@@ -149,8 +149,8 @@
                     align-items: center;
                     gap: 4px;
                     border-radius: 12px;
-                    background: var(--background-input);
-                    border: 0.63px solid var(--gray-200);
+                    background: var(--supporting-white);
+                    border: 0.63px solid #eaecf0;
 
                     & > img {
                         height: 18px;
@@ -161,7 +161,7 @@
                     }
 
                     & > span {
-                        color: var(--gray-900);
+                        color: #101828;
                         font-size: 11px;
                         font-style: normal;
                         font-weight: 500;
@@ -184,7 +184,7 @@
             & > [data-time] {
                 border-radius: 10px;
                 border: 0.8px solid var(--gray-300);
-                background: var(--background-input);
+                background: var(--supporting-white);
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -195,7 +195,7 @@
                 & > time {
                     text-align: center;
                     justify-items: center;
-                    color: var(--gray-500);
+                    color: #98A2B3;
                     font-size: 8.678px;
                     font-style: normal;
                     font-weight: 500;
@@ -370,7 +370,7 @@
                                 gap: 3px;
 
                                 & > span {
-                                    color: var(--gray-500);
+                                    color: #98a2b3;
                                     font-size: 5.9px;
                                     font-style: normal;
                                     font-weight: 500;
