@@ -7,10 +7,12 @@
     align-items: center;
     justify-content: space-between;
     z-index: 5;
-
     border-bottom: 2px solid var(--stroke-1);
     background: var(--glass-bg-color-2);
     backdrop-filter: blur(4.5px);
+
+    transition: var(--transition);
+    transition-property: display;
 
     &[data-theme="dark"] {
         backdrop-filter: blur(10px);

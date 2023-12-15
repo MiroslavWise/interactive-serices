@@ -93,7 +93,6 @@
     width: 100%;
     display: inline-flex;
     align-items: center;
-    justify-content: space-between;
     z-index: 1;
 
     & > nav {
@@ -254,7 +253,6 @@
     flex-direction: column;
     gap: 16px;
     z-index: 10;
-    margin-top: 20px;
 
     border-radius: 16px;
     border: 1px solid var(--stroke-1);

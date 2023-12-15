@@ -39,7 +39,7 @@ export function ButtonsSwipePage() {
             <button
                 className={styles.swipe}
                 data-right
-                data-opacity={page >= 5}
+                data-opacity={page >= 6}
                 onClick={(event) => {
                     event.stopPropagation()
                     dispatchNextIntro()

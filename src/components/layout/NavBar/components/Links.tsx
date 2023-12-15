@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation"
 import { cx } from "@/lib/cx"
 import { LINKS_PROFILE } from "./constants"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/components.module.scss"
 
 export const Links = () => {
     const active = usePathname()

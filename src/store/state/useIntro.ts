@@ -19,7 +19,7 @@ export const dispatchPrevIntro = () =>
 
 export const dispatchNextIntro = () =>
     useIntro.setState((_) => {
-        if (_.page < 5) {
+        if (_.page < 6) {
             return {
                 page: _.page + 1,
             }
@@ -35,7 +35,7 @@ export const dispatchIntro = (value: boolean) =>
 
 export const dispatchPage = () =>
     useIntro.setState((_) => {
-        if (_.page >= 5) {
+        if (_.page >= 6) {
             return {
                 visible: false,
             }
