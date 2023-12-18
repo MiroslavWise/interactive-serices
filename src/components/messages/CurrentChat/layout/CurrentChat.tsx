@@ -1,18 +1,20 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
-import { useQuery } from "@tanstack/react-query"
-import { useEffect, useMemo, useState } from "react"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
 
 import { IResponseMessage } from "@/services/messages/types"
 
 import { Glasses } from "@/components/layout"
 import { PopupMenu } from "../components/PopupMenu"
+import { NoticeBarter } from "../components/NoticeBarter"
 import { ListMessages } from "../components/ListMessages"
 import { TextAreaSend } from "../components/TextAreaSend"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
@@ -20,7 +22,6 @@ import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { serviceMessages } from "@/services/messages"
-import { NoticeBarter } from "../components/NoticeBarter"
 import { useAuth, usePopupMenuChat, useMessagesType } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
@@ -139,10 +140,18 @@ export const CurrentChat = () => {
         }
     }, [dispatchMessagesType, data?.res])
 
-    useEffect(() => {
-        const height = document.documentElement.clientHeight
-        setScreenHeight(height || "100%")
-    }, [])
+    return (
+        <div className={styles.wrapper}>
+            <header>
+                <Link data-back href={{ pathname: "/messages" }}>
+                    <img src="/svg/chevron-left.svg" alt="chevron-left" width={24} height={24} />
+                </Link>
+                <button>
+                    <img src="/svg/dots-vertical.svg" alt="dots-vertical" width={24} height={24} />
+                </button>
+            </header>
+        </div>
+    )
 
     if (isMobile) {
         return (

@@ -17,7 +17,6 @@ export interface ICommentsResponse {
 
 export interface IPostDataComment {
     parentId?: number | null
-    userId: number
     offerThreadId?: number
     barterThreadId?: number
     message: string

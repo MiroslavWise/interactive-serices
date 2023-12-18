@@ -46,19 +46,14 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
     }, [data?.res, offerId])
 
     const { data: dataComments, refetch: refetchComments } = useQuery({
-        queryFn: () =>
-            serviceComments.get({ offer: currentOffersThreads?.id! }),
+        queryFn: () => serviceComments.get({ offer: currentOffersThreads?.id! }),
         queryKey: ["comments", `offer=${currentOffersThreads?.id!}`],
         enabled: !!currentOffersThreads?.id!,
     })
 
     useEffect(() => {
         if (!!dataComments?.res && !!currentOffersThreads) {
-            setCurrentComments(
-                dataComments?.res?.filter(
-                    (item) => item.offerThreadId === currentOffersThreads?.id,
-                ) || [],
-            )
+            setCurrentComments(dataComments?.res?.filter((item) => item.offerThreadId === currentOffersThreads?.id) || [])
         }
     }, [dataComments, currentOffersThreads])
 
@@ -110,8 +105,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                         id: temporaryNumber,
                         parentId: null,
                         userId: userId!,
-                        offerThreadId:
-                            currentOffersThreads?.id! || offerThreadId!,
+                        offerThreadId: currentOffersThreads?.id! || offerThreadId!,
                         message: values?.text,
                         status: "create",
                         enabled: true,
@@ -122,9 +116,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                 ])
                 serviceComments
                     .post({
-                        userId: userId!,
-                        offerThreadId:
-                            currentOffersThreads?.id! || offerThreadId!,
+                        offerThreadId: currentOffersThreads?.id! || offerThreadId!,
                         message: values?.text,
                         status: "published",
                         enabled: true,
@@ -133,11 +125,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                         if (!response?.ok) {
                             setCurrentComments((prev) =>
                                 prev.map((item) => {
-                                    if (
-                                        item?.temporaryNumber ===
-                                            temporaryNumber &&
-                                        item?.temporaryNumber !== undefined
-                                    ) {
+                                    if (item?.temporaryNumber === temporaryNumber && item?.temporaryNumber !== undefined) {
                                         return {
                                             ...item,
                                             isTemporary: false,
@@ -164,19 +152,11 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                 <footer data-discussion>
                     <button
                         onClick={() => {
-                            activeListComments
-                                ? setActiveListComments(false)
-                                : handleOnOpen()
+                            activeListComments ? setActiveListComments(false) : handleOnOpen()
                         }}
                     >
                         <span>{currentComments?.length || 0} комментариев</span>
-                        <Image
-                            src="/svg/chevron-down.svg"
-                            alt="chevron-down"
-                            width={18}
-                            height={18}
-                            unoptimized
-                        />
+                        <Image src="/svg/chevron-down.svg" alt="chevron-down" width={18} height={18} unoptimized />
                     </button>
                     <BlockLikes id={offerId!} />
                 </footer>
@@ -198,26 +178,16 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                                     maxLength: 240,
                                 })}
                                 value={watch("text")}
-                                onChange={(event) =>
-                                    setValue("text", event.target.value)
-                                }
+                                onChange={(event) => setValue("text", event.target.value)}
                                 placeholder="Напишите свой комментарий (мин. 3 символа)"
                                 onKeyDown={(event) => {
-                                    if (
-                                        event.keyCode === 13 ||
-                                        event.code === "Enter"
-                                    ) {
+                                    if (event.keyCode === 13 || event.code === "Enter") {
                                         onSubmit()
                                     }
                                 }}
                                 maxLength={240}
                             />
-                            <Button
-                                type="button"
-                                onClick={onSubmit}
-                                label="Добавить комментарий"
-                                typeButton="fill-primary"
-                            />
+                            <Button type="button" onClick={onSubmit} label="Добавить комментарий" typeButton="fill-primary" />
                         </form>
                     ) : null}
                 </article>

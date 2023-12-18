@@ -27,7 +27,7 @@ export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
         srcWorking: "/icons/fill/vk.svg",
         srcNotWorking: "/icons/fill/vk.svg",
         path: "/vk/login",
-        isWorkingLink: false,
+        isWorkingLink: true,
     },
     {
         value: "yandex",
