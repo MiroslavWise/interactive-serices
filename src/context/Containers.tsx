@@ -44,7 +44,6 @@ import {
 export const Containers = () => {
     const isAuth = useAuth(({ isAuth }) => isAuth)
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
-    const isVisible = useVisibleModalBarter(({ isVisible }) => isVisible)
     const visibleRules = useTermsOfUse(({ visibleRules }) => visibleRules)
     const visiblePolicy = useTermsOfUse(({ visiblePolicy }) => visiblePolicy)
     const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
@@ -55,6 +54,7 @@ export const Containers = () => {
 
     return (
         <>
+            <TermsOfUse />
             <PhotoCarousel />
             <WelcomeModal />
             <BalloonPlaceMark />
@@ -65,7 +65,6 @@ export const Containers = () => {
                     <AboutSheiraPopup />
                 </>
             )}
-            {isVisible && <Barter />}
             <ToastContainer limit={3} />
             {isMobile && (
                 <>
@@ -76,10 +75,10 @@ export const Containers = () => {
             {!isMobile && <PublicProfile />}
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
-            {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
             {visibleDataConfirmation && <DataConfirmationPopUp />}
             {isAuth && (
                 <>
+                    <Barter />
                     <ComplaintModal />
                     <NewServicesBanner />
                     <ModalUpdateProfile />

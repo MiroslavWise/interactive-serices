@@ -1,21 +1,4 @@
-interface IValues {
-    user: string
-    my_photo: string
-}
-
-interface IReturnMessage {
-    avatar_url: string
-    isMe: boolean
-    message: string
-    time: string
-}
-
-export type TTypeActionMenu =
-    | "onProfile"
-    | "openBarter"
-    | "deleteChat"
-    | "allRequest"
-    | "currentExchanges"
+export type TTypeActionMenu = "onProfile" | "openBarter" | "deleteChat" | "allRequest" | "currentExchanges"
 
 export interface IMenuItemPopup {
     image: {

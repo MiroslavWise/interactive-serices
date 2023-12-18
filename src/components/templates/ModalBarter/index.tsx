@@ -1,6 +1,5 @@
 "use client"
 
-import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
 import { useForm } from "react-hook-form"
@@ -47,12 +46,7 @@ export function Barter() {
         setValue,
         handleSubmit,
         formState: { errors },
-    } = useForm<IValuesForm>({
-        defaultValues: {
-            year: dayjs().format("YYYY"),
-            month: dayjs().format("MM"),
-        },
-    })
+    } = useForm<IValuesForm>({})
 
     function onSubmit(values: IValuesForm) {
         const data = {
@@ -62,10 +56,6 @@ export function Barter() {
             title: dataOffer?.title!,
             enabled: true,
         } as IPostDataBarter
-
-        const day = values.day
-        const month = values.month
-        const year = values.year
 
         if (addressId) {
             data.addresses = [Number(addressId)]
@@ -96,6 +86,8 @@ export function Barter() {
             }
         })
     }
+
+    if (!isVisible) return null
 
     if (isMobile) {
         return (
