@@ -1,4 +1,5 @@
 import { create } from "zustand"
+
 import type { TUseTermsOfUse } from "../types/createTermsOfUse"
 
 export const useTermsOfUse = create<TUseTermsOfUse>((set, get) => ({
@@ -11,3 +12,5 @@ export const useTermsOfUse = create<TUseTermsOfUse>((set, get) => ({
         set({ visibleRules: visible })
     },
 }))
+
+export const dispatchClose = () => useTermsOfUse.setState(() => ({ visiblePolicy: false, visibleRules: false }))

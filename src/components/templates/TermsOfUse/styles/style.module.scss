@@ -41,7 +41,7 @@
 
             & > h3 {
                 color: var(--gray-900);
-                text-align: center;
+                text-align: start;
                 font-size: 24px;
                 font-style: normal;
                 font-weight: 500;
@@ -62,9 +62,14 @@
             }
         }
     }
+}
 
-    &[data-mobile="true"] {
+[data-mobile="true"] {
+    .wrapper {
+        padding: 0;
         & > section {
+            max-width: 100%;
+            border-radius: 0;
             & > ul {
                 padding: 12px !important;
                 & > h2 {

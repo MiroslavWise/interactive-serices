@@ -35,21 +35,6 @@ export const ContentSignUp: TContentSignUp = ({}) => {
 
     const onRegister = async (values: IValuesRegistrationForm) => {
         if (!loading) {
-            // if (!matchesUserName(values.__iremqwer__)) {
-            //     return setError("__iremqwer__", { message: "email not valid" })
-            // }
-            // if (values.__wererfsdfwef__ !== values.__rwersdf__asdfsadf__) {
-            //     return setError("__rwersdf__asdfsadf__", {
-            //         message: "no_repeat",
-            //     })
-            // }
-            // if (!values.checkbox) {
-            //     return setError("checkbox", { message: "it's true?" })
-            // }
-            // if (!checkPasswordStrength(values.__wererfsdfwef__)) {
-            //     setError("__wererfsdfwef__", { message: "validate_register" })
-            //     return
-            // }
             setLoading(true)
             RegistrationService.registration({
                 email: values.email,
@@ -68,12 +53,6 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                             visible: true,
                             type: "register",
                         })
-                        // on(
-                        //     {
-                        //         message: "Вы успешно зарегистрировались. Зайдите на свою почту, что-бы по ссылке пройти верификацию!",
-                        //     },
-                        //     "success",
-                        // )
                     }
                 })
                 .finally(() => {

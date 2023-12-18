@@ -196,7 +196,6 @@
     .checkRemember {
         display: flex;
         flex-direction: row;
-        align-items: center;
         gap: 8px;
 
         .checkbox input[type="checkbox"] {
@@ -206,6 +205,7 @@
         }
 
         .checkbox {
+            margin-top: 12px;
             .checkmark {
                 position: relative;
                 display: flex;

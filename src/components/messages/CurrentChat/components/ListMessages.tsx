@@ -1,6 +1,5 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
