@@ -17,7 +17,7 @@ import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { SEGMENTS_CHAT } from "./constants/segments"
-import { useAuth, useMessagesType } from "@/store/hooks"
+import { dispatchMessagesType, useAuth, useMessagesType } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
@@ -28,7 +28,6 @@ export const ListChat = memo(function ListChat() {
     const { socket } = useWebSocket() ?? {}
     const userId = useAuth(({ userId }) => userId)
     const type = useMessagesType(({ type }) => type)
-    const dispatchMessagesType = useMessagesType(({ dispatchMessagesType }) => dispatchMessagesType)
 
     const { data, refetch } = useQuery({
         queryFn: () =>
@@ -126,7 +125,7 @@ export const ListChat = memo(function ListChat() {
                     active={SEGMENTS_CHAT.find((item) => item.value === type)!}
                     VALUES={SEGMENTS_CHAT}
                     setActive={(values) => {
-                        dispatchMessagesType({ type: values.value })
+                        dispatchMessagesType(values.value)
                     }}
                     classNames={styles.segments}
                 />

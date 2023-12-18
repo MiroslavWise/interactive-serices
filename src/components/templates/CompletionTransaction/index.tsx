@@ -9,19 +9,15 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { IValuesForm } from "./types/types"
 
-import { ButtonClose, ButtonFill } from "@/components/common/Buttons"
+import { ButtonClose, ButtonFill } from "@/components/common"
+import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 import { cx } from "@/lib/cx"
 import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { serviceTestimonials } from "@/services/testimonials"
-import {
-    useAuth,
-    useDataConfirmationPopUp,
-    useCompletionTransaction,
-} from "@/store/hooks"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
+import { useAuth, useDataConfirmationPopUp, useCompletionTransaction, dispatchCompletion } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
@@ -41,24 +37,15 @@ export const CompletionTransaction = () => {
         },
     })
     const visible = useCompletionTransaction(({ visible }) => visible)
+    const refreshCallDown = useCompletionTransaction(({ cd }) => cd)
     const dataBarter = useCompletionTransaction(({ dataBarter }) => dataBarter)
     const dataUser = useCompletionTransaction(({ dataUser }) => dataUser)
-    const dispatchCompletion = useCompletionTransaction(
-        ({ dispatchCompletion }) => dispatchCompletion,
-    )
     const threadId = useCompletionTransaction(({ threadId }) => threadId)
-    const dispatchDataConfirmation = useDataConfirmationPopUp(
-        ({ dispatchDataConfirmation }) => dispatchDataConfirmation,
-    )
+    const dispatchDataConfirmation = useDataConfirmationPopUp(({ dispatchDataConfirmation }) => dispatchDataConfirmation)
 
     const { refetch } = useQuery({
         queryFn: () => serviceBarters.getId(dataBarter?.id!),
         queryKey: ["barters", `id=${dataBarter?.id!}`],
-        enabled: false,
-    })
-    const { refetch: refetchThreads } = useQuery({
-        queryFn: () => serviceThreads.getId(threadId!),
-        queryKey: ["threads", `user=${userId}`, `id=${threadId}`],
         enabled: false,
     })
 
@@ -80,20 +67,12 @@ export const CompletionTransaction = () => {
                 provider: "offer",
                 barter: dataBarter?.id!,
             }),
-        queryKey: [
-            "testimonials",
-            `offer=${offerId!}`,
-            `barter=${dataBarter?.id}`,
-            `provider=offer`,
-        ],
+        queryKey: ["testimonials", `offer=${offerId!}`, `barter=${dataBarter?.id}`, `provider=offer`],
         enabled: false,
     })
 
     function submit(values: IValuesForm) {
-        const idOffer =
-            dataBarter?.initiator?.userId === userId
-                ? dataBarter?.consignedId
-                : dataBarter?.initialId
+        const idOffer = dataBarter?.initiator?.userId === userId ? dataBarter?.consignedId : dataBarter?.initialId
 
         Promise.all([
             serviceTestimonials.post({
@@ -113,13 +92,12 @@ export const CompletionTransaction = () => {
                 threadId!,
             ),
         ]).then(async (responses) => {
-            await refetchThreads()
+            if (refreshCallDown) {
+                await refreshCallDown()
+            }
             if (responses[0]) {
                 console.log("serviceTestimonials response: ", responses[0])
-                if (
-                    responses[0]?.ok &&
-                    !["completed", "destroyed"].includes(dataBarter?.status!)
-                ) {
+                if (responses[0]?.ok && !["completed", "destroyed"].includes(dataBarter?.status!)) {
                     requestAnimationFrame(() => {
                         serviceBarters
                             .patch(
@@ -135,15 +113,8 @@ export const CompletionTransaction = () => {
                                     dispatchDataConfirmation({
                                         visible: true,
                                         type: "feedback",
-                                        nameFeedback:
-                                            dataUser?.profile?.firstName!,
+                                        nameFeedback: dataUser?.profile?.firstName!,
                                     })
-                                    // on(
-                                    //     {
-                                    //         message: `Ваш отзыв поможет улучшить качество услуг ${dataUser?.profile?.firstName}, спасибо :)`,
-                                    //     },
-                                    //     "success",
-                                    // )
                                 } else {
                                     on(
                                         {
@@ -193,21 +164,13 @@ export const CompletionTransaction = () => {
     const onSubmit = handleSubmit(submit)
 
     return visible ? (
-        <div
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-visible={visible}
-            data-mobile={isMobile}
-        >
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible} data-mobile={isMobile}>
             <motion.form onSubmit={onSubmit}>
-                <ButtonClose
-                    onClick={() => dispatchCompletion({ visible: false })}
-                    position={{ top: 12, right: 12 }}
-                />
+                <ButtonClose onClick={() => dispatchCompletion({ visible: false })} position={{ top: 12, right: 12 }} />
                 <h2>
                     Отзыв об обмене с{" "}
                     <span>
-                        {dataUser?.profile?.firstName || " "}{" "}
-                        {dataUser?.profile?.lastName}
+                        {dataUser?.profile?.firstName || " "} {dataUser?.profile?.lastName}
                     </span>
                 </h2>
                 <section>
@@ -219,10 +182,7 @@ export const CompletionTransaction = () => {
                             })}
                             value={watch("message")}
                             onKeyDown={(event) => {
-                                if (
-                                    event.keyCode === 13 ||
-                                    event.code === "Enter"
-                                ) {
+                                if (event.keyCode === 13 || event.code === "Enter") {
                                     onSubmit()
                                 }
                             }}
@@ -232,10 +192,7 @@ export const CompletionTransaction = () => {
                         {errors?.message ? <i>Минимум 5 символов</i> : null}
                     </div>
                     <div data-groups>
-                        <div
-                            data-rating
-                            {...register("rating", { required: false })}
-                        >
+                        <div data-rating {...register("rating", { required: false })}>
                             {[1, 2, 3, 4, 5].map((item) => (
                                 <Image
                                     data-number={watch("rating")}
@@ -252,11 +209,7 @@ export const CompletionTransaction = () => {
                         </div>
                     </div>
                 </section>
-                <ButtonFill
-                    label="Отправить отзыв"
-                    type="primary"
-                    submit="submit"
-                />
+                <ButtonFill label="Отправить отзыв" type="primary" submit="submit" />
             </motion.form>
         </div>
     ) : null
