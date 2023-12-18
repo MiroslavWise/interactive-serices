@@ -14,4 +14,4 @@ interface IActionMessagesType {
     dispatchMessagesType: Dispatch<IAction>
 }
 
-export type TUseMessagesType = IStateMessagesType & IActionMessagesType
+export type TUseMessagesType = IStateMessagesType

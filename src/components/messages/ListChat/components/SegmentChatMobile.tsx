@@ -6,19 +6,16 @@ import type { TSegmentChatMobile } from "./types/types"
 import type { TTypeProviderThreads } from "@/services/threads/types"
 
 import { SEGMENTS_CHAT } from "../constants/segments"
-import { useMessagesType } from "@/store/state/useMessagesType"
+import { dispatchMessagesType, useMessagesType } from "@/store/state/useMessagesType"
 
 import styles from "./styles/segment-chat-mobile.module.scss"
 
 export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
     const type = useMessagesType(({ type }) => type)
-    const dispatchMessagesType = useMessagesType(
-        ({ dispatchMessagesType }) => dispatchMessagesType,
-    )
 
     function handle(value: TTypeProviderThreads) {
         const segment = SEGMENTS_CHAT.find((item) => item.value === value)!
-        dispatchMessagesType({ type: segment.value })
+        dispatchMessagesType(segment.value)
     }
 
     return (
@@ -29,13 +26,7 @@ export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
                     handle("personal")
                 }}
             >
-                <Image
-                    src="/svg/users-03.svg"
-                    alt="repeat-white"
-                    width={18}
-                    height={18}
-                    unoptimized
-                />
+                <Image src="/svg/users-03.svg" alt="repeat-white" width={18} height={18} unoptimized />
             </button>
             <button
                 data-active={type === "barter"}
@@ -43,13 +34,7 @@ export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
                     handle("barter")
                 }}
             >
-                <Image
-                    src="/svg/repeat-white.svg"
-                    alt="repeat-white"
-                    width={18}
-                    height={18}
-                    unoptimized
-                />
+                <Image src="/svg/repeat-white.svg" alt="repeat-white" width={18} height={18} unoptimized />
             </button>
         </div>
     )

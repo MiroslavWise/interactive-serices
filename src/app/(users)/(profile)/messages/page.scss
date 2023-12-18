@@ -5,10 +5,17 @@
 
 [data-mobile="false"] {
     .__page-messages__ {
+        height: 100%;
         display: grid;
         grid-template-columns: 400px auto 300px;
         gap: 20px;
         z-index: 40;
         padding: calc(74px + 20px) 20px 20px;
+    }
+}
+
+[data-mobile="false"] {
+    .__page-messages__ {
+        position: relative;
     }
 }
