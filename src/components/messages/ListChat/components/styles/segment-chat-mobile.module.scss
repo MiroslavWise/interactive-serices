@@ -7,8 +7,9 @@
     gap: 0;
     height: 50px;
     padding: 4px;
-    background: var(--background-input);
+    background: transparent;
     border-radius: 25px;
+    border: 1px solid var(--gray-300);
 
     & > button {
         height: 42px;
@@ -17,10 +18,31 @@
         border: none;
         outline: none !important;
         background: var(--background);
-        padding: 12px;
+        transition: var(--transition);
+        transition-property: background;
+        padding: 0.75rem;
 
         &[data-active="true"] {
-            background: var(--gradient-primary);
+            background: var(--primary-900);
+        }
+
+        &[data-active="false"] {
+            &:hover {
+                background: var(--gray-200);
+                p {
+                    color: var(--gray-900);
+                }
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .container {
+        & > button {
+            &[data-active="true"] {
+                background: var(--primary-800);
+            }
         }
     }
 }

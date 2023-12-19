@@ -4,14 +4,12 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { isMobile } from "react-device-detect"
 
-import { Glasses } from "@/components/layout"
 import { GeneralServiceAllItem } from "@/components/common/Card"
 
+import { useBounds } from "@/store/hooks"
 import { serviceOffers } from "@/services/offers"
-import { useBounds, useModalAuth } from "@/store/hooks"
 
 export default function News() {
-    const visible = useModalAuth(({ visible }) => visible)
     const bounds = useBounds(({ bounds }) => bounds)
     const { data } = useQuery({
         queryKey: ["offers"],
@@ -32,11 +30,7 @@ export default function News() {
                 if (!item?.addresses?.length) {
                     return false
                 }
-                const coordinates = item?.addresses[0]?.coordinates
-                    ?.split(" ")
-                    .reverse()
-                    .map(Number)
-                    .filter(Boolean)
+                const coordinates = item?.addresses[0]?.coordinates?.split(" ").reverse().map(Number).filter(Boolean)
                 if (!coordinates) {
                     return false
                 }
@@ -58,7 +52,7 @@ export default function News() {
     }, [data?.res, bounds])
 
     return isMobile ? (
-        <div className="page-news-page" data-is-modal-auth={visible}>
+        <div className="page-news-page">
             <header>
                 <p>Популярное рядом</p>
                 <div data-total>{items?.length || 0}</div>
@@ -68,16 +62,10 @@ export default function News() {
                     {typeof items === "string" ? (
                         <h3>{items}</h3>
                     ) : items?.length ? (
-                        items?.map((item) => (
-                            <GeneralServiceAllItem
-                                key={`${item.id}-offers`}
-                                {...item}
-                            />
-                        ))
+                        items?.map((item) => <GeneralServiceAllItem key={`${item.id}-offers`} {...item} />)
                     ) : null}
                 </ul>
             </article>
-            <Glasses />
         </div>
     ) : null
 }

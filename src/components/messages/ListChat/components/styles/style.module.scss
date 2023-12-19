@@ -15,13 +15,15 @@
         position: fixed;
         top: 0;
         width: 100%;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding: 0.75rem;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 8px;
-
+        height: 78px;
+        background: var(--glass-bg-color-1);
+        box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(40px);
         & > div {
             height: 50px;
         }
