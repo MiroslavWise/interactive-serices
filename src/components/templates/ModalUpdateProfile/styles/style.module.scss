@@ -84,7 +84,7 @@
                 top: 0;
                 left: 0;
                 right: 0;
-                height: calc(48px + 10px + 10px);
+                height: calc(3rem + 10px + 10px);
                 backdrop-filter: blur(10px);
                 padding: 20px;
                 z-index: 20;
@@ -101,23 +101,23 @@
 
                 & > [data-back] {
                     position: absolute;
-                    left: 20px;
+                    left: 1.25rem;
                     transform: translateY(-50%);
                     top: 50%;
-                    height: 48px;
-                    width: 48px;
-                    border-radius: 24px;
+                    height: 3rem;
+                    width: 3rem;
+                    border-radius: 1.5rem;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     background: var(--background-input);
-                    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-                    backdrop-filter: blur(4px);
+                    box-shadow: 0px 4px 1.5rem 0px rgba(0, 0, 0, 0.12);
+                    backdrop-filter: blur(0.25rem);
                 }
             }
 
             & > form {
-                padding: calc(20px + 48px) 20px 68px;
+                padding: calc(20px + 3rem) 20px 68px;
                 align-items: center;
                 gap: 26px;
                 overflow-y: scroll;
@@ -129,7 +129,7 @@
 [data-theme="dark"] {
     .wrapper {
         &[data-mobile="false"] {
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(0.25rem);
         }
         &[data-mobile="true"] {
             & > [data-container] {

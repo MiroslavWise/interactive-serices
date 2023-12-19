@@ -2,11 +2,11 @@
 
 .containerHeader {
     width: calc(100%);
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.75rem;
 
     .nameAndRating {
         width: 100%;
@@ -16,7 +16,7 @@
 
         h4 {
             color: var(--gray-900);
-            font-size: 16px;
+            font-size: 1rem;
             font-style: normal;
             font-weight: 600;
             line-height: 150%;
@@ -24,7 +24,7 @@
         }
 
         .containerRate {
-            padding: 4px 9px;
+            padding: 0.25rem 9px;
             display: flex;
             display: inline-flex;
             align-items: center;
@@ -35,7 +35,7 @@
 
             a {
                 color: var(--primary-500);
-                font-size: 12px;
+                font-size: 0.75rem;
                 font-style: normal;
                 font-weight: 600;
                 line-height: 150%;
@@ -66,7 +66,7 @@
         .textCan {
             color: var(--gray-900);
             font-size: 14px;
-            line-height: 20px;
+            line-height: 1.25rem;
         }
     }
 }
@@ -84,8 +84,8 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 25%);
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
 
     & > [data-photo="true"] {
         padding: 5px;
@@ -94,7 +94,7 @@
         height: auto;
         aspect-ratio: 1/1;
         & > img {
-            border-radius: 12px;
+            border-radius: 0.75rem;
             width: 100%;
             height: auto;
             aspect-ratio: 1/1;
@@ -113,18 +113,11 @@
     justify-self: flex-end;
     gap: 10px;
 
-    padding-right: calc(12px + 32px + 10px);
+    padding-right: calc(12px + 2rem + 10px);
 
     .buttonFill {
-        height: 32px;
+        height: 2rem;
         z-index: 2;
-
-        &.offer {
-            background: var(--gradient-offer) !important;
-        }
-        &.request {
-            background: var(--gradient-request) !important;
-        }
 
         span {
             font-size: 14px;
@@ -135,36 +128,36 @@
 .buttonTrash {
     position: absolute;
     bottom: 0;
-    right: 12px;
-    width: 32px;
-    height: 32px;
-    padding: 8px;
+    right: 0.75rem;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    border-radius: 16px;
-    border: 1px solid var(--gray-300);
-    background: var(--background-input);
+    gap: 0.5rem;
+    border-radius: 50%;
+    background: var(--gray-100);
     box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
     cursor: pointer;
-    transition: height, width, background var(--transition);
+    transition: var(--transition);
+    transition-property: height, width, background, border-radius;
     overflow: hidden;
     z-index: 3;
 
     &[data-open="true"] {
-        height: calc(8px + 8px + 8px + 32px + 32px);
-        width: calc(8px + 180px + 8px);
+        height: calc(1.5rem + 2rem + 2rem);
+        width: calc(180px + 1rem);
         background: var(--opacity-white-hard);
-        border-radius: 16px;
+        border-radius: 1rem;
     }
 }
 
 .buttonDelete {
     max-width: 180px;
     width: 100%;
-    height: 32px;
+    height: 2rem;
 
     span {
         font-size: 14px;

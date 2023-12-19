@@ -1,30 +1,25 @@
 .container {
     width: 100%;
     height: 100%;
-    border-radius: 32px;
-    border: 2px solid var(--stroke-1);
-    background: var(--glass-bg-color-2);
-    backdrop-filter: blur(1px);
+    border-radius: 2rem;
+    background: var(--background);
     z-index: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 
     header {
-        padding: 12px;
+        padding: 0.75rem;
         position: sticky;
         top: 0;
-        left: 0;
-        right: 0;
-        height: 74px;
         width: 100%;
         display: inline-flex;
         justify-content: space-between;
         align-items: center;
-        gap: 16px;
-        background: var(--background-input);
+        gap: 1rem;
+        background: var(--background);
         z-index: 2;
+        border-bottom: 1px solid var(--gray-300);
 
         h4,
         p {
@@ -38,24 +33,15 @@
             display: inline-flex;
             align-items: center;
             width: min-content;
-            gap: 8px;
+            gap: 0.5rem;
 
             h4 {
                 color: var(--gray-900);
             }
+        }
 
-            & > [data-total="true"] {
-                padding: 4px 8px;
-                border-radius: 19px;
-                background: var(--primary-100);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                p {
-                    color: var(--primary-500);
-                }
-            }
+        & > article {
+            height: min-content;
         }
     }
 }
@@ -91,17 +77,6 @@
         overflow-y: scroll;
         padding-bottom: 78px !important;
         z-index: 10;
-
-        // & > li,
-        // & > a {
-        //     position: relative;
-        //     padding: 12px 16px;
-        //     border-radius: 12px;
-        //     border: 1px solid var(--stroke-1) !important;
-        //     background: var(--glass-bg-color-1);
-        //     box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
-        //     z-index: 9;
-        // }
     }
 }
 

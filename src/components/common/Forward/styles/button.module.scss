@@ -4,12 +4,12 @@
     outline: none;
     width: 100%;
     border-radius: 20px;
-    padding: 6px 16px;
+    padding: 0.25rem 1.5rem;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    gap: 8px;
+    gap: 0.5rem;
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -37,7 +37,7 @@
     }
 
     &[data-type-button="fill-primary"] {
-        background: var(--gradient-primary);
+        background: var(--primary-500);
         &:focus {
             box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
         }
@@ -55,9 +55,7 @@
         }
     }
     &[data-type-button="regular-primary"] {
-        border: 2px solid transparent !important;
-        background: linear-gradient(var(--button-default-background), var(--button-default-background)) padding-box,
-            var(--gradient-primary) border-box !important;
+        background: var(--gray-100);
 
         & > span {
             color: var(--primary-500);

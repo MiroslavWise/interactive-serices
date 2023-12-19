@@ -13,26 +13,10 @@ import { cx } from "@/lib/cx"
 import styles from "./styles/style.module.scss"
 
 const $SearchBlock: TSearchBlock = ({ search, setSearch }) => {
-    if (isMobile) {
-        return (
-            <div className={styles.blockSearch}>
-                <SearchInput
-                    placeholder="Поиск пользователя"
-                    value={search}
-                    setValue={setSearch}
-                />
-                <SegmentChatMobile />
-            </div>
-        )
-    }
-
     return (
         <div className={cx(styles.blockSearch)}>
-            <SearchInput
-                placeholder="Поиск пользователя"
-                value={search}
-                setValue={setSearch}
-            />
+            <SearchInput placeholder="Поиск пользователя" value={search} setValue={setSearch} />
+            {isMobile && <SegmentChatMobile />}
         </div>
     )
 }

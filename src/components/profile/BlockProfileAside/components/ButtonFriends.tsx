@@ -7,10 +7,10 @@ import { useQuery } from "@tanstack/react-query"
 
 import { useAuth } from "@/store/hooks"
 import { serviceFriends } from "@/services/friends"
+import { DeclensionQuantityFriends } from "@/lib/declension"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
 
 import styles from "./styles/button-friends.module.scss"
-import { DeclensionQuantityFriends } from "@/lib/declension"
 
 export const ButtonFriends = () => {
     const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
@@ -31,7 +31,7 @@ export const ButtonFriends = () => {
     }, [data?.res])
 
     return (
-        <div className={styles.container} onClick={handleOpen} data-mobile={isMobile}>
+        <div className={styles.container} onClick={handleOpen}>
             <p>{DeclensionQuantityFriends(friends)}</p>
             <Image src="/svg/arrow-right.svg" alt="arrow-right" width={24} height={24} unoptimized />
         </div>

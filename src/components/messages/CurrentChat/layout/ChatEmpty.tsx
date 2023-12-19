@@ -90,5 +90,5 @@ export const ChatEmpty = () => {
         }
     }, [idUser, userId])
 
-    return <section className={styles.container} />
+    return <section className={styles.wrapper} />
 }

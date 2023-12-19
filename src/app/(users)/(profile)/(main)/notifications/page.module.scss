@@ -1,40 +1,44 @@
 .wrapper {
-    margin: 0 calc(24px + 400px) 0 calc(320px + 24px);
-    height: calc(100vh - 77px - 24px);
+    margin: 0 calc(1.5rem + 400px) 0 calc(320px + 1.5rem);
+    height: calc(100vh - 77px - 1.5rem);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    gap: 16px;
+    gap: 1rem;
 
     & > header {
         width: 100%;
         display: flex;
         align-items: center;
-        gap: 12px;
+        justify-content: space-between;
+        gap: 0.75rem;
 
         h4 {
             color: var(--gray-900);
-            font-size: 20px;
+            font-size: 1.25rem;
             font-style: normal;
             font-weight: 600;
-            letter-spacing: -0.5px;
-            z-index: 1;
+            line-height: 1.875rem;
+            letter-spacing: -0.03125rem;
+            z-index: 2;
         }
 
-        & > [data-total] {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            padding: 4px 8px;
-            border-radius: 100px;
-            background: var(--background-input);
-            z-index: 1;
+        & > a {
+            color: var(--primary-500);
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1.25rem;
+            letter-spacing: -0.03125rem;
 
-            h4 {
-                color: var(--primary-500);
+            &[data-null="true"] {
+                opacity: 0.5;
+            }
+
+            &[data-null="false"] {
+                cursor: pointer;
             }
         }
     }
@@ -42,8 +46,43 @@
     & > ul {
         display: flex;
         flex-direction: column;
-        gap: 16px;
-        padding-bottom: 24px;
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    & > article {
+        width: 100%;
+        height: calc(100%);
+        border-radius: 2rem;
+        background: var(--background);
+        padding: 2.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        & > h2,
+        & > p {
+            max-width: 22.5rem;
+            width: 100%;
+            text-align: center;
+            font-style: normal;
+            line-height: 150%;
+            letter-spacing: -0.03125rem;
+        }
+
+        & > h2 {
+            color: var(--gray-900);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        & > p {
+            color: var(--gray-500);
+            font-size: 1rem;
+            font-weight: 500;
+        }
     }
 }
 
