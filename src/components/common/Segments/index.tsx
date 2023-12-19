@@ -6,9 +6,9 @@ import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
 
-export const Segments: TSegments = ({ VALUES, active, setActive, type, classNames, ref = null, id }) => {
+export const Segments: TSegments = ({ VALUES, active, setActive, type, classNames, ref = null, id, isBorder }) => {
     return (
-        <article className={cx(styles.container, classNames)} ref={ref} data-segments>
+        <article className={cx(styles.container, classNames)} ref={ref} data-segments data-border={!!isBorder}>
             {VALUES.map((item, index) => (
                 <li
                     id={id}

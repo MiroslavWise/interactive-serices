@@ -15,19 +15,12 @@ export const BlockProfileAside = () => {
     const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
 
     return (
-        <section className={styles.container} data-mobile={isMobile}>
+        <section className={styles.container}>
             <HeaderBlock />
-            {typeof isMobile !== "undefined" && !isMobile ? (
-                <AchievementsCount />
-            ) : null}
+            {typeof isMobile !== "undefined" && !isMobile ? <AchievementsCount /> : null}
             <ButtonFriends />
             <div data-buttons>
-                <Button
-                    label="Редактировать профиль"
-                    typeButton="regular-primary"
-                    className="w-100"
-                    onClick={() => setVisible(true)}
-                />
+                <Button label="Редактировать профиль" typeButton="regular-primary" className="w-100" onClick={() => setVisible(true)} />
             </div>
         </section>
     )

@@ -8,21 +8,6 @@
     width: 100%;
     overflow: hidden;
     background: transparent;
-
-    opacity: 1;
-    visibility: visible;
-
-    transition: opacity, visibility var(--transition);
-}
-
-[data-mobile="true"] {
-    .main {
-        &[data-is-modal-auth="true"] {
-            opacity: 0;
-            visibility: hidden;
-            display: none;
-        }
-    }
 }
 
 //PROFILE LAYOUT
@@ -87,23 +72,11 @@
 [data-mobile="true"] {
     .profileLayout {
         position: relative;
-
-        &[data-is-modal-auth="true"] {
-            opacity: 0;
-            visibility: hidden;
-            display: none;
-        }
     }
 }
 
 .containerProfile {
     width: 100%;
-    // height: calc(100vh - 74px - 24px - 24px);
-    // display: grid;
-    // justify-content: center;
-    // align-items: center;
-    // gap: 24px 24px;
-    // grid-template-columns: calc(320px) calc(100% - 320px - 400px - 48px) calc(400px);
     background: transparent;
 }
 

@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-import { MotionUL } from "@/components/common/Motion"
 import { ComponentsNotification } from "@/components/profile/ComponentsNotification"
 
 import { serviceNotifications } from "@/services/notifications"
@@ -18,19 +17,24 @@ export default function Notifications() {
     return (
         <section className={styles.wrapper}>
             <header>
-                <div data-total>
-                    <h4>{dataNotifications?.res?.length}</h4>
-                </div>
-                <h4>Новые уведомления</h4>
+                <h4>Уведомления</h4>
+                <a data-null={!dataNotifications?.res?.length}>Прочитать все</a>
             </header>
-            <MotionUL>
-                {dataNotifications?.res?.map((item) => (
-                    <ComponentsNotification
-                        key={`${item.id}--notification`}
-                        {...item}
-                    />
-                ))}
-            </MotionUL>
+            {dataNotifications?.res?.length ? (
+                <ul>
+                    {dataNotifications?.res?.map((item) => (
+                        <ComponentsNotification key={`${item.id}--notification`} {...item} />
+                    ))}
+                </ul>
+            ) : (
+                <article>
+                    <h2>У вас пока нет уведомлений</h2>
+                    <p>
+                        Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое
+                        другое. Вы будете проинформированы обо всем важном.
+                    </p>
+                </article>
+            )}
         </section>
     )
 }

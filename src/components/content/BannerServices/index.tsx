@@ -7,9 +7,7 @@ import type { TServices } from "./types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { ServicesComponent } from "./components/Services"
-import { SearchField } from "@/components/common/Inputs"
-import { Segments } from "@/components/common/Segments"
-import { GlassesBanner } from "@/components/common/Glasses"
+import { SearchField, Segments } from "@/components/common"
 
 import { SERVICES } from "./constants"
 
@@ -25,7 +23,7 @@ export const BannerServices = () => {
         <div className={styles.container}>
             <ul>
                 <header>
-                    <Segments VALUES={SERVICES} active={activeService} setActive={setActiveService} type="primary" />
+                    <Segments VALUES={SERVICES} active={activeService} setActive={setActiveService} type="primary" isBorder />
                 </header>
                 <div data-title-search>
                     <h2>Меняйте услуги на услуги. Помогайте другим. Общайтесь.</h2>
@@ -43,7 +41,6 @@ export const BannerServices = () => {
                     <ServicesComponent type={activeService.value} setTotal={setTotal} />
                 </div>
             </ul>
-            <GlassesBanner />
         </div>
     ) : null
 }

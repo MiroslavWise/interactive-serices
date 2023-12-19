@@ -65,7 +65,7 @@ export function CardDiscussion(props: IResponseOffers) {
                         prefixIcon={<Image src="/svg/edit-white.svg" alt="edit" width={14} height={14} unoptimized />}
                         disabled
                     />
-                    <Button type="button" typeButton="regular-primary" label="Обзор" onClick={handleOpenMore} />
+                    <Button type="button" typeButton="fill-primary" label="Обзор" onClick={handleOpenMore} />
                 </div>
             </article>
         </li>

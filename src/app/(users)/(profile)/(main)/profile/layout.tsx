@@ -2,7 +2,7 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
 export const metadata: Metadata = {
-    title: "Sheira - Профиль",
+    title: "Sheira | Профиль",
 }
 
 export default function LayoutProfile({ children }: { children: ReactNode }) {

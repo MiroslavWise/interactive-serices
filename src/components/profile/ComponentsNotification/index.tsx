@@ -8,11 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TComponentsNotification } from "./types/types"
 
-import {
-    ButtonCircleGradient,
-    ButtonDefault,
-} from "@/components/common/Buttons"
-import { MotionLI } from "@/components/common/Motion"
+import { ButtonCircleGradient, ButtonDefault } from "@/components/common/Buttons"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
@@ -24,9 +20,7 @@ import styles from "./styles/style.module.scss"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
     const userId = useAuth(({ userId }) => userId)
-    const dispatchVisibleNotifications = useVisibleNotifications(
-        ({ dispatchVisibleNotifications }) => dispatchVisibleNotifications,
-    )
+    const dispatchVisibleNotifications = useVisibleNotifications(({ dispatchVisibleNotifications }) => dispatchVisibleNotifications)
     const { data, created, operation, provider, id } = props ?? {}
     const { handlePush } = usePush()
 
@@ -82,42 +76,22 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     }, [data, userId, userData])
 
     return (
-        <li
-            className={styles.container}
-            data-provider={props.provider}
-            data-name={props.provider}
-            data-mobile={isMobile}
-        >
+        <li className={styles.container} data-provider={props.provider} data-name={props.provider}>
             <div data-block-info>
                 <h3>
-                    {provider === "barter" &&
-                    operation === "create" &&
-                    data?.status === "initiated" ? (
+                    {provider === "barter" && operation === "create" && data?.status === "initiated" ? (
                         <span>Предложение обмена: </span>
                     ) : null}
                     {titleBarter}
                 </h3>
                 <div data-footer>
                     <div data-date>
-                        <Image
-                            src="/svg/calendar.svg"
-                            alt="calendar"
-                            width={16}
-                            height={16}
-                            unoptimized
-                        />
+                        <Image src="/svg/calendar.svg" alt="calendar" width={16} height={16} unoptimized />
                         <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
                     </div>
                     <div data-buttons>
-                        <ButtonDefault
-                            label="Посмотреть"
-                            handleClick={handleBarter}
-                        />
-                        <ButtonCircleGradient
-                            type="primary"
-                            handleClick={handleCancel}
-                            icon="/svg/x-close-primary.svg"
-                        />
+                        <ButtonDefault label="Посмотреть" handleClick={handleBarter} />
+                        <ButtonCircleGradient type="primary" handleClick={handleCancel} icon="/svg/x-close-primary.svg" />
                     </div>
                 </div>
             </div>

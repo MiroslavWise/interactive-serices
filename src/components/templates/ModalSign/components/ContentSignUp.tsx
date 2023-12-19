@@ -14,6 +14,7 @@ import { RegistrationService } from "@/services/auth/registrationService"
 import { dispatchAuthModal, useTermsOfUse, useDataConfirmationPopUp } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
+import Link from "next/link"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
     const [loading, setLoading] = useState(false)
@@ -167,8 +168,14 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                             </span>
                         </label>
                         <p data-terms data-error={!!errors.checkbox}>
-                            Регистрируясь, вы соглашаетесь с <a onClick={() => dispatchRules({ visible: true })}>Правилами пользования</a> и{" "}
-                            <a onClick={() => dispatchPolicy({ visible: true })}>Политикой конфиденциальности</a>
+                            Регистрируясь, вы соглашаетесь с{" "}
+                            <Link href={{ pathname: "/terms-rules" }} target="_blank">
+                                Правилами пользования
+                            </Link>{" "}
+                            и{" "}
+                            <Link href={{ pathname: "/terms-policy" }} target="_blank">
+                                Политикой конфиденциальности
+                            </Link>
                         </p>
                     </div>
                 </div>

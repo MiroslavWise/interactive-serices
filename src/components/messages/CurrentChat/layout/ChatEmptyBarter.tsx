@@ -110,5 +110,5 @@ export const ChatEmptyBarter = () => {
         }
     }, [barterNumber, userId])
 
-    return <section className={styles.container} />
+    return <section className={styles.wrapper} />
 }

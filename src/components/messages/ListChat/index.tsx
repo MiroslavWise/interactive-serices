@@ -9,7 +9,6 @@ import { useQueries, useQuery } from "@tanstack/react-query"
 import { IFiltersItems } from "./components/types/types"
 
 import { List } from "./components/List"
-import { TotalDiv } from "./components/TotalDiv"
 import { SearchBlock } from "./components/SearchBlock"
 import { Segments } from "@/components/common/Segments"
 
@@ -118,7 +117,6 @@ export const ListChat = memo(function ListChat() {
             <header>
                 <div data-total-number>
                     <h4>Сообщения</h4>
-                    <TotalDiv {...{ total }} />
                 </div>
                 <Segments
                     type={systemTheme === "dark" ? "primary" : "optional-1"}
@@ -128,6 +126,7 @@ export const ListChat = memo(function ListChat() {
                         dispatchMessagesType(values.value)
                     }}
                     classNames={styles.segments}
+                    isBorder
                 />
             </header>
             <SearchBlock {...{ search, setSearch }} />

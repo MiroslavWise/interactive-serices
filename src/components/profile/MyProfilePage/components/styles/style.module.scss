@@ -1,6 +1,6 @@
 @mixin h4 {
     color: var(--gray-900);
-    font-size: 20px;
+    font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;
     line-height: 150%;
@@ -10,13 +10,12 @@
 .containerAboutMe {
     position: relative;
     width: 100%;
-    padding: 24px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    border-radius: 24px;
-    border: 2px solid var(--stroke-1);
-    background: var(--glass-bg-color-1);
+    gap: 0.62rem;
+    border-radius: 1.5rem;
+    background: var(--background);
     z-index: 2;
 
     h4 {
@@ -24,8 +23,8 @@
     }
 
     p {
-        color: var(--gray-500, #667085);
-        font-size: 16px;
+        color: var(--gray-500);
+        font-size: 1rem;
         font-style: normal;
         font-weight: 400;
         line-height: 150%;
@@ -34,54 +33,49 @@
 
     a {
         color: var(--gray-400);
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 400;
         line-height: 150%;
-        letter-spacing: -0.5px;
+        letter-spacing: -0.3px;
         cursor: pointer;
     }
 
     textarea {
-        color: var(--gray-500, #667085);
-        font-size: 16px;
+        color: var(--gray-500);
+        font-size: 1rem;
         font-style: normal;
         font-weight: 400;
         line-height: 150%;
-        letter-spacing: -0.5px;
+        letter-spacing: -0.2px;
         background: transparent;
         height: auto;
         overflow: hidden;
-        border: 1px solid var(--gray-300, #d0d5dd);
-        outline: 1px solid var(--gray-300, #d0d5dd);
-        padding: 12px;
-        border-radius: 16px;
+        border: 1px solid var(--gray-300);
+        outline: 1px solid var(--gray-300);
+        padding: 0.75rem;
+        border-radius: 1rem;
         font-family: inherit;
         resize: none;
     }
 }
 
-[data-theme="dark"] {
-    .containerAboutMe {
-    }
-}
-
 .buttonEditing {
     position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 32px;
-    height: 32px;
+    top: 0.75rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--gray-300);
-    background: var(--glass-bg-color-1);
-    box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
+    background: var(--background-input);
     border-radius: 100px;
     cursor: pointer;
 
     img {
+        width: 1rem;
+        height: 1rem;
         filter: invert(1);
     }
 }
@@ -243,42 +237,41 @@
     position: relative;
     height: auto;
     width: 100%;
-    padding: 16px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
     z-index: 10;
 
-    border-radius: 16px;
+    border-radius: 1rem;
     border: 1px solid var(--stroke-1);
     background: var(--glass-bg-color-2);
 
     .blockAboutPhoto {
         display: inline-flex;
-        gap: 24px;
+        gap: 1.5rem;
         z-index: 2;
 
         .blockPhotoAch {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 24px;
+            gap: 1.5rem;
 
             .avatar {
                 position: relative;
                 display: flex;
-                width: 72px;
-                height: 72px;
+                width: 6rem;
+                height: 6rem;
                 align-items: center;
                 justify-content: center;
+                border-radius: 1rem;
 
                 .photo {
-                    border-radius: 18px;
-                    border: 3px solid var(--stroke-1);
-                    box-shadow: 0px 9.191489219665527px 18.382978439331055px 0px rgba(0, 0, 0, 0.16);
+                    border-radius: 1rem;
                     overflow: hidden;
-                    width: 72px;
-                    height: 72px;
+                    width: 6rem;
+                    height: 6rem;
                 }
 
                 .verified {
@@ -350,7 +343,7 @@
         }
 
         textarea {
-            color: var(--gray-500, #667085);
+            color: var(--gray-500);
             font-size: 12px;
             font-style: normal;
             font-weight: 400;

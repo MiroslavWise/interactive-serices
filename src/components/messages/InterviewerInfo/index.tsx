@@ -1,33 +1,32 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import Image from "next/image"
 import { useMemo } from "react"
-import { motion } from "framer-motion"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { BadgeAchievements } from "@/components/common/Badge"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { IPatchThreads } from "@/services/threads/types"
 import { useAuth, useMessagesType } from "@/store/hooks"
+import { useRefetchListChat } from "../hook/useRefetchListChat"
 import { BADGES } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
-import { useRefetchListChat } from "../hook/useRefetchListChat"
 
 export const InterviewerInfoCurrent = () => {
     const idThread = useSearchParams().get("thread")
     const userId = useAuth(({ userId }) => userId)
     const type = useMessagesType(({ type }) => type)
-    const { handlePush, handleReplace } = usePush()
+    const { handleReplace } = usePush()
     const refresh = useRefetchListChat()
 
     const { data } = useQuery({
@@ -57,10 +56,6 @@ export const InterviewerInfoCurrent = () => {
         refetchIntervalInBackground: false,
     })
 
-    function handleGoProfile() {
-        handlePush(`/user?id=${idUser}`)
-    }
-
     function handleDeleteChat() {
         const data: IPatchThreads = { enabled: false }
         serviceThreads.patch(data, Number(idThread)).then((response) => {
@@ -78,13 +73,7 @@ export const InterviewerInfoCurrent = () => {
     }, [dataUser])
 
     return (
-        <motion.section
-            className={styles.container}
-            initial={{ opacity: 0, visibility: "hidden" }}
-            animate={{ opacity: 1, visibility: "visible" }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            exit={{ opacity: 0, visibility: "hidden" }}
-        >
+        <section className={styles.container}>
             <div className={styles.contentProfile}>
                 <header className={stylesHeader.containerHeader}>
                     <div className={stylesHeader.avatar}>
@@ -132,22 +121,21 @@ export const InterviewerInfoCurrent = () => {
                 </ul>
             </div>
             <div className={styles.buttons}>
-                <ButtonFill type="primary" label="Посмотреть профиль" handleClick={handleGoProfile} />
-                <ButtonDefault type="primary" disabled label="Удалить чат" handleClick={handleDeleteChat} />
+                <Link
+                    href={{
+                        pathname: "/user",
+                        query: { id: idUser },
+                    }}
+                >
+                    <span>Посмотреть профиль</span>
+                </Link>
+                <Button type="button" typeButton="regular-primary" label="Удалить чат" onClick={handleDeleteChat} />
             </div>
-        </motion.section>
+        </section>
     )
 }
 
-export const InterviewerInfoEmpty = () => (
-    <motion.section
-        className={styles.container}
-        initial={{ opacity: 0, visibility: "hidden" }}
-        animate={{ opacity: 1, visibility: "visible" }}
-        transition={{ duration: 0.8, delay: 0.1 }}
-        exit={{ opacity: 0, visibility: "hidden" }}
-    />
-)
+export const InterviewerInfoEmpty = () => <section className={styles.container} />
 
 export const InterviewerInfo = () => {
     const idThread = useSearchParams()?.get("thread")

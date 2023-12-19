@@ -11,7 +11,6 @@ import type { IPatchProfileData, IPostProfileData } from "@/services/profile/typ
 
 import { Footer } from "./components/Footer"
 import { Header } from "./components/Header"
-import { Glasses } from "@/components/layout"
 import { Content } from "./components/Content"
 import { ButtonClose } from "@/components/common"
 
@@ -184,7 +183,6 @@ export const ModalUpdateProfile = () => {
                     <Content errors={errors} register={register} watch={watch} setValue={setValue} />
                     <Footer loading={loading} />
                 </form>
-                <Glasses />
             </div>
         </div>
     )

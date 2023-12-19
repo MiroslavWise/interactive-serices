@@ -5,7 +5,7 @@ import dynamic from "next/dynamic"
 import { type ReactNode } from "react"
 import { Inter } from "next/font/google"
 
-import { Glasses, NavBarProfile } from "@/components/layout"
+import { NavBarProfile } from "@/components/layout"
 const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 import env from "@/config/environment"
@@ -55,7 +55,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                                     : "https://mc.yandex.ru/watch/95807535"
                             }
                             style={{ position: "absolute", left: -9999 }}
-                            alt=""
+                            alt="----"
                         />
                     </div>
                 </noscript>
@@ -65,7 +65,6 @@ export default function Layout({ children }: { children: ReactNode }) {
                     <NavBarProfile />
                     {children}
                 </Providers>
-                <Glasses />
             </body>
         </html>
     )

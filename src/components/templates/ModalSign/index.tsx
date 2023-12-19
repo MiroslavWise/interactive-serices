@@ -22,7 +22,6 @@ export function ModalSign() {
                         top: 12,
                     }}
                 />
-                <GlassesBanner />
                 <Content />
             </section>
         </div>

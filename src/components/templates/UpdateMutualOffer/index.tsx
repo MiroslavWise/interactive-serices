@@ -190,7 +190,6 @@ export const UpdateMutualOffer = () => {
                     </footer>
                 </form>
                 <ButtonClose onClick={cancel} position={position} />
-                <Glasses />
             </section>
         </div>
     ) : null

@@ -8,6 +8,7 @@ interface ISegments {
     classNames?: string
     ref?: Ref<HTMLUListElement>
     id?: string
+    isBorder?: boolean
 }
 
 export type TSegments = FC<ISegments>

@@ -1,25 +1,19 @@
 "use client"
 
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TContainerOffersNow } from "./types/types"
 
-import { MotionUL } from "@/components/common/Motion"
 import { CardOffer } from "@/components/common/Card/Offer"
 
-import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerOffersNow: TContainerOffersNow = ({
-    isToMe,
-    dispatch,
-}) => {
-    const userId = useAuth(({userId}) => userId)
+export const ContainerOffersNow: TContainerOffersNow = ({ isToMe, dispatch }) => {
+    const userId = useAuth(({ userId }) => userId)
     const { data: dataToMe, refetch: refetchToMe } = useQuery({
         queryFn: () =>
             serviceBarters.getReceiverId(userId!, {
@@ -60,20 +54,14 @@ export const ContainerOffersNow: TContainerOffersNow = ({
     }
 
     return (
-        <section
-            className={cx(styles.containerOffersNow, isMobile && styles.mobile)}
-        >
-            <MotionUL>
-                {Array.isArray(data)
-                    ? data.map((item) => (
-                          <CardOffer
-                              key={`${item.id}-offer-page-${item.provider}`}
-                              {...item}
-                              refetch={refetch}
-                          />
-                      ))
-                    : null}
-            </MotionUL>
+        <section className={styles.containerOffersNow}>
+            {Array.isArray(data) ? (
+                <ul>
+                    {data.map((item) => (
+                        <CardOffer key={`${item.id}-offer-page-${item.provider}`} {...item} refetch={refetch} />
+                    ))}
+                </ul>
+            ) : null}
         </section>
     )
 }

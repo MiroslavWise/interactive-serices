@@ -12,7 +12,7 @@
         height: 100%;
         max-width: 772px;
         width: 100%;
-        border-radius: 32px;
+        border-radius: 2rem;
         background: var(--background);
         overflow: hidden;
         z-index: 3;
@@ -24,7 +24,7 @@
             left: 0;
             right: 0;
             width: 100%;
-            padding: 32px calc(12px + 50px + 12px);
+            padding: 32px calc(0.75rem + 3rem + 0.75rem);
             z-index: 2;
             display: flex;
             flex-direction: row;
@@ -45,23 +45,23 @@
             width: 100%;
             height: calc(100% - 78px);
             overflow-y: auto;
-            padding: 32px 44px;
+            padding: 2rem 2.75rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 1rem;
             z-index: 2;
 
             & > [data-div] {
-                max-width: 480px;
+                max-width: 30rem;
                 width: 100%;
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
+                gap: 0.5rem;
 
                 & > label {
                     color: var(--gray-900);
-                    font-size: 14px;
+                    font-size: 0.875rem;
                     text-align: start;
                     font-style: normal;
                     font-weight: 400 !important;
@@ -71,13 +71,13 @@
                     width: 100%;
                     display: grid;
                     grid-template-columns: repeat(3, calc(33.33% - 10.66px));
-                    gap: 16px 16px;
+                    gap: 1rem 1rem;
                     z-index: 3;
 
                     & > [data-photo],
                     & > [data-upload] {
                         position: relative;
-                        border-radius: 16px;
+                        border-radius: 1rem;
                         border: 2px dashed var(--gray-300);
                         background: var(--glass-bg-color-3);
                         aspect-ratio: 3/4;
@@ -102,9 +102,9 @@
                             position: absolute;
                             top: 6px;
                             right: 6px;
-                            height: 32px;
-                            width: 32px;
-                            border-radius: 16px;
+                            height: 2rem;
+                            width: 2rem;
+                            border-radius: 1rem;
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -143,13 +143,13 @@
             max-width: 100%;
 
             & > [data-close] {
-                width: 36px;
-                height: 36px;
+                width: 2.25rem;
+                height: 2.25rem;
             }
 
             & > [data-header] {
                 height: 66px;
-                padding: 16px calc(12px + 36px + 8px);
+                padding: 1rem calc(0.75rem + 2.25rem + 0.5rem);
 
                 & > h3 {
                     font-size: 24px;
