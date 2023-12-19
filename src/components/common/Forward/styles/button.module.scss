@@ -3,18 +3,17 @@
     border: none;
     outline: none;
     width: 100%;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     padding: 0.25rem 1.5rem;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     gap: 0.5rem;
-    -webkit-tap-highlight-color: transparent;
-    tap-highlight-color: transparent;
     touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
     z-index: 2;
-    height: 40px;
+    height: 2.5rem;
 
     & > span {
         font-size: 18px;
@@ -29,8 +28,8 @@
     }
 
     @media screen and (max-width: 746px) {
-        height: 36px;
-        border-radius: 18px;
+        height: 2.25rem;
+        border-radius: 1.125rem;
         & > span {
             font-size: 14px;
         }
@@ -74,5 +73,11 @@
     &[data-disabled="true"] {
         background: var(--gray-200) !important;
         cursor: no-drop;
+    }
+}
+
+[data-mobile="true"] {
+    .container {
+        height: 2.25rem;
     }
 }
