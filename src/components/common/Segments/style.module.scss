@@ -37,9 +37,6 @@
             letter-spacing: -0.5px;
             transition: var(--transition);
             transition-property: color;
-
-            @media screen and (max-width: 480px) {
-            }
         }
 
         &[data-active="true"] {

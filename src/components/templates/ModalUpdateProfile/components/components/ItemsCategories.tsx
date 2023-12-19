@@ -35,9 +35,7 @@ export function ItemsCategories() {
         return serviceUsers.patch({ categories: ids.sort() }, userId!).then((response) => {
             console.log("response user categories: ", response)
             if (response.ok) {
-                refetch().then((response) => {
-                    setIsSelection(false)
-                })
+                refetch()
             }
         })
     }
