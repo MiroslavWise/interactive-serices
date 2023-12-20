@@ -4,7 +4,6 @@ import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
-import { Glasses } from "@/components/common/Glasses"
 import { MotionUL } from "@/components/common/Motion"
 import { CardOffer } from "@/components/common/Card/Offer"
 
@@ -17,9 +16,7 @@ export const ExchangesModalMobile = () => {
     const userId = useAuth(({ userId }) => userId)
     const type = useVisibleExchanges(({ type }) => type)
     const isVisible = useVisibleExchanges(({ isVisible }) => isVisible)
-    const dispatchExchanges = useVisibleExchanges(
-        ({ dispatchExchanges }) => dispatchExchanges,
-    )
+    const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
 
     const { data } = useQuery({
         queryFn: () =>
@@ -43,33 +40,15 @@ export const ExchangesModalMobile = () => {
                         dispatchExchanges({ visible: false })
                     }}
                 >
-                    <Image
-                        src="/svg/chevron-left.svg"
-                        alt="arrow-left"
-                        width={24}
-                        height={24}
-                        unoptimized
-                    />
+                    <Image src="/svg/chevron-left.svg" alt="arrow-left" width={24} height={24} unoptimized />
                 </div>
-                <h4>
-                    {type === "executed"
-                        ? "Текущие"
-                        : type === "completed"
-                        ? "Завершённые"
-                        : ""}
-                </h4>
+                <h4>{type === "executed" ? "Текущие" : type === "completed" ? "Завершённые" : ""}</h4>
             </header>
-            <MotionUL>
+            <ul>
                 {Array.isArray(data?.res)
-                    ? data?.res?.map((item) => (
-                          <CardOffer
-                              key={`${item.id}-history-page-${item.status}`}
-                              {...item}
-                          />
-                      ))
+                    ? data?.res?.map((item) => <CardOffer key={`${item.id}-history-page-${item.status}`} {...item} />)
                     : null}
-            </MotionUL>
-            <Glasses />
+            </ul>
         </div>
     ) : null
 }

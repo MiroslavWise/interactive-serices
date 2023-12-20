@@ -18,7 +18,7 @@ import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { serviceMessages } from "@/services/messages"
-import { useAuth, usePopupMenuChat, dispatchMessagesType } from "@/store/hooks"
+import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
@@ -73,14 +73,12 @@ export const CurrentChat = () => {
         return null
     }, [data?.res, userId])
 
-    const isBarter = useMemo(() => {
-        return !!data?.res?.barterId!
-    }, [data?.res])
+    const userData = useUserIdMessage(({ userData }) => userData)
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(Number(idUser)),
         queryKey: ["user", idUser],
-        enabled: !!idUser,
+        enabled: !!idUser && !userData,
         refetchOnMount: true,
         refetchOnWindowFocus: true,
         refetchOnReconnect: true,
@@ -103,11 +101,13 @@ export const CurrentChat = () => {
 
     const conversationPartner = useMemo(() => {
         return {
-            photo: dataUser?.res?.profile?.image?.attributes?.url!,
-            name: `${dataUser?.res?.profile?.firstName || " "} ${dataUser?.res?.profile?.lastName || " "}`,
+            photo: dataUser?.res?.profile?.image?.attributes?.url! || userData?.profile?.image?.attributes?.url!,
+            name: `${dataUser?.res?.profile?.firstName || userData?.profile?.firstName || " "} ${
+                dataUser?.res?.profile?.lastName || userData?.profile?.lastName || " "
+            }`,
             messages: stateMessages,
         }
-    }, [dataUser?.res, stateMessages])
+    }, [dataUser?.res, userData, stateMessages])
 
     useEffect(() => {
         function chatResponse(event: any) {
@@ -161,7 +161,7 @@ export const CurrentChat = () => {
             )}
             <ListMessages
                 messages={stateMessages}
-                dataUser={dataUser?.res!}
+                dataUser={dataUser?.res! || userData!}
                 idBarter={data?.res?.barterId!}
                 refetchThread={refetchThreads}
             />

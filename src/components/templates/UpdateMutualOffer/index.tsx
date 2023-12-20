@@ -11,7 +11,7 @@ import type { IPatchOffers } from "@/services/offers/types"
 
 import { UploadPhoto } from "@/components/common/custom"
 import { NextImageMotion } from "@/components/common/Image"
-import { Button, ButtonClose, Glasses } from "@/components/common"
+import { Button, ButtonClose } from "@/components/common"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 import { cx } from "@/lib/cx"

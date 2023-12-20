@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query"
 import type { TTypeSegment } from "./types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
-import { Glasses } from "@/components/layout"
 import { Content } from "./components/Content"
 import { BlockDots } from "./components/BlockDots"
 import { ItemsBadges } from "./components/ItemsBadges"
@@ -43,7 +42,6 @@ export const PublicProfile = () => {
             <section>
                 <ButtonClose onClick={handleClose} position={{ top: 12, left: 12 }} />
                 <BlockDots id={idUser!} />
-                <Glasses />
                 <ul data-opacity={!!data?.res} id="profile-public-id">
                     <InfoContainerProfile {...data?.res!} />
                     <ItemsBadges {...data?.res!} />

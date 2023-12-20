@@ -2,13 +2,12 @@
 
 import { Item } from "./components/Item"
 import { ButtonClose } from "@/components/common/Buttons"
-import { Glasses } from "../NewServicesBanner/components/Glasses"
 
+import { cx } from "@/lib/cx"
 import { NEW_CREATE_REQUESTS } from "./constants"
 import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { cx } from "@/lib/cx"
 
 export function NewServiceBarterRequests() {
     const isVisibleNewServiceBarterRequests = useVisibleNewServiceBarterRequests(
@@ -34,7 +33,6 @@ export function NewServiceBarterRequests() {
                         top: 12,
                     }}
                 />
-                <Glasses />
             </div>
         </div>
     )

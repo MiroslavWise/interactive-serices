@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { memo, useMemo } from "react"
+import { memo, useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
@@ -13,6 +13,7 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { serviceBarters } from "@/services/barters"
+import { dispatchDataUser } from "@/store/hooks"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
@@ -48,6 +49,14 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
         }
         return thread?.messages?.at(-1)?.message ? thread?.messages?.at(-1)?.message : ""
     }, [thread?.messages])
+
+    useEffect(() => {
+        if (people && idThread && !!thread) {
+            if (Number(idThread) === thread.id) {
+                dispatchDataUser(people)
+            }
+        }
+    }, [thread, idThread, people])
 
     return (
         <Link

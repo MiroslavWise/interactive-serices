@@ -143,3 +143,15 @@
         }
     }
 }
+
+[data-mobile="true"] {
+    .container {
+        & > [data-div-select] {
+            & > ul {
+                top: -5px;
+                transform: translateY(-100%);
+                z-index: 4;
+            }
+        }
+    }
+}

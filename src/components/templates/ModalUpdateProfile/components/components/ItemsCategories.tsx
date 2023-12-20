@@ -103,7 +103,12 @@ export function ItemsCategories() {
                     />
                     {isList ? (
                         filterCategories.length ? (
-                            <ul data-list>
+                            <ul
+                                data-list
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                }}
+                            >
                                 {filterCategories.map((item) => (
                                     <li
                                         key={`::${item.id}::filter::`}
