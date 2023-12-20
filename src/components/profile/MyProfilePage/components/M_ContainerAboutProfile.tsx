@@ -3,10 +3,9 @@
 import dayjs from "dayjs"
 import Image from "next/image"
 
+import { Button } from "@/components/common"
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
 import { useAuth, useUpdateProfile, useVisibleBannerNewServices } from "@/store/hooks"
 import { useAddress, useOut } from "@/helpers"
@@ -42,13 +41,6 @@ export const M_ContainerAboutProfile = () => {
                             <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={24} height={24} unoptimized />
                         ) : null}
                     </div>
-                    <ul className={styles.blockAchievements}>
-                        {ACHIEVEMENTS.map((item) => (
-                            <li key={item.assignment + item.src}>
-                                <Image src={item.src} alt={item.assignment} width={23} height={23} unoptimized />
-                            </li>
-                        ))}
-                    </ul>
                 </div>
                 <div className={styles.aboutBlock}>
                     <h4>
@@ -60,32 +52,28 @@ export const M_ContainerAboutProfile = () => {
                 </div>
             </div>
             <div className={styles.buttons}>
-                <ButtonFill
-                    label="Создать новое"
-                    classNames={styles.buttonFill}
-                    suffix={<Image src="/svg/plus.svg" alt="plus" width={24} height={24} unoptimized />}
-                    handleClick={() => {
+                <Button
+                    type="button"
+                    typeButton="fill-primary"
+                    label="Создать"
+                    suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
+                    onClick={() => {
                         if (isAddresses) {
                             dispatchNewServicesBanner(true)
                         }
                     }}
                 />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/edit-primary-gradient.svg"
-                    size={20}
-                    classNames={styles.buttonCircle}
-                    handleClick={() => {
+                <button
+                    data-circle-gradient
+                    onClick={() => {
                         setVisible(true)
                     }}
-                />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/log-out-primary-gradient.svg"
-                    size={20}
-                    classNames={styles.buttonCircle}
-                    handleClick={out}
-                />
+                >
+                    <img src="/svg/edit-primary-gradient.svg" alt="edit-primary" width={20} height={20} />
+                </button>
+                <button data-circle-gradient onClick={out}>
+                    <img src="/svg/log-out-primary-gradient.svg" alt="log-out" width={20} height={20} />
+                </button>
             </div>
         </section>
     )

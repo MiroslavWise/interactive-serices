@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useState } from "react"
 import Image from "next/image"
 import { useForm, Controller } from "react-hook-form"
@@ -11,18 +12,14 @@ import { Button } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModal, useTermsOfUse, useDataConfirmationPopUp } from "@/store/hooks"
+import { dispatchAuthModal, useDataConfirmationPopUp } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
-import Link from "next/link"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
     const [loading, setLoading] = useState(false)
     const [isPass, setIsPass] = useState(false)
     const [isPass_, setIsPass_] = useState(false)
-    const { on } = useToast()
-    const dispatchPolicy = useTermsOfUse(({ dispatchPolicy }) => dispatchPolicy)
-    const dispatchRules = useTermsOfUse(({ dispatchRules }) => dispatchRules)
     const dispatchDataConfirmation = useDataConfirmationPopUp(({ dispatchDataConfirmation }) => dispatchDataConfirmation)
 
     const {

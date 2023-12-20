@@ -6,7 +6,6 @@ import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
-import { MotionUL } from "@/components/common/Motion"
 import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
 import { MobileInteractive, MobileMainInfo, StatisticAndFeedback, MainInfo } from "@/components/profile"
 
@@ -43,11 +42,11 @@ export default function UserId() {
     return (
         <div className={styles.page}>
             {isMobile ? (
-                <MotionUL classNames={[styles.containerMobile]} id="user-id">
+                <ul className={styles.containerMobile} id="user-id">
                     <MobileMainInfo user={data?.res!} />
                     <Badges />
                     <MobileInteractive />
-                </MotionUL>
+                </ul>
             ) : (
                 <section className={styles.container}>
                     <MainInfo user={data?.res!} />

@@ -134,15 +134,15 @@
 
         & > h5 {
             width: 100%;
-            color: #fff;
-            font-size: 14px;
+            color: var(--gray-900);
+            font-size: 0.875rem;
+            font-weight: 500;
             font-style: normal;
-            font-weight: 400;
+            letter-spacing: -0.01125rem;
 
             & > span {
                 color: var(--gray-400);
                 font-size: 0.75rem;
-                font-weight: 500;
             }
         }
 

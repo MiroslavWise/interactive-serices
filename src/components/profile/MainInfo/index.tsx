@@ -1,6 +1,7 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import Image from "next/image"
 import { useMemo } from "react"
 
@@ -58,19 +59,18 @@ export const MainInfo: TMainInfo = ({ user }) => {
                         {userId !== user?.id && userId ? (
                             <section className={styles.buttons}>
                                 <AddFriend user={user} />
-                                <ButtonsCircle
-                                    src="/svg/message-dots-circle.svg"
-                                    type="primary"
-                                    onClick={() => {
-                                        if (Number(userId) === Number(user?.id) || !userId) {
-                                            return
-                                        }
-                                        handlePush(`/messages?user=${user?.id}`)
-                                    }}
-                                />
-                                <ButtonsCircle
-                                    src="/svg/repeat-01.svg"
-                                    type="primary"
+                                <Link
+                                    data-circle-gradient
+                                    href={
+                                        Number(userId) === Number(user?.id) || !userId
+                                            ? {}
+                                            : { pathname: "/messages", query: { user: user?.id } }
+                                    }
+                                >
+                                    <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
+                                </Link>
+                                <button
+                                    data-circle-gradient
                                     onClick={() => {
                                         if (Number(userId) === Number(user?.id) || !userId) {
                                             return
@@ -86,7 +86,9 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                             })
                                         }
                                     }}
-                                />
+                                >
+                                    <img src="/svg/repeat-01.svg" alt="repeat::1" width={20} height={20} />
+                                </button>
                             </section>
                         ) : null}
                     </div>

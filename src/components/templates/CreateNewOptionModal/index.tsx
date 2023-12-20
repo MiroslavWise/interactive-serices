@@ -8,14 +8,12 @@ import type { IPostOffers } from "@/services/offers/types"
 import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
-import { Glasses } from "@/components/common/Glasses"
 import { Button, ImageStatic } from "@/components/common"
 import { ButtonClose } from "@/components/common/Buttons"
 import { CustomSelect } from "@/components/common/custom"
 
 import { cx } from "@/lib/cx"
 import { generateShortHash } from "@/lib/hash"
-import { useRefresh } from "./hooks/useRefresh"
 import { serviceOffers } from "@/services/offers"
 import { serviceAddresses } from "@/services/addresses"
 import { getLocationName } from "@/lib/location-name"
@@ -295,7 +293,6 @@ export const CreateNewOptionModal = () => {
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
             <section>
                 <ButtonClose position={{ top: 12, right: 12 }} onClick={handleClose} />
-                <Glasses />
                 {isFirst ? (
                     <>
                         {typeAdd ? (

@@ -26,7 +26,10 @@ export function generateViewport(): Viewport {
 }
 
 export const metadata: Metadata = {
-    title: "Sheira",
+    title: {
+        default: "Sheira",
+        template: "%s | Sheira",
+    },
     description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
     keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
     appleWebApp: {
@@ -35,7 +38,10 @@ export const metadata: Metadata = {
     },
     category: "people, services",
     openGraph: {
-        title: "Sheira",
+        title: {
+            default: "Sheira",
+            template: "%s | Sheira",
+        },
         description:
             "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
     },

@@ -1,14 +1,13 @@
 "use client"
 
-import { type ReactNode, useMemo, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 
+import type { TItemInteractive } from "../StatisticAndFeedback/types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
-import { MotionLI } from "@/components/common/Motion"
 import { Segments } from "@/components/common/Segments"
 import { ItemsReviews } from "../StatisticAndFeedback/components/ItemsReviews"
 import { ContainerServices } from "../StatisticAndFeedback/components/ContainerServices"
-// import { ItemsBlogMessages } from "../StatisticAndFeedback/components/ItemsBlogMessages"
 
 import { cx } from "@/lib/cx"
 import { ITEMS_INTERACTIVE } from "../StatisticAndFeedback/components/constants"
@@ -16,18 +15,8 @@ import { ITEMS_INTERACTIVE } from "../StatisticAndFeedback/components/constants"
 import styles from "./style.module.scss"
 
 export const MobileInteractive = () => {
-    const [active, setActive] = useState<ISegmentValues<string>>(
-        ITEMS_INTERACTIVE[0],
-    )
+    const [active, setActive] = useState<ISegmentValues<TItemInteractive>>(ITEMS_INTERACTIVE[0])
     const [isSticky, setIsSticky] = useState(false)
-
-    const Items: ReactNode = useMemo(() => {
-        return {
-            reviews: <ItemsReviews />,
-            services: <ContainerServices />,
-            // blogs: <ItemsBlogMessages />,
-        }[active.value]
-    }, [active.value])
 
     useEffect(() => {
         const userIdElement = document.getElementById("user-id")
@@ -46,16 +35,17 @@ export const MobileInteractive = () => {
     }, [])
 
     return (
-        <MotionLI classNames={[styles.containerInteractive]}>
+        <li className={styles.containerInteractive}>
             <Segments
                 VALUES={ITEMS_INTERACTIVE}
                 active={active}
                 setActive={setActive}
-                type="optional-1"
+                type="primary"
                 classNames={cx(styles.segments, isSticky && styles.sticky)}
                 id="li-container"
+                isBorder
             />
-            {Items}
-        </MotionLI>
+            {active.value === "reviews" ? <ItemsReviews /> : active.value === "services" ? <ContainerServices /> : null}
+        </li>
     )
 }

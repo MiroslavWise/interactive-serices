@@ -1,7 +1,7 @@
 "use client"
 
 import { Content } from "./content/content"
-import { ButtonClose, GlassesBanner } from "@/components/common"
+import { ButtonClose } from "@/components/common"
 
 import { dispatchAuthModal, useModalAuth } from "@/store/hooks"
 

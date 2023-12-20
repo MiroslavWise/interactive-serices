@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TNotifications } from "./types"
 
-import { Glasses } from "@/components/common/Glasses"
 import { ComponentsNotification } from "@/components/profile"
 
 import { cx } from "@/lib/cx"
@@ -16,9 +15,7 @@ import styles from "./styles/style.module.scss"
 
 export const NotificationsMobile: TNotifications = ({}) => {
     const visible = useVisibleNotifications(({ visible }) => visible)
-    const dispatchVisibleNotifications = useVisibleNotifications(
-        ({ dispatchVisibleNotifications }) => dispatchVisibleNotifications,
-    )
+    const dispatchVisibleNotifications = useVisibleNotifications(({ dispatchVisibleNotifications }) => dispatchVisibleNotifications)
 
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -28,36 +25,18 @@ export const NotificationsMobile: TNotifications = ({}) => {
     const maps = dataNotifications?.res || []
 
     return (
-        <div
-            className={cx("wrapper-fixed", styles.container)}
-            data-visible={visible}
-        >
+        <div className={cx("wrapper-fixed", styles.container)} data-visible={visible}>
             <header className={styles.header}>
                 <h4>Уведомления</h4>
-                <div
-                    className={styles.closeArrowDown}
-                    onClick={() =>
-                        dispatchVisibleNotifications({ visible: false })
-                    }
-                >
-                    <Image
-                        src="/svg/chevron-down.svg"
-                        alt="arrow-down"
-                        width={24}
-                        height={24}
-                        unoptimized
-                    />
+                <div className={styles.closeArrowDown} onClick={() => dispatchVisibleNotifications({ visible: false })}>
+                    <Image src="/svg/chevron-down.svg" alt="arrow-down" width={24} height={24} unoptimized />
                 </div>
             </header>
             <ul>
                 {maps.map((item) => (
-                    <ComponentsNotification
-                        key={item.id + "-notification"}
-                        {...item}
-                    />
+                    <ComponentsNotification key={item.id + "-notification"} {...item} />
                 ))}
             </ul>
-            <Glasses />
         </div>
     )
 }

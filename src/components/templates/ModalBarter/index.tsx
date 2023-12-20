@@ -10,7 +10,6 @@ import type { IPostDataBarter } from "@/services/barters/types"
 
 import { Header } from "./components/Header"
 import { Content } from "./components/Content"
-import { Glasses } from "@/components/layout/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
@@ -144,7 +143,6 @@ export function Barter() {
                     </div>
                 </ul>
                 <Content register={register} setValue={setValue} watch={watch} address={address} errors={errors} />
-                <Glasses />
             </form>
         )
     }
@@ -155,7 +153,6 @@ export function Barter() {
                 <ButtonClose onClick={() => dispatchVisibleBarter({ isVisible: false })} position={{ top: 12, right: 12 }} />
                 <Header />
                 <Content register={register} setValue={setValue} watch={watch} address={address} errors={errors} />
-                <Glasses />
             </form>
         </div>
     )

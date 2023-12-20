@@ -2,7 +2,6 @@
 
 import type { TNewServicesBanner } from "./types/types"
 
-import { Glasses } from "./components/Glasses"
 import { ButtonClose } from "@/components/common/Buttons"
 import { NewCreateBadge } from "./components/NewCreateBadge"
 
@@ -36,7 +35,6 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
                         top: 12,
                     }}
                 />
-                <Glasses />
             </div>
         </div>
     )

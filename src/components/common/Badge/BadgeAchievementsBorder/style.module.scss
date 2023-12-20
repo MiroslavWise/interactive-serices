@@ -2,12 +2,10 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 24px;
-    gap: 10px;
-    border-radius: 32px;
-    border: 2px solid var(--stroke-1);
-    background: var(--glass-bg-color-2);
-    backdrop-filter: blur(1px);
+    padding: 1.5rem;
+    gap: 0.5rem;
+    border-radius: 2rem;
+    background: var(--background);
     flex: 1;
     flex-shrink: 0;
     min-width: 0;
@@ -21,22 +19,22 @@
 
         p {
             color: var(--gray-900);
-            font-size: 18px;
+            font-size: 1.125rem;
             font-style: normal;
             font-weight: 500;
-            line-height: 155.556%;
-            letter-spacing: -0.5px;
+            line-height: 125.556%;
+            letter-spacing: -0.3px;
             white-space: nowrap;
             text-overflow: ellipsis;
         }
 
         h2 {
             color: var(--primary-500);
-            font-size: 48px;
+            font-size: 3rem;
             font-style: normal;
             font-weight: 600;
             line-height: 125%;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
     }
 }

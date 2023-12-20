@@ -3,7 +3,6 @@
 import Image from "next/image"
 
 import { Button } from "@/components/common"
-import { GlassesBanner } from "@/components/common/Glasses"
 
 import { dispatchAuthModal, useVisibleAbout } from "@/store/hooks"
 
@@ -49,7 +48,6 @@ export const BannerIsNoAuth = () => {
             <footer onClick={() => dispatchVisibleAbout(true)}>
                 <a>Всё о Шейре</a>
             </footer>
-            <GlassesBanner />
         </div>
     )
 }

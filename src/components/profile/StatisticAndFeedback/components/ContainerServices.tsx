@@ -8,7 +8,6 @@ import Masonry from "react-responsive-masonry"
 
 import type { TContainerServices } from "./types/types"
 
-import { MotionUL } from "@/components/common/Motion"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
 import { serviceOffers } from "@/services/offers"
@@ -26,18 +25,18 @@ export const ContainerServices: TContainerServices = ({}) => {
     return (
         <section className={styles.containerServices}>
             {isMobile ? (
-                <MotionUL classNames={[styles.containerRequestsAndProposals]}>
+                <ul className={styles.containerRequestsAndProposals}>
                     {Array.isArray(dataOffer?.res)
                         ? dataOffer?.res?.map((item) => (
-                              <CardRequestsAndProposals key={`${item?.id}-item-key-offer`} {...item} type="optional-3" />
+                              <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
                           ))
                         : null}
-                </MotionUL>
+                </ul>
             ) : (
-                <Masonry gutter="16px" columnsCount={3}>
+                <Masonry gutter="16px" columnsCount={2}>
                     {Array.isArray(dataOffer?.res)
                         ? dataOffer?.res?.map((item) => (
-                              <CardRequestsAndProposals key={`${item?.id}-item-key-offer`} {...item} type="optional-3" />
+                              <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
                           ))
                         : null}
                 </Masonry>

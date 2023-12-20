@@ -2,7 +2,7 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
 export const metadata: Metadata = {
-    title: "Sheira | Предложения",
+    title: "Предложения",
     description: `Новости, дискуссии, предложения, вызовы, срочное`,
 }
 

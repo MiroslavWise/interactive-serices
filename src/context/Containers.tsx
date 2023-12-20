@@ -7,7 +7,6 @@ import {
     Intro,
     Barter,
     ModalSign,
-    TermsOfUse,
     PublicProfile,
     DroverFriends,
     WelcomeModal,
@@ -32,10 +31,8 @@ import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 import {
     useAuth,
     usePhotoOffer,
-    useTermsOfUse,
     useHasBalloons,
     useDroverFriends,
-    useVisibleModalBarter,
     useVisibleNotifications,
     useUpdateMutualOffer,
     useDataConfirmationPopUp,
@@ -44,8 +41,6 @@ import {
 export const Containers = () => {
     const isAuth = useAuth(({ isAuth }) => isAuth)
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
-    const visibleRules = useTermsOfUse(({ visibleRules }) => visibleRules)
-    const visiblePolicy = useTermsOfUse(({ visiblePolicy }) => visiblePolicy)
     const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
     const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
     const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
@@ -54,7 +49,6 @@ export const Containers = () => {
 
     return (
         <>
-            <TermsOfUse />
             <PhotoCarousel />
             <WelcomeModal />
             <BalloonPlaceMark />
