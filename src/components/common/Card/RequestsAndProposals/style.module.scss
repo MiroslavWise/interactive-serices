@@ -138,6 +138,12 @@
             font-size: 14px;
             font-style: normal;
             font-weight: 400;
+
+            & > span {
+                color: var(--gray-400);
+                font-size: 0.75rem;
+                font-weight: 500;
+            }
         }
 
         & > [data-relative="true"] {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { SyntheticEvent, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
@@ -65,6 +65,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     }
 
     const geo = addresses && !!addresses.length && addresses[0]
+    const categoriesUser = dataUser?.res?.categories || []
 
     const [src, setSrc] = useState(`/svg/category/${categoryId}.svg`)
 
@@ -98,7 +99,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                                 ? images?.map((item, index) => (
                                       <div
                                           data-l
-                                          key={`${item.id}-1`}
+                                          key={`::${item.id}::rotate::`}
                                           style={{
                                               transform: `rotate(${(360 / images.length) * index}deg)`,
                                           }}
@@ -123,7 +124,35 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                         {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
                     </div>
                 </div>
-                <h5>{title}</h5>
+                <h5>
+                    <span>Могу:</span> {title}
+                </h5>
+                {categoriesUser.length ? (
+                    <article data-article-want>
+                        <p>Хочу:</p>
+                        {categoriesUser.map((item) => (
+                            <div key={`::${item.id}::category::user::`} data-item>
+                                <img
+                                    src={`/svg/category/${item.id}.svg`}
+                                    alt={`${item.id!}`}
+                                    width={28}
+                                    height={28}
+                                    onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                        if (error?.target) {
+                                            try {
+                                                //@ts-ignore
+                                                error.target.src = `/svg/category/default.svg`
+                                            } catch (e) {
+                                                console.log("catch e: ", e)
+                                            }
+                                        }
+                                    }}
+                                />
+                                <p>{item.title}</p>
+                            </div>
+                        ))}
+                    </article>
+                ) : null}
                 {<ButtonReplyPrimary user={dataUser?.res!} offer={props} />}
             </section>
         </li>
