@@ -16,6 +16,13 @@
         color: var(--gray-700);
         font-style: normal;
         letter-spacing: -0.2px;
+
+        & > span {
+            color: var(--gray-400);
+            font-size: 0.75rem;
+            font-weight: 500;
+            line-height: 1.125rem;
+        }
     }
 
     & > header {

@@ -1,31 +1,25 @@
 "use client"
 
-import { useMemo } from "react"
+import { SyntheticEvent, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
 import type { TOfferBalloonComponent } from "../types/types"
 
 import { NextImageMotion } from "@/components/common"
+import { ButtonReplyPrimary } from "@/components/common/custom"
 
-import {
-    useOffersCategories,
-    useProfilePublic,
-    useBalloonCard,
-} from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { serviceOffers } from "@/services/offers"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
-import { ButtonReplyPrimary } from "@/components/common/custom"
+import { useOffersCategories, useProfilePublic, useBalloonCard } from "@/store/hooks"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = () => {
     const { handlePush } = usePush()
     const categories = useOffersCategories(({ categories }) => categories)
     const { createGallery } = usePhotoVisible()
-    const dispatchProfilePublic = useProfilePublic(
-        ({ dispatchProfilePublic }) => dispatchProfilePublic,
-    )
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const id = useBalloonCard(({ id }) => id)
     const idUser = useBalloonCard(({ idUser }) => idUser)
     const type = useBalloonCard(({ type }) => type)
@@ -48,11 +42,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
     })
 
     const categoryTitle: string = useMemo(() => {
-        return (
-            categories?.find(
-                (item) => Number(item.id) === Number(data?.res?.categoryId),
-            )?.title || ""
-        )
+        return categories?.find((item) => Number(item.id) === Number(data?.res?.categoryId))?.title || ""
     }, [categories, data?.res])
 
     function handleProfile() {
@@ -67,13 +57,14 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
         }
     }
 
+    const categoriesUser = dataUser?.res?.categories || []
+
     return (
         <>
             <div
                 data-logo-ballon-offer
                 style={{
-                    backgroundImage: `url(/svg/category/${data?.res
-                        ?.categoryId!}.svg)`,
+                    backgroundImage: `url(/svg/category/${data?.res?.categoryId!}.svg)`,
                 }}
             />
             <header data-offer>
@@ -83,9 +74,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                 <div data-info-profile>
                     <div data-avatar-name>
                         <NextImageMotion
-                            src={
-                                dataUser?.res?.profile?.image?.attributes?.url!
-                            }
+                            src={dataUser?.res?.profile?.image?.attributes?.url!}
                             alt="avatar"
                             width={40}
                             height={40}
@@ -94,51 +83,53 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                         />
                         <div data-name-rate>
                             <p>
-                                {dataUser?.res?.profile?.firstName}{" "}
-                                {dataUser?.res?.profile?.lastName}
+                                {dataUser?.res?.profile?.firstName} {dataUser?.res?.profile?.lastName}
                             </p>
-                            {/* <div data-rate>
-                                <Image
-                                    src="/svg/star.svg"
-                                    alt="star"
-                                    height={7.16}
-                                    width={7.16}
-                                />
-                                <span>{4.5}</span>
-                            </div> */}
                         </div>
                     </div>
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
                 </div>
-                <h3>{data?.res?.title}</h3>
-                {Array.isArray(data?.res?.images) &&
-                data?.res?.images?.length ? (
+                <h3>
+                    <span>Могу:</span> {data?.res?.title}
+                </h3>
+                {categoriesUser.length ? (
+                    <article data-article-want>
+                        <p>Хочу:</p>
+                        {categoriesUser.map((item) => (
+                            <div key={`::${item.id}::category::user::`} data-item>
+                                <img
+                                    src={`/svg/category/${item.id}.svg`}
+                                    alt={`${item.id!}`}
+                                    width={28}
+                                    height={28}
+                                    onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                        if (error?.target) {
+                                            try {
+                                                //@ts-ignore
+                                                error.target.src = `/svg/category/default.svg`
+                                            } catch (e) {
+                                                console.log("catch e: ", e)
+                                            }
+                                        }
+                                    }}
+                                />
+                                <p>{item.title}</p>
+                            </div>
+                        ))}
+                    </article>
+                ) : null}
+                {Array.isArray(data?.res?.images) && data?.res?.images?.length ? (
                     <ul>
                         {data?.res?.images?.slice(0, 4)?.map((item, index) => (
                             <NextImageMotion
                                 onClick={() => {
-                                    createGallery(
-                                        data?.res!,
-                                        data?.res?.images!,
-                                        item,
-                                        index,
-                                        {
-                                            title: data?.res?.title!,
-                                            name: `${
-                                                dataUser?.res?.profile
-                                                    ?.firstName || ""
-                                            } ${
-                                                dataUser?.res?.profile
-                                                    ?.lastName || ""
-                                            }`,
-                                            urlPhoto:
-                                                dataUser?.res?.profile?.image
-                                                    ?.attributes?.url!,
-                                            idUser: dataUser?.res?.profile
-                                                ?.userId!,
-                                            time: data?.res?.updated!,
-                                        },
-                                    )
+                                    createGallery(data?.res!, data?.res?.images!, item, index, {
+                                        title: data?.res?.title!,
+                                        name: `${dataUser?.res?.profile?.firstName || ""} ${dataUser?.res?.profile?.lastName || ""}`,
+                                        urlPhoto: dataUser?.res?.profile?.image?.attributes?.url!,
+                                        idUser: dataUser?.res?.profile?.userId!,
+                                        time: data?.res?.updated!,
+                                    })
                                 }}
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}
@@ -150,11 +141,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                         ))}
                     </ul>
                 ) : null}
-                <ButtonReplyPrimary
-                    isBalloon
-                    offer={data?.res!}
-                    user={dataUser?.res!}
-                />
+                <ButtonReplyPrimary isBalloon offer={data?.res!} user={dataUser?.res!} />
             </div>
         </>
     )

@@ -95,6 +95,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     }
 
     const geo = addresses && !!addresses.length && addresses[0]
+    const categoriesUser = dataUser?.res?.categories || []
 
     return (
         <li className={cx(styles.container, className)} onClick={handle} style={style}>
@@ -176,7 +177,38 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                         {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
                     </div>
                 </div>
-                {title && <h4>{title}</h4>}
+                {title && (
+                    <h4>
+                        {provider === "offer" && <span>Могу: </span>}
+                        {title}
+                    </h4>
+                )}
+                {categoriesUser.length && provider === "offer" ? (
+                    <article data-article-want>
+                        <p>Хочу:</p>
+                        {categoriesUser.map((item) => (
+                            <div key={`::${item.id}::category::user::`} data-item>
+                                <img
+                                    src={`/svg/category/${item.id}.svg`}
+                                    alt={`${item.id!}`}
+                                    width={28}
+                                    height={28}
+                                    onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                        if (error?.target) {
+                                            try {
+                                                //@ts-ignore
+                                                error.target.src = `/svg/category/default.svg`
+                                            } catch (e) {
+                                                console.log("catch e: ", e)
+                                            }
+                                        }
+                                    }}
+                                />
+                                <p>{item.title}</p>
+                            </div>
+                        ))}
+                    </article>
+                ) : null}
             </section>
         </li>
     )

@@ -217,6 +217,11 @@
                     font-weight: 500;
                     line-height: 150%;
                     letter-spacing: -0.5px;
+
+                    & > span {
+                        color: var(--gray-400);
+                        font-size: 0.75rem;
+                    }
                 }
 
                 & > ul {

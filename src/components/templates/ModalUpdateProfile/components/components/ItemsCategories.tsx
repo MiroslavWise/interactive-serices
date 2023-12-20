@@ -4,13 +4,12 @@ import { SyntheticEvent, useMemo, useState } from "react"
 import { Button } from "@/components/common"
 
 import { serviceUsers } from "@/services/users"
+import { useOutsideClickEvent } from "@/helpers"
 import { useAuth, useOffersCategories } from "@/store/hooks"
 
 import styles from "./styles/items-categories.module.scss"
-import { useOutsideClickEvent } from "@/helpers"
 
 export function ItemsCategories() {
-    const token = useAuth(({ token }) => token)
     const userId = useAuth(({ userId }) => userId)
     const categories = useOffersCategories(({ categories }) => categories)
     const [isSelection, setIsSelection] = useState(false)
@@ -18,15 +17,28 @@ export function ItemsCategories() {
     const [isList, setIsList, ref] = useOutsideClickEvent()
 
     const { data, refetch } = useQuery({
-        queryFn: serviceUsers.getMe,
-        queryKey: ["user", `token=${token}`],
-        enabled: !!token,
+        queryFn: () => serviceUsers.getId(userId!),
+        queryKey: ["user", `userId=${userId}`],
+        enabled: !!userId,
     })
 
-    const categoriesUser = useMemo(() => data?.res?.categories || [], [data?.res])
+    const categoriesUser = useMemo(() => data?.res?.categories || [], [data?.res?.categories])
+
+    async function deleteCategory(id: number) {
+        const ids = categoriesUser.filter((item) => item.id !== id).map((item) => item.id)
+
+        return serviceUsers.patch({ categories: ids.sort() }, userId!).then((response) => {
+            console.log("response user categories: ", response)
+            if (response.ok) {
+                requestAnimationFrame(() => {
+                    refetch()
+                })
+            }
+        })
+    }
 
     async function updateUsersCategories(id: number) {
-        let ids = categoriesUser
+        let ids = categoriesUser.map((item) => item.id)
         if (ids.includes(id)) {
             ids = ids.filter((item) => item !== id)
         } else {
@@ -35,26 +47,24 @@ export function ItemsCategories() {
         return serviceUsers.patch({ categories: ids.sort() }, userId!).then((response) => {
             console.log("response user categories: ", response)
             if (response.ok) {
-                refetch()
+                requestAnimationFrame(() => {
+                    refetch()
+                })
             }
         })
     }
 
     const filterCategories = useMemo(
-        () => categories?.filter((item) => item.title?.toLowerCase()?.includes(search.toLowerCase().trim())),
-        [categories, search],
+        () =>
+            categories
+                ?.filter((item) => item.title?.toLowerCase()?.includes(search.toLowerCase().trim()))
+                ?.filter((item) => !categoriesUser.some((_) => item.id === _.id)),
+        [categories, search, categoriesUser],
     )
-
-    const parseCategories = useMemo(() => {
-        if (categoriesUser.length && categories.length) {
-            return categories.filter((item) => categoriesUser.includes(item.id))
-        }
-        return []
-    }, [categories, categoriesUser])
 
     return (
         <div className={styles.container}>
-            {parseCategories.map((item) => (
+            {categoriesUser.map((item) => (
                 <div data-item-category key={`${item?.id}`}>
                     <img
                         src={`/svg/category/${item.id}.svg`}
@@ -73,9 +83,12 @@ export function ItemsCategories() {
                         }}
                     />
                     <p>{item.title}</p>
+                    <button data-close type="button" onClick={() => deleteCategory(item.id)}>
+                        <img src="/svg/x-close.svg" alt="x" width={30} height={30} />
+                    </button>
                 </div>
             ))}
-            {isSelection ? (
+            {isSelection && categoriesUser.length < 5 ? (
                 <div data-div-select ref={ref}>
                     <input
                         placeholder="Выберите услуги, которые вы хотите"
@@ -93,9 +106,9 @@ export function ItemsCategories() {
                             <ul data-list>
                                 {filterCategories.map((item) => (
                                     <li
-                                        key={`${item.id}-filter`}
+                                        key={`::${item.id}::filter::`}
                                         onClick={() => updateUsersCategories(item.id)}
-                                        data-active={categoriesUser.includes(item.id)}
+                                        data-active={categoriesUser.some((_) => _.id === item.id)}
                                     >
                                         <p>{item.title}</p>
                                     </li>
@@ -109,7 +122,9 @@ export function ItemsCategories() {
                     ) : null}
                 </div>
             ) : null}
-            <Button type="button" typeButton="regular-primary" label="Добавить" onClick={() => setIsSelection(true)} />
+            {categoriesUser.length < 5 && (
+                <Button type="button" typeButton="regular-primary" label="Добавить" onClick={() => setIsSelection(true)} />
+            )}
         </div>
     )
 }

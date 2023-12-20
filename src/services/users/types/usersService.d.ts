@@ -3,6 +3,7 @@ import type { IGetProfileIdResponse } from "@/services/profile/types/profileServ
 import type { IRolesResponse } from "@/services/roles/types/serviceRoles"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
+import { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 export interface IPostDataUser {
     email: string
@@ -25,7 +26,7 @@ export interface IUserResponse {
     created: Date
     updated: Date
     deleted: any | null
-    categories: number[]
+    categories: IResponseOffersCategories[]
     roles: IRolesResponse[]
     profile: IGetProfileIdResponse
     addresses: IAddressesResponse[]
