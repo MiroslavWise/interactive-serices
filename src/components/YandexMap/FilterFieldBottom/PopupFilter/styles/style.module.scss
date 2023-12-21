@@ -51,11 +51,10 @@
             transition-property: background;
 
             & > [data-icon] {
-                width: 28px;
-                height: 28px;
-                padding: 14px;
-                border-radius: 14px;
-                background: var(--button-default-background);
+                width: 1.75rem;
+                height: 1.75rem;
+                border-radius: 0.875rem;
+                background: var(--background);
                 border: 1px solid var(--stroke-1);
             }
 
@@ -64,7 +63,7 @@
                 font-size: 14px;
                 font-style: normal;
                 font-weight: 500;
-                line-height: 20px;
+                line-height: 1.25rem;
                 letter-spacing: -0.5px;
                 white-space: nowrap;
             }

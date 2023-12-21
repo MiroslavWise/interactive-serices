@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import { useAuth } from "@/store/hooks"

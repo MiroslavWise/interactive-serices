@@ -26,14 +26,14 @@
             color: var(--gray-900);
             font-size: 14px;
             font-weight: 500;
-            line-height: 20px;
+            line-height: 1.25rem;
             letter-spacing: -0.5px;
         }
         &::placeholder {
             color: var(--gray-400, #98a2b3);
             font-size: 14px;
             font-weight: 500;
-            line-height: 20px;
+            line-height: 1.25rem;
             letter-spacing: -0.5px;
         }
     }
@@ -85,7 +85,7 @@
                 font-size: 14px;
                 font-style: normal;
                 font-weight: 500;
-                line-height: 20px;
+                line-height: 1.25rem;
                 letter-spacing: -0.3px;
             }
 

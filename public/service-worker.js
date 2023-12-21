@@ -1,5 +1,7 @@
 const SCSS = []
 
+const CACHE = "--offline-static--"
+
 const SVG = [
     "/icons/fill/apple.svg",
     "/icons/fill/face.svg",
@@ -94,15 +96,22 @@ const PNG = [
     "/intro/4/3.png",
     "/intro/4/4.png",
     "/intro/4/5.png",
+    "/intro/4/4-back.png",
 ]
 
 const installEvent = () => {
     self.addEventListener("install", (event) => {
-        async function onInstall() {
-            return caches.open("static").then((cache) => cache.addAll([...SVG, ...PNG, ...SCSS, "/scripts/masonry.pkgd.min.js"]))
-        }
+        event.waitUntil(
+            caches
+                .open(CACHE)
+                .then((cache) => cache.addAll([...SVG, ...PNG, ...SCSS, "/scripts/masonry.pkgd.min.js"]))
+                .then(self.skipWaiting()),
+        )
+        // async function onInstall() {
+        //     return caches.open("static").then((cache) => cache.addAll([...SVG, ...PNG, ...SCSS, "/scripts/masonry.pkgd.min.js"]))
+        // }
 
-        event.waitUntil(onInstall(event))
+        // event.waitUntil(onInstall(event))
     })
 }
 installEvent()

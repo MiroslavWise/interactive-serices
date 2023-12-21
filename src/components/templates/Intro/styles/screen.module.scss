@@ -646,60 +646,13 @@
 
 .four {
     @include screen();
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding-inline: 60px;
 
-    & > [data-images] {
-        background-image: url("/intro/4/background.svg");
-        background-size: 100%;
-        background-repeat: no-repeat;
-        width: calc(100%);
+    & > img {
+        width: 100%;
         height: auto;
-        aspect-ratio: 257/208;
-        position: relative;
-
-        & > [data-img] {
-            position: relative;
-            height: 70px;
-            width: 70px;
-            aspect-ratio: 1/1;
-            border-radius: 50%;
-
-            &[data-img="0"] {
-                top: 6%;
-            }
-            &[data-img="1"] {
-                top: 49%;
-                left: -16%;
-            }
-            &[data-img="2"] {
-                top: 36%;
-                left: 0;
-                height: 80px;
-                width: 80px;
-            }
-            &[data-img="3"] {
-                top: 82%;
-                left: -10%;
-                height: 66px;
-                width: 66px;
-            }
-            &[data-img="4"] {
-                top: -36%;
-                left: 68%;
-                height: 58px;
-                width: 58px;
-            }
-            &[data-img="5"] {
-                left: 57%;
-                top: 15%;
-                height: 66px;
-                width: 66px;
-            }
-        }
+        aspect-ratio: 176.6/141.25;
+        object-fit: cover;
     }
 }
 

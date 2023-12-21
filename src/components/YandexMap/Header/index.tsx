@@ -10,14 +10,13 @@ import type { THeaderMobile } from "./types"
 import { SearchElementMap } from "@/components/common/Inputs"
 
 import { serviceNotifications } from "@/services/notifications"
-import { useAuth, useVisibleNotifications } from "@/store/hooks"
+import { dispatchVisibleNotifications, useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const Header: THeaderMobile = ({ handleAddressLocation }) => {
     const token = useAuth(({ token }) => token)
     const userId = useAuth(({ userId }) => userId)
-    const dispatchVisibleNotifications = useVisibleNotifications(({ dispatchVisibleNotifications }) => dispatchVisibleNotifications)
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],
@@ -34,10 +33,10 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
         >
             <div className={styles.container}>
                 <div className={styles.logoAndNotifications}>
-                    <Image src="/logo/wordmark.svg" alt="logo" width={107} height={28.3} unoptimized />
+                    <img src="/logo/wordmark.svg" alt="logo" width={107} height={28.3} />
                     {!!token ? (
-                        <div className={styles.containerNotification} onClick={() => dispatchVisibleNotifications({ visible: true })}>
-                            <Image src="/svg/bell.svg" alt="bell" width={22} height={22} unoptimized />
+                        <div className={styles.containerNotification} onClick={() => dispatchVisibleNotifications(true)}>
+                            <img src="/svg/bell.svg" alt="bell" width={22} height={22} />
                             {dataNotifications?.res?.length ? (
                                 <div className={styles.badge}>
                                     <span>{dataNotifications?.res?.length || 0}</span>

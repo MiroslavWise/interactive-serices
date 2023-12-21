@@ -17,7 +17,7 @@
     width: 100%;
     overflow: hidden;
     background: transparent;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(0.25rem);
 
     .page {
         height: calc(100%);
@@ -25,7 +25,7 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        padding: calc(77px + 24px) 24px 24px;
+        padding: calc(4.8125rem + 1.5rem) 1.5rem 1.5rem;
         background: transparent;
 
         opacity: 1;
@@ -38,8 +38,8 @@
             display: grid;
             justify-content: center;
             align-items: center;
-            grid-template-columns: calc(33.33% - 12px) calc(66.66% - 12px);
-            gap: 24px 24px;
+            grid-template-columns: calc(33.33% - 0.75rem) calc(66.66% - 0.75rem);
+            gap: 1.5rem 1.5rem;
             max-width: 1194px;
             width: 100%;
             z-index: 2;
@@ -47,12 +47,12 @@
 
         @media screen and (max-width: 1438px) {
             .container {
-                grid-template-columns: calc(380px - 12px) calc(100% - 380px - 12px);
+                grid-template-columns: calc(380px - 0.75rem) calc(100% - 380px - 0.75rem);
             }
         }
 
         @media screen and (max-width: 850px) {
-            padding: 90px 24px 24px;
+            padding: 5.625rem 1.5rem 1.5rem;
             overflow-y: scroll;
             scrollbar-width: none;
             -ms-overflow-style: none;

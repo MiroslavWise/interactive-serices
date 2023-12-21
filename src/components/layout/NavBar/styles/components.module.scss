@@ -5,7 +5,7 @@
 [data-mobile="true"] {
     .logo {
         margin-left: -2rem;
-        margin-top: -2px;
+        margin-top: -0.125rem;
     }
 }
 
@@ -13,7 +13,7 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 0.75rem;
     z-index: 40;
 
     & > button {
@@ -21,12 +21,12 @@
     }
 
     & > a {
-        min-width: 142px;
+        min-width: 8.875rem;
     }
 }
 
 .widthButton {
-    min-width: 142px;
+    min-width: 8.875rem;
 }
 
 //Links
@@ -55,8 +55,8 @@
             top: 100%;
             left: 0;
             width: 100%;
-            height: 2px;
-            border-radius: 1px;
+            height: 0.125rem;
+            border-radius: 0.0625rem;
             background: var(--primary-500);
             transform: scaleX(0);
             transition: var(--transition);
@@ -67,7 +67,7 @@
             text-decoration: none;
             color: var(--primary-500);
             text-align: center;
-            font-size: 14px;
+            font-size: 0.875rem;
             font-style: normal;
             font-weight: 500;
             line-height: 142.857%;
@@ -79,49 +79,6 @@
             filter: grayscale(0%) brightness(100%);
             &::before {
                 transform: scaleX(1);
-            }
-        }
-
-        & > [data-notification] {
-            transform: translateX(-50%);
-            position: absolute;
-            filter: grayscale(0%) brightness(100%) !important;
-            top: calc(100% + 5px);
-            left: 50%;
-            width: 460px;
-            padding: 1.5rem;
-            max-height: 660px;
-            border-radius: 2rem;
-            background: var(--background);
-            transition: var(--transition);
-            cursor: default;
-            transition-property: opacity;
-
-            & > ul {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 0.75rem;
-
-                & > h6 {
-                    color: var(--gray-900);
-                    font-size: 14px;
-                    font-style: normal;
-                    font-weight: 500;
-                    line-height: 20px;
-                    letter-spacing: -0.2px;
-                }
-            }
-
-            & > [data-notification="false"] {
-                opacity: 0;
-                visibility: hidden;
-                display: none;
-            }
-            &[data-notification="true"] {
-                opacity: 1;
-                visibility: visible;
-                display: flex;
             }
         }
     }

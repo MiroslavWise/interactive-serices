@@ -10,13 +10,11 @@ import type { IAddressesResponse } from "@/services/addresses/types/serviceAddre
 
 import { BlockOther } from "./components/BlockOther"
 import { AddFriend } from "./components/AddFriend"
-import { ButtonsCircle } from "@/components/common/Buttons"
 import { ComplaintButton } from "./components/ComplaintButton"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { CircleOfCommunication } from "./components/CircleOfCommunication"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { usePush } from "@/helpers/hooks/usePush"
 import { SOCIAL_MEDIA } from "./constants"
 import { useAuth, useVisibleModalBarter } from "@/store/hooks"
 
@@ -25,7 +23,6 @@ import styles from "./styles/style.module.scss"
 export const MainInfo: TMainInfo = ({ user }) => {
     const userId = useAuth(({ userId }) => userId)
     const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
-    const { handlePush } = usePush()
 
     const geo: IAddressesResponse | null = useMemo(() => {
         return user?.addresses?.find((item) => item?.addressType === "main") || null

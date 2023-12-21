@@ -4,7 +4,7 @@ import Image from "next/image"
 import type { THeaderBlock } from "./types/types"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { useAddress } from "@/helpers"
 import { useAuth } from "@/store/hooks"
@@ -40,19 +40,8 @@ export const HeaderBlock: THeaderBlock = () => {
                     {user?.firstName || "Имя"} {user?.lastName || "Фамилия"}
                 </h4>
                 {addressMain ? <GeoTagging size={16} fontSize={14} location={addressMain?.additional} /> : null}
-                {createdUser ? <p>Присоединился {dayjs(createdUser!).format("DD.MM.YYYY")}</p> : null}
+                {createdUser ? <p data-start>На Sheira с {dayjs(createdUser!).format("DD.MM.YYYY")}</p> : null}
             </section>
-            {/* <BlockOther label="Достижения" classNames={[styles.achievements]}>
-                {ACHIEVEMENTS.map((item) => (
-                    <Image
-                        key={item.assignment}
-                        src={item.src}
-                        alt={item.assignment}
-                        width={25}
-                        height={25}
-                    />
-                ))}
-            </BlockOther> */}
         </header>
     )
 }

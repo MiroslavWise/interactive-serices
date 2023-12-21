@@ -23,10 +23,10 @@
 
         h4,
         p {
-            font-size: 16px;
+            font-size: 1rem;
             font-style: normal;
             font-weight: 600;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.2px;
         }
 
         & > [data-total-number="true"] {
@@ -55,7 +55,7 @@
 .segments {
     width: min-content !important;
     & > li {
-        height: 32px;
+        height: 2rem;
         min-width: 100px;
     }
 }
@@ -70,12 +70,12 @@
 
     & > ul {
         width: 100%;
-        height: calc(100% - 68px);
+        height: calc(100% - 4.25rem);
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
-        padding-bottom: 78px !important;
-        padding-top: 78px !important;
+        padding-bottom: 4.875rem !important;
+        padding-top: 4.875rem !important;
         z-index: 10;
     }
 }

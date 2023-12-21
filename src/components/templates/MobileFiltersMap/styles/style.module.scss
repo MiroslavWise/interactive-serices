@@ -8,9 +8,9 @@
 
     & > section {
         height: 80%;
-        padding: 16px;
+        padding: 1rem 1rem 0 1rem;
         width: 100%;
-        border-radius: 32px 32px 0 0;
+        border-radius: 2rem 2rem 0 0;
         background: var(--background);
         display: flex;
         flex-direction: column;
@@ -25,7 +25,7 @@
         & > h3 {
             color: var(--color-text);
             text-align: center;
-            font-size: 20px;
+            font-size: 1.25rem;
             font-style: normal;
             font-weight: 500;
             line-height: 30px;
@@ -44,7 +44,7 @@
             font-size: 14px;
             font-style: normal;
             font-weight: 500;
-            line-height: 20px;
+            line-height: 1.25rem;
             letter-spacing: -0.3px;
             width: 100%;
 
@@ -58,8 +58,8 @@
             width: 100%;
             display: flex;
             flex-wrap: wrap;
-            gap: 16px 16px;
-            padding-bottom: 24px;
+            gap: 1rem 1rem;
+            padding-bottom: 1.5rem;
             overflow: hidden;
             overflow-y: auto;
 
@@ -73,17 +73,16 @@
                 gap: 10px;
                 border-radius: 19px;
                 border: 1px solid var(--gray-200);
-                background: var(--button-default-background);
+                background: var(--background-input);
                 cursor: pointer;
                 transition: var(--transition);
                 transition-property: background;
 
                 & > [data-icon] {
-                    width: 28px;
-                    height: 28px;
-                    padding: 14px;
+                    width: 1.75rem;
+                    height: 1.75rem;
                     border-radius: 14px;
-                    background: var(--button-default-background);
+                    background: var(--background);
                     border: 1px solid var(--stroke-1);
                 }
 
@@ -92,7 +91,7 @@
                     font-size: 14px;
                     font-style: normal;
                     font-weight: 500;
-                    line-height: 20px;
+                    line-height: 1.25rem;
                     letter-spacing: -0.5px;
                     white-space: nowrap;
                 }

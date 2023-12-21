@@ -21,9 +21,7 @@ export const Buttons = () => {
                     className={styles.widthButton}
                     suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
                     style={{ width: "100%" }}
-                    onClick={() => {
-                        dispatchNewServicesBanner(true)
-                    }}
+                    onClick={() => dispatchNewServicesBanner(true)}
                 />
             </div>
         ) : (

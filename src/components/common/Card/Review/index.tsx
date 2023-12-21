@@ -14,18 +14,7 @@ import styles from "./style.module.scss"
 
 export const CardReview: TCardReview = (props) => {
     const { handleReplace } = usePush()
-    const {
-        id,
-        userId,
-        targetId,
-        provider,
-        barterId,
-        rating,
-        message,
-        status,
-        created,
-        updated,
-    } = props
+    const { id, userId, rating, message, updated } = props
 
     const { data } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
@@ -38,9 +27,7 @@ export const CardReview: TCardReview = (props) => {
             <div className={styles.content}>
                 <header className={styles.header}>
                     <div className={styles.userDate}>
-                        <a onClick={() => handleReplace(`user?id=${userId}`)}>
-                            @{data?.res?.profile?.username}
-                        </a>
+                        <a onClick={() => handleReplace(`user?id=${userId}`)}>@{data?.res?.profile?.username}</a>
                         <p>{dayjs(updated).format("DD/MM/YYYY")}</p>
                     </div>
                     <Rate rate={rating} />

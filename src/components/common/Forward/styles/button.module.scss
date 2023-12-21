@@ -16,7 +16,7 @@
     height: 2.5rem;
 
     & > span {
-        font-size: 18px;
+        font-size: 1.125rem;
         font-weight: 500;
         white-space: nowrap;
         letter-spacing: -0.2px;
@@ -31,14 +31,14 @@
         height: 2.25rem;
         border-radius: 1.125rem;
         & > span {
-            font-size: 14px;
+            font-size: 0.875rem;
         }
     }
 
     &[data-type-button="fill-primary"] {
         background: var(--primary-500);
         &:focus {
-            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+            box-shadow: 0px 0.125rem 0.25rem 0px rgba(0, 0, 0, 0.13) inset;
         }
         & > span {
             color: var(--supporting-white);
@@ -47,7 +47,7 @@
     &[data-type-button="fill-orange"] {
         background: var(--gradient-optional-1);
         &:focus {
-            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.13) inset;
+            box-shadow: 0px 0.125rem 0.25rem 0px rgba(0, 0, 0, 0.13) inset;
         }
         & > span {
             color: var(--supporting-white);
@@ -61,7 +61,7 @@
         }
     }
     &[data-type-button="regular-orange"] {
-        border: 2px solid transparent !important;
+        border: 0.125rem solid transparent !important;
         background: linear-gradient(var(--button-default-background), var(--button-default-background)) padding-box,
             var(--gradient-optional-1) border-box !important;
 

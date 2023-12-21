@@ -2,13 +2,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.25rem;
 
     & > label {
         color: var(--gray-900);
-        font-size: 14px;
+        font-size: 0.875rem;
         font-style: normal;
-        line-height: 14px;
+        line-height: 0.875rem;
         font-weight: 500;
         margin-bottom: 4px;
 
@@ -19,10 +19,10 @@
 
     & > i {
         color: var(--error-600);
-        font-size: 12px;
+        font-size: 0.75rem;
         font-style: normal;
         font-weight: 500;
-        line-height: 18px;
+        line-height: 1.125rem;
     }
 
     &[data-password] > div {
@@ -36,7 +36,7 @@
                 position: absolute;
                 transform: translateY(-50%);
                 top: 50%;
-                right: 14px;
+                right: 0.875rem;
                 cursor: pointer;
             }
         }
@@ -45,9 +45,9 @@
     &[data-mobile="true"] {
         & > input,
         &[data-password] > div > input {
-            padding: 10px;
-            height: 44px;
-            border-radius: 22px;
+            padding: 0.625rem;
+            height: 2.75rem;
+            border-radius: 1.375rem;
         }
     }
 }

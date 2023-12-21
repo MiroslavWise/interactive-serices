@@ -16,8 +16,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
     const { profile, refetch, ...rest } = props
 
     const { data: dataTestimonials } = useQuery({
-        queryFn: () =>
-            serviceTestimonials.get({ provider: "offer", target: rest.id }),
+        queryFn: () => serviceTestimonials.get({ provider: "offer", target: rest.id }),
         queryKey: ["testimonials", `offer=${rest.id}`, `provider=offer`],
         enabled: !!rest.id,
     })
@@ -45,12 +44,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
 
     return (
         <li className={styles.container}>
-            <Header
-                categoryId={rest.categoryId!}
-                rating={rating}
-                title={rest.title}
-                provider={rest.provider}
-            />
+            <Header data={rest} rating={rating} />
             {rest.images?.length ? (
                 <ContainerPhotos
                     {...{

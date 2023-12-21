@@ -28,7 +28,7 @@ export interface IPostOffers {
     images?: number[]
 }
 
-export type IPatchOffers = Partial<IPostOffers>
+export type IPatchOffers = Partial<IPostOffers> & { categories?: number[] }
 
 export interface IResponseOffers {
     id: number
@@ -43,6 +43,7 @@ export interface IResponseOffers {
     featuredId?: number
     bannerId?: number | null
     userId?: number
+    categories: number[]
     addresses: IAddressesResponse[]
     images: IImageData[]
     updated: Date
@@ -59,14 +60,8 @@ export interface IServiceOffers {
     route: string
     post(value: IPostOffers): Promise<IReturnData<IResponseCreate>>
     get(value?: IQueriesOffers): Promise<IReturnData<IResponseOffers[]>>
-    patch(
-        value: IPatchOffers,
-        id: number | string,
-    ): Promise<IReturnData<IResponseCreate>>
+    patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
     getId(id: number | string): Promise<IReturnData<IResponseOffers>>
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
-    getUserId(
-        id: number,
-        value?: IQueriesOffers,
-    ): Promise<IReturnData<IResponseOffers[]>>
+    getUserId(id: number, value?: IQueriesOffers): Promise<IReturnData<IResponseOffers[]>>
 }

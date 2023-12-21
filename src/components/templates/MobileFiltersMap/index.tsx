@@ -1,7 +1,7 @@
 "use client"
 
 import { cx } from "@/lib/cx"
-import { useMemo, useState } from "react"
+import { SyntheticEvent, useMemo, useState } from "react"
 import { useSwipeable } from "react-swipeable"
 
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
@@ -71,10 +71,21 @@ export const MobileFiltersMap = () => {
                                 dispatchFilterMap(item.id)
                             }}
                         >
-                            <div
+                            <img
                                 data-icon
-                                style={{
-                                    backgroundImage: `url(/svg/category/${item.id}.svg)`,
+                                src={`/svg/category/${item.id}.svg`}
+                                alt="icon"
+                                width={28}
+                                height={28}
+                                onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                    if (error?.target) {
+                                        try {
+                                            //@ts-ignore
+                                            error.target.src = `/svg/category/default.svg`
+                                        } catch (e) {
+                                            console.log("catch e: ", e)
+                                        }
+                                    }
                                 }}
                             />
                             <p>{item.title}</p>
