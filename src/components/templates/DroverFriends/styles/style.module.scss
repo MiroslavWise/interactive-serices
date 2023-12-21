@@ -38,7 +38,7 @@
 
                 & > p {
                     color: var(--gray-500);
-                    font-size: 16px;
+                    font-size: 1rem;
                     font-style: normal;
                     font-weight: 500;
                     line-height: 24px;
@@ -46,7 +46,7 @@
             }
 
             & > [data-segments] {
-                height: 50px;
+                height: 3.125rem;
                 max-width: fit-content;
                 width: 100%;
                 margin: 0 auto;
@@ -61,11 +61,11 @@
             & > [data-search-block] {
                 width: 100%;
                 max-width: 340px;
-                height: 50px;
+                height: 3.125rem;
 
                 & > [data-search] {
                     width: 100%;
-                    height: 50px;
+                    height: 3.125rem;
                 }
             }
 

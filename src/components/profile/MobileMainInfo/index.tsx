@@ -50,7 +50,9 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                         {user?.profile?.firstName || "____"} {user?.profile?.lastName || "----"}
                     </h4>
                     {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
-                    <p className={styles.date}>На Sheira с {user?.created ? dayjs(user?.profile?.created).format("DD.MM.YYYY") : null}</p>
+                    <p data-start className={styles.date}>
+                        На Sheira с {user?.created ? dayjs(user?.profile?.created).format("DD.MM.YYYY") : null}
+                    </p>
                     {user?.profile?.about ? <p className={styles.about}>{user?.profile?.about}</p> : null}
                 </div>
             </div>

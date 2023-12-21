@@ -1,14 +1,14 @@
 .Toastify {
     .Toastify__toast-container {
-        max-width: 586px;
-        padding: 20px;
+        max-width: 36.625rem;
+        padding: 1.25rem;
         width: 100%;
 
         .Toastify__toast {
-            border-radius: 22px !important;
+            border-radius: 1.5rem !important;
             background: var(--primary-500) !important;
-            backdrop-filter: blur(4px) !important;
-            border: 2px solid var(--stroke-1) !important;
+            backdrop-filter: blur(.25rem) !important;
+            border: 0.125rem solid var(--stroke-1) !important;
 
             &.toast-success {
                 background: var(--success-500) !important;
@@ -31,7 +31,7 @@
             & > .Toastify__toast-body {
                 & > div {
                     color: var(--color-text);
-                    font-size: 16px;
+                    font-size: 1rem;
                     font-style: normal;
                     font-weight: 500;
                 }
@@ -46,14 +46,14 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
+        gap: 1rem;
 
         & > [data-content] {
             width: fit-content;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 0.25rem;
             width: 100%;
 
             &.message {
@@ -64,12 +64,12 @@
                     display: flex;
                     flex-direction: row;
                     align-items: flex-end;
-                    gap: 4px;
+                    gap: 0.25rem;
 
                     & > img {
-                        height: 30px;
-                        width: 30px;
-                        border-radius: 8px;
+                        height: 1.875rem;
+                        width: 1.875rem;
+                        border-radius: .5rem;
                         border: 1px solid var(--stroke-1);
                     }
                 }
@@ -82,11 +82,11 @@
                 letter-spacing: -0.2px;
             }
             & > p {
-                font-size: 16px;
+                font-size: 1rem;
                 color: var(--supporting-white);
             }
             i {
-                font-size: 14px;
+                font-size: .875rem;
                 font-weight: 500;
                 color: var(--supporting-white);
             }
@@ -100,31 +100,31 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 4px;
+            gap: .25rem;
             width: fit-content;
 
             & > [data-button-default] {
-                height: 36px;
+                height: 2rem;
             }
 
             & > [data-circle-gradient] {
-                height: 36px;
-                width: 36px;
+                height: 2rem;
+                width: 2rem;
 
                 & > img {
-                    height: 20px;
-                    width: 20px;
+                    height: 1.25rem;
+                    width: 1.25rem;
                 }
             }
         }
 
         &[data-mobile="true"] {
             flex-direction: column;
-            gap: 8px;
+            gap: .5rem;
             & > [data-content] {
                 & > i,
                 & > p {
-                    font-size: 12px;
+                    font-size: .75rem;
                 }
             }
             & > [data-buttons] {

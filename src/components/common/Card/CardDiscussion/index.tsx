@@ -1,20 +1,19 @@
 "use client"
 
 import Image from "next/image"
-import { useTheme } from "next-themes"
 
 import { IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "../../Forward"
-import { NextImageMotion } from "../../Image"
 
-import { useBalloonCard, dispatchPhotoCarousel } from "@/store/hooks"
+import { ContainerPhotos } from "../Suggestion/components/ContainerPhotos"
+
+import { useBalloonCard } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
 export function CardDiscussion(props: IResponseOffers) {
     const { title, images, provider, id, userId } = props ?? {}
-    const { systemTheme } = useTheme()
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     function handleOpenMore() {
@@ -26,42 +25,23 @@ export function CardDiscussion(props: IResponseOffers) {
         })
     }
 
+    const photos: { url: string; id: number }[] = images?.map((_) => ({
+        url: _.attributes?.url,
+        id: _.id,
+    }))
+
     return (
         <li className={styles.container}>
             <article>
                 <div data-header>
                     <h4>{title}</h4>
                 </div>
-                {images?.length ? (
-                    <section>
-                        <ul>
-                            {images?.map((item) => (
-                                <NextImageMotion
-                                    key={`${item.id}-img-discussion`}
-                                    src={item?.attributes?.url}
-                                    alt="offer-image"
-                                    width={90}
-                                    height={90}
-                                    onClick={() => {
-                                        dispatchPhotoCarousel({
-                                            visible: true,
-                                            photos: images.map((item) => ({
-                                                id: item.id,
-                                                url: item.attributes.url,
-                                            })),
-                                            idPhoto: item.id,
-                                        })
-                                    }}
-                                />
-                            ))}
-                        </ul>
-                    </section>
-                ) : null}
+                <ContainerPhotos photos={photos} />
                 <div data-footer>
                     <Button
                         type="button"
                         label="Изменить"
-                        typeButton={systemTheme === "dark" ? "fill-primary" : "fill-orange"}
+                        typeButton="fill-primary"
                         prefixIcon={<Image src="/svg/edit-white.svg" alt="edit" width={14} height={14} unoptimized />}
                         disabled
                     />

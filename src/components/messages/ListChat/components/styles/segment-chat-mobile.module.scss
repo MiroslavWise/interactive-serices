@@ -5,15 +5,15 @@
     justify-content: center;
     width: min-content;
     gap: 0;
-    height: 50px;
-    padding: 4px;
+    height: 3.125rem;
+    padding: 0.25rem;
     background: transparent;
-    border-radius: 25px;
+    border-radius: 1.625rem;
     border: 1px solid var(--gray-300);
 
     & > button {
-        height: 42px;
-        width: 42px;
+        height: 2.625rem;
+        width: 2.625rem;
         border-radius: 50%;
         border: none;
         outline: none !important;
@@ -21,6 +21,11 @@
         transition: var(--transition);
         transition-property: background;
         padding: 0.75rem;
+
+        & > img {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
 
         &[data-active="true"] {
             background: var(--primary-900);

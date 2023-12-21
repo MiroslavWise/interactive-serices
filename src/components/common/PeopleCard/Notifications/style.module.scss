@@ -43,7 +43,7 @@
 
             p {
                 color: var(--supporting-white);
-                font-size: 12px;
+                font-size: 0.75rem;
                 font-weight: 600;
                 line-height: 117.5%;
             }
@@ -58,7 +58,7 @@
 
             h3 {
                 color: var(--gray-900);
-                font-size: 20px;
+                font-size: 1.25rem;
                 font-style: normal;
                 font-weight: 600;
                 line-height: 30px;
@@ -66,10 +66,10 @@
             }
             p {
                 color: var(--gray-500);
-                font-size: 12px;
+                font-size: 0.75rem;
                 font-style: normal;
                 font-weight: 500;
-                line-height: 18px;
+                line-height: 1.125rem;
                 letter-spacing: -0.5px;
             }
         }

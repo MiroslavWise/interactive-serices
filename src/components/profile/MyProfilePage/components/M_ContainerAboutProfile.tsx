@@ -13,7 +13,7 @@ import { useAddress, useOut } from "@/helpers"
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
-    const { isAddresses, addressMain } = useAddress()
+    const { addressMain } = useAddress()
     const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
     const { out } = useOut()
     const user = useAuth(({ user }) => user)
@@ -57,11 +57,7 @@ export const M_ContainerAboutProfile = () => {
                     typeButton="fill-primary"
                     label="Создать"
                     suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
-                    onClick={() => {
-                        if (isAddresses) {
-                            dispatchNewServicesBanner(true)
-                        }
-                    }}
+                    onClick={() => dispatchNewServicesBanner(true)}
                 />
                 <button
                     data-circle-gradient

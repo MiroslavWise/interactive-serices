@@ -9,10 +9,7 @@ import { Segments } from "@/components/common/Segments"
 
 import { VALUES } from "../constants/SEGMENTS"
 
-export const ItemSegments: TItemSegments = ({
-    activeSegment,
-    setActiveSegment,
-}) => {
+export const ItemSegments: TItemSegments = ({ activeSegment, setActiveSegment }) => {
     const stickyRef = useRef<HTMLDivElement>(null)
     const { systemTheme } = useTheme()
     const [isSticky, setIsSticky] = useState(false)
@@ -29,8 +26,7 @@ export const ItemSegments: TItemSegments = ({
 
         profilePublicId?.addEventListener("scroll", handleScroll)
 
-        return () =>
-            profilePublicId?.removeEventListener("scroll", handleScroll)
+        return () => profilePublicId?.removeEventListener("scroll", handleScroll)
     }, [])
 
     return (
@@ -40,6 +36,7 @@ export const ItemSegments: TItemSegments = ({
                 VALUES={VALUES}
                 active={activeSegment}
                 setActive={setActiveSegment}
+                isBorder
             />
         </section>
     )

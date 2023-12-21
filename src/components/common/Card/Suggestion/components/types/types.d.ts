@@ -1,14 +1,13 @@
 import type { FC } from "react"
 import type { TTypeProvider } from "@/services/file-upload/types"
+import type { IResponseOffers } from "@/services/offers/types"
 
 export type IHeader = FC<{
-    categoryId: number
     rating: {
         average: number
         total: number
     } | null
-    title: string
-    provider: TTypeProvider
+    data: IResponseOffers
 }>
 
 export type TContainerPhotos = FC<{

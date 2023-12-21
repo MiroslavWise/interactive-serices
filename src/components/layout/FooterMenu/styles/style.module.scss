@@ -4,10 +4,10 @@
     left: 0;
     right: 0;
     width: 100%;
-    max-height: 68px;
+    max-height: 4.25rem;
     height: 100%;
     background: var(--glass-bg-color-1);
-    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0.25rem 1.5rem 0px rgba(0, 0, 0, 0.12);
     z-index: 99;
     opacity: 1;
     visibility: visible;
@@ -19,19 +19,19 @@
     }
 
     & > nav {
-        padding: 0 2px;
+        padding: 0 0.125rem;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(0.25rem);
 
         & > a {
             height: 100%;
             flex: 1;
             flex-shrink: 0;
             display: flex;
-            padding: 12px 4.5px;
+            padding: 0.75rem 0.28125rem;
             flex-direction: column;
             text-decoration: none !important;
 
@@ -40,7 +40,12 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 2px;
+                gap: 0.125rem;
+
+                & > img {
+                    height: 1.5rem;
+                    width: 1.5rem;
+                }
 
                 p {
                     text-decoration: none !important;
@@ -48,11 +53,11 @@
                     justify-self: flex-end;
                     color: var(--gray-500);
                     text-align: center;
-                    font-size: 11px;
+                    font-size: 0.6875rem;
                     font-style: normal;
                     font-weight: 500;
-                    line-height: 18px;
-                    letter-spacing: -0.5px;
+                    line-height: 1.125rem;
+                    letter-spacing: -0.3px;
                 }
             }
 
@@ -61,8 +66,8 @@
                 top: 0;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                height: 107px;
-                width: 114px;
+                height: 6.6875rem;
+                width: 7.125rem;
                 background-image: url("/icons/mobile/Polygon.png");
                 background-repeat: no-repeat;
                 background-size: 100%;
@@ -71,6 +76,11 @@
                 align-items: center;
                 cursor: pointer;
                 z-index: 1000;
+
+                & > img {
+                    height: 1.75rem;
+                    width: 1.75rem;
+                }
             }
         }
     }
@@ -79,6 +89,6 @@
 [data-theme="dark"] {
     .container {
         background: var(--glass-bg-color-2);
-        backdrop-filter: blur(10.5px);
+        backdrop-filter: blur(0.625rem);
     }
 }

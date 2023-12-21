@@ -19,18 +19,17 @@
             font-size: 1rem;
             font-style: normal;
             font-weight: 600;
-            line-height: 150%;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
 
         .containerRate {
-            padding: 0.25rem 9px;
+            padding: 0.25rem 0.5rem;
             display: flex;
             display: inline-flex;
             align-items: center;
-            gap: 2px;
+            gap: 0.125rem;
             border-radius: 100px;
-            border: 1px solid var(--primary-200);
+            border: 0.0625rem solid var(--primary-200);
             background: var(--primary-100);
 
             a {
@@ -38,12 +37,11 @@
                 font-size: 0.75rem;
                 font-style: normal;
                 font-weight: 600;
-                line-height: 150%;
-                letter-spacing: -0.5px;
+                letter-spacing: -0.3px;
             }
 
             .rateGap {
-                gap: 2px;
+                gap: 0.125rem;
             }
         }
     }
@@ -51,21 +49,21 @@
     .containerCanService {
         width: 100%;
         display: inline-flex;
-        gap: 6px;
+        gap: 0.375rem;
         align-items: flex-start;
 
         p {
             color: var(--gray-400);
-            font-size: 12px;
+            font-size: 0.75rem;
             font-style: normal;
             font-weight: 500;
-            line-height: 18px;
-            letter-spacing: -0.5px;
+            line-height: 1.125rem;
+            letter-spacing: -0.3px;
         }
 
         .textCan {
             color: var(--gray-900);
-            font-size: 14px;
+            font-size: 0.875rem;
             line-height: 1.25rem;
         }
     }
@@ -88,7 +86,7 @@
     padding-right: 0.75rem;
 
     & > [data-photo="true"] {
-        padding: 5px;
+        padding: 0.3125rem;
         cursor: zoom-in;
         width: 100%;
         height: auto;
@@ -107,20 +105,25 @@
 .containerButtons {
     position: relative;
     width: 100%;
-    padding-left: 12px;
+    padding-left: 0.75rem;
     display: inline-flex;
     align-items: center;
     justify-self: flex-end;
-    gap: 10px;
+    gap: 0.625rem;
 
-    padding-right: calc(12px + 2rem + 10px);
+    padding-right: calc(0.75rem + 2rem + 0.625rem);
 
     .buttonFill {
         height: 2rem;
         z-index: 2;
 
+        & > img {
+            width: 1rem;
+            height: 1rem;
+        }
+
         span {
-            font-size: 14px;
+            font-size: 0.875rem;
         }
     }
 }
@@ -139,7 +142,6 @@
     gap: 0.5rem;
     border-radius: 50%;
     background: var(--gray-100);
-    box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
     cursor: pointer;
     transition: var(--transition);
     transition-property: height, width, background, border-radius;
@@ -148,19 +150,24 @@
 
     &[data-open="true"] {
         height: calc(1.5rem + 2rem + 2rem);
-        width: calc(180px + 1rem);
+        width: calc(11.25rem + 1rem);
         background: var(--opacity-white-hard);
         border-radius: 1rem;
+    }
+
+    & > img {
+        width: 1rem;
+        height: 1rem;
     }
 }
 
 .buttonDelete {
-    max-width: 180px;
+    max-width: 11.25rem;
     width: 100%;
     height: 2rem;
 
     span {
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 }
 

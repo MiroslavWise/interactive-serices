@@ -81,7 +81,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         function connectError(e: any) {
             console.log(
                 "%c--- connect_error ---",
-                "color: #f00; font-size: 20px;",
+                "color: #f00; font-size: 1.25rem;",
                 e,
             )
         }
@@ -89,7 +89,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         function error(e: any) {
             console.info(
                 "%c--- error socket --- ",
-                "color: #f00; font-size: 20px;",
+                "color: #f00; font-size: 1.25rem;",
                 e,
             )
         }
