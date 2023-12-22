@@ -1,7 +1,8 @@
 "use client"
 
-import { SyntheticEvent, useState } from "react"
+import Image from "next/image"
 import { isMobile } from "react-device-detect"
+import { SyntheticEvent, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TRequestsAndProposals } from "./types"
@@ -15,7 +16,6 @@ import { useBalloonCard, useMapCoordinates, useOffersCategories } from "@/store/
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
-import Image from "next/image"
 
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const { handlePush } = usePush()
@@ -24,7 +24,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const categories = useOffersCategories(({ categories }) => categories)
     const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
 
-    const { id, categoryId, provider, title, userId, addresses, images, type } = props ?? {}
+    const { id, categoryId, provider, title, userId, addresses, images, type, categories: categoriesOffer } = props ?? {}
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
@@ -65,7 +65,9 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     }
 
     const geo = addresses && !!addresses.length && addresses[0]
-    const categoriesUser = dataUser?.res?.categories || []
+    const categoriesUser = useMemo(() => {
+        return categories?.filter((item) => categoriesOffer?.some((_) => item.id === _)) || []
+    }, [categories, categoriesOffer])
 
     const [src, setSrc] = useState(`/svg/category/${categoryId}.svg`)
 

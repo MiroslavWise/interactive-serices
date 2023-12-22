@@ -20,7 +20,7 @@ import { useBalloonCard, useMapCoordinates, useOffersCategories, useProfilePubli
 import styles from "./style.module.scss"
 
 export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(props: IGeneralServiceAllItem) {
-    const { id, categoryId, provider, title, userId, addresses, className, images, style } = props ?? {}
+    const { id, categoryId, provider, title, userId, addresses, className, images, style, categories: categoriesOffer } = props ?? {}
     const { handlePush } = usePush()
     const categories = useOffersCategories(({ categories }) => categories)
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
@@ -95,7 +95,10 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     }
 
     const geo = addresses && !!addresses.length && addresses[0]
-    const categoriesUser = dataUser?.res?.categories || []
+
+    const categoriesUser = useMemo(() => {
+        return provider === "offer" ? categories?.filter((item) => categoriesOffer?.some((_) => item.id === _)) || [] : []
+    }, [categories, categoriesOffer])
 
     return (
         <li className={cx(styles.container, className)} onClick={handle} style={style}>

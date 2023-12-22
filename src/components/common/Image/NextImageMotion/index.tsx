@@ -46,6 +46,7 @@ export const NextImageMotion = (props: TTypes) => {
             style={{
                 objectFit: "cover",
             }}
+            {...rest}
         />
     ) : (
         <ImageStatic

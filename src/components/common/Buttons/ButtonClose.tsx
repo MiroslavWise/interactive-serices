@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo } from "react"
-import Image from "next/image"
 
 import type { TButtonClose, IPositionAbsolute } from "./types/types"
 
@@ -9,11 +8,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const ButtonClose: TButtonClose = ({
-    onClick,
-    position: { top, left, right, bottom },
-    className,
-}) => {
+export const ButtonClose: TButtonClose = ({ onClick, position: { top, left, right, bottom }, className }) => {
     const position: IPositionAbsolute = useMemo(() => {
         const pos: IPositionAbsolute = {
             top: 12,

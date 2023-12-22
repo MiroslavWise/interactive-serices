@@ -37,11 +37,24 @@
     align-items: center;
     justify-content: center;
 
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+
+    transition: var(--transition);
+    transition-property: opacity, z-index;
+
     img {
         height: 100%;
         width: 100%;
         object-fit: contain !important;
         cursor: pointer;
+    }
+
+    &[data-current="true"] {
+        opacity: 1;
+        visibility: visible;
+        z-index: 1;
     }
 }
 

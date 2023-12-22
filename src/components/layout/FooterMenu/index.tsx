@@ -37,7 +37,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                 dispatchNewServicesBanner(true)
                             }
                         }}
-                        data-active={pathname?.includes(item.path!)}
+                        data-active={pathname === `/${item.path}`}
                     >
                         <div className={styles.itemsIconLabel}>
                             {item.isCenter ? (
