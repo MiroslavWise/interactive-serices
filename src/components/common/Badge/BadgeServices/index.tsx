@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 import type { TBadgeServices } from "./types"
 
@@ -9,6 +9,7 @@ import { useBalloonCard, useOffersCategories } from "@/store/hooks"
 import styles from "./style.module.scss"
 
 export const BadgeServices: TBadgeServices = (props) => {
+    const [src, setSrc] = useState(`/svg/category/default.svg`)
     const { id, provider, categoryId, userId, addresses, isClickable } = props
     const categories = useOffersCategories(({ categories }) => categories)
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
@@ -21,35 +22,38 @@ export const BadgeServices: TBadgeServices = (props) => {
         return categories?.find((_) => _?.id === categoryId)
     }, [categories, categoryId])
 
+    useEffect(() => {
+        if (!!categories.length || !!categoryId) {
+            const id = categories?.find((_) => _?.id === categoryId)?.id!
+            setSrc(`/svg/category/${id}.svg`)
+        }
+    }, [categories, categoryId])
+
     function handle() {
         if (addresses && id && isClickable) {
-            // dispatchMapCoordinates({
-            //     coordinates: addresses?.[0]?.coordinates
-            //         ?.split(" ")
-            //         ?.reverse()
-            //         ?.map(Number),
-            //     zoom: 20,
-            // })
             dispatch({
                 visible: true,
                 type: provider!,
                 id: id,
                 idUser: userId,
             })
-            // requestAnimationFrame(() => {
-            //     handlePush("/")
-            // })
         }
     }
 
     return (
         <li className={styles.container} data-type={provider} onClick={handle}>
-            <div
-                data-img
-                style={{
-                    backgroundImage: `url(/svg/category/${categoryId}.svg)`,
-                }}
-            />
+            <div data-img>
+                <img
+                    src={src}
+                    alt="cat"
+                    onError={(err) => {
+                        console.log("err data-img: ", err)
+                        setSrc(`/svg/category/default.svg`)
+                    }}
+                    height={24}
+                    width={24}
+                />
+            </div>
             <p>{infoCategory?.title! || "---{}---"}</p>
         </li>
     )

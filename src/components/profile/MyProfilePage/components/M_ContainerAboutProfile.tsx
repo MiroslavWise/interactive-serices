@@ -7,8 +7,8 @@ import { Button } from "@/components/common"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
-import { useAuth, useUpdateProfile, useVisibleBannerNewServices } from "@/store/hooks"
 import { useAddress, useOut } from "@/helpers"
+import { useAuth, useUpdateProfile, dispatchNewServicesBanner } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
@@ -19,7 +19,6 @@ export const M_ContainerAboutProfile = () => {
     const user = useAuth(({ user }) => user)
     const imageProfile = useAuth(({ imageProfile }) => imageProfile)
     const createdUser = useAuth(({ createdUser }) => createdUser)
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
     return (
         <section className={styles.containerMAboutProfile}>

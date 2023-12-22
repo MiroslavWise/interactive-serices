@@ -1,14 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { usePathname, useSearchParams } from "next/navigation"
 
 import type { TFooterMenu } from "./types"
 
 import { MENU_ITEMS } from "./constants"
 import { useActivePath } from "@/helpers/hooks/useActivePash"
-import { useAuth, useModalAuth, dispatchAuthModal } from "@/store/hooks"
+import { useAuth, useModalAuth, dispatchAuthModal, dispatchNewServicesBanner } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
@@ -26,35 +25,31 @@ export const FooterMenu: TFooterMenu = ({}) => {
                 {MENU_ITEMS(isAuth).map((item) => (
                     <Link
                         key={item.key}
-                        href={`/${item.path}` !== pathname && item.path !== null ? { pathname: `/${item.path}` } : {}}
+                        href={item.path !== null ? { pathname: `/${item.path}` } : {}}
                         onClick={(event) => {
                             event.stopPropagation()
-                            if (item.path === null) {
+                            if (item.path === null && !isAuth) {
                                 dispatchAuthModal({
                                     visible: !visible,
                                     type: ["SignIn", "SignUp"].includes(type!) ? type : "SignIn",
                                 })
+                            } else if (item.isCenter && isAuth) {
+                                dispatchNewServicesBanner(true)
                             }
                         }}
+                        data-active={pathname?.includes(item.path!)}
                     >
                         <div className={styles.itemsIconLabel}>
                             {item.isCenter ? (
-                                <div className={styles.centerPoligon} onClick={() => {}}>
-                                    <Image
-                                        src={valuePath === item.path ? item.icon.fill : item.icon.regular}
-                                        alt={item.label}
-                                        width={28}
-                                        height={28}
-                                        unoptimized
-                                    />
+                                <div className={styles.centerPoligon}>
+                                    <img src={item.icon.fill} alt={item.label} width={20} height={20} />
                                 </div>
                             ) : (
-                                <Image
+                                <img
                                     src={valuePath === item.path ? item.icon.fill : item.icon.regular}
                                     alt={item.label}
                                     width={24}
                                     height={24}
-                                    unoptimized
                                 />
                             )}
                             <p>{item.label}</p>

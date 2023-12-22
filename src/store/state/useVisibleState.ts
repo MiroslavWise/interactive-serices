@@ -16,6 +16,11 @@ export const useVisibleBannerNewServicesState = create<IUseVisibleBannerNewServi
     },
 }))
 
+export const dispatchNewServicesBanner = (value: boolean) =>
+    useVisibleBannerNewServicesState.setState((_) => ({
+        isVisibleNewServicesBanner: value,
+    }))
+
 export const useVisibleNewServiceBarterRequests = create<IUseVisibleNewServiceBarterRequests>((set, get) => ({
     isVisibleNewServiceBarterRequests: false,
     dispatchNewServiceBarterRequests(value) {

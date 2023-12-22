@@ -1,10 +1,4 @@
-import type {
-    FC,
-    DispatchWithoutAction,
-    Dispatch,
-    SetStateAction,
-    ReactNode,
-} from "react"
+import type { FC, DispatchWithoutAction, Dispatch, SetStateAction, ReactNode } from "react"
 
 type TTypeButton = "primary" | "secondary" | "optional_blue" | "optional_pink"
 
@@ -70,7 +64,7 @@ interface IButtonCircleGradientFill {
     submit?: "submit" | "reset" | "button"
     image: {
         src: string
-        size?: number
+        size?: number | string
         height?: number
         width?: number
     }
