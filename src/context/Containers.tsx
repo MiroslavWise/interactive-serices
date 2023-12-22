@@ -23,6 +23,7 @@ import {
     DataConfirmationPopUp,
     NewServiceBarterRequests,
     MobileFiltersMap,
+    Onboarding,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -73,6 +74,7 @@ export const Containers = () => {
             {isAuth && (
                 <>
                     <Barter />
+                    <Onboarding />
                     <ComplaintModal />
                     <NewServicesBanner />
                     <ModalUpdateProfile />
