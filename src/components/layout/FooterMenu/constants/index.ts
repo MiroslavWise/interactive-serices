@@ -22,15 +22,11 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
         key: "OFFER_LAYOUT_MENU",
     },
     {
-        label: is ? "Профиль" : "Войти",
-        path: is ? "profile" : null,
+        label: "Создать",
+        path: null,
         icon: {
-            fill: is
-                ? "/icons/mobile/fill/profile-active-filled.svg"
-                : "/icons/mobile/fill/profile-no-auth-filled.svg",
-            regular: is
-                ? "/icons/mobile/regular/profile-active-regular.svg"
-                : "/icons/mobile/regular/profile-no-auth-regular.svg",
+            fill: "/svg/plus.svg",
+            regular: "/svg/plus.svg",
         },
         isCenter: true,
         key: "AUTH_OR_PROFILE_LAYOUT_MENU",
@@ -46,11 +42,11 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
         key: "MESSAGES_LAYOUT_MENU",
     },
     {
-        label: "Новости",
-        path: "news",
+        label: "Профиль",
+        path: is ? "profile" : null,
         icon: {
-            fill: "/icons/mobile/fill/blog-filled.svg",
-            regular: "/icons/mobile/regular/blog-regular.svg",
+            fill: "/icons/mobile/fill/profile-active-filled.svg",
+            regular: "/icons/mobile/regular/profile-active-regular.svg",
         },
         isCenter: false,
         key: "BLOGS_LAYOUT_MENU",

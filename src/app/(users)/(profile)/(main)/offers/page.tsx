@@ -27,7 +27,7 @@ export default function OffersPage() {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
-        <ul className={isMobile ? styles.mobileOffersPage : styles.containerOffersPage}>
+        <ul className={styles.wrapper}>
             {isMobile && <MobileSegments />}
             <ContainerHeader total={state.total || 0} dispatch={dispatch} isToMe={state.isToMe} />
             <ContainerOffersNow isToMe={state.isToMe} dispatch={dispatch} />

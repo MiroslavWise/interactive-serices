@@ -2,11 +2,11 @@
     position: relative;
     border-radius: 50%;
     display: flex;
-    padding: 8px;
+    padding: 0.5rem;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    border: 2px solid transparent !important;
+    border: 0.125rem solid transparent !important;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
@@ -14,13 +14,7 @@
     background: transparent !important;
 
     &.primary {
-        background:
-            linear-gradient(
-                    var(--button-default-background),
-                    var(--button-default-background)
-                )
-                padding-box,
-            var(--gradient-primary) border-box !important;
+        background:var(--primary-500)
     }
 
     &.option-1 {

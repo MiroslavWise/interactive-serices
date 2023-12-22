@@ -46,7 +46,7 @@
     display: inline-flex;
     padding: 6px 12px;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     border-radius: 100px;
     background: var(--background-input);
 
@@ -63,7 +63,7 @@
     section {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
 
         .avatar {
             position: relative;
@@ -121,7 +121,7 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
 
             p {
                 color: var(--gray-500);
@@ -206,7 +206,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 1rem;
             background: var(--glass-bg-color-1);
             backdrop-filter: blur(4px);
             border-radius: 24px;
@@ -242,7 +242,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 0.75rem;
     padding-left: 112px;
     padding-right: 112px;
     z-index: 100;
@@ -285,7 +285,7 @@
     display: inline-flex;
     padding: 4px 4px 4px 16px;
     align-items: center;
-    gap: 12px;
+    gap: 0.75rem;
     border-radius: 100px;
     background: var(--gradient-optional-2);
 
@@ -339,7 +339,7 @@
 //         justify-content: flex-start;
 //         overflow-x: auto;
 //         height: calc(58px + 6px + 6px);
-//         gap: 16px;
+//         gap: 1rem;
 //         transition: var(--transition);
 
 //         & > li {
@@ -427,7 +427,7 @@
 .containerLabelInput {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
     width: 100%;
 
     label {
@@ -532,7 +532,7 @@
     width: 100%;
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 0.5rem;
     align-self: stretch;
 }
 

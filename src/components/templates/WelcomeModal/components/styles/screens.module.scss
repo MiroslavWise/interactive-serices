@@ -8,7 +8,7 @@
     & > [data-block-text] {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 0.5rem;
         align-items: center;
         & > h1,
         & > p,
@@ -218,7 +218,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
         & > i {
             padding-top: 20px;
             color: var(--gray-500);

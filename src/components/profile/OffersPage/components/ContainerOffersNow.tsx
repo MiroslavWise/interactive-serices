@@ -32,7 +32,6 @@ export const ContainerOffersNow: TContainerOffersNow = ({ isToMe, dispatch }) =>
                 order: "DESC",
             }),
         queryKey: ["barters", `user=${userId}`, `status=initiated`],
-        queryHash: `barters-user=${userId}-status=initiated`,
         refetchOnReconnect: false,
         enabled: !isToMe,
     })

@@ -24,12 +24,12 @@
 
 .informationProfileColumn {
     @include flexColumn();
-    gap: 12px;
+    gap: 0.75rem;
 }
 
 .adressProfileColumn {
     @include flexColumn();
-    gap: 8px;
+    gap: 0.5rem;
 
     .adressTitleAbout {
         width: 100%;

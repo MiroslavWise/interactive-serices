@@ -3,7 +3,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
 
     & > [data-div-text-area="true"] {
         max-height: 128px;
