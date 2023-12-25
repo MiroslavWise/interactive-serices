@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic"
 import { isMobile } from "react-device-detect"
 
-import { BannerServices, BannerSign, BannerAbout, MobileFilterMap } from "@/components/content"
+import { BannerServices, BannerSign, BannerAbout, MobileFilterMap, BannerStartCreate } from "@/components/content"
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
     ssr: false,
 })
@@ -20,8 +20,9 @@ export default function Home() {
             <YandexMap />
             {isAuth && <BannerSign />}
             {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
+            {isAuth && isMobile && <BannerStartCreate />}
             {isMobile && <MobileFilterMap />}
-            <BannerServices />
+            {!isMobile && <BannerServices />}
         </main>
     )
 }

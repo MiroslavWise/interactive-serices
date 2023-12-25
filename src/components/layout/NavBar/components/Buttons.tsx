@@ -1,4 +1,3 @@
-import { isMobile } from "react-device-detect"
 import { usePathname } from "next/navigation"
 
 import { Button, ButtonLink } from "@/components/common"
@@ -22,6 +21,7 @@ export const Buttons = () => {
                     suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
                     style={{ width: "100%" }}
                     onClick={() => dispatchNewServicesBanner(true)}
+                    id="nav-bar-button-create"
                 />
             </div>
         ) : (

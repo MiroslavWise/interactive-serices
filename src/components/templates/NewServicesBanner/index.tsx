@@ -7,7 +7,7 @@ import { NewCreateBadge } from "./components/NewCreateBadge"
 
 import { cx } from "@/lib/cx"
 import { NEW_CREATE_BADGES } from "./constants"
-import { useVisibleBannerNewServices } from "@/store/hooks/useVisible"
+import { useVisibleBannerNewServices } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
@@ -21,13 +21,7 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
 
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisibleNewServicesBanner}>
-            <div data-container>
-                <h3>Я хочу создать</h3>
-                <ul>
-                    {NEW_CREATE_BADGES.map((item) => (
-                        <NewCreateBadge key={`${item.value}_${item.label}`} {...item} />
-                    ))}
-                </ul>
+            <section id="container-services-banner">
                 <ButtonClose
                     onClick={close}
                     position={{
@@ -35,7 +29,13 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
                         top: 12,
                     }}
                 />
-            </div>
+                <h3>Я хочу создать</h3>
+                <ul>
+                    {NEW_CREATE_BADGES.map((item) => (
+                        <NewCreateBadge key={`${item.value}_${item.label}`} {...item} />
+                    ))}
+                </ul>
+            </section>
         </div>
     )
 }

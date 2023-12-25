@@ -5,7 +5,7 @@ import type { Dispatch, DispatchWithoutAction } from "react"
 export type TAddCreate = "offer" | "request" | "alert" | "discussion"
 
 export interface IValuesVisibleType {
-    type?: TTypeProvider
+    type: TTypeProvider
     visible?: boolean
 }
 
