@@ -10,16 +10,12 @@ import { ContainerHeader, ContainerOffersNow, MobileSegments } from "@/component
 import styles from "@/components/profile/OffersPage/styles/style.module.scss"
 
 const initialState: IStateOffers = {
-    isToMe: true,
     total: 0,
 }
 
-function reducer(state: IStateOffers, action: IActionOffers) {
-    const getIsToMe = typeof action.isToMe === "undefined" ? state.isToMe : action.isToMe
-    const getTotal = typeof action.total === "undefined" ? state.total : action.total
+function reducer(_: IStateOffers, action: IActionOffers) {
     return {
-        isToMe: getIsToMe,
-        total: getTotal,
+        total: action?.total!,
     }
 }
 
@@ -29,8 +25,8 @@ export default function OffersPage() {
     return (
         <ul className={styles.wrapper}>
             {isMobile && <MobileSegments />}
-            <ContainerHeader total={state.total || 0} dispatch={dispatch} isToMe={state.isToMe} />
-            <ContainerOffersNow isToMe={state.isToMe} dispatch={dispatch} />
+            <ContainerHeader total={state.total || 0} />
+            <ContainerOffersNow dispatch={dispatch} />
         </ul>
     )
 }

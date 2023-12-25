@@ -1,0 +1,96 @@
+.container {
+    position: fixed;
+    max-width: 23.125rem;
+    width: 100%;
+    height: fit-content;
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 2000;
+
+    transition: var(--transition);
+    transition-property: top, left, bottom, right;
+
+    &[data-visible="true"] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    & > section {
+        position: relative;
+        width: 100%;
+        height: fit-content;
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        border-radius: 0.625rem;
+        border: 1px solid var(--gray-200);
+        background: var(--background);
+
+        & > [data-content] {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+
+            & > header {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                & > h3 {
+                    color: var(--gray-900);
+                    font-size: 1rem;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 1.5rem;
+                    letter-spacing: -0.005rem;
+                }
+
+                & > button {
+                    border-radius: 0.75rem;
+                    height: 1.5rem;
+                    width: 1.5rem;
+                    border: 1px solid var(--gray-300);
+                    background: var(--supporting-white);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.25rem;
+
+                    & > img {
+                        height: 1rem;
+                        width: 1rem;
+                    }
+                }
+            }
+
+            & > p {
+                color: var(--gray-900);
+                font-size: 0.875rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.25rem;
+                letter-spacing: -0.00438rem;
+            }
+        }
+
+        & > [data-footer] {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.625rem;
+        }
+    }
+}
+
+[data-mobile="true"] {
+    .container {
+        position: static;
+        max-width: 100%;
+    }
+}

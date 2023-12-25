@@ -18,14 +18,14 @@ import { serviceOffers } from "@/services/offers"
 import { serviceAddresses } from "@/services/addresses"
 import { getLocationName } from "@/lib/location-name"
 import { fileUploadService } from "@/services/file-upload"
-import { useAuth, useOffersCategories } from "@/store/hooks"
+import { FinishScreen } from "./components/FinishScreen"
+import { useAuth, useOffersCategories, useOnboarding } from "@/store/hooks"
 import { transliterateAndReplace, useDebounce } from "@/helpers"
 import { useAddCreateModal, closeCreateOffers } from "@/store/hooks"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
-import { FinishScreen } from "./components/FinishScreen"
 
 export const CreateNewOptionModal = () => {
     const [loading, setLoading] = useState(false)
@@ -37,6 +37,7 @@ export const CreateNewOptionModal = () => {
     const [isFocus, setIsFocus] = useState(false)
     const [isFirst, setIsFirst] = useState(true)
     const userId = useAuth(({ userId }) => userId)
+    const visible = useOnboarding(({ visible }) => visible)
     const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
     const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
     const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
@@ -280,18 +281,20 @@ export const CreateNewOptionModal = () => {
     }
 
     function handleClose() {
-        closeCreateOffers()
-        setTimeout(() => {
-            setFiles([])
-            setStrings([])
-            reset()
-            setIsFirst(true)
-        }, 151)
+        if (!visible) {
+            closeCreateOffers()
+            setTimeout(() => {
+                setFiles([])
+                setStrings([])
+                reset()
+                setIsFirst(true)
+            }, 151)
+        }
     }
 
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
-            <section>
+            <section id="container-create-option-modal" data-is-onboarding={visible}>
                 <ButtonClose position={{ top: 12, right: 12 }} onClick={handleClose} />
                 {isFirst ? (
                     <>
@@ -300,10 +303,10 @@ export const CreateNewOptionModal = () => {
                                 <h3>{headerTitle}</h3>
                             </header>
                         ) : null}
-                        <ul>
+                        <ul id="ul-create-option-modal">
                             <h4>{description}</h4>
                             <form onSubmit={onSubmit}>
-                                <fieldset>
+                                <fieldset id="fieldset-create-option-modal-address">
                                     <label htmlFor="address">
                                         {addressInit?.additional ? "По адресу" : titleAddress} <sup>*</sup>
                                     </label>
@@ -356,7 +359,7 @@ export const CreateNewOptionModal = () => {
                                     )}
                                 </fieldset>
                                 {["offer"].includes(typeAdd!) ? (
-                                    <fieldset {...register("categoryId", { required: true })}>
+                                    <fieldset {...register("categoryId", { required: true })} id="fieldset-create-option-modal-offer">
                                         <label>
                                             Предложение <sup>*</sup>
                                         </label>
@@ -373,7 +376,7 @@ export const CreateNewOptionModal = () => {
                                         {errors?.categoryId ? <i>Важное поле</i> : null}
                                     </fieldset>
                                 ) : null}
-                                <fieldset>
+                                <fieldset id="fieldset-create-option-modal-title">
                                     <label htmlFor="title">
                                         {title} <sup>*</sup>
                                     </label>
@@ -387,7 +390,7 @@ export const CreateNewOptionModal = () => {
                                     </div>
                                     {errors?.title ? <i>Обязательное поле</i> : null}
                                 </fieldset>
-                                <fieldset data-photos>
+                                <fieldset data-photos id="fieldset-create-option-modal-photos">
                                     <label>Вы можете добавить фото, если хотите</label>
                                     <div data-images>
                                         {strings.map((item, index) => (
@@ -418,7 +421,14 @@ export const CreateNewOptionModal = () => {
                                         disabled={loading}
                                         loading={loading}
                                     />
-                                    <Button type="submit" typeButton="fill-primary" label="Далее" disabled={loading} loading={loading} />
+                                    <Button
+                                        type="submit"
+                                        typeButton="fill-primary"
+                                        label="Далее"
+                                        disabled={loading}
+                                        loading={loading}
+                                        id="button-create-option-modal-submit"
+                                    />
                                 </div>
                             </form>
                         </ul>

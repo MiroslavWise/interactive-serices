@@ -1,7 +1,7 @@
 .containerClose {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 0.75rem;
+    right: 0.75rem;
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
@@ -11,7 +11,7 @@
     border-radius: 100px;
     border: 1px solid var(--gray-300);
     background: var(--supporting-white);
-    box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
+    box-shadow: 0px 11px 1.25rem 0px rgba(100, 104, 115, 0.1);
     cursor: pointer;
 }
 
@@ -20,26 +20,38 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    height: 84px;
-    max-width: 395px;
+    height: 3.75rem;
+    max-width: 22.5rem;
     width: 100%;
-    border-radius: 100px;
-    border: 2px solid var(--stroke-1);
+    border-radius: 1.875rem;
+    border: 1px solid var(--stroke-1);
     background: var(--glass-bg-color-1);
     cursor: pointer;
     z-index: 2;
 
-    &:hover {
-        box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
-    }
-
     p {
         color: var(--gray-900);
-        font-size: 1.5rem;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 500;
-        line-height: 133%;
-        letter-spacing: 0px;
+        line-height: 2rem;
+        letter-spacing: -0.01125rem;
+    }
+
+    &[data-onboarding="true"] {
+        border: 1px solid var(--primary-500);
+
+        &:hover {
+            background: var(--primary-500);
+
+            & > p {
+                color: var(--supporting-white);
+            }
+        }
+    }
+
+    &[data-not="true"] {
+        cursor: default;
     }
 }
 
