@@ -1,11 +1,3 @@
-.wrapper {
-    --top-after: 0;
-    --left-after: 0;
-    --height-after: 0;
-    --width-after: 0;
-    --border-radius-after: 0;
-}
-
 .wrapperStart {
     z-index: 2001;
     background: rgba(0, 0, 0, 0.62);
@@ -172,86 +164,6 @@
                         }
                     }
                 }
-            }
-        }
-    }
-}
-
-.wrapper {
-    z-index: 2001;
-
-    &::after {
-        content: "";
-        position: absolute;
-        box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.8);
-        width: 100%;
-        height: 100%;
-        top: var(--top-after);
-        left: var(--left-after);
-        width: var(--width-after);
-        height: var(--height-after);
-        border-radius: var(--border-radius-after);
-        cursor: pointer;
-    }
-
-    & > section {
-        position: absolute;
-        width: 100%;
-        max-width: 23.125rem;
-        z-index: 2002;
-        cursor: pointer;
-
-        & > article {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 0.625rem;
-            padding: 0.75rem;
-            border-radius: 0.625rem;
-            background: var(--background);
-            border: 1px solid var(--gray-300);
-
-            & > [data-header] {
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-
-                & > h3 {
-                    color: var(--color-text);
-                    font-size: 1rem;
-                    font-style: normal;
-                    font-weight: 600;
-                    line-height: 1.5rem;
-                    letter-spacing: -0.005rem;
-                }
-
-                & > button {
-                    border-radius: 0.75rem;
-                    height: 1.5rem;
-                    width: 1.5rem;
-                    border: 1px solid var(--gray-300);
-                    background: var(--supporting-white);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 0.25rem;
-
-                    & > img {
-                        height: 1rem;
-                        width: 1rem;
-                    }
-                }
-            }
-
-            & > p {
-                color: var(--color-text);
-                font-size: 0.875rem;
-                font-style: normal;
-                font-weight: 400;
-                line-height: 1.25rem;
-                letter-spacing: -0.00438rem;
             }
         }
     }

@@ -12,8 +12,8 @@ export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
         value: "telegram",
         srcWorking: "/icons/fill/telegram.svg",
         srcNotWorking: "/icons/fill/disabled/telegram.svg",
-        path: "/api/auth/signin",
-        isWorkingLink: false,
+        path: "/telegram/login",
+        isWorkingLink: true,
     },
     {
         value: "apple",

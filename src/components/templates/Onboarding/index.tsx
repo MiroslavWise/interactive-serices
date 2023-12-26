@@ -1,18 +1,21 @@
 "use client"
 
+import { isMobile } from "react-device-detect"
+
+import { PreClose } from "./components/PreClose"
 import { CreateOnboarding } from "./components/CreateOnboarding"
 import { ArticleOnboarding } from "./components/ArticleOnboarding"
 
 import { cx } from "@/lib/cx"
-import { dispatchOnboardingStart, useOnboarding } from "@/store/hooks"
-
 import { ITEMS_START } from "./constants/items-start"
+import { dispatchOnboardingStart, useOnboarding } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const Onboarding = () => {
     const step = useOnboarding(({ step }) => step)
     const type = useOnboarding(({ type }) => type)
+    const isPreClose = useOnboarding(({ isPreClose }) => isPreClose)
     const visible = useOnboarding(({ visible }) => visible)
 
     if (type === null) {
@@ -50,13 +53,11 @@ export const Onboarding = () => {
         )
     }
 
-    if (step === 0 && !!type) {
-        return <CreateOnboarding />
-    }
-
-    if (step >= 1 && !!type && visible) {
-        return <ArticleOnboarding />
-    }
-
-    return null
+    return (
+        <>
+            {isPreClose && visible && <PreClose />}
+            {step === 0 && !!type && <CreateOnboarding />}
+            {step >= 1 && !!type && visible && !isMobile && <ArticleOnboarding />}
+        </>
+    )
 }

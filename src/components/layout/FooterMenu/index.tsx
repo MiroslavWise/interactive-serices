@@ -41,7 +41,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                     >
                         <div className={styles.itemsIconLabel}>
                             {item.isCenter ? (
-                                <div className={styles.centerPoligon}>
+                                <div className={styles.centerPoligon} id={item.key}>
                                     <img src={item.icon.fill} alt={item.label} width={20} height={20} />
                                 </div>
                             ) : (
@@ -50,6 +50,7 @@ export const FooterMenu: TFooterMenu = ({}) => {
                                     alt={item.label}
                                     width={24}
                                     height={24}
+                                    id={item.key}
                                 />
                             )}
                             <p>{item.label}</p>

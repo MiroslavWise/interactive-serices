@@ -7,16 +7,23 @@ import { NewCreateBadge } from "./components/NewCreateBadge"
 
 import { cx } from "@/lib/cx"
 import { NEW_CREATE_BADGES } from "./constants"
-import { useVisibleBannerNewServices } from "@/store/hooks"
+import { useOnboarding, useVisibleBannerNewServices } from "@/store/hooks"
+
+import { ArticleOnboarding } from "@/components/templates"
 
 import styles from "./styles/style.module.scss"
 
 export const NewServicesBanner: TNewServicesBanner = ({}) => {
+    const step = useOnboarding(({ step }) => step)
+    const type = useOnboarding(({ type }) => type)
+    const visible = useOnboarding(({ visible }) => visible)
     const isVisibleNewServicesBanner = useVisibleBannerNewServices(({ isVisibleNewServicesBanner }) => isVisibleNewServicesBanner)
     const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
     function close() {
-        dispatchNewServicesBanner(false)
+        if (!visible) {
+            dispatchNewServicesBanner(false)
+        }
     }
 
     return (
@@ -31,9 +38,12 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
                 />
                 <h3>Я хочу создать</h3>
                 <ul>
-                    {NEW_CREATE_BADGES.map((item) => (
-                        <NewCreateBadge key={`${item.value}_${item.label}`} {...item} />
-                    ))}
+                    <NewCreateBadge {...NEW_CREATE_BADGES[0]} />
+                    {visible && step === 1 && type === "offer" && <ArticleOnboarding />}
+                    <NewCreateBadge {...NEW_CREATE_BADGES[1]} />
+                    {visible && step === 1 && type === "alert" && <ArticleOnboarding />}
+                    <NewCreateBadge {...NEW_CREATE_BADGES[2]} />
+                    {visible && step === 1 && type === "discussion" && <ArticleOnboarding />}
                 </ul>
             </section>
         </div>

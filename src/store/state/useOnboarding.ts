@@ -2,12 +2,19 @@ import { create } from "zustand"
 
 import type { TTypeProvider } from "@/services/file-upload/types"
 
-import type { IStateUseOnboarding, TActionOnboarding } from "../types/typeOnboarding"
+import type { IOnboardingContinue, IStateUseOnboarding, IValuesInterface, TActionOnboarding } from "../types/typeOnboarding"
 
 export const useOnboarding = create<IStateUseOnboarding>((set, get) => ({
+    valid: {
+        isAddress: false,
+        isCategoryId: false,
+        isTitle: false,
+        isFiles: false,
+    },
     type: null,
     step: 0,
     visible: false,
+    isPreClose: false,
 }))
 
 export const dispatchOnboardingStart = (value: TTypeProvider | null) =>
@@ -23,6 +30,21 @@ export const dispatchOnboardingStart = (value: TTypeProvider | null) =>
             }
         }
     })
+
+export const dispatchValidating = (values: IValuesInterface) =>
+    useOnboarding.setState((_) => ({
+        valid: {
+            isAddress: typeof values.isAddress === "undefined" ? !!_.valid.isAddress : !!values.isAddress,
+            isFiles: typeof values.isFiles === "undefined" ? !!_.valid.isFiles : !!values.isFiles,
+            isCategoryId: typeof values?.isCategoryId === "undefined" ? !!_.valid.isCategoryId : !!values.isCategoryId,
+            isTitle: typeof values.isTitle === "undefined" ? !!_.valid.isTitle : !!values.isTitle,
+        },
+    }))
+
+export const dispatchOnboardingContinue = () =>
+    useOnboarding.setState((_) => ({
+        isPreClose: false,
+    }))
 
 export const dispatchOnboarding = (values: TActionOnboarding) =>
     useOnboarding.setState((_) => {
@@ -68,11 +90,14 @@ export const dispatchOnboarding = (values: TActionOnboarding) =>
             }
         } else if (values === "close") {
             return {
+                isPreClose: false,
                 visible: false,
                 type: null,
             }
         } else if (values === "pre-close") {
-            return {}
+            return {
+                isPreClose: true,
+            }
         }
         return {}
     })
