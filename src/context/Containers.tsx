@@ -37,10 +37,12 @@ import {
     useVisibleNotifications,
     useUpdateMutualOffer,
     useDataConfirmationPopUp,
+    useAddCreateModal,
 } from "@/store/hooks"
 
 export const Containers = () => {
     const isAuth = useAuth(({ isAuth }) => isAuth)
+    const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
     const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
     const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
@@ -80,8 +82,8 @@ export const Containers = () => {
                     <ModalUpdateProfile />
                     <CompletionTransaction />
                     <ExchangesModalMobile />
-                    <CreateNewOptionModal />
                     <NewServiceBarterRequests />
+                    {isVisible && <CreateNewOptionModal />}
                     {isMobile && visibleNotifications && <NotificationsMobile />}
                     {visibleFriends && <DroverFriends />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}

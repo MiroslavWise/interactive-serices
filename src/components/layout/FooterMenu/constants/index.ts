@@ -9,7 +9,7 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
             regular: "/icons/mobile/regular/map-regular.svg",
         },
         isCenter: false,
-        key: "MAPS_LAYOUT_MENU",
+        key: "id-map-menu-footer",
     },
     {
         label: "Обмен",
@@ -19,7 +19,7 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
             regular: "/icons/mobile/regular/sharing-regular.svg",
         },
         isCenter: false,
-        key: "OFFER_LAYOUT_MENU",
+        key: "id-offer-menu-footer",
     },
     {
         label: "Создать",
@@ -29,7 +29,7 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
             regular: "/svg/plus.svg",
         },
         isCenter: true,
-        key: "AUTH_OR_PROFILE_LAYOUT_MENU",
+        key: "id-create-menu-footer",
     },
     {
         label: "Сообщения",
@@ -39,7 +39,7 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
             regular: "/icons/mobile/regular/message-regular.svg",
         },
         isCenter: false,
-        key: "MESSAGES_LAYOUT_MENU",
+        key: "id-messages-menu-footer",
     },
     {
         label: "Профиль",
@@ -49,6 +49,6 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
             regular: "/icons/mobile/regular/profile-active-regular.svg",
         },
         isCenter: false,
-        key: "BLOGS_LAYOUT_MENU",
+        key: "id-profile-menu-footer",
     },
 ]

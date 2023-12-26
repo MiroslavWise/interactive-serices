@@ -8,9 +8,6 @@
     visibility: hidden;
     z-index: 2000;
 
-    transition: var(--transition);
-    transition-property: top, left, bottom, right;
-
     &[data-visible="true"] {
         opacity: 1;
         visibility: visible;
@@ -25,8 +22,26 @@
         flex-direction: column;
         gap: 1rem;
         border-radius: 0.625rem;
-        border: 1px solid var(--gray-200);
-        background: var(--background);
+        background: var(--primary-400);
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.1875rem;
+            background: var(--primary-400);
+            left: calc(100% - 0.2rem);
+            top: 1.25rem;
+            transform: translateX(-50%) rotate(45deg);
+        }
+
+        &[data-finally="true"] {
+            &::after {
+                top: calc(100% - 1.25rem - 1.414rem);
+                left: 0.2rem;
+            }
+        }
 
         & > [data-content] {
             width: 100%;
@@ -92,5 +107,24 @@
     .container {
         position: static;
         max-width: 100%;
+        transform: none;
+
+        & > section {
+            &::after {
+                left: 50%;
+                top: 0.2rem;
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+
+            &[data-finally="true"] {
+                &::after {
+                    top: calc(100% - 0.2rem);
+                }
+            }
+
+            & > [data-footer] {
+                
+            }
+        }
     }
 }

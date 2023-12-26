@@ -29,7 +29,8 @@ export const ButtonClose: TButtonClose = ({ onClick, position: { top, left, righ
     }, [top, left, right, bottom])
 
     return (
-        <div
+        <button
+            type="button"
             className={cx(styles.containerCloseButton, className)}
             style={position}
             onClick={(event) => {
@@ -38,6 +39,6 @@ export const ButtonClose: TButtonClose = ({ onClick, position: { top, left, righ
             data-close
         >
             <div style={{ backgroundImage: `url(/svg/x-close.svg)` }} />
-        </div>
+        </button>
     )
 }

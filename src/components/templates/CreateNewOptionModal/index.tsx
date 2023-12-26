@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEvent, useMemo, useState } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 
 import type { IFormValues } from "./types/types"
@@ -8,6 +8,7 @@ import type { IPostOffers } from "@/services/offers/types"
 import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
+import { ArticleOnboarding } from "@/components/templates"
 import { Button, ImageStatic } from "@/components/common"
 import { ButtonClose } from "@/components/common/Buttons"
 import { CustomSelect } from "@/components/common/custom"
@@ -19,29 +20,30 @@ import { serviceAddresses } from "@/services/addresses"
 import { getLocationName } from "@/lib/location-name"
 import { fileUploadService } from "@/services/file-upload"
 import { FinishScreen } from "./components/FinishScreen"
-import { useAuth, useOffersCategories, useOnboarding } from "@/store/hooks"
-import { transliterateAndReplace, useDebounce } from "@/helpers"
-import { useAddCreateModal, closeCreateOffers } from "@/store/hooks"
+import { dispatchOnboarding, useAuth, useOffersCategories, useOnboarding } from "@/store/hooks"
+import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
+import { useAddCreateModal, closeCreateOffers, dispatchValidating } from "@/store/hooks"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
 
 export const CreateNewOptionModal = () => {
+    const [isFirst, setIsFirst] = useState(true)
+    const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
     const [loading, setLoading] = useState(false)
     const [files, setFiles] = useState<File[]>([])
     const [strings, setStrings] = useState<string[]>([])
+    const debouncedValue = useDebounce(onChangeAddress, 600)
     const [loadingAddresses, setLoadingAddresses] = useState(false)
     const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
-    const debouncedValue = useDebounce(onChangeAddress, 600)
-    const [isFocus, setIsFocus] = useState(false)
-    const [isFirst, setIsFirst] = useState(true)
     const userId = useAuth(({ userId }) => userId)
+    const step = useOnboarding(({ step }) => step)
     const visible = useOnboarding(({ visible }) => visible)
     const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
     const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
-    const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
     const categories = useOffersCategories(({ categories }) => categories)
+    const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
 
     const list = useMemo(() => {
         return (
@@ -61,7 +63,7 @@ export const CreateNewOptionModal = () => {
         register,
         handleSubmit,
         setValue,
-        formState: { errors },
+        formState: { errors, isValid },
     } = useForm<IFormValues>({
         defaultValues: {
             categoryId: null,
@@ -96,12 +98,14 @@ export const CreateNewOptionModal = () => {
                                 .then(() => {
                                     setLoading(false)
                                     setIsFirst(false)
+                                    dispatchOnboarding("close")
                                     reset()
                                     //----------------------------------------------------------------
                                 })
                         } else {
                             setLoading(false)
                             setIsFirst(false)
+                            dispatchOnboarding("close")
                             reset()
                             //---------------------------------------------------------------------
                         }
@@ -231,14 +235,14 @@ export const CreateNewOptionModal = () => {
             ? "Добавьте текст, чтобы сделать ваше предложение более привлекательным и желанным"
             : null
 
-    const description =
-        typeAdd === "alert"
-            ? "Видите, что что-то произошло, или вам нужна помощь? Просто дайте знать остальным"
-            : typeAdd === "offer"
-            ? "В раскрывающемся меню ниже выберите услугу, которую вы готовы предложить публично"
-            : typeAdd === "discussion"
-            ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
-            : null
+    // const description =
+    //     typeAdd === "alert"
+    //         ? "Видите, что что-то произошло, или вам нужна помощь? Просто дайте знать остальным"
+    //         : typeAdd === "offer"
+    //         ? "В раскрывающемся меню ниже выберите услугу, которую вы готовы предложить публично"
+    //         : typeAdd === "discussion"
+    //         ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
+    //         : null
 
     const titleAddress =
         typeAdd === "alert"
@@ -292,6 +296,16 @@ export const CreateNewOptionModal = () => {
         }
     }
 
+    useEffect(() => {
+        if (visible) {
+            dispatchValidating({
+                isCategoryId: !!watch("categoryId"),
+                isTitle: !!watch("title"),
+                isFiles: !!files.length,
+            })
+        }
+    }, [watch("title"), watch("categoryId"), files, visible])
+
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
             <section id="container-create-option-modal" data-is-onboarding={visible}>
@@ -304,7 +318,7 @@ export const CreateNewOptionModal = () => {
                             </header>
                         ) : null}
                         <ul id="ul-create-option-modal">
-                            <h4>{description}</h4>
+                            {/* <h4>{description}</h4> */}
                             <form onSubmit={onSubmit}>
                                 <fieldset id="fieldset-create-option-modal-address">
                                     <label htmlFor="address">
@@ -313,7 +327,7 @@ export const CreateNewOptionModal = () => {
                                     {addressInit?.additional ? (
                                         <p>{addressInit?.additional}</p>
                                     ) : (
-                                        <div data-input-selector {...register("addressFeature", { required: true })}>
+                                        <div data-input-selector {...register("addressFeature", { required: true })} ref={ref}>
                                             <input
                                                 {...register("address", { required: true })}
                                                 onChange={(event) => {
@@ -322,8 +336,8 @@ export const CreateNewOptionModal = () => {
                                                     setLoadingAddresses(true)
                                                 }}
                                                 onFocus={() => setIsFocus(true)}
-                                                onBlur={() => setIsFocus(false)}
                                                 placeholder={placeholderInput || ""}
+                                                disabled={visible && step !== 2}
                                             />
                                             <div data-select-icon>
                                                 <img
@@ -333,6 +347,10 @@ export const CreateNewOptionModal = () => {
                                                     height={20}
                                                     data-chevron
                                                     data-loading={loadingAddresses}
+                                                    onClick={(event) => {
+                                                        event.stopPropagation()
+                                                        setIsFocus(false)
+                                                    }}
                                                 />
                                             </div>
                                             <ul data-active={isFocus}>
@@ -340,12 +358,17 @@ export const CreateNewOptionModal = () => {
                                                     exactAddresses.map((item, index) => (
                                                         <li
                                                             key={`${item.GeoObject.uri}-${index}`}
-                                                            onClick={() => {
+                                                            onClick={(event) => {
+                                                                event.stopPropagation()
+                                                                dispatchValidating({
+                                                                    isAddress: !!item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
+                                                                })
                                                                 setValue("addressFeature", item)
                                                                 setValue(
                                                                     "address",
                                                                     item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
                                                                 )
+                                                                setIsFocus(false)
                                                             }}
                                                         >
                                                             <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
@@ -358,12 +381,14 @@ export const CreateNewOptionModal = () => {
                                         </div>
                                     )}
                                 </fieldset>
+                                {visible && step === 2 && <ArticleOnboarding />}
                                 {["offer"].includes(typeAdd!) ? (
                                     <fieldset {...register("categoryId", { required: true })} id="fieldset-create-option-modal-offer">
                                         <label>
                                             Предложение <sup>*</sup>
                                         </label>
                                         <CustomSelect
+                                            disabled={visible && step !== 2.5}
                                             placeholder="Выберите категории"
                                             list={list}
                                             value={watch("categoryId")}
@@ -376,12 +401,14 @@ export const CreateNewOptionModal = () => {
                                         {errors?.categoryId ? <i>Важное поле</i> : null}
                                     </fieldset>
                                 ) : null}
+                                {visible && step === 2.5 && <ArticleOnboarding />}
                                 <fieldset id="fieldset-create-option-modal-title">
                                     <label htmlFor="title">
                                         {title} <sup>*</sup>
                                     </label>
                                     <div data-text-area>
                                         <textarea
+                                            disabled={visible && step !== 3}
                                             maxLength={512}
                                             {...register("title", { required: true })}
                                             placeholder="Напиши что-нибудь"
@@ -390,41 +417,44 @@ export const CreateNewOptionModal = () => {
                                     </div>
                                     {errors?.title ? <i>Обязательное поле</i> : null}
                                 </fieldset>
-                                <fieldset data-photos id="fieldset-create-option-modal-photos">
+                                {visible && step === 3 && <ArticleOnboarding />}
+                                <fieldset data-photos id="fieldset-create-option-modal-photos" data-disabled={visible && step !== 3}>
                                     <label>Вы можете добавить фото, если хотите</label>
                                     <div data-images>
                                         {strings.map((item, index) => (
                                             <div key={`${index}-image`} data-image>
                                                 <ImageStatic data-img src={item} alt="offer" width={304} height={392} />
-                                                <div
+                                                <button
                                                     data-trash
                                                     onClick={() => {
-                                                        deletePhoto(index)
+                                                        if (visible && step !== 4) {
+                                                            deletePhoto(index)
+                                                        }
                                                     }}
+                                                    disabled={visible && step !== 4}
                                                 >
                                                     <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
-                                                </div>
+                                                </button>
                                             </div>
                                         ))}
                                         <div data-image>
                                             <img src="/svg/plus-gray.svg" data-plus alt="plus-gray" height={60} width={60} />
-                                            <input type="file" accept="image/*" onChange={handleImageChange} multiple />
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleImageChange}
+                                                disabled={visible && step !== 4}
+                                                multiple
+                                            />
                                         </div>
                                     </div>
                                 </fieldset>
+                                {visible && [4, 5].includes(step) && <ArticleOnboarding />}
                                 <div data-footer>
-                                    <Button
-                                        type="button"
-                                        typeButton="regular-primary"
-                                        label="Отмена"
-                                        onClick={handleClose}
-                                        disabled={loading}
-                                        loading={loading}
-                                    />
                                     <Button
                                         type="submit"
                                         typeButton="fill-primary"
-                                        label="Далее"
+                                        label="Создать"
                                         disabled={loading}
                                         loading={loading}
                                         id="button-create-option-modal-submit"
