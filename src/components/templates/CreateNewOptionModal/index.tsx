@@ -338,6 +338,7 @@ export const CreateNewOptionModal = () => {
                                                 onFocus={() => setIsFocus(true)}
                                                 placeholder={placeholderInput || ""}
                                                 disabled={visible && step !== 2}
+                                                data-focus={visible && step === 2}
                                             />
                                             <div data-select-icon>
                                                 <img
@@ -397,6 +398,7 @@ export const CreateNewOptionModal = () => {
                                                     setValue("categoryId", value as number)
                                                 }
                                             }}
+                                            focus={visible && step === 2.5}
                                         />
                                         {errors?.categoryId ? <i>Важное поле</i> : null}
                                     </fieldset>
@@ -406,7 +408,7 @@ export const CreateNewOptionModal = () => {
                                     <label htmlFor="title">
                                         {title} <sup>*</sup>
                                     </label>
-                                    <div data-text-area>
+                                    <div data-text-area data-focus={visible && step === 3}>
                                         <textarea
                                             disabled={visible && step !== 3}
                                             maxLength={512}
@@ -420,7 +422,7 @@ export const CreateNewOptionModal = () => {
                                 {visible && step === 3 && <ArticleOnboarding />}
                                 <fieldset data-photos id="fieldset-create-option-modal-photos" data-disabled={visible && step !== 3}>
                                     <label>Вы можете добавить фото, если хотите</label>
-                                    <div data-images>
+                                    <div data-images data-focus={visible && step === 4}>
                                         {strings.map((item, index) => (
                                             <div key={`${index}-image`} data-image>
                                                 <ImageStatic data-img src={item} alt="offer" width={304} height={392} />

@@ -1,20 +1,13 @@
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import {
-    closeCreateOffers,
-    dispatchOnboarding,
-    dispatchOnboardingContinue,
-    useOnboarding,
-    useVisibleBannerNewServices,
-} from "@/store/hooks"
+import { dispatchOnboarding, dispatchOnboardingContinue, useOnboarding } from "@/store/hooks"
 
 import styles from "../styles/pre-close.module.scss"
 
 export const PreClose = () => {
     const type = useOnboarding(({ type }) => type)
     const visible = useOnboarding(({ visible }) => visible)
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
     function handleContinue() {
         dispatchOnboardingContinue()
@@ -22,8 +15,6 @@ export const PreClose = () => {
 
     function handleClose() {
         dispatchOnboarding("close")
-        closeCreateOffers()
-        dispatchNewServicesBanner(false)
     }
 
     return (
