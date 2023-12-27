@@ -11,7 +11,6 @@
     border: 0.125rem solid transparent !important;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    tap-highlight-color: transparent;
     touch-action: manipulation;
 
     &.primary {
@@ -177,17 +176,15 @@
     padding: 0.875rem;
     justify-content: center;
     align-items: center;
-    border-radius: 100px;
+    border-radius: 50%;
     border: 0.0625rem solid var(--gray-300);
-    background: var(--supporting-white);
-    box-shadow: 0px 0.75rem 1.25rem 0px rgba(100, 104, 115, 0.1);
-    cursor: pointer;
+    background: var(--background-input);
     z-index: 22;
     -webkit-tap-highlight-color: transparent;
-    tap-highlight-color: transparent;
     touch-action: manipulation;
     width: fit-content !important;
     height: fit-content !important;
+    cursor: pointer;
 
     & > div {
         background-size: cover;
@@ -216,7 +213,6 @@
     padding: 0.75rem;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 0.0625rem 0.125rem 0px rgba(16, 24, 40, 0.05);
     cursor: pointer;
     border: none !important;
 

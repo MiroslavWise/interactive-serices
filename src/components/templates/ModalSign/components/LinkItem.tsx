@@ -7,6 +7,6 @@ import { URL_API } from "@/helpers"
 
 export const LinkItem: TLinkItem = ({ src, path, isActive }) => (
     <Link className="__social_item__" href={isActive ? `${URL_API}${path}` : {}}>
-        <div style={{ backgroundImage: `url(${src})` }} data-img />
+        <img src={src} alt="icon" data-img width={24} height={24} />
     </Link>
 )

@@ -12,9 +12,9 @@ import "./page.scss"
 
 export default function Messages() {
     const searchParams = useSearchParams()
-    const idThread = searchParams?.get("thread")
-    const idBarter = searchParams.get("barter-id")
-    const idUser = searchParams?.get("user")
+    const idThread = searchParams?.get("thread") ?? {}
+    const idBarter = searchParams.get("barter-id") ?? {}
+    const idUser = searchParams?.get("user") ?? {}
 
     useEffect(() => {
         return () => dispatchDataUser(undefined)

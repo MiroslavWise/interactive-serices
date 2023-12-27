@@ -4,23 +4,24 @@
     cursor: pointer;
     width: 3rem;
     height: 3rem;
-    border-radius: 24px;
+    border-radius: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--supporting-white);
+    border: none !important;
 
     & > img {
-        width: 20px;
-        height: 20px;
+        width: 1.25rem;
+        height: 1.25rem;
     }
 }
 
 .button {
     @include button();
     top: 0;
-    right: -58px;
-    padding: 14px;
+    right: -3.625rem;
+    padding: 0.875rem;
 }
 
 .swipe {
@@ -29,11 +30,11 @@
     transform: translateY(-50%);
 
     &[data-left] {
-        left: -58px;
+        left: -3.625rem;
     }
 
     &[data-right] {
-        right: -58px;
+        right: -3.625rem;
     }
 
     &[data-opacity="true"] {
@@ -44,16 +45,16 @@
 
 [data-mobile="true"] {
     .button {
-        top: calc(10px + 4px + 12px);
-        right: 20px;
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
+        top: calc(0.625rem + 0.25rem + 0.75rem);
+        right: 1.25rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 1rem;
         padding: 8px;
 
         & > img {
-            width: 16px;
-            height: 16px;
+            width: 1rem;
+            height: 1rem;
         }
     }
 }

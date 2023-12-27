@@ -15,13 +15,13 @@ export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
         path: "/telegram/login",
         isWorkingLink: true,
     },
-    {
-        value: "apple",
-        srcWorking: "/icons/fill/apple.svg",
-        srcNotWorking: "/icons/fill/disabled/apple.svg",
-        path: "/apple/login",
-        isWorkingLink: false,
-    },
+    // {
+    //     value: "apple",
+    //     srcWorking: "/icons/fill/apple.svg",
+    //     srcNotWorking: "/icons/fill/disabled/apple.svg",
+    //     path: "/apple/login",
+    //     isWorkingLink: false,
+    // },
     {
         value: "vk",
         srcWorking: "/icons/fill/vk.svg",

@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { CSSProperties, useMemo } from "react"
 
 import type { TButtonClose, IPositionAbsolute } from "./types/types"
 
@@ -9,10 +9,8 @@ import { cx } from "@/lib/cx"
 import styles from "./styles/style.module.scss"
 
 export const ButtonClose: TButtonClose = ({ onClick, position: { top, left, right, bottom }, className }) => {
-    const position: IPositionAbsolute = useMemo(() => {
-        const pos: IPositionAbsolute = {
-            top: 12,
-        }
+    const position: CSSProperties = useMemo(() => {
+        const pos: IPositionAbsolute = {}
         if (top) {
             pos.top = top
         }

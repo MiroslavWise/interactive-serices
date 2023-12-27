@@ -1,11 +1,11 @@
 .wrapper {
     display: none;
-    padding: 40px 20px;
+    padding: 2.5rem 1.25rem;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(2.5px);
+    backdrop-filter: blur(0.25rem);
     z-index: 1001;
 
     &[data-visible="true"] {
@@ -15,8 +15,8 @@
     & > section {
         position: relative;
         width: 100%;
-        max-width: 460px;
-        border-radius: 32px;
+        max-width: 28.75rem;
+        border-radius: 2rem;
         height: 100%;
         background: linear-gradient(180deg, rgba(23, 15, 38, 0) 24.51%, rgba(23, 15, 38, 0.09) 64.31%, rgba(23, 15, 38, 0.2) 100%), #6a59e6;
         cursor: pointer;

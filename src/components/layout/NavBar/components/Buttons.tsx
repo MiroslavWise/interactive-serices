@@ -1,3 +1,5 @@
+"use client"
+
 import { usePathname } from "next/navigation"
 
 import { Button, ButtonLink } from "@/components/common"
@@ -7,8 +9,8 @@ import styles from "../styles/components.module.scss"
 
 export const Buttons = () => {
     const pathname = usePathname()
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
     const isAuth = useAuth(({ isAuth }) => isAuth)
+    const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
     return typeof isAuth !== "undefined" ? (
         isAuth ? (
