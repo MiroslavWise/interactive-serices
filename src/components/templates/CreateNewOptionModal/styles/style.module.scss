@@ -137,6 +137,9 @@
                         line-height: 1.25rem;
                         color: var(--text-color);
 
+                        transition: var(--transition);
+                        transition-property: border;
+
                         &::placeholder {
                             color: var(--gray-400);
                         }
@@ -149,6 +152,14 @@
                     & > [data-text-area] > textarea {
                         padding: 0.875rem;
                         border-radius: 1rem;
+                    }
+
+                    & > [data-text-area] {
+                        &[data-focus="true"] {
+                            & > textarea {
+                                border: 0.0625rem solid var(--primary-500);
+                            }
+                        }
                     }
 
                     & > i {
@@ -194,6 +205,9 @@
                                 position: relative;
                                 overflow: hidden;
 
+                                transition: var(--transition);
+                                transition-property: border;
+
                                 & > [data-trash] {
                                     position: absolute;
                                     display: flex;
@@ -234,6 +248,12 @@
                                     z-index: 5;
                                 }
                             }
+
+                            &[data-focus="true"] {
+                                & > [data-image] {
+                                    border: 0.125rem dashed var(--primary-500);
+                                }
+                            }
                         }
                     }
                 }
@@ -270,8 +290,15 @@
             line-height: 1.25rem;
             letter-spacing: -0.2px;
 
+            transition: var(--transition);
+            transition-property: border;
+
             &::placeholder {
                 color: var(--gray-400);
+            }
+
+            &[data-focus="true"] {
+                border: 0.0625rem solid var(--primary-500);
             }
         }
 

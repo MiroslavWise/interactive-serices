@@ -8,7 +8,7 @@ import { ImageStatic } from "../../Image"
 
 import styles from "./style.module.scss"
 
-export const CustomSelect: TCustomSelect = ({ placeholder, list = [], value, setValue, disabled }) => {
+export const CustomSelect: TCustomSelect = ({ placeholder, list = [], value, setValue, disabled, focus }) => {
     const [valueInput, setValueInput] = useState("")
     const [isOptionsVisible, setOptionsVisible] = useState(false)
     const selectRef = useRef<HTMLDivElement>(null)
@@ -37,7 +37,7 @@ export const CustomSelect: TCustomSelect = ({ placeholder, list = [], value, set
 
     return (
         <div className={styles.container} ref={selectRef}>
-            <div data-input-selector>
+            <div data-input-selector data-focus={focus}>
                 <input
                     placeholder={placeholder}
                     value={valueInput}
