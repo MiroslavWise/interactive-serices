@@ -1,3 +1,6 @@
+import { IReturnData } from "@/services/types/general"
+import { IResponseLoginNot2fa } from "./authService"
+
 export interface IRequestPhone {
     code: string
     country: string
@@ -15,4 +18,5 @@ export interface IAuth {
     route: string
 
     phone(value: IRequestPhone): Promise<IReturnData<IResponsePhone>>
+    postGoogle(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
 }

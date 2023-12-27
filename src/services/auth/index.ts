@@ -7,4 +7,7 @@ export const serviceAuth: IAuth = {
     phone(value) {
         return wrapperFetch.methodPost(`${this.route}/phone`, value)
     },
+    postGoogle(values) {
+        return wrapperFetch.methodPost(`${this.route}/google`, values)
+    },
 }
