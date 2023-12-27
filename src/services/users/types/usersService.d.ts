@@ -3,7 +3,8 @@ import type { IGetProfileIdResponse } from "@/services/profile/types/profileServ
 import type { IRolesResponse } from "@/services/roles/types/serviceRoles"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
-import { IResponseOffersCategories } from "@/services/offers-categories/types"
+import type { IResponseOffersCategories } from "@/services/offers-categories/types"
+import type { IResponseLoginNot2fa } from "@/services/auth/types/authService"
 
 export interface IPostDataUser {
     email: string
@@ -40,4 +41,9 @@ export interface IServiceUsers {
     post(value: IPostDataUser): Promise<IReturnData<IResponseDataRegistration>>
     patch(value: IPatchDataUser, id: number | string): Promise<IReturnData<IUserResponse>>
     delete(id: number | string): Promise<IReturnData<IUserResponse>>
+}
+
+export interface IServiceUserValid {
+    route: string
+    post(value: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
 }

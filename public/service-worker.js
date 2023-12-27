@@ -101,17 +101,11 @@ const PNG = [
 
 const installEvent = () => {
     self.addEventListener("install", (event) => {
-        event.waitUntil(
-            caches
-                .open(CACHE)
-                .then((cache) => cache.addAll([...SVG, ...PNG, ...SCSS, "/scripts/masonry.pkgd.min.js"]))
-                .then(self.skipWaiting()),
-        )
-        // async function onInstall() {
-        //     return caches.open("static").then((cache) => cache.addAll([...SVG, ...PNG, ...SCSS, "/scripts/masonry.pkgd.min.js"]))
-        // }
+        async function onInstall() {
+            return caches.open("static").then((cache) => cache.addAll([...SVG, ...PNG, ...SCSS, "/scripts/masonry.pkgd.min.js"]))
+        }
 
-        // event.waitUntil(onInstall(event))
+        event.waitUntil(onInstall(event))
     })
 }
 installEvent()
@@ -122,33 +116,3 @@ const activateEvent = () => {
     })
 }
 activateEvent()
-
-// const cacheName = "v-27-11-2023"
-
-// self.addEventListener("fetch", (event) => {
-//     if (event.request.mode === "navigate") {
-//         event.respondWith(
-//             (async function () {
-//                 const normalizedUrl = new URL(event.request.url)
-//                 normalizedUrl.search = ""
-
-//                 const fetchResponseP = fetch(normalizedUrl)
-//                 const fetchResponseCloneP = fetchResponseP.then((r) =>
-//                     r.clone(),
-//                 )
-
-//                 event.waitUntil(
-//                     (async function () {
-//                         const cache = await caches.open(cacheName)
-//                         await cache.put(
-//                             normalizedUrl,
-//                             await fetchResponseCloneP,
-//                         )
-//                     })(),
-//                 )
-
-//                 return (await caches.match(normalizedUrl)) || fetchResponseP
-//             })(),
-//         )
-//     }
-// })

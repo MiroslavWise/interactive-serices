@@ -4,14 +4,11 @@ import type { DispatchWithoutAction, Dispatch } from "react"
 export type TAuthSuffix = "AuthJWT"
 export type TAuthPostfix = "RefreshToken" | "Token" | "UserId"
 export type ISetAction = (
-    partial:
-        | TUseAuth
-        | Partial<TUseAuth>
-        | ((state: TUseAuth) => TUseAuth | Partial<TUseAuth>),
+    partial: TUseAuth | Partial<TUseAuth> | ((state: TUseAuth) => TUseAuth | Partial<TUseAuth>),
     replace?: boolean | undefined,
 ) => void
 export type IGetAction = () => TUseAuth
-interface ISetToken {
+export interface ISetToken {
     token: string
     refreshToken: string
     userId: number
