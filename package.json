@@ -44,6 +44,7 @@
         "@yandex/ymaps3-types": "^0.0.15",
         "eslint": "8.43.0",
         "eslint-plugin-react-hooks": "^4.6.0",
+        "sass": "^1.69.5",
         "sass-loader": "^13.3.2",
         "typescript": "5.1.5",
         "webpack": "^5.88.2"

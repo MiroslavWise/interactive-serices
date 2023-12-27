@@ -1,14 +1,15 @@
 import { isMobile } from "react-device-detect"
-import { CSSProperties, useEffect, useMemo, useState } from "react"
+import { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 
 import { Button } from "@/components/common"
 import { CONTENT_ALERT, CONTENT_DISCUSSION, CONTENT_OFFER } from "../constants/steps"
-import { useOnboarding, dispatchOnboarding, useVisibleBannerNewServices, useAddCreateModal, closeCreateOffers } from "@/store/hooks"
+import { useOnboarding, dispatchOnboarding, useVisibleBannerNewServices, useAddCreateModal, dispatchOnboardingType } from "@/store/hooks"
 
 import styles from "../styles/article-onboarding.module.scss"
 
 export const ArticleOnboarding = () => {
-    const [position, setPosition] = useState<CSSProperties>({ top: "50%", left: "50%" })
+    const refPosition = useRef<CSSProperties>({ top: "50%", left: "50%" })
+    const [position, setPosition] = useState<CSSProperties>(refPosition.current)
     const step = useOnboarding(({ step }) => step)
     const type = useOnboarding(({ type }) => type)
     const valid = useOnboarding(({ valid }) => valid)
@@ -30,6 +31,10 @@ export const ArticleOnboarding = () => {
                             const top = id?.getBoundingClientRect().top
 
                             if (top && leftContainer) {
+                                refPosition.current = {
+                                    top: top,
+                                    left: `calc(${leftContainer}px - 1.5rem)`,
+                                }
                                 setPosition({
                                     top: top,
                                     left: `calc(${leftContainer}px - 1.5rem)`,
@@ -154,6 +159,30 @@ export const ArticleOnboarding = () => {
         dispatchOnboarding("prev")
     }
 
+    function handlePrevType() {
+        if (type === "offer") {
+            return
+        } else if (type === "alert") {
+            dispatchOnboardingType("offer")
+            return
+        } else if (type === "discussion") {
+            dispatchOnboardingType("alert")
+            return
+        }
+    }
+
+    function handleNextType() {
+        if (type === "offer") {
+            dispatchOnboardingType("alert")
+            return
+        } else if (type === "alert") {
+            dispatchOnboardingType("discussion")
+            return
+        } else if (type === "discussion") {
+            return
+        }
+    }
+
     function handleNext() {
         if (step === 2 && valid.isAddress) {
             dispatchOnboarding("next")
@@ -231,6 +260,14 @@ export const ArticleOnboarding = () => {
                             : null}
                     </p>
                 </div>
+                {step === 1 && !!type ? (
+                    <div data-footer>
+                        {type !== "offer" ? (
+                            <Button type="button" typeButton="regular-primary" label="Назад" onClick={handlePrevType} />
+                        ) : null}
+                        <Button type="button" typeButton="white" label="Далее" onClick={handleNextType} disabled={type === "discussion"} />
+                    </div>
+                ) : null}
                 {step > 1 && step < 5 ? (
                     <div data-footer>
                         {step !== 2 ? <Button type="button" typeButton="regular-primary" label="Назад" onClick={handlePrev} /> : null}

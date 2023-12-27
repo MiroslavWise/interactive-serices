@@ -13,6 +13,7 @@ interface IValue {
     photo?: string
     name?: string
     username?: string
+    time?: number | false
 }
 
 export const useToast = () => {
@@ -64,7 +65,7 @@ export const useToast = () => {
         return toast(message, {
             toastId: value.id || Math.random(),
             position: isMobile ? "bottom-center" : "bottom-left",
-            autoClose: 5000,
+            autoClose: value.time ? value.time : value.time === false ? value.time : 8000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

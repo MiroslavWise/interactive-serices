@@ -11,17 +11,7 @@ export function ModalSign() {
     return (
         <div className={"wrapper-fixed wrapper-auth"} data-visible={visible}>
             <section>
-                <ButtonClose
-                    onClick={() =>
-                        dispatchAuthModal({
-                            visible: false,
-                        })
-                    }
-                    position={{
-                        right: 12,
-                        top: 12,
-                    }}
-                />
+                <ButtonClose onClick={() => dispatchAuthModal({ visible: false })} position={{}} />
                 <Content />
             </section>
         </div>

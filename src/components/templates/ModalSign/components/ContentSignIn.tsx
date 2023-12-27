@@ -1,5 +1,4 @@
-import { useState } from "react"
-import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 
 import type { TContentSignIn, IValuesSignForm } from "../types/types"
@@ -8,12 +7,12 @@ import { LinksSocial } from "./LinksSocial"
 import { Button } from "@/components/common"
 
 import { useTokenHelper } from "@/helpers"
+import { serviceAuth } from "@/services/auth"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useAuth, dispatchAuthModal, useWelcomeModal } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
-import { serviceAuth } from "@/services/auth"
 
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
@@ -23,10 +22,10 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
     const setVisible = useWelcomeModal(({ setVisible }) => setVisible)
     const [isEmail, setIsEmail] = useState(true)
+    const refTelInput = useRef<HTMLInputElement>(null)
 
     const {
         control,
-        register,
         handleSubmit,
         formState: { errors },
         setError,
@@ -120,6 +119,8 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         }
     }
 
+    useEffect(() => {}, [refTelInput])
+
     return (
         <div className={styles.content}>
             <div data-selection>
@@ -180,14 +181,13 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 render={({ field }) => (
                                     <div>
                                         <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
-                                        <Image
-                                            onClick={() => setIsPass((prev) => !prev)}
-                                            src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
+                                        <img
+                                            onClick={() => setIsPass((_) => !_)}
+                                            src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}
                                             alt="eye"
                                             width={20}
                                             height={20}
                                             data-eye
-                                            unoptimized
                                         />
                                     </div>
                                 )}
@@ -213,7 +213,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 name="phone"
                                 control={control}
                                 rules={{ required: true }}
-                                render={({ field }) => <input type="tel" placeholder="Введите свой номер" {...field} />}
+                                render={({ field }) => <input type="tel" placeholder="Введите свой номер" {...field} ref={refTelInput} />}
                             />
                             {errors.phone ? (
                                 <i>
@@ -227,26 +227,44 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 </i>
                             ) : null}
                         </div>
+                        <div data-label-input data-password>
+                            <label htmlFor="password">
+                                Пароль <sup>*</sup>
+                            </label>
+                            <Controller
+                                name="password"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <div>
+                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                                        <img
+                                            onClick={() => setIsPass((_) => !_)}
+                                            src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}
+                                            alt="eye"
+                                            width={20}
+                                            height={20}
+                                            data-eye
+                                        />
+                                    </div>
+                                )}
+                            />
+                            {errors.password ? (
+                                <i>
+                                    {errors.password && errors.password.message === "invalid password"
+                                        ? "Не верный пароль"
+                                        : errors.password
+                                        ? "Требуется пароль"
+                                        : ""}
+                                </i>
+                            ) : null}
+                        </div>
                     </section>
                 )}
                 <div className={styles.RememberChange}>
-                    <div className={styles.checkRemember}>
-                        <label className={styles.checkbox}>
-                            <input type="checkbox" defaultChecked={false} {...register("checkbox")} className="" />
-                            <span className={styles.checkmark}>
-                                <div
-                                    data-check
-                                    style={{
-                                        backgroundImage: `url(/svg/check.svg)`,
-                                    }}
-                                />
-                            </span>
-                        </label>
-                        <p>Запомнить на 30 дней</p>
-                    </div>
                     <a onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}>Забыли пароль?</a>
                 </div>
-                <Button type="submit" typeButton="fill-primary" label="Войти" className="w-100" loading={loading} />
+                <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} />
                 <LinksSocial />
             </form>
             <section className={styles.Register}>

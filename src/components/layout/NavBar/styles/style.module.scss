@@ -7,11 +7,8 @@
     align-items: center;
     justify-content: space-between;
     z-index: 5;
-    border-bottom: 0.125rem solid var(--background);
     background: var(--background);
-
-    transition: var(--transition);
-    transition-property: display;
+    border-bottom: 0.125rem solid var(--background);
 
     &[data-none="true"] {
         display: none !important;

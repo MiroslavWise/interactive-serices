@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -13,7 +15,7 @@ export const Links = () => {
             {LINKS_PROFILE.map(({ path, label, icon }) => (
                 <Link key={path + "link"} data-active={pathname?.includes(path)} href={{ pathname: path }}>
                     <img src={icon} alt={icon} width={24} height={24} />
-                    <p>{label}</p>
+                    <span>{label}</span>
                 </Link>
             ))}
         </ul>

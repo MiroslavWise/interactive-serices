@@ -2,7 +2,7 @@ import { create } from "zustand"
 
 import type { TTypeProvider } from "@/services/file-upload/types"
 
-import type { IOnboardingContinue, IStateUseOnboarding, IValuesInterface, TActionOnboarding } from "../types/typeOnboarding"
+import type { IStateUseOnboarding, IValuesInterface, TActionOnboarding } from "../types/typeOnboarding"
 
 export const useOnboarding = create<IStateUseOnboarding>((set, get) => ({
     valid: {
@@ -45,6 +45,8 @@ export const dispatchOnboardingContinue = () =>
     useOnboarding.setState((_) => ({
         isPreClose: false,
     }))
+
+export const dispatchOnboardingType = (type: TTypeProvider) => useOnboarding.setState((_) => ({ type }))
 
 export const dispatchOnboarding = (values: TActionOnboarding) =>
     useOnboarding.setState((_) => {

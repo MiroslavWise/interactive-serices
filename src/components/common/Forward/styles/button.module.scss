@@ -43,6 +43,7 @@
 
         &:disabled {
             background-color: var(--opacity-white-hard);
+            cursor: no-drop;
         }
     }
     &[data-type-button="fill-primary"] {
@@ -52,6 +53,7 @@
         }
         &:disabled {
             background-color: var(--opacity-white-hard);
+            cursor: no-drop;
         }
     }
     &[data-type-button="fill-orange"] {
@@ -71,6 +73,7 @@
         }
         &:disabled {
             background-color: var(--opacity-white-hard);
+            cursor: no-drop;
         }
     }
     &[data-type-button="regular-orange"] {
@@ -81,11 +84,6 @@
         & > span {
             color: #ee4e29;
         }
-    }
-
-    &[data-disabled="true"] {
-        background: var(--gray-200) !important;
-        cursor: no-drop;
     }
 }
 
