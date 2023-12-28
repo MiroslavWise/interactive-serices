@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 import { useEffect, useMemo, useState } from "react"
 
 import type { IValuesProfile } from "./components/types/types"
@@ -15,6 +16,7 @@ import { Content } from "./components/Content"
 import { ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { serviceUsers } from "@/services/users"
 import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -29,11 +31,16 @@ export const ModalUpdateProfile = () => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const isVisible = useUpdateProfile(({ isVisible }) => isVisible)
     const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
-    const user = useAuth(({ user }) => user)
-    const email = useAuth(({ email }) => email)
-    const profileId = useAuth(({ profileId }) => profileId)
     const userId = useAuth(({ userId }) => userId)
-    const updateProfile = useAuth(({ updateProfile }) => updateProfile)
+
+    const { data, refetch } = useQuery({
+        queryFn: () => serviceUsers.getId(userId!),
+        queryKey: ["user", userId],
+        enabled: isVisible && !!userId,
+    })
+
+    const user = data?.res?.profile!
+
     const { out } = useOut()
     const { on } = useToast()
     const dateOfBirth = useMemo(() => {
@@ -62,8 +69,8 @@ export const ModalUpdateProfile = () => {
     } = useForm<IValuesProfile>({})
 
     useEffect(() => {
-        if (email) {
-            setValue("email", email!)
+        if (data?.res?.email) {
+            setValue("email", data?.res?.email!)
         }
         if (user) {
             setValue("firstName", user?.firstName)
@@ -76,11 +83,11 @@ export const ModalUpdateProfile = () => {
                 setValue("about", user?.about || "")
             }
         }
-    }, [user, setValue, dateOfBirth, email])
+    }, [user, setValue, dateOfBirth, data?.res])
 
     async function onSubmit(values: IValuesProfile) {
         setLoading(true)
-        const data: IPatchProfileData = {
+        const dataValues: IPatchProfileData = {
             firstName: values.firstName,
             lastName: values.lastName,
             username: values.username,
@@ -89,14 +96,14 @@ export const ModalUpdateProfile = () => {
         }
 
         if (values.month && values.day && values.year) {
-            data.birthdate = dayjs(`${values.month}/${values.day}/${values.year}`, "MM/DD/YYYY").format("DD/MM/YYYY")
+            dataValues.birthdate = dayjs(`${values.month}/${values.day}/${values.year}`, "MM/DD/YYYY").format("DD/MM/YYYY")
         }
 
         if (values.about) {
-            data.about = values.about
+            dataValues.about = values.about
         }
 
-        Promise.all([!!profileId ? serviceProfile.patch(data, profileId!) : serviceProfile.post(data)])
+        Promise.all([data?.res?.profile?.id ? serviceProfile.patch(dataValues, data?.res?.profile?.id!) : serviceProfile.post(dataValues)])
             .then((response) => {
                 console.log("response ok: ", response?.[0])
                 if (response[0]?.error?.code === 409) return setError("username", { message: "user exists" })
@@ -115,7 +122,7 @@ export const ModalUpdateProfile = () => {
                     if (file) {
                         fileUploadService(file!, {
                             type: "profile",
-                            userId: userId!,
+                            userId: data?.res?.id!,
                             idSupplements: response?.[0]?.res?.id,
                         }).then((uploadResponse) => {
                             if (uploadResponse.ok) {
@@ -129,7 +136,7 @@ export const ModalUpdateProfile = () => {
                                         out()
                                         return
                                     }
-                                    updateProfile()
+                                    refetch()
                                     setVisible(false)
                                 })
                                 return
@@ -137,7 +144,7 @@ export const ModalUpdateProfile = () => {
                         })
                     } else {
                         setVisible(false)
-                        updateProfile()
+                        refetch()
                     }
                 } else {
                     on(
@@ -147,7 +154,6 @@ export const ModalUpdateProfile = () => {
                         "error",
                     )
                     setVisible(false)
-                    updateProfile()
                 }
             })
             .finally(() => {
