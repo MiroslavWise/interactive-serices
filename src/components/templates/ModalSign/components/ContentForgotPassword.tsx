@@ -9,28 +9,22 @@ import { Button, Segments } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import {
-    dispatchAuthModal,
-    dispatchAuthModalCreatePassword,
-    dispatchAuthModalVerification,
-    dispatchIModalAuthEmailOrPhone,
     dispatchStartTimer,
+    dispatchAuthModal,
     useModalAuthEmailOrPhone,
+    dispatchIModalAuthEmailOrPhone,
+    dispatchAuthModalCreatePassword,
 } from "@/store/hooks"
+import { VALUES_EMAIL_PHONE } from "../constants/segments"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
-import { VALUES_EMAIL_PHONE } from "../constants/segments"
 
 export const ContentForgotPassword: TContentForgotPassword = () => {
     const [loading, setLoading] = useState(false)
     const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
     const { on } = useToast()
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-        setError,
-    } = useForm<IValues>()
+    const { control, handleSubmit, setError } = useForm<IValues>()
 
     const onEnter = async (values: IValues) => {
         setLoading(true)
@@ -43,20 +37,17 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                         phone: values.phone,
                     })
                     dispatchStartTimer()
-                    // dispatchAuthModalVerification({})
                     on({
                         message: "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
                     })
                 }
                 if (response?.error?.code === 401) {
                     setError("email", { message: "user is not verified" })
-                    on({ message: "Пользователь не верифицирован!" }, "error")
-                    dispatchAuthModal({ visible: false })
+                    setError("phone", { message: "user is not verified" })
                 }
                 if (response?.error?.code === 404) {
                     setError("email", { message: "user not found" })
-                    on({ message: "Пользователя не существует!" }, "error")
-                    dispatchAuthModal({ visible: false })
+                    setError("phone", { message: "user not found" })
                 }
                 if (response?.code && response?.code >= 500 && response?.code <= 599) {
                     setError("email", { message: "something went wrong" })
@@ -83,42 +74,47 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                     name={typeEmailOrPhone}
                     control={control}
                     rules={{ required: true }}
-                    render={({ field }) => (
+                    render={({ field, formState }) => (
                         <div data-label-input>
                             <label htmlFor={field.name}>
                                 {field.name === "email" ? "Электронная почта" : field.name === "phone" ? "Телефон" : ""}
                             </label>
                             <input
-                                data-error={field.name === "email" ? !!errors.email : field.name === "phone" ? !!errors.phone : null}
+                                data-error={
+                                    field.name === "email"
+                                        ? !!formState.errors.email
+                                        : field.name === "phone"
+                                        ? !!formState.errors.phone
+                                        : null
+                                }
                                 type={field.name === "email" ? "email" : field.name === "phone" ? "tel" : "text"}
                                 inputMode={field.name === "email" ? "email" : field.name === "phone" ? "numeric" : "text"}
                                 placeholder={
                                     field.name === "email" ? "email_address@mail.com" : field.name === "phone" ? "+7 (000) 000-00-00" : ""
                                 }
                                 {...field}
-                                pattern={field.name === "phone" ? "[0-9]*" : field.name === "email" ? "[a-zA-Z@.]*" : undefined}
                             />
-                            {errors.email ? (
+                            {formState.errors.email ? (
                                 <i>
-                                    {errors.email && errors?.email?.message === "user is not verified"
+                                    {formState.errors.email && formState.errors?.email?.message === "user is not verified"
                                         ? "Пользователь не верифицирован"
-                                        : errors.email && errors?.email?.message === "user not found"
+                                        : formState.errors.email && formState.errors?.email?.message === "user not found"
                                         ? "Пользователя не существует"
-                                        : errors.email && errors?.email?.message === "something went wrong"
+                                        : formState.errors.email && formState.errors?.email?.message === "something went wrong"
                                         ? "У нас проблемы с сервером, извините :("
-                                        : errors.email
+                                        : formState.errors.email
                                         ? "Требуется email"
                                         : ""}
                                 </i>
-                            ) : errors.phone ? (
+                            ) : formState.errors.phone ? (
                                 <i>
-                                    {errors.phone && errors?.phone?.message === "user is not verified"
+                                    {formState.errors.phone && formState.errors?.phone?.message === "user is not verified"
                                         ? "Пользователь не верифицирован"
-                                        : errors.phone && errors?.phone?.message === "user not found"
+                                        : formState.errors.phone && formState.errors?.phone?.message === "user not found"
                                         ? "Пользователя не существует"
-                                        : errors.email && errors?.phone?.message === "something went wrong"
+                                        : formState.errors.email && formState.errors?.phone?.message === "something went wrong"
                                         ? "У нас проблемы с сервером, извините :("
-                                        : errors.email
+                                        : formState.errors.email
                                         ? "Требуется номер"
                                         : ""}
                                 </i>
