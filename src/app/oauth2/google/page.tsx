@@ -20,11 +20,12 @@ export default function CallbackGoogle() {
         })
 
         serviceAuth.postGoogle(data).then((response) => {
+            console.log("response: postGoogle", response)
             if (response.ok) {
                 if (response?.res) {
                     //добавить уведомление об успешной авторизации через Google
                     dispatchAuthToken({ ...response?.res, email: data.email })
-                    handlePush("/")
+                    handlePush("/profile")
                 }
             } else {
                 //добавить уведомление о некоректных данных
