@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 
 import type { TContentSignIn, IValuesSignForm } from "../types/types"
@@ -11,21 +11,19 @@ import { serviceAuth } from "@/services/auth"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 import { VALUES_EMAIL_PHONE } from "../constants/segments"
-import { useAuth, dispatchAuthModal, useWelcomeModal } from "@/store/hooks"
+import { useAuth, dispatchAuthModal, useWelcomeModal, dispatchIModalAuthEmailOrPhone, useModalAuthEmailOrPhone } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
-    const [stateSegment, setStateSegment] = useState(VALUES_EMAIL_PHONE[0])
+    const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
     const [loading, setLoading] = useState(false)
     const [isPass, setIsPass] = useState(false)
     const setToken = useAuth(({ setToken }) => setToken)
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
     const setVisible = useWelcomeModal(({ setVisible }) => setVisible)
     const refTelInput = useRef<HTMLInputElement>(null)
-
-    useEffect(() => {}, [stateSegment.value, refTelInput])
 
     const {
         control,
@@ -37,7 +35,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const onEnter = async (values: IValuesSignForm) => {
         if (!loading) {
             setLoading(true)
-            if (stateSegment.value === "email") {
+            if (typeEmailOrPhone === "email") {
                 useTokenHelper
                     .login({
                         email: values.email,
@@ -107,7 +105,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     .finally(() => {
                         setLoading(false)
                     })
-            } else if (stateSegment.value === "phone") {
+            } else if (typeEmailOrPhone === "phone") {
                 serviceAuth
                     .phone({
                         code: "1",
@@ -124,9 +122,17 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
 
     return (
         <div className={styles.content}>
-            <Segments type="primary" VALUES={VALUES_EMAIL_PHONE} active={stateSegment} setActive={setStateSegment} isBorder />
+            <Segments
+                type="primary"
+                VALUES={VALUES_EMAIL_PHONE}
+                active={VALUES_EMAIL_PHONE.find((item) => item.value === typeEmailOrPhone)!}
+                setActive={(event) => {
+                    dispatchIModalAuthEmailOrPhone(event.value)
+                }}
+                isBorder
+            />
             <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
-                {stateSegment.value === "email" ? (
+                {typeEmailOrPhone === "email" ? (
                     <section className={styles.section}>
                         <Controller
                             key="email-key"
@@ -136,7 +142,13 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             render={({ field }) => (
                                 <div data-label-input>
                                     <label htmlFor="email">Email</label>
-                                    <input type="email" placeholder="Введите свой email" {...field} inputMode="email" />
+                                    <input
+                                        type="email"
+                                        placeholder="Введите свой email"
+                                        {...field}
+                                        inputMode="email"
+                                        data-error={!!errors.email}
+                                    />
                                     {errors.email ? (
                                         <i>
                                             {errors.email && errors.email?.message === "user not found"
@@ -159,7 +171,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 <div data-label-input data-password>
                                     <label htmlFor="password">Пароль</label>
                                     <div>
-                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} data-error={!!errors.password} />
                                         <img
                                             onClick={() => setIsPass((_) => !_)}
                                             src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}
@@ -182,7 +194,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             )}
                         />
                     </section>
-                ) : stateSegment.value === "phone" ? (
+                ) : typeEmailOrPhone === "phone" ? (
                     <section className={styles.section}>
                         <Controller
                             key="phone-key"
@@ -199,6 +211,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                         ref={refTelInput}
                                         inputMode="numeric"
                                         pattern="[0-9]*"
+                                        data-error={!!errors.phone}
                                     />
                                     {errors.phone ? (
                                         <i>
@@ -222,7 +235,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 <div data-label-input data-password>
                                     <label htmlFor="password">Пароль</label>
                                     <div>
-                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} data-error={!!errors.password} />
                                         <img
                                             onClick={() => setIsPass((_) => !_)}
                                             src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}

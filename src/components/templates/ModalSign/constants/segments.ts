@@ -1,8 +1,7 @@
 import type { ISegmentValues } from "@/components/common/Segments/types"
+import type { TTypeEmailOrNumber } from "@/store/types/useVisibleAndTypeAuthModalState"
 
-export type TGenericSegmentsValue = "email" | "phone"
-
-export const VALUES_EMAIL_PHONE: ISegmentValues<TGenericSegmentsValue>[] = [
+export const VALUES_EMAIL_PHONE: ISegmentValues<TTypeEmailOrNumber>[] = [
     {
         label: "Телефон",
         value: "phone",

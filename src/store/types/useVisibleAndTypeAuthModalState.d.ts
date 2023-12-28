@@ -26,8 +26,22 @@ export interface IUseVisibleAndTypeAuthModalState {
     type: TTypeSign
     email?: string
     phone?: string
+    verification?: {
+        confirmationCode: string
+        id: number
+    }
 }
 
 export interface IUseTimerModalAuth {
     time?: string
+}
+
+export type TTypeEmailOrNumber = "email" | "phone"
+export interface IUseModalAuthEmailOrPhone {
+    typeEmailOrPhone: TTypeEmailOrNumber
+}
+
+export interface IActionAuthModalVerification {
+    confirmationCode: string
+    id: number
 }

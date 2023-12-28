@@ -50,6 +50,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     }, [refresh])
     useEffect(() => {
         if (passwordResetToken) {
+            handleReplace("/")
             dispatchAuthModal({
                 visible: true,
                 type: "ResetPassword",

@@ -90,20 +90,31 @@
             overflow: hidden;
 
             & > [data-close] {
-                top: 0.75rem !important;
-                right: 0.75rem;
+                right: 0 !important;
                 transform: translateX(0);
+                z-index: 120;
+                border: none;
+                background: transparent;
             }
 
             & > ul {
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
+                gap: 1.875rem;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+                &::-webkit-scrollbar-thumb {
+                    display: none;
+                }
 
                 header {
                     max-width: 100%;
                     position: sticky;
                     top: 0;
                     background: var(--background);
+                    z-index: 100;
 
                     section {
                         gap: 0.25rem;

@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { LegacyRef, forwardRef, useMemo } from "react"
 
 import type { TTypeButton, TTypeButtonLink } from "../types/types"
@@ -15,7 +14,7 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
 
     const loadingImage = useMemo(() => {
         if (loading) {
-            return <Image src="/svg/loading-03.svg" alt="loading" data-loading-image height={20} width={20} unoptimized />
+            return <img src="/svg/loading-02.svg" alt="loading" data-loading-image height={20} width={20} />
         }
 
         return null
