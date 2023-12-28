@@ -24,7 +24,6 @@ export default function CallbackYandex() {
             console.log("response: postYandex", response)
             if (response.ok) {
                 if (response?.res) {
-                    //добавить уведомление об успешной авторизации через Yandex
                     dispatchAuthToken({ ...response?.res, email: data.email })
                     handlePush("/profile")
                     on({
@@ -32,12 +31,10 @@ export default function CallbackYandex() {
                     })
                 }
             } else {
-                on(
-                    {
-                        message: "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе",
-                    },
-                    undefined,
-                )
+                on({
+                    message:
+                        "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, Yandex проводит какие-то опецарации, попробуйте чуть позже",
+                })
                 //добавить уведомление о некоректных данных Yandex
                 handlePush("/")
             }

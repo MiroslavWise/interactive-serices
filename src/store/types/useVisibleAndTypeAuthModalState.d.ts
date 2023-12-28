@@ -10,6 +10,7 @@ export type TTypeSign =
     | "ResetPassword"
     | "CodeVerification"
     | "CreatePassword"
+    | "ExistingAccount"
     | null
 
 export interface IAction {

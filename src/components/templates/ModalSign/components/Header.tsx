@@ -20,6 +20,8 @@ export const HeaderAuth = memo(function HeaderAuth() {
                     ? "Пароль"
                     : type === "CodeVerification"
                     ? `Подтверждение ${!!email ? "почты" : !!phone ? "номера" : ""}`
+                    : type === "ExistingAccount"
+                    ? "Аккаунт уже существует"
                     : null}
             </h3>
         </header>

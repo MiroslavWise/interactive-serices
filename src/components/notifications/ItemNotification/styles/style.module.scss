@@ -1,0 +1,106 @@
+.container {
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid var(--gray-200);
+    background: var(--background);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    & > [data-avatar] {
+        position: relative;
+        height: 2.5rem;
+        width: 2.5rem;
+        border-radius: 0.625rem;
+    }
+
+    &[data-active="true"] {
+        border: 1px solid var(--primary-500);
+    }
+
+    &[data-type="information"] {
+        & > [data-avatar] {
+            padding: 0.5rem;
+            background: linear-gradient(0deg, #f558ad 0%, #f558ad 100%), #fff;
+            & > img {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+    }
+    &[data-type="warning"] {
+        & > [data-avatar] {
+            padding: 0.5rem;
+            background: linear-gradient(0deg, #f97349 0%, #f97349 100%), linear-gradient(0deg, #f2f4f7 0%, #f2f4f7 100%), #fff;
+            & > img {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+    }
+    &[data-type="error"] {
+        & > [data-avatar] {
+            padding: 0.5rem;
+            background: #f35252;
+            & > img {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+    }
+
+    & > section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+
+        & > article {
+            position: relative;
+            padding-left: 1.625rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            & > p {
+                color: var(--gray-900);
+                font-size: 0.875rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.25rem;
+                letter-spacing: -0.01125rem;
+            }
+
+            & > time {
+                color: var(--gray-500);
+                font-size: 0.75rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.125rem;
+                letter-spacing: -0.01125rem;
+            }
+
+            & > [data-dots] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 1rem;
+                height: 1rem;
+
+                & > img {
+                    height: 1rem;
+                    width: 1rem;
+                }
+            }
+        }
+    }
+}
+
+[data-mobile="true"] {
+    .container {
+    }
+}

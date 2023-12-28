@@ -112,7 +112,6 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        align-self: stretch;
         gap: 1.25rem;
         width: 100% !important;
         z-index: 4;
@@ -131,6 +130,18 @@
                 color: var(--primary-500);
                 cursor: pointer;
             }
+        }
+
+        & > a {
+            width: 100%;
+            color: var(--primary-500);
+            text-align: center;
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 150%;
+            letter-spacing: -0.01125rem;
+            cursor: pointer;
         }
 
         & > section {
