@@ -2,78 +2,105 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import Image from "next/image"
 import { useForm, Controller } from "react-hook-form"
 
 import type { IValuesRegistrationForm, TContentSignUp } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
-import { Button } from "@/components/common"
+import { Button, Segments } from "@/components/common"
 
-import { useToast } from "@/helpers/hooks/useToast"
-import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModal, useDataConfirmationPopUp } from "@/store/hooks"
+import { VALUES_EMAIL_PHONE } from "../constants/segments"
+import { dispatchAuthModal, dispatchAuthModalCreatePassword, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
-    const [loading, setLoading] = useState(false)
-    const [isPass, setIsPass] = useState(false)
-    const [isPass_, setIsPass_] = useState(false)
-    const dispatchDataConfirmation = useDataConfirmationPopUp(({ dispatchDataConfirmation }) => dispatchDataConfirmation)
+    const email = useModalAuth(({ email }) => email)
+    const phone = useModalAuth(({ phone }) => phone)
+    const [stateSegment, setStateSegment] = useState(VALUES_EMAIL_PHONE[0])
 
     const {
         register,
-        watch,
         handleSubmit,
-        setError,
         control,
+        watch,
         formState: { errors },
-    } = useForm<IValuesRegistrationForm>()
+    } = useForm<IValuesRegistrationForm>({
+        defaultValues: {
+            email: email || "",
+            phone: phone || "",
+            checkbox: false,
+        },
+    })
 
     const onRegister = async (values: IValuesRegistrationForm) => {
-        if (!loading) {
-            setLoading(true)
-            RegistrationService.registration({
-                email: values.email,
-                password: values.password,
-                repeat: values.repeat_password,
-            })
-                .then((response) => {
-                    if (response?.code === 409) {
-                        setError("email", {
-                            message: "user already exists",
-                        })
-                    }
-                    if (response.ok) {
-                        dispatchAuthModal({ visible: false })
-                        dispatchDataConfirmation({
-                            visible: true,
-                            type: "register",
-                        })
-                    }
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
-        }
+        dispatchAuthModalCreatePassword({
+            email: values.email,
+            phone: values.phone,
+        })
+
+        // if (!loading) {
+        //     setLoading(true)
+        //     if (stateSegment.value === "email") {
+        //         RegistrationService.registration({
+        //             email: values.email,
+        //             // password: values.password,
+        //             // repeat: values.repeat_password,
+        //         })
+        //             .then((response) => {
+        //                 if (response?.code === 409) {
+        //                     setError("email", {
+        //                         message: "user already exists",
+        //                     })
+        //                 }
+        //                 if (response.ok) {
+        //                     dispatchAuthModal({ visible: false })
+        //                     dispatchDataConfirmation({
+        //                         visible: true,
+        //                         type: "register",
+        //                     })
+        //                 }
+        //             })
+        //             .finally(() => {
+        //                 setLoading(false)
+        //             })
+        //     } else if (stateSegment.value === "phone") {
+        //     }
+        // }
     }
 
     return (
         <div className={styles.content}>
-            <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
+            <Segments type="primary" VALUES={VALUES_EMAIL_PHONE} active={stateSegment} setActive={setStateSegment} isBorder />
+            <form onSubmit={handleSubmit(onRegister)}>
                 <section className={styles.section}>
                     <div data-label-input>
-                        <label htmlFor="email">
-                            Email <sup>*</sup>
+                        <label htmlFor={stateSegment.value}>
+                            {stateSegment.value === "email" ? "Электронная почта" : stateSegment.value === "phone" ? "Телефон" : ""}
                         </label>
                         <Controller
-                            name="email"
+                            name={stateSegment.value}
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => <input type="email" placeholder="Введите свой email" {...field} />}
+                            render={({ field }) => (
+                                <input
+                                    data-error={
+                                        (stateSegment.value === "email" && errors.email && true) ||
+                                        (stateSegment.value === "phone" && errors.phone && true)
+                                    }
+                                    type={stateSegment.value === "email" ? "email" : stateSegment.value === "phone" ? "tel" : "text"}
+                                    placeholder={
+                                        stateSegment.value === "email"
+                                            ? "email_address@mail.com"
+                                            : stateSegment.value === "phone"
+                                            ? "+7 (000) 000-00-00"
+                                            : ""
+                                    }
+                                    {...field}
+                                />
+                            )}
                         />
-                        {errors.email ? (
+                        {errors.email && stateSegment.value === "email" ? (
                             <i>
                                 {errors.email && errors?.email?.message === "user already exists"
                                     ? "Пользователь уже существует"
@@ -83,74 +110,12 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                     ? "Какая-то ошибка с Email"
                                     : ""}
                             </i>
-                        ) : null}
-                    </div>
-                    <div data-label-input data-password>
-                        <label htmlFor="password">
-                            Пароль <sup>*</sup>
-                        </label>
-                        <Controller
-                            name="password"
-                            control={control}
-                            rules={{ required: true, minLength: 5 }}
-                            render={({ field }) => (
-                                <div>
-                                    <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
-                                    <Image
-                                        onClick={() => setIsPass((prev) => !prev)}
-                                        src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                                        alt="eye"
-                                        width={20}
-                                        height={20}
-                                        data-eye
-                                        unoptimized
-                                    />
-                                </div>
-                            )}
-                        />
-                        {errors.password ? (
+                        ) : errors.phone && stateSegment.value === "phone" ? (
                             <i>
-                                {errors.password?.message === "validate_register"
-                                    ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
-                                    : errors.password
-                                    ? "Требуется пароль"
-                                    : ""}
-                            </i>
-                        ) : null}
-                    </div>
-                    <div data-label-input data-password>
-                        <label htmlFor="repeat_password">
-                            Подтвердите пароль <sup>*</sup>
-                        </label>
-                        <Controller
-                            name="repeat_password"
-                            control={control}
-                            rules={{
-                                required: true,
-                                minLength: 5,
-                                validate: (value) => (value === watch("repeat_password") ? true : "no_repeat"),
-                            }}
-                            render={({ field }) => (
-                                <div>
-                                    <input {...field} placeholder="Введите пароль еще раз" type={isPass ? "text" : "password"} />
-                                    <Image
-                                        onClick={() => setIsPass_((prev) => !prev)}
-                                        src={isPass_ ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                                        alt="eye"
-                                        width={20}
-                                        height={20}
-                                        data-eye
-                                        unoptimized
-                                    />
-                                </div>
-                            )}
-                        />
-                        {errors.repeat_password ? (
-                            <i>
-                                {errors?.repeat_password && errors?.repeat_password?.message === "no_repeat"
-                                    ? "Пароли не совпадают"
-                                    : errors?.repeat_password
-                                    ? "Требуется пароль"
+                                {errors.phone && errors?.phone?.message === "user already exists"
+                                    ? "Пользователь уже существует"
+                                    : errors?.phone
+                                    ? "Требуется номер телефона, состоящий из 11 символов"
                                     : ""}
                             </i>
                         ) : null}
@@ -158,31 +123,32 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                 </section>
                 <div className={styles.RememberChange}>
                     <div className={styles.checkRemember}>
-                        <label className={styles.checkbox}>
-                            <input type="checkbox" defaultChecked={false} {...register("checkbox", { required: true })} className="" />
+                        <label className={styles.checkbox} data-check={watch("checkbox")}>
+                            <input type="checkbox" {...register("checkbox", { required: true })} />
                             <span className={styles.checkmark}>
-                                <Image src="/svg/check.svg" alt="check" width={16} height={16} unoptimized />
+                                <img src="/svg/check.svg" alt="check" width={16} height={16} />
                             </span>
                         </label>
                         <p data-terms data-error={!!errors.checkbox}>
                             Регистрируясь, вы соглашаетесь с{" "}
-                            <Link href={{ pathname: "/terms-rules" }} target="_blank">
+                            <Link href={{ pathname: "/terms-rules" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                                 Правилами пользования
                             </Link>{" "}
                             и{" "}
-                            <Link href={{ pathname: "/terms-policy" }} target="_blank">
+                            <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                                 Политикой конфиденциальности
                             </Link>
                         </p>
                     </div>
                 </div>
-                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" loading={loading} className="w-100" />
+                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" className="w-100" />
                 <LinksSocial />
             </form>
-            <section className={`${styles.Register} cursor-pointer`} onClick={() => dispatchAuthModal({ type: "SignIn" })}>
-                <Image src="/svg/arrow-left.svg" alt="arrow" width={20} height={20} unoptimized />
-                <p>Назад к странице входа</p>
-            </section>
+            <article data-column>
+                <p>
+                    Уже есть аккаунт? <a onClick={() => dispatchAuthModal({ type: "SignIn" })}>Войти</a>
+                </p>
+            </article>
         </div>
     )
 }

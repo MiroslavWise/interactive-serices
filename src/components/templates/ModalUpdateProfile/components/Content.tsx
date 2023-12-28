@@ -77,7 +77,7 @@ const FirstColumn: TContent = ({ errors, register, watch, setValue }) => {
                 disabled
                 placeholder="Введите почту"
                 type="email"
-                propsInput={register("email", { required: true })}
+                propsInput={register("email", { required: false })}
                 errorMessage={errors.email ? "Это поле не может быть пустым" : ""}
             />
         </div>

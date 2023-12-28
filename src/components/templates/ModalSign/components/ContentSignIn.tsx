@@ -4,25 +4,28 @@ import { useForm, Controller } from "react-hook-form"
 import type { TContentSignIn, IValuesSignForm } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
-import { Button } from "@/components/common"
+import { Button, Segments } from "@/components/common"
 
 import { useTokenHelper } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
+import { VALUES_EMAIL_PHONE } from "../constants/segments"
 import { useAuth, dispatchAuthModal, useWelcomeModal } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const { on } = useToast()
+    const [stateSegment, setStateSegment] = useState(VALUES_EMAIL_PHONE[0])
     const [loading, setLoading] = useState(false)
     const [isPass, setIsPass] = useState(false)
     const setToken = useAuth(({ setToken }) => setToken)
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
     const setVisible = useWelcomeModal(({ setVisible }) => setVisible)
-    const [isEmail, setIsEmail] = useState(true)
     const refTelInput = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {}, [stateSegment.value, refTelInput])
 
     const {
         control,
@@ -34,7 +37,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const onEnter = async (values: IValuesSignForm) => {
         if (!loading) {
             setLoading(true)
-            if (isEmail) {
+            if (stateSegment.value === "email") {
                 useTokenHelper
                     .login({
                         email: values.email,
@@ -104,7 +107,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     .finally(() => {
                         setLoading(false)
                     })
-            } else {
+            } else if (stateSegment.value === "phone") {
                 serviceAuth
                     .phone({
                         code: "1",
@@ -119,66 +122,42 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
         }
     }
 
-    useEffect(() => {}, [refTelInput])
-
     return (
         <div className={styles.content}>
-            <div data-selection>
-                <div
-                    data-active={isEmail}
-                    onClick={() => {
-                        if (!loading) {
-                            setIsEmail(true)
-                        }
-                    }}
-                >
-                    <span>Email</span>
-                </div>
-                <div
-                    data-active={!isEmail}
-                    onClick={() => {
-                        if (!loading) {
-                            setIsEmail(false)
-                        }
-                    }}
-                >
-                    <span>Телефон</span>
-                </div>
-            </div>
+            <Segments type="primary" VALUES={VALUES_EMAIL_PHONE} active={stateSegment} setActive={setStateSegment} isBorder />
             <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
-                {isEmail ? (
+                {stateSegment.value === "email" ? (
                     <section className={styles.section}>
-                        <div data-label-input>
-                            <label htmlFor="email">
-                                Email <sup>*</sup>
-                            </label>
-                            <Controller
-                                name="email"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => <input type="email" placeholder="Введите свой email" {...field} />}
-                            />
-                            {errors.email ? (
-                                <i>
-                                    {errors.email && errors.email?.message === "user not found"
-                                        ? "Такого пользователя не существует"
-                                        : errors.email?.message === "email not valid"
-                                        ? "Требуется email"
-                                        : errors.email
-                                        ? "Какая-то ошибка с Email"
-                                        : ""}
-                                </i>
-                            ) : null}
-                        </div>
-                        <div data-label-input data-password>
-                            <label htmlFor="password">
-                                Пароль <sup>*</sup>
-                            </label>
-                            <Controller
-                                name="password"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => (
+                        <Controller
+                            key="email-key"
+                            name="email"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <div data-label-input>
+                                    <label htmlFor="email">Email</label>
+                                    <input type="email" placeholder="Введите свой email" {...field} inputMode="email" />
+                                    {errors.email ? (
+                                        <i>
+                                            {errors.email && errors.email?.message === "user not found"
+                                                ? "Такого пользователя не существует"
+                                                : errors.email?.message === "email not valid"
+                                                ? "Требуется email"
+                                                : errors.email
+                                                ? "Какая-то ошибка с Email"
+                                                : ""}
+                                        </i>
+                                    ) : null}
+                                </div>
+                            )}
+                        />
+                        <Controller
+                            name="password"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <div data-label-input data-password>
+                                    <label htmlFor="password">Пароль</label>
                                     <div>
                                         <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
                                         <img
@@ -190,52 +169,58 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                             data-eye
                                         />
                                     </div>
-                                )}
-                            />
-                            {errors.password ? (
-                                <i>
-                                    {errors.password && errors.password.message === "invalid password"
-                                        ? "Не верный пароль"
-                                        : errors.password
-                                        ? "Требуется пароль"
-                                        : ""}
-                                </i>
-                            ) : null}
-                        </div>
+                                    {errors.password ? (
+                                        <i>
+                                            {errors.password && errors.password.message === "invalid password"
+                                                ? "Не верный пароль"
+                                                : errors.password
+                                                ? "Пароль должен содержать минимум 8 символов и из которых латинская буква, цифра"
+                                                : ""}
+                                        </i>
+                                    ) : null}
+                                </div>
+                            )}
+                        />
                     </section>
-                ) : (
+                ) : stateSegment.value === "phone" ? (
                     <section className={styles.section}>
-                        <div data-label-input>
-                            <label htmlFor="phone">
-                                Телефон <sup>*</sup>
-                            </label>
-                            <Controller
-                                name="phone"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => <input type="tel" placeholder="Введите свой номер" {...field} ref={refTelInput} />}
-                            />
-                            {errors.phone ? (
-                                <i>
-                                    {errors.phone && errors.phone?.message === "user not found"
-                                        ? "Такого пользователя не существует"
-                                        : errors.phone?.message === "email not valid"
-                                        ? "Требуется номер"
-                                        : errors.phone
-                                        ? "Какая-то ошибка с номером"
-                                        : ""}
-                                </i>
-                            ) : null}
-                        </div>
-                        <div data-label-input data-password>
-                            <label htmlFor="password">
-                                Пароль <sup>*</sup>
-                            </label>
-                            <Controller
-                                name="password"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => (
+                        <Controller
+                            key="phone-key"
+                            name="phone"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <div data-label-input>
+                                    <label htmlFor={field.name}>Телефон</label>
+                                    <input
+                                        type="tel"
+                                        placeholder="Введите свой номер"
+                                        {...field}
+                                        ref={refTelInput}
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                    />
+                                    {errors.phone ? (
+                                        <i>
+                                            {errors.phone && errors.phone?.message === "user not found"
+                                                ? "Такого пользователя не существует"
+                                                : errors.phone?.message === "email not valid"
+                                                ? "Требуется номер"
+                                                : errors.phone
+                                                ? "Номер телефона состоит из 11 цифр"
+                                                : ""}
+                                        </i>
+                                    ) : null}
+                                </div>
+                            )}
+                        />
+                        <Controller
+                            name="password"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <div data-label-input data-password>
+                                    <label htmlFor="password">Пароль</label>
                                     <div>
                                         <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
                                         <img
@@ -247,30 +232,31 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                             data-eye
                                         />
                                     </div>
-                                )}
-                            />
-                            {errors.password ? (
-                                <i>
-                                    {errors.password && errors.password.message === "invalid password"
-                                        ? "Не верный пароль"
-                                        : errors.password
-                                        ? "Требуется пароль"
-                                        : ""}
-                                </i>
-                            ) : null}
-                        </div>
+                                    {errors.password ? (
+                                        <i>
+                                            {errors.password && errors.password.message === "invalid password"
+                                                ? "Не верный пароль"
+                                                : errors.password
+                                                ? "Пароль должен содержать минимум 8 символов и из которых латинская буква, цифра"
+                                                : ""}
+                                        </i>
+                                    ) : null}
+                                </div>
+                            )}
+                        />
                     </section>
-                )}
+                ) : null}
                 <div className={styles.RememberChange}>
                     <a onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}>Забыли пароль?</a>
                 </div>
                 <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} />
                 <LinksSocial />
             </form>
-            <section className={styles.Register}>
-                <p>Нет аккаунта?</p>
-                <a onClick={() => dispatchAuthModal({ type: "SignUp" })}>Зарегистрироваться</a>
-            </section>
+            <article data-column>
+                <p>
+                    Нет аккаунта? <a onClick={() => dispatchAuthModal({ type: "SignUp" })}>Зарегистрироваться</a>
+                </p>
+            </article>
         </div>
     )
 }
