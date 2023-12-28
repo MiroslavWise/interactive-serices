@@ -2,58 +2,41 @@
 
 import { memo, useState } from "react"
 
-import type { IResetEmailData } from "../types/types"
-
 import { HeaderAuth } from "../components/Header"
 import { ContentSignIn } from "../components/ContentSignIn"
 import { ContentSignUp } from "../components/ContentSignUp"
 import { ContentOtpCode } from "../components/ContentOtpCode"
 import { ContentFirstLoginQR } from "../components/ContentFirstLoginQR"
-import { ContentResetPassword } from "../components/ContentResetPassword"
+import { ContentCreatePassword } from "../components/ContentCreatePassword"
 import { ContentForgotPassword } from "../components/ContentForgotPassword"
 import { ContentCodeVerification } from "../components/ContentCodeVerification"
-import { ContentSelectVerification } from "../components/ContentSelectVerification"
 
 import { useModalAuth } from "@/store/hooks"
 
 export const Content = memo(function Content() {
-    const type = useModalAuth(({type}) => type)
-    const [valueEmail, setValueEmail] = useState<IResetEmailData>({
-        email: "",
-        password_reset_expires: null,
-        password_reset_token: "",
-    })
+    const type = useModalAuth(({ type }) => type)
     const [valueSecret, setValueSecret] = useState<{
         url: string
         secret: string
     }>({ url: "", secret: "" })
-    const [typeVerification, setTypeVerification] = useState<
-        "email" | "phone" | null
-    >("email")
 
     return (
         <ul>
-            <HeaderAuth {...{ email: valueEmail.email, typeVerification }} />
+            <HeaderAuth />
             {type === "SignIn" ? (
                 <ContentSignIn {...{ setValueSecret }} />
             ) : type === "SignUp" ? (
                 <ContentSignUp />
             ) : type === "CodeVerification" ? (
-                <ContentCodeVerification
-                    {...{ typeVerification, valueEmail }}
-                />
+                <ContentCodeVerification />
             ) : type === "FirstLoginQR" ? (
                 <ContentFirstLoginQR {...{ valueSecret }} />
             ) : type === "ForgotPassword" ? (
-                <ContentForgotPassword {...{ setValueEmail }} />
+                <ContentForgotPassword />
             ) : type === "OtpCode" ? (
                 <ContentOtpCode />
-            ) : type === "ResetPassword" ? (
-                <ContentResetPassword />
-            ) : type === "SelectVerification" ? (
-                <ContentSelectVerification
-                    {...{ typeVerification, setTypeVerification }}
-                />
+            ) : type === "CreatePassword" ? (
+                <ContentCreatePassword />
             ) : null}
         </ul>
     )

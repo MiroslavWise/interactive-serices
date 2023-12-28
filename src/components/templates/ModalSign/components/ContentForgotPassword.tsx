@@ -1,34 +1,28 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 
 import type { TContentForgotPassword } from "../types/types"
 
-import { Button, Input } from "@/components/common"
+import { Button, Input, Segments } from "@/components/common"
 
-import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthModal } from "@/store/hooks"
+import { dispatchAuthModal, dispatchAuthModalCreatePassword, dispatchAuthModalVerification, dispatchStartTimer } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
+import { VALUES_EMAIL_PHONE } from "../constants/segments"
 
-interface IValues {
-    email: string
-}
-
-export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail }) => {
+export const ContentForgotPassword: TContentForgotPassword = () => {
+    const [stateSegment, setStateSegment] = useState(VALUES_EMAIL_PHONE[0])
     const { on } = useToast()
     const [loading, setLoading] = useState(false)
     const {
-        register,
+        control,
         handleSubmit,
         formState: { errors },
         setError,
-        setValue,
-        watch,
     } = useForm<IValues>()
 
     const onEnter = async (values: IValues) => {
@@ -37,7 +31,12 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
             .forgotPassword({ email: values.email })
             .then((response) => {
                 if (response.ok && !!response?.res) {
-                    dispatchAuthModal({ visible: false })
+                    dispatchAuthModalCreatePassword({
+                        email: values.email,
+                        phone: values.phone,
+                    })
+                    dispatchStartTimer()
+                    dispatchAuthModalVerification({})
                     on({
                         message: "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
                     })
@@ -63,37 +62,66 @@ export const ContentForgotPassword: TContentForgotPassword = ({ setValueEmail })
 
     return (
         <div className={styles.content}>
-            <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
-                <section className={styles.section}>
-                    <Input
-                        label="Email"
-                        rules
-                        placeholder="Введите свой email"
-                        type="email"
-                        {...register("email", {
-                            required: true,
-                        })}
-                        value={watch("email")}
-                        onChange={(event) => setValue("email", event.target.value)}
-                        error={
-                            errors.email && errors?.email?.message === "user is not verified"
-                                ? "Пользователь не верифицирован"
-                                : errors.email && errors?.email?.message === "user not found"
-                                ? "Пользователя не существует"
-                                : errors.email && errors?.email?.message === "something went wrong"
-                                ? "У нас проблемы с сервером, извините :("
-                                : errors.email
-                                ? "Требуется email"
-                                : ""
-                        }
-                    />
-                </section>
-                <Button type="submit" typeButton="fill-primary" label="Сброс пароля" className="w-100" loading={loading} />
+            <Segments type="primary" VALUES={VALUES_EMAIL_PHONE} active={stateSegment} setActive={setStateSegment} isBorder />
+            <form onSubmit={handleSubmit(onEnter)}>
+                <Controller
+                    name={stateSegment.value}
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <div data-label-input>
+                            <label htmlFor={field.name}>
+                                {field.name === "email" ? "Электронная почта" : field.name === "phone" ? "Телефон" : ""}
+                            </label>
+                            <input
+                                type={field.name === "email" ? "email" : field.name === "phone" ? "tel" : "text"}
+                                inputMode={field.name === "email" ? "email" : field.name === "phone" ? "numeric" : "text"}
+                                placeholder={
+                                    field.name === "email" ? "email_address@mail.com" : field.name === "phone" ? "+7 (000) 000-00-00" : ""
+                                }
+                                {...field}
+                                pattern={field.name === "phone" ? "[0-9]*" : field.name === "email" ? "[a-zA-Z@.]*" : undefined}
+                            />
+                            {errors.email ? (
+                                <i>
+                                    {errors.email && errors?.email?.message === "user is not verified"
+                                        ? "Пользователь не верифицирован"
+                                        : errors.email && errors?.email?.message === "user not found"
+                                        ? "Пользователя не существует"
+                                        : errors.email && errors?.email?.message === "something went wrong"
+                                        ? "У нас проблемы с сервером, извините :("
+                                        : errors.email
+                                        ? "Требуется email"
+                                        : ""}
+                                </i>
+                            ) : errors.phone ? (
+                                <i>
+                                    {errors.phone && errors?.phone?.message === "user is not verified"
+                                        ? "Пользователь не верифицирован"
+                                        : errors.phone && errors?.phone?.message === "user not found"
+                                        ? "Пользователя не существует"
+                                        : errors.email && errors?.phone?.message === "something went wrong"
+                                        ? "У нас проблемы с сервером, извините :("
+                                        : errors.email
+                                        ? "Требуется номер"
+                                        : ""}
+                                </i>
+                            ) : null}
+                        </div>
+                    )}
+                />
+                <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} />
             </form>
-            <section className={cx(styles.Register, "cursor-pointer")} onClick={() => dispatchAuthModal({ type: "SignIn" })}>
-                <Image src="/svg/arrow-left.svg" alt="arrow" width={20} height={20} unoptimized />
-                <p>Назад к странице входа</p>
-            </section>
+            <article data-column>
+                <p>
+                    Уже есть аккаунт? <a onClick={() => dispatchAuthModal({ type: "SignIn" })}>Войти</a>
+                </p>
+            </article>
         </div>
     )
+}
+
+interface IValues {
+    email: string
+    phone: string
 }
