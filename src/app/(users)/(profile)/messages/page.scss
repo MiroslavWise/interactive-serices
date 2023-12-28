@@ -8,13 +8,13 @@
         height: 100%;
         display: grid;
         grid-template-columns: 400px auto 300px;
-        gap: 20px;
+        gap: 1.25rem;
         z-index: 40;
-        padding: calc(74px + 20px) 20px 20px;
+        padding: calc(74px + 1.25rem) 1.25rem 1.25rem;
     }
 }
 
-[data-mobile="false"] {
+[data-mobile="true"] {
     .__page-messages__ {
         position: relative;
     }

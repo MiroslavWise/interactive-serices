@@ -1,7 +1,6 @@
 "use client"
 
 import dayjs from "dayjs"
-import { useTheme } from "next-themes"
 import { isMobile } from "react-device-detect"
 import { memo, useEffect, useMemo, useState } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
@@ -22,7 +21,6 @@ import styles from "./styles/style.module.scss"
 
 export const ListChat = memo(function ListChat() {
     const [total, setTotal] = useState(0)
-    const { systemTheme } = useTheme()
     const [search, setSearch] = useState("")
     const { socket } = useWebSocket() ?? {}
     const userId = useAuth(({ userId }) => userId)
@@ -119,7 +117,7 @@ export const ListChat = memo(function ListChat() {
                     <h4>Сообщения</h4>
                 </div>
                 <Segments
-                    type={systemTheme === "dark" ? "primary" : "optional-1"}
+                    type="primary"
                     active={SEGMENTS_CHAT.find((item) => item.value === type)!}
                     VALUES={SEGMENTS_CHAT}
                     setActive={(values) => {

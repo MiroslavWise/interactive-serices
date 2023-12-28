@@ -11,10 +11,8 @@ import { dispatchDataUser } from "@/store/hooks"
 import "./page.scss"
 
 export default function Messages() {
-    const searchParams = useSearchParams()
-    const idThread = searchParams?.get("thread") ?? {}
-    const idBarter = searchParams.get("barter-id") ?? {}
-    const idUser = searchParams?.get("user") ?? {}
+    const searchParamsGet = useSearchParams()?.get
+    const [idThread, idBarter, idUser] = [searchParamsGet("thread"), searchParamsGet("barter-id"), searchParamsGet("user")]
 
     useEffect(() => {
         return () => dispatchDataUser(undefined)
@@ -23,7 +21,7 @@ export default function Messages() {
     return (
         <div className="__page-messages__">
             {isMobile ? (
-                idUser || idThread || idBarter ? (
+                [!!idUser, !!idThread, !!idBarter].some((item) => !!item) ? (
                     <Chat />
                 ) : (
                     <ListChat />

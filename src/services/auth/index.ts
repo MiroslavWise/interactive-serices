@@ -1,5 +1,6 @@
-import { wrapperFetch } from "../requestsWrapper"
 import { type IAuth } from "./types/types"
+
+import { wrapperFetch } from "../requestsWrapper"
 
 export const serviceAuth: IAuth = {
     route: "/auth",
@@ -9,5 +10,8 @@ export const serviceAuth: IAuth = {
     },
     postGoogle(values) {
         return wrapperFetch.methodPost(`${this.route}/google`, values)
+    },
+    postTelegram(values) {
+        return wrapperFetch.methodPost(`${this.route}/telegram`, values)
     },
 }
