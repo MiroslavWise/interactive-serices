@@ -10,14 +10,20 @@ import { LinksSocial } from "./LinksSocial"
 import { Button, Segments } from "@/components/common"
 
 import { VALUES_EMAIL_PHONE } from "../constants/segments"
-import { dispatchAuthModal, dispatchAuthModalCreatePassword, useModalAuth } from "@/store/hooks"
+import {
+    dispatchAuthModal,
+    dispatchAuthModalCreatePassword,
+    dispatchIModalAuthEmailOrPhone,
+    useModalAuth,
+    useModalAuthEmailOrPhone,
+} from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
+    const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
     const email = useModalAuth(({ email }) => email)
     const phone = useModalAuth(({ phone }) => phone)
-    const [stateSegment, setStateSegment] = useState(VALUES_EMAIL_PHONE[0])
 
     const {
         register,
@@ -41,7 +47,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
 
         // if (!loading) {
         //     setLoading(true)
-        //     if (stateSegment.value === "email") {
+        //     if (typeEmailOrPhone === "email") {
         //         RegistrationService.registration({
         //             email: values.email,
         //             // password: values.password,
@@ -64,35 +70,43 @@ export const ContentSignUp: TContentSignUp = ({}) => {
         //             .finally(() => {
         //                 setLoading(false)
         //             })
-        //     } else if (stateSegment.value === "phone") {
+        //     } else if (typeEmailOrPhone === "phone") {
         //     }
         // }
     }
 
     return (
         <div className={styles.content}>
-            <Segments type="primary" VALUES={VALUES_EMAIL_PHONE} active={stateSegment} setActive={setStateSegment} isBorder />
+            <Segments
+                type="primary"
+                VALUES={VALUES_EMAIL_PHONE}
+                active={VALUES_EMAIL_PHONE.find((item) => item.value === typeEmailOrPhone)!}
+                setActive={(event) => {
+                    dispatchIModalAuthEmailOrPhone(event.value)
+                }}
+                isBorder
+            />
             <form onSubmit={handleSubmit(onRegister)}>
                 <section className={styles.section}>
                     <div data-label-input>
-                        <label htmlFor={stateSegment.value}>
-                            {stateSegment.value === "email" ? "Электронная почта" : stateSegment.value === "phone" ? "Телефон" : ""}
+                        <label htmlFor={typeEmailOrPhone}>
+                            {typeEmailOrPhone === "email" ? "Электронная почта" : typeEmailOrPhone === "phone" ? "Телефон" : ""}
                         </label>
                         <Controller
-                            name={stateSegment.value}
+                            name={typeEmailOrPhone}
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => (
                                 <input
                                     data-error={
-                                        (stateSegment.value === "email" && errors.email && true) ||
-                                        (stateSegment.value === "phone" && errors.phone && true)
+                                        (typeEmailOrPhone === "email" && errors.email && true) ||
+                                        (typeEmailOrPhone === "phone" && errors.phone && true)
                                     }
-                                    type={stateSegment.value === "email" ? "email" : stateSegment.value === "phone" ? "tel" : "text"}
+                                    type={typeEmailOrPhone === "email" ? "email" : typeEmailOrPhone === "phone" ? "tel" : "text"}
                                     placeholder={
-                                        stateSegment.value === "email"
+                                        typeEmailOrPhone === "email"
                                             ? "email_address@mail.com"
-                                            : stateSegment.value === "phone"
+                                            : typeEmailOrPhone === "phone"
                                             ? "+7 (000) 000-00-00"
                                             : ""
                                     }
@@ -100,7 +114,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                 />
                             )}
                         />
-                        {errors.email && stateSegment.value === "email" ? (
+                        {errors.email && typeEmailOrPhone === "email" ? (
                             <i>
                                 {errors.email && errors?.email?.message === "user already exists"
                                     ? "Пользователь уже существует"
@@ -110,7 +124,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                     ? "Какая-то ошибка с Email"
                                     : ""}
                             </i>
-                        ) : errors.phone && stateSegment.value === "phone" ? (
+                        ) : errors.phone && typeEmailOrPhone === "phone" ? (
                             <i>
                                 {errors.phone && errors?.phone?.message === "user already exists"
                                     ? "Пользователь уже существует"
@@ -126,7 +140,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         <label className={styles.checkbox} data-check={watch("checkbox")}>
                             <input type="checkbox" {...register("checkbox", { required: true })} />
                             <span className={styles.checkmark}>
-                                <img src="/svg/check.svg" alt="check" width={16} height={16} />
+                                <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={watch("checkbox")} />
                             </span>
                         </label>
                         <p data-terms data-error={!!errors.checkbox}>
@@ -141,7 +155,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         </p>
                     </div>
                 </div>
-                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" className="w-100" />
+                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться"/>
                 <LinksSocial />
             </form>
             <article data-column>

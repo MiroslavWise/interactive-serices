@@ -66,7 +66,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
             data-last={last}
         >
             <div className={styles.header} data-barter={thread?.title?.includes("barter")}>
-                <time>{timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}</time>
+                {lastMessage ? <time>{timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}</time> : null}
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
                         {people?.profile?.image?.attributes?.url ? (

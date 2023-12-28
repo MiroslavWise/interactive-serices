@@ -4,11 +4,12 @@ import { Controller, useForm } from "react-hook-form"
 import { Button } from "@/components/common"
 
 import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModalVerification, dispatchStartTimer, useModalAuth } from "@/store/hooks"
+import { dispatchAuthModalVerification, dispatchStartTimer, useModalAuth, useModalAuthEmailOrPhone } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentCreatePassword = () => {
+    const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
     const [isPass, setIsPass] = useState(false)
     const [isPass_, setIsPass_] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -30,17 +31,36 @@ export const ContentCreatePassword = () => {
     function onEnter(values: IValues) {
         if (!loading) {
             setLoading(true)
-            if (!!email) {
-                // RegistrationService.registration({
-                //     email: email,
-                //     password: values.password,
-                //     repeat: values.repeat_password,
-                // })
-                dispatchStartTimer()
-                dispatchAuthModalVerification({})
-            } else if (!!phone) {
-                dispatchStartTimer()
-                dispatchAuthModalVerification({})
+            if (!!email && typeEmailOrPhone === "email") {
+                RegistrationService.registration({
+                    email: email,
+                    password: values.password!,
+                    repeat: values.repeat_password!,
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            if (response.res) {
+                                console.log("response res: ", response?.res)
+                                dispatchStartTimer()
+                                dispatchAuthModalVerification({
+                                    confirmationCode: response?.res?.confirmationCode!,
+                                    id: response?.res?.id!,
+                                })
+                                setLoading(false)
+                            }
+                        } else {
+                            setLoading(false)
+                        }
+                    })
+                    .finally(() => {
+                        setLoading(false)
+                    })
+            } else if (!!phone && typeEmailOrPhone === "phone") {
+                // dispatchStartTimer()
+                // dispatchAuthModalVerification({})
+            } else {
+                setLoading(false)
+                return
             }
         }
     }

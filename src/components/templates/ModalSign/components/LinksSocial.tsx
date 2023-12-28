@@ -1,10 +1,10 @@
-import { type FC } from "react"
+import { memo } from "react"
 
 import { LinkItem } from "./LinkItem"
 
 import { ITEMS_SOCIAL_LINK } from "../constants/social"
 
-export const LinksSocial: FC = ({}) => {
+export const LinksSocial = memo(function LinksSocial({}) {
     return (
         <footer className="__links_social__">
             <p>Или продолжить через:</p>
@@ -15,4 +15,4 @@ export const LinksSocial: FC = ({}) => {
             </div>
         </footer>
     )
-}
+})

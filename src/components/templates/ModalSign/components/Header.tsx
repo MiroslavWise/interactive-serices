@@ -1,8 +1,8 @@
-import type { THeaderModal } from "../types/types"
+import { memo } from "react"
 
 import { useModalAuth } from "@/store/hooks"
 
-export const HeaderAuth: THeaderModal = () => {
+export const HeaderAuth = memo(function HeaderAuth() {
     const type = useModalAuth(({ type }) => type)
     const email = useModalAuth(({ email }) => email)
     const phone = useModalAuth(({ phone }) => phone)
@@ -24,4 +24,4 @@ export const HeaderAuth: THeaderModal = () => {
             </h3>
         </header>
     )
-}
+})

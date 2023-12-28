@@ -5,19 +5,26 @@ import { useForm, Controller } from "react-hook-form"
 
 import type { TContentForgotPassword } from "../types/types"
 
-import { Button, Input, Segments } from "@/components/common"
+import { Button, Segments } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthModal, dispatchAuthModalCreatePassword, dispatchAuthModalVerification, dispatchStartTimer } from "@/store/hooks"
+import {
+    dispatchAuthModal,
+    dispatchAuthModalCreatePassword,
+    dispatchAuthModalVerification,
+    dispatchIModalAuthEmailOrPhone,
+    dispatchStartTimer,
+    useModalAuthEmailOrPhone,
+} from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
 import { VALUES_EMAIL_PHONE } from "../constants/segments"
 
 export const ContentForgotPassword: TContentForgotPassword = () => {
-    const [stateSegment, setStateSegment] = useState(VALUES_EMAIL_PHONE[0])
-    const { on } = useToast()
     const [loading, setLoading] = useState(false)
+    const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
+    const { on } = useToast()
     const {
         control,
         handleSubmit,
@@ -36,7 +43,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                         phone: values.phone,
                     })
                     dispatchStartTimer()
-                    dispatchAuthModalVerification({})
+                    // dispatchAuthModalVerification({})
                     on({
                         message: "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
                     })
@@ -62,10 +69,18 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
 
     return (
         <div className={styles.content}>
-            <Segments type="primary" VALUES={VALUES_EMAIL_PHONE} active={stateSegment} setActive={setStateSegment} isBorder />
+            <Segments
+                type="primary"
+                VALUES={VALUES_EMAIL_PHONE}
+                active={VALUES_EMAIL_PHONE.find((item) => item.value === typeEmailOrPhone)!}
+                setActive={(event) => {
+                    dispatchIModalAuthEmailOrPhone(event.value)
+                }}
+                isBorder
+            />
             <form onSubmit={handleSubmit(onEnter)}>
                 <Controller
-                    name={stateSegment.value}
+                    name={typeEmailOrPhone}
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
@@ -74,6 +89,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                                 {field.name === "email" ? "Электронная почта" : field.name === "phone" ? "Телефон" : ""}
                             </label>
                             <input
+                                data-error={field.name === "email" ? !!errors.email : field.name === "phone" ? !!errors.phone : null}
                                 type={field.name === "email" ? "email" : field.name === "phone" ? "tel" : "text"}
                                 inputMode={field.name === "email" ? "email" : field.name === "phone" ? "numeric" : "text"}
                                 placeholder={

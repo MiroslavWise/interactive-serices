@@ -1,7 +1,4 @@
-import type {
-    IRegistrationService,
-    IResponseDataRegistration,
-} from "./types/registrationService"
+import type { IRegistrationService, IResponseDataRegistration } from "./types/registrationService"
 
 import { serviceUsers } from "@/services/users"
 import { wrapperFetch } from "@/services/requestsWrapper"
@@ -9,9 +6,6 @@ import { wrapperFetch } from "@/services/requestsWrapper"
 export const RegistrationService: IRegistrationService = {
     async registration(data) {
         return serviceUsers.post(data).then((response) => {
-            // if (response.ok && response?.res?.confirmationCode) {
-            //   return this.verification({ code: response?.res?.confirmationCode })
-            // }
             if (response.ok) {
                 return {
                     ok: response.ok,
@@ -27,26 +21,21 @@ export const RegistrationService: IRegistrationService = {
         })
     },
     async verification(value) {
-        return wrapperFetch
-            .methodPost<{ code: string }, IResponseDataRegistration>(
-                "/auth/verify",
-                value,
-            )
-            .then((response) => {
-                console.log("response verification: ", response)
-                if (response.ok) {
-                    return {
-                        ok: true,
-                        res: response?.res,
-                        error: null,
-                    }
-                }
+        return wrapperFetch.methodPost<{ code: string }, IResponseDataRegistration>("/auth/verify", value).then((response) => {
+            console.log("response verification: ", response)
+            if (response.ok) {
                 return {
-                    ok: false,
+                    ok: true,
                     res: response?.res,
-                    error: response?.error,
-                    code: response?.error?.code,
+                    error: null,
                 }
-            })
+            }
+            return {
+                ok: false,
+                res: response?.res,
+                error: response?.error,
+                code: response?.error?.code,
+            }
+        })
     },
 }

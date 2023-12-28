@@ -7,6 +7,9 @@ import type {
     IAction,
     IActionCreatePassword,
     IUseTimerModalAuth,
+    IUseModalAuthEmailOrPhone,
+    TTypeEmailOrNumber,
+    IActionAuthModalVerification,
 } from "../types/useVisibleAndTypeAuthModalState"
 
 export const useModalAuth = create(
@@ -25,6 +28,17 @@ export const useModalAuth = create(
 export const useTimerModalAuth = create(
     persist<IUseTimerModalAuth>(() => ({}), { name: "timer-auth-create", storage: createJSONStorage(() => sessionStorage) }),
 )
+export const useModalAuthEmailOrPhone = create(
+    persist<IUseModalAuthEmailOrPhone>(() => ({ typeEmailOrPhone: "email" }), {
+        name: "email-or-phone-state",
+        storage: createJSONStorage(() => localStorage),
+    }),
+)
+
+export const dispatchIModalAuthEmailOrPhone = (value: TTypeEmailOrNumber) =>
+    useModalAuthEmailOrPhone.setState((_) => ({
+        typeEmailOrPhone: value,
+    }))
 
 export const dispatchAuthModal = ({ visible, type }: IAction) =>
     useModalAuth.setState((_) => ({
@@ -39,8 +53,9 @@ export const dispatchAuthModalCreatePassword = ({ email, phone }: IActionCreateP
         phone: phone,
     }))
 
-export const dispatchAuthModalVerification = ({}) =>
+export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionAuthModalVerification) =>
     useModalAuth.setState((_) => ({
+        verification: { confirmationCode, id },
         type: "CodeVerification",
     }))
 
