@@ -139,7 +139,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             name="email"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <div data-label-input>
                                     <label htmlFor="email">Email</label>
                                     <input
@@ -147,15 +147,15 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                         placeholder="Введите свой email"
                                         {...field}
                                         inputMode="email"
-                                        data-error={!!errors.email}
+                                        data-error={!!fieldState.error}
                                     />
-                                    {errors.email ? (
+                                    {fieldState.error ? (
                                         <i>
-                                            {errors.email && errors.email?.message === "user not found"
+                                            {fieldState.error && fieldState.error?.message === "user not found"
                                                 ? "Такого пользователя не существует"
-                                                : errors.email?.message === "email not valid"
+                                                : fieldState.error?.message === "email not valid"
                                                 ? "Требуется email"
-                                                : errors.email
+                                                : fieldState.error
                                                 ? "Какая-то ошибка с Email"
                                                 : ""}
                                         </i>
@@ -167,11 +167,16 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             name="password"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <div data-label-input data-password>
                                     <label htmlFor="password">Пароль</label>
                                     <div>
-                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} data-error={!!errors.password} />
+                                        <input
+                                            {...field}
+                                            placeholder="Введите свой пароль"
+                                            type={isPass ? "text" : "password"}
+                                            data-error={!!fieldState.error}
+                                        />
                                         <img
                                             onClick={() => setIsPass((_) => !_)}
                                             src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}
@@ -181,11 +186,11 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                             data-eye
                                         />
                                     </div>
-                                    {errors.password ? (
+                                    {fieldState.error ? (
                                         <i>
-                                            {errors.password && errors.password.message === "invalid password"
+                                            {fieldState.error && fieldState?.error?.message === "invalid password"
                                                 ? "Не верный пароль"
-                                                : errors.password
+                                                : fieldState.error
                                                 ? "Пароль должен содержать минимум 8 символов и из которых латинская буква, цифра"
                                                 : ""}
                                         </i>
@@ -201,7 +206,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             name="phone"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <div data-label-input>
                                     <label htmlFor={field.name}>Телефон</label>
                                     <input
@@ -211,15 +216,15 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                         ref={refTelInput}
                                         inputMode="numeric"
                                         pattern="[0-9]*"
-                                        data-error={!!errors.phone}
+                                        data-error={!!fieldState.error}
                                     />
-                                    {errors.phone ? (
+                                    {fieldState.error ? (
                                         <i>
-                                            {errors.phone && errors.phone?.message === "user not found"
+                                            {fieldState.error && fieldState.error?.message === "user not found"
                                                 ? "Такого пользователя не существует"
-                                                : errors.phone?.message === "email not valid"
+                                                : fieldState.error?.message === "email not valid"
                                                 ? "Требуется номер"
-                                                : errors.phone
+                                                : fieldState.error
                                                 ? "Номер телефона состоит из 11 цифр"
                                                 : ""}
                                         </i>
@@ -231,11 +236,16 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             name="password"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <div data-label-input data-password>
                                     <label htmlFor="password">Пароль</label>
                                     <div>
-                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} data-error={!!errors.password} />
+                                        <input
+                                            {...field}
+                                            placeholder="Введите свой пароль"
+                                            type={isPass ? "text" : "password"}
+                                            data-error={!!fieldState?.error}
+                                        />
                                         <img
                                             onClick={() => setIsPass((_) => !_)}
                                             src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}
@@ -245,11 +255,11 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                             data-eye
                                         />
                                     </div>
-                                    {errors.password ? (
+                                    {fieldState?.error ? (
                                         <i>
-                                            {errors.password && errors.password.message === "invalid password"
+                                            {fieldState?.error && fieldState?.error?.message === "invalid password"
                                                 ? "Не верный пароль"
-                                                : errors.password
+                                                : fieldState?.error
                                                 ? "Пароль должен содержать минимум 8 символов и из которых латинская буква, цифра"
                                                 : ""}
                                         </i>

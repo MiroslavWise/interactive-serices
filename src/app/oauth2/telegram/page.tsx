@@ -5,8 +5,10 @@ import { useEffect } from "react"
 import { usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { dispatchAuthToken } from "@/store/hooks"
+import { useToast } from "@/helpers/hooks/useToast"
 
 export default function CallbackTelegram() {
+    const { on } = useToast()
     const { handlePush } = usePush()
 
     useEffect(() => {
@@ -20,12 +22,17 @@ export default function CallbackTelegram() {
                 console.log("response: postTelegram", response)
                 if (response.ok) {
                     if (response?.res) {
-                        //добавить уведомление об успешной авторизации через Telegram
                         dispatchAuthToken({ email: "", ...response?.res })
-                        handlePush("/profile")
+                        handlePush("/")
+                        on({
+                            message: "Авторизация через червис Telegram прошла успешно",
+                        })
                     }
                 } else {
-                    //добавить уведомление о некоректных данных
+                    on({
+                        message:
+                            "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, Telegram проводит какие-то опецарации, попробуйте чуть позже",
+                    })
                     handlePush("/")
                 }
             })

@@ -6,10 +6,12 @@ import { useSearchParams } from "next/navigation"
 import { usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { dispatchAuthToken } from "@/store/hooks"
+import { useToast } from "@/helpers/hooks/useToast"
 
 const ARRAY_QUERY = ["access_token", "client_id", "email", "id", "name", "picture", "verified_email"]
 
 export default function CallbackGoogle() {
+    const { on } = useToast()
     const searchParams = useSearchParams()
     const { handlePush } = usePush()
 
@@ -23,12 +25,17 @@ export default function CallbackGoogle() {
             console.log("response: postGoogle", response)
             if (response.ok) {
                 if (response?.res) {
-                    //добавить уведомление об успешной авторизации через Google
                     dispatchAuthToken({ ...response?.res, email: data.email })
-                    handlePush("/profile")
+                    handlePush("/")
+                    on({
+                        message: "Авторизация через червис Google прошла успешно",
+                    })
                 }
             } else {
-                //добавить уведомление о некоректных данных
+                on({
+                    message:
+                        "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, Google проводит какие-то опецарации, попробуйте чуть позже",
+                })
                 handlePush("/")
             }
         })
