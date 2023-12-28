@@ -44,35 +44,6 @@ export const ContentSignUp: TContentSignUp = ({}) => {
             email: values.email,
             phone: values.phone,
         })
-
-        // if (!loading) {
-        //     setLoading(true)
-        //     if (typeEmailOrPhone === "email") {
-        //         RegistrationService.registration({
-        //             email: values.email,
-        //             // password: values.password,
-        //             // repeat: values.repeat_password,
-        //         })
-        //             .then((response) => {
-        //                 if (response?.code === 409) {
-        //                     setError("email", {
-        //                         message: "user already exists",
-        //                     })
-        //                 }
-        //                 if (response.ok) {
-        //                     dispatchAuthModal({ visible: false })
-        //                     dispatchDataConfirmation({
-        //                         visible: true,
-        //                         type: "register",
-        //                     })
-        //                 }
-        //             })
-        //             .finally(() => {
-        //                 setLoading(false)
-        //             })
-        //     } else if (typeEmailOrPhone === "phone") {
-        //     }
-        // }
     }
 
     return (
@@ -88,15 +59,15 @@ export const ContentSignUp: TContentSignUp = ({}) => {
             />
             <form onSubmit={handleSubmit(onRegister)}>
                 <section className={styles.section}>
-                    <div data-label-input>
-                        <label htmlFor={typeEmailOrPhone}>
-                            {typeEmailOrPhone === "email" ? "Электронная почта" : typeEmailOrPhone === "phone" ? "Телефон" : ""}
-                        </label>
-                        <Controller
-                            name={typeEmailOrPhone}
-                            control={control}
-                            rules={{ required: true }}
-                            render={({ field }) => (
+                    <Controller
+                        name={typeEmailOrPhone}
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <div data-label-input>
+                                <label htmlFor={typeEmailOrPhone}>
+                                    {typeEmailOrPhone === "email" ? "Электронная почта" : typeEmailOrPhone === "phone" ? "Телефон" : ""}
+                                </label>
                                 <input
                                     data-error={
                                         (typeEmailOrPhone === "email" && errors.email && true) ||
@@ -112,28 +83,26 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                     }
                                     {...field}
                                 />
-                            )}
-                        />
-                        {errors.email && typeEmailOrPhone === "email" ? (
-                            <i>
-                                {errors.email && errors?.email?.message === "user already exists"
-                                    ? "Пользователь уже существует"
-                                    : errors?.email
-                                    ? "Требуется email"
-                                    : errors.email
-                                    ? "Какая-то ошибка с Email"
-                                    : ""}
-                            </i>
-                        ) : errors.phone && typeEmailOrPhone === "phone" ? (
-                            <i>
-                                {errors.phone && errors?.phone?.message === "user already exists"
-                                    ? "Пользователь уже существует"
-                                    : errors?.phone
-                                    ? "Требуется номер телефона, состоящий из 11 символов"
-                                    : ""}
-                            </i>
-                        ) : null}
-                    </div>
+                                {errors.email && typeEmailOrPhone === "email" ? (
+                                    <i>
+                                        {errors.email && errors?.email?.message === "user already exists"
+                                            ? "Пользователь уже существует"
+                                            : errors?.email
+                                            ? "Поле не может оставаться незаполненным"
+                                            : "Какая-то ошибка с Email"}
+                                    </i>
+                                ) : errors.phone && typeEmailOrPhone === "phone" ? (
+                                    <i>
+                                        {errors.phone && errors?.phone?.message === "user already exists"
+                                            ? "Пользователь уже существует"
+                                            : errors?.phone
+                                            ? "Требуется номер телефона, состоящий из 11 символов"
+                                            : ""}
+                                    </i>
+                                ) : null}
+                            </div>
+                        )}
+                    />
                 </section>
                 <div className={styles.RememberChange}>
                     <div className={styles.checkRemember}>
@@ -155,7 +124,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         </p>
                     </div>
                 </div>
-                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться"/>
+                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" />
                 <LinksSocial />
             </form>
             <article data-column>

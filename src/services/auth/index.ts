@@ -14,4 +14,7 @@ export const serviceAuth: IAuth = {
     postTelegram(values) {
         return wrapperFetch.methodPost(`${this.route}/telegram`, values)
     },
+    postYandex(values) {
+        return wrapperFetch.methodPost(`${this.route}/yandex`, values)
+    },
 }

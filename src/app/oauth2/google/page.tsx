@@ -10,8 +10,8 @@ import { dispatchAuthToken } from "@/store/hooks"
 const ARRAY_QUERY = ["access_token", "client_id", "email", "id", "name", "picture", "verified_email"]
 
 export default function CallbackGoogle() {
-    const { handlePush } = usePush()
     const searchParams = useSearchParams()
+    const { handlePush } = usePush()
 
     useEffect(() => {
         const data: Record<string, any> = {}
