@@ -1,10 +1,5 @@
 import type { FC, Dispatch, SetStateAction } from "react"
-import {
-    FieldErrors,
-    UseFormRegister,
-    UseFormSetValue,
-    UseFormWatch,
-} from "react-hook-form"
+import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
 
 interface IValuesProfile {
     firstName: string
@@ -21,6 +16,7 @@ interface IHeader {
     selectedImage: string | null
     setSelectedImage: Dispatch<SetStateAction<string | null>>
     setFile: Dispatch<SetStateAction<File | null>>
+    imageProfile: string
 }
 
 interface IContent {

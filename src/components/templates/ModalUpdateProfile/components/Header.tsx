@@ -9,13 +9,10 @@ import type { THeader } from "./types/types"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/header.module.scss"
 
-export const Header: THeader = ({ selectedImage, setFile, setSelectedImage }) => {
-    const imageProfile = useAuth(({ imageProfile }) => imageProfile)
-
+export const Header: THeader = ({ selectedImage, setFile, setSelectedImage, imageProfile }) => {
     function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0]
         if (file) {
@@ -34,7 +31,7 @@ export const Header: THeader = ({ selectedImage, setFile, setSelectedImage }) =>
                 {selectedImage ? (
                     <ImageStatic src={selectedImage} alt="avatar" width={400} height={400} className={styles.avatar} />
                 ) : imageProfile ? (
-                    <NextImageMotion src={imageProfile?.attributes?.url!} alt="avatar" width={400} height={400} className={styles.avatar} />
+                    <NextImageMotion src={imageProfile} alt="avatar" width={400} height={400} className={styles.avatar} />
                 ) : (
                     <ImageStatic src="/png/default_avatar.png" alt="avatar" width={400} height={400} className={styles.avatar} />
                 )}
