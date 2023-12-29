@@ -19,8 +19,8 @@ export interface IResponseNotifications {
     userId: number
     operation: TTypeOperation
     data: IDataBarterNotifications
-    created: Date
-    updated: Date
+    created: string
+    updated: string
     email: boolean
     sms: boolean
     provider: TTypeProviderNotifications
@@ -35,8 +35,5 @@ export interface IServiceNotifications {
     route: string
     post(value: IPostNotification): Promise<IReturnData<IResponseNotifications>>
     get(value?: IQueries): Promise<IReturnData<IResponseNotifications[]>>
-    patch(
-        value: TPatchNotification,
-        id: number | string,
-    ): Promise<IReturnData<IResponseNotifications>>
+    patch(value: TPatchNotification, id: number | string): Promise<IReturnData<IResponseNotifications>>
 }

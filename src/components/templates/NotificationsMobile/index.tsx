@@ -1,21 +1,26 @@
 "use client"
 
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { ComponentsNotification } from "@/components/profile"
+import { ItemNotification } from "@/components/notifications"
 
 import { cx } from "@/lib/cx"
 import { serviceNotifications } from "@/services/notifications"
-import { useVisibleNotifications, dispatchVisibleNotifications } from "@/store/hooks"
+import { type TTypeWaiting, NAVIGATION_STATUSES } from "./constants/navigation"
+import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export function NotificationsMobile() {
     const visible = useVisibleNotifications(({ visible }) => visible)
+    const userId = useAuth(({ userId }) => userId)
+    const [status, setStatus] = useState<TTypeWaiting>("all")
 
-    const { data: dataNotifications } = useQuery({
+    const { data: dataNotifications, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications"],
+        queryKey: ["notifications", `user=${userId}`],
+        enabled: !!userId,
     })
 
     const maps = dataNotifications?.res || []
@@ -30,9 +35,25 @@ export function NotificationsMobile() {
                     </button>
                 </header>
                 {maps.length ? (
+                    <nav>
+                        {NAVIGATION_STATUSES.map((item) => (
+                            <a
+                                key={`::${item.value}::key::nav::`}
+                                data-active={status === item.value}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    setStatus(item.value)
+                                }}
+                            >
+                                {item.label}
+                            </a>
+                        ))}
+                    </nav>
+                ) : null}
+                {maps.length ? (
                     <ul>
                         {maps.map((item) => (
-                            <ComponentsNotification key={item.id + "-notification"} {...item} />
+                            <ItemNotification key={`::${item.id}::notification::`} {...item} refetch={refetch} />
                         ))}
                     </ul>
                 ) : (
