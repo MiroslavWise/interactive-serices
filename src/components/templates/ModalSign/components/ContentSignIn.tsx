@@ -57,7 +57,6 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             return
                         }
                         if (response.error?.code === 404) {
-                            console.log("response.error?.code: ", response.error)
                             setFieldMeta("email", (state) => {
                                 state.errors = ["Данного пользователя не существует"]
                                 return state
@@ -112,10 +111,31 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         setLoading(false)
                     })
             } else if (typeEmailOrPhone === "phone") {
+                if (value?.phone?.length < 10) {
+                    setFieldMeta("phone", (state) => {
+                        state.errors = ["Номер телефона состоит из 11 цифр"]
+                        return state
+                    })
+                }
                 const code = value.phone?.slice(0, 3)
                 const phone = value.phone?.slice(3)?.slice(0, 7)
 
                 serviceAuth.phone({ country: "7", code, phone }).then((response) => {
+                    if (response?.ok) {
+                    } else {
+                        if (response?.error?.message === "user not found") {
+                            setFieldMeta("phone", (state) => {
+                                state.errors = ["Данного пользователя не существует"]
+                                return state
+                            })
+                        }
+                        if (response?.error?.message === "Unauthorized") {
+                            setFieldMeta("password", (state) => {
+                                state.errors = ["Не верный пароль"]
+                                return state
+                            })
+                        }
+                    }
                     console.log(" serviceAuth phone: ", response)
                     setLoading(false)
                 })
@@ -197,14 +217,10 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         </section>
                     ) : typeEmailOrPhone === "phone" ? (
                         <section className={styles.section}>
-                            <Field
-                                name="phone"
-                                validators={{
-                                    onBlur: ({ value }) => (value?.length < 11 ? "Номер телефона состоит из 11 цифр" : undefined),
-                                }}
-                            >
+                            <Field name="phone">
                                 {(field) => {
                                     const value = field.state.value || ""
+                                    console.log("value: ", value)
                                     return (
                                         <div data-label-input>
                                             <label htmlFor={field.name}>Телефон</label>
@@ -221,7 +237,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                                     data-absolute-mask
                                                     name={field.name}
                                                     value={value}
-                                                    onChange={(event) => field.handleChange(event.target.value)}
+                                                    onChange={(event) => field.handleChange(event.target.value?.substring(0, 11))}
                                                     type="number"
                                                     placeholder="Введите свой номер"
                                                     inputMode="numeric"
