@@ -4,6 +4,7 @@ import type { IResponseOffers } from "@/services/offers/types"
 
 export interface IGeneralServiceAllItem extends IResponseOffers {
     className?: string
+    ref?: any
     style?: CSSProperties
 }
 

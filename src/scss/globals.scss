@@ -117,9 +117,18 @@ input[type="text"] {
     font-style: normal;
     font-weight: 500;
     border-radius: 1.5rem;
-    border: 1px solid var(--gray-300);
+    border: solid var(--gray-300);
+    border-width: 1px;
+    outline: none;
     background: var(--background-input);
     overflow: hidden;
+
+    transition: var(--transition);
+    transition: border-width;
+
+    &:focus {
+        border-width: 1.5px;
+    }
 
     &::placeholder {
         color: var(--gray-400);

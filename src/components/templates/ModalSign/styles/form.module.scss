@@ -181,6 +181,24 @@
                 }
             }
 
+            & > [data-phone-mask] {
+                position: relative;
+                width: 100%;
+                height: fit-content;
+                height: 3rem;
+
+                & > [data-input-mask] {
+                    height: 3rem;
+                }
+
+                & > [data-absolute-mask] {
+                    position: absolute;
+                    inset: 0;
+                    opacity: 0;
+                    z-index: 123;
+                }
+            }
+
             & > i {
                 color: var(--error-600);
                 font-size: 0.75rem;

@@ -2,6 +2,7 @@
 
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { useVirtualizer, useWindowVirtualizer } from "@tanstack/react-virtual"
 
 import type { TServicesFC } from "../types/types"
 import type { TOrder } from "@/services/types/general"
@@ -15,7 +16,7 @@ import { useBounds, useFilterMap } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
-export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({ setTotal, type }) {
+export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({ setTotal, type, parentRef }) {
     const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
     const bounds = useBounds(({ bounds }) => bounds)
     const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
@@ -81,13 +82,9 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
         <ul className={cx(styles.services, ["offer", "request"].includes(type) && styles.requestsAndProposals)}>
             {items.map((item) =>
                 type === "all" ? (
-                    <GeneralServiceAllItem key={`${item.id}-all`} {...item} />
+                    <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />
                 ) : (
-                    <CardRequestsAndProposals
-                        key={`${item.id}-offer-${item.provider}`}
-                        {...item}
-                        type={type === "offer" ? "optional-3" : "optional-2"}
-                    />
+                    <CardRequestsAndProposals key={`::${item.id}::offer::`} {...item} type="optional-3" />
                 ),
             )}
         </ul>
