@@ -2,16 +2,19 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-import { ComponentsNotification } from "@/components/profile/ComponentsNotification"
+import { ItemNotification } from "@/components/notifications"
 
+import { useAuth } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
 
 import styles from "./page.module.scss"
 
 export default function Notifications() {
-    const { data: dataNotifications } = useQuery({
+    const userId = useAuth(({ userId }) => userId)
+
+    const { data: dataNotifications, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications"],
+        queryKey: ["notifications", `user=${userId}`],
     })
 
     return (
@@ -23,7 +26,7 @@ export default function Notifications() {
             {dataNotifications?.res?.length ? (
                 <ul>
                     {dataNotifications?.res?.map((item) => (
-                        <ComponentsNotification key={`${item.id}--notification`} {...item} />
+                        <ItemNotification key={`::${item.id}::notification::`} {...item} refetch={refetch} />
                     ))}
                 </ul>
             ) : (

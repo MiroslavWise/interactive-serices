@@ -12,14 +12,6 @@ import styles from "../styles/button.module.scss"
 export const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HTMLButtonElement>) {
     const { loading, label, suffixIcon, prefixIcon, typeButton, className, ...rest } = props ?? {}
 
-    const loadingImage = useMemo(() => {
-        if (loading) {
-            return <img src="/svg/loading-02.svg" alt="loading" data-loading-image height={20} width={20} />
-        }
-
-        return null
-    }, [loading])
-
     return (
         <button
             {...rest}
@@ -28,10 +20,14 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
             disabled={!!loading || rest.disabled}
             data-disabled={rest.disabled}
             ref={ref}
+            data-loading={loading}
         >
             {prefixIcon}
             <span>{label}</span>
-            {suffixIcon ? suffixIcon : loadingImage ? loadingImage : null}
+            {suffixIcon ? suffixIcon : null}
+            <div data-load>
+                <img src="/svg/spinner.svg" alt="spinner" data-loading-image height={20} width={20} />
+            </div>
         </button>
     )
 })

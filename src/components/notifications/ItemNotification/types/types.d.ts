@@ -1,7 +1,7 @@
 import type { FC } from "react"
 
 export type TTypeIconNotification = "information" | "warning" | "error" | "avatar"
-export type TTypeIconCurrentNotification = "chat" | "barters" | "sos" | "alert" | "personal"
+export type TTypeIconCurrentNotification = "chat" | "barter" | "sos" | "alert" | "personal" | "default"
 
 export interface IItemNotification {
     type: TTypeIconNotification

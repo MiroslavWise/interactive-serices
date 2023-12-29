@@ -3,25 +3,16 @@
 import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { AnimatedLoadPage } from "@/components/layout"
-import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers } from "@/context"
+import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { RegistrationService } from "@/services/auth/registrationService"
+import {} from "@/context/QueryClientProviderContext"
 import { useAuth, dispatchAuthModal, useFetchingSession, useOffersCategories } from "@/store/hooks"
 import "@/context/DayJSDefault"
-
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false,
-            refetchOnMount: false,
-        },
-    },
-})
 
 export default function Providers({ children }: { children: ReactNode }) {
     const refresh = useAuth(({ refresh }) => refresh)
@@ -97,14 +88,14 @@ export default function Providers({ children }: { children: ReactNode }) {
     return (
         <>
             <NextThemesProvider>
-                <QueryClientProvider client={queryClient}>
+                <QueryClientProviderContext>
                     <WebSocketProvider>
                         <YMapsProvider>
                             {children}
                             <Containers />
                         </YMapsProvider>
                     </WebSocketProvider>
-                </QueryClientProvider>
+                </QueryClientProviderContext>
             </NextThemesProvider>
             <AnimatedLoadPage />
         </>

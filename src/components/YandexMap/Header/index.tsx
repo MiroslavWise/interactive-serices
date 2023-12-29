@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
@@ -20,7 +19,7 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],
-        enabled: !!token && !!userId,
+        enabled: !!userId,
     })
 
     return isMobile ? (
