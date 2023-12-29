@@ -72,7 +72,14 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const [src, setSrc] = useState(`/svg/category/${categoryId}.svg`)
 
     return (
-        <li className={styles.container} data-mobile={isMobile} data-type={type} data-offers-card onClick={handleCoordinates}>
+        <li
+            className={styles.container}
+            data-mobile={isMobile}
+            data-type={type}
+            data-offers-card
+            onClick={handleCoordinates}
+            ref={props?.ref}
+        >
             <header>
                 <Image
                     src={src}
