@@ -1,7 +1,6 @@
 "use client"
 
 import dayjs from "dayjs"
-import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
@@ -29,9 +28,11 @@ export const ModalUpdateProfile = () => {
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
+    const { out } = useOut()
     const isVisible = useUpdateProfile(({ isVisible }) => isVisible)
     const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
     const userId = useAuth(({ userId }) => userId)
+    const { on } = useToast()
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
@@ -41,8 +42,6 @@ export const ModalUpdateProfile = () => {
 
     const user = data?.res?.profile!
 
-    const { out } = useOut()
-    const { on } = useToast()
     const dateOfBirth = useMemo(() => {
         const dateOfBirth: any = {
             day: "",
@@ -178,14 +177,19 @@ export const ModalUpdateProfile = () => {
                     <header data-header-title>
                         <h3>Редактировать профиль</h3>
                         <div data-back onClick={() => setVisible(false)}>
-                            <Image src="/svg/chevron-left.svg" alt="chevron-left" height={24} width={24} unoptimized />
+                            <img src="/svg/chevron-left.svg" alt="chevron-left" height={24} width={24} />
                         </div>
                     </header>
                 ) : (
                     <h3 data-title>Редактировать профиль</h3>
                 )}
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Header selectedImage={selectedImage} setSelectedImage={setSelectedImage} setFile={setFile} />
+                    <Header
+                        selectedImage={selectedImage}
+                        setSelectedImage={setSelectedImage}
+                        setFile={setFile}
+                        imageProfile={user?.image?.attributes?.url!}
+                    />
                     <Content errors={errors} register={register} watch={watch} setValue={setValue} />
                     <Footer loading={loading} />
                 </form>
