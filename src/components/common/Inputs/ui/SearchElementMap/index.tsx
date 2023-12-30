@@ -15,6 +15,7 @@ import styles from "./style.module.scss"
 
 export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) => {
     const [text, setText] = useState("")
+    const [loading, setLoading] = useState(false)
     const [activeList, setActiveList] = useState(false)
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const debouncedValue = useDebounce(onValueFunc, 1500)
@@ -58,7 +59,7 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
 
     return (
         <div className={cx(styles.container)} id="searchElementMap">
-            <Image className={styles.geoImage} src="/svg/geo-marker.svg" alt="geo" width={20} height={20} unoptimized />
+            <img className={styles.geoImage} src="/svg/geo-marker.svg" alt="geo" width={20} height={20} />
             <input
                 type="text"
                 onFocus={onFocus}
@@ -72,7 +73,7 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
                 }}
             />
             <div className={styles.circleMark} onClick={handleAddressLocation}>
-                <Image src="/svg/mark.svg" alt="mark" width={20} height={20} unoptimized />
+                <img src="/svg/mark.svg" alt="mark" width={20} height={20} />
             </div>
             {activeList && values?.response ? (
                 <ul className={cx(activeList && styles.active)}>

@@ -7,12 +7,12 @@ import { useSearchParams } from "next/navigation"
 import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
+import "@/context/DayJSDefault"
 import { usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { RegistrationService } from "@/services/auth/registrationService"
 import {} from "@/context/QueryClientProviderContext"
-import { useAuth, dispatchAuthModal, useFetchingSession, useOffersCategories } from "@/store/hooks"
-import "@/context/DayJSDefault"
+import { RegistrationService } from "@/services/auth/registrationService"
+import { useAuth, dispatchAuthModal, useFetchingSession, useOffersCategories, dispatchAuthModalResetPassword } from "@/store/hooks"
 
 export default function Providers({ children }: { children: ReactNode }) {
     const refresh = useAuth(({ refresh }) => refresh)
@@ -42,10 +42,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (passwordResetToken) {
             handleReplace("/")
-            dispatchAuthModal({
-                visible: true,
-                type: "ResetPassword",
-            })
+            dispatchAuthModalResetPassword(passwordResetToken!)
         }
     }, [passwordResetToken])
     useEffect(() => {

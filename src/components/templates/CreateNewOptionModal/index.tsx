@@ -100,14 +100,12 @@ export const CreateNewOptionModal = () => {
                                     setIsFirst(false)
                                     dispatchOnboarding("close")
                                     reset()
-                                    //----------------------------------------------------------------
                                 })
                         } else {
                             setLoading(false)
                             setIsFirst(false)
                             dispatchOnboarding("close")
                             reset()
-                            //---------------------------------------------------------------------
                         }
                     })
                 }
@@ -234,15 +232,6 @@ export const CreateNewOptionModal = () => {
             : typeAdd === "offer"
             ? "Добавьте текст, чтобы сделать ваше предложение более привлекательным и желанным"
             : null
-
-    // const description =
-    //     typeAdd === "alert"
-    //         ? "Видите, что что-то произошло, или вам нужна помощь? Просто дайте знать остальным"
-    //         : typeAdd === "offer"
-    //         ? "В раскрывающемся меню ниже выберите услугу, которую вы готовы предложить публично"
-    //         : typeAdd === "discussion"
-    //         ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
-    //         : null
 
     const titleAddress =
         typeAdd === "alert"
