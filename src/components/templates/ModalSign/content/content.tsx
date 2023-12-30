@@ -36,7 +36,7 @@ export const Content = memo(function Content() {
                 <ContentForgotPassword />
             ) : type === "OtpCode" ? (
                 <ContentOtpCode />
-            ) : type === "CreatePassword" ? (
+            ) : ["ResetPassword", "CreatePassword"].includes(type!) ? (
                 <ContentCreatePassword />
             ) : type === "ExistingAccount" ? (
                 <ContentExistingAccount />

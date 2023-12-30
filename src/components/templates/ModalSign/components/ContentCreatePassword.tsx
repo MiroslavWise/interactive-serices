@@ -3,16 +3,22 @@ import { Controller, useForm } from "react-hook-form"
 
 import { Button } from "@/components/common"
 
+import { useToast } from "@/helpers/hooks/useToast"
+import { useForgotPasswordHelper, usePush } from "@/helpers"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModalVerification, dispatchStartTimer, useModalAuth, useModalAuthEmailOrPhone } from "@/store/hooks"
+import { dispatchAuthModal, dispatchAuthModalVerification, dispatchStartTimer, useModalAuth, useModalAuthEmailOrPhone } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentCreatePassword = () => {
+    const { handleReplace } = usePush()
+    const { on } = useToast()
     const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
     const [isPass, setIsPass] = useState(false)
     const [isPass_, setIsPass_] = useState(false)
     const [loading, setLoading] = useState(false)
+    const type = useModalAuth(({ type }) => type)
+    const codeReset = useModalAuth(({ codeReset }) => codeReset)
     const email = useModalAuth(({ email }) => email)
     const phone = useModalAuth(({ phone }) => phone)
 
@@ -20,6 +26,7 @@ export const ContentCreatePassword = () => {
         control,
         handleSubmit,
         formState: { errors },
+        setError,
         watch,
     } = useForm<IValues>({
         defaultValues: {
@@ -31,6 +38,50 @@ export const ContentCreatePassword = () => {
     function onEnter(values: IValues) {
         if (!loading) {
             setLoading(true)
+            if (type === "ResetPassword" && !!codeReset) {
+                useForgotPasswordHelper
+                    .resetPassword({
+                        token: codeReset,
+                        password: values.password,
+                        repeat: values.repeat_password,
+                    })
+                    .then((response) => {
+                        if (response.code === 400) {
+                            setError("password", { message: "no_repeat" })
+                            setError("repeat_password", { message: "no_repeat" })
+                            return
+                        }
+                        if ([401 || 403].includes(response?.code!)) {
+                            on({ message: "Время восстановления пароля истекло" }, "warning")
+                            handleReplace("/")
+                            return
+                        }
+                        if (response.code === 500) {
+                            on(
+                                {
+                                    message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
+                                },
+                                "error",
+                            )
+                        }
+                        if (response.ok && !!response?.res) {
+                            on(
+                                {
+                                    message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
+                                },
+                                "success",
+                            )
+                            handleReplace("/")
+                            dispatchAuthModal({ type: "SignIn" })
+                            return
+                        }
+                    })
+                    .finally(() => {
+                        setLoading(false)
+                    })
+
+                return
+            }
             if (!!email && typeEmailOrPhone === "email") {
                 RegistrationService.registration({
                     email: email,

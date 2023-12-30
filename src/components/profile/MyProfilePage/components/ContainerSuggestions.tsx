@@ -18,7 +18,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
     const imageProfile = useAuth(({ imageProfile }) => imageProfile)
 
     const { data, refetch } = useQuery({
-        queryFn: () => serviceOffers.getUserId(userId!, { provider: stateProvider }),
+        queryFn: () => serviceOffers.getUserId(userId!, { provider: stateProvider, order: "DESC" }),
         queryKey: ["offers", `user=${userId}`, `provider=${stateProvider}`],
     })
 

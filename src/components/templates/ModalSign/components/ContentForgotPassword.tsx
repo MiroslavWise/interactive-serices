@@ -28,34 +28,39 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
 
     const onEnter = async (values: IValues) => {
         setLoading(true)
-        useForgotPasswordHelper
-            .forgotPassword({ email: values.email })
-            .then((response) => {
-                if (response.ok && !!response?.res) {
-                    dispatchAuthModalCreatePassword({
-                        email: values.email,
-                        phone: values.phone,
-                    })
-                    dispatchStartTimer()
-                    on({
-                        message: "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
-                    })
-                }
-                if (response?.error?.code === 401) {
-                    setError("email", { message: "user is not verified" })
-                    setError("phone", { message: "user is not verified" })
-                }
-                if (response?.error?.code === 404) {
-                    setError("email", { message: "user not found" })
-                    setError("phone", { message: "user not found" })
-                }
-                if (response?.code && response?.code >= 500 && response?.code <= 599) {
-                    setError("email", { message: "something went wrong" })
-                }
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        if (values.email) {
+            useForgotPasswordHelper
+                .forgotPassword({ email: values.email })
+                .then((response) => {
+                    if (response.ok && !!response?.res) {
+                        // dispatchAuthModalCreatePassword({
+                        //     email: values.email,
+                        //     phone: values.phone,
+                        // })
+                        // dispatchStartTimer()
+                        dispatchAuthModal({
+                            visible: false,
+                        })
+                        on({
+                            message: "Проверьте почту. Мы выслали ссылку для восстановления пароля.",
+                        })
+                    }
+                    if (response?.error?.code === 401) {
+                        setError("email", { message: "user is not verified" })
+                        setError("phone", { message: "user is not verified" })
+                    }
+                    if (response?.error?.code === 404) {
+                        setError("email", { message: "user not found" })
+                        setError("phone", { message: "user not found" })
+                    }
+                    if (response?.code && response?.code >= 500 && response?.code <= 599) {
+                        setError("email", { message: "something went wrong" })
+                    }
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
+        }
     }
 
     return (

@@ -31,6 +31,7 @@ export interface IUseVisibleAndTypeAuthModalState {
         confirmationCode: string
         id: number
     }
+    codeReset?: string
 }
 
 export interface IUseTimerModalAuth {
