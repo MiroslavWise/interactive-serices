@@ -4,9 +4,9 @@ import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
-import { dispatchAuthModal } from "@/store/hooks"
 import { useToast } from "@/helpers/hooks/useToast"
 import { RegistrationService } from "@/services/auth/registrationService"
+import { dispatchAuthModal, dispatchOnboarding } from "@/store/hooks"
 
 export default function PageVerify() {
     const verifyToken = useSearchParams()?.get("token")
@@ -20,11 +20,12 @@ export default function PageVerify() {
                     on({
                         message: "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
                     })
-                    handlePush("/")
+                    dispatchOnboarding("open")
                     dispatchAuthModal({
                         visible: true,
                         type: "SignIn",
                     })
+                    handlePush("/")
                 }
             })
         }
