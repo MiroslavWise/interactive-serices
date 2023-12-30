@@ -51,7 +51,7 @@
     &[data-loading="true"] {
         & > span,
         & > img {
-            opacity: 0;
+            opacity: 0.6;
         }
         & > [data-load] {
             opacity: 1;

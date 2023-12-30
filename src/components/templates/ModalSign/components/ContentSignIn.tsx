@@ -1,6 +1,5 @@
-import { useRef, useState } from "react"
-// import { useForm, Controller } from "react-hook-form"
-import { type FormApi, useForm } from "@tanstack/react-form"
+import { useState } from "react"
+import { useForm, Controller } from "react-hook-form"
 
 import type { TContentSignIn, IValuesSignForm } from "../types/types"
 
@@ -25,12 +24,14 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
     const setVisible = useWelcomeModal(({ setVisible }) => setVisible)
 
-    const form = useForm<IValuesSignForm>({ onSubmit: onEnter, defaultValues: { phone: "", email: "", password: "" } })
-    const { Field } = form
+    const {
+        handleSubmit,
+        control,
+        setError,
+        formState: { errors },
+    } = useForm<IValuesSignForm>({ defaultValues: { phone: "", email: "", password: "" } })
 
-    function onEnter({ value, formApi }: { value: IValuesSignForm; formApi: FormApi<IValuesSignForm> }) {
-        const { setFieldMeta } = formApi
-
+    function onEnter(value: IValuesSignForm) {
         if (!loading) {
             setLoading(true)
             if (typeEmailOrPhone === "email") {
@@ -41,10 +42,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     })
                     .then((response) => {
                         if (response?.error?.code === 401 && response?.error?.message === "Unauthorized") {
-                            setFieldMeta("password", (state) => {
-                                state.errors = ["Не верный пароль"]
-                                return state
-                            })
+                            setError("password", { message: "Не верный пароль" })
                             return
                         }
                         if (response.error?.code === 401 && response?.error?.message === "user is not verified") {
@@ -57,10 +55,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             return
                         }
                         if (response.error?.code === 404) {
-                            setFieldMeta("email", (state) => {
-                                state.errors = ["Данного пользователя не существует"]
-                                return state
-                            })
+                            setError("email", { message: "Данного пользователя не существует" })
                             return
                         }
                         if (response?.res?.secret && response?.res?.otpAuthUrl) {
@@ -112,10 +107,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     })
             } else if (typeEmailOrPhone === "phone") {
                 if (value?.phone?.length < 10) {
-                    setFieldMeta("phone", (state) => {
-                        state.errors = ["Номер телефона состоит из 11 цифр"]
-                        return state
-                    })
+                    setError("phone", { message: "Номер телефона состоит из 11 цифр" })
                 }
                 const code = value.phone?.slice(0, 3)
                 const phone = value.phone?.slice(3)?.slice(0, 7)
@@ -124,16 +116,10 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     if (response?.ok) {
                     } else {
                         if (response?.error?.message === "user not found") {
-                            setFieldMeta("phone", (state) => {
-                                state.errors = ["Данного пользователя не существует"]
-                                return state
-                            })
+                            setError("phone", { message: "Данного пользователя не существует" })
                         }
                         if (response?.error?.message === "Unauthorized") {
-                            setFieldMeta("password", (state) => {
-                                state.errors = ["Не верный пароль"]
-                                return state
-                            })
+                            setError("password", { message: "Не верный пароль" })
                         }
                     }
                     console.log(" serviceAuth phone: ", response)
@@ -142,6 +128,8 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
             }
         }
     }
+
+    const submit = handleSubmit(onEnter)
 
     return (
         <div className={styles.content}>
@@ -154,144 +142,112 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                 }}
                 isBorder
             />
-            <form.Provider>
-                <form
-                    className={styles.form}
-                    onSubmit={(event) => {
-                        event.preventDefault()
-                        event.stopPropagation()
-                        void form.handleSubmit()
-                    }}
-                >
-                    {typeEmailOrPhone === "email" ? (
-                        <section className={styles.section}>
-                            <Field name="email">
-                                {(field) => (
-                                    <div data-label-input>
-                                        <label htmlFor={field.name}>Email</label>
-                                        <input
-                                            name={field.name}
-                                            value={field.state.value}
-                                            onChange={(event) => field.handleChange(event.target.value)}
-                                            type="email"
-                                            placeholder="Введите свой email"
-                                            inputMode="email"
-                                            data-error={!!field.state.meta?.errors?.length}
+            <form className={styles.form} onSubmit={submit}>
+                {typeEmailOrPhone === "email" ? (
+                    <section className={styles.section}>
+                        <Controller
+                            name="email"
+                            rules={{ required: true }}
+                            control={control}
+                            render={({ field }) => (
+                                <div data-label-input>
+                                    <label htmlFor={field.name}>Email</label>
+                                    <input
+                                        type="email"
+                                        placeholder="Введите свой email"
+                                        inputMode="email"
+                                        {...field}
+                                        data-error={!!errors.email}
+                                    />
+                                    {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
+                                </div>
+                            )}
+                        />
+                        <Controller
+                            name="password"
+                            control={control}
+                            rules={{ required: true, minLength: 5 }}
+                            render={({ field }) => (
+                                <div data-label-input data-password>
+                                    <label htmlFor={field.name}>Пароль</label>
+                                    <div>
+                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                                        <img
+                                            onClick={() => setIsPass((prev) => !prev)}
+                                            src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
+                                            alt="eye"
+                                            width={20}
+                                            height={20}
+                                            data-eye
                                         />
-                                        {field.state.meta.errors.length ? <i>{field.state.meta.errors.join(", ")}</i> : null}
                                     </div>
-                                )}
-                            </Field>
-                            <Field
-                                name="password"
-                                validators={{
-                                    onChangeAsync: async (value) =>
-                                        value.value.length < 6 ? "Пароль должен быть не менее 6 символов" : undefined,
-                                }}
-                            >
-                                {(field) => (
-                                    <div data-label-input data-password>
-                                        <label htmlFor={field.name}>Пароль</label>
-                                        <div>
-                                            <input
-                                                name={field.name}
-                                                value={field.state.value}
-                                                onChange={(event) => field.handleChange(event.target.value?.trim())}
-                                                placeholder="Введите свой пароль"
-                                                type={isPass ? "text" : "password"}
-                                                data-error={!!field.state.meta?.errors?.length}
-                                            />
-                                            <img
-                                                onClick={() => setIsPass((_) => !_)}
-                                                src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}
-                                                alt="eye"
-                                                width={20}
-                                                height={20}
-                                                data-eye
-                                            />
-                                        </div>
-                                        {field.state.meta.errors.length ? <i>{field.state.meta.errors.join(", ")}</i> : null}
+                                    {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
+                                </div>
+                            )}
+                        />
+                    </section>
+                ) : typeEmailOrPhone === "phone" ? (
+                    <section className={styles.section}>
+                        <Controller
+                            name="phone"
+                            rules={{ required: true }}
+                            control={control}
+                            render={({ field }) => (
+                                <div data-label-input>
+                                    <label htmlFor={field.name}>Email</label>
+                                    <div data-phone-mask>
+                                        <input
+                                            data-input-mask
+                                            type="text"
+                                            value={maskInputPhone(field.value)}
+                                            data-error={!!errors?.[field.name]}
+                                            placeholder="Введите свой номер"
+                                            readOnly
+                                        />
+                                        <input
+                                            data-absolute-mask
+                                            type="number"
+                                            placeholder="Введите свой номер"
+                                            inputMode="numeric"
+                                            pattern="^\d{10}$"
+                                            maxLength={10}
+                                            {...field}
+                                        />
                                     </div>
-                                )}
-                            </Field>
-                        </section>
-                    ) : typeEmailOrPhone === "phone" ? (
-                        <section className={styles.section}>
-                            <Field name="phone">
-                                {(field) => {
-                                    const value = field.state.value || ""
-                                    console.log("value: ", value)
-                                    return (
-                                        <div data-label-input>
-                                            <label htmlFor={field.name}>Телефон</label>
-                                            <div data-phone-mask>
-                                                <input
-                                                    data-input-mask
-                                                    type="text"
-                                                    value={maskInputPhone(value)}
-                                                    data-error={!!field.state.meta?.errors?.length}
-                                                    placeholder="Введите свой номер"
-                                                    readOnly
-                                                />
-                                                <input
-                                                    data-absolute-mask
-                                                    name={field.name}
-                                                    value={value}
-                                                    onChange={(event) => field.handleChange(event.target.value?.substring(0, 11))}
-                                                    type="number"
-                                                    placeholder="Введите свой номер"
-                                                    inputMode="numeric"
-                                                    pattern="^\d{10}$"
-                                                    maxLength={10}
-                                                />
-                                            </div>
-                                            {field.state.meta.errors.length ? <i>{field.state.meta.errors.join(", ")}</i> : null}
-                                        </div>
-                                    )
-                                }}
-                            </Field>
-                            <Field
-                                name="password"
-                                validators={{
-                                    onChangeAsync: async (value) =>
-                                        value.value.length < 6 ? "Пароль должен быть не менее 6 символов" : undefined,
-                                }}
-                            >
-                                {(field) => (
-                                    <div data-label-input data-password>
-                                        <label htmlFor={field.name}>Пароль</label>
-                                        <div>
-                                            <input
-                                                name={field.name}
-                                                value={field.state.value}
-                                                onChange={(event) => field.handleChange(event.target.value)}
-                                                placeholder="Введите свой пароль"
-                                                type={isPass ? "text" : "password"}
-                                                data-error={!!field.state.meta?.errors?.length}
-                                            />
-                                            <img
-                                                onClick={() => setIsPass((_) => !_)}
-                                                src={`/svg/${isPass ? "eye" : "eye-off"}.svg`}
-                                                alt="eye"
-                                                width={20}
-                                                height={20}
-                                                data-eye
-                                            />
-                                        </div>
-                                        {field.state.meta.errors.length ? <i>{field.state.meta.errors.join(", ")}</i> : null}
+                                    {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
+                                </div>
+                            )}
+                        />
+                        <Controller
+                            name="password"
+                            control={control}
+                            rules={{ required: true, minLength: 5 }}
+                            render={({ field }) => (
+                                <div data-label-input data-password>
+                                    <label htmlFor={field.name}>Пароль</label>
+                                    <div>
+                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                                        <img
+                                            onClick={() => setIsPass((prev) => !prev)}
+                                            src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
+                                            alt="eye"
+                                            width={20}
+                                            height={20}
+                                            data-eye
+                                        />
                                     </div>
-                                )}
-                            </Field>
-                        </section>
-                    ) : null}
-                    <div className={styles.RememberChange}>
-                        <a onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}>Забыли пароль?</a>
-                    </div>
-                    <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} />
-                    <LinksSocial />
-                </form>
-            </form.Provider>
-
+                                    {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
+                                </div>
+                            )}
+                        />
+                    </section>
+                ) : null}
+                <div className={styles.RememberChange}>
+                    <a onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}>Забыли пароль?</a>
+                </div>
+                <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} />
+                <LinksSocial />
+            </form>
             <article data-column>
                 <p>
                     Нет аккаунта? <a onClick={() => dispatchAuthModal({ type: "SignUp" })}>Зарегистрироваться</a>

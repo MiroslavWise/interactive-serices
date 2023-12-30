@@ -6,7 +6,7 @@ import { Button } from "@/components/common"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModal, dispatchAuthModalVerification, dispatchStartTimer, useModalAuth, useModalAuthEmailOrPhone } from "@/store/hooks"
+import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
@@ -79,7 +79,6 @@ export const ContentCreatePassword = () => {
                     .finally(() => {
                         setLoading(false)
                     })
-
                 return
             }
             if (!!email && typeEmailOrPhone === "email") {
@@ -91,12 +90,7 @@ export const ContentCreatePassword = () => {
                     .then((response) => {
                         if (response.ok) {
                             if (response.res) {
-                                console.log("response res: ", response?.res)
-                                dispatchStartTimer()
-                                dispatchAuthModalVerification({
-                                    confirmationCode: response?.res?.confirmationCode!,
-                                    id: response?.res?.id!,
-                                })
+                                dispatchAuthModalInformationCreateAccount(email)
                                 setLoading(false)
                             }
                         } else {
@@ -106,6 +100,7 @@ export const ContentCreatePassword = () => {
                     .finally(() => {
                         setLoading(false)
                     })
+                return
             } else if (!!phone && typeEmailOrPhone === "phone") {
                 // dispatchStartTimer()
                 // dispatchAuthModalVerification({})

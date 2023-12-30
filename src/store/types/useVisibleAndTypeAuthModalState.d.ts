@@ -12,6 +12,7 @@ export type TTypeSign =
     | "CreatePassword"
     | "ExistingAccount"
     | "InformationEmailReset"
+    | "InformationCreateAccount"
     | null
 
 export interface IAction {
