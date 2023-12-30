@@ -6,11 +6,14 @@ import { ItemNotification } from "@/components/notifications"
 
 import { useAuth } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
+import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/NotificationsMobile/constants/navigation"
 
 import styles from "./page.module.scss"
+import { useState } from "react"
 
 export default function Notifications() {
     const userId = useAuth(({ userId }) => userId)
+    const [status, setStatus] = useState<TTypeWaiting>("all")
 
     const { data: dataNotifications, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -23,7 +26,22 @@ export default function Notifications() {
         <section className={styles.wrapper}>
             <header>
                 <h4>Уведомления</h4>
-                <a data-null={!dataNotifications?.res?.length}>Прочитать все</a>
+                <nav>
+                    {NAVIGATION_STATUSES.map((item) => (
+                        <a
+                            key={`::${item.value}::key::nav::`}
+                            data-active={status === item.value}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                if (item.value !== status) {
+                                    setStatus(item.value)
+                                }
+                            }}
+                        >
+                            {item.label}
+                        </a>
+                    ))}
+                </nav>
             </header>
             {dataNotifications?.res?.length ? (
                 <ul>

@@ -22,7 +22,7 @@ export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
             }),
         queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
         refetchOnReconnect: false,
-        queryHash: `barters-receiver=${userId}-status=initiated`,
+        refetchOnMount: false,
     })
 
     useEffect(() => {

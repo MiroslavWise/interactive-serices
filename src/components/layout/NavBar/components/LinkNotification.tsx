@@ -27,7 +27,6 @@ export const LinkNotification = memo(function LinkNotification() {
             data-active={pathname?.includes("/notifications")}
             data-notification
             onClick={(event) => {
-                console.log("on clieck setActive: ")
                 setActive((state) => !state)
                 event.stopPropagation()
             }}
@@ -37,7 +36,7 @@ export const LinkNotification = memo(function LinkNotification() {
             <span>Уведомления</span>
             {data?.res?.length ? (
                 <div data-count>
-                    <span>{data?.res?.length || 0}</span>
+                    <span>{data?.res?.length > 9 ? "9+" : data?.res?.length || 0}</span>
                 </div>
             ) : null}
 
