@@ -18,7 +18,7 @@ export const HeaderAuth = memo(function HeaderAuth() {
                     ? "Восстановление пароля"
                     : type === "CreatePassword"
                     ? "Пароль"
-                    : type === "CodeVerification"
+                    : ["CodeVerification", "InformationCreateAccount"].includes(type!)
                     ? `Подтверждение ${!!email ? "почты" : !!phone ? "номера" : ""}`
                     : type === "ExistingAccount"
                     ? "Аккаунт уже существует"

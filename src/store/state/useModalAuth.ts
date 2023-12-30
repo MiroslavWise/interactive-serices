@@ -53,6 +53,12 @@ export const dispatchAuthModalResetPassword = (value: string) =>
         type: "ResetPassword",
         codeReset: value,
     }))
+export const dispatchAuthModalInformationCreateAccount = (value: string) =>
+    useModalAuth.setState((_) => ({
+        visible: true,
+        type: "InformationCreateAccount",
+        email: value,
+    }))
 
 export const dispatchAuthModalCreatePassword = ({ email, phone }: IActionCreatePassword) =>
     useModalAuth.setState((_) => ({

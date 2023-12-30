@@ -2,27 +2,16 @@
 
 import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
 
 import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import "@/context/DayJSDefault"
-import { usePush } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
-import {} from "@/context/QueryClientProviderContext"
-import { RegistrationService } from "@/services/auth/registrationService"
-import { useAuth, dispatchAuthModal, useFetchingSession, useOffersCategories, dispatchAuthModalResetPassword } from "@/store/hooks"
+import { useAuth, useFetchingSession, useOffersCategories } from "@/store/hooks"
 
 export default function Providers({ children }: { children: ReactNode }) {
     const refresh = useAuth(({ refresh }) => refresh)
-    const searchParams = useSearchParams()
-    const { handleReplace } = usePush()
-    const { on } = useToast()
-    const verifyToken = searchParams?.get("verify")
-    const passwordResetToken = searchParams?.get("password-reset-token")
     const getCategories = useOffersCategories(({ getCategories }) => getCategories)
-
     const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
     const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
 
@@ -39,28 +28,6 @@ export default function Providers({ children }: { children: ReactNode }) {
     useEffect(() => {
         refresh()
     }, [refresh])
-    useEffect(() => {
-        if (passwordResetToken) {
-            handleReplace("/")
-            dispatchAuthModalResetPassword(passwordResetToken!)
-        }
-    }, [passwordResetToken])
-    useEffect(() => {
-        if (verifyToken) {
-            RegistrationService.verification({ code: verifyToken! }).then((response) => {
-                if (response.ok) {
-                    on({
-                        message: "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
-                    })
-                    handleReplace("/")
-                    dispatchAuthModal({
-                        visible: true,
-                        type: "SignIn",
-                    })
-                }
-            })
-        }
-    }, [verifyToken])
 
     useEffect(() => {
         if (offersCategories === false) {

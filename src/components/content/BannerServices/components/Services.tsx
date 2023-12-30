@@ -2,7 +2,6 @@
 
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { useVirtualizer, useWindowVirtualizer } from "@tanstack/react-virtual"
 
 import type { TServicesFC } from "../types/types"
 import type { TOrder } from "@/services/types/general"
