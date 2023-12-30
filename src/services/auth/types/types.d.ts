@@ -31,4 +31,5 @@ export interface IAuth {
     postGoogle(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
     postTelegram(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
     postYandex(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
+    postVK(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
 }

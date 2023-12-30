@@ -38,11 +38,7 @@ export const ChatEmptyBarter = () => {
                 user: userId,
                 provider: "barter",
             })
-            return res?.find(
-                (item) =>
-                    item?.provider?.includes("barter") &&
-                    item?.barterId === Number(barterNumber?.id),
-            )
+            return res?.find((item) => item?.provider?.includes("barter") && item?.barterId === Number(barterNumber?.id))
         }
 
         async function createThread(emitterId: number, receiverId: number) {
@@ -57,16 +53,17 @@ export const ChatEmptyBarter = () => {
                 enabled: true,
             }
 
+            if (barterNumber?.id) {
+                data_.barterId = barterNumber?.id
+            }
+
             const { res } = await serviceThreads.post(data_)
             if (res?.id) {
                 const dataBarter: IPatchDataBarter = {
                     threadId: Number(res?.id),
                     updatedById: userId,
                 }
-                const response = await serviceBarters.patch(
-                    dataBarter,
-                    Number(barterNumber?.id),
-                )
+                const response = await serviceBarters.patch(dataBarter, Number(barterNumber?.id))
                 console.log("response updated barter: ", response)
             }
 
@@ -78,17 +75,13 @@ export const ChatEmptyBarter = () => {
             return handleReplace(`/messages?thread=${thread?.id}`)
         }
         if (!thread) {
-            const idCreate = await createThread(
-                Number(userId),
-                barterNumber?.idUser!,
-            )
+            const idCreate = await createThread(Number(userId), barterNumber?.idUser!)
 
             if (!idCreate) {
                 handleReplace("/messages")
                 on(
                     {
-                        message:
-                            "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+                        message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
                     },
                     "warning",
                 )

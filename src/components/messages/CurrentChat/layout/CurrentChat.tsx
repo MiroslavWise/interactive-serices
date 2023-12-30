@@ -18,7 +18,7 @@ import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { serviceMessages } from "@/services/messages"
-import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage } from "@/store/hooks"
+import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage, dispatchDataUser } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
@@ -73,16 +73,24 @@ export const CurrentChat = () => {
         return null
     }, [data?.res, userId])
 
-    const userData = useUserIdMessage(({ userData }) => userData)
+    const userDataIdMassage = useUserIdMessage(({ userData }) => userData)
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUsers.getId(Number(idUser)),
         queryKey: ["user", idUser],
-        enabled: !!idUser && !userData,
+        enabled: !!idUser && !userDataIdMassage,
         refetchOnMount: true,
         refetchOnWindowFocus: true,
         refetchOnReconnect: true,
     })
+
+    useEffect(() => {
+        if (!!dataUser?.ok && !userDataIdMassage) {
+            if (dataUser?.res) {
+                dispatchDataUser(dataUser?.res)
+            }
+        }
+    }, [dataUser, userDataIdMassage])
 
     useEffect(() => {
         if (dataMessages?.res && Array.isArray(dataMessages?.res)) {
@@ -101,13 +109,13 @@ export const CurrentChat = () => {
 
     const conversationPartner = useMemo(() => {
         return {
-            photo: dataUser?.res?.profile?.image?.attributes?.url! || userData?.profile?.image?.attributes?.url!,
-            name: `${dataUser?.res?.profile?.firstName || userData?.profile?.firstName || " "} ${
-                dataUser?.res?.profile?.lastName || userData?.profile?.lastName || " "
+            photo: dataUser?.res?.profile?.image?.attributes?.url! || userDataIdMassage?.profile?.image?.attributes?.url!,
+            name: `${dataUser?.res?.profile?.firstName || userDataIdMassage?.profile?.firstName || " "} ${
+                dataUser?.res?.profile?.lastName || userDataIdMassage?.profile?.lastName || " "
             }`,
             messages: stateMessages,
         }
-    }, [dataUser?.res, userData, stateMessages])
+    }, [dataUser?.res, userDataIdMassage, stateMessages])
 
     useEffect(() => {
         function chatResponse(event: any) {
@@ -161,7 +169,7 @@ export const CurrentChat = () => {
             )}
             <ListMessages
                 messages={stateMessages}
-                dataUser={dataUser?.res! || userData!}
+                dataUser={dataUser?.res! || userDataIdMassage!}
                 idBarter={data?.res?.barterId!}
                 refetchThread={refetchThreads}
             />

@@ -5,7 +5,7 @@ export function sortIdAscending(id1: number, id2: number): string | null {
         return null
     }
 
-    return id1 < id2 ? `${id1}:${id2}` : `${id2}:${id1}`
+    return [id1, id2].sort().join(":")
 }
 
 interface IValuesProviderIdAscending {
@@ -13,9 +13,7 @@ interface IValuesProviderIdAscending {
     ids: number[]
 }
 
-export function providerIsAscending(
-    values: IValuesProviderIdAscending,
-): string | null {
+export function providerIsAscending(values: IValuesProviderIdAscending): string | null {
     const {
         type,
         ids: [id1, id2, barterId],

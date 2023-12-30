@@ -6,7 +6,7 @@ import type { TProps } from "./types"
 import { Button, ButtonCircleGradient, ButtonClose } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { useAuth, dispatchAuthModal, useVisibleModalBarter } from "@/store/hooks"
+import { useAuth, dispatchAuthModal, useVisibleModalBarter, dispatchProfilePublic } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -44,6 +44,7 @@ export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
         if (userId !== offer?.userId) {
             if (!!userId) {
                 handleBarter()
+                dispatchProfilePublic({ visible: false })
             } else if (!userId) {
                 setVisible(true)
             }

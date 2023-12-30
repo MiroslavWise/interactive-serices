@@ -28,6 +28,17 @@
         border-color: var(--primary-500);
     }
 
+    &[data-type="barter"] {
+        & > [data-avatar] {
+            background: var(--background-input);
+            & > img {
+                height: 2.5rem;
+                width: 2.5rem;
+                border-radius: 0.625rem;
+            }
+        }
+    }
+
     &[data-type="information"] {
         & > [data-avatar] {
             padding: 0.5rem;
@@ -191,21 +202,25 @@
                 }
             }
         }
-    }
 
-    & > [data-buttons] {
-        width: fit-content;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 0.5rem;
+        & > [data-buttons] {
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
 
-        & > button,
-        & > a {
-            min-width: 6.875rem;
+            & > button,
+            & > a {
+                min-width: 6.875rem;
 
-            & > span {
-                font-size: 0.875rem;
+                & > span {
+                    font-size: 0.875rem;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 1.25rem;
+                    letter-spacing: -0.01125rem;
+                }
             }
         }
     }

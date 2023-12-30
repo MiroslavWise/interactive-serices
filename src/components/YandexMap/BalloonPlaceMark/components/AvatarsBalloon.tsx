@@ -18,9 +18,7 @@ import styles from "../styles/avatars-balloon.module.scss"
 export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
     const { handlePush } = usePush()
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
-    const dispatchProfilePublic = useProfilePublic(
-        ({ dispatchProfilePublic }) => dispatchProfilePublic,
-    )
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
 
     const { data } = useQuery({
         queryFn: () =>
@@ -31,24 +29,17 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
         enabled: !!offerId!,
     })
 
-    const currentOffersThreads =
-        data?.res?.find((item) => item?.offerId === offerId) || null
+    const currentOffersThreads = data?.res?.find((item) => item?.offerId === offerId) || null
 
     const { data: dataComments } = useQuery({
-        queryFn: () =>
-            serviceComments.get({ offer: currentOffersThreads?.id! }),
+        queryFn: () => serviceComments.get({ offer: currentOffersThreads?.id! }),
         queryKey: ["comments", `offer=${currentOffersThreads?.id!}`],
         enabled: !!currentOffersThreads?.id!,
     })
 
-    const currentComments =
-        dataComments?.res?.filter(
-            (item) => item.offerThreadId === currentOffersThreads?.id,
-        ) || []
+    const currentComments = dataComments?.res?.filter((item) => item.offerThreadId === currentOffersThreads?.id) || []
 
-    const users = Array.from(
-        new Set([...currentComments.map((item) => item?.userId)]),
-    )
+    const users = Array.from(new Set([...currentComments.map((item) => item?.userId)]))
 
     const dataUsers = useQueries({
         queries: users.map((item) => ({
@@ -81,7 +72,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
     }
 
     return (
-        <ul className={styles.container}>
+        <ul className={styles.container} onClick={(event) => event.stopPropagation()}>
             {usersAvatar
                 ? usersAvatar
                       .slice(0, 6)

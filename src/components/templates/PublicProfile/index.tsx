@@ -16,7 +16,7 @@ import { InfoContainerProfile } from "./components/InfoContainerProfile"
 import { cx } from "@/lib/cx"
 import { serviceUsers } from "@/services/users"
 import { VALUES } from "./constants/SEGMENTS"
-import { useProfilePublic } from "@/store/hooks"
+import { dispatchProfilePublic, useProfilePublic } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
@@ -24,7 +24,6 @@ export const PublicProfile = () => {
     const isLeft = useProfilePublic(({ isLeft }) => isLeft)
     const idUser = useProfilePublic(({ idUser }) => idUser)
     const visibleProfilePublic = useProfilePublic(({ visibleProfilePublic }) => visibleProfilePublic)
-    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const [activeSegment, setActiveSegment] = useState<ISegmentValues<TTypeSegment>>(VALUES[0])
 
     const { data } = useQuery({

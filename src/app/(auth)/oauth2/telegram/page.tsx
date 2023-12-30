@@ -15,7 +15,7 @@ export default function CallbackTelegram() {
         const hash = window.location.hash
 
         if (hash) {
-            const queryForBody = hash.replace("#", "").split("=")
+            const queryForBody = hash.replace("#", "").replace("=", ":").split(":")
             const data = { [queryForBody[0]]: queryForBody[1] }
 
             serviceAuth.postTelegram(data).then((response) => {
