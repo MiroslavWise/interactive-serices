@@ -89,7 +89,8 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                     })
                                     if (!responseUser?.res?.profile) {
                                         dispatchAuthModal({ visible: false })
-                                        return setVisible(true)
+                                        // setVisible(true)
+                                        return
                                     }
                                     if (!!responseUser?.res?.profile) {
                                         return changeAuth()
