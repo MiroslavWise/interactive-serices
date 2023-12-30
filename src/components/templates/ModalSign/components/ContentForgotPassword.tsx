@@ -33,16 +33,9 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                 .forgotPassword({ email: values.email })
                 .then((response) => {
                     if (response.ok && !!response?.res) {
-                        // dispatchAuthModalCreatePassword({
-                        //     email: values.email,
-                        //     phone: values.phone,
-                        // })
-                        // dispatchStartTimer()
                         dispatchAuthModal({
-                            visible: false,
-                        })
-                        on({
-                            message: "Проверьте почту. Мы выслали ссылку для восстановления пароля.",
+                            type: "InformationEmailReset",
+                            email: values.email,
                         })
                     }
                     if (response?.error?.code === 401) {

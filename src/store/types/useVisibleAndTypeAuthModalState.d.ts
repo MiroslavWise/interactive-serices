@@ -11,11 +11,13 @@ export type TTypeSign =
     | "CodeVerification"
     | "CreatePassword"
     | "ExistingAccount"
+    | "InformationEmailReset"
     | null
 
 export interface IAction {
     visible?: boolean
     type?: TTypeSign
+    email?: string
 }
 
 export interface IActionCreatePassword {

@@ -13,6 +13,7 @@ import { ContentCodeVerification } from "../components/ContentCodeVerification"
 
 import { useModalAuth } from "@/store/hooks"
 import { ContentExistingAccount } from "../components/ContentExistingAccount"
+import { ContentInformationEmailReset } from "../components/ContentInformationEmailReset"
 
 export const Content = memo(function Content() {
     const type = useModalAuth(({ type }) => type)
@@ -40,6 +41,8 @@ export const Content = memo(function Content() {
                 <ContentCreatePassword />
             ) : type === "ExistingAccount" ? (
                 <ContentExistingAccount />
+            ) : type === "InformationEmailReset" ? (
+                <ContentInformationEmailReset />
             ) : null}
         </ul>
     )
