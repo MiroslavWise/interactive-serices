@@ -17,4 +17,7 @@ export const serviceAuth: IAuth = {
     postYandex(values) {
         return wrapperFetch.methodPost(`${this.route}/yandex`, values)
     },
+    postVK(values) {
+        return wrapperFetch.methodPost(`${this.route}/vk`, values)
+    },
 }

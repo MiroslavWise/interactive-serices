@@ -6,11 +6,13 @@ interface IStateProfilePublic {
     idUser?: number
 }
 
-interface IAction {
+export interface IAction {
     visible: boolean
     idUser?: number
     isLeft?: boolean
 }
+
+export type TActionDispatch = Dispatch<IAction>
 
 interface IActionProfilePublic {
     dispatchProfilePublic: Dispatch<IAction>

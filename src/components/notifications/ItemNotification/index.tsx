@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
 import type { IResponseNotifications } from "@/services/notifications/types"
 
-import { ButtonLink } from "@/components/common"
+import { ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import { useAuth } from "@/store/hooks"
@@ -41,9 +41,9 @@ export const ItemNotification = (props: IResponseNotifications & { refetch: () =
     const type: TTypeIconNotification = useMemo(() => {
         switch (provider) {
             case "barter":
-                return "information"
+                return "barter"
             default:
-                return "information"
+                return "barter"
         }
     }, [provider])
 
@@ -107,7 +107,9 @@ export const ItemNotification = (props: IResponseNotifications & { refetch: () =
     return (
         <li className={styles.container} data-type={type} data-active={false}>
             <div data-avatar>
-                {["information", "warning", "error"].includes(type) ? (
+                {currentType === "barter" ? (
+                    <NextImageMotion src={dataUser?.res?.profile?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+                ) : ["information", "warning", "error"].includes(type) ? (
                     <img src={IMG_TYPE?.[currentType]!} alt="type" width={24} height={24} />
                 ) : null}
             </div>

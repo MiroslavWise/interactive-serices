@@ -22,9 +22,4 @@ export const LINKS_PROFILE: ILinksProfile[] = [
         label: "Сообщения",
         icon: "/icons/mobile/fill/message-filled.svg",
     },
-    {
-        path: "/notifications",
-        label: "Уведомления",
-        icon: "/icons/mobile/fill/bell-fill.svg",
-    },
 ]
