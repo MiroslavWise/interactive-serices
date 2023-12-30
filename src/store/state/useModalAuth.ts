@@ -40,10 +40,11 @@ export const dispatchIModalAuthEmailOrPhone = (value: TTypeEmailOrNumber) =>
         typeEmailOrPhone: value,
     }))
 
-export const dispatchAuthModal = ({ visible, type }: IAction) =>
+export const dispatchAuthModal = ({ visible, type, email }: IAction) =>
     useModalAuth.setState((_) => ({
         visible: typeof visible !== "undefined" ? visible : _.visible,
         type: typeof type !== "undefined" ? type : _.type,
+        email: typeof email !== "undefined" ? email : _.email,
     }))
 
 export const dispatchAuthModalResetPassword = (value: string) =>
