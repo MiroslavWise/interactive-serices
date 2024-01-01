@@ -1,5 +1,7 @@
 import type { Dispatch } from "react"
 
+import type { IUserResponse } from "@/services/users/types/usersService"
+
 export type TTypeSign =
     | "SignIn"
     | "SignUp"
@@ -13,6 +15,7 @@ export type TTypeSign =
     | "ExistingAccount"
     | "InformationEmailReset"
     | "InformationCreateAccount"
+    | "CurrentUser"
     | null
 
 export interface IAction {
@@ -35,6 +38,7 @@ export interface IUseVisibleAndTypeAuthModalState {
         id: number
     }
     codeReset?: string
+    user?: IUserResponse
 }
 
 export interface IUseTimerModalAuth {

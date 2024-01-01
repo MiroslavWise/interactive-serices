@@ -29,4 +29,7 @@ export const serviceUserValid: IServiceUserValid = {
     post(values) {
         return wrapperFetch.methodPost(this.route, values)
     },
+    getEmailUser(value) {
+        return wrapperFetch.methodGetId(`${this.route}/email`, value)
+    },
 }

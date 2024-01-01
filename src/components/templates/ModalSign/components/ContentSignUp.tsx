@@ -13,14 +13,17 @@ import { VALUES_EMAIL_PHONE } from "../constants/segments"
 import {
     dispatchAuthModal,
     dispatchAuthModalCreatePassword,
+    dispatchAuthModalCurrentUser,
     dispatchIModalAuthEmailOrPhone,
     useModalAuth,
     useModalAuthEmailOrPhone,
 } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
+import { serviceUserValid } from "@/services/users"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
+    const [loading, setLoading] = useState(false)
     const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
     const email = useModalAuth(({ email }) => email)
     const phone = useModalAuth(({ phone }) => phone)
@@ -40,10 +43,28 @@ export const ContentSignUp: TContentSignUp = ({}) => {
     })
 
     const onRegister = async (values: IValuesRegistrationForm) => {
-        dispatchAuthModalCreatePassword({
-            email: values.email,
-            phone: values.phone,
-        })
+        if (!loading) {
+            setLoading(true)
+            if (values.email && typeEmailOrPhone === "email") {
+                serviceUserValid.getEmailUser(values.email!).then((response) => {
+                    console.log("response getEmailUser: ", response)
+                    if (response.ok) {
+                        if (response.res) {
+                            dispatchAuthModalCurrentUser({ user: response?.res })
+                        }
+                    } else {
+                        if (response?.error?.message === "user not found") {
+                            dispatchAuthModalCreatePassword({
+                                email: values.email,
+                            })
+                        }
+                    }
+                    setLoading(false)
+                })
+            }
+            if (values.phone && typeEmailOrPhone === "phone") {
+            }
+        }
     }
 
     return (
@@ -124,7 +145,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                         </p>
                     </div>
                 </div>
-                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" />
+                <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" loading={loading} />
                 <LinksSocial />
             </form>
             <article data-column>

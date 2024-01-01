@@ -46,4 +46,5 @@ export interface IServiceUsers {
 export interface IServiceUserValid {
     route: string
     post(value: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
+    getEmailUser(value: string): Promise<IReturnData<IUserResponse>>
 }

@@ -8,13 +8,7 @@ import type { TContentForgotPassword } from "../types/types"
 import { Button, Segments } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import {
-    dispatchStartTimer,
-    dispatchAuthModal,
-    useModalAuthEmailOrPhone,
-    dispatchIModalAuthEmailOrPhone,
-    dispatchAuthModalCreatePassword,
-} from "@/store/hooks"
+import { dispatchAuthModal, useModalAuthEmailOrPhone, dispatchIModalAuthEmailOrPhone, useModalAuth } from "@/store/hooks"
 import { VALUES_EMAIL_PHONE } from "../constants/segments"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
@@ -22,9 +16,9 @@ import styles from "../styles/form.module.scss"
 
 export const ContentForgotPassword: TContentForgotPassword = () => {
     const [loading, setLoading] = useState(false)
+    const email = useModalAuth(({ email }) => email)
     const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
-    const { on } = useToast()
-    const { control, handleSubmit, setError } = useForm<IValues>()
+    const { control, handleSubmit, setError } = useForm<IValues>({ defaultValues: { email: email } })
 
     const onEnter = async (values: IValues) => {
         setLoading(true)
