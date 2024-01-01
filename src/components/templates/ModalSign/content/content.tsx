@@ -6,15 +6,16 @@ import { HeaderAuth } from "../components/Header"
 import { ContentSignIn } from "../components/ContentSignIn"
 import { ContentSignUp } from "../components/ContentSignUp"
 import { ContentOtpCode } from "../components/ContentOtpCode"
+import { ContentCurrentUser } from "../components/ContentCurrentUser"
 import { ContentFirstLoginQR } from "../components/ContentFirstLoginQR"
 import { ContentCreatePassword } from "../components/ContentCreatePassword"
 import { ContentForgotPassword } from "../components/ContentForgotPassword"
-import { ContentCodeVerification } from "../components/ContentCodeVerification"
-
-import { useModalAuth } from "@/store/hooks"
 import { ContentExistingAccount } from "../components/ContentExistingAccount"
+import { ContentCodeVerification } from "../components/ContentCodeVerification"
 import { ContentInformationEmailReset } from "../components/ContentInformationEmailReset"
 import { ContentInformationCreateAccount } from "../components/ContentInformationCreateAccount"
+
+import { useModalAuth } from "@/store/hooks"
 
 export const Content = memo(function Content() {
     const type = useModalAuth(({ type }) => type)
@@ -46,6 +47,8 @@ export const Content = memo(function Content() {
                 <ContentInformationEmailReset />
             ) : type === "InformationCreateAccount" ? (
                 <ContentInformationCreateAccount />
+            ) : type === "CurrentUser" ? (
+                <ContentCurrentUser />
             ) : null}
         </ul>
     )

@@ -11,6 +11,7 @@ import type {
     TTypeEmailOrNumber,
     IActionAuthModalVerification,
 } from "../types/useVisibleAndTypeAuthModalState"
+import { IUserResponse } from "@/services/users/types/usersService"
 
 export const useModalAuth = create(
     persist<IUseVisibleAndTypeAuthModalState>(
@@ -79,3 +80,10 @@ export const dispatchStartTimer = () =>
     }))
 
 export const dispatchIntervalTimer = () => useTimerModalAuth.setState((_) => ({}))
+
+export const dispatchAuthModalCurrentUser = ({ user }: { user?: IUserResponse }) =>
+    useModalAuth.setState((_) => ({
+        type: !!user ? "CurrentUser" : null,
+        visible: !!user ? true : false,
+        user: user,
+    }))
