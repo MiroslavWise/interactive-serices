@@ -20,11 +20,13 @@ export default function CallbackVK() {
                 },
             })
 
-            console.log("response: ", response.json())
+            const { data } = (await response.json()) ?? {}
+
+            console.log("response: fetchVK", data)
 
             return {
                 ok: true,
-                response: await response.json(),
+                response: data,
             }
         } catch (e) {
             return {
@@ -49,15 +51,11 @@ export default function CallbackVK() {
                 data[key] = value
             })
 
-            console.log("queryForBody: ", queryForBody)
-
             if (data?.access_token && data?.user_id) {
                 fetchVK({ access_token: data?.access_token, user_id: data?.user_id }).then((response) => {
                     if (response.ok) {
                         if (response?.response) {
-                            const { data } = response?.response
-
-                            serviceAuth.postVK(data).then((response) => {
+                            serviceAuth.postVK(response?.response).then((response) => {
                                 console.log("response: postVK", response)
                                 if (response.ok) {
                                     if (response?.res) {
