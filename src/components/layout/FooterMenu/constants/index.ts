@@ -1,6 +1,6 @@
 import type { IItemsMenu } from "../types"
 
-export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
+export const MENU_ITEMS = (isAuth: boolean | undefined): IItemsMenu[] => [
     {
         label: "Карта",
         path: "",
@@ -13,7 +13,7 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
     },
     {
         label: "Обмен",
-        path: is ? "offers" : null,
+        path: isAuth ? "offers" : null,
         icon: {
             fill: "/icons/mobile/fill/sharing-filled.svg",
             regular: "/icons/mobile/regular/sharing-regular.svg",
@@ -33,7 +33,7 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
     },
     {
         label: "Сообщения",
-        path: is ? "messages" : null,
+        path: isAuth ? "messages" : null,
         icon: {
             fill: "/icons/mobile/fill/message-filled.svg",
             regular: "/icons/mobile/regular/message-regular.svg",
@@ -42,8 +42,8 @@ export const MENU_ITEMS = (is: boolean | undefined): IItemsMenu[] => [
         key: "id-messages-menu-footer",
     },
     {
-        label: "Профиль",
-        path: is ? "profile" : null,
+        label: isAuth ? "Профиль" : "Войти",
+        path: isAuth ? "profile" : null,
         icon: {
             fill: "/icons/mobile/fill/profile-active-filled.svg",
             regular: "/icons/mobile/regular/profile-active-regular.svg",
