@@ -29,6 +29,7 @@ export default function CallbackVK() {
                 response: data,
             }
         } catch (e) {
+            console.log("error fetchVK: ", e)
             return {
                 error: true,
                 message: e,
@@ -75,6 +76,7 @@ export default function CallbackVK() {
                             })
                         }
                     } else {
+                        console.log("error vk: ", response?.message)
                         on({
                             message: "ошибка на стороне ВКонтакте. Мы её решаем сейчас",
                         })
