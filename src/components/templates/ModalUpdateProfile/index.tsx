@@ -163,22 +163,11 @@ export const ModalUpdateProfile = () => {
 
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
-            <div data-container>
-                {!isMobile && (
-                    <ButtonClose
-                        onClick={() => setVisible(false)}
-                        position={{
-                            right: 12,
-                            top: 12,
-                        }}
-                    />
-                )}
+            <section>
+                <ButtonClose onClick={() => setVisible(false)} position={{}} />
                 {isMobile ? (
                     <header data-header-title>
                         <h3>Редактировать профиль</h3>
-                        <div data-back onClick={() => setVisible(false)}>
-                            <img src="/svg/chevron-left.svg" alt="chevron-left" height={24} width={24} />
-                        </div>
                     </header>
                 ) : (
                     <h3 data-title>Редактировать профиль</h3>
@@ -193,7 +182,7 @@ export const ModalUpdateProfile = () => {
                     <Content errors={errors} register={register} watch={watch} setValue={setValue} />
                     <Footer loading={loading} />
                 </form>
-            </div>
+            </section>
         </div>
     )
 }

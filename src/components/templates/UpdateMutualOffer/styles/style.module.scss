@@ -14,10 +14,13 @@
         width: 100%;
         border-radius: 2rem;
         background: var(--background);
-        overflow: hidden;
         z-index: 3;
         display: flex;
         flex-direction: column;
+
+        & > [data-close] {
+            right: calc(-0.25rem);
+        }
 
         & > [data-header] {
             height: 4.875rem;
@@ -123,12 +126,22 @@
                 align-items: center;
                 justify-content: center;
                 gap: 1rem;
+                margin-top: auto;
 
                 & > button {
                     width: 100%;
                     max-width: 15rem;
-                    // height: 36px;
                 }
+            }
+        }
+    }
+}
+
+[data-mobile="false"] {
+    .wrapper {
+        & > section {
+            & > [data-close] {
+                transform: translateX(100%);
             }
         }
     }
@@ -140,10 +153,16 @@
         & > section {
             border-radius: 0;
             max-width: 100%;
+            overflow: hidden;
 
             & > [data-close] {
                 width: 2.25rem;
                 height: 2.25rem;
+                background: transparent;
+                top: 0 !important;
+                right: 0 !important;
+                border: none;
+                box-shadow: none;
             }
 
             & > [data-header] {

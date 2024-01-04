@@ -50,8 +50,6 @@ export const UpdateMutualOffer = () => {
         enabled: false,
     })
 
-    const position = isMobile ? { left: 12 } : { right: 12 }
-
     const title = categories?.find((item) => item.id === data?.categoryId)?.title || null
 
     const photos = data?.images || []
@@ -115,9 +113,10 @@ export const UpdateMutualOffer = () => {
         setStrings((prev) => prev.filter((_, index) => index !== value))
     }
 
-    return visibleUpdateMutual ? (
+    return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleUpdateMutual}>
             <section>
+                <ButtonClose onClick={cancel} position={{}} />
                 <div data-header>
                     <h3>{title}</h3>
                 </div>
@@ -189,8 +188,7 @@ export const UpdateMutualOffer = () => {
                         <Button label="Обновить" typeButton="fill-primary" type="submit" loading={loading} />
                     </footer>
                 </form>
-                <ButtonClose onClick={cancel} position={position} />
             </section>
         </div>
-    ) : null
+    )
 }

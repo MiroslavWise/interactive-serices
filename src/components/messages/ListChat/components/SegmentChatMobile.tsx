@@ -20,22 +20,18 @@ export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
 
     return (
         <div className={styles.container}>
-            <button
-                data-active={type === "personal"}
-                onClick={() => {
-                    handle("personal")
-                }}
-            >
-                <Image src="/svg/users-03.svg" alt="repeat-white" width={18} height={18} unoptimized />
-            </button>
-            <button
-                data-active={type === "barter"}
-                onClick={() => {
-                    handle("barter")
-                }}
-            >
-                <Image src="/svg/repeat-white.svg" alt="repeat-white" width={18} height={18} unoptimized />
-            </button>
+            {SEGMENTS_CHAT.map((item) => (
+                <button
+                    key={`::${item.value}::button::`}
+                    data-active={type === item.value}
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        handle(item.value)
+                    }}
+                >
+                    <img src={item.img} alt="icon" width={18} height={18} />
+                </button>
+            ))}
         </div>
     )
 }

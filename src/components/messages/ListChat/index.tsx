@@ -105,28 +105,25 @@ export const ListChat = memo(function ListChat() {
         }
     }, [socket, userId])
 
-    return isMobile ? (
-        <section className={styles.containerMobile}>
-            <SearchBlock {...{ search, setSearch }} />
-            <List search={search} setTotal={setTotal} items={items} />
-        </section>
-    ) : (
-        <section className={styles.container}>
-            <header>
-                <div data-total-number>
-                    <h4>Сообщения</h4>
-                </div>
-                <Segments
-                    type="primary"
-                    active={SEGMENTS_CHAT.find((item) => item.value === type)!}
-                    VALUES={SEGMENTS_CHAT}
-                    setActive={(values) => {
-                        dispatchMessagesType(values.value)
-                    }}
-                    classNames={styles.segments}
-                    isBorder
-                />
-            </header>
+    return (
+        <section className={isMobile ? styles.containerMobile : styles.container}>
+            {!isMobile && typeof isMobile !== "undefined" ? (
+                <header>
+                    <div data-total-number>
+                        <h4>Сообщения</h4>
+                    </div>
+                    <Segments
+                        type="primary"
+                        active={SEGMENTS_CHAT.find((item) => item.value === type)!}
+                        VALUES={SEGMENTS_CHAT}
+                        setActive={(values) => {
+                            dispatchMessagesType(values.value)
+                        }}
+                        classNames={styles.segments}
+                        isBorder
+                    />
+                </header>
+            ) : null}
             <SearchBlock {...{ search, setSearch }} />
             <List search={search} items={items} setTotal={setTotal} />
         </section>
