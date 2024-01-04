@@ -3,14 +3,14 @@
     top: calc(77px + 1.5rem);
     left: 1.5rem;
     bottom: 1.5rem;
-    width: 320px;
+    width: 20rem;
     height: calc(100vh - 77px - 1.5rem - 1.5rem);
     display: flex;
-    padding: 1.5rem 0.75rem;
+    padding: 1.5rem;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 1.25rem;
     border-radius: 2rem;
     background: var(--background);
     z-index: 2;

@@ -6,6 +6,7 @@
     padding: 0.75rem 0.28125rem;
     flex-direction: column;
     text-decoration: none !important;
+    position: relative;
 
     .itemsIconLabel {
         height: 100%;
@@ -57,6 +58,30 @@
             & > p {
                 color: var(--primary-500);
             }
+        }
+    }
+
+    & > [data-count] {
+        position: absolute;
+        top: 0.35rem;
+        left: calc(50% + 0.125rem);
+        height: 1.1375rem;
+        min-width: 1.1375rem;
+        width: min-content;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding-inline: 0.4rem;
+        background: var(--primary-500);
+        border-radius: 0.56875rem;
+
+        & > span {
+            color: var(--supporting-white);
+            text-align: center;
+            font-size: 0.575rem;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 0.575rem;
         }
     }
 }
