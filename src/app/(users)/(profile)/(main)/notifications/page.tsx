@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { ItemNotification } from "@/components/notifications"
@@ -7,9 +8,6 @@ import { ItemNotification } from "@/components/notifications"
 import { useAuth } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
 import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/NotificationsMobile/constants/navigation"
-
-import styles from "./page.module.scss"
-import { useState } from "react"
 
 export default function Notifications() {
     const userId = useAuth(({ userId }) => userId)
@@ -23,7 +21,7 @@ export default function Notifications() {
     })
 
     return (
-        <section className={styles.wrapper}>
+        <>
             <header>
                 <h4>Уведомления</h4>
                 <nav>
@@ -58,6 +56,6 @@ export default function Notifications() {
                     </p>
                 </article>
             )}
-        </section>
+        </>
     )
 }

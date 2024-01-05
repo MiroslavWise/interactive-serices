@@ -1,9 +1,9 @@
 .container {
     position: fixed;
-    top: calc(77px + 1.5rem);
+    top: calc(4.875rem + 1.5rem);
     right: 1.5rem;
-    height: calc(100vh - 77px - 1.5rem - 1.5rem);
-    width: 400px;
+    height: calc(100vh - 4.875rem - 1.5rem - 1.5rem);
+    width: 25rem;
     display: inline-flex;
     padding: 1.25rem 1.25rem 0px;
     flex-direction: column;
@@ -13,4 +13,10 @@
     background: var(--background);
     z-index: 2;
     overflow: hidden;
+}
+
+[data-mobile="true"] {
+    .container {
+        display: none;
+    }
 }

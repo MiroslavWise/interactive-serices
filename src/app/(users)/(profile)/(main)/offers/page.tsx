@@ -7,8 +7,6 @@ import type { IActionOffers, IStateOffers } from "@/components/profile/OffersPag
 
 import { ContainerHeader, ContainerOffersNow, MobileSegments } from "@/components/profile"
 
-import styles from "@/components/profile/OffersPage/styles/style.module.scss"
-
 const initialState: IStateOffers = {
     total: 0,
 }
@@ -23,10 +21,10 @@ export default function OffersPage() {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
-        <ul className={styles.wrapper}>
+        <>
             {isMobile && <MobileSegments />}
             <ContainerHeader total={state.total || 0} />
             <ContainerOffersNow dispatch={dispatch} />
-        </ul>
+        </>
     )
 }

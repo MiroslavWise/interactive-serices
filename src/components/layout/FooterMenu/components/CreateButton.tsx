@@ -24,7 +24,7 @@ export const CreateButton = memo(function CreateButton() {
             }}
         >
             <div className={styles.itemsIconLabel}>
-                <div className={styles.centerPoligon}>
+                <div className={styles.centerPoligon} id="id-create-menu-footer">
                     <img src="/svg/plus.svg" alt="plus" width={20} height={20} />
                 </div>
                 <p>Создать</p>

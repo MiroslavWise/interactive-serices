@@ -5,6 +5,8 @@ export const metadata: Metadata = {
     title: "Предложения",
 }
 
+import styles from "@/components/profile/OffersPage/styles/style.module.scss"
+
 export default function LayoutOffersMe({ children }: { children: ReactNode }) {
-    return children
+    return <ul className={styles.wrapper}>{children}</ul>
 }
