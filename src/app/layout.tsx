@@ -45,6 +45,13 @@ export const metadata: Metadata = {
         description:
             "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
     },
+    twitter: {
+        title: {
+            default: "Sheira",
+            template: "%s | Sheira",
+        },
+        images: "./favicon.ico",
+    },
 }
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -61,7 +68,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                                     : "https://mc.yandex.ru/watch/95807535"
                             }
                             style={{ position: "absolute", left: -9999 }}
-                            alt="----"
+                            alt="-"
                         />
                     </div>
                 </noscript>

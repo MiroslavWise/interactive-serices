@@ -5,6 +5,8 @@ export const metadata: Metadata = {
     title: "Профиль",
 }
 
+import styles from "@/components/profile/MyProfilePage/styles/style.module.scss"
+
 export default function LayoutProfile({ children }: { children: ReactNode }) {
-    return children
+    return <ul className={styles.containerProfilePage}>{children}</ul>
 }

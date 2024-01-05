@@ -50,18 +50,16 @@ export default function Providers({ children }: { children: ReactNode }) {
     }, [])
 
     return (
-        <>
-            <NextThemesProvider>
-                <QueryClientProviderContext>
-                    <WebSocketProvider>
-                        <YMapsProvider>
-                            {children}
-                            <Containers />
-                        </YMapsProvider>
-                    </WebSocketProvider>
-                </QueryClientProviderContext>
-            </NextThemesProvider>
+        <NextThemesProvider>
+            <QueryClientProviderContext>
+                <WebSocketProvider>
+                    <YMapsProvider>
+                        {children}
+                        <Containers />
+                    </YMapsProvider>
+                </WebSocketProvider>
+            </QueryClientProviderContext>
             <AnimatedLoadPage />
-        </>
+        </NextThemesProvider>
     )
 }

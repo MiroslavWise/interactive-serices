@@ -5,6 +5,8 @@ export const metadata: Metadata = {
     title: "Уведомления",
 }
 
+import styles from "./layout.module.scss"
+
 export default function LayoutNotification({ children }: { children: ReactNode }) {
-    return children
+    return <section className={styles.wrapper}>{children}</section>
 }

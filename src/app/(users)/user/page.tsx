@@ -39,20 +39,16 @@ export default function UserId() {
         }
     }, [data, id, isLoading])
 
-    return (
-        <div className={styles.page}>
-            {isMobile ? (
-                <ul className={styles.containerMobile} id="user-id">
-                    <MobileMainInfo user={data?.res!} />
-                    <Badges />
-                    <MobileInteractive />
-                </ul>
-            ) : (
-                <section className={styles.container}>
-                    <MainInfo user={data?.res!} />
-                    <StatisticAndFeedback />
-                </section>
-            )}
-        </div>
+    return isMobile ? (
+        <ul className={styles.containerMobile} id="user-id">
+            <MobileMainInfo user={data?.res!} />
+            <Badges />
+            <MobileInteractive />
+        </ul>
+    ) : (
+        <section className={styles.container}>
+            <MainInfo user={data?.res!} />
+            <StatisticAndFeedback />
+        </section>
     )
 }
