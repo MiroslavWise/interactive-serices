@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { ReactNode, useRef } from "react"
 import { isMobile } from "react-device-detect"
 
@@ -44,7 +43,7 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 }}
                 ref={refSection}
             >
-                <Image
+                <img
                     src="/svg/x-close-white.svg"
                     alt="x-close-white"
                     width={24}
@@ -54,7 +53,6 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                     onClick={() => {
                         dispatch({ visible: false })
                     }}
-                    unoptimized
                 />
                 {typeContent.hasOwnProperty(type!) ? typeContent[type!] : null}
             </section>
