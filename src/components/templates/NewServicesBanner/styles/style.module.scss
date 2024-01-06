@@ -48,10 +48,15 @@
         justify-content: flex-end;
 
         & > section {
+            transform: translateY(100%);
             max-width: 100%;
             padding: 2.25rem 1.25rem 2.25rem;
             gap: 1.875rem;
             border-radius: 2rem 2rem 0 0;
+
+            transition: var(--transition);
+            transition-duration: 0.45s;
+            transition-property: transform;
 
             & > [data-close] {
                 top: 0 !important;
@@ -67,6 +72,12 @@
                 gap: 1rem;
                 overflow: hidden;
                 overflow-y: auto;
+            }
+        }
+
+        &[data-visible="true"] {
+            & > section {
+                transform: translateY(0);
             }
         }
     }

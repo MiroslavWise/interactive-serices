@@ -2,16 +2,16 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
 export const metadata: Metadata = {
-    title: "Sheira | Общие положения",
+    title: "Политикой конфиденциальности",
     description: "Политика Оператора в отношении обработки персональных данных",
     keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
     appleWebApp: {
-        title: "Sheira | Общие положения",
+        title: "Политикой конфиденциальности",
         statusBarStyle: "default",
     },
     category: "policy, terms",
     openGraph: {
-        title: "Sheira | Общие положения",
+        title: "Политикой конфиденциальности",
         description: "Политика Оператора в отношении обработки персональных данных",
     },
 }

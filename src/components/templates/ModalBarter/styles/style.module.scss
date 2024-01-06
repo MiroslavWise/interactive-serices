@@ -5,7 +5,8 @@
     padding: 92px 0;
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
-    transition: opacity 0.3s ease-in-out;
+    transition: var(--transition);
+    transition-property: opacity;
     z-index: 989;
 }
 

@@ -81,8 +81,8 @@ export const Containers = () => {
                     <NewServicesBanner />
                     <ModalUpdateProfile />
                     <CompletionTransaction />
-                    <ExchangesModalMobile />
                     <NewServiceBarterRequests />
+                    {isMobile && <ExchangesModalMobile />}
                     {isVisible && <CreateNewOptionModal />}
                     {isMobile && visibleNotifications && <NotificationsMobile />}
                     {visibleFriends && <DroverFriends />}
