@@ -1,6 +1,8 @@
 import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
+import "./layout.scss"
+
 export const metadata: Metadata = {
     title: "Сообщения",
     openGraph: {
@@ -9,5 +11,5 @@ export const metadata: Metadata = {
 }
 
 export default function LayoutMessages({ children }: { children: ReactNode }) {
-    return children
+    return <div className="__page-messages__">{children}</div>
 }

@@ -19,6 +19,7 @@ interface IItemMessage {
         temporary?: boolean
         images: IImageData[] | string[]
         reading: boolean
+        readIds: number[]
     }[]
 }
 

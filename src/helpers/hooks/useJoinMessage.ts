@@ -37,6 +37,7 @@ function useJoinMessage() {
                         temporary: !!message?.temporary,
                         images: message?.images!,
                         reading: false,
+                        readIds: message?.readIds || [],
                     })
                 } else {
                     items.push({
@@ -51,6 +52,7 @@ function useJoinMessage() {
                                 temporary: !!message?.temporary,
                                 images: message?.images!,
                                 reading: false,
+                                readIds: message?.readIds || [],
                             },
                         ],
                     })
@@ -72,6 +74,7 @@ interface IReturnMessages {
         temporary?: boolean
         images: IImageData[] | string[]
         reading: boolean
+        readIds: number[]
     }[]
     type: "messages" | "time"
     time?: string

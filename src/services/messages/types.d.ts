@@ -25,6 +25,7 @@ export interface IResponseMessageProps {
     emitterId: number
     receiverIds: number[]
     images: IImageData[] | string[]
+    readIds: number[]
 }
 
 export interface IResponseMessage extends IResponseMessageProps {
@@ -36,6 +37,7 @@ export interface IResponseMessage extends IResponseMessageProps {
 export interface IMessages {
     route: string
     post(value: IRequestPostMessages): Promise<IReturnData<IResponseCreate>>
+    postRead(id: number): Promise<IReturnData<IResponseCreate>>
     get(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
     patch(value: IRequestPatchMessages, id: number | string): Promise<IReturnData<IResponseCreate>>
     getId(id: number | string): Promise<IReturnData<IResponseMessage>>

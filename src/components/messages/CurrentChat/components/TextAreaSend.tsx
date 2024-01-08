@@ -80,6 +80,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                         emitterId: Number(userId),
                         receiverIds: receiverIds,
                         temporary: true,
+                        readIds: [],
                         created: date,
                         images: [...strings],
                     },
