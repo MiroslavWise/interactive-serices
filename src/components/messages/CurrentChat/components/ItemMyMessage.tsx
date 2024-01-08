@@ -81,7 +81,7 @@ export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo,
                                 src={
                                     item?.reading === null
                                         ? "/public/svg/messages/check.svg"
-                                        : item?.reading
+                                        : item?.readIds?.length > 0
                                         ? "/svg/messages/double-tick-white.svg"
                                         : "/svg/messages/double-tick-gray.svg"
                                 }
