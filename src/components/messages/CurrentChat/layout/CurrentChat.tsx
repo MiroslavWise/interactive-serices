@@ -13,11 +13,11 @@ import { ListMessages } from "../components/ListMessages"
 import { TextAreaSend } from "../components/TextAreaSend"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
-import { usePush } from "@/helpers"
 import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { serviceMessages } from "@/services/messages"
+import { useCountMessagesNotReading, usePush } from "@/helpers"
 import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage, dispatchDataUser } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
@@ -29,6 +29,7 @@ export const CurrentChat = () => {
     const { handleReplace } = usePush()
     const { socket } = useWebSocket() ?? {}
     const [stateMessages, setStateMessages] = useState<(IResponseMessage & { temporary?: boolean })[]>([])
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     const { data, refetch: refetchThreads } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
@@ -151,9 +152,9 @@ export const CurrentChat = () => {
 
             Promise.all(notReading.map((item) => serviceMessages.postRead(item))).then((responses) => {
                 console.log("useEffect responses: ", responses)
-                // if (responses?.filter((item) => item.ok)?.length > 0) {
-                //     setTimeout(refetch, 1200)
-                // }
+                setTimeout(() => {
+                    refetchCountMessages()
+                }, 355)
             })
         }
     }, [userId, dataMessages?.res])

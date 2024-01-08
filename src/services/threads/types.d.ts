@@ -21,6 +21,8 @@ export interface IThreadsMessages {
     created: Date
     message: string
     emitterId: number
+    receiverIds: number[]
+    readIds: number[]
 }
 
 export interface IResponseThreads {
