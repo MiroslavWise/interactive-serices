@@ -46,7 +46,7 @@ export const wrapperFetch: IWrapperFetch = {
                   .replace("&", "?")
             : ""
         try {
-            const response = await fetch(`${URL_API}${url}/${id}${params}`, {
+            const requestInit: RequestInit = {
                 method: "GET",
                 headers: useTokenHelper.authToken
                     ? {
@@ -56,8 +56,10 @@ export const wrapperFetch: IWrapperFetch = {
                     : {
                           "Content-Type": "application/json",
                       },
-                cache: "default",
-            })
+                cache: "force-cache",
+            }
+
+            const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)
             const responseData = await response.json()
             return {
                 ok: !!responseData?.data,
@@ -195,5 +197,8 @@ export const wrapperFetch: IWrapperFetch = {
                 error: e,
             }
         }
+    },
+    stringRequest(value: string) {
+        return `${URL_API}/${value}`
     },
 }

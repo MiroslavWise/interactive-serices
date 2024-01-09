@@ -95,7 +95,9 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
                 </div>
             </div>
             <div className={styles.blockLastMessage}>
-                <p>{lastMessage}</p>
+                <p>
+                    {notReadMessage ? <span>&#8226;</span> : null} {lastMessage}
+                </p>
             </div>
         </Link>
     )

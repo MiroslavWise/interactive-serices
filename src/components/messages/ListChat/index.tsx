@@ -2,8 +2,8 @@
 
 import dayjs from "dayjs"
 import { isMobile } from "react-device-detect"
+import { useQueries } from "@tanstack/react-query"
 import { memo, useEffect, useMemo, useState } from "react"
-import { useQueries, useQuery } from "@tanstack/react-query"
 
 import { IFiltersItems } from "./components/types/types"
 
@@ -13,8 +13,8 @@ import { Segments } from "@/components/common/Segments"
 
 import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
-import { serviceThreads } from "@/services/threads"
 import { SEGMENTS_CHAT } from "./constants/segments"
+import { useCountMessagesNotReading } from "@/helpers"
 import { dispatchMessagesType, useAuth, useMessagesType } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
@@ -26,18 +26,7 @@ export const ListChat = memo(function ListChat() {
     const userId = useAuth(({ userId }) => userId)
     const type = useMessagesType(({ type }) => type)
 
-    const { data, refetch } = useQuery({
-        queryFn: () =>
-            serviceThreads.get({
-                user: userId!,
-                provider: type,
-                order: "DESC",
-                messagesLimit: 1,
-                messagesOrder: "DESC",
-            }),
-        queryKey: ["threads", `user=${userId}`, `provider=${type}`],
-        refetchOnMount: true,
-    })
+    const { data, refetchCountMessages } = useCountMessagesNotReading()
 
     const usersIds = useMemo(() => {
         if (!!data?.res && !!userId) {
@@ -66,10 +55,14 @@ export const ListChat = memo(function ListChat() {
         })),
     })
 
+    const itemsProvider = useMemo(() => {
+        return data?.res?.filter((item) => item.provider === type) || []
+    }, [data?.res, type])
+
     const items: IFiltersItems[] = useMemo(() => {
         const ITEMS: IFiltersItems[] = []
-        if (data && arrayUsers?.every((item) => !item.isLoading)) {
-            data?.res?.forEach((item) => {
+        if (itemsProvider?.length && arrayUsers?.every((item) => !item.isLoading)) {
+            itemsProvider?.forEach((item) => {
                 const idUser = Number(item?.emitterId) === Number(userId) ? Number(item?.receiverIds[0]) : Number(item?.emitterId)
                 const people = arrayUsers.find((item) => Number(item?.data?.res?.id) === Number(idUser) && item?.data?.res?.profile)
                 if (people) {
@@ -89,11 +82,11 @@ export const ListChat = memo(function ListChat() {
         }
 
         return ITEMS
-    }, [arrayUsers, data, userId])
+    }, [arrayUsers, itemsProvider, userId])
 
     useEffect(() => {
         function chatResponse(event: any) {
-            refetch()
+            refetchCountMessages()
         }
 
         if (userId && socket) {
