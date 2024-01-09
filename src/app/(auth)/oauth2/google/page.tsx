@@ -28,7 +28,7 @@ export default function CallbackGoogle() {
                     dispatchAuthToken({ ...response?.res, email: data.email })
                     handlePush("/")
                     on({
-                        message: "Авторизация через червис Google прошла успешно",
+                        message: "Авторизация через сервис Google прошла успешно",
                     })
                 }
             } else {

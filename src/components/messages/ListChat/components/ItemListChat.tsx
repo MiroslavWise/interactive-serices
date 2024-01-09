@@ -1,39 +1,34 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
-import { memo, useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { memo, useEffect, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
 
-import { BadgeServices } from "@/components/common/Badge"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion, GeoTagging, BadgeServices } from "@/components/common"
 
 import { serviceBarters } from "@/services/barters"
-import { dispatchDataUser } from "@/store/hooks"
+import { dispatchDataUser, useAuth } from "@/store/hooks"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
 
 export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, people, last }) {
+    const userId = useAuth(({ userId }) => userId)
     const idThread = useSearchParams().get("thread")
+    const { provider, messages } = thread ?? {}
+    const {} = people ?? {}
 
-    const adress: string | null = useMemo(() => {
-        return people?.addresses?.find((item) => item?.addressType === "main")?.additional || null
-    }, [people])
-
-    const idBarter = useMemo(() => {
-        if (!thread?.title) return null
-
-        if (thread?.title?.includes("barter")) {
-            return thread?.title?.split(":")?.[1]
-        }
-
-        return null
-    }, [thread.title])
+    const idBarter = useMemo(() => (thread?.title?.includes("barter") ? thread?.title?.split(":")?.[1] : null), [thread.title])
+    const geo: string | null = useMemo(() => people?.addresses?.find((item) => item?.addressType === "main")?.additional || null, [people])
+    const notReadMessage = useMemo(
+        () =>
+            messages?.filter((item) => item?.receiverIds?.includes(userId!))?.filter((item) => !item?.readIds?.includes(userId!))?.length >
+            0,
+        [messages, userId],
+    )
 
     const { data: dataBarter } = useQuery({
         queryFn: () => serviceBarters.getId(Number(idBarter)),
@@ -64,6 +59,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
             data-active={Number(thread.id) === Number(idThread)}
             href={{ query: { thread: thread.id } }}
             data-last={last}
+            data-not-read={notReadMessage}
         >
             <div className={styles.header} data-barter={thread?.title?.includes("barter")}>
                 {lastMessage ? <time>{timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}</time> : null}
@@ -80,21 +76,21 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
                         ) : (
                             <ImageStatic src="/png/default_avatar.png" alt="avatar" width={40} height={40} className={styles.img} />
                         )}
-                        <Image src="/svg/verified-tick.svg" alt="verified" width={16} height={16} className={styles.verified} unoptimized />
+                        <img src="/svg/verified-tick.svg" alt="verified" width={16} height={16} className={styles.verified} />
                     </div>
                     <div className={styles.nameAndGeo}>
-                        {thread?.title?.includes("barter") ? (
+                        {provider === "barter" ? (
                             <div data-title-barter>
                                 <BadgeServices {...dataBarter?.res?.initiator!} />
-                                <Image data-repeat src="   /svg/repeat-white.svg" alt="barter" width={18} height={18} unoptimized />
+                                <img data-repeat src="/svg/repeat-white.svg" alt="barter" width={18} height={18} />
                                 <BadgeServices {...dataBarter?.res?.consigner!} />
                             </div>
-                        ) : (
+                        ) : provider === "personal" ? (
                             <h4>
                                 {people?.profile?.firstName || " "} {people?.profile?.lastName || " "}
                             </h4>
-                        )}
-                        {adress ? <GeoTagging location={adress} size={14} fontSize={12} /> : null}
+                        ) : null}
+                        {geo ? <GeoTagging location={geo} size={14} fontSize={12} /> : null}
                     </div>
                 </div>
             </div>

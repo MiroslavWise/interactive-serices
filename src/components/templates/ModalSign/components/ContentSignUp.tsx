@@ -137,10 +137,19 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                             Регистрируясь, вы соглашаетесь с{" "}
                             <Link href={{ pathname: "/terms-rules" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                                 Правилами пользования
-                            </Link>{" "}
-                            и{" "}
+                            </Link>
+                            ,{" "}
                             <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                                 Политикой конфиденциальности
+                            </Link>{" "}
+                            и{" "}
+                            <Link
+                                href={{ pathname: "/terms-consent-to-receive-mailings" }}
+                                target="_blank"
+                                rel="license"
+                                referrerPolicy="no-referrer"
+                            >
+                                Согласие на получение рассылки
                             </Link>
                         </p>
                     </div>

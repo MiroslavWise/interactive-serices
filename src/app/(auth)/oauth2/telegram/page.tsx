@@ -25,7 +25,7 @@ export default function CallbackTelegram() {
                         dispatchAuthToken({ email: "", ...response?.res })
                         handlePush("/")
                         on({
-                            message: "Авторизация через червис Telegram прошла успешно",
+                            message: "Авторизация через сервис Telegram прошла успешно",
                         })
                     }
                 } else {

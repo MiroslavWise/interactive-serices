@@ -21,7 +21,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
             return
         } else if (userId !== idUser) {
             if (!userId) {
-                setVisible(true)
+                dispatchAuthModal({ visible: true, type: "SignIn" })
             } else if (!!userId) {
                 handlePush(`/messages?user=${idUser}`)
             }

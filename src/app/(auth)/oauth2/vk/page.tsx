@@ -63,7 +63,7 @@ export default function CallbackVK() {
                                         dispatchAuthToken({ email: "", ...response?.res })
                                         handlePush("/")
                                         on({
-                                            message: "Авторизация через червис ВКонтакте прошла успешно",
+                                            message: "Авторизация через сервис ВКонтакте прошла успешно",
                                         })
                                     }
                                 } else {
@@ -92,7 +92,7 @@ export default function CallbackVK() {
             //             dispatchAuthToken({ email: "", ...response?.res })
             //             handlePush("/")
             //             on({
-            //                 message: "Авторизация через червис ВКонтакте прошла успешно",
+            //                 message: "Авторизация через сервис ВКонтакте прошла успешно",
             //             })
             //         }
             //     } else {
