@@ -18,9 +18,9 @@ import {
     useModalAuth,
     useModalAuthEmailOrPhone,
 } from "@/store/hooks"
+import { serviceUserValid } from "@/services/users"
 
 import styles from "../styles/form.module.scss"
-import { serviceUserValid } from "@/services/users"
 
 export const ContentSignUp: TContentSignUp = ({}) => {
     const [loading, setLoading] = useState(false)
@@ -63,6 +63,9 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                 })
             }
             if (values.phone && typeEmailOrPhone === "phone") {
+                dispatchAuthModalCreatePassword({
+                    phone: values.phone,
+                })
             }
         }
     }
@@ -102,6 +105,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                             ? "+7 (000) 000-00-00"
                                             : ""
                                     }
+                                    inputMode={typeEmailOrPhone === "email" ? "email" : typeEmailOrPhone === "phone" ? "numeric" : "text"}
                                     {...field}
                                 />
                                 {errors.email && typeEmailOrPhone === "email" ? (

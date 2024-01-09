@@ -121,7 +121,15 @@ export const CurrentChat = () => {
     useEffect(() => {
         function chatResponse(event: any) {
             if (event?.threadId === Number(idThread)) {
-                refetch()
+                if (event?.receiverIds?.includes(userId!)) {
+                    serviceMessages.postRead(event?.id!).then(({ ok }) => {
+                        if (ok) {
+                            refetch()
+                        }
+                    })
+                } else {
+                    refetch()
+                }
             }
         }
 
@@ -146,9 +154,6 @@ export const CurrentChat = () => {
         if (dataMessages?.res && userId && Array.isArray(dataMessages?.res)) {
             const notMyMessages = dataMessages?.res?.filter((item) => item.receiverIds.includes(userId))
             const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
-
-            console.log("useEffect notMyMessages: ", notMyMessages)
-            console.log("useEffect notReading: ", notReading)
 
             Promise.all(notReading.map((item) => serviceMessages.postRead(item))).then((responses) => {
                 console.log("useEffect responses: ", responses)

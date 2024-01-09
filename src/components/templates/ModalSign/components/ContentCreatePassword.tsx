@@ -6,9 +6,17 @@ import { Button } from "@/components/common"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store/hooks"
+import {
+    dispatchAuthModal,
+    dispatchAuthModalInformationCreateAccount,
+    dispatchAuthModalVerification,
+    dispatchStartTimer,
+    useModalAuth,
+    useModalAuthEmailOrPhone,
+} from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
+import { serviceAuth } from "@/services/auth"
 
 export const ContentCreatePassword = () => {
     const { handleReplace } = usePush()
@@ -102,8 +110,20 @@ export const ContentCreatePassword = () => {
                     })
                 return
             } else if (!!phone && typeEmailOrPhone === "phone") {
-                // dispatchStartTimer()
-                // dispatchAuthModalVerification({})
+                dispatchStartTimer()
+
+                const phoneValue = phone?.replaceAll(/[^\d]/g, "")
+
+                serviceAuth
+                    .phone({
+                        phone: `${phoneValue[0]}-${phoneValue[1]}${phoneValue[2]}${phoneValue[3]}-${phoneValue?.slice(4)}`,
+                        password: values?.password,
+                        repeat: values?.repeat_password,
+                    })
+                    .then((response) => {
+                        if (response.ok) {
+                        }
+                    })
             } else {
                 setLoading(false)
                 return

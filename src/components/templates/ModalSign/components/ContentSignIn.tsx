@@ -22,7 +22,6 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
     const [isPass, setIsPass] = useState(false)
     const setToken = useAuth(({ setToken }) => setToken)
     const changeAuth = useAuth(({ changeAuth }) => changeAuth)
-    const setVisible = useWelcomeModal(({ setVisible }) => setVisible)
 
     const {
         handleSubmit,
@@ -107,13 +106,12 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                         setLoading(false)
                     })
             } else if (typeEmailOrPhone === "phone") {
-                if (value?.phone?.length < 10) {
+                const phone = value.phone?.replaceAll(/[^\d]/g, "")
+                if (phone?.length < 11) {
                     setError("phone", { message: "Номер телефона состоит из 11 цифр" })
                 }
-                const code = value.phone?.slice(0, 3)
-                const phone = value.phone?.slice(3)?.slice(0, 7)
 
-                serviceAuth.phone({ country: "7", code, phone }).then((response) => {
+                serviceAuth.phone({ phone: `${phone[0]}-${phone[1]}${phone[2]}${phone[3]}-${phone.slice(4)}` }).then((response) => {
                     if (response?.ok) {
                     } else {
                         if (response?.error?.message === "user not found") {
@@ -154,6 +152,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 <div data-label-input>
                                     <label htmlFor={field.name}>Email</label>
                                     <input
+                                        autoComplete="off"
                                         type="email"
                                         placeholder="Введите свой email"
                                         inputMode="email"
@@ -172,7 +171,12 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 <div data-label-input data-password>
                                     <label htmlFor={field.name}>Пароль</label>
                                     <div>
-                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                                        <input
+                                            {...field}
+                                            autoComplete="off"
+                                            placeholder="Введите свой пароль"
+                                            type={isPass ? "text" : "password"}
+                                        />
                                         <img
                                             onClick={() => setIsPass((prev) => !prev)}
                                             src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
@@ -195,26 +199,15 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                             control={control}
                             render={({ field }) => (
                                 <div data-label-input>
-                                    <label htmlFor={field.name}>Email</label>
-                                    <div data-phone-mask>
-                                        <input
-                                            data-input-mask
-                                            type="text"
-                                            value={maskInputPhone(field.value)}
-                                            data-error={!!errors?.[field.name]}
-                                            placeholder="Введите свой номер"
-                                            readOnly
-                                        />
-                                        <input
-                                            data-absolute-mask
-                                            type="number"
-                                            placeholder="Введите свой номер"
-                                            inputMode="numeric"
-                                            pattern="^\d{10}$"
-                                            maxLength={10}
-                                            {...field}
-                                        />
-                                    </div>
+                                    <label htmlFor={field.name}>Телефон</label>
+                                    <input
+                                        autoComplete="off"
+                                        data-error={!!errors.phone}
+                                        type="tel"
+                                        placeholder="+7 (000) 000-00-00"
+                                        inputMode="numeric"
+                                        {...field}
+                                    />
                                     {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
                                 </div>
                             )}
@@ -227,7 +220,12 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                                 <div data-label-input data-password>
                                     <label htmlFor={field.name}>Пароль</label>
                                     <div>
-                                        <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                                        <input
+                                            {...field}
+                                            autoComplete="off"
+                                            placeholder="Введите свой пароль"
+                                            type={isPass ? "text" : "password"}
+                                        />
                                         <img
                                             onClick={() => setIsPass((prev) => !prev)}
                                             src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
@@ -256,12 +254,4 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
             </article>
         </div>
     )
-}
-
-function maskInputPhone(value: string) {
-    const [code1, code2, code3, phone1, phone2, phone3, phone4, phone5, phone6, phone7] = value.split("")
-
-    return `+${7}(${code1 || "_"}${code2 || "_"}${code3 || "_"})${phone1 || "_"}${phone2 || "_"}${phone3 || "_"}-${phone4 || "_"}${
-        phone5 || "_"
-    }-${phone6 || "_"}${phone7 || "_"}`
 }
