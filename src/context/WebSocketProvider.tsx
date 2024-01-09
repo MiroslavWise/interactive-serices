@@ -1,21 +1,8 @@
 "use client"
 
-import {
-    type ReactNode,
-    useContext,
-    createContext,
-    useEffect,
-    useState,
-    useInsertionEffect,
-} from "react"
-import { shallow } from "zustand/shallow"
-import {
-    io,
-    type ManagerOptions,
-    type Socket,
-    type SocketOptions,
-} from "socket.io-client"
 import { useSearchParams } from "next/navigation"
+import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
+import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
@@ -35,7 +22,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const token = useAuth(({ token }) => token)
     const userId = useAuth(({ userId }) => userId)
     const threadId = useSearchParams().get("thread")
-    const { on } = useToast()
+    const { on, onMessage } = useToast()
     const { handlePush } = usePush()
     const [isFetch, setIsFetch] = useState(false)
     const [socketState, setSocketState] = useState<Socket | null>(null)
@@ -46,26 +33,14 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         }
         const chatResponse = (event: IChatResponse) => {
             console.log("%c chatResponse event: ", "color: #d0d", event)
-            if (
-                Number(threadId) !== event.threadId &&
-                userId !== event?.emitterId
-            ) {
-                on(
-                    {
-                        message: `${event.message}`,
-                        userId: event.emitterId,
-                        photo:
-                            event.emitter?.profile?.image?.attributes?.url! ||
-                            "",
-                        name: event?.emitter?.profile?.firstName || "",
-                        username: event?.emitter?.profile?.username || "",
-                        id: event.id,
-                    },
-                    "message",
-                    () => {
-                        handlePush(`/messages?thread=${event.threadId}`)
-                    },
-                )
+            if (Number(threadId) !== event.threadId && userId !== event?.emitterId) {
+                onMessage({
+                    id: event.id,
+                    threadId: event.threadId,
+                    name: `${event.emitter?.profile?.firstName || ""} ${event.emitter?.profile?.lastName || ""}`,
+                    message: `${event.message}`,
+                    photo: event.emitter?.profile?.image?.attributes?.url! || "",
+                })
             }
         }
         if (socketState && userId) {
@@ -79,19 +54,11 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
     useInsertionEffect(() => {
         function connectError(e: any) {
-            console.log(
-                "%c--- connect_error ---",
-                "color: #f00; font-size: 1.25rem;",
-                e,
-            )
+            console.log("%c--- connect_error ---", "color: #f00; font-size: 1.25rem;", e)
         }
 
         function error(e: any) {
-            console.info(
-                "%c--- error socket --- ",
-                "color: #f00; font-size: 1.25rem;",
-                e,
-            )
+            console.info("%c--- error socket --- ", "color: #f00; font-size: 1.25rem;", e)
         }
         if (!isFetch) {
             if (token) {
@@ -128,11 +95,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [token, userId, isFetch])
 
-    return (
-        <CreateContextWebSocket.Provider value={{ socket: socketState! }}>
-            {children}
-        </CreateContextWebSocket.Provider>
-    )
+    return <CreateContextWebSocket.Provider value={{ socket: socketState! }}>{children}</CreateContextWebSocket.Provider>
 }
 
 export const useWebSocket = () => {
