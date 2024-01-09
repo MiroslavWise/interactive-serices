@@ -42,6 +42,7 @@ export const metadata: Metadata = {
             default: "Sheira",
             template: "%s | Sheira",
         },
+        images: "./favicon.ico",
         description:
             "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
     },

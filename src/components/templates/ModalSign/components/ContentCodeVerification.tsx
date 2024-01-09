@@ -11,6 +11,7 @@ import { Button } from "@/components/common"
 import { dispatchAuthModal, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
+import { serviceAuth } from "@/services/auth"
 
 export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     const [loading, setLoading] = useState(false)
@@ -34,9 +35,21 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
         })
     }
 
-    function handleConfirmation() {
+    function handleConfirmation(values: IValues) {
         if (!loading) {
             setLoading(true)
+            serviceAuth.sms(values.code!).then((response) => {
+                console.log("response: serviceAuth: sms: ", response)
+                if (response.ok) {
+                    dispatchAuthModal({
+                        type: "SignIn",
+                    })
+                } else {
+                    dispatchAuthModal({
+                        type: "SignUp",
+                    })
+                }
+            })
         }
     }
 

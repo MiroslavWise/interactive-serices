@@ -2,9 +2,9 @@ import { IReturnData } from "@/services/types/general"
 import { IResponseLoginNot2fa } from "./authService"
 
 export interface IRequestPhone {
-    code: string
-    country: string
     phone: string
+    password?: string
+    repeat?: string
 }
 
 export type TStatusOk = "ok"
@@ -27,7 +27,8 @@ export interface IResponseTelegram {
 export interface IAuth {
     route: string
 
-    phone(value: IRequestPhone): Promise<IReturnData<IResponsePhone>>
+    sms(value: string): Promise<IReturnData<any>>
+    phone(value: IRequestPhone): Promise<IReturnData<IResponsePhone & IResponseLoginNot2fa>>
     postGoogle(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
     postTelegram(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
     postYandex(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>

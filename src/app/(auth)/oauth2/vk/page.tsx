@@ -13,7 +13,7 @@ export default function CallbackVK() {
 
     async function fetchVK({ access_token, user_id }: { access_token: string; user_id: string }) {
         try {
-            const response = await fetch(`https://api.vk.com/method/account.getInfo?user_id=${user_id}&scope=offline&v=5.131`, {
+            const response = await fetch(`https://api.vk.com/method/account.getInfo?user_id=${user_id}&scope=email,phone&v=5.131`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${access_token}`,
@@ -84,25 +84,6 @@ export default function CallbackVK() {
                     }
                 })
             }
-
-            // serviceAuth.postVK(data).then((response) => {
-            //     console.log("response: postVK", response)
-            //     if (response.ok) {
-            //         if (response?.res) {
-            //             dispatchAuthToken({ email: "", ...response?.res })
-            //             handlePush("/")
-            //             on({
-            //                 message: "Авторизация через сервис ВКонтакте прошла успешно",
-            //             })
-            //         }
-            //     } else {
-            //         on({
-            //             message:
-            //                 "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, ВКонтакте проводит какие-то опецарации, попробуйте чуть позже",
-            //         })
-            //         handlePush("/")
-            //     }
-            // })
         } else {
             on({
                 message: "Какие-то не верные данные. Не возможно авторизовать вас",
