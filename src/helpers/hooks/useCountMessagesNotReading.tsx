@@ -7,7 +7,11 @@ import { serviceThreads } from "@/services/threads"
 export const useCountMessagesNotReading = () => {
     const userId = useAuth(({ userId }) => userId)
 
-    const { data, refetch: refetchCountMessages } = useQuery({
+    const {
+        data,
+        refetch: refetchCountMessages,
+        isLoading,
+    } = useQuery({
         queryFn: () =>
             serviceThreads.get({
                 user: userId!,
@@ -32,5 +36,5 @@ export const useCountMessagesNotReading = () => {
         return null
     }, [data?.res, userId])
 
-    return { count, refetchCountMessages }
+    return { count, refetchCountMessages, data, isLoading }
 }

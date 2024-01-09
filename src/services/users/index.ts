@@ -4,6 +4,9 @@ import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const serviceUsers: IServiceUsers = {
     route: "/users",
+    string(id) {
+        return wrapperFetch.stringRequest(`${this.route}/${id}`)
+    },
     get(value) {
         return wrapperFetch.methodGet(this.route, value)
     },

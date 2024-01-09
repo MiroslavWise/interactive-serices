@@ -35,6 +35,7 @@ export interface IUserResponse {
 
 export interface IServiceUsers {
     route: string
+    string(value: string | number): string
     get(value: Record<string, string | number>): Promise<IReturnData<IUserResponse[]>>
     getMe(): Promise<IReturnData<IUserResponse>>
     getId(id: string | number): Promise<IReturnData<IUserResponse>>
