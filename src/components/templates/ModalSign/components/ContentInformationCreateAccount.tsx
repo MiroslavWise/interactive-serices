@@ -13,10 +13,11 @@ export const ContentInformationCreateAccount = () => {
     return (
         <div className={styles.content}>
             <article data-column>
-                <p>Мы выслали ссылку для потверждения аккаунта. Проверьте почту</p>
-                <b>{email}</b>
+                <p>
+                    На почту <span>{email}</span> отправлено письмо с ссылкой для активации аккаунта.
+                </p>
             </article>
-            <Button type="button" typeButton="regular-primary" label="Закрыть" onClick={handleClose} />
+            <Button type="button" typeButton="fill-primary" label="Хорошо" onClick={handleClose} />
         </div>
     )
 }

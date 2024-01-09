@@ -1,10 +1,11 @@
 "use client"
 
+import Link from "next/link"
 import { toast } from "react-toastify"
 import { isMobile } from "react-device-detect"
 import { type DispatchWithoutAction } from "react"
-import { ButtonCircleGradient, ButtonDefault } from "@/components/common"
-import { NextImageMotion } from "@/components/common/Image"
+
+import { ButtonCircleGradient, ButtonClose, ButtonDefault, NextImageMotion } from "@/components/common"
 
 interface IValue {
     message?: string
@@ -24,6 +25,35 @@ export const useToast = () => {
         barter: "toast-barter",
         default: "toast-default",
         message: "toast-message",
+    }
+
+    function onMessage({ id, photo, message, name, threadId }: IPropsMessage) {
+        const Message = (
+            <div className="message-notifications-toast">
+                <ButtonClose position={{}} onClick={() => {}} />
+                <section>
+                    <article>
+                        <NextImageMotion src={photo!} alt="avatar" width={44} height={44} />
+                        <h4>{name}</h4>
+                    </article>
+                    <p>{message}</p>
+                </section>
+                <div data-footer>
+                    <Link href={{ pathname: "/messages", query: { thread: threadId } }}>Перейти в чат</Link>
+                </div>
+            </div>
+        )
+
+        return toast(Message, {
+            toastId: id,
+            position: isMobile ? "bottom-center" : "bottom-left",
+            autoClose: false,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
     }
 
     function on(value: IValue, type?: TTypeToast, onClick?: DispatchWithoutAction) {
@@ -75,7 +105,15 @@ export const useToast = () => {
         })
     }
 
-    return { on }
+    return { on, onMessage }
+}
+
+interface IPropsMessage {
+    id: number | string
+    threadId: number | string
+    message: string
+    photo?: string
+    name: string
 }
 
 type TTypeToast = "success" | "error" | "warning" | "default" | "barter" | "message"

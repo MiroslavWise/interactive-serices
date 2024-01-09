@@ -35,6 +35,10 @@
         & > b {
             margin: 0 !important;
             text-align: center;
+
+            & > span {
+                font-weight: 600 !important;
+            }
         }
 
         & > a,
