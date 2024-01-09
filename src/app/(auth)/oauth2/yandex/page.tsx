@@ -27,7 +27,7 @@ export default function CallbackYandex() {
                     dispatchAuthToken({ ...response?.res, email: data.email })
                     handlePush("/profile")
                     on({
-                        message: "Авторизация через червис Yandex прошла успешно",
+                        message: "Авторизация через сервис Yandex прошла успешно",
                     })
                 }
             } else {
