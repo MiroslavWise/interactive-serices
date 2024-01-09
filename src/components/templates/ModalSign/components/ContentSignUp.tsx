@@ -107,6 +107,8 @@ export const ContentSignUp: TContentSignUp = ({}) => {
                                     }
                                     inputMode={typeEmailOrPhone === "email" ? "email" : typeEmailOrPhone === "phone" ? "numeric" : "text"}
                                     {...field}
+                                    value={field?.value}
+                                    onChange={(event) => field.onChange(event)}
                                 />
                                 {errors.email && typeEmailOrPhone === "email" ? (
                                     <i>

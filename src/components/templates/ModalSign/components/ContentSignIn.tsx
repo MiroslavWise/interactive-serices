@@ -11,7 +11,7 @@ import { serviceAuth } from "@/services/auth"
 import { serviceUsers } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 import { VALUES_EMAIL_PHONE } from "../constants/segments"
-import { useAuth, dispatchAuthModal, useWelcomeModal, dispatchIModalAuthEmailOrPhone, useModalAuthEmailOrPhone } from "@/store/hooks"
+import { useAuth, dispatchAuthModal, dispatchIModalAuthEmailOrPhone, useModalAuthEmailOrPhone } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
@@ -111,19 +111,21 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
                     setError("phone", { message: "Номер телефона состоит из 11 цифр" })
                 }
 
-                serviceAuth.phone({ phone: `${phone[0]}-${phone[1]}${phone[2]}${phone[3]}-${phone.slice(4)}` }).then((response) => {
-                    if (response?.ok) {
-                    } else {
-                        if (response?.error?.message === "user not found") {
-                            setError("phone", { message: "Данного пользователя не существует" })
+                serviceAuth
+                    .phone({ phone: `${phone[0]}-${phone[1]}${phone[2]}${phone[3]}-${phone.slice(4)}`, password: value?.password })
+                    .then((response) => {
+                        if (response?.ok) {
+                        } else {
+                            if (response?.error?.message === "user not found") {
+                                setError("phone", { message: "Данного пользователя не существует" })
+                            }
+                            if (response?.error?.message === "Unauthorized") {
+                                setError("password", { message: "Не верный пароль" })
+                            }
                         }
-                        if (response?.error?.message === "Unauthorized") {
-                            setError("password", { message: "Не верный пароль" })
-                        }
-                    }
-                    console.log(" serviceAuth phone: ", response)
-                    setLoading(false)
-                })
+                        console.log(" serviceAuth phone: ", response)
+                        setLoading(false)
+                    })
             }
         }
     }
