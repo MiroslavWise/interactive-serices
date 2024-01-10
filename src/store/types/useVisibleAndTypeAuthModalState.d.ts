@@ -16,6 +16,7 @@ export type TTypeSign =
     | "InformationEmailReset"
     | "InformationCreateAccount"
     | "CurrentUser"
+    | "NumberConfirmation"
     | null
 
 export interface IAction {

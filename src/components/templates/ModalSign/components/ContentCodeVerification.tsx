@@ -8,20 +8,21 @@ import type { TContentCodeVerification } from "../types/types"
 import { TimerData } from "./TimerData"
 import { Button } from "@/components/common"
 
-import { dispatchAuthModal, useModalAuth } from "@/store/hooks"
+import { serviceAuth } from "@/services/auth"
+import { dispatchAuthModal, useAuth, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
-import { serviceAuth } from "@/services/auth"
 
 export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     const [loading, setLoading] = useState(false)
     const phone = useModalAuth(({ phone }) => phone)
-    const email = useModalAuth(({ email }) => email)
+    const setToken = useAuth(({ setToken }) => setToken)
 
     const {
         control,
         handleSubmit,
         formState: { errors },
+        setError,
     } = useForm<IValues>({
         defaultValues: {
             code: "",
@@ -41,13 +42,20 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
             serviceAuth.sms(values.code!).then((response) => {
                 console.log("response: serviceAuth: sms: ", response)
                 if (response.ok) {
-                    dispatchAuthModal({
-                        type: "SignIn",
-                    })
+                    if (response?.res) {
+                        setToken({
+                            ok: true,
+                            token: response?.res?.accessToken!,
+                            refreshToken: response?.res?.refreshToken!,
+                            expires: response?.res?.expires!,
+                            userId: response?.res?.id!,
+                            email: "",
+                        })
+                    }
                 } else {
-                    dispatchAuthModal({
-                        type: "SignUp",
-                    })
+                    console.log("%c ---ERROR CONFIRM CODE---", "color: #f00", response?.error)
+                    setError("code", { message: "Не верный код" })
+                    setLoading(false)
                 }
             })
         }
@@ -56,26 +64,35 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     return (
         <div className={styles.content}>
             <article data-column>
-                <p>Отправили проверочный код на {!!email ? "почту" : !!phone ? "номер" : null}</p>
-                <b>{phone ? phone : email ? email : null}</b>
+                <p>Отправили проверочный код на номер</p>
+                <b>{phone}</b>
             </article>
             <form onSubmit={handleSubmit(handleConfirmation)}>
                 <section className={styles.section}>
                     <Controller
                         name="code"
                         control={control}
-                        rules={{ required: true }}
+                        rules={{
+                            required: {
+                                value: true,
+                                message: "Введите 6 символов",
+                            },
+                            minLength: 6,
+                            maxLength: 6,
+                        }}
                         render={({ field }) => (
                             <div data-label-input>
-                                <label htmlFor="email">Код из {!!email ? "письма" : !!phone ? "СМС" : null}</label>
+                                <label htmlFor={field.name}>Код из СМС</label>
                                 <input
                                     data-error={!!errors.code}
-                                    placeholder={`Введите код из ${!!email ? "письма" : !!phone ? "СМС-сообщения" : ""}`}
+                                    placeholder="Введите код из СМС-сообщения"
+                                    maxLength={6}
                                     type="number"
                                     inputMode="numeric"
                                     pattern="[0-9]*"
                                     {...field}
                                 />
+                                {!!errors?.code ? <i>{errors?.code?.message}</i> : null}
                             </div>
                         )}
                     />
@@ -85,12 +102,12 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
                     <Button
                         type="button"
                         typeButton="regular-primary"
-                        label={`Изменить ${!!email ? "адрес" : !!phone ? "номер" : null}`}
+                        label="Изменить номер"
                         onClick={handleChange}
                         loading={loading}
                         disabled={loading}
                     />
-                    <Button type="submit" typeButton="fill-primary" label="Подтвердить" loading={loading} disabled={loading} />
+                    <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} disabled={loading} />
                 </footer>
             </form>
         </div>

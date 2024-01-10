@@ -142,25 +142,11 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                             event.stopPropagation()
                             handleImages()
                         }}
+                        data-not-image={images?.length === 0}
                     >
-                        <div data-r>
-                            {images?.length && images?.length !== 1
-                                ? images?.map((item, index) => (
-                                      <div
-                                          data-l
-                                          key={`${item.id}-1`}
-                                          style={{
-                                              transform: `rotate(${(360 / images.length) * index}deg)`,
-                                          }}
-                                      >
-                                          <div data-c />
-                                      </div>
-                                  ))
-                                : null}
-                        </div>
+                        <div data-r />
                         <NextImageMotion
                             data-avatar
-                            data-is-length={!!images?.length}
                             src={dataUser?.res?.profile?.image?.attributes?.url!}
                             alt="avatar"
                             width={42}

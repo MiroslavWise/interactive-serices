@@ -27,7 +27,7 @@ export interface IResponseTelegram {
 export interface IAuth {
     route: string
 
-    sms(value: string): Promise<IReturnData<any>>
+    sms(value: string): Promise<IReturnData<IResponseLoginNot2fa>>
     phone(value: IRequestPhone): Promise<IReturnData<IResponsePhone & IResponseLoginNot2fa>>
     postGoogle(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
     postTelegram(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
