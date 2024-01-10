@@ -87,3 +87,9 @@ export const dispatchAuthModalCurrentUser = ({ user }: { user?: IUserResponse })
         visible: !!user ? true : false,
         user: user,
     }))
+
+export const dispatchAuthModalCodeVerification = ({ phone }: { phone: string }) =>
+    useModalAuth.setState((_) => ({
+        phone: phone,
+        type: "CodeVerification",
+    }))

@@ -1,8 +1,8 @@
 import dayjs from "dayjs"
 import { memo, useEffect, useState } from "react"
 
-import { dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store/hooks"
 import { useForgotPasswordHelper } from "@/helpers"
+import { dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store/hooks"
 
 const INITIAL_TIME = 120
 
@@ -57,7 +57,7 @@ export const TimerData = memo(function TimerData() {
                 .forgotPassword({
                     email: email,
                 })
-                .then(response => {
+                .then((response) => {
                     if (response.ok) {
                         if (response.res) {
                             // dispatchAuthModalVerification({
@@ -67,6 +67,7 @@ export const TimerData = memo(function TimerData() {
                         }
                     }
                 })
+        } else if (!!phone) {
         }
         dispatchStartTimer()
     }

@@ -22,6 +22,8 @@ export const HeaderAuth = memo(function HeaderAuth() {
                     ? `Подтверждение ${!!email ? "почты" : !!phone ? "номера" : ""}`
                     : ["CurrentUser", "ExistingAccount"].includes(type!)
                     ? "Аккаунт уже существует"
+                    : type === "NumberConfirmation"
+                    ? "Подтверждение номера"
                     : null}
             </h3>
         </header>

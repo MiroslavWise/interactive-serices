@@ -193,7 +193,7 @@ export const ArticleOnboarding = () => {
         if (step === 3 && valid.isTitle) {
             dispatchOnboarding("next")
         }
-        if (step === 4 && valid.isFiles) {
+        if (step === 4) {
             dispatchOnboarding("next")
         }
     }
@@ -208,7 +208,7 @@ export const ArticleOnboarding = () => {
         if (step === 3 && valid.isTitle) {
             return false
         }
-        if (step === 4 && valid.isFiles) {
+        if (step === 4) {
             return false
         }
 
