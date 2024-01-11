@@ -24,6 +24,7 @@ import {
     NewServiceBarterRequests,
     MobileFiltersMap,
     Onboarding,
+    ReciprocalExchange,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -38,6 +39,7 @@ import {
     useUpdateMutualOffer,
     useDataConfirmationPopUp,
     useAddCreateModal,
+    useReciprocalExchange,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -46,6 +48,7 @@ export const Containers = () => {
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
     const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
     const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
+    const visibleReciprocalExchange = useReciprocalExchange(({ visible }) => visible)
     const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
     const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
     const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
@@ -82,11 +85,12 @@ export const Containers = () => {
                     <ModalUpdateProfile />
                     <CompletionTransaction />
                     <NewServiceBarterRequests />
+                    {visibleFriends && <DroverFriends />}
                     {isMobile && <ExchangesModalMobile />}
                     {isVisible && <CreateNewOptionModal />}
-                    {isMobile && visibleNotifications && <NotificationsMobile />}
-                    {visibleFriends && <DroverFriends />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}
+                    {visibleReciprocalExchange && <ReciprocalExchange />}
+                    {isMobile && visibleNotifications && <NotificationsMobile />}
                 </>
             )}
         </>

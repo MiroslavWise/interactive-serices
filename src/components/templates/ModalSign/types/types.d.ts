@@ -46,6 +46,8 @@ export type TContentCodeVerification = FC<{}>
 export interface IValuesRegistrationForm {
     email: string //email
     phone: string
+    country: string
+    code: string
     // password: string //password
     // repeat_password: string //repeat_password
     checkbox: boolean //checkbox
