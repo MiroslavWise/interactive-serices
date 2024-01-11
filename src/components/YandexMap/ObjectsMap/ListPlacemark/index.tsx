@@ -37,15 +37,12 @@ const $ListPlacemark = () => {
                         }
                         return [0, 0]
                     })
-                    const provider = item?.provider
-                    const title = item?.title
                     array.push({
                         coordinates: coordinates,
-                        provider: provider,
                         idUser: item?.userId!,
                         id: item?.id!,
-                        title: title,
                         dispatch: dispatch,
+                        offer: item,
                     })
                 })
         }
@@ -53,7 +50,7 @@ const $ListPlacemark = () => {
         return array
     }, [dataPlaces?.res, dispatch])
 
-    return marks.map((item) => <PlacemarkCurrent key={`${item.id}-${item.provider}-list`} {...item} dispatch={dispatch} />)
+    return marks.map((item) => <PlacemarkCurrent key={`${item.id}-${item.offer.provider}-list`} {...item} dispatch={dispatch} />)
 }
 
 export const ListPlacemark = memo($ListPlacemark)

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { SyntheticEvent } from "react"
 
 import type { TBadgeServices } from "./types"
 
@@ -9,28 +9,15 @@ import { useBalloonCard, useOffersCategories } from "@/store/hooks"
 import styles from "./style.module.scss"
 
 export const BadgeServices: TBadgeServices = (props) => {
-    const [src, setSrc] = useState(`/svg/category/default.svg`)
-    const { id, provider, categoryId, userId, addresses, isClickable } = props
+    const { categoryId, provider, id, userId, addresses } = props ?? {}
+    const { isClickable } = props
     const categories = useOffersCategories(({ categories }) => categories)
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
-    const infoCategory = useMemo(() => {
-        if (!categories.length || !categoryId) {
-            return null
-        }
-
-        return categories?.find((_) => _?.id === categoryId)
-    }, [categories, categoryId])
-
-    useEffect(() => {
-        if (!!categories.length || !!categoryId) {
-            const id = categories?.find((_) => _?.id === categoryId)?.id!
-            setSrc(`/svg/category/${id}.svg`)
-        }
-    }, [categories, categoryId])
+    const infoCategory = categories?.find((item) => item?.id === categoryId)
 
     function handle() {
-        if (addresses && id && isClickable) {
+        if (addresses?.length && id && isClickable) {
             dispatch({
                 visible: true,
                 type: provider!,
@@ -44,14 +31,20 @@ export const BadgeServices: TBadgeServices = (props) => {
         <li className={styles.container} data-type={provider} onClick={handle}>
             <div data-img>
                 <img
-                    src={src}
+                    src={`/svg/category/${categoryId}.svg`}
                     alt="cat"
-                    onError={(err) => {
-                        console.log("err data-img: ", err)
-                        setSrc(`/svg/category/default.svg`)
+                    onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                        if (error?.target) {
+                            try {
+                                //@ts-ignore
+                                error.target.src = `/svg/category/default.svg`
+                            } catch (e) {
+                                console.log("catch e: ", e)
+                            }
+                        }
                     }}
-                    height={24}
-                    width={24}
+                    height={16}
+                    width={16}
                 />
             </div>
             <p>{infoCategory?.title! || "---{}---"}</p>

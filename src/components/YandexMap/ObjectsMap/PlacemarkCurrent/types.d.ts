@@ -2,13 +2,13 @@ import type { IActionBalloon } from "../../types"
 import type { Dispatch, FC, SetStateAction } from "react"
 import type { IProvider, TTypeProvider } from "@/services/file-upload/types"
 import type { IActionBalloonCard } from "@/store/types/createBalloonCard"
+import type { IResponseOffers } from "@/services/offers/types"
 
 export interface IPlacemarkCurrent {
-    title: string
-    provider: TTypeProvider
     coordinates: [number, number][]
     id: string | number
     idUser: number | string
+    offer: IResponseOffers
 
     dispatch: Dispatch<IActionBalloonCard>
 }

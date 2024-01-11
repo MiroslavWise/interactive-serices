@@ -14,8 +14,6 @@ import styles from "./styles/style.module.scss"
 export const ContainerSuggestions: TContainerSuggestions = () => {
     const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
     const userId = useAuth(({ userId }) => userId)
-    const user = useAuth(({ user }) => user)
-    const imageProfile = useAuth(({ imageProfile }) => imageProfile)
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: stateProvider, order: "DESC" }),
@@ -26,16 +24,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
         <ul className={styles.containerSuggestions}>
             {Array.isArray(data?.res) && ["offer"].includes(stateProvider)
                 ? data?.res.map((item, index) => (
-                      <CardSuggestion
-                          key={`${item.id}+${index}-${stateProvider}`}
-                          {...item}
-                          profile={{
-                              name: `${user?.firstName || ""} ${user?.lastName || ""}`,
-                              userId: userId!,
-                              photo: imageProfile?.attributes?.url!,
-                          }}
-                          refetch={refetch}
-                      />
+                      <CardSuggestion key={`${item.id}+${index}-${stateProvider}`} {...item} refetch={refetch} />
                   ))
                 : Array.isArray(data?.res) && ["discussion", "alert"].includes(stateProvider)
                 ? data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)

@@ -1,10 +1,11 @@
-import type { IResponseOffers } from "@/services/offers/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
 import type { FC } from "react"
+import type { IResponseOffers } from "@/services/offers/types"
+import { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IUserResponse } from "@/services/users/types/usersService"
 
 interface IProps {
     offer: IResponseOffers
-    user?: IUserResponse
+    profile?: IGetProfileIdResponse
     isBalloon?: boolean
 }
 

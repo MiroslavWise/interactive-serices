@@ -13,6 +13,7 @@ import { DiscussionBalloonComponent } from "./components/DiscussionBalloonCompon
 
 import { cx } from "@/lib/cx"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
+import { ButtonClose } from "@/components/common"
 
 export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
@@ -43,16 +44,11 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 }}
                 ref={refSection}
             >
-                <img
-                    src="/svg/x-close-white.svg"
-                    alt="x-close-white"
-                    width={24}
-                    height={24}
-                    data-img-close
-                    data-visible={!visible}
+                <ButtonClose
                     onClick={() => {
                         dispatch({ visible: false })
                     }}
+                    position={{}}
                 />
                 {typeContent.hasOwnProperty(type!) ? typeContent[type!] : null}
             </section>

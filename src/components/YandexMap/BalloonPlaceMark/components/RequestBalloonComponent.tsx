@@ -35,7 +35,7 @@ export const RequestBalloonComponent: TRequestBalloonComponent = ({}) => {
             },
             {
                 queryFn: () => serviceProfile.getUserId(Number(idUser)),
-                queryKey: ["profile", `userId=${idUser!}`],
+                queryKey: ["profile", idUser!],
                 refetchOnMount: false,
             },
         ],

@@ -25,6 +25,7 @@ import {
     MobileFiltersMap,
     Onboarding,
     ReciprocalExchange,
+    BallonOffer,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -40,12 +41,14 @@ import {
     useDataConfirmationPopUp,
     useAddCreateModal,
     useReciprocalExchange,
+    useBallonOffer,
 } from "@/store/hooks"
 
 export const Containers = () => {
     const isAuth = useAuth(({ isAuth }) => isAuth)
     const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
+    const visibleBallonOffer = useBallonOffer(({ visible }) => visible)
     const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
     const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
     const visibleReciprocalExchange = useReciprocalExchange(({ visible }) => visible)
@@ -73,6 +76,7 @@ export const Containers = () => {
                 </>
             )}
             {!isMobile && <PublicProfile />}
+            {visibleBallonOffer && <BallonOffer />}
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
             {visibleDataConfirmation && <DataConfirmationPopUp />}

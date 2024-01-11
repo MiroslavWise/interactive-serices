@@ -1,20 +1,30 @@
 import Link from "next/link"
-import { useForm, Controller } from "react-hook-form"
-import { type ReactNode, memo, useState, useRef } from "react"
+import { useForm } from "react-hook-form"
+import { type ReactNode, memo, useState } from "react"
 
 import type { IValuesRegistrationForm } from "../types/types"
 
 import { Button } from "@/components/common"
 
 import { serviceAuth } from "@/services/auth"
-import { serviceUserValid } from "@/services/users"
-import { dispatchAuthModalCodeVerification, dispatchAuthModalCurrentUser, dispatchStartTimer, useModalAuth } from "@/store/hooks"
+import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
 export const SignUpPhone = memo(function SignUpPhone({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(false)
     const phone = useModalAuth(({ phone }) => phone)
+
+    const splitPhone = phone?.split("-")
+
+    const numberPhone = phone
+        ? {
+              country: splitPhone?.[0] || "",
+              code: splitPhone?.[1] || "",
+              phone: splitPhone?.[2] || "",
+          }
+        : {}
+
     const {
         register,
         handleSubmit,
@@ -22,9 +32,10 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         formState: { errors },
         setFocus,
         setValue,
+        setError,
     } = useForm<IValuesRegistrationForm>({
         defaultValues: {
-            phone: phone || "",
+            ...numberPhone,
             checkbox: false,
         },
     })
@@ -37,15 +48,6 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             const phone = values.phone?.replaceAll(/[^\d]/g, "")
             const number = `${country}-${code}-${phone}`
 
-            // serviceUserValid.getPhoneUser(phoneParse).then((response) => {
-            //     console.log("response getPhoneUser: ", response)
-            // if (response.ok) {
-            //     if (response.res) {
-            //         dispatchAuthModalCurrentUser({ user: response?.res })
-            //         setLoading(false)
-            //     }
-            // } else {
-            // if (response?.error?.message === "user not found") {
             serviceAuth
                 .phone({
                     phone: number,
@@ -55,12 +57,11 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                     if (response.ok) {
                         dispatchStartTimer()
                         dispatchAuthModalCodeVerification({ phone: number })
+                    } else {
+                        setError("phone", { message: response?.error?.message! })
                     }
                     setLoading(false)
                 })
-            // }
-            // }
-            // })
         }
     }
 
@@ -69,56 +70,46 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             <section className={styles.section}>
                 <div data-label-input>
                     <label htmlFor="phone">Телефон</label>
-                    <div
-                        data-phone-div
-                        data-error={!!errors?.country || !!errors?.code || !!errors?.phone}
-                        onClick={(event) => {
-                            // if (!watch("country")?.length) {
-                            //     console.log("onClick country", watch("country")?.length)
-                            //     setFocus("country")
-                            //     return
-                            // } else if (!watch("code")?.length) {
-                            //     console.log("onClick code", watch("code")?.length)
-                            //     setFocus("code")
-                            //     return
-                            // } else {
-                            //     setFocus("phone")
-                            //     return
-                            // }
-                        }}
-                    >
+                    <div data-phone-div data-error={!!errors?.country || !!errors?.code || !!errors?.phone}>
                         <span>+</span>
                         <input
+                            data-input-country
                             placeholder="7"
-                            type="tel"
+                            type="number"
                             inputMode="numeric"
                             maxLength={3}
                             {...register("country", { required: true })}
                             onChange={(event) => {
                                 setValue("country", event.target.value)
-                                event.target.style.flex = `0 ${
-                                    event.target.value?.length * 0.4375 + (event.target.value?.length - 1) * 0.0625
-                                }rem`
-                                if (event.target.value?.length >= 3) {
-                                    setFocus("code")
+                                if (event.target.value?.length > 0) {
+                                    event.target.style.flex = `0 ${
+                                        event.target.value?.length * 0.4775 + (event.target.value?.length - 1) * 0.0725 + 0.125
+                                    }rem`
+                                    if (event.target.value?.length >= 3) {
+                                        setFocus("code")
+                                    }
                                 }
                             }}
                         />
                         <span>(</span>
                         <input
+                            data-input-code
                             placeholder="000"
-                            type="tel"
+                            type="number"
                             inputMode="numeric"
                             maxLength={4}
                             {...register("code", { required: true })}
-                            style={{ flexBasis: "1.475rem" }}
                             onChange={(event) => {
                                 setValue("code", event.target.value)
-                                event.target.style.flex = `0 ${
-                                    event.target.value?.length * 0.4375 + (event.target.value?.length - 1) * 0.0625
-                                }rem`
-                                if (event.target.value?.length >= 4) {
-                                    setFocus("phone")
+                                if (event.target.value?.length > 0) {
+                                    event.target.style.flex = `0 ${
+                                        event.target.value?.length * 0.4775 + (event.target.value?.length - 1) * 0.0725 + 0.125
+                                    }rem`
+                                    if (event.target.value?.length >= 4) {
+                                        setFocus("phone")
+                                    }
+                                } else if (event.target?.value?.length === 0) {
+                                    event.target.style.flex = `0 0 1.675rem`
                                 }
                             }}
                             onKeyDown={(event) => {
@@ -135,15 +126,14 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                         <span>)</span>
                         <span> </span>
                         <input
+                            data-input-phone
                             placeholder="000-00-00"
-                            type="tel"
+                            type="number"
                             inputMode="numeric"
                             {...register("phone", { required: true })}
-                            style={{ flexBasis: "5.625rem" }}
-                            maxLength={14}
+                            maxLength={10}
                             onChange={(event) => {
-                                console.log("event press: ", event)
-                                setValue("phone", event.target.value)
+                                setValue("phone", event.target.value?.slice(0, 10))
                             }}
                             onKeyDown={(event) => {
                                 if (event.key === "Backspace" && watch("phone")?.length === 0) {
@@ -161,9 +151,11 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                         <i>
                             {errors.phone && errors?.phone?.message === "user already exists"
                                 ? "Пользователь уже существует"
+                                : errors.phone?.message
+                                ? errors.phone?.message
                                 : errors?.phone || errors?.code || errors?.country
                                 ? "Требуется номер телефона, состоящий из 11 символов"
-                                : ""}
+                                : null}
                         </i>
                     ) : null}
                 </div>

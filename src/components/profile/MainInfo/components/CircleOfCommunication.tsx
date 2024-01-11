@@ -32,7 +32,7 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({ user
         queries: !!peoples
             ? peoples.map((item) => ({
                   queryFn: () => serviceProfile.getUserId(item!),
-                  queryKey: ["user", `userId=${item}`],
+                  queryKey: ["user", item!],
                   enabled: !!peoples && !!item,
               }))
             : [],

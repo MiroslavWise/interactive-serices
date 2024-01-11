@@ -9,18 +9,61 @@
 
     & > section {
         position: relative;
+        max-width: 22.75rem;
         min-height: calc(66px + 38px + 1rem + 1rem + 71px);
         height: fit-content;
-        max-width: 338px;
         width: 100%;
-        border-radius: 33px;
+        border-radius: 2rem;
         box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
         display: flex;
         flex-direction: column;
         z-index: 120;
 
+        & > [data-close] {
+            top: 0 !important;
+            right: -0.25rem !important;
+            transform: translateX(100%);
+        }
+
         &[data-type-offers="offer"] {
-            background: var(--gradient-offer);
+            & > header {
+                background-color: var(--primary-500);
+            }
+        }
+
+        & > header {
+            border-radius: 2rem 2rem 0 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 1.25rem;
+
+            & > [data-category-img] {
+                width: 1.5rem;
+                height: 1.5rem;
+                background: var(--supporting-white);
+                border-radius: 0.75rem;
+                padding: 0.25rem;
+
+                & > img {
+                    width: 1rem;
+                    height: 1rem;
+                }
+            }
+
+            & > h3 {
+                color: var(--supporting-white);
+                font-size: 1.25rem;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 1.125rem;
+                letter-spacing: -0.01125rem;
+            }
+        }
+
+        &[data-type-offers="offer"] {
+            background: var(--background);
         }
         &[data-type-offers="discussion"] {
             background: var(--gradient-optional-1);
@@ -32,16 +75,6 @@
             background: var(--gradient-request);
         }
         img {
-            &[data-img-close="true"] {
-                position: absolute;
-                top: 0.75rem;
-                right: 0.75rem;
-                cursor: pointer;
-                z-index: 121;
-                &[data-visible="true"] {
-                    display: none;
-                }
-            }
             &[data-logo-ballon="true"] {
                 position: absolute;
                 top: 4px;
@@ -553,6 +586,20 @@
             max-width: 100%;
             box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
             position: sticky;
+
+            & > header {
+                & > h3 {
+                    padding-right: calc(2.75rem + 0.625rem);
+                }
+            }
+
+            & > [data-close] {
+                top: 0rem !important;
+                right: 0rem !important;
+                transform: translateX(0);
+                border: none !important;
+                background: transparent;
+            }
 
             & > article {
                 max-height: fit-content;

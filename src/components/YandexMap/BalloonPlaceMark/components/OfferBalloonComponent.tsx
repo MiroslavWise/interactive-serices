@@ -10,8 +10,8 @@ import { NextImageMotion } from "@/components/common"
 import { ButtonReplyPrimary } from "@/components/common/custom"
 
 import { daysAgo, usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
 import { serviceOffers } from "@/services/offers"
+import { serviceProfile } from "@/services/profile"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
 import { useOffersCategories, useProfilePublic, useBalloonCard } from "@/store/hooks"
 
@@ -33,8 +33,8 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                 refetchOnMount: false,
             },
             {
-                queryFn: () => serviceUsers.getId(Number(idUser)),
-                queryKey: ["user", idUser!],
+                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryKey: ["profile", idUser!],
                 enabled: !!idUser!,
                 refetchOnMount: false,
             },
@@ -57,17 +57,31 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
         }
     }
 
-    const categoriesUser = dataUser?.res?.categories || []
+    // const categoriesUser = dataUser?.res?.categories || []
 
     return (
         <>
-            <div
-                data-logo-ballon-offer
-                style={{
-                    backgroundImage: `url(/svg/category/${data?.res?.categoryId!}.svg)`,
-                }}
-            />
-            <header data-offer>
+            {/* <header>
+                <div data-category-img>
+                    {data?.res?.categoryId ? (
+                        <img
+                            src={`/svg/category/${data?.res?.categoryId}.svg`}
+                            alt="category"
+                            width={16}
+                            height={16}
+                            onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                if (error?.target) {
+                                    try {
+                                        //@ts-ignore
+                                        error.target.src = `/svg/category/default.svg`
+                                    } catch (e) {
+                                        console.log("catch e: ", e)
+                                    }
+                                }
+                            }}
+                        />
+                    ) : null}
+                </div>
                 <h3>{categoryTitle}</h3>
             </header>
             <div data-container-balloon data-offer>
@@ -141,8 +155,8 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                         ))}
                     </ul>
                 ) : null}
-                <ButtonReplyPrimary isBalloon offer={data?.res!} user={dataUser?.res!} />
-            </div>
+                <ButtonReplyPrimary isBalloon offer={data?.res!} user={dataUser?.res!} /> */}
+            {/* </div> */}
         </>
     )
 }
