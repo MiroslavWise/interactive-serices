@@ -3,7 +3,7 @@ import type { IAddressesResponse } from "@/services/addresses/types/serviceAddre
 
 import { GeoTagging, NextImageMotion } from "@/components/common"
 
-import styles from "../styles/item-profile.module.scss"
+import styles from "../styles/profile.module.scss"
 
 export const ItemProfile = ({ profile, geo }: { profile: IGetProfileIdResponse; geo: IAddressesResponse }) => {
     return (

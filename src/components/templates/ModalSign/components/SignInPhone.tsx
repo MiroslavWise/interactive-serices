@@ -39,7 +39,7 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
                 if (response?.ok) {
                     if (response.ok) {
                         dispatchStartTimer()
-                        dispatchAuthModalCodeVerification({ phone: number })
+                        dispatchAuthModalCodeVerification({ phone: number, id: response?.res?.id! })
                     }
                     setLoading(false)
                 } else {

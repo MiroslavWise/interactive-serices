@@ -5,8 +5,8 @@ import { wrapperFetch } from "../requestsWrapper"
 export const serviceAuth: IAuth = {
     route: "/auth",
 
-    sms(value) {
-        return wrapperFetch.methodPost(`${this.route}/sms`, { code: value })
+    sms({ code, id }) {
+        return wrapperFetch.methodPost(`${this.route}/sms`, { code, id })
     },
     phone(value) {
         return wrapperFetch.methodPost(`${this.route}/phone`, value)

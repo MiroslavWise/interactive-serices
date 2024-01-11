@@ -123,16 +123,20 @@
                                     flex-direction: row;
                                     align-items: center;
                                     gap: 0.5rem;
-                                    padding: 0.3125rem 0.75rem 0.3125rem;
+                                    padding: 0.3125rem 0.75rem 0.3125rem 0.3125rem;
+                                    cursor: pointer;
+                                    background: var(--background);
 
                                     & > [data-img] {
                                         width: 1.75rem;
                                         height: 1.75rem;
                                         padding: 0.375rem;
+                                        border-radius: 0.875rem;
 
                                         & > img {
                                             width: 1rem;
                                             height: 1rem;
+                                            border-radius: 0.25rem;
                                         }
                                     }
 
@@ -150,6 +154,22 @@
                                         line-clamp: 1;
                                         text-overflow: ellipsis;
                                         overflow: hidden;
+                                    }
+
+                                    & > img {
+                                        width: 1rem;
+                                        height: 1rem;
+                                    }
+
+                                    &[data-active="true"] {
+                                        background: var(--primary-500);
+                                        & > [data-img] {
+                                            background: var(--supporting-white);
+                                        }
+
+                                        & > span {
+                                            color: var(--supporting-white);
+                                        }
                                     }
                                 }
                             }
@@ -194,6 +214,80 @@
                                     line-height: 150%;
                                 }
                             }
+
+                            & > [data-my-offers] {
+                                width: 100%;
+                                display: flex;
+                                flex-direction: column;
+                                gap: 0.5rem;
+
+                                & > a {
+                                    width: 100%;
+                                    border-radius: 1rem;
+                                    border: 1px solid var(--gray-300);
+                                    gap: 0.5rem;
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 0.25rem;
+                                    padding: 0.5rem;
+                                    cursor: pointer;
+
+                                    & > [data-category] {
+                                        height: 2rem;
+                                        border-radius: 1rem;
+                                        border: 1px solid var(--gray-300);
+                                        display: flex;
+                                        flex-direction: row;
+                                        align-items: center;
+                                        gap: 0.25rem;
+                                        padding: 0.25rem 0.375rem 0.25rem 0.25rem;
+                                        background: var(--gray-100);
+                                        width: fit-content;
+
+                                        & > [data-img] {
+                                            width: 1.5rem;
+                                            height: 1.5rem;
+                                            padding: 0.25rem;
+                                            border-radius: 0.75rem;
+                                            background: var(--background);
+
+                                            & > img {
+                                                width: 1rem;
+                                                height: 1rem;
+                                                border-radius: 0.25rem;
+                                            }
+                                        }
+
+                                        & > span {
+                                            color: var(--gray-900);
+                                            font-size: 0.8125rem;
+                                            font-style: normal;
+                                            font-weight: 400;
+                                            line-height: 1.125rem;
+                                            letter-spacing: -0.01125rem;
+                                            display: -webkit-box;
+                                            -webkit-line-clamp: 1;
+                                            -webkit-box-orient: vertical;
+                                            line-clamp: 1;
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                        }
+                                    }
+
+                                    & > p {
+                                        color: var(--gray-900);
+                                        font-size: 0.875rem;
+                                        font-style: normal;
+                                        font-weight: 400;
+                                        line-height: 1.25rem;
+                                        letter-spacing: -0.01125rem;
+                                    }
+
+                                    &[data-active="true"] {
+                                        border-color: var(--primary-500);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -201,6 +295,40 @@
                 & > [data-button-forward] {
                     margin-top: auto;
                 }
+            }
+        }
+    }
+
+    [data-expand] {
+        width: min-content;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+
+        & > span {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1.25rem;
+            letter-spacing: -0.01125rem;
+            white-space: nowrap;
+
+            &[data-primary] {
+                color: var(--primary-500);
+            }
+        }
+
+        & > img {
+            height: 1rem;
+            width: 1rem;
+        }
+
+        &[data-active="false"] {
+            & > img {
+                transform: rotate(180deg);
             }
         }
     }
