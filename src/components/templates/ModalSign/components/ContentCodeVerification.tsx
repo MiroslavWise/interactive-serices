@@ -49,6 +49,10 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
                     console.log("response: serviceAuth: sms: ", response)
                     if (response.ok) {
                         if (response?.res) {
+                            dispatchAuthModal({
+                                visible: false,
+                                type: null,
+                            })
                             setToken({
                                 ok: true,
                                 token: response?.res?.accessToken!,
