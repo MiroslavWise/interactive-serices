@@ -7,7 +7,6 @@ import type { TContentForgotPassword } from "../types/types"
 
 import { Button, Segments } from "@/components/common"
 
-import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthModal, useModalAuthEmailOrPhone, dispatchIModalAuthEmailOrPhone, useModalAuth } from "@/store/hooks"
 import { VALUES_EMAIL_PHONE } from "../constants/segments"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
@@ -63,27 +62,17 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
             />
             <form onSubmit={handleSubmit(onEnter)}>
                 <Controller
-                    name={typeEmailOrPhone}
+                    name="email"
                     control={control}
                     rules={{ required: true }}
                     render={({ field, formState }) => (
                         <div data-label-input>
-                            <label htmlFor={field.name}>
-                                {field.name === "email" ? "Электронная почта" : field.name === "phone" ? "Телефон" : ""}
-                            </label>
+                            <label htmlFor="email">Электронная почта</label>
                             <input
-                                data-error={
-                                    field.name === "email"
-                                        ? !!formState.errors.email
-                                        : field.name === "phone"
-                                        ? !!formState.errors.phone
-                                        : null
-                                }
-                                type={field.name === "email" ? "email" : field.name === "phone" ? "tel" : "text"}
-                                inputMode={field.name === "email" ? "email" : field.name === "phone" ? "numeric" : "text"}
-                                placeholder={
-                                    field.name === "email" ? "email_address@mail.com" : field.name === "phone" ? "+7 (000) 000-00-00" : ""
-                                }
+                                data-error={!!formState.errors.email}
+                                type="email"
+                                inputMode="email"
+                                placeholder="email_address@mail.com"
                                 {...field}
                             />
                             {formState.errors.email ? (
@@ -96,18 +85,6 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                                         ? "У нас проблемы с сервером, извините :("
                                         : formState.errors.email
                                         ? "Требуется email"
-                                        : ""}
-                                </i>
-                            ) : formState.errors.phone ? (
-                                <i>
-                                    {formState.errors.phone && formState.errors?.phone?.message === "user is not verified"
-                                        ? "Пользователь не верифицирован"
-                                        : formState.errors.phone && formState.errors?.phone?.message === "user not found"
-                                        ? "Пользователя не существует"
-                                        : formState.errors.email && formState.errors?.phone?.message === "something went wrong"
-                                        ? "У нас проблемы с сервером, извините :("
-                                        : formState.errors.email
-                                        ? "Требуется номер"
                                         : ""}
                                 </i>
                             ) : null}

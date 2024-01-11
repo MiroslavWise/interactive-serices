@@ -15,25 +15,31 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
 
     const {
         handleSubmit,
-        control,
         setError,
+        watch,
+        register,
+        setFocus,
+        setValue,
         formState: { errors },
     } = useForm<IValuesSignForm>({ defaultValues: { phone: "" } })
 
-    function onEnter(value: IValuesSignForm) {
+    function onEnter(values: IValuesSignForm) {
         if (!loading) {
             setLoading(true)
-            const phone = value.phone?.replaceAll(/[^\d]/g, "")
-            const phoneParse = `${phone[0]}-${phone[1]}${phone[2]}${phone[3]}-${phone?.slice(4)}`
-            if (phone?.length < 11) {
+            const country = values.country?.replaceAll(/[^\d]/g, "")
+            const code = values.code?.replaceAll(/[^\d]/g, "")
+            const phone = values.phone?.replaceAll(/[^\d]/g, "")
+            const number = `${country}-${code}-${phone}`
+
+            if (number?.replaceAll("-", "")?.length < 11) {
                 setError("phone", { message: "Номер телефона состоит из 11 цифр" })
             }
 
-            serviceAuth.phone({ phone: phoneParse }).then((response) => {
+            serviceAuth.phone({ phone: number }).then((response) => {
                 if (response?.ok) {
                     if (response.ok) {
                         dispatchStartTimer()
-                        dispatchAuthModalCodeVerification({ phone: phoneParse })
+                        dispatchAuthModalCodeVerification({ phone: number })
                     }
                     setLoading(false)
                 } else {
@@ -55,25 +61,98 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
     return (
         <form onSubmit={submit}>
             <section className={styles.section}>
-                <Controller
-                    name="phone"
-                    rules={{ required: true }}
-                    control={control}
-                    render={({ field }) => (
-                        <div data-label-input>
-                            <label htmlFor={field.name}>Телефон</label>
-                            <input
-                                autoComplete="off"
-                                data-error={!!errors.phone}
-                                type="tel"
-                                placeholder="+7 (000) 000-00-00"
-                                inputMode="numeric"
-                                {...field}
-                            />
-                            {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
-                        </div>
-                    )}
-                />
+                <div data-label-input>
+                    <label htmlFor="phone">Телефон</label>
+                    <div
+                        data-phone-div
+                        data-error={!!errors?.country || !!errors?.code || !!errors?.phone}
+                        onClick={(event) => {
+                            if (!watch("country")?.length) {
+                                console.log("onClick country", watch("country")?.length)
+                                setFocus("country")
+                                return
+                            } else if (!watch("code")?.length) {
+                                console.log("onClick code", watch("code")?.length)
+                                setFocus("code")
+                                return
+                            } else {
+                                setFocus("phone")
+                                return
+                            }
+                        }}
+                    >
+                        <span>+</span>
+                        <input
+                            placeholder="7"
+                            type="tel"
+                            inputMode="numeric"
+                            maxLength={3}
+                            {...register("country", { required: true })}
+                            onChange={(event) => {
+                                setValue("country", event.target.value)
+                                event.target.style.flex = `0 ${
+                                    event.target.value?.length * 0.4375 + (event.target.value?.length - 1) * 0.0625
+                                }rem`
+                                if (event.target.value?.length >= 3) {
+                                    setFocus("code")
+                                }
+                            }}
+                        />
+                        <span>(</span>
+                        <input
+                            placeholder="000"
+                            type="tel"
+                            inputMode="numeric"
+                            maxLength={4}
+                            {...register("code", { required: true })}
+                            style={{ flexBasis: "1.475rem" }}
+                            onChange={(event) => {
+                                setValue("code", event.target.value)
+                                event.target.style.flex = `0 ${
+                                    event.target.value?.length * 0.4375 + (event.target.value?.length - 1) * 0.0625
+                                }rem`
+                                if (event.target.value?.length >= 4) {
+                                    setFocus("phone")
+                                }
+                            }}
+                            onKeyDown={(event) => {
+                                if (event.key === "Backspace" && watch("code")?.length === 0) {
+                                    setFocus("country")
+                                }
+                            }}
+                            onFocus={(event) => {
+                                if (watch("country")?.length === 0) {
+                                    setFocus("country")
+                                }
+                            }}
+                        />
+                        <span>)</span>
+                        <span> </span>
+                        <input
+                            placeholder="000-00-00"
+                            type="tel"
+                            inputMode="numeric"
+                            {...register("phone", { required: true })}
+                            style={{ flexBasis: "5.625rem" }}
+                            maxLength={14}
+                            onChange={(event) => {
+                                console.log("event press: ", event)
+                                setValue("phone", event.target.value)
+                            }}
+                            onKeyDown={(event) => {
+                                if (event.key === "Backspace" && watch("phone")?.length === 0) {
+                                    setFocus("code")
+                                }
+                            }}
+                            onFocus={(event) => {
+                                if (watch("code")?.length === 0) {
+                                    setFocus("code")
+                                }
+                            }}
+                        />
+                    </div>
+                    {!!errors?.phone ? <i>{errors?.phone?.message}</i> : null}
+                </div>
             </section>
             {itemForgot}
             <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} />

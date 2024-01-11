@@ -57,6 +57,8 @@ export interface IValuesSignForm {
     email: string
     password: string
     phone: string
+    country: string
+    code: string
 }
 
 export interface IValuesPersonForm {

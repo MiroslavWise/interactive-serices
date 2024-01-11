@@ -243,6 +243,11 @@
             overflow: hidden;
             gap: 0.1125rem;
             padding: 0 0.875rem;
+            cursor: pointer;
+
+            &[data-error="true"] {
+                border-color: var(--error-600);
+            }
 
             & > span {
                 color: var(--gray-800);
@@ -262,6 +267,8 @@
                 width: min-content;
                 padding: 0;
                 flex: 0;
+                border-radius: 0;
+                field-sizing: content;
             }
         }
     }
