@@ -56,7 +56,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                     console.log("response: ", response)
                     if (response.ok) {
                         dispatchStartTimer()
-                        dispatchAuthModalCodeVerification({ phone: number })
+                        dispatchAuthModalCodeVerification({ phone: number, id: response?.res?.id! })
                     } else {
                         setError("phone", { message: response?.error?.message! })
                     }

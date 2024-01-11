@@ -16,6 +16,7 @@ import styles from "../styles/form.module.scss"
 export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     const [loading, setLoading] = useState(false)
     const phone = useModalAuth(({ phone }) => phone)
+    const idUser = useModalAuth(({ id }) => id)
     const setToken = useAuth(({ setToken }) => setToken)
 
     const {
@@ -39,25 +40,30 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     function handleConfirmation(values: IValues) {
         if (!loading) {
             setLoading(true)
-            serviceAuth.sms(values.code!).then((response) => {
-                console.log("response: serviceAuth: sms: ", response)
-                if (response.ok) {
-                    if (response?.res) {
-                        setToken({
-                            ok: true,
-                            token: response?.res?.accessToken!,
-                            refreshToken: response?.res?.refreshToken!,
-                            expires: response?.res?.expires!,
-                            userId: response?.res?.id!,
-                            email: "",
-                        })
+            serviceAuth
+                .sms({
+                    code: values.code!,
+                    id: idUser!,
+                })
+                .then((response) => {
+                    console.log("response: serviceAuth: sms: ", response)
+                    if (response.ok) {
+                        if (response?.res) {
+                            setToken({
+                                ok: true,
+                                token: response?.res?.accessToken!,
+                                refreshToken: response?.res?.refreshToken!,
+                                expires: response?.res?.expires!,
+                                userId: response?.res?.id!,
+                                email: "",
+                            })
+                        }
+                    } else {
+                        console.log("%c ---ERROR CONFIRM CODE---", "color: #f00", response?.error)
+                        setError("code", { message: "Не верный код" })
+                        setLoading(false)
                     }
-                } else {
-                    console.log("%c ---ERROR CONFIRM CODE---", "color: #f00", response?.error)
-                    setError("code", { message: "Не верный код" })
-                    setLoading(false)
-                }
-            })
+                })
         }
     }
 
