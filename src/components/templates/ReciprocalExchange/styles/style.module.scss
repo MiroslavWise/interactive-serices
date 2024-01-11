@@ -144,7 +144,10 @@
                                         font-weight: 500;
                                         line-height: 1.25rem;
                                         letter-spacing: -0.01125rem;
-                                        white-space: nowrap;
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 1;
+                                        -webkit-box-orient: vertical;
+                                        line-clamp: 1;
                                         text-overflow: ellipsis;
                                         overflow: hidden;
                                     }

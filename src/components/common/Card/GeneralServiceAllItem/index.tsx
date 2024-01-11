@@ -15,7 +15,7 @@ import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
-import { useBalloonCard, useMapCoordinates, useOffersCategories, useProfilePublic } from "@/store/hooks"
+import { dispatchBallonOffer, useBalloonCard, useMapCoordinates, useOffersCategories, useProfilePublic } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -61,15 +61,24 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
         const [address] = addresses
         handlePush("/")
         requestAnimationFrame(() => {
-            dispatch({
-                visible: true,
-                id: id,
-                idUser: userId,
-                type: provider || null,
-            })
             dispatchMapCoordinates({
                 coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
             })
+            if (provider === "offer") {
+                const { ref, className, style, ...offer } = props ?? {}
+                dispatchBallonOffer({
+                    visible: true,
+                    offer: offer,
+                })
+                return
+            } else {
+                dispatch({
+                    visible: true,
+                    id: id,
+                    idUser: userId,
+                    type: provider || null,
+                })
+            }
         })
     }
 

@@ -2,18 +2,19 @@
     display: inline-flex;
     align-items: center !important;
     gap: 0.25rem;
-    max-width: 250px;
     width: auto;
 
     p {
-        width: auto;
         color: var(--gray-500);
         font-size: 1rem;
         font-style: normal;
         font-weight: 500 !important;
         letter-spacing: -0.3px;
-        white-space: nowrap;
-        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        line-clamp: 1;
         text-overflow: ellipsis;
+        overflow: hidden;
     }
 }

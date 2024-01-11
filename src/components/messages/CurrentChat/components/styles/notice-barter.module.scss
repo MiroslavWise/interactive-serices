@@ -54,7 +54,7 @@
     & > [data-inform="true"] {
         & > p {
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             width: 100%;
             color: var(--color-text);

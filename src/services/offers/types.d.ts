@@ -2,6 +2,7 @@ import type { IImageData } from "@/store/types/useAuthState"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import type { TTypeProvider } from "../file-upload/types"
 import type { IReturnData, TOrder } from "../types/general"
+import { IGetProfileIdResponse } from "../profile/types/profileService"
 
 export interface IResponseCreate {
     id: number
@@ -47,6 +48,7 @@ export interface IResponseOffers {
     addresses: IAddressesResponse[]
     images: IImageData[]
     updated: Date
+    profile: IGetProfileIdResponse
 }
 
 export interface IQueriesOffers {

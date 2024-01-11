@@ -11,8 +11,8 @@ import { ButtonReplyPrimary } from "../../custom/ButtonReply"
 import { GeoTagging, NextImageMotion } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
-import { useBalloonCard, useMapCoordinates, useOffersCategories } from "@/store/hooks"
+import { serviceProfile } from "@/services/profile"
+import { dispatchBallonOffer, useMapCoordinates, useOffersCategories } from "@/store/hooks"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 
 import styles from "./style.module.scss"
@@ -20,15 +20,15 @@ import styles from "./style.module.scss"
 export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
-    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
     const categories = useOffersCategories(({ categories }) => categories)
     const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
 
-    const { id, categoryId, provider, title, userId, addresses, images, type, categories: categoriesOffer } = props ?? {}
+    const { categoryId, title, userId, addresses, images, categories: categoriesOffer } = props ?? {}
+    const { ref, type, ...offer } = props ?? {}
 
-    const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
-        queryKey: ["user", userId],
+    const { data: dataProfile } = useQuery({
+        queryFn: () => serviceProfile.getUserId(userId!),
+        queryKey: ["profile", userId!],
         enabled: !!userId,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -42,11 +42,9 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
             dispatchMapCoordinates({
                 coordinates: addresses?.[0]?.coordinates?.split(" ")?.reverse()?.map(Number),
             })
-            dispatch({
+            dispatchBallonOffer({
                 visible: true,
-                type: provider!,
-                id: id,
-                idUser: userId,
+                offer: offer,
             })
         })
     }
@@ -56,9 +54,9 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
         if (data?.images?.length) {
             createGallery(data, data?.images, data?.images[0], 0, {
                 title: data?.title!,
-                name: `${dataUser?.res?.profile?.firstName || ""} ${dataUser?.res?.profile?.lastName || ""}`,
-                urlPhoto: dataUser?.res?.profile?.image?.attributes?.url!,
-                idUser: dataUser?.res?.id!,
+                name: `${dataProfile?.res?.firstName || ""} ${dataProfile?.res?.lastName || ""}`,
+                urlPhoto: dataProfile?.res?.image?.attributes?.url!,
+                idUser: dataProfile?.res?.userId!,
                 time: data?.updated!,
             })
         }
@@ -120,7 +118,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                         </div>
                         <NextImageMotion
                             data-is-length={!!images?.length}
-                            src={dataUser?.res?.profile?.image?.attributes?.url!}
+                            src={dataProfile?.res?.image?.attributes?.url!}
                             alt="avatar"
                             width={42}
                             height={42}
@@ -128,7 +126,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                     </div>
                     <div data-info>
                         <p>
-                            {dataUser?.res?.profile?.firstName || " "} {dataUser?.res?.profile?.lastName || " "}
+                            {dataProfile?.res?.firstName || " "} {dataProfile?.res?.lastName || " "}
                         </p>
                         {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
                     </div>
@@ -162,7 +160,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                         ))}
                     </article>
                 ) : null}
-                {<ButtonReplyPrimary user={dataUser?.res!} offer={props} />}
+                {<ButtonReplyPrimary profile={dataProfile?.res!} offer={props} />}
             </section>
         </li>
     )

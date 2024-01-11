@@ -65,3 +65,23 @@
         height: 1.25rem;
     }
 }
+
+[data-section-modal] {
+    & > [data-close] {
+        top: 0 !important;
+        right: -0.25rem !important;
+        transform: translateX(100%);
+    }
+}
+
+[data-mobile="true"] {
+    [data-section-modal] {
+        & > [data-close] {
+            top: 0rem !important;
+            right: 0rem !important;
+            transform: translateX(0);
+            border: none !important;
+            background: transparent;
+        }
+    }
+}

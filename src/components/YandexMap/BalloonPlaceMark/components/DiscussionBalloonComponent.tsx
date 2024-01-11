@@ -19,9 +19,7 @@ import { AvatarsBalloon } from "./AvatarsBalloon"
 export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
     const { createGallery } = usePhotoVisible()
     const { handlePush } = usePush()
-    const dispatchProfilePublic = useProfilePublic(
-        ({ dispatchProfilePublic }) => dispatchProfilePublic,
-    )
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const id = useBalloonCard(({ id }) => id)
     const idUser = useBalloonCard(({ idUser }) => idUser)
     const type = useBalloonCard(({ type }) => type)
@@ -36,7 +34,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
             },
             {
                 queryFn: () => serviceProfile.getUserId(Number(idUser)),
-                queryKey: ["profile", `userId=${idUser!}`],
+                queryKey: ["profile", idUser!],
                 refetchOnMount: false,
             },
         ],
@@ -56,13 +54,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
 
     return (
         <>
-            <ImageStatic
-                src="/map/circle-discussion.png"
-                alt="circle-discussion"
-                width={61}
-                height={61}
-                data-logo-ballon
-            />
+            <ImageStatic src="/map/circle-discussion.png" alt="circle-discussion" width={61} height={61} data-logo-ballon />
             <header data-avatars>
                 <AvatarsBalloon offerId={id!} />
             </header>
@@ -79,8 +71,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
                         />
                         <div data-name-rate>
                             <p>
-                                {dataProfile?.res?.firstName}{" "}
-                                {dataProfile?.res?.lastName}
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                             </p>
                             {/* <div data-rate>
                                 <Image
@@ -96,32 +87,18 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
                 </div>
                 <h3>{data?.res?.title}</h3>
-                {Array.isArray(data?.res?.images) &&
-                data?.res?.images?.length ? (
+                {Array.isArray(data?.res?.images) && data?.res?.images?.length ? (
                     <ul>
                         {data?.res?.images?.slice(0, 4)?.map((item, index) => (
                             <NextImageMotion
                                 onClick={() => {
-                                    createGallery(
-                                        data?.res!,
-                                        data?.res?.images!,
-                                        item,
-                                        index,
-                                        {
-                                            title: data?.res?.title!,
-                                            name: `${
-                                                dataProfile?.res?.firstName ||
-                                                ""
-                                            } ${
-                                                dataProfile?.res?.lastName || ""
-                                            }`,
-                                            urlPhoto:
-                                                dataProfile?.res?.image
-                                                    ?.attributes?.url!,
-                                            idUser: dataProfile?.res?.userId!,
-                                            time: data?.res?.updated!,
-                                        },
-                                    )
+                                    createGallery(data?.res!, data?.res?.images!, item, index, {
+                                        title: data?.res?.title!,
+                                        name: `${dataProfile?.res?.firstName || ""} ${dataProfile?.res?.lastName || ""}`,
+                                        urlPhoto: dataProfile?.res?.image?.attributes?.url!,
+                                        idUser: dataProfile?.res?.userId!,
+                                        time: data?.res?.updated!,
+                                    })
                                 }}
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}

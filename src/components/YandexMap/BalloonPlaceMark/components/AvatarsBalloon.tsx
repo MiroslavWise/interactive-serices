@@ -44,7 +44,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
     const dataUsers = useQueries({
         queries: users.map((item) => ({
             queryFn: () => serviceProfile.getUserId(item!),
-            queryKey: ["profile", `userId=${item}`],
+            queryKey: ["profile", item],
             enabled: !!item,
         })),
     })

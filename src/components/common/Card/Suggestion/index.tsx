@@ -44,7 +44,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
 
     return (
         <li className={styles.container}>
-            <Header data={rest} rating={rating} />
+            <Header data={{ ...rest, profile }} rating={rating} />
             {rest.images?.length ? (
                 <ContainerPhotos
                     {...{
@@ -55,7 +55,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
                     }}
                 />
             ) : null}
-            <Buttons refetch={refetch} offer={rest} />
+            <Buttons refetch={refetch} offer={{ ...rest, profile }} />
         </li>
     )
 }
