@@ -185,7 +185,7 @@ export const ReciprocalExchange = () => {
                                             </a>
                                         ))}
                                     </div>
-                                    {offersMy?.length > 0 ? (
+                                    {/* {offersMy?.length > 0 ? (
                                         <div
                                             data-expand
                                             data-active={expand}
@@ -200,8 +200,8 @@ export const ReciprocalExchange = () => {
                                             <span>Мои предложения</span>
                                             <img src="/svg/chevron-down.svg" alt="down" width={16} height={16} />
                                         </div>
-                                    ) : null}
-                                    {expand ? (
+                                    ) : null} */}
+                                    {true ? (
                                         <div data-my-offers {...register("my_offer", { required: offersMy?.length > 0 })}>
                                             {!!watch("category") && offersMy?.length > 0
                                                 ? offersMy?.map((item) => (
