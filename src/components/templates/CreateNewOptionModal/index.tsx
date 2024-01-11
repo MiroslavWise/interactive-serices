@@ -307,7 +307,6 @@ export const CreateNewOptionModal = () => {
                             </header>
                         ) : null}
                         <ul id="ul-create-option-modal">
-                            {/* <h4>{description}</h4> */}
                             <form onSubmit={onSubmit}>
                                 <fieldset id="fieldset-create-option-modal-address">
                                     <label htmlFor="address">

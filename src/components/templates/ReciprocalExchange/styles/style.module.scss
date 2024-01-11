@@ -1,0 +1,242 @@
+.wrapper {
+    z-index: 989;
+    display: flex;
+    padding: 2.5rem 1.5rem;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(2.5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > section {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        max-width: 35rem;
+        border-radius: 2rem;
+        background: var(--background);
+        display: flex;
+        flex-direction: column;
+
+        & > [data-close] {
+            top: 0 !important;
+            right: -0.25rem !important;
+            transform: translateX(100%);
+        }
+
+        & > header {
+            width: 100%;
+            height: 4.875rem;
+            padding: 1.5rem 0.75rem 1.25rem;
+            z-index: 2;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--gray-200);
+
+            & > h3 {
+                color: var(--gray-900);
+                font-size: 2rem;
+                font-weight: 600;
+                text-align: center;
+                font-style: normal;
+                letter-spacing: -0.3px;
+            }
+        }
+
+        & > ul {
+            width: 100%;
+            height: calc(100% - 4.875rem);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+
+            & > form {
+                width: 100%;
+                max-width: 26.25rem;
+                height: 100%;
+                overflow: hidden;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.25rem;
+                padding: 1.25rem;
+                gap: 2.5rem;
+
+                & > section {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+
+                    & > h4 {
+                        color: var(--gray-900);
+                        font-size: 1.125rem;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 1.25rem;
+                        letter-spacing: -0.01125rem;
+                    }
+
+                    & > [data-selection] {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1.25rem;
+
+                        & > fieldset {
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 0.5rem;
+
+                            & > p {
+                                color: var(--gray-900);
+                                font-size: 0.875rem;
+                                font-style: normal;
+                                font-weight: 500;
+                                line-height: 1.25rem;
+                                letter-spacing: -0.01125rem;
+
+                                & > span {
+                                    font-weight: 600;
+                                }
+                            }
+
+                            & > [data-wants] {
+                                width: 100%;
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 0.5rem 0.5rem;
+
+                                & > a {
+                                    height: 2.375rem;
+                                    border-radius: 1.1875rem;
+                                    border: 1px solid var(--gray-200);
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    gap: 0.5rem;
+                                    padding: 0.3125rem 0.75rem 0.3125rem;
+
+                                    & > [data-img] {
+                                        width: 1.75rem;
+                                        height: 1.75rem;
+                                        padding: 0.375rem;
+
+                                        & > img {
+                                            width: 1rem;
+                                            height: 1rem;
+                                        }
+                                    }
+
+                                    & > span {
+                                        width: 100%;
+                                        color: var(--gray-900);
+                                        font-size: 0.875rem;
+                                        font-style: normal;
+                                        font-weight: 500;
+                                        line-height: 1.25rem;
+                                        letter-spacing: -0.01125rem;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
+                                        overflow: hidden;
+                                    }
+                                }
+                            }
+
+                            & > [data-text-area] {
+                                width: 100%;
+                                position: relative;
+                                height: 7.5rem;
+                                border: 1px solid var(--gray-300);
+                                border-radius: 1rem;
+                                overflow: hidden;
+
+                                & > textarea {
+                                    width: 100%;
+                                    height: 100%;
+                                    padding: 0.875rem;
+                                    border: none !important;
+                                    outline: none !important;
+                                    resize: none;
+
+                                    color: var(--gray-900);
+                                    font-size: 0.875rem;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    line-height: 1.25rem;
+                                    letter-spacing: -0.01125rem;
+
+                                    &::placeholder {
+                                        color: var(--gray-400);
+                                    }
+                                }
+
+                                & > sup {
+                                    position: absolute;
+                                    right: 0.875rem;
+                                    bottom: 0.25rem;
+
+                                    color: var(--gray-900);
+                                    font-size: 0.75rem;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    line-height: 150%;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                & > [data-button-forward] {
+                    margin-top: auto;
+                }
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .wrapper {
+    }
+}
+
+[data-mobile="true"] {
+    .wrapper {
+        padding: 0;
+        & > section {
+            border-radius: 0;
+            max-width: 100%;
+
+            & > [data-close] {
+                top: 0rem !important;
+                right: 0rem !important;
+                transform: translateX(0);
+                border: none !important;
+                background: transparent;
+            }
+
+            & > header {
+                height: 4.125rem;
+                padding: 1rem calc(0.75rem + 2.25rem + 0.5rem);
+                & > h3 {
+                    font-size: 1.25rem;
+                }
+            }
+
+            & > ul {
+                height: calc(100% - 4.125rem);
+
+                & > form {
+                }
+            }
+        }
+    }
+}

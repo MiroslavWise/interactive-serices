@@ -32,6 +32,10 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         if (!loading) {
             setLoading(true)
             setLoading(true)
+            const number = `${values.country?.replaceAll(/[^\d]/g, "")}-${values.code?.replaceAll(/[^\d]/g, "")}-${values.phone?.replaceAll(
+                /[^\d]/g,
+                "",
+            )}`
             const phoneValue = values.phone?.replaceAll(/[^\d]/g, "")
             const phoneParse = `${phoneValue[0]}-${phoneValue[1]}${phoneValue[2]}${phoneValue[3]}-${phoneValue?.slice(4)}`
 
@@ -46,13 +50,13 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             // if (response?.error?.message === "user not found") {
             serviceAuth
                 .phone({
-                    phone: phoneParse,
+                    phone: number,
                 })
                 .then((response) => {
                     console.log("response: ", response)
                     if (response.ok) {
                         dispatchStartTimer()
-                        dispatchAuthModalCodeVerification({ phone: phoneParse })
+                        dispatchAuthModalCodeVerification({ phone: number })
                     }
                     setLoading(false)
                 })
@@ -65,26 +69,48 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     return (
         <form onSubmit={handleSubmit(onRegister)}>
             <section className={styles.section}>
-                <Controller
-                    name="phone"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                        <div data-label-input>
-                            <label htmlFor={field.name}>Телефон</label>
-                            <input data-error={!!errors.phone} type="tel" placeholder="+7 (000) 000-00-00" inputMode="numeric" {...field} />
-                            {!!errors.phone ? (
-                                <i>
-                                    {errors.phone && errors?.phone?.message === "user already exists"
-                                        ? "Пользователь уже существует"
-                                        : errors?.phone
-                                        ? "Требуется номер телефона, состоящий из 11 символов"
-                                        : ""}
-                                </i>
-                            ) : null}
-                        </div>
-                    )}
-                />
+                <div data-label-input>
+                    <label htmlFor="phone">Телефон</label>
+                    <div data-phone-div>
+                        <span>+</span>
+                        <input
+                            placeholder="7"
+                            type="tel"
+                            inputMode="numeric"
+                            maxLength={3}
+                            {...(register("country"), { required: true })}
+                        />
+                        <span>(</span>
+                        <input
+                            placeholder="000"
+                            type="tel"
+                            inputMode="numeric"
+                            maxLength={4}
+                            {...(register("code"), { required: true })}
+                            style={{ flexBasis: "1.875rem" }}
+                        />
+                        <span>)</span>
+                        <span> </span>
+                        <input
+                            placeholder="000-00-00"
+                            type="tel"
+                            inputMode="numeric"
+                            {...(register("phone"), { required: true })}
+                            style={{ flexBasis: "5.625rem" }}
+                            maxLength={14}
+                        />
+                    </div>
+                    {/* <input data-error={!!errors.phone} type="tel" placeholder="+7 (000) 000-00-00" inputMode="numeric" {...field} /> */}
+                    {!!errors.phone ? (
+                        <i>
+                            {errors.phone && errors?.phone?.message === "user already exists"
+                                ? "Пользователь уже существует"
+                                : errors?.phone || errors?.code || errors?.country
+                                ? "Требуется номер телефона, состоящий из 11 символов"
+                                : ""}
+                        </i>
+                    ) : null}
+                </div>
             </section>
             <div className={styles.RememberChange}>
                 <div className={styles.checkRemember}>

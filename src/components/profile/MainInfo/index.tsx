@@ -16,13 +16,13 @@ import { CircleOfCommunication } from "./components/CircleOfCommunication"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { SOCIAL_MEDIA } from "./constants"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
+import { dispatchReciprocalExchange, useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ user }) => {
     const userId = useAuth(({ userId }) => userId)
-    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
+    // const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
 
     const geo: IAddressesResponse | null = useMemo(() => {
         return user?.addresses?.find((item) => item?.addressType === "main") || null
@@ -73,14 +73,15 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                             return
                                         }
                                         if (userId) {
-                                            dispatchVisibleBarter({
-                                                isVisible: true,
-                                                dataProfile: {
-                                                    photo: user?.profile?.image?.attributes?.url,
-                                                    fullName: `${user?.profile?.firstName || ""} ${user?.profile?.lastName || ""}`,
-                                                    idUser: user?.profile?.userId!,
-                                                },
-                                            })
+                                            // dispatchVisibleBarter({
+                                            //     isVisible: true,
+                                            //     dataProfile: {
+                                            //         photo: user?.profile?.image?.attributes?.url,
+                                            //         fullName: `${user?.profile?.firstName || ""} ${user?.profile?.lastName || ""}`,
+                                            //         idUser: user?.profile?.userId!,
+                                            //     },
+                                            // })
+                                            dispatchReciprocalExchange({ visible: true, profile: user?.profile!, type: "array" })
                                         }
                                     }}
                                 >

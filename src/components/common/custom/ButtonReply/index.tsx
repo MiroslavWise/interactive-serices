@@ -6,7 +6,7 @@ import type { TProps } from "./types"
 import { Button, ButtonCircleGradient, ButtonClose } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { useAuth, dispatchAuthModal, useVisibleModalBarter, dispatchProfilePublic } from "@/store/hooks"
+import { useAuth, dispatchAuthModal, useVisibleModalBarter, dispatchProfilePublic, dispatchReciprocalExchange } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -15,24 +15,30 @@ export const ButtonReplyPrimary: TProps = ({ user, offer, isBalloon }) => {
     const { handlePush } = usePush()
     const { systemTheme } = useTheme()
     const userId = useAuth(({ userId }) => userId)
-    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
+    // const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
 
     function handleBarter() {
         const provider = offer?.provider!
-        const name = `${user?.profile?.firstName || " "} ${user?.profile?.lastName || " "}`
-        const photo = user?.profile?.image?.attributes?.url
+        // const name = `${user?.profile?.firstName || " "} ${user?.profile?.lastName || " "}`
+        // const photo = user?.profile?.image?.attributes?.url
         if (userId) {
             if (provider === "offer") {
-                const dataProfile = {
-                    photo: photo!,
-                    fullName: name,
-                    idUser: userId!,
-                }
-                dispatchVisibleBarter({
-                    isVisible: true,
-                    dataOffer: offer,
-                    dataProfile: dataProfile,
+                // const dataProfile = {
+                //     photo: photo!,
+                //     fullName: name,
+                //     idUser: userId!,
+                // }
+                dispatchReciprocalExchange({
+                    visible: true,
+                    type: "current",
+                    offer: offer,
+                    profile: user?.profile!,
                 })
+                // dispatchVisibleBarter({
+                //     isVisible: true,
+                //     dataOffer: offer,
+                //     dataProfile: dataProfile,
+                // })
             }
         }
     }

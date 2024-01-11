@@ -21,6 +21,7 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
             data-disabled={rest.disabled}
             ref={ref}
             data-loading={loading}
+            data-button-forward
         >
             {prefixIcon}
             <span>{label}</span>
