@@ -35,29 +35,30 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             const phoneValue = values.phone?.replaceAll(/[^\d]/g, "")
             const phoneParse = `${phoneValue[0]}-${phoneValue[1]}${phoneValue[2]}${phoneValue[3]}-${phoneValue?.slice(4)}`
 
-            serviceUserValid.getPhoneUser(phoneParse).then((response) => {
-                console.log("response getPhoneUser: ", response)
-                if (response.ok) {
-                    if (response.res) {
-                        dispatchAuthModalCurrentUser({ user: response?.res })
-                        setLoading(false)
+            // serviceUserValid.getPhoneUser(phoneParse).then((response) => {
+            //     console.log("response getPhoneUser: ", response)
+            // if (response.ok) {
+            //     if (response.res) {
+            //         dispatchAuthModalCurrentUser({ user: response?.res })
+            //         setLoading(false)
+            //     }
+            // } else {
+            // if (response?.error?.message === "user not found") {
+            serviceAuth
+                .phone({
+                    phone: phoneParse,
+                })
+                .then((response) => {
+                    console.log("response: ", response)
+                    if (response.ok) {
+                        dispatchStartTimer()
+                        dispatchAuthModalCodeVerification({ phone: phoneParse })
                     }
-                } else {
-                    if (response?.error?.message === "user not found") {
-                        serviceAuth
-                            .phone({
-                                phone: phoneParse,
-                            })
-                            .then((response) => {
-                                if (response.ok) {
-                                    dispatchStartTimer()
-                                    dispatchAuthModalCodeVerification({ phone: phoneParse })
-                                }
-                                setLoading(false)
-                            })
-                    }
-                }
-            })
+                    setLoading(false)
+                })
+            // }
+            // }
+            // })
         }
     }
 
