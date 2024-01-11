@@ -50,7 +50,6 @@ export const BallonOffer = () => {
                 visible: true,
                 offer: offer,
                 type: "current",
-                profile: profile!,
             })
             return
         }

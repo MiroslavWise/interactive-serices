@@ -10,6 +10,7 @@ import { Button, ButtonClose } from "@/components/common"
 import { ItemImages } from "../BallonOffer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
+import { serviceUsers } from "@/services/users"
 import { serviceOffers } from "@/services/offers"
 import { serviceBarters } from "@/services/barters"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -23,7 +24,6 @@ export const ReciprocalExchange = () => {
     const [createNew, setCreateNew] = useState(false)
     const offer = useReciprocalExchange(({ offer }) => offer)
     const visible = useReciprocalExchange(({ visible }) => visible)
-    const profile = useReciprocalExchange(({ profile }) => profile)
     const categories = useOffersCategories(({ categories }) => categories)
     const userId = useAuth(({ userId }) => userId)
     const { on } = useToast()
@@ -33,6 +33,7 @@ export const ReciprocalExchange = () => {
         handleSubmit,
         formState: { errors },
         setValue,
+        setError,
     } = useForm<IFormValues>({
         defaultValues: {},
     })
@@ -44,7 +45,22 @@ export const ReciprocalExchange = () => {
         refetchOnWindowFocus: false,
     })
 
+    const { data: dataUser } = useQuery({
+        queryFn: () => serviceUsers.getId(offer?.userId!),
+        queryKey: ["user", offer?.userId!],
+        enabled: !!offer?.userId,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+    })
+
+    const { res } = dataUser ?? {}
+    const { profile } = res ?? {}
+
     function submit(values: IFormValues) {
+        if (!values.my_offer) {
+            setError("root", { message: "Вы не выбрали то, что хотите предложить взамен" })
+            return
+        }
         if (!loading) {
             setLoading(true)
             const dataBarter: IPostDataBarter = {
@@ -65,10 +81,13 @@ export const ReciprocalExchange = () => {
                     })
                     dispatchReciprocalExchange({ visible: false })
                     dispatchBallonOffer({ visible: false })
+                    setLoading(false)
                 } else {
                     on({
                         message: `Обмен с ${profile?.firstName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
                     })
+                    setError("root", { message: response?.error?.message })
+                    setLoading(false)
                 }
             })
         }
@@ -80,6 +99,8 @@ export const ReciprocalExchange = () => {
 
     const categoriesWants = categories?.filter((item) => offer?.categories?.includes(item?.id!))
     const categoryMyOffer = useCallback((id: number) => categories?.find((item) => item?.id === id!), [categories])
+
+    const categoryMyIds = data?.res?.map((item) => item?.categoryId) || []
 
     const offersMy = useMemo(() => {
         if (!watch("category")) {
@@ -126,6 +147,7 @@ export const ReciprocalExchange = () => {
                                             <a
                                                 key={`::${item?.id}::want::`}
                                                 data-active={watch("category") === item.id}
+                                                data-exist={categoryMyIds?.includes(item?.id)}
                                                 onClick={(event) => {
                                                     if (loading) {
                                                         return
@@ -169,7 +191,6 @@ export const ReciprocalExchange = () => {
                                             data-active={expand}
                                             onClick={(event) => {
                                                 event.stopPropagation()
-                                                event.stopPropagation()
                                                 if (loading) {
                                                     return
                                                 }
@@ -180,53 +201,55 @@ export const ReciprocalExchange = () => {
                                             <img src="/svg/chevron-down.svg" alt="down" width={16} height={16} />
                                         </div>
                                     ) : null}
-                                    <div data-my-offers {...register("my_offer", { required: offersMy?.length > 0 })}>
-                                        {!!watch("category") && offersMy?.length > 0
-                                            ? offersMy?.map((item) => (
-                                                  <a
-                                                      key={`::${item.id}::my::offer::`}
-                                                      data-active={watch("my_offer") === item.id}
-                                                      onClick={(event) => {
-                                                          if (loading) {
-                                                              return
-                                                          }
-                                                          event.stopPropagation()
-                                                          if (watch("my_offer") !== item.id) {
-                                                              setValue("my_offer", item.id)
-                                                          } else {
-                                                              setValue("my_offer", undefined)
-                                                          }
-                                                      }}
-                                                  >
-                                                      <div data-category>
-                                                          <div data-img>
-                                                              <img
-                                                                  src={`/svg/category/${item.categoryId}.svg`}
-                                                                  alt={`${item.id!}::`}
-                                                                  width={16}
-                                                                  height={16}
-                                                                  onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                                                                      if (error?.target) {
-                                                                          try {
-                                                                              //@ts-ignore
-                                                                              error.target.src = `/svg/category/default.svg`
-                                                                          } catch (e) {
-                                                                              console.log("catch e: ", e)
+                                    {expand ? (
+                                        <div data-my-offers {...register("my_offer", { required: offersMy?.length > 0 })}>
+                                            {!!watch("category") && offersMy?.length > 0
+                                                ? offersMy?.map((item) => (
+                                                      <a
+                                                          key={`::${item.id}::my::offer::`}
+                                                          data-active={watch("my_offer") === item.id}
+                                                          onClick={(event) => {
+                                                              if (loading) {
+                                                                  return
+                                                              }
+                                                              event.stopPropagation()
+                                                              if (watch("my_offer") !== item.id) {
+                                                                  setValue("my_offer", item.id)
+                                                              } else {
+                                                                  setValue("my_offer", undefined)
+                                                              }
+                                                          }}
+                                                      >
+                                                          <div data-category>
+                                                              <div data-img>
+                                                                  <img
+                                                                      src={`/svg/category/${item.categoryId}.svg`}
+                                                                      alt={`${item.id!}::`}
+                                                                      width={16}
+                                                                      height={16}
+                                                                      onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                                                          if (error?.target) {
+                                                                              try {
+                                                                                  //@ts-ignore
+                                                                                  error.target.src = `/svg/category/default.svg`
+                                                                              } catch (e) {
+                                                                                  console.log("catch e: ", e)
+                                                                              }
                                                                           }
-                                                                      }
-                                                                  }}
-                                                              />
+                                                                      }}
+                                                                  />
+                                                              </div>
+                                                              <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
                                                           </div>
-                                                          <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
-                                                      </div>
-                                                      <p>{item.title}</p>
-                                                      {item?.images?.length > 0 ? <ItemImages images={item?.images} /> : null}
-                                                  </a>
-                                              ))
-                                            : null}
-                                    </div>
+                                                          <p>{item.title}</p>
+                                                          {item?.images?.length > 0 ? <ItemImages images={item?.images} /> : null}
+                                                      </a>
+                                                  ))
+                                                : null}
+                                        </div>
+                                    ) : null}
                                 </fieldset>
-                                {!!watch("category") && !createNew ? (
+                                {/* {!!watch("category") && !createNew ? (
                                     <div
                                         data-expand
                                         onClick={(event) => {
@@ -252,8 +275,9 @@ export const ReciprocalExchange = () => {
                                             <sup>{watch("description")?.length || 0}/400</sup>
                                         </div>
                                     </fieldset>
-                                ) : null}
+                                ) : null} */}
                             </div>
+                            {!!errors?.root ? <i data-error>{errors?.root?.message}</i> : null}
                         </section>
                         <Button
                             type="submit"

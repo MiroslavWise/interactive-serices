@@ -189,7 +189,13 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                     </p>
                 </div>
             </div>
-            <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" loading={loading} />
+            <Button
+                type="submit"
+                typeButton="fill-primary"
+                label="Зарегистрироваться"
+                loading={loading}
+                disabled={!watch("checkbox") || !watch("country") || !watch("code") || !watch("phone")}
+            />
             {children}
         </form>
     )
