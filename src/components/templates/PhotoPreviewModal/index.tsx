@@ -16,6 +16,7 @@ import { daysAgo } from "@/helpers"
 import { useAuth, useVisibleModalBarter, useProfilePublic, usePhotoOffer, useOffersCategories } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
+import { IconCategory } from "@/lib/icon-set"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const current = usePhotoOffer(({ current }) => current)
@@ -129,22 +130,23 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                                     <p>Хочу:</p>
                                     {categoriesUser.map((item) => (
                                         <div key={`::${item.id}::category::user::`} data-item>
-                                            <img
-                                                src={`/svg/category/${item.id}.svg`}
-                                                alt={`${item.id!}`}
-                                                width={28}
-                                                height={28}
-                                                onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                                                    if (error?.target) {
-                                                        try {
-                                                            //@ts-ignore
-                                                            error.target.src = `/svg/category/default.svg`
-                                                        } catch (e) {
-                                                            console.log("catch e: ", e)
+                                            <div data-img>
+                                                <img
+                                                    src={IconCategory(item.id!)}
+                                                    alt={`${item.id!}`}
+                                                    width={16}
+                                                    height={16}
+                                                    onError={(error: any) => {
+                                                        if (error?.target) {
+                                                            try {
+                                                                error.target.src = `/svg/category/default.svg`
+                                                            } catch (e) {
+                                                                console.log("catch e: ", e)
+                                                            }
                                                         }
-                                                    }
-                                                }}
-                                            />
+                                                    }}
+                                                />
+                                            </div>
                                             <p>{item.title}</p>
                                         </div>
                                     ))}

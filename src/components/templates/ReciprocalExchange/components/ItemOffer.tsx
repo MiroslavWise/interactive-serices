@@ -1,5 +1,6 @@
 import { type SyntheticEvent, memo } from "react"
 
+import { IconCategory } from "@/lib/icon-set"
 import { useOffersCategories, useReciprocalExchange } from "@/store/hooks"
 
 import styles from "../styles/offer.module.scss"
@@ -15,7 +16,7 @@ export const ItemOffer = memo(function ItemOffer() {
             <div data-category-offer>
                 <div data-img>
                     <img
-                        src={`/svg/category/${offer?.categoryId}.svg`}
+                        src={IconCategory(offer?.categoryId!)}
                         alt="category"
                         width={16}
                         height={16}
@@ -23,7 +24,7 @@ export const ItemOffer = memo(function ItemOffer() {
                             if (error?.target) {
                                 try {
                                     //@ts-ignore
-                                    error.target.src = `/svg/category/default.svg`
+                                    error.target.src = IconCategory(offer?.categoryId!)
                                 } catch (e) {
                                     console.log("catch e: ", e)
                                 }

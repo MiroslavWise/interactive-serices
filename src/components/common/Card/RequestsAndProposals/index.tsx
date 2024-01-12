@@ -11,6 +11,7 @@ import { ButtonReplyPrimary } from "../../custom/ButtonReply"
 import { GeoTagging, NextImageMotion } from "@/components/common"
 
 import { usePush } from "@/helpers"
+import { IconCategory } from "@/lib/icon-set"
 import { serviceProfile } from "@/services/profile"
 import { dispatchBallonOffer, useMapCoordinates, useOffersCategories } from "@/store/hooks"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
@@ -67,8 +68,6 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
         return categories?.filter((item) => categoriesOffer?.some((_) => item.id === _)) || []
     }, [categories, categoriesOffer])
 
-    const [src, setSrc] = useState(`/svg/category/${categoryId}.svg`)
-
     return (
         <li
             className={styles.container}
@@ -79,16 +78,20 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
             ref={props?.ref}
         >
             <header>
-                <Image
-                    src={src}
+                <img
+                    src={IconCategory(offer?.categoryId!)}
                     alt="point"
                     width={58}
                     height={58}
-                    onError={(err) => {
-                        console.log("err div: ", err)
-                        setSrc(`/svg/category/default.svg`)
+                    onError={(error: any) => {
+                        if (error?.target) {
+                            try {
+                                error.target.src = `/svg/category/default.svg`
+                            } catch (e) {
+                                console.log("catch e: ", e)
+                            }
+                        }
                     }}
-                    unoptimized
                 />
                 <h4>{categoryCurrent?.title || ""}</h4>
             </header>
@@ -139,22 +142,23 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                         <p>Хочу:</p>
                         {categoriesUser.map((item) => (
                             <div key={`::${item.id}::category::user::`} data-item>
-                                <img
-                                    src={`/svg/category/${item.id}.svg`}
-                                    alt={`${item.id!}`}
-                                    width={28}
-                                    height={28}
-                                    onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                                        if (error?.target) {
-                                            try {
-                                                //@ts-ignore
-                                                error.target.src = `/svg/category/default.svg`
-                                            } catch (e) {
-                                                console.log("catch e: ", e)
+                                <div data-img>
+                                    <img
+                                        src={IconCategory(item.id!)}
+                                        alt={`${item.id!}`}
+                                        width={16}
+                                        height={16}
+                                        onError={(error: any) => {
+                                            if (error?.target) {
+                                                try {
+                                                    error.target.src = `/svg/category/default.svg`
+                                                } catch (e) {
+                                                    console.log("catch e: ", e)
+                                                }
                                             }
-                                        }
-                                    }}
-                                />
+                                        }}
+                                    />
+                                </div>
                                 <p>{item.title}</p>
                             </div>
                         ))}

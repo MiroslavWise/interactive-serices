@@ -4,6 +4,7 @@ import { isMobile } from "react-device-detect"
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
 import { useState, useEffect, useCallback, useRef } from "react"
 
+import { IResponseOffers } from "@/services/offers/types"
 import type { TTypeInstantsMap, TYandexMap } from "./types"
 
 import { Header } from "./Header"
@@ -15,11 +16,10 @@ import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
-import { TTypeProvider } from "@/services/file-upload/types"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
-import { useAuth, useBounds, useHasBalloons, useMapCoordinates } from "@/store/hooks"
+import { dispatchHasBalloon, useAuth, useBounds, useMapCoordinates } from "@/store/hooks"
 
 const COORD = [59.57, 30.19]
 
@@ -31,7 +31,6 @@ const YandexMap: TYandexMap = ({}) => {
     const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
     const zoom = useMapCoordinates(({ zoom }) => zoom)
     const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
-    const dispatchHasBalloon = useHasBalloons(({ dispatchHasBalloon }) => dispatchHasBalloon)
     const instanceRef: TTypeInstantsMap = useRef()
     const bounds = useBounds(({ bounds }) => bounds)
     const dispatchBounds = useBounds(({ dispatchBounds }) => dispatchBounds)
@@ -168,16 +167,11 @@ const YandexMap: TYandexMap = ({}) => {
                         hasBalloon: false,
                         iconPieChartStrokeWidth: 2,
                         clusterDisableClickZoom: true,
-                        iconPieChartCoreRadius: 10,
+                        iconPieChartCoreRadius: 8,
                     }}
                     onClick={async (event: any) => {
                         const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
-                        const length = coord?.length || 2
-                        const c = coord?.reduce((acc, current) => [
-                            acc[0] / length + current[0] / length,
-                            acc[1] / length + current[1] / length,
-                        ])
-                        let ids: { id: number; provider: TTypeProvider }[] = []
+                        let ids: { id: number; offer: IResponseOffers }[] = []
                         if (event?.originalEvent?.currentTarget?._objects) {
                             const maps = Object.values(event?.originalEvent?.currentTarget?._objects as object)
                                 .filter((value) => !!value?.cluster)
@@ -188,23 +182,18 @@ const YandexMap: TYandexMap = ({}) => {
                                         (item?.item[1] >= coord[0][1] || item?.item[1] <= coord[1][1]),
                                 )
 
-                            ids = maps.map((item) => ({
-                                id: item?.id,
-                                provider: item?.provider,
-                            }))
+                            for (let i = 0; i < maps.length; i++) {
+                                ids.push({
+                                    id: maps[i]?.id,
+                                    offer: maps[i]?.offer,
+                                })
+                            }
                         }
 
-                        const address = await get({
-                            mapOne: c[0],
-                            mapTwo: c[1],
+                        dispatchHasBalloon({
+                            visibleHasBalloon: true,
+                            offers: ids?.map((item) => item.offer),
                         })
-                        if (address) {
-                            dispatchHasBalloon({
-                                visible: true,
-                                address: address,
-                                ids: ids,
-                            })
-                        }
                     }}
                 >
                     <ListPlacemark />

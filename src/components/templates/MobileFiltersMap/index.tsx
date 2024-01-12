@@ -13,6 +13,7 @@ import {
     dispatchVisibleFilterMobileButton,
     dispatchFilterMap,
 } from "@/store/hooks"
+import { IconCategory } from "@/lib/icon-set"
 
 import styles from "./styles/style.module.scss"
 
@@ -73,15 +74,14 @@ export const MobileFiltersMap = () => {
                         >
                             <img
                                 data-icon
-                                src={`/svg/category/${item.id}.svg`}
+                                src={IconCategory(item.id)}
                                 alt="icon"
                                 width={28}
                                 height={28}
-                                onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                onError={(error: any) => {
                                     if (error?.target) {
                                         try {
-                                            //@ts-ignore
-                                            error.target.src = `/svg/category/default.svg`
+                                            error.target.src = IconCategory(item.id)
                                         } catch (e) {
                                             console.log("catch e: ", e)
                                         }

@@ -48,7 +48,6 @@ export interface IResponseOffers {
     addresses: IAddressesResponse[]
     images: IImageData[]
     updated: Date
-    profile: IGetProfileIdResponse
 }
 
 export interface IQueriesOffers {

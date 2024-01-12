@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { LegacyRef, forwardRef, useMemo } from "react"
+import { LegacyRef, forwardRef } from "react"
 
 import type { TTypeButton, TTypeButtonLink } from "../types/types"
 

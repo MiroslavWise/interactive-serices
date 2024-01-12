@@ -22,12 +22,6 @@
         transition: var(--transition);
         transition-property: height;
 
-        & > [data-close] {
-            top: 0 !important;
-            right: -0.25rem;
-            transform: translateX(100%);
-        }
-
         & > ul {
             padding: 0 0 2.5rem;
             width: 100%;
@@ -88,14 +82,6 @@
             height: 100%;
             border-radius: 0;
             overflow: hidden;
-
-            & > [data-close] {
-                right: 0 !important;
-                transform: translateX(0);
-                z-index: 120;
-                border: none;
-                background: transparent;
-            }
 
             & > ul {
                 overflow-y: auto;

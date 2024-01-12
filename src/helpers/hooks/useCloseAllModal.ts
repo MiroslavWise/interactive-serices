@@ -3,7 +3,6 @@
 import {
     usePhotoOffer,
     useProfilePublic,
-    useHasBalloons,
     useBalloonCard,
     useDroverFriends,
     dispatchAuthModal,
@@ -13,13 +12,13 @@ import {
     dispatchPhotoCarousel,
     useCompletionTransaction,
     useVisibleBannerNewServices,
+    dispatchHasBalloon,
 } from "@/store/hooks"
 
 export const useCloseAllModal = () => {
     const dispatchBallonCard = useBalloonCard((_) => _.dispatch)
     const dispatchCompletion = useCompletionTransaction((_) => _.dispatchCompletion)
     const dispatchFriends = useDroverFriends((_) => _.dispatchFriends)
-    const dispatchHasBalloon = useHasBalloons((_) => _.dispatchHasBalloon)
     const setIsVisible = usePopupMenuChat((_) => _.setIsVisible)
     const dispatchUpdateMutual = useUpdateMutualOffer((_) => _.dispatchUpdateMutual)
     const dispatchVisibleBarter = useVisibleModalBarter((_) => _.dispatchVisibleBarter)
@@ -31,7 +30,7 @@ export const useCloseAllModal = () => {
         dispatchBallonCard({ visible: false })
         dispatchCompletion({ visible: false })
         dispatchFriends({ visible: false })
-        dispatchHasBalloon({ visible: false })
+        dispatchHasBalloon({ visibleHasBalloon: false })
         dispatchAuthModal({ visible: false })
         setIsVisible(false)
         dispatchUpdateMutual({ visible: false })

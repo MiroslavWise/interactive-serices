@@ -1,29 +1,16 @@
 import type { Dispatch } from "react"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { TTypeProvider } from "@/services/file-upload/types"
+import type { IResponseOffers } from "@/services/offers/types"
 
 interface IStateHasBalloons {
     visibleHasBalloon: boolean
-    data?: {
-        address: IPostAddress
-        ids: {
-            id: number
-            provider: TTypeProvider
-        }[]
-    }
+    offers?: IResponseOffers[]
 }
 
-interface IAction {
-    visible: boolean
-    address?: IPostAddress
-    ids?: {
-        id: number
-        provider: TTypeProvider
-    }[]
+export interface IAction {
+    visibleHasBalloon: boolean
+    offers?: IResponseOffers[]
 }
 
-interface IActionHasBalloons {
-    dispatchHasBalloon: Dispatch<IAction>
-}
-
-export type TUseHasBalloons = IStateHasBalloons & IActionHasBalloons
+export type TUseHasBalloons = IStateHasBalloons

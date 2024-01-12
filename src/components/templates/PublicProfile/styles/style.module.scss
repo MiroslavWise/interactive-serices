@@ -16,9 +16,7 @@
         width: 100%;
         border-radius: 2rem 0px 0px 2rem;
         background: var(--background);
-        overflow: hidden;
 
-        & > [data-close],
         & > [data-block-dots] {
             z-index: 3;
         }

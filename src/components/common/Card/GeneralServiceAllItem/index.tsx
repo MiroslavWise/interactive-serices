@@ -1,6 +1,6 @@
 "use client"
 
-import { SyntheticEvent, forwardRef, useMemo } from "react"
+import { forwardRef, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
@@ -8,11 +8,12 @@ import type { IGeneralServiceAllItem } from "./types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { ButtonCanHelp } from "@/components/common/custom"
-import { GeoTagging, ImageStatic, NextImageMotion } from "@/components/common"
+import { GeoTagging, NextImageMotion } from "@/components/common"
 import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/components/AvatarsBalloon"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
+import { IconCategory } from "@/lib/icon-set"
 import { serviceUsers } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 import { dispatchBallonOffer, useBalloonCard, useMapCoordinates, useOffersCategories, useProfilePublic } from "@/store/hooks"
@@ -39,7 +40,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
         let img = "/svg/category/default.svg"
 
         if (provider === "offer" && categoryId) {
-            img = `/svg/category/${categoryId}.svg`
+            img = IconCategory(categoryId!)
         }
 
         const obj: Readonly<Partial<Record<TTypeProvider, any>>> = {
@@ -113,29 +114,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
         <li className={cx(styles.container, className)} onClick={handle} style={style} ref={ref}>
             <header data-provider={provider}>
                 {typeImagePng ? (
-                    <ImageStatic
-                        src={typeImagePng}
-                        alt="offer"
-                        width={58}
-                        height={58}
-                        className={styles.typeImage}
-                        onClick={(event: any) => {
-                            event.stopPropagation()
-                            handle()
-                        }}
-                        onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                            if (provider === "offer") {
-                                if (error?.target) {
-                                    try {
-                                        //@ts-ignore
-                                        error.target.src = `/svg/category/default.svg`
-                                    } catch (e) {
-                                        console.log("catch e: ", e)
-                                    }
-                                }
-                            }
-                        }}
-                    />
+                    <img src={typeImagePng} alt="offer" width={58} height={58} className={styles.typeImage} />
                 ) : (
                     <div className={styles.typeImage} />
                 )}
@@ -186,22 +165,23 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                         <p>Хочу:</p>
                         {categoriesUser.map((item) => (
                             <div key={`::${item.id}::category::user::`} data-item>
-                                <img
-                                    src={`/svg/category/${item.id}.svg`}
-                                    alt={`${item.id!}`}
-                                    width={28}
-                                    height={28}
-                                    onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                                        if (error?.target) {
-                                            try {
-                                                //@ts-ignore
-                                                error.target.src = `/svg/category/default.svg`
-                                            } catch (e) {
-                                                console.log("catch e: ", e)
+                                <div data-img>
+                                    <img
+                                        src={IconCategory(item.id!)}
+                                        alt={`${item.id!}`}
+                                        width={16}
+                                        height={16}
+                                        onError={(error: any) => {
+                                            if (error?.target) {
+                                                try {
+                                                    error.target.src = `/svg/category/default.svg`
+                                                } catch (e) {
+                                                    console.log("catch e: ", e)
+                                                }
                                             }
-                                        }
-                                    }}
-                                />
+                                        }}
+                                    />
+                                </div>
                                 <p>{item.title}</p>
                             </div>
                         ))}
