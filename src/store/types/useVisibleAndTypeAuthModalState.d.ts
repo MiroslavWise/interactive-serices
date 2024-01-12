@@ -40,7 +40,7 @@ export interface IUseVisibleAndTypeAuthModalState {
     }
     codeReset?: string
     user?: IUserResponse
-    id?: number | string
+    idUser?: number | string
 }
 
 export interface IUseTimerModalAuth {

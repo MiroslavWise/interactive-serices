@@ -16,7 +16,7 @@ import styles from "../styles/form.module.scss"
 export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     const [loading, setLoading] = useState(false)
     const phone = useModalAuth(({ phone }) => phone)
-    const idUser = useModalAuth(({ id }) => id)
+    const idUser = useModalAuth(({ idUser }) => idUser)
     const setToken = useAuth(({ setToken }) => setToken)
 
     const {
