@@ -1,6 +1,6 @@
 import Link from "next/link"
+import { useForm } from "react-hook-form"
 import { ReactNode, memo, useState } from "react"
-import { useForm, Controller } from "react-hook-form"
 
 import { IValuesRegistrationForm } from "../types/types"
 
@@ -17,7 +17,6 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
     const {
         register,
         handleSubmit,
-        control,
         watch,
         formState: { errors },
     } = useForm<IValuesRegistrationForm>({
@@ -51,32 +50,25 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
     return (
         <form onSubmit={handleSubmit(onRegister)}>
             <section className={styles.section}>
-                <Controller
-                    name="email"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                        <div data-label-input>
-                            <label htmlFor={field.name}>Электронная почта</label>
-                            <input
-                                data-error={!!errors.email}
-                                type="email"
-                                placeholder="email_address@mail.com"
-                                inputMode="email"
-                                {...field}
-                            />
-                            {!!errors.email ? (
-                                <i>
-                                    {errors.email && errors?.email?.message === "user already exists"
-                                        ? "Пользователь уже существует"
-                                        : errors?.email
-                                        ? "Поле не может оставаться незаполненным"
-                                        : "Какая-то ошибка с Email"}
-                                </i>
-                            ) : null}
-                        </div>
-                    )}
-                />
+                <div data-label-input>
+                    <label htmlFor="email">Электронная почта</label>
+                    <input
+                        data-error={!!errors.email}
+                        type="email"
+                        placeholder="email_address@mail.com"
+                        inputMode="email"
+                        {...register("email", { required: true })}
+                    />
+                    {!!errors.email ? (
+                        <i>
+                            {errors.email && errors?.email?.message === "user already exists"
+                                ? "Пользователь уже существует"
+                                : errors?.email
+                                ? "Поле не может оставаться незаполненным"
+                                : "Какая-то ошибка с Email"}
+                        </i>
+                    ) : null}
+                </div>
             </section>
             <div className={styles.RememberChange}>
                 <div className={styles.checkRemember}>
