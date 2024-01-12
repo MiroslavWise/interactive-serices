@@ -15,16 +15,6 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     const [loading, setLoading] = useState(false)
     const phone = useModalAuth(({ phone }) => phone)
 
-    const splitPhone = phone?.split("-")
-
-    const numberPhone = phone
-        ? {
-              country: splitPhone?.[0] || "",
-              code: splitPhone?.[1] || "",
-              phone: splitPhone?.[2] || "",
-          }
-        : {}
-
     const {
         register,
         handleSubmit,
@@ -35,7 +25,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         setError,
     } = useForm<IValuesRegistrationForm>({
         defaultValues: {
-            ...numberPhone,
+            phone: phone,
             checkbox: false,
         },
     })
@@ -43,20 +33,22 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     const onRegister = async (values: IValuesRegistrationForm) => {
         if (!loading) {
             setLoading(true)
-            const country = values.country?.replaceAll(/[^\d]/g, "")
-            const code = values.code?.replaceAll(/[^\d]/g, "")
-            const phone = values.phone?.replaceAll(/[^\d]/g, "")
-            const number = `${country}-${code}-${phone}`
+            const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
+
+            if (phoneReplace?.length <= 12) {
+                setError("phone", { message: "Требуется номер телефона, состоящий из 11 цифр" })
+                setLoading(false)
+            }
 
             serviceAuth
                 .phone({
-                    phone: number,
+                    phone: phoneReplace,
                 })
                 .then((response) => {
                     console.log("response: ", response)
                     if (response.ok) {
                         dispatchStartTimer()
-                        dispatchAuthModalCodeVerification({ phone: number, id: response?.res?.id! })
+                        dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
                     } else {
                         setError("phone", { message: response?.error?.message! })
                     }
@@ -70,80 +62,24 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             <section className={styles.section}>
                 <div data-label-input>
                     <label htmlFor="phone">Телефон</label>
-                    <div data-phone-div data-error={!!errors?.country || !!errors?.code || !!errors?.phone}>
-                        <span>+</span>
-                        <input
-                            data-input-country
-                            placeholder="7"
-                            type="number"
-                            inputMode="numeric"
-                            maxLength={3}
-                            {...register("country", { required: true })}
-                            onChange={(event) => {
-                                setValue("country", event.target.value)
-                                if (event.target.value?.length > 0) {
-                                    event.target.style.flex = `0 ${
-                                        event.target.value?.length * 0.4775 + (event.target.value?.length - 1) * 0.0725 + 0.125
-                                    }rem`
-                                    if (event.target.value?.length >= 3) {
-                                        setFocus("code")
-                                    }
-                                }
-                            }}
-                        />
-                        <span>(</span>
-                        <input
-                            data-input-code
-                            placeholder="000"
-                            type="number"
-                            inputMode="numeric"
-                            maxLength={4}
-                            {...register("code", { required: true })}
-                            onChange={(event) => {
-                                setValue("code", event.target.value)
-                                if (event.target.value?.length > 0) {
-                                    event.target.style.flex = `0 ${
-                                        event.target.value?.length * 0.4775 + (event.target.value?.length - 1) * 0.0725 + 0.125
-                                    }rem`
-                                    if (event.target.value?.length >= 4) {
-                                        setFocus("phone")
-                                    }
-                                } else if (event.target?.value?.length === 0) {
-                                    event.target.style.flex = `0 0 1.675rem`
-                                }
-                            }}
-                            onKeyDown={(event) => {
-                                if (event.key === "Backspace" && watch("code")?.length === 0) {
-                                    setFocus("country")
-                                }
-                            }}
-                            onFocus={(event) => {
-                                if (watch("country")?.length === 0) {
-                                    setFocus("country")
-                                }
-                            }}
-                        />
-                        <span>)</span>
-                        <span> </span>
+                    <div
+                        data-phone-div
+                        data-error={!!errors?.country || !!errors?.code || !!errors?.phone}
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            setFocus("phone")
+                        }}
+                    >
+                        {!!watch("phone") && `${watch("phone")}`[0] !== "8" ? <span>+</span> : null}
                         <input
                             data-input-phone
-                            placeholder="000-00-00"
-                            type="number"
+                            placeholder="+7 999 000-00-00"
+                            type="tel"
                             inputMode="numeric"
                             {...register("phone", { required: true })}
-                            maxLength={10}
+                            maxLength={16}
                             onChange={(event) => {
-                                setValue("phone", event.target.value?.slice(0, 10))
-                            }}
-                            onKeyDown={(event) => {
-                                if (event.key === "Backspace" && watch("phone")?.length === 0) {
-                                    setFocus("code")
-                                }
-                            }}
-                            onFocus={(event) => {
-                                if (watch("code")?.length === 0) {
-                                    setFocus("code")
-                                }
+                                setValue("phone", event.target.value?.slice(0, 20))
                             }}
                         />
                     </div>
@@ -151,11 +87,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                         <i>
                             {errors.phone && errors?.phone?.message === "user already exists"
                                 ? "Пользователь уже существует"
-                                : errors.phone?.message
-                                ? errors.phone?.message
-                                : errors?.phone || errors?.code || errors?.country
-                                ? "Требуется номер телефона, состоящий из 11 символов"
-                                : null}
+                                : errors.phone?.message}
                         </i>
                     ) : null}
                 </div>

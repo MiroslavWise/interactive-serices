@@ -18,7 +18,6 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
         setError,
         watch,
         register,
-        setFocus,
         setValue,
         formState: { errors },
     } = useForm<IValuesSignForm>({ defaultValues: { phone: "" } })
@@ -26,22 +25,19 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
     function onEnter(values: IValuesSignForm) {
         if (!loading) {
             setLoading(true)
-            const country = values.country?.replaceAll(/[^\d]/g, "")
-            const code = values.code?.replaceAll(/[^\d]/g, "")
-            const phone = values.phone?.replaceAll(/[^\d]/g, "")
-            const number = `${country}-${code}-${phone}`
+            const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
 
-            if (number?.replaceAll("-", "")?.length < 11) {
+            if (phoneReplace?.length < 12) {
                 setError("phone", { message: "Номер телефона состоит из 11 цифр" })
+                setLoading(false)
             }
 
-            serviceAuth.phone({ phone: number }).then((response) => {
+            serviceAuth.phone({ phone: phoneReplace }).then((response) => {
                 if (response?.ok) {
                     if (response.ok) {
                         dispatchStartTimer()
-                        dispatchAuthModalCodeVerification({ phone: number, id: response?.res?.id! })
+                        dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
                     }
-                    setLoading(false)
                 } else {
                     if (response?.error?.message === "user not found") {
                         setError("phone", { message: "Данного пользователя не существует" })
@@ -64,79 +60,16 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
                 <div data-label-input>
                     <label htmlFor="phone">Телефон</label>
                     <div data-phone-div data-error={!!errors?.country || !!errors?.code || !!errors?.phone}>
-                        <span>+</span>
-                        <input
-                            data-input-country
-                            placeholder="7"
-                            type="number"
-                            inputMode="numeric"
-                            maxLength={3}
-                            {...register("country", { required: true })}
-                            onChange={(event) => {
-                                setValue("country", event.target.value)
-                                if (event.target.value?.length > 0) {
-                                    event.target.style.flex = `0 ${
-                                        event.target.value?.length * 0.4775 + (event.target.value?.length - 1) * 0.0725 + 0.125
-                                    }rem`
-                                    if (event.target.value?.length >= 3) {
-                                        setFocus("code")
-                                    }
-                                }
-                            }}
-                        />
-                        <span>(</span>
-                        <input
-                            data-input-code
-                            placeholder="000"
-                            type="number"
-                            inputMode="numeric"
-                            maxLength={4}
-                            {...register("code", { required: true })}
-                            onChange={(event) => {
-                                setValue("code", event.target.value)
-                                if (event.target.value?.length > 0) {
-                                    event.target.style.flex = `0 ${
-                                        event.target.value?.length * 0.4775 + (event.target.value?.length - 1) * 0.0725 + 0.125
-                                    }rem`
-                                    if (event.target.value?.length >= 4) {
-                                        setFocus("phone")
-                                    }
-                                } else if (event.target?.value?.length === 0) {
-                                    event.target.style.flex = `0 0 1.675rem`
-                                }
-                            }}
-                            onKeyDown={(event) => {
-                                if (event.key === "Backspace" && watch("code")?.length === 0) {
-                                    setFocus("country")
-                                }
-                            }}
-                            onFocus={(event) => {
-                                if (watch("country")?.length === 0) {
-                                    setFocus("country")
-                                }
-                            }}
-                        />
-                        <span>)</span>
-                        <span> </span>
+                        {!!watch("phone") && `${watch("phone")}`[0] !== "8" ? <span>+</span> : null}
                         <input
                             data-input-phone
-                            placeholder="000-00-00"
-                            type="number"
+                            placeholder="+7 999 000-00-00"
+                            type="tel"
                             inputMode="numeric"
                             {...register("phone", { required: true })}
-                            maxLength={10}
+                            maxLength={16}
                             onChange={(event) => {
-                                setValue("phone", event.target.value?.slice(0, 10))
-                            }}
-                            onKeyDown={(event) => {
-                                if (event.key === "Backspace" && watch("phone")?.length === 0) {
-                                    setFocus("code")
-                                }
-                            }}
-                            onFocus={(event) => {
-                                if (watch("code")?.length === 0) {
-                                    setFocus("code")
-                                }
+                                setValue("phone", event.target.value?.slice(0, 20))
                             }}
                         />
                     </div>
