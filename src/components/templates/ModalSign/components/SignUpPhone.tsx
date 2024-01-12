@@ -126,7 +126,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                 typeButton="fill-primary"
                 label="Зарегистрироваться"
                 loading={loading}
-                disabled={!watch("checkbox") || !watch("country") || !watch("code") || !watch("phone")}
+                disabled={!watch("checkbox") || !watch("phone")}
             />
             {children}
         </form>
