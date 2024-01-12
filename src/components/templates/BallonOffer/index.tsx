@@ -16,6 +16,7 @@ import {
     useOffersCategories,
 } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
+import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 
 import styles from "./styles/style.module.scss"
 
@@ -62,20 +63,14 @@ export const BallonOffer = () => {
                     <div data-category-img>
                         {offer?.categoryId ? (
                             <img
-                                src={`/svg/category/${offer?.categoryId}.svg`}
+                                src={
+                                    ICON_OBJECT_OFFERS.hasOwnProperty(offer?.categoryId)
+                                        ? ICON_OBJECT_OFFERS[offer?.categoryId!]
+                                        : ICON_OBJECT_OFFERS.default
+                                }
                                 alt="category"
                                 width={16}
                                 height={16}
-                                onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                                    if (error?.target) {
-                                        try {
-                                            //@ts-ignore
-                                            error.target.src = `/svg/category/default.svg`
-                                        } catch (e) {
-                                            console.log("catch e: ", e)
-                                        }
-                                    }
-                                }}
                             />
                         ) : null}
                     </div>

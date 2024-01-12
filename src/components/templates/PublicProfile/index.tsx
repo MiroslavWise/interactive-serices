@@ -38,8 +38,8 @@ export const PublicProfile = () => {
 
     return visibleProfilePublic ? (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft}>
-            <section>
-                <ButtonClose onClick={handleClose} position={{ top: 12, left: 12 }} />
+            <section data-section-modal>
+                <ButtonClose onClick={handleClose} position={{}} />
                 <BlockDots id={idUser!} />
                 <ul data-opacity={!!data?.res} id="profile-public-id">
                     <InfoContainerProfile {...data?.res!} />

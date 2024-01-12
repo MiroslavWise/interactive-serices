@@ -3,6 +3,7 @@ import { SyntheticEvent, useMemo, useState } from "react"
 
 import { Button } from "@/components/common"
 
+import { IconCategory } from "@/lib/icon-set"
 import { serviceUsers } from "@/services/users"
 import { useOutsideClickEvent } from "@/helpers"
 import { useAuth, useOffersCategories } from "@/store/hooks"
@@ -67,15 +68,14 @@ export function ItemsCategories() {
             {categoriesUser.map((item) => (
                 <div data-item-category key={`${item?.id}`}>
                     <img
-                        src={`/svg/category/${item.id}.svg`}
+                        src={IconCategory(item.id)}
                         alt={`${item.id!}`}
                         width={28}
                         height={28}
-                        onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                        onError={(error: any) => {
                             if (error?.target) {
                                 try {
-                                    //@ts-ignore
-                                    error.target.src = `/svg/category/default.svg`
+                                    error.target.src = IconCategory(item.id)
                                 } catch (e) {
                                     console.log("catch e: ", e)
                                 }

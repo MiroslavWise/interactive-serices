@@ -1,7 +1,8 @@
-import { type SyntheticEvent, memo, useMemo } from "react"
+import { memo, useMemo } from "react"
 
 import { daysAgo } from "@/helpers"
 import { ItemImages } from "./ItemImages"
+import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 import { useBallonOffer, useOffersCategories } from "@/store/hooks"
 
 import styles from "../styles/proposal.module.scss"
@@ -35,18 +36,12 @@ export const ItemProposal = memo(function ItemProposal() {
                             <a key={`::${item.id}::wants::`}>
                                 <div data-img>
                                     <img
-                                        src={`/svg/category/${item.id}.svg`}
-                                        alt="cat"
-                                        onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                                            if (error?.target) {
-                                                try {
-                                                    //@ts-ignore
-                                                    error.target.src = `/svg/category/default.svg`
-                                                } catch (e) {
-                                                    console.log("catch e: ", e)
-                                                }
-                                            }
-                                        }}
+                                        src={
+                                            ICON_OBJECT_OFFERS.hasOwnProperty(item.id)
+                                                ? ICON_OBJECT_OFFERS[item.id!]
+                                                : ICON_OBJECT_OFFERS.default
+                                        }
+                                        alt="item"
                                         height={16}
                                         width={16}
                                     />

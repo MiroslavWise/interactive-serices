@@ -88,7 +88,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     </div>
                 </noscript>
             </head>
-            <body className={inter.className}>
+            <body className={inter.className} id="body-layout">
                 <Providers>
                     <NavBarProfile />
                     {children}

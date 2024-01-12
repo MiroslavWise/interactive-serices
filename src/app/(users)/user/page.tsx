@@ -79,6 +79,8 @@ export default function UserId() {
         queryFn: () => serviceUsers.getId(id!),
         queryKey: ["user", id],
         enabled: id !== "undefined" && id !== "null" && typeof id !== undefined,
+        refetchOnReconnect: true,
+        retry: true,
     })
 
     const { res, ok } = data ?? {}

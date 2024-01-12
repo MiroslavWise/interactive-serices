@@ -13,7 +13,7 @@ import { ContainerPhotos } from "./components/ContainerPhotos"
 import styles from "./style.module.scss"
 
 export const CardSuggestion: TCardSuggestion = (props) => {
-    const { profile, refetch, ...rest } = props
+    const { refetch, ...rest } = props
 
     const { data: dataTestimonials } = useQuery({
         queryFn: () => serviceTestimonials.get({ provider: "offer", target: rest.id }),
@@ -44,7 +44,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
 
     return (
         <li className={styles.container}>
-            <Header data={{ ...rest, profile }} rating={rating} />
+            <Header data={{ ...rest }} rating={rating} />
             {rest.images?.length ? (
                 <ContainerPhotos
                     {...{
@@ -55,7 +55,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
                     }}
                 />
             ) : null}
-            <Buttons refetch={refetch} offer={{ ...rest, profile }} />
+            <Buttons refetch={refetch} offer={{ ...rest }} />
         </li>
     )
 }

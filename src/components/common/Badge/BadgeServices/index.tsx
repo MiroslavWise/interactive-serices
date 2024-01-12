@@ -1,50 +1,47 @@
 "use client"
 
-import { SyntheticEvent } from "react"
-
 import type { TBadgeServices } from "./types"
+import type { IResponseOffers } from "@/services/offers/types"
 
-import { useBalloonCard, useOffersCategories } from "@/store/hooks"
+import { IconCategory } from "@/lib/icon-set"
+import { dispatchBallonOffer, useOffersCategories } from "@/store/hooks"
 
 import styles from "./style.module.scss"
+import { SyntheticEvent } from "react"
 
 export const BadgeServices: TBadgeServices = (props) => {
-    const { categoryId, provider, id, userId, addresses } = props ?? {}
-    const { isClickable } = props
+    const { categoryId, id, isClickable } = props ?? {}
     const categories = useOffersCategories(({ categories }) => categories)
-    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const infoCategory = categories?.find((item) => item?.id === categoryId)
 
     function handle() {
-        if (addresses?.length && id && isClickable) {
-            dispatch({
+        if (id && isClickable) {
+            const { isClickable, ...offer } = props ?? {}
+            dispatchBallonOffer({
                 visible: true,
-                type: provider!,
-                id: id,
-                idUser: userId,
+                offer: offer! as IResponseOffers,
             })
         }
     }
 
     return (
-        <li className={styles.container} data-type={provider} onClick={handle}>
+        <li className={styles.container} onClick={handle}>
             <div data-img>
                 <img
-                    src={`/svg/category/${categoryId}.svg`}
+                    src={IconCategory(categoryId!)}
                     alt="cat"
-                    onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                    height={16}
+                    width={16}
+                    onError={(error: any) => {
                         if (error?.target) {
                             try {
-                                //@ts-ignore
                                 error.target.src = `/svg/category/default.svg`
                             } catch (e) {
                                 console.log("catch e: ", e)
                             }
                         }
                     }}
-                    height={16}
-                    width={16}
                 />
             </div>
             <p>{infoCategory?.title! || "---{}---"}</p>

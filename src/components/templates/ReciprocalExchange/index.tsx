@@ -1,7 +1,9 @@
-import { useMemo, type SyntheticEvent, useCallback, useState } from "react"
+import { useMemo, useCallback, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
+import { transliterateAndReplace } from "@/helpers"
+import { IPostOffers, IResponseCreate } from "@/services/offers/types"
 import { IPostDataBarter } from "@/services/barters/types"
 
 import { ItemOffer } from "./components/ItemOffer"
@@ -14,14 +16,15 @@ import { serviceUsers } from "@/services/users"
 import { serviceOffers } from "@/services/offers"
 import { serviceBarters } from "@/services/barters"
 import { useToast } from "@/helpers/hooks/useToast"
+import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 import { useReciprocalExchange, dispatchReciprocalExchange, useOffersCategories, useAuth, dispatchBallonOffer } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
+import { IReturnData } from "@/services/types/general"
 
 export const ReciprocalExchange = () => {
     const [loading, setLoading] = useState(false)
     const [expand, setExpand] = useState(false)
-    const [createNew, setCreateNew] = useState(false)
     const offer = useReciprocalExchange(({ offer }) => offer)
     const visible = useReciprocalExchange(({ visible }) => visible)
     const categories = useOffersCategories(({ categories }) => categories)
@@ -56,37 +59,60 @@ export const ReciprocalExchange = () => {
     const { res } = dataUser ?? {}
     const { profile } = res ?? {}
 
-    function submit(values: IFormValues) {
-        if (!values.my_offer) {
+    async function submit(values: IFormValues) {
+        if (!values.my_offer && !values.description) {
+            setError("description", { message: "Введите описание (минимум 5 симвоволов)" })
             setError("root", { message: "Вы не выбрали то, что хотите предложить взамен" })
             return
         }
+
         if (!loading) {
             setLoading(true)
-            const dataBarter: IPostDataBarter = {
-                provider: "barter",
-                title: offer?.title!,
-                initialId: values.my_offer!,
-                consignedId: offer?.id!,
-                status: "initiated",
+
+            const dataNewOffer: IPostOffers = {
+                categoryId: watch("category"),
+                provider: "offer",
+                title: values.description,
+                slug: transliterateAndReplace(values.description),
                 enabled: true,
-                addresses: offer?.addresses?.map((item) => item.id),
+                desired: true,
             }
 
-            serviceBarters.post(dataBarter).then((response) => {
-                console.log("%c ---OFFERS BARTERS---", "color: cyan", response)
-                if (response?.ok) {
-                    on({
-                        message: `${profile?.firstName} получит ваше предложение на обмен!`,
+            Promise.all([
+                !values.my_offer && values.description
+                    ? serviceOffers.post(dataNewOffer)
+                    : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
+            ]).then((response: [IReturnData<IResponseCreate>]) => {
+                if (response?.[0]?.ok) {
+                    const dataBarter: IPostDataBarter = {
+                        provider: "barter",
+                        title: offer?.title!,
+                        initialId: response[0]?.res?.id!,
+                        consignedId: offer?.id!,
+                        status: "initiated",
+                        enabled: true,
+                        addresses: offer?.addresses?.map((item) => item.id),
+                    }
+
+                    serviceBarters.post(dataBarter).then((response) => {
+                        console.log("%c ---OFFERS BARTERS---", "color: cyan", response)
+                        if (response?.ok) {
+                            on({
+                                message: `${profile?.firstName} получит ваше предложение на обмен!`,
+                            })
+                            dispatchReciprocalExchange({ visible: false, offer: undefined })
+                            dispatchBallonOffer({ visible: false })
+                            setLoading(false)
+                        } else {
+                            on({
+                                message: `Обмен с ${profile?.firstName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
+                            })
+                            setError("root", { message: response?.error?.message })
+                            setLoading(false)
+                        }
                     })
-                    dispatchReciprocalExchange({ visible: false })
-                    dispatchBallonOffer({ visible: false })
-                    setLoading(false)
                 } else {
-                    on({
-                        message: `Обмен с ${profile?.firstName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
-                    })
-                    setError("root", { message: response?.error?.message })
+                    setError("root", { message: response?.[0]?.error?.message! })
                     setLoading(false)
                 }
             })
@@ -103,9 +129,7 @@ export const ReciprocalExchange = () => {
     const categoryMyIds = data?.res?.map((item) => item?.categoryId) || []
 
     const offersMy = useMemo(() => {
-        if (!watch("category")) {
-            return data?.res || []
-        } else if (watch("category") && data?.res) {
+        if (watch("category") && data?.res) {
             return data?.res?.filter((item) => item?.categoryId === watch("category"))
         } else {
             return []
@@ -114,14 +138,14 @@ export const ReciprocalExchange = () => {
 
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
-            <section>
+            <section data-section-modal>
                 <ButtonClose
                     position={{}}
                     onClick={() => {
                         if (loading) {
                             return
                         }
-                        dispatchReciprocalExchange({ visible: false })
+                        dispatchReciprocalExchange({ visible: false, offer: undefined })
                     }}
                 />
                 <header>
@@ -162,14 +186,17 @@ export const ReciprocalExchange = () => {
                                             >
                                                 <div data-img>
                                                     <img
-                                                        src={`/svg/category/${item.id}.svg`}
+                                                        src={
+                                                            ICON_OBJECT_OFFERS.hasOwnProperty(item.id!)
+                                                                ? ICON_OBJECT_OFFERS[item.id!]
+                                                                : ICON_OBJECT_OFFERS.default
+                                                        }
                                                         alt={`${item.id!}`}
                                                         width={16}
                                                         height={16}
-                                                        onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
+                                                        onError={(error: any) => {
                                                             if (error?.target) {
                                                                 try {
-                                                                    //@ts-ignore
                                                                     error.target.src = `/svg/category/default.svg`
                                                                 } catch (e) {
                                                                     console.log("catch e: ", e)
@@ -185,97 +212,86 @@ export const ReciprocalExchange = () => {
                                             </a>
                                         ))}
                                     </div>
-                                    {/* {offersMy?.length > 0 ? (
-                                        <div
-                                            data-expand
-                                            data-active={expand}
-                                            onClick={(event) => {
-                                                event.stopPropagation()
-                                                if (loading) {
-                                                    return
-                                                }
-                                                setExpand((prev) => !prev)
-                                            }}
-                                        >
-                                            <span>Мои предложения</span>
-                                            <img src="/svg/chevron-down.svg" alt="down" width={16} height={16} />
-                                        </div>
-                                    ) : null} */}
-                                    {true ? (
-                                        <div data-my-offers {...register("my_offer", { required: offersMy?.length > 0 })}>
-                                            {!!watch("category") && offersMy?.length > 0
-                                                ? offersMy?.map((item) => (
-                                                      <a
-                                                          key={`::${item.id}::my::offer::`}
-                                                          data-active={watch("my_offer") === item.id}
-                                                          onClick={(event) => {
-                                                              if (loading) {
-                                                                  return
-                                                              }
-                                                              event.stopPropagation()
-                                                              if (watch("my_offer") !== item.id) {
-                                                                  setValue("my_offer", item.id)
-                                                              } else {
-                                                                  setValue("my_offer", undefined)
-                                                              }
-                                                          }}
-                                                      >
-                                                          <div data-category>
-                                                              <div data-img>
-                                                                  <img
-                                                                      src={`/svg/category/${item.categoryId}.svg`}
-                                                                      alt={`${item.id!}::`}
-                                                                      width={16}
-                                                                      height={16}
-                                                                      onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
-                                                                          if (error?.target) {
-                                                                              try {
-                                                                                  //@ts-ignore
-                                                                                  error.target.src = `/svg/category/default.svg`
-                                                                              } catch (e) {
-                                                                                  console.log("catch e: ", e)
-                                                                              }
-                                                                          }
-                                                                      }}
-                                                                  />
-                                                              </div>
-                                                              <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
-                                                          </div>
-                                                          <p>{item.title}</p>
-                                                          {item?.images?.length > 0 ? <ItemImages images={item?.images} /> : null}
-                                                      </a>
-                                                  ))
-                                                : null}
-                                        </div>
-                                    ) : null}
                                 </fieldset>
-                                {/* {!!watch("category") && !createNew ? (
+                                {!watch("my_offer") && !!watch("category") ? (
+                                    <fieldset>
+                                        <p>Опишите, что именно вы можете предложить</p>
+                                        <div data-text-area>
+                                            <textarea
+                                                {...register("description", { required: !watch("my_offer"), minLength: 5 })}
+                                                placeholder="Описание предложения..."
+                                            />
+                                            <sup>{watch("description")?.length || 0}/400</sup>
+                                        </div>
+                                        {errors.description ? <i>{errors?.description?.message}</i> : null}
+                                    </fieldset>
+                                ) : null}
+                                {offersMy?.length > 0 ? (
                                     <div
                                         data-expand
+                                        data-active={expand}
                                         onClick={(event) => {
                                             event.stopPropagation()
                                             if (loading) {
                                                 return
                                             }
-                                            setCreateNew(true)
+                                            setExpand((prev) => !prev)
                                         }}
                                     >
-                                        <span data-primary>Создать новое</span>
-                                        <img src="/svg/plus-primary.svg" alt="plus" width={16} height={16} />
+                                        <span>Мои предложения</span>
+                                        <img src="/svg/chevron-down-primary.svg" alt="down" width={16} height={16} />
                                     </div>
                                 ) : null}
-                                {createNew ? (
-                                    <fieldset>
-                                        <p>Опишите, что именно вы можете предложить</p>
-                                        <div data-text-area>
-                                            <textarea
-                                                {...register("description", { required: true })}
-                                                placeholder="Описание предложения..."
-                                            />
-                                            <sup>{watch("description")?.length || 0}/400</sup>
-                                        </div>
-                                    </fieldset>
-                                ) : null} */}
+                                {expand ? (
+                                    <div data-my-offers {...register("my_offer", { required: offersMy?.length > 0 })}>
+                                        {!!watch("category") && offersMy?.length > 0
+                                            ? offersMy?.map((item) => (
+                                                  <a
+                                                      key={`::${item.id}::my::offer::`}
+                                                      data-active={watch("my_offer") === item.id}
+                                                      onClick={(event) => {
+                                                          if (loading) {
+                                                              return
+                                                          }
+                                                          event.stopPropagation()
+                                                          if (watch("my_offer") !== item.id) {
+                                                              setValue("my_offer", item.id)
+                                                          } else {
+                                                              setValue("my_offer", undefined)
+                                                          }
+                                                      }}
+                                                  >
+                                                      <div data-category>
+                                                          <div data-img>
+                                                              <img
+                                                                  alt={`${item.id!}::`}
+                                                                  width={16}
+                                                                  height={16}
+                                                                  src={
+                                                                      ICON_OBJECT_OFFERS.hasOwnProperty(item.categoryId!)
+                                                                          ? ICON_OBJECT_OFFERS[item.categoryId!]
+                                                                          : ICON_OBJECT_OFFERS.default
+                                                                  }
+                                                                  onError={(error: any) => {
+                                                                      if (error?.target) {
+                                                                          try {
+                                                                              error.target.src = `/svg/category/default.svg`
+                                                                          } catch (e) {
+                                                                              console.log("catch e: ", e)
+                                                                          }
+                                                                      }
+                                                                  }}
+                                                              />
+                                                          </div>
+                                                          <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
+                                                      </div>
+                                                      <p>{item.title}</p>
+                                                      {item?.images?.length > 0 ? <ItemImages images={item?.images} /> : null}
+                                                  </a>
+                                              ))
+                                            : null}
+                                    </div>
+                                ) : null}
                             </div>
                             {!!errors?.root ? <i data-error>{errors?.root?.message}</i> : null}
                         </section>
@@ -285,6 +301,7 @@ export const ReciprocalExchange = () => {
                             label="Предложить обмен"
                             loading={loading}
                             suffixIcon={<img src="/svg/repeat-white.svg" alt="repeat" height={24} width={24} />}
+                            disabled={!watch("category") || (!watch("my_offer") && !watch("description"))}
                         />
                     </form>
                 </ul>

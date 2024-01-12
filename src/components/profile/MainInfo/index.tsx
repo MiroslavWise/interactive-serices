@@ -22,7 +22,6 @@ import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ user }) => {
     const userId = useAuth(({ userId }) => userId)
-    // const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
 
     const geo: IAddressesResponse | null = useMemo(() => {
         return user?.addresses?.find((item) => item?.addressType === "main") || null
@@ -42,7 +41,7 @@ export const MainInfo: TMainInfo = ({ user }) => {
                 ) : (
                     <ImageStatic className={styles.photo} src="/png/default_avatar.png" alt="avatar" width={94} height={94} />
                 )}
-                <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} unoptimized />
+                <img className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} />
             </div>
             <div className={styles.content}>
                 <div className={styles.information}>
@@ -66,27 +65,19 @@ export const MainInfo: TMainInfo = ({ user }) => {
                                 >
                                     <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
                                 </Link>
-                                <button
+                                {/* <button
                                     data-circle-gradient
                                     onClick={() => {
                                         if (Number(userId) === Number(user?.id) || !userId) {
                                             return
                                         }
                                         if (userId) {
-                                            // dispatchVisibleBarter({
-                                            //     isVisible: true,
-                                            //     dataProfile: {
-                                            //         photo: user?.profile?.image?.attributes?.url,
-                                            //         fullName: `${user?.profile?.firstName || ""} ${user?.profile?.lastName || ""}`,
-                                            //         idUser: user?.profile?.userId!,
-                                            //     },
-                                            // })
                                             dispatchReciprocalExchange({ visible: true, profile: user?.profile!, type: "array" })
                                         }
                                     }}
                                 >
                                     <img src="/svg/repeat-01.svg" alt="repeat::1" width={20} height={20} />
-                                </button>
+                                </button> */}
                             </section>
                         ) : null}
                     </div>

@@ -7,10 +7,9 @@
     .__page-messages__ {
         height: 100%;
         display: grid;
-        grid-template-columns: 400px auto 300px;
+        grid-template-columns: 25rem 1fr 18.75rem;
         gap: 1.25rem;
         z-index: 40;
-        padding: calc(74px + 1.25rem) 1.25rem 1.25rem;
     }
 }
 

@@ -9,12 +9,10 @@ import styles from "@/scss/page.module.scss"
 
 export default function LayoutMainProfile({ children }: { children: ReactNode }) {
     return (
-        <div className={styles.page}>
-            <div className={styles.containerProfile}>
-                {!isMobile && <LeftAsideProfile />}
-                {children}
-                {!isMobile && <HistoryExchangeOffers />}
-            </div>
+        <div className={styles.containerProfile}>
+            {!isMobile && <LeftAsideProfile />}
+            {children}
+            {!isMobile && <HistoryExchangeOffers />}
         </div>
     )
 }

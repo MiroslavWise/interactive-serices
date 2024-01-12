@@ -1,13 +1,14 @@
 "use client"
 
 import { type FC, memo } from "react"
-import { Placemark } from "@pbe/react-yandex-maps"
+import { Placemark, useYMaps } from "@pbe/react-yandex-maps"
 
 import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
 
 import { dispatchBallonOffer } from "@/store/hooks"
 
 import { TYPE_ICON } from "./constants"
+import { IconCategory } from "@/lib/icon-set"
 
 const PlacemarkCurrentStates: TPlacemarkCurrent = ({ coordinates, id, idUser, dispatch, offer }) => {
     return coordinates.map((item) => (
@@ -17,6 +18,8 @@ const PlacemarkCurrentStates: TPlacemarkCurrent = ({ coordinates, id, idUser, di
 export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
 
 const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = ({ id, item, idUser, dispatch, offer }) => {
+    const ymaps = useYMaps(["templateLayoutFactory", " Placemark"])
+
     return (
         <Placemark
             geometry={item.reverse()}
@@ -28,8 +31,8 @@ const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = 
             }}
             options={{
                 iconLayout: "default#image",
-                iconImageHref: TYPE_ICON[offer?.provider!!].default || "/map/deffault-offers.png",
-                iconImageSize: [48, 54],
+                iconImageHref: TYPE_ICON[offer?.provider!!].default || IconCategory(offer?.categoryId!),
+                iconImageSize: [32, 32],
                 hideIconOnBalloonOpen: false,
                 zIndex: 45,
                 balloonZIndex: "42",
@@ -39,8 +42,6 @@ const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = 
                         ? "#eb3f5e"
                         : offer?.provider === "offer"
                         ? "#a26be8"
-                        : offer?.provider === "request"
-                        ? "#3cb7fd"
                         : offer?.provider === "discussion"
                         ? "#ee4e29"
                         : "#000",
