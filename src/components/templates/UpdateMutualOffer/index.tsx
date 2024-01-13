@@ -3,7 +3,6 @@
 import Image from "next/image"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IValuesForm } from "./types/types"
@@ -44,8 +43,9 @@ export const UpdateMutualOffer = () => {
             description: data?.title!,
         },
     })
+
     const { refetch } = useQuery({
-        queryFn: () => serviceOffers.getUserId(userId!, { provider: data?.provider! }),
+        queryFn: () => serviceOffers.getUserId(userId!, { provider: data?.provider!, order: "DESC" }),
         queryKey: ["offers", `user=${userId}`, `provider=${data?.provider!}`],
         enabled: false,
     })
@@ -127,13 +127,7 @@ export const UpdateMutualOffer = () => {
                             {...register("description", { required: true })}
                             value={watch("description")}
                             onChange={(event) => setValue("description", event.target.value)}
-                            placeholder={
-                                data?.provider === "offer"
-                                    ? "Напишите что-нибудь"
-                                    : data?.provider === "request"
-                                    ? "Опишите более подробно, в чём конкретно ваша просьба"
-                                    : ""
-                            }
+                            placeholder="Напишите что-нибудь"
                             maxLength={512}
                         />
                     </div>

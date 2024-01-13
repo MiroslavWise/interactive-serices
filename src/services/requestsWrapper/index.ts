@@ -56,7 +56,7 @@ export const wrapperFetch: IWrapperFetch = {
                     : {
                           "Content-Type": "application/json",
                       },
-                cache: "force-cache",
+                cache: "default",
             }
 
             const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)

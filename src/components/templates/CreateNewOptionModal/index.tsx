@@ -20,13 +20,14 @@ import { serviceAddresses } from "@/services/addresses"
 import { getLocationName } from "@/lib/location-name"
 import { fileUploadService } from "@/services/file-upload"
 import { FinishScreen } from "./components/FinishScreen"
-import { dispatchOnboarding, useAuth, useOffersCategories, useOnboarding } from "@/store/hooks"
+import { dispatchOnboarding, useAuth, useOffersCategories, useOnboarding, useProviderProfileOffer } from "@/store/hooks"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { useAddCreateModal, closeCreateOffers, dispatchValidating } from "@/store/hooks"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
+import { useQuery } from "@tanstack/react-query"
 
 export const CreateNewOptionModal = () => {
     const [isFirst, setIsFirst] = useState(true)
@@ -44,6 +45,12 @@ export const CreateNewOptionModal = () => {
     const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
     const categories = useOffersCategories(({ categories }) => categories)
     const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
+
+    const { refetch } = useQuery({
+        queryFn: () => serviceOffers.getUserId(userId!, { provider: typeAdd, order: "DESC" }),
+        queryKey: ["offers", `user=${userId}`, `provider=${typeAdd}`],
+        enabled: false,
+    })
 
     const list = useMemo(() => {
         return (
@@ -96,12 +103,14 @@ export const CreateNewOptionModal = () => {
                                     id,
                                 )
                                 .then(() => {
+                                    refetch()
                                     setLoading(false)
                                     setIsFirst(false)
                                     dispatchOnboarding("close")
                                     reset()
                                 })
                         } else {
+                            refetch()
                             setLoading(false)
                             setIsFirst(false)
                             dispatchOnboarding("close")

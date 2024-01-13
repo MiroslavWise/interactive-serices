@@ -12,7 +12,7 @@ import { useAuth, useProviderProfileOffer } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const ContainerSuggestions: TContainerSuggestions = () => {
-    const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
+    const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider) 
     const userId = useAuth(({ userId }) => userId)
 
     const { data, refetch } = useQuery({
