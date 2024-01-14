@@ -118,7 +118,7 @@ input[type="tel"],
 input[type="number"],
 input[type="text"] {
     width: 100%;
-    padding: 0.75rem 0.875rem;
+    padding: 0.875rem 0.875rem;
     height: 3rem;
     display: flex;
     flex-direction: row;
@@ -155,6 +155,11 @@ input[type="text"] {
         height: 2.75rem;
         border-radius: 1.375rem;
     }
+
+    &:disabled {
+        color: var(--gray-400);
+        background: var(--gray-200);
+    }
 }
 
 p,
@@ -187,6 +192,7 @@ h6 {
     --glass-bg-color-1: rgba(255, 255, 255, 0.44);
     --glass-bg-color-2: rgba(248, 249, 255, 0.55);
     --glass-bg-color-3: rgba(255, 255, 255, 0.6);
+    --glass-bg-color-4: rgba(255, 255, 255, 0.8);
     --opacity-white-hard: rgba(255, 255, 255, 0.2);
     --opacity-white-hard-1: rgba(255, 255, 255, 0.1);
     --stroke-1: #fff;
@@ -284,6 +290,7 @@ h6 {
 
     //Permanent
     --supporting-white: #ffffff;
+    --text-error: #ef4424;
 }
 
 [data-theme="dark"] {

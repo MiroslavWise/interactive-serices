@@ -13,7 +13,6 @@
 //PROFILE LAYOUT
 
 .profileLayout {
-    position: relative;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -51,11 +50,16 @@
             padding-bottom: 28px;
         }
     }
+
+    @media screen and (max-width: 746px) {
+        padding: 0;
+    }
 }
 
 [data-mobile="true"] {
     .profileLayout {
         position: relative;
+        padding: 0;
     }
 }
 

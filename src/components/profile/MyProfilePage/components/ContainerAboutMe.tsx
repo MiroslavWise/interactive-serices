@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useEffect, useState } from "react"
 
 import type { TContainerAboutMe } from "./types/types"
@@ -62,30 +61,14 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
         <div className={styles.containerAboutMe}>
             <h4>Обо мне</h4>
             {isEditing ? (
-                <textarea
-                    id="textArea"
-                    onChange={(value) => setTextEditing(value?.target?.value)}
-                    value={textEditing}
-                />
+                <textarea id="textArea" onChange={(value) => setTextEditing(value?.target?.value)} value={textEditing} />
             ) : user?.about ? (
                 <p>{user?.about}</p>
             ) : (
-                <a onClick={handleEditing}>
-                    Нажмите, что-бы редактировать информацию о себе
-                </a>
+                <a onClick={handleEditing}>Нажмите, что-бы редактировать информацию о себе</a>
             )}
             <div className={styles.buttonEditing} onClick={handleEditing}>
-                <Image
-                    src={
-                        isEditing
-                            ? "/svg/check-square-broken.svg"
-                            : "/svg/edit.svg"
-                    }
-                    alt="edit"
-                    width={16}
-                    height={16}
-                    unoptimized
-                />
+                <img src={isEditing ? "/svg/check-square-broken.svg" : "/svg/edit.svg"} alt="edit" width={16} height={16} />
             </div>
         </div>
     )

@@ -16,6 +16,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
 
     useEffect(() => {
+        refresh()
         window.addEventListener("load", () => {
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("/service-worker.js").then((response) => {
@@ -23,11 +24,13 @@ export default function Providers({ children }: { children: ReactNode }) {
                 })
             }
         })
+        let vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty("--vh", `${vh}px`)
+        document.documentElement.style.height = window.innerHeight.toString() + "px"
+        if (typeof isMobile !== "undefined") {
+            document.documentElement.dataset.mobile = `${isMobile}`
+        }
     }, [])
-
-    useEffect(() => {
-        refresh()
-    }, [refresh])
 
     useEffect(() => {
         if (offersCategories === false) {
@@ -36,18 +39,6 @@ export default function Providers({ children }: { children: ReactNode }) {
             })
         }
     }, [offersCategories])
-
-    useEffect(() => {
-        let vh = window.innerHeight * 0.01
-        document.documentElement.style.setProperty("--vh", `${vh}px`)
-        document.documentElement.style.height = window.innerHeight.toString() + "px"
-    }, [])
-
-    useEffect(() => {
-        if (typeof isMobile !== "undefined") {
-            document.documentElement.dataset.mobile = `${isMobile}`
-        }
-    }, [])
 
     return (
         <NextThemesProvider>

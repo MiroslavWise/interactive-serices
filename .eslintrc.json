@@ -4,6 +4,13 @@
         "semi": ["error", "never"],
         "no-document-import-in-page": "off",
         "react-hooks/exhaustive-deps": 0,
-        "@next/next/no-img-element": "off"
+        "@next/next/no-img-element": "off",
+        "import/no-anonymous-default-export": [
+            "error",
+            {
+                "allowAnonymousFunction": true,
+                "allowArrowFunction": true
+            }
+        ]
     }
 }
