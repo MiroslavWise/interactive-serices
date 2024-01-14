@@ -9,7 +9,6 @@ import { NavBarProfile } from "@/components/layout"
 const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 import env from "@/config/environment"
-import { SITE_MAP } from "@/helpers/site-map"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"

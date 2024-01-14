@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 import { isMobile } from "react-device-detect"
 import { useEffect, type ReactNode } from "react"
 
-import { CursorProfile } from "@/components/templates"
+// import { CursorProfile } from "@/components/templates"
 
 import { useAuth } from "@/store/hooks"
 
@@ -24,7 +24,7 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
             children
         ) : (
             <main className={styles.profileLayout}>
-                <CursorProfile />
+                {/* <CursorProfile /> */}
                 {children}
             </main>
         )

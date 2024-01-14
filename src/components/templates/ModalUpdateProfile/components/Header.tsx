@@ -20,7 +20,7 @@ export const Header: THeader = ({ selectedImage, setFile, setSelectedImage, imag
             reader.onloadend = () => {
                 setSelectedImage(reader.result as string)
             }
-            reader.readAsDataURL(file)
+            reader.readAsDataURL(file) 
             setFile(file)
         }
     }

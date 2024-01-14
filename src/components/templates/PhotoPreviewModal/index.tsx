@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { SyntheticEvent, useMemo } from "react"
+import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useSwipeable } from "react-swipeable"
 
@@ -13,10 +13,10 @@ import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
-import { useAuth, useVisibleModalBarter, useProfilePublic, usePhotoOffer, useOffersCategories } from "@/store/hooks"
+import { IconCategory } from "@/lib/icon-set"
+import { useAuth, useProfilePublic, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
-import { IconCategory } from "@/lib/icon-set"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const current = usePhotoOffer(({ current }) => current)
@@ -24,11 +24,10 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     const dispatchPhotoOffer = usePhotoOffer(({ dispatchPhotoOffer }) => dispatchPhotoOffer)
     const visible = usePhotoOffer(({ visible }) => visible)
     const author = usePhotoOffer(({ author }) => author)
-    const offer = usePhotoOffer(({ offer }) => offer)
-    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
-    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const userId = useAuth(({ userId }) => userId)
+    const offer = usePhotoOffer(({ offer }) => offer)
     const categories = useOffersCategories(({ categories }) => categories)
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
 
     const widthCarousel: number = useMemo(() => {
         return photos.length * 90 + photos.length * 13 - 13 + 40 || 0
@@ -56,18 +55,12 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     }
 
     function handleOpenBarter() {
-        const dataProfile = {
-            photo: author?.urlPhoto!,
-            fullName: author?.name!,
-            idUser: author?.idUser!,
-        }
-
         const dataOffer: IResponseOffers = offer!
         if (userId) {
-            dispatchVisibleBarter({
-                isVisible: true,
-                dataProfile: dataProfile,
-                dataOffer: dataOffer,
+            dispatchReciprocalExchange({
+                visible: true,
+                type: "current",
+                offer: dataOffer,
             })
         }
     }
@@ -197,7 +190,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                             >
                                 <span>Подробнее</span>
                             </Link>
-                            {["offer"].includes(offer?.provider!) ? (
+                            {["offer"].includes(offer?.provider!) && userId && userId !== offer?.userId ? (
                                 <Button
                                     type="button"
                                     typeButton="fill-primary"
