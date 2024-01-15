@@ -70,7 +70,7 @@ export const CreateNewOptionModal = () => {
         register,
         handleSubmit,
         setValue,
-        formState: { errors, isValid },
+        formState: { errors },
     } = useForm<IFormValues>({
         defaultValues: {
             categoryId: null,
@@ -103,18 +103,20 @@ export const CreateNewOptionModal = () => {
                                     id,
                                 )
                                 .then(() => {
-                                    refetch()
-                                    setLoading(false)
-                                    setIsFirst(false)
-                                    dispatchOnboarding("close")
-                                    reset()
+                                    refetch().then(() => {
+                                        setLoading(false)
+                                        setIsFirst(false)
+                                        dispatchOnboarding("close")
+                                        reset()
+                                    })
                                 })
                         } else {
-                            refetch()
-                            setLoading(false)
-                            setIsFirst(false)
-                            dispatchOnboarding("close")
-                            reset()
+                            refetch().then(() => {
+                                setLoading(false)
+                                setIsFirst(false)
+                                dispatchOnboarding("close")
+                                reset()
+                            })
                         }
                     })
                 }
