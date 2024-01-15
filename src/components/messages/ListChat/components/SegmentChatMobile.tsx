@@ -1,7 +1,5 @@
 "use client"
 
-import Image from "next/image"
-
 import type { TSegmentChatMobile } from "./types/types"
 import type { TTypeProviderThreads } from "@/services/threads/types"
 

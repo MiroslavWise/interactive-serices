@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 
 import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 import type { TSearchElementMap } from "./types"
@@ -15,7 +14,6 @@ import styles from "./style.module.scss"
 
 export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) => {
     const [text, setText] = useState("")
-    const [loading, setLoading] = useState(false)
     const [activeList, setActiveList] = useState(false)
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const debouncedValue = useDebounce(onValueFunc, 1500)

@@ -126,14 +126,7 @@ export function Barter() {
                                         className={styles.photo}
                                     />
                                 )}
-                                <Image
-                                    src="/svg/verified-tick.svg"
-                                    alt="verified-tick"
-                                    height={16}
-                                    width={16}
-                                    className={styles.verified}
-                                    unoptimized
-                                />
+                                <img src="/svg/verified-tick.svg" alt="verified-tick" height={16} width={16} className={styles.verified} />
                             </div>
                             <div className={styles.nameGeo}>
                                 <h3>{dataProfile?.fullName}</h3>
