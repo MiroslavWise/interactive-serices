@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { SyntheticEvent, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 
 import { Button } from "@/components/common"
 
@@ -19,7 +19,7 @@ export function ItemsCategories() {
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceUsers.getId(userId!),
-        queryKey: ["user", `userId=${userId}`],
+        queryKey: ["user", userId!],
         enabled: !!userId,
     })
 
