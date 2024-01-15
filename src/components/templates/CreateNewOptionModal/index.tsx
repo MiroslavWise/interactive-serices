@@ -336,6 +336,7 @@ export const CreateNewOptionModal = () => {
                                                 placeholder={placeholderInput || ""}
                                                 disabled={visible && step !== 2}
                                                 data-focus={visible && step === 2}
+                                                autoComplete="off"
                                             />
                                             <div data-select-icon>
                                                 <img
