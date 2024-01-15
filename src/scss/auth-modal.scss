@@ -19,6 +19,10 @@
         background: var(--background);
         z-index: 3;
 
+        & > [data-close] {
+            z-index: 4;
+        }
+
         transition: var(--transition);
         transition-property: height;
 
@@ -87,6 +91,7 @@
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
                 gap: 1.875rem;
+                position: relative;
 
                 &::-webkit-scrollbar {
                     display: none;
@@ -116,17 +121,6 @@
                         line-height: 1.25rem;
                     }
                 }
-            }
-        }
-
-        [data-close] {
-            height: 2.25rem;
-            width: 2.25rem;
-            padding: 0.5rem;
-
-            & > div {
-                height: 1.25rem;
-                width: 1.25rem;
             }
         }
     }
