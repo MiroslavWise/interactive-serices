@@ -64,7 +64,6 @@ export const ChatEmptyBarter = () => {
                     updatedById: userId,
                 }
                 const response = await serviceBarters.patch(dataBarter, Number(barterNumber?.id))
-                console.log("response updated barter: ", response)
             }
 
             return res?.id

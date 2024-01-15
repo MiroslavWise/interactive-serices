@@ -1,5 +1,7 @@
 import Link from "next/link"
 
+import { AddServiceForm } from "@/components/profile"
+
 export default function PageAddServices() {
     return (
         <section>
@@ -10,7 +12,7 @@ export default function PageAddServices() {
                 <h2>Добавить услуги</h2>
             </header>
             <ul>
-                
+                <AddServiceForm />
             </ul>
         </section>
     )

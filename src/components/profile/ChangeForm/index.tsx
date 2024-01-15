@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 
 import type { IValuesForm } from "./types/types"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
@@ -12,14 +12,13 @@ import type { IPatchProfileData, IPostProfileData } from "@/services/profile/typ
 import { ImageProfile } from "./components/ImageProfile"
 import { Button, ButtonLink } from "@/components/common"
 
+import { useAuth } from "@/store/hooks"
 import { useOut, usePush } from "@/helpers"
-import { IconCategory } from "@/lib/icon-set"
 import { serviceUsers } from "@/services/users"
 import { serviceProfile } from "@/services/profile"
 import { useToast } from "@/helpers/hooks/useToast"
 import { fileUploadService } from "@/services/file-upload"
-import { useAuth, useOffersCategories } from "@/store/hooks"
-import { COLOR_CARD_CATEGORY } from "@/lib/color-card-category"
+import { BlockCategories } from "./components/BlockCategories"
 
 import styles from "./styles/style.module.scss"
 
@@ -32,7 +31,6 @@ export const ChangeForm = () => {
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
-    const categories = useOffersCategories(({ categories }) => categories)
     const { out } = useOut()
     const { on } = useToast()
     const {
@@ -43,7 +41,7 @@ export const ChangeForm = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<IValuesForm>({ defaultValues: {} })
-    const { data } = useQuery({
+    const { data, refetch } = useQuery({
         queryFn: () => serviceUsers.getMe(),
         queryKey: ["user", userId!],
         enabled: !!userId!,
@@ -63,10 +61,6 @@ export const ChangeForm = () => {
             setStateCategory(categoryProfile)
         }
     }, [categoryProfile])
-
-    const categoriesMain = useMemo(() => {
-        return categories?.filter((item) => item?.provider === "main") || []
-    }, [categories])
 
     async function UpdatePhotoProfile(id: number) {
         return fileUploadService(file.file!, {
@@ -135,8 +129,6 @@ export const ChangeForm = () => {
 
     const onSubmit = handleSubmit(submit)
 
-    function handleDeleteCategory(id: number) {}
-
     useEffect(() => {
         if (dataProfile?.ok) {
             if (!!dataProfile?.res) {
@@ -199,44 +191,7 @@ export const ChangeForm = () => {
                                 <span>Добавить</span>
                                 <img src="/svg/plus-primary.svg" alt="+" width={16} height={16} />
                             </Link>
-                            <div data-cards>
-                                {stateCategory?.map((item) => (
-                                    <a key={`::${item.id}::key::category::form::`}>
-                                        <button
-                                            type="button"
-                                            onClick={(event) => {
-                                                event.stopPropagation()
-                                                handleDeleteCategory(item.id)
-                                            }}
-                                        >
-                                            <img src="/svg/x-close.svg" alt="X" width={16} height={16} />
-                                        </button>
-                                        <article data-title>
-                                            <div data-img>
-                                                <img
-                                                    src={IconCategory(item.id!)}
-                                                    alt="cat"
-                                                    height={16}
-                                                    width={16}
-                                                    onError={(error: any) => {
-                                                        if (error?.target) {
-                                                            try {
-                                                                error.target.src = `/svg/category/default.svg`
-                                                            } catch (e) {
-                                                                console.log("catch e: ", e)
-                                                            }
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                            <p>{categoriesMain?.find((itemC) => itemC.slug === item.provider)?.title!}</p>
-                                        </article>
-                                        <article data-sub>
-                                            <p>{item.title}</p>
-                                        </article>
-                                    </a>
-                                ))}
-                            </div>
+                            <BlockCategories stateCategory={stateCategory} refetch={refetch} />
                         </>
                     ) : null}
                 </div>

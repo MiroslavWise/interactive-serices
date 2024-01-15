@@ -41,8 +41,13 @@
         & > ul {
             height: calc(100% - 4.75rem);
             overflow: hidden;
-            overflow-y: auto;
-            padding: 0 1.5rem 1.5rem;
+
+            & > form {
+                overflow: hidden;
+                overflow-y: auto;
+                padding: 1.5rem;
+                padding-top: 0;
+            }
         }
 
         & > [data-close] {
