@@ -1,6 +1,7 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import Image from "next/image"
 import { useQuery } from "@tanstack/react-query"
 
@@ -10,12 +11,12 @@ import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { useOut } from "@/helpers"
 import { serviceUsers } from "@/services/users"
-import { useAuth, useUpdateProfile, dispatchNewServicesBanner } from "@/store/hooks"
+import { serviceProfile } from "@/services/profile"
+import { useAuth, dispatchNewServicesBanner } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
-    const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
     const { out } = useOut()
     const userId = useAuth(({ userId }) => userId)
 
@@ -25,7 +26,11 @@ export const M_ContainerAboutProfile = () => {
         enabled: !!userId,
     })
 
-    const profile = data?.res?.profile
+    const { data: dataProfile } = useQuery({
+        queryFn: () => serviceProfile.getUserId(userId!),
+        queryKey: ["profile", userId!],
+        enabled: !!userId,
+    })
 
     const addressMain = data?.res?.addresses?.find((item) => item?.addressType === "main") || null
 
@@ -34,10 +39,10 @@ export const M_ContainerAboutProfile = () => {
             <div className={styles.blockAboutPhoto}>
                 <div className={styles.blockPhotoAch}>
                     <div className={styles.avatar}>
-                        {profile?.image?.attributes?.url ? (
+                        {dataProfile?.res?.image?.attributes?.url ? (
                             <NextImageMotion
                                 className={styles.photo}
-                                src={profile?.image?.attributes?.url}
+                                src={dataProfile?.res?.image?.attributes?.url}
                                 alt="avatar"
                                 width={94}
                                 height={94}
@@ -45,18 +50,20 @@ export const M_ContainerAboutProfile = () => {
                         ) : (
                             <ImageStatic src="/png/default_avatar.png" alt="avatar" width={400} height={400} className={styles.photo} />
                         )}
-                        {profile ? (
+                        {dataProfile?.ok ? (
                             <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={24} height={24} unoptimized />
                         ) : null}
                     </div>
                 </div>
                 <div className={styles.aboutBlock}>
                     <h4>
-                        {profile?.firstName} {profile?.lastName}
+                        {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                     </h4>
                     {addressMain ? <GeoTagging size={16} fontSize={12} location={addressMain?.additional} /> : null}
-                    <p className={styles.date}>На Sheira с {data?.res?.created ? dayjs(data?.res?.created).format("DD.MM.YYYY") : null}</p>
-                    <p className={styles.about}>{profile?.about}</p>
+                    <p className={styles.date}>
+                        На Sheira с {dataProfile?.res?.created ? dayjs(dataProfile?.res?.created).format("DD.MM.YYYY") : null}
+                    </p>
+                    <p className={styles.about}>{dataProfile?.res?.about}</p>
                 </div>
             </div>
             <div className={styles.buttons}>
@@ -67,14 +74,9 @@ export const M_ContainerAboutProfile = () => {
                     suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
                     onClick={() => dispatchNewServicesBanner(true)}
                 />
-                <button
-                    data-circle-gradient
-                    onClick={() => {
-                        setVisible(true)
-                    }}
-                >
+                <Link data-circle-gradient href={{ pathname: "/profile/change" }}>
                     <img src="/svg/edit-primary-gradient.svg" alt="edit-primary" width={20} height={20} />
-                </button>
+                </Link>
                 <button data-circle-gradient onClick={out}>
                     <img src="/svg/log-out-primary-gradient.svg" alt="log-out" width={20} height={20} />
                 </button>
