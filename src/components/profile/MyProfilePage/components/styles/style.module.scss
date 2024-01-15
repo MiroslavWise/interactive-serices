@@ -363,25 +363,23 @@
         align-items: center;
         z-index: 2;
 
-        & > button {
+        & > button,
+        & > a {
             & > img {
                 height: 1.5rem;
                 width: 1.5rem;
             }
         }
+    }
 
-        .buttonFill {
-            height: 2.75rem;
-            span {
-                font-size: 1.125rem;
-                line-height: 1.75rem;
-                letter-spacing: 0px;
-            }
-        }
-
-        .buttonCircle {
-            height: 2.75rem;
-            width: 2.75rem;
-        }
+    [data-circle-gradient] {
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 1.375rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.625rem;
+        background-color: var(--background-input);
     }
 }

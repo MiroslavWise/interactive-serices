@@ -239,8 +239,15 @@
 
             & > [data-categories] {
                 &[data-length="true"] {
+                    & > a {
+                        top: 0;
+                    }
                     & > [data-cards] {
+                        display: grid;
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                        gap: 0.5rem 0.5rem;
                         & > a {
+                            max-width: 100%;
                             & > button {
                                 top: 0;
                                 right: 0;
