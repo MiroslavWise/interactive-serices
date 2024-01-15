@@ -55,12 +55,12 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
         <motion.div
             id="headerRef"
             className={styles.containerSearchTop}
-            initial={{ top: -100 }}
-            animate={{ top: 77 + 24 }}
+            initial={{ top: `-6.25rem` }}
+            animate={{ top: `6.3125rem` }}
             transition={{ duration: 0.5 }}
-            exit={{ top: -100 }}
+            exit={{ top: `-6.25rem` }}
             style={{
-                top: 77 + 24,
+                top: `6.3125rem`,
             }}
         >
             <SearchElementMap handleAddressLocation={handleAddressLocation} />
