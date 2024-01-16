@@ -46,6 +46,15 @@
                 line-height: 1.25rem;
                 letter-spacing: -0.02125rem;
             }
+
+            & > i {
+                color: var(--text-error);
+                font-size: 0.75rem;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 1.125rem;
+                letter-spacing: -0.02125rem;
+            }
         }
 
         & > [data-categories] {

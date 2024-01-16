@@ -156,7 +156,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                         }}
                     >
                         <span>{currentComments?.length || 0} комментариев</span>
-                        <Image src="/svg/chevron-down.svg" alt="chevron-down" width={18} height={18} unoptimized />
+                        <img src="/svg/chevron-down.svg" alt="chevron-down" width={18} height={18} />
                     </button>
                     <BlockLikes id={offerId!} />
                 </footer>

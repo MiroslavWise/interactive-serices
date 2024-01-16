@@ -8,7 +8,7 @@ import { Button } from "../../Forward"
 
 import { ContainerPhotos } from "../Suggestion/components/ContainerPhotos"
 
-import { useBalloonCard } from "@/store/hooks"
+import { dispatchBallonDiscussion, useBalloonCard } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -17,6 +17,13 @@ export function CardDiscussion(props: IResponseOffers) {
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     function handleOpenMore() {
+        if (provider === "discussion") {
+            dispatchBallonDiscussion({
+                visible: true,
+                offer: props,
+            })
+            return
+        }
         dispatch({
             visible: true,
             type: provider,

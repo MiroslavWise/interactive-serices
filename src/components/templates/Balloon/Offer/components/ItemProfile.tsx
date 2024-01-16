@@ -4,12 +4,12 @@ import type { IGetProfileIdResponse } from "@/services/profile/types/profileServ
 
 import { NextImageMotion } from "@/components/common"
 
-import { useBallonOffer } from "@/store/hooks"
+import { useBalloonOffer } from "@/store/hooks"
 
 import styles from "../styles/profile.module.scss"
 
 export const ItemProfile = memo(function ItemProfile({ profile }: { profile: IGetProfileIdResponse }) {
-    const offer = useBallonOffer(({ offer }) => offer)
+    const offer = useBalloonOffer(({ offer }) => offer)
 
     const geo = offer?.addresses[0]
 

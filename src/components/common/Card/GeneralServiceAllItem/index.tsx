@@ -16,7 +16,14 @@ import { usePush } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"
 import { serviceUsers } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
-import { dispatchBallonOffer, useBalloonCard, useMapCoordinates, useOffersCategories, useProfilePublic } from "@/store/hooks"
+import {
+    dispatchBallonDiscussion,
+    dispatchBallonOffer,
+    useBalloonCard,
+    useMapCoordinates,
+    useOffersCategories,
+    useProfilePublic,
+} from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
@@ -72,6 +79,12 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                     offer: offer,
                 })
                 return
+            } else if (provider === "discussion") {
+                const { ref, className, style, ...offer } = props ?? {}
+                dispatchBallonDiscussion({
+                    visible: true,
+                    offer: offer,
+                })
             } else {
                 dispatch({
                     visible: true,

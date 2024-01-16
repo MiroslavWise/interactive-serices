@@ -14,7 +14,7 @@ export const BlockLikes: TBlockLikes = ({ id }) => {
     const [loading, setLoading] = useState(false)
     const [count, setCount] = useState(0)
     const [myLike, setMyLike] = useState(false)
-    const [{ data: dataLikesMy, refetch: refetchLikesMy }, { data, refetch }] =
+    const [{ data: dataLikesMy, refetch: refetchLikesMy }, { data, refetch }] = 
         useQueries({
             queries: [
                 {

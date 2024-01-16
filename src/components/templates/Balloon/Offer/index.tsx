@@ -11,19 +11,20 @@ import {
     dispatchBallonOffer,
     dispatchReciprocalExchange,
     useAuth,
-    useBallonOffer,
+    useBalloonOffer,
     useOffersCategories,
 } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 
 import styles from "./styles/style.module.scss"
+import common from "../styles/general.module.scss"
 
-export const BallonOffer = () => {
+export const BalloonOffer = () => {
     const userId = useAuth(({ userId }) => userId)
     const categories = useOffersCategories(({ categories }) => categories)
-    const visible = useBallonOffer(({ visible }) => visible)
-    const offer = useBallonOffer(({ offer }) => offer)
+    const visible = useBalloonOffer(({ visible }) => visible)
+    const offer = useBalloonOffer(({ offer }) => offer)
 
     const categoryCurrent = categories?.find((item) => item?.id === offer?.categoryId)
 
@@ -54,7 +55,7 @@ export const BallonOffer = () => {
     }
 
     return (
-        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
+        <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
             <section data-section-modal>
                 <header>
                     <div data-category-img>

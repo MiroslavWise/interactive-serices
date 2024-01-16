@@ -10,7 +10,7 @@ import type { IPostOffers, IResponseCreate } from "@/services/offers/types"
 import { ItemOffer } from "./components/ItemOffer"
 import { ItemProfile } from "./components/ItemProfile"
 import { Button, ButtonClose } from "@/components/common"
-import { ItemImages } from "../BallonOffer/components/ItemImages"
+import { ItemImages } from "../Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
 import { serviceUsers } from "@/services/users"
