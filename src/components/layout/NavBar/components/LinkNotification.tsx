@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { memo, useState } from "react"
+import { memo } from "react"
 import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 

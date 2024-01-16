@@ -1,0 +1,21 @@
+.wrapper {
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(2.5px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 214;
+
+    & > section {
+        position: relative;
+        max-width: 25rem;
+        height: fit-content;
+        width: 100%;
+        border-radius: 2rem;
+        display: flex;
+        flex-direction: column;
+        z-index: 120;
+        background: var(--background);
+    }
+}

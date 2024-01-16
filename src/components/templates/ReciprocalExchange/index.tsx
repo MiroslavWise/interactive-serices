@@ -1,10 +1,11 @@
-import { useMemo, useCallback, useState } from "react"
+import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
+import { useMemo, useCallback, useState } from "react"
 
-import { transliterateAndReplace } from "@/helpers"
-import { IPostOffers, IResponseCreate } from "@/services/offers/types"
-import { IPostDataBarter } from "@/services/barters/types"
+import type { IReturnData } from "@/services/types/general"
+import type { IPostDataBarter } from "@/services/barters/types"
+import type { IPostOffers, IResponseCreate } from "@/services/offers/types"
 
 import { ItemOffer } from "./components/ItemOffer"
 import { ItemProfile } from "./components/ItemProfile"
@@ -15,12 +16,13 @@ import { cx } from "@/lib/cx"
 import { serviceUsers } from "@/services/users"
 import { serviceOffers } from "@/services/offers"
 import { serviceBarters } from "@/services/barters"
+import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
+import { serviceNotifications } from "@/services/notifications"
 import { useReciprocalExchange, dispatchReciprocalExchange, useOffersCategories, useAuth, dispatchBallonOffer } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { IReturnData } from "@/services/types/general"
 
 export const ReciprocalExchange = () => {
     const [loading, setLoading] = useState(false)
@@ -54,6 +56,12 @@ export const ReciprocalExchange = () => {
         enabled: !!offer?.userId,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
+    })
+
+    const { refetch } = useQuery({
+        queryFn: () => serviceNotifications.get({ order: "DESC" }),
+        queryKey: ["notifications", `user=${userId}`],
+        enabled: false,
     })
 
     const { res } = dataUser ?? {}
@@ -97,12 +105,12 @@ export const ReciprocalExchange = () => {
                     serviceBarters.post(dataBarter).then((response) => {
                         console.log("%c ---OFFERS BARTERS---", "color: cyan", response)
                         if (response?.ok) {
-                            on({
-                                message: `${profile?.firstName} получит ваше предложение на обмен!`,
+                            flushSync(() => {
+                                refetch()
+                                dispatchReciprocalExchange({ visible: false, offer: undefined })
+                                dispatchBallonOffer({ visible: false })
+                                setLoading(false)
                             })
-                            dispatchReciprocalExchange({ visible: false, offer: undefined })
-                            dispatchBallonOffer({ visible: false })
-                            setLoading(false)
                         } else {
                             on({
                                 message: `Обмен с ${profile?.firstName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
@@ -131,10 +139,13 @@ export const ReciprocalExchange = () => {
     const offersMy = useMemo(() => {
         if (watch("category") && data?.res) {
             return data?.res?.filter((item) => item?.categoryId === watch("category"))
-        } else {
-            return []
+        } else if (offer?.categories?.length === 0) {
+            return data?.res || []
+        } else if (data?.res && data?.res?.length > 0) {
+            return data?.res || []
         }
-    }, [data?.res, watch("category")])
+        return []
+    }, [data?.res, watch("category"), offer?.categories])
 
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>

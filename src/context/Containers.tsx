@@ -15,7 +15,6 @@ import {
     NewServicesBanner,
     NotificationsMobile,
     UpdateMutualOffer,
-    ModalUpdateProfile,
     PhotoPreviewModal,
     HasClustererBalloons,
     CompletionTransaction,
@@ -86,7 +85,6 @@ export const Containers = () => {
                     <Onboarding />
                     <ComplaintModal />
                     <NewServicesBanner />
-                    <ModalUpdateProfile />
                     <CompletionTransaction />
                     <NewServiceBarterRequests />
                     {visibleFriends && <DroverFriends />}

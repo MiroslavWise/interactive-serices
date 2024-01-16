@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { type SyntheticEvent } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ButtonClose } from "@/components/common"
 
@@ -31,9 +30,7 @@ export const BallonOffer = () => {
     const { data } = useQuery({
         queryFn: () => serviceUsers.getId(offer?.userId!),
         queryKey: ["user", offer?.userId!],
-        enabled: !offer?.userId && !!visible,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
+        enabled: !offer?.userId,
     })
 
     const { res } = data ?? {}
