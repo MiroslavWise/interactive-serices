@@ -160,7 +160,7 @@ export const ReciprocalExchange = () => {
                     }}
                 />
                 <header>
-                    <h3>Выберите параметры обмена</h3>
+                    <h3>Что вы можете предложить?</h3>
                 </header>
                 <ul>
                     <form onSubmit={onSubmit}>

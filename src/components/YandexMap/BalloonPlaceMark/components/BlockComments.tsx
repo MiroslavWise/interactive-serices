@@ -90,7 +90,7 @@ export const BlockComments: TBlockComments = ({ type, offerId }) => {
                     ulRef.current.scroll({ top: top, behavior: "smooth" })
                 }
             }
-        })
+        }) 
     }, [currentComments, activeListComments])
 
     function submit(values: IValues) {
