@@ -1,11 +1,13 @@
 "use client"
 
 // import { type Metadata } from "next"
+import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { redirect, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { UserIdPage } from "@/components/profile"
 
+import { usePush } from "@/helpers"
 import { serviceUsers } from "@/services/users"
 
 // export async function generateMetadata({ searchParams }: { searchParams: { id: string | number } }): Promise<Metadata> {
@@ -74,6 +76,7 @@ import { serviceUsers } from "@/services/users"
 
 export default function UserId() {
     const id = useSearchParams().get("id")
+    const { handlePush } = usePush()
 
     const { data, isLoading } = useQuery({
         queryFn: () => serviceUsers.getId(id!),
@@ -85,9 +88,11 @@ export default function UserId() {
 
     const { res, ok } = data ?? {}
 
-    if (id === undefined || typeof id === "undefined" || ok === false) {
-        return redirect("/")
-    }
+    useEffect(() => {
+        if (id === undefined || typeof id === "undefined" || ok === false) {
+            handlePush("/")
+        }
+    }, [id, ok])
 
     return <UserIdPage id={id!} user={res!} ok={ok!} />
 }
