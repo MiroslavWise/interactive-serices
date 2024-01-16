@@ -69,7 +69,7 @@ export const Containers = () => {
                     <AboutSheiraPopup />
                 </>
             )}
-            <ToastContainer limit={3} />
+            <ToastContainer />
             {isMobile && (
                 <>
                     <FooterMenu />
