@@ -17,7 +17,20 @@ export const ItemCategory = memo(function ItemCategory(
             data-expand={expand}
         >
             <div data-main>
-                <div data-check>
+                <div
+                    data-check={idsActive?.some((item) => main?.id === item)}
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        if (idsActive?.includes(main.id)) {
+                            setValue(
+                                "categories",
+                                idsActive.filter((item_) => item_ !== main?.id),
+                            )
+                        } else {
+                            setValue("categories", [...idsActive, main.id])
+                        }
+                    }}
+                >
                     <img src="/svg/check-white.svg" alt="+" />
                 </div>
                 <span
@@ -44,6 +57,7 @@ export const ItemCategory = memo(function ItemCategory(
                         />
                     </div>
                     <p>{main.title}</p>
+                    <img data-img-expand src="/svg/chevron-down-gray.svg" alt="down" width={24} height={24} />
                 </span>
             </div>
             <div data-subs>

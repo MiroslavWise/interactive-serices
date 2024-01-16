@@ -123,6 +123,8 @@ export const ChangeForm = () => {
                         }
                     }
                 })
+            } else {
+                handlePush("/profile")
             }
         }
     }
