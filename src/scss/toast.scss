@@ -132,6 +132,33 @@
             background: transparent;
             border: none !important;
             box-shadow: none;
+            z-index: 5;
+        }
+
+        &.barter-toast {
+            gap: 0.25rem;
+
+            & > h4 {
+                color: var(--supporting-white);
+                font-size: 1rem;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 1.5rem;
+                letter-spacing: -0.02125rem;
+            }
+
+            & > p {
+                color: var(--supporting-white);
+                font-size: 0.875rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.25rem;
+                letter-spacing: -0.02125rem;
+            }
+
+            & > button {
+                max-width: min-content;
+            }
         }
 
         & > section {
@@ -212,6 +239,14 @@
                             // filter: invert(1);
                         }
                     }
+                }
+            }
+        }
+
+        .message-notifications-toast {
+            & > [data-close] {
+                img {
+                    filter: invert(1);
                 }
             }
         }

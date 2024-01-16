@@ -63,7 +63,8 @@ export const ChatEmptyBarter = () => {
                     threadId: Number(res?.id),
                     updatedById: userId,
                 }
-                const response = await serviceBarters.patch(dataBarter, Number(barterNumber?.id))
+
+                await serviceBarters.patch(dataBarter, Number(barterNumber?.id))
             }
 
             return res?.id

@@ -3,17 +3,17 @@ import Link from "next/link"
 import { type ReactNode, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
 import type { IResponseNotifications } from "@/services/notifications/types"
+import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
 
+import { ButtonsDots } from "./components/ButtonsDots"
 import { ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { useAuth } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
+import { useAuth, dispatchVisibleNotifications } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
-import { ButtonsDots } from "./components/ButtonsDots"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
     chat: "/svg/notifications/chat.svg",
@@ -63,7 +63,13 @@ export const ItemNotification = (props: IResponseNotifications & { refetch: () =
                     return (
                         <p>
                             Вы предложили обмен{" "}
-                            <Link href={{ pathname: "/user", query: { id: dataUser?.res?.id! } }}>
+                            <Link
+                                href={{ pathname: "/user", query: { id: dataUser?.res?.id! } }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchVisibleNotifications(false)
+                                }}
+                            >
                                 {dataUser?.res?.profile?.firstName} {dataUser?.res?.profile?.lastName}
                             </Link>
                         </p>
@@ -72,7 +78,13 @@ export const ItemNotification = (props: IResponseNotifications & { refetch: () =
                     return (
                         <p>
                             Пользователь{" "}
-                            <Link href={{ pathname: "/user", query: { id: dataUser?.res?.id! } }}>
+                            <Link
+                                href={{ pathname: "/user", query: { id: dataUser?.res?.id! } }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchVisibleNotifications(false)
+                                }}
+                            >
                                 {dataUser?.res?.profile?.firstName} {dataUser?.res?.profile?.lastName}
                             </Link>{" "}
                             предложил вам обмен.

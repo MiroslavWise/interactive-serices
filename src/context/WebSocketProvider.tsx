@@ -1,14 +1,20 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
 import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
 import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
 import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
+import { serviceProfile } from "@/services/profile"
+import { serviceBarters } from "@/services/barters"
 import { useToast } from "@/helpers/hooks/useToast"
+import { queryClient } from "./QueryClientProviderContext"
+import { serviceNotifications } from "@/services/notifications"
 import { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import { TTypeStatusBarter } from "@/services/file-upload/types"
 
 interface IContextSocket {
     socket: Socket | undefined
@@ -22,10 +28,26 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const token = useAuth(({ token }) => token)
     const userId = useAuth(({ userId }) => userId)
     const threadId = useSearchParams().get("thread")
-    const { on, onMessage } = useToast()
+    const { on, onMessage, onBarters } = useToast()
     const { handlePush } = usePush()
     const [isFetch, setIsFetch] = useState(false)
     const [socketState, setSocketState] = useState<Socket | null>(null)
+
+    const { refetch: refetchNotifications } = useQuery({
+        queryFn: () => serviceNotifications.get({ order: "DESC" }),
+        queryKey: ["notifications", `user=${userId}`],
+        enabled: false,
+    })
+
+    const { refetch: refetchBarters } = useQuery({
+        queryFn: () =>
+            serviceBarters.getReceiverId(userId!, {
+                status: "initiated",
+                order: "DESC",
+            }),
+        queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
+        enabled: false,
+    })
 
     useEffect(() => {
         if (!socketState) {
@@ -43,22 +65,58 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 })
             }
         }
+
+        function barterResponse(event: IBarterResponse) {
+            console.log("%c barterResponse event: ", "color: #d0d", event)
+
+            queryClient
+                .fetchQuery({
+                    queryFn: () => serviceProfile.getUserId(event?.emitterId),
+                    queryKey: ["profile", event?.emitterId],
+                })
+                .then((response) => {
+                    if (response?.ok) {
+                        const { firstName, lastName } = response?.res ?? {}
+                        if (event?.status === "executed") {
+                            onBarters({
+                                title: "Обмен был принят",
+                                message: `Пользователь ${firstName || ""} ${lastName || ""} принял ваш запрос на обмен`,
+                                status: event?.status,
+                                threadId: event?.threadId,
+                            })
+                        }
+                        if (event.status === "initiated") {
+                            onBarters({
+                                title: "Предложение на обмен",
+                                message: ``,
+                                status: event.status,
+                                threadIdBarter: `${event?.barterId}-${event?.receiverIds[0]}`,
+                            })
+                        }
+                    }
+                    refetchNotifications()
+                    refetchBarters()
+                })
+        }
+
         if (socketState && userId) {
             socketState?.on(`chatResponse-${userId}`, chatResponse)
+            socketState?.on(`barterResponse-${userId}`, barterResponse)
 
             return () => {
                 socketState?.off(`chatResponse-${userId}`, chatResponse)
+                socketState?.off(`barterResponse-${userId}`, barterResponse)
             }
         }
     }, [socketState, on, threadId, handlePush, userId])
 
     useInsertionEffect(() => {
         function connectError(e: any) {
-            console.log("%c--- connect_error ---", "color: #f00; font-size: 1.25rem;", e)
+            console.log("%c--- connect_error ---", "color: #f00; font-size: 1.5rem;", e)
         }
 
         function error(e: any) {
-            console.info("%c--- error socket --- ", "color: #f00; font-size: 1.25rem;", e)
+            console.info("%c--- error socket --- ", "color: #f00; font-size: 1.5rem;", e)
         }
         if (!isFetch) {
             if (token) {
@@ -121,4 +179,13 @@ interface IChatResponse {
     emitter: {
         profile: IGetProfileIdResponse
     }
+}
+interface IBarterResponse {
+    barterId: number
+    created: Date
+    message: string
+    receiverIds: number[]
+    emitterId: number
+    status: TTypeStatusBarter
+    threadId: number
 }

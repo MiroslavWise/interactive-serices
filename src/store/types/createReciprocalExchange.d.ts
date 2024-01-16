@@ -5,6 +5,7 @@ type TStateOffers = "current" | "array"
 
 export interface IStateReciprocalExchange {
     visible: boolean
+    isCollapse: boolean
     profile?: IGetProfileIdResponse
     type?: TStateOffers
     offer?: IResponseOffers

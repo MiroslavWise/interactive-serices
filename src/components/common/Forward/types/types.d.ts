@@ -8,7 +8,7 @@ interface IInputData {
     rules?: boolean
 }
 
-type TTypeButtonPrimary = "fill-primary" | "fill-orange" | "regular-primary" | "regular-orange" | "white"
+type TTypeButtonPrimary = "fill-primary" | "fill-orange" | "regular-primary" | "regular-orange" | "white" | "fill-opacity"
 
 interface IButton {
     label?: string

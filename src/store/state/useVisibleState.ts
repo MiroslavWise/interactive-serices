@@ -28,35 +28,6 @@ export const useVisibleNewServiceBarterRequests = create<IUseVisibleNewServiceBa
     },
 }))
 
-export const useVisibleModalBarterState = create<IUseVisibleModalBarter>((set, get) => ({
-    isVisible: false,
-    dataProfile: undefined,
-    dataOffer: undefined,
-
-    dispatchVisibleBarter({ isVisible, dataProfile, dataOffer }) {
-        set({
-            isVisible: isVisible,
-        })
-        if (dataProfile !== undefined) {
-            set({
-                dataProfile: dataProfile,
-            })
-            if (dataOffer !== undefined) {
-                set({
-                    dataOffer: dataOffer,
-                })
-            }
-        } else {
-            setTimeout(() => {
-                set({
-                    dataProfile: undefined,
-                    dataOffer: undefined,
-                })
-            }, 305)
-        }
-    },
-}))
-
 export const useVisibleExchangesState = create<IUseVisibleExchanges>((set, get) => ({
     isVisible: false,
     type: undefined,
