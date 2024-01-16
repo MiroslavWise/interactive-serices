@@ -165,6 +165,7 @@ export const ChangeForm = () => {
                     <fieldset>
                         <label>Ник</label>
                         <input {...register("username")} type="text" placeholder="@username" />
+                        {errors?.username?.message === "user exists" ? <i>Данный ник уже существует</i> : null}
                     </fieldset>
                     <fieldset>
                         <label>Электронная почта</label>

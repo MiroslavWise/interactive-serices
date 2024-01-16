@@ -5,7 +5,7 @@ import { Placemark, useYMaps } from "@pbe/react-yandex-maps"
 
 import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
 
-import { dispatchBallonOffer } from "@/store/hooks"
+import { dispatchBallonDiscussion, dispatchBallonOffer } from "@/store/hooks"
 
 import { TYPE_ICON } from "./constants"
 import { IconCategory } from "@/lib/icon-set"
@@ -51,6 +51,9 @@ const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = 
                 event.stopPropagation()
                 if (offer?.provider === "offer") {
                     dispatchBallonOffer({ visible: true, offer: offer })
+                    return
+                } else if (offer?.provider === "discussion") {
+                    dispatchBallonDiscussion({ visible: true, offer: offer })
                     return
                 }
                 if (dispatch) {

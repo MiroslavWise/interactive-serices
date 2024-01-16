@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from "zustand/middleware"
 
 import type { IDispatchBallonOffer, IStateBallonOffer } from "../types/createBallonOffer"
 
-export const useBallonOffer = create(
+export const useBalloonOffer = create(
     persist<IStateBallonOffer>(
         (set, get) => ({
             visible: false,
@@ -14,8 +14,23 @@ export const useBallonOffer = create(
         },
     ),
 )
+export const useBalloonDiscussion = create(
+    persist<IStateBallonOffer>(
+        (set, get) => ({
+            visible: false,
+        }),
+        {
+            name: "ballon-discussion",
+            storage: createJSONStorage(() => sessionStorage),
+        },
+    ),
+)
 
 export const dispatchBallonOffer = (values: IDispatchBallonOffer) =>
-    useBallonOffer.setState((_) => ({
+    useBalloonOffer.setState((_) => ({
+        ...values,
+    }))
+export const dispatchBallonDiscussion = (values: IDispatchBallonOffer) =>
+    useBalloonDiscussion.setState((_) => ({
         ...values,
     }))

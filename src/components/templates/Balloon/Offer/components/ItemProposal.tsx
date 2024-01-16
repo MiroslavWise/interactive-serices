@@ -3,12 +3,12 @@ import { memo, useMemo } from "react"
 import { daysAgo } from "@/helpers"
 import { ItemImages } from "./ItemImages"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
-import { useBallonOffer, useOffersCategories } from "@/store/hooks"
+import { useBalloonOffer, useOffersCategories } from "@/store/hooks"
 
 import styles from "../styles/proposal.module.scss"
 
 export const ItemProposal = memo(function ItemProposal() {
-    const offer = useBallonOffer(({ offer }) => offer)
+    const offer = useBalloonOffer(({ offer }) => offer)
     const categories = useOffersCategories(({ categories }) => categories)
 
     const proposal = offer?.title

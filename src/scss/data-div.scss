@@ -101,3 +101,11 @@
     background: rgba(0, 0, 0, 0.72);
     backdrop-filter: blur(0.2rem);
 }
+
+[data-divider] {
+    background-color: #d0d5dd;
+    &[data-divider="horizontal"] {
+        height: 1px;
+        width: 100%;
+    }
+}
