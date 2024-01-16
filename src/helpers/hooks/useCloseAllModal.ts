@@ -7,12 +7,12 @@ import {
     useDroverFriends,
     dispatchAuthModal,
     usePopupMenuChat,
-    useVisibleModalBarter,
     useUpdateMutualOffer,
     dispatchPhotoCarousel,
     useCompletionTransaction,
     useVisibleBannerNewServices,
     dispatchHasBalloon,
+    dispatchReciprocalExchange,
 } from "@/store/hooks"
 
 export const useCloseAllModal = () => {
@@ -21,7 +21,6 @@ export const useCloseAllModal = () => {
     const dispatchFriends = useDroverFriends((_) => _.dispatchFriends)
     const setIsVisible = usePopupMenuChat((_) => _.setIsVisible)
     const dispatchUpdateMutual = useUpdateMutualOffer((_) => _.dispatchUpdateMutual)
-    const dispatchVisibleBarter = useVisibleModalBarter((_) => _.dispatchVisibleBarter)
     const dispatchNewServicesBanner = useVisibleBannerNewServices((_) => _.dispatchNewServicesBanner)
     const dispatchPhotoOffer = usePhotoOffer((_) => _.dispatchPhotoOffer)
     const dispatchProfilePublic = useProfilePublic((_) => _.dispatchProfilePublic)
@@ -34,11 +33,11 @@ export const useCloseAllModal = () => {
         dispatchAuthModal({ visible: false })
         setIsVisible(false)
         dispatchUpdateMutual({ visible: false })
-        dispatchVisibleBarter({ isVisible: false })
         dispatchPhotoCarousel({ visible: false })
         dispatchNewServicesBanner(false)
         dispatchPhotoOffer({ visible: false })
         dispatchProfilePublic({ visible: false })
+        // dispatchReciprocalExchange({ visible: false })
     }
 
     return close

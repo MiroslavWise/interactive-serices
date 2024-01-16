@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify"
 
 import {
     Intro,
-    Barter,
     ModalSign,
     PublicProfile,
     DroverFriends,
@@ -85,7 +84,6 @@ export const Containers = () => {
             {visibleDataConfirmation && <DataConfirmationPopUp />}
             {isAuth && (
                 <>
-                    <Barter />
                     <Onboarding />
                     <ComplaintModal />
                     <NewServicesBanner />

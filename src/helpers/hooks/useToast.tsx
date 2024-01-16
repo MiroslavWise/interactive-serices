@@ -5,7 +5,9 @@ import { toast } from "react-toastify"
 import { isMobile } from "react-device-detect"
 import { type DispatchWithoutAction } from "react"
 
-import { ButtonCircleGradient, ButtonClose, ButtonDefault, NextImageMotion } from "@/components/common"
+import { TTypeStatusBarter } from "@/services/file-upload/types"
+
+import { ButtonCircleGradient, ButtonClose, ButtonDefault, ButtonLink, NextImageMotion } from "@/components/common"
 
 interface IValue {
     message?: string
@@ -46,6 +48,43 @@ export const useToast = () => {
 
         return toast(Message, {
             toastId: id,
+            position: isMobile ? "bottom-center" : "bottom-left",
+            autoClose: false,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+    }
+
+    function onBarters({ message, title, status, threadId, threadIdBarter }: IPropsBarter) {
+        const Message = (
+            <div className="message-notifications-toast barter-toast">
+                <ButtonClose position={{}} onClick={() => {}} />
+                <h4>{title}</h4>
+                <p>{message}</p>
+                {status === "executed" && threadId ? (
+                    <ButtonLink
+                        type="button"
+                        typeButton="fill-primary"
+                        label="Перейти в чат"
+                        href={{ pathname: "/messages", query: { thread: threadId } }}
+                    />
+                ) : null}
+                {status === "initiated" && threadIdBarter ? (
+                    <ButtonLink
+                        type="button"
+                        typeButton="fill-primary"
+                        label="Перейти в чат"
+                        href={{ pathname: "/messages", query: { "barter-id": threadIdBarter } }}
+                    />
+                ) : null}
+            </div>
+        )
+
+        return toast(Message, {
+            toastId: Math.random(),
             position: isMobile ? "bottom-center" : "bottom-left",
             autoClose: false,
             hideProgressBar: true,
@@ -105,7 +144,7 @@ export const useToast = () => {
         })
     }
 
-    return { on, onMessage }
+    return { on, onMessage, onBarters }
 }
 
 interface IPropsMessage {
@@ -114,6 +153,14 @@ interface IPropsMessage {
     message: string
     photo?: string
     name: string
+}
+
+interface IPropsBarter {
+    message: string
+    title: string
+    status: TTypeStatusBarter
+    threadId?: number
+    threadIdBarter?: string
 }
 
 type TTypeToast = "success" | "error" | "warning" | "default" | "barter" | "message"

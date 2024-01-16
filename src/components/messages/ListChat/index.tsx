@@ -37,7 +37,9 @@ export const ListChat = memo(function ListChat() {
             const ids = new Set(idsArray)
             const array: number[] = []
             ids.forEach((item) => {
-                array.push(item)
+                if (item) {
+                    array.push(item)
+                }
             })
             return array
         }

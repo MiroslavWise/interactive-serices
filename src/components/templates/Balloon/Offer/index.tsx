@@ -19,6 +19,7 @@ import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 
 import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
+import { flushSync } from "react-dom"
 
 export const BalloonOffer = () => {
     const userId = useAuth(({ userId }) => userId)
@@ -43,12 +44,18 @@ export const BalloonOffer = () => {
                 visible: true,
                 type: "SignIn",
             })
+            flushSync(() => {
+                dispatchBallonOffer({ visible: false })
+            })
             return
         } else if (!!userId && userId !== offer?.userId) {
             dispatchReciprocalExchange({
                 visible: true,
                 offer: offer,
                 type: "current",
+            })
+            flushSync(() => {
+                dispatchBallonOffer({ visible: false })
             })
             return
         }

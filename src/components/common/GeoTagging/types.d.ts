@@ -1,9 +1,9 @@
 import type { DispatchWithoutAction, FC } from "react"
 
 interface IGeoTagging {
-    size?: number
+    size?: number | string
     location: string
-    fontSize?: number
+    fontSize?: number | string
     onClick?: DispatchWithoutAction
     className?: string
 }

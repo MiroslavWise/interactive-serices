@@ -6,11 +6,10 @@ import type { TInfoContainerProfile } from "../types/types"
 import { ImageStatic, NextImageMotion, GeoTagging } from "@/components/common"
 import { AddFriend } from "@/components/profile/MainInfo/components/AddFriend"
 
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
+import { useAuth } from "@/store/hooks"
 
 export const InfoContainerProfile: TInfoContainerProfile = (props) => {
     const { profile, addresses, id } = props ?? {}
-    const dispatchVisibleBarter = useVisibleModalBarter(({ dispatchVisibleBarter }) => dispatchVisibleBarter)
     const userId = useAuth(({ userId }) => userId)
 
     const geo = addresses?.find((item) => item.addressType === "main")?.additional || null
@@ -43,26 +42,26 @@ export const InfoContainerProfile: TInfoContainerProfile = (props) => {
                         <Link href={userId ? { pathname: "/messages", query: { user: id } } : {}} data-circle-gradient>
                             <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
                         </Link>
-                        <button
+                        {/* <button
                             data-circle-gradient
                             onClick={() => {
                                 if (Number(userId) === Number(id) || !userId) {
                                     return
                                 }
                                 if (userId) {
-                                    dispatchVisibleBarter({
-                                        isVisible: true,
-                                        dataProfile: {
-                                            photo: profile?.image?.attributes?.url,
-                                            fullName: `${profile?.firstName || ""} ${profile?.lastName || ""}`,
-                                            idUser: id!,
-                                        },
-                                    })
+                                    // dispatchVisibleBarter({
+                                    //     isVisible: true,
+                                    //     dataProfile: {
+                                    //         photo: profile?.image?.attributes?.url,
+                                    //         fullName: `${profile?.firstName || ""} ${profile?.lastName || ""}`,
+                                    //         idUser: id!,
+                                    //     },
+                                    // })
                                 }
                             }}
                         >
                             <img src="/svg/repeat-01.svg" alt="repeat::1" width={20} height={20} />
-                        </button>
+                        </button> */}
                     </section>
                 ) : null}
             </div>

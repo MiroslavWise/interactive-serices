@@ -21,7 +21,6 @@ export const wrapperFetch: IWrapperFetch = {
                     : {
                           "Content-Type": "application/json",
                       },
-                cache: "default",
             })
             const responseData = await response.json()
             return {
@@ -56,7 +55,6 @@ export const wrapperFetch: IWrapperFetch = {
                     : {
                           "Content-Type": "application/json",
                       },
-                cache: "default",
             }
 
             const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)

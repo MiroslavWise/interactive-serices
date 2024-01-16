@@ -51,10 +51,12 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
 
     const usersAvatar = useMemo(() => {
         if (dataUsers.every((item) => !item?.isLoading)) {
-            return dataUsers?.map((item) => ({
-                photo: item?.data?.res?.image?.attributes?.url!,
-                id: item?.data?.res?.userId,
-            }))
+            return dataUsers
+                ?.filter((item) => !!item?.data?.res?.image)
+                ?.map((item) => ({
+                    url: item?.data?.res?.image?.attributes?.url!,
+                    id: item?.data?.res?.userId,
+                }))
         }
         return null
     }, [dataUsers])
@@ -80,7 +82,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
                           <NextImageMotion
                               onClick={() => handleUser(item?.id!)}
                               key={item.id! + index}
-                              src={item.photo!}
+                              src={item.url!}
                               alt="avatar"
                               height={42}
                               width={42}

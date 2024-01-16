@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
@@ -20,7 +21,15 @@ import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 import { serviceNotifications } from "@/services/notifications"
-import { useReciprocalExchange, dispatchReciprocalExchange, useOffersCategories, useAuth, dispatchBallonOffer } from "@/store/hooks"
+import {
+    useReciprocalExchange,
+    dispatchReciprocalExchange,
+    useOffersCategories,
+    useAuth,
+    dispatchBallonOffer,
+    dispatchReciprocalExchangeCollapse,
+} from "@/store/hooks"
+import { useWebSocket } from "@/context"
 
 import styles from "./styles/style.module.scss"
 
@@ -29,9 +38,11 @@ export const ReciprocalExchange = () => {
     const [expand, setExpand] = useState(false)
     const offer = useReciprocalExchange(({ offer }) => offer)
     const visible = useReciprocalExchange(({ visible }) => visible)
+    const isCollapse = useReciprocalExchange(({ isCollapse }) => isCollapse)
     const categories = useOffersCategories(({ categories }) => categories)
     const userId = useAuth(({ userId }) => userId)
-    const { on } = useToast()
+    const { socket } = useWebSocket()
+    const { on, onBarters } = useToast()
     const {
         watch,
         register,
@@ -86,6 +97,17 @@ export const ReciprocalExchange = () => {
                 desired: true,
             }
 
+            const socketWith = (idBarter: number) => {
+                socket?.emit("barter", {
+                    receiverIds: [offer?.userId!],
+                    message: `Вам пришла заявка на уведомление`,
+                    barterId: idBarter,
+                    emitterId: userId!,
+                    status: "initiated",
+                    created: new Date(),
+                })
+            }
+
             Promise.all([
                 !values.my_offer && values.description
                     ? serviceOffers.post(dataNewOffer)
@@ -105,11 +127,22 @@ export const ReciprocalExchange = () => {
                     serviceBarters.post(dataBarter).then((response) => {
                         console.log("%c ---OFFERS BARTERS---", "color: cyan", response)
                         if (response?.ok) {
+                            const message = `${profile?.firstName || ""} ${
+                                profile?.lastName || ""
+                            } получила ваше предложение. Мы сообщим вам об её ответе.`
                             flushSync(() => {
+                                socketWith(response?.res?.id!)
                                 refetch()
-                                dispatchReciprocalExchange({ visible: false, offer: undefined })
-                                dispatchBallonOffer({ visible: false })
-                                setLoading(false)
+                                flushSync(() => {
+                                    onBarters({
+                                        title: "Предложение на обмен отправлено",
+                                        message: message,
+                                        status: "initiated",
+                                    })
+                                    setLoading(false)
+                                    dispatchReciprocalExchange({ visible: false, offer: undefined })
+                                    dispatchBallonOffer({ visible: false })
+                                })
                             })
                         } else {
                             on({
@@ -137,15 +170,15 @@ export const ReciprocalExchange = () => {
     const categoryMyIds = data?.res?.map((item) => item?.categoryId) || []
 
     const offersMy = useMemo(() => {
-        if (watch("category") && data?.res) {
+        if (!!watch("category") && data?.res) {
             return data?.res?.filter((item) => item?.categoryId === watch("category"))
-        } else if (offer?.categories?.length === 0) {
-            return data?.res || []
-        } else if (data?.res && data?.res?.length > 0) {
-            return data?.res || []
         }
-        return []
-    }, [data?.res, watch("category"), offer?.categories])
+        return data?.res || []
+    }, [data?.res, watch("category")])
+
+    if (isCollapse) {
+        return <div></div>
+    }
 
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
@@ -249,13 +282,13 @@ export const ReciprocalExchange = () => {
                                             setExpand((prev) => !prev)
                                         }}
                                     >
-                                        <span>Мои предложения</span>
+                                        <span>Или предложите из своих ранее созданных</span>
                                         <img src="/svg/chevron-down-primary.svg" alt="down" width={16} height={16} />
                                     </div>
                                 ) : null}
                                 {expand ? (
                                     <div data-my-offers {...register("my_offer", { required: offersMy?.length > 0 })}>
-                                        {!!watch("category") && offersMy?.length > 0
+                                        {offersMy?.length > 0
                                             ? offersMy?.map((item) => (
                                                   <a
                                                       key={`::${item.id}::my::offer::`}
@@ -306,14 +339,30 @@ export const ReciprocalExchange = () => {
                             </div>
                             {!!errors?.root ? <i data-error>{errors?.root?.message}</i> : null}
                         </section>
-                        <Button
-                            type="submit"
-                            typeButton="fill-primary"
-                            label="Предложить обмен"
-                            loading={loading}
-                            suffixIcon={<img src="/svg/repeat-white.svg" alt="repeat" height={24} width={24} />}
-                            disabled={!watch("category") || (!watch("my_offer") && !watch("description"))}
-                        />
+                        <footer>
+                            <Button
+                                type="submit"
+                                typeButton="fill-primary"
+                                label="Предложить обмен"
+                                loading={loading}
+                                suffixIcon={<img src="/svg/repeat-white.svg" alt="repeat" height={24} width={24} />}
+                                disabled={!watch("my_offer") && !watch("description")}
+                            />
+                            <Link
+                                href={{
+                                    pathname: "/messages",
+                                    query: {
+                                        user: offer?.userId,
+                                    },
+                                }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchReciprocalExchangeCollapse(true)
+                                }}
+                            >
+                                <img src="/svg/message-dots-circle.svg" alt="dots" width={24} height={24} />
+                            </Link>
+                        </footer>
                     </form>
                 </ul>
             </section>
