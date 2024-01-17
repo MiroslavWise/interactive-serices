@@ -53,6 +53,7 @@ export const UpdateMutualOffer = () => {
     const title = categories?.find((item) => item.id === data?.categoryId)?.title || null
 
     const photos = data?.images || []
+    const geo = data?.addresses?.[0] || null
 
     function cancel() {
         dispatchUpdateMutual({ visible: false })
@@ -121,6 +122,12 @@ export const UpdateMutualOffer = () => {
                     <h3>{title}</h3>
                 </div>
                 <form onSubmit={onSubmit}>
+                    {geo ? (
+                        <div data-div>
+                            <label>Адрес</label>
+                            <span>{geo?.additional}</span>
+                        </div>
+                    ) : null}
                     <div data-div>
                         <label>Изменить текст, чтобы люди могли понять что вы хотите</label>
                         <TextArea
