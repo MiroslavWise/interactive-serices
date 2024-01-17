@@ -23,8 +23,8 @@ export const LinkOffers = memo(function LinkOffers() {
             }),
         queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
         enabled: !!userId && isAuth,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
+        refetchOnReconnect: true,
+        refetchOnMount: true,
     })
 
     const isActive = pathname === ITEMS_LINK_FOOTER.offers
