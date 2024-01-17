@@ -1,16 +1,16 @@
 import dayjs from "dayjs"
 import Link from "next/link"
-import { type ReactNode, useMemo } from "react"
+import { type ReactNode, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IResponseNotifications } from "@/services/notifications/types"
 import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
 
 import { ButtonsDots } from "./components/ButtonsDots"
-import { ButtonLink, NextImageMotion } from "@/components/common"
+import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceBarters, serviceNotifications, serviceUsers } from "@/services"
 import { useAuth, dispatchVisibleNotifications } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -24,9 +24,10 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
     default: "/svg/notifications/default.svg",
 }
 
-export const ItemNotification = (props: IResponseNotifications & { refetch: () => Promise<any> }) => {
+export const ItemNotification = (props: IResponseNotifications) => {
+    const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
-    const { created, provider, operation, data, id, refetch } = props ?? {}
+    const { created, provider, operation, data, id } = props ?? {}
 
     const user = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
 
@@ -36,6 +37,12 @@ export const ItemNotification = (props: IResponseNotifications & { refetch: () =
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         enabled: !!user,
+    })
+
+    const { refetch } = useQuery({
+        queryFn: () => serviceNotifications.get({ order: "DESC" }),
+        queryKey: ["notifications", `user=${userId}`],
+        enabled: false,
     })
 
     const type: TTypeIconNotification = useMemo(() => {
@@ -115,10 +122,52 @@ export const ItemNotification = (props: IResponseNotifications & { refetch: () =
                     )
                 }
             }
+            if (operation === "completion-survey") {
+                return (
+                    <>
+                        <Button
+                            type="button"
+                            typeButton="fill-primary"
+                            label="Да"
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleCompletion(true)
+                            }}
+                            loading={loading}
+                            data-yes-or-not
+                        />
+                        <Button
+                            type="button"
+                            typeButton="regular-primary"
+                            label="Нет"
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleCompletion(false)
+                            }}
+                            loading={loading}
+                            data-yes-or-not
+                        />
+                    </>
+                )
+            }
         }
 
         return null
-    }, [data, provider, userId, dataUser])
+    }, [data, provider, userId, dataUser, operation, loading])
+
+    function handleCompletion(value: boolean) {
+        if (!loading) {
+            setLoading(true)
+            Promise.all([
+                serviceNotifications.patch({ enabled: true, operation: value ? "completion-yes" : "completion-no" }, id!),
+                serviceBarters.patch({ enabled: value, status: value ? "completed" : "destroyed" }, data?.id!),
+            ]).then((responses) => {
+                refetch().then(() => {
+                    setLoading(false)
+                })
+            })
+        }
+    }
 
     return (
         <li className={styles.container} data-type={type} data-active={false}>

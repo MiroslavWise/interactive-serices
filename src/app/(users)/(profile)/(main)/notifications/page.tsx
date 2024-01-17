@@ -44,15 +44,15 @@ export default function Notifications() {
             {dataNotifications?.res?.length ? (
                 <ul>
                     {dataNotifications?.res?.map((item) => (
-                        <ItemNotification key={`::${item.id}::notification::`} {...item} refetch={refetch} />
+                        <ItemNotification key={`::${item.id}::notification::`} {...item} />
                     ))}
                 </ul>
             ) : (
                 <article>
                     <h2>У вас пока нет уведомлений</h2>
                     <p>
-                        Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое
-                        другое. Вы будете проинформированы обо всем важном.
+                        Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое. Вы будете
+                        проинформированы обо всем важном.
                     </p>
                 </article>
             )}

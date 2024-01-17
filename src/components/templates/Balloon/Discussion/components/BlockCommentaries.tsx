@@ -45,8 +45,6 @@ export const BlockCommentaries = () => {
         refetchOnReconnect: true,
     })
 
-    console.log("dataOffersThreads: ", dataOffersThreads)
-
     const currentOffersThreads = useMemo(() => {
         return dataOffersThreads?.res?.find((item) => item?.offerId === id) || null
     }, [dataOffersThreads?.res, id])

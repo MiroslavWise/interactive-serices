@@ -12,8 +12,8 @@ import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
 
 export const BalloonDiscussion = () => {
-    const visible = useBalloonDiscussion(({ visible }) => visible)
     const offer = useBalloonDiscussion(({ offer }) => offer)
+    const visible = useBalloonDiscussion(({ visible }) => visible)
 
     const images = offer?.images || []
 
