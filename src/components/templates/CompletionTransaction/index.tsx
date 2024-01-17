@@ -91,8 +91,7 @@ export const CompletionTransaction = () => {
                     status: "published",
                     enabled: true,
                 }),
-                isLastFeedback ? serviceThreads.patch({ enabled: false }, threadId!) : Promise.resolve({ ok: true }),
-                serviceBarters.patch({ updatedById: userId!, status: "completed" }, barter?.id!),
+                isLastFeedback ? serviceThreads.patch({ enabled: true }, threadId!) : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
                 if (responses?.some((item) => item.ok)) {
                     const message = isLastFeedback ? "last" : "not-last"
