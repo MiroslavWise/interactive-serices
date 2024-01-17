@@ -213,13 +213,14 @@
                     }
 
                     &[data-disabled="true"] {
-                        cursor: no-drop !important;
                         & > [data-check] {
                             filter: grayscale(100%);
+                            cursor: no-drop !important;
                         }
 
                         & > span {
                             filter: grayscale(100%);
+                            cursor: no-drop !important;
                         }
                     }
                 }

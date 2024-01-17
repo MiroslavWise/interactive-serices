@@ -11,7 +11,7 @@ import { serviceOffers } from "@/services/offers"
 import { IQueriesOffers } from "@/services/offers/types"
 import { useFilterMap, useBalloonCard } from "@/store/hooks"
 
-const $ListPlacemark = () => {
+export const ListPlacemark = memo(function ListPlacemark() {
     const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
@@ -51,6 +51,4 @@ const $ListPlacemark = () => {
     }, [dataPlaces?.res, dispatch])
 
     return marks.map((item) => <PlacemarkCurrent key={`${item.id}-${item.offer.provider}-list`} {...item} dispatch={dispatch} />)
-}
-
-export const ListPlacemark = memo($ListPlacemark)
+})

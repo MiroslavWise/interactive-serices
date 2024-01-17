@@ -6,22 +6,21 @@ import { useInsertionEffect, useMemo } from "react"
 import type { IPostThreads } from "@/services/threads/types"
 import type { IPatchDataBarter } from "@/services/barters/types"
 
-import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { useRefetchListChat } from "../../hook/useRefetchListChat"
+import { useCountMessagesNotReading, usePush } from "@/helpers"
 
 import styles from "../styles/style.module.scss"
 
 export const ChatEmptyBarter = () => {
-    const refresh = useRefetchListChat()
     const { on } = useToast()
     const idBarter = useSearchParams()?.get("barter-id")
     const userId = useAuth(({ userId }) => userId)
     const { handleReplace } = usePush()
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     const barterNumber = useMemo(() => {
         if (!idBarter || !idBarter?.includes("-")) return undefined
@@ -87,7 +86,7 @@ export const ChatEmptyBarter = () => {
                 )
                 return
             }
-            refresh("barter").finally(() => {
+            refetchCountMessages().finally(() => {
                 handleReplace(`/messages?thread=${idCreate}`)
             })
         }

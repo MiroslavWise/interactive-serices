@@ -1,10 +1,11 @@
 "use client"
 
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useQuery } from "@tanstack/react-query"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
 import type { IFormValues } from "./types/types"
-import type { IPostOffers } from "@/services/offers/types"
+import type { IPostOffers, IQueriesOffers } from "@/services/offers/types"
 import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
@@ -20,14 +21,13 @@ import { serviceAddresses } from "@/services/addresses"
 import { getLocationName } from "@/lib/location-name"
 import { fileUploadService } from "@/services/file-upload"
 import { FinishScreen } from "./components/FinishScreen"
-import { dispatchOnboarding, useAuth, useOffersCategories, useOnboarding, useProviderProfileOffer } from "@/store/hooks"
+import { dispatchOnboarding, useAuth, useFilterMap, useOffersCategories, useOnboarding, useProviderProfileOffer } from "@/store/hooks"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { useAddCreateModal, closeCreateOffers, dispatchValidating } from "@/store/hooks"
 import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
-import { useQuery } from "@tanstack/react-query"
 
 export const CreateNewOptionModal = () => {
     const [isFirst, setIsFirst] = useState(true)
@@ -46,10 +46,21 @@ export const CreateNewOptionModal = () => {
     const categories = useOffersCategories(({ categories }) => categories)
     const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
 
+    const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
+
+    const obj = idsNumber.length
+        ? ({ category: idsNumber.join(","), order: "DESC" } as IQueriesOffers)
+        : ({ order: "DESC" } as IQueriesOffers)
+
     const { refetch } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: typeAdd, order: "DESC" }),
         queryKey: ["offers", `user=${userId}`, `provider=${typeAdd}`],
         enabled: false,
+    })
+
+    const { refetch: refetchDataMap } = useQuery({
+        queryKey: ["offers", `category=${idsNumber.join(":")}`],
+        queryFn: () => serviceOffers.get(obj),
     })
 
     const list = useMemo(() => {
@@ -103,7 +114,7 @@ export const CreateNewOptionModal = () => {
                                     id,
                                 )
                                 .then(() => {
-                                    refetch().then(() => {
+                                    Promise.all([refetchDataMap(), refetch()]).then(() => {
                                         setLoading(false)
                                         setIsFirst(false)
                                         dispatchOnboarding("close")
@@ -111,7 +122,7 @@ export const CreateNewOptionModal = () => {
                                     })
                                 })
                         } else {
-                            refetch().then(() => {
+                            Promise.all([refetchDataMap(), refetch()]).then(() => {
                                 setLoading(false)
                                 setIsFirst(false)
                                 dispatchOnboarding("close")
@@ -319,7 +330,7 @@ export const CreateNewOptionModal = () => {
                         ) : null}
                         <ul id="ul-create-option-modal">
                             <form onSubmit={onSubmit}>
-                                <fieldset id="fieldset-create-option-modal-address">
+                                <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }}>
                                     <label htmlFor="address">
                                         {addressInit?.additional ? "По адресу" : titleAddress} <sup>*</sup>
                                     </label>
