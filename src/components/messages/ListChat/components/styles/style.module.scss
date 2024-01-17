@@ -44,21 +44,24 @@
     width: 100%;
     height: auto;
     padding: 1rem;
-    background: transparent;
-    transition: var(--transition);
-    transition-property: background;
+    background-color: transparent;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     cursor: pointer;
+    border-bottom: 1px solid var(--gray-300);
 
-    &[data-last="true"] {
-        border-bottom: 1px solid var(--gray-300);
-    }
+    transition: var(--transition);
+    transition-property: background-color;
+
+    // &[data-last="true"] {
+    // }
 
     &[data-active="true"] {
-        background: var(--glass-bg-color-2);
-        cursor: default;
+        background-color: var(--primary-200);
+    }
+    &:hover {
+        background-color: var(--primary-100);
     }
 
     time {
@@ -225,6 +228,9 @@
     .containerItemListChat {
         &[data-active="true"] {
             background: var(--gray-100);
+        }
+        &:hover {
+            background: var(--gray-50);
         }
 
         .header {

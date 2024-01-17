@@ -8,7 +8,9 @@ import styles from "../styles/profile.module.scss"
 export const ItemProfile = ({ profile, geo }: { profile: IGetProfileIdResponse; geo: IAddressesResponse }) => {
     return (
         <div className={styles.container}>
-            <NextImageMotion src={profile?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+            <div data-img>
+                <NextImageMotion src={profile?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+            </div>
             <div data-info>
                 <div data-names>
                     <h4>

@@ -8,11 +8,15 @@
     gap: 0.5rem;
     align-items: flex-start;
 
-    & > img {
+    & > [data-img] {
         background-color: var(--background-input);
         width: 2.75rem;
         height: 2.75rem;
-        border-radius: 0.76388rem;
+        & > img {
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 0.76388rem;
+        }
     }
 
     & > [data-info] {

@@ -28,6 +28,7 @@ import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
+import { flushSync } from "react-dom"
 
 export const CreateNewOptionModal = () => {
     const [isFirst, setIsFirst] = useState(true)
@@ -48,9 +49,7 @@ export const CreateNewOptionModal = () => {
 
     const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
 
-    const obj = idsNumber.length
-        ? ({ category: idsNumber.join(","), order: "DESC" } as IQueriesOffers)
-        : ({ order: "DESC" } as IQueriesOffers)
+    const obj = idsNumber.length ? ({ category: idsNumber.join(","), order: "DESC" } as IQueriesOffers) : ({ order: "DESC" } as IQueriesOffers)
 
     const { refetch } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: typeAdd, order: "DESC" }),
@@ -114,19 +113,25 @@ export const CreateNewOptionModal = () => {
                                     id,
                                 )
                                 .then(() => {
-                                    Promise.all([refetchDataMap(), refetch()]).then(() => {
-                                        setLoading(false)
-                                        setIsFirst(false)
-                                        dispatchOnboarding("close")
-                                        reset()
+                                    Promise.all([refetch()]).then(() => {
+                                        refetchDataMap()
+                                        flushSync(() => {
+                                            setLoading(false)
+                                            setIsFirst(false)
+                                            dispatchOnboarding("close")
+                                            reset()
+                                        })
                                     })
                                 })
                         } else {
-                            Promise.all([refetchDataMap(), refetch()]).then(() => {
-                                setLoading(false)
-                                setIsFirst(false)
-                                dispatchOnboarding("close")
-                                reset()
+                            Promise.all([refetch()]).then(() => {
+                                refetchDataMap()
+                                flushSync(() => {
+                                    setLoading(false)
+                                    setIsFirst(false)
+                                    dispatchOnboarding("close")
+                                    reset()
+                                })
                             })
                         }
                     })
@@ -376,10 +381,7 @@ export const CreateNewOptionModal = () => {
                                                                     isAddress: !!item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
                                                                 })
                                                                 setValue("addressFeature", item)
-                                                                setValue(
-                                                                    "address",
-                                                                    item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
-                                                                )
+                                                                setValue("address", item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
                                                                 setIsFocus(false)
                                                             }}
                                                         >
@@ -452,13 +454,7 @@ export const CreateNewOptionModal = () => {
                                         ))}
                                         <div data-image>
                                             <img src="/svg/plus-gray.svg" data-plus alt="plus-gray" height={60} width={60} />
-                                            <input
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={handleImageChange}
-                                                disabled={visible && step !== 4}
-                                                multiple
-                                            />
+                                            <input type="file" accept="image/*" onChange={handleImageChange} disabled={visible && step !== 4} multiple />
                                         </div>
                                     </div>
                                 </fieldset>
