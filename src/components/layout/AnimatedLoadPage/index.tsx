@@ -3,7 +3,7 @@
 import { useInsertionEffect } from "react"
 import { usePathname } from "next/navigation"
 
-import { useAnimateLoadPage, dispatchAnimated } from "@/store/hooks"
+import { useAnimateLoadPage, dispatchAnimated } from "@/store"
 
 import styles from "./style.module.scss"
 

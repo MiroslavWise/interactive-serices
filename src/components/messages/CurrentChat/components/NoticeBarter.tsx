@@ -29,6 +29,17 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
     const { handleReplace } = usePush()
     const [stateBarter, setStateBarter] = useState<IBarterResponse | null>(null)
     const { refetchCountMessages } = useCountMessagesNotReading()
+
+    const { refetch: refetchOffers } = useQuery({
+        queryFn: () =>
+            serviceBarters.getReceiverId(userId!, {
+                status: "initiated",
+                order: "DESC",
+            }),
+        queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
+        enabled: false,
+    })
+
     const { data } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
         queryKey: ["barters", `id=${idBarter}`],
@@ -121,6 +132,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                             threadId: threadId!,
                             created: date,
                         })
+                        refetchOffers()
                     }
                     flushSync(() => {
                         setStateBarter((prev) => ({
@@ -146,7 +158,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 ),
                 serviceThreads.patch({ enabled: false }, Number(threadId)),
             ]).then(() => {
-                refetchCountMessages().then(() => {
+                Promise.all([refetchOffers(), refetchCountMessages()]).then(() => {
                     handleReplace("/messages")
                 })
             })
