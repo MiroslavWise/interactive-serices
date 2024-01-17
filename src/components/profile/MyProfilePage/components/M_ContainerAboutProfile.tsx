@@ -40,13 +40,7 @@ export const M_ContainerAboutProfile = () => {
                 <div className={styles.blockPhotoAch}>
                     <div className={styles.avatar}>
                         {dataProfile?.res?.image?.attributes?.url ? (
-                            <NextImageMotion
-                                className={styles.photo}
-                                src={dataProfile?.res?.image?.attributes?.url}
-                                alt="avatar"
-                                width={94}
-                                height={94}
-                            />
+                            <NextImageMotion className={styles.photo} src={dataProfile?.res?.image?.attributes?.url} alt="avatar" width={94} height={94} />
                         ) : (
                             <ImageStatic src="/png/default_avatar.png" alt="avatar" width={400} height={400} className={styles.photo} />
                         )}
@@ -60,9 +54,7 @@ export const M_ContainerAboutProfile = () => {
                         {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                     </h4>
                     {addressMain ? <GeoTagging size={16} fontSize={12} location={addressMain?.additional} /> : null}
-                    <p className={styles.date}>
-                        На Sheira с {dataProfile?.res?.created ? dayjs(dataProfile?.res?.created).format("DD.MM.YYYY") : null}
-                    </p>
+                    <p className={styles.date}>На Sheira с {dataProfile?.res?.created ? dayjs(dataProfile?.res?.created).format("DD.MM.YYYY") : null}</p>
                     <p className={styles.about}>{dataProfile?.res?.about}</p>
                 </div>
             </div>
@@ -74,7 +66,7 @@ export const M_ContainerAboutProfile = () => {
                     suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
                     onClick={() => dispatchNewServicesBanner(true)}
                 />
-                <Link data-circle-gradient href={{ pathname: "/profile/change" }}>
+                <Link data-circle-gradient href={{ pathname: "/profile-change" }}>
                     <img src="/svg/edit-primary-gradient.svg" alt="edit-primary" width={20} height={20} />
                 </Link>
                 <button data-circle-gradient onClick={out}>

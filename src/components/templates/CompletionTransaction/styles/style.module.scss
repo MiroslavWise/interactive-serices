@@ -3,9 +3,10 @@
     backdrop-filter: blur(4px);
     z-index: 1051;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 
     & > section {
         position: relative;
@@ -146,10 +147,7 @@
 
 [data-mobile="true"] {
     .wrapper {
-        background: rgba(0, 0, 0, 0.27);
-        flex-direction: column;
         justify-content: flex-end;
-        height: 100%;
         & > section {
             border-radius: 2rem 2rem 0 0;
             max-width: 100%;

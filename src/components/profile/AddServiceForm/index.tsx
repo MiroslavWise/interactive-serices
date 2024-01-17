@@ -85,17 +85,17 @@ export const AddServiceForm = () => {
             setLoading(true)
             if (JSON.stringify(watch("categories")?.sort()) === JSON.stringify(data?.res?.categories?.map((item) => item.id)?.sort())) {
                 setLoading(false)
-                handlePush("/profile/change")
+                handlePush("/profile-change")
             } else {
                 serviceUsers.patch({ categories: watch("categories") || [] }, userId!).then((response) => {
                     if (response.ok) {
                         refetch().then(() => {
                             setLoading(false)
-                            handlePush(`/profile/change`)
+                            handlePush(`/profile-change`)
                         })
                     } else {
                         setLoading(false)
-                        handlePush(`/profile/change`)
+                        handlePush(`/profile-change`)
                     }
                 })
             }
@@ -104,9 +104,7 @@ export const AddServiceForm = () => {
 
     return (
         <form className={styles.form} onSubmit={onSubmit}>
-            <span>
-                Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.
-            </span>
+            <span>Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.</span>
             <div data-search>
                 <input {...register("search-categories")} placeholder="Найти услугу" type="text" list="search" autoComplete="off" />
                 <img src="/svg/search-md.svg" alt="search" width={20} height={20} data-search />
@@ -129,12 +127,7 @@ export const AddServiceForm = () => {
             </div>
             <section {...register("categories")}>
                 {filter.map((item) => (
-                    <ItemCategory
-                        key={`::main::category::${item?.main?.id}::`}
-                        {...item}
-                        setValue={setValue}
-                        idsActive={watch("categories")}
-                    />
+                    <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={watch("categories")} />
                 ))}
             </section>
             <footer>

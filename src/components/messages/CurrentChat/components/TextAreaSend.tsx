@@ -20,6 +20,7 @@ import { fileUploadService } from "@/services/file-upload"
 import { useWebSocket } from "@/context/WebSocketProvider"
 
 import styles from "./styles/text-area.module.scss"
+import { flushSync } from "react-dom"
 
 export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
     const idThread = useSearchParams()?.get("thread")
@@ -29,7 +30,6 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
         text: string
     }>({})
     const [loading, setLoading] = useState(false)
-
     const [files, setFiles] = useState<File[]>([])
     const [strings, setStrings] = useState<string[]>([])
 
@@ -104,7 +104,6 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                     })
 
                     if (socket?.connected) {
-                        console.log("socket?.connected: ", socket?.connected)
                         socket?.emit(
                             "chat",
                             {
@@ -119,14 +118,12 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                                 console.log("message response :", response)
                             },
                         )
-                        requestAnimationFrame(() => {
+                        flushSync(() => {
                             setValue("text", "")
                             setFiles([])
                             setStrings([])
-                        })
-                        setTimeout(() => {
                             setLoading(false)
-                        }, 150)
+                        })
                     } else {
                         const data: IRequestPostMessages = {
                             threadId: Number(idThread!),
@@ -137,11 +134,13 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                             created: date,
                         }
                         serviceMessages.post(data).then((response) => {
-                            requestAnimationFrame(() => {
+                            flushSync(() => {
+                                setValue("text", "")
+                                setFiles([])
+                                setStrings([])
+                                setLoading(false)
                                 refetch()
                             })
-                            setValue("text", "")
-                            setLoading(false)
                         })
                     }
                 })
@@ -151,17 +150,36 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
 
     const onSubmit = handleSubmit(submit)
 
+    if (isMobile) {
+        return (
+            <form onSubmit={onSubmit}>
+                <input
+                    type="text"
+                    placeholder="Напишите сообщение..."
+                    {...register("text", { required: files.length ? false : true })}
+                    autoComplete="off"
+                    maxLength={1024}
+                />
+                <div data-buttons>
+                    <div data-files-input>
+                        <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
+                        <img src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} />
+                    </div>
+                    <button type="submit" data-sent data-disabled={!watch("text") && strings?.length === 0} disabled={!watch("text") && strings?.length === 0}>
+                        <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
+                    </button>
+                </div>
+                <FilesUpload {...{ files, strings, addFile, addString, deleteFile }} />
+            </form>
+        )
+    }
+
     return (
         <form onSubmit={onSubmit} className={styles.container}>
             {isMobile ? (
                 <div className={styles.paperclip}>
-                    <input
-                        type="file"
-                        onChange={handleImageChange}
-                        accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg"
-                        multiple
-                    />
-                    <Image src="/svg/paperclip-gray.svg" alt="paperclip-gray" width={16.5} height={16.5} unoptimized />
+                    <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
+                    <img src="/svg/paperclip-gray.svg" alt="paperclip-gray" width={16.5} height={16.5} />
                 </div>
             ) : null}
             {isMobile ? (
@@ -198,12 +216,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
             <div className={styles.buttons}>
                 {!isMobile ? (
                     <div data-files-input>
-                        <input
-                            type="file"
-                            onChange={handleImageChange}
-                            accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg"
-                            multiple
-                        />
+                        <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
                         <Image src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} unoptimized />
                     </div>
                 ) : null}

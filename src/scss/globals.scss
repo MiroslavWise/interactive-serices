@@ -129,8 +129,8 @@ input[type="text"] {
     font-style: normal;
     font-weight: 500;
     border-radius: 1.5rem;
-    border: solid var(--gray-300);
-    border-width: 1px;
+    border: 1px solid;
+    border-color: var(--gray-300);
     outline: none;
     background: var(--background-input);
     overflow: hidden;

@@ -113,43 +113,41 @@ export const ChangeForm = () => {
                     enabled: true,
                 }
 
-                Promise.all([
-                    !!dataProfile?.res?.id
-                        ? serviceProfile.patch(valuesProfile, dataProfile?.res?.id!)
-                        : serviceProfile.post(valuesProfile!),
-                ]).then((responses) => {
-                    if (responses?.[0]?.ok) {
-                        const idProfile = responses?.[0]?.res?.id!
-                        if (file.file) {
-                            UpdatePhotoProfile(idProfile).then((response) => {
-                                const dataPatch: IPostProfileData = {
-                                    username: values.username,
-                                    imageId: response.res?.id,
-                                }
-                                serviceProfile.patch(dataPatch, idProfile).then(() => {
-                                    refetchProfile().then(() => {
-                                        handlePush("/profile")
+                Promise.all([!!dataProfile?.res?.id ? serviceProfile.patch(valuesProfile, dataProfile?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(
+                    (responses) => {
+                        if (responses?.[0]?.ok) {
+                            const idProfile = responses?.[0]?.res?.id!
+                            if (file.file) {
+                                UpdatePhotoProfile(idProfile).then((response) => {
+                                    const dataPatch: IPostProfileData = {
+                                        username: values.username,
+                                        imageId: response.res?.id,
+                                    }
+                                    serviceProfile.patch(dataPatch, idProfile).then(() => {
+                                        refetchProfile().then(() => {
+                                            handlePush("/profile")
+                                        })
                                     })
                                 })
-                            })
+                            } else {
+                                refetchProfile().then(() => {
+                                    handlePush("/profile")
+                                })
+                            }
                         } else {
-                            refetchProfile().then(() => {
-                                handlePush("/profile")
-                            })
+                            setLoading(false)
+                            if (responses[0]?.error?.code === 409) {
+                                return setError("username", { message: "user exists" })
+                            }
+                            if (responses[0]?.error?.code === 401) {
+                                on({
+                                    message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
+                                })
+                                out()
+                            }
                         }
-                    } else {
-                        setLoading(false)
-                        if (responses[0]?.error?.code === 409) {
-                            return setError("username", { message: "user exists" })
-                        }
-                        if (responses[0]?.error?.code === 401) {
-                            on({
-                                message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
-                            })
-                            out()
-                        }
-                    }
-                })
+                    },
+                )
             } else {
                 handlePush("/profile")
             }
@@ -313,14 +311,14 @@ export const ChangeForm = () => {
                     {stateCategory?.length === 0 ? (
                         <>
                             <p>Добавьте услуги, которые вам интересны и вы бы хотели их получить</p>
-                            <Link href={{ pathname: "/profile/change/add-services" }}>
+                            <Link href={{ pathname: "/profile-change/services-change" }}>
                                 <span>Добавить</span>
                                 <img src="/svg/plus-primary.svg" alt="+" width={16} height={16} />
                             </Link>
                         </>
                     ) : stateCategory?.length > 0 ? (
                         <>
-                            <Link href={{ pathname: "/profile/change/add-services" }}>
+                            <Link href={{ pathname: "/profile-change/services-change" }}>
                                 <span>Добавить</span>
                                 <img src="/svg/plus-primary.svg" alt="+" width={16} height={16} />
                             </Link>
