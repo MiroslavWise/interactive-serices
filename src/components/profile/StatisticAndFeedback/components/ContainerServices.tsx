@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
@@ -22,25 +23,23 @@ export const ContainerServices: TContainerServices = ({}) => {
         queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
     })
 
-    //dispatchReciprocalExchange
+    const list = useMemo(() => {
+        return dataOffer?.res?.filter((item) => item?.addresses?.length > 0) || []
+    }, [dataOffer?.res])
 
     return (
         <section className={styles.containerServices}>
             {isMobile ? (
                 <ul className={styles.containerRequestsAndProposals}>
-                    {Array.isArray(dataOffer?.res)
-                        ? dataOffer?.res?.map((item) => (
-                              <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
-                          ))
-                        : null}
+                    {list?.map((item) => (
+                        <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
+                    ))}
                 </ul>
             ) : (
                 <Masonry gutter="16px" columnsCount={2}>
-                    {Array.isArray(dataOffer?.res)
-                        ? dataOffer?.res?.map((item) => (
-                              <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
-                          ))
-                        : null}
+                    {list.map((item) => (
+                        <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
+                    ))}
                 </Masonry>
             )}
         </section>

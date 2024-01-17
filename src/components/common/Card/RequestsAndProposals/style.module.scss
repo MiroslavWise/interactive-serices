@@ -163,17 +163,23 @@
             }
         }
     }
+}
 
-    &[data-mobile="true"] {
-        max-width: 100%;
-    }
-
-    [data-article-want] {
-        [data-item] {
-            p {
-                color: var(--supporting-white);
+[data-theme="light"] {
+    .container {
+        [data-article-want] {
+            [data-item] {
+                p {
+                    color: var(--text-primary);
+                }
             }
         }
+    }
+}
+
+[data-mobile="true"] {
+    .container {
+        max-width: 100%;
     }
 }
 

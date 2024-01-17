@@ -41,7 +41,11 @@ export const BlockCommentaries = () => {
             }),
         queryKey: ["offers-threads", id!],
         enabled: !!id!,
+        refetchOnMount: true,
+        refetchOnReconnect: true,
     })
+
+    console.log("dataOffersThreads: ", dataOffersThreads)
 
     const currentOffersThreads = useMemo(() => {
         return dataOffersThreads?.res?.find((item) => item?.offerId === id) || null

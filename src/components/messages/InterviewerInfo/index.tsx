@@ -8,29 +8,29 @@ import { useSearchParams } from "next/navigation"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { BadgeAchievements } from "@/components/common/Badge"
-import { Button, ImageStatic, NextImageMotion } from "@/components/common"
+import { Button, NextImageMotion } from "@/components/common"
 
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
 import { IPatchThreads } from "@/services/threads/types"
-import { useRefetchListChat } from "../hook/useRefetchListChat"
 import { BADGES } from "@/mocks/components/auth/constants"
 import { useMessagesType, useUserIdMessage } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
+import { useCountMessagesNotReading } from "@/helpers"
 
 export const InterviewerInfoCurrent = () => {
     const idThread = useSearchParams().get("thread")
     const type = useMessagesType(({ type }) => type)
     const { handleReplace } = usePush()
-    const refresh = useRefetchListChat()
     const userData = useUserIdMessage(({ userData }) => userData)
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     function handleDeleteChat() {
         const data: IPatchThreads = { enabled: false }
         serviceThreads.patch(data, Number(idThread)).then((response) => {
-            refresh(type).finally(() => {
+            refetchCountMessages().finally(() => {
                 requestAnimationFrame(() => {
                     console.log("%c --- response delete ---", "color: #f0f", response)
                     handleReplace("/messages")
@@ -48,17 +48,13 @@ export const InterviewerInfoCurrent = () => {
             <div className={styles.contentProfile}>
                 <header className={stylesHeader.containerHeader}>
                     <div className={stylesHeader.avatar}>
-                        {userData?.profile?.image?.attributes?.url ? (
-                            <NextImageMotion
-                                className={stylesHeader.photo}
-                                src={userData?.profile?.image?.attributes?.url!}
-                                alt="avatar"
-                                width={94}
-                                height={94}
-                            />
-                        ) : (
-                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={94} height={94} className={stylesHeader.photo} />
-                        )}
+                        <NextImageMotion
+                            className={stylesHeader.photo}
+                            src={userData?.profile?.image?.attributes?.url!}
+                            alt="avatar"
+                            width={94}
+                            height={94}
+                        />
                         {true ? (
                             <Image
                                 className={stylesHeader.verified}

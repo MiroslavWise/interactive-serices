@@ -54,7 +54,7 @@ export const ReciprocalExchange = () => {
         defaultValues: {},
     })
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: "offer", order: "DESC" }),
         queryKey: ["offers", `user=${userId}`, `provider=offer`],
         refetchOnMount: false,
@@ -69,11 +69,13 @@ export const ReciprocalExchange = () => {
         refetchOnWindowFocus: false,
     })
 
+    //---
     const { refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],
         enabled: false,
     })
+    //---
 
     const { res } = dataUser ?? {}
     const { profile } = res ?? {}
@@ -100,7 +102,7 @@ export const ReciprocalExchange = () => {
             const socketWith = (idBarter: number) => {
                 socket?.emit("barter", {
                     receiverIds: [offer?.userId!],
-                    message: `Вам пришла заявка на уведомление`,
+                    message: `Вам пришла заявка на предложение`,
                     barterId: idBarter,
                     emitterId: userId!,
                     status: "initiated",
@@ -171,9 +173,9 @@ export const ReciprocalExchange = () => {
 
     const offersMy = useMemo(() => {
         if (!!watch("category") && data?.res) {
-            return data?.res?.filter((item) => item?.categoryId === watch("category"))
+            return data?.res?.filter((item) => item?.categoryId === watch("category"))?.filter((item) => item?.addresses?.length > 0)
         }
-        return data?.res || []
+        return data?.res?.filter((item) => item?.addresses?.length > 0) || []
     }, [data?.res, watch("category")])
 
     if (isCollapse) {
@@ -270,20 +272,27 @@ export const ReciprocalExchange = () => {
                                         {errors.description ? <i>{errors?.description?.message}</i> : null}
                                     </fieldset>
                                 ) : null}
-                                {offersMy?.length > 0 ? (
+                                {offersMy?.length > 0 || isLoading ? (
                                     <div
                                         data-expand
                                         data-active={expand}
                                         onClick={(event) => {
                                             event.stopPropagation()
-                                            if (loading) {
+                                            if (loading || isLoading) {
                                                 return
                                             }
                                             setExpand((prev) => !prev)
                                         }}
+                                        data-is-loading={isLoading}
                                     >
                                         <span>Или предложите из своих ранее созданных</span>
-                                        <img src="/svg/chevron-down-primary.svg" alt="down" width={16} height={16} />
+                                        <img
+                                            src={isLoading ? "/svg/spinner.svg" : "/svg/chevron-down-primary.svg"}
+                                            data-loading-image={isLoading}
+                                            alt="down"
+                                            width={16}
+                                            height={16}
+                                        />
                                     </div>
                                 ) : null}
                                 {expand ? (

@@ -17,8 +17,8 @@ export const LinkNotification = memo(function LinkNotification() {
     const { data, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
     })
 
     return (

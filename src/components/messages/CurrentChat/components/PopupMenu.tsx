@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { flushSync } from "react-dom"
 import { motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 import { type DispatchWithoutAction, memo } from "react"
@@ -10,8 +11,8 @@ import type { TPopupMenu } from "./types/types"
 import { cx } from "@/lib/cx"
 import { serviceThreads } from "@/services/threads"
 import { usePush } from "@/helpers/hooks/usePush"
+import { useCountMessagesNotReading } from "@/helpers"
 import { usePopupMenuChat, useMessagesType } from "@/store/hooks"
-import { useRefetchListChat } from "../../hook/useRefetchListChat"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
 
 import mainStyles from "../styles/style.module.scss"
@@ -23,8 +24,8 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
     const type = useMessagesType(({ type }) => type)
     const isVisible = usePopupMenuChat(({ isVisible }) => isVisible)
     const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
-    const refresh = useRefetchListChat()
     const { handlePush, handleReplace } = usePush()
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     function handleClickMenu(value: TTypeActionMenu) {
         const handleObject: Record<TTypeActionMenu, DispatchWithoutAction> = {
@@ -42,8 +43,8 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
 
     function handleDeleteChat() {
         serviceThreads.patch({ enabled: false }, Number(idThread)).then((response) => {
-            refresh(type).finally(() => {
-                requestAnimationFrame(() => {
+            refetchCountMessages().finally(() => {
+                flushSync(() => {
                     handleReplace("/messages")
                 })
             })
