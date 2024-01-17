@@ -130,10 +130,16 @@
 }
 
 [data-mobile="true"] {
+    .containerItemUserMessage,
+    .containerItemMyMessage {
+        padding-inline: 0.75rem;
+    }
+
     .containerItemUserMessage {
         .blockMessage {
             min-width: 0.0625rem;
             background: var(--background);
+            max-width: 100%;
         }
     }
 

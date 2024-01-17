@@ -11,7 +11,7 @@ import { IResponseMessage } from "@/services/messages/types"
 import { PopupMenu } from "../components/PopupMenu"
 import { ListMessages } from "../components/ListMessages"
 import { TextAreaSend } from "../components/TextAreaSend"
-import { ImageStatic, NextImageMotion } from "@/components/common"
+import { NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
 import { serviceUsers } from "@/services/users"
@@ -156,7 +156,6 @@ export const CurrentChat = () => {
             const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
 
             Promise.all(notReading.map((item) => serviceMessages.postRead(item))).then((responses) => {
-                console.log("useEffect responses: ", responses)
                 setTimeout(() => {
                     refetchCountMessages()
                 }, 355)
@@ -164,9 +163,9 @@ export const CurrentChat = () => {
         }
     }, [userId, dataMessages?.res])
 
-    return (
-        <div className={styles.wrapper}>
-            {isMobile && (
+    if (isMobile)
+        return (
+            <div className={styles.wrapper}>
                 <header>
                     <Link data-back href={{ pathname: "/messages" }}>
                         <img src="/svg/chevron-left.svg" alt="chevron-left" width={24} height={24} />
@@ -179,10 +178,29 @@ export const CurrentChat = () => {
                         <img src="/svg/dots-vertical.svg" alt="dots-vertical" width={24} height={24} />
                     </button>
                 </header>
+                <section>
+                    <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
+                </section>
+                <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
+                {isMobile && <PopupMenu dataUser={dataUser?.res} />}
+            </div>
+        )
+
+    return (
+        <div className={styles.wrapper}>
+            {isMobile && (
+                <header>
+                    <Link data-back href={{ pathname: "/messages" }}>
+                        <img src="/svg/chevron-left.svg" alt="left" width={24} height={24} />
+                    </Link>
+                    <article>
+                        <NextImageMotion src={conversationPartner?.photo!} alt="avatar" width={28} height={28} className={styles.avatar} />
+                        <h5>{conversationPartner?.name!}</h5>
+                    </article>
+                </header>
             )}
             <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
             <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
-            {isMobile && <PopupMenu dataUser={dataUser?.res} />}
         </div>
     )
 }

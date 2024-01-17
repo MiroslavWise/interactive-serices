@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import type { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
 
 import { ButtonLike } from "./ButtonLike"
+import { BlockAvatars } from "./BlockAvatars"
 import { ItemComment } from "./ItemComment"
 import { NextImageMotion } from "@/components/common"
 
@@ -15,7 +16,6 @@ import { useAuth, useBalloonDiscussion } from "@/store/hooks"
 import { serviceOffersThreads } from "@/services/offers-threads"
 
 import styles from "../styles/block-commentaries.module.scss"
-import { BlockAvatars } from "./BlockAvatars"
 
 export const BlockCommentaries = () => {
     const userId = useAuth(({ userId }) => userId)

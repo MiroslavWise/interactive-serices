@@ -1,5 +1,7 @@
 "use client"
 
+import { flushSync } from "react-dom"
+import { isMobile } from "react-device-detect"
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
@@ -36,11 +38,7 @@ export const ListMessages = memo(function ListMessages({
                 }
                 if (Number(item.emitterId) === Number(dataUser?.id!) && item.type === "messages") {
                     return (
-                        <ItemUserMessage
-                            key={`${item?.id}-message-${item.id}`}
-                            photo={dataUser?.profile?.image?.attributes?.url!}
-                            messages={item.messages!}
-                        />
+                        <ItemUserMessage key={`${item?.id}-message-${item.id}`} photo={dataUser?.profile?.image?.attributes?.url!} messages={item.messages!} />
                     )
                 }
                 if (item.type === "time") {
@@ -53,7 +51,7 @@ export const ListMessages = memo(function ListMessages({
     }, [dataUser, messages, join, userId, attributes?.url])
 
     useEffect(() => {
-        requestAnimationFrame(() => {
+        flushSync(() => {
             if (messages?.length > 0) {
                 if (ulChat.current) {
                     const top = ulChat.current.scrollHeight
@@ -65,6 +63,15 @@ export const ListMessages = memo(function ListMessages({
             }
         })
     }, [messages, numberIdMessage, messagesJoin])
+
+    if (isMobile) {
+        return (
+            <ul ref={ulChat}>
+                {!!idBarter && <NoticeBarter idBarter={idBarter!} userData={dataUser} />}
+                {messagesJoin}
+            </ul>
+        )
+    }
 
     return (
         <ul ref={ulChat}>

@@ -22,8 +22,6 @@
     }
 
     & > form {
-        position: absolute;
-        bottom: 1rem;
         width: 100%;
         left: 0;
         right: 0;
@@ -48,34 +46,36 @@
                 display: none !important;
             }
         }
+
+        & > form {
+            position: absolute;
+            bottom: 1rem;
+        }
     }
 }
 
 [data-mobile="true"] {
     .wrapper {
         z-index: 12;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
 
         & > header {
             width: 100%;
-            left: 0;
-            position: fixed;
             height: 5.25rem;
-            top: 0;
-            z-index: 2;
+            padding: 1.125rem 1.25rem;
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 0.125rem;
             justify-content: space-between;
-            padding: 1.125rem 1.25rem;
-            background: var(--glass-bg-color-1);
-            box-shadow: 0px 0.25rem 1.5rem 0px rgba(0, 0, 0, 0.12);
-            backdrop-filter: blur(2.5rem);
-            z-index: 15;
+            gap: 0.625rem;
+            overflow: hidden;
+            background-color: var(--background);
+            box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 
             & > article {
                 width: 100%;
-                height: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -84,7 +84,8 @@
                 & > img {
                     width: 1.75rem;
                     height: 1.75rem;
-                    border-radius: 0.875rem;
+                    border-radius: 50%;
+                    background-color: var(--background-input);
                 }
 
                 & > h5 {
@@ -106,8 +107,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: var(--glass-bg-color-1);
-                box-shadow: 0px 0.25rem 1.5rem 0px rgba(0, 0, 0, 0.12);
+                background: var(--background-input);
                 backdrop-filter: blur(0.25rem);
                 cursor: pointer;
                 border: none;
@@ -120,19 +120,119 @@
             }
         }
 
-        & > ul {
-            padding: 0.75rem !important;
-            padding-top: 6rem !important;
+        & > section {
+            width: 100%;
+            height: calc(100% - 5.25rem - 5rem);
+            overflow: hidden;
 
-            & > [data-null] {
-                height: calc(5.25rem - 0.75rem);
-                width: 100%;
-                padding: 2.25rem;
+            & > ul {
+                overflow: hidden;
+                overflow-y: auto;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                padding-bottom: 0.75rem;
+                &::-webkit-scrollbar,
+                &::-webkit-scrollbar-thumb {
+                    display: none;
+                }
             }
         }
 
         & > form {
-            position: fixed;
+            width: 100%;
+            height: calc(1.25rem + 2.5rem + 1.25rem);
+            padding: 1.25rem;
+            position: relative;
+            background-color: var(--background);
+            box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+
+            & > input {
+                height: 2.5rem;
+                border-radius: 1.25rem;
+                padding: 0.625rem;
+                padding-inline: 1rem calc(1rem + 1.25rem + 0.125rem + 1.25rem + 0.625rem);
+                writing-mode: horizontal-tb;
+                color: var(--gray-900);
+                font-size: 0.875rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.25rem;
+                letter-spacing: -0.02125rem;
+
+                &::placeholder {
+                    color: var(--gray-500);
+                }
+            }
+
+            & > [data-buttons] {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: calc(1.25rem + 1rem);
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.625rem;
+
+                & > [data-files-input],
+                & > [data-sent] {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                & > [data-files-input] {
+                    width: 1.75rem;
+                    height: 1.75rem;
+                    position: relative;
+                    background-color: var(--background);
+                    padding: 0.25rem;
+
+                    & > input {
+                        width: 100%;
+                        height: 100%;
+                        opacity: 0;
+                        position: absolute;
+                        z-index: 4;
+                    }
+
+                    & > img {
+                        width: 1.25rem;
+                        height: 1.25rem;
+                        position: relative;
+                        z-index: 3;
+                    }
+                }
+
+                & > [data-sent] {
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+
+                    &[data-disabled="true"] {
+                        filter: grayscale(0.8);
+                        opacity: 0.6;
+                    }
+                    & > img {
+                        height: 1.25rem;
+                        width: 1.25rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+[data-theme="light"] {
+    .wrapper {
+        [data-files-input] {
+            img {
+                filter: invert(1);
+            }
         }
     }
 }
