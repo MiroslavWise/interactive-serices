@@ -2,55 +2,89 @@
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(4px);
     z-index: 1051;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 
-    & > form {
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 584px;
+    & > section {
+        position: relative;
+        max-width: 25rem;
+        height: fit-content;
         width: 100%;
-        height: min-content;
-        border-radius: 32px;
-        background: var(--background);
+        border-radius: 2rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 48px 94px;
-        gap: 47px;
 
-        & > h2 {
+        & > header {
             width: 100%;
-            color: var(--gray-500);
-            text-align: center;
-            font-size: 1.625rem;
-            font-style: normal;
-            font-weight: 600;
+            border-radius: 2rem 2rem 0 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 1.25rem;
+            background-color: var(--primary-500);
 
-            & > span {
-                color: var(--primary-500);
+            & > h3 {
+                text-align: center;
+                color: var(--supporting-white);
+                font-size: 1.25rem;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 1.125rem;
+                letter-spacing: -0.01125rem;
             }
         }
 
-        & > h5 {
+        & > form {
             width: 100%;
-            color: var(--warning-500);
-            text-align: center;
-            font-size: 1rem;
-            font-style: normal;
-            font-weight: 500;
-        }
-
-        & > section {
-            width: 100%;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 20px;
+            overflow: hidden;
+            gap: 1.25rem;
+            border-radius: 0 0 2rem 2rem;
+            background-color: var(--background);
 
-            & > [data-groups="true"] {
+            & > [data-text] {
+                width: 100%;
+                border-radius: 1rem;
+                overflow: hidden;
+                border: 1px solid;
+                border-color: var(--gray-300);
+                position: relative;
+                height: 7.5rem;
+
+                & > textarea {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    outline: none;
+                    padding: 0.875rem;
+                    padding-bottom: calc(0.25rem + 0.25rem + 1.125rem);
+                    background-color: var(--background);
+                    resize: none;
+                }
+
+                &:has(textarea:focus) {
+                    border-color: var(--primary-500);
+                }
+
+                & > sup {
+                    position: absolute;
+                    right: 0.875rem;
+                    bottom: 0.25rem;
+                    color: var(--gray-700);
+                    text-align: right;
+                    font-size: 0.75rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 1.125rem;
+                }
+            }
+
+            & > [data-groups] {
                 width: 100%;
                 display: flex;
                 flex-direction: column;
@@ -88,26 +122,29 @@
                     }
                 }
             }
-        }
 
-        & > button {
-            max-width: 360px;
-            width: 100%;
+            & > [data-button-forward] {
+                height: 2.75rem;
+                border-radius: 1.375rem;
+            }
         }
     }
+}
 
-    &[data-mobile="true"] {
-        padding: 20px;
-        & > form {
-            max-width: calc(100% - 40px);
-            top: 50%;
-            padding: 28px 44px;
-            gap: 20px;
-            & > h2 {
-                font-size: 22px;
-            }
-            & > h5 {
-                font-size: 14px;
+[data-mobile="true"] {
+    .wrapper {
+        background: rgba(0, 0, 0, 0.27);
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+        & > section {
+            border-radius: 2rem 2rem 0 0;
+            max-width: 100%;
+
+            & > header {
+                & > h3 {
+                    padding-right: calc(2.75rem + 0.625rem);
+                }
             }
         }
     }

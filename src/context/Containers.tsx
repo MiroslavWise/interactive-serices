@@ -42,6 +42,7 @@ import {
     useReciprocalExchange,
     useBalloonOffer,
     useBalloonDiscussion,
+    useAddTestimonials,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -49,8 +50,9 @@ export const Containers = () => {
     const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
     const visibleBalloonOffer = useBalloonOffer(({ visible }) => visible)
-    const visibleBalloonDiscussion = useBalloonDiscussion(({ visible }) => visible)
+    const visibleTestimonials = useAddTestimonials(({ visible }) => visible)
     const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
+    const visibleBalloonDiscussion = useBalloonDiscussion(({ visible }) => visible)
     const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
     const visibleReciprocalExchange = useReciprocalExchange(({ visible }) => visible)
     const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
@@ -87,12 +89,12 @@ export const Containers = () => {
                     <Onboarding />
                     <ComplaintModal />
                     <NewServicesBanner />
-                    <CompletionTransaction />
                     <NewServiceBarterRequests />
                     {visibleFriends && <DroverFriends />}
                     {isMobile && <ExchangesModalMobile />}
                     {isVisible && <CreateNewOptionModal />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}
+                    {visibleTestimonials && <CompletionTransaction />}
                     {visibleReciprocalExchange && <ReciprocalExchange />}
                     {isMobile && visibleNotifications && <NotificationsMobile />}
                 </>

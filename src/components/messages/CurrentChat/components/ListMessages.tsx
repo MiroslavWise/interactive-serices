@@ -17,12 +17,10 @@ export const ListMessages = memo(function ListMessages({
     messages,
     dataUser,
     idBarter,
-    refetchThread,
 }: {
     messages: IResponseMessage[]
     dataUser: IUserResponse
     idBarter: number
-    refetchThread: () => Promise<any>
 }) {
     const { join } = useJoinMessage()
     const { attributes } = useAuth(({ imageProfile }) => imageProfile) ?? {}
@@ -70,7 +68,7 @@ export const ListMessages = memo(function ListMessages({
 
     return (
         <ul ref={ulChat}>
-            {!!idBarter && <NoticeBarter idBarter={idBarter!} userData={dataUser} refetchThread={refetchThread} />}
+            {!!idBarter && <NoticeBarter idBarter={idBarter!} userData={dataUser} />}
             {messagesJoin}
             <div data-null />
         </ul>

@@ -12,15 +12,15 @@ export const ItemCategory = memo(function ItemCategory(
     const [expand, setExpand] = useState(false)
 
     return (
-        <a
-            data-active={idsActive?.some((item) => main?.id === item) || subs.some((item) => idsActive?.some((_) => _ === item?.id))}
-            data-expand={expand}
-        >
-            <div data-main>
+        <a data-active={idsActive?.includes(main?.id) || subs.some((item) => idsActive?.some((_) => _ === item?.id))} data-expand={expand}>
+            <div data-main data-disabled={idsActive?.length >= 5 && !idsActive?.includes(main?.id)}>
                 <div
-                    data-check={idsActive?.some((item) => main?.id === item)}
+                    data-check={idsActive?.includes(main?.id)}
                     onClick={(event) => {
                         event.stopPropagation()
+                        if (idsActive?.length >= 5 && !idsActive?.includes(main?.id)) {
+                            return
+                        }
                         if (idsActive?.includes(main.id)) {
                             setValue(
                                 "categories",
@@ -68,6 +68,9 @@ export const ItemCategory = memo(function ItemCategory(
                         data-active={idsActive.includes(item?.id!)}
                         onClick={(event) => {
                             event.stopPropagation()
+                            if (idsActive?.length >= 5 && !idsActive.includes(item?.id!)) {
+                                return
+                            }
                             if (idsActive?.includes(item.id)) {
                                 setValue(
                                     "categories",
@@ -77,6 +80,7 @@ export const ItemCategory = memo(function ItemCategory(
                                 setValue("categories", [...idsActive, item.id])
                             }
                         }}
+                        data-disabled={idsActive?.length >= 5 && !idsActive.includes(item?.id!)}
                     >
                         <div data-check>{idsActive.includes(item?.id!) ? <img src="/svg/check-white.svg" alt="+" /> : null}</div>
                         <span>

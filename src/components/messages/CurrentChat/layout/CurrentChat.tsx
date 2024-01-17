@@ -31,7 +31,7 @@ export const CurrentChat = () => {
     const [stateMessages, setStateMessages] = useState<(IResponseMessage & { temporary?: boolean })[]>([])
     const { refetchCountMessages } = useCountMessagesNotReading()
 
-    const { data, refetch: refetchThreads } = useQuery({
+    const { data } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
         queryKey: ["threads", `user=${userId}`, `id=${idThread}`],
         refetchOnMount: false,
@@ -190,12 +190,7 @@ export const CurrentChat = () => {
                     </button>
                 </header>
             )}
-            <ListMessages
-                messages={stateMessages}
-                dataUser={dataUser?.res! || userDataIdMassage!}
-                idBarter={data?.res?.barterId!}
-                refetchThread={refetchThreads}
-            />
+            <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
             <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
             {isMobile && <PopupMenu dataUser={dataUser?.res} />}
         </div>

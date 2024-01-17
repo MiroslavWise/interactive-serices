@@ -2,31 +2,24 @@
 
 import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useState, useMemo } from "react"
+import { memo, useState, useMemo, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
+import type { IBarterResponse } from "@/services/barters/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
 
 import { Button, GeoTagging } from "@/components/common"
 
-import { daysAgo, usePush } from "@/helpers"
+import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
 import { useWebSocket } from "@/context"
 import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { serviceTestimonials } from "@/services/testimonials"
-import { useAuth, useOffersCategories, dispatchCompletion } from "@/store/hooks"
+import { useAuth, useOffersCategories, dispatchAddTestimonials } from "@/store/hooks"
 
 import styles from "./styles/notice-barter.module.scss"
 
-export const NoticeBarter = memo(function NoticeBarter({
-    idBarter,
-    userData,
-    refetchThread,
-}: {
-    idBarter: number
-    userData?: IUserResponse | null
-    refetchThread: () => Promise<any>
-}) {
+export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: { idBarter: number; userData?: IUserResponse | null }) {
     const threadId = useSearchParams().get("thread")
     const user = useAuth(({ user }) => user)
     const userId = useAuth(({ userId }) => userId)
@@ -34,7 +27,9 @@ export const NoticeBarter = memo(function NoticeBarter({
     const [loading, setLoading] = useState(false)
     const { socket } = useWebSocket()
     const { handleReplace } = usePush()
-    const { data, refetch } = useQuery({
+    const [stateBarter, setStateBarter] = useState<IBarterResponse | null>(null)
+    const { refetchCountMessages } = useCountMessagesNotReading()
+    const { data } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
         queryKey: ["barters", `id=${idBarter}`],
         enabled: !!idBarter,
@@ -43,7 +38,13 @@ export const NoticeBarter = memo(function NoticeBarter({
     })
 
     const { res } = data ?? {}
-    const { status, consigner, initiator } = res ?? {}
+    const { status, consigner, initiator } = stateBarter ?? {}
+
+    useEffect(() => {
+        if (!!res) {
+            setStateBarter(res)
+        }
+    }, [res])
 
     const offerId: number | null = useMemo(() => {
         if (!res || !userId) {
@@ -56,7 +57,7 @@ export const NoticeBarter = memo(function NoticeBarter({
         }
     }, [res, userId])
 
-    const { data: dataTestimonials, refetch: refetchTestimonials } = useQuery({
+    const { data: dataTestimonials } = useQuery({
         queryFn: () =>
             serviceTestimonials.get({
                 target: offerId!,
@@ -67,15 +68,10 @@ export const NoticeBarter = memo(function NoticeBarter({
         enabled: ["executed", "destroyed", "completed"]?.includes(res?.status!) && !!offerId,
     })
 
-    const isMeInitiator = useMemo(() => {
-        return userId && data?.res?.initiator?.userId === userId
-    }, [res, userId])
-
     const infoOffers = useMemo(() => {
         if (!categories.length || !consigner || !initiator) {
             return null
         }
-
         return {
             initiator: categories?.find((item) => Number(item.id) === Number(initiator?.categoryId)),
             consigner: categories?.find((item) => Number(item.id) === Number(consigner?.categoryId)),
@@ -83,25 +79,20 @@ export const NoticeBarter = memo(function NoticeBarter({
     }, [categories, consigner, initiator])
 
     const geo = useMemo(() => {
-        return data?.res?.consigner?.addresses?.[0]
+        return userData?.addresses?.find((item) => item?.addressType === "main")
     }, [res])
 
     const isFeedback = useMemo(() => {
-        return dataTestimonials?.res?.some((item) => item?.userId === userId && item?.barterId === idBarter)
+        return dataTestimonials?.res?.find((item) => item?.userId === userId && item?.barterId === idBarter)
     }, [userId, idBarter, dataTestimonials?.res])
 
     function handleCompleted() {
-        console.log("%c data: ", "color: #ff0", {
-            dataBarter: data?.res!,
-            dataUser: userData!,
-        })
-
-        dispatchCompletion({
+        dispatchAddTestimonials({
             visible: true,
-            dataBarter: data?.res!,
-            dataUser: userData!,
+            barter: data?.res!,
+            user: userData!,
             threadId: Number(threadId),
-            cd: refetchThread,
+            testimonials: dataTestimonials?.res!,
         })
     }
 
@@ -132,9 +123,11 @@ export const NoticeBarter = memo(function NoticeBarter({
                         })
                     }
                     flushSync(() => {
-                        refetch().finally(() => {
-                            setLoading(false)
-                        })
+                        setStateBarter((prev) => ({
+                            ...prev!,
+                            status: "executed",
+                        }))
+                        setLoading(false)
                     })
                 })
         }
@@ -153,7 +146,9 @@ export const NoticeBarter = memo(function NoticeBarter({
                 ),
                 serviceThreads.patch({ enabled: false }, Number(threadId)),
             ]).then(() => {
-                handleReplace("/messages")
+                refetchCountMessages().then(() => {
+                    handleReplace("/messages")
+                })
             })
         }
     }
@@ -168,10 +163,10 @@ export const NoticeBarter = memo(function NoticeBarter({
                         </div>
                         <time>{daysAgo(res?.created)}</time>
                     </div>
-                    {geo ? <GeoTagging size={"1rem"} fontSize={"0.75rem"} location={geo?.additional} /> : null}
+                    {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
                 </div>
                 <p>
-                    {["executed", "initiated"].includes(status!) ? (
+                    {["executed", "initiated", "completed"].includes(status!) ? (
                         <>
                             {initiator?.userId === userId ? (
                                 <>
@@ -183,6 +178,7 @@ export const NoticeBarter = memo(function NoticeBarter({
                                     <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
                                     <span>{infoOffers?.consigner?.title?.toLowerCase()}</span> взамен на{" "}
                                     <span>{infoOffers?.initiator?.title?.toLowerCase()}</span>
+                                    {status === "completed" ? "(обмен завершён)" : ""}
                                 </>
                             ) : null}
                         </>
@@ -213,6 +209,17 @@ export const NoticeBarter = memo(function NoticeBarter({
                             }}
                         />
                     </>
+                ) : ["completed", "executed"].includes(status!) && !isFeedback && dataTestimonials?.ok ? (
+                    <Button
+                        type="button"
+                        typeButton="white"
+                        label="Оставить отзыв"
+                        loading={loading}
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            handleCompleted()
+                        }}
+                    />
                 ) : null}
             </footer>
         </section>
