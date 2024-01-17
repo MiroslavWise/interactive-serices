@@ -204,9 +204,17 @@
                 transform: translateY(-50%);
                 right: 1rem;
 
+                transition: var(--transition);
+                transition-property: filter, opacity;
+
                 & > img {
                     width: 1.25rem;
                     height: 1.25rem;
+                }
+
+                &:disabled {
+                    filter: grayscale(0.8);
+                    opacity: 0.8;
                 }
             }
         }

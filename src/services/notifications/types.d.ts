@@ -1,11 +1,13 @@
 import { IBarterResponse } from "../barters/types"
+import { TTypeStatusBarter } from "../file-upload/types"
 import type { IReturnData, TOrder } from "../types/general"
 
-export type TTypeOperation = "create"
+export type TTypeOperation = "create" | "completion-survey" | "completion-yes" | "completion-no"
 export type TTypeProviderNotifications = "barter"
 
 export interface IPostNotification {
     enabled: boolean
+    operation?: TTypeOperation
 }
 
 export type TPatchNotification = Partial<IPostNotification>
