@@ -1,5 +1,6 @@
 "use client"
 
+import { flushSync } from "react-dom"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
@@ -8,23 +9,17 @@ import { useQuery } from "@tanstack/react-query"
 import type { IValuesForm } from "./types/types"
 
 import { Button, ButtonClose } from "@/components/common"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
-import { serviceBarters } from "@/services/barters"
-import { serviceThreads } from "@/services/threads"
-import { useToast } from "@/helpers/hooks/useToast"
-import { serviceTestimonials } from "@/services/testimonials"
-import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store/hooks"
+import { serviceTestimonials, serviceThreads, serviceBarters } from "@/services"
+import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { flushSync } from "react-dom"
 
 export const CompletionTransaction = () => {
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
-    const { on } = useToast()
     const {
         register,
         formState: { errors },
@@ -83,40 +78,43 @@ export const CompletionTransaction = () => {
     }, [barter?.id, testimonials])
 
     function submit(values: IValuesForm) {
-        const idOffer = barter?.initiator?.userId === userId ? barter?.consignedId : barter?.initialId
-
-        Promise.all([
-            serviceTestimonials.post({
-                targetId: idOffer!,
-                provider: "offer",
-                barterId: barter?.id!,
-                rating: values.rating?.toString(),
-                message: values.message,
-                status: "published",
-                enabled: true,
-            }),
-            isLastFeedback ? serviceThreads.patch({ enabled: false }, threadId!) : Promise.resolve({ ok: true }),
-            serviceBarters.patch({ updatedById: userId!, status: "completed" }, barter?.id!),
-        ]).then(async (responses) => {
-            if (responses?.some((item) => item.ok)) {
-                const message = isLastFeedback ? "last" : "not-last"
-                socket?.emit("barter", {
-                    receiverIds: [user?.id!],
-                    message: message,
-                    barterId: barter?.id,
-                    emitterId: userId!,
-                    status: "completed",
-                    threadId: threadId!,
-                    created: new Date(),
-                })
-                flushSync(async () => {
-                    await refetchBarters()
-                    await refetchTestimonials()
-                    await refetchThread()
-                    dispatchAddTestimonials({ visible: false })
-                })
-            }
-        })
+        if (!loading) {
+            setLoading(true)
+            const idOffer = barter?.initiator?.userId === userId ? barter?.consignedId : barter?.initialId
+            Promise.all([
+                serviceTestimonials.post({
+                    targetId: idOffer!,
+                    provider: "offer",
+                    barterId: barter?.id!,
+                    rating: values.rating?.toString(),
+                    message: values.message,
+                    status: "published",
+                    enabled: true,
+                }),
+                isLastFeedback ? serviceThreads.patch({ enabled: false }, threadId!) : Promise.resolve({ ok: true }),
+                serviceBarters.patch({ updatedById: userId!, status: "completed" }, barter?.id!),
+            ]).then(async (responses) => {
+                if (responses?.some((item) => item.ok)) {
+                    const message = isLastFeedback ? "last" : "not-last"
+                    socket?.emit("barter", {
+                        receiverIds: [user?.id!],
+                        message: message,
+                        barterId: barter?.id,
+                        emitterId: userId!,
+                        status: "completed",
+                        threadId: threadId!,
+                        created: new Date(),
+                    })
+                    flushSync(async () => {
+                        await refetchBarters()
+                        await refetchTestimonials()
+                        await refetchThread()
+                        setLoading(false)
+                        dispatchAddTestimonials({ visible: false })
+                    })
+                }
+            })
+        }
     }
 
     const onSubmit = handleSubmit(submit)
@@ -129,7 +127,7 @@ export const CompletionTransaction = () => {
                     <h3>Отзыв об обмене с {user?.profile?.firstName || " "}</h3>
                 </header>
                 <form onSubmit={onSubmit}>
-                    <div data-text>
+                    <div data-text data-limit={watch("message")?.length > 200}>
                         <textarea
                             {...register("message", {
                                 required: true,
@@ -141,9 +139,11 @@ export const CompletionTransaction = () => {
                                 }
                             }}
                             placeholder="Напишите свой отзыв"
-                            maxLength={512}
+                            maxLength={240}
                         />
-                        <sup>{watch("message")?.length || 0}/512</sup>
+                        <sup>
+                            <span>{watch("message")?.length || 0}</span>/240
+                        </sup>
                     </div>
                     <div data-groups>
                         <div data-rating {...register("rating", { required: false })}>

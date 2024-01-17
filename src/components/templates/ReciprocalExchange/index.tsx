@@ -14,13 +14,10 @@ import { Button, ButtonClose } from "@/components/common"
 import { ItemImages } from "../Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
-import { serviceUsers } from "@/services/users"
-import { serviceOffers } from "@/services/offers"
-import { serviceBarters } from "@/services/barters"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
-import { serviceNotifications } from "@/services/notifications"
+import { serviceNotifications, serviceBarters, serviceOffers, serviceUsers } from "@/services"
 import {
     useReciprocalExchange,
     dispatchReciprocalExchange,
@@ -28,7 +25,7 @@ import {
     useAuth,
     dispatchBallonOffer,
     dispatchReciprocalExchangeCollapse,
-} from "@/store/hooks"
+} from "@/store"
 import { useWebSocket } from "@/context"
 
 import styles from "./styles/style.module.scss"
@@ -112,14 +109,12 @@ export const ReciprocalExchange = () => {
             }
 
             Promise.all([
-                !values.my_offer && values.description
-                    ? serviceOffers.post(dataNewOffer)
-                    : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
+                !values.my_offer && values.description ? serviceOffers.post(dataNewOffer) : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
             ]).then((response: [IReturnData<IResponseCreate>]) => {
                 if (response?.[0]?.ok) {
-                    const title = `-${response[0]?.res?.id!}:initiatorUserId:${userId}:consignedUserId:${
-                        offer?.userId
-                    }:time:${dayjs().format("HH:mm:ss_DD.MM.YY")}`
+                    const title = `-${response[0]?.res?.id!}:initiatorUserId:${userId}:consignedUserId:${offer?.userId}:time:${dayjs().format(
+                        "HH:mm:ss_DD.MM.YY",
+                    )}`
 
                     const dataBarter: IPostDataBarter = {
                         provider: "barter",
@@ -134,9 +129,7 @@ export const ReciprocalExchange = () => {
                     serviceBarters.post(dataBarter).then((response) => {
                         console.log("%c ---OFFERS BARTERS---", "color: cyan", response)
                         if (response?.ok) {
-                            const message = `${profile?.firstName || ""} ${
-                                profile?.lastName || ""
-                            } получила ваше предложение. Мы сообщим вам об её ответе.`
+                            const message = `${profile?.firstName || ""} ${profile?.lastName || ""} получила ваше предложение. Мы сообщим вам об её ответе.`
                             flushSync(() => {
                                 socketWith(response?.res?.id!)
                                 refetch()
@@ -213,11 +206,10 @@ export const ReciprocalExchange = () => {
                             <div data-selection>
                                 <fieldset>
                                     <p>
-                                        Это категории, интересные для{" "}
-                                        <span>{profile?.firstName || profile?.lastName || "Пользователя"}</span>. Выберите категорию для
-                                        обмена, по которой у вас есть предложение
+                                        Это категории, интересные для <span>{profile?.firstName || profile?.lastName || "Пользователя"}</span>. Выберите
+                                        категорию для обмена, по которой у вас есть предложение
                                     </p>
-                                    <div data-wants {...register("category", { required: true })}>
+                                    <div data-wants {...register("category")}>
                                         {categoriesWants?.map((item) => (
                                             <a
                                                 key={`::${item?.id}::want::`}
@@ -257,9 +249,7 @@ export const ReciprocalExchange = () => {
                                                     />
                                                 </div>
                                                 <span>{item.title}</span>
-                                                {watch("category") === item.id ? (
-                                                    <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} />
-                                                ) : null}
+                                                {watch("category") === item.id ? <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} /> : null}
                                             </a>
                                         ))}
                                     </div>

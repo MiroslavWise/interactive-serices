@@ -1,7 +1,7 @@
 import { type SyntheticEvent, memo } from "react"
 
 import { IconCategory } from "@/lib/icon-set"
-import { useOffersCategories, useReciprocalExchange } from "@/store/hooks"
+import { useOffersCategories, useReciprocalExchange } from "@/store"
 
 import styles from "../styles/offer.module.scss"
 

@@ -5,7 +5,6 @@ import type { IUseWelcomeModal } from "../types/useWelcomeModal"
 import type { IUseUpdateProfileState } from "../types/useUpdateProfile"
 import type { IUsePopupMenuChat } from "../types/usePopupMenuChat"
 import type { IUseVisibleExchanges } from "../types/useVisibleExchanges"
-import type { IUseVisibleModalBarter } from "../types/useVisibleModalBarter"
 
 export const useVisibleBannerNewServicesState = create<IUseVisibleBannerNewServicesState>((set, get) => ({
     isVisibleNewServicesBanner: false,

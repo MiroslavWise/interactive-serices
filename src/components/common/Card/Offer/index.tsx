@@ -3,6 +3,7 @@
 import dayjs from "dayjs"
 import Link from "next/link"
 import { useMemo } from "react"
+import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TCardOffer } from "./types"
@@ -10,13 +11,14 @@ import type { TCardOffer } from "./types"
 import { BlockBarter } from "./components/BlockBarter"
 import { BlockTitle } from "./components/BlockTitle"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth, useVisibleExchanges } from "@/store/hooks"
 import { serviceUsers } from "@/services/users"
 
 import styles from "./style.module.scss"
 
 export const CardOffer: TCardOffer = ({ id, thread, timestamp, status, initiator, consigner }) => {
     const myUserId = useAuth(({ userId }) => userId)
+    const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
 
     const idUser = useMemo(() => {
         if (!initiator || !consigner) return null
@@ -43,6 +45,12 @@ export const CardOffer: TCardOffer = ({ id, thread, timestamp, status, initiator
                         href={{
                             pathname: "/messages",
                             query: !!thread?.id ? { thread: thread?.id } : { "barter-id": `${id}-${idUser}` },
+                        }}
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            if (isMobile) {
+                                dispatchExchanges({ visible: false })
+                            }
                         }}
                     >
                         <img src="/svg/message-dots-circle.svg" alt="dots" width={16} height={16} />

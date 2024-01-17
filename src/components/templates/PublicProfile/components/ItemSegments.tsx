@@ -31,13 +31,7 @@ export const ItemSegments: TItemSegments = ({ activeSegment, setActiveSegment })
 
     return (
         <section data-segments data-sticky={isSticky}>
-            <Segments
-                type={systemTheme === "dark" ? "primary" : "optional-1"}
-                VALUES={VALUES}
-                active={activeSegment}
-                setActive={setActiveSegment}
-                isBorder
-            />
+            <Segments type="primary" VALUES={VALUES} active={activeSegment} setActive={setActiveSegment} isBorder />
         </section>
     )
 }

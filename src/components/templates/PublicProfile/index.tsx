@@ -8,15 +8,15 @@ import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { Content } from "./components/Content"
 import { BlockDots } from "./components/BlockDots"
+import { ButtonClose } from "@/components/common"
 import { ItemsBadges } from "./components/ItemsBadges"
 import { ItemSegments } from "./components/ItemSegments"
-import { ButtonClose } from "@/components/common/Buttons"
 import { InfoContainerProfile } from "./components/InfoContainerProfile"
 
 import { cx } from "@/lib/cx"
-import { serviceUsers } from "@/services/users"
+import { serviceUsers } from "@/services"
 import { VALUES } from "./constants/SEGMENTS"
-import { dispatchProfilePublic, useProfilePublic } from "@/store/hooks"
+import { dispatchProfilePublic, useProfilePublic } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
