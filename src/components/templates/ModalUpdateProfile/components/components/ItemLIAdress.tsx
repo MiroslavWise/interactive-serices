@@ -54,7 +54,6 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     }
 
     function onValueFunc() {
-        console.log("debounce: ", text)
         if (text.length > 2 && activeList) {
             getGeocodeSearch(text)
                 .then((response) => setValues(response))
@@ -116,7 +115,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                           ),
                       )
                 : [],
-        ).then((responses) => {
+        ).then(() => {
             serviceAddresses.post(value).then((response) => {
                 console.log("response address: ", response)
                 setActiveList(false)

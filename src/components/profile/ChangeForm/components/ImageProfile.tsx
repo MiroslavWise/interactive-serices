@@ -31,18 +31,19 @@ export const ImageProfile = memo(function ImageProfile({
 
     return (
         <div className={styles.container}>
-            <div data-img>
+            <div data-img={!!file.string || !!image}>
                 {file.string ? (
                     <ImageStatic src={file.string} alt="avatar" width={80} height={80} />
                 ) : image ? (
                     <NextImageMotion src={image} alt="avatar" width={80} height={80} />
-                ) : null}
+                ) : (
+                    <img src="/svg/profile-null.svg" alt="avatar" height={48} width={48} />
+                )}
             </div>
             <a>
                 <input type="file" onChange={handleImageChange} accept=".jpg, .jpeg, .png, image/*" />
                 Изменить
             </a>
-            <a data-red>Удалить</a>
         </div>
     )
 })

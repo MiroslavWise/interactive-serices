@@ -48,6 +48,7 @@
                     font-style: normal;
                     font-weight: 400;
                     line-height: normal;
+                    white-space: nowrap;
                 }
             }
 
@@ -87,6 +88,12 @@
 
 [data-mobile="true"] {
     .wrapper {
+        gap: 0.75rem;
+        border-radius: 0rem;
+        padding: 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+
         & > article {
         }
 

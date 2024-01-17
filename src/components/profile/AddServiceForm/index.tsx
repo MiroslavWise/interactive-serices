@@ -104,6 +104,9 @@ export const AddServiceForm = () => {
 
     return (
         <form className={styles.form} onSubmit={onSubmit}>
+            <span>
+                Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.
+            </span>
             <div data-search>
                 <input {...register("search-categories")} placeholder="Найти услугу" type="text" list="search" autoComplete="off" />
                 <img src="/svg/search-md.svg" alt="search" width={20} height={20} data-search />

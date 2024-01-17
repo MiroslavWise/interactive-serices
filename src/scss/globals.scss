@@ -136,10 +136,11 @@ input[type="text"] {
     overflow: hidden;
 
     transition: var(--transition);
-    transition: border-width;
+    transition: border-color;
 
-    &:focus {
-        border-width: 1.5px;
+    &:focus,
+    &:hover {
+        border-color: var(--primary-500);
     }
 
     &::placeholder {
