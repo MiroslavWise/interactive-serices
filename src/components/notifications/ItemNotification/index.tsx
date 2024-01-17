@@ -11,7 +11,7 @@ import { ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import { serviceUsers } from "@/services/users"
-import { useAuth, dispatchVisibleNotifications } from "@/store/hooks"
+import { useAuth, dispatchVisibleNotifications } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -107,6 +107,10 @@ export const ItemNotification = (props: IResponseNotifications & { refetch: () =
                             typeButton="fill-primary"
                             label="Перейти в чат"
                             href={{ pathname: `/messages`, query: { "barter-id": `${data?.id!}-${user}` } }}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                dispatchVisibleNotifications(false)
+                            }}
                         />
                     )
                 }

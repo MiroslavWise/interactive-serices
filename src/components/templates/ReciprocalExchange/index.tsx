@@ -32,6 +32,7 @@ import {
 import { useWebSocket } from "@/context"
 
 import styles from "./styles/style.module.scss"
+import dayjs from "dayjs"
 
 export const ReciprocalExchange = () => {
     const [loading, setLoading] = useState(false)
@@ -116,14 +117,18 @@ export const ReciprocalExchange = () => {
                     : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
             ]).then((response: [IReturnData<IResponseCreate>]) => {
                 if (response?.[0]?.ok) {
+                    const title = `-${response[0]?.res?.id!}:initiatorUserId:${userId}:consignedUserId:${
+                        offer?.userId
+                    }:time:${dayjs().format("HH:mm:ss_DD.MM.YY")}`
+
                     const dataBarter: IPostDataBarter = {
                         provider: "barter",
-                        title: offer?.title!,
-                        initialId: response[0]?.res?.id!,
-                        consignedId: offer?.id!,
+                        title: title,
+                        initialId: response[0]?.res?.id!, //number
+                        consignedId: offer?.id!, //number
                         status: "initiated",
                         enabled: true,
-                        addresses: offer?.addresses?.map((item) => item.id),
+                        addresses: offer?.addresses?.map((item) => item.id), //[number]
                     }
 
                     serviceBarters.post(dataBarter).then((response) => {

@@ -172,17 +172,7 @@ export const CurrentChat = () => {
                         <img src="/svg/chevron-left.svg" alt="chevron-left" width={24} height={24} />
                     </Link>
                     <article>
-                        {conversationPartner?.photo ? (
-                            <NextImageMotion
-                                src={conversationPartner?.photo!}
-                                alt="avatar"
-                                width={28}
-                                height={28}
-                                className={styles.avatar}
-                            />
-                        ) : (
-                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={28} height={28} className={styles.avatar} />
-                        )}
+                        <NextImageMotion src={conversationPartner?.photo!} alt="avatar" width={28} height={28} className={styles.avatar} />
                         <h5>{conversationPartner?.name!}</h5>
                     </article>
                     <button onClick={() => setIsVisible()}>

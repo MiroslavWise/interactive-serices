@@ -167,7 +167,20 @@
                         filter: grayscale(100%);
                     }
                     & > span {
-                        filter: grayscale(100%);
+                        [data-img] {
+                            opacity: 0.2;
+                        }
+                        background: var(--gray-200);
+                        & > p {
+                            color: var(--gray-500);
+                        }
+                        &:hover {
+                            background: var(--gray-200);
+
+                            & > [data-img-expand] {
+                                filter: none;
+                            }
+                        }
                     }
                 }
             }
@@ -190,7 +203,7 @@
                     align-items: center;
                     gap: 1.25rem;
 
-                    & > [data-img] {
+                    [data-img] {
                         padding: 0;
                         width: 1.5rem;
                         height: 1.5rem;
@@ -219,7 +232,10 @@
                         }
 
                         & > span {
-                            filter: grayscale(100%);
+                            & > [data-img] {
+                                opacity: 0.2;
+                            }
+                            color: var(--gray-500);
                             cursor: no-drop !important;
                         }
                     }
