@@ -2,8 +2,8 @@
 
 import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useState, useMemo, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { memo, useState, useMemo, useEffect } from "react"
 
 import type { IBarterResponse } from "@/services/barters/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
@@ -187,9 +187,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                                 </>
                             ) : consigner?.userId === userId ? (
                                 <>
-                                    <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
-                                    <span>{infoOffers?.consigner?.title?.toLowerCase()}</span> взамен на{" "}
-                                    <span>{infoOffers?.initiator?.title?.toLowerCase()}</span>
+                                    <span>{userData?.profile?.firstName}</span> предлагает вам <span>{infoOffers?.consigner?.title?.toLowerCase()}</span> взамен
+                                    на <span>{infoOffers?.initiator?.title?.toLowerCase()}</span>
                                     {status === "completed" ? "(обмен завершён)" : ""}
                                 </>
                             ) : null}
@@ -221,7 +220,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                             }}
                         />
                     </>
-                ) : ["completed", "executed"].includes(status!) && !isFeedback && dataTestimonials?.ok ? (
+                ) : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
                     <Button
                         type="button"
                         typeButton="white"
