@@ -8,6 +8,7 @@ import { signOutAction, setUserAction, setTokenAction, changeAuthAction } from "
 import { AuthService } from "@/services/auth/authService"
 import { serviceProfile } from "@/services/profile"
 import { IResponseLoginNot2fa } from "@/services/auth/types/authService"
+import { queryClient } from "@/context"
 
 export const initialStateAuth: IAuthState = {
     email: undefined,
@@ -41,23 +42,28 @@ export const useAuth = create(
                 signOutAction(set, initialStateAuth)
             },
             updateProfile() {
-                serviceProfile.getMe().then((response) => {
-                    if (response?.ok) {
-                        if (!!response?.res) {
-                            const data = response?.res
-                            set({
-                                user: {
-                                    firstName: data.firstName,
-                                    lastName: data?.lastName,
-                                    username: data?.username,
-                                    birthdate: data?.birthdate,
-                                    about: data?.about,
-                                    enabled: true,
-                                },
-                            })
+                queryClient
+                    .fetchQuery({
+                        queryFn: () => serviceProfile.getUserId(get().userId!),
+                        queryKey: ["profile", get().userId!],
+                    })
+                    .then((response) => {
+                        if (response?.ok) {
+                            if (!!response?.res) {
+                                const data = response?.res
+                                set({
+                                    user: {
+                                        firstName: data.firstName,
+                                        lastName: data?.lastName,
+                                        username: data?.username,
+                                        birthdate: data?.birthdate,
+                                        about: data?.about,
+                                        enabled: true,
+                                    },
+                                })
+                            }
                         }
-                    }
-                })
+                    })
             },
 
             refresh() {

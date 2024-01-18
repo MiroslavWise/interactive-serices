@@ -33,16 +33,9 @@ export interface IProfileResponse {
 
 export interface IServiceProfile {
     route: string
-    get(value: {
-        [key: string]: string | number
-    }): Promise<IReturnData<IGetProfileIdResponse[]>>
-    getMe(): Promise<IReturnData<IGetProfileIdResponse>>
-    getId(id: string | number): Promise<IReturnData<IGetProfileIdResponse>>
+    get(value: { [key: string]: string | number }): Promise<IReturnData<IGetProfileIdResponse>>
     getUserId(id: number | string): Promise<IReturnData<IGetProfileIdResponse>>
     post(value: IPostProfileData): Promise<IReturnData<IProfileResponse>>
-    patch(
-        value: IPatchProfileData,
-        id: string | number,
-    ): Promise<IReturnData<IPatchProfileResponse>>
+    patch(value: IPatchProfileData, id: string | number): Promise<IReturnData<IPatchProfileResponse>>
     delete(id: string | number): Promise<IReturnData<IProfileResponse>>
 }

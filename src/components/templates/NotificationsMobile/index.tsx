@@ -17,7 +17,7 @@ export function NotificationsMobile() {
     const userId = useAuth(({ userId }) => userId)
     const [status, setStatus] = useState<TTypeWaiting>("all")
 
-    const { data: dataNotifications, refetch } = useQuery({
+    const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", `user=${userId}`],
         enabled: !!userId,
@@ -53,16 +53,13 @@ export function NotificationsMobile() {
                 {maps.length ? (
                     <ul>
                         {maps.map((item) => (
-                            <ItemNotification key={`::${item.id}::notification::`} {...item} refetch={refetch} />
+                            <ItemNotification key={`::${item.id}::notification::`} {...item} />
                         ))}
                     </ul>
                 ) : (
                     <article>
                         <h3>У вас пока нет уведомлений</h3>
-                        <p>
-                            Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое
-                            другое.
-                        </p>
+                        <p>Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое.</p>
                     </article>
                 )}
             </section>
