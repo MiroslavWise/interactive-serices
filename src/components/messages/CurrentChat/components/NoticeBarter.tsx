@@ -2,8 +2,8 @@
 
 import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useState, useMemo, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { memo, useState, useMemo, useEffect } from "react"
 
 import type { IBarterResponse } from "@/services/barters/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
@@ -220,7 +220,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                             }}
                         />
                     </>
-                ) : "completed" === status && !isFeedback && dataTestimonials?.ok ? (
+                ) : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
                     <Button
                         type="button"
                         typeButton="white"
