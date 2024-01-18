@@ -187,9 +187,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                                 </>
                             ) : consigner?.userId === userId ? (
                                 <>
-                                    <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
-                                    <span>{infoOffers?.consigner?.title?.toLowerCase()}</span> взамен на{" "}
-                                    <span>{infoOffers?.initiator?.title?.toLowerCase()}</span>
+                                    <span>{userData?.profile?.firstName}</span> предлагает вам <span>{infoOffers?.consigner?.title?.toLowerCase()}</span> взамен
+                                    на <span>{infoOffers?.initiator?.title?.toLowerCase()}</span>
                                     {status === "completed" ? "(обмен завершён)" : ""}
                                 </>
                             ) : null}
@@ -221,7 +220,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                             }}
                         />
                     </>
-                ) : ["completed", "executed"].includes(status!) && !isFeedback && dataTestimonials?.ok ? (
+                ) : "completed" === status && !isFeedback && dataTestimonials?.ok ? (
                     <Button
                         type="button"
                         typeButton="white"
