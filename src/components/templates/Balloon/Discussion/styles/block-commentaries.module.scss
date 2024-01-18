@@ -286,7 +286,7 @@
     .container {
         & > [data-header] {
             & > [data-buttons] {
-                &[data-comments] {
+                & > [data-comments] {
                     & > [data-img] {
                         & > img {
                             filter: invert(1);
