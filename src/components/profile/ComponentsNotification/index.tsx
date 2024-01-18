@@ -11,7 +11,7 @@ import type { TComponentsNotification } from "./types/types"
 import { ButtonCircleGradient, ButtonDefault } from "@/components/common/Buttons"
 
 import { usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceNotifications } from "@/services/notifications"
 import { useAuth, dispatchVisibleNotifications } from "@/store/hooks"
 
@@ -32,7 +32,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     }, [userId, data])
 
     const { data: userData } = useQuery({
-        queryFn: () => serviceUsers.getId(getUser!),
+        queryFn: () => serviceUser.getId(getUser!),
         queryKey: ["user", getUser!],
         enabled: !!getUser,
     })

@@ -8,7 +8,7 @@ import type { TCardReview } from "./types"
 import { Rate } from "@/components/common/Rate"
 
 import { usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 
 import styles from "./style.module.scss"
 
@@ -17,7 +17,7 @@ export const CardReview: TCardReview = (props) => {
     const { id, userId, rating, message, updated } = props
 
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", id],
         enabled: !!id && !!userId,
     })

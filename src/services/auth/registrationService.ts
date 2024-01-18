@@ -1,11 +1,11 @@
 import type { IRegistrationService, IResponseDataRegistration } from "./types/registrationService"
 
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const RegistrationService: IRegistrationService = {
     async registration(data) {
-        return serviceUsers.post(data).then((response) => {
+        return serviceUser.post(data).then((response) => {
             if (response.ok) {
                 return {
                     ok: response.ok,

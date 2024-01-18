@@ -7,7 +7,7 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { useAuth } from "@/store/hooks"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceProfile } from "@/services/profile"
 
 import styles from "./styles/style.module.scss"
@@ -16,7 +16,7 @@ export const HeaderBlock: THeaderBlock = () => {
     const userId = useAuth(({ userId }) => userId)
 
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", userId],
         enabled: !!userId,
     })

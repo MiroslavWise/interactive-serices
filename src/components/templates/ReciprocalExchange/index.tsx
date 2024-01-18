@@ -17,7 +17,7 @@ import { cx } from "@/lib/cx"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
-import { serviceNotifications, serviceBarters, serviceOffers, serviceUsers } from "@/services"
+import { serviceNotifications, serviceBarters, serviceOffers, serviceUser } from "@/services"
 import {
     useReciprocalExchange,
     dispatchReciprocalExchange,
@@ -60,7 +60,7 @@ export const ReciprocalExchange = () => {
     })
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(offer?.userId!),
+        queryFn: () => serviceUser.getId(offer?.userId!),
         queryKey: ["user", offer?.userId!],
         enabled: !!offer?.userId,
         refetchOnMount: false,

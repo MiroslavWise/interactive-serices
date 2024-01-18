@@ -4,7 +4,7 @@ import { useMemo, useState } from "react"
 import { Button } from "@/components/common"
 
 import { IconCategory } from "@/lib/icon-set"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { useOutsideClickEvent } from "@/helpers"
 import { useAuth, useOffersCategories } from "@/store/hooks"
 
@@ -18,7 +18,7 @@ export function ItemsCategories() {
     const [isList, setIsList, ref] = useOutsideClickEvent()
 
     const { data, refetch } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", userId!],
         enabled: !!userId,
     })
@@ -28,7 +28,7 @@ export function ItemsCategories() {
     async function deleteCategory(id: number) {
         const ids = categoriesUser.filter((item) => item.id !== id).map((item) => item.id)
 
-        return serviceUsers.patch({ categories: ids.sort() }, userId!).then((response) => {
+        return serviceUser.patch({ categories: ids.sort() }, userId!).then((response) => {
             console.log("response user categories: ", response)
             if (response.ok) {
                 requestAnimationFrame(() => {
@@ -45,7 +45,7 @@ export function ItemsCategories() {
         } else {
             ids.push(id)
         }
-        return serviceUsers.patch({ categories: ids.sort() }, userId!).then((response) => {
+        return serviceUser.patch({ categories: ids.sort() }, userId!).then((response) => {
             console.log("response user categories: ", response)
             if (response.ok) {
                 requestAnimationFrame(() => {

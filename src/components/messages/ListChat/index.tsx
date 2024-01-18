@@ -12,7 +12,7 @@ import { SearchBlock } from "./components/SearchBlock"
 import { Segments } from "@/components/common/Segments"
 
 import { useWebSocket } from "@/context"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { SEGMENTS_CHAT } from "./constants/segments"
 import { useCountMessagesNotReading } from "@/helpers"
 import { dispatchMessagesType, useAuth, useMessagesType } from "@/store/hooks"
@@ -48,7 +48,7 @@ export const ListChat = memo(function ListChat() {
 
     const arrayUsers = useQueries({
         queries: usersIds.map((item) => ({
-            queryFn: () => serviceUsers.getId(Number(item)),
+            queryFn: () => serviceUser.getId(Number(item)),
             queryKey: ["user", item],
             enabled: !!usersIds.length,
             refetchOnMount: false,

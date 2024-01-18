@@ -14,7 +14,7 @@ import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/componen
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
 import {
     dispatchBallonDiscussion,
@@ -36,7 +36,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     const { createGallery } = usePhotoVisible()
     const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", userId],
         enabled: !!userId,
         refetchOnMount: false,

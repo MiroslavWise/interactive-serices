@@ -33,20 +33,12 @@ export interface IUserResponse {
     addresses: IAddressesResponse[]
 }
 
-export interface IServiceUsers {
+export interface IServiceUser {
     route: string
-    string(value: string | number): string
-    get(value: Record<string, string | number>): Promise<IReturnData<IUserResponse[]>>
-    getMe(): Promise<IReturnData<IUserResponse>>
+    get(): Promise<IReturnData<IUserResponse>>
     getId(id: string | number): Promise<IReturnData<IUserResponse>>
+    getEmail(value: string): Promise<IReturnData<IUserResponse>>
     post(value: IPostDataUser): Promise<IReturnData<IResponseDataRegistration>>
     patch(value: IPatchDataUser, id: number | string): Promise<IReturnData<IUserResponse>>
     delete(id: number | string): Promise<IReturnData<IUserResponse>>
-}
-
-export interface IServiceUserValid {
-    route: string
-    post(value: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
-    getEmailUser(value: string): Promise<IReturnData<IUserResponse>>
-    getPhoneUser(value: string): Promise<IReturnData<IUserResponse>>
 }

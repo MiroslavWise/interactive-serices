@@ -6,7 +6,7 @@ import { IValuesSignForm } from "../types/types"
 import { Button } from "@/components/common"
 
 import { useTokenHelper } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthModal, useAuth } from "@/store/hooks"
 
@@ -85,7 +85,7 @@ export const SignInEmail = memo(function SignInEmail({
                     }
                     if (response.ok) {
                         if (response.res?.accessToken && response?.res?.refreshToken && response?.res?.tokenType) {
-                            serviceUsers.getId(response?.res?.id).then((responseUser) => {
+                            serviceUser.getId(response?.res?.id).then((responseUser) => {
                                 setToken({
                                     ok: true,
                                     token: response?.res?.accessToken!,

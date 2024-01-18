@@ -1,6 +1,6 @@
 import type { ISetAction, IGetAction, IUser, ISetToken, IAuthState } from "../types/useAuthState"
 
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { initialStateAuth } from "../state/useAuthState"
 import { queryClient } from "@/context"
 
@@ -42,7 +42,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
     if (!!get().token && !!get().refreshToken && !!get().userId) {
         queryClient
             .fetchQuery({
-                queryFn: () => serviceUsers.getId(get().userId!),
+                queryFn: () => serviceUser.getId(get().userId!),
                 queryKey: ["user", get().userId],
             })
             .then((response) => {

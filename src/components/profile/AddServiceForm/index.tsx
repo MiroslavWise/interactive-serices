@@ -10,7 +10,7 @@ import { Button } from "@/components/common"
 import { ItemCategory } from "./components/ItemCategory"
 
 import { usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { useAuth, useOffersCategories } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
@@ -29,7 +29,7 @@ export const AddServiceForm = () => {
     })
 
     const { data, refetch } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", userId!],
         enabled: !!userId,
     })
@@ -87,7 +87,7 @@ export const AddServiceForm = () => {
                 setLoading(false)
                 handlePush("/profile-change")
             } else {
-                serviceUsers.patch({ categories: watch("categories") || [] }, userId!).then((response) => {
+                serviceUser.patch({ categories: watch("categories") || [] }, userId!).then((response) => {
                     if (response.ok) {
                         refetch().then(() => {
                             setLoading(false)

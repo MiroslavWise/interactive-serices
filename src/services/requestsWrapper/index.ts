@@ -38,12 +38,15 @@ export const wrapperFetch: IWrapperFetch = {
         }
     },
     async methodGetId(url, id, query) {
-        const params: string = query
-            ? Object.entries(query)
-                  .map(([key, value]) => `&${key}=${value}`)
-                  .join("")
-                  .replace("&", "?")
-            : ""
+        const params: string =
+            typeof query === "string"
+                ? query
+                : query
+                ? Object.entries(query)
+                      .map(([key, value]) => `&${key}=${value}`)
+                      .join("")
+                      .replace("&", "?")
+                : ""
         try {
             const requestInit: RequestInit = {
                 method: "GET",

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import { IconCategory } from "@/lib/icon-set"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { useAuth, useOffersCategories } from "@/store/hooks"
 import { COLOR_CARD_CATEGORY } from "@/lib/color-card-category"
 
@@ -24,7 +24,7 @@ export const BlockCategories = ({ stateCategory, refetch }: { stateCategory: IRe
                 }
             }
 
-            return serviceUsers.patch({ categories: ids }, userId!).then((response) => {
+            return serviceUser.patch({ categories: ids }, userId!).then((response) => {
                 console.log("---RESPONSE UPDATE CATEGORIES--- ", response)
                 if (response.ok) {
                     refetch().then(() => {

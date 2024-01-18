@@ -6,7 +6,7 @@ import { IValuesRegistrationForm } from "../types/types"
 
 import { Button } from "@/components/common"
 
-import { serviceUserValid } from "@/services/users"
+import { serviceUser } from "@/services"
 import { dispatchAuthModalCreatePassword, dispatchAuthModalCurrentUser, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
@@ -29,7 +29,7 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
     const onRegister = async (values: IValuesRegistrationForm) => {
         if (!loading) {
             setLoading(true)
-            serviceUserValid.getEmailUser(values.email!).then((response) => {
+            serviceUser.getEmail(values.email!).then((response) => {
                 console.log("response getEmailUser: ", response)
                 if (response.ok) {
                     if (response.res) {
@@ -88,24 +88,13 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
                             Политикой конфиденциальности
                         </Link>{" "}
                         и{" "}
-                        <Link
-                            href={{ pathname: "/terms-consent-to-receive-mailings" }}
-                            target="_blank"
-                            rel="license"
-                            referrerPolicy="no-referrer"
-                        >
+                        <Link href={{ pathname: "/terms-consent-to-receive-mailings" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                             Согласие на получение рассылки
                         </Link>
                     </p>
                 </div>
             </div>
-            <Button
-                type="submit"
-                typeButton="fill-primary"
-                label="Зарегистрироваться"
-                loading={loading}
-                disabled={!watch("checkbox") || !watch("email")}
-            />
+            <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" loading={loading} disabled={!watch("checkbox") || !watch("email")} />
             {children}
         </form>
     )
