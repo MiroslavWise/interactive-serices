@@ -1,5 +1,6 @@
 "use client"
 
+import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
@@ -28,7 +29,6 @@ import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import styles from "./styles/style.module.scss"
-import { flushSync } from "react-dom"
 
 export const CreateNewOptionModal = () => {
     const [isFirst, setIsFirst] = useState(true)

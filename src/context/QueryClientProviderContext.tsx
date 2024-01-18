@@ -10,6 +10,13 @@ export const queryClient = new QueryClient({
             refetchOnWindowFocus: false,
             refetchOnMount: false,
             refetchOnReconnect: true,
+            retryDelay: 2.5 * 1000,
+            retry(_, error) {
+                console.warn("--ERROR QUERY CLIENT--- ", error)
+                return true
+            },
+            staleTime: 60 * 1000,
+            gcTime: 300 * 1000,
         },
     },
 })

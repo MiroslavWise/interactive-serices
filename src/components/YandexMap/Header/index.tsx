@@ -13,7 +13,7 @@ import { dispatchVisibleNotifications, useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const Header: THeaderMobile = ({ handleAddressLocation }) => {
+export const Header: THeaderMobile = ({ handleAddressLocation  }) => {
     const token = useAuth(({ token }) => token)
     const userId = useAuth(({ userId }) => userId)
     const { data: dataNotifications } = useQuery({

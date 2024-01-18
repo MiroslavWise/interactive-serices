@@ -39,7 +39,8 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
                         alt="offer-image"
                         width={80}
                         height={90}
-                        onClick={() => {
+                        onClick={(event) => {
+                            event.stopPropagation()
                             const photos = images.map((item) => ({
                                 url: item?.attributes?.url!,
                                 id: item?.id,
