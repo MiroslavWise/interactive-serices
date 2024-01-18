@@ -1,5 +1,4 @@
-import Link from "next/link"
-
+import { ButtonLink } from "@/components/common"
 import { AchievementsCount } from "@/components/profile/AchievementsCount"
 import { FooterAsideLeft } from "@/components/profile/LeftAsideProfile/components/Footer"
 import { HeaderBlock } from "@/components/profile/BlockProfileAside/components/HeaderBlock"
@@ -13,13 +12,7 @@ export const BannerIsAuth = () => {
                 <section data-content>
                     <HeaderBlock />
                     <AchievementsCount />
-                    <Link
-                        href={{
-                            pathname: `/profile`,
-                        }}
-                    >
-                        <span>Профиль</span>
-                    </Link>
+                    <ButtonLink label="Профиль" typeButton="fill-primary" href={{ pathname: "/profile" }} />
                 </section>
                 <FooterAsideLeft />
             </ul>

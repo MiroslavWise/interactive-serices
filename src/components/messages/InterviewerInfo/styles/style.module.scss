@@ -35,6 +35,21 @@
             }
         }
     }
+
+    [data-geo] {
+        & > img {
+            display: none;
+        }
+
+        p {
+            display: flex;
+            -webkit-line-clamp: none;
+            -webkit-box-orient: none;
+            line-clamp: none;
+            text-overflow: none;
+            overflow: visible;
+        }
+    }
 }
 
 .buttons {
@@ -43,26 +58,4 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-
-    & > a {
-        width: 100%;
-        height: 2.5rem !important;
-        padding: 0.625rem;
-        border-radius: 1.25rem;
-        background-color: var(--primary-500);
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-
-        & > span {
-            color: var(--supporting-white);
-            text-align: center;
-            font-size: 1.125rem;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 1.125rem;
-            letter-spacing: -0.01125rem;
-        }
-    }
 }

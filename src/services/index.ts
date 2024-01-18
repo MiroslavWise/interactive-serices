@@ -1,4 +1,5 @@
 export * from "./addresses"
+export * from "./addresses/geocodeSearch"
 export * from "./auth"
 export * from "./barters"
 export * from "./comments"
