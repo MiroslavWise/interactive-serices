@@ -1,3 +1,4 @@
+import { ISmallDataOfferBarter } from "@/services/barters/types"
 import { IResponseOffers } from "@/services/offers/types"
 import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
 
@@ -8,12 +9,12 @@ export interface IStateReciprocalExchange {
     isCollapse: boolean
     profile?: IGetProfileIdResponse
     type?: TStateOffers
-    offer?: IResponseOffers
+    offer?: ISmallDataOfferBarter | IResponseOffers
 }
 
 export interface IActionReciprocalExchange {
     visible: boolean
     profile?: IGetProfileIdResponse
     type?: TStateOffers
-    offer?: IResponseOffers
+    offer?: ISmallDataOfferBarter | IResponseOffers
 }

@@ -10,12 +10,10 @@ import type { IUserResponse } from "@/services/users/types/usersService"
 
 import { Button, GeoTagging } from "@/components/common"
 
-import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
 import { useWebSocket } from "@/context"
-import { serviceBarters } from "@/services/barters"
-import { serviceThreads } from "@/services/threads"
-import { serviceTestimonials } from "@/services/testimonials"
-import { useAuth, useOffersCategories, dispatchAddTestimonials } from "@/store/hooks"
+import { serviceTestimonials, serviceThreads, serviceBarters } from "@/services"
+import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
+import { useAuth, useOffersCategories, dispatchAddTestimonials, dispatchBallonOffer } from "@/store"
 
 import styles from "./styles/notice-barter.module.scss"
 
@@ -182,13 +180,57 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                         <>
                             {initiator?.userId === userId ? (
                                 <>
-                                    Вы предлагаете <span>{infoOffers?.initiator?.title?.toLowerCase()}</span> взамен на{" "}
-                                    <span>{infoOffers?.consigner?.title?.toLowerCase()}</span>
+                                    Вы предлагаете{" "}
+                                    <span
+                                        onClick={(event) => {
+                                            event.stopPropagation()
+                                            dispatchBallonOffer({
+                                                visible: true,
+                                                offer: initiator!,
+                                            })
+                                        }}
+                                    >
+                                        {infoOffers?.initiator?.title?.toLowerCase()}
+                                    </span>{" "}
+                                    взамен на{" "}
+                                    <span
+                                        onClick={(event) => {
+                                            event.stopPropagation()
+                                            dispatchBallonOffer({
+                                                visible: true,
+                                                offer: consigner!,
+                                            })
+                                        }}
+                                    >
+                                        {infoOffers?.consigner?.title?.toLowerCase()}
+                                    </span>
                                 </>
                             ) : consigner?.userId === userId ? (
                                 <>
-                                    <span>{userData?.profile?.firstName}</span> предлагает вам <span>{infoOffers?.consigner?.title?.toLowerCase()}</span> взамен
-                                    на <span>{infoOffers?.initiator?.title?.toLowerCase()}</span>
+                                    <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
+                                    <span
+                                        onClick={(event) => {
+                                            event.stopPropagation()
+                                            dispatchBallonOffer({
+                                                visible: true,
+                                                offer: consigner!,
+                                            })
+                                        }}
+                                    >
+                                        {infoOffers?.consigner?.title?.toLowerCase()}
+                                    </span>{" "}
+                                    взамен на{" "}
+                                    <span
+                                        onClick={(event) => {
+                                            event.stopPropagation()
+                                            dispatchBallonOffer({
+                                                visible: true,
+                                                offer: initiator!,
+                                            })
+                                        }}
+                                    >
+                                        {infoOffers?.initiator?.title?.toLowerCase()}
+                                    </span>
                                     {status === "completed" ? "(обмен завершён)" : ""}
                                 </>
                             ) : null}

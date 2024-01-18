@@ -6,14 +6,7 @@ import { ItemProfile } from "./components/ItemProfile"
 import { ItemProposal } from "./components/ItemProposal"
 
 import { cx } from "@/lib/cx"
-import {
-    dispatchAuthModal,
-    dispatchBallonOffer,
-    dispatchReciprocalExchange,
-    useAuth,
-    useBalloonOffer,
-    useOffersCategories,
-} from "@/store/hooks"
+import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store/hooks"
 import { serviceUser } from "@/services/users"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 
@@ -51,7 +44,7 @@ export const BalloonOffer = () => {
         } else if (!!userId && userId !== offer?.userId) {
             dispatchReciprocalExchange({
                 visible: true,
-                offer: offer,
+                offer: offer!,
                 type: "current",
             })
             flushSync(() => {
@@ -68,11 +61,7 @@ export const BalloonOffer = () => {
                     <div data-category-img>
                         {offer?.categoryId ? (
                             <img
-                                src={
-                                    ICON_OBJECT_OFFERS.hasOwnProperty(offer?.categoryId)
-                                        ? ICON_OBJECT_OFFERS[offer?.categoryId!]
-                                        : ICON_OBJECT_OFFERS.default
-                                }
+                                src={ICON_OBJECT_OFFERS.hasOwnProperty(offer?.categoryId) ? ICON_OBJECT_OFFERS[offer?.categoryId!] : ICON_OBJECT_OFFERS.default}
                                 alt="category"
                                 width={16}
                                 height={16}
@@ -86,13 +75,7 @@ export const BalloonOffer = () => {
                     <ItemProfile profile={profile!} />
                     <ItemProposal />
                     <div data-buttons>
-                        <Button
-                            type="button"
-                            typeButton="fill-primary"
-                            label="Откликнуться"
-                            onClick={handle}
-                            disabled={!!userId && userId === offer?.userId}
-                        />
+                        <Button type="button" typeButton="fill-primary" label="Откликнуться" onClick={handle} disabled={!!userId && userId === offer?.userId} />
                         {userId && userId !== offer?.userId ? (
                             <Link
                                 data-circle

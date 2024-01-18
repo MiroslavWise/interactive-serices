@@ -68,7 +68,8 @@
 
             & > span {
                 text-decoration: underline;
-                text-underline-offset: 0.375rem;
+                text-underline-offset: 0.175rem;
+                cursor: pointer;
             }
         }
     }
