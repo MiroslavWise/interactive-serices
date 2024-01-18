@@ -6,8 +6,8 @@ import type { TContainerSuggestions } from "./types/types"
 
 import { CardSuggestion, CardDiscussion } from "@/components/common/Card"
 
-import { serviceOffers } from "@/services/offers"
-import { useAuth, useProviderProfileOffer } from "@/store/hooks"
+import { serviceOffers } from "@/services"
+import { useAuth, useProviderProfileOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
 

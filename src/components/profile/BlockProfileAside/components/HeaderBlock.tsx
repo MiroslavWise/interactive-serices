@@ -4,11 +4,10 @@ import { useQuery } from "@tanstack/react-query"
 import type { THeaderBlock } from "./types/types"
 
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic, NextImageMotion } from "@/components/common"
+import { NextImageMotion } from "@/components/common"
 
-import { useAuth } from "@/store/hooks"
-import { serviceUser } from "@/services/users"
-import { serviceProfile } from "@/services/profile"
+import { useAuth } from "@/store"
+import { serviceProfile, serviceUser } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -32,21 +31,7 @@ export const HeaderBlock: THeaderBlock = () => {
     return (
         <header className={styles.containerHeader}>
             <div className={styles.avatar}>
-                {dataProfile?.res?.image?.attributes?.url ? (
-                    <NextImageMotion
-                        className={styles.photo}
-                        src={
-                            dataProfile?.res?.image?.attributes?.url!
-                                ? dataProfile?.res?.image?.attributes?.url!
-                                : "/png/default_avatar.png"
-                        }
-                        alt="avatar"
-                        width={94}
-                        height={94}
-                    />
-                ) : (
-                    <ImageStatic src="/png/default_avatar.png" alt="avatar" width={94} height={94} className={styles.photo} />
-                )}
+                <NextImageMotion className={styles.photo} src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={94} height={94} />
                 {true ? <img className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} /> : null}
             </div>
             <section className={styles.title}>

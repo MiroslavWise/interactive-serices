@@ -17,8 +17,7 @@ export const AchievementsCount = () => {
     const queries = useQueries({
         queries: [
             {
-                queryFn: () =>
-                    serviceBarters.get({ user: userId!, status: "completed" }),
+                queryFn: () => serviceBarters.get({ user: userId!, status: "completed" }),
                 queryKey: ["barters", `user=${userId}`, `status=completed`],
                 enabled: !!userId,
             },
@@ -41,7 +40,7 @@ export const AchievementsCount = () => {
             testimonials?.forEach((item) => {
                 if (item?.rating) {
                     quantity++
-                    summer += Number(item.rating)
+                    summer += Number(item?.rating)
                 }
             })
 
@@ -59,13 +58,13 @@ export const AchievementsCount = () => {
             <BadgeAchievements
                 classNames={[styles.badge]}
                 title="Обмены закрыты"
-                total={counts.completed.toFixed(0)}
+                total={counts?.completed?.toFixed(0)}
                 // type="down"
             />
             <BadgeAchievements
                 classNames={[styles.badge]}
                 title="Обзор и рейтинг"
-                total={counts.average.toFixed(1)}
+                total={counts?.average?.toFixed(1)}
                 // type="up"
             />
         </ul>
