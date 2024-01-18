@@ -45,16 +45,13 @@ export const LinkNotification = memo(function LinkNotification() {
                     <ul>
                         <p>Просмотренные</p>
                         {data?.res?.map((item) => (
-                            <ItemNotification key={`::item::notification::popup::`} {...item} refetch={refetch} />
+                            <ItemNotification key={`::item::notification::popup::`} {...item} />
                         ))}
                     </ul>
                 ) : (
                     <article>
                         <h3>У вас пока нет уведомлений</h3>
-                        <p>
-                            Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое
-                            другое.
-                        </p>
+                        <p>Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое.</p>
                     </article>
                 )}
                 <footer>

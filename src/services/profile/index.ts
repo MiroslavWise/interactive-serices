@@ -1,46 +1,22 @@
-import type {
-    IServiceProfile,
-    IPostProfileData,
-    IProfileResponse,
-    IGetProfileIdResponse,
-    IPatchProfileData,
-} from "./types/profileService"
+import type { IServiceProfile } from "./types/profileService"
+
 import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const serviceProfile: IServiceProfile = {
-    route: "/profiles",
+    route: "/profile",
     get(value) {
-        return wrapperFetch.methodGet<IGetProfileIdResponse[]>(
-            this.route,
-            value,
-        )
-    },
-    getMe() {
-        return wrapperFetch.methodGet<IGetProfileIdResponse>("/profile")
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId<IGetProfileIdResponse>(this.route, id)
+        return wrapperFetch.methodGet(this.route, value)
     },
     getUserId(userId) {
-        return wrapperFetch.methodGetId<IGetProfileIdResponse>(
-            `${this.route}/user`,
-            userId,
-        )
+        return wrapperFetch.methodGetId(`${this.route}/user`, userId)
     },
     post(value) {
-        return wrapperFetch.methodPost<IPostProfileData, IProfileResponse>(
-            this.route,
-            value,
-        )
+        return wrapperFetch.methodPost(this.route, value)
     },
     patch(value, id) {
-        return wrapperFetch.methodPatch<IPatchProfileData, IProfileResponse>(
-            this.route,
-            value,
-            id,
-        )
+        return wrapperFetch.methodPatch(this.route, value, id)
     },
     delete(id) {
-        return wrapperFetch.methodDelete<IProfileResponse>(this.route, id)
+        return wrapperFetch.methodDelete(this.route, id)
     },
 }

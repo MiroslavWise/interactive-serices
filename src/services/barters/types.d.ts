@@ -30,7 +30,7 @@ export interface ISmallDataOfferBarter {
 
 export interface IBarterResponse {
     id: number
-    thread?: ISmallThread
+    threadId?: number
     parentId: number | null
     consignedId: number // принимающий оффер
     initialId: number //инициализирующий оффер

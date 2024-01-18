@@ -4,11 +4,10 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TSentenceCards } from "./types/types"
 
-import { MotionUL } from "@/components/common/Motion"
 import { CardOffer } from "@/components/common/Card/Offer"
 
-import { useAuth } from "@/store/hooks"
-import { serviceBarters } from "@/services/barters"
+import { useAuth } from "@/store"
+import { serviceBarters } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -29,14 +28,7 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
 
     return (
         <ul className={styles.containerCards}>
-            {Array.isArray(data?.res)
-                ? data?.res?.map((item) => (
-                      <CardOffer
-                          key={`${item.id}-history-page-${item.status}`}
-                          {...item}
-                      />
-                  ))
-                : null}
+            {Array.isArray(data?.res) ? data?.res?.map((item) => <CardOffer key={`::history::page::${item.status}::${item.id}::`} {...item} />) : null}
         </ul>
     )
 }

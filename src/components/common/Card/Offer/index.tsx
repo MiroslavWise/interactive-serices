@@ -11,12 +11,12 @@ import type { TCardOffer } from "./types"
 import { BlockBarter } from "./components/BlockBarter"
 import { BlockTitle } from "./components/BlockTitle"
 
+import { serviceUsers } from "@/services"
 import { useAuth, useVisibleExchanges } from "@/store/hooks"
-import { serviceUsers } from "@/services/users"
 
 import styles from "./style.module.scss"
 
-export const CardOffer: TCardOffer = ({ id, thread, timestamp, status, initiator, consigner }) => {
+export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiator, consigner }) => {
     const myUserId = useAuth(({ userId }) => userId)
     const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
 
@@ -44,7 +44,7 @@ export const CardOffer: TCardOffer = ({ id, thread, timestamp, status, initiator
                     <Link
                         href={{
                             pathname: "/messages",
-                            query: !!thread?.id ? { thread: thread?.id } : { "barter-id": `${id}-${idUser}` },
+                            query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` },
                         }}
                         onClick={(event) => {
                             event.stopPropagation()
