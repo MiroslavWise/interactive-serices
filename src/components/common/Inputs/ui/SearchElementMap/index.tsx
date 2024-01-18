@@ -25,12 +25,13 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
 
     function onValueFunc() {
         const value = text?.trim()?.toLowerCase()?.replaceAll("  ", " ")
+        const slug = value?.replaceAll(" ", "-")
 
         if (value.length > 2) {
             queryClient
                 .fetchQuery({
                     queryFn: () => getGeocodeSearch(value),
-                    queryKey: ["addresses", `string=${value}`],
+                    queryKey: ["addresses", { string: slug }],
                 })
                 .then((response) => {
                     if (response?.response?.GeoObjectCollection?.featureMember && response?.response?.GeoObjectCollection?.featureMember?.length > 0) {
