@@ -16,9 +16,9 @@ export const CardSuggestion: TCardSuggestion = (props) => {
     const { refetch, ...rest } = props
 
     const { data: dataTestimonials } = useQuery({
-        queryFn: () => serviceTestimonials.get({ provider: "offer", target: rest.id }),
-        queryKey: ["testimonials", `offer=${rest.id}`, `provider=offer`],
-        enabled: !!rest.id,
+        queryFn: () => serviceTestimonials.get({ provider: "offer", target: rest?.id }),
+        queryKey: ["testimonials", `offer=${rest?.id}`, `provider=offer`],
+        enabled: !!rest?.id,
     })
 
     const rating = useMemo(() => {
@@ -30,9 +30,9 @@ export const CardSuggestion: TCardSuggestion = (props) => {
         let summer: number = 0
 
         for (const item of dataTestimonials?.res) {
-            if (item.rating) {
+            if (item?.rating) {
                 quantity++
-                summer += +item.rating
+                summer += +item?.rating
             }
         }
 
@@ -45,10 +45,10 @@ export const CardSuggestion: TCardSuggestion = (props) => {
     return (
         <li className={styles.container}>
             <Header data={{ ...rest }} rating={rating} />
-            {rest.images?.length ? (
+            {rest?.images?.length ? (
                 <ContainerPhotos
                     {...{
-                        photos: rest.images.map((item) => ({
+                        photos: rest?.images?.map((item) => ({
                             url: item?.attributes?.url,
                             id: item?.id,
                         })),

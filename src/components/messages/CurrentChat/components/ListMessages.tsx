@@ -77,7 +77,6 @@ export const ListMessages = memo(function ListMessages({
         <ul ref={ulChat}>
             {!!idBarter && <NoticeBarter idBarter={idBarter!} userData={dataUser} />}
             {messagesJoin}
-            <div data-null />
         </ul>
     )
 })

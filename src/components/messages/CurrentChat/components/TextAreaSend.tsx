@@ -175,60 +175,21 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
     }
 
     return (
-        <form onSubmit={onSubmit} className={styles.container}>
-            {isMobile ? (
-                <div className={styles.paperclip}>
-                    <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
-                    <img src="/svg/paperclip-gray.svg" alt="paperclip-gray" width={16.5} height={16.5} />
-                </div>
-            ) : null}
-            {isMobile ? (
-                <input
-                    value={watch("text")}
-                    placeholder="Введите сообщение..."
-                    {...register("text", { required: files.length ? false : true })}
-                    maxLength={512}
-                />
-            ) : (
-                <TextArea
-                    placeholder="Введите сообщение..."
-                    onKeyDown={(event) => {
-                        if (event.keyCode === 13 || event.code === "Enter") {
-                            onSubmit()
-                        }
-                    }}
-                    {...register("text", { required: files.length ? false : true })}
-                    maxLength={512}
-                />
-            )}
-            {isMobile ? (
-                <ButtonCircleGradientFill
-                    submit="submit"
-                    type="option-1"
-                    image={{
-                        src: "/svg/send-white.svg",
-                        size: 24,
-                    }}
-                    onClick={() => {}}
-                    size={48}
-                />
-            ) : null}
-            <div className={styles.buttons}>
-                {!isMobile ? (
-                    <div data-files-input>
-                        <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
-                        <Image src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} unoptimized />
-                    </div>
-                ) : null}
-                {!isMobile ? (
-                    <Button
-                        type="submit"
-                        label="Отправить"
-                        typeButton="fill-orange"
-                        suffixIcon={<Image src="/svg/send-white.svg" alt="send" width={24} height={24} unoptimized />}
-                    />
-                ) : null}
+        <form onSubmit={onSubmit}>
+            <div data-clipper>
+                <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
+                <img src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} />
             </div>
+            <input
+                type="text"
+                placeholder="Напишите сообщение..."
+                {...register("text", { required: files.length ? false : true })}
+                autoComplete="off"
+                maxLength={1024}
+            />
+            <button type="submit" data-sent data-disabled={!watch("text") && strings?.length === 0} disabled={!watch("text") && strings?.length === 0}>
+                <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
+            </button>
             <FilesUpload {...{ files, strings, addFile, addString, deleteFile }} />
         </form>
     )
