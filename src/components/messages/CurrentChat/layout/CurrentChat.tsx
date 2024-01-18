@@ -14,7 +14,7 @@ import { TextAreaSend } from "../components/TextAreaSend"
 import { NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceThreads } from "@/services/threads"
 import { serviceMessages } from "@/services/messages"
 import { useCountMessagesNotReading, usePush } from "@/helpers"
@@ -77,7 +77,7 @@ export const CurrentChat = () => {
     const userDataIdMassage = useUserIdMessage(({ userData }) => userData)
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(Number(idUser)),
+        queryFn: () => serviceUser.getId(Number(idUser)),
         queryKey: ["user", idUser],
         enabled: !!idUser && !userDataIdMassage,
         refetchOnMount: true,

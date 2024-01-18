@@ -1,17 +1,11 @@
-import type { IServiceUsers, IServiceUserValid } from "./types/usersService"
+import type { IServiceUser } from "./types/usersService"
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
-export const serviceUsers: IServiceUsers = {
-    route: "/users",
-    string(id) {
-        return wrapperFetch.stringRequest(`${this.route}/${id}`)
-    },
-    get(value) {
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    getMe() {
-        return wrapperFetch.methodGet("/user")
+export const serviceUser: IServiceUser = {
+    route: "/user",
+    get() {
+        return wrapperFetch.methodGet(this.route)
     },
     getId(id) {
         return wrapperFetch.methodGetId(this.route, id)
@@ -19,23 +13,13 @@ export const serviceUsers: IServiceUsers = {
     post(value) {
         return wrapperFetch.methodPost(this.route, value)
     },
+    getEmail(value) {
+        return wrapperFetch.methodGetId(`${this.route}/email`, value)
+    },
     patch(value, id) {
         return wrapperFetch.methodPatch(this.route, value, id)
     },
     delete(id) {
         return wrapperFetch.methodDelete(this.route, id)
-    },
-}
-
-export const serviceUserValid: IServiceUserValid = {
-    route: "/user",
-    post(values) {
-        return wrapperFetch.methodPost(this.route, values)
-    },
-    getEmailUser(value) {
-        return wrapperFetch.methodGetId(`${this.route}/email`, value)
-    },
-    getPhoneUser(value) {
-        return wrapperFetch.methodGetId(`${this.route}/phone`, value)
     },
 }

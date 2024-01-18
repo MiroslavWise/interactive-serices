@@ -14,7 +14,7 @@ import {
     useBalloonOffer,
     useOffersCategories,
 } from "@/store/hooks"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 
 import styles from "./styles/style.module.scss"
@@ -30,7 +30,7 @@ export const BalloonOffer = () => {
     const categoryCurrent = categories?.find((item) => item?.id === offer?.categoryId)
 
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(offer?.userId!),
+        queryFn: () => serviceUser.getId(offer?.userId!),
         queryKey: ["user", offer?.userId!],
         enabled: !offer?.userId,
     })

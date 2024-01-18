@@ -14,7 +14,7 @@ import { ItemSegments } from "./components/ItemSegments"
 import { InfoContainerProfile } from "./components/InfoContainerProfile"
 
 import { cx } from "@/lib/cx"
-import { serviceUsers } from "@/services"
+import { serviceUser } from "@/services"
 import { VALUES } from "./constants/SEGMENTS"
 import { dispatchProfilePublic, useProfilePublic } from "@/store"
 
@@ -27,7 +27,7 @@ export const PublicProfile = () => {
     const [activeSegment, setActiveSegment] = useState<ISegmentValues<TTypeSegment>>(VALUES[0])
 
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(idUser!),
+        queryFn: () => serviceUser.getId(idUser!),
         queryKey: ["user", idUser!],
         enabled: visibleProfilePublic && !!idUser,
     })

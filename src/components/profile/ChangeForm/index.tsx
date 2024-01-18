@@ -15,7 +15,7 @@ import { Button, ButtonLink } from "@/components/common"
 
 import { useAuth } from "@/store/hooks"
 import { useDebounce, useOut, usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceProfile } from "@/services/profile"
 import { useToast } from "@/helpers/hooks/useToast"
 import { fileUploadService } from "@/services/file-upload"
@@ -53,7 +53,7 @@ export const ChangeForm = () => {
         formState: { errors },
     } = useForm<IValuesForm>({ defaultValues: {} })
     const { data, refetch } = useQuery({
-        queryFn: () => serviceUsers.getMe(),
+        queryFn: () => serviceUser.get(),
         queryKey: ["user", userId!],
         enabled: !!userId!,
         refetchOnMount: true,

@@ -10,7 +10,7 @@ import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { serviceBarters, serviceNotifications, serviceUsers } from "@/services"
+import { serviceBarters, serviceNotifications, serviceUser } from "@/services"
 import { useAuth, dispatchVisibleNotifications } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -32,7 +32,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     const user = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(user!),
+        queryFn: () => serviceUser.getId(user!),
         queryKey: ["user"],
         refetchOnMount: false,
         refetchOnWindowFocus: false,

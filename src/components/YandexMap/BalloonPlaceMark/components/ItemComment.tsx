@@ -5,14 +5,14 @@ import type { TItemComment } from "../types/types"
 import { NextImageMotion } from "@/components/common/Image"
 
 import { daysAgo } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 
 export const ItemComment: TItemComment = (props) => {
     const { id, userId, message, created, isTemporary, isErrorRequest } =
         props ?? {}
 
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", userId],
         refetchOnMount: false,
         refetchOnReconnect: false,

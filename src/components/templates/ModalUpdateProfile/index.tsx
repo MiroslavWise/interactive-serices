@@ -15,7 +15,7 @@ import { Content } from "./components/Content"
 import { ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceProfile } from "@/services/profile"
 import { useOut } from "@/helpers/hooks/useOut"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -35,7 +35,7 @@ export const ModalUpdateProfile = () => {
     const { on } = useToast()
 
     const { data, refetch } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", userId],
         enabled: isVisible && !!userId,
     })

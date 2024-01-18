@@ -11,7 +11,7 @@ import type { TCardOffer } from "./types"
 import { BlockBarter } from "./components/BlockBarter"
 import { BlockTitle } from "./components/BlockTitle"
 
-import { serviceUsers } from "@/services"
+import { serviceUser } from "@/services"
 import { useAuth, useVisibleExchanges } from "@/store/hooks"
 
 import styles from "./style.module.scss"
@@ -26,7 +26,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
     }, [consigner, initiator, myUserId])
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(idUser!),
+        queryFn: () => serviceUser.getId(idUser!),
         queryKey: ["user", idUser],
         refetchOnMount: false,
         enabled: !!idUser,

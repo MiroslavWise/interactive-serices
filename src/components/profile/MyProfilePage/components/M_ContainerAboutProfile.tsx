@@ -10,7 +10,7 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { useOut } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceProfile } from "@/services/profile"
 import { useAuth, dispatchNewServicesBanner } from "@/store/hooks"
 
@@ -21,7 +21,7 @@ export const M_ContainerAboutProfile = () => {
     const userId = useAuth(({ userId }) => userId)
 
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(userId!),
+        queryFn: () => serviceUser.getId(userId!),
         queryKey: ["user", userId],
         enabled: !!userId,
     })
