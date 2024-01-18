@@ -60,7 +60,11 @@ export const ChangeForm = () => {
         refetchOnReconnect: true,
     })
 
-    const { data: dataProfile, refetch: refetchProfile } = useQuery({
+    const {
+        data: dataProfile,
+        refetch: refetchProfile,
+        isLoading,
+    } = useQuery({
         queryFn: () => serviceProfile.getUserId(userId!),
         queryKey: ["profile", userId!],
         enabled: !!userId,
@@ -328,7 +332,7 @@ export const ChangeForm = () => {
                 </div>
             </section>
             <footer>
-                <Button type="submit" typeButton="fill-primary" label="Сохранить" loading={loading} />
+                <Button type="submit" typeButton="fill-primary" label="Сохранить" loading={loading || isLoading} />
                 <ButtonLink typeButton="regular-primary" label="Отменить" href={{ pathname: "/profile" }} />
             </footer>
         </form>

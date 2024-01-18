@@ -11,22 +11,27 @@ import styles from "../styles/images.module.scss"
 export const ItemImages = ({ images }: { images: IImageData[] }) => {
     const refImages = useRef<HTMLDivElement>(null)
 
+    function to(value: boolean) {
+        if (refImages.current) {
+            if (value) {
+                refImages.current.scrollBy({
+                    top: 0,
+                    left: -75,
+                    behavior: "smooth",
+                })
+            } else {
+                refImages.current.scrollBy({
+                    top: 0,
+                    left: +75,
+                    behavior: "smooth",
+                })
+            }
+        }
+    }
+
     return (
-        <div
-            className={styles.container}
-            onWheel={(event) => {
-                console.log("onWheel: ", event)
-                if (event.deltaY > 10) {
-                    if (refImages.current) {
-                        refImages.current.scrollLeft += event.deltaY
-                    }
-                }
-                event.stopPropagation()
-                event.preventDefault()
-            }}
-            ref={refImages}
-        >
-            <div data-images>
+        <div className={styles.container} data-not-button={images?.length < 5}>
+            <div data-images ref={refImages}>
                 {images.map((item) => (
                     <NextImageMotion
                         key={`::${item.id}::photo::offer::`}
@@ -48,6 +53,24 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
                     />
                 ))}
             </div>
+            <button
+                data-left
+                onClick={(event) => {
+                    event.stopPropagation()
+                    to(true)
+                }}
+            >
+                <img src="/svg/chevron-left.svg" alt="left" width={20} height={20} />
+            </button>
+            <button
+                data-right
+                onClick={(event) => {
+                    event.stopPropagation()
+                    to(false)
+                }}
+            >
+                <img src="/svg/chevron-right.svg" alt="left" width={20} height={20} />
+            </button>
         </div>
     )
 }
