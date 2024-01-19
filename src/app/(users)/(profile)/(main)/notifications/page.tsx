@@ -1,7 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+
+import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
@@ -13,12 +15,37 @@ export default function Notifications() {
     const userId = useAuth(({ userId }) => userId)
     const [status, setStatus] = useState<TTypeWaiting>("all")
 
-    const { data: dataNotifications, refetch } = useQuery({
+    const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])
+    const [waitingNotifications, setWaitingNotifications] = useState<IResponseNotifications[]>([])
+
+    const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
     })
+
+    useEffect(() => {
+        const values = dataNotifications?.res
+
+        if (values && userId) {
+            setStateNotifications(values)
+
+            const array: IResponseNotifications[] = []
+
+            for (const item of values) {
+                if (item?.provider === "barter") {
+                    if (item?.data?.status === "initiated") {
+                        if (item?.data?.userId !== userId) {
+                            array.push(item)
+                        }
+                    } else if (item?.operation === "completion-survey") {
+                        array.push(item)
+                    }
+                }
+            }
+
+            setWaitingNotifications(array)
+        }
+    }, [dataNotifications?.res, userId])
 
     return (
         <>
@@ -41,10 +68,16 @@ export default function Notifications() {
                     ))}
                 </nav>
             </header>
-            {dataNotifications?.res?.length ? (
+            {!!stateNotifications?.length && status === "all" ? (
                 <ul>
-                    {dataNotifications?.res?.map((item) => (
-                        <ItemNotification key={`::${item.id}::notification::`} {...item} />
+                    {stateNotifications?.map((item) => (
+                        <ItemNotification key={`::notification::all:${item.id}::`} {...item} />
+                    ))}
+                </ul>
+            ) : !!waitingNotifications?.length && status === "waiting" ? (
+                <ul>
+                    {waitingNotifications?.map((item) => (
+                        <ItemNotification key={`::notification::waiting::${item.id}::`} {...item} />
                     ))}
                 </ul>
             ) : (
