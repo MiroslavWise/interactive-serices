@@ -5,9 +5,8 @@ import "./layout.scss"
 
 export const metadata: Metadata = {
     title: "Сообщения",
-    openGraph: {
-        title: "Сообщения",
-    },
+    openGraph: { title: "Сообщения" },
+    twitter: { title: "Сообщения" },
 }
 
 export default function LayoutMessages({ children }: { children: ReactNode }) {

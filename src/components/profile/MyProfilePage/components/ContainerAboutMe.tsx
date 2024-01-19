@@ -1,12 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-import type { TContainerAboutMe } from "./types/types"
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
-import { serviceProfile } from "@/services/profile"
-import { useAuth } from "@/store/hooks/useAuth"
+import { useAuth } from "@/store"
+import { serviceProfile } from "@/services"
 import { useOut } from "@/helpers/hooks/useOut"
 
 import styles from "./styles/style.module.scss"
@@ -20,10 +19,13 @@ export const ContainerAboutMe = () => {
     const profileId = useAuth(({ profileId }) => profileId)
     const updateProfile = useAuth(({ updateProfile }) => updateProfile)
 
+    const refTextArea = useRef<HTMLTextAreaElement>(null)
+
     useEffect(() => {
-        const textArea = document?.getElementById("textArea")!
         if (isEditing) {
-            textArea?.focus()
+            if (refTextArea.current) {
+                refTextArea.current?.focus()
+            }
         }
         return () => {}
     }, [isEditing])
@@ -61,7 +63,7 @@ export const ContainerAboutMe = () => {
         <div className={styles.containerAboutMe}>
             <h4>Обо мне</h4>
             {isEditing ? (
-                <textarea id="textArea" onChange={(value) => setTextEditing(value?.target?.value)} value={textEditing} />
+                <textarea ref={refTextArea} onChange={(value) => setTextEditing(value?.target?.value)} value={textEditing} />
             ) : user?.about ? (
                 <p>{user?.about}</p>
             ) : (
