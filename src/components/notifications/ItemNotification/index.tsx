@@ -153,7 +153,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     )
                 }
-            } else if (["completion-yes", "completion-survey", "completion-no"].includes(operation!) && ["completed", "executed"].includes(data?.status!)) {
+            } else if (["completion-survey"].includes(operation!) && ["completed", "executed"].includes(data?.status!)) {
                 return (
                     <>
                         <Button
@@ -180,7 +180,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     </>
                 )
-            } else if (operation === "completion-recall") {
+            } else if (operation === "completion-recall" && ["completed"].includes(data?.status!)) {
                 return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
             }
         }
