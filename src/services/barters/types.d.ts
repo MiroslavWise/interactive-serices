@@ -51,8 +51,6 @@ export interface IPostDataBarter {
     parentId?: number
     categoryId?: number
     threadId?: number
-    addresses?: number[]
-    subscribers?: number[]
     provider: TTypeProvider //всегда "barter"
     title: string
     imageId?: number | null

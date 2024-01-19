@@ -1,18 +1,18 @@
 "use client"
 
 import { flushSync } from "react-dom"
-import { useQuery } from "@tanstack/react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 import { memo, useState, useMemo, useEffect } from "react"
 
 import type { IBarterResponse } from "@/services/barters/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
 
-import { Button, GeoTagging } from "@/components/common"
+import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
-import { serviceTestimonials, serviceThreads, serviceBarters } from "@/services"
 import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
+import { serviceTestimonials, serviceThreads, serviceBarters, serviceProfile } from "@/services"
 import { useAuth, useOffersCategories, dispatchAddTestimonials, dispatchBallonOffer } from "@/store"
 
 import styles from "./styles/notice-barter.module.scss"
@@ -46,8 +46,23 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         refetchOnReconnect: true,
     })
 
-    const { res } = data ?? {}
+    const { res, ok } = data ?? {}
     const { status, consigner, initiator } = stateBarter ?? {}
+
+    const [{ data: dataInitiatorProfile }, { data: dataConsignerProfile }] = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceProfile.getUserId(initiator?.userId!),
+                queryKey: ["profile", initiator?.userId!],
+                enabled: ok && ["executed", "completed"].includes(status!),
+            },
+            {
+                queryFn: () => serviceProfile.getUserId(consigner?.userId!),
+                queryKey: ["profile", consigner?.userId!],
+                enabled: ok && ["executed", "completed"].includes(status!),
+            },
+        ],
+    })
 
     useEffect(() => {
         if (!!res) {
@@ -108,38 +123,30 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
     function handleAccept() {
         if (!loading) {
             setLoading(true)
-            serviceBarters
-                .patch(
-                    {
-                        updatedById: userId,
+            serviceBarters.patch({ status: "executed" }, idBarter!).then((response) => {
+                if (response.ok) {
+                    const date = new Date()
+                    const receiverIds = [Number(userData?.id)]
+                    const message = `Пользователь ${user?.username} согласился принять ваш запрос на обмен!`
+                    socket?.emit("barter", {
+                        receiverIds: receiverIds,
+                        message: message,
+                        barterId: idBarter,
+                        emitterId: userId!,
                         status: "executed",
-                    },
-                    idBarter!,
-                )
-                .then((response) => {
-                    if (response.ok) {
-                        const date = new Date()
-                        const receiverIds = [Number(userData?.id)]
-                        const message = `Пользователь ${user?.username} согласился принять ваш запрос на обмен!`
-                        socket?.emit("barter", {
-                            receiverIds: receiverIds,
-                            message: message,
-                            barterId: idBarter,
-                            emitterId: userId!,
-                            status: "executed",
-                            threadId: threadId!,
-                            created: date,
-                        })
-                        refetchOffers()
-                    }
-                    flushSync(() => {
-                        setStateBarter((prev) => ({
-                            ...prev!,
-                            status: "executed",
-                        }))
-                        setLoading(false)
+                        threadId: threadId!,
+                        created: date,
                     })
+                    refetchOffers()
+                }
+                flushSync(() => {
+                    setStateBarter((prev) => ({
+                        ...prev!,
+                        status: "executed",
+                    }))
+                    setLoading(false)
                 })
+            })
         }
     }
 
@@ -147,134 +154,176 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         if (!loading) {
             setLoading(true)
             Promise.all([
-                serviceBarters.patch(
-                    {
-                        updatedById: userId,
-                        status: "canceled",
-                    },
-                    idBarter!,
-                ),
+                serviceBarters.patch({ status: "canceled", enabled: false }, idBarter!),
                 serviceThreads.patch({ enabled: false }, Number(threadId)),
             ]).then(() => {
                 Promise.all([refetchOffers(), refetchCountMessages()]).then(() => {
-                    handleReplace("/messages")
+                    flushSync(() => {
+                        setLoading(false)
+                        handleReplace("/messages")
+                    })
                 })
             })
         }
     }
 
     return data?.ok ? (
-        <section className={styles.wrapper}>
+        <section className={styles.wrapper} data-type={status}>
             <article>
-                <div data-head>
-                    <div data-time>
-                        <div data-img>
-                            <img src="/svg/clock-fast-forward.svg" alt="clock" width={16} height={16} />
+                {status === "initiated" ? (
+                    <div data-head>
+                        <div data-time>
+                            <div data-img>
+                                <img src="/svg/clock-fast-forward.svg" alt="clock" width={16} height={16} />
+                            </div>
+                            <time>{daysAgo(res?.created)}</time>
                         </div>
-                        <time>{daysAgo(res?.created)}</time>
+                        {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
                     </div>
-                    {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
-                </div>
-                <p>
-                    {["executed", "initiated", "completed"].includes(status!) ? (
-                        <>
-                            {initiator?.userId === userId ? (
-                                <>
-                                    Вы предлагаете{" "}
-                                    <span
-                                        onClick={(event) => {
-                                            event.stopPropagation()
-                                            dispatchBallonOffer({
-                                                visible: true,
-                                                offer: initiator!,
-                                            })
-                                        }}
-                                    >
-                                        {infoOffers?.initiator?.title?.toLowerCase()}
-                                    </span>{" "}
-                                    взамен на{" "}
-                                    <span
-                                        onClick={(event) => {
-                                            event.stopPropagation()
-                                            dispatchBallonOffer({
-                                                visible: true,
-                                                offer: consigner!,
-                                            })
-                                        }}
-                                    >
-                                        {infoOffers?.consigner?.title?.toLowerCase()}
-                                    </span>
-                                </>
-                            ) : consigner?.userId === userId ? (
-                                <>
-                                    <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
-                                    <span
-                                        onClick={(event) => {
-                                            event.stopPropagation()
-                                            dispatchBallonOffer({
-                                                visible: true,
-                                                offer: consigner!,
-                                            })
-                                        }}
-                                    >
-                                        {infoOffers?.consigner?.title?.toLowerCase()}
-                                    </span>{" "}
-                                    взамен на{" "}
-                                    <span
-                                        onClick={(event) => {
-                                            event.stopPropagation()
-                                            dispatchBallonOffer({
-                                                visible: true,
-                                                offer: initiator!,
-                                            })
-                                        }}
-                                    >
-                                        {infoOffers?.initiator?.title?.toLowerCase()}
-                                    </span>
-                                    {status === "completed" ? "(обмен завершён)" : ""}
-                                </>
-                            ) : null}
-                        </>
-                    ) : null}
-                </p>
-            </article>
-            <footer>
-                {status === "initiated" && res?.consigner?.userId === userId ? (
+                ) : status === "executed" ? (
                     <>
+                        <div data-lath>
+                            <span>В процессе</span>
+                        </div>
+                        <div data-barter-people>
+                            <div data-item-people-offer>
+                                <div data-img>
+                                    <NextImageMotion src={dataInitiatorProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+                                </div>
+                                <a
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title}
+                                </a>
+                            </div>
+                            <div data-repeat>
+                                <img src="/svg/repeat-gray.svg" alt="repeat" width={16} height={16} />
+                            </div>
+                            <div data-item-people-offer>
+                                <div data-img>
+                                    <NextImageMotion src={dataConsignerProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+                                </div>
+                                <a
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title}
+                                </a>
+                            </div>
+                        </div>
+                    </>
+                ) : null}
+                {["initiated", "completed"].includes(status!) ? (
+                    <p>
+                        {initiator?.userId === userId ? (
+                            <>
+                                Вы предлагаете{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title?.toLowerCase()}
+                                </span>{" "}
+                                взамен на{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title?.toLowerCase()}
+                                </span>
+                            </>
+                        ) : consigner?.userId === userId ? (
+                            <>
+                                <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title?.toLowerCase()}
+                                </span>{" "}
+                                взамен на{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title?.toLowerCase()}
+                                </span>
+                                {status === "completed" ? "(обмен завершён)" : ""}
+                            </>
+                        ) : null}
+                    </p>
+                ) : null}
+            </article>
+            {status !== "executed" ? (
+                <footer>
+                    {status === "initiated" && res?.consigner?.userId === userId ? (
+                        <>
+                            <Button
+                                type="button"
+                                typeButton="white"
+                                label="Принять"
+                                loading={loading}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    handleAccept()
+                                }}
+                            />
+                            <Button
+                                type="button"
+                                typeButton="fill-opacity"
+                                label="Отказаться"
+                                loading={loading}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    handleRejection()
+                                }}
+                            />
+                        </>
+                    ) : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
                         <Button
                             type="button"
                             typeButton="white"
-                            label="Принять"
+                            label="Оставить отзыв"
                             loading={loading}
                             onClick={(event) => {
                                 event.stopPropagation()
-                                handleAccept()
+                                handleCompleted()
                             }}
                         />
-                        <Button
-                            type="button"
-                            typeButton="fill-opacity"
-                            label="Отказаться"
-                            loading={loading}
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                handleRejection()
-                            }}
-                        />
-                    </>
-                ) : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
-                    <Button
-                        type="button"
-                        typeButton="white"
-                        label="Оставить отзыв"
-                        loading={loading}
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            handleCompleted()
-                        }}
-                    />
-                ) : null}
-            </footer>
+                    ) : null}
+                </footer>
+            ) : null}
         </section>
     ) : null
 })

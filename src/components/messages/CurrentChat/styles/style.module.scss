@@ -82,7 +82,12 @@
         z-index: 99;
 
         & > ul {
-            padding: 1rem !important;
+            padding: 0;
+            padding-bottom: 1rem;
+
+            & > * {
+                padding-inline: 1rem !important;
+            }
         }
 
         & > form {
@@ -250,7 +255,7 @@
                     width: 1.75rem;
                     height: 1.75rem;
                     border-radius: 50%;
-                    background-color: var(--background);
+                    background-color: transparent;
                     padding: 0.25rem;
                 }
 

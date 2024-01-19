@@ -126,7 +126,7 @@ export const ReciprocalExchange = () => {
                     }
 
                     serviceBarters.post(dataBarter).then((response) => {
-                        console.log("%c ---OFFERS BARTERS---", "color: cyan", response)
+                        console.log("%c ---OFFERS BARTERS---", "color: green", response)
                         if (response?.ok) {
                             const message = `${profile?.firstName || ""} ${profile?.lastName || ""} получила ваше предложение. Мы сообщим вам об её ответе.`
                             flushSync(() => {
