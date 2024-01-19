@@ -11,7 +11,7 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import { useAuth, dispatchVisibleNotifications } from "@/store"
-import { serviceBarters, serviceNotifications, serviceUser } from "@/services"
+import { serviceBarters, serviceNotifications, serviceProfile, serviceUser } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -31,9 +31,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const idUser = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
 
-    const { data: dataUser } = useQuery({
-        queryFn: () => serviceUser.getId(idUser!),
-        queryKey: ["user", { userId: idUser }],
+    const { data: dataProfile } = useQuery({
+        queryFn: () => serviceProfile.getUserId(idUser!),
+        queryKey: ["profile", idUser!],
         enabled: !!idUser,
     })
 
@@ -69,13 +69,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         <p>
                             Вы предложили обмен{" "}
                             <Link
-                                href={{ pathname: "/user", query: { id: dataUser?.res?.id! } }}
+                                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
                                 onClick={(event) => {
                                     event.stopPropagation()
                                     dispatchVisibleNotifications(false)
                                 }}
                             >
-                                {dataUser?.res?.profile?.firstName} {dataUser?.res?.profile?.lastName}
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                             </Link>
                         </p>
                     )
@@ -84,23 +84,57 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         <p>
                             Пользователь{" "}
                             <Link
-                                href={{ pathname: "/user", query: { id: dataUser?.res?.id! } }}
+                                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
                                 onClick={(event) => {
                                     event.stopPropagation()
                                     dispatchVisibleNotifications(false)
                                 }}
                             >
-                                {dataUser?.res?.profile?.firstName} {dataUser?.res?.profile?.lastName}
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                             </Link>{" "}
                             предложил вам обмен.
                         </p>
                     )
                 }
             }
+            if (["completion-yes", "completion-survey", "completion-no"].includes(operation!) && ["completed", "executed"].includes(data?.status!)) {
+                return (
+                    <p>
+                        Расскажите, обмен с пользователем{" "}
+                        <Link
+                            href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                dispatchVisibleNotifications(false)
+                            }}
+                        >
+                            {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                        </Link>{" "}
+                        состоялся?
+                    </p>
+                )
+            }
+            if (operation === "completion-recall") {
+                return (
+                    <p>
+                        Пользователь{" "}
+                        <Link
+                            href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                dispatchVisibleNotifications(false)
+                            }}
+                        >
+                            {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                        </Link>{" "}
+                        подтвердил, что обмен состоялся. Здорово! Вы можете рассказать как все прошло в отзывах.
+                    </p>
+                )
+            }
         }
 
         return null
-    }, [data, provider, userId, dataUser])
+    }, [data, provider, userId, dataProfile])
 
     const buttons: ReactNode | null = useMemo(() => {
         if (provider === "barter") {
@@ -119,8 +153,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     )
                 }
-            }
-            if (operation === "completion-survey") {
+            } else if (["completion-yes", "completion-survey", "completion-no"].includes(operation!) && ["completed", "executed"].includes(data?.status!)) {
                 return (
                     <>
                         <Button
@@ -147,11 +180,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     </>
                 )
+            } else if (operation === "completion-recall") {
+                return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
             }
         }
 
         return null
-    }, [data, provider, userId, dataUser, operation, loading])
+    }, [data, provider, userId, dataProfile, operation, loading])
 
     function handleCompletion(value: boolean) {
         if (!loading) {
@@ -159,7 +194,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
             Promise.all([
                 serviceNotifications.patch({ enabled: true, operation: value ? "completion-yes" : "completion-no" }, id!),
                 serviceBarters.patch({ enabled: value, status: value ? "completed" : "destroyed" }, data?.id!),
-            ]).then((responses) => {
+            ]).then(() => {
                 refetch().then(() => {
                     setLoading(false)
                 })
@@ -167,11 +202,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
         }
     }
 
+    function handleRecall() {}
+
     return (
         <li className={styles.container} data-type={type} data-active={false}>
             <div data-avatar>
                 {currentType === "barter" ? (
-                    <NextImageMotion src={dataUser?.res?.profile?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+                    <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
                 ) : ["information", "warning", "error"].includes(type) ? (
                     <img src={IMG_TYPE?.[currentType]!} alt="type" width={24} height={24} />
                 ) : null}
