@@ -34,7 +34,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 status: "initiated",
                 order: "DESC",
             }),
-        queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
+        queryKey: ["barters", { receiver: userId, status: "initiated" }],
         enabled: false,
     })
 

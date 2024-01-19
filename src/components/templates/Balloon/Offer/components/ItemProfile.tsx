@@ -14,7 +14,7 @@ export const ItemProfile = memo(function ItemProfile({ profile }: { profile: IGe
     const geo = offer?.addresses[0]
 
     return (
-        <div className={styles.container}>
+        <article className={styles.container}>
             <div data-img>
                 <NextImageMotion src={profile?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
             </div>
@@ -32,6 +32,6 @@ export const ItemProfile = memo(function ItemProfile({ profile }: { profile: IGe
                     </p>
                 ) : null}
             </div>
-        </div>
+        </article>
     )
 })

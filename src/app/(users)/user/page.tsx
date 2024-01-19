@@ -80,7 +80,7 @@ export default function UserId() {
 
     const { data, isLoading } = useQuery({
         queryFn: () => serviceUser.getId(id!),
-        queryKey: ["user", id],
+        queryKey: ["user", { userId: id }],
         enabled: id !== "undefined" && id !== "null" && typeof id !== undefined,
         refetchOnReconnect: true,
         retry: true,

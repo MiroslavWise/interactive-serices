@@ -49,7 +49,7 @@ export const ListChat = memo(function ListChat() {
     const arrayUsers = useQueries({
         queries: usersIds.map((item) => ({
             queryFn: () => serviceUser.getId(Number(item)),
-            queryKey: ["user", item],
+            queryKey: ["user", { userId: item }],
             enabled: !!usersIds.length,
             refetchOnMount: false,
             refetchOnWindowFocus: false,

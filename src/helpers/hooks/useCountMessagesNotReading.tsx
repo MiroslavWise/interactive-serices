@@ -19,7 +19,7 @@ export const useCountMessagesNotReading = () => {
                 messagesLimit: 1,
                 messagesOrder: "DESC",
             }),
-        queryKey: ["threads", `user=${userId}`],
+        queryKey: ["threads", { user: userId }],
         refetchOnMount: true,
     })
 

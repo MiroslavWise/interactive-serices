@@ -28,7 +28,7 @@ export const PublicProfile = () => {
 
     const { data } = useQuery({
         queryFn: () => serviceUser.getId(idUser!),
-        queryKey: ["user", idUser!],
+        queryKey: ["user", { userId: idUser }],
         enabled: visibleProfilePublic && !!idUser,
     })
 

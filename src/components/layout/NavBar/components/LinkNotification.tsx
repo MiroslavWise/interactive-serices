@@ -11,14 +11,15 @@ import { ItemNotification } from "@/components/notifications"
 export const LinkNotification = memo(function LinkNotification() {
     const pathname = usePathname()
     const [active, setActive, ref] = useOutsideClickEvent()
-
     const userId = useAuth(({ userId }) => userId)
 
-    const { data, refetch } = useQuery({
+    const { data } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications", `user=${userId}`],
+        queryKey: ["notifications", { userId: userId }],
         refetchOnMount: true,
         refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
+        enabled: !!userId,
     })
 
     return (

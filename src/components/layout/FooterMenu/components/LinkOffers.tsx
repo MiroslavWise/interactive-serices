@@ -21,7 +21,7 @@ export const LinkOffers = memo(function LinkOffers() {
                 status: "initiated",
                 order: "DESC",
             }),
-        queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
+        queryKey: ["barters", { receiver: userId, status: "initiated" }],
         enabled: !!userId && isAuth,
         refetchOnReconnect: true,
         refetchOnMount: true,

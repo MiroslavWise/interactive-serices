@@ -3,6 +3,7 @@
     height: fit-content;
     position: relative;
     overflow: hidden;
+    padding-inline: 0 !important;
 
     &::-webkit-scrollbar,
     &::-webkit-scrollbar-thumb {
@@ -17,6 +18,7 @@
         gap: 0.5rem;
         overflow-x: scroll;
         scroll-behavior: smooth;
+        padding-inline: 1.25rem;
 
         & > img {
             height: 5.625rem;

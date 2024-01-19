@@ -61,7 +61,7 @@ export const ReciprocalExchange = () => {
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUser.getId(offer?.userId!),
-        queryKey: ["user", offer?.userId!],
+        queryKey: ["user", { userId: offer?.userId }],
         enabled: !!offer?.userId,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -70,7 +70,7 @@ export const ReciprocalExchange = () => {
     //---
     const { refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications", `user=${userId}`],
+        queryKey: ["notifications", { userId: userId }],
         enabled: false,
     })
     //---

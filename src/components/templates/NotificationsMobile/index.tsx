@@ -19,7 +19,7 @@ export function NotificationsMobile() {
 
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications", `user=${userId}`],
+        queryKey: ["notifications", { userId: userId }],
         enabled: !!userId,
     })
 

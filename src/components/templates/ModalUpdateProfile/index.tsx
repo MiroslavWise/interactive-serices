@@ -36,7 +36,7 @@ export const ModalUpdateProfile = () => {
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", userId],
+        queryKey: ["user", { userId: userId }],
         enabled: isVisible && !!userId,
     })
 

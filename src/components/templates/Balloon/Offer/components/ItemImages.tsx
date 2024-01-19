@@ -29,8 +29,23 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
         }
     }
 
+    console.log("refImages: ", refImages.current)
+
     return (
-        <div className={styles.container} data-not-button={images?.length < 5}>
+        <div
+            className={styles.container}
+            data-not-button={images?.length < 5}
+            onWheel={(event) => {
+                event.stopPropagation()
+                if (refImages.current) {
+                    refImages.current.scrollBy({
+                        top: 0,
+                        left: event.deltaY,
+                        behavior: "smooth",
+                    })
+                }
+            }}
+        >
             <div data-images ref={refImages}>
                 {images.map((item) => (
                     <NextImageMotion

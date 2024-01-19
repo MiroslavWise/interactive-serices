@@ -24,7 +24,7 @@ export const BalloonOffer = () => {
 
     const { data } = useQuery({
         queryFn: () => serviceUser.getId(offer?.userId!),
-        queryKey: ["user", offer?.userId!],
+        queryKey: ["user", { userId: offer?.userId }],
         enabled: !offer?.userId,
     })
 

@@ -18,7 +18,7 @@ export const CardReview: TCardReview = (props) => {
 
     const { data } = useQuery({
         queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", id],
+        queryKey: ["user", { userId: userId }],
         enabled: !!id && !!userId,
     })
 

@@ -16,7 +16,7 @@ export const HeaderBlock: THeaderBlock = () => {
 
     const { data } = useQuery({
         queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", userId],
+        queryKey: ["user", { userId: userId }],
         enabled: !!userId,
     })
 

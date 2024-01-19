@@ -22,7 +22,7 @@ export const M_ContainerAboutProfile = () => {
 
     const { data } = useQuery({
         queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", userId],
+        queryKey: ["user", { userId: userId }],
         enabled: !!userId,
     })
 

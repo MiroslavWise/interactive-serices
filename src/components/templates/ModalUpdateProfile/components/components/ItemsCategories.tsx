@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
+import { flushSync } from "react-dom"
 import { useMemo, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { Button } from "@/components/common"
 
@@ -19,7 +20,7 @@ export function ItemsCategories() {
 
     const { data, refetch } = useQuery({
         queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", userId!],
+        queryKey: ["user", { userId: userId }],
         enabled: !!userId,
     })
 
@@ -31,7 +32,7 @@ export function ItemsCategories() {
         return serviceUser.patch({ categories: ids.sort() }, userId!).then((response) => {
             console.log("response user categories: ", response)
             if (response.ok) {
-                requestAnimationFrame(() => {
+                flushSync(() => {
                     refetch()
                 })
             }
@@ -127,9 +128,7 @@ export function ItemsCategories() {
                     ) : null}
                 </div>
             ) : null}
-            {categoriesUser.length < 5 && (
-                <Button type="button" typeButton="regular-primary" label="Добавить" onClick={() => setIsSelection(true)} />
-            )}
+            {categoriesUser.length < 5 && <Button type="button" typeButton="regular-primary" label="Добавить" onClick={() => setIsSelection(true)} />}
         </div>
     )
 }
