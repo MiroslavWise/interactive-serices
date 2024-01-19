@@ -10,8 +10,8 @@ import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { serviceBarters, serviceNotifications, serviceUser } from "@/services"
 import { useAuth, dispatchVisibleNotifications } from "@/store"
+import { serviceBarters, serviceNotifications, serviceUser } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
