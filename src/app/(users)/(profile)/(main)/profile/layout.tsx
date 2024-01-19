@@ -2,26 +2,11 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
 export const metadata: Metadata = {
-    title: {
-        default: "Профиль",
-        template: "%s | Sheira",
-    },
-    openGraph: {
-        title: {
-            default: "Профиль",
-            template: "%s | Sheira",
-        },
-    },
-    twitter: {
-        title: {
-            default: "Профиль",
-            template: "%s | Sheira",
-        },
-    },
+    title: "Профиль",
+    openGraph: { title: "Профиль" },
+    twitter: { title: "Профиль" },
 }
 
-import styles from "@/components/profile/MyProfilePage/styles/style.module.scss"
-
 export default function LayoutProfile({ children }: { children: ReactNode }) {
-    return <ul className={styles.containerProfilePage}>{children}</ul>
+    return <ul className="__container-profile-page__">{children}</ul>
 }

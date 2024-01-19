@@ -6,18 +6,18 @@ import styles from "./layout.module.scss"
 export const metadata: Metadata = {
     title: {
         default: "Редактирование профиля",
-        template: "%s | Редактирование профиля | Sheira",
+        template: "%s | Sheira",
     },
     openGraph: {
         title: {
             default: "Редактирование профиля",
-            template: "%s | Редактирование профиля | Sheira",
+            template: "%s | Sheira",
         },
     },
     twitter: {
         title: {
             default: "Редактирование профиля",
-            template: "%s | Редактирование профиля | Sheira",
+            template: "%s | Sheira",
         },
     },
 }

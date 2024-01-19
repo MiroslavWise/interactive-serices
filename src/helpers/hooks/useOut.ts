@@ -1,12 +1,13 @@
 "use client"
 
-import { useAuth } from "@/store/hooks"
+import { dispatchOuAuth, useAuth } from "@/store/hooks"
 
 export const useOut = () => {
-    const signOut = useAuth(({ signOut }) => signOut)
+    // const signOut = useAuth(({ signOut }) => signOut)
 
     function out() {
-        signOut()
+        dispatchOuAuth()
+        // signOut()
     }
 
     return { out }

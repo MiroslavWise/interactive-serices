@@ -38,7 +38,6 @@ export const useAuth = create(
                 setUserAction(value, set)
             },
             signOut() {
-                console.log("sign-out")
                 signOutAction(set, initialStateAuth)
             },
             updateProfile() {
@@ -105,6 +104,7 @@ export const useAuth = create(
                         }
                     })
                 }
+                
                 set((state) => ({
                     ...state,
                     ...initialStateAuth,
@@ -146,6 +146,11 @@ export const dispatchAuthToken = (values: IResponseLoginNot2fa & { email: string
             isAuth: true,
         }
     })
+
+export const dispatchOuAuth = () => {
+    useAuth.persist.clearStorage()
+    useAuth.setState((_) => ({ isAuth: false }))
+}
 
 function isTokenExpired(exp: number | undefined) {
     if (exp !== undefined) {
