@@ -123,7 +123,6 @@ export const ReciprocalExchange = () => {
                         consignedId: offer?.id!, //number
                         status: "initiated",
                         enabled: true,
-                        addresses: offer?.addresses?.map((item) => item.id), //[number]
                     }
 
                     serviceBarters.post(dataBarter).then((response) => {

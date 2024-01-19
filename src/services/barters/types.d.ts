@@ -53,14 +53,14 @@ export interface IPostDataBarter {
     threadId?: number
     addresses?: number[]
     subscribers?: number[]
-    provider: TTypeProvider
+    provider: TTypeProvider //всегда "barter"
     title: string
     imageId?: number | null
     orderBy?: number
     initialId: number
     consignedId: number
     updatedById?: number
-    status: TTypeStatusBarter
+    status: TTypeStatusBarter // для отслеживания статуса бартера: инициирован, отказан, принят, завершён, не состоялся
     timestamp?: Date | string
     enabled: boolean
 }
