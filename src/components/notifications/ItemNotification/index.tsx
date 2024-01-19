@@ -29,14 +29,12 @@ export const ItemNotification = (props: IResponseNotifications) => {
     const userId = useAuth(({ userId }) => userId)
     const { created, provider, operation, data, id } = props ?? {}
 
-    const user = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
+    const idUser = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUser.getId(user!),
-        queryKey: ["user", { userId: user }],
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        enabled: !!user,
+        queryFn: () => serviceUser.getId(idUser!),
+        queryKey: ["user", { userId: idUser }],
+        enabled: !!idUser,
     })
 
     const { refetch } = useQuery({
@@ -113,7 +111,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                             type="button"
                             typeButton="fill-primary"
                             label="Перейти в чат"
-                            href={{ pathname: `/messages`, query: { "barter-id": `${data?.id!}-${user}` } }}
+                            href={{ pathname: `/messages`, query: { "barter-id": `${data?.id!}-${idUser}` } }}
                             onClick={(event) => {
                                 event.stopPropagation()
                                 dispatchVisibleNotifications(false)

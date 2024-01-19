@@ -11,13 +11,13 @@ import { useOut } from "@/helpers/hooks/useOut"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerAboutMe: TContainerAboutMe = ({}) => {
+export const ContainerAboutMe = () => {
     const { out } = useOut()
     const [isEditing, setIsEditing] = useState(false)
     const [textEditing, setTextEditing] = useState("")
+    const user = useAuth(({ user }) => user)
     const userId = useAuth(({ userId }) => userId)
     const profileId = useAuth(({ profileId }) => profileId)
-    const user = useAuth(({ user }) => user)
     const updateProfile = useAuth(({ updateProfile }) => updateProfile)
 
     useEffect(() => {
