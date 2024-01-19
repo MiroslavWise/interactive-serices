@@ -33,7 +33,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUser.getId(user!),
-        queryKey: ["user"],
+        queryKey: ["user", { userId: user }],
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         enabled: !!user,
@@ -41,7 +41,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const { refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications", `user=${userId}`],
+        queryKey: ["notifications", { userId: userId }],
         enabled: false,
     })
 

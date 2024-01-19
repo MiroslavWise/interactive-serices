@@ -33,7 +33,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
 
     const { data: userData } = useQuery({
         queryFn: () => serviceUser.getId(getUser!),
-        queryKey: ["user", getUser!],
+        queryKey: ["user", { userId: getUser }],
         enabled: !!getUser,
     })
 

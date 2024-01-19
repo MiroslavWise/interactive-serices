@@ -37,7 +37,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", userId],
+        queryKey: ["user", { userId: id }],
         enabled: !!userId,
         refetchOnMount: false,
         refetchOnWindowFocus: false,

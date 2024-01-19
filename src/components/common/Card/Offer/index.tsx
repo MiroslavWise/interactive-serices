@@ -27,7 +27,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUser.getId(idUser!),
-        queryKey: ["user", idUser],
+        queryKey: ["user", { userId: idUser }],
         refetchOnMount: false,
         enabled: !!idUser,
     })

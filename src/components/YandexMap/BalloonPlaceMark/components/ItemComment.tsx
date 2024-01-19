@@ -13,7 +13,7 @@ export const ItemComment: TItemComment = (props) => {
 
     const { data } = useQuery({
         queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", userId],
+        queryKey: ["user", { userId: userId }],
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,

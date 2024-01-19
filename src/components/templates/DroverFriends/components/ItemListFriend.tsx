@@ -25,7 +25,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     const { handlePush } = usePush()
     const { data } = useQuery({
         queryFn: () => serviceUser.getId(id!),
-        queryKey: ["users", `user=${id}`],
+        queryKey: ["user", { userId: id }],
         enabled: !!id,
         refetchOnMount: false,
         refetchOnWindowFocus: false,

@@ -43,7 +43,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
         queryClient
             .fetchQuery({
                 queryFn: () => serviceUser.getId(get().userId!),
-                queryKey: ["user", get().userId],
+                queryKey: ["user", { userId: get().userId }],
             })
             .then((response) => {
                 if (response?.ok) {

@@ -20,7 +20,7 @@ export const ItemProposal = memo(function ItemProposal() {
     }, [categories, offer?.categories])
 
     return (
-        <div className={styles.container}>
+        <article className={styles.container}>
             <time>{daysAgo(time!)}</time>
             <h4>Предложение</h4>
             <p data-proposal>{proposal}</p>
@@ -36,11 +36,7 @@ export const ItemProposal = memo(function ItemProposal() {
                             <a key={`::${item.id}::wants::`}>
                                 <div data-img>
                                     <img
-                                        src={
-                                            ICON_OBJECT_OFFERS.hasOwnProperty(item.id)
-                                                ? ICON_OBJECT_OFFERS[item.id!]
-                                                : ICON_OBJECT_OFFERS.default
-                                        }
+                                        src={ICON_OBJECT_OFFERS.hasOwnProperty(item.id) ? ICON_OBJECT_OFFERS[item.id!] : ICON_OBJECT_OFFERS.default}
                                         alt="item"
                                         height={16}
                                         width={16}
@@ -52,6 +48,6 @@ export const ItemProposal = memo(function ItemProposal() {
                     </div>
                 </>
             ) : null}
-        </div>
+        </article>
     )
 })

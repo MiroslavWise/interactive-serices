@@ -15,7 +15,7 @@ export default function Notifications() {
 
     const { data: dataNotifications, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications", `user=${userId}`],
+        queryKey: ["notifications", { userId: userId }],
         refetchOnMount: false,
         refetchOnWindowFocus: false,
     })

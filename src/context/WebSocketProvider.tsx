@@ -5,16 +5,15 @@ import { useQuery } from "@tanstack/react-query"
 import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
 import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
+import type { TTypeStatusBarter } from "@/services/file-upload/types"
+import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+
+import { useAuth } from "@/store"
 import { usePush } from "@/helpers"
-import { useAuth } from "@/store/hooks"
 import env from "@/config/environment"
-import { serviceProfile } from "@/services/profile"
-import { serviceBarters } from "@/services/barters"
 import { useToast } from "@/helpers/hooks/useToast"
 import { queryClient } from "./QueryClientProviderContext"
-import { serviceNotifications } from "@/services/notifications"
-import { IGetProfileIdResponse } from "@/services/profile/types/profileService"
-import { TTypeStatusBarter } from "@/services/file-upload/types"
+import { serviceProfile, serviceBarters, serviceNotifications } from "@/services"
 
 interface IContextSocket {
     socket: Socket | undefined
@@ -35,7 +34,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
     const { refetch: refetchNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications", `user=${userId}`],
+        queryKey: ["notifications", { userId: userId }],
         enabled: false,
     })
 
@@ -45,7 +44,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 status: "initiated",
                 order: "DESC",
             }),
-        queryKey: ["barters", `receiver=${userId}`, `status=initiated`],
+        queryKey: ["barters", { receiver: userId, status: "initiated" }],
         enabled: false,
     })
 
@@ -142,11 +141,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
                 socket.on("connect", () => {
                     const upgradedTransport = socket.io.engine.transport.name
-                    console.log(
-                        "%c--- connect upgradedTransport ---",
-                        `color:  #${upgradedTransport ? "0f0" : "fd3412"}`,
-                        upgradedTransport,
-                    )
+                    console.log("%c--- connect upgradedTransport ---", `color:  #${upgradedTransport ? "0f0" : "fd3412"}`, upgradedTransport)
                     setSocketState(socket)
                 })
                 socket.on("connect_error", connectError)

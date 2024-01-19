@@ -78,7 +78,7 @@ export const CurrentChat = () => {
 
     const { data: dataUser } = useQuery({
         queryFn: () => serviceUser.getId(Number(idUser)),
-        queryKey: ["user", idUser],
+        queryKey: ["user", { userId: idUser }],
         enabled: !!idUser && !userDataIdMassage,
         refetchOnMount: true,
         refetchOnWindowFocus: true,
