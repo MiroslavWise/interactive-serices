@@ -136,6 +136,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                         status: "accepted",
                         threadId: threadId!,
                         created: date,
+                        delay: 60 * 3 * 1000,
                     })
                     refetchOffers()
                 }
