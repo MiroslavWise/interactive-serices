@@ -1,26 +1,19 @@
 "use client"
 
-import { ChangeEvent, useState } from "react"
-import Image from "next/image"
+import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { isMobile } from "react-device-detect"
+import { ChangeEvent, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
 import type { TTextAreaSend } from "./types/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
 
 import { FilesUpload } from "./FilesUpload"
-import { Button } from "@/components/common"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
-import { ButtonCircleGradientFill } from "@/components/common/Buttons/ButtonCircleGradientFill"
 
-import { useAuth } from "@/store/hooks"
-import { serviceMessages } from "@/services/messages"
-import { fileUploadService } from "@/services/file-upload"
-import { useWebSocket } from "@/context/WebSocketProvider"
-
-import styles from "./styles/text-area.module.scss"
-import { flushSync } from "react-dom"
+import { useAuth } from "@/store"
+import { useWebSocket } from "@/context"
+import { fileUploadService, serviceMessages } from "@/services"
 
 export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
     const idThread = useSearchParams()?.get("thread")

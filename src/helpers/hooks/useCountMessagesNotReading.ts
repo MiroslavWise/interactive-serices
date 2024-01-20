@@ -25,13 +25,19 @@ export const useCountMessagesNotReading = () => {
 
     const count = useMemo(() => {
         if (data?.res && Array.isArray(data?.res) && userId) {
-            console.log("data LinkMessages: ", data?.res)
-            const messagesForMe = data?.res
-                ?.filter((item) => item.messages?.length > 0)
-                ?.filter((item) => item?.messages[0]?.emitterId !== userId)
-                ?.filter((item) => item?.messages[0]?.readIds?.length === 0)
+            const array: any[] = []
 
-            return messagesForMe?.length || 0
+            for (const item of data?.res) {
+                if (item?.messages?.length > 0) {
+                    if (item?.messages[0]?.emitterId !== userId) {
+                        if (!item?.messages[0]?.readIds?.includes(userId)) {
+                            array.push(item)
+                        }
+                    }
+                }
+            }
+
+            return array?.length || 0
         }
         return null
     }, [data?.res, userId])

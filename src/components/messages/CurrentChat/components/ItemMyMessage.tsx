@@ -9,7 +9,7 @@ import type { IPhoto } from "@/store/types/useVisiblePhotosCarousel"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchPhotoCarousel } from "@/store/hooks"
+import { dispatchPhotoCarousel } from "@/store"
 import { stylesBlockRight } from "@/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
@@ -32,6 +32,7 @@ export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo,
                         className={cx(styles.blockMessage, styles[stylesBlockRight(messages?.length!, index)])}
                         key={`${item.id}_${item.message}`}
                         id={`${item.id!}`}
+                        data-only-image={!item?.message?.trim() && item?.images?.length > 0}
                     >
                         {item?.images?.length ? (
                             <div data-images>
