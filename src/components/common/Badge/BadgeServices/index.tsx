@@ -1,67 +1,47 @@
 "use client"
 
-import { useMemo } from "react"
-
 import type { TBadgeServices } from "./types"
+import type { IResponseOffers } from "@/services/offers/types"
 
-import { ImageStatic } from "@/components/common/Image"
-
-import { cx } from "@/lib/cx"
-import { usePush } from "@/helpers"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import { IconCategory } from "@/lib/icon-set"
+import { dispatchBallonOffer, useOffersCategories } from "@/store/hooks"
 
 import styles from "./style.module.scss"
+import { SyntheticEvent } from "react"
 
 export const BadgeServices: TBadgeServices = (props) => {
-    const { id, provider, categoryId, userId, addresses, isClickable } = props
-    const { handlePush } = usePush()
-    const { categories } = useOffersCategories()
-    const { dispatchMapCoordinates } = useMapCoordinates()
-    const { dispatch } = useBalloonCard()
+    const { categoryId, id, isClickable } = props ?? {}
+    const categories = useOffersCategories(({ categories }) => categories)
 
-    const infoCategory = useMemo(() => {
-        if (!categories.length || !categoryId) {
-            return null
-        }
-
-        return categories?.find((_) => _?.id === categoryId)
-    }, [categories, categoryId])
+    const infoCategory = categories?.find((item) => item?.id === categoryId)
 
     function handle() {
-        if (addresses && id && isClickable) {
-            // dispatchMapCoordinates({
-            //     coordinates: addresses?.[0]?.coordinates
-            //         ?.split(" ")
-            //         ?.reverse()
-            //         ?.map(Number),
-            //     zoom: 20,
-            // })
-            dispatch({
+        if (id && isClickable) {
+            const { isClickable, ...offer } = props ?? {}
+            dispatchBallonOffer({
                 visible: true,
-                type: provider!,
-                id: id,
-                idUser: userId,
+                offer: offer! as IResponseOffers,
             })
-            // requestAnimationFrame(() => {
-            //     handlePush("/")
-            // })
         }
     }
 
     return (
-        <li
-            className={cx(styles.container)}
-            data-type={provider}
-            onClick={handle}
-        >
-            <div className={styles.containerImgService}>
-                <ImageStatic
-                    src={"/mocks/Nail.png"}
-                    alt="mocks"
-                    width={16}
+        <li className={styles.container} onClick={handle}>
+            <div data-img>
+                <img
+                    src={IconCategory(categoryId!)}
+                    alt="cat"
                     height={16}
+                    width={16}
+                    onError={(error: any) => {
+                        if (error?.target) {
+                            try {
+                                error.target.src = `/svg/category/default.svg`
+                            } catch (e) {
+                                console.log("catch e: ", e)
+                            }
+                        }
+                    }}
                 />
             </div>
             <p>{infoCategory?.title! || "---{}---"}</p>

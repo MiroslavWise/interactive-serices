@@ -1,48 +1,45 @@
 "use client"
 
-// import { useState } from "react"
-// import Image from "next/image"
+import { isMobile } from "react-device-detect"
 
 import type { TContainerTagAndButton } from "./types/types"
+import type { ISegmentValues } from "@/components/common/Segments/types"
+import type { TTypeProvider } from "@/services/file-upload/types"
 
-// import { ButtonFill } from "@/components/common/Buttons"
-// import { SpoilerNotAdress } from "../../NavBar/components/SpoilerNotAdress"
+import { Segments } from "@/components/common/Segments"
 
-// import { useAddress } from "@/helpers"
-// import { useVisibleNewServiceBarterRequests } from "@/store/hooks"
+import { useProviderProfileOffer, dispatchProvider } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
+const TABS: ISegmentValues<TTypeProvider>[] = [
+    {
+        label: isMobile ? "Предложения" : "Мои предложения",
+        value: "offer",
+    },
+    {
+        label: "Дискуссии",
+        value: "discussion",
+    },
+    {
+        label: "SOS",
+        value: "alert",
+    },
+]
+
 export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {
-    // const [active, setActive] = useState(false)
-    // const { setIsVisibleNewServiceBarterRequests } =
-    //     useVisibleNewServiceBarterRequests()
-    // const { isAddresses } = useAddress()
+    const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
 
     return (
         <div className={styles.containerTagAndButton}>
-            <h4>Мои предложения</h4>
-            {/* <ButtonFill
+            <Segments
                 type="primary"
-                label="Добавить"
-                classNames={styles.widthButton}
-                suffix={
-                    <Image
-                        src="/svg/plus.svg"
-                        alt="plus"
-                        width={16}
-                        height={16}
-                    />
-                }
-                handleClick={() => {
-                    if (isAddresses) {
-                        setIsVisibleNewServiceBarterRequests(true)
-                    } else {
-                        setActive(true)
-                    }
+                VALUES={TABS}
+                active={TABS.find((_) => _.value === stateProvider)!}
+                setActive={({ value }) => {
+                    dispatchProvider(value)
                 }}
-            /> */}
-            {/* <SpoilerNotAdress {...{ active, setActive }} /> */}
+            />
         </div>
     )
 }

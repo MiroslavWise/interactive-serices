@@ -5,15 +5,7 @@ import type { TMotion } from "./types/types"
 import { cx } from "@/lib/cx"
 import { motionItemOnOpacity, motionItemOnOpacityY } from "@/lib/motion"
 
-export const MotionLI: TMotion = ({
-    children,
-    classNames,
-    onClick,
-    ref,
-    id,
-    data,
-    notY,
-}) => {
+export const MotionLI: TMotion = ({ children, classNames, onClick, ref, id, data, notY }) => {
     return (
         <motion.li
             className={cx(classNames)}

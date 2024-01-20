@@ -3,9 +3,9 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 101px;
+    height: 6.3125rem;
     background: var(--glass-bg-color-1);
-    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0.25rem 1.5rem 0px rgba(0, 0, 0, 0.12);
     backdrop-filter: blur(4px);
     z-index: 120;
 
@@ -13,7 +13,7 @@
         padding-top: constant(safe-area-inset-top);
         padding-top: env(safe-area-inset-top, 0);
         background: var(--glass-bg-color-1);
-        box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+        box-shadow: 0px 0.25rem 1.5rem 0px rgba(0, 0, 0, 0.12);
         backdrop-filter: blur(4px);
     }
 
@@ -25,36 +25,36 @@
         z-index: 11;
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        padding-top: 14px;
+        gap: 0.75rem;
+        padding-top: 0.875rem;
 
         .logoAndNotifications {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 1.25rem;
 
             .containerNotification {
                 position: relative;
-                padding: 11px;
-                height: 44px;
-                width: 44px;
+                padding: 0.6875rem;
+                height: 2.75rem;
+                width: 2.75rem;
                 flex-shrink: 0;
-                border-radius: 12px;
+                border-radius: 0.75rem;
                 border: 1px solid var(--gray-200);
                 background: var(--background-input);
 
                 .badge {
                     position: absolute;
-                    padding-left: 6.37px;
-                    padding-right: 6.37px;
+                    padding-left: 0.3981rem;
+                    padding-right: 0.3981rem;
                     transform: translate(-50%, -50%);
                     top: 0;
-                    left: calc(100% - 5px);
-                    height: 18px;
-                    width: 18px;
-                    border-radius: 18px;
+                    left: calc(100% - 0.3125rem);
+                    height: 1.125rem;
+                    width: 1.125rem;
+                    border-radius: 1.125rem;
                     border: 0.562px solid #fff;
                     background: var(--primary-400);
                     display: flex;
@@ -64,23 +64,23 @@
                     span {
                         color: #fff;
                         text-align: center;
-                        font-size: 10.125px;
+                        font-size: 0.625rem;
                         font-style: normal;
                         font-weight: 700;
-                        line-height: 10.125px;
+                        line-height: 0.625rem;
                     }
                 }
             }
 
             & > [data-not] {
-                height: 44px;
-                padding: 22px;
-                width: 44px;
+                height: 2.75rem;
+                padding: 1.375rem;
+                width: 2.75rem;
             }
         }
 
         .segments {
-            padding: 0 20px;
+            padding: 0 1.25rem;
         }
     }
 }
@@ -88,7 +88,13 @@
 [data-theme="dark"] {
     .header {
         background: var(--glass-bg-color-2);
-        backdrop-filter: blur(10.5px);
+        backdrop-filter: blur(0.63rem);
+
+        .containerNotification {
+            & > img {
+                filter: invert(1);
+            }
+        }
     }
 }
 
@@ -96,9 +102,9 @@
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    top: 40px;
+    top: 2.5rem;
     z-index: 2;
-    max-width: 346px;
+    max-width: 21.625rem;
     width: 100%;
     min-width: 150px;
 }

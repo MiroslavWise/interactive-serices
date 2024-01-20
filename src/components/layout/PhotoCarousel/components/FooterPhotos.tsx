@@ -1,40 +1,28 @@
-import { NextImageMotion } from "@/components/common/Image"
-import { MotionLI, MotionUL } from "@/components/common/Motion"
+import { NextImageMotion } from "@/components/common"
 
-import { useVisiblePhotosCarousel } from "@/store/hooks"
+import { useVisiblePhotosCarousel, dispatchCurrentPhoto } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export function FooterPhotos() {
-    const { photos, currentPhoto, setCurrentPhoto } = useVisiblePhotosCarousel(
-        (_) => ({
-            photos: _.photos,
-            currentPhoto: _.currentPhoto,
-            setCurrentPhoto: _.setCurrentPhoto,
-        }),
-    )
+    const photos = useVisiblePhotosCarousel(({ photos }) => photos)
+    const currentPhoto = useVisiblePhotosCarousel(({ currentPhoto }) => currentPhoto)
 
     return (
-        <MotionUL classNames={[styles.containerFooterPhotos]}>
+        <ul className={styles.containerFooterPhotos}>
             {photos?.map((item) => (
-                <MotionLI
-                    classNames={[
-                        currentPhoto?.id === item?.id && styles.active,
-                    ]}
-                    key={`${item.url}_${item?.id}`}
-                >
+                <li className={currentPhoto?.id === item?.id ? styles.active : ""} key={`${item.url}_${item?.id}`}>
                     <NextImageMotion
                         src={item?.url!}
-                        alt="photo"
-                        width={1920}
-                        height={1080}
+                        alt="offer-image"
+                        width={192}
+                        height={108}
                         onClick={() => {
-                            console.log("currentPhoto: ", item)
-                            setCurrentPhoto({ currentPhoto: item })
+                            dispatchCurrentPhoto({ currentPhoto: item })
                         }}
                     />
-                </MotionLI>
+                </li>
             ))}
-        </MotionUL>
+        </ul>
     )
 }

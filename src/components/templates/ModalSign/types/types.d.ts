@@ -12,9 +12,7 @@ export type TContentSignIn = FC<{
     setValueSecret: Dispatch<SetStateAction<{ url: string; secret: string }>>
 }>
 
-export type TContentForgotPassword = FC<{
-    setValueEmail: Dispatch<SetStateAction<IResetEmailData>>
-}>
+export type TContentForgotPassword = FC<{}>
 
 export type TContentSignUp = FC<{}>
 
@@ -41,27 +39,26 @@ export type TContentSelectVerification = FC<{
     setTypeVerification: Dispatch<SetStateAction<"email" | "phone" | null>>
 }>
 
-export type THeaderModal = FC<{
-    email: string
-    typeVerification: "email" | "phone" | null
-}>
+export type THeaderModal = FC<{}>
 
-export type TContentCodeVerification = FC<{
-    typeVerification: "email" | "phone" | null
-    valueEmail: IResetEmailData
-}>
+export type TContentCodeVerification = FC<{}>
 
 export interface IValuesRegistrationForm {
-    email: string
-    password: string
-    repeat_password: string
-    checkbox: boolean
+    email: string //email
+    phone: string
+    country: string
+    code: string
+    // password: string //password
+    // repeat_password: string //repeat_password
+    checkbox: boolean //checkbox
 }
 
 export interface IValuesSignForm {
     email: string
     password: string
-    checkbox: boolean
+    phone: string
+    country: string
+    code: string
 }
 
 export interface IValuesPersonForm {

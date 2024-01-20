@@ -1,54 +1,53 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 
-import type {
-    IFeatureMember,
-    IResponseGeocode,
-} from "@/services/addresses/types/geocodeSearch"
 import type { TSearchElementMap } from "./types"
+import type { IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
-import { cx } from "@/lib/cx"
-import { useDebounce } from "@/helpers"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
-import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
+import { queryClient } from "@/context"
+import { getGeocodeSearch } from "@/services"
+import { dispatchMapCoordinates } from "@/store"
+import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 import styles from "./style.module.scss"
 
-export const SearchElementMap: TSearchElementMap = ({
-    handleAddressLocation,
-}) => {
+export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) => {
     const [text, setText] = useState("")
-    const [activeList, setActiveList] = useState(false)
-    const [values, setValues] = useState<IResponseGeocode | null>(null)
-    const debouncedValue = useDebounce(onValueFunc, 1500)
-
-    const { dispatchMapCoordinates } = useMapCoordinates()
+    const [loading, setLoading] = useState(false)
+    const [activeIsList, setIsActiveList, ref] = useOutsideClickEvent()
+    const debouncedValue = useDebounce(onValueFunc, 600)
+    const [values, setValues] = useState<IFeatureMember[]>([])
 
     function onFocus() {
-        setActiveList(true)
-    }
-
-    function onBlur() {
-        setTimeout(() => {
-            setActiveList(false)
-            setValues(null)
-        }, 300)
+        setIsActiveList(true)
     }
 
     function onValueFunc() {
-        console.log("debounce: ", text)
-        if (text.length > 2 && activeList) {
-            getGeocodeSearch(text).then((response) => {
-                console.log("values response: ", response)
-                setValues(response)
-            })
+        const value = text?.trim()?.toLowerCase()?.replaceAll("  ", " ")
+        const slug = value?.replaceAll(" ", "-")
+
+        if (value.length > 2) {
+            queryClient
+                .fetchQuery({
+                    queryFn: () => getGeocodeSearch(value),
+                    queryKey: ["addresses", { string: slug }],
+                })
+                .then((response) => {
+                    if (response?.response?.GeoObjectCollection?.featureMember && response?.response?.GeoObjectCollection?.featureMember?.length > 0) {
+                        setValues(response?.response?.GeoObjectCollection?.featureMember)
+                    } else {
+                        setValues([])
+                    }
+                    setLoading(false)
+                })
+        } else {
+            setValues([])
+            setLoading(false)
         }
     }
 
     function handleAddress(value: IFeatureMember) {
-        console.log("value: ", value)
         if (value) {
             const longitude = value?.GeoObject?.Point?.pos?.split(" ")[0]
             const latitude = value?.GeoObject?.Point?.pos?.split(" ")[1]
@@ -59,56 +58,73 @@ export const SearchElementMap: TSearchElementMap = ({
                 zoom: 18,
             })
         }
+        setIsActiveList(false)
     }
 
     return (
-        <div className={cx(styles.container)} id="searchElementMap">
-            <Image
-                className={styles.geoImage}
-                src="/svg/geo-marker.svg"
-                alt="geo"
-                width={20}
-                height={20}
-            />
+        <div className={styles.container} id="searchElementMap" ref={ref}>
+            <img data-geo src="/svg/geo-marker.svg" alt="geo" width={20} height={20} />
             <input
                 type="text"
                 onFocus={onFocus}
-                onBlur={onBlur}
-                placeholder="Выберите местоположение"
+                placeholder="Выберите местоположение..."
                 className={styles.input}
                 onChange={(event) => {
-                    event.preventDefault()
+                    setLoading(true)
+                    setIsActiveList(true)
+                    event.stopPropagation()
                     setText(event.target.value)
                     debouncedValue()
                 }}
+                onKeyDown={(event) => {
+                    if (event.keyCode === 13 || event.code === "Enter") {
+                        if (!loading) {
+                            if (values?.length > 0) {
+                                const item = values[0]
+                                handleAddress(item)
+                            }
+                        }
+                    }
+                }}
             />
-            <div className={styles.circleMark} onClick={handleAddressLocation}>
-                <Image src="/svg/mark.svg" alt="mark" width={20} height={20} />
-            </div>
-            {activeList && values?.response ? (
-                <ul className={cx(activeList && styles.active)}>
-                    {values?.response?.GeoObjectCollection?.featureMember?.map(
-                        (item) => (
-                            <li
-                                key={`${item.GeoObject.uri}-key-item-map`}
+            <button
+                data-circle
+                onClick={(event) => {
+                    event.stopPropagation()
+                    if (!loading) {
+                        handleAddressLocation()
+                    }
+                }}
+            >
+                <img data-loading-image={loading} src={loading ? "/svg/spinner.svg" : "/svg/mark.svg"} alt="mark" width={20} height={20} />
+            </button>
+            <section data-active={activeIsList}>
+                {values?.length > 0 ? (
+                    <ul>
+                        {values?.map((item) => (
+                            <a
+                                key={`::key::map::address::${item?.GeoObject?.uri}::`}
                                 onClick={(event) => {
-                                    event.preventDefault()
-                                    event.isPropagationStopped()
                                     event.stopPropagation()
                                     handleAddress(item)
                                 }}
                             >
-                                <span>
-                                    {
-                                        item?.GeoObject?.metaDataProperty
-                                            ?.GeocoderMetaData?.text
-                                    }
-                                </span>
-                            </li>
-                        ),
-                    )}
-                </ul>
-            ) : null}
+                                <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                            </a>
+                        ))}
+                    </ul>
+                ) : loading && !values?.length ? (
+                    <ul data-loading>
+                        <span />
+                        <span />
+                    </ul>
+                ) : text?.length > 0 ? (
+                    <article>
+                        <h3>Адрес</h3>
+                        <p>По вашему запросу нет подходящих адресов</p>
+                    </article>
+                ) : null}
+            </section>
         </div>
     )
 }

@@ -3,7 +3,6 @@
 import Image from "next/image"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IValuesForm } from "./types/types"
@@ -11,7 +10,7 @@ import type { IPatchOffers } from "@/services/offers/types"
 
 import { UploadPhoto } from "@/components/common/custom"
 import { NextImageMotion } from "@/components/common/Image"
-import { Button, ButtonClose, Glasses } from "@/components/common"
+import { Button, ButtonClose } from "@/components/common"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 import { cx } from "@/lib/cx"
@@ -24,10 +23,11 @@ import { useUpdateMutualOffer } from "@/store/state/useUpdateMutualOffer"
 import styles from "./styles/style.module.scss"
 
 export const UpdateMutualOffer = () => {
-    const { userId } = useAuth()
-    const { data, visibleUpdateMutual, dispatchUpdateMutual } =
-        useUpdateMutualOffer()
-    const { categories } = useOffersCategories()
+    const userId = useAuth(({ userId }) => userId)
+    const data = useUpdateMutualOffer(({ data }) => data)
+    const categories = useOffersCategories(({ categories }) => categories)
+    const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
+    const dispatchUpdateMutual = useUpdateMutualOffer(({ dispatchUpdateMutual }) => dispatchUpdateMutual)
     const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [strings, setStrings] = useState<string[]>([])
@@ -43,19 +43,17 @@ export const UpdateMutualOffer = () => {
             description: data?.title!,
         },
     })
+
     const { refetch } = useQuery({
-        queryFn: () =>
-            serviceOffers.getUserId(userId!, { provider: data?.provider! }),
+        queryFn: () => serviceOffers.getUserId(userId!, { provider: data?.provider!, order: "DESC" }),
         queryKey: ["offers", `user=${userId}`, `provider=${data?.provider!}`],
         enabled: false,
     })
 
-    const position = isMobile ? { left: 12 } : { right: 12 }
-
-    const title =
-        categories?.find((item) => item.id === data?.categoryId)?.title || null
+    const title = categories?.find((item) => item.id === data?.categoryId)?.title || null
 
     const photos = data?.images || []
+    const geo = data?.addresses?.[0] || null
 
     function cancel() {
         dispatchUpdateMutual({ visible: false })
@@ -65,26 +63,15 @@ export const UpdateMutualOffer = () => {
         if (!loading) {
             setLoading(true)
             const dataSheets: IPatchOffers = {}
-            if (
-                data?.title !== values.description &&
-                values.description.trim()
-            ) {
+            if (data?.title !== values.description && values.description.trim()) {
                 dataSheets.title = values.description!
             }
-            const photoIds =
-                data?.images
-                    ?.filter((item) => !deleteIdPhotos.includes(item.id!))
-                    .map((item) => item.id) || []
+            const photoIds = data?.images?.filter((item) => !deleteIdPhotos.includes(item.id!)).map((item) => item.id) || []
 
             const lengthDataImages = photoIds.length
-            const lengthMinus =
-                9 - lengthDataImages < 0 ? 0 : 9 - lengthDataImages
+            const lengthMinus = 9 - lengthDataImages < 0 ? 0 : 9 - lengthDataImages
 
-            if (
-                !Object.keys(dataSheets).length &&
-                photoIds.length === data?.images?.length &&
-                !files.length
-            ) {
+            if (!Object.keys(dataSheets).length && photoIds.length === data?.images?.length && !files.length) {
                 setLoading(false)
                 cancel()
                 return
@@ -127,78 +114,49 @@ export const UpdateMutualOffer = () => {
         setStrings((prev) => prev.filter((_, index) => index !== value))
     }
 
-    return visibleUpdateMutual ? (
-        <div
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-visible={visibleUpdateMutual}
-            data-mobile={isMobile}
-        >
+    return (
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleUpdateMutual}>
             <section>
+                <ButtonClose onClick={cancel} position={{}} />
                 <div data-header>
                     <h3>{title}</h3>
                 </div>
                 <form onSubmit={onSubmit}>
+                    {geo ? (
+                        <div data-div>
+                            <label>Адрес</label>
+                            <span>{geo?.additional}</span>
+                        </div>
+                    ) : null}
                     <div data-div>
-                        <label>
-                            Изменить текст, чтобы люди могли понять что вы
-                            хотите
-                        </label>
+                        <label>Изменить текст, чтобы люди могли понять что вы хотите</label>
                         <TextArea
                             {...register("description", { required: true })}
                             value={watch("description")}
-                            onChange={(event) =>
-                                setValue("description", event.target.value)
-                            }
-                            placeholder={
-                                data?.provider === "offer"
-                                    ? "Напишите что-нибудь"
-                                    : data?.provider === "request"
-                                      ? "Опишите более подробно, в чём конкретно ваша просьба"
-                                      : ""
-                            }
+                            onChange={(event) => setValue("description", event.target.value)}
+                            placeholder="Напишите что-нибудь"
                             maxLength={512}
                         />
                     </div>
                     <div data-div>
-                        <label>
-                            Добавить или удалить фото (не более 9 фото)
-                        </label>
+                        <label>Добавить или удалить фото (не более 9 фото)</label>
                         <div data-photos>
                             {photos.map((item) => (
-                                <div
-                                    data-photo
-                                    key={`${item.id}-photo-state`}
-                                    data-delete={deleteIdPhotos.includes(
-                                        item.id!,
-                                    )}
-                                >
-                                    <NextImageMotion
-                                        src={item.attributes.url}
-                                        alt="offer-image"
-                                        width={400}
-                                        height={400}
-                                        data-image
-                                    />
+                                <div data-photo key={`${item.id}-photo-state`} data-delete={deleteIdPhotos.includes(item.id!)}>
+                                    <NextImageMotion src={item.attributes.url} alt="offer-image" width={400} height={400} data-image />
                                     <div
                                         data-trash
                                         onClick={() => {
                                             setDeleteIdPhotos((prev) => {
                                                 if (prev.includes(item.id)) {
-                                                    return prev.filter(
-                                                        (_) => _ !== item.id,
-                                                    )
+                                                    return prev.filter((_) => _ !== item.id)
                                                 } else {
                                                     return [...prev, item.id]
                                                 }
                                             })
                                         }}
                                     >
-                                        <Image
-                                            src="/svg/trash-black.svg"
-                                            alt="trash"
-                                            width={16}
-                                            height={16}
-                                        />
+                                        <Image src="/svg/trash-black.svg" alt="trash" width={16} height={16} unoptimized />
                                     </div>
                                 </div>
                             ))}
@@ -208,12 +166,8 @@ export const UpdateMutualOffer = () => {
                                     index={index}
                                     selected={item}
                                     files={files[index]}
-                                    setFiles={(value) =>
-                                        setFiles((prev) => [...prev, value])
-                                    }
-                                    setSelectedImage={(value) =>
-                                        setStrings((prev) => [...prev, value])
-                                    }
+                                    setFiles={(value) => setFiles((prev) => [...prev, value])}
+                                    setSelectedImage={(value) => setStrings((prev) => [...prev, value])}
                                     deleteFile={deleteFile}
                                 />
                             ))}
@@ -223,36 +177,19 @@ export const UpdateMutualOffer = () => {
                                     index={strings.length}
                                     selected={""}
                                     files={files[files.length]}
-                                    setFiles={(value) =>
-                                        setFiles((prev) => [...prev, value])
-                                    }
-                                    setSelectedImage={(value) =>
-                                        setStrings((prev) => [...prev, value])
-                                    }
+                                    setFiles={(value) => setFiles((prev) => [...prev, value])}
+                                    setSelectedImage={(value) => setStrings((prev) => [...prev, value])}
                                     deleteFile={deleteFile}
                                 />
                             ) : null}
                         </div>
                     </div>
                     <footer>
-                        <Button
-                            label="Отмена"
-                            typeButton="regular-primary"
-                            type="button"
-                            onClick={cancel}
-                            loading={loading}
-                        />
-                        <Button
-                            label="Обновить"
-                            typeButton="fill-primary"
-                            type="submit"
-                            loading={loading}
-                        />
+                        <Button label="Отмена" typeButton="regular-primary" type="button" onClick={cancel} loading={loading} />
+                        <Button label="Обновить" typeButton="fill-primary" type="submit" loading={loading} />
                     </footer>
                 </form>
-                <ButtonClose onClick={cancel} position={position} />
-                <Glasses />
             </section>
         </div>
-    ) : null
+    )
 }

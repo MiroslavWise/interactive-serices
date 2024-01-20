@@ -1,31 +1,22 @@
 "use client"
 
-import { useInsertionEffect, useState } from "react"
+import { useInsertionEffect } from "react"
 import { usePathname } from "next/navigation"
 
-import { cx } from "@/lib/cx"
-import { useAnimateLoadPage } from "@/store/hooks"
-import { useCloseAllModal } from "@/helpers/hooks/useCloseAllModal"
+import { useAnimateLoadPage, dispatchAnimated } from "@/store"
 
 import styles from "./style.module.scss"
 
 export function AnimatedLoadPage() {
     const pathname = usePathname()
-    const [state, setState] = useState(pathname)
-    const { isAnimated, setIsAnimated } = useAnimateLoadPage((_) => ({
-        isAnimated: _.isAnimated,
-        setIsAnimated: _.setIsAnimated,
-    }))
+    const isAnimated = useAnimateLoadPage(({ isAnimated }) => isAnimated)
 
     useInsertionEffect(() => {
-        if (pathname !== state) {
-            setIsAnimated(false)
-            setState(pathname)
-        }
-    }, [pathname, state])
+        dispatchAnimated(false)
+    }, [pathname])
 
     return (
-        <div className={cx(styles.wrapper, isAnimated && styles.active)}>
+        <div className={styles.wrapper} data-active={isAnimated}>
             <div className={styles.container} />
         </div>
     )

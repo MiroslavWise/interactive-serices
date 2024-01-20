@@ -3,29 +3,20 @@
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { useTheme } from "next-themes"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
 
-import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services/offers"
 import { useUpdateMutualOffer } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const Buttons = ({
-    refetch,
-    offer,
-}: {
-    offer: IResponseOffers
-    refetch(): Promise<any>
-}) => {
+export const Buttons = ({ refetch, offer }: { offer: IResponseOffers; refetch(): Promise<any> }) => {
     const [loading, setLoading] = useState(false)
-    const { systemTheme } = useTheme()
     const [isOpen, setIsOpen] = useState(false)
-    const { dispatchUpdateMutual } = useUpdateMutualOffer()
+    const dispatchUpdateMutual = useUpdateMutualOffer(({ dispatchUpdateMutual }) => dispatchUpdateMutual)
 
     function handleUpdate() {
         dispatchUpdateMutual({
@@ -51,26 +42,14 @@ export const Buttons = ({
     return (
         <section className={styles.containerButtons}>
             <Button
-                typeButton={
-                    systemTheme === "dark" ? "fill-primary" : "fill-orange"
-                }
+                type="button"
+                typeButton={"fill-primary"}
                 label={
-                    offer?.provider === "offer"
-                        ? "Изменить предложение"
-                        : offer?.provider === "request"
-                        ? "Изменить запрос"
-                        : "Изменить"
+                    offer?.provider === "offer" ? "Изменить предложение" : offer?.provider === "request" ? "Изменить запрос" : "Изменить"
                 }
                 onClick={handleUpdate}
-                prefixIcon={
-                    <Image
-                        src="/svg/edit-white.svg"
-                        alt="edit"
-                        width={16}
-                        height={16}
-                    />
-                }
-                className={cx(styles.buttonFill, styles[offer?.provider!])}
+                prefixIcon={<Image src="/svg/edit-white.svg" alt="edit" width={16} height={16} unoptimized />}
+                className={styles.buttonFill}
             />
             <motion.div
                 className={styles.buttonTrash}
@@ -84,30 +63,14 @@ export const Buttons = ({
                         <Button
                             label="Удалить"
                             typeButton="fill-primary"
-                            suffixIcon={
-                                <Image
-                                    src="/svg/trash-black.svg"
-                                    alt="trash"
-                                    width={16}
-                                    height={16}
-                                />
-                            }
+                            suffixIcon={<Image src="/svg/trash-black.svg" alt="trash" width={16} height={16} unoptimized />}
                             onClick={handleDelete}
                             className={styles.buttonDelete}
                         />
-                        <Button
-                            label="Отмена"
-                            typeButton="regular-primary"
-                            className={styles.buttonDelete}
-                        />
+                        <Button label="Отмена" typeButton="regular-primary" className={styles.buttonDelete} />
                     </>
                 ) : (
-                    <Image
-                        src="/svg/trash-black.svg"
-                        alt="trash"
-                        width={16}
-                        height={16}
-                    />
+                    <Image src="/svg/trash-black.svg" alt="trash" width={16} height={16} unoptimized />
                 )}
             </motion.div>
         </section>

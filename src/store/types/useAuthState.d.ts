@@ -4,14 +4,11 @@ import type { DispatchWithoutAction, Dispatch } from "react"
 export type TAuthSuffix = "AuthJWT"
 export type TAuthPostfix = "RefreshToken" | "Token" | "UserId"
 export type ISetAction = (
-    partial:
-        | TUseAuth
-        | Partial<TUseAuth>
-        | ((state: TUseAuth) => TUseAuth | Partial<TUseAuth>),
+    partial: TUseAuth | Partial<TUseAuth> | ((state: TUseAuth) => TUseAuth | Partial<TUseAuth>),
     replace?: boolean | undefined,
 ) => void
 export type IGetAction = () => TUseAuth
-interface ISetToken {
+export interface ISetToken {
     token: string
     refreshToken: string
     userId: number
@@ -47,17 +44,17 @@ export interface IImageData {
 }
 
 export interface IAuthState {
-    email: undefined | string
-    expires: undefined | number
-    token: string | undefined
-    refreshToken: string | undefined
-    userId: number | undefined
-    profileId: number | undefined
-    isAuth: boolean | undefined
-    user: IUser | undefined
-    imageProfile: IImageData | undefined
-    createdUser: string | undefined | Date
-    addresses: IAddressesResponse[] | undefined
+    email?: string
+    expires?: number
+    token?: string
+    refreshToken?: string
+    userId?: number
+    profileId?: number
+    isAuth?: boolean
+    user?: IUser
+    imageProfile?: IImageData
+    createdUser?: string | Date
+    addresses?: IAddressesResponse[]
 }
 
 export interface IAuthAction {

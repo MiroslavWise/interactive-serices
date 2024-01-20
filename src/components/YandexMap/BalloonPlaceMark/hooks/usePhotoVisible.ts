@@ -1,12 +1,12 @@
-import type { IImageData } from "@/store/types/useAuthState"
-import { usePhotoOffer } from "@/store/state/usePhotoOffer"
-import type { IAuthor } from "@/store/types/createPhotoOffer"
+import { usePhotoOffer } from "@/store/hooks"
 import { IResponseOffers } from "@/services/offers/types"
+import type { IImageData } from "@/store/types/useAuthState"
+import type { IAuthor } from "@/store/types/createPhotoOffer"
 
 export const usePhotoVisible = () => {
-    const { dispatchPhotoOffer } = usePhotoOffer((_) => ({
-        dispatchPhotoOffer: _.dispatchPhotoOffer,
-    }))
+    const dispatchPhotoOffer = usePhotoOffer(
+        ({ dispatchPhotoOffer }) => dispatchPhotoOffer,
+    )
 
     function createGallery(
         offer: IResponseOffers,

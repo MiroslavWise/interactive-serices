@@ -1,172 +1,97 @@
 "use client"
 
-import Image from "next/image"
-import { memo, useMemo } from "react"
-import { isMobile } from "react-device-detect"
+import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
+import { memo, useEffect, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
 
-import { MotionLI } from "@/components/common/Motion"
-import { BadgeServices } from "@/components/common/Badge"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { NextImageMotion, GeoTagging, BadgeServices } from "@/components/common"
 
-import { serviceBarters } from "@/services/barters"
-import { usePush } from "@/helpers/hooks/usePush"
+import { serviceBarters } from "@/services"
+import { dispatchDataUser, useAuth } from "@/store"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
-import { useOffersCategories } from "@/store/state/useOffersCategories"
 
 import styles from "./styles/style.module.scss"
 
-const $ItemListChat: TItemListChat = ({ thread, people, last }) => {
-    const searchParams = useSearchParams()
-    const idThread = searchParams?.get("thread")
-    const { handleReplace } = usePush()
-    const { categories } = useOffersCategories()
+export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, people, last }) {
+    const userId = useAuth(({ userId }) => userId)
+    const idThread = useSearchParams().get("thread")
+    const { provider } = thread ?? {}
 
-    const adress: string | null = useMemo(() => {
-        return (
-            people?.addresses?.find((item) => item?.addressType === "main")
-                ?.additional || null
-        )
-    }, [people])
-
-    const idBarter = useMemo(() => {
-        if (!thread?.title) return null
-
-        if (thread?.title?.includes("barter")) {
-            return thread?.title?.split(":")?.[1]
-        }
-
-        return null
-    }, [thread.title])
+    const idBarter = useMemo(() => (thread?.title?.includes("barter") ? thread?.title?.split(":")?.[1] : null), [thread.title])
+    const geo: string | null = useMemo(() => people?.addresses?.find((item) => item?.addressType === "main")?.additional || null, [people])
 
     const { data: dataBarter } = useQuery({
         queryFn: () => serviceBarters.getId(Number(idBarter)),
         queryKey: ["barters", `id=${idBarter}`],
         enabled: !!idBarter,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
-    const barter = useMemo(() => {
-        if (!dataBarter?.res && !categories) return null
-
-        const titleInitiator = categories?.find(
-            (item) => item.id === dataBarter?.res?.initiator?.categoryId!,
-        )
-        const titleConsigner = categories?.find(
-            (item) => item.id === dataBarter?.res?.consigner?.categoryId!,
-        )
-
-        return {
-            initiator: {
-                title: titleInitiator?.title,
-                type: dataBarter?.res?.initiator?.provider!,
-            },
-            consigner: {
-                title: titleConsigner?.title!,
-                type: dataBarter?.res?.consigner?.provider!,
-            },
-        }
-    }, [dataBarter?.res, categories])
-
-    function handleCurrentChat() {
-        handleReplace(`/messages?thread=${thread.id}`)
-    }
-
     const lastMessage = useMemo(() => {
-        if (!thread?.messages || !thread?.messages?.length) {
+        if (!thread?.messages || !thread?.messages?.length || !userId) {
             return null
         }
-        return thread?.messages?.at(-1)?.message || " "
-    }, [thread?.messages])
+
+        const lastMessage = thread?.messages?.[0]
+        const notRead = !!userId && !lastMessage?.readIds?.includes(userId) && lastMessage?.emitterId !== userId
+        const images = lastMessage?.images
+
+        return (
+            <div className={styles.blockLastMessage} data-reading={notRead}>
+                {notRead ? <span>&#8226;</span> : null}
+                {images?.length > 0
+                    ? images
+                          ?.slice(0, !!lastMessage?.message ? 2 : 5)
+                          ?.map((item) => <NextImageMotion key={`::image::message::`} src={item?.attributes?.url!} alt="offer-image" width={44} height={44} />)
+                    : null}
+                {lastMessage?.message ? <p>{lastMessage?.message}</p> : lastMessage?.images?.length > 0 ? <i>Фотографии</i> : null}
+            </div>
+        )
+    }, [thread?.messages, userId])
+
+    useEffect(() => {
+        if (people && idThread && !!thread) {
+            if (Number(idThread) === thread.id) {
+                dispatchDataUser(people)
+            }
+        }
+    }, [thread, idThread, people])
 
     return (
-        <MotionLI
-            classNames={[
-                styles.containerItemListChat,
-                Number(thread.id) === Number(idThread) && styles.active,
-                isMobile && styles.mobileLI,
-            ]}
-            onClick={handleCurrentChat}
-            data={{
-                "data-last": last,
-            }}
-            // notY
+        <Link
+            className={styles.containerItemListChat}
+            data-active={Number(thread.id) === Number(idThread)}
+            href={{ query: { thread: thread.id } }}
+            data-last={last}
         >
-            <div
-                className={styles.header}
-                data-barter={thread?.title?.includes("barter")}
-            >
+            <div className={styles.header} data-barter={thread?.title?.includes("barter")}>
+                <time>{timeNowOrBeforeChat(thread?.messages?.length > 0 ? thread?.messages?.[0]?.created! : thread?.created)}</time>
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
-                        {people?.profile?.image?.attributes?.url ? (
-                            <NextImageMotion
-                                src={people?.profile?.image?.attributes?.url!}
-                                alt="avatar"
-                                width={40}
-                                height={40}
-                                className={styles.img}
-                            />
-                        ) : (
-                            <ImageStatic
-                                src="/png/default_avatar.png"
-                                alt="avatar"
-                                width={40}
-                                height={40}
-                                classNames={[styles.img]}
-                            />
-                        )}
-                        <Image
-                            src="/svg/verified-tick.svg"
-                            alt="verified"
-                            width={16}
-                            height={16}
-                            className={styles.verified}
-                        />
+                        <NextImageMotion src={people?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} className={styles.img} />
+                        <img src="/svg/verified-tick.svg" alt="verified" width={16} height={16} className={styles.verified} />
                     </div>
                     <div className={styles.nameAndGeo}>
-                        {thread?.title?.includes("barter") ? (
+                        {provider === "barter" ? (
                             <div data-title-barter>
-                                <BadgeServices
-                                    {...dataBarter?.res?.initiator!}
-                                />
-                                <Image
-                                    data-repeat
-                                    src="   /svg/repeat-white.svg"
-                                    alt="barter"
-                                    width={18}
-                                    height={18}
-                                />
-                                <BadgeServices
-                                    {...dataBarter?.res?.consigner!}
-                                />
+                                <BadgeServices {...dataBarter?.res?.initiator!} />
+                                <img data-repeat src="/svg/repeat-white.svg" alt="barter" width={18} height={18} />
+                                <BadgeServices {...dataBarter?.res?.consigner!} />
                             </div>
-                        ) : (
+                        ) : provider === "personal" ? (
                             <h4>
-                                {people?.profile?.firstName || " "}{" "}
-                                {people?.profile?.lastName || " "}
+                                {people?.profile?.firstName || " "} {people?.profile?.lastName || " "}
                             </h4>
-                        )}
-                        {adress ? (
-                            <GeoTagging
-                                location={adress}
-                                size={14}
-                                fontSize={12}
-                            />
                         ) : null}
+                        {geo ? <GeoTagging location={geo} size={14} fontSize={12} /> : null}
                     </div>
                 </div>
-                <div className={styles.timeAgo}>
-                    {timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}
-                </div>
             </div>
-            <div className={styles.blockLastMessage}>
-                <p>{lastMessage}</p>
-            </div>
-        </MotionLI>
+            {lastMessage}
+        </Link>
     )
-}
-
-export const ItemListChat = memo($ItemListChat)
+})

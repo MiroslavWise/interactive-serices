@@ -1,3 +1,4 @@
+import { IImageData } from "@/store/types/useAuthState"
 import type { IReturnData } from "../types/general"
 
 export interface IRequestPostMessages {
@@ -23,6 +24,8 @@ export interface IResponseMessageProps {
     threadId: number
     emitterId: number
     receiverIds: number[]
+    images: IImageData[] | string[]
+    readIds: number[]
 }
 
 export interface IResponseMessage extends IResponseMessageProps {
@@ -34,11 +37,9 @@ export interface IResponseMessage extends IResponseMessageProps {
 export interface IMessages {
     route: string
     post(value: IRequestPostMessages): Promise<IReturnData<IResponseCreate>>
+    postRead(id: number): Promise<IReturnData<IResponseCreate>>
     get(value: Record<string, any>): Promise<IReturnData<IResponseMessage[]>>
-    patch(
-        value: IRequestPatchMessages,
-        id: number | string,
-    ): Promise<IReturnData<IResponseCreate>>
+    patch(value: IRequestPatchMessages, id: number | string): Promise<IReturnData<IResponseCreate>>
     getId(id: number | string): Promise<IReturnData<IResponseMessage>>
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
     getUserId(id: number | string): Promise<IReturnData<IResponseMessage[]>>

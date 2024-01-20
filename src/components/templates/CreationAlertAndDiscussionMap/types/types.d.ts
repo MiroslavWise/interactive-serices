@@ -4,7 +4,7 @@ import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 export interface ICreationAlertAndDiscussionMap {
     isOpen: boolean
-    addressInit: IPostAddress | null
+    addressInit?: IPostAddress
     refCreate: LegacyRef<HTMLDivElement>
 
     setIsOpen: Dispatch<SetStateAction<boolean>>

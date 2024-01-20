@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo } from "react"
-import { useSearchParams } from "next/navigation"
 import { useQueries } from "@tanstack/react-query"
 
 import type { TBadges } from "./types/types"
@@ -14,9 +13,7 @@ import { serviceTestimonials } from "@/services/testimonials"
 
 import styles from "./styles/style.module.scss"
 
-export const Badges: TBadges = () => {
-    const id = useSearchParams()?.get("id")
-
+export const Badges: TBadges = ({ id }) => {
     const dataQueries = useQueries({
         queries: [
             {
@@ -70,22 +67,10 @@ export const Badges: TBadges = () => {
 
     return (
         <section className={styles.budges}>
-            <BadgeAchievementsBorder
-                title="Предложения"
-                total={countProperties.proposals.toFixed(0)}
-            />
-            <BadgeAchievementsBorder
-                title="Обмены"
-                total={countProperties.completed.toFixed(0)}
-            />
-            <BadgeAchievementsBorder
-                title="Рейтинг"
-                total={countProperties.average.toFixed(1)}
-            />
-            <BadgeAchievementsBorder
-                title="Отзывы"
-                total={countProperties.testimonials.toFixed(0)}
-            />
+            <BadgeAchievementsBorder title="Предложения" total={countProperties.proposals.toFixed(0)} />
+            <BadgeAchievementsBorder title="Обмены" total={countProperties.completed.toFixed(0)} />
+            <BadgeAchievementsBorder title="Рейтинг" total={countProperties.average.toFixed(1)} />
+            <BadgeAchievementsBorder title="Отзывы" total={countProperties.testimonials.toFixed(0)} />
         </section>
     )
 }

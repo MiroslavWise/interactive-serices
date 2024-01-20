@@ -1,7 +1,4 @@
-import type {
-    TTypeProvider,
-    TTypeStatusBarter,
-} from "@/services/file-upload/types"
+import type { TTypeProvider, TTypeStatusBarter } from "@/services/file-upload/types"
 import type { IReturnData } from "@/services/types/general"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 
@@ -15,7 +12,7 @@ export interface ISmallThread {
 
 export interface ISmallDataOfferBarter {
     id: number
-    parentId: number | null
+    parentId?: number
     provider: TTypeProvider
     title: string
     slug: string
@@ -28,11 +25,12 @@ export interface ISmallDataOfferBarter {
     subscribers: number[]
     images: any[]
     addresses: IAddressesResponse[]
+    categories: number[]
 }
 
 export interface IBarterResponse {
     id: number
-    thread?: ISmallThread
+    threadId?: number
     parentId: number | null
     consignedId: number // принимающий оффер
     initialId: number //инициализирующий оффер
@@ -53,16 +51,14 @@ export interface IPostDataBarter {
     parentId?: number
     categoryId?: number
     threadId?: number
-    addresses?: number[]
-    subscribers?: number[]
-    provider: TTypeProvider
+    provider: TTypeProvider //всегда "barter"
     title: string
     imageId?: number | null
     orderBy?: number
     initialId: number
     consignedId: number
     updatedById?: number
-    status: TTypeStatusBarter
+    status: TTypeStatusBarter // для отслеживания статуса бартера: инициирован, отказан, принят, завершён, не состоялся
     timestamp?: Date | string
     enabled: boolean
 }
@@ -80,18 +76,9 @@ export interface IBartersService {
     route: string
     get(values?: IQueries): Promise<IReturnData<IBarterResponse[]>>
     getId(id: string | number): Promise<IReturnData<IBarterResponse>>
-    getUserId(
-        id: string | number,
-        values?: IQueries,
-    ): Promise<IReturnData<IBarterResponse[]>>
-    getReceiverId(
-        id: string | number,
-        values?: IQueries,
-    ): Promise<IReturnData<IBarterResponse[]>>
+    getUserId(id: string | number, values?: IQueries): Promise<IReturnData<IBarterResponse[]>>
+    getReceiverId(id: string | number, values?: IQueries): Promise<IReturnData<IBarterResponse[]>>
     post(value: IPostDataBarter): Promise<IReturnData<IBarterResponse>>
-    patch(
-        value: IPatchDataBarter,
-        id: number | string,
-    ): Promise<IReturnData<IBarterResponse>>
+    patch(value: IPatchDataBarter, id: number | string): Promise<IReturnData<IBarterResponse>>
     delete(id: number | string): Promise<IReturnData<IBarterResponse>>
 }

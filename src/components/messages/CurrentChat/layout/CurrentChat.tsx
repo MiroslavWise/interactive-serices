@@ -1,44 +1,34 @@
 "use client"
 
-import Image from "next/image"
-import { useQuery } from "@tanstack/react-query"
-import { useEffect, useMemo, useState } from "react"
+import Link from "next/link"
+import { flushSync } from "react-dom"
 import { isMobile } from "react-device-detect"
+import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
 
-import { IResponseMessage } from "@/services/messages/types"
+import type { IResponseMessage } from "@/services/messages/types"
 
-import { Glasses } from "@/components/layout"
 import { PopupMenu } from "../components/PopupMenu"
 import { ListMessages } from "../components/ListMessages"
 import { TextAreaSend } from "../components/TextAreaSend"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { NextImageMotion } from "@/components/common"
 
-import { cx } from "@/lib/cx"
-import { usePush } from "@/helpers"
 import { useWebSocket } from "@/context"
-import { serviceUsers } from "@/services/users"
-import { serviceThreads } from "@/services/threads"
-import { serviceMessages } from "@/services/messages"
-import { NoticeBarter } from "../components/NoticeBarter"
-import { useAuth, usePopupMenuChat } from "@/store/hooks"
-import { useMessagesType } from "@/store/state/useMessagesType"
+import { serviceMessages, serviceThreads, serviceUser } from "@/services"
+import { useCountMessagesNotReading, usePush } from "@/helpers"
+import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage, dispatchDataUser } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
 
 export const CurrentChat = () => {
-    const searchParams = useSearchParams()
-    const { dispatchMessagesType } = useMessagesType()
-    const idThread = searchParams?.get("thread")
-    const { userId } = useAuth()
-    const { setIsVisible } = usePopupMenuChat()
+    const idThread = useSearchParams()?.get("thread")
+    const userId = useAuth(({ userId }) => userId)
+    const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
     const { handleReplace } = usePush()
     const { socket } = useWebSocket() ?? {}
-    const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false)
-    const [screenHeight, setScreenHeight] = useState<string | number>("100%")
-    const [stateMessages, setStateMessages] = useState<
-        (IResponseMessage & { temporary?: boolean })[]
-    >([])
+    const [stateMessages, setStateMessages] = useState<(IResponseMessage & { temporary?: boolean })[]>([])
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     const { data } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
@@ -49,7 +39,11 @@ export const CurrentChat = () => {
         refetchIntervalInBackground: false,
     })
 
-    const { data: dataMessages, refetch } = useQuery({
+    const {
+        data: dataMessages,
+        refetch,
+        isLoading,
+    } = useQuery({
         queryFn: () => serviceMessages.get({ thread: idThread }),
         queryKey: ["messages", `user=${userId}`, `thread=${idThread}`],
         refetchOnMount: true,
@@ -67,10 +61,7 @@ export const CurrentChat = () => {
     useEffect(() => {
         if (userId && data?.res) {
             const replaceOut = () => {
-                return (
-                    Number(data?.res?.emitterId) === Number(userId) ||
-                    !!data?.res?.receiverIds?.includes(userId!)
-                )
+                return Number(data?.res?.emitterId) === Number(userId) || !!data?.res?.receiverIds?.includes(userId!)
             }
             if (!replaceOut()) {
                 handleReplace("/messages")
@@ -80,26 +71,30 @@ export const CurrentChat = () => {
 
     const idUser: number | null = useMemo(() => {
         if (data?.res) {
-            return Number(data?.res?.emitterId) === Number(userId)
-                ? Number(data?.res?.receiverIds[0])
-                : Number(data?.res?.emitterId)
+            return Number(data?.res?.emitterId) === Number(userId) ? Number(data?.res?.receiverIds[0]) : Number(data?.res?.emitterId)
         }
 
         return null
     }, [data?.res, userId])
 
-    const isBarter = useMemo(() => {
-        return !!data?.res?.barterId!
-    }, [data?.res])
+    const userDataIdMassage = useUserIdMessage(({ userData }) => userData)
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUsers.getId(Number(idUser)),
-        queryKey: ["user", idUser],
-        enabled: !!idUser,
+        queryFn: () => serviceUser.getId(Number(idUser)),
+        queryKey: ["user", { userId: idUser }],
+        enabled: !!idUser && !userDataIdMassage,
         refetchOnMount: true,
         refetchOnWindowFocus: true,
         refetchOnReconnect: true,
     })
+
+    useEffect(() => {
+        if (!!dataUser?.ok && !userDataIdMassage) {
+            if (dataUser?.res) {
+                dispatchDataUser(dataUser?.res)
+            }
+        }
+    }, [dataUser, userDataIdMassage])
 
     useEffect(() => {
         if (dataMessages?.res && Array.isArray(dataMessages?.res)) {
@@ -118,18 +113,26 @@ export const CurrentChat = () => {
 
     const conversationPartner = useMemo(() => {
         return {
-            photo: dataUser?.res?.profile?.image?.attributes?.url!,
-            name: `${dataUser?.res?.profile?.firstName || " "} ${
-                dataUser?.res?.profile?.lastName || " "
+            photo: dataUser?.res?.profile?.image?.attributes?.url! || userDataIdMassage?.profile?.image?.attributes?.url!,
+            name: `${dataUser?.res?.profile?.firstName || userDataIdMassage?.profile?.firstName || " "} ${
+                dataUser?.res?.profile?.lastName || userDataIdMassage?.profile?.lastName || " "
             }`,
             messages: stateMessages,
         }
-    }, [dataUser?.res, stateMessages])
+    }, [dataUser?.res, userDataIdMassage, stateMessages])
 
     useEffect(() => {
         function chatResponse(event: any) {
             if (event?.threadId === Number(idThread)) {
-                refetch()
+                if (event?.receiverIds?.includes(userId!)) {
+                    serviceMessages.postRead(event?.id!).then(({ ok }) => {
+                        if (ok) {
+                            refetch()
+                        }
+                    })
+                } else {
+                    refetch()
+                }
             }
         }
 
@@ -142,124 +145,56 @@ export const CurrentChat = () => {
 
     useEffect(() => {
         if (!!data?.res) {
-            if (!!data?.res?.barterId) {
-                dispatchMessagesType({ type: "barter" })
-            } else {
-                dispatchMessagesType({ type: "personal" })
-            }
+            dispatchMessagesType(data?.res?.provider)
         }
-    }, [dispatchMessagesType, data?.res])
+    }, [data?.res])
 
     useEffect(() => {
-        const height = document.documentElement.clientHeight
-        setScreenHeight(height || "100%")
-    }, [])
+        if (dataMessages?.res && userId && Array.isArray(dataMessages?.res)) {
+            const notMyMessages = dataMessages?.res?.filter((item) => item.receiverIds.includes(userId))
+            const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
 
-    if (isMobile) {
+            Promise.all(notReading.map((item) => serviceMessages.postRead(item))).then((responses) => {
+                flushSync(() => {
+                    refetchCountMessages()
+                })
+            })
+        }
+    }, [userId, dataMessages?.res])
+
+    // if (isLoading) return (
+    //     <div className={styles.wrapper} data-wrapper-loading>
+
+    //     </div>
+    // )
+
+    if (isMobile)
         return (
-            <section
-                className={cx(styles.containerMobile, "height100vh")}
-                style={{ height: screenHeight, paddingTop: isBarter ? 0 : 86 }}
-            >
-                {isBarter ? (
-                    <NoticeBarter
-                        idBarter={data?.res?.barterId!}
-                        userData={dataUser?.res}
-                        setIsLoadingFullInfo={setIsLoadingFullInfo}
-                        refetchThread={refetch}
-                    />
-                ) : (
-                    <header data-header>
-                        <div
-                            className={cx(styles.button)}
-                            onClick={() => {
-                                handleReplace(`/messages`)
-                            }}
-                        >
-                            <Image
-                                src="/svg/chevron-left.svg"
-                                alt="chevron-left"
-                                width={24}
-                                height={24}
-                            />
-                        </div>
-                        <div className={styles.blockAvatar}>
-                            {conversationPartner?.photo ? (
-                                <NextImageMotion
-                                    src={conversationPartner?.photo!}
-                                    alt="avatar"
-                                    width={28}
-                                    height={28}
-                                    className={styles.avatar}
-                                />
-                            ) : (
-                                <ImageStatic
-                                    src="/png/default_avatar.png"
-                                    alt="avatar"
-                                    width={28}
-                                    height={28}
-                                    classNames={[styles.avatar]}
-                                />
-                            )}
-                            <h3>{conversationPartner?.name!}</h3>
-                        </div>
-                        <div
-                            className={cx(styles.button, styles.dots)}
-                            onClick={() => setIsVisible()}
-                        >
-                            <Image
-                                src="/svg/dots-vertical.svg"
-                                alt="dots-vertical"
-                                width={24}
-                                height={24}
-                            />
-                        </div>
-                    </header>
-                )}
-                <ListMessages
-                    messages={stateMessages}
-                    dataUser={dataUser?.res!}
-                    isBarter={isBarter}
-                    isLoadingFullInfo={isLoadingFullInfo || !isBarter}
-                />
-                <TextAreaSend
-                    photo={conversationPartner?.photo}
-                    fullName={conversationPartner?.name}
-                    setStateMessages={setStateMessages}
-                    idUser={Number(idUser)}
-                    refetch={refetch}
-                    isBarter={isBarter}
-                />
-                <Glasses />
-                <PopupMenu dataUser={dataUser?.res} isBarter={isBarter} />
-            </section>
+            <div className={styles.wrapper}>
+                <header>
+                    <Link data-back href={{ pathname: "/messages" }}>
+                        <img src="/svg/chevron-left.svg" alt="chevron-left" width={24} height={24} />
+                    </Link>
+                    <article>
+                        <NextImageMotion src={conversationPartner?.photo!} alt="avatar" width={28} height={28} className={styles.avatar} />
+                        <h5>{conversationPartner?.name!}</h5>
+                    </article>
+                    <button onClick={() => setIsVisible()}>
+                        <img src="/svg/dots-vertical.svg" alt="dots-vertical" width={24} height={24} />
+                    </button>
+                </header>
+                <section>
+                    <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
+                </section>
+                <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
+                <PopupMenu dataUser={dataUser?.res} />
+            </div>
         )
-    }
 
     return (
-        <section className={styles.container} data-barter={isBarter}>
-            {isBarter ? (
-                <NoticeBarter
-                    idBarter={data?.res?.barterId!}
-                    userData={dataUser?.res}
-                    setIsLoadingFullInfo={setIsLoadingFullInfo}
-                    refetchThread={refetch}
-                />
-            ) : null}
-            <ListMessages
-                messages={stateMessages}
-                dataUser={dataUser?.res!}
-                isBarter={isBarter}
-                isLoadingFullInfo={isLoadingFullInfo || !isBarter}
-            />
-            <TextAreaSend
-                photo={conversationPartner?.photo}
-                fullName={conversationPartner?.name}
-                setStateMessages={setStateMessages}
-                idUser={Number(idUser)}
-                refetch={refetch}
-                isBarter={isBarter}
-            />
-        </section>
+        <div className={styles.wrapper}>
+            <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
+            <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
+        </div>
     )
 }

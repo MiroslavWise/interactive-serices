@@ -1,25 +1,16 @@
-import type {
-    ISetAction,
-    IGetAction,
-    IUser,
-    ISetToken,
-    IAuthState,
-} from "../types/useAuthState"
+import type { ISetAction, IGetAction, IUser, ISetToken, IAuthState } from "../types/useAuthState"
 
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { initialStateAuth } from "../state/useAuthState"
+import { queryClient } from "@/context"
 
 export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
-    set((state) => ({ ...state, ...initialState, isAuth: false }))
+    set((state) => ({ ...initialState, isAuth: false }))
 }
 
-export const setUserAction = (
-    value: (IUser & { profileId: number }) | null,
-    set: ISetAction,
-) => {
+export const setUserAction = (value: (IUser & { profileId: number }) | null, set: ISetAction) => {
     if (value) {
-        const { firstName, lastName, username, birthdate, enabled, profileId } =
-            value ?? {}
+        const { firstName, lastName, username, birthdate, enabled, profileId } = value ?? {}
         set({
             user: {
                 firstName: firstName,
@@ -49,56 +40,49 @@ export const setTokenAction = (value: ISetToken, set: ISetAction) => {
 
 export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
     if (!!get().token && !!get().refreshToken && !!get().userId) {
-        serviceUsers.getId(get().userId!).then((response) => {
-            if (response?.ok) {
-                set({
-                    createdUser: response?.res?.created!,
-                    email: response?.res?.email,
-                    isAuth: true,
-                })
-                if (response?.res?.addresses) {
+        queryClient
+            .fetchQuery({
+                queryFn: () => serviceUser.getId(get().userId!),
+                queryKey: ["user", { userId: get().userId }],
+            })
+            .then((response) => {
+                if (response?.ok) {
                     set({
-                        addresses:
-                            response?.res?.addresses?.filter(
-                                (item) => item.addressType === "main",
-                            ) || [],
+                        createdUser: response?.res?.created!,
+                        email: response?.res?.email,
+                        isAuth: true,
                     })
+                    if (response?.res?.addresses) {
+                        set({
+                            addresses: response?.res?.addresses?.filter((item) => item.addressType === "main") || [],
+                        })
+                    }
+                    if (!!response?.res?.profile) {
+                        const { firstName, lastName, username, about, birthdate, enabled, id, image } = response?.res?.profile ?? {}
+                        set({
+                            user: {
+                                firstName: firstName,
+                                lastName: lastName,
+                                username: username,
+                                birthdate: birthdate,
+                                about: about,
+                                enabled: enabled,
+                            },
+                            profileId: id,
+                            imageProfile: image || undefined,
+                        })
+                        set({ isAuth: true })
+                    }
+                    return
+                } else {
+                    set((state) => ({
+                        ...state,
+                        ...initialStateAuth,
+                        isAuth: false,
+                    }))
+                    set({ isAuth: false })
                 }
-                if (!!response?.res?.profile) {
-                    const {
-                        firstName,
-                        lastName,
-                        username,
-                        about,
-                        birthdate,
-                        enabled,
-                        id,
-                        image,
-                    } = response?.res?.profile ?? {}
-                    set({
-                        user: {
-                            firstName: firstName,
-                            lastName: lastName,
-                            username: username,
-                            birthdate: birthdate,
-                            about: about,
-                            enabled: enabled,
-                        },
-                        profileId: id,
-                        imageProfile: image || undefined,
-                    })
-                    set({ isAuth: true })
-                }
-                return
-            } else {
-                set((state) => ({
-                    ...state,
-                    ...initialStateAuth,
-                    isAuth: false,
-                }))
-                set({ isAuth: false })
-            }
-        })
+            })
     } else {
         set((state) => ({ ...state, ...initialStateAuth, isAuth: false }))
     }

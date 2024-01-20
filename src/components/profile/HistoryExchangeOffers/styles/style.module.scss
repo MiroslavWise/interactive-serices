@@ -1,18 +1,22 @@
 .container {
-  position: fixed;
-  top: calc(77px + 24px);
-  right: 24px;
-  height: calc(100vh - 77px - 24px - 24px);
-  width: 400px;
-  display: inline-flex;
-  padding: 20px 20px 0px;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  border-radius: 32px;
-  border: 2px solid var(--stroke-1);
-  background: var(--glass-bg-color-2);
-  backdrop-filter: blur(1px);
-  z-index: 2;
-  overflow: hidden;
+    position: fixed;
+    top: calc(4.875rem + 1.5rem);
+    right: 1.5rem;
+    height: calc(100vh - 4.875rem - 1.5rem - 1.5rem);
+    width: 25rem;
+    display: inline-flex;
+    padding: 1.25rem 1.25rem 0px;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    border-radius: 2rem;
+    background: var(--background);
+    z-index: 2;
+    overflow: hidden;
+}
+
+[data-mobile="true"] {
+    .container {
+        display: none;
+    }
 }

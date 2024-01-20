@@ -7,7 +7,7 @@ import type { IProps } from "./types"
 
 import { ImageStatic } from "../ImageStatic"
 
-import { myImageLoader } from "@/helpers/functions/myImageLoader"
+// import { myImageLoader } from "@/helpers/functions/myImageLoader"
 import { blurDefaultOffer, defaultAvatar } from "@/helpers/image/base64"
 
 const altName = {
@@ -18,28 +18,15 @@ const altName = {
 type TTypes = typeof NextImage.defaultProps & IProps
 
 export const NextImageMotion = (props: TTypes) => {
-    const { src, onClick, ref, alt, className, height, width, ...rest } =
-        props ?? {}
+    const { src, ref, alt, className, height, width, ...rest } = props ?? {}
 
     return src?.includes("http") ? (
         <NextImage
-            onClick={() => {
-                if (onClick) {
-                    onClick()
-                }
-            }}
             placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
-            blurDataURL={
-                altName.hasOwnProperty(alt) && alt === "avatar"
-                    ? defaultAvatar
-                    : alt === "offer-image"
-                      ? blurDefaultOffer
-                      : blurDefaultOffer
-            }
+            blurDataURL={altName.hasOwnProperty(alt) && alt === "avatar" ? defaultAvatar : alt === "offer-image" ? blurDefaultOffer : blurDefaultOffer}
             ref={ref}
             data-image={alt}
             className={className || ""}
-            loader={myImageLoader}
             loading="lazy"
             src={src}
             alt={alt}
@@ -48,23 +35,16 @@ export const NextImageMotion = (props: TTypes) => {
             style={{
                 objectFit: "cover",
             }}
+            {...rest}
         />
     ) : (
         <ImageStatic
-            onClick={(e: any) => {
-                if (onClick) {
-                    onClick()
-                }
-            }}
-            src={
-                alt === "avatar"
-                    ? "/png/default_avatar.png"
-                    : "/png/blur-default-offers.jpg"
-            }
+            src={alt === "avatar" ? "/png/default_avatar.png" : "/png/blur-default-offers.jpg"}
             placeholder="blur"
             blurDataURL={blurDefaultOffer}
             alt={alt}
-            classNames={[className]}
+            unoptimized
+            className={className}
             height={height}
             width={width}
             style={{

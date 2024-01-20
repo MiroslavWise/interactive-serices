@@ -1,4 +1,4 @@
-@mixin flexColumn{
+@mixin flexColumn {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -6,52 +6,53 @@
     z-index: 2;
 }
 
-.container{
+.container {
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: row;
-    gap: 28px;
-}
-
-.containerMobile{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    gap: 2.75rem;
     z-index: 3;
 }
 
-.informationProfileColumn{
-    @include flexColumn();
-    gap: 12px;
+[data-mobile="true"] {
+    .container {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
 }
 
-.adressProfileColumn{
+.informationProfileColumn {
     @include flexColumn();
-    gap: 8px;
+    gap: 0.75rem;
+}
 
-    .adressTitleAbout{
+.adressProfileColumn {
+    @include flexColumn();
+    gap: 0.5rem;
+
+    .adressTitleAbout {
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: 4px;
 
-        h5, p{
+        h5,
+        p {
             font-style: normal;
             font-weight: 500;
             letter-spacing: -0.5px;
         }
 
-        h5{
+        h5 {
             color: var(--gray-900);
             font-size: 14px;
-            line-height: 20px;
+            line-height: 1.25rem;
         }
-        p{
+        p {
             color: var(--gray-600);
-            font-size: 12px;
-            line-height: 18px;
+            font-size: 0.75rem;
+            line-height: 1.125rem;
         }
     }
 }

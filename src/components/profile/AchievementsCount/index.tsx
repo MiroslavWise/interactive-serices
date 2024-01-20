@@ -3,22 +3,20 @@
 import { useMemo } from "react"
 import { useQueries } from "@tanstack/react-query"
 
-import { BadgeAchievements } from "@/components/common/Badge"
+import { BadgeAchievements } from "@/components/common"
 
-import { useAuth } from "@/store/hooks"
-import { serviceBarters } from "@/services/barters"
-import { serviceTestimonials } from "@/services/testimonials"
+import { useAuth } from "@/store"
+import { serviceBarters, serviceTestimonials } from "@/services"
 
 import styles from "./style.module.scss"
 
 export const AchievementsCount = () => {
-    const { userId } = useAuth()
+    const userId = useAuth(({ userId }) => userId)
 
     const queries = useQueries({
         queries: [
             {
-                queryFn: () =>
-                    serviceBarters.get({ user: userId!, status: "completed" }),
+                queryFn: () => serviceBarters.get({ user: userId!, status: "completed" }),
                 queryKey: ["barters", `user=${userId}`, `status=completed`],
                 enabled: !!userId,
             },
@@ -41,7 +39,7 @@ export const AchievementsCount = () => {
             testimonials?.forEach((item) => {
                 if (item?.rating) {
                     quantity++
-                    summer += Number(item.rating)
+                    summer += Number(item?.rating)
                 }
             })
 
@@ -56,18 +54,8 @@ export const AchievementsCount = () => {
 
     return (
         <ul className={styles.container}>
-            <BadgeAchievements
-                classNames={[styles.badge]}
-                title="Обмены закрыты"
-                total={counts.completed.toFixed(0)}
-                // type="down"
-            />
-            <BadgeAchievements
-                classNames={[styles.badge]}
-                title="Обзор и рейтинг"
-                total={counts.average.toFixed(1)}
-                // type="up"
-            />
+            <BadgeAchievements classNames={[styles.badge]} title="Обмены закрыты" total={counts?.completed?.toFixed(0)} />
+            <BadgeAchievements classNames={[styles.badge]} title="Обзор и рейтинг" total={counts?.average?.toFixed(1)} />
         </ul>
     )
 }

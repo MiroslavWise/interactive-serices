@@ -1,78 +1,43 @@
 "use client"
 
 import {
+    usePhotoOffer,
+    useProfilePublic,
     useBalloonCard,
-    useCompletionTransaction,
     useDroverFriends,
-    useHasBalloons,
-    useModalAuth,
+    dispatchAuthModal,
     usePopupMenuChat,
     useUpdateMutualOffer,
-    useVisibleModalBarter,
-    useVisiblePhotosCarousel,
+    dispatchPhotoCarousel,
+    useCompletionTransaction,
     useVisibleBannerNewServices,
+    dispatchHasBalloon,
+    dispatchReciprocalExchange,
 } from "@/store/hooks"
-import { usePhotoOffer } from "@/store/state/usePhotoOffer"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const useCloseAllModal = () => {
-    const dispatchBallonCard = useBalloonCard((state) => state.dispatch)
-    const dispatchCompletion = useCompletionTransaction(
-        (state) => state.dispatchCompletion,
-    )
-    const dispatchFriends = useDroverFriends((state) => state.dispatchFriends)
-    const dispatchHasBalloon = useHasBalloons(
-        (state) => state.dispatchHasBalloon,
-    )
-    const dispatchAuthModal = useModalAuth((state) => state.dispatchAuthModal)
-    const setIsVisible = usePopupMenuChat((state) => state.setIsVisible)
-    const dispatchUpdateMutual = useUpdateMutualOffer(
-        (state) => state.dispatchUpdateMutual,
-    )
-    const dispatchVisibleBarter = useVisibleModalBarter(
-        (state) => state.dispatchVisibleBarter,
-    )
-    const dispatchVisibleCarousel = useVisiblePhotosCarousel(
-        (state) => state.dispatchVisibleCarousel,
-    )
-    const dispatchNewServicesBanner = useVisibleBannerNewServices(
-        (state) => state.dispatchNewServicesBanner,
-    )
-    const dispatchPhotoOffer = usePhotoOffer(
-        (state) => state.dispatchPhotoOffer,
-    )
-    const dispatchProfilePublic = useProfilePublic(
-        (state) => state.dispatchProfilePublic,
-    )
+    const dispatchBallonCard = useBalloonCard((_) => _.dispatch)
+    const dispatchCompletion = useCompletionTransaction((_) => _.dispatchCompletion)
+    const dispatchFriends = useDroverFriends((_) => _.dispatchFriends)
+    const setIsVisible = usePopupMenuChat((_) => _.setIsVisible)
+    const dispatchUpdateMutual = useUpdateMutualOffer((_) => _.dispatchUpdateMutual)
+    const dispatchNewServicesBanner = useVisibleBannerNewServices((_) => _.dispatchNewServicesBanner)
+    const dispatchPhotoOffer = usePhotoOffer((_) => _.dispatchPhotoOffer)
+    const dispatchProfilePublic = useProfilePublic((_) => _.dispatchProfilePublic)
 
     function close() {
-        setTimeout(() => {
-            console.log("close: ------------------- dispatchBallonCard")
-            dispatchBallonCard({ visible: false })
-            console.log("close: ------------------- dispatchCompletion")
-            dispatchCompletion({ visible: false })
-            console.log("close: ------------------- dispatchFriends")
-            dispatchFriends({ visible: false })
-            console.log("close: ------------------- dispatchHasBalloon")
-            dispatchHasBalloon({ visible: false })
-            console.log("close: ------------------- dispatchAuthModal")
-            dispatchAuthModal({ visible: false })
-            console.log("close: ------------------- setIsVisible")
-            setIsVisible(false)
-            console.log("close: ------------------- dispatchUpdateMutual")
-            dispatchUpdateMutual({ visible: false })
-            console.log("close: ------------------- dispatchVisibleBarter")
-            dispatchVisibleBarter({ isVisible: false })
-            console.log("close: ------------------- dispatchVisibleCarousel")
-            dispatchVisibleCarousel({ visible: false })
-            console.log("close: ------------------- dispatchNewServicesBanner")
-            dispatchNewServicesBanner(false)
-            console.log("close: ------------------- dispatchPhotoOffer")
-            dispatchPhotoOffer({ visible: false })
-            console.log("close: ------------------- dispatchProfilePublic")
-            dispatchProfilePublic({ visible: false })
-            console.log("close: ------------------- end")
-        }, 1)
+        dispatchBallonCard({ visible: false })
+        dispatchCompletion({ visible: false })
+        dispatchFriends({ visible: false })
+        dispatchHasBalloon({ visibleHasBalloon: false })
+        dispatchAuthModal({ visible: false })
+        setIsVisible(false)
+        dispatchUpdateMutual({ visible: false })
+        dispatchPhotoCarousel({ visible: false })
+        dispatchNewServicesBanner(false)
+        dispatchPhotoOffer({ visible: false })
+        dispatchProfilePublic({ visible: false })
+        // dispatchReciprocalExchange({ visible: false })
     }
 
     return close

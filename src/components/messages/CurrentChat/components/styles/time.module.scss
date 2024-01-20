@@ -1,29 +1,26 @@
 .wrapper {
     position: sticky;
-    top: 0;
+    top: 0.75rem;
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 0px 5px;
+    padding: 0px 0.3125rem;
     align-items: center;
-    z-index: 200;
+    z-index: 19;
 
     .container {
-        padding: 3px 8px;
+        padding: 0.1875rem 0.5rem;
         border-radius: 100px;
-        background: var(--button-default-background);
+        background: var(--background-input);
 
         span {
             color: var(--gray-500);
-            font-size: 14px;
+            font-size: 0.875rem;
             font-style: normal;
             font-weight: 400;
-            line-height: 20px;
-            letter-spacing: -0.5px;
+            line-height: 1.25rem;
+            letter-spacing: -0.3px;
         }
     }
-}
-
-.stickyBefore {
 }

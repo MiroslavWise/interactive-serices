@@ -29,6 +29,6 @@
         "**/*.tsx",
         ".next/types/**/*.ts",
         "server.js"
-    ],
+, "src/components/templates/Onboarding/layout", "src/components/templates/BallonOffer"    ],
     "exclude": ["node_modules"]
 }

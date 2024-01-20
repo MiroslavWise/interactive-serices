@@ -1,4 +1,5 @@
 .container {
+    position: relative;
     max-width: 280px;
     width: 100%;
     height: auto;
@@ -6,6 +7,7 @@
     flex-direction: column;
     align-items: center;
     border-radius: calc(29px + 6px);
+    overflow: hidden;
 
     &[data-type="optional-2"] {
         background: var(--gradient-request);
@@ -23,23 +25,21 @@
         align-items: center;
         gap: 6px;
 
-        & > div {
+        & > img {
             width: 58px;
             height: 58px;
             aspect-ratio: 1/1;
             border: 2px solid var(--stroke-1);
-            background-color: #fff;
-            padding: 28px;
+            background-color: var(--supporting-white);
             border-radius: 50%;
             box-shadow: 0px 16px 12px 0px rgba(0, 0, 0, 0.28);
             overflow: hidden;
-            cursor: pointer;
         }
 
         & > h4 {
+            color: var(--supporting-white);
+            max-width: calc(100% - 58px - 6px);
             text-align: start;
-            width: fit-content;
-            color: #fff;
             font-size: 18px;
             font-style: normal;
             font-weight: 400;
@@ -47,17 +47,16 @@
     }
 
     & > section {
-        position: relative;
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 0.75rem;
         padding: 12px;
 
         & > [data-profile] {
             display: flex;
             flex-direction: row;
-            gap: 8px;
+            gap: 0.5rem;
 
             & > [data-circle] {
                 width: 44px;
@@ -125,6 +124,10 @@
                 flex-direction: column;
                 width: calc(100% - 44px - 8px);
 
+                & > p {
+                    color: var(--supporting-white);
+                }
+
                 & > [data-geo] {
                     p {
                         color: var(--supporting-white);
@@ -135,10 +138,16 @@
 
         & > h5 {
             width: 100%;
-            color: #fff;
-            font-size: 14px;
+            color: var(--supporting-white);
+            font-size: 0.875rem;
+            font-weight: 500;
             font-style: normal;
-            font-weight: 400;
+            letter-spacing: -0.01125rem;
+
+            & > span {
+                color: var(--gray-400);
+                font-size: 0.75rem;
+            }
         }
 
         & > [data-relative="true"] {
@@ -154,8 +163,22 @@
             }
         }
     }
+}
 
-    &[data-mobile="true"] {
+[data-theme="light"] {
+    .container {
+        [data-article-want] {
+            [data-item] {
+                p {
+                    color: var(--text-primary);
+                }
+            }
+        }
+    }
+}
+
+[data-mobile="true"] {
+    .container {
         max-width: 100%;
     }
 }

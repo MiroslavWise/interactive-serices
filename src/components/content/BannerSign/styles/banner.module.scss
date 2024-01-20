@@ -1,21 +1,19 @@
 .containerAuthBanner,
 .containerNoAuth {
     position: fixed;
-    left: 24px;
+    left: 1.5rem;
+    top: calc(1.5rem + 77px);
     max-width: 320px;
     width: 100%;
     z-index: 59;
-    backdrop-filter: blur(4px);
-    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-    border-radius: var(--banner-border-radius);
+    box-shadow: 0px 4px 1.5rem 0px rgba(0, 0, 0, 0.12);
+    border-radius: 2rem;
 }
 
 .containerAuthBanner {
-    height: calc((100% - 48px) - 77px);
-    top: calc(24px + 77px);
-    bottom: 24px;
-    border: 2px solid var(--stroke-1);
-    background: var(--glass-bg-color-1);
+    height: calc((100% - 3rem) - 77px);
+    bottom: 1.5rem;
+    background: var(--background);
     overflow: hidden;
 
     & > ul {
@@ -28,24 +26,24 @@
         justify-content: space-between;
         align-items: center;
         gap: 20px;
-        padding: 24px 12px;
+        padding: 1.5rem;
 
         & > [data-content] {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 1.25rem;
 
             .badges {
                 display: inline-flex;
-                gap: 12px;
+                gap: 0.75rem;
                 align-items: center;
 
                 .badge {
                     overflow: hidden;
                     width: 119px;
-                    padding: 8px 8px 5px 16px;
+                    padding: 0.5rem 0.5rem 5px 1rem;
                     flex: 1 0 0;
 
                     p {
@@ -58,11 +56,9 @@
 }
 
 .containerNoAuth {
-    top: 24px;
     flex-shrink: 0;
-    background: var(--glass-bg-color);
+    background: var(--background);
     overflow: hidden;
-    transition: all 0.3s ease-in-out 0.01;
 
     & > header {
         width: 100%;
@@ -101,7 +97,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 16px;
+                gap: 1rem;
             }
         }
 

@@ -8,36 +8,18 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const ButtonCircleGradientFill: TButtonCircleGradientFill = ({
-    type,
-    disabled,
-    size,
-    image,
-    onClick,
-    submit,
-    className,
-}) => {
+export const ButtonCircleGradientFill: TButtonCircleGradientFill = ({ type, disabled, size, image, onClick, submit, className }) => {
     return (
         <button
             type={submit}
-            className={cx(
-                styles.buttonCircleGradientFill,
-                styles[type],
-                disabled && styles.disabled,
-                className,
-            )}
+            className={cx(styles.buttonCircleGradientFill, styles[type], disabled && styles.disabled, className)}
             style={{
-                width: size || 36,
-                height: size || 36,
+                width: size || "2.25rem",
+                height: size || "2.25rem",
             }}
             onClick={onClick}
         >
-            <Image
-                src={image.src}
-                alt="button-image"
-                width={image?.size || image?.width}
-                height={image?.size || image?.height}
-            />
+            <img src={image.src} alt="button-image" width={image?.size || image?.width} height={image?.size || image?.height} />
         </button>
     )
 }

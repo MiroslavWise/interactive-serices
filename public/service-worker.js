@@ -1,5 +1,7 @@
 const SCSS = []
 
+const CACHE = "--offline-static--"
+
 const SVG = [
     "/icons/fill/apple.svg",
     "/icons/fill/face.svg",
@@ -49,6 +51,21 @@ const SVG = [
     "/svg/eye.svg",
     "/svg/sliders-01.svg",
     "/svg/calendar.svg",
+    "/svg/category/default.svg",
+    "/svg/messages/check.svg",
+    "/svg/messages/double-tick-black.svg",
+    "/svg/messages/double-tick-gray.svg",
+    "/svg/messages/double-tick-white.svg",
+
+    "/intro/0/0.svg",
+    "/intro/0/1.svg",
+    "/intro/0/2.svg",
+    "/intro/0/3.svg",
+    "/intro/0/4.svg",
+    "/intro/0/5.svg",
+    "/intro/2/base.svg",
+    "/intro/4/background.svg",
+    "/intro/5/illustration.svg",
 ]
 
 const PNG = [
@@ -69,21 +86,23 @@ const PNG = [
     "/png/welcome/one.png",
     "/png/welcome/three.png",
     "/png/welcome/two.png",
+    "/intro/1/first-avatar.png",
+    "/intro/1/second-avatar.png",
+    "/intro/2/avatar.png",
+    "/intro/2/background.avif",
+    "/intro/4/0.png",
+    "/intro/4/1.png",
+    "/intro/4/2.png",
+    "/intro/4/3.png",
+    "/intro/4/4.png",
+    "/intro/4/5.png",
+    "/intro/4/4-back.png",
 ]
 
 const installEvent = () => {
     self.addEventListener("install", (event) => {
         async function onInstall() {
-            return caches
-                .open("static")
-                .then((cache) =>
-                    cache.addAll([
-                        ...SVG,
-                        ...PNG,
-                        ...SCSS,
-                        "/scripts/masonry.pkgd.min.js",
-                    ]),
-                )
+            return caches.open("static").then((cache) => cache.addAll([...SVG, ...PNG, ...SCSS, "/scripts/masonry.pkgd.min.js"]))
         }
 
         event.waitUntil(onInstall(event))
@@ -97,33 +116,3 @@ const activateEvent = () => {
     })
 }
 activateEvent()
-
-const cacheName = "v--123-0"
-
-self.addEventListener("fetch", (event) => {
-    if (event.request.mode === "navigate") {
-        event.respondWith(
-            (async function () {
-                const normalizedUrl = new URL(event.request.url)
-                normalizedUrl.search = ""
-
-                const fetchResponseP = fetch(normalizedUrl)
-                const fetchResponseCloneP = fetchResponseP.then((r) =>
-                    r.clone(),
-                )
-
-                event.waitUntil(
-                    (async function () {
-                        const cache = await caches.open(cacheName)
-                        await cache.put(
-                            normalizedUrl,
-                            await fetchResponseCloneP,
-                        )
-                    })(),
-                )
-
-                return (await caches.match(normalizedUrl)) || fetchResponseP
-            })(),
-        )
-    }
-})

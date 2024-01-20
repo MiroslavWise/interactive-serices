@@ -1,11 +1,13 @@
 import { IBarterResponse } from "../barters/types"
+import { TTypeStatusBarter } from "../file-upload/types"
 import type { IReturnData, TOrder } from "../types/general"
 
-export type TTypeOperation = "create"
+export type TTypeOperation = "create" | "completion-survey" | "completion-yes" | "completion-no" | "completion-recall" | "accepted"
 export type TTypeProviderNotifications = "barter"
 
 export interface IPostNotification {
     enabled: boolean
+    operation?: TTypeOperation
 }
 
 export type TPatchNotification = Partial<IPostNotification>
@@ -19,8 +21,8 @@ export interface IResponseNotifications {
     userId: number
     operation: TTypeOperation
     data: IDataBarterNotifications
-    created: Date
-    updated: Date
+    created: string
+    updated: string
     email: boolean
     sms: boolean
     provider: TTypeProviderNotifications
@@ -35,8 +37,5 @@ export interface IServiceNotifications {
     route: string
     post(value: IPostNotification): Promise<IReturnData<IResponseNotifications>>
     get(value?: IQueries): Promise<IReturnData<IResponseNotifications[]>>
-    patch(
-        value: TPatchNotification,
-        id: number | string,
-    ): Promise<IReturnData<IResponseNotifications>>
+    patch(value: TPatchNotification, id: number | string): Promise<IReturnData<IResponseNotifications>>
 }

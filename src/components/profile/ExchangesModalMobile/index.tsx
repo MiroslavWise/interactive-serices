@@ -1,21 +1,21 @@
 "use client"
 
-import Image from "next/image"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
-import { Glasses } from "@/components/common/Glasses"
-import { MotionUL } from "@/components/common/Motion"
+import { ButtonClose } from "@/components/common"
 import { CardOffer } from "@/components/common/Card/Offer"
 
+import { cx } from "@/lib/cx"
 import { serviceBarters } from "@/services/barters"
 import { useAuth, useVisibleExchanges } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
 export const ExchangesModalMobile = () => {
-    const { userId } = useAuth() ?? {}
-    const { type, isVisible, dispatchExchanges: setVisibleType } = useVisibleExchanges() ?? {}
+    const userId = useAuth(({ userId }) => userId)
+    const type = useVisibleExchanges(({ type }) => type)
+    const isVisible = useVisibleExchanges(({ isVisible }) => isVisible)
+    const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
 
     const { data } = useQuery({
         queryFn: () =>
@@ -30,41 +30,19 @@ export const ExchangesModalMobile = () => {
         enabled: !!userId && isVisible,
     })
 
-    return isMobile && userId ? (
-        <div className={styles.wrapper} data-visible={isVisible}>
+    function handleClose() {
+        dispatchExchanges({ visible: false })
+    }
+
+    return (
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
+            <ButtonClose position={{}} onClick={handleClose} />
             <header>
-                <div
-                    className={styles.buttonBack}
-                    onClick={() => {
-                        setVisibleType({ visible: false })
-                    }}
-                >
-                    <Image
-                        src="/svg/chevron-left.svg"
-                        alt="arrow-left"
-                        width={24}
-                        height={24}
-                    />
-                </div>
-                <h4>
-                    {type === "executed"
-                        ? "Текущие"
-                        : type === "completed"
-                        ? "Завершённые"
-                        : ""}
-                </h4>
+                <h4>{type === "executed" ? "Текущие" : type === "completed" ? "Завершённые" : ""}</h4>
             </header>
-            <MotionUL>
-                {Array.isArray(data?.res)
-                    ? data?.res?.map((item) => (
-                          <CardOffer
-                              key={`${item.id}-history-page-${item.status}`}
-                              {...item}
-                          />
-                      ))
-                    : null}
-            </MotionUL>
-            <Glasses />
+            <ul>
+                {Array.isArray(data?.res) ? data?.res?.map((item) => <CardOffer key={`::${item.id}::${item.status}::`} {...item} />) : null}
+            </ul>
         </div>
-    ) : null
+    )
 }

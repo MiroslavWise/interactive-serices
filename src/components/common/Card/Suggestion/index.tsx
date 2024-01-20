@@ -1,27 +1,24 @@
 "use client"
 
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TCardSuggestion } from "./types"
 
 import { Header } from "./components/Header"
 import { Buttons } from "./components/Buttons"
-import { MotionLI } from "@/components/common/Motion"
 import { serviceTestimonials } from "@/services/testimonials"
 import { ContainerPhotos } from "./components/ContainerPhotos"
 
 import styles from "./style.module.scss"
 
 export const CardSuggestion: TCardSuggestion = (props) => {
-    const { profile, refetch, ...rest } = props
+    const { refetch, ...rest } = props
 
     const { data: dataTestimonials } = useQuery({
-        queryFn: () =>
-            serviceTestimonials.get({ provider: "offer", target: rest.id }),
-        queryKey: ["testimonials", `offer=${rest.id}`, `provider=offer`],
-        enabled: !!rest.id,
+        queryFn: () => serviceTestimonials.get({ provider: "offer", target: rest?.id }),
+        queryKey: ["testimonials", `offer=${rest?.id}`, `provider=offer`],
+        enabled: !!rest?.id,
     })
 
     const rating = useMemo(() => {
@@ -33,9 +30,9 @@ export const CardSuggestion: TCardSuggestion = (props) => {
         let summer: number = 0
 
         for (const item of dataTestimonials?.res) {
-            if (item.rating) {
+            if (item?.rating) {
                 quantity++
-                summer += +item.rating
+                summer += +item?.rating
             }
         }
 
@@ -46,29 +43,19 @@ export const CardSuggestion: TCardSuggestion = (props) => {
     }, [dataTestimonials?.res])
 
     return (
-        <MotionLI
-            classNames={[styles.container]}
-            data={{
-                "data-mobile": isMobile,
-            }}
-        >
-            <Header
-                categoryId={rest.categoryId!}
-                rating={rating}
-                title={rest.title}
-                provider={rest.provider}
-            />
-            {rest.images?.length ? (
+        <li className={styles.container}>
+            <Header data={{ ...rest }} rating={rating} />
+            {rest?.images?.length ? (
                 <ContainerPhotos
                     {...{
-                        photos: rest.images.map((item) => ({
+                        photos: rest?.images?.map((item) => ({
                             url: item?.attributes?.url,
                             id: item?.id,
                         })),
                     }}
                 />
             ) : null}
-            <Buttons refetch={refetch} offer={rest} />
-        </MotionLI>
+            <Buttons refetch={refetch} offer={{ ...rest }} />
+        </li>
     )
 }

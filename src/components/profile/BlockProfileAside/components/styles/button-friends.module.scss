@@ -1,14 +1,13 @@
 .container {
     width: 100%;
-    padding: 13px 8px 13px 16px;
+    padding: 13px 0.5rem 13px 1rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    border-radius: 16px;
-    background: var(--background);
-    box-shadow: 0px 7px 32px 0px rgba(140, 155, 178, 0.22);
+    gap: 1.25rem;
+    border-radius: 1rem;
+    background: var(--background-input);
     cursor: pointer;
     z-index: 3;
 
@@ -17,12 +16,15 @@
         font-style: normal;
         font-size: 14px;
         font-weight: 500;
-        line-height: 20px;
+        line-height: 1.25rem;
         letter-spacing: -0.5px;
     }
+}
 
-    &[data-mobile="true"] {
-        padding: 13px 16px;
+[data-mobile="true"] {
+    .container {
+        padding: 0.75rem;
+        background: var(--background);
     }
 }
 

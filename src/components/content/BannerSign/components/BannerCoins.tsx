@@ -15,6 +15,7 @@ export const BannerCoins: FC = () => {
                 width={238.715}
                 height={156}
                 className={styles.coins}
+                unoptimized
             />
             <div className={styles.ellipseOne} />
             <div className={styles.ellipseTwo} />

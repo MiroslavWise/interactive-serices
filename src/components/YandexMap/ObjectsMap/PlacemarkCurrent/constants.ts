@@ -1,16 +1,6 @@
 import type { TTypeProvider } from "@/services/file-upload/types"
-import type {
-    IAlertBalloon,
-    IOfferBallon,
-    IDiscussionBallon,
-    IRequestBallon,
-} from "./types"
-import { DispatchWithoutAction } from "react"
 
-export const TYPE_ICON: Record<
-    TTypeProvider,
-    { default: string; active: string }
-> = {
+export const TYPE_ICON: Record<TTypeProvider, { default: string; active: string }> = {
     profile: {
         default: "",
         active: "",
@@ -24,14 +14,18 @@ export const TYPE_ICON: Record<
         active: "",
     },
     alert: {
-        default: "/map/default-alert.png",
+        default: "/map/circle-alert.png",
         active: "/map/default-alert-hover.png",
     },
     discussion: {
-        default: "/map/default-discussion.png",
+        default: "/map/circle-discussion.png",
         active: "/map/default-discussion-hover.png",
     },
     barter: {
+        default: "",
+        active: "",
+    },
+    threads: {
         default: "",
         active: "",
     },

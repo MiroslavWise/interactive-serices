@@ -1,63 +1,6 @@
-@mixin glasses {
-    position: absolute;
-    width: 431px;
-    height: 431px;
-    border-radius: 300px;
-    filter: blur(90px);
-    transform: translate(-50%, -50%);
-    transition: all 0.5s ease-in-out;
-    z-index: 0;
-
-    @media screen and (max-width: 750px) {
-        width: 265px;
-        height: 265px;
-        filter: blur(70.66666412353516px);
-    }
-}
-
-.glass-circle-1 {
-    @include glasses();
-    background: rgba(243, 145, 114, 0.32);
-    top: -40px;
-    left: 230px;
-
-    @media screen and (max-width: 750px) {
-        left: -40px;
-        top: -40px;
-    }
-}
-
-.glass-circle-2 {
-    @include glasses();
-    background: rgba(100, 220, 246, 0.32);
-    top: calc(100% - 300px);
-    left: -30px;
-
-    @media screen and (max-width: 750px) {
-        top: 90%;
-        left: 30px;
-    }
-}
-
-.glass-circle-3 {
-    @include glasses();
-    background: rgba(148, 249, 48, 0.26);
-    top: 60%;
-    left: 60%;
-
-    @media screen and (max-width: 750px) {
-        left: calc(100% - 40px);
-    }
-}
-
-.glass-circle-4 {
-    @include glasses();
-    background: rgba(135, 92, 255, 0.24);
-    top: 100px;
-    left: 100%;
-    @media screen and (max-width: 750px) {
-        top: 40%;
-        left: 65%;
+html {
+    @media screen and (max-width: 360px) {
+        font-size: 75%;
     }
 }
 
@@ -67,6 +10,10 @@ body {
     margin: 0;
     scroll-behavior: smooth;
     overflow: hidden;
+    background: var(--gray-100);
+}
+
+body {
+    height: 100%;
     position: relative;
-    background: var(--background);
 }

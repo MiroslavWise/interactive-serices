@@ -1,76 +1,87 @@
 "use client"
 
-import {
-    memo,
-    useState,
-    Dispatch,
-    useEffect,
-    useMemo,
-    SetStateAction,
-} from "react"
-import dayjs from "dayjs"
-import Image from "next/image"
-import { isMobile } from "react-device-detect"
-import { useQuery } from "@tanstack/react-query"
+import { flushSync } from "react-dom"
+import { useQueries, useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
+import { memo, useState, useMemo, useEffect } from "react"
 
+import type { IBarterResponse } from "@/services/barters/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
 
-import { BadgeServices } from "@/components/common/Badge"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { NextImageMotion } from "@/components/common/Image"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
-import {
-    useAuth,
-    useOffersCategories,
-    useCompletionTransaction,
-    usePopupMenuChat,
-} from "@/store/hooks"
-import { usePush } from "@/helpers"
 import { useWebSocket } from "@/context"
-import { serviceBarters } from "@/services/barters"
-import { serviceTestimonials } from "@/services/testimonials"
+import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
+import { serviceTestimonials, serviceThreads, serviceBarters, serviceProfile } from "@/services"
+import { useAuth, useOffersCategories, dispatchAddTestimonials, dispatchBallonOffer } from "@/store"
 
 import styles from "./styles/notice-barter.module.scss"
 
-export const NoticeBarter = memo(function $NoticeBarter({
-    idBarter,
-    userData,
-    refetchThread,
-    setIsLoadingFullInfo,
-}: {
-    idBarter: number
-    userData?: IUserResponse | null
-    refetchThread: () => Promise<any>
-    setIsLoadingFullInfo: Dispatch<SetStateAction<boolean>>
-}) {
-    const { userId, user } = useAuth()
+export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: { idBarter: number; userData?: IUserResponse | null }) {
     const threadId = useSearchParams().get("thread")
-    const { categories } = useOffersCategories()
+    const user = useAuth(({ user }) => user)
+    const userId = useAuth(({ userId }) => userId)
+    const categories = useOffersCategories(({ categories }) => categories)
     const [loading, setLoading] = useState(false)
-    const { socket } = useWebSocket() ?? {}
+    const { socket } = useWebSocket()
     const { handleReplace } = usePush()
-    const { setIsVisible } = usePopupMenuChat()
-    const { dispatchCompletion } = useCompletionTransaction()
-    const { data, refetch } = useQuery({
+    const [stateBarter, setStateBarter] = useState<IBarterResponse | null>(null)
+    const { refetchCountMessages } = useCountMessagesNotReading()
+
+    const { refetch: refetchBarters } = useQuery({
+        queryFn: () =>
+            serviceBarters.getReceiverId(userId!, {
+                status: "initiated",
+                order: "DESC",
+            }),
+        queryKey: ["barters", { receiver: userId, status: "initiated" }],
+        enabled: false,
+    })
+
+    const { data } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
         queryKey: ["barters", `id=${idBarter}`],
         enabled: !!idBarter,
+        refetchOnMount: true,
+        refetchOnReconnect: true,
     })
 
+    const { res, ok } = data ?? {}
+    const { status, consigner, initiator } = stateBarter ?? {}
+
+    const [{ data: dataInitiatorProfile }, { data: dataConsignerProfile }] = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceProfile.getUserId(initiator?.userId!),
+                queryKey: ["profile", initiator?.userId!],
+                enabled: ok && ["executed", "completed"].includes(status!),
+            },
+            {
+                queryFn: () => serviceProfile.getUserId(consigner?.userId!),
+                queryKey: ["profile", consigner?.userId!],
+                enabled: ok && ["executed", "completed"].includes(status!),
+            },
+        ],
+    })
+
+    useEffect(() => {
+        if (!!res) {
+            setStateBarter(res)
+        }
+    }, [res])
+
     const offerId: number | null = useMemo(() => {
-        if (!data?.res || !userId) {
+        if (!res || !userId) {
             return null
         }
-        if (Number(data?.res?.initiator?.userId) === Number(userId)) {
-            return Number(data?.res?.consignedId)
+        if (Number(res?.initiator?.userId) === Number(userId)) {
+            return Number(res?.consignedId)
         } else {
-            return Number(data?.res?.initialId)
+            return Number(res?.initialId)
         }
-    }, [data?.res, userId])
+    }, [res, userId])
 
-    const { data: dataTestimonials, refetch: refetchTestimonials } = useQuery({
+    const { data: dataTestimonials } = useQuery({
         queryFn: () =>
             serviceTestimonials.get({
                 target: offerId!,
@@ -78,393 +89,241 @@ export const NoticeBarter = memo(function $NoticeBarter({
                 barter: idBarter!,
             }),
         queryKey: ["testimonials", `barter=${idBarter}`, `offer=${offerId!}`],
-        enabled:
-            ["executed", "destroyed", "completed"]?.includes(
-                data?.res?.status!,
-            ) && !!offerId,
+        enabled: ["executed", "destroyed", "completed"]?.includes(res?.status!) && !!offerId,
     })
 
-    const isMeInitiator = useMemo(() => {
-        return userId && data?.res?.initiator?.userId === userId
-    }, [data?.res, userId])
-
     const infoOffers = useMemo(() => {
-        if (!categories.length || !data?.res) {
+        if (!categories.length || !consigner || !initiator) {
             return null
         }
-
         return {
-            initiator: categories?.find(
-                (item) =>
-                    Number(item.id) ===
-                    Number(data?.res?.initiator?.categoryId),
-            ),
-            consigner: categories?.find(
-                (item) =>
-                    Number(item.id) ===
-                    Number(data?.res?.consigner?.categoryId),
-            ),
+            initiator: categories?.find((item) => Number(item.id) === Number(initiator?.categoryId)),
+            consigner: categories?.find((item) => Number(item.id) === Number(consigner?.categoryId)),
         }
-    }, [categories, data?.res])
+    }, [categories, consigner, initiator])
 
     const geo = useMemo(() => {
-        return (
-            userData?.addresses?.find((item) => item?.addressType === "main") ||
-            null
-        )
+        return userData?.addresses?.find((item) => item?.addressType === "main")
     }, [userData])
 
     const isFeedback = useMemo(() => {
-        return dataTestimonials?.res?.some(
-            (item) => item?.userId === userId && item?.barterId === idBarter,
-        )
+        return dataTestimonials?.res?.find((item) => item?.userId === userId && item?.barterId === idBarter)
     }, [userId, idBarter, dataTestimonials?.res])
 
-    useEffect(() => {
-        if (!!data?.res && !!dataTestimonials?.res) {
-            requestAnimationFrame(() => {
-                setIsLoadingFullInfo(true)
+    function handleCompleted() {
+        dispatchAddTestimonials({
+            visible: true,
+            barter: data?.res!,
+            user: userData!,
+            threadId: Number(threadId),
+            testimonials: dataTestimonials?.res!,
+        })
+    }
+
+    function handleAccept() {
+        if (!loading) {
+            setLoading(true)
+            serviceBarters.patch({ status: "executed" }, idBarter!).then((response) => {
+                if (response.ok) {
+                    const date = new Date()
+                    const receiverIds = [Number(userData?.id)]
+                    const message = `Пользователь ${user?.username} согласился принять ваш запрос на обмен!`
+                    socket?.emit("barter", {
+                        receiverIds: receiverIds,
+                        message: message,
+                        barterId: idBarter,
+                        emitterId: userId!,
+                        status: "accepted",
+                        threadId: threadId!,
+                        created: date,
+                    })
+                    refetchBarters()
+                }
+                flushSync(() => {
+                    setStateBarter((prev) => ({
+                        ...prev!,
+                        status: "executed",
+                    }))
+                    setLoading(false)
+                })
             })
         }
-    }, [data?.res, setIsLoadingFullInfo, dataTestimonials?.res])
+    }
 
-    function handleSuccess() {
+    function handleRejection() {
         if (!loading) {
             setLoading(true)
-            serviceBarters
-                .patch(
-                    {
-                        updatedById: userId,
-                        status: "executed",
-                    },
-                    idBarter!,
-                )
-                .then((response) => {
-                    if (response.ok) {
-                        const date = new Date()
-                        const receiverIds = [Number(userData?.id)]
-                        const message = `Пользователь @${user?.username} согласился принять ваш запрос на обмен!`
-                        console.log(
-                            "%c socket?.connected: ",
-                            `color: #${socket?.connected ? "0f0" : "f00"}`,
-                            socket?.connected,
-                        )
-                        socket?.emit("chat", {
-                            receiverIds: receiverIds,
-                            message: message,
-                            threadId: Number(threadId!),
-                            created: date,
-                            parentId: undefined,
-                        })
-                    }
-                    setTimeout(() => {
-                        refetch().finally(() => {
-                            refetchThread()
-                            setLoading(false)
-                        })
-                    }, 750)
+            Promise.all([
+                serviceBarters.patch({ status: "canceled", enabled: false }, idBarter!),
+                serviceThreads.patch({ enabled: false }, Number(threadId)),
+            ]).then(() => {
+                Promise.all([refetchBarters(), refetchCountMessages()]).then(() => {
+                    flushSync(() => {
+                        setLoading(false)
+                        handleReplace("/messages")
+                    })
                 })
+            })
         }
     }
 
-    function handleCanceled() {
-        if (!loading) {
-            setLoading(true)
-            serviceBarters
-                .patch(
-                    {
-                        updatedById: userId,
-                        status: "canceled",
-                    },
-                    idBarter!,
-                )
-                .then((response) => {
-                    refetch().finally(() => setLoading(false))
-                })
-        }
-    }
-
-    function handleCompleted() {
-        console.log("%c data: ", "color: #ff0", {
-            dataBarter: data?.res!,
-            dataUser: userData!,
-        })
-
-        dispatchCompletion({
-            visible: true,
-            dataBarter: data?.res!,
-            dataUser: userData!,
-            threadId: Number(threadId),
-        })
-    }
-
-    const textInfo = useMemo(() => {
-        if (!infoOffers || !data?.res) return null
-        const status = data?.res?.status!
-        if (infoOffers && status === "initiated") {
-            if (isMeInitiator) {
-                return (
-                    <p>
-                        Вы предлагаете{" "}
-                        <span>
-                            {infoOffers?.initiator?.title?.toLowerCase()}
-                        </span>{" "}
-                        взамен вы хотите{" "}
-                        <span>
-                            {infoOffers?.consigner?.title?.toLowerCase()}
-                        </span>
-                    </p>
-                )
-            } else {
-                return (
-                    <p>
-                        <span>{userData?.profile?.firstName}</span> предлагает
-                        вам{" "}
-                        <span>
-                            {infoOffers?.consigner?.title?.toLowerCase()}
-                        </span>{" "}
-                        взамен на{" "}
-                        <span>
-                            {infoOffers?.initiator?.title?.toLowerCase()}
-                        </span>
-                    </p>
-                )
-            }
-        }
-        return status === "executed" ? (
-            <p>
-                В настоящее время у вас есть обмен с{" "}
-                {userData?.profile?.firstName}
-            </p>
-        ) : status === "completed" ? (
-            <p>
-                Ваш обмен с {userData?.profile?.firstName} был успешно завершён!
-            </p>
-        ) : status === "destroyed" ? (
-            <p>Ваш обмен с {userData?.profile?.firstName} не состоялся!</p>
-        ) : status === "canceled" ? (
-            <p>Ваш обмен с {userData?.profile?.firstName} был отклонён!</p>
-        ) : null
-    }, [infoOffers, data?.res, isMeInitiator, userData])
-
-    if (isMobile) {
-        return (
-            <div
-                className={styles.wrapperMobile}
-                data-destroyed={["canceled", "destroyed"]?.includes(
-                    data?.res?.status!,
-                )}
-                id="id-barter-header"
-            >
-                <section>
-                    <div data-sub-header>
-                        <div
-                            data-back
-                            onClick={() => {
-                                handleReplace("/messages")
-                            }}
-                        >
-                            <Image
-                                src="/svg/chevron-left.svg"
-                                alt="chevron-left"
-                                data-image-back
-                                height={24}
-                                width={24}
-                            />
-                        </div>
-                        <div data-user>
-                            {userData ? (
-                                <NextImageMotion
-                                    src={
-                                        userData?.profile?.image?.attributes
-                                            ?.url
-                                    }
-                                    alt="avatar"
-                                    width={40}
-                                    height={40}
-                                />
-                            ) : (
-                                <div data-avatar />
-                            )}
-                            <h5>
-                                {userData?.profile?.firstName || " "}{" "}
-                                {userData?.profile?.lastName || " "}
-                            </h5>
-                        </div>
-                        <div data-dots onClick={() => setIsVisible()}>
-                            <Image
-                                src="/svg/dots-vertical.svg"
-                                alt="dots-vertical"
-                                width={24}
-                                height={24}
-                            />
-                        </div>
-                    </div>
-                    <div data-sub-header>
-                        <div data-barter>
-                            <BadgeServices
-                                {...data?.res?.initiator!}
-                                isClickable
-                            />
-                            <Image
-                                src="/svg/repeat-white.svg"
-                                alt="repeat-white"
-                                width={18}
-                                height={18}
-                            />
-                            <BadgeServices
-                                {...data?.res?.consigner!}
-                                isClickable
-                            />
-                        </div>
-                    </div>
-                    <div data-info>{textInfo}</div>
-                    <footer>
-                        {["executed", "completed", "destroyed"]?.includes(
-                            data?.res?.status!,
-                        ) &&
-                        !isFeedback &&
-                        dataTestimonials?.ok ? (
-                            <div data-buttons>
-                                <ButtonFill
-                                    label={
-                                        data?.res?.status === "completed"
-                                            ? "Оставить отзыв"
-                                            : "Завершить обмен"
-                                    }
-                                    handleClick={handleCompleted}
-                                />
+    return data?.ok ? (
+        <section className={styles.wrapper} data-type={status}>
+            <article>
+                {status === "initiated" ? (
+                    <div data-head>
+                        <div data-time>
+                            <div data-img>
+                                <img src="/svg/clock-fast-forward.svg" alt="clock" width={16} height={16} />
                             </div>
-                        ) : null}
-                        {isMeInitiator === false &&
-                        data?.res?.status === "initiated" ? (
+                            <time>{daysAgo(res?.created)}</time>
+                        </div>
+                        {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
+                    </div>
+                ) : status === "executed" ? (
+                    <>
+                        <div data-lath>
+                            <span>В процессе</span>
+                        </div>
+                        <div data-barter-people>
+                            <div data-item-people-offer>
+                                <div data-img>
+                                    <NextImageMotion src={dataInitiatorProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+                                </div>
+                                <a
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title}
+                                </a>
+                            </div>
+                            <div data-repeat>
+                                <img src="/svg/repeat-gray.svg" alt="repeat" width={16} height={16} />
+                            </div>
+                            <div data-item-people-offer>
+                                <div data-img>
+                                    <NextImageMotion src={dataConsignerProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+                                </div>
+                                <a
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title}
+                                </a>
+                            </div>
+                        </div>
+                    </>
+                ) : null}
+                {["initiated", "completed"].includes(status!) ? (
+                    <p>
+                        {initiator?.userId === userId ? (
                             <>
-                                <ButtonFill
-                                    label="Принять"
-                                    handleClick={handleSuccess}
-                                    classNames={styles.fill}
-                                    suffix={
-                                        <Image
-                                            src="/svg/check-white.svg"
-                                            alt="check-white"
-                                            width={16}
-                                            height={16}
-                                        />
-                                    }
-                                />
-                                <ButtonDefault
-                                    classNames={styles.fill}
-                                    label="Отказаться"
-                                    handleClick={handleCanceled}
-                                    suffix={
-                                        <Image
-                                            src="/svg/x-close-primary.svg"
-                                            alt="check-white"
-                                            width={16}
-                                            height={16}
-                                        />
-                                    }
-                                />
+                                Вы предлагаете{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title?.toLowerCase()}
+                                </span>{" "}
+                                взамен на{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title?.toLowerCase()}
+                                </span>
+                            </>
+                        ) : consigner?.userId === userId ? (
+                            <>
+                                <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title?.toLowerCase()}
+                                </span>{" "}
+                                взамен на{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title?.toLowerCase()}
+                                </span>
+                                {status === "completed" ? "(обмен завершён)" : ""}
                             </>
                         ) : null}
-                    </footer>
-                </section>
-            </div>
-        )
-    }
-
-    return (
-        <div
-            className={styles.wrapper}
-            data-destroyed={["canceled", "destroyed"]?.includes(
-                data?.res?.status!,
-            )}
-            id="id-barter-header"
-        >
-            <div data-sub-header>
-                {data?.res?.timestamp ? (
-                    <section data-time>
-                        <Image
-                            src="/svg/calendar-black.svg"
-                            alt="calendar"
-                            width={14}
-                            height={14}
-                        />
-                        <p>
-                            {dayjs(data?.res?.timestamp).format("DD/MM/YYYY")}
-                        </p>
-                    </section>
+                    </p>
                 ) : null}
-                {geo ? (
-                    <section data-time>
-                        <GeoTagging
-                            location={geo?.additional}
-                            fontSize={12}
-                            size={14}
+            </article>
+            {status !== "executed" ? (
+                <footer>
+                    {status === "initiated" && res?.consigner?.userId === userId ? (
+                        <>
+                            <Button
+                                type="button"
+                                typeButton="white"
+                                label="Принять"
+                                loading={loading}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    handleAccept()
+                                }}
+                            />
+                            <Button
+                                type="button"
+                                typeButton="fill-opacity"
+                                label="Отказаться"
+                                loading={loading}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    handleRejection()
+                                }}
+                            />
+                        </>
+                    ) : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
+                        <Button
+                            type="button"
+                            typeButton="white"
+                            label="Оставить отзыв"
+                            loading={loading}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleCompleted()
+                            }}
                         />
-                    </section>
-                ) : null}
-            </div>
-            <section data-inform>{textInfo}</section>
-            <footer data-executed>
-                <div data-badges>
-                    <BadgeServices {...data?.res?.initiator!} isClickable />
-                    <Image
-                        src="/svg/repeat-white.svg"
-                        alt="repeat-white"
-                        width={24}
-                        height={24}
-                    />
-                    <BadgeServices {...data?.res?.consigner!} isClickable />
-                </div>
-                {["executed", "completed", "destroyed"]?.includes(
-                    data?.res?.status!,
-                ) &&
-                !isFeedback &&
-                dataTestimonials?.ok ? (
-                    <div data-buttons>
-                        <ButtonFill
-                            label={
-                                data?.res?.status === "completed"
-                                    ? "Оставить отзыв"
-                                    : "Завершить обмен"
-                            }
-                            handleClick={handleCompleted}
-                        />
-                    </div>
-                ) : null}
-                {isMeInitiator === false &&
-                data?.res?.status === "initiated" ? (
-                    <section>
-                        <ButtonFill
-                            label="Принять"
-                            handleClick={handleSuccess}
-                            classNames={styles.fill}
-                            suffix={
-                                <Image
-                                    src="/svg/check-white.svg"
-                                    alt="check-white"
-                                    width={16}
-                                    height={16}
-                                />
-                            }
-                        />
-                        <ButtonDefault
-                            classNames={styles.fill}
-                            label="Отказаться"
-                            handleClick={handleCanceled}
-                            suffix={
-                                <Image
-                                    src="/svg/x-close-primary.svg"
-                                    alt="check-white"
-                                    width={16}
-                                    height={16}
-                                />
-                            }
-                        />
-                    </section>
-                ) : null}
-            </footer>
-        </div>
-    )
+                    ) : null}
+                </footer>
+            ) : null}
+        </section>
+    ) : null
 })

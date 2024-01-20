@@ -6,22 +6,21 @@ import { useInsertionEffect, useMemo } from "react"
 import type { IPostThreads } from "@/services/threads/types"
 import type { IPatchDataBarter } from "@/services/barters/types"
 
-import { usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceBarters } from "@/services/barters"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { useRefetchListChat } from "../../hook/useRefetchListChat"
+import { useCountMessagesNotReading, usePush } from "@/helpers"
 
 import styles from "../styles/style.module.scss"
 
 export const ChatEmptyBarter = () => {
-    const refresh = useRefetchListChat()
     const { on } = useToast()
     const idBarter = useSearchParams()?.get("barter-id")
-    const { userId } = useAuth()
+    const userId = useAuth(({ userId }) => userId)
     const { handleReplace } = usePush()
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     const barterNumber = useMemo(() => {
         if (!idBarter || !idBarter?.includes("-")) return undefined
@@ -38,11 +37,7 @@ export const ChatEmptyBarter = () => {
                 user: userId,
                 provider: "barter",
             })
-            return res?.find(
-                (item) =>
-                    item?.provider?.includes("barter") &&
-                    item?.barterId === Number(barterNumber?.id),
-            )
+            return res?.find((item) => item?.provider?.includes("barter") && item?.barterId === Number(barterNumber?.id))
         }
 
         async function createThread(emitterId: number, receiverId: number) {
@@ -57,17 +52,18 @@ export const ChatEmptyBarter = () => {
                 enabled: true,
             }
 
+            if (barterNumber?.id) {
+                data_.barterId = barterNumber?.id
+            }
+
             const { res } = await serviceThreads.post(data_)
             if (res?.id) {
                 const dataBarter: IPatchDataBarter = {
                     threadId: Number(res?.id),
                     updatedById: userId,
                 }
-                const response = await serviceBarters.patch(
-                    dataBarter,
-                    Number(barterNumber?.id),
-                )
-                console.log("response updated barter: ", response)
+
+                await serviceBarters.patch(dataBarter, Number(barterNumber?.id))
             }
 
             return res?.id
@@ -78,23 +74,19 @@ export const ChatEmptyBarter = () => {
             return handleReplace(`/messages?thread=${thread?.id}`)
         }
         if (!thread) {
-            const idCreate = await createThread(
-                Number(userId),
-                barterNumber?.idUser!,
-            )
+            const idCreate = await createThread(Number(userId), barterNumber?.idUser!)
 
             if (!idCreate) {
                 handleReplace("/messages")
                 on(
                     {
-                        message:
-                            "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+                        message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
                     },
                     "warning",
                 )
                 return
             }
-            refresh("barter").finally(() => {
+            refetchCountMessages().finally(() => {
                 handleReplace(`/messages?thread=${idCreate}`)
             })
         }
@@ -110,5 +102,5 @@ export const ChatEmptyBarter = () => {
         }
     }, [barterNumber, userId])
 
-    return <section className={styles.container} />
+    return <section className={styles.wrapper} />
 }

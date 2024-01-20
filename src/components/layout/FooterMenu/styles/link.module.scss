@@ -1,0 +1,87 @@
+.link {
+    height: 100%;
+    flex: 1;
+    flex-shrink: 0;
+    display: flex;
+    padding: 0.75rem 0.28125rem;
+    flex-direction: column;
+    text-decoration: none !important;
+    position: relative;
+
+    .itemsIconLabel {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.125rem;
+
+        & > svg {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+
+        p {
+            text-decoration: none !important;
+            margin-top: auto;
+            justify-self: flex-end;
+            color: var(--gray-500);
+            text-align: center;
+            font-size: 0.6875rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1.125rem;
+            letter-spacing: -0.3px;
+
+            transition: var(--transition);
+            transition-property: color;
+        }
+    }
+
+    .centerPoligon {
+        height: 1.5rem;
+        width: 1.5rem;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.3125rem;
+        background: var(--primary-900);
+
+        & > img {
+            height: 0.875rem;
+            width: 0.875rem;
+        }
+    }
+
+    &[data-active="true"] {
+        .itemsIconLabel {
+            & > p {
+                color: var(--primary-500);
+            }
+        }
+    }
+
+    & > [data-count] {
+        position: absolute;
+        top: 0.35rem;
+        left: calc(50% + 0.125rem);
+        height: 1.1375rem;
+        min-width: 1.1375rem;
+        width: min-content;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding-inline: 0.4rem;
+        background: var(--primary-500);
+        border-radius: 0.56875rem;
+
+        & > span {
+            color: var(--supporting-white);
+            text-align: center;
+            font-size: 0.575rem;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 0.575rem;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 .bigCircle {
-    height: 90px;
-    width: 90px;
+    height: 5.625rem;
+    width: 5.625rem;
     border-radius: 50%;
     background: var(--primary-50);
     display: flex;
@@ -8,12 +8,17 @@
     align-items: center;
 
     .middleCircle {
-        height: 63px;
-        width: 63px;
+        height: 3.9375rem;
+        width: 3.9375rem;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
         background: var(--primary-100);
+
+        & > img {
+            width: 2.1875rem;
+            height: 2.1875rem;
+        }
     }
 }

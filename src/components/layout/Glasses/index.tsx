@@ -1,4 +1,0 @@
-export const Glasses = () =>
-    [1, 2, 3, 4].map((item) => (
-        <span className={`glass-circle-${item}`} key={`${item}_body_glass`} />
-    ))

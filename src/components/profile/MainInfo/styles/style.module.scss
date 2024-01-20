@@ -30,34 +30,40 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 1.25rem;
     flex-shrink: 0;
-    border-radius: 32px;
-    border: 2px solid var(--stroke-1);
-    background: var(--glass-bg-color-2);
-    backdrop-filter: blur(1px);
+    border-radius: 2rem;
+    background: var(--background);
+    overflow: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     z-index: 1;
-    height: calc(100vh - 63px - 100px - 24px);
+    height: calc(100vh - 63px - 100px - 1.5rem);
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+        display: none;
+    }
 }
 
 .avatar {
     position: absolute;
     display: flex;
-    width: 94px;
-    height: 94px;
+    width: 6rem;
+    height: 6rem;
     align-items: center;
     justify-content: center;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    background: var(--background-input);
     z-index: 2;
+    border-radius: 1.5rem;
 
     .photo {
-        border-radius: 24px;
-        border: 4px solid var(--stroke-1);
-        box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.16);
+        border-radius: 1.5rem;
+        box-shadow: 0px 0.75rem 1.5rem 0px rgba(0, 0, 0, 0.16);
     }
 
     .verified {
@@ -69,18 +75,18 @@
 }
 
 .information {
-    padding: 73px 24px 20px;
+    padding: 73px 1.5rem 1.25rem;
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 1.75rem;
 
     .titleAndButtons {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 1rem;
 
         .nameAndGeo {
             display: flex;
@@ -102,12 +108,12 @@
         .buttons {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
 
             & > [data-is-friend] {
                 display: inline-flex;
                 align-items: center;
-                gap: 12px;
+                gap: 0.75rem;
                 width: 100%;
 
                 & > [data-circle-gradient] {
@@ -115,8 +121,8 @@
                     width: 44px;
 
                     & > img {
-                        height: 20px;
-                        width: 20px;
+                        height: 1.25rem;
+                        width: 1.25rem;
                     }
                 }
 
@@ -139,7 +145,7 @@
     .description {
         color: var(--gray-500);
         text-align: center;
-        font-size: 16px;
+        font-size: 1rem;
         font-style: normal;
         font-weight: 400;
         line-height: 24px;
@@ -150,11 +156,11 @@
 //CLASS_NAMES OTHERS
 
 .achievements {
-    gap: 12px;
+    gap: 0.75rem;
 }
 
 .social {
-    gap: 16px;
+    gap: 1rem;
 }
 
 .more {
@@ -173,7 +179,7 @@
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
-        line-height: 20px;
+        line-height: 1.25rem;
         letter-spacing: -0.5px;
     }
 }
@@ -184,14 +190,16 @@
     justify-content: center;
     gap: 6px;
     width: 100%;
-    margin-bottom: 16px;
+    padding-top: 1rem;
+    margin-top: auto;
+    margin-bottom: 1rem;
 
     p {
         color: var(--gray-500);
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
-        line-height: 20px;
+        line-height: 1.25rem;
         letter-spacing: -0.5px;
 
         &[data-complaint] {

@@ -12,7 +12,7 @@ import { useAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export const ItemsAdress: TItemsAdress = ({}) => {
-    const { addresses } = useAuth((_) => ({ addresses: _.addresses }))
+    const addresses = useAuth(({ addresses }) => addresses)
 
     const listAdress: IAddressesResponse[] = useMemo(() => {
         if (addresses && addresses?.length > 0) {
@@ -24,11 +24,7 @@ export const ItemsAdress: TItemsAdress = ({}) => {
     return (
         <ul className={styles.containerItemsAdress}>
             {listAdress.map((item) => (
-                <ItemLIAdress
-                    key={`${item.id}_adress`}
-                    active={item.enabled!}
-                    item={item}
-                />
+                <ItemLIAdress key={`${item.id}_adress`} active={item.enabled!} item={item} />
             ))}
             {!listAdress.length ? <ItemLIAdress active={false} /> : null}
         </ul>

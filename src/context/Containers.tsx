@@ -4,9 +4,8 @@ import { isMobile } from "react-device-detect"
 import { ToastContainer } from "react-toastify"
 
 import {
-    Barter,
+    Intro,
     ModalSign,
-    TermsOfUse,
     PublicProfile,
     DroverFriends,
     WelcomeModal,
@@ -15,13 +14,17 @@ import {
     NewServicesBanner,
     NotificationsMobile,
     UpdateMutualOffer,
-    ModalUpdateProfile,
     PhotoPreviewModal,
     HasClustererBalloons,
     CompletionTransaction,
     CreateNewOptionModal,
     DataConfirmationPopUp,
     NewServiceBarterRequests,
+    MobileFiltersMap,
+    Onboarding,
+    ReciprocalExchange,
+    BalloonOffer,
+    BalloonDiscussion,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -29,58 +32,71 @@ import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
     useAuth,
-    useTermsOfUse,
-    useBalloonCard,
+    usePhotoOffer,
     useHasBalloons,
     useDroverFriends,
-    useVisibleModalBarter,
     useVisibleNotifications,
     useUpdateMutualOffer,
     useDataConfirmationPopUp,
+    useAddCreateModal,
+    useReciprocalExchange,
+    useBalloonOffer,
+    useBalloonDiscussion,
+    useAddTestimonials,
 } from "@/store/hooks"
-import { usePhotoOffer } from "@/store/state/usePhotoOffer"
 
 export const Containers = () => {
-    const { token, isAuth } = useAuth()
-    const { visible } = useBalloonCard()
-    const { isVisible } = useVisibleModalBarter()
-    const { visibleFriends } = useDroverFriends()
-    const { visibleHasBalloon } = useHasBalloons()
-    const { visiblePolicy, visibleRules } = useTermsOfUse()
-    const { visibleUpdateMutual } = useUpdateMutualOffer()
-    const { visible: visibleNotifications } = useVisibleNotifications()
-    const { visibleDataConfirmation } = useDataConfirmationPopUp()
-    const { visible: visiblePhotoOffer } = usePhotoOffer()
+    const isAuth = useAuth(({ isAuth }) => isAuth)
+    const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
+    const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
+    const visibleBalloonOffer = useBalloonOffer(({ visible }) => visible)
+    const visibleTestimonials = useAddTestimonials(({ visible }) => visible)
+    const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
+    const visibleBalloonDiscussion = useBalloonDiscussion(({ visible }) => visible)
+    const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
+    const visibleReciprocalExchange = useReciprocalExchange(({ visible }) => visible)
+    const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
+    const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
+    const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
 
     return (
         <>
-            <PublicProfile />
-            <FooterMenu />
             <PhotoCarousel />
             <WelcomeModal />
             <BalloonPlaceMark />
-            <AboutSheiraPopup />
-            {isVisible && <Barter />}
-            {!token && !isAuth && <ModalSign />}
+            {isAuth === false && (
+                <>
+                    <Intro />
+                    <ModalSign />
+                    <AboutSheiraPopup />
+                </>
+            )}
             <ToastContainer limit={3} />
+            {isMobile && (
+                <>
+                    <FooterMenu />
+                    <MobileFiltersMap />
+                </>
+            )}
+            {!isMobile && <PublicProfile />}
+            {visibleBalloonOffer && <BalloonOffer />}
             {visiblePhotoOffer && <PhotoPreviewModal />}
             {visibleHasBalloon && <HasClustererBalloons />}
-            {visiblePolicy || visibleRules ? <TermsOfUse /> : null}
+            {visibleBalloonDiscussion && <BalloonDiscussion />}
             {visibleDataConfirmation && <DataConfirmationPopUp />}
-            {token && (
+            {isAuth && (
                 <>
+                    <Onboarding />
                     <ComplaintModal />
                     <NewServicesBanner />
-                    <ModalUpdateProfile />
-                    <CompletionTransaction />
-                    <ExchangesModalMobile />
-                    <CreateNewOptionModal />
                     <NewServiceBarterRequests />
-                    {isMobile && visibleNotifications && (
-                        <NotificationsMobile />
-                    )}
                     {visibleFriends && <DroverFriends />}
+                    {isMobile && <ExchangesModalMobile />}
+                    {isVisible && <CreateNewOptionModal />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}
+                    {visibleTestimonials && <CompletionTransaction />}
+                    {visibleReciprocalExchange && <ReciprocalExchange />}
+                    {isMobile && visibleNotifications && <NotificationsMobile />}
                 </>
             )}
         </>

@@ -1,6 +1,7 @@
+import { IImageData } from "@/store/types/useAuthState"
 import type { IReturnData } from "../types/general"
 
-export type TTypeProviderThreads = "personal" | "barter"
+export type TTypeProviderThreads = "personal" | "barter" | "groups"
 
 export interface IPostThreads {
     title: "completed" | string
@@ -21,6 +22,9 @@ export interface IThreadsMessages {
     created: Date
     message: string
     emitterId: number
+    receiverIds: number[]
+    readIds: number[]
+    images: IImageData[]
 }
 
 export interface IResponseThreads {
@@ -47,7 +51,7 @@ export interface IResponseThread {
     emitterId: number
     receiverIds: number[]
     enabled: boolean
-    provider: string
+    provider: TTypeProviderThreads
     barterId?: number
     created: Date | string
     updated: Date | string
@@ -66,10 +70,7 @@ export interface IServiceThreads {
     route: string
     post(value: IPostThreads): Promise<IReturnData<IResponseCreate>>
     get(value?: IQueryParams): Promise<IReturnData<IResponseThreads[]>>
-    patch(
-        value: IPatchThreads,
-        id: number | string,
-    ): Promise<IReturnData<IResponseCreate>>
+    patch(value: IPatchThreads, id: number | string): Promise<IReturnData<IResponseCreate>>
     getId(id: number | string): Promise<IReturnData<IResponseThread>>
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
     getUserId(userId: number | string): Promise<IReturnData<IResponseThreads[]>>

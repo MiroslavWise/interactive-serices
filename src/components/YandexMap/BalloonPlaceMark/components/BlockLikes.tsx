@@ -10,11 +10,11 @@ import { serviceLikes } from "@/services/likes"
 import styles from "../styles/likes.module.scss"
 
 export const BlockLikes: TBlockLikes = ({ id }) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const [loading, setLoading] = useState(false)
     const [count, setCount] = useState(0)
     const [myLike, setMyLike] = useState(false)
-    const [{ data: dataLikesMy, refetch: refetchLikesMy }, { data, refetch }] =
+    const [{ data: dataLikesMy, refetch: refetchLikesMy }, { data, refetch }] = 
         useQueries({
             queries: [
                 {
@@ -77,6 +77,7 @@ export const BlockLikes: TBlockLikes = ({ id }) => {
                 width={18}
                 height={18}
                 data-loading-image={loading}
+                unoptimized
             />
             <p>{count || 0}</p>
         </div>

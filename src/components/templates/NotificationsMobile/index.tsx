@@ -1,69 +1,68 @@
 "use client"
 
-import Image from "next/image"
-import { useMemo } from "react"
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import type { TNotifications } from "./types"
-
-import { Glasses } from "@/components/common/Glasses"
-import { MotionUL } from "@/components/common/Motion"
-import { ComponentsNotification } from "@/components/profile"
+import { ItemNotification } from "@/components/notifications"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store/hooks"
 import { serviceNotifications } from "@/services/notifications"
-import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
+import { type TTypeWaiting, NAVIGATION_STATUSES } from "./constants/navigation"
+import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export const NotificationsMobile: TNotifications = ({}) => {
-    const { visible, dispatchVisibleNotifications } = useVisibleNotifications(
-        (_) => ({
-            visible: _.visible,
-            dispatchVisibleNotifications: _.dispatchVisibleNotifications,
-        }),
-    )
+export function NotificationsMobile() {
+    const visible = useVisibleNotifications(({ visible }) => visible)
+    const userId = useAuth(({ userId }) => userId)
+    const [status, setStatus] = useState<TTypeWaiting>("all")
 
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
-        queryKey: ["notifications"],
+        queryKey: ["notifications", { userId: userId }],
+        enabled: !!userId,
     })
 
-    const maps = useMemo(() => {
-        return dataNotifications?.res || []
-    }, [dataNotifications])
+    const maps = dataNotifications?.res || []
 
     return (
-        <div
-            className={cx("wrapper-fixed", styles.container)}
-            data-visible={visible}
-        >
-            <header className={styles.header}>
-                <h4>Уведомления</h4>
-                <div
-                    className={styles.closeArrowDown}
-                    onClick={() =>
-                        dispatchVisibleNotifications({ visible: false })
-                    }
-                >
-                    <Image
-                        src="/svg/chevron-down.svg"
-                        alt="arrow-down"
-                        width={24}
-                        height={24}
-                    />
-                </div>
-            </header>
-            <MotionUL>
-                {maps.map((item) => (
-                    <ComponentsNotification
-                        key={item.id + "-notification"}
-                        {...item}
-                    />
-                ))}
-            </MotionUL>
-            <Glasses />
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
+            <section>
+                <header>
+                    <h3>Уведомления</h3>
+                    <button onClick={() => dispatchVisibleNotifications(false)}>
+                        <img src="/svg/x-close.svg" alt="X" width={24} height={24} />
+                    </button>
+                </header>
+                {maps.length ? (
+                    <nav>
+                        {NAVIGATION_STATUSES.map((item) => (
+                            <a
+                                key={`::${item.value}::key::nav::`}
+                                data-active={status === item.value}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    setStatus(item.value)
+                                }}
+                            >
+                                {item.label}
+                            </a>
+                        ))}
+                    </nav>
+                ) : null}
+                {maps.length ? (
+                    <ul>
+                        {maps.map((item) => (
+                            <ItemNotification key={`::${item.id}::notification::`} {...item} />
+                        ))}
+                    </ul>
+                ) : (
+                    <article>
+                        <h3>У вас пока нет уведомлений</h3>
+                        <p>Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое.</p>
+                    </article>
+                )}
+            </section>
         </div>
     )
 }

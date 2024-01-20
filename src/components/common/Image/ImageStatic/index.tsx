@@ -1,28 +1,21 @@
-import { memo } from "react"
 import Image from "next/image"
 
 import type { IPropsImageStatic } from "./types"
 
-import { cx } from "@/lib/cx"
-
 type TImage = typeof Image.defaultProps & IPropsImageStatic
 
 export function ImageStatic(props: TImage) {
-    const { src, alt, classNames, onClick } = props ?? {}
+    const { src, alt, onClick } = props ?? {}
 
     return (
         <Image
             {...props}
             onClick={(event) => {
-                event.stopPropagation()
-                if (onClick) {
-                    onClick()
-                }
+                if (onClick) onClick(event)
             }}
             src={src}
             alt={alt}
             data-image={alt}
-            className={cx(classNames)}
             loader={undefined}
             loading={undefined}
             style={{

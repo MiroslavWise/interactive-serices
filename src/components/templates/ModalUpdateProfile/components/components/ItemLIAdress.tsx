@@ -4,13 +4,9 @@ import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 
 import type { TItemLIAdress } from "./types/types"
-import type {
-    IResponseGeocode,
-    IFeatureMember,
-} from "@/services/addresses/types/geocodeSearch"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import type { IResponseGeocode, IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
-import { cx } from "@/lib/cx"
 import { useAuth } from "@/store/hooks"
 import { useDebounce } from "@/helpers"
 import { generateShortHash } from "@/lib/hash"
@@ -21,7 +17,9 @@ import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
 import styles from "./styles/style.module.scss"
 
 export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
-    const { changeAuth } = useAuth(_ => ({changeAuth: _.changeAuth}))
+    const changeAuth = useAuth(({ changeAuth }) => changeAuth)
+    const addressesUser = useAuth(({ addresses }) => addresses)
+    const [loading, setLoading] = useState(false)
     const [text, setText] = useState("")
     const [values, setValues] = useState<IResponseGeocode | null>(null)
     const [activeList, setActiveList] = useState(false)
@@ -48,17 +46,20 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
     function deleteAddress() {
         if (item) {
             serviceAddresses.patch({ enabled: false }, item.id).finally(() => {
-                requestAnimationFrame(() => {
+                setTimeout(() => {
                     changeAuth()
-                })
+                }, 80)
             })
         }
     }
 
     function onValueFunc() {
-        console.log("debounce: ", text)
         if (text.length > 2 && activeList) {
-            getGeocodeSearch(text).then((response) => setValues(response))
+            getGeocodeSearch(text)
+                .then((response) => setValues(response))
+                .finally(() => {
+                    setLoading(false)
+                })
         }
     }
 
@@ -67,11 +68,8 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
             return null
         }
         return (
-            values?.response?.GeoObjectCollection?.featureMember?.filter(
-                (item) =>
-                    item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some(
-                        (_) => _?.kind === "house",
-                    ),
+            values?.response?.GeoObjectCollection?.featureMember?.filter((item) =>
+                item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some((_) => _?.kind === "house"),
             ) || null
         )
     }, [values])
@@ -80,8 +78,7 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const coordinates = item?.GeoObject?.Point?.pos
         const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
         const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
-        const additional =
-            item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
+        const additional = item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
         const value: IPostAddress = {
             addressType: "main",
             enabled: true,
@@ -105,24 +102,34 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
         const hash = generateShortHash(additional!)
         if (hash) value.hash = hash
 
-        serviceAddresses
-            .post(value)
-            .then((response) => {
+        Promise.all(
+            addressesUser
+                ? addressesUser
+                      .filter((item) => item?.addressType === "main" && item?.enabled)
+                      .map((item) =>
+                          serviceAddresses.patch(
+                              {
+                                  enabled: false,
+                              },
+                              item.id,
+                          ),
+                      )
+                : [],
+        ).then(() => {
+            serviceAddresses.post(value).then((response) => {
                 console.log("response address: ", response)
-            })
-            .finally(() => {
                 setActiveList(false)
                 setValues(null)
                 setText("")
-                changeAuth()
+                requestAnimationFrame(() => {
+                    changeAuth()
+                })
             })
+        })
     }
 
     return (
-        <li className={cx(active && styles.active)}>
-            {/* <div className={cx(styles.checkBox)}>
-                <div className={styles.center} />
-            </div> */}
+        <li data-active={active}>
             <div className={styles.containerInput}>
                 <Image
                     src="/svg/marker-pin-black.svg"
@@ -130,11 +137,12 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     height={20}
                     width={20}
                     className={styles.geoBlack}
+                    unoptimized
                 />
                 <textarea
-                    disabled={!!item}
                     value={text}
                     onChange={(value) => {
+                        setLoading(true)
                         setText(value.target.value)
                         debouncedValue()
                     }}
@@ -143,40 +151,33 @@ export const ItemLIAdress: TItemLIAdress = ({ active, item }) => {
                     onBlur={onBlur}
                 />
                 <div className={styles.containerRed} onClick={deleteAddress}>
-                    <Image
-                        src="/svg/trash-red.svg"
-                        alt="trash-red"
-                        width={20}
-                        height={20}
-                    />
+                    <Image src="/svg/trash-red.svg" alt="trash-red" width={20} height={20} unoptimized />
                 </div>
-                <ul className={cx(values && activeList && styles.activeList)}>
-                    {values &&
-                    exactAddresses &&
-                    Array.isArray(
-                        values?.response?.GeoObjectCollection?.featureMember,
-                    ) &&
-                    Array.isArray(exactAddresses) &&
-                    exactAddresses?.length === 0 &&
-                    values?.response?.GeoObjectCollection?.featureMember
-                        ?.length > exactAddresses?.length ? (
+                <ul data-active-list={!!((values && activeList) || loading)}>
+                    {loading ? (
+                        <div data-load>
+                            <p>Загрузка списка адресов...</p>
+                        </div>
+                    ) : values &&
+                      exactAddresses &&
+                      Array.isArray(values?.response?.GeoObjectCollection?.featureMember) &&
+                      Array.isArray(exactAddresses) &&
+                      exactAddresses?.length === 0 &&
+                      values?.response?.GeoObjectCollection?.featureMember?.length > exactAddresses?.length ? (
                         <h3>Введите более точный адрес</h3>
                     ) : Array.isArray(exactAddresses) ? (
                         exactAddresses?.map((item) => (
                             <li
                                 key={`${item?.GeoObject?.uri}`}
-                                onClick={() => handleAddress(item)}
+                                onClick={(event) => {
+                                    event.stopPropagation
+                                    handleAddress(item)
+                                }}
                             >
-                                <span>
-                                    {
-                                        item?.GeoObject?.metaDataProperty
-                                            ?.GeocoderMetaData?.text
-                                    }
-                                </span>
+                                <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
                             </li>
                         ))
                     ) : null}
-                    {}
                 </ul>
             </div>
         </li>

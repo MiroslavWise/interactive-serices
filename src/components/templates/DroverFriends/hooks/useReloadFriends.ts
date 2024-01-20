@@ -8,7 +8,7 @@ import { serviceFriends } from "@/services/friends"
 import { TTypeFriends } from "@/store/types/createDroverFriends"
 
 export const useReloadFriends = ({ enabled, type }: IEnabledHook) => {
-    const { userId } = useAuth()
+    const userId = useAuth(({userId}) => userId)
 
     const list: TTypeFriends[] = ["request", "response", "list"]
 

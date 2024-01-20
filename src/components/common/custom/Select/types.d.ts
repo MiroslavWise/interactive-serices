@@ -13,6 +13,8 @@ interface ICustomSelect {
     list: ISelectList[]
     value: string | number | null
     setValue: Dispatch<string | number | null>
+    disabled?: boolean
+    focus?: boolean
 }
 
 export type TCustomSelect = FC<ICustomSelect>

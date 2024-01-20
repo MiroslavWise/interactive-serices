@@ -20,8 +20,7 @@ export const wrapperFetch: IWrapperFetch = {
                       }
                     : {
                           "Content-Type": "application/json",
-                    },
-                cache: "default"
+                      },
             })
             const responseData = await response.json()
             return {
@@ -39,14 +38,17 @@ export const wrapperFetch: IWrapperFetch = {
         }
     },
     async methodGetId(url, id, query) {
-        const params: string = query
-            ? Object.entries(query)
-                  .map(([key, value]) => `&${key}=${value}`)
-                  .join("")
-                  .replace("&", "?")
-            : ""
+        const params: string =
+            typeof query === "string"
+                ? query
+                : query
+                ? Object.entries(query)
+                      .map(([key, value]) => `&${key}=${value}`)
+                      .join("")
+                      .replace("&", "?")
+                : ""
         try {
-            const response = await fetch(`${URL_API}${url}/${id}${params}`, {
+            const requestInit: RequestInit = {
                 method: "GET",
                 headers: useTokenHelper.authToken
                     ? {
@@ -55,9 +57,10 @@ export const wrapperFetch: IWrapperFetch = {
                       }
                     : {
                           "Content-Type": "application/json",
-                    },
-                    cache: "default"
-            })
+                      },
+            }
+
+            const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)
             const responseData = await response.json()
             return {
                 ok: !!responseData?.data,
@@ -75,7 +78,7 @@ export const wrapperFetch: IWrapperFetch = {
     },
     async methodPost(url, body) {
         try {
-            const response = await fetch(`${URL_API}${url}`, {
+            const requestInit: RequestInit = {
                 method: "POST",
                 headers: useTokenHelper.authToken
                     ? {
@@ -85,8 +88,13 @@ export const wrapperFetch: IWrapperFetch = {
                     : {
                           "Content-Type": "application/json",
                       },
-                body: JSON.stringify(body),
-            })
+            }
+
+            if (body) {
+                requestInit.body = JSON.stringify(body)
+            }
+
+            const response = await fetch(`${URL_API}${url}`, requestInit)
             const responseData = await response.json()
             return {
                 ok: !!responseData?.data,
@@ -190,5 +198,8 @@ export const wrapperFetch: IWrapperFetch = {
                 error: e,
             }
         }
+    },
+    stringRequest(value: string) {
+        return `${URL_API}/${value}`
     },
 }

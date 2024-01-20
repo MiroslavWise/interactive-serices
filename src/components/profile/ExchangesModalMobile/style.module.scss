@@ -1,25 +1,31 @@
 .wrapper {
     position: fixed;
-    inset: 0;
-    opacity: 0;
-    visibility: hidden;
     background: var(--background);
-    transition: all 0.3s ease-in-out 0.03s;
     overflow: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    z-index: 25;
+    z-index: 109;
+    transition: var(--transition);
+    transition-property: opacity;
+
+    & > [data-close] {
+        top: 0 !important;
+        right: 0 !important;
+        background: transparent;
+        border: none;
+        box-shadow: none !important;
+        z-index: 27;
+    }
 
     header {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
-        height: 68px;
+        height: 4.25rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background: var(--glass-bg-color);
+        backdrop-filter: blur(1rem);
         z-index: 26;
 
         h4 {
@@ -31,33 +37,21 @@
             line-height: 28px;
             letter-spacing: -0.5px;
         }
-
-        .buttonBack {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 48px;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 100px;
-            background: var(--background-input);
-            box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-            backdrop-filter: blur(4px);
-        }
-    }
-
-    &[data-visible="true"] {
-        opacity: 1;
-        visibility: visible;
     }
 
     ul {
-        padding: calc(20px + 68px) 20px 20px;
+        height: 100%;
+        padding: calc(1rem + 4.25rem) 1rem 1rem;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 0.75rem;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+}
+
+[data-mobile="true"] {
+    .wrapper {
+        -webkit-overflow-scrolling: touch;
     }
 }

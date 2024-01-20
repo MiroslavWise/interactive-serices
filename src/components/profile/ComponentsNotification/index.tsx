@@ -8,23 +8,17 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TComponentsNotification } from "./types/types"
 
-import {
-    ButtonCircleGradient,
-    ButtonDefault,
-} from "@/components/common/Buttons"
-import { MotionLI } from "@/components/common/Motion"
+import { ButtonCircleGradient, ButtonDefault } from "@/components/common/Buttons"
 
 import { usePush } from "@/helpers"
-import { useAuth } from "@/store/hooks"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceNotifications } from "@/services/notifications"
-import { useVisibleNotifications } from "@/store/state/useVisibleNotifications"
+import { useAuth, dispatchVisibleNotifications } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
-    const { userId } = useAuth()
-    const { dispatchVisibleNotifications } = useVisibleNotifications()
+    const userId = useAuth(({ userId }) => userId)
     const { data, created, operation, provider, id } = props ?? {}
     const { handlePush } = usePush()
 
@@ -38,14 +32,14 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     }, [userId, data])
 
     const { data: userData } = useQuery({
-        queryFn: () => serviceUsers.getId(getUser!),
-        queryKey: ["user", getUser!],
+        queryFn: () => serviceUser.getId(getUser!),
+        queryKey: ["user", { userId: getUser }],
         enabled: !!getUser,
     })
 
     function handleCancel() {
         if (isMobile) {
-            dispatchVisibleNotifications({ visible: false })
+            dispatchVisibleNotifications(false)
         }
         serviceNotifications.patch(
             {
@@ -71,54 +65,34 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
             if (userId === data?.initiator?.userId) {
                 return `Вы предлагаете ${data?.initiator?.title?.toLowerCase()} взамен вы хотите ${data?.consigner?.title?.toLowerCase()}`
             } else {
-                return `${userData?.res?.profile
-                    ?.firstName} предлагает вам ${data?.consigner?.title?.toLowerCase()} взамен на ${data?.initiator?.title?.toLowerCase()}`
+                return `${
+                    userData?.res?.profile?.firstName
+                } предлагает вам ${data?.consigner?.title?.toLowerCase()} взамен на ${data?.initiator?.title?.toLowerCase()}`
             }
         }
         return null
     }, [data, userId, userData])
 
     return (
-        <MotionLI
-            classNames={[styles.container]}
-            data={{
-                "data-provider": props.provider,
-                "data-name": props.provider,
-                "data-mobile": isMobile,
-            }}
-        >
+        <li className={styles.container} data-provider={props.provider} data-name={props.provider}>
             <div data-block-info>
                 <h3>
-                    {provider === "barter" &&
-                    operation === "create" &&
-                    data?.status === "initiated" ? (
+                    {provider === "barter" && operation === "create" && data?.status === "initiated" ? (
                         <span>Предложение обмена: </span>
                     ) : null}
                     {titleBarter}
                 </h3>
                 <div data-footer>
                     <div data-date>
-                        <Image
-                            src="/svg/calendar.svg"
-                            alt="calendar"
-                            width={16}
-                            height={16}
-                        />
+                        <Image src="/svg/calendar.svg" alt="calendar" width={16} height={16} unoptimized />
                         <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
                     </div>
                     <div data-buttons>
-                        <ButtonDefault
-                            label="Посмотреть"
-                            handleClick={handleBarter}
-                        />
-                        <ButtonCircleGradient
-                            type="primary"
-                            handleClick={handleCancel}
-                            icon="/svg/x-close-primary.svg"
-                        />
+                        <ButtonDefault label="Посмотреть" handleClick={handleBarter} />
+                        <ButtonCircleGradient type="primary" handleClick={handleCancel} icon="/svg/x-close-primary.svg" />
                     </div>
                 </div>
             </div>
-        </MotionLI>
+        </li>
     )
 }

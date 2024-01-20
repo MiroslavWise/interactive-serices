@@ -1,53 +1,33 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
-import Image from "next/image"
 import { isMobile } from "react-device-detect"
 import { useSwipeable } from "react-swipeable"
 
 import type { TPhotoPreviewModal } from "./types/types"
 import type { IResponseOffers } from "@/services/offers/types"
 
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { NextImageMotion } from "@/components/common/Image"
-import { ButtonDefault, ButtonFill } from "@/components/common/Buttons"
+import { ButtonCanHelp } from "@/components/common/custom"
+import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { daysAgo, usePush } from "@/helpers"
-import { usePhotoOffer } from "@/store/state/usePhotoOffer"
-import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
-import { useAuth, useVisibleModalBarter } from "@/store/hooks"
-import { useMapCoordinates } from "@/store/state/useMapCoordinates"
+import { daysAgo } from "@/helpers"
+import { IconCategory } from "@/lib/icon-set"
+import { useAuth, useProfilePublic, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
-    const { current, photos, dispatchPhotoOffer, visible, author, offer } =
-        usePhotoOffer((_) => ({
-            current: _.current,
-            photos: _.photos,
-            dispatchPhotoOffer: _.dispatchPhotoOffer,
-            visible: _.visible,
-            author: _.author,
-            offer: _.offer,
-        }))
-    const { dispatchVisibleBarter } = useVisibleModalBarter((_) => ({
-        dispatchVisibleBarter: _.dispatchVisibleBarter,
-    }))
-    const { dispatchMapCoordinates } = useMapCoordinates((_) => ({
-        dispatchMapCoordinates: _.dispatchMapCoordinates,
-    }))
-    const { dispatchBalloon } = useBalloonCard((_) => ({
-        dispatchBalloon: _.dispatch,
-    }))
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
-    const { userId } = useAuth((_) => ({
-        userId: _.userId,
-    }))
-    const { handlePush } = usePush()
+    const current = usePhotoOffer(({ current }) => current)
+    const photos = usePhotoOffer(({ photos }) => photos)
+    const dispatchPhotoOffer = usePhotoOffer(({ dispatchPhotoOffer }) => dispatchPhotoOffer)
+    const visible = usePhotoOffer(({ visible }) => visible)
+    const author = usePhotoOffer(({ author }) => author)
+    const userId = useAuth(({ userId }) => userId)
+    const offer = usePhotoOffer(({ offer }) => offer)
+    const categories = useOffersCategories(({ categories }) => categories)
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
 
     const widthCarousel: number = useMemo(() => {
         return photos.length * 90 + photos.length * 13 - 13 + 40 || 0
@@ -58,20 +38,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
         onSwipedRight: handlePrev,
     })
 
-    function handleClickUser() {
-        if (isMobile) {
-            handlePush(`/user?id=${author?.idUser!}`)
-            dispatchPhotoOffer({ visible: false })
-        } else {
-            dispatchProfilePublic({
-                visible: true,
-                idUser: author?.idUser!,
-            })
-        }
-    }
-
     function handlePrev() {
-        console.log("handlePrev: ")
         if (current?.index === 0) {
             dispatchPhotoOffer({ current: photos.at(-1) })
         } else {
@@ -80,7 +47,6 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     }
 
     function handleNext() {
-        console.log("handleNext")
         if (current?.index === photos?.length - 1) {
             dispatchPhotoOffer({ current: photos[0] })
         } else {
@@ -89,179 +55,155 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
     }
 
     function handleOpenBarter() {
-        const dataProfile = {
-            photo: author?.urlPhoto!,
-            fullName: author?.name!,
-            idUser: author?.idUser!,
-        }
-
         const dataOffer: IResponseOffers = offer!
         if (userId) {
-            dispatchVisibleBarter({
-                isVisible: true,
-                dataProfile: dataProfile,
-                dataOffer: dataOffer,
+            dispatchReciprocalExchange({
+                visible: true,
+                type: "current",
+                offer: dataOffer,
             })
         }
     }
 
-    function handleHelp() {
-        if (author?.idUser === userId) {
-            return
-        }
-        if (userId) {
-            dispatchBalloon({ visible: false })
-            handlePush(`/messages?user=${author?.idUser!}`)
-        }
-    }
+    const geo = (offer?.addresses && offer?.addresses?.length && offer?.addresses[0]) || null
+    const categoriesUser = useMemo(
+        () => (offer?.provider === "offer" ? categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || [] : []),
+        [categories, offer?.categories, offer?.provider],
+    )
 
-    const geo =
-        (offer?.addresses && offer?.addresses?.length && offer?.addresses[0]) ||
-        null
-
-    function handleGeo() {
-        if (geo) {
-            dispatchBalloon({ visible: false })
-            dispatchMapCoordinates({
-                coordinates: geo?.coordinates
-                    ?.split(" ")
-                    ?.reverse()
-                    ?.map(Number),
-            })
-        }
-    }
-
-    console.log("offer: ", offer)
-    console.log("geo: ", geo)
-
-    return visible ? (
-        <main
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-mobile={isMobile}
-            data-visible={visible}
-        >
-            <section {...handlers}>
-                <div data-dark-header />
-                <div
-                    data-close
-                    onClick={() => {
-                        dispatchPhotoOffer({ visible: false, photos: null })
-                    }}
-                >
-                    <Image
-                        src="/svg/x-close.svg"
-                        alt="x-close"
-                        width={16}
-                        height={16}
-                    />
-                </div>
-                <div data-left onClick={handlePrev}>
-                    <Image
-                        src="/svg/arrow-left.svg"
-                        alt="arrow-left"
-                        width={20}
-                        height={20}
-                    />
-                </div>
-                <div data-right onClick={handleNext}>
-                    <Image
-                        src="/svg/arrow-right.svg"
-                        alt="arrow-right"
-                        width={20}
-                        height={20}
-                    />
-                </div>
-                <header>
-                    <div data-title>
-                        <div data-author onClick={handleClickUser}>
-                            <NextImageMotion
-                                src={author?.urlPhoto!}
-                                alt="avatar"
-                                width={400}
-                                height={400}
-                                onClick={handleClickUser}
-                            />
-                            <div data-title-name-geo>
-                                <h2>{author?.name}</h2>
-                                {geo ? (
-                                    <GeoTagging
-                                        location={geo?.additional!}
-                                        fontSize={12}
-                                        size={14}
-                                    />
-                                ) : null}
-                            </div>
-                        </div>
-                        <p>{daysAgo(author?.time!)}</p>
-                    </div>
-                    <h3>{author?.title!}</h3>
-                </header>
-                {current ? (
-                    <NextImageMotion
-                        src={current?.url}
-                        alt="offer-image"
-                        width={800}
-                        height={800}
-                    />
-                ) : null}
-                <div data-images>
-                    <ul style={{ width: widthCarousel }}>
-                        {photos
-                            ? photos.map((item, index) => (
-                                  <li
-                                      key={item.id + item.url}
-                                      data-active={index === current?.index}
-                                      onClick={() => {
-                                          dispatchPhotoOffer({
-                                              current: item,
-                                          })
-                                      }}
-                                  >
-                                      <NextImageMotion
-                                          src={item?.url}
-                                          alt="offer-image"
-                                          width={800}
-                                          height={800}
-                                      />
-                                  </li>
-                              ))
-                            : null}
-                    </ul>
-                </div>
-                <footer>
-                    <ButtonDefault
-                        label="Подробнее"
-                        handleClick={handleClickUser}
-                    />
-                    {["offer"].includes(offer?.provider!) ? (
-                        <ButtonFill
-                            label="Откликнуться на обмен"
-                            handleClick={handleOpenBarter}
-                            suffix={
-                                <Image
-                                    src="/svg/repeat-black.svg"
-                                    alt="/repeat-black"
-                                    width={24}
-                                    height={24}
-                                />
-                            }
-                            type="primary"
-                        />
-                    ) : null}
-                    {["alert"]?.includes(offer?.provider!) ? (
-                        <button
-                            data-success
-                            onClick={(event) => {
-                                event.preventDefault()
-                                event.stopPropagation()
-                                handleHelp()
+    return (
+        <main className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
+            {visible ? (
+                <>
+                    <section {...handlers}>
+                        <div data-dark-header />
+                        <div
+                            data-close
+                            onClick={() => {
+                                dispatchPhotoOffer({ visible: false, photos: null })
                             }}
                         >
-                            <span>Могу помочь!</span>
-                        </button>
-                    ) : null}
-                </footer>
-            </section>
+                            <img src="/svg/x-close.svg" alt="x-close" width={16} height={16} />
+                        </div>
+                        <div data-left onClick={handlePrev}>
+                            <img src="/svg/arrow-left.svg" alt="arrow-left" width={20} height={20} />
+                        </div>
+                        <div data-right onClick={handleNext}>
+                            <img src="/svg/arrow-right.svg" alt="arrow-right" width={20} height={20} />
+                        </div>
+                        <header>
+                            <div data-title>
+                                <Link
+                                    data-author
+                                    href={isMobile ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        if (!isMobile) {
+                                            dispatchProfilePublic({
+                                                visible: true,
+                                                idUser: author?.idUser!,
+                                            })
+                                        }
+                                    }}
+                                >
+                                    <NextImageMotion src={author?.urlPhoto!} alt="avatar" width={60} height={60} />
+                                    <div data-title-name-geo>
+                                        <h2>{author?.name}</h2>
+                                        {geo ? <GeoTagging location={geo?.additional!} fontSize={12} size={14} /> : null}
+                                    </div>
+                                </Link>
+                                <time dateTime={`${offer?.updated}`}>{daysAgo(offer?.updated!)}</time>
+                            </div>
+                            <h3>
+                                <span>Могу: </span>
+                                {offer?.title!}
+                            </h3>
+                            {categoriesUser.length && offer?.provider === "offer" ? (
+                                <article data-article-want>
+                                    <p>Хочу:</p>
+                                    {categoriesUser.map((item) => (
+                                        <div key={`::${item.id}::category::user::`} data-item>
+                                            <div data-img>
+                                                <img
+                                                    src={IconCategory(item.id!)}
+                                                    alt={`${item.id!}`}
+                                                    width={16}
+                                                    height={16}
+                                                    onError={(error: any) => {
+                                                        if (error?.target) {
+                                                            try {
+                                                                error.target.src = `/svg/category/default.svg`
+                                                            } catch (e) {
+                                                                console.log("catch e: ", e)
+                                                            }
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                            <p>{item.title}</p>
+                                        </div>
+                                    ))}
+                                </article>
+                            ) : null}
+                        </header>
+                        {photos?.map((item) => (
+                            <NextImageMotion
+                                key={`::${item.id}::current::offer::photo`}
+                                src={item?.url!}
+                                alt="offer-image"
+                                width={800}
+                                height={800}
+                                data-current={current?.id === item?.id}
+                            />
+                        ))}
+                        <div data-images>
+                            <ul style={{ width: widthCarousel }}>
+                                {photos.length
+                                    ? photos.map((item, index) => (
+                                          <li
+                                              key={item.id + item.url}
+                                              data-active={index === current?.index}
+                                              onClick={() => {
+                                                  dispatchPhotoOffer({
+                                                      current: item,
+                                                  })
+                                              }}
+                                          >
+                                              <NextImageMotion src={item?.url} alt="offer-image" width={800} height={800} />
+                                          </li>
+                                      ))
+                                    : null}
+                            </ul>
+                        </div>
+                        <footer>
+                            <Link
+                                href={isMobile ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    if (!isMobile) {
+                                        dispatchProfilePublic({
+                                            visible: true,
+                                            idUser: author?.idUser!,
+                                        })
+                                    }
+                                }}
+                            >
+                                <span>Подробнее</span>
+                            </Link>
+                            {["offer"].includes(offer?.provider!) && userId && userId !== offer?.userId ? (
+                                <Button
+                                    type="button"
+                                    typeButton="fill-primary"
+                                    label="Откликнуться на обмен"
+                                    onClick={handleOpenBarter}
+                                    suffixIcon={<img src="/svg/repeat-black.svg" alt="/repeat-black" width={24} height={24} />}
+                                />
+                            ) : null}
+                            {["alert"]?.includes(offer?.provider!) ? <ButtonCanHelp id={offer?.id!} idUser={offer?.userId!} /> : null}
+                        </footer>
+                    </section>
+                </>
+            ) : null}
         </main>
-    ) : null
+    )
 }

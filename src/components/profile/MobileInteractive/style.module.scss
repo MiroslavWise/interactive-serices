@@ -1,7 +1,7 @@
 .containerInteractive {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.25rem;
 
     z-index: 50;
 
@@ -27,7 +27,8 @@
             filter: blur(15px);
             z-index: -1;
             border-radius: 100px;
-            transition: all 0.3s ease-in-out 0.01s;
+            transition: var(--transition);
+            transition-property: background;
         }
 
         &.sticky {

@@ -36,6 +36,7 @@ export const Rate: TRate = ({ rate, className, size }) => {
                         alt="stars"
                         width={size || 20}
                         height={size || 20}
+                        unoptimized
                     />
                 </li>
             ))}

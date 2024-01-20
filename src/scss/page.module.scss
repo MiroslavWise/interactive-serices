@@ -4,94 +4,79 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: calc(100vh);
+    height: 100%;
     width: 100%;
     overflow: hidden;
     background: transparent;
-    backdrop-filter: blur(5px);
-    z-index: 1;
 }
 
 //PROFILE LAYOUT
 
 .profileLayout {
-    position: relative;
-    height: calc(100vh);
+    height: 100%;
     width: 100%;
     overflow: hidden;
     background: transparent;
+    padding: calc(4.8125rem + 1.5rem) 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    z-index: 4;
 
-    @media screen and (max-width: 768px) {
-        // padding-bottom: 24px;
+    .container {
+        height: 100%;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        grid-template-columns: calc(33.33% - 0.75rem) calc(66.66% - 0.75rem);
+        gap: 1.5rem 1.5rem;
+        max-width: 74.625rem;
+        width: 100%;
+        z-index: 2;
     }
 
-    .page {
-        position: relative;
-        height: calc(100%);
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        padding: 100px 24px 24px;
-        background: transparent;
+    @media screen and (max-width: 850px) {
+        padding: 5.625rem 1.5rem 1.5rem;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
 
         .container {
-            height: 100%;
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            grid-template-columns: calc(33.33% - 12px) calc(66.66% - 12px);
-            gap: 24px 24px;
-            max-width: 1194px;
-            width: 100%;
-            z-index: 2;
+            grid-template-columns: repeat(1, 1fr);
+            padding-bottom: 28px;
         }
+    }
 
-        @media screen and (max-width: 1438px) {
-            .container {
-                grid-template-columns: calc(380px - 12px) calc(
-                        100% - 380px - 12px
-                    );
-            }
-        }
+    @media screen and (max-width: 746px) {
+        padding: 0;
+    }
+}
 
-        @media screen and (max-width: 850px) {
-            padding: 90px 24px 24px;
-            overflow-y: scroll;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-
-            &::-webkit-scrollbar {
-                display: none;
-            }
-
-            .container {
-                grid-template-columns: repeat(1, 1fr);
-                padding-bottom: 28px;
-            }
-        }
+[data-mobile="true"] {
+    .profileLayout {
+        position: relative;
+        padding: 0;
     }
 }
 
 .containerProfile {
     width: 100%;
-    // height: calc(100vh - 74px - 24px - 24px);
-    // display: grid;
-    // justify-content: center;
-    // align-items: center;
-    // gap: 24px 24px;
-    // grid-template-columns: calc(320px) calc(100% - 320px - 400px - 48px) calc(400px);
     background: transparent;
 }
 
 .containerMobile {
     width: 100%;
-    height: 100vh;
-    overflow-y: scroll;
-    padding: 20px 20px 120px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 0.75rem 0.75rem 5.25rem;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 1rem;
 }
 
 [data-mobile="true"] {
@@ -99,12 +84,6 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        gap: 18px;
-    }
-
-    .profileLayout{
-        .page{
-            padding: 0;
-        }
+        gap: 1rem;
     }
 }

@@ -4,13 +4,12 @@ import dayjs from "dayjs"
 import { useId } from "react"
 
 import { IResponseMessage } from "@/services/messages/types"
+import { IImageData } from "@/store/types/useAuthState"
 
 function useJoinMessage() {
     const idMessage = useId()
 
-    function join(
-        item_messages: (IResponseMessage & { temporary?: boolean })[],
-    ): IReturnMessages[] {
+    function join(item_messages: (IResponseMessage & { temporary?: boolean })[]): IReturnMessages[] {
         const items: IReturnMessages[] = []
 
         if (item_messages) {
@@ -23,10 +22,7 @@ function useJoinMessage() {
                 }
                 if (
                     index !== 0 &&
-                    dayjs(message.created).format("DD.MM.YYYY") !==
-                        dayjs(items.at(-1)?.messages?.at(-1)?.time).format(
-                            "DD.MM.YYYY",
-                        )
+                    dayjs(message.created).format("DD.MM.YYYY") !== dayjs(items.at(-1)?.messages?.at(-1)?.time).format("DD.MM.YYYY")
                 ) {
                     items.push({
                         type: "time",
@@ -39,6 +35,9 @@ function useJoinMessage() {
                         id: `${message?.id}-${idMessage}`,
                         time: message?.created!,
                         temporary: !!message?.temporary,
+                        images: message?.images!,
+                        reading: false,
+                        readIds: message?.readIds || [],
                     })
                 } else {
                     items.push({
@@ -51,6 +50,9 @@ function useJoinMessage() {
                                 id: `${message?.id}-${idMessage}`,
                                 time: message?.created!,
                                 temporary: !!message?.temporary,
+                                images: message?.images!,
+                                reading: false,
+                                readIds: message?.readIds || [],
                             },
                         ],
                     })
@@ -70,6 +72,9 @@ interface IReturnMessages {
         id: string | number
         time: string | Date
         temporary?: boolean
+        images: IImageData[] | string[]
+        reading: boolean
+        readIds: number[]
     }[]
     type: "messages" | "time"
     time?: string

@@ -1,0 +1,90 @@
+.wrapper {
+    & > section {
+        & > header {
+            background-color: var(--primary-500);
+
+            & > [data-category-img] {
+                width: 1.5rem;
+                height: 1.5rem;
+                background: var(--supporting-white);
+                border-radius: 0.75rem;
+                padding: 0.25rem;
+
+                & > img {
+                    width: 1rem;
+                    height: 1rem;
+                }
+            }
+
+            & > h3 {
+                color: var(--supporting-white);
+                font-size: 1.25rem;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 1.125rem;
+                letter-spacing: -0.01125rem;
+            }
+        }
+
+        & > [data-container] {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+
+            & > [data-buttons] {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.625rem;
+
+                & > button {
+                    height: 2.75rem;
+                    border-radius: 1.375rem;
+                }
+
+                & > [data-circle] {
+                    width: 2.75rem;
+                    height: 2.75rem;
+                    padding: 0.625rem;
+                    background: var(--primary-900);
+                    border-radius: 1.375rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    & > img {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .wrapper {
+        & > section {
+            & > [data-container] {
+                & > [data-buttons] {
+                    & > [data-cirlce] {
+                        background: var(--primary-700);
+                    }
+                }
+            }
+        }
+    }
+}
+
+[data-mobile="true"] {
+    .wrapper {
+        & > section {
+            & > header {
+                & > h3 {
+                }
+            }
+        }
+    }
+}

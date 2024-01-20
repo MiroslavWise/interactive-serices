@@ -1,37 +1,34 @@
 "use client"
 
 import { useState } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TTypeSegment } from "./types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
-import { Glasses } from "@/components/layout"
 import { Content } from "./components/Content"
 import { BlockDots } from "./components/BlockDots"
+import { ButtonClose } from "@/components/common"
 import { ItemsBadges } from "./components/ItemsBadges"
 import { ItemSegments } from "./components/ItemSegments"
-import { ButtonClose } from "@/components/common/Buttons"
 import { InfoContainerProfile } from "./components/InfoContainerProfile"
 
 import { cx } from "@/lib/cx"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services"
 import { VALUES } from "./constants/SEGMENTS"
-import { useProfilePublic } from "@/store/state/useProfilePublic"
+import { dispatchProfilePublic, useProfilePublic } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const PublicProfile = () => {
-    const { visibleProfilePublic, idUser, dispatchProfilePublic, isLeft } =
-        useProfilePublic()
-    const [activeSegment, setActiveSegment] = useState<
-        ISegmentValues<TTypeSegment>
-    >(VALUES[0])
+    const isLeft = useProfilePublic(({ isLeft }) => isLeft)
+    const idUser = useProfilePublic(({ idUser }) => idUser)
+    const visibleProfilePublic = useProfilePublic(({ visibleProfilePublic }) => visibleProfilePublic)
+    const [activeSegment, setActiveSegment] = useState<ISegmentValues<TTypeSegment>>(VALUES[0])
 
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(idUser!),
-        queryKey: ["user", idUser!],
+        queryFn: () => serviceUser.getId(idUser!),
+        queryKey: ["user", { userId: idUser }],
         enabled: visibleProfilePublic && !!idUser,
     })
 
@@ -40,19 +37,10 @@ export const PublicProfile = () => {
     }
 
     return visibleProfilePublic ? (
-        <div
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-visible={visibleProfilePublic}
-            data-left={isLeft}
-            data-mobile={isMobile}
-        >
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft}>
             <section>
-                <ButtonClose
-                    onClick={handleClose}
-                    position={{ top: 12, left: 12 }}
-                />
+                <ButtonClose onClick={handleClose} position={{}} />
                 <BlockDots id={idUser!} />
-                <Glasses />
                 <ul data-opacity={!!data?.res} id="profile-public-id">
                     <InfoContainerProfile {...data?.res!} />
                     <ItemsBadges {...data?.res!} />

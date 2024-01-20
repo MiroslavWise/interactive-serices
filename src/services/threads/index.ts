@@ -14,7 +14,7 @@ export const serviceThreads: IServiceThreads = {
         return wrapperFetch.methodPatch(this.route, value, id)
     },
     getId(id) {
-        return wrapperFetch.methodGetId(this.route, id)
+        return wrapperFetch.methodGetId(this.route, id, { messagesLimit: 0 })
     },
     delete(id) {
         return wrapperFetch.methodDelete(this.route, id)

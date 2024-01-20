@@ -1,61 +1,47 @@
 .container {
     width: 100%;
     height: 100%;
-    border-radius: 32px;
-    border: 2px solid var(--stroke-1);
-    background: var(--glass-bg-color-2);
-    backdrop-filter: blur(1px);
+    border-radius: 2rem;
+    background: var(--background);
     z-index: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 
     header {
-        padding: 12px;
+        padding: 0.75rem;
         position: sticky;
         top: 0;
-        left: 0;
-        right: 0;
-        height: 78px;
         width: 100%;
         display: inline-flex;
         justify-content: space-between;
         align-items: center;
-        gap: 16px;
-        background: var(--background-input);
+        gap: 1rem;
+        background: var(--background);
         z-index: 2;
+        border-bottom: 1px solid var(--gray-300);
 
         h4,
         p {
-            font-size: 16px;
+            font-size: 1rem;
             font-style: normal;
             font-weight: 600;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.2px;
         }
 
         & > [data-total-number="true"] {
             display: inline-flex;
             align-items: center;
             width: min-content;
-            gap: 8px;
+            gap: 0.5rem;
 
             h4 {
                 color: var(--gray-900);
             }
+        }
 
-            & > [data-total="true"] {
-                padding: 4px 8px;
-                border-radius: 19px;
-                background: var(--primary-100);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                p {
-                    color: var(--primary-500);
-                }
-            }
+        & > article {
+            height: min-content;
         }
     }
 }
@@ -69,7 +55,7 @@
 .segments {
     width: min-content !important;
     & > li {
-        height: 32px;
+        height: 2rem;
         min-width: 100px;
     }
 }
@@ -78,29 +64,16 @@
 
 .containerMobile {
     width: 100%;
-    height: 100vh;
-    background: var(--background);
-    padding-top: 78px;
+    height: 100%;
     z-index: 3;
 
     & > ul {
         width: 100%;
-        height: calc(100% - 68px);
+        height: calc(100% - 4.25rem);
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
-        padding: 16px 16px 78px !important;
-        gap: 16px;
+        padding-top: 4.875rem !important;
         z-index: 10;
-
-        & > li {
-            padding: 12px 16px;
-            border-radius: 16px;
-            border: 1px solid var(--stroke-1) !important;
-            background: var(--glass-bg-color-1);
-            box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
-            backdrop-filter: blur(4px);
-            z-index: 9;
-        }
     }
 }

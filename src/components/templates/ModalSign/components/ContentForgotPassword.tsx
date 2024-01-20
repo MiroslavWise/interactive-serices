@@ -1,129 +1,108 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 
 import type { TContentForgotPassword } from "../types/types"
 
-import { Button, Input } from "@/components/common"
+import { Button, Segments } from "@/components/common"
 
-import { cx } from "@/lib/cx"
-import { useToast } from "@/helpers/hooks/useToast"
-import { useModalAuth } from "@/store/hooks"
+import { dispatchAuthModal, useModalAuthEmailOrPhone, dispatchIModalAuthEmailOrPhone, useModalAuth } from "@/store/hooks"
+import { VALUES_EMAIL_PHONE } from "../constants/segments"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
 
-interface IValues {
-    email: string
-}
-
-export const ContentForgotPassword: TContentForgotPassword = ({
-    setValueEmail,
-}) => {
-    const { on } = useToast()
+export const ContentForgotPassword: TContentForgotPassword = () => {
     const [loading, setLoading] = useState(false)
-    const { dispatchAuthModal } = useModalAuth((_) => ({
-        dispatchAuthModal: _.dispatchAuthModal,
-    }))
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        setError,
-        setValue,
-        watch,
-    } = useForm<IValues>()
+    const email = useModalAuth(({ email }) => email)
+    const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
+    const { control, handleSubmit, setError } = useForm<IValues>({ defaultValues: { email: email } })
 
     const onEnter = async (values: IValues) => {
         setLoading(true)
-        useForgotPasswordHelper
-            .forgotPassword({ email: values.email })
-            .then((response) => {
-                if (response.ok && !!response?.res) {
-                    dispatchAuthModal({ visible: false })
-                    on({
-                        message:
-                            "Войдите на свою почту. Мы выслали ват ссылку для восстановления пароля!",
-                    })
-                }
-                if (response?.error?.code === 401) {
-                    setError("email", { message: "user is not verified" })
-                    on({ message: "Пользователь не верифицирован!" }, "error")
-                    dispatchAuthModal({ visible: false })
-                }
-                if (response?.error?.code === 404) {
-                    setError("email", { message: "user not found" })
-                    on({ message: "Пользователя не существует!" }, "error")
-                    dispatchAuthModal({ visible: false })
-                }
-                if (
-                    response?.code &&
-                    response?.code >= 500 &&
-                    response?.code <= 599
-                ) {
-                    setError("email", { message: "something went wrong" })
-                }
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        if (values.email) {
+            useForgotPasswordHelper
+                .forgotPassword({ email: values.email })
+                .then((response) => {
+                    if (response.ok && !!response?.res) {
+                        dispatchAuthModal({
+                            type: "InformationEmailReset",
+                            email: values.email,
+                        })
+                    }
+                    if (response?.error?.code === 401) {
+                        setError("email", { message: "user is not verified" })
+                        setError("phone", { message: "user is not verified" })
+                    }
+                    if (response?.error?.code === 404) {
+                        setError("email", { message: "user not found" })
+                        setError("phone", { message: "user not found" })
+                    }
+                    if (response?.code && response?.code >= 500 && response?.code <= 599) {
+                        setError("email", { message: "something went wrong" })
+                    }
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
+        }
     }
 
     return (
         <div className={styles.content}>
-            <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
-                <section className={styles.section}>
-                    <Input
-                        label="Email"
-                        rules
-                        placeholder="Введите свой email"
-                        type="email"
-                        {...register("email", {
-                            required: true,
-                        })}
-                        value={watch("email")}
-                        onChange={(event) =>
-                            setValue("email", event.target.value)
-                        }
-                        error={
-                            errors.email &&
-                            errors?.email?.message === "user is not verified"
-                                ? "Пользователь не верифицирован"
-                                : errors.email &&
-                                  errors?.email?.message === "user not found"
-                                ? "Пользователя не существует"
-                                : errors.email &&
-                                  errors?.email?.message ===
-                                      "something went wrong"
-                                ? "У нас проблемы с сервером, извините :("
-                                : errors.email
-                                ? "Требуется email"
-                                : ""
-                        }
-                    />
-                </section>
-                <Button
-                    type="submit"
-                    typeButton="fill-primary"
-                    label="Сброс пароля"
-                    className="w-100"
-                    loading={loading}
+            <Segments
+                type="primary"
+                VALUES={VALUES_EMAIL_PHONE}
+                active={VALUES_EMAIL_PHONE.find((item) => item.value === typeEmailOrPhone)!}
+                setActive={(event) => {
+                    dispatchIModalAuthEmailOrPhone(event.value)
+                }}
+                isBorder
+            />
+            <form onSubmit={handleSubmit(onEnter)}>
+                <Controller
+                    name="email"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field, formState }) => (
+                        <div data-label-input>
+                            <label htmlFor="email">Электронная почта</label>
+                            <input
+                                data-error={!!formState.errors.email}
+                                type="email"
+                                inputMode="email"
+                                placeholder="email_address@mail.com"
+                                {...field}
+                            />
+                            {formState.errors.email ? (
+                                <i>
+                                    {formState.errors.email && formState.errors?.email?.message === "user is not verified"
+                                        ? "Пользователь не верифицирован"
+                                        : formState.errors.email && formState.errors?.email?.message === "user not found"
+                                        ? "Пользователя не существует"
+                                        : formState.errors.email && formState.errors?.email?.message === "something went wrong"
+                                        ? "У нас проблемы с сервером, извините :("
+                                        : formState.errors.email
+                                        ? "Требуется email"
+                                        : ""}
+                                </i>
+                            ) : null}
+                        </div>
+                    )}
                 />
+                <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} />
             </form>
-            <section
-                className={cx(styles.Register, "cursor-pointer")}
-                onClick={() => dispatchAuthModal({ type: "SignIn" })}
-            >
-                <Image
-                    src="/svg/arrow-left.svg"
-                    alt="arrow"
-                    width={20}
-                    height={20}
-                />
-                <p>Назад к странице входа</p>
-            </section>
+            <article data-column>
+                <p>
+                    Уже есть аккаунт? <a onClick={() => dispatchAuthModal({ type: "SignIn" })}>Войти</a>
+                </p>
+            </article>
         </div>
     )
+}
+
+interface IValues {
+    email: string
+    phone: string
 }

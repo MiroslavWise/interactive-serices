@@ -1,134 +1,129 @@
 "use client"
 
-import {
-    useRef,
-    useState,
-    useEffect,
-    type ChangeEvent,
-    type KeyboardEvent,
-} from "react"
+import { useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 
 import type { TContentCodeVerification } from "../types/types"
 
+import { TimerData } from "./TimerData"
 import { Button } from "@/components/common"
 
-import { useModalAuth } from "@/store/hooks"
+import { serviceAuth } from "@/services/auth"
+import { dispatchAuthModal, useAuth, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
 
-export const ContentCodeVerification: TContentCodeVerification = ({
-    typeVerification,
-    valueEmail,
-}) => {
+export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     const [loading, setLoading] = useState(false)
-    const [inputValues, setInputValues] = useState(Array(4).fill(""))
-    const [errorCode, setErrorCode] = useState("")
-    const inputRefs = useRef<HTMLInputElement[]>([])
-    const { dispatchAuthModal: setVisibleAndType } = useModalAuth()
+    const phone = useModalAuth(({ phone }) => phone)
+    const idUser = useModalAuth(({ idUser }) => idUser)
+    const setToken = useAuth(({ setToken }) => setToken)
 
-    const handleChange = (
-        event: ChangeEvent<HTMLInputElement>,
-        index: number,
-    ) => {
-        const { value } = event.target
-        const newInputValues = [...inputValues]
-        newInputValues[index] = value
-        setInputValues(newInputValues)
-        if (index < inputRefs.current.length - 1 && value.length > 0) {
-            const nextInputRef = inputRefs.current[index + 1]
-            nextInputRef.focus()
-        }
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+        setError,
+    } = useForm<IValues>({
+        defaultValues: {
+            code: "",
+        },
+    })
+
+    function handleChange() {
+        dispatchAuthModal({
+            visible: true,
+            type: "SignUp",
+        })
     }
 
-    const handleKeyDown = (
-        event: KeyboardEvent<HTMLInputElement>,
-        index: number,
-    ) => {
-        if (
-            event.key === "Backspace" &&
-            index > 0 &&
-            inputValues[index] === ""
-        ) {
-            const prevInputRef = inputRefs.current[index - 1]
-            prevInputRef.focus()
-            const newInputValues = [...inputValues]
-            newInputValues[index - 1] = ""
-            setInputValues(newInputValues)
+    function handleConfirmation(values: IValues) {
+        if (!loading) {
+            setLoading(true)
+            serviceAuth
+                .sms({
+                    code: values.code!,
+                    id: idUser!,
+                })
+                .then((response) => {
+                    console.log("response: serviceAuth: sms: ", response)
+                    if (response.ok) {
+                        if (response?.res) {
+                            dispatchAuthModal({
+                                visible: false,
+                                type: null,
+                            })
+                            setToken({
+                                ok: true,
+                                token: response?.res?.accessToken!,
+                                refreshToken: response?.res?.refreshToken!,
+                                expires: response?.res?.expires!,
+                                userId: response?.res?.id!,
+                                email: "",
+                            })
+                        }
+                    } else {
+                        console.log("%c ---ERROR CONFIRM CODE---", "color: #f00", response?.error)
+                        setError("code", { message: "Не верный код" })
+                        setLoading(false)
+                    }
+                })
         }
     }
-
-    const onInputValues = () => {
-        setLoading(true)
-    }
-
-    useEffect(() => {
-        if (inputRefs.current[0]) {
-            inputRefs.current[0].focus()
-        }
-    }, [])
 
     return (
-        <div className={styles.contentOtpCode}>
-            <div className={styles.inputs}>
-                {inputValues.map((_, index) => (
-                    <input
-                        className={styles.checking}
-                        key={index}
-                        // @ts-ignore
-                        ref={(ref) => (inputRefs.current[index] = ref)}
-                        type="text"
-                        placeholder={"0"}
-                        pattern="/[0-9]/"
-                        maxLength={1}
-                        onChange={(event) => handleChange(event, index)}
-                        onKeyDown={(event) => handleKeyDown(event, index)}
+        <div className={styles.content}>
+            <article data-column>
+                <p>Отправили проверочный код на номер</p>
+                <b>{phone}</b>
+            </article>
+            <form onSubmit={handleSubmit(handleConfirmation)}>
+                <section className={styles.section}>
+                    <Controller
+                        name="code"
+                        control={control}
+                        rules={{
+                            required: {
+                                value: true,
+                                message: "Введите 6 символов",
+                            },
+                            minLength: 6,
+                            maxLength: 6,
+                        }}
+                        render={({ field }) => (
+                            <div data-label-input>
+                                <label htmlFor={field.name}>Код из СМС</label>
+                                <input
+                                    data-error={!!errors.code}
+                                    placeholder="Введите код из СМС-сообщения"
+                                    maxLength={6}
+                                    type="number"
+                                    inputMode="numeric"
+                                    pattern="[0-9]*"
+                                    {...field}
+                                />
+                                {!!errors?.code ? <i>{errors?.code?.message}</i> : null}
+                            </div>
+                        )}
                     />
-                ))}
-            </div>
-            {errorCode ? (
-                <p
-                    className="error-p"
-                    style={{ marginTop: -15, marginBottom: -15 }}
-                >
-                    {errorCode}
-                </p>
-            ) : null}
-            <Button
-                type="submit"
-                typeButton="fill-primary"
-                label={`Подтвердить ${
-                    typeVerification === "email"
-                        ? "email"
-                        : typeVerification === "phone"
-                        ? "номер"
-                        : ""
-                }`}
-                className="w-100"
-                loading={loading}
-                disabled={
-                    inputValues.filter((item) => item !== "").length !== 4
-                }
-                onClick={onInputValues}
-            />
-            <section className={styles.Register}>
-                <p>
-                    Не получили{" "}
-                    {typeVerification === "email"
-                        ? "email"
-                        : typeVerification === "phone"
-                        ? "код"
-                        : ""}
-                    ?
-                </p>
-                <a
-                    onClick={() =>
-                        setVisibleAndType({ type: "ForgotPassword" })
-                    }
-                >
-                    {" "}
-                    Отправить еще раз
-                </a>
-            </section>
+                    <TimerData />
+                </section>
+                <footer data-buttons>
+                    <Button
+                        type="button"
+                        typeButton="regular-primary"
+                        label="Изменить номер"
+                        onClick={handleChange}
+                        loading={loading}
+                        disabled={loading}
+                    />
+                    <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} disabled={loading} />
+                </footer>
+            </form>
         </div>
     )
+}
+
+interface IValues {
+    code: string
 }

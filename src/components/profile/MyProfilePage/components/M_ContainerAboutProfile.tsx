@@ -1,133 +1,77 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import Image from "next/image"
-import { useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
 
+import { Button } from "@/components/common"
 import { GeoTagging } from "@/components/common/GeoTagging"
-import { ACHIEVEMENTS } from "@/components/profile/MainInfo/constants"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
-import { ButtonCircleGradient, ButtonFill } from "@/components/common/Buttons"
 
-import {
-    useAuth,
-    useUpdateProfile,
-    useVisibleBannerNewServices,
-} from "@/store/hooks"
-import { useAddress, useOut } from "@/helpers"
+import { useOut } from "@/helpers"
+import { serviceUser } from "@/services/users"
+import { serviceProfile } from "@/services/profile"
+import { useAuth, dispatchNewServicesBanner } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const M_ContainerAboutProfile = () => {
-    const { isAddresses } = useAddress()
-    const { setVisible } = useUpdateProfile()
     const { out } = useOut()
-    const { user, imageProfile, createdUser, addresses } = useAuth()
-    const { dispatchNewServicesBanner: setIsVisibleNewServicesBanner } = useVisibleBannerNewServices()
+    const userId = useAuth(({ userId }) => userId)
 
-    const geo = useMemo(() => {
-        return addresses?.find((item) => item?.addressType === "main") || null
-    }, [addresses])
+    const { data } = useQuery({
+        queryFn: () => serviceUser.getId(userId!),
+        queryKey: ["user", { userId: userId }],
+        enabled: !!userId,
+    })
+
+    const { data: dataProfile } = useQuery({
+        queryFn: () => serviceProfile.getUserId(userId!),
+        queryKey: ["profile", userId!],
+        enabled: !!userId,
+    })
+
+    const addressMain = data?.res?.addresses?.find((item) => item?.addressType === "main") || null
 
     return (
         <section className={styles.containerMAboutProfile}>
             <div className={styles.blockAboutPhoto}>
                 <div className={styles.blockPhotoAch}>
                     <div className={styles.avatar}>
-                        {imageProfile?.attributes?.url ? (
-                            <NextImageMotion
-                                className={styles.photo}
-                                src={imageProfile?.attributes?.url}
-                                alt="avatar"
-                                width={94}
-                                height={94}
-                            />
+                        {dataProfile?.res?.image?.attributes?.url ? (
+                            <NextImageMotion className={styles.photo} src={dataProfile?.res?.image?.attributes?.url} alt="avatar" width={94} height={94} />
                         ) : (
-                            <ImageStatic
-                                src="/png/default_avatar.png"
-                                alt="avatar"
-                                width={400}
-                                height={400}
-                                classNames={[styles.photo]}
-                            />
+                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={400} height={400} className={styles.photo} />
                         )}
-                        {user ? (
-                            <Image
-                                className={styles.verified}
-                                src="/svg/verified-tick.svg"
-                                alt="tick"
-                                width={24}
-                                height={24}
-                            />
+                        {dataProfile?.ok ? (
+                            <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={24} height={24} unoptimized />
                         ) : null}
                     </div>
-                    <ul className={styles.blockAchievements}>
-                        {ACHIEVEMENTS.map((item) => (
-                            <li key={item.assignment + item.src}>
-                                <Image
-                                    src={item.src}
-                                    alt={item.assignment}
-                                    width={23}
-                                    height={23}
-                                />
-                            </li>
-                        ))}
-                    </ul>
                 </div>
                 <div className={styles.aboutBlock}>
                     <h4>
-                        {user?.firstName} {user?.lastName}
+                        {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                     </h4>
-                    {geo ? (
-                        <GeoTagging
-                            size={16}
-                            fontSize={12}
-                            location={geo?.additional}
-                        />
-                    ) : null}
-                    <p className={styles.date}>
-                        Присоединился{" "}
-                        {createdUser
-                            ? dayjs(createdUser).format("DD.MM.YYYY")
-                            : null}
-                    </p>
-                    <p className={styles.about}>{user?.about}</p>
+                    {addressMain ? <GeoTagging size={16} fontSize={12} location={addressMain?.additional} /> : null}
+                    <p className={styles.date}>На Sheira с {dataProfile?.res?.created ? dayjs(dataProfile?.res?.created).format("DD.MM.YYYY") : null}</p>
+                    <p className={styles.about}>{dataProfile?.res?.about}</p>
                 </div>
             </div>
             <div className={styles.buttons}>
-                <ButtonFill
-                    label="Создать новое"
-                    classNames={styles.buttonFill}
-                    suffix={
-                        <Image
-                            src="/svg/plus.svg"
-                            alt="plus"
-                            width={24}
-                            height={24}
-                        />
-                    }
-                    handleClick={() => {
-                        if (isAddresses) {
-                            setIsVisibleNewServicesBanner(true)
-                        }
-                    }}
+                <Button
+                    type="button"
+                    typeButton="fill-primary"
+                    label="Создать"
+                    suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
+                    onClick={() => dispatchNewServicesBanner(true)}
                 />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/edit-primary-gradient.svg"
-                    size={20}
-                    classNames={styles.buttonCircle}
-                    handleClick={() => {
-                        setVisible(true)
-                    }}
-                />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/log-out-primary-gradient.svg"
-                    size={20}
-                    classNames={styles.buttonCircle}
-                    handleClick={out}
-                />
+                <Link data-circle-gradient href={{ pathname: "/profile-change" }}>
+                    <img src="/svg/edit-primary-gradient.svg" alt="edit-primary" width={20} height={20} />
+                </Link>
+                <button data-circle-gradient onClick={out}>
+                    <img src="/svg/log-out-primary-gradient.svg" alt="log-out" width={20} height={20} />
+                </button>
             </div>
         </section>
     )

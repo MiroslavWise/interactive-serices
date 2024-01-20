@@ -1,7 +1,6 @@
 @mixin absoluteImage {
     position: absolute;
-    transform: translateY(-50%);
-    top: 50%;
+    top: 12px;
     width: 20px;
     height: 20px;
 }
@@ -9,7 +8,7 @@
 .containerLabelInput {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
     width: 100%;
 
     label {
@@ -17,7 +16,7 @@
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
-        line-height: 20px;
+        line-height: 1.25rem;
         letter-spacing: -0.5px;
 
         sup {
@@ -50,7 +49,7 @@
                 color: var(--gray-400);
                 font-size: 14px;
                 font-weight: 500;
-                line-height: 20px;
+                line-height: 1.25rem;
                 letter-spacing: -0.5px;
             }
 
@@ -60,7 +59,7 @@
                 color: var(--gray-900);
                 font-size: 14px;
                 font-weight: 500;
-                line-height: 20px;
+                line-height: 1.25rem;
                 letter-spacing: -0.5px;
             }
 
@@ -78,7 +77,7 @@
             background: var(--background-input) !important;
             outline: none !important;
             resize: none;
-            transition: all 0.2s ease-in-out 0.01s;
+            transition: height 0.3s ease-in-out;
 
             &:focus {
                 height: calc(24px + 100px);
@@ -88,14 +87,14 @@
                 color: var(--gray-400);
                 font-size: 14px;
                 font-weight: 500;
-                line-height: 20px;
+                line-height: 1.25rem;
                 letter-spacing: -0.5px;
             }
 
             color: var(--gray-900);
             font-size: 14px;
             font-weight: 500;
-            line-height: 20px;
+            line-height: 1.25rem;
             letter-spacing: -0.5px;
 
             &.errorInput {
@@ -114,7 +113,7 @@
     width: 100%;
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 0.5rem;
     align-self: stretch;
 }
 
@@ -123,7 +122,7 @@
     font-size: 12px !important;
     text-align: start;
     font-weight: 400 !important;
-    line-height: 18px;
+    line-height: 1.125rem;
     letter-spacing: -0.5px !important;
     margin-top: 4px;
     margin-bottom: -5px;
@@ -133,16 +132,16 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
 
     & > li {
         width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: center;
-        gap: 8px;
+        align-items: flex-start;
+        gap: 0.5rem;
         cursor: pointer;
-        z-index: 50;
+        z-index: 3;
 
         .checkBox {
             width: 20px;
@@ -154,7 +153,7 @@
             border-radius: 10px;
             border: 1px solid var(--gray-300);
             background: transparent;
-            transition: all 0.3s ease-in-out 0.01s;
+            transition: border-color 0.3s ease-in-out;
 
             .center {
                 height: 8px;
@@ -166,14 +165,12 @@
 
         .containerInput {
             position: relative;
-            height: 48px;
             width: 100%;
             z-index: 1;
 
             textarea {
                 position: relative;
-                min-height: calc(20px + 12px + 12px);
-                max-height: min-content;
+                min-height: calc(18px + 12px + 12px);
                 resize: none;
                 width: 100%;
                 padding: 12px 42px;
@@ -181,12 +178,13 @@
                 border: 1px solid var(--gray-300) !important;
                 outline: var(--gray-300) !important;
                 background: var(--background-input);
-                transition: all 0.3s ease-in-out 0.01s;
+                transition: var(--transition);
+                transition-property: border, outline, background;
                 color: var(--gray-900);
                 font-size: 14px;
                 font-style: normal;
                 font-weight: 500;
-                line-height: 20px;
+                line-height: 1.125rem;
                 letter-spacing: -0.3px;
                 z-index: 1;
 
@@ -195,7 +193,7 @@
                     font-size: 14px;
                     font-style: normal;
                     font-weight: 500;
-                    line-height: 20px;
+                    line-height: 1.25rem;
                     letter-spacing: -0.3px;
                 }
             }
@@ -213,7 +211,7 @@
             }
 
             ul {
-                max-height: 192px;
+                max-height: 292px;
                 position: absolute;
                 transform: translateY(100%);
                 opacity: 0;
@@ -224,12 +222,13 @@
                 left: 0;
                 right: 0;
                 width: 100%;
-                padding: 12px;
+                padding: 6px;
                 border-radius: 12px;
                 background: var(--background);
-                box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.16);
-                transition: all 0.3s ease-in-out 0.01s;
                 z-index: 3;
+
+                transition: var(--transition);
+                transition-property: opacity, visibility;
 
                 & > li {
                     width: 100%;
@@ -237,13 +236,14 @@
                     border-radius: 6px;
                     background: transparent;
                     z-index: 4;
+                    cursor: pointer;
 
                     span {
                         color: var(--gray-900);
                         font-size: 14px;
                         font-style: normal;
                         font-weight: 500;
-                        line-height: 20px;
+                        line-height: 1.25rem;
                         letter-spacing: -0.3px;
                     }
 
@@ -253,13 +253,28 @@
                     }
                 }
 
-                &.activeList {
+                & > [data-load] {
+                    width: 100%;
+                    border-radius: 6px;
+                    padding: 12px;
+
+                    & > p {
+                        color: var(--gray-500);
+                        font-size: 1rem;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 24px;
+                        letter-spacing: -0.2px;
+                    }
+                }
+
+                &[data-active-list="true"] {
                     opacity: 1;
                     visibility: visible;
 
                     & > h3 {
                         color: var(--primary-500);
-                        font-size: 16px;
+                        font-size: 1rem;
                         font-style: normal;
                         font-weight: 500;
                         line-height: 24px;
@@ -270,7 +285,7 @@
             }
         }
 
-        &.active {
+        &[data-active="true"] {
             .checkBox {
                 border-color: var(--primary-500);
 

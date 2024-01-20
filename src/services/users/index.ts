@@ -1,38 +1,25 @@
-import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
-import type {
-    IServiceUsers,
-    IUserResponse,
-    IPostDataUser,
-    IPatchDataUser,
-} from "./types/usersService"
+import type { IServiceUser } from "./types/usersService"
 
 import { wrapperFetch } from "@/services/requestsWrapper"
 
-export const serviceUsers: IServiceUsers = {
-    route: "/users",
-    get(value) {
-        return wrapperFetch.methodGet<IUserResponse[]>(this.route, value)
-    },
-    getMe() {
-        return wrapperFetch.methodGet<IUserResponse>("/user")
+export const serviceUser: IServiceUser = {
+    route: "/user",
+    get() {
+        return wrapperFetch.methodGet(this.route)
     },
     getId(id) {
-        return wrapperFetch.methodGetId<IUserResponse>(this.route, id)
+        return wrapperFetch.methodGetId(this.route, id)
     },
     post(value) {
-        return wrapperFetch.methodPost<
-            IPostDataUser,
-            IResponseDataRegistration
-        >(this.route, value)
+        return wrapperFetch.methodPost(this.route, value)
+    },
+    getEmail(value) {
+        return wrapperFetch.methodGetId(`${this.route}/email`, value)
     },
     patch(value, id) {
-        return wrapperFetch.methodPatch<IPatchDataUser, IUserResponse>(
-            this.route,
-            value,
-            id,
-        )
+        return wrapperFetch.methodPatch(this.route, value, id)
     },
     delete(id) {
-        return wrapperFetch.methodDelete<IUserResponse>(this.route, id)
+        return wrapperFetch.methodDelete(this.route, id)
     },
 }

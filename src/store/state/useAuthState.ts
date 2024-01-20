@@ -1,19 +1,16 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
-import type { TUseAuth } from "../types/useAuthState"
+import type { IAuthState, TUseAuth } from "../types/useAuthState"
 
-import {
-    signOutAction,
-    setUserAction,
-    setTokenAction,
-    changeAuthAction,
-} from "../action/useAuthAction"
+import { signOutAction, setUserAction, setTokenAction, changeAuthAction } from "../action/useAuthAction"
 
 import { AuthService } from "@/services/auth/authService"
 import { serviceProfile } from "@/services/profile"
+import { IResponseLoginNot2fa } from "@/services/auth/types/authService"
+import { queryClient } from "@/context"
 
-export const initialStateAuth = {
+export const initialStateAuth: IAuthState = {
     email: undefined,
     token: undefined,
     refreshToken: undefined,
@@ -41,27 +38,31 @@ export const useAuth = create(
                 setUserAction(value, set)
             },
             signOut() {
-                console.log("sign-out")
                 signOutAction(set, initialStateAuth)
             },
             updateProfile() {
-                serviceProfile.getMe().then((response) => {
-                    if (response?.ok) {
-                        if (!!response?.res) {
-                            const data = response?.res
-                            set({
-                                user: {
-                                    firstName: data.firstName,
-                                    lastName: data?.lastName,
-                                    username: data?.username,
-                                    birthdate: data?.birthdate,
-                                    about: data?.about,
-                                    enabled: true,
-                                },
-                            })
+                queryClient
+                    .fetchQuery({
+                        queryFn: () => serviceProfile.getUserId(get().userId!),
+                        queryKey: ["profile", get().userId!],
+                    })
+                    .then((response) => {
+                        if (response?.ok) {
+                            if (!!response?.res) {
+                                const data = response?.res
+                                set({
+                                    user: {
+                                        firstName: data.firstName,
+                                        lastName: data?.lastName,
+                                        username: data?.username,
+                                        birthdate: data?.birthdate,
+                                        about: data?.about,
+                                        enabled: true,
+                                    },
+                                })
+                            }
                         }
-                    }
-                })
+                    })
             },
 
             refresh() {
@@ -69,10 +70,7 @@ export const useAuth = create(
                 const email = get().email
                 const expires = get().expires
 
-                if (
-                    !isTokenExpired(get().expires) &&
-                    typeof expires === "number"
-                ) {
+                if (!isTokenExpired(get().expires) && typeof expires === "number") {
                     changeAuthAction(set, get)
                     return
                 }
@@ -84,11 +82,7 @@ export const useAuth = create(
                     }))
                     return
                 }
-                if (
-                    typeof expires === "number" &&
-                    isTokenExpired(expires) &&
-                    typeof refreshToken === "string"
-                ) {
+                if (typeof expires === "number" && isTokenExpired(expires) && typeof refreshToken === "string") {
                     return AuthService.refresh({
                         email: email!,
                         refreshToken: refreshToken!,
@@ -110,6 +104,7 @@ export const useAuth = create(
                         }
                     })
                 }
+                
                 set((state) => ({
                     ...state,
                     ...initialStateAuth,
@@ -137,6 +132,25 @@ export const useAuth = create(
         },
     ),
 )
+
+export const dispatchAuthToken = (values: IResponseLoginNot2fa & { email: string }) =>
+    useAuth.setState((_) => {
+        const { accessToken, refreshToken, id, expires, email } = values ?? {}
+
+        return {
+            token: accessToken,
+            refreshToken,
+            userId: id,
+            expires,
+            email,
+            isAuth: true,
+        }
+    })
+
+export const dispatchOuAuth = () => {
+    useAuth.persist.clearStorage()
+    useAuth.setState((_) => ({ isAuth: false }))
+}
 
 function isTokenExpired(exp: number | undefined) {
     if (exp !== undefined) {

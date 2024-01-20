@@ -18,13 +18,13 @@
     font-size: 14px;
     font-style: normal;
     font-weight: 400 !important;
-    line-height: 20px;
+    line-height: 1.25rem;
 
     &::placeholder {
         color: var(--gray-400);
         font-size: 14px;
         font-style: normal;
         font-weight: 500 !important;
-        line-height: 20px;
+        line-height: 1.25rem;
     }
 }

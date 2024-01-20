@@ -4,22 +4,22 @@
     top: 50%;
     border-radius: 32px;
     background: var(--background);
-    display: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     max-width: 398px;
     width: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease-in-out 0.01s;
+    transition: var(--transition);
+    transition-property: opacity;
     padding: 12px;
     z-index: 25;
     padding-bottom: 20px;
     padding-top: 20px;
     transform: translate(-50%, -50%);
 
-    &.open {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
+    &[data-visible="true"] {
         opacity: 1;
         visibility: visible;
     }
@@ -56,7 +56,7 @@
         }
     }
 
-    & > section {
+    & > ul {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -70,7 +70,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 1rem;
     height: 84px;
     max-width: 395px;
     width: 100%;
@@ -79,7 +79,6 @@
     background: var(--glass-bg-color-1);
     cursor: pointer;
     z-index: 2;
-    transition: all 0.3s ease-in-out;
 
     &:hover {
         box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
@@ -87,7 +86,7 @@
 
     p {
         color: var(--gray-900);
-        font-size: 24px;
+        font-size: 1.5rem;
         font-style: normal;
         font-weight: 500;
         line-height: 133%;
@@ -109,7 +108,7 @@
         }
 
         & > h3 {
-            font-size: 24px;
+            font-size: 1.5rem;
         }
     }
 

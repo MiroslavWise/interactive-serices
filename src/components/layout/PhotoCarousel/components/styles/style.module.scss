@@ -8,13 +8,12 @@
     width: 7%;
     height: 100%;
     cursor: pointer;
-    transition: all 0.2s ease-in-out 0.03s;
+
+    transition: var(--transition);
+    transition-property: background;
 
     &:hover {
         background: rgba(#fff, 0.1);
-    }
-
-    &.disabled {
     }
 }
 
@@ -38,11 +37,24 @@
     align-items: center;
     justify-content: center;
 
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+
+    transition: var(--transition);
+    transition-property: opacity, z-index;
+
     img {
         height: 100%;
         width: 100%;
-        object-fit: contain;
+        object-fit: contain !important;
         cursor: pointer;
+    }
+
+    &[data-current="true"] {
+        opacity: 1;
+        visibility: visible;
+        z-index: 1;
     }
 }
 
@@ -63,10 +75,11 @@
     li {
         height: 100%;
         aspect-ratio: 9/16;
-        transition: all 0.5s ease-in-out 0.02s;
         border: 2px solid var(--gray-800);
         border-radius: 5px;
         cursor: pointer;
+        transition: var(--transition);
+        transition-property: aspect-ratio, border;
 
         img {
             height: 100%;
@@ -77,7 +90,7 @@
 
         &.active {
             aspect-ratio: 16/9;
-            border-color: var(--supporting-white);
+            border: 2px solid var(--supporting-white);
         }
     }
 }

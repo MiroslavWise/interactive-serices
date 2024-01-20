@@ -9,17 +9,10 @@ import type { THeader } from "./types/types"
 import { ImageStatic, NextImageMotion } from "@/components/common/Image"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/header.module.scss"
 
-export const Header: THeader = ({
-    selectedImage,
-    setFile,
-    setSelectedImage,
-}) => {
-    const { imageProfile } = useAuth((_) => ({ imageProfile: _.imageProfile }))
-
+export const Header: THeader = ({ selectedImage, setFile, setSelectedImage, imageProfile }) => {
     function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0]
         if (file) {
@@ -27,42 +20,20 @@ export const Header: THeader = ({
             reader.onloadend = () => {
                 setSelectedImage(reader.result as string)
             }
-            reader.readAsDataURL(file)
+            reader.readAsDataURL(file) 
             setFile(file)
         }
-    }
-
-    function handleImageReset() {
-        setSelectedImage(null)
     }
 
     return (
         <header className={cx(styles.container, isMobile && styles.mobile)}>
             <div className={styles.photoContainer}>
                 {selectedImage ? (
-                    <ImageStatic
-                        src={selectedImage}
-                        alt="avatar"
-                        width={400}
-                        height={400}
-                        classNames={[styles.avatar]}
-                    />
+                    <ImageStatic src={selectedImage} alt="avatar" width={400} height={400} className={styles.avatar} />
                 ) : imageProfile ? (
-                    <NextImageMotion
-                        src={imageProfile?.attributes?.url!}
-                        alt="avatar"
-                        width={400}
-                        height={400}
-                        className={styles.avatar}
-                    />
+                    <NextImageMotion src={imageProfile} alt="avatar" width={400} height={400} className={styles.avatar} />
                 ) : (
-                    <ImageStatic
-                        src="/png/default_avatar.png"
-                        alt="avatar"
-                        width={400}
-                        height={400}
-                        classNames={[styles.avatar]}
-                    />
+                    <ImageStatic src="/png/default_avatar.png" alt="avatar" width={400} height={400} className={styles.avatar} />
                 )}
                 <input
                     type="file"
@@ -72,12 +43,7 @@ export const Header: THeader = ({
                     id="imageInput"
                 />
                 <div className={styles.iconPlus}>
-                    <Image
-                        src="/svg/image-plus.svg"
-                        alt="image-plus"
-                        height={18}
-                        width={18}
-                    />
+                    <Image src="/svg/image-plus.svg" alt="image-plus" height={18} width={18} unoptimized />
                 </div>
             </div>
         </header>

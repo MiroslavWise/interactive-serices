@@ -2,6 +2,15 @@
     "extends": "next/core-web-vitals",
     "rules": {
         "semi": ["error", "never"],
-        "no-document-import-in-page": "off"
+        "no-document-import-in-page": "off",
+        "react-hooks/exhaustive-deps": 0,
+        "@next/next/no-img-element": "off",
+        "import/no-anonymous-default-export": [
+            "error",
+            {
+                "allowAnonymousFunction": true,
+                "allowArrowFunction": true
+            }
+        ]
     }
 }

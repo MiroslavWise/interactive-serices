@@ -7,22 +7,12 @@ import { HistoryExchangeOffers, LeftAsideProfile } from "@/components/profile"
 
 import styles from "@/scss/page.module.scss"
 
-export default function LayoutMainProfile({
-    children,
-}: {
-    children: ReactNode
-}) {
-    return isMobile ? (
-        <div className={styles.page}>
-            <div className={styles.containerProfile}>{children}</div>
-        </div>
-    ) : (
-        <div className={styles.page}>
-            <div className={styles.containerProfile}>
-                <LeftAsideProfile />
-                {children}
-                <HistoryExchangeOffers />
-            </div>
+export default function LayoutMainProfile({ children }: { children: ReactNode }) {
+    return (
+        <div className={styles.containerProfile}>
+            {!isMobile && <LeftAsideProfile />}
+            {children}
+            {!isMobile && <HistoryExchangeOffers />}
         </div>
     )
 }

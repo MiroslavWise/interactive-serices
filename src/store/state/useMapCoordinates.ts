@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
-import type { IUseMapCoordinates } from "../types/createMapCoordinates"
+import type { IDispatchMapCoordinates, IUseMapCoordinates } from "../types/createMapCoordinates"
 
 export const useMapCoordinates = create(
     persist<IUseMapCoordinates>(
@@ -9,10 +9,7 @@ export const useMapCoordinates = create(
             coordinates: undefined,
             zoom: 16,
             dispatchMapCoordinates({ coordinates, zoom }) {
-                const getCoordinates =
-                    typeof coordinates === "undefined"
-                        ? get().coordinates
-                        : coordinates
+                const getCoordinates = typeof coordinates === "undefined" ? get().coordinates : coordinates
                 const getZoom = typeof zoom === "undefined" ? get().zoom : zoom
 
                 set({
@@ -27,3 +24,14 @@ export const useMapCoordinates = create(
         },
     ),
 )
+
+export const dispatchMapCoordinates = ({ coordinates, zoom }: IDispatchMapCoordinates) =>
+    useMapCoordinates.setState((_) => {
+        const getCoordinates = typeof coordinates === "undefined" ? _.coordinates : coordinates
+        const getZoom = typeof zoom === "undefined" ? _.zoom : zoom
+
+        return {
+            coordinates: getCoordinates,
+            zoom: getZoom,
+        }
+    })

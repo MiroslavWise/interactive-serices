@@ -1,27 +1,32 @@
 "use client"
 
+import { useEffect } from "react"
 import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
 import { ListChat, Chat, InterviewerInfo } from "@/components/messages"
 
-import styles from "./style.module.scss"
+import { dispatchDataUser } from "@/store/hooks"
 
 export default function Messages() {
-    const searchParams = useSearchParams()
-    const idThread = searchParams?.get("thread")
-    const idBarter = searchParams.get("barter-id")
-    const idUser = searchParams?.get("user")
+    const searchParamsGet = useSearchParams()?.get
+    const [idThread, idBarter, idUser] = [searchParamsGet("thread"), searchParamsGet("barter-id"), searchParamsGet("user")]
+
+    useEffect(() => {
+        return () => dispatchDataUser(undefined)
+    }, [])
 
     return isMobile ? (
-        <div className={styles.pageMobile}>
-            {idUser || idThread || idBarter ? <Chat /> : <ListChat />}
-        </div>
+        [!!idUser, !!idThread, !!idBarter].some((item) => !!item) ? (
+            <Chat />
+        ) : (
+            <ListChat />
+        )
     ) : (
-        <div className={styles.page}>
+        <>
             <ListChat />
             <Chat />
             <InterviewerInfo />
-        </div>
+        </>
     )
 }

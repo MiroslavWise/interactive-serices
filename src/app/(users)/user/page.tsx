@@ -1,74 +1,98 @@
 "use client"
 
+// import { type Metadata } from "next"
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 
-import {
-    MobileInteractive,
-    MobileMainInfo,
-    StatisticAndFeedback,
-    MainInfo,
-} from "@/components/profile"
-import { MotionUL } from "@/components/common/Motion"
-import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
+import { UserIdPage } from "@/components/profile"
 
 import { usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
-import { useToast } from "@/helpers/hooks/useToast"
+import { serviceUser } from "@/services/users"
 
-import styles from "@/scss/page.module.scss"
+// export async function generateMetadata({ searchParams }: { searchParams: { id: string | number } }): Promise<Metadata> {
+//     if (searchParams?.id) {
+//         try {
+//             const { ok, res } = await serviceUsers.getId(searchParams?.id!)
 
-let fetchOut = false
+//             if (ok && res) {
+//                 const openGraph: Metadata["openGraph"] = {
+//                     title: `${res?.profile?.firstName || ""} ${res?.profile?.lastName || ""}`,
+//                     description: res?.profile?.about,
+//                     images: [],
+//                 }
+
+//                 const twitter: Metadata["twitter"] = {
+//                     title: `${res?.profile?.firstName || ""} ${res?.profile?.lastName || ""}`,
+//                     images: [],
+//                 }
+
+//                 if (res?.profile?.image?.attributes?.url) {
+//                     const images: (typeof openGraph)["images"] | (typeof twitter)["images"] = {
+//                         url: res?.profile?.image?.attributes?.url,
+//                         alt: `${res?.profile?.firstName || ""} ${res?.profile?.lastName || ""}`,
+//                         type: res?.profile?.image?.attributes?.mime,
+//                     }
+//                     openGraph.images = images
+//                     twitter.images = images
+//                 }
+
+//                 return {
+//                     title: `${res?.profile?.firstName || ""} ${res?.profile?.lastName || ""}`,
+//                     description: res?.profile?.about,
+//                     openGraph,
+//                     twitter,
+//                 }
+//             }
+//         } catch (e) {
+//             console.log("response error: ", e)
+//             return { title: `user ${searchParams?.id}` }
+//         }
+
+//         return { title: `user ${searchParams?.id}` }
+//     }
+
+//     return { title: `user ${searchParams?.id}` }
+// }
+
+// export default async function UserId({ searchParams }: { searchParams: { id: string } }) {
+//     try {
+//         if (searchParams?.id === "undefined" || typeof searchParams?.id === "undefined" || searchParams?.id === "null") {
+//             return redirect("/")
+//         }
+
+//         const { ok, res } = await serviceUsers.getId(searchParams?.id!)
+
+//         if (ok === false) {
+//             return redirect("/")
+//         }
+
+//         return <UserIdPage id={searchParams?.id!} user={res!} ok={ok} />
+//     } catch (e) {
+//         console.log("error response user: ", e)
+//         return redirect("/")
+//     }
+// }
 
 export default function UserId() {
-    const { on } = useToast()
-    const searchParams = useSearchParams()
+    const id = useSearchParams().get("id")
     const { handlePush } = usePush()
-    const id = searchParams?.get("id")
+
     const { data, isLoading } = useQuery({
-        queryFn: () => serviceUsers.getId(id!),
-        queryKey: ["user", id],
+        queryFn: () => serviceUser.getId(id!),
+        queryKey: ["user", { userId: id }],
         enabled: id !== "undefined" && id !== "null" && typeof id !== undefined,
+        refetchOnReconnect: true,
+        retry: true,
     })
 
+    const { res, ok } = data ?? {}
+
     useEffect(() => {
-        if (id === "undefined" || typeof id === "undefined" || id === "null") {
-            if (!fetchOut)
-                on(
-                    { message: "Данный аккаунт не существует или приватный" },
-                    "warning",
-                )
-            fetchOut = true
-            return handlePush("/")
+        if (id === undefined || typeof id === "undefined" || ok === false) {
+            handlePush("/")
         }
+    }, [id, ok])
 
-        if (data?.ok === false) {
-            if (!fetchOut)
-                on(
-                    { message: "Данный аккаунт не существует или приватный" },
-                    "warning",
-                )
-            fetchOut = true
-            return handlePush("/")
-        }
-    }, [data, id, isLoading, handlePush, on])
-
-    return (
-        <div className={styles.page}>
-            {isMobile ? (
-                <MotionUL classNames={[styles.containerMobile]} id="user-id">
-                    <MobileMainInfo user={data?.res!} />
-                    <Badges />
-                    <MobileInteractive />
-                </MotionUL>
-            ) : (
-                <section className={styles.container}>
-                    <MainInfo user={data?.res!} />
-                    <StatisticAndFeedback />
-                </section>
-            )}
-        </div>
-    )
+    return <UserIdPage id={id!} user={res!} ok={ok!} />
 }

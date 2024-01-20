@@ -1,26 +1,25 @@
 "use client"
 
-import Image from "next/image"
-import { isMobile } from "react-device-detect"
 import { ReactNode, useRef } from "react"
+import { isMobile } from "react-device-detect"
 
 import type { TBalloonPlaceMark } from "./types/types"
+import type { TTypeProvider } from "@/services/file-upload/types"
+
+import { AlertBalloonComponent } from "./components/AlertBalloonComponent"
+import { OfferBalloonComponent } from "./components/OfferBalloonComponent"
+import { RequestBalloonComponent } from "./components/RequestBalloonComponent"
+import { DiscussionBalloonComponent } from "./components/DiscussionBalloonComponent"
 
 import { cx } from "@/lib/cx"
 import { useBalloonCard } from "@/store/state/useBalloonCard"
-import { OfferBalloonComponent } from "./components/OfferBalloonComponent"
-import { DiscussionBalloonComponent } from "./components/DiscussionBalloonComponent"
-import { AlertBalloonComponent } from "./components/AlertBalloonComponent"
-import { RequestBalloonComponent } from "./components/RequestBalloonComponent"
-import { TTypeProvider } from "@/services/file-upload/types"
+import { ButtonClose } from "@/components/common"
 
 export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
     const refSection = useRef<HTMLElement>(null)
-    const { visible, type, dispatch } = useBalloonCard((_) => ({
-        visible: _.visible,
-        type: _.type,
-        dispatch: _.dispatch,
-    }))
+    const type = useBalloonCard(({ type }) => type)
+    const visible = useBalloonCard(({ visible }) => visible)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const typeContent: Partial<Record<TTypeProvider, ReactNode>> = {
         offer: <OfferBalloonComponent />,
@@ -42,20 +41,14 @@ export const BalloonPlaceMark: TBalloonPlaceMark = ({}) => {
                 data-type-offers={type || null}
                 onClick={(event) => {
                     event.stopPropagation()
-                    event.preventDefault()
                 }}
                 ref={refSection}
             >
-                <Image
-                    src="/svg/x-close-white.svg"
-                    alt="x-close-white"
-                    width={24}
-                    height={24}
-                    data-img-close
-                    data-visible={!visible}
+                <ButtonClose
                     onClick={() => {
                         dispatch({ visible: false })
                     }}
+                    position={{}}
                 />
                 {typeContent.hasOwnProperty(type!) ? typeContent[type!] : null}
             </section>

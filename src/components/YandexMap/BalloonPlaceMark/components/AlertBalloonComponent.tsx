@@ -6,8 +6,8 @@ import { useQueries } from "@tanstack/react-query"
 import type { TAlertBalloonComponent } from "../types/types"
 
 import { BlockComments } from "./BlockComments"
-import { ButtonSuccessInBalloon } from "./ButtonSuccessInBalloon"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ButtonCanHelp } from "@/components/common/custom"
+import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { useAuth } from "@/store/hooks"
 import { daysAgo, usePush } from "@/helpers"
@@ -18,18 +18,16 @@ import { useBalloonCard } from "@/store/state/useBalloonCard"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
 
 export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
-    const { userId } = useAuth((_) => ({ userId: _.userId }))
+    const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
-    const { dispatchProfilePublic } = useProfilePublic((_) => ({
-        dispatchProfilePublic: _.dispatchProfilePublic,
-    }))
-    const { id, idUser, type, dispatch } = useBalloonCard((_) => ({
-        id: _.id,
-        idUser: _.idUser,
-        type: _.type,
-        dispatch: _.dispatch,
-    }))
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
+    const id = useBalloonCard(({ id }) => id)
+    const idUser = useBalloonCard(({ idUser }) => idUser)
+    const type = useBalloonCard(({ type }) => type)
+    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
     const [{ data }, { data: dataProfile }] = useQueries({
         queries: [
@@ -77,7 +75,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
             />
             <header data-alert>
                 {Number(userId) !== Number(idUser) ? (
-                    <ButtonSuccessInBalloon onClick={handleHelp} />
+                    <ButtonCanHelp id={id!} idUser={idUser!} />
                 ) : null}
             </header>
             <div data-container-balloon data-alert>

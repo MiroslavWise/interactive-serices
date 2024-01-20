@@ -11,7 +11,7 @@ import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonCircleGradient } from "@/components/common/Buttons"
 
 import { usePush } from "@/helpers"
-import { serviceUsers } from "@/services/users"
+import { serviceUser } from "@/services/users"
 import { serviceFriends } from "@/services/friends"
 import { useReloadFriends } from "../hooks/useReloadFriends"
 import { useProfilePublic } from "@/store/state/useProfilePublic"
@@ -19,12 +19,17 @@ import { useProfilePublic } from "@/store/state/useProfilePublic"
 export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     const [loading, setLoading] = useState(false)
     const { refresh } = useReloadFriends({ enabled: false, type: type })
-    const { dispatchProfilePublic } = useProfilePublic()
+    const dispatchProfilePublic = useProfilePublic(
+        ({ dispatchProfilePublic }) => dispatchProfilePublic,
+    )
     const { handlePush } = usePush()
     const { data } = useQuery({
-        queryFn: () => serviceUsers.getId(id!),
-        queryKey: ["users", `user=${id}`],
+        queryFn: () => serviceUser.getId(id!),
+        queryKey: ["user", { userId: id }],
         enabled: !!id,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     })
 
     const geo =

@@ -1,27 +1,31 @@
 "use client"
 
-import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-import type { TContainerAboutMe } from "./types/types"
 import type { IPostProfileData } from "@/services/profile/types/profileService"
 
-import { serviceProfile } from "@/services/profile"
-import { useAuth } from "@/store/hooks/useAuth"
+import { useAuth } from "@/store"
+import { serviceProfile } from "@/services"
 import { useOut } from "@/helpers/hooks/useOut"
 
 import styles from "./styles/style.module.scss"
 
-export const ContainerAboutMe: TContainerAboutMe = ({}) => {
+export const ContainerAboutMe = () => {
     const { out } = useOut()
     const [isEditing, setIsEditing] = useState(false)
     const [textEditing, setTextEditing] = useState("")
-    const { userId, profileId, user, updateProfile } = useAuth()
+    const user = useAuth(({ user }) => user)
+    const userId = useAuth(({ userId }) => userId)
+    const profileId = useAuth(({ profileId }) => profileId)
+    const updateProfile = useAuth(({ updateProfile }) => updateProfile)
+
+    const refTextArea = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {
-        const textArea = document?.getElementById("textArea")!
         if (isEditing) {
-            textArea?.focus()
+            if (refTextArea.current) {
+                refTextArea.current?.focus()
+            }
         }
         return () => {}
     }, [isEditing])
@@ -59,29 +63,14 @@ export const ContainerAboutMe: TContainerAboutMe = ({}) => {
         <div className={styles.containerAboutMe}>
             <h4>Обо мне</h4>
             {isEditing ? (
-                <textarea
-                    id="textArea"
-                    onChange={(value) => setTextEditing(value?.target?.value)}
-                    value={textEditing}
-                />
+                <textarea ref={refTextArea} onChange={(value) => setTextEditing(value?.target?.value)} value={textEditing} />
             ) : user?.about ? (
                 <p>{user?.about}</p>
             ) : (
-                <a onClick={handleEditing}>
-                    Нажмите, что-бы редактировать информацию о себе
-                </a>
+                <a onClick={handleEditing}>Нажмите, что-бы редактировать информацию о себе</a>
             )}
             <div className={styles.buttonEditing} onClick={handleEditing}>
-                <Image
-                    src={
-                        isEditing
-                            ? "/svg/check-square-broken.svg"
-                            : "/svg/edit.svg"
-                    }
-                    alt="edit"
-                    width={16}
-                    height={16}
-                />
+                <img src={isEditing ? "/svg/check-square-broken.svg" : "/svg/edit.svg"} alt="edit" width={16} height={16} />
             </div>
         </div>
     )

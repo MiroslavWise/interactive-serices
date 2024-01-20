@@ -35,6 +35,7 @@ export const ButtonCircleGradient: TButtonCircleGradient = ({
                 width={size || 40}
                 height={size || 40}
                 data-loading-image={loading}
+                unoptimized
             />
         </div>
     )

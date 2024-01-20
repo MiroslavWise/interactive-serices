@@ -10,12 +10,7 @@ export const Header: THeader = ({ value, setValue }) => {
     return (
         <header className={styles.containerHeader}>
             <h4>История обмена предложениями</h4>
-            <Segments
-                type="primary"
-                VALUES={SEGMENTS}
-                active={value}
-                setActive={setValue}
-            />
+            <Segments type="primary" VALUES={SEGMENTS} active={value} setActive={setValue} isBorder />
         </header>
     )
 }

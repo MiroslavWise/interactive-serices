@@ -3,22 +3,21 @@
 import { useInsertionEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { usePush } from "@/helpers"
+import { useCountMessagesNotReading, usePush } from "@/helpers"
 import { useAuth } from "@/store/hooks"
 import { serviceThreads } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
 import { IPostThreads } from "@/services/threads/types"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { useRefetchListChat } from "../../hook/useRefetchListChat"
 
 import styles from "../styles/style.module.scss"
 
 export const ChatEmpty = () => {
-    const refresh = useRefetchListChat()
     const { on } = useToast()
     const idUser = useSearchParams().get("user")
-    const { userId } = useAuth()
+    const userId = useAuth(({ userId }) => userId)
     const { handleReplace } = usePush()
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     async function createChat() {
         async function getDataThread(emitterId: number, receiverId: number) {
@@ -28,10 +27,8 @@ export const ChatEmpty = () => {
             })
             return res?.find(
                 (item) =>
-                    ((item?.receiverIds?.find((id) => id === receiverId) &&
-                        item?.emitterId === emitterId) ||
-                        (item?.receiverIds?.find((id) => id === emitterId) &&
-                            item?.emitterId === receiverId)) &&
+                    ((item?.receiverIds?.find((id) => id === receiverId) && item?.emitterId === emitterId) ||
+                        (item?.receiverIds?.find((id) => id === emitterId) && item?.emitterId === receiverId)) &&
                     item?.provider?.includes("personal"),
             )
         }
@@ -67,14 +64,13 @@ export const ChatEmpty = () => {
                 handleReplace("/messages")
                 on(
                     {
-                        message:
-                            "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+                        message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
                     },
                     "warning",
                 )
                 return
             }
-            refresh("personal").finally(() => {
+            refetchCountMessages().finally(() => {
                 handleReplace(`/messages?thread=${idCreate}`)
             })
         }
@@ -90,5 +86,5 @@ export const ChatEmpty = () => {
         }
     }, [idUser, userId])
 
-    return <section className={styles.container} />
+    return <section className={styles.wrapper} />
 }

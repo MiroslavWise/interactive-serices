@@ -1,11 +1,4 @@
-export type TTypeUploadFileImage =
-    | "image/png"
-    | "image/jpeg"
-    | "image/gif"
-    | "image/bmp"
-    | "image/tiff"
-    | "image/svg+xml"
-    | "image/webp"
+export type TTypeUploadFileImage = "image/png" | "image/jpeg" | "image/gif" | "image/bmp" | "image/tiff" | "image/svg+xml" | "image/webp"
 
 export interface IUploadFile {
     name: string
@@ -38,20 +31,9 @@ export interface IResponseUploadFile {
     }
 }
 
-type TTypeProvider =
-    | "profile"
-    | "offer"
-    | "discussion"
-    | "alert"
-    | "request"
-    | "barter"
+type TTypeProvider = "profile" | "offer" | "discussion" | "alert" | "request" | "barter" | "threads"
 
-type TTypeStatusBarter =
-    | "initiated"
-    | "executed"
-    | "completed"
-    | "destroyed"
-    | "canceled"
+type TTypeStatusBarter = "initiated" | "executed" | "completed" | "destroyed" | "canceled" | "pre-completion"
 
 export interface IProvider {
     type: TTypeProvider

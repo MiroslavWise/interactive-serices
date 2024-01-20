@@ -1,33 +1,27 @@
 "use client"
 
-import { type FC } from "react"
 import { isMobile } from "react-device-detect"
 
-import { Button } from "@/components/common"
+import { ButtonLink } from "@/components/common"
 import { HeaderBlock } from "./components/HeaderBlock"
 import { AchievementsCount } from "../AchievementsCount"
 import { ButtonFriends } from "./components/ButtonFriends"
 
-import { useUpdateProfile } from "@/store/hooks"
-
 import styles from "./styles/style.module.scss"
 
-export const BlockProfileAside: FC = () => {
-    const { setVisible } = useUpdateProfile()
-
+export const BlockProfileAside = () => {
     return (
-        <section className={styles.container} data-mobile={isMobile}>
+        <section className={styles.container}>
             <HeaderBlock />
-            {typeof isMobile !== "undefined" && !isMobile ? (
-                <AchievementsCount />
-            ) : null}
+            {typeof isMobile !== "undefined" && !isMobile ? <AchievementsCount /> : null}
             <ButtonFriends />
             <div data-buttons>
-                <Button
+                <ButtonLink
                     label="Редактировать профиль"
                     typeButton="regular-primary"
-                    className="w-100"
-                    onClick={() => setVisible(true)}
+                    href={{
+                        pathname: "/profile-change",
+                    }}
                 />
             </div>
         </section>

@@ -14,9 +14,7 @@ import { SEGMENTS } from "./constants"
 import styles from "./styles/style.module.scss"
 
 export const HistoryExchangeOffers: THistoryExchangeOffers = ({}) => {
-    const [value, setValue] = useState<ISegmentValues<TTypeStatusBarter>>(
-        SEGMENTS[0],
-    )
+    const [value, setValue] = useState<ISegmentValues<TTypeStatusBarter>>(SEGMENTS[0])
 
     return (
         <aside className={styles.container}>

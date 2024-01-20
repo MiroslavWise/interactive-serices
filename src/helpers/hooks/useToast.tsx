@@ -1,10 +1,13 @@
 "use client"
 
+import Link from "next/link"
 import { toast } from "react-toastify"
 import { isMobile } from "react-device-detect"
 import { type DispatchWithoutAction } from "react"
-import { ButtonCircleGradient, ButtonDefault } from "@/components/common"
-import { NextImageMotion } from "@/components/common/Image"
+
+import { TTypeStatusBarter } from "@/services/file-upload/types"
+
+import { ButtonCircleGradient, ButtonClose, ButtonDefault, ButtonLink, NextImageMotion } from "@/components/common"
 
 interface IValue {
     message?: string
@@ -13,6 +16,7 @@ interface IValue {
     photo?: string
     name?: string
     username?: string
+    time?: number | false
 }
 
 export const useToast = () => {
@@ -25,11 +29,68 @@ export const useToast = () => {
         message: "toast-message",
     }
 
-    function on(
-        value: IValue,
-        type?: TTypeToast,
-        onClick?: DispatchWithoutAction,
-    ) {
+    function onMessage({ id, photo, message, name, threadId }: IPropsMessage) {
+        const Message = (
+            <div className="message-notifications-toast">
+                <ButtonClose position={{}} onClick={() => {}} />
+                <section>
+                    <article>
+                        <NextImageMotion src={photo!} alt="avatar" width={44} height={44} />
+                        <h4>{name}</h4>
+                    </article>
+                    <p>{message}</p>
+                </section>
+                <div data-footer>
+                    <Link href={{ pathname: "/messages", query: { thread: threadId } }}>Перейти в чат</Link>
+                </div>
+            </div>
+        )
+
+        return toast(Message, {
+            toastId: id,
+            position: isMobile ? "bottom-center" : "bottom-left",
+            autoClose: false,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+    }
+
+    function onBarters({ message, title, status, threadId, threadIdBarter }: IPropsBarter) {
+        const Message = (
+            <div className="message-notifications-toast barter-toast">
+                <ButtonClose position={{}} onClick={() => {}} />
+                <h4>{title}</h4>
+                <p>{message}</p>
+                {status === "accepted" && threadId ? (
+                    <ButtonLink type="button" typeButton="fill-primary" label="Перейти в чат" href={{ pathname: "/messages", query: { thread: threadId } }} />
+                ) : null}
+                {status === "initiated" && threadIdBarter ? (
+                    <ButtonLink
+                        type="button"
+                        typeButton="fill-primary"
+                        label="Перейти в чат"
+                        href={{ pathname: "/messages", query: { "barter-id": threadIdBarter } }}
+                    />
+                ) : null}
+            </div>
+        )
+
+        return toast(Message, {
+            toastId: Math.random(),
+            position: isMobile ? "bottom-center" : "bottom-left",
+            autoClose: false,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+    }
+
+    function on(value: IValue, type?: TTypeToast, onClick?: DispatchWithoutAction) {
         const buttons = (
             <div data-buttons>
                 <ButtonDefault
@@ -38,10 +99,7 @@ export const useToast = () => {
                         if (onClick) onClick()
                     }}
                 />
-                <ButtonCircleGradient
-                    type="primary"
-                    icon="/svg/x-close-primary.svg"
-                />
+                <ButtonCircleGradient type="primary" icon="/svg/x-close-primary.svg" />
             </div>
         )
 
@@ -51,17 +109,9 @@ export const useToast = () => {
                     <>
                         <div data-content className="message">
                             <div data-user>
-                                <NextImageMotion
-                                    src={value?.photo!}
-                                    alt="avatar"
-                                    height={40}
-                                    width={40}
-                                />
+                                <NextImageMotion src={value?.photo!} alt="avatar" height={40} width={40} />
                                 <i>
-                                    {value?.name}{" "}
-                                    {value?.username ? (
-                                        <span>@{value?.username}</span>
-                                    ) : null}
+                                    {value?.name} {value?.username ? <span>@{value?.username}</span> : null}
                                 </i>
                             </div>
                             <p>{value?.message || ""}</p>
@@ -78,8 +128,8 @@ export const useToast = () => {
 
         return toast(message, {
             toastId: value.id || Math.random(),
-            position: isMobile ? "top-center" : "bottom-center",
-            autoClose: 5000,
+            position: isMobile ? "bottom-center" : "bottom-left",
+            autoClose: value.time ? value.time : value.time === false ? value.time : 8000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -89,13 +139,23 @@ export const useToast = () => {
         })
     }
 
-    return { on }
+    return { on, onMessage, onBarters }
 }
 
-type TTypeToast =
-    | "success"
-    | "error"
-    | "warning"
-    | "default"
-    | "barter"
-    | "message"
+interface IPropsMessage {
+    id: number | string
+    threadId: number | string
+    message: string
+    photo?: string
+    name: string
+}
+
+interface IPropsBarter {
+    message: string
+    title: string
+    status: TTypeStatusBarter | "accepted"
+    threadId?: number
+    threadIdBarter?: string
+}
+
+type TTypeToast = "success" | "error" | "warning" | "default" | "barter" | "message"

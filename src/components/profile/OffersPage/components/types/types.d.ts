@@ -6,12 +6,9 @@ import type { TTypeStatusBarter } from "@/services/file-upload/types"
 
 interface IContainerHeader {
     total: number
-    isToMe: boolean
-    dispatch: Dispatch<IActionOffers>
 }
 
 interface IContainerOffersNow {
-    isToMe: boolean
     dispatch: Dispatch<IActionOffers>
 }
 
