@@ -1,12 +1,13 @@
 "use client"
 
 import Link from "next/link"
+import { flushSync } from "react-dom"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
-import { IResponseMessage } from "@/services/messages/types"
+import type { IResponseMessage } from "@/services/messages/types"
 
 import { PopupMenu } from "../components/PopupMenu"
 import { ListMessages } from "../components/ListMessages"
@@ -14,9 +15,7 @@ import { TextAreaSend } from "../components/TextAreaSend"
 import { NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
-import { serviceUser } from "@/services/users"
-import { serviceThreads } from "@/services/threads"
-import { serviceMessages } from "@/services/messages"
+import { serviceMessages, serviceThreads, serviceUser } from "@/services"
 import { useCountMessagesNotReading, usePush } from "@/helpers"
 import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage, dispatchDataUser } from "@/store/hooks"
 
@@ -40,7 +39,11 @@ export const CurrentChat = () => {
         refetchIntervalInBackground: false,
     })
 
-    const { data: dataMessages, refetch } = useQuery({
+    const {
+        data: dataMessages,
+        refetch,
+        isLoading,
+    } = useQuery({
         queryFn: () => serviceMessages.get({ thread: idThread }),
         queryKey: ["messages", `user=${userId}`, `thread=${idThread}`],
         refetchOnMount: true,
@@ -142,11 +145,7 @@ export const CurrentChat = () => {
 
     useEffect(() => {
         if (!!data?.res) {
-            if (!!data?.res?.barterId) {
-                dispatchMessagesType("barter")
-            } else {
-                dispatchMessagesType("personal")
-            }
+            dispatchMessagesType(data?.res?.provider)
         }
     }, [data?.res])
 
@@ -156,12 +155,18 @@ export const CurrentChat = () => {
             const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
 
             Promise.all(notReading.map((item) => serviceMessages.postRead(item))).then((responses) => {
-                setTimeout(() => {
+                flushSync(() => {
                     refetchCountMessages()
-                }, 355)
+                })
             })
         }
     }, [userId, dataMessages?.res])
+
+    // if (isLoading) return (
+    //     <div className={styles.wrapper} data-wrapper-loading>
+
+    //     </div>
+    // )
 
     if (isMobile)
         return (
@@ -182,23 +187,12 @@ export const CurrentChat = () => {
                     <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
                 </section>
                 <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
-                {isMobile && <PopupMenu dataUser={dataUser?.res} />}
+                <PopupMenu dataUser={dataUser?.res} />
             </div>
         )
 
     return (
         <div className={styles.wrapper}>
-            {isMobile && (
-                <header>
-                    <Link data-back href={{ pathname: "/messages" }}>
-                        <img src="/svg/chevron-left.svg" alt="left" width={24} height={24} />
-                    </Link>
-                    <article>
-                        <NextImageMotion src={conversationPartner?.photo!} alt="avatar" width={28} height={28} className={styles.avatar} />
-                        <h5>{conversationPartner?.name!}</h5>
-                    </article>
-                </header>
-            )}
             <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
             <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
         </div>
