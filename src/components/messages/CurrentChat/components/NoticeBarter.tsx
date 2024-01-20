@@ -104,7 +104,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
 
     const geo = useMemo(() => {
         return userData?.addresses?.find((item) => item?.addressType === "main")
-    }, [res])
+    }, [userData])
 
     const isFeedback = useMemo(() => {
         return dataTestimonials?.res?.find((item) => item?.userId === userId && item?.barterId === idBarter)
