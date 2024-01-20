@@ -75,9 +75,13 @@ export const ListChat = memo(function ListChat() {
                 }
             })
             ITEMS.sort((prev, next) => {
-                const prevNumber = prev.thread.messages?.[0]?.created! ? dayjs(prev.thread.messages?.[0]?.created!).valueOf() : 0
+                const prevNumber = prev.thread.messages?.[0]?.created!
+                    ? dayjs(prev.thread.messages?.[0]?.created!).valueOf()
+                    : dayjs(prev.thread?.created!).valueOf()
 
-                const nextNumber = next.thread.messages?.[0]?.created! ? dayjs(next.thread.messages?.[0]?.created!).valueOf() : 0
+                const nextNumber = next.thread.messages?.[0]?.created!
+                    ? dayjs(next.thread.messages?.[0]?.created!).valueOf()
+                    : dayjs(next.thread?.created!).valueOf()
 
                 return nextNumber - prevNumber
             })

@@ -18,7 +18,7 @@ import styles from "./styles/style.module.scss"
 export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, people, last }) {
     const userId = useAuth(({ userId }) => userId)
     const idThread = useSearchParams().get("thread")
-    const { provider, messages } = thread ?? {}
+    const { provider } = thread ?? {}
 
     const idBarter = useMemo(() => (thread?.title?.includes("barter") ? thread?.title?.split(":")?.[1] : null), [thread.title])
     const geo: string | null = useMemo(() => people?.addresses?.find((item) => item?.addressType === "main")?.additional || null, [people])
@@ -45,7 +45,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
                 {notRead ? <span>&#8226;</span> : null}
                 {images?.length > 0
                     ? images
-                          ?.slice(0, 2)
+                          ?.slice(0, !!lastMessage?.message ? 2 : 5)
                           ?.map((item) => <NextImageMotion key={`::image::message::`} src={item?.attributes?.url!} alt="offer-image" width={44} height={44} />)
                     : null}
                 {lastMessage?.message ? <p>{lastMessage?.message}</p> : null}
