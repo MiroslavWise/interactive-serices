@@ -9,10 +9,10 @@ import type { TTypeStatusBarter } from "@/services/file-upload/types"
 import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
 
 import { useAuth } from "@/store"
-import { usePush } from "@/helpers"
 import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
 import { queryClient } from "./QueryClientProviderContext"
+import { useCountMessagesNotReading, usePush } from "@/helpers"
 import { serviceProfile, serviceBarters, serviceNotifications } from "@/services"
 
 interface IContextSocket {
@@ -31,6 +31,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const { handlePush } = usePush()
     const [isFetch, setIsFetch] = useState(false)
     const [socketState, setSocketState] = useState<Socket | null>(null)
+    const { refetchCountMessages } = useCountMessagesNotReading()
 
     const { refetch: refetchNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -62,6 +63,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                     message: `${event.message}`,
                     photo: event.emitter?.profile?.image?.attributes?.url! || "",
                 })
+                refetchCountMessages()
             }
         }
 

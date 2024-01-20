@@ -90,9 +90,6 @@
             time {
                 color: var(--gray-400);
             }
-
-            &[data-temporary="true"] {
-            }
         }
     }
 }
@@ -119,12 +116,32 @@
             aspect-ratio: 3/2;
             flex: 1 1 auto;
             cursor: pointer;
+            border-radius: 0.35rem;
         }
     }
 
     .messages {
         p {
             padding-inline: 0.375rem !important;
+        }
+
+        .blockMessage {
+            &[data-only-image="true"] {
+                overflow: hidden;
+                position: relative;
+
+                .time {
+                    position: absolute;
+                    bottom: calc(0.25rem + 0.375rem);
+                    right: calc(0.25rem + 0.375rem);
+                    height: 1.25rem;
+                    border-radius: 0.625rem;
+                    background-color: var(--opacity-white-hard-black-5);
+                    width: min-content;
+                    padding: 0.125rem 0.375rem !important;
+                    white-space: nowrap;
+                }
+            }
         }
     }
 }

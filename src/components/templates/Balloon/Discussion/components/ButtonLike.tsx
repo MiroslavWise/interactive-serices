@@ -12,7 +12,7 @@ export const ButtonLike = () => {
     const offer = useBalloonDiscussion(({ offer }) => offer)
     const { id } = offer ?? {}
 
-    const [{ data: dataLikesMy, refetch: refetchLikesMy }, { data, refetch }] = useQueries({
+    const [{ data: dataLikesMy, isLoading: isLoadingLikesMy }, { data, isLoading }] = useQueries({
         queries: [
             {
                 queryFn: () => serviceLikes.get(),
@@ -46,7 +46,7 @@ export const ButtonLike = () => {
     }, [userId, dataLikesMy?.res, id])
 
     function handle() {
-        if (!loading && !!userId) {
+        if (!loading && !!userId && !isLoading && !isLoadingLikesMy) {
             setLoading(true)
             serviceLikes
                 .post({
