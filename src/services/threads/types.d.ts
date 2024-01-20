@@ -51,7 +51,7 @@ export interface IResponseThread {
     emitterId: number
     receiverIds: number[]
     enabled: boolean
-    provider: string
+    provider: TTypeProviderThreads
     barterId?: number
     created: Date | string
     updated: Date | string
