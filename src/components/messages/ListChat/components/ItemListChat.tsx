@@ -48,7 +48,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
                           ?.slice(0, !!lastMessage?.message ? 2 : 5)
                           ?.map((item) => <NextImageMotion key={`::image::message::`} src={item?.attributes?.url!} alt="offer-image" width={44} height={44} />)
                     : null}
-                {lastMessage?.message ? <p>{lastMessage?.message}</p> : null}
+                {lastMessage?.message ? <p>{lastMessage?.message}</p> : lastMessage?.images?.length > 0 ? <i>Фотографии</i> : null}
             </div>
         )
     }, [thread?.messages, userId])

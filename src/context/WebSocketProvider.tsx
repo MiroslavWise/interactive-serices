@@ -78,14 +78,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 .then((response) => {
                     if (response?.ok) {
                         const { firstName, lastName } = response?.res ?? {}
-                        if (event?.status === "executed") {
-                            onBarters({
-                                title: "Обмен был принят",
-                                message: `Пользователь ${firstName || ""} ${lastName || ""} принял ваш запрос на обмен`,
-                                status: event?.status,
-                                threadId: event?.threadId,
-                            })
-                        }
                         if (event.status === "initiated") {
                             onBarters({
                                 title: "Предложение на обмен",
@@ -94,7 +86,16 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                                 threadIdBarter: `${event?.barterId}-${event?.receiverIds[0]}`,
                             })
                         }
-                        // if(event.status === "")
+
+                        if (event.status === "accepted") {
+                            onBarters({
+                                title: "Обмен был принят",
+                                message: `Пользователь ${firstName || ""} ${lastName || ""} принял ваш запрос на обмен`,
+                                status: event?.status,
+                                threadId: event?.threadId,
+                            })
+                        }
+
                         if (event.status === "completed") {
                             onBarters({
                                 title: "Обмен завершён",
@@ -192,6 +193,6 @@ interface IBarterResponse {
     message: string
     receiverIds: number[]
     emitterId: number
-    status: TTypeStatusBarter
+    status: TTypeStatusBarter | "accepted"
     threadId: number
 }
