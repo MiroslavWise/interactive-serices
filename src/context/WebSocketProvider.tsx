@@ -92,6 +92,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                                 threadIdBarter: `${event?.barterId}-${event?.receiverIds[0]}`,
                             })
                         }
+                        // if(event.status === "")
                         if (event.status === "completed") {
                             onBarters({
                                 title: "Обмен завершён",
