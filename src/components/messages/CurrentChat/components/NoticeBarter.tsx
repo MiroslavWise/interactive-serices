@@ -133,7 +133,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                         message: message,
                         barterId: idBarter,
                         emitterId: userId!,
-                        status: "executed",
+                        status: "accepted",
                         threadId: threadId!,
                         created: date,
                     })
