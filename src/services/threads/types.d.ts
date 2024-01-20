@@ -1,3 +1,4 @@
+import { IImageData } from "@/store/types/useAuthState"
 import type { IReturnData } from "../types/general"
 
 export type TTypeProviderThreads = "personal" | "barter" | "groups"
@@ -23,6 +24,7 @@ export interface IThreadsMessages {
     emitterId: number
     receiverIds: number[]
     readIds: number[]
+    images: IImageData[]
 }
 
 export interface IResponseThreads {

@@ -97,10 +97,10 @@ export const ReciprocalExchange = () => {
                 desired: true,
             }
 
-            const socketWith = (idBarter: number) => {
+            const socketWith = (idBarter: number, message: string) => {
                 socket?.emit("barter", {
                     receiverIds: [offer?.userId!],
-                    message: `Вам пришла заявка на предложение`,
+                    message: message || "",
                     barterId: idBarter,
                     emitterId: userId!,
                     status: "initiated",
@@ -130,7 +130,7 @@ export const ReciprocalExchange = () => {
                         if (response?.ok) {
                             const message = `${profile?.firstName || ""} ${profile?.lastName || ""} получила ваше предложение. Мы сообщим вам об её ответе.`
                             flushSync(() => {
-                                socketWith(response?.res?.id!)
+                                socketWith(response?.res?.id!, !values.my_offer && values.description ? values.description : offer?.title!)
                                 refetch()
                                 flushSync(() => {
                                     onBarters({
