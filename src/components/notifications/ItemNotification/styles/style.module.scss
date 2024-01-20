@@ -222,10 +222,15 @@
                     letter-spacing: -0.01125rem;
                 }
 
-                &[data-yes-or-not]{
+                &[data-yes-or-not] {
                     max-width: 6.875rem;
                     height: 2.25rem;
                     border-radius: 1.125rem;
+                }
+
+                &[data-threads] {
+                    max-width: min-content;
+                    padding-inline: 1.25rem;
                 }
             }
         }

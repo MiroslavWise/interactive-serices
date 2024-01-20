@@ -131,6 +131,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
                     </p>
                 )
             }
+            if (operation === "accepted") {
+                return (
+                    <p>
+                        Пользователь {dataProfile?.res?.firstName} {dataProfile?.res?.lastName} принял ваш запрос на обмен
+                    </p>
+                )
+            }
         }
 
         return null
@@ -138,18 +145,21 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const buttons: ReactNode | null = useMemo(() => {
         if (provider === "barter") {
-            if (data?.status === "initiated") {
+            if (data?.status === "initiated" || operation === "accepted") {
                 if (data?.userId !== userId) {
+                    const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
+
                     return (
                         <ButtonLink
                             type="button"
                             typeButton="fill-primary"
                             label="Перейти в чат"
-                            href={{ pathname: `/messages`, query: { "barter-id": `${data?.id!}-${idUser}` } }}
+                            href={{ pathname: `/messages`, query: chat }}
                             onClick={(event) => {
                                 event.stopPropagation()
                                 dispatchVisibleNotifications(false)
                             }}
+                            data-threads
                         />
                     )
                 }
