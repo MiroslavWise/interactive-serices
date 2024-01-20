@@ -7,10 +7,10 @@ import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
 
-import { ImageStatic, NextImageMotion, GeoTagging, BadgeServices } from "@/components/common"
+import { NextImageMotion, GeoTagging, BadgeServices } from "@/components/common"
 
-import { serviceBarters } from "@/services/barters"
-import { dispatchDataUser, useAuth } from "@/store/hooks"
+import { serviceBarters } from "@/services"
+import { dispatchDataUser, useAuth } from "@/store"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
@@ -19,16 +19,9 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
     const userId = useAuth(({ userId }) => userId)
     const idThread = useSearchParams().get("thread")
     const { provider, messages } = thread ?? {}
-    const {} = people ?? {}
 
     const idBarter = useMemo(() => (thread?.title?.includes("barter") ? thread?.title?.split(":")?.[1] : null), [thread.title])
     const geo: string | null = useMemo(() => people?.addresses?.find((item) => item?.addressType === "main")?.additional || null, [people])
-    const notReadMessage = useMemo(
-        () =>
-            messages?.filter((item) => item?.receiverIds?.includes(userId!))?.filter((item) => !item?.readIds?.includes(userId!))?.length >
-            0,
-        [messages, userId],
-    )
 
     const { data: dataBarter } = useQuery({
         queryFn: () => serviceBarters.getId(Number(idBarter)),
@@ -39,11 +32,26 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
     })
 
     const lastMessage = useMemo(() => {
-        if (!thread?.messages || !thread?.messages?.length) {
+        if (!thread?.messages || !thread?.messages?.length || !userId) {
             return null
         }
-        return thread?.messages?.at(-1)?.message ? thread?.messages?.at(-1)?.message : ""
-    }, [thread?.messages])
+
+        const lastMessage = thread?.messages?.[0]
+        const notRead = !!userId && !lastMessage?.readIds?.includes(userId) && lastMessage?.emitterId !== userId
+        const images = lastMessage?.images
+
+        return (
+            <div className={styles.blockLastMessage} data-reading={notRead}>
+                {notRead ? <span>&#8226;</span> : null}
+                {images?.length > 0
+                    ? images
+                          ?.slice(0, 2)
+                          ?.map((item) => <NextImageMotion key={`::image::message::`} src={item?.attributes?.url!} alt="offer-image" width={44} height={44} />)
+                    : null}
+                {lastMessage?.message ? <p>{lastMessage?.message}</p> : null}
+            </div>
+        )
+    }, [thread?.messages, userId])
 
     useEffect(() => {
         if (people && idThread && !!thread) {
@@ -59,23 +67,12 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
             data-active={Number(thread.id) === Number(idThread)}
             href={{ query: { thread: thread.id } }}
             data-last={last}
-            data-not-read={notReadMessage}
         >
             <div className={styles.header} data-barter={thread?.title?.includes("barter")}>
-                {lastMessage ? <time>{timeNowOrBeforeChat(thread?.messages?.[0]?.created!)}</time> : null}
+                <time>{timeNowOrBeforeChat(thread?.messages?.length > 0 ? thread?.messages?.[0]?.created! : thread?.created)}</time>
                 <div className={styles.titleBlock}>
                     <div className={styles.avatar}>
-                        {people?.profile?.image?.attributes?.url ? (
-                            <NextImageMotion
-                                src={people?.profile?.image?.attributes?.url!}
-                                alt="avatar"
-                                width={40}
-                                height={40}
-                                className={styles.img}
-                            />
-                        ) : (
-                            <ImageStatic src="/png/default_avatar.png" alt="avatar" width={40} height={40} className={styles.img} />
-                        )}
+                        <NextImageMotion src={people?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} className={styles.img} />
                         <img src="/svg/verified-tick.svg" alt="verified" width={16} height={16} className={styles.verified} />
                     </div>
                     <div className={styles.nameAndGeo}>
@@ -94,11 +91,7 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
                     </div>
                 </div>
             </div>
-            <div className={styles.blockLastMessage}>
-                <p>
-                    {notReadMessage ? <span>&#8226;</span> : null} {lastMessage}
-                </p>
-            </div>
+            {lastMessage}
         </Link>
     )
 })
