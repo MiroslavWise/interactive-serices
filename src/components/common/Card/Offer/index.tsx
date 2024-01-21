@@ -44,7 +44,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
                     <Link
                         href={{
                             pathname: "/messages",
-                            query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` },
+                            query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` }, 
                         }}
                         onClick={(event) => {
                             event.stopPropagation()

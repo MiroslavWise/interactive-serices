@@ -68,12 +68,7 @@ export const useToast = () => {
                     <ButtonLink type="button" typeButton="fill-primary" label="Перейти в чат" href={{ pathname: "/messages", query: { thread: threadId } }} />
                 ) : null}
                 {status === "initiated" && threadIdBarter ? (
-                    <ButtonLink
-                        type="button"
-                        typeButton="fill-primary"
-                        label="Перейти в чат"
-                        href={{ pathname: "/messages", query: { "barter-id": threadIdBarter } }}
-                    />
+                    <ButtonLink type="button" typeButton="fill-primary" label="Перейти в чат" href={{ pathname: "/messages", query: { ...threadIdBarter } }} />
                 ) : null}
             </div>
         )
@@ -155,7 +150,9 @@ interface IPropsBarter {
     title: string
     status: TTypeStatusBarter | "accepted"
     threadId?: number
-    threadIdBarter?: string
+    threadIdBarter?: {
+        [key: string]: string | number
+    }
 }
 
 type TTypeToast = "success" | "error" | "warning" | "default" | "barter" | "message"

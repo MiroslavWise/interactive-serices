@@ -86,7 +86,7 @@ export const CompletionTransaction = () => {
                     targetId: idOffer!,
                     provider: "offer",
                     barterId: barter?.id!,
-                    rating: values.rating?.toString(),
+                    rating: values.rating!,
                     message: values.message,
                     status: "published",
                     enabled: true,
