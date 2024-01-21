@@ -226,7 +226,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <section>
                 <article>
                     {text}
-                    <time dateTime={created}>{daysAgo(dayjs(created).format())} назад</time>
+                    <time dateTime={created}>{daysAgo(dayjs(created).format()!)} назад</time>
                     <ButtonsDots id={id} refetch={refetch} />
                 </article>
                 <div data-buttons>{buttons}</div>

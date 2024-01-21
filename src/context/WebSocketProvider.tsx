@@ -83,7 +83,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                                 title: "Предложение на обмен",
                                 message: ``,
                                 status: event.status,
-                                threadIdBarter: `${event?.barterId}-${event?.receiverIds[0]}`,
+                                threadIdBarter: !!event?.threadId ? { thread: event?.threadId! } : { "barter-id": `${event?.barterId}-${event.emitterId}` },
                             })
                         }
 

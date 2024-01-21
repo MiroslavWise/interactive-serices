@@ -21,8 +21,8 @@ export interface IResponseNotifications {
     userId: number
     operation: TTypeOperation
     data: IDataBarterNotifications
-    created: string | Date
-    updated: string | Date
+    created: string
+    updated: string
     provider: TTypeProviderNotifications
 }
 
