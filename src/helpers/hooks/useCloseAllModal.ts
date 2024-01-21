@@ -30,7 +30,7 @@ export const useCloseAllModal = () => {
         dispatchCompletion({ visible: false })
         dispatchFriends({ visible: false })
         dispatchHasBalloon({ visibleHasBalloon: false })
-        dispatchAuthModal({ visible: false })
+        //dispatchAuthModal({ visible: false })
         setIsVisible(false)
         dispatchUpdateMutual({ visible: false })
         dispatchPhotoCarousel({ visible: false })
