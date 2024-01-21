@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useForm } from "react-hook-form"
-import { useQuery } from "@tanstack/react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 import { useEffect, useMemo, useState } from "react"
 
 import type { IValuesForm } from "./types/types"
@@ -52,22 +52,28 @@ export const ChangeForm = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<IValuesForm>({ defaultValues: {} })
-    const { data, refetch } = useQuery({
-        queryFn: () => serviceUser.get(),
-        queryKey: ["user", userId!],
-        enabled: !!userId!,
-        refetchOnMount: true,
-        refetchOnReconnect: true,
-    })
 
-    const {
+    const [{ data, refetch }, {
         data: dataProfile,
         refetch: refetchProfile,
         isLoading,
-    } = useQuery({
-        queryFn: () => serviceProfile.getUserId(userId!),
-        queryKey: ["profile", userId!],
-        enabled: !!userId,
+    }] = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceUser.get(),
+                queryKey: ["user", {userId: userId}],
+                enabled: !!userId!,
+                refetchOnMount: true,
+                refetchOnReconnect: true,
+            },
+            {
+                queryFn: () => serviceProfile.getUserId(userId!),
+                queryKey: ["profile", userId!],
+                enabled: !!userId,
+                refetchOnMount: true,
+                refetchOnReconnect: true,
+            }
+        ]
     })
 
     const { res } = data ?? {}
@@ -125,7 +131,7 @@ export const ChangeForm = () => {
                                 UpdatePhotoProfile(idProfile).then((response) => {
                                     const dataPatch: IPostProfileData = {
                                         username: values.username,
-                                        imageId: response.res?.id,
+                                        imageId: response?.res?.id,
                                     }
                                     serviceProfile.patch(dataPatch, idProfile).then(() => {
                                         refetchProfile().then(() => {
@@ -178,7 +184,7 @@ export const ChangeForm = () => {
     }, [res])
 
     function onValueFunc() {
-        if (text.length > 2 && activeList) {
+        if (text?.length > 2 && activeList) {
             getGeocodeSearch(text)
                 .then((response) => setValues(response))
                 .finally(() => {
@@ -230,7 +236,7 @@ export const ChangeForm = () => {
         setText(additional)
         setActiveList(false)
 
-        Promise.all(address.map((item) => serviceAddresses.patch({ enabled: false }, item.id))).then(() => {
+        Promise.all(address.map((item) => serviceAddresses.patch({ enabled: false }, item?.id))).then(() => {
             serviceAddresses.post(value).then((response) => {
                 console.log("response address: ", response)
             })
@@ -295,7 +301,7 @@ export const ChangeForm = () => {
                             {exactAddresses && Array.isArray(exactAddresses)
                                 ? exactAddresses.map((item) => (
                                       <a
-                                          key={`::item::address::response::${item.GeoObject.uri}::`}
+                                          key={`::item::address::response::${item?.GeoObject?.uri}::`}
                                           onClick={(event) => {
                                               event.stopPropagation()
                                               handleAddress(item)
