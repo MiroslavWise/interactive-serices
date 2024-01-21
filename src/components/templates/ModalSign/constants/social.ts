@@ -22,13 +22,13 @@ export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
     //     path: "/apple/login",
     //     isWorkingLink: false,
     // },
-    {
-        value: "vk",
-        srcWorking: "/icons/fill/vk.svg",
-        srcNotWorking: "/icons/fill/vk.svg",
-        path: "/vk/login",
-        isWorkingLink: true,
-    },
+  //  {
+     //   value: "vk",
+    //    srcWorking: "/icons/fill/vk.svg",
+   //     srcNotWorking: "/icons/fill/vk.svg",
+   //     path: "/vk/login",
+   //     isWorkingLink: true,
+   // },
     {
         value: "yandex",
         srcWorking: "/icons/fill/yandex.svg",
