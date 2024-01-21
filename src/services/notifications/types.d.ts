@@ -21,12 +21,9 @@ export interface IResponseNotifications {
     userId: number
     operation: TTypeOperation
     data: IDataBarterNotifications
-    created: string
-    updated: string
-    email: boolean
-    sms: boolean
+    created: string | Date
+    updated: string | Date
     provider: TTypeProviderNotifications
-    push: boolean
 }
 
 interface IQueries {

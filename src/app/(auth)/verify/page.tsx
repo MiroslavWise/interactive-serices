@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation"
 import { usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModal, dispatchOnboarding } from "@/store/hooks"
+import { dispatchAuthModal, dispatchOnboarding } from "@/store"
 
 export default function PageVerify() {
     const verifyToken = useSearchParams()?.get("token")
@@ -24,6 +24,11 @@ export default function PageVerify() {
                     dispatchAuthModal({
                         visible: true,
                         type: "SignIn",
+                    })
+                    handlePush("/")
+                } else {
+                    on({
+                        message: "Ваш аккаунт не прошёл верификацию.",
                     })
                     handlePush("/")
                 }

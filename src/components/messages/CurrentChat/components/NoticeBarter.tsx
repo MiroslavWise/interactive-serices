@@ -170,17 +170,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
     return data?.ok ? (
         <section className={styles.wrapper} data-type={status}>
             <article>
-                {status === "initiated" ? (
-                    <div data-head>
-                        <div data-time>
-                            <div data-img>
-                                <img src="/svg/clock-fast-forward.svg" alt="clock" width={16} height={16} />
-                            </div>
-                            <time>{daysAgo(res?.created)}</time>
-                        </div>
-                        {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
-                    </div>
-                ) : status === "executed" ? (
+                {status === "executed" ? (
                     <>
                         <div data-lath>
                             <span>В процессе</span>
@@ -223,7 +213,17 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                             </div>
                         </div>
                     </>
-                ) : null}
+                ) : (
+                    <div data-head>
+                        <div data-time>
+                            <div data-img>
+                                <img src="/svg/clock-fast-forward.svg" alt="clock" width={16} height={16} />
+                            </div>
+                            <time>{daysAgo(res?.created)}</time>
+                        </div>
+                        {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
+                    </div>
+                )}
                 {["initiated", "completed"].includes(status!) ? (
                     <p>
                         {initiator?.userId === userId ? (
