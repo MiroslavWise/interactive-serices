@@ -8,9 +8,10 @@ import { Button } from "@/components/common"
 import { useTokenHelper } from "@/helpers"
 import { serviceUser } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthModal, useAuth } from "@/store/hooks"
+import { dispatchAuthModal, dispatchOnboarding, useAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
+import { queryClient } from "@/context"
 
 export const SignInEmail = memo(function SignInEmail({
     children,
@@ -85,23 +86,30 @@ export const SignInEmail = memo(function SignInEmail({
                     }
                     if (response.ok) {
                         if (response.res?.accessToken && response?.res?.refreshToken && response?.res?.tokenType) {
-                            serviceUser.getId(response?.res?.id).then((responseUser) => {
-                                setToken({
-                                    ok: true,
-                                    token: response?.res?.accessToken!,
-                                    refreshToken: response?.res?.refreshToken!,
-                                    expires: response?.res?.expires!,
-                                    userId: response?.res?.id!,
-                                    email: value?.email!,
+                            queryClient
+                                .fetchQuery({
+                                    queryFn: () => serviceUser.getId(response?.res?.id!),
+                                    queryKey: ["user", { userId: response?.res?.id }],
                                 })
-                                if (!responseUser?.res?.profile) {
-                                    dispatchAuthModal({ visible: false })
-                                    return
-                                }
-                                if (!!responseUser?.res?.profile) {
-                                    return changeAuth()
-                                }
-                            })
+                                .then((responseUser) => {
+                                    setToken({
+                                        ok: true,
+                                        token: response?.res?.accessToken!,
+                                        refreshToken: response?.res?.refreshToken!,
+                                        expires: response?.res?.expires!,
+                                        userId: response?.res?.id!,
+                                        email: value?.email!,
+                                    })
+                                    if (!responseUser?.res?.profile) {
+                                        dispatchAuthModal({ visible: false })
+                                        dispatchOnboarding("open")
+                                        return
+                                    }
+                                    if (!!responseUser?.res?.profile) {
+                                        dispatchAuthModal({ visible: false })
+                                        return changeAuth()
+                                    }
+                                })
                             dispatchAuthModal({ visible: false })
                             return
                         }
@@ -127,14 +135,7 @@ export const SignInEmail = memo(function SignInEmail({
                     render={({ field }) => (
                         <div data-label-input>
                             <label htmlFor={field.name}>Email</label>
-                            <input
-                                autoComplete="off"
-                                type="email"
-                                placeholder="Введите свой email"
-                                inputMode="email"
-                                {...field}
-                                data-error={!!errors.email}
-                            />
+                            <input autoComplete="off" type="email" placeholder="Введите свой email" inputMode="email" {...field} data-error={!!errors.email} />
                             {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
                         </div>
                     )}
@@ -147,12 +148,7 @@ export const SignInEmail = memo(function SignInEmail({
                         <div data-label-input data-password>
                             <label htmlFor={field.name}>Пароль</label>
                             <div>
-                                <input
-                                    {...field}
-                                    autoComplete="off"
-                                    placeholder="Введите свой пароль"
-                                    type={isPass ? "text" : "password"}
-                                />
+                                <input {...field} autoComplete="off" placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
                                 <img
                                     onClick={() => setIsPass((prev) => !prev)}
                                     src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
