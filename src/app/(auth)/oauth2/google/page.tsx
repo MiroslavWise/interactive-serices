@@ -5,8 +5,10 @@ import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
-import { dispatchAuthToken } from "@/store/hooks"
+import { dispatchAuthToken, dispatchOnboarding } from "@/store/hooks"
 import { useToast } from "@/helpers/hooks/useToast"
+import { queryClient } from "@/context"
+import { serviceUser } from "@/services"
 
 const ARRAY_QUERY = ["access_token", "client_id", "email", "id", "name", "picture", "verified_email"]
 
@@ -25,11 +27,30 @@ export default function CallbackGoogle() {
             console.log("response: postGoogle", response)
             if (response.ok) {
                 if (response?.res) {
-                    dispatchAuthToken({ ...response?.res, email: data.email })
-                    handlePush("/")
-                    on({
-                        message: "Авторизация через сервис Google прошла успешно",
-                    })
+                    queryClient
+                        .fetchQuery({
+                            queryFn: () => serviceUser.getId(response.res?.id!),
+                            queryKey: ["user", { userId: response.res?.id }],
+                        })
+                        .then((resUser) => {
+                            if (resUser.ok) {
+                                if (resUser.res) {
+                                    if (!resUser?.res?.profile?.id) {
+                                        dispatchOnboarding("open")
+                                    }
+                                }
+                                dispatchAuthToken({ ...response?.res!, email: data.email })
+                                handlePush("/")
+                                on({
+                                    message: "Авторизация через сервис Google прошла успешно",
+                                })
+                            } else {
+                                on({
+                                    message: "У нас произошла какая-то ошибка, и мы работаем над решением проблемы",
+                                })
+                                handlePush("/")
+                            }
+                        })
                 }
             } else {
                 on({

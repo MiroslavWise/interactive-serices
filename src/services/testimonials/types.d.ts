@@ -2,11 +2,12 @@ import type { TTypeProvider } from "../file-upload/types"
 import type { IReturnData } from "../types/general"
 
 export type TStatusFeedback = "published" | "blocked" | "edited"
+export type TNumberRating = 1|2|3|4|5|6|7|8|9|10
 
 export interface IPostTestimonials {
     targetId: number
     provider: TTypeProvider
-    rating: string
+    rating: TNumberRating
     barterId?: number
     message: string
     status: TStatusFeedback
@@ -21,7 +22,7 @@ export interface IResponseTestimonials {
     targetId: number
     provider: TTypeProvider
     barterId?: number
-    rating: string
+    rating: TNumberRating //1-10
     message: string
     status: TStatusFeedback
     enabled: boolean

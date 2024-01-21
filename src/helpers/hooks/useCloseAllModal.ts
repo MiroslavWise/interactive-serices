@@ -5,19 +5,19 @@ import {
     useProfilePublic,
     useBalloonCard,
     useDroverFriends,
-    dispatchAuthModal,
+    // dispatchAuthModal,
     usePopupMenuChat,
     useUpdateMutualOffer,
     dispatchPhotoCarousel,
-    useCompletionTransaction,
+    // useCompletionTransaction,
     useVisibleBannerNewServices,
     dispatchHasBalloon,
-    dispatchReciprocalExchange,
+    // dispatchReciprocalExchange,
 } from "@/store/hooks"
 
 export const useCloseAllModal = () => {
     const dispatchBallonCard = useBalloonCard((_) => _.dispatch)
-    const dispatchCompletion = useCompletionTransaction((_) => _.dispatchCompletion)
+    // const dispatchCompletion = useCompletionTransaction((_) => _.dispatchCompletion)
     const dispatchFriends = useDroverFriends((_) => _.dispatchFriends)
     const setIsVisible = usePopupMenuChat((_) => _.setIsVisible)
     const dispatchUpdateMutual = useUpdateMutualOffer((_) => _.dispatchUpdateMutual)
@@ -27,10 +27,10 @@ export const useCloseAllModal = () => {
 
     function close() {
         dispatchBallonCard({ visible: false })
-        dispatchCompletion({ visible: false })
+        /* dispatchCompletion({ visible: false }) */
         dispatchFriends({ visible: false })
         dispatchHasBalloon({ visibleHasBalloon: false })
-        //dispatchAuthModal({ visible: false })
+        // dispatchAuthModal({ visible: false })
         setIsVisible(false)
         dispatchUpdateMutual({ visible: false })
         dispatchPhotoCarousel({ visible: false })
