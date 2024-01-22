@@ -34,9 +34,10 @@ export const ContentCreatePassword = () => {
         },
     })
 
-    console.log("errors: ", errors)
-
     function onEnter(values: IValues) {
+        console.log("onEnter values: ", values)
+        console.log("onEnter type: ", type)
+        console.log("onEnter codeReset: ", codeReset)
         if (!loading) {
             setLoading(true)
             if (type === "ResetPassword" && !!codeReset) {
@@ -64,11 +65,14 @@ export const ContentCreatePassword = () => {
                                 "error",
                             )
                         }
-                        if (response.ok && !!response?.res) {
+                        if (!response.ok) {
+                            setError("repeat_password", { message: response?.error?.message })
+                            return
+                        }
+                        if (response.ok) {
                             on({
                                 message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
                             })
-                            handleReplace("/")
                             dispatchAuthModal({ type: "SignIn" })
                             return
                         }
@@ -172,7 +176,7 @@ export const ContentCreatePassword = () => {
                                         ? "Пароли не совпадают"
                                         : errors.repeat_password.type === "minLength"
                                         ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру  и не менее 5 символов"
-                                        : ""}
+                                        : errors?.repeat_password?.message}
                                 </i>
                             ) : null}
                         </div>
