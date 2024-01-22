@@ -7,8 +7,8 @@ import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
-import { useAuth } from "@/store/hooks"
-import { serviceNotifications } from "@/services/notifications"
+import { useAuth } from "@/store"
+import { serviceNotifications } from "@/services"
 import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/NotificationsMobile/constants/navigation"
 
 export default function Notifications() {
@@ -18,9 +18,10 @@ export default function Notifications() {
     const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])
     const [waitingNotifications, setWaitingNotifications] = useState<IResponseNotifications[]>([])
 
-    const { data: dataNotifications } = useQuery({
+    const { data: dataNotifications, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
+        enabled: !!userId,
     })
 
     useEffect(() => {
@@ -30,6 +31,7 @@ export default function Notifications() {
             setStateNotifications(values)
 
             const array: IResponseNotifications[] = []
+            const arrayNotRead: number[] = []
 
             for (const item of values) {
                 if (item?.provider === "barter") {
@@ -37,10 +39,23 @@ export default function Notifications() {
                         if (item?.data?.userId !== userId) {
                             array.push(item)
                         }
-                    } else if (item?.operation === "completion-survey") {
+                    } else if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
                         array.push(item)
                     }
                 }
+                if (!item.read) {
+                    arrayNotRead.push(item.id)
+                }
+
+                const timer = setTimeout(() => {
+                    Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true }, item))).then((responses) => {
+                        if (responses.length > 0) {
+                            refetch()
+                        }
+                    })
+                })
+
+                return () => clearTimeout(timer)
             }
 
             setWaitingNotifications(array)

@@ -1,13 +1,13 @@
-import type { IBarterResponse } from "@/services/barters/types"
-import { IResponseTestimonials } from "@/services/testimonials/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IResponseTestimonials } from "@/services/testimonials/types"
 
 export interface IStateAddTestimonials {
     visible: boolean
-    barter?: IBarterResponse
-    user?: IUserResponse
+    barterId?: number
+    profile?: IGetProfileIdResponse
     threadId?: number
     testimonials?: IResponseTestimonials[]
+    notificationId?: number
 }
 
 export interface IActionAddTestimonials extends IStateAddTestimonials {}
