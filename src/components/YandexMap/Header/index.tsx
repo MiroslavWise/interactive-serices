@@ -23,6 +23,7 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         enabled: !!userId && isMobile,
+        refetchOnMount: true,
     })
 
     useEffect(() => {
