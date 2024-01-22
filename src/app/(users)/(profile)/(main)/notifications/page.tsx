@@ -53,7 +53,7 @@ export default function Notifications() {
                             refetch()
                         }
                     })
-                })
+                }, 5 * 1000)
 
                 return () => clearTimeout(timer)
             }
