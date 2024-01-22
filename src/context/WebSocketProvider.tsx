@@ -68,8 +68,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         }
 
         function barterResponse(event: IBarterResponse) {
-            console.log("%c barterResponse event: ", "color: #d0d", event)
-
             queryClient
                 .fetchQuery({
                     queryFn: () => serviceProfile.getUserId(event?.emitterId),
@@ -105,9 +103,9 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                             })
                         }
                     }
-                    refetchNotifications()
-                    refetchBarters()
                 })
+            refetchNotifications()
+            refetchBarters()
         }
 
         if (socketState && userId) {
