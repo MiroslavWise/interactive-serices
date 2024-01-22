@@ -32,6 +32,8 @@ export function NotificationsMobile() {
         const values = dataNotifications?.res
 
         if (values && userId) {
+            setStateNotifications(values)
+
             const array: IResponseNotifications[] = []
             const arrayNotRead: number[] = []
 
@@ -61,7 +63,7 @@ export function NotificationsMobile() {
 
                 return () => clearTimeout(timer)
             }
-            setStateNotifications(values)
+            
             setWaitingNotifications(array)
         }
     }, [dataNotifications?.res, userId, visible])
