@@ -1,14 +1,13 @@
 import dayjs from "dayjs"
 import { memo, useEffect, useState } from "react"
 
-import { useForgotPasswordHelper } from "@/helpers"
-import { dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store/hooks"
+import { serviceAuth } from "@/services"
+import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store"
 
 const INITIAL_TIME = 120
 
 export const TimerData = memo(function TimerData() {
     const [loading, setLoading] = useState(false)
-    const email = useModalAuth(({ email }) => email)
     const phone = useModalAuth(({ phone }) => phone)
     const time = useTimerModalAuth(({ time }) => time)
     const [timerObject, setTimerObject] = useState({
@@ -52,24 +51,24 @@ export const TimerData = memo(function TimerData() {
     }, [time])
 
     function handleRequestNew() {
-        if (!!email) {
-            useForgotPasswordHelper
-                .forgotPassword({
-                    email: email,
-                })
-                .then((response) => {
-                    if (response.ok) {
-                        if (response.res) {
-                            // dispatchAuthModalVerification({
-                            //     confirmationCode: response?.res?.password_reset_token!,
-                            //     id: response?.res?.id!,
-                            // })
+        if (!loading) {
+            setLoading(true)
+            if (!!phone) {
+                serviceAuth
+                    .phone({
+                        phone: phone,
+                    })
+                    .then((response) => {
+                        console.log("--REQUEST NEW CODE SMS PHONE---", response)
+                        if (response.ok) {
+                            dispatchStartTimer()
+                            dispatchAuthModalCodeVerification({ phone: phone, idUser: response?.res?.id! })
+                        } else {
                         }
-                    }
-                })
-        } else if (!!phone) {
+                        setLoading(false)
+                    })
+            }
         }
-        dispatchStartTimer()
     }
 
     return (
