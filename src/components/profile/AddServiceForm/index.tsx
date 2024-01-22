@@ -9,17 +9,16 @@ import type { IValuesCategories, IMainAndSubCategories } from "./types/types"
 import { Button } from "@/components/common"
 import { ItemCategory } from "./components/ItemCategory"
 
-import { usePush } from "@/helpers"
-import { serviceUser } from "@/services/users"
-import { useAuth, useOffersCategories } from "@/store/hooks"
+import { serviceUser } from "@/services"
+import { dispatchChangeService, useAuth, useChangeService, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
-export const AddServiceForm = () => {
+export const ChangeService = () => {
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
     const categories = useOffersCategories(({ categories }) => categories)
-    const { handlePush } = usePush()
+    const visible = useChangeService(({ visible }) => visible)
 
     const { register, watch, handleSubmit, setValue } = useForm<IValuesCategories>({
         defaultValues: {
@@ -85,17 +84,16 @@ export const AddServiceForm = () => {
             setLoading(true)
             if (JSON.stringify(watch("categories")?.sort()) === JSON.stringify(data?.res?.categories?.map((item) => item.id)?.sort())) {
                 setLoading(false)
-                handlePush("/profile-change")
+                dispatchChangeService({ visible: false })
             } else {
                 serviceUser.patch({ categories: watch("categories") || [] }, userId!).then((response) => {
                     if (response.ok) {
-                        refetch().then(() => {
-                            setLoading(false)
-                            handlePush(`/profile-change`)
-                        })
+                        refetch()
+                        setLoading(false)
+                        dispatchChangeService({ visible: false })
                     } else {
                         setLoading(false)
-                        handlePush(`/profile-change`)
+                        dispatchChangeService({ visible: false })
                     }
                 })
             }
@@ -103,41 +101,58 @@ export const AddServiceForm = () => {
     }
 
     return (
-        <form className={styles.form} onSubmit={onSubmit}>
-            <span>Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.</span>
-            <div data-search>
-                <input {...register("search-categories")} placeholder="Найти услугу" type="text" list="search" autoComplete="off" />
-                <img src="/svg/search-md.svg" alt="search" width={20} height={20} data-search />
-                <img
-                    src="/svg/x-close.svg"
-                    alt="clear"
-                    width={20}
-                    height={20}
-                    data-clear={!!watch("search-categories")}
-                    onClick={(event) => {
-                        event.stopPropagation()
-                        setValue("search-categories", "")
-                    }}
-                />
-                <datalist id="search">
-                    {categories.map((item) => (
-                        <option key={`::category::list::data::${item.id}::`} value={item.title} />
-                    ))}
-                </datalist>
-            </div>
-            <section {...register("categories")}>
-                {filter.map((item) => (
-                    <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={watch("categories")} />
-                ))}
+        <div className={styles.wrapper} data-active={visible} data-blur-modal>
+            <section>
+                <header>
+                    <a
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            dispatchChangeService({ visible: false })
+                        }}
+                    >
+                        <img src="/svg/arrow-left.svg" alt="<=" width={24} height={24} />
+                    </a>
+                    <h2>Добавить услуги</h2>
+                </header>
+                <ul>
+                    <form className={styles.form} onSubmit={onSubmit}>
+                        <span>Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.</span>
+                        <div data-search>
+                            <input {...register("search-categories")} placeholder="Найти услугу" type="text" list="search" autoComplete="off" />
+                            <img src="/svg/search-md.svg" alt="search" width={20} height={20} data-search />
+                            <img
+                                src="/svg/x-close.svg"
+                                alt="clear"
+                                width={20}
+                                height={20}
+                                data-clear={!!watch("search-categories")}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    setValue("search-categories", "")
+                                }}
+                            />
+                            <datalist id="search">
+                                {categories.map((item) => (
+                                    <option key={`::category::list::data::${item.id}::`} value={item.title} />
+                                ))}
+                            </datalist>
+                        </div>
+                        <section {...register("categories")}>
+                            {filter.map((item) => (
+                                <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={watch("categories")} />
+                            ))}
+                        </section>
+                        <footer>
+                            <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} />
+                            {selectedCategories?.length > 0 ? (
+                                <p>
+                                    Выбрано: <span>{selectedCategories?.map((item) => item.title)?.join(", ")}</span>
+                                </p>
+                            ) : null}
+                        </footer>
+                    </form>
+                </ul>
             </section>
-            <footer>
-                <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} />
-                {selectedCategories?.length > 0 ? (
-                    <p>
-                        Выбрано: <span>{selectedCategories?.map((item) => item.title)?.join(", ")}</span>
-                    </p>
-                ) : null}
-            </footer>
-        </form>
+        </div>
     )
 }
