@@ -141,7 +141,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                     </p>
                 )
             }
-            if (operation === "completion-recall") {
+            if (["feedback-received", "completion-recall"].includes(operation!)) {
                 return (
                     <p>
                         Пользователь{" "}
