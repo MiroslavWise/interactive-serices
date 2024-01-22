@@ -43,7 +43,7 @@ export default function Notifications() {
                         array.push(item)
                     }
                 }
-                if (!item.read) {
+                if (!item.read && typeof item.read !== "undefined") {
                     arrayNotRead.push(item.id)
                 }
 
