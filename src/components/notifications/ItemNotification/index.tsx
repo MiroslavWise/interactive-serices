@@ -205,7 +205,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 return (
                     <span data-operation={operation}>
                         <div data-img>
-                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
+                            <img src="/svg/x-red.svg" alt="check" width={16} height={16} />
                         </div>{" "}
                         Обмен не состоялся
                     </span>
