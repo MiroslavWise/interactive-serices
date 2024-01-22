@@ -15,10 +15,10 @@ import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "
 import styles from "./styles/style.module.scss"
 
 export function NotificationsMobile() {
-    const visible = useVisibleNotifications(({ visible }) => visible)
     const userId = useAuth(({ userId }) => userId)
-    const [status, setStatus] = useState<TTypeWaiting>("all")
+    const visible = useVisibleNotifications(({ visible }) => visible)
 
+    const [status, setStatus] = useState<TTypeWaiting>("all")
     const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])
     const [waitingNotifications, setWaitingNotifications] = useState<IResponseNotifications[]>([])
 
@@ -32,8 +32,6 @@ export function NotificationsMobile() {
         const values = dataNotifications?.res
 
         if (values && userId) {
-            setStateNotifications(values)
-
             const array: IResponseNotifications[] = []
             const arrayNotRead: number[] = []
 
@@ -53,7 +51,7 @@ export function NotificationsMobile() {
 
                 const timer = setTimeout(() => {
                     if (arrayNotRead?.length > 0) {
-                        Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled:true }, item))).then((responses) => {
+                        Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled: true }, item))).then((responses) => {
                             if (responses.length > 0) {
                                 refetch()
                             }
@@ -63,10 +61,10 @@ export function NotificationsMobile() {
 
                 return () => clearTimeout(timer)
             }
-
+            setStateNotifications(values)
             setWaitingNotifications(array)
         }
-    }, [dataNotifications?.res, userId])
+    }, [dataNotifications?.res, userId, visible])
 
     const maps = dataNotifications?.res || []
 

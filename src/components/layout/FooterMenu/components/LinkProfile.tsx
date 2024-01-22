@@ -13,7 +13,7 @@ export const LinkProfile = memo(function LinkProfile() {
     const handleAuthModal = useSign()
     const isAuth = useAuth(({ isAuth }) => isAuth)
 
-    const isActive = pathname === ITEMS_LINK_FOOTER.profile
+    const isActive = pathname.includes(ITEMS_LINK_FOOTER.profile)
 
     return (
         <Link

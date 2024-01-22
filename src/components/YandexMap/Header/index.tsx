@@ -1,18 +1,19 @@
 "use client"
 
+import { flushSync } from "react-dom"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { THeaderMobile } from "./types"
 
-import { SearchElementMap } from "@/components/common/Inputs"
+import { SearchElementMap } from "@/components/common"
 
-import { serviceNotifications } from "@/services/notifications"
-import { dispatchVisibleNotifications, useAuth } from "@/store/hooks"
+import { serviceNotifications } from "@/services"
+import { dispatchVisibleNotifications, useAuth } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { useEffect, useState } from "react"
 
 export const Header: THeaderMobile = ({ handleAddressLocation }) => {
     const token = useAuth(({ token }) => token)
@@ -22,6 +23,7 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         enabled: !!userId && isMobile,
+        refetchOnMount: true,
     })
 
     useEffect(() => {
@@ -32,7 +34,9 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
                     count += 1
                 }
             }
-            setCount(count || null)
+            flushSync(() => {
+                setCount(count || null)
+            })
         }
     }, [dataNotifications?.res])
 

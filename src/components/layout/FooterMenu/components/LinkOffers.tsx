@@ -27,7 +27,7 @@ export const LinkOffers = memo(function LinkOffers() {
         refetchOnMount: true,
     })
 
-    const isActive = pathname === ITEMS_LINK_FOOTER.offers
+    const isActive = pathname.includes(ITEMS_LINK_FOOTER.offers)
 
     return (
         <Link

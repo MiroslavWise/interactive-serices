@@ -76,7 +76,7 @@ export const useToast = () => {
         return toast(Message, {
             toastId: Math.random(),
             position: isMobile ? "bottom-center" : "bottom-left",
-            autoClose: false,
+            autoClose: 7 * 1_000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
