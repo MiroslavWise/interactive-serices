@@ -25,9 +25,9 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
 }
 
 export const ItemNotification = (props: IResponseNotifications) => {
+    const { created, provider, operation, data, id, read } = props ?? {}
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
-    const { created, provider, operation, data, id } = props ?? {}
 
     const idUser = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
 
@@ -299,7 +299,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
 
     return (
-        <li className={styles.container} data-type={type} data-active={false}>
+        <li className={styles.container} data-type={type} data-active={read}>
             <div data-avatar>
                 {currentType === "barter" ? (
                     <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />

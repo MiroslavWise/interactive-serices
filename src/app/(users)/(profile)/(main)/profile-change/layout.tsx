@@ -1,6 +1,8 @@
 import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
+import { ChangeService } from "@/components/profile"
+
 import styles from "./layout.module.scss"
 
 export const metadata: Metadata = {
@@ -26,6 +28,7 @@ export default function LayoutChange({ children }: { children: ReactNode }) {
     return (
         <div className={styles.wrapper} data-blur-modal>
             {children}
+            <ChangeService />
         </div>
     )
 }
