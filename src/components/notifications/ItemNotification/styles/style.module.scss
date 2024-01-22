@@ -261,13 +261,11 @@
                     }
                 }
 
-                &[data-operation="completion-yes"] {
+                &[data-operation="completion-yes"],
+                &[data-operation="feedback-received"] {
                     color: var(--text-accent);
                 }
                 &[data-operation="completion-no"] {
-                    color: var(--gray-500);
-                }
-                &[data-operation="feedback-received"] {
                     color: var(--gray-500);
                 }
             }

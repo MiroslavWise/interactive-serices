@@ -242,7 +242,14 @@ export const ItemNotification = (props: IResponseNotifications) => {
                     </span>
                 )
             } else if (operation === "feedback-received") {
-                return <span data-operation={operation}>Отзыв оставлен</span>
+                return (
+                    <span data-operation={operation}>
+                        <div data-img>
+                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
+                        </div>{" "}
+                        Вы оставили отзыв
+                    </span>
+                )
             }
         }
 
