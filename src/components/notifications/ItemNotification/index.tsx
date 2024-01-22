@@ -158,6 +158,23 @@ export const ItemNotification = (props: IResponseNotifications) => {
                     </p>
                 )
             }
+            if (operation === "completion-recall-no") {
+                return (
+                    <p>
+                        Пользователь{" "}
+                        <Link
+                            href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                dispatchVisibleNotifications(false)
+                            }}
+                        >
+                            {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                        </Link>{" "}
+                        подтвердил, что обмен не состоялся. Вы можете рассказать как все прошло в отзывах.
+                    </p>
+                )
+            }
             if (operation === "accepted") {
                 return (
                     <p>
