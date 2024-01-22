@@ -163,7 +163,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     )
                 }
-            } else if (["completion-survey"].includes(operation!) && ["completed", "executed"].includes(data?.status!)) {
+            } else if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
                 return (
                     <>
                         <Button
@@ -190,8 +190,26 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     </>
                 )
-            } else if (operation === "completion-recall" && ["completed"].includes(data?.status!)) {
+            } else if (["completion-recall", "completion-recall-no"].includes(operation!) && ["completed", "destroyed"].includes(data?.status!)) {
                 return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
+            } else if (operation === "completion-yes") {
+                return (
+                    <span data-operation={operation}>
+                        <div data-img>
+                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
+                        </div>{" "}
+                        Обмен состоялся
+                    </span>
+                )
+            } else if (operation === "completion-no") {
+                return (
+                    <span data-operation={operation}>
+                        <div data-img>
+                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
+                        </div>{" "}
+                        Обмен не состоялся
+                    </span>
+                )
             }
         }
 
