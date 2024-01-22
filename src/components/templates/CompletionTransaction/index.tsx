@@ -98,22 +98,13 @@ export const CompletionTransaction = () => {
                     status: "published",
                     enabled: true,
                 }),
-                isLastFeedback ? serviceThreads.patch({ enabled: true }, threadId!) : Promise.resolve({ ok: true }),
                 !!notificationId
                     ? serviceNotifications.patch({ operation: "feedback-received", enabled: true }, notificationId)
                     : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
                 if (responses?.some((item) => item.ok)) {
                     const message = isLastFeedback ? "last" : "not-last"
-                    socket?.emit("barter", {
-                        receiverIds: [profile?.userId],
-                        message: message,
-                        barterId: barterId!,
-                        emitterId: userId!,
-                        status: "completed",
-                        threadId: threadId!,
-                        created: new Date(),
-                    })
+                    
                     flushSync(async () => {
                         Promise.all([refetchBarters(), refetchTestimonials(), refetchThread(), refetchNotifications()]).then(() => {
                             setLoading(false)
