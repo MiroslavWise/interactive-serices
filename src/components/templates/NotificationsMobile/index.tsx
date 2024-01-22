@@ -64,7 +64,7 @@ export function NotificationsMobile() {
             setStateNotifications(values)
             setWaitingNotifications(array)
         }
-    }, [dataNotifications?.res, userId])
+    }, [dataNotifications?.res, userId, visible])
 
     const maps = dataNotifications?.res || []
 
