@@ -93,15 +93,6 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                                 threadId: event?.threadId,
                             })
                         }
-
-                        if (event.status === "completed") {
-                            onBarters({
-                                title: "Обмен завершён",
-                                message: ``,
-                                status: event?.status,
-                                threadId: event?.threadId,
-                            })
-                        }
                     }
                 })
             refetchNotifications()
