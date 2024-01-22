@@ -13,17 +13,10 @@ import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/componen
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
+import { serviceProfile } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { serviceUser } from "@/services/users"
 import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
-import {
-    dispatchBallonDiscussion,
-    dispatchBallonOffer,
-    useBalloonCard,
-    useMapCoordinates,
-    useOffersCategories,
-    useProfilePublic,
-} from "@/store/hooks"
+import { dispatchBallonDiscussion, dispatchBallonOffer, useBalloonCard, useMapCoordinates, useOffersCategories, useProfilePublic } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -35,9 +28,9 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
     const { createGallery } = usePhotoVisible()
     const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
-    const { data: dataUser } = useQuery({
-        queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", { userId: id }],
+    const { data: dataProfile } = useQuery({
+        queryFn: () => serviceProfile.getUserId(userId!),
+        queryKey: ["profile", userId!],
         enabled: !!userId,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -61,9 +54,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     }, [provider, categoryId])
 
     const categoryOffer: string | null =
-        ["request", "offer"].includes(provider) && categoryId && categories.length
-            ? categories.find((item) => Number(item.id) === Number(categoryId))?.title!
-            : null
+        ["offer"].includes(provider) && categoryId && categories.length ? categories.find((item) => Number(item.id) === Number(categoryId))?.title! : null
 
     function handle() {
         const [address] = addresses
@@ -101,9 +92,9 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
         if (images?.length) {
             createGallery(data, images, images[0], 0, {
                 title: data?.title!,
-                name: `${dataUser?.res?.profile?.firstName || ""} ${dataUser?.res?.profile?.lastName || ""}`,
-                urlPhoto: dataUser?.res?.profile?.image?.attributes?.url!,
-                idUser: dataUser?.res?.id!,
+                name: `${dataProfile?.res?.firstName || ""} ${dataProfile?.res?.lastName || ""}`,
+                urlPhoto: dataProfile?.res?.image?.attributes?.url!,
+                idUser: dataProfile?.res?.id!,
                 time: data?.updated!,
             })
         }
@@ -146,13 +137,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                         data-not-image={images?.length === 0}
                     >
                         <div data-r />
-                        <NextImageMotion
-                            data-avatar
-                            src={dataUser?.res?.profile?.image?.attributes?.url!}
-                            alt="avatar"
-                            width={42}
-                            height={42}
-                        />
+                        <NextImageMotion data-avatar src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={42} height={42} />
                     </div>
                     <div
                         data-info
@@ -162,7 +147,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                         }}
                     >
                         <p>
-                            {dataUser?.res?.profile?.firstName || " "} {dataUser?.res?.profile?.lastName || " "}
+                            {dataProfile?.res?.firstName || " "} {dataProfile?.res?.lastName || " "}
                         </p>
                         {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
                     </div>

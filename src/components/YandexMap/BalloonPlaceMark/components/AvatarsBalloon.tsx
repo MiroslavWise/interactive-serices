@@ -41,7 +41,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
 
     const users = Array.from(new Set([...currentComments.map((item) => item?.userId)]))
 
-    const dataUsers = useQueries({
+    const dataProfiles = useQueries({
         queries: users.map((item) => ({
             queryFn: () => serviceProfile.getUserId(item!),
             queryKey: ["profile", item],
@@ -50,8 +50,8 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
     })
 
     const usersAvatar = useMemo(() => {
-        if (dataUsers.every((item) => !item?.isLoading)) {
-            return dataUsers
+        if (dataProfiles.every((item) => !item?.isLoading)) {
+            return dataProfiles
                 ?.filter((item) => !!item?.data?.res?.image)
                 ?.map((item) => ({
                     url: item?.data?.res?.image?.attributes?.url!,
@@ -59,7 +59,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
                 }))
         }
         return null
-    }, [dataUsers])
+    }, [dataProfiles])
 
     function handleUser(idUser: number) {
         if (isMobile) {
@@ -79,14 +79,7 @@ export const AvatarsBalloon: TAvatarsBalloon = ({ offerId }) => {
                 ? usersAvatar
                       .slice(0, 6)
                       .map((item, index) => (
-                          <NextImageMotion
-                              onClick={() => handleUser(item?.id!)}
-                              key={item.id! + index}
-                              src={item.url!}
-                              alt="avatar"
-                              height={42}
-                              width={42}
-                          />
+                          <NextImageMotion onClick={() => handleUser(item?.id!)} key={item.id! + index} src={item.url!} alt="avatar" height={42} width={42} />
                       ))
                 : null}
         </ul>

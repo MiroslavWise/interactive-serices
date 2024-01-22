@@ -28,30 +28,30 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({ user
         return data?.res?.map((item) => item?.id!)
     }, [data?.res])
 
-    const dataUsers = useQueries({
+    const dataProfiles = useQueries({
         queries: !!peoples
             ? peoples.map((item) => ({
                   queryFn: () => serviceProfile.getUserId(item!),
-                  queryKey: ["user", item!],
+                  queryKey: ["profile", item!],
                   enabled: !!peoples && !!item,
               }))
             : [],
     })
 
     const profiles = useMemo(() => {
-        if (dataUsers?.every((item) => !!item?.data?.res)) {
-            return dataUsers?.map((item) => ({
+        if (dataProfiles?.every((item) => !!item?.data?.res)) {
+            return dataProfiles?.map((item) => ({
                 id: item?.data?.res?.userId,
                 photo: item?.data?.res?.image?.attributes?.url!,
             }))
         }
 
         return null
-    }, [dataUsers])
+    }, [dataProfiles])
 
     const isLoader = useMemo(() => {
-        return dataUsers.some((item) => item.isLoading)
-    }, [dataUsers])
+        return dataProfiles.some((item) => item.isLoading)
+    }, [dataProfiles])
 
     return (
         <BlockOther label="Круг общения">

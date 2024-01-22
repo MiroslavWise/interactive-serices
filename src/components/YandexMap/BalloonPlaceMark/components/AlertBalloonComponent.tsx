@@ -21,9 +21,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
     const userId = useAuth(({ userId }) => userId)
     const { handlePush } = usePush()
     const { createGallery } = usePhotoVisible()
-    const dispatchProfilePublic = useProfilePublic(
-        ({ dispatchProfilePublic }) => dispatchProfilePublic,
-    )
+    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
     const id = useBalloonCard(({ id }) => id)
     const idUser = useBalloonCard(({ idUser }) => idUser)
     const type = useBalloonCard(({ type }) => type)
@@ -34,11 +32,13 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
             {
                 queryFn: () => serviceOffers.getId(Number(id!)),
                 queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
+                enabled: !!id,
                 refetchOnMount: false,
             },
             {
-                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryFn: () => serviceProfile.getUserId(idUser!),
                 queryKey: ["profile", idUser!],
+                enabled: !!idUser,
                 refetchOnMount: false,
             },
         ],
@@ -66,18 +66,8 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
 
     return (
         <>
-            <ImageStatic
-                src="/map/circle-alert.png"
-                alt="circle-alert"
-                width={61}
-                height={61}
-                data-logo-ballon
-            />
-            <header data-alert>
-                {Number(userId) !== Number(idUser) ? (
-                    <ButtonCanHelp id={id!} idUser={idUser!} />
-                ) : null}
-            </header>
+            <ImageStatic src="/map/circle-alert.png" alt="circle-alert" width={61} height={61} data-logo-ballon />
+            <header data-alert>{Number(userId) !== Number(idUser) ? <ButtonCanHelp id={id!} idUser={idUser!} /> : null}</header>
             <div data-container-balloon data-alert>
                 <div data-info-profile>
                     <div
@@ -99,40 +89,25 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
                         />
                         <div data-name-rate>
                             <p>
-                                {dataProfile?.res?.firstName}{" "}
-                                {dataProfile?.res?.lastName}
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                             </p>
                         </div>
                     </div>
                     <p data-date-updated>{daysAgo(data?.res?.updated!)}</p>
                 </div>
                 <h3>{data?.res?.title}</h3>
-                {Array.isArray(data?.res?.images) &&
-                data?.res?.images?.length ? (
+                {Array.isArray(data?.res?.images) && data?.res?.images?.length ? (
                     <ul>
                         {data?.res?.images?.slice(0, 4)?.map((item, index) => (
                             <NextImageMotion
                                 onClick={() => {
-                                    createGallery(
-                                        data?.res!,
-                                        data?.res?.images!,
-                                        item,
-                                        index,
-                                        {
-                                            title: data?.res?.title!,
-                                            name: `${
-                                                dataProfile?.res?.firstName ||
-                                                ""
-                                            } ${
-                                                dataProfile?.res?.lastName || ""
-                                            }`,
-                                            urlPhoto:
-                                                dataProfile?.res?.image
-                                                    ?.attributes?.url!,
-                                            idUser: dataProfile?.res?.userId!,
-                                            time: data?.res?.updated!,
-                                        },
-                                    )
+                                    createGallery(data?.res!, data?.res?.images!, item, index, {
+                                        title: data?.res?.title!,
+                                        name: `${dataProfile?.res?.firstName || ""} ${dataProfile?.res?.lastName || ""}`,
+                                        urlPhoto: dataProfile?.res?.image?.attributes?.url!,
+                                        idUser: dataProfile?.res?.userId!,
+                                        time: data?.res?.updated!,
+                                    })
                                 }}
                                 key={`${item?.id}-image-offer`}
                                 src={item?.attributes?.url}

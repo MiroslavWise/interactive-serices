@@ -33,17 +33,13 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                 refetchOnMount: false,
             },
             {
-                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryFn: () => serviceProfile.getUserId(idUser!),
                 queryKey: ["profile", idUser!],
-                enabled: !!idUser!,
+                enabled: !!idUser,
                 refetchOnMount: false,
             },
         ],
     })
-
-    const categoryTitle: string = useMemo(() => {
-        return categories?.find((item) => Number(item.id) === Number(data?.res?.categoryId))?.title || ""
-    }, [categories, data?.res])
 
     function handleProfile() {
         if (isMobile) {

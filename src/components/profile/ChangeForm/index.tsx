@@ -53,15 +53,11 @@ export const ChangeForm = () => {
         formState: { errors },
     } = useForm<IValuesForm>({ defaultValues: {} })
 
-    const [{ data, refetch }, {
-        data: dataProfile,
-        refetch: refetchProfile,
-        isLoading,
-    }] = useQueries({
+    const [{ data, refetch }, { data: dataProfile, refetch: refetchProfile, isLoading }] = useQueries({
         queries: [
             {
                 queryFn: () => serviceUser.get(),
-                queryKey: ["user", {userId: userId}],
+                queryKey: ["user", { userId: userId }],
                 enabled: !!userId!,
                 refetchOnMount: true,
                 refetchOnReconnect: true,
@@ -72,8 +68,8 @@ export const ChangeForm = () => {
                 enabled: !!userId,
                 refetchOnMount: true,
                 refetchOnReconnect: true,
-            }
-        ]
+            },
+        ],
     })
 
     const { res } = data ?? {}
