@@ -91,12 +91,12 @@ export const Containers = () => {
                     <NewServicesBanner />
                     <NewServiceBarterRequests />
                     {visibleFriends && <DroverFriends />}
+                    {isMobile && <NotificationsMobile />}
                     {isMobile && <ExchangesModalMobile />}
                     {isVisible && <CreateNewOptionModal />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}
                     {visibleTestimonials && <CompletionTransaction />}
                     {visibleReciprocalExchange && <ReciprocalExchange />}
-                    {isMobile && visibleNotifications && <NotificationsMobile />}
                 </>
             )}
         </>
