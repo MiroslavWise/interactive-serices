@@ -12,15 +12,29 @@ import { serviceNotifications } from "@/services/notifications"
 import { dispatchVisibleNotifications, useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
+import { useEffect, useState } from "react"
 
 export const Header: THeaderMobile = ({ handleAddressLocation }) => {
     const token = useAuth(({ token }) => token)
     const userId = useAuth(({ userId }) => userId)
+    const [count, setCount] = useState<number | null>(null)
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
-        enabled: !!userId,
+        enabled: !!userId && isMobile,
     })
+
+    useEffect(() => {
+        if (dataNotifications?.res && dataNotifications?.res?.length > 0) {
+            let count = 0
+            for (const item of dataNotifications?.res) {
+                if (!item.read) {
+                    count += 1
+                }
+            }
+            setCount(count || null)
+        }
+    }, [dataNotifications?.res])
 
     return isMobile ? (
         <motion.div
@@ -36,9 +50,9 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
                     {!!token ? (
                         <div className={styles.containerNotification} onClick={() => dispatchVisibleNotifications(true)}>
                             <img src="/svg/bell.svg" alt="bell" width={22} height={22} />
-                            {dataNotifications?.res?.length ? (
+                            {count ? (
                                 <div className={styles.badge}>
-                                    <span>{dataNotifications?.res?.length || 0}</span>
+                                    <span>{count > 9 ? "9+" : count}</span>
                                 </div>
                             ) : null}
                         </div>

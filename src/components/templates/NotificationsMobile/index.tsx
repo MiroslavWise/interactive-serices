@@ -1,14 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+
+import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
 import { cx } from "@/lib/cx"
-import { serviceNotifications } from "@/services/notifications"
+import { serviceNotifications } from "@/services"
 import { type TTypeWaiting, NAVIGATION_STATUSES } from "./constants/navigation"
-import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "@/store/hooks"
+import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -17,11 +19,54 @@ export function NotificationsMobile() {
     const userId = useAuth(({ userId }) => userId)
     const [status, setStatus] = useState<TTypeWaiting>("all")
 
-    const { data: dataNotifications } = useQuery({
+    const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])
+    const [waitingNotifications, setWaitingNotifications] = useState<IResponseNotifications[]>([])
+
+    const { data: dataNotifications, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         enabled: !!userId,
     })
+
+    useEffect(() => {
+        const values = dataNotifications?.res
+
+        if (values && userId) {
+            setStateNotifications(values)
+
+            const array: IResponseNotifications[] = []
+            const arrayNotRead: number[] = []
+
+            for (const item of values) {
+                if (item?.provider === "barter") {
+                    if (item?.data?.status === "initiated") {
+                        if (item?.data?.userId !== userId) {
+                            array.push(item)
+                        }
+                    } else if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
+                        array.push(item)
+                    }
+                }
+                if (!item.read) {
+                    arrayNotRead.push(item.id)
+                }
+
+                const timer = setTimeout(() => {
+                    if (arrayNotRead?.length > 0) {
+                        Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true }, item))).then((responses) => {
+                            if (responses.length > 0) {
+                                refetch()
+                            }
+                        })
+                    }
+                })
+
+                return () => clearTimeout(timer)
+            }
+
+            setWaitingNotifications(array)
+        }
+    }, [dataNotifications?.res, userId])
 
     const maps = dataNotifications?.res || []
 
@@ -50,16 +95,25 @@ export function NotificationsMobile() {
                         ))}
                     </nav>
                 ) : null}
-                {maps.length ? (
+                {!!stateNotifications?.length && status === "all" ? (
                     <ul>
-                        {maps.map((item) => (
-                            <ItemNotification key={`::${item.id}::notification::`} {...item} />
+                        {stateNotifications?.map((item) => (
+                            <ItemNotification key={`::notification::all:${item.id}::`} {...item} />
+                        ))}
+                    </ul>
+                ) : !!waitingNotifications?.length && status === "waiting" ? (
+                    <ul>
+                        {waitingNotifications?.map((item) => (
+                            <ItemNotification key={`::notification::waiting::${item.id}::`} {...item} />
                         ))}
                     </ul>
                 ) : (
                     <article>
                         <h3>У вас пока нет уведомлений</h3>
-                        <p>Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое.</p>
+                        <p>
+                            Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое. Вы будете
+                            проинформированы обо всем важном.
+                        </p>
                     </article>
                 )}
             </section>

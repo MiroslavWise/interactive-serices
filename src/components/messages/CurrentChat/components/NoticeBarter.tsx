@@ -113,8 +113,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
     function handleCompleted() {
         dispatchAddTestimonials({
             visible: true,
-            barter: data?.res!,
-            user: userData!,
+            profile: userData?.profile!,
+            barterId: idBarter!,
             threadId: Number(threadId),
             testimonials: dataTestimonials?.res!,
         })

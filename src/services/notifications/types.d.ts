@@ -2,10 +2,19 @@ import { IBarterResponse } from "../barters/types"
 import { TTypeStatusBarter } from "../file-upload/types"
 import type { IReturnData, TOrder } from "../types/general"
 
-export type TTypeOperation = "create" | "completion-survey" | "completion-yes" | "completion-no" | "completion-recall" | "accepted" | "completion-recall-no"
+export type TTypeOperation =
+    | "create"
+    | "completion-survey"
+    | "completion-yes"
+    | "completion-no"
+    | "completion-recall"
+    | "accepted"
+    | "completion-recall-no"
+    | "feedback-received"
 export type TTypeProviderNotifications = "barter"
 
 export interface IPostNotification {
+    read: boolean
     enabled: boolean
     operation?: TTypeOperation
 }
@@ -24,6 +33,8 @@ export interface IResponseNotifications {
     created: string
     updated: string
     provider: TTypeProviderNotifications
+    read: boolean
+    sent: boolean
 }
 
 interface IQueries {

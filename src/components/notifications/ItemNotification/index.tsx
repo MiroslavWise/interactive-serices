@@ -10,8 +10,8 @@ import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { useAuth, dispatchVisibleNotifications } from "@/store"
-import { serviceBarters, serviceNotifications, serviceProfile, serviceUser } from "@/services"
+import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials } from "@/store"
+import { serviceBarters, serviceNotifications, serviceProfile, serviceTestimonials, serviceUser } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -42,6 +42,33 @@ export const ItemNotification = (props: IResponseNotifications) => {
         queryKey: ["notifications", { userId: userId }],
         enabled: false,
     })
+
+    const offerId: number | null = useMemo(() => {
+        if (!data || !userId) {
+            return null
+        }
+        if (Number(data?.initiator?.userId) === Number(userId)) {
+            return Number(data?.consignedId)
+        } else {
+            return Number(data?.initialId)
+        }
+    }, [data, userId])
+
+    const { data: dataTestimonials } = useQuery({
+        queryFn: () =>
+            serviceTestimonials.get({
+                target: offerId!,
+                provider: "offer",
+                barter: data?.id!,
+            }),
+        queryKey: ["testimonials", `barter=${data?.id}`, `offer=${offerId!}`],
+        enabled:
+            ["executed", "destroyed", "completed"]?.includes(data?.status!) && !!offerId && ["completion-recall-no", "completion-recall"].includes(operation!),
+    })
+
+    const isFeedback = useMemo(() => {
+        return dataTestimonials?.res?.some((item) => item?.userId === userId && item?.barterId === data?.id)
+    }, [userId, data?.id, dataTestimonials?.res])
 
     const type: TTypeIconNotification = useMemo(() => {
         switch (provider) {
@@ -190,7 +217,11 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     </>
                 )
-            } else if (["completion-recall", "completion-recall-no"].includes(operation!) && ["completed", "destroyed"].includes(data?.status!)) {
+            } else if (
+                ["completion-recall", "completion-recall-no"].includes(operation!) &&
+                ["completed", "destroyed"].includes(data?.status!) &&
+                isFeedback === false
+            ) {
                 return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
             } else if (operation === "completion-yes") {
                 return (
@@ -210,11 +241,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         Обмен не состоялся
                     </span>
                 )
+            } else if (operation === "feedback-received") {
+                return <span data-operation={operation}>Отзыв оставлен</span>
             }
         }
 
         return null
-    }, [data, provider, userId, dataProfile, operation, loading])
+    }, [data, provider, userId, dataProfile, operation, loading, isFeedback])
 
     function handleCompletion(value: boolean) {
         if (!loading) {
@@ -230,7 +263,16 @@ export const ItemNotification = (props: IResponseNotifications) => {
         }
     }
 
-    function handleRecall() {}
+    function handleRecall() {
+        dispatchAddTestimonials({
+            visible: true,
+            profile: dataProfile?.res!,
+            threadId: data?.threadId!,
+            barterId: data?.id!,
+            testimonials: dataTestimonials?.res!,
+            notificationId: id!,
+        })
+    }
 
     return (
         <li className={styles.container} data-type={type} data-active={false}>
@@ -245,7 +287,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 <article>
                     {text}
                     <time dateTime={created}>{daysAgo(dayjs(created).format()!)} назад</time>
-                    <ButtonsDots id={id} refetch={refetch} />
+                    <ButtonsDots id={id} refetch={refetch} disabled={["completion-recall", "completion-recall-no", "completion-survey"].includes(operation!)} />
                 </article>
                 <div data-buttons>{buttons}</div>
             </section>

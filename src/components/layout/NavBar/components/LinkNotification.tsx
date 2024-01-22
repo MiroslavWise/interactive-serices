@@ -1,15 +1,16 @@
 import Link from "next/link"
-import { memo } from "react"
+import { memo, useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth } from "@/store"
+import { serviceNotifications } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
-import { serviceNotifications } from "@/services/notifications"
 import { ItemNotification } from "@/components/notifications"
 
 export const LinkNotification = memo(function LinkNotification() {
     const pathname = usePathname()
+    const [count, setCount] = useState<number | null>(null)
     const [active, setActive, ref] = useOutsideClickEvent()
     const userId = useAuth(({ userId }) => userId)
 
@@ -21,6 +22,18 @@ export const LinkNotification = memo(function LinkNotification() {
         refetchOnReconnect: true,
         enabled: !!userId,
     })
+
+    useEffect(() => {
+        if (data?.res && data?.res?.length > 0) {
+            let count = 0
+            for (const item of data?.res) {
+                if (!item.read) {
+                    count += 1
+                }
+            }
+            setCount(count || null)
+        }
+    }, [data?.res])
 
     return (
         <a
@@ -35,9 +48,9 @@ export const LinkNotification = memo(function LinkNotification() {
         >
             <img src="/icons/mobile/fill/bell-fill.svg" alt="bell" width={24} height={24} />
             <span>Уведомления</span>
-            {data?.res?.length ? (
+            {count ? (
                 <div data-count>
-                    <span>{data?.res?.length > 9 ? "9+" : data?.res?.length || 0}</span>
+                    <span>{count > 9 ? "9+" : count}</span>
                 </div>
             ) : null}
 
