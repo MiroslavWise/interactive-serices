@@ -48,7 +48,7 @@ export default function Notifications() {
                 }
 
                 const timer = setTimeout(() => {
-                    Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true }, item))).then((responses) => {
+                    Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled: true }, item))).then((responses) => {
                         if (responses.length > 0) {
                             refetch()
                         }
