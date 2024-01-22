@@ -59,7 +59,7 @@ export function NotificationsMobile() {
                             }
                         })
                     }
-                })
+                }, 5 * 1000)
 
                 return () => clearTimeout(timer)
             }
