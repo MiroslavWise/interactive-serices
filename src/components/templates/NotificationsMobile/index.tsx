@@ -43,7 +43,8 @@ export function NotificationsMobile() {
                         if (item?.data?.userId !== userId) {
                             array.push(item)
                         }
-                    } else if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
+                    }
+                    if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
                         array.push(item)
                     }
                 }
@@ -63,7 +64,7 @@ export function NotificationsMobile() {
 
                 return () => clearTimeout(timer)
             }
-            
+
             setWaitingNotifications(array)
         }
     }, [dataNotifications?.res, userId, visible])

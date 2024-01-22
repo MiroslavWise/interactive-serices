@@ -39,7 +39,8 @@ export default function Notifications() {
                         if (item?.data?.userId !== userId) {
                             array.push(item)
                         }
-                    } else if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
+                    }
+                    if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
                         array.push(item)
                     }
                 }

@@ -68,6 +68,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         }
 
         function barterResponse(event: IBarterResponse) {
+            console.log("%c barterResponse", "color: blue; font-size: 1.5rem;", event)
             queryClient
                 .fetchQuery({
                     queryFn: () => serviceProfile.getUserId(event?.emitterId),
