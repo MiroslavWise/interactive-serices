@@ -3,10 +3,10 @@ import { Controller, useForm } from "react-hook-form"
 
 import { Button } from "@/components/common"
 
+import { RegistrationService } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
-import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store/hooks"
+import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -34,6 +34,8 @@ export const ContentCreatePassword = () => {
         },
     })
 
+    console.log("errors: ", errors)
+
     function onEnter(values: IValues) {
         if (!loading) {
             setLoading(true)
@@ -46,7 +48,6 @@ export const ContentCreatePassword = () => {
                     })
                     .then((response) => {
                         if (response.code === 400) {
-                            setError("password", { message: "no_repeat" })
                             setError("repeat_password", { message: "no_repeat" })
                             return
                         }
@@ -64,12 +65,9 @@ export const ContentCreatePassword = () => {
                             )
                         }
                         if (response.ok && !!response?.res) {
-                            on(
-                                {
-                                    message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
-                                },
-                                "success",
-                            )
+                            on({
+                                message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
+                            })
                             handleReplace("/")
                             dispatchAuthModal({ type: "SignIn" })
                             return
@@ -81,6 +79,11 @@ export const ContentCreatePassword = () => {
                 return
             }
             if (!!email && typeEmailOrPhone === "email") {
+                if (values.password !== values.repeat_password) {
+                    setError("repeat_password", { message: "Пароли не совпадают" })
+                    setLoading(false)
+                    return
+                }
                 RegistrationService.registration({
                     email: email,
                     password: values.password!,
@@ -141,17 +144,17 @@ export const ContentCreatePassword = () => {
                         </i>
                     ) : null}
                 </div>
-                <div data-label-input data-password>
-                    <label htmlFor="repeat_password">Подтвердите пароль</label>
-                    <Controller
-                        name="repeat_password"
-                        control={control}
-                        rules={{
-                            required: true,
-                            minLength: 5,
-                            validate: (value) => (value === watch("repeat_password") ? true : "no_repeat"),
-                        }}
-                        render={({ field }) => (
+                <Controller
+                    name="repeat_password"
+                    control={control}
+                    rules={{
+                        required: true,
+                        minLength: 5,
+                        validate: (value) => value === watch("password"),
+                    }}
+                    render={({ field }) => (
+                        <div data-label-input data-password>
+                            <label htmlFor={field.name}>Подтвердите пароль</label>
                             <div>
                                 <input {...field} placeholder="Введите пароль еще раз" type={isPass ? "text" : "password"} />
                                 <img
@@ -163,18 +166,18 @@ export const ContentCreatePassword = () => {
                                     data-eye
                                 />
                             </div>
-                        )}
-                    />
-                    {errors.repeat_password ? (
-                        <i>
-                            {errors?.repeat_password && errors?.repeat_password?.message === "no_repeat"
-                                ? "Пароли не совпадают"
-                                : errors?.repeat_password
-                                ? "Требуется пароль"
-                                : ""}
-                        </i>
-                    ) : null}
-                </div>
+                            {errors.repeat_password ? (
+                                <i>
+                                    {errors?.repeat_password?.type === "validate"
+                                        ? "Пароли не совпадают"
+                                        : errors.repeat_password.type === "minLength"
+                                        ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру  и не менее 5 символов"
+                                        : ""}
+                                </i>
+                            ) : null}
+                        </div>
+                    )}
+                />
                 <Button style={{ marginTop: "1rem" }} type="submit" typeButton="fill-primary" label="Продолжить" />
             </form>
         </div>

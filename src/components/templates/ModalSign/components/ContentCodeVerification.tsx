@@ -8,8 +8,8 @@ import type { TContentCodeVerification } from "../types/types"
 import { TimerData } from "./TimerData"
 import { Button } from "@/components/common"
 
-import { serviceAuth } from "@/services/auth"
-import { dispatchAuthModal, useAuth, useModalAuth } from "@/store/hooks"
+import { serviceAuth } from "@/services"
+import { dispatchAuthModal, useAuth, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -46,7 +46,6 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
                     id: idUser!,
                 })
                 .then((response) => {
-                    console.log("response: serviceAuth: sms: ", response)
                     if (response.ok) {
                         if (response?.res) {
                             dispatchAuthModal({
@@ -109,14 +108,7 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
                     <TimerData />
                 </section>
                 <footer data-buttons>
-                    <Button
-                        type="button"
-                        typeButton="regular-primary"
-                        label="Изменить номер"
-                        onClick={handleChange}
-                        loading={loading}
-                        disabled={loading}
-                    />
+                    <Button type="button" typeButton="regular-primary" label="Изменить номер" onClick={handleChange} loading={loading} disabled={loading} />
                     <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} disabled={loading} />
                 </footer>
             </form>
