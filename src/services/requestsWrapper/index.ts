@@ -1,7 +1,7 @@
 import { URL_API } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import type { IWrapperFetch } from "./types/wrapperFetch"
-import { IBarterResponse } from "../barters/types"
+// import type { IBarterResponse } from "../barters/types"
 
 export const wrapperFetch: IWrapperFetch = {
     returnData(response) {
@@ -205,7 +205,7 @@ class wrapperRequest {
     }
 }
 
-let barter!: IBarterResponse
+// let barter!: IBarterResponse
 
 //delete feature
 

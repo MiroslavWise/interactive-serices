@@ -299,7 +299,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
 
     return (
-        <li className={styles.container} data-type={type} data-active={read}>
+        <li className={styles.container} data-type={type} data-active={!read}>
             <div data-avatar>
                 {currentType === "barter" ? (
                     <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
