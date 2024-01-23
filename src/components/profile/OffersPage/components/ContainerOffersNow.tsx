@@ -7,8 +7,8 @@ import type { TContainerOffersNow } from "./types/types"
 
 import { CardOffer } from "@/components/common/Card/Offer"
 
-import { useAuth } from "@/store/hooks"
-import { serviceBarters } from "@/services/barters"
+import { useAuth } from "@/store"
+import { serviceBarters } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -21,8 +21,6 @@ export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
                 order: "DESC",
             }),
         queryKey: ["barters", { receiver: userId, status: "initiated" }],
-        refetchOnReconnect: false,
-        refetchOnMount: false,
     })
 
     useEffect(() => {

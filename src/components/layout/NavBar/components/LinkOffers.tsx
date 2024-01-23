@@ -3,8 +3,8 @@ import { memo } from "react"
 import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
-import { useAuth } from "@/store/hooks"
-import { serviceBarters } from "@/services/barters"
+import { useAuth } from "@/store"
+import { serviceBarters } from "@/services"
 
 export const LinkOffers = memo(function LinkOffers() {
     const pathname = usePathname()

@@ -8,7 +8,7 @@ const YandexMap = dynamic(() => import("../components/YandexMap"), {
     ssr: false,
 })
 
-import { useAuth } from "@/store/hooks"
+import { useAuth } from "@/store"
 
 import styles from "@/scss/page.module.scss"
 

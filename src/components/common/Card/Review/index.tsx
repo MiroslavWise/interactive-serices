@@ -1,24 +1,23 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TCardReview } from "./types"
 
 import { Rate } from "@/components/common/Rate"
 
-import { usePush } from "@/helpers"
-import { serviceUser } from "@/services/users"
+import { serviceProfile } from "@/services"
 
 import styles from "./style.module.scss"
 
 export const CardReview: TCardReview = (props) => {
-    const { handleReplace } = usePush()
     const { id, userId, rating, message, updated } = props
 
     const { data } = useQuery({
-        queryFn: () => serviceUser.getId(userId!),
-        queryKey: ["user", { userId: userId }],
+        queryFn: () => serviceProfile.getUserId(userId!),
+        queryKey: ["profile", userId],
         enabled: !!id && !!userId,
     })
 
@@ -27,7 +26,7 @@ export const CardReview: TCardReview = (props) => {
             <div className={styles.content}>
                 <header className={styles.header}>
                     <div className={styles.userDate}>
-                        <a onClick={() => handleReplace(`user?id=${userId}`)}>@{data?.res?.profile?.username}</a>
+                        <Link href={{ pathname: "/user", query: { id: userId } }}>@{data?.res?.username}</Link>
                         <p>{dayjs(updated).format("DD/MM/YYYY")}</p>
                     </div>
                     <Rate rate={rating} />

@@ -7,10 +7,10 @@
     left: 50%;
     width: 554px;
     height: 106.112px;
-    border-radius: 16px;
+    border-radius: 1rem;
     background: rgba(0, 0, 0, 0.09);
     border: 2px solid rgba(0, 0, 0, 0.06);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(0.25rem);
     flex-shrink: 0;
     z-index: 5;
     transition: var(--transition);
@@ -29,11 +29,17 @@
         background: transparent;
         overflow-x: auto;
         scroll-direction: horizontal;
-        padding-bottom: 16px;
+        padding-bottom: 1rem;
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         gap: 0.75rem;
+        padding-inline: 1rem;
+
+        &::-webkit-scrollbar,
+        &::-webkit-scrollbar-thumb {
+            display: none;
+        }
 
         li {
             height: 38px;
@@ -44,11 +50,12 @@
             align-items: center;
             gap: 10px;
             border-radius: 19px;
-            border: 1px solid var(--gray-200);
+            border: 1px solid;
+            border-color: var(--gray-200);
             background: var(--button-default-background);
-            cursor: pointer;
             transition: var(--transition);
             transition-property: background;
+            cursor: pointer;
 
             & > [data-icon] {
                 width: 1.75rem;
@@ -69,7 +76,9 @@
             }
 
             &[data-active="true"] {
-                background: var(--gradient-optional-1);
+                background: var(--primary-500);
+                border-color: var(--primary-500);
+
                 p {
                     color: var(--supporting-white);
                 }
@@ -78,15 +87,29 @@
     }
 }
 
+[data-theme="dark"] {
+    .popupFilter {
+        & > ul {
+            li {
+                &[data-active="true"] {
+                    & > [data-icon] {
+                        background: var(--supporting-white);
+                    }
+                }
+            }
+        }
+    }
+}
+
 .button {
     position: absolute;
-    width: 34px;
-    height: 34px;
-    padding: 8px;
-    border-radius: 100px;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
     border: 1px solid var(--stroke-1);
     background: var(--button-default-background);
-    box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
+    box-shadow: 0px 0.75rem 1.25rem 0px rgba(100, 104, 115, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,12 +117,12 @@
     cursor: pointer;
 
     &.prev {
-        left: -8px;
+        left: -0.5rem;
         transform: translate(-100%, -50%);
     }
 
     &.next {
-        right: -8px;
+        right: -0.5rem;
         transform: translate(100%, -50%);
     }
 }

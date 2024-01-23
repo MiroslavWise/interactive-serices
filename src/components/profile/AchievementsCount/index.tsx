@@ -16,13 +16,13 @@ export const AchievementsCount = () => {
     const queries = useQueries({
         queries: [
             {
-                queryFn: () => serviceBarters.get({ user: userId!, status: "completed" }),
-                queryKey: ["barters", `user=${userId}`, `status=completed`],
+                queryFn: () => serviceBarters.get({ user: userId!, status: "completed", order: "DESC" }),
+                queryKey: ["barters", { userId: userId, status: "completed" }],
                 enabled: !!userId,
             },
             {
                 queryFn: () => serviceTestimonials.get({ user: userId! }),
-                queryKey: ["testimonials", `user=${userId}`],
+                queryKey: ["testimonials", { userId: userId }],
                 enabled: !!userId,
             },
         ],

@@ -54,7 +54,7 @@ export const ReciprocalExchange = () => {
 
     const { data, isLoading } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: "offer", order: "DESC" }),
-        queryKey: ["offers", `user=${userId}`, `provider=offer`],
+        queryKey: ["offers", { userId: userId, provider: "offer" }],
         refetchOnMount: false,
         refetchOnWindowFocus: false,
     })

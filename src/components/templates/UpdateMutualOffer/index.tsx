@@ -46,7 +46,7 @@ export const UpdateMutualOffer = () => {
 
     const { refetch } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: data?.provider!, order: "DESC" }),
-        queryKey: ["offers", `user=${userId}`, `provider=${data?.provider!}`],
+        queryKey: ["offers", { userId: userId, provider: data?.provider }],
         enabled: false,
     })
 

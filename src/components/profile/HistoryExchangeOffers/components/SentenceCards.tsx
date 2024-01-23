@@ -20,9 +20,7 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
                 user: userId!,
                 order: "DESC",
             }),
-        queryKey: ["barters", `user=${userId}`, `status=${value.value}`],
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
+        queryKey: ["barters", { userId: userId, status: value.value }],
         enabled: !!userId,
     })
 
