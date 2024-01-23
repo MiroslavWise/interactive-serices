@@ -1,18 +1,15 @@
-"use client"
-
 import { type ReactNode } from "react"
-import { isMobile } from "react-device-detect"
-
-import { HistoryExchangeOffers, LeftAsideProfile } from "@/components/profile"
 
 import styles from "@/scss/page.module.scss"
 
-export default function LayoutMainProfile({ children }: { children: ReactNode }) {
+export default function LayoutMainProfile({ children, left, history }: Record<TRoutes, ReactNode>) {
     return (
         <div className={styles.containerProfile}>
-            {!isMobile && <LeftAsideProfile />}
+            {left}
             {children}
-            {!isMobile && <HistoryExchangeOffers />}
+            {history}
         </div>
     )
 }
+
+type TRoutes = "children" | "left" | "history"

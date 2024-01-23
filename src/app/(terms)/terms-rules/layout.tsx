@@ -1,21 +1,14 @@
 import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
+const title = "Правилами пользования"
+
 export const metadata: Metadata = {
-    title: "Правилами пользования",
-    description:
-        "Сайт Sheira – мультифункциональный онлайновый сервис, гиперлокальное комьюнити для обмена информацией, опытом, товарами и услугами, место, где можно заявить о своей проблеме или оказать помощь другим, найти единомышленников, друзей по интересам, компанию для совместного времяпрепровождения, площадка для обсуждений местных проблем.",
-    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
-    appleWebApp: {
-        title: "Правилами пользования",
-        statusBarStyle: "default",
-    },
+    title,
+    description: title,
+    appleWebApp: { title, statusBarStyle: "default" },
     category: "policy, rules",
-    openGraph: {
-        title: "Правилами пользования",
-        description:
-            "Сайт Sheira – мультифункциональный онлайновый сервис, гиперлокальное комьюнити для обмена информацией, опытом, товарами и услугами, место, где можно заявить о своей проблеме или оказать помощь другим, найти единомышленников, друзей по интересам, компанию для совместного времяпрепровождения, площадка для обсуждений местных проблем.",
-    },
+    openGraph: { title, description: title },
 }
 
 export default function LayoutTermsPolicy({ children }: { children: ReactNode }) {
