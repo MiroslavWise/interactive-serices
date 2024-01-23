@@ -22,7 +22,6 @@ export const useTokenHelper: IUseTokenHelper = {
                 ok: !!response?.res,
                 res: response?.res,
                 error: response?.error,
-                code: response?.code,
             }
         })
     },

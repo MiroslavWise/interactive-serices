@@ -1,6 +1,6 @@
 import type { UUID } from "crypto"
 
-interface IMetaData {
+export interface IMetaData {
     page: number
     limit: number
     total: number
@@ -15,21 +15,9 @@ export interface IReturnData<T> {
     ok: boolean
     error?: any | null
     res?: T | null
-    code?: number
-    meta?: IMetaData
+    meta?: IMetaData | null
 }
 
-export type TProviderOffer =
-    | "main"
-    | "beauty"
-    | "pets"
-    | "studying"
-    | "transport"
-    | "housework"
-    | "appliances"
-    | "social"
-    | "children"
-    | "games"
-    | "rent"
+export type TProviderOffer = "main" | "beauty" | "pets" | "studying" | "transport" | "housework" | "appliances" | "social" | "children" | "games" | "rent"
 
 export type TOrder = "DESC" | "ASC"
