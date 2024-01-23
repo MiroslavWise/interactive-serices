@@ -16,7 +16,6 @@ export const RegistrationService: IRegistrationService = {
             return {
                 ok: false,
                 error: response?.error,
-                code: response?.code,
             }
         })
     },

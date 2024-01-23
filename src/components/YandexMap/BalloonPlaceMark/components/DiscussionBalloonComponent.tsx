@@ -33,8 +33,9 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
                 refetchOnMount: false,
             },
             {
-                queryFn: () => serviceProfile.getUserId(Number(idUser)),
+                queryFn: () => serviceProfile.getUserId(idUser!),
                 queryKey: ["profile", idUser!],
+                enabled: !!idUser,
                 refetchOnMount: false,
             },
         ],

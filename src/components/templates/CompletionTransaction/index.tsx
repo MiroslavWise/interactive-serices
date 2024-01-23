@@ -12,7 +12,7 @@ import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
-import { serviceTestimonials, serviceThreads, serviceBarters } from "@/services"
+import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications } from "@/services"
 import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -33,16 +33,17 @@ export const CompletionTransaction = () => {
         },
     })
     const { socket } = useWebSocket()
-    const user = useAddTestimonials(({ user }) => user)
-    const barter = useAddTestimonials(({ barter }) => barter)
     const visible = useAddTestimonials(({ visible }) => visible)
+    const profile = useAddTestimonials(({ profile }) => profile)
+    const barterId = useAddTestimonials(({ barterId }) => barterId)
     const threadId = useAddTestimonials(({ threadId }) => threadId)
     const testimonials = useAddTestimonials(({ testimonials }) => testimonials)
+    const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
 
-    const { refetch: refetchBarters } = useQuery({
-        queryFn: () => serviceBarters.getId(barter?.id!),
-        queryKey: ["barters", `id=${barter?.id!}`],
-        enabled: false,
+    const { data, refetch: refetchBarters } = useQuery({
+        queryFn: () => serviceBarters.getId(barterId!),
+        queryKey: ["barters", `id=${barterId!}`],
+        enabled: !!barterId,
     })
 
     const { refetch: refetchThread } = useQuery({
@@ -51,65 +52,64 @@ export const CompletionTransaction = () => {
         enabled: false,
     })
 
+    const { refetch: refetchNotifications } = useQuery({
+        queryFn: () => serviceNotifications.get({ order: "DESC" }),
+        queryKey: ["notifications", { userId: userId }],
+        enabled: false,
+    })
+
     const offerId: number | null = useMemo(() => {
-        if (!barter || !userId) {
+        if (!data?.res || !userId) {
             return null
         }
-        if (Number(barter?.initiator?.userId) === Number(userId)) {
-            return Number(barter?.consignedId)
+        if (Number(data?.res?.initiator?.userId) === Number(userId)) {
+            return Number(data?.res?.consignedId)
         } else {
-            return Number(barter?.initialId)
+            return Number(data?.res?.initialId)
         }
-    }, [barter, userId])
+    }, [data?.res, userId])
 
     const { refetch: refetchTestimonials } = useQuery({
         queryFn: () =>
             serviceTestimonials.get({
                 target: offerId!,
                 provider: "offer",
-                barter: barter?.id!,
+                barter: barterId!,
             }),
-        queryKey: ["testimonials", `barter=${barter?.id}`, `offer=${offerId!}`],
+        queryKey: ["testimonials", `barter=${barterId}`, `offer=${offerId!}`],
         enabled: false,
     })
 
     const isLastFeedback = useMemo(() => {
-        return !!testimonials?.filter((item) => item?.barterId === barter?.id)?.length
-    }, [barter?.id, testimonials])
+        return !!testimonials?.filter((item) => item?.barterId === barterId)?.length
+    }, [barterId, testimonials])
 
     function submit(values: IValuesForm) {
         if (!loading) {
             setLoading(true)
-            const idOffer = barter?.initiator?.userId === userId ? barter?.consignedId : barter?.initialId
+            const idOffer = data?.res?.initiator?.userId === userId ? data?.res?.consignedId : data?.res?.initialId
             Promise.all([
                 serviceTestimonials.post({
                     targetId: idOffer!,
                     provider: "offer",
-                    barterId: barter?.id!,
-                    rating: values.rating?.toString(),
+                    barterId: barterId!,
+                    rating: values.rating!,
                     message: values.message,
                     status: "published",
                     enabled: true,
                 }),
-                isLastFeedback ? serviceThreads.patch({ enabled: true }, threadId!) : Promise.resolve({ ok: true }),
+                !!notificationId
+                    ? serviceNotifications.patch({ operation: "feedback-received", enabled: true }, notificationId)
+                    : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
                 if (responses?.some((item) => item.ok)) {
                     const message = isLastFeedback ? "last" : "not-last"
-                    socket?.emit("barter", {
-                        receiverIds: [user?.id!],
-                        message: message,
-                        barterId: barter?.id,
-                        emitterId: userId!,
-                        status: "completed",
-                        threadId: threadId!,
-                        created: new Date(),
-                    })
+
                     flushSync(async () => {
-                        await refetchBarters()
-                        await refetchTestimonials()
-                        await refetchThread()
-                        setLoading(false)
-                        dispatchAddTestimonials({ visible: false })
+                        Promise.all([refetchBarters(), refetchTestimonials(), refetchThread(), refetchNotifications()]).then(() => {
+                            setLoading(false)
+                            dispatchAddTestimonials({ visible: false })
+                        })
                     })
                 }
             })
@@ -123,7 +123,7 @@ export const CompletionTransaction = () => {
             <section data-section-modal>
                 <ButtonClose onClick={() => dispatchAddTestimonials({ visible: false })} position={{}} />
                 <header>
-                    <h3>Отзыв об обмене с {user?.profile?.firstName || " "}</h3>
+                    <h3>Отзыв об обмене с {profile?.firstName || " "}</h3>
                 </header>
                 <form onSubmit={onSubmit}>
                     <div data-text data-limit={watch("message")?.length > 200}>
@@ -146,17 +146,25 @@ export const CompletionTransaction = () => {
                     </div>
                     <div data-groups>
                         <div data-rating {...register("rating", { required: false })}>
-                            {[1, 2, 3, 4, 5].map((item) => (
-                                <img
-                                    data-number={watch("rating")}
-                                    data-active={item <= watch("rating")}
-                                    src="/svg/stars/star-fill.svg"
-                                    onClick={() => setValue("rating", item)}
-                                    alt="star"
-                                    key={`${item}-start`}
-                                    height={20}
-                                    width={20}
-                                />
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                                <button
+                                    type="button"
+                                    data-img
+                                    key={`::star::${item}::`}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        setValue("rating", item)
+                                    }}
+                                >
+                                    <img
+                                        data-number={watch("rating")}
+                                        data-active={item <= watch("rating")}
+                                        src="/svg/stars/star-fill.svg"
+                                        alt="star"
+                                        height={20}
+                                        width={20}
+                                    />
+                                </button>
                             ))}
                         </div>
                     </div>

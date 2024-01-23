@@ -68,8 +68,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         }
 
         function barterResponse(event: IBarterResponse) {
-            console.log("%c barterResponse event: ", "color: #d0d", event)
-
+            console.log("%c barterResponse", "color: blue; font-size: 1.5rem;", event)
             queryClient
                 .fetchQuery({
                     queryFn: () => serviceProfile.getUserId(event?.emitterId),
@@ -83,7 +82,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                                 title: "Предложение на обмен",
                                 message: ``,
                                 status: event.status,
-                                threadIdBarter: `${event?.barterId}-${event?.receiverIds[0]}`,
+                                threadIdBarter: !!event?.threadId ? { thread: event?.threadId! } : { "barter-id": `${event?.barterId}-${event.emitterId}` },
                             })
                         }
 
@@ -95,19 +94,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                                 threadId: event?.threadId,
                             })
                         }
-
-                        if (event.status === "completed") {
-                            onBarters({
-                                title: "Обмен завершён",
-                                message: ``,
-                                status: event?.status,
-                                threadId: event?.threadId,
-                            })
-                        }
                     }
-                    refetchNotifications()
-                    refetchBarters()
                 })
+            refetchNotifications()
+            refetchBarters()
         }
 
         if (socketState && userId) {

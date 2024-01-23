@@ -20,7 +20,7 @@ type TTypes = typeof NextImage.defaultProps & IProps
 export const NextImageMotion = (props: TTypes) => {
     const { src, ref, alt, className, height, width, ...rest } = props ?? {}
 
-    return src?.includes("http") ? (
+    return typeof src === "string" && src?.includes("http") ? (
         <NextImage
             placeholder={altName.hasOwnProperty(alt) ? "blur" : "empty"}
             blurDataURL={altName.hasOwnProperty(alt) && alt === "avatar" ? defaultAvatar : alt === "offer-image" ? blurDefaultOffer : blurDefaultOffer}

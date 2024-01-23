@@ -68,12 +68,7 @@ export const useToast = () => {
                     <ButtonLink type="button" typeButton="fill-primary" label="Перейти в чат" href={{ pathname: "/messages", query: { thread: threadId } }} />
                 ) : null}
                 {status === "initiated" && threadIdBarter ? (
-                    <ButtonLink
-                        type="button"
-                        typeButton="fill-primary"
-                        label="Перейти в чат"
-                        href={{ pathname: "/messages", query: { "barter-id": threadIdBarter } }}
-                    />
+                    <ButtonLink type="button" typeButton="fill-primary" label="Перейти в чат" href={{ pathname: "/messages", query: { ...threadIdBarter } }} />
                 ) : null}
             </div>
         )
@@ -81,7 +76,7 @@ export const useToast = () => {
         return toast(Message, {
             toastId: Math.random(),
             position: isMobile ? "bottom-center" : "bottom-left",
-            autoClose: false,
+            autoClose: 7 * 1_000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -155,7 +150,9 @@ interface IPropsBarter {
     title: string
     status: TTypeStatusBarter | "accepted"
     threadId?: number
-    threadIdBarter?: string
+    threadIdBarter?: {
+        [key: string]: string | number
+    }
 }
 
 type TTypeToast = "success" | "error" | "warning" | "default" | "barter" | "message"

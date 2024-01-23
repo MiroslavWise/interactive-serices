@@ -1,26 +1,44 @@
 "use client"
 
+import { flushSync } from "react-dom"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { THeaderMobile } from "./types"
 
-import { SearchElementMap } from "@/components/common/Inputs"
+import { SearchElementMap } from "@/components/common"
 
-import { serviceNotifications } from "@/services/notifications"
-import { dispatchVisibleNotifications, useAuth } from "@/store/hooks"
+import { serviceNotifications } from "@/services"
+import { dispatchVisibleNotifications, useAuth } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const Header: THeaderMobile = ({ handleAddressLocation }) => {
     const token = useAuth(({ token }) => token)
     const userId = useAuth(({ userId }) => userId)
+    const [count, setCount] = useState<number | null>(null)
     const { data: dataNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
-        enabled: !!userId,
+        enabled: !!userId && isMobile,
+        refetchOnMount: true,
     })
+
+    useEffect(() => {
+        if (dataNotifications?.res && dataNotifications?.res?.length > 0) {
+            let count = 0
+            for (const item of dataNotifications?.res) {
+                if (!item.read) {
+                    count += 1
+                }
+            }
+            flushSync(() => {
+                setCount(count || null)
+            })
+        }
+    }, [dataNotifications?.res])
 
     return isMobile ? (
         <motion.div
@@ -36,9 +54,9 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
                     {!!token ? (
                         <div className={styles.containerNotification} onClick={() => dispatchVisibleNotifications(true)}>
                             <img src="/svg/bell.svg" alt="bell" width={22} height={22} />
-                            {dataNotifications?.res?.length ? (
+                            {count ? (
                                 <div className={styles.badge}>
-                                    <span>{dataNotifications?.res?.length || 0}</span>
+                                    <span>{count > 9 ? "9+" : count}</span>
                                 </div>
                             ) : null}
                         </div>

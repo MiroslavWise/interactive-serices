@@ -19,6 +19,8 @@ export const ContainerAboutMe = () => {
     const profileId = useAuth(({ profileId }) => profileId)
     const updateProfile = useAuth(({ updateProfile }) => updateProfile)
 
+    
+
     const refTextArea = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {

@@ -196,7 +196,7 @@ export const ReciprocalExchange = () => {
                 </header>
                 <ul>
                     <form onSubmit={onSubmit}>
-                        <section>
+                        <section data-profile-offer>
                             <ItemProfile profile={profile!} geo={geo!} />
                             <ItemOffer />
                         </section>

@@ -3,8 +3,8 @@ import { useState } from "react"
 import { serviceNotifications } from "@/services/notifications"
 import { useOutsideClickEvent } from "@/helpers"
 
-export const ButtonsDots = (props: { id: number; refetch: () => Promise<any> }) => {
-    const { id, refetch } = props ?? {}
+export const ButtonsDots = (props: { id: number; refetch: () => Promise<any>; disabled?: boolean }) => {
+    const { id, refetch, disabled } = props ?? {}
     const [loading, setLoading] = useState(false)
     const [active, setActive, ref] = useOutsideClickEvent()
 
@@ -28,9 +28,12 @@ export const ButtonsDots = (props: { id: number; refetch: () => Promise<any> }) 
                 data-active={active}
                 onClick={(event) => {
                     event.stopPropagation()
-                    setActive((_) => !_)
+                    if (!disabled) {
+                        setActive((_) => !_)
+                    }
                 }}
                 ref={ref}
+                disabled={disabled}
             >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="icon_16">
@@ -52,13 +55,7 @@ export const ButtonsDots = (props: { id: number; refetch: () => Promise<any> }) 
                     }}
                 >
                     <span>Удалить</span>
-                    <img
-                        src={loading ? "/svg/spinner.svg" : "/svg/trash-black.svg"}
-                        data-loading-image={loading}
-                        alt="trash"
-                        width={16}
-                        height={16}
-                    />
+                    <img src={loading ? "/svg/spinner.svg" : "/svg/trash-black.svg"} data-loading-image={loading} alt="trash" width={16} height={16} />
                 </a>
             </div>
         </>

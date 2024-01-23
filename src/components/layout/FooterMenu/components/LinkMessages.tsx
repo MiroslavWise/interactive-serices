@@ -15,7 +15,7 @@ export const LinkMessages = memo(function LinkMessages() {
     const isAuth = useAuth(({ isAuth }) => isAuth)
     const { count } = useCountMessagesNotReading()
 
-    const isActive = pathname === ITEMS_LINK_FOOTER.messages
+    const isActive = pathname?.includes(ITEMS_LINK_FOOTER.messages)
 
     return (
         <Link

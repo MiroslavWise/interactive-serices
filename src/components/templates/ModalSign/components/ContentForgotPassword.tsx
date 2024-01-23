@@ -39,7 +39,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                         setError("email", { message: "user not found" })
                         setError("phone", { message: "user not found" })
                     }
-                    if (response?.code && response?.code >= 500 && response?.code <= 599) {
+                    if (response?.error?.code && response?.error?.code >= 500 && response?.error?.code <= 599) {
                         setError("email", { message: "something went wrong" })
                     }
                 })
@@ -68,13 +68,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                     render={({ field, formState }) => (
                         <div data-label-input>
                             <label htmlFor="email">Электронная почта</label>
-                            <input
-                                data-error={!!formState.errors.email}
-                                type="email"
-                                inputMode="email"
-                                placeholder="email_address@mail.com"
-                                {...field}
-                            />
+                            <input data-error={!!formState.errors.email} type="email" inputMode="email" placeholder="email_address@mail.com" {...field} />
                             {formState.errors.email ? (
                                 <i>
                                     {formState.errors.email && formState.errors?.email?.message === "user is not verified"

@@ -1,32 +1,27 @@
 "use client"
 
-import Link from "next/link"
 import { useForm } from "react-hook-form"
-import { useQuery } from "@tanstack/react-query"
+import { useQueries } from "@tanstack/react-query"
 import { useEffect, useMemo, useState } from "react"
 
 import type { IValuesForm } from "./types/types"
+import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
-import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 import type { IPatchProfileData, IPostProfileData } from "@/services/profile/types/profileService"
+import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { ImageProfile } from "./components/ImageProfile"
 import { Button, ButtonLink } from "@/components/common"
 
-import { useAuth } from "@/store/hooks"
-import { useDebounce, useOut, usePush } from "@/helpers"
-import { serviceUser } from "@/services/users"
-import { serviceProfile } from "@/services/profile"
+import { generateShortHash } from "@/lib/hash"
 import { useToast } from "@/helpers/hooks/useToast"
-import { fileUploadService } from "@/services/file-upload"
+import { getLocationName } from "@/lib/location-name"
+import { dispatchChangeService, useAuth } from "@/store"
+import { useDebounce, useOut, usePush } from "@/helpers"
 import { BlockCategories } from "./components/BlockCategories"
-import { getGeocodeSearch } from "@/services/addresses/geocodeSearch"
+import { serviceAddresses, getGeocodeSearch, fileUploadService, serviceProfile, serviceUser } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import { generateShortHash } from "@/lib/hash"
-import { getLocationName } from "@/lib/location-name"
-import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import { serviceAddresses } from "@/services/addresses"
 
 export const ChangeForm = () => {
     const [file, setFile] = useState<{ file: File | null; string: string }>({
@@ -52,22 +47,24 @@ export const ChangeForm = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<IValuesForm>({ defaultValues: {} })
-    const { data, refetch } = useQuery({
-        queryFn: () => serviceUser.get(),
-        queryKey: ["user", userId!],
-        enabled: !!userId!,
-        refetchOnMount: true,
-        refetchOnReconnect: true,
-    })
 
-    const {
-        data: dataProfile,
-        refetch: refetchProfile,
-        isLoading,
-    } = useQuery({
-        queryFn: () => serviceProfile.getUserId(userId!),
-        queryKey: ["profile", userId!],
-        enabled: !!userId,
+    const [{ data, refetch }, { data: dataProfile, refetch: refetchProfile, isLoading }] = useQueries({
+        queries: [
+            {
+                queryFn: () => serviceUser.get(),
+                queryKey: ["user", { userId: userId }],
+                enabled: !!userId!,
+                refetchOnMount: true,
+                refetchOnReconnect: true,
+            },
+            {
+                queryFn: () => serviceProfile.getUserId(userId!),
+                queryKey: ["profile", userId!],
+                enabled: !!userId,
+                refetchOnMount: true,
+                refetchOnReconnect: true,
+            },
+        ],
     })
 
     const { res } = data ?? {}
@@ -102,6 +99,12 @@ export const ChangeForm = () => {
     }
 
     function submit(values: IValuesForm) {
+        if (!values.username?.trim()) {
+            setError("username", { message: "Обязательно к заполнению" })
+            setLoading(false)
+            return
+        }
+
         if (!loading) {
             setLoading(true)
             if (
@@ -125,7 +128,7 @@ export const ChangeForm = () => {
                                 UpdatePhotoProfile(idProfile).then((response) => {
                                     const dataPatch: IPostProfileData = {
                                         username: values.username,
-                                        imageId: response.res?.id,
+                                        imageId: response?.res?.id,
                                     }
                                     serviceProfile.patch(dataPatch, idProfile).then(() => {
                                         refetchProfile().then(() => {
@@ -178,7 +181,7 @@ export const ChangeForm = () => {
     }, [res])
 
     function onValueFunc() {
-        if (text.length > 2 && activeList) {
+        if (text?.length > 2 && activeList) {
             getGeocodeSearch(text)
                 .then((response) => setValues(response))
                 .finally(() => {
@@ -230,12 +233,20 @@ export const ChangeForm = () => {
         setText(additional)
         setActiveList(false)
 
-        Promise.all(address.map((item) => serviceAddresses.patch({ enabled: false }, item.id))).then(() => {
+        Promise.all(address.map((item) => serviceAddresses.patch({ enabled: false }, item?.id))).then(() => {
             serviceAddresses.post(value).then((response) => {
                 console.log("response address: ", response)
             })
         })
     }
+
+    const disabledButton: boolean = useMemo(() => {
+        return (
+            watch("firstName") === dataProfile?.res?.firstName &&
+            watch("lastName") === dataProfile?.res?.lastName &&
+            watch("username") === dataProfile?.res?.username
+        )
+    }, [watch("firstName"), watch("lastName"), watch("username"), dataProfile?.res])
 
     return (
         <form onSubmit={onSubmit} className={styles.form}>
@@ -254,7 +265,7 @@ export const ChangeForm = () => {
                     <fieldset>
                         <label>Ник</label>
                         <input {...register("username")} type="text" placeholder="Придумайте ник" autoComplete="off" />
-                        {errors?.username?.message === "user exists" ? <i>Данный ник уже существует</i> : null}
+                        {errors?.username?.message === "user exists" ? <i>Данный ник уже существует</i> : <i>{errors?.username?.message}</i>}
                     </fieldset>
                     <fieldset>
                         <label>Электронная почта</label>
@@ -295,7 +306,7 @@ export const ChangeForm = () => {
                             {exactAddresses && Array.isArray(exactAddresses)
                                 ? exactAddresses.map((item) => (
                                       <a
-                                          key={`::item::address::response::${item.GeoObject.uri}::`}
+                                          key={`::item::address::response::${item?.GeoObject?.uri}::`}
                                           onClick={(event) => {
                                               event.stopPropagation()
                                               handleAddress(item)
@@ -315,25 +326,35 @@ export const ChangeForm = () => {
                     {stateCategory?.length === 0 ? (
                         <>
                             <p>Добавьте услуги, которые вам интересны и вы бы хотели их получить</p>
-                            <Link href={{ pathname: "/profile-change/services-change" }}>
+                            <a
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchChangeService({ visible: true })
+                                }}
+                            >
                                 <span>Добавить</span>
                                 <img src="/svg/plus-primary.svg" alt="+" width={16} height={16} />
-                            </Link>
+                            </a>
                         </>
                     ) : stateCategory?.length > 0 ? (
                         <>
-                            <Link href={{ pathname: "/profile-change/services-change" }}>
+                            <a
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchChangeService({ visible: true })
+                                }}
+                            >
                                 <span>Добавить</span>
                                 <img src="/svg/plus-primary.svg" alt="+" width={16} height={16} />
-                            </Link>
+                            </a>
                             <BlockCategories stateCategory={stateCategory} refetch={refetch} />
                         </>
                     ) : null}
                 </div>
             </section>
             <footer>
-                <Button type="submit" typeButton="fill-primary" label="Сохранить" loading={loading || isLoading} />
-                <ButtonLink typeButton="regular-primary" label="Отменить" href={{ pathname: "/profile" }} />
+                <Button type="submit" typeButton="fill-primary" label="Сохранить" loading={loading || isLoading} disabled={disabledButton} />
+                <ButtonLink typeButton="regular-primary" label="Отменить" href={{ pathname: "/profile" }} data-disabled={disabledButton} />
             </footer>
         </form>
     )

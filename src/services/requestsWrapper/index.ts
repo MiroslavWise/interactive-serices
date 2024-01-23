@@ -3,38 +3,57 @@ import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import type { IWrapperFetch } from "./types/wrapperFetch"
 
 export const wrapperFetch: IWrapperFetch = {
+    get header() {
+        const head: HeadersInit = {
+            "Content-Type": "application/json",
+        }
+
+        if (useTokenHelper.authToken) {
+            if (head !== null && typeof head === "object") {
+                head["Authorization"] = `Bearer ${useTokenHelper.authToken}`
+            }
+        }
+
+        return head
+    },
+
+    returnData(response) {
+        return {
+            ok: !!response?.data,
+            res: response?.data || null,
+            meta: response?.meta || null,
+            error: response?.error || response || null,
+        }
+    },
+
+    returnError(error) {
+        return {
+            ok: false,
+            res: null,
+            meta: null,
+            error: error,
+        }
+    },
+
     async methodGet(url, query) {
         const params: string = query
             ? Object.entries(query)
-                  .map(([key, value]) => `&${key}=${value}`)
-                  .join("")
+                  .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
                   .replace("&", "?")
             : ""
+
+        const RequestInit: RequestInit = {
+            method: "GET",
+            headers: this.header,
+            cache: "default",
+        }
+
         try {
-            const response = await fetch(`${URL_API}${url}${params}`, {
-                method: "GET",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
-            })
+            const response = await fetch(`${URL_API}${url}${params}`, RequestInit)
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                meta: responseData?.meta,
-                error: responseData?.error,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodGetId(url, id, query) {
@@ -43,131 +62,63 @@ export const wrapperFetch: IWrapperFetch = {
                 ? query
                 : query
                 ? Object.entries(query)
-                      .map(([key, value]) => `&${key}=${value}`)
-                      .join("")
+                      .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
                       .replace("&", "?")
                 : ""
-        try {
-            const requestInit: RequestInit = {
-                method: "GET",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
-            }
 
+        const requestInit: RequestInit = {
+            method: "GET",
+            headers: this.header,
+            cache: "default",
+        }
+        try {
             const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                meta: responseData?.meta,
-                error: responseData?.error,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodPost(url, body) {
+        const requestInit: RequestInit = {
+            method: "POST",
+            headers: this.header,
+            cache: "default",
+        }
+        if (body) {
+            requestInit.body = JSON.stringify(body)
+        }
         try {
-            const requestInit: RequestInit = {
-                method: "POST",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
-            }
-
-            if (body) {
-                requestInit.body = JSON.stringify(body)
-            }
-
             const response = await fetch(`${URL_API}${url}`, requestInit)
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                meta: responseData?.meta,
-                error: responseData?.error,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodPatch(url, body, id) {
         try {
             const response = await fetch(`${URL_API}${url}/${id}`, {
                 method: "PATCH",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
+                headers: this.header,
                 body: JSON.stringify(body),
             })
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                error: responseData?.error,
-                meta: responseData?.meta,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodDelete(url, id) {
         try {
             const response = await fetch(`${URL_API}${url}/${id}`, {
                 method: "DELETE",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
+                headers: this.header,
             })
             const responseData = await response.json()
-            if (responseData?.error === null) {
-                return {
-                    ok: true,
-                    res: responseData?.data,
-                }
-            }
-            return {
-                ok: false,
-                error: responseData?.error,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodUploadFile(url, formData) {
@@ -186,20 +137,47 @@ export const wrapperFetch: IWrapperFetch = {
                 body: formData,
             })
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                error: responseData?.error,
-                meta: responseData?.meta,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     stringRequest(value: string) {
         return `${URL_API}/${value}`
     },
+}
+
+class wrapperRequest {
+    private _url: string = URL_API
+    private _token: string = useTokenHelper.authToken!
+    private _link!: string
+    private _params!: string
+
+    private async blockTryCatch(method: RequestInit["method"], params: string) {
+        try {
+            const response = await fetch(`${this._url}${this._link}${params}`, {
+                method: method,
+                headers: {
+                    Authorization: this._token ? `Bearer ${this._token}` : "",
+                    "Content-Type": "application/json",
+                },
+            })
+            const responseData = await response.json()
+            return {}
+        } catch (e) {}
+    }
+
+    private methodGet(params: string) {}
+
+    constructor(link: string) {
+        this._link = link
+    }
+
+    get(query?: Record<string, any>) {
+        const params: string = query
+            ? Object.entries(query)
+                  .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
+                  .replace("&", "?")
+            : ""
+    }
 }
