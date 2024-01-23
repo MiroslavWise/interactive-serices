@@ -1,9 +1,22 @@
 import { URL_API } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import type { IWrapperFetch } from "./types/wrapperFetch"
-// import type { IBarterResponse } from "../barters/types"
 
 export const wrapperFetch: IWrapperFetch = {
+    get header() {
+        const head: HeadersInit = {
+            "Content-Type": "application/json",
+        }
+
+        if (useTokenHelper.authToken) {
+            if (head !== null && typeof head === "object") {
+                head["Authorization"] = `Bearer ${useTokenHelper.authToken}`
+            }
+        }
+
+        return head
+    },
+
     returnData(response) {
         return {
             ok: !!response?.data,
@@ -29,19 +42,9 @@ export const wrapperFetch: IWrapperFetch = {
                   .replace("&", "?")
             : ""
 
-        const Headers: HeadersInit = {
-            "Content-Type": "application/json",
-        }
-
-        if (useTokenHelper.authToken) {
-            if (Headers !== null && typeof Headers === "object") {
-                Headers["Authorization"] = `Bearer ${useTokenHelper.authToken}`
-            }
-        }
-
         const RequestInit: RequestInit = {
             method: "GET",
-            headers: Headers,
+            headers: this.header,
             cache: "default",
         }
 
@@ -62,16 +65,11 @@ export const wrapperFetch: IWrapperFetch = {
                       .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
                       .replace("&", "?")
                 : ""
+
         const requestInit: RequestInit = {
             method: "GET",
-            headers: useTokenHelper.authToken
-                ? {
-                      Authorization: `Bearer ${useTokenHelper.authToken}`,
-                      "Content-Type": "application/json",
-                  }
-                : {
-                      "Content-Type": "application/json",
-                  },
+            headers: this.header,
+            cache: "default",
         }
         try {
             const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)
@@ -84,14 +82,7 @@ export const wrapperFetch: IWrapperFetch = {
     async methodPost(url, body) {
         const requestInit: RequestInit = {
             method: "POST",
-            headers: useTokenHelper.authToken
-                ? {
-                      Authorization: `Bearer ${useTokenHelper.authToken}`,
-                      "Content-Type": "application/json",
-                  }
-                : {
-                      "Content-Type": "application/json",
-                  },
+            headers: this.header,
             cache: "default",
         }
         if (body) {
@@ -109,14 +100,7 @@ export const wrapperFetch: IWrapperFetch = {
         try {
             const response = await fetch(`${URL_API}${url}/${id}`, {
                 method: "PATCH",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
+                headers: this.header,
                 body: JSON.stringify(body),
             })
             const responseData = await response.json()
@@ -129,14 +113,7 @@ export const wrapperFetch: IWrapperFetch = {
         try {
             const response = await fetch(`${URL_API}${url}/${id}`, {
                 method: "DELETE",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
+                headers: this.header,
             })
             const responseData = await response.json()
             return this.returnData(responseData)
@@ -204,42 +181,3 @@ class wrapperRequest {
             : ""
     }
 }
-
-// let barter!: IBarterResponse
-
-//delete feature
-
-// function asdf() {
-//     //1-й вариант
-//     if (["completed", "destroyed"].includes(barter.status!)) {
-//         const notifyType: Partial<Record<IBarterResponse["status"], string>> = {
-//             completed: "completion-recall",
-//             destroyed: "completion-recall-no",
-//         }
-
-//         if (barter.userId === barter.initiator.userId) {
-//             await this.notify(barter.consigner.userId, "barter", notifyType[barter.status], barter)
-//         } else if (barter.userId === barter.consigner.userId) {
-//             await this.notify(barter.initiator.userId, "barter", notifyType[barter.status], barter)
-//         }
-//     }
-
-//     //2-й вариант
-//     if (barter.userId === barter.initiator.userId) {
-//         if (barter.status === "completed") {
-//             await this.notify(barter.consigner.userId, "barter", "completion-recall", barter)
-//         }
-//         if (barter.status === "destroyed") {
-//             await this.notify(barter.consigner.userId, "barter", "completion-recall-no", barter)
-//         }
-//     }
-
-//     if (barter.userId === barter.consigner.userId) {
-//         if (barter.status === "completed") {
-//             await this.notify(barter.initiator.userId, "barter", "completion-recall", barter)
-//         }
-//         if (barter.status === "destroyed") {
-//             await this.notify(barter.initiator.userId, "barter", "completion-recall-no", barter)
-//         }
-//     }
-// }
