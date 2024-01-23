@@ -19,6 +19,7 @@ export function NotificationsMobile() {
     const visible = useVisibleNotifications(({ visible }) => visible)
 
     const [status, setStatus] = useState<TTypeWaiting>("all")
+    const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
     const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])
     const [waitingNotifications, setWaitingNotifications] = useState<IResponseNotifications[]>([])
 
@@ -34,6 +35,8 @@ export function NotificationsMobile() {
         if (values && userId) {
             const array: IResponseNotifications[] = []
             const arrayNotRead: number[] = []
+            const newArray: IResponseNotifications[] = []
+            const oldArray: IResponseNotifications[] = []
 
             for (const item of values) {
                 if (item?.provider === "barter") {
@@ -46,11 +49,15 @@ export function NotificationsMobile() {
                         array.push(item)
                     }
                 }
-                if (!item.read && typeof item.read !== "undefined") {
+                if (item?.read) {
+                    oldArray.push(item)
+                } else {
+                    newArray.push(item)
                     arrayNotRead.push(item.id)
                 }
             }
 
+            setState({ new: newArray, old: oldArray })
             setStateNotifications(values)
             setWaitingNotifications(array)
 
@@ -95,15 +102,28 @@ export function NotificationsMobile() {
                         ))}
                     </nav>
                 ) : null}
-                {!!stateNotifications?.length && status === "all" ? (
+                {[...state.new, ...state.old].length > 0 && status === "all" ? (
                     <ul>
-                        {stateNotifications?.map((item) => (
-                            <ItemNotification key={`::notification::all:${item.id}::`} {...item} />
-                        ))}
+                        {state.new.length > 0 ? (
+                            <>
+                                <p>Новые уведомления</p>
+                                {state.new?.map((item) => (
+                                    <ItemNotification key={`::item::notification::popup::`} {...item} />
+                                ))}
+                            </>
+                        ) : null}
+                        {state.old.length > 0 ? (
+                            <>
+                                <p>Просмотренные</p>
+                                {state.old?.map((item) => (
+                                    <ItemNotification key={`::item::notification::popup::`} {...item} />
+                                ))}
+                            </>
+                        ) : null}
                     </ul>
-                ) : !!waitingNotifications?.length && status === "waiting" ? (
+                ) : waitingNotifications.length > 0 && status === "waiting" ? (
                     <ul>
-                        {waitingNotifications?.map((item) => (
+                        {waitingNotifications.map((item) => (
                             <ItemNotification key={`::notification::waiting::${item.id}::`} {...item} />
                         ))}
                     </ul>

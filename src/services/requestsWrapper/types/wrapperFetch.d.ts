@@ -2,7 +2,7 @@ import type { IMetaData, IReturnData } from "@/services/types/general"
 import type { IResponseUploadFile } from "@/services/file-upload/types"
 
 interface IResponseGeneral<P> {
-    data: P | P[]
+    data: P
     error: any | null
     meta: IMetaData
 }
@@ -10,6 +10,7 @@ interface IResponseGeneral<P> {
 export interface IWrapperFetch {
     returnData(response: IResponseGeneral): IReturnData<P>
     returnError(response: unknown): IReturnData<unknown>
+    header: HeadersInit
 
     stringRequest: (value: string) => string
     methodGet<P>(url: string, query?: Record<string | number, any>): Promise<IReturnData<P>>
