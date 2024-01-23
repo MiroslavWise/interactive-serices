@@ -32,8 +32,6 @@ export function NotificationsMobile() {
         const values = dataNotifications?.res
 
         if (values && userId) {
-            setStateNotifications(values)
-
             const array: IResponseNotifications[] = []
             const arrayNotRead: number[] = []
 
@@ -44,13 +42,16 @@ export function NotificationsMobile() {
                             array.push(item)
                         }
                     }
-                    if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
+                    if (["completion-survey", "completion-recall", "completion-recall-no"].includes(item?.operation!)) {
                         array.push(item)
                     }
                 }
                 if (!item.read && typeof item.read !== "undefined") {
                     arrayNotRead.push(item.id)
                 }
+
+                setStateNotifications(values)
+                setWaitingNotifications(array)
 
                 const timer = setTimeout(() => {
                     if (arrayNotRead?.length > 0) {
@@ -64,8 +65,6 @@ export function NotificationsMobile() {
 
                 return () => clearTimeout(timer)
             }
-
-            setWaitingNotifications(array)
         }
     }, [dataNotifications?.res, userId, visible])
 

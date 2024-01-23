@@ -9,10 +9,12 @@ import { ItemNotification } from "@/components/notifications"
 import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
+import { IResponseNotifications } from "@/services/notifications/types"
 
 export const LinkNotification = memo(function LinkNotification() {
     const pathname = usePathname()
     const [count, setCount] = useState<number | null>(null)
+    const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
     const [active, setActive, ref] = useOutsideClickEvent()
     const userId = useAuth(({ userId }) => userId)
 
@@ -28,14 +30,18 @@ export const LinkNotification = memo(function LinkNotification() {
     useEffect(() => {
         if (data?.res && data?.res?.length > 0) {
             let count = 0
+            const newArray: IResponseNotifications[] = []
+            const oldArray: IResponseNotifications[] = []
             for (const item of data?.res) {
-                if (!item.read) {
+                if (item.read) {
+                    oldArray.push(item)
+                } else {
+                    newArray.push(item)
                     count += 1
                 }
             }
-            flushSync(() => {
-                setCount(count || null)
-            })
+            setState({ new: newArray, old: oldArray })
+            setCount(count || null)
         }
     }, [data?.res])
 
@@ -57,14 +63,25 @@ export const LinkNotification = memo(function LinkNotification() {
                     <span>{count > 9 ? "9+" : count}</span>
                 </div>
             ) : null}
-
             <section data-active={active} onClick={(event) => event.stopPropagation()}>
                 {data?.res?.length ? (
                     <ul>
-                        <p>Просмотренные</p>
-                        {data?.res?.map((item) => (
-                            <ItemNotification key={`::item::notification::popup::`} {...item} />
-                        ))}
+                        {state.new.length > 0 ? (
+                            <>
+                                <p>Новые уведомления</p>
+                                {state.new?.map((item) => (
+                                    <ItemNotification key={`::item::notification::popup::`} {...item} />
+                                ))}
+                            </>
+                        ) : null}
+                        {state.old.length > 0 ? (
+                            <>
+                                <p>Просмотренные</p>
+                                {state.old?.map((item) => (
+                                    <ItemNotification key={`::item::notification::popup::`} {...item} />
+                                ))}
+                            </>
+                        ) : null}
                     </ul>
                 ) : (
                     <article>

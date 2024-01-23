@@ -119,19 +119,32 @@
 
                 & > [data-rating="true"] {
                     display: grid;
-                    grid-template-columns: repeat(5, 20%);
+                    grid-template-columns: repeat(10, 10%);
 
-                    & > img {
+                    & > [data-img] {
+                        cursor: pointer;
                         aspect-ratio: 1/1;
                         width: 100%;
                         height: auto;
-                        object-fit: cover;
-                        padding: 4;
-                        cursor: pointer;
-                        filter: grayscale(1);
+                        padding: 0.25rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: none;
+                        background-color: transparent;
+                        outline: none;
 
-                        &[data-active="true"] {
-                            filter: grayscale(0);
+                        & > img {
+                            aspect-ratio: 1/1;
+                            width: 100%;
+                            height: auto;
+                            object-fit: cover;
+                            cursor: pointer;
+                            filter: grayscale(1);
+
+                            &[data-active="true"] {
+                                filter: grayscale(0);
+                            }
                         }
                     }
                 }
