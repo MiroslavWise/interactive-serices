@@ -24,8 +24,8 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
     const geo: string | null = useMemo(() => people?.addresses?.find((item) => item?.addressType === "main")?.additional || null, [people])
 
     const { data: dataBarter } = useQuery({
-        queryFn: () => serviceBarters.getId(Number(idBarter)),
-        queryKey: ["barters", `id=${idBarter}`],
+        queryFn: () => serviceBarters.getId(idBarter!),
+        queryKey: ["barters", { id: idBarter }],
         enabled: !!idBarter,
         refetchOnMount: false,
         refetchOnWindowFocus: false,

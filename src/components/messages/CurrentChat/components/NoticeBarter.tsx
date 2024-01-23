@@ -40,7 +40,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
 
     const { data } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
-        queryKey: ["barters", `id=${idBarter}`],
+        queryKey: ["barters", { id: idBarter }],
         enabled: !!idBarter,
         refetchOnMount: true,
         refetchOnReconnect: true,
@@ -88,7 +88,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 provider: "offer",
                 barter: idBarter!,
             }),
-        queryKey: ["testimonials", `barter=${idBarter}`, `offer=${offerId!}`],
+        queryKey: ["testimonials", { barterId: idBarter, targetId: offerId, provider: "offer" }],
         enabled: ["executed", "destroyed", "completed"]?.includes(res?.status!) && !!offerId,
     })
 

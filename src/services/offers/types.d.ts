@@ -1,8 +1,8 @@
-import type { IImageData } from "@/store/types/useAuthState"
-import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import type { TTypeProvider } from "../file-upload/types"
 import type { IReturnData, TOrder } from "../types/general"
-import { IGetProfileIdResponse } from "../profile/types/profileService"
+import type { IImageData } from "@/store/types/useAuthState"
+import type { IGetProfileIdResponse } from "../profile/types/profileService"
+import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 
 export interface IResponseCreate {
     id: number
@@ -64,5 +64,5 @@ export interface IServiceOffers {
     patch(value: IPatchOffers, id: number | string): Promise<IReturnData<IResponseCreate>>
     getId(id: number | string): Promise<IReturnData<IResponseOffers>>
     delete(id: number | string): Promise<IReturnData<IResponseCreate>>
-    getUserId(id: number, value?: IQueriesOffers): Promise<IReturnData<IResponseOffers[]>>
+    getUserId(id: number | string, value?: IQueriesOffers): Promise<IReturnData<IResponseOffers[]>>
 }

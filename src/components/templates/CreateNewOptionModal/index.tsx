@@ -53,13 +53,13 @@ export const CreateNewOptionModal = () => {
 
     const { refetch } = useQuery({
         queryFn: () => serviceOffers.getUserId(userId!, { provider: typeAdd, order: "DESC" }),
-        queryKey: ["offers", `user=${userId}`, `provider=${typeAdd}`],
+        queryKey: ["offers", { userId: userId, provider: typeAdd }],
         enabled: false,
     })
 
     const { refetch: refetchDataMap } = useQuery({
-        queryKey: ["offers", `category=${idsNumber.join(":")}`],
         queryFn: () => serviceOffers.get(obj),
+        queryKey: ["offers", { category: idsNumber.sort() }],
     })
 
     const list = useMemo(() => {

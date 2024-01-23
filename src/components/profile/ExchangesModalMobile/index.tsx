@@ -24,7 +24,7 @@ export const ExchangesModalMobile = () => {
                 user: userId!,
                 order: "DESC",
             }),
-        queryKey: ["barters", `user=${userId}`, `status=${type}`],
+        queryKey: ["barters", { userId: userId, status: type }],
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         enabled: !!userId && isVisible,
@@ -40,9 +40,7 @@ export const ExchangesModalMobile = () => {
             <header>
                 <h4>{type === "executed" ? "Текущие" : type === "completed" ? "Завершённые" : ""}</h4>
             </header>
-            <ul>
-                {Array.isArray(data?.res) ? data?.res?.map((item) => <CardOffer key={`::${item.id}::${item.status}::`} {...item} />) : null}
-            </ul>
+            <ul>{Array.isArray(data?.res) ? data?.res?.map((item) => <CardOffer key={`::${item.id}::${item.status}::`} {...item} />) : null}</ul>
         </div>
     )
 }

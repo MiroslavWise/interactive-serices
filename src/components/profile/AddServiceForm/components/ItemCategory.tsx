@@ -5,14 +5,12 @@ import type { IMainAndSubCategories, IValuesCategories } from "../types/types"
 
 import { IconCategory } from "@/lib/icon-set"
 
-export const ItemCategory = memo(function ItemCategory(
-    props: IMainAndSubCategories & { setValue: UseFormSetValue<IValuesCategories>; idsActive: number[] },
-) {
+export const ItemCategory = memo(function ItemCategory(props: IMainAndSubCategories & { setValue: UseFormSetValue<IValuesCategories>; idsActive: number[] }) {
     const { main, subs, idsActive, setValue } = props ?? {}
     const [expand, setExpand] = useState(false)
 
     return (
-        <a data-active={idsActive?.includes(main?.id) || subs.some((item) => idsActive?.some((_) => _ === item?.id))} data-expand={expand}>
+        <a data-expand={expand}>
             <div data-main data-disabled={idsActive?.length >= 5 && !idsActive?.includes(main?.id)}>
                 <div
                     data-check={idsActive?.includes(main?.id)}

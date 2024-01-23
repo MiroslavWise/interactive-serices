@@ -36,12 +36,11 @@ export interface IServiceTestimonials {
     post(value: IPostTestimonials): Promise<IReturnData<IResponseTestimonials>>
     patch(value: TPatchTestimonials, id: number | string): Promise<IReturnData<IResponseTestimonials>>
     getId(id: number | string): Promise<IReturnData<IResponseTestimonials>>
-    delete(id: number | string): Promise<IReturnData<IResponseTestimonials>>
 }
 
 interface IQueries {
     provider?: TTypeProvider
-    user?: number
+    user?: number | string
     target?: number
     status?: TStatusFeedback
     barter?: number

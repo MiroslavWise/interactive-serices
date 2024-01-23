@@ -61,7 +61,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 provider: "offer",
                 barter: data?.id!,
             }),
-        queryKey: ["testimonials", `barter=${data?.id}`, `offer=${offerId!}`],
+        queryKey: ["testimonials", { barterId: data?.id, targetId: offerId, provider: "offer" }],
         enabled:
             ["executed", "destroyed", "completed"]?.includes(data?.status!) && !!offerId && ["completion-recall-no", "completion-recall"].includes(operation!),
     })

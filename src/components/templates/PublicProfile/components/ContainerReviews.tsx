@@ -11,8 +11,8 @@ export const ContainerReviews = memo(function ContainerReviews(props: IUserRespo
     const { id } = props ?? {}
 
     const { data, isLoading } = useQuery({
-        queryFn: () => serviceOffers.getUserId(Number(id!)),
-        queryKey: ["offers", `user=${id}`],
+        queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
+        queryKey: ["offers", { userId: id, provider: "offer" }],
         enabled: !!id && typeof id !== "undefined",
         refetchOnMount: false,
         refetchOnReconnect: false,
@@ -29,11 +29,8 @@ export const ContainerReviews = memo(function ContainerReviews(props: IUserRespo
     const dataTestimonials = useQueries({
         queries: idsOffers.map((item) => ({
             queryFn: () => serviceTestimonials.get({ target: item!, provider: "offer" }),
-            queryKey: ["testimonials", `offer=${item}`, `provider=offer`],
+            queryKey: ["testimonials", { targetId: item, provider: "offer" }],
             enabled: Array.isArray(idsOffers) && !!idsOffers?.length && !!id,
-            refetchOnMount: false,
-            refetchOnReconnect: false,
-            refetchOnWindowFocus: false,
         })),
     })
 

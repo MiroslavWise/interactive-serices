@@ -1,6 +1,6 @@
 import { URL_API } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import type { IWrapperFetch } from "./types/wrapperFetch"
+import type { IWrapperFetch } from "./types"
 
 export const wrapperFetch: IWrapperFetch = {
     get header() {
