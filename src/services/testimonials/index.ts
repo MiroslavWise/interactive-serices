@@ -15,7 +15,4 @@ export const serviceTestimonials: IServiceTestimonials = {
     getId(id) {
         return wrapperFetch.methodGetId(this.route, id)
     },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
 }

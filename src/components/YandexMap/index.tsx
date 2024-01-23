@@ -4,8 +4,9 @@ import { isMobile } from "react-device-detect"
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
 import { useState, useEffect, useCallback, useRef } from "react"
 
-import { IResponseOffers } from "@/services/offers/types"
 import type { TTypeInstantsMap, TYandexMap } from "./types"
+import type { IResponseOffers } from "@/services/offers/types"
+import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 import { Header } from "./Header"
 import { MapCardNews } from "./MapCard"
@@ -15,11 +16,10 @@ import { CreationAlertAndDiscussionMap } from "../templates"
 import { StandardContextMenu } from "./ObjectsMap/StandardContextMenu"
 
 import { generateShortHash } from "@/lib/hash"
+import { getGeocodeSearchCoords } from "@/services"
 import { getLocationName } from "@/lib/location-name"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
-import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import { getGeocodeSearchCoords } from "@/services/addresses/geocodeSearch"
-import { dispatchHasBalloon, useAuth, useBounds, useMapCoordinates } from "@/store/hooks"
+import { dispatchHasBalloon, useAuth, useBounds, useMapCoordinates } from "@/store"
 
 const COORD = [59.57, 30.19]
 

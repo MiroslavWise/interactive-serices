@@ -7,9 +7,7 @@ import type { TBadges } from "./types/types"
 
 import { BadgeAchievementsBorder } from "@/components/common/Badge/BadgeAchievementsBorder"
 
-import { serviceOffers } from "@/services/offers"
-import { serviceBarters } from "@/services/barters"
-import { serviceTestimonials } from "@/services/testimonials"
+import { serviceTestimonials, serviceBarters, serviceOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -17,22 +15,23 @@ export const Badges: TBadges = ({ id }) => {
     const dataQueries = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getUserId(Number(id)),
-                queryKey: ["offers", `user=${id}`],
+                queryFn: () => serviceOffers.getUserId(id!, { provider: "offer", order: "DESC" }),
+                queryKey: ["offers", { userId: id, provider: "offer" }],
                 enabled: !!id,
             },
             {
                 queryFn: () =>
                     serviceBarters.get({
-                        user: Number(id),
+                        user: id!,
                         status: "completed",
+                        order: "DESC",
                     }),
-                queryKey: ["barters", `user=${id}`],
+                queryKey: ["barters", { userId: id, status: "completed" }],
                 enabled: !!id,
             },
             {
-                queryFn: () => serviceTestimonials.get({ user: Number(id) }),
-                queryKey: ["testimonials", `user=${Number(id)}`],
+                queryFn: () => serviceTestimonials.get({ user: id! }),
+                queryKey: ["testimonials", { userId: id }],
                 enabled: !!id,
             },
         ],

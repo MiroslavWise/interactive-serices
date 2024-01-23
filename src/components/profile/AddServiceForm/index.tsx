@@ -17,8 +17,8 @@ import styles from "./styles/style.module.scss"
 export const ChangeService = () => {
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
-    const categories = useOffersCategories(({ categories }) => categories)
     const visible = useChangeService(({ visible }) => visible)
+    const categories = useOffersCategories(({ categories }) => categories)
 
     const { register, watch, handleSubmit, setValue } = useForm<IValuesCategories>({
         defaultValues: {
@@ -86,7 +86,7 @@ export const ChangeService = () => {
                 setLoading(false)
                 dispatchChangeService({ visible: false })
             } else {
-                serviceUser.patch({ categories: watch("categories") || [] }, userId!).then((response) => {
+                serviceUser.patch({ categories: values.categories || [] }, userId!).then((response) => {
                     if (response.ok) {
                         refetch()
                         setLoading(false)
@@ -137,6 +137,25 @@ export const ChangeService = () => {
                                 ))}
                             </datalist>
                         </div>
+                        <div data-categories-selected={selectedCategories.length > 0}>
+                            {selectedCategories.map((item) => (
+                                <a key={`::selected::item::${item.id}::`}>
+                                    <span>{item.title}</span>
+                                    <button
+                                        type="button"
+                                        onClick={(event) => {
+                                            event.stopPropagation()
+                                            setValue(
+                                                "categories",
+                                                watch("categories").filter((item_) => item_ !== item.id),
+                                            )
+                                        }}
+                                    >
+                                        <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} />
+                                    </button>
+                                </a>
+                            ))}
+                        </div>
                         <section {...register("categories")}>
                             {filter.map((item) => (
                                 <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={watch("categories")} />
@@ -144,11 +163,6 @@ export const ChangeService = () => {
                         </section>
                         <footer>
                             <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} />
-                            {selectedCategories?.length > 0 ? (
-                                <p>
-                                    Выбрано: <span>{selectedCategories?.map((item) => item.title)?.join(", ")}</span>
-                                </p>
-                            ) : null}
                         </footer>
                     </form>
                 </ul>

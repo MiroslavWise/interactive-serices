@@ -17,7 +17,7 @@ export const CardSuggestion: TCardSuggestion = (props) => {
 
     const { data: dataTestimonials } = useQuery({
         queryFn: () => serviceTestimonials.get({ provider: "offer", target: rest?.id }),
-        queryKey: ["testimonials", `offer=${rest?.id}`, `provider=offer`],
+        queryKey: ["testimonials", { targetId: rest?.id, provider: "offer" }],
         enabled: !!rest?.id,
     })
 

@@ -32,7 +32,6 @@ export const CompletionTransaction = () => {
             rating: 3,
         },
     })
-    const { socket } = useWebSocket()
     const visible = useAddTestimonials(({ visible }) => visible)
     const profile = useAddTestimonials(({ profile }) => profile)
     const barterId = useAddTestimonials(({ barterId }) => barterId)
@@ -42,7 +41,7 @@ export const CompletionTransaction = () => {
 
     const { data, refetch: refetchBarters } = useQuery({
         queryFn: () => serviceBarters.getId(barterId!),
-        queryKey: ["barters", `id=${barterId!}`],
+        queryKey: ["barters", { id: barterId }],
         enabled: !!barterId,
     })
 
@@ -76,7 +75,7 @@ export const CompletionTransaction = () => {
                 provider: "offer",
                 barter: barterId!,
             }),
-        queryKey: ["testimonials", `barter=${barterId}`, `offer=${offerId!}`],
+        queryKey: ["testimonials", { targetId: offerId, provider: "offer", barterId: barterId }],
         enabled: false,
     })
 

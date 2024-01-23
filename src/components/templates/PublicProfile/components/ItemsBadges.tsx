@@ -7,30 +7,29 @@ import type { TItemsBadges } from "../types/types"
 
 import { BadgeAchievementsBorder } from "@/components/common/Badge/BadgeAchievementsBorder"
 
-import { serviceOffers } from "@/services/offers"
-import { serviceBarters } from "@/services/barters"
-import { serviceTestimonials } from "@/services/testimonials"
+import { serviceTestimonials, serviceBarters, serviceOffers } from "@/services"
 
 export const ItemsBadges: TItemsBadges = ({ id }) => {
     const dataQueries = useQueries({
         queries: [
             {
-                queryFn: () => serviceOffers.getUserId(Number(id)),
-                queryKey: ["offers", `user=${id}`],
+                queryFn: () => serviceOffers.getUserId(id, { provider: "offer", order: "DESC" }),
+                queryKey: ["offers", { userId: id, provider: "offer" }],
                 enabled: !!id,
             },
             {
                 queryFn: () =>
                     serviceBarters.get({
-                        user: Number(id),
+                        user: id,
                         status: "completed",
+                        order: "DESC",
                     }),
-                queryKey: ["barters", `user=${id}`],
+                queryKey: ["barters", { userId: id, status: "completed" }],
                 enabled: !!id,
             },
             {
-                queryFn: () => serviceTestimonials.get({ user: Number(id) }),
-                queryKey: ["testimonials", `user=${Number(id)}`],
+                queryFn: () => serviceTestimonials.get({ user: id! }),
+                queryKey: ["testimonials", { userId: id }],
                 enabled: !!id,
             },
         ],
@@ -69,22 +68,10 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
 
     return (
         <section data-budges data-opacity={!isLoading}>
-            <BadgeAchievementsBorder
-                title="Предложения"
-                total={countProperties.proposals.toFixed(0)}
-            />
-            <BadgeAchievementsBorder
-                title="Обмены"
-                total={countProperties.completed.toFixed(0)}
-            />
-            <BadgeAchievementsBorder
-                title="Рейтинг"
-                total={countProperties.average.toFixed(1)}
-            />
-            <BadgeAchievementsBorder
-                title="Отзывы"
-                total={countProperties.testimonials.toFixed(0)}
-            />
+            <BadgeAchievementsBorder title="Предложения" total={countProperties.proposals.toFixed(0)} />
+            <BadgeAchievementsBorder title="Обмены" total={countProperties.completed.toFixed(0)} />
+            <BadgeAchievementsBorder title="Рейтинг" total={countProperties.average.toFixed(1)} />
+            <BadgeAchievementsBorder title="Отзывы" total={countProperties.testimonials.toFixed(0)} />
         </section>
     )
 }

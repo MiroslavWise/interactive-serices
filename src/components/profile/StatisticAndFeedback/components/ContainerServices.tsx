@@ -19,8 +19,8 @@ export const ContainerServices: TContainerServices = ({}) => {
     const id = useSearchParams().get("id")
 
     const { data: dataOffer } = useQuery({
-        queryFn: () => serviceOffers.getUserId(Number(id), { provider: "offer" }),
-        queryKey: ["offers", `user=${Number(id)}`, "provider=offer"],
+        queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
+        queryKey: ["offers", { userId: id, provider: "offer" }],
     })
 
     const list = useMemo(() => {

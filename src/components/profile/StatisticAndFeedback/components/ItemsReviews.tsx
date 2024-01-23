@@ -12,16 +12,16 @@ import type { TItemsReviews } from "./types/types"
 import { CardReview } from "@/components/common/Card/Review"
 
 import { cx } from "@/lib/cx"
-import { serviceOffers } from "@/services/offers"
-import { serviceTestimonials } from "@/services/testimonials"
+import { serviceTestimonials, serviceOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const ItemsReviews: TItemsReviews = ({}) => {
     const id = useSearchParams().get("id")
+
     const { data: dataOffers, isLoading } = useQuery({
-        queryFn: () => serviceOffers.getUserId(Number(id!)),
-        queryKey: ["offers", `user=${id}`],
+        queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
+        queryKey: ["offers", { userId: id, provider: "offer" }],
         enabled: !!id && typeof id !== "undefined",
     })
 
@@ -35,7 +35,7 @@ export const ItemsReviews: TItemsReviews = ({}) => {
     const dataTestimonials = useQueries({
         queries: idsOffers.map((item) => ({
             queryFn: () => serviceTestimonials.get({ target: item!, provider: "offer" }),
-            queryKey: ["testimonials", `offer=${item}`, `provider=offer`],
+            queryKey: ["testimonials", { targetId: item, provider: "offer" }],
             enabled: Array.isArray(idsOffers) && !!idsOffers?.length && !!id,
         })),
     })

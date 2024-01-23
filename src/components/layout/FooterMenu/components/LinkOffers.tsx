@@ -1,14 +1,14 @@
 import Link from "next/link"
 import { memo } from "react"
 import { usePathname } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
+import { serviceBarters } from "@/services"
 import { ITEMS_LINK_FOOTER, ITEMS_LINK_ICON } from "../constants"
 
 import styles from "../styles/link.module.scss"
-import { serviceBarters } from "@/services/barters"
-import { useQuery } from "@tanstack/react-query"
 
 export const LinkOffers = memo(function LinkOffers() {
     const pathname = usePathname()
