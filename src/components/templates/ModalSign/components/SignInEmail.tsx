@@ -74,7 +74,7 @@ export const SignInEmail = memo(function SignInEmail({
                         dispatchAuthModal({ type: "FirstLoginQR" })
                         return
                     }
-                    if (response?.error) {
+                    if (!!response?.error && !response?.ok) {
                         console.log("ERROR ---У нас возникла ошибка, мы сейчас её решаем!---", response?.error)
                         on(
                             {
