@@ -28,7 +28,6 @@ export default function Notifications() {
         const values = dataNotifications?.res
 
         if (values && userId) {
-
             const array: IResponseNotifications[] = []
             const arrayNotRead: number[] = []
 
@@ -46,20 +45,20 @@ export default function Notifications() {
                 if (!item.read && typeof item.read !== "undefined") {
                     arrayNotRead.push(item.id)
                 }
-
-                const timer = setTimeout(() => {
-                    Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled: true }, item))).then((responses) => {
-                        if (responses.length > 0) {
-                            refetch()
-                        }
-                    })
-                }, 5 * 1000)
-
-                setStateNotifications(values)
-                setWaitingNotifications(array)
-
-                return () => clearTimeout(timer)
             }
+
+            const timer = setTimeout(() => {
+                Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled: true }, item))).then((responses) => {
+                    if (responses.length > 0) {
+                        refetch()
+                    }
+                })
+            }, 5 * 1000)
+
+            setStateNotifications(values)
+            setWaitingNotifications(array)
+
+            return () => clearTimeout(timer)
         }
     }, [dataNotifications?.res, userId])
 

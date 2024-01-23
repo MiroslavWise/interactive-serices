@@ -1,40 +1,56 @@
 import { URL_API } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
 import type { IWrapperFetch } from "./types/wrapperFetch"
+import { IBarterResponse } from "../barters/types"
 
 export const wrapperFetch: IWrapperFetch = {
+    returnData(response) {
+        return {
+            ok: !!response?.data,
+            res: response?.data || null,
+            meta: response?.meta || null,
+            error: response?.error || response || null,
+        }
+    },
+
+    returnError(error) {
+        return {
+            ok: false,
+            res: null,
+            meta: null,
+            error: error,
+        }
+    },
+
     async methodGet(url, query) {
         const params: string = query
             ? Object.entries(query)
-                  .map(([key, value]) => `&${key}=${value}`)
-                  .join("")
+                  .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
                   .replace("&", "?")
             : ""
+
+        const Headers: HeadersInit = {
+            "Content-Type": "application/json",
+        }
+
+        if (useTokenHelper.authToken) {
+            if (Headers !== null && typeof Headers === "object") {
+                Headers["Authorization"] = `Bearer ${useTokenHelper.authToken}`
+            }
+        }
+
+        const RequestInit: RequestInit = {
+            method: "GET",
+            headers: Headers,
+            cache: "default",
+        }
+
         try {
-            const response = await fetch(`${URL_API}${url}${params}`, {
-                method: "GET",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
-            })
+            const response = await fetch(`${URL_API}${url}${params}`, RequestInit)
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                meta: responseData?.meta,
-                error: responseData?.error,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodGetId(url, id, query) {
@@ -43,71 +59,50 @@ export const wrapperFetch: IWrapperFetch = {
                 ? query
                 : query
                 ? Object.entries(query)
-                      .map(([key, value]) => `&${key}=${value}`)
-                      .join("")
+                      .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
                       .replace("&", "?")
                 : ""
+        const requestInit: RequestInit = {
+            method: "GET",
+            headers: useTokenHelper.authToken
+                ? {
+                      Authorization: `Bearer ${useTokenHelper.authToken}`,
+                      "Content-Type": "application/json",
+                  }
+                : {
+                      "Content-Type": "application/json",
+                  },
+        }
         try {
-            const requestInit: RequestInit = {
-                method: "GET",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
-            }
-
             const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                meta: responseData?.meta,
-                error: responseData?.error,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodPost(url, body) {
+        const requestInit: RequestInit = {
+            method: "POST",
+            headers: useTokenHelper.authToken
+                ? {
+                      Authorization: `Bearer ${useTokenHelper.authToken}`,
+                      "Content-Type": "application/json",
+                  }
+                : {
+                      "Content-Type": "application/json",
+                  },
+            cache: "default",
+        }
+        if (body) {
+            requestInit.body = JSON.stringify(body)
+        }
         try {
-            const requestInit: RequestInit = {
-                method: "POST",
-                headers: useTokenHelper.authToken
-                    ? {
-                          Authorization: `Bearer ${useTokenHelper.authToken}`,
-                          "Content-Type": "application/json",
-                      }
-                    : {
-                          "Content-Type": "application/json",
-                      },
-            }
-
-            if (body) {
-                requestInit.body = JSON.stringify(body)
-            }
-
             const response = await fetch(`${URL_API}${url}`, requestInit)
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                meta: responseData?.meta,
-                error: responseData?.error,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodPatch(url, body, id) {
@@ -125,18 +120,9 @@ export const wrapperFetch: IWrapperFetch = {
                 body: JSON.stringify(body),
             })
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                error: responseData?.error,
-                meta: responseData?.meta,
-                code: responseData?.error?.code,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodDelete(url, id) {
@@ -153,21 +139,9 @@ export const wrapperFetch: IWrapperFetch = {
                       },
             })
             const responseData = await response.json()
-            if (responseData?.error === null) {
-                return {
-                    ok: true,
-                    res: responseData?.data,
-                }
-            }
-            return {
-                ok: false,
-                error: responseData?.error,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     async methodUploadFile(url, formData) {
@@ -186,20 +160,86 @@ export const wrapperFetch: IWrapperFetch = {
                 body: formData,
             })
             const responseData = await response.json()
-            return {
-                ok: !!responseData?.data,
-                res: responseData?.data,
-                error: responseData?.error,
-                meta: responseData?.meta,
-            }
+            return this.returnData(responseData)
         } catch (e) {
-            return {
-                ok: false,
-                error: e,
-            }
+            return this.returnError(e)
         }
     },
     stringRequest(value: string) {
         return `${URL_API}/${value}`
     },
 }
+
+class wrapperRequest {
+    private _url: string = URL_API
+    private _token: string = useTokenHelper.authToken!
+    private _link!: string
+    private _params!: string
+
+    private async blockTryCatch(method: RequestInit["method"], params: string) {
+        try {
+            const response = await fetch(`${this._url}${this._link}${params}`, {
+                method: method,
+                headers: {
+                    Authorization: this._token ? `Bearer ${this._token}` : "",
+                    "Content-Type": "application/json",
+                },
+            })
+            const responseData = await response.json()
+            return {}
+        } catch (e) {}
+    }
+
+    private methodGet(params: string) {}
+
+    constructor(link: string) {
+        this._link = link
+    }
+
+    get(query?: Record<string, any>) {
+        const params: string = query
+            ? Object.entries(query)
+                  .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
+                  .replace("&", "?")
+            : ""
+    }
+}
+
+let barter!: IBarterResponse
+
+//delete feature
+
+// function asdf() {
+//     //1-й вариант
+//     if (["completed", "destroyed"].includes(barter.status!)) {
+//         const notifyType: Partial<Record<IBarterResponse["status"], string>> = {
+//             completed: "completion-recall",
+//             destroyed: "completion-recall-no",
+//         }
+
+//         if (barter.userId === barter.initiator.userId) {
+//             await this.notify(barter.consigner.userId, "barter", notifyType[barter.status], barter)
+//         } else if (barter.userId === barter.consigner.userId) {
+//             await this.notify(barter.initiator.userId, "barter", notifyType[barter.status], barter)
+//         }
+//     }
+
+//     //2-й вариант
+//     if (barter.userId === barter.initiator.userId) {
+//         if (barter.status === "completed") {
+//             await this.notify(barter.consigner.userId, "barter", "completion-recall", barter)
+//         }
+//         if (barter.status === "destroyed") {
+//             await this.notify(barter.consigner.userId, "barter", "completion-recall-no", barter)
+//         }
+//     }
+
+//     if (barter.userId === barter.consigner.userId) {
+//         if (barter.status === "completed") {
+//             await this.notify(barter.initiator.userId, "barter", "completion-recall", barter)
+//         }
+//         if (barter.status === "destroyed") {
+//             await this.notify(barter.initiator.userId, "barter", "completion-recall-no", barter)
+//         }
+//     }
+// }

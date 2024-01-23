@@ -49,22 +49,22 @@ export function NotificationsMobile() {
                 if (!item.read && typeof item.read !== "undefined") {
                     arrayNotRead.push(item.id)
                 }
-
-                setStateNotifications(values)
-                setWaitingNotifications(array)
-
-                const timer = setTimeout(() => {
-                    if (arrayNotRead?.length > 0) {
-                        Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled: true }, item))).then((responses) => {
-                            if (responses.length > 0) {
-                                refetch()
-                            }
-                        })
-                    }
-                }, 5 * 1000)
-
-                return () => clearTimeout(timer)
             }
+
+            setStateNotifications(values)
+            setWaitingNotifications(array)
+
+            const timer = setTimeout(() => {
+                if (arrayNotRead?.length > 0) {
+                    Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled: true }, item))).then((responses) => {
+                        if (responses.length > 0) {
+                            refetch()
+                        }
+                    })
+                }
+            }, 5 * 1000)
+
+            return () => clearTimeout(timer)
         }
     }, [dataNotifications?.res, userId, visible])
 
