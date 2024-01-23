@@ -28,7 +28,6 @@ export default function Notifications() {
         const values = dataNotifications?.res
 
         if (values && userId) {
-            setStateNotifications(values)
 
             const array: IResponseNotifications[] = []
             const arrayNotRead: number[] = []
@@ -40,7 +39,7 @@ export default function Notifications() {
                             array.push(item)
                         }
                     }
-                    if (["completion-survey", "completion-recall", "accepted"].includes(item?.operation!)) {
+                    if (["completion-survey", "completion-recall", "completion-recall-no"].includes(item?.operation!)) {
                         array.push(item)
                     }
                 }
@@ -56,10 +55,11 @@ export default function Notifications() {
                     })
                 }, 5 * 1000)
 
+                setStateNotifications(values)
+                setWaitingNotifications(array)
+
                 return () => clearTimeout(timer)
             }
-
-            setWaitingNotifications(array)
         }
     }, [dataNotifications?.res, userId])
 

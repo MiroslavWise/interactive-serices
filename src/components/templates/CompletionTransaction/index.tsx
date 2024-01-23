@@ -104,7 +104,7 @@ export const CompletionTransaction = () => {
             ]).then(async (responses) => {
                 if (responses?.some((item) => item.ok)) {
                     const message = isLastFeedback ? "last" : "not-last"
-                    
+
                     flushSync(async () => {
                         Promise.all([refetchBarters(), refetchTestimonials(), refetchThread(), refetchNotifications()]).then(() => {
                             setLoading(false)
@@ -146,17 +146,25 @@ export const CompletionTransaction = () => {
                     </div>
                     <div data-groups>
                         <div data-rating {...register("rating", { required: false })}>
-                            {[1, 2, 3, 4, 5].map((item) => (
-                                <img
-                                    data-number={watch("rating")}
-                                    data-active={item <= watch("rating")}
-                                    src="/svg/stars/star-fill.svg"
-                                    onClick={() => setValue("rating", item)}
-                                    alt="star"
-                                    key={`${item}-start`}
-                                    height={20}
-                                    width={20}
-                                />
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                                <button
+                                    type="button"
+                                    data-img
+                                    key={`::star::${item}::`}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        setValue("rating", item)
+                                    }}
+                                >
+                                    <img
+                                        data-number={watch("rating")}
+                                        data-active={item <= watch("rating")}
+                                        src="/svg/stars/star-fill.svg"
+                                        alt="star"
+                                        height={20}
+                                        width={20}
+                                    />
+                                </button>
                             ))}
                         </div>
                     </div>
