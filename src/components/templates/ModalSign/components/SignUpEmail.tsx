@@ -23,6 +23,7 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
         defaultValues: {
             email: email || "",
             checkbox: false,
+            checkbox_personal_data: false,
         },
     })
 
@@ -93,8 +94,25 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
                         </Link>
                     </p>
                 </div>
+                <div className={styles.checkRemember}>
+                    <label className={styles.checkbox} data-check={watch("checkbox_personal_data")}>
+                        <input type="checkbox" {...register("checkbox_personal_data", { required: true })} />
+                        <span className={styles.checkmark}>
+                            <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={watch("checkbox_personal_data")} />
+                        </span>
+                    </label>
+                    <p data-terms data-error={!!errors.checkbox_personal_data}>
+                        Я даю согласие на обработку персональных данных
+                    </p>
+                </div>
             </div>
-            <Button type="submit" typeButton="fill-primary" label="Зарегистрироваться" loading={loading} disabled={!watch("checkbox") || !watch("email")} />
+            <Button
+                type="submit"
+                typeButton="fill-primary"
+                label="Зарегистрироваться"
+                loading={loading}
+                disabled={!watch("checkbox") || !watch("email") || !watch("checkbox_personal_data")}
+            />
             {children}
         </form>
     )

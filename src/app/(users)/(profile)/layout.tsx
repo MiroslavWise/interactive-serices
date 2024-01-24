@@ -3,8 +3,8 @@
 import { isMobile } from "react-device-detect"
 import { useEffect, type ReactNode } from "react"
 
+import { useAuth } from "@/store"
 import { usePush } from "@/helpers"
-import { useAuth } from "@/store/hooks"
 
 import styles from "@/scss/page.module.scss"
 

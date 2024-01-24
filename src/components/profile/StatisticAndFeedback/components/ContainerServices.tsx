@@ -11,7 +11,7 @@ import type { TContainerServices } from "./types/types"
 
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
-import { serviceOffers } from "@/services/offers"
+import { serviceOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
 

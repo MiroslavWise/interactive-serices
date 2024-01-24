@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation"
 import { UserIdPage } from "@/components/profile"
 
 import { usePush } from "@/helpers"
-import { serviceUser } from "@/services/users"
+import { serviceUser } from "@/services"
 
 // export async function generateMetadata({ searchParams }: { searchParams: { id: string | number } }): Promise<Metadata> {
 //     if (searchParams?.id) {

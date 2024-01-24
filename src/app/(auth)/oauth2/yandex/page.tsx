@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { usePush } from "@/helpers"
+import { URL_API, usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { dispatchAuthToken, dispatchOnboarding } from "@/store/hooks"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -53,6 +53,17 @@ export default function CallbackYandex() {
                         })
                 }
             } else {
+                if (!response.ok) {
+                    if (!!response?.error) {
+                        if (response?.error?.code === 401) {
+                            const token = searchParam.get("access_token")
+                            if (!!token) {
+                                document.location.href = `${URL_API}/yandex/login`
+                                return
+                            }
+                        }
+                    }
+                }
                 on({
                     message:
                         "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, Yandex проводит какие-то опецарации, попробуйте чуть позже",

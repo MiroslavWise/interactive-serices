@@ -69,33 +69,33 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
         function barterResponse(event: IBarterResponse) {
             console.log("%c barterResponse", "color: blue; font-size: 1.5rem;", event)
-            queryClient
-                .fetchQuery({
-                    queryFn: () => serviceProfile.getUserId(event?.emitterId),
-                    queryKey: ["profile", event?.emitterId],
-                })
-                .then((response) => {
-                    if (response?.ok) {
-                        const { firstName, lastName } = response?.res ?? {}
-                        if (event.status === "initiated") {
-                            onBarters({
-                                title: "Предложение на обмен",
-                                message: ``,
-                                status: event.status,
-                                threadIdBarter: !!event?.threadId ? { thread: event?.threadId! } : { "barter-id": `${event?.barterId}-${event.emitterId}` },
-                            })
-                        }
+            // queryClient
+            //     .fetchQuery({
+            //         queryFn: () => serviceProfile.getUserId(event?.emitterId),
+            //         queryKey: ["profile", event?.emitterId],
+            //     })
+            //     .then((response) => {
+            //         if (response?.ok) {
+            //             const { firstName, lastName } = response?.res ?? {}
+            //             // if (event.status === "initiated") {
+            //             //     onBarters({
+            //             //         title: "Предложение на обмен",
+            //             //         message: ``,
+            //             //         status: event.status,
+            //             //         threadIdBarter: !!event?.threadId ? { thread: event?.threadId! } : { "barter-id": `${event?.barterId}-${event.emitterId}` },
+            //             //     })
+            //             // }
 
-                        if (event.status === "accepted") {
-                            onBarters({
-                                title: "Обмен был принят",
-                                message: `Пользователь ${firstName || ""} ${lastName || ""} принял ваш запрос на обмен`,
-                                status: event?.status,
-                                threadId: event?.threadId,
-                            })
-                        }
-                    }
-                })
+            //             // if (event.status === "accepted") {
+            //             //     onBarters({
+            //             //         title: "Обмен был принят",
+            //             //         message: `Пользователь ${firstName || ""} ${lastName || ""} принял ваш запрос на обмен`,
+            //             //         status: event?.status,
+            //             //         threadId: event?.threadId,
+            //             //     })
+            //             // }
+            //         }
+            //     })
             refetchNotifications()
             refetchBarters()
         }

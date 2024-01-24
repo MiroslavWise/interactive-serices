@@ -1,9 +1,9 @@
 "use client"
 
 import { flushSync } from "react-dom"
-import { useQueries, useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 import { memo, useState, useMemo, useEffect } from "react"
+import { useQueries, useQuery } from "@tanstack/react-query"
 
 import type { IBarterResponse } from "@/services/barters/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
@@ -81,16 +81,16 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         }
     }, [res, userId])
 
-    const { data: dataTestimonials } = useQuery({
-        queryFn: () =>
-            serviceTestimonials.get({
-                target: offerId!,
-                provider: "offer",
-                barter: idBarter!,
-            }),
-        queryKey: ["testimonials", { barterId: idBarter, targetId: offerId, provider: "offer" }],
-        enabled: ["executed", "destroyed", "completed"]?.includes(res?.status!) && !!offerId,
-    })
+    // const { data: dataTestimonials } = useQuery({
+    //     queryFn: () =>
+    //         serviceTestimonials.get({
+    //             target: offerId!,
+    //             provider: "offer",
+    //             barter: idBarter!,
+    //         }),
+    //     queryKey: ["testimonials", { barterId: idBarter, targetId: offerId, provider: "offer" }],
+    //     enabled: ["executed", "destroyed", "completed"]?.includes(res?.status!) && !!offerId,
+    // })
 
     const infoOffers = useMemo(() => {
         if (!categories.length || !consigner || !initiator) {
@@ -106,19 +106,19 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         return userData?.addresses?.find((item) => item?.addressType === "main")
     }, [userData])
 
-    const isFeedback = useMemo(() => {
-        return dataTestimonials?.res?.find((item) => item?.userId === userId && item?.barterId === idBarter)
-    }, [userId, idBarter, dataTestimonials?.res])
+    // const isFeedback = useMemo(() => {
+    //     return dataTestimonials?.res?.find((item) => item?.userId === userId && item?.barterId === idBarter)
+    // }, [userId, idBarter, dataTestimonials?.res])
 
-    function handleCompleted() {
-        dispatchAddTestimonials({
-            visible: true,
-            profile: userData?.profile!,
-            barterId: idBarter!,
-            threadId: Number(threadId),
-            testimonials: dataTestimonials?.res!,
-        })
-    }
+    // function handleCompleted() {
+    //     dispatchAddTestimonials({
+    //         visible: true,
+    //         profile: userData?.profile!,
+    //         barterId: idBarter!,
+    //         threadId: Number(threadId),
+    //         testimonials: dataTestimonials?.res!,
+    //     })
+    // }
 
     function handleAccept() {
         if (!loading) {
@@ -310,20 +310,22 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                                 }}
                             />
                         </>
-                    ) : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
-                        <Button
-                            type="button"
-                            typeButton="white"
-                            label="Оставить отзыв"
-                            loading={loading}
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                handleCompleted()
-                            }}
-                        />
                     ) : null}
                 </footer>
             ) : null}
         </section>
     ) : null
 })
+
+// : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
+//     <Button
+//         type="button"
+//         typeButton="white"
+//         label="Оставить отзыв"
+//         loading={loading}
+//         onClick={(event) => {
+//             event.stopPropagation()
+//             handleCompleted()
+//         }}
+//     />
+// ) : null}

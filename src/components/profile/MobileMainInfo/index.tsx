@@ -5,14 +5,13 @@ import Link from "next/link"
 import Image from "next/image"
 import { useMemo } from "react"
 
-import { TMobileMainInfo } from "./types"
-import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
+import type { TMobileMainInfo } from "./types"
+import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { AddFriend } from "../MainInfo/components/AddFriend"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { ImageStatic, NextImageMotion } from "@/components/common/Image"
+import { ImageStatic, NextImageMotion, GeoTagging } from "@/components/common"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth } from "@/store"
 
 import styles from "./styles.module.scss"
 
@@ -29,13 +28,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                 <div className={styles.blockPhotoAch}>
                     <div className={styles.avatar}>
                         {user?.profile?.image?.attributes?.url ? (
-                            <NextImageMotion
-                                className={styles.photo}
-                                src={user?.profile?.image?.attributes?.url}
-                                alt="avatar"
-                                width={94}
-                                height={94}
-                            />
+                            <NextImageMotion className={styles.photo} src={user?.profile?.image?.attributes?.url} alt="avatar" width={94} height={94} />
                         ) : (
                             <ImageStatic className={styles.photo} src="/png/default_avatar.png" alt="avatar" width={94} height={94} />
                         )}
@@ -58,10 +51,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
             {userId !== user?.id && !!userId ? (
                 <div className={styles.buttons}>
                     <AddFriend user={user} />
-                    <Link
-                        data-circle-gradient
-                        href={Number(userId) === Number(user?.id) ? {} : { pathname: `/messages`, query: { user: user?.id } }}
-                    >
+                    <Link data-circle-gradient href={Number(userId) === Number(user?.id) ? {} : { pathname: `/messages`, query: { user: user?.id } }}>
                         <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
                     </Link>
                     {/* <button

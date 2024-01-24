@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation"
 
 import { ListChat, Chat, InterviewerInfo } from "@/components/messages"
 
-import { dispatchDataUser } from "@/store/hooks"
+import { dispatchDataUser } from "@/store"
 
 export default function Messages() {
     const searchParamsGet = useSearchParams()?.get

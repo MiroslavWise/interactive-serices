@@ -12,7 +12,7 @@
     height: 5rem;
     align-items: center;
     justify-content: center;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
 
     .photo {
         border-radius: 1.5rem;
@@ -28,6 +28,16 @@
         right: -9px;
         bottom: -9px;
         z-index: 2;
+    }
+
+    & > [data-null-avatar="false"] {
+        border-radius: 0.625rem;
+        padding: 1rem;
+
+        & > img {
+            height: 3rem;
+            width: 3rem;
+        }
     }
 }
 

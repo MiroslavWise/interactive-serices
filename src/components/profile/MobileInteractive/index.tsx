@@ -24,7 +24,6 @@ export const MobileInteractive = () => {
         const handleScroll = () => {
             if (liContainer) {
                 const offset = liContainer.getBoundingClientRect().top
-                console.log({ offset })
                 setIsSticky(offset <= 25)
             }
         }

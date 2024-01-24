@@ -352,10 +352,10 @@
 
 .RememberChange {
     display: flex;
-    flex-direction: row;
-    width: 100%;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    width: 100%;
     z-index: 3;
 
     .checkRemember {

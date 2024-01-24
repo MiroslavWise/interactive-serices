@@ -8,16 +8,16 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { IValuesForm } from "./types/types"
 
-import { Button, ButtonClose } from "@/components/common"
+import { Button, ButtonClose, ButtonLink } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { useWebSocket } from "@/context"
-import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications } from "@/services"
 import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
+import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const CompletionTransaction = () => {
+    const [isFirst, setIsFirst] = useState(true)
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
     const {
@@ -36,8 +36,10 @@ export const CompletionTransaction = () => {
     const profile = useAddTestimonials(({ profile }) => profile)
     const barterId = useAddTestimonials(({ barterId }) => barterId)
     const threadId = useAddTestimonials(({ threadId }) => threadId)
-    const testimonials = useAddTestimonials(({ testimonials }) => testimonials)
     const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
+
+    const [files, setFiles] = useState<File[]>([])
+    const [strings, setStrings] = useState<string[]>([])
 
     const { data, refetch: refetchBarters } = useQuery({
         queryFn: () => serviceBarters.getId(barterId!),
@@ -51,7 +53,7 @@ export const CompletionTransaction = () => {
         enabled: false,
     })
 
-    const { refetch: refetchNotifications } = useQuery({
+    const { data: dataNotifications, refetch: refetchNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         enabled: false,
@@ -79,14 +81,13 @@ export const CompletionTransaction = () => {
         enabled: false,
     })
 
-    const isLastFeedback = useMemo(() => {
-        return !!testimonials?.filter((item) => item?.barterId === barterId)?.length
-    }, [barterId, testimonials])
-
     function submit(values: IValuesForm) {
         if (!loading) {
             setLoading(true)
+
+            const completionSurveyCurrent = dataNotifications?.res?.find((item) => item?.operation === "completion-survey" && item?.data?.id === barterId)?.id!
             const idOffer = data?.res?.initiator?.userId === userId ? data?.res?.consignedId : data?.res?.initialId
+
             Promise.all([
                 serviceTestimonials.post({
                     targetId: idOffer!,
@@ -98,17 +99,21 @@ export const CompletionTransaction = () => {
                     enabled: true,
                 }),
                 !!notificationId
-                    ? serviceNotifications.patch({ operation: "feedback-received", enabled: true }, notificationId)
+                    ? serviceNotifications.patch({ operation: "feedback-received", enabled: true, read: true }, notificationId)
                     : Promise.resolve({ ok: true }),
+                !!completionSurveyCurrent
+                    ? serviceNotifications.patch({ operation: "completion-yes", enabled: true, read: true }, completionSurveyCurrent)
+                    : Promise.resolve({ ok: true }),
+                !!completionSurveyCurrent ? serviceBarters.patch({ enabled: true, status: "completed" }, barterId!) : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
-                if (responses?.some((item) => item.ok)) {
-                    const message = isLastFeedback ? "last" : "not-last"
-
+                if (responses?.some((item) => item!?.ok)) {
+                    refetchBarters()
+                    refetchTestimonials()
+                    refetchThread()
+                    refetchNotifications()
                     flushSync(async () => {
-                        Promise.all([refetchBarters(), refetchTestimonials(), refetchThread(), refetchNotifications()]).then(() => {
-                            setLoading(false)
-                            dispatchAddTestimonials({ visible: false })
-                        })
+                        setIsFirst(false)
+                        setLoading(false)
                     })
                 }
             })
@@ -119,56 +124,85 @@ export const CompletionTransaction = () => {
 
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible} data-mobile={isMobile}>
-            <section data-section-modal>
+            <section>
+                <h5>Обзор</h5>
                 <ButtonClose onClick={() => dispatchAddTestimonials({ visible: false })} position={{}} />
-                <header>
-                    <h3>Отзыв об обмене с {profile?.firstName || " "}</h3>
-                </header>
-                <form onSubmit={onSubmit}>
-                    <div data-text data-limit={watch("message")?.length > 200}>
-                        <textarea
-                            {...register("message", {
-                                required: true,
-                                minLength: 5,
-                            })}
-                            onKeyDown={(event) => {
-                                if (event.keyCode === 13 || event.code === "Enter") {
-                                    onSubmit()
-                                }
-                            }}
-                            placeholder="Напишите свой отзыв"
-                            maxLength={240}
-                        />
-                        <sup>
-                            <span>{watch("message")?.length || 0}</span>/240
-                        </sup>
-                    </div>
-                    <div data-groups>
-                        <div data-rating {...register("rating", { required: false })}>
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                                <button
-                                    type="button"
-                                    data-img
-                                    key={`::star::${item}::`}
-                                    onClick={(event) => {
-                                        event.stopPropagation()
-                                        setValue("rating", item)
+                {isFirst ? (
+                    <form onSubmit={onSubmit}>
+                        <header>
+                            <h3>
+                                Добавьте отзыв <span>@{profile?.username}</span>
+                            </h3>
+                            <div data-rating>
+                                <p>Оцените качество услуг:</p>
+                                <div data-groups>
+                                    <div data-rating {...register("rating", { required: false })}>
+                                        {[1, 2, 3, 4, 5].map((item) => (
+                                            <button
+                                                type="button"
+                                                data-img
+                                                key={`::star::${item}::`}
+                                                onClick={(event) => {
+                                                    event.stopPropagation()
+                                                    setValue("rating", item)
+                                                }}
+                                            >
+                                                <img
+                                                    data-number={watch("rating")}
+                                                    data-active={item <= watch("rating")}
+                                                    src="/svg/star-01.svg"
+                                                    alt="star"
+                                                    height={20}
+                                                    width={20}
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                        <fieldset>
+                            <div data-text data-limit={watch("message")?.length > 200}>
+                                <textarea
+                                    {...register("message", {
+                                        required: true,
+                                        minLength: 5,
+                                    })}
+                                    onKeyDown={(event) => {
+                                        if (event.keyCode === 13 || event.code === "Enter") {
+                                            onSubmit()
+                                        }
                                     }}
-                                >
-                                    <img
-                                        data-number={watch("rating")}
-                                        data-active={item <= watch("rating")}
-                                        src="/svg/stars/star-fill.svg"
-                                        alt="star"
-                                        height={20}
-                                        width={20}
-                                    />
-                                </button>
-                            ))}
+                                    placeholder="Напишите здесь свой отзыв..."
+                                    maxLength={240}
+                                />
+                                <sup>
+                                    <span>{watch("message")?.length || 0}</span>/240
+                                </sup>
+                            </div>
+                        </fieldset>
+                        <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />
+                    </form>
+                ) : (
+                    <article>
+                        <div data-img>
+                            <img src="/svg/fi_1271380.svg" alt="fi" width={100} height={100} />
                         </div>
-                    </div>
-                    <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />
-                </form>
+                        <div data-text>
+                            <h2>Спасибо, что делитесь мнением с Шейрой!</h2>
+                            <p>Ваш отзыв будет опубликован после проверки.</p>
+                        </div>
+                        <ButtonLink
+                            typeButton="fill-primary"
+                            label="Вернуться в профиль"
+                            href={{ pathname: "/user", query: { id: profile?.userId! } }}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                dispatchAddTestimonials({ visible: false })
+                            }}
+                        />
+                    </article>
+                )}
             </section>
         </div>
     )

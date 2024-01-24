@@ -27,6 +27,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         defaultValues: {
             phone: phone,
             checkbox: false,
+            checkbox_personal_data: false,
         },
     })
 
@@ -84,11 +85,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                         />
                     </div>
                     {!!errors.phone ? (
-                        <i>
-                            {errors.phone && errors?.phone?.message === "user already exists"
-                                ? "Пользователь уже существует"
-                                : errors.phone?.message}
-                        </i>
+                        <i>{errors.phone && errors?.phone?.message === "user already exists" ? "Пользователь уже существует" : errors.phone?.message}</i>
                     ) : null}
                 </div>
             </section>
@@ -110,14 +107,20 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                             Политикой конфиденциальности
                         </Link>{" "}
                         и{" "}
-                        <Link
-                            href={{ pathname: "/terms-consent-to-receive-mailings" }}
-                            target="_blank"
-                            rel="license"
-                            referrerPolicy="no-referrer"
-                        >
+                        <Link href={{ pathname: "/terms-consent-to-receive-mailings" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                             Согласие на получение рассылки
                         </Link>
+                    </p>
+                </div>
+                <div className={styles.checkRemember}>
+                    <label className={styles.checkbox} data-check={watch("checkbox_personal_data")}>
+                        <input type="checkbox" {...register("checkbox_personal_data", { required: true })} />
+                        <span className={styles.checkmark}>
+                            <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={watch("checkbox_personal_data")} />
+                        </span>
+                    </label>
+                    <p data-terms data-error={!!errors.checkbox_personal_data}>
+                        Я даю согласие на обработку персональных данных
                     </p>
                 </div>
             </div>
@@ -126,7 +129,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                 typeButton="fill-primary"
                 label="Зарегистрироваться"
                 loading={loading}
-                disabled={!watch("checkbox") || !watch("phone")}
+                disabled={!watch("checkbox") || !watch("phone") || !watch("checkbox_personal_data")}
             />
             {children}
         </form>

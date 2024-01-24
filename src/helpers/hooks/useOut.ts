@@ -1,6 +1,6 @@
 "use client"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth } from "@/store"
 
 export const useOut = () => {
     const signOut = useAuth(({ signOut }) => signOut)

@@ -13,7 +13,7 @@ import {
     useVisibleBannerNewServices,
     dispatchHasBalloon,
     // dispatchReciprocalExchange,
-} from "@/store/hooks"
+} from "@/store"
 
 export const useCloseAllModal = () => {
     const dispatchBallonCard = useBalloonCard((_) => _.dispatch)
