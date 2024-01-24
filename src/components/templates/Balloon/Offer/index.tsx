@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ButtonClose } from "@/components/common"
 
@@ -12,7 +13,6 @@ import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 
 import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
-import { flushSync } from "react-dom"
 
 export const BalloonOffer = () => {
     const userId = useAuth(({ userId }) => userId)
@@ -84,7 +84,7 @@ export const BalloonOffer = () => {
                                     dispatchBallonOffer({ visible: false })
                                 }}
                             >
-                                <img src="/svg/message-dots-circle.svg" alt="chat" width={20} height={20} />
+                                <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
                             </Link>
                         ) : null}
                     </div>
