@@ -1,12 +1,10 @@
-import { flushSync } from "react-dom"
 import { useMemo, useState } from "react"
 
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
+import { serviceUser } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { serviceUser } from "@/services/users"
-import { useAuth, useOffersCategories } from "@/store/hooks"
-import { COLOR_CARD_CATEGORY } from "@/lib/color-card-category"
+import { useAuth, useOffersCategories } from "@/store"
 
 export const BlockCategories = ({ stateCategory, refetch }: { stateCategory: IResponseOffersCategories[]; refetch(): Promise<any> }) => {
     const [loading, setLoading] = useState(false)

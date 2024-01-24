@@ -57,7 +57,7 @@ export const useAuth = create(
                                         username: data?.username,
                                         birthdate: data?.birthdate,
                                         about: data?.about,
-                                        enabled: true,
+                                        enabled: data?.enabled,
                                     },
                                 })
                             }
@@ -104,7 +104,7 @@ export const useAuth = create(
                         }
                     })
                 }
-                
+
                 set((state) => ({
                     ...state,
                     ...initialStateAuth,
