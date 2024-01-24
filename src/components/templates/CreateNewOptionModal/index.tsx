@@ -113,25 +113,23 @@ export const CreateNewOptionModal = () => {
                                     id,
                                 )
                                 .then(() => {
-                                    Promise.all([refetch()]).then(() => {
-                                        refetchDataMap()
-                                        flushSync(() => {
-                                            setLoading(false)
-                                            setIsFirst(false)
-                                            dispatchOnboarding("close")
-                                            reset()
-                                        })
+                                    refetch()
+                                    refetchDataMap()
+                                    flushSync(() => {
+                                        setLoading(false)
+                                        setIsFirst(false)
+                                        dispatchOnboarding("close")
+                                        reset()
                                     })
                                 })
                         } else {
-                            Promise.all([refetch()]).then(() => {
-                                refetchDataMap()
-                                flushSync(() => {
-                                    setLoading(false)
-                                    setIsFirst(false)
-                                    dispatchOnboarding("close")
-                                    reset()
-                                })
+                            refetch()
+                            refetchDataMap()
+                            flushSync(() => {
+                                setLoading(false)
+                                setIsFirst(false)
+                                dispatchOnboarding("close")
+                                reset()
                             })
                         }
                     })
@@ -176,8 +174,6 @@ export const CreateNewOptionModal = () => {
                             })
                         }
                     })
-                    return
-                } else {
                     return
                 }
             }
