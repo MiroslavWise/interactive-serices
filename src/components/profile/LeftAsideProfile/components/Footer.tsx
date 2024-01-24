@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/common"
 
+import { dispatchOnboarding } from "@/store"
 import { useOut } from "@/helpers/hooks/useOut"
-import { dispatchOnboarding } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
