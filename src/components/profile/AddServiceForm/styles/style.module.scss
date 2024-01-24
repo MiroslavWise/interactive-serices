@@ -7,6 +7,7 @@
     align-items: center;
     padding: 1.875rem;
 
+    display: none;
     opacity: 0;
     visibility: hidden;
 
@@ -24,6 +25,12 @@
         background-color: var(--background);
         display: flex;
         flex-direction: column;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition: var(--transition);
+        transition-property: opacity, visibility;
 
         & > header {
             padding: 1.5rem 0 1.25rem 1.5rem;
@@ -70,8 +77,14 @@
     }
 
     &[data-active="true"] {
+        display: flex;
         opacity: 1;
         visibility: visible;
+
+        & > section {
+            opacity: 1;
+            visibility: visible;
+        }
     }
 }
 
