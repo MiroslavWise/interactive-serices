@@ -19,9 +19,8 @@ export function NotificationsMobile() {
     const visible = useVisibleNotifications(({ visible }) => visible)
 
     const [status, setStatus] = useState<TTypeWaiting>("all")
-    const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
-    const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])
     const [waitingNotifications, setWaitingNotifications] = useState<IResponseNotifications[]>([])
+    const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
 
     const { data: dataNotifications, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -58,7 +57,6 @@ export function NotificationsMobile() {
             }
 
             setState({ new: newArray, old: oldArray })
-            setStateNotifications(values)
             setWaitingNotifications(array)
 
             const timer = setTimeout(() => {
@@ -73,7 +71,7 @@ export function NotificationsMobile() {
 
             return () => clearTimeout(timer)
         }
-    }, [dataNotifications?.res, userId, visible])
+    }, [dataNotifications?.res, userId])
 
     const maps = dataNotifications?.res || []
 
