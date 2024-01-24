@@ -1,12 +1,10 @@
 "use client"
 
-import { debounce } from "@/lib/debounce"
 import { useEffect, useMemo, useCallback, useLayoutEffect, useRef } from "react"
 
-export function useDebounce<Fn extends (...args: any[]) => any>(
-    fn: Fn,
-    ms: number,
-) {
+import { debounce } from "@/lib/debounce"
+
+export function useDebounce<Fn extends (...args: any[]) => any>(fn: Fn, ms: number) {
     const memoizedFn = useEvent(fn)
 
     const debouncedFn = useMemo(

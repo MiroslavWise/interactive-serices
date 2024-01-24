@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from "next/navigation"
 
-import { dispatchAnimated } from "@/store/hooks"
+import { dispatchAnimated } from "@/store"
 import { useCloseAllModal } from "./useCloseAllModal"
 
 export const usePush = () => {

@@ -1,11 +1,11 @@
 "use client"
 
 import { type FC, memo } from "react"
-import { Placemark, useYMaps } from "@pbe/react-yandex-maps"
+import { Placemark } from "@pbe/react-yandex-maps"
 
 import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
 
-import { dispatchBallonDiscussion, dispatchBallonOffer } from "@/store/hooks"
+import { dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
 
 import { TYPE_ICON } from "./constants"
 import { IconCategory } from "@/lib/icon-set"
@@ -16,8 +16,6 @@ const PlacemarkCurrentStates: TPlacemarkCurrent = ({ coordinates, id, idUser, di
 export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
 
 const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = ({ id, item, idUser, dispatch, offer }) => {
-    const ymaps = useYMaps(["templateLayoutFactory", " Placemark"])
-
     return (
         <Placemark
             geometry={item.reverse()}

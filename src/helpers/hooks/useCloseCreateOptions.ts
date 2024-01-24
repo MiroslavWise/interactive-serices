@@ -2,7 +2,7 @@
 
 import { type DispatchWithoutAction } from "react"
 
-import { useCreateAlert, useCreateOffer, useCreateRequest, useCreateDiscussion, useAddCreateModal, closeCreateOffers } from "@/store/hooks"
+import { useCreateAlert, useCreateOffer, useCreateRequest, useCreateDiscussion, useAddCreateModal, closeCreateOffers } from "@/store"
 
 export const useCloseCreateOptions = () => {
     const reset = useCreateOffer(({ reset }) => reset)

@@ -282,13 +282,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     .ymaps-2-1-79-image {
         background-repeat: no-repeat;
         background-color: var(--background);
         background-size: 100%;
         border-radius: 50%;
-        overflow: hidden;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         border: 0.0625rem solid var(--background);
+        left: -1.125rem !important;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: calc(100% - 0.625rem);
+            left: 50%;
+            z-index: -1;
+            height: 1rem;
+            width: 1rem;
+            transform: translateX(-50%);
+            background-color: var(--background);
+            clip-path: path(
+                "M0,0.8v9c0,0.4,0.3,1,0.8,1.3l6.5,4.4c0.4,0.3,1.1,0.3,1.5,0l6.5-4.4c0.4-0.3,0.8-0.9,0.8-1.3v-9C16,0.3,15.5,0,14.9,0H1.1 C0.5,0,0,0.3,0,0.8L0,0.8z"
+            );
+        }
     }
 }
