@@ -48,11 +48,12 @@
                     width: 2.75rem;
                     height: 2.75rem;
                     padding: 0.625rem;
-                    background: var(--primary-900);
+                    background: transparent;
                     border-radius: 1.375rem;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    border: 1px solid var(--gray-200);
 
                     & > img {
                         width: 1.5rem;

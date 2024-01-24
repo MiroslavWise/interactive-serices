@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import Link from "next/link"
 import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
@@ -29,7 +30,6 @@ import {
 import { useWebSocket } from "@/context"
 
 import styles from "./styles/style.module.scss"
-import dayjs from "dayjs"
 
 export const ReciprocalExchange = () => {
     const [loading, setLoading] = useState(false)
@@ -363,7 +363,7 @@ export const ReciprocalExchange = () => {
                                     dispatchReciprocalExchangeCollapse(true)
                                 }}
                             >
-                                <img src="/svg/message-dots-circle.svg" alt="dots" width={24} height={24} />
+                                <img src="/svg/message-dots-circle-primary.svg" alt="dots" width={24} height={24} />
                             </Link>
                         </footer>
                     </form>
