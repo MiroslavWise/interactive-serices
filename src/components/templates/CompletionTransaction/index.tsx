@@ -38,6 +38,9 @@ export const CompletionTransaction = () => {
     const threadId = useAddTestimonials(({ threadId }) => threadId)
     const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
 
+    const [files, setFiles] = useState<File[]>([])
+    const [strings, setStrings] = useState<string[]>([])
+
     const { data, refetch: refetchBarters } = useQuery({
         queryFn: () => serviceBarters.getId(barterId!),
         queryKey: ["barters", { id: barterId }],
@@ -104,11 +107,13 @@ export const CompletionTransaction = () => {
                 !!completionSurveyCurrent ? serviceBarters.patch({ enabled: true, status: "completed" }, barterId!) : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
                 if (responses?.some((item) => item!?.ok)) {
+                    refetchBarters()
+                    refetchTestimonials()
+                    refetchThread()
+                    refetchNotifications()
                     flushSync(async () => {
-                        Promise.all([refetchBarters(), refetchTestimonials(), refetchThread(), refetchNotifications()]).then(() => {
-                            setIsFirst(false)
-                            setLoading(false)
-                        })
+                        setIsFirst(false)
+                        setLoading(false)
                     })
                 }
             })
