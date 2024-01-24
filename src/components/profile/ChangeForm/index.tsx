@@ -112,10 +112,17 @@ export const ChangeForm = () => {
                 !!file.file
             ) {
                 const valuesProfile: IPatchProfileData = {
-                    firstName: values.firstName,
-                    lastName: values.lastName,
-                    username: values.username,
                     enabled: true,
+                }
+
+                if (watch("firstName") !== dataProfile?.res?.firstName) {
+                    valuesProfile.firstName = values.firstName
+                }
+                if (watch("lastName") !== dataProfile?.res?.lastName) {
+                    valuesProfile.lastName = values.lastName
+                }
+                if (watch("username") !== dataProfile?.res?.username) {
+                    valuesProfile.username = values.username
                 }
 
                 Promise.all([!!dataProfile?.res?.id ? serviceProfile.patch(valuesProfile, dataProfile?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(
@@ -124,10 +131,7 @@ export const ChangeForm = () => {
                             const idProfile = responses?.[0]?.res?.id!
                             if (file.file) {
                                 UpdatePhotoProfile(idProfile).then((response) => {
-                                    const dataPatch: IPostProfileData = {
-                                        username: values.username,
-                                        imageId: response?.res?.id,
-                                    }
+                                    const dataPatch: IPostProfileData = { imageId: response?.res?.id }
                                     serviceProfile.patch(dataPatch, idProfile).then(() => {
                                         refetchProfile()
                                         flushSync(() => {
