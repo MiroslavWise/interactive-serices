@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { IValuesForm } from "./types/types"
 
-import { Button, ButtonClose } from "@/components/common"
+import { Button, ButtonClose, ButtonLink } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
@@ -17,6 +17,7 @@ import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotificatio
 import styles from "./styles/style.module.scss"
 
 export const CompletionTransaction = () => {
+    const [isFirst, setIsFirst] = useState(true)
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
     const {
@@ -100,12 +101,13 @@ export const CompletionTransaction = () => {
                 !!completionSurveyCurrent
                     ? serviceNotifications.patch({ operation: "completion-yes", enabled: true, read: true }, completionSurveyCurrent)
                     : Promise.resolve({ ok: true }),
+                !!completionSurveyCurrent ? serviceBarters.patch({ enabled: true, status: "completed" }, barterId!) : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
-                if (responses?.some((item) => item.ok)) {
+                if (responses?.some((item) => item!?.ok)) {
                     flushSync(async () => {
                         Promise.all([refetchBarters(), refetchTestimonials(), refetchThread(), refetchNotifications()]).then(() => {
+                            setIsFirst(false)
                             setLoading(false)
-                            dispatchAddTestimonials({ visible: false })
                         })
                     })
                 }
@@ -120,61 +122,82 @@ export const CompletionTransaction = () => {
             <section>
                 <h5>Обзор</h5>
                 <ButtonClose onClick={() => dispatchAddTestimonials({ visible: false })} position={{}} />
-                <form onSubmit={onSubmit}>
-                    <header>
-                        <h3>
-                            Добавьте отзыв <span>@{profile?.username}</span>
-                        </h3>
-                        <div data-rating>
-                            <p>Оцените качество услуг:</p>
-                            <div data-groups>
-                                <div data-rating {...register("rating", { required: false })}>
-                                    {[1, 2, 3, 4, 5].map((item) => (
-                                        <button
-                                            type="button"
-                                            data-img
-                                            key={`::star::${item}::`}
-                                            onClick={(event) => {
-                                                event.stopPropagation()
-                                                setValue("rating", item)
-                                            }}
-                                        >
-                                            <img
-                                                data-number={watch("rating")}
-                                                data-active={item <= watch("rating")}
-                                                src="/svg/star-01.svg"
-                                                alt="star"
-                                                height={20}
-                                                width={20}
-                                            />
-                                        </button>
-                                    ))}
+                {isFirst ? (
+                    <form onSubmit={onSubmit}>
+                        <header>
+                            <h3>
+                                Добавьте отзыв <span>@{profile?.username}</span>
+                            </h3>
+                            <div data-rating>
+                                <p>Оцените качество услуг:</p>
+                                <div data-groups>
+                                    <div data-rating {...register("rating", { required: false })}>
+                                        {[1, 2, 3, 4, 5].map((item) => (
+                                            <button
+                                                type="button"
+                                                data-img
+                                                key={`::star::${item}::`}
+                                                onClick={(event) => {
+                                                    event.stopPropagation()
+                                                    setValue("rating", item)
+                                                }}
+                                            >
+                                                <img
+                                                    data-number={watch("rating")}
+                                                    data-active={item <= watch("rating")}
+                                                    src="/svg/star-01.svg"
+                                                    alt="star"
+                                                    height={20}
+                                                    width={20}
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
+                        </header>
+                        <fieldset>
+                            <div data-text data-limit={watch("message")?.length > 200}>
+                                <textarea
+                                    {...register("message", {
+                                        required: true,
+                                        minLength: 5,
+                                    })}
+                                    onKeyDown={(event) => {
+                                        if (event.keyCode === 13 || event.code === "Enter") {
+                                            onSubmit()
+                                        }
+                                    }}
+                                    placeholder="Напишите здесь свой отзыв..."
+                                    maxLength={240}
+                                />
+                                <sup>
+                                    <span>{watch("message")?.length || 0}</span>/240
+                                </sup>
+                            </div>
+                        </fieldset>
+                        <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />
+                    </form>
+                ) : (
+                    <article>
+                        <div data-img>
+                            <img src="/svg/fi_1271380.svg" alt="fi" width={100} height={100} />
                         </div>
-                    </header>
-                    <fieldset>
-                        <div data-text data-limit={watch("message")?.length > 200}>
-                            <textarea
-                                {...register("message", {
-                                    required: true,
-                                    minLength: 5,
-                                })}
-                                onKeyDown={(event) => {
-                                    if (event.keyCode === 13 || event.code === "Enter") {
-                                        onSubmit()
-                                    }
-                                }}
-                                placeholder="Напишите здесь свой отзыв..."
-                                maxLength={240}
-                            />
-                            <sup>
-                                <span>{watch("message")?.length || 0}</span>/240
-                            </sup>
+                        <div data-text>
+                            <h2>Спасибо, что делитесь мнением с Шейрой!</h2>
+                            <p>Ваш отзыв будет опубликован после проверки.</p>
                         </div>
-                    </fieldset>
-                    <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />
-                </form>
+                        <ButtonLink
+                            typeButton="fill-primary"
+                            label="Вернуться в профиль"
+                            href={{ pathname: "/user", query: { id: profile?.userId! } }}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                dispatchAddTestimonials({ visible: false })
+                            }}
+                        />
+                    </article>
+                )}
             </section>
         </div>
     )
