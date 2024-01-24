@@ -10,13 +10,15 @@
         width: 5rem;
         height: 5rem;
         border-radius: 1rem;
-        overflow: hidden;
         background-color: var(--background-input);
+        position: relative;
 
         & > img {
             height: auto;
             width: 100%;
             aspect-ratio: 1/1;
+            border-radius: 1rem;
+            background-color: var(--background-input);
         }
 
         &[data-img="false"] {
@@ -29,6 +31,41 @@
             & > img {
                 width: 3rem;
                 height: 3rem;
+                border-radius: 0;
+            }
+        }
+
+        & > button {
+            width: 1.5rem;
+            height: 1.5rem;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.75rem;
+            background-color: var(--background);
+            z-index: 3;
+            position: absolute;
+            top: -0.375rem;
+            right: -0.375rem;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition: var(--transition);
+            transition-property: opacity, visibility;
+
+            & > img {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+
+        &:hover {
+            & > button {
+                opacity: 1;
+                visibility: visible;
             }
         }
     }
@@ -52,6 +89,17 @@
             opacity: 0;
             cursor: pointer;
             z-index: 2;
+        }
+    }
+}
+
+[data-mobile="true"] {
+    .container {
+        & > [data-img] {
+            & > button {
+                opacity: 1;
+                visibility: visible;
+            }
         }
     }
 }

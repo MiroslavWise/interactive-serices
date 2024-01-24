@@ -1,5 +1,6 @@
 "use client"
 
+import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQueries } from "@tanstack/react-query"
 import { useEffect, useMemo, useState } from "react"
@@ -12,22 +13,19 @@ import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/type
 
 import { ImageProfile } from "./components/ImageProfile"
 import { Button, ButtonLink } from "@/components/common"
+import { BlockCategories } from "./components/BlockCategories"
 
 import { generateShortHash } from "@/lib/hash"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getLocationName } from "@/lib/location-name"
 import { dispatchChangeService, useAuth } from "@/store"
 import { useDebounce, useOut, usePush } from "@/helpers"
-import { BlockCategories } from "./components/BlockCategories"
 import { serviceAddresses, getGeocodeSearch, fileUploadService, serviceProfile, serviceUser } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const ChangeForm = () => {
-    const [file, setFile] = useState<{ file: File | null; string: string }>({
-        file: null,
-        string: "",
-    })
+    const [file, setFile] = useState<{ file: File | null; string: string }>({ file: null, string: "" })
     const [stateCategory, setStateCategory] = useState<IResponseOffersCategories[]>([])
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
@@ -131,13 +129,15 @@ export const ChangeForm = () => {
                                         imageId: response?.res?.id,
                                     }
                                     serviceProfile.patch(dataPatch, idProfile).then(() => {
-                                        refetchProfile().then(() => {
+                                        refetchProfile()
+                                        flushSync(() => {
                                             handlePush("/profile")
                                         })
                                     })
                                 })
                             } else {
-                                refetchProfile().then(() => {
+                                refetchProfile()
+                                flushSync(() => {
                                     handlePush("/profile")
                                 })
                             }
@@ -253,7 +253,7 @@ export const ChangeForm = () => {
         <form onSubmit={onSubmit} className={styles.form}>
             <section>
                 <h3>Личные данные</h3>
-                <ImageProfile image={dataProfile?.res?.image?.attributes?.url!} {...{ file, setFile }} />
+                <ImageProfile idProfile={dataProfile?.res?.id!} image={dataProfile?.res?.image?.attributes?.url!} {...{ file, setFile }} />
                 <div data-inputs>
                     <fieldset>
                         <label>Имя</label>
