@@ -7,13 +7,9 @@ export const wrapperFetch: IWrapperFetch = {
         const head: HeadersInit = {
             "Content-Type": "application/json",
         }
-
         if (useTokenHelper.authToken) {
-            if (head !== null && typeof head === "object") {
-                head["Authorization"] = `Bearer ${useTokenHelper.authToken}`
-            }
+            head["Authorization"] = `Bearer ${useTokenHelper.authToken}`
         }
-
         return head
     },
 
@@ -97,12 +93,15 @@ export const wrapperFetch: IWrapperFetch = {
         }
     },
     async methodPatch(url, body, id) {
+        const requestInit: RequestInit = {
+            method: "PATCH",
+            headers: this.header,
+            body: JSON.stringify(body),
+            cache: "default",
+        }
+
         try {
-            const response = await fetch(`${URL_API}${url}/${id}`, {
-                method: "PATCH",
-                headers: this.header,
-                body: JSON.stringify(body),
-            })
+            const response = await fetch(`${URL_API}${url}/${id}`, requestInit)
             const responseData = await response.json()
             return this.returnData(responseData)
         } catch (e) {
@@ -110,11 +109,14 @@ export const wrapperFetch: IWrapperFetch = {
         }
     },
     async methodDelete(url, id) {
+        const requestInit: RequestInit = {
+            method: "DELETE",
+            headers: this.header,
+            cache: "default",
+        }
+
         try {
-            const response = await fetch(`${URL_API}${url}/${id}`, {
-                method: "DELETE",
-                headers: this.header,
-            })
+            const response = await fetch(`${URL_API}${url}/${id}`, requestInit)
             const responseData = await response.json()
             return this.returnData(responseData)
         } catch (e) {
@@ -145,39 +147,4 @@ export const wrapperFetch: IWrapperFetch = {
     stringRequest(value: string) {
         return `${URL_API}/${value}`
     },
-}
-
-class wrapperRequest {
-    private _url: string = URL_API
-    private _token: string = useTokenHelper.authToken!
-    private _link!: string
-    private _params!: string
-
-    private async blockTryCatch(method: RequestInit["method"], params: string) {
-        try {
-            const response = await fetch(`${this._url}${this._link}${params}`, {
-                method: method,
-                headers: {
-                    Authorization: this._token ? `Bearer ${this._token}` : "",
-                    "Content-Type": "application/json",
-                },
-            })
-            const responseData = await response.json()
-            return {}
-        } catch (e) {}
-    }
-
-    private methodGet(params: string) {}
-
-    constructor(link: string) {
-        this._link = link
-    }
-
-    get(query?: Record<string, any>) {
-        const params: string = query
-            ? Object.entries(query)
-                  .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
-                  .replace("&", "?")
-            : ""
-    }
 }

@@ -11,9 +11,8 @@ import type { IValuesForm } from "./types/types"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { useWebSocket } from "@/context"
-import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications } from "@/services"
 import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
+import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -29,14 +28,13 @@ export const CompletionTransaction = () => {
         reset,
     } = useForm<IValuesForm>({
         defaultValues: {
-            rating: 3,
+            rating: 5,
         },
     })
     const visible = useAddTestimonials(({ visible }) => visible)
     const profile = useAddTestimonials(({ profile }) => profile)
     const barterId = useAddTestimonials(({ barterId }) => barterId)
     const threadId = useAddTestimonials(({ threadId }) => threadId)
-    const testimonials = useAddTestimonials(({ testimonials }) => testimonials)
     const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
 
     const { data, refetch: refetchBarters } = useQuery({
@@ -51,7 +49,7 @@ export const CompletionTransaction = () => {
         enabled: false,
     })
 
-    const { refetch: refetchNotifications } = useQuery({
+    const { data: dataNotifications, refetch: refetchNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         enabled: false,
@@ -79,14 +77,13 @@ export const CompletionTransaction = () => {
         enabled: false,
     })
 
-    const isLastFeedback = useMemo(() => {
-        return !!testimonials?.filter((item) => item?.barterId === barterId)?.length
-    }, [barterId, testimonials])
-
     function submit(values: IValuesForm) {
         if (!loading) {
             setLoading(true)
+
+            const completionSurveyCurrent = dataNotifications?.res?.find((item) => item?.operation === "completion-survey" && item?.data?.id === barterId)?.id!
             const idOffer = data?.res?.initiator?.userId === userId ? data?.res?.consignedId : data?.res?.initialId
+
             Promise.all([
                 serviceTestimonials.post({
                     targetId: idOffer!,
@@ -100,10 +97,11 @@ export const CompletionTransaction = () => {
                 !!notificationId
                     ? serviceNotifications.patch({ operation: "feedback-received", enabled: true }, notificationId)
                     : Promise.resolve({ ok: true }),
+                !!completionSurveyCurrent
+                    ? serviceNotifications.patch({ operation: "completion-yes", enabled: true }, completionSurveyCurrent)
+                    : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
                 if (responses?.some((item) => item.ok)) {
-                    const message = isLastFeedback ? "last" : "not-last"
-
                     flushSync(async () => {
                         Promise.all([refetchBarters(), refetchTestimonials(), refetchThread(), refetchNotifications()]).then(() => {
                             setLoading(false)
