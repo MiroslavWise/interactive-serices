@@ -5,10 +5,9 @@ import { useForm, Controller } from "react-hook-form"
 
 import type { TContentForgotPassword } from "../types/types"
 
-import { Button, Segments } from "@/components/common"
+import { Button } from "@/components/common"
 
-import { dispatchAuthModal, useModalAuthEmailOrPhone, dispatchIModalAuthEmailOrPhone, useModalAuth } from "@/store/hooks"
-import { VALUES_EMAIL_PHONE } from "../constants/segments"
+import { dispatchAuthModal, useModalAuth } from "@/store"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
 import styles from "../styles/form.module.scss"
@@ -16,7 +15,6 @@ import styles from "../styles/form.module.scss"
 export const ContentForgotPassword: TContentForgotPassword = () => {
     const [loading, setLoading] = useState(false)
     const email = useModalAuth(({ email }) => email)
-    const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
     const { control, handleSubmit, setError } = useForm<IValues>({ defaultValues: { email: email } })
 
     const onEnter = async (values: IValues) => {
@@ -51,15 +49,6 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
 
     return (
         <div className={styles.content}>
-            <Segments
-                type="primary"
-                VALUES={VALUES_EMAIL_PHONE}
-                active={VALUES_EMAIL_PHONE.find((item) => item.value === typeEmailOrPhone)!}
-                setActive={(event) => {
-                    dispatchIModalAuthEmailOrPhone(event.value)
-                }}
-                isBorder
-            />
             <form onSubmit={handleSubmit(onEnter)}>
                 <Controller
                     name="email"
@@ -72,7 +61,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
                             {formState.errors.email ? (
                                 <i>
                                     {formState.errors.email && formState.errors?.email?.message === "user is not verified"
-                                        ? "Пользователь не верифицирован"
+                                        ? "Пользователь не верифицирован. Проверьте вашу почту"
                                         : formState.errors.email && formState.errors?.email?.message === "user not found"
                                         ? "Пользователя не существует"
                                         : formState.errors.email && formState.errors?.email?.message === "something went wrong"
