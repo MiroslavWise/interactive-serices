@@ -2,12 +2,11 @@
 
 import { useEffect } from "react"
 
-import { usePush } from "@/helpers"
-import { serviceAuth } from "@/services/auth"
-import { dispatchAuthToken, dispatchOnboarding } from "@/store/hooks"
-import { useToast } from "@/helpers/hooks/useToast"
 import { queryClient } from "@/context"
-import { serviceUser } from "@/services"
+import { URL_API, usePush } from "@/helpers"
+import { serviceAuth, serviceUser } from "@/services"
+import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 export default function CallbackTelegram() {
     const { on } = useToast()
@@ -50,6 +49,17 @@ export default function CallbackTelegram() {
                             })
                     }
                 } else {
+                    //tgAuthResult
+                    if (!response.ok) {
+                        if (!!response?.error) {
+                            if (response?.error?.code === 401) {
+                                if (!!queryForBody[0]) {
+                                    document.location.href = `${URL_API}/telegram/login`
+                                    return
+                                }
+                            }
+                        }
+                    }
                     on({
                         message:
                             "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, Telegram проводит какие-то опецарации, попробуйте чуть позже",
