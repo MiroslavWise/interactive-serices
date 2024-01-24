@@ -209,48 +209,50 @@ export const ReciprocalExchange = () => {
                                         категорию для обмена, по которой у вас есть предложение
                                     </p>
                                     <div data-wants {...register("category")}>
-                                        {categoriesWants?.map((item) => (
-                                            <a
-                                                key={`::${item?.id}::want::`}
-                                                data-active={watch("category") === item.id}
-                                                data-exist={categoryMyIds?.includes(item?.id)}
-                                                onClick={(event) => {
-                                                    if (loading) {
-                                                        return
-                                                    }
-                                                    event.stopPropagation()
-                                                    if (watch("category") !== item.id) {
-                                                        setValue("category", item.id)
-                                                    } else {
-                                                        setValue("category", undefined)
-                                                    }
-                                                }}
-                                            >
-                                                <div data-img>
-                                                    <img
-                                                        src={
-                                                            ICON_OBJECT_OFFERS.hasOwnProperty(item.id!)
-                                                                ? ICON_OBJECT_OFFERS[item.id!]
-                                                                : ICON_OBJECT_OFFERS.default
+                                        {categoriesWants
+                                            ?.filter((item) => (!!watch("category") ? item?.id === watch("category") : true))
+                                            ?.map((item) => (
+                                                <a
+                                                    key={`::${item?.id}::want::`}
+                                                    data-active={watch("category") === item.id}
+                                                    data-exist={categoryMyIds?.includes(item?.id)}
+                                                    onClick={(event) => {
+                                                        if (loading) {
+                                                            return
                                                         }
-                                                        alt={`${item.id!}`}
-                                                        width={16}
-                                                        height={16}
-                                                        onError={(error: any) => {
-                                                            if (error?.target) {
-                                                                try {
-                                                                    error.target.src = `/svg/category/default.svg`
-                                                                } catch (e) {
-                                                                    console.log("catch e: ", e)
-                                                                }
+                                                        event.stopPropagation()
+                                                        if (watch("category") !== item.id) {
+                                                            setValue("category", item.id)
+                                                        } else {
+                                                            setValue("category", undefined)
+                                                        }
+                                                    }}
+                                                >
+                                                    <div data-img>
+                                                        <img
+                                                            src={
+                                                                ICON_OBJECT_OFFERS.hasOwnProperty(item.id!)
+                                                                    ? ICON_OBJECT_OFFERS[item.id!]
+                                                                    : ICON_OBJECT_OFFERS.default
                                                             }
-                                                        }}
-                                                    />
-                                                </div>
-                                                <span>{item.title}</span>
-                                                {watch("category") === item.id ? <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} /> : null}
-                                            </a>
-                                        ))}
+                                                            alt={`${item.id!}`}
+                                                            width={16}
+                                                            height={16}
+                                                            onError={(error: any) => {
+                                                                if (error?.target) {
+                                                                    try {
+                                                                        error.target.src = `/svg/category/default.svg`
+                                                                    } catch (e) {
+                                                                        console.log("catch e: ", e)
+                                                                    }
+                                                                }
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    <span>{item.title}</span>
+                                                    {watch("category") === item.id ? <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} /> : null}
+                                                </a>
+                                            ))}
                                     </div>
                                 </fieldset>
                                 {!watch("my_offer") && !!watch("category") ? (

@@ -9,7 +9,7 @@ export interface IPostProfileData {
     about?: string
     enabled?: boolean
     userId?: string | number //post
-    imageId?: number
+    imageId?: number | null
 }
 
 export type IPatchProfileData = Partial<IPostProfileData>
