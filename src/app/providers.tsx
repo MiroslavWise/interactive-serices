@@ -7,7 +7,7 @@ import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import "@/context/DayJSDefault"
-import { useAuth, useFetchingSession, useOffersCategories } from "@/store/hooks"
+import { useAuth, useFetchingSession, useOffersCategories } from "@/store"
 
 export default function Providers({ children }: { children: ReactNode }) {
     const refresh = useAuth(({ refresh }) => refresh)

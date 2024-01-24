@@ -1,7 +1,7 @@
 import type { IUseTokenHelper } from "./types/tokenHelper"
 
-import { AuthService } from "@/services/auth/authService"
 import { URL_API } from "@/helpers/url"
+import { AuthService } from "@/services"
 
 export const useTokenHelper: IUseTokenHelper = {
     temporaryToken: "",

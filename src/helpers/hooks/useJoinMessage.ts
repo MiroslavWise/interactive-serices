@@ -3,8 +3,8 @@
 import dayjs from "dayjs"
 import { useId } from "react"
 
-import { IResponseMessage } from "@/services/messages/types"
-import { IImageData } from "@/store/types/useAuthState"
+import type { IImageData } from "@/store/types/useAuthState"
+import type { IResponseMessage } from "@/services/messages/types"
 
 function useJoinMessage() {
     const idMessage = useId()
@@ -20,10 +20,7 @@ function useJoinMessage() {
                         time: dayjs(message.created).format("DD.MM.YYYY"),
                     })
                 }
-                if (
-                    index !== 0 &&
-                    dayjs(message.created).format("DD.MM.YYYY") !== dayjs(items.at(-1)?.messages?.at(-1)?.time).format("DD.MM.YYYY")
-                ) {
+                if (index !== 0 && dayjs(message.created).format("DD.MM.YYYY") !== dayjs(items.at(-1)?.messages?.at(-1)?.time).format("DD.MM.YYYY")) {
                     items.push({
                         type: "time",
                         time: dayjs(message.created).format("DD.MM.YYYY"),
