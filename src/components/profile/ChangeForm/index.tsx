@@ -244,9 +244,10 @@ export const ChangeForm = () => {
         return (
             watch("firstName") === dataProfile?.res?.firstName &&
             watch("lastName") === dataProfile?.res?.lastName &&
-            watch("username") === dataProfile?.res?.username
+            watch("username") === dataProfile?.res?.username &&
+            !file.string
         )
-    }, [watch("firstName"), watch("lastName"), watch("username"), dataProfile?.res])
+    }, [watch("firstName"), watch("lastName"), watch("username"), dataProfile?.res, file.string])
 
     return (
         <form onSubmit={onSubmit} className={styles.form}>
