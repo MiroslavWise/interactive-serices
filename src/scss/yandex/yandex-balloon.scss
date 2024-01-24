@@ -174,17 +174,13 @@
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
     touch-action: manipulation;
-    background:
-        var(--gradient-optional-1-reverb) padding-box,
-        var(--gradient-optional-1) border-box !important;
+    background: var(--gradient-optional-1-reverb) padding-box, var(--gradient-optional-1) border-box !important;
     backdrop-filter: saturate(2) !important;
 }
 
 [data-theme="dark"] {
     .maps-button-circle {
-        background:
-            var(--gradient-optional-1-reverb) padding-box,
-            var(--gradient-optional-1) border-box !important;
+        background: var(--gradient-optional-1-reverb) padding-box, var(--gradient-optional-1) border-box !important;
         backdrop-filter: saturate(0.3) !important;
     }
 }
@@ -280,4 +276,19 @@
     font-style: normal;
     font-weight: 400;
     line-height: 1.125rem;
+}
+
+.ymaps-2-1-79-placemark-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .ymaps-2-1-79-image {
+        background-repeat: no-repeat;
+        background-color: var(--background);
+        background-size: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border: 0.0625rem solid var(--background);
+    }
 }

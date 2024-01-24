@@ -11,7 +11,7 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials } from "@/store"
-import { serviceBarters, serviceNotifications, serviceProfile, serviceTestimonials, serviceUser } from "@/services"
+import { serviceBarters, serviceNotifications, serviceProfile, serviceTestimonials } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -124,7 +124,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                     )
                 }
             }
-            if (["completion-yes", "completion-survey", "completion-no"].includes(operation!) && ["completed", "executed"].includes(data?.status!)) {
+            if (["completion-yes", "completion-survey", "completion-no"].includes(operation!)) {
                 return (
                     <p>
                         Расскажите, обмен с пользователем{" "}
@@ -277,7 +277,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
         if (!loading) {
             setLoading(true)
             Promise.all([
-                serviceNotifications.patch({ enabled: true, operation: value ? "completion-yes" : "completion-no" }, id!),
+                serviceNotifications.patch({ enabled: true, operation: value ? "completion-yes" : "completion-no", read: true }, id!),
                 serviceBarters.patch({ enabled: value, status: value ? "completed" : "destroyed" }, data?.id!),
             ]).then(() => {
                 refetch().then(() => {
