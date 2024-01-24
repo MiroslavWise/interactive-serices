@@ -51,6 +51,7 @@ export interface IValuesRegistrationForm {
     // password: string //password
     // repeat_password: string //repeat_password
     checkbox: boolean //checkbox
+    checkbox_personal_data: boolean //checkbox
 }
 
 export interface IValuesSignForm {
