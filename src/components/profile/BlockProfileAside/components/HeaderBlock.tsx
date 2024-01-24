@@ -30,9 +30,15 @@ export const HeaderBlock: THeaderBlock = () => {
 
     return (
         <header className={styles.containerHeader}>
-            <div className={styles.avatar}>
-                <NextImageMotion className={styles.photo} src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={94} height={94} />
-                {true ? <img className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} /> : null}
+            <div className={styles.avatar} data-null-avatar={!!dataProfile?.res?.image?.attributes}>
+                {dataProfile?.res?.image?.attributes ? (
+                    <NextImageMotion className={styles.photo} src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={94} height={94} />
+                ) : (
+                    <img src="/svg/profile-null.svg" alt="avatar" height={48} width={48} />
+                )}
+                {!!dataProfile?.res?.image?.attributes ? (
+                    <img className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} />
+                ) : null}
             </div>
             <section className={styles.title}>
                 <h4>
