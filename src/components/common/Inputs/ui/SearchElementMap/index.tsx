@@ -16,7 +16,7 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
     const [text, setText] = useState("")
     const [loading, setLoading] = useState(false)
     const [activeIsList, setIsActiveList, ref] = useOutsideClickEvent()
-    const debouncedValue = useDebounce(onValueFunc, 600)
+    const debouncedValue = useDebounce(onValueFunc, 300)
     const [values, setValues] = useState<IFeatureMember[]>([])
 
     function onFocus() {
@@ -53,6 +53,8 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
             const latitude = value?.GeoObject?.Point?.pos?.split(" ")[1]
 
             const coordinates = [Number(latitude), Number(longitude)]
+
+            setText(value?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text)
             dispatchMapCoordinates({
                 coordinates: coordinates,
                 zoom: 18,
@@ -69,6 +71,7 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
                 onFocus={onFocus}
                 placeholder="Выберите местоположение..."
                 className={styles.input}
+                value={text}
                 onChange={(event) => {
                     setLoading(true)
                     setIsActiveList(true)

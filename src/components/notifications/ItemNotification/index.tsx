@@ -137,7 +137,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         >
                             {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
                         </Link>{" "}
-                        состоялся?
+                        состоялся? Обмен будет считаться завершенным, когда одна из сторон подтвердит завершение
                     </p>
                 )
             }
@@ -189,7 +189,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const buttons: ReactNode | null = useMemo(() => {
         if (provider === "barter") {
-            if (data?.status === "initiated" || operation === "accepted") {
+            if (operation === "accepted") {
                 if (data?.userId !== userId) {
                     const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
 
@@ -207,7 +207,8 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     )
                 }
-            } else if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
+            }
+            if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
                 return (
                     <>
                         <Button
@@ -234,13 +235,15 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         />
                     </>
                 )
-            } else if (
+            }
+            if (
                 ["completion-recall", "completion-recall-no"].includes(operation!) &&
                 ["completed", "destroyed"].includes(data?.status!) &&
                 isFeedback === false
             ) {
                 return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
-            } else if (operation === "completion-yes") {
+            }
+            if (operation === "completion-yes") {
                 return (
                     <span data-operation={operation}>
                         <div data-img>
@@ -249,7 +252,8 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         Обмен состоялся
                     </span>
                 )
-            } else if (operation === "completion-no") {
+            }
+            if (operation === "completion-no") {
                 return (
                     <span data-operation={operation}>
                         <div data-img>
@@ -258,7 +262,8 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         Обмен не состоялся
                     </span>
                 )
-            } else if (operation === "feedback-received") {
+            }
+            if (operation === "feedback-received") {
                 return (
                     <span data-operation={operation}>
                         <div data-img>
