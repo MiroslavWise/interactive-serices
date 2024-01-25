@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 import Link from "next/link"
-import { type ReactNode, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { type ReactNode, useMemo, useState } from "react"
 
 import type { IResponseNotifications } from "@/services/notifications/types"
 import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
@@ -10,8 +10,8 @@ import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials } from "@/store"
 import { serviceBarters, serviceNotifications, serviceProfile, serviceTestimonials } from "@/services"
+import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -28,6 +28,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     const { created, provider, operation, data, id, read } = props ?? {}
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
+    const categories = useOffersCategories(({ categories }) => categories)
 
     const idUser = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
 
@@ -53,6 +54,17 @@ export const ItemNotification = (props: IResponseNotifications) => {
             return Number(data?.initialId)
         }
     }, [data, userId])
+
+    const categoryOfferName = useMemo(() => {
+        if (!data || !categories?.length) {
+            return null
+        }
+
+        return {
+            initiator: categories?.find((item) => item?.id === data?.initiator?.categoryId),
+            consigner: categories?.find((item) => item?.id === data?.consigner?.categoryId),
+        }
+    }, [categories, data])
 
     const { data: dataTestimonials } = useQuery({
         queryFn: () =>
@@ -107,21 +119,23 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         </p>
                     )
                 } else {
-                    return (
-                        <p>
-                            Пользователь{" "}
-                            <Link
-                                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
-                                onClick={(event) => {
-                                    event.stopPropagation()
-                                    dispatchVisibleNotifications(false)
-                                }}
-                            >
-                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
-                            </Link>{" "}
-                            предложил вам обмен.
-                        </p>
-                    )
+                    if (operation === "create") {
+                        return (
+                            <p>
+                                <Link
+                                    href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchVisibleNotifications(false)
+                                    }}
+                                >
+                                    {dataProfile?.res?.firstName}
+                                </Link>{" "}
+                                предлагает вам <a>{categoryOfferName?.initiator?.title!}</a> взамен на <a>{categoryOfferName?.consigner?.title!}</a>:«
+                                {data?.initiator?.title!}».
+                            </p>
+                        )
+                    }
                 }
             }
             if (["completion-yes", "completion-survey", "completion-no"].includes(operation!)) {
@@ -276,7 +290,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
         }
 
         return null
-    }, [data, provider, userId, dataProfile, operation, loading, isFeedback])
+    }, [data, provider, userId, dataProfile, operation, loading, isFeedback, categoryOfferName])
 
     function handleCompletion(value: boolean) {
         if (!loading) {
@@ -293,6 +307,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
 
     function handleRecall() {
+        serviceNotifications.patch({ enabled: true, read: true }, id!).then(() => refetch())
         dispatchAddTestimonials({
             visible: true,
             profile: dataProfile?.res!,

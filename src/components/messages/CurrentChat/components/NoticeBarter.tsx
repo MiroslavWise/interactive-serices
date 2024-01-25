@@ -220,7 +220,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                             </>
                         ) : consigner?.userId === userId ? (
                             <>
-                                <span>{dataInitiatorProfile?.res?.firstName}</span> предлагает вам
+                                <span>{dataInitiatorProfile?.res?.firstName}</span> предлагает вам{" "}
                                 <span
                                     onClick={(event) => {
                                         event.stopPropagation()
