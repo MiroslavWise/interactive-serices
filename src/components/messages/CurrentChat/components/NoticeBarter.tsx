@@ -11,9 +11,9 @@ import type { IUserResponse } from "@/services/users/types/usersService"
 import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
+import { serviceThreads, serviceBarters, serviceProfile } from "@/services"
+import { useAuth, useOffersCategories, dispatchBallonOffer } from "@/store"
 import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
-import { serviceTestimonials, serviceThreads, serviceBarters, serviceProfile } from "@/services"
-import { useAuth, useOffersCategories, dispatchAddTestimonials, dispatchBallonOffer } from "@/store"
 
 import styles from "./styles/notice-barter.module.scss"
 
@@ -70,28 +70,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         }
     }, [res])
 
-    const offerId: number | null = useMemo(() => {
-        if (!res || !userId) {
-            return null
-        }
-        if (Number(res?.initiator?.userId) === Number(userId)) {
-            return Number(res?.consignedId)
-        } else {
-            return Number(res?.initialId)
-        }
-    }, [res, userId])
-
-    // const { data: dataTestimonials } = useQuery({
-    //     queryFn: () =>
-    //         serviceTestimonials.get({
-    //             target: offerId!,
-    //             provider: "offer",
-    //             barter: idBarter!,
-    //         }),
-    //     queryKey: ["testimonials", { barterId: idBarter, targetId: offerId, provider: "offer" }],
-    //     enabled: ["executed", "destroyed", "completed"]?.includes(res?.status!) && !!offerId,
-    // })
-
     const infoOffers = useMemo(() => {
         if (!categories.length || !consigner || !initiator) {
             return null
@@ -105,20 +83,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
     const geo = useMemo(() => {
         return userData?.addresses?.find((item) => item?.addressType === "main")
     }, [userData])
-
-    // const isFeedback = useMemo(() => {
-    //     return dataTestimonials?.res?.find((item) => item?.userId === userId && item?.barterId === idBarter)
-    // }, [userId, idBarter, dataTestimonials?.res])
-
-    // function handleCompleted() {
-    //     dispatchAddTestimonials({
-    //         visible: true,
-    //         profile: userData?.profile!,
-    //         barterId: idBarter!,
-    //         threadId: Number(threadId),
-    //         testimonials: dataTestimonials?.res!,
-    //     })
-    // }
 
     function handleAccept() {
         if (!loading) {
@@ -228,19 +192,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                     <p>
                         {initiator?.userId === userId ? (
                             <>
-                                Вы предлагаете{" "}
-                                <span
-                                    onClick={(event) => {
-                                        event.stopPropagation()
-                                        dispatchBallonOffer({
-                                            visible: true,
-                                            offer: initiator!,
-                                        })
-                                    }}
-                                >
-                                    {infoOffers?.initiator?.title?.toLowerCase()}
-                                </span>{" "}
-                                взамен на{" "}
+                                <span>{dataConsignerProfile?.res?.firstName}</span> предлагает вам{" "}
                                 <span
                                     onClick={(event) => {
                                         event.stopPropagation()
@@ -251,23 +203,24 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                                     }}
                                 >
                                     {infoOffers?.consigner?.title?.toLowerCase()}
+                                </span>{" "}
+                                взамен на{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title?.toLowerCase()}
                                 </span>
+                                : «{data?.res?.consigner?.title}».
                             </>
                         ) : consigner?.userId === userId ? (
                             <>
-                                <span>{userData?.profile?.firstName}</span> предлагает вам{" "}
-                                <span
-                                    onClick={(event) => {
-                                        event.stopPropagation()
-                                        dispatchBallonOffer({
-                                            visible: true,
-                                            offer: consigner!,
-                                        })
-                                    }}
-                                >
-                                    {infoOffers?.consigner?.title?.toLowerCase()}
-                                </span>{" "}
-                                взамен на{" "}
+                                <span>{dataInitiatorProfile?.res?.firstName}</span> предлагает вам
                                 <span
                                     onClick={(event) => {
                                         event.stopPropagation()
@@ -278,8 +231,20 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                                     }}
                                 >
                                     {infoOffers?.initiator?.title?.toLowerCase()}
+                                </span>{" "}
+                                взамен на{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title?.toLowerCase()}
                                 </span>
-                                {status === "completed" ? "(обмен завершён)" : ""}
+                                : «{data?.res?.initiator?.title}».
                             </>
                         ) : null}
                     </p>
@@ -316,16 +281,3 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         </section>
     ) : null
 })
-
-// : status === "completed" && !isFeedback && dataTestimonials?.ok ? (
-//     <Button
-//         type="button"
-//         typeButton="white"
-//         label="Оставить отзыв"
-//         loading={loading}
-//         onClick={(event) => {
-//             event.stopPropagation()
-//             handleCompleted()
-//         }}
-//     />
-// ) : null}
