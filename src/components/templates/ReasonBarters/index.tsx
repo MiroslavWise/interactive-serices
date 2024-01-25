@@ -96,9 +96,13 @@ export const ReasonBarters = () => {
                             ))}
                             {watch("type") === "other" ? (
                                 <div data-text-area>
-                                    <textarea {...register("text", { required: watch("type") === "other" })} placeholder="Опишите причину своими словами..." />
+                                    <textarea
+                                        {...register("text", { required: watch("type") === "other", maxLength: 240 })}
+                                        maxLength={240}
+                                        placeholder="Опишите причину своими словами..."
+                                    />
                                     <sup>
-                                        <span>{watch("text")?.length || 0}</span>/400
+                                        <span>{watch("text")?.length || 0}</span>/240
                                     </sup>
                                 </div>
                             ) : null}
