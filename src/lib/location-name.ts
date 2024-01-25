@@ -1,4 +1,4 @@
-import {
+import type {
     IFeatureMember,
     TKindLocation,
 } from "@/services/addresses/types/geocodeSearch"
