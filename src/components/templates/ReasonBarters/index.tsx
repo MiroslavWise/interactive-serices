@@ -55,7 +55,7 @@ export const ReasonBarters = () => {
 
             Promise.all([
                 serviceNotifications.patch({ enabled: true, operation: "completion-no", read: true }, notificationId!),
-                serviceBarters.patch({ enabled: true, status: `destroyed:${userId}:${textReason}` }, barterId!),
+                serviceBarters.patch({ enabled: true, status: `destroyed:${userId}`, title: textReason }, barterId!),
             ]).then(() => {
                 refetch()
                 refetchBarter()
