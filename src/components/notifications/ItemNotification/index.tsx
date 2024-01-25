@@ -203,6 +203,43 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const buttons: ReactNode | null = useMemo(() => {
         if (provider === "barter") {
+            if (operation === "completion-yes") {
+                return (
+                    <span data-operation={operation}>
+                        <div data-img>
+                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
+                        </div>{" "}
+                        Обмен состоялся
+                    </span>
+                )
+            }
+            if (operation === "completion-no") {
+                return (
+                    <span data-operation={operation}>
+                        <div data-img>
+                            <img src="/svg/x-red.svg" alt="check" width={16} height={16} />
+                        </div>{" "}
+                        Обмен не состоялся
+                    </span>
+                )
+            }
+            if (operation === "feedback-received") {
+                return (
+                    <span data-operation={operation}>
+                        <div data-img>
+                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
+                        </div>{" "}
+                        Вы оставили отзыв
+                    </span>
+                )
+            }
+            if (
+                ["completion-recall", "completion-recall-no"].includes(operation!) &&
+                ["completed", "destroyed"].includes(data?.status!) &&
+                isFeedback === false
+            ) {
+                return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
+            }
             if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
                 return (
                     <>
@@ -272,43 +309,6 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         )
                     }
                 }
-            }
-            if (
-                ["completion-recall", "completion-recall-no"].includes(operation!) &&
-                ["completed", "destroyed"].includes(data?.status!) &&
-                isFeedback === false
-            ) {
-                return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
-            }
-            if (operation === "completion-yes") {
-                return (
-                    <span data-operation={operation}>
-                        <div data-img>
-                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
-                        </div>{" "}
-                        Обмен состоялся
-                    </span>
-                )
-            }
-            if (operation === "completion-no") {
-                return (
-                    <span data-operation={operation}>
-                        <div data-img>
-                            <img src="/svg/x-red.svg" alt="check" width={16} height={16} />
-                        </div>{" "}
-                        Обмен не состоялся
-                    </span>
-                )
-            }
-            if (operation === "feedback-received") {
-                return (
-                    <span data-operation={operation}>
-                        <div data-img>
-                            <img src="/svg/check-primary.svg" alt="check" width={16} height={16} />
-                        </div>{" "}
-                        Вы оставили отзыв
-                    </span>
-                )
             }
         }
 
