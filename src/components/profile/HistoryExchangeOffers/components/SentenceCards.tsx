@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TSentenceCards } from "./types/types"
 
+import { LoadingBarters } from "@/components/common"
 import { CardOffer } from "@/components/common/Card/Offer"
 
 import { useAuth } from "@/store"
@@ -13,7 +14,7 @@ import styles from "./styles/style.module.scss"
 
 export const SentenceCards: TSentenceCards = ({ value }) => {
     const userId = useAuth(({ userId }) => userId)
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryFn: () =>
             serviceBarters.get({
                 status: value.value,
@@ -26,7 +27,11 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
 
     return (
         <ul className={styles.containerCards}>
-            {Array.isArray(data?.res) ? data?.res?.map((item) => <CardOffer key={`::history::page::${item.status}::${item.id}::`} {...item} />) : null}
+            {isLoading
+                ? [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)
+                : Array.isArray(data?.res)
+                ? data?.res?.map((item) => <CardOffer key={`::history::page::${item.status}::${item.id}::`} {...item} />)
+                : null}
         </ul>
     )
 }

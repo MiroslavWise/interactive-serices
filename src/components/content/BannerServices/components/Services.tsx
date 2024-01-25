@@ -14,6 +14,7 @@ import { serviceOffers } from "@/services/offers"
 import { useBounds, useFilterMap } from "@/store/hooks"
 
 import styles from "../styles/style.module.scss"
+import { ServiceLoading } from "@/components/common"
 
 export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({ setTotal, type, parentRef }) {
     const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
@@ -38,7 +39,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
         }
     }, [type])
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryFn: () => serviceOffers.get({ ...typeOffers.get!, ...obj }),
         queryKey: [...typeOffers.keys, `category=${idsNumber.join(":")}`],
         enabled: !!type,
@@ -61,12 +62,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
                     return false
                 }
 
-                if (
-                    coordinates[0] < maxCoors[0] &&
-                    coordinates[0] > minCoords[0] &&
-                    coordinates[1] < maxCoors[1] &&
-                    coordinates[1] > minCoords[1]
-                ) {
+                if (coordinates[0] < maxCoors[0] && coordinates[0] > minCoords[0] && coordinates[1] < maxCoors[1] && coordinates[1] > minCoords[1]) {
                     return true
                 }
 
@@ -79,13 +75,15 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({
 
     return (
         <ul className={cx(styles.services, ["offer", "request"].includes(type) && styles.requestsAndProposals)}>
-            {items.map((item) =>
-                type === "all" ? (
-                    <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />
-                ) : (
-                    <CardRequestsAndProposals key={`::${item.id}::offer::`} {...item} type="optional-3" />
-                ),
-            )}
+            {isLoading
+                ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
+                : items.map((item) =>
+                      type === "all" ? (
+                          <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />
+                      ) : (
+                          <CardRequestsAndProposals key={`::${item.id}::offer::`} {...item} type="optional-3" />
+                      ),
+                  )}
         </ul>
     )
 })

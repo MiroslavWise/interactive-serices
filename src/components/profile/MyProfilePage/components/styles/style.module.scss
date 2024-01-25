@@ -204,6 +204,17 @@
         width: 100%;
         margin-bottom: 1rem;
     }
+
+    &[data-loading="true"] {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 1rem;
+
+        & > * {
+            display: flex;
+            margin: 0;
+        }
+    }
 }
 
 [data-mobile="true"] {

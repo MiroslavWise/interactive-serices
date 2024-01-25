@@ -21,6 +21,7 @@ export const Rate: TRate = ({ rate, className, size }) => {
         <ul
             className={cx(styles.container, className)}
             style={{ height: size || 20 }}
+            data-rating
         >
             {createArray(Number(rate), 5).map((bool, index) => (
                 <li

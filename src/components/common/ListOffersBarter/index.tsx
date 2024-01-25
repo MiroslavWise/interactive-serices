@@ -5,21 +5,16 @@ import { forwardRef, useMemo } from "react"
 
 import type { TListOffersBarter } from "./types"
 
-import { ButtonDefault } from "../Buttons"
+import { Button } from "../Forward"
 
 import { useOffersCategories, useAddCreateModal } from "@/store/hooks"
 
 import styles from "./style.module.scss"
 
-export const ListOffersBarter = forwardRef(function ListOffersBarter(
-    props: TListOffersBarter,
-) {
+export const ListOffersBarter = forwardRef(function ListOffersBarter(props: TListOffersBarter) {
     const { items, active, onClick, ...rest } = props ?? {}
     const categories = useOffersCategories(({ categories }) => categories)
-    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
-        ({ dispatchVisibleTypeCreateOptionals }) =>
-            dispatchVisibleTypeCreateOptionals,
-    )
+    const dispatchVisibleTypeCreateOptionals = useAddCreateModal(({ dispatchVisibleTypeCreateOptionals }) => dispatchVisibleTypeCreateOptionals)
 
     const height = useMemo(() => {
         const length = items?.length || 70 + 32
@@ -54,21 +49,17 @@ export const ListOffersBarter = forwardRef(function ListOffersBarter(
                                 backgroundImage: `url(/svg/category/${item.categoryId}.svg)`,
                             }}
                         />
-                        <h3>
-                            {
-                                categories?.find(
-                                    (item_) =>
-                                        Number(item_.id) ===
-                                        Number(item?.categoryId),
-                                )?.title
-                            }
-                        </h3>
+                        <h3>{categories?.find((item_) => Number(item_.id) === Number(item?.categoryId))?.title}</h3>
                     </li>
                 ))}
             </ul>
-            <ButtonDefault
-                handleClick={updateProfileOffers}
-                submit="button"
+            <Button
+                type="button"
+                typeButton="fill-primary"
+                onClick={(event) => {
+                    event.stopPropagation()
+                    updateProfileOffers()
+                }}
                 label="Добавить предложение"
             />
         </article>
