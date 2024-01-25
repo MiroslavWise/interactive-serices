@@ -45,6 +45,8 @@ export interface IBarterResponse {
     status: TTypeStatusBarter
     initiator: ISmallDataOfferBarter
     consigner: ISmallDataOfferBarter
+    reason?: string
+    reasonUserId?: number
 }
 
 export interface IPostDataBarter {
@@ -70,7 +72,11 @@ interface IQueries {
     [key: string]: any
 }
 
-export type IPatchDataBarter = Partial<IPostDataBarter>
+export type IPatchDataBarter = Partial<IPostDataBarter> & {
+    reason?: string
+}
+
+export type TTypeReason = "found-specialist" | "found-through-friend" | "circumstances" | "specialists" | "company-service" | "spam" | "other"
 
 export interface IBartersService {
     route: string

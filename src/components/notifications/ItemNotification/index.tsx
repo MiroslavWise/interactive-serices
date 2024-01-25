@@ -11,7 +11,7 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import { serviceBarters, serviceNotifications, serviceProfile, serviceTestimonials } from "@/services"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, useOffersCategories } from "@/store"
+import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, useOffersCategories, dispatchReasonBarters } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -216,10 +216,32 @@ export const ItemNotification = (props: IResponseNotifications) => {
                             onClick={(event) => {
                                 event.stopPropagation()
                                 dispatchVisibleNotifications(false)
+                                reading()
                             }}
                             data-threads
                         />
                     )
+                }
+            }
+            if (operation === "create") {
+                if (data?.status === "initiated") {
+                    if (userId) {
+                        const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
+                        return (
+                            <ButtonLink
+                                type="button"
+                                typeButton="fill-primary"
+                                label="Перейти в чат"
+                                href={{ pathname: `/messages`, query: chat }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchVisibleNotifications(false)
+                                    reading()
+                                }}
+                                data-threads
+                            />
+                        )
+                    }
                 }
             }
             if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
@@ -243,6 +265,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                             onClick={(event) => {
                                 event.stopPropagation()
                                 handleCompletion(false)
+                                reading()
                             }}
                             loading={loading}
                             data-yes-or-not
@@ -292,17 +315,35 @@ export const ItemNotification = (props: IResponseNotifications) => {
         return null
     }, [data, provider, userId, dataProfile, operation, loading, isFeedback, categoryOfferName])
 
+    function reading() {
+        if (!read) {
+            serviceNotifications.patch({ enabled: true, read: true }, id!).then((response) => {
+                if (response.ok) refetch()
+            })
+        }
+    }
+
     function handleCompletion(value: boolean) {
         if (!loading) {
-            setLoading(true)
-            Promise.all([
-                serviceNotifications.patch({ enabled: true, operation: value ? "completion-yes" : "completion-no", read: true }, id!),
-                serviceBarters.patch({ enabled: value, status: value ? "completed" : "destroyed" }, data?.id!),
-            ]).then(() => {
-                refetch().then(() => {
-                    setLoading(false)
+            if (value) {
+                setLoading(true)
+                Promise.all([
+                    serviceNotifications.patch({ enabled: true, operation: "completion-yes", read: true }, id!),
+                    serviceBarters.patch({ enabled: true, status: "completed" }, data?.id!),
+                ]).then(() => {
+                    refetch().then(() => {
+                        setLoading(false)
+                        dispatchVisibleNotifications(false)
+                    })
                 })
-            })
+            } else {
+                dispatchReasonBarters({
+                    visible: true,
+                    notificationId: id!,
+                    barterId: data?.id!,
+                })
+                dispatchVisibleNotifications(false)
+            }
         }
     }
 
