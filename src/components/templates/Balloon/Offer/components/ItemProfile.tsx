@@ -25,12 +25,7 @@ export const ItemProfile = memo(function ItemProfile({ profile }: { profile: IGe
                     </h4>
                     <img src="/svg/verified-tick.svg" alt="verified" height={16} width={16} />
                 </div>
-                {geo ? (
-                    <p data-geo>
-                        {/* <img src="/svg/geo-marker.svg" alt="geo" width={14} height={14} /> */}
-                        {geo?.additional}
-                    </p>
-                ) : null}
+                {geo ? <p data-geo>{geo?.additional}</p> : null}
             </div>
         </article>
     )

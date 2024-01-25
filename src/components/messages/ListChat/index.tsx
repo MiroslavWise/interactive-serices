@@ -11,11 +11,11 @@ import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
 import { Segments } from "@/components/common/Segments"
 
+import { serviceUser } from "@/services"
 import { useWebSocket } from "@/context"
-import { serviceUser } from "@/services/users"
 import { SEGMENTS_CHAT } from "./constants/segments"
 import { useCountMessagesNotReading } from "@/helpers"
-import { dispatchMessagesType, useAuth, useMessagesType } from "@/store/hooks"
+import { dispatchMessagesType, useAuth, useMessagesType } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -51,9 +51,6 @@ export const ListChat = memo(function ListChat() {
             queryFn: () => serviceUser.getId(Number(item)),
             queryKey: ["user", { userId: item }],
             enabled: !!usersIds.length,
-            refetchOnMount: false,
-            refetchOnWindowFocus: false,
-            refetchOnReconnect: false,
         })),
     })
 

@@ -1,10 +1,9 @@
 "use client"
 
 import { flushSync } from "react-dom"
-import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import type { IValuesForm } from "./types/types"
 
@@ -20,6 +19,7 @@ export const CompletionTransaction = () => {
     const [isFirst, setIsFirst] = useState(true)
     const [loading, setLoading] = useState(false)
     const userId = useAuth(({ userId }) => userId)
+    const refTextArea = useRef<HTMLTextAreaElement>(null)
     const {
         register,
         formState: { errors },
@@ -120,10 +120,18 @@ export const CompletionTransaction = () => {
         }
     }
 
+    useEffect(() => {
+        if (visible) {
+            if (refTextArea.current) {
+                refTextArea.current.focus()
+            }
+        }
+    }, [visible])
+
     const onSubmit = handleSubmit(submit)
 
     return (
-        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible} data-mobile={isMobile}>
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
             <section>
                 <h5>Обзор</h5>
                 <ButtonClose onClick={() => dispatchAddTestimonials({ visible: false })} position={{}} />
@@ -175,6 +183,7 @@ export const CompletionTransaction = () => {
                                     }}
                                     placeholder="Напишите здесь свой отзыв..."
                                     maxLength={240}
+                                    ref={refTextArea}
                                 />
                                 <sup>
                                     <span>{watch("message")?.length || 0}</span>/240

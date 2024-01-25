@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
-import { Button, ButtonClose } from "@/components/common"
+import { Button, ButtonClose, LoadingProfile } from "@/components/common"
 
 import { ItemProfile } from "./components/ItemProfile"
 import { ItemProposal } from "./components/ItemProposal"
@@ -22,7 +22,7 @@ export const BalloonOffer = () => {
 
     const categoryCurrent = categories?.find((item) => item?.id === offer?.categoryId)
 
-    const { data } = useQuery({
+    const { data, isLoading: isLoadUser } = useQuery({
         queryFn: () => serviceUser.getId(offer?.userId!),
         queryKey: ["user", { userId: offer?.userId }],
         enabled: !!offer?.userId,
@@ -72,7 +72,7 @@ export const BalloonOffer = () => {
                 </header>
                 <ButtonClose position={{}} onClick={() => dispatchBallonOffer({ visible: false })} />
                 <div data-container>
-                    <ItemProfile profile={profile!} />
+                    {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} />}
                     <ItemProposal />
                     <div data-buttons>
                         <Button type="button" typeButton="fill-primary" label="Откликнуться" onClick={handle} disabled={!!userId && userId === offer?.userId} />

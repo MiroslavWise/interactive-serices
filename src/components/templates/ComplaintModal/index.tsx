@@ -4,12 +4,14 @@ import { useForm } from "react-hook-form"
 
 import type { IValuesForm } from "./types/types"
 
-import styles from "./styles/style.module.scss"
-import { ButtonClose, ButtonDefault } from "@/components/common/Buttons"
-import { useComplaintModal } from "@/store/state/useComplaintModal"
+import { ButtonClose, Button } from "@/components/common"
 import { TextArea } from "@/components/common/Inputs/components/TextArea"
-import { useToast } from "@/helpers/hooks/useToast"
+
 import { cx } from "@/lib/cx"
+import { useToast } from "@/helpers/hooks/useToast"
+import { useComplaintModal } from "@/store/state/useComplaintModal"
+
+import styles from "./styles/style.module.scss"
 
 export const ComplaintModal = () => {
     const {
@@ -20,8 +22,7 @@ export const ComplaintModal = () => {
         setValue,
         reset,
     } = useForm<IValuesForm>({})
-    const { visibleComplaint, user, dispatchComplaintModal } =
-        useComplaintModal()
+    const { visibleComplaint, user, dispatchComplaintModal } = useComplaintModal()
     const { on } = useToast()
 
     function handleClose() {
@@ -44,10 +45,7 @@ export const ComplaintModal = () => {
     const onSubmit = handleSubmit(submit)
 
     return visibleComplaint ? (
-        <div
-            className={cx("wrapper-fixed", styles.wrapper)}
-            data-visible={visibleComplaint}
-        >
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleComplaint}>
             <form onSubmit={onSubmit}>
                 <ButtonClose
                     onClick={handleClose}
@@ -59,10 +57,7 @@ export const ComplaintModal = () => {
                 <h2>
                     Оставить жалобу на <span>@{user?.profile?.username}</span>
                 </h2>
-                <h5>
-                    Данная жалоба будет проверена модераторами, и если будут
-                    найдены нарушения, пользователь получить бан!
-                </h5>
+                <h5>Данная жалоба будет проверена модераторами, и если будут найдены нарушения, пользователь получить бан!</h5>
                 <TextArea
                     {...register("comment", {
                         required: true,
@@ -75,13 +70,11 @@ export const ComplaintModal = () => {
                             onSubmit()
                         }
                     }}
-                    onChange={(event) =>
-                        setValue("comment", event.target.value!)
-                    }
+                    onChange={(event) => setValue("comment", event.target.value!)}
                     maxLength={512}
                     placeholder={"Опишите причину вашей жалобы"}
                 />
-                <ButtonDefault label="Пожаловаться" submit="submit" />
+                <Button type="submit" typeButton="regular-primary" label="Пожаловаться" />
             </form>
         </div>
     ) : null

@@ -11,7 +11,6 @@ import type { TItemsReviews } from "./types/types"
 
 import { CardReview } from "@/components/common/Card/Review"
 
-import { cx } from "@/lib/cx"
 import { serviceTestimonials, serviceOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
@@ -49,17 +48,17 @@ export const ItemsReviews: TItemsReviews = ({}) => {
     }, [dataTestimonials])
 
     return (
-        <div className={cx(styles.containerItemsInteractive, isMobile && styles.mobile)}>
+        <div className={styles.containerItemsInteractive}>
             {isMobile ? (
                 <ul>
                     {listTestimonials.map((item) => (
-                        <CardReview {...item!} key={`${item?.id}-card-review`} />
+                        <CardReview {...item!} key={`::card::review::${item?.id}::`} />
                     ))}
                 </ul>
             ) : (
                 <Masonry data-row columnsCount={2} gutter="16px">
                     {listTestimonials.map((item) => (
-                        <CardReview {...item!} key={`${item?.id}-card-review`} />
+                        <CardReview {...item!} key={`::card::review::${item?.id}::`} />
                     ))}
                 </Masonry>
             )}
