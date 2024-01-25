@@ -25,6 +25,7 @@ import {
     ReciprocalExchange,
     BalloonOffer,
     BalloonDiscussion,
+    ReasonBarters,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -43,6 +44,7 @@ import {
     useBalloonOffer,
     useBalloonDiscussion,
     useAddTestimonials,
+    useReasonBarters,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -58,6 +60,7 @@ export const Containers = () => {
     const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
     const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
     const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
+    const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
 
     return (
         <>
@@ -93,6 +96,7 @@ export const Containers = () => {
                     {visibleFriends && <DroverFriends />}
                     {isMobile && <ExchangesModalMobile />}
                     {isVisible && <CreateNewOptionModal />}
+                    {visibleReasonBarters && <ReasonBarters />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}
                     {visibleTestimonials && <CompletionTransaction />}
                     {visibleReciprocalExchange && <ReciprocalExchange />}

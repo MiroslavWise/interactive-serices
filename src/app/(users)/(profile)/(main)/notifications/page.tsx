@@ -8,7 +8,7 @@ import type { IResponseNotifications } from "@/services/notifications/types"
 import { ItemNotification } from "@/components/notifications"
 
 import { useAuth } from "@/store"
-import { serviceNotifications } from "@/services"
+import { serviceBarters, serviceNotifications } from "@/services"
 import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/NotificationsMobile/constants/navigation"
 
 export default function Notifications() {
@@ -61,6 +61,40 @@ export default function Notifications() {
             return () => clearTimeout(timer)
         }
     }, [dataNotifications?.res, userId])
+
+    // const user = 19592 //я
+    // const allNotifications = dataNotifications?.res!
+    // //@ts-ignore
+    // const barter: IBarterResponse
+
+    // async function patchBarters(values: IPatchDataBarter) {
+    //     if (["destroyed", "completed"].includes(values.status!)) {
+    //         if (user === barter?.initiator?.userId) {
+    //             const notificationsSurvey = allNotifications?.find(
+    //                 (item) => item.userId === barter?.consigner?.userId && item.operation === "completion-survey" && item?.data?.id === barter?.id,
+    //             )!
+
+    //             await serviceNotifications.patch(
+    //                 { enabled: false, operation: values?.status === "completed" ? "completion-yes" : "completion-no" },
+    //                 notificationsSurvey?.id,
+    //             )
+    //             //await создать обоим уведомление с operation:completion-recall activator:user
+    //             //отправить обоим сокет
+    //         }
+    //         if (user === barter?.consigner?.userId) {
+    //             const notificationsSurvey = allNotifications?.find(
+    //                 (item) => item.userId === barter?.initiator?.userId && item.operation === "completion-survey" && item?.data?.id === barter?.id,
+    //             )!
+
+    //             await serviceNotifications.patch(
+    //                 { enabled: false, operation: values?.status === "completed" ? "completion-yes" : "completion-no" },
+    //                 notificationsSurvey?.id,
+    //             )
+    //             //await создать обоим уведомление с operation:completion-recall activator:user
+    //             //отправить обоим сокет
+    //         }
+    //     }
+    // }
 
     return (
         <>

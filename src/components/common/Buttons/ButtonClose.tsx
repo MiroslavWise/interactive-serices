@@ -32,6 +32,7 @@ export const ButtonClose: TButtonClose = ({ onClick, position: { top, left, righ
             className={cx(styles.containerCloseButton, className)}
             style={position}
             onClick={(event) => {
+                event.stopPropagation()
                 if (onClick) onClick(event)
             }}
             data-close

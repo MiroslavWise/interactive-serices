@@ -1,15 +1,15 @@
 import Link from "next/link"
-import { flushSync } from "react-dom"
 import { usePathname } from "next/navigation"
 import { memo, useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+
+import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
 import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
-import { IResponseNotifications } from "@/services/notifications/types"
 
 export const LinkNotification = memo(function LinkNotification() {
     const pathname = usePathname()
