@@ -203,6 +203,35 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const buttons: ReactNode | null = useMemo(() => {
         if (provider === "barter") {
+            if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
+                return (
+                    <>
+                        <Button
+                            type="button"
+                            typeButton="fill-primary"
+                            label="Да"
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleCompletion(true)
+                            }}
+                            loading={loading}
+                            data-yes-or-not
+                        />
+                        <Button
+                            type="button"
+                            typeButton="regular-primary"
+                            label="Нет"
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleCompletion(false)
+                                reading()
+                            }}
+                            loading={loading}
+                            data-yes-or-not
+                        />
+                    </>
+                )
+            }
             if (operation === "accepted") {
                 if (data?.userId !== userId) {
                     const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
@@ -243,35 +272,6 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         )
                     }
                 }
-            }
-            if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
-                return (
-                    <>
-                        <Button
-                            type="button"
-                            typeButton="fill-primary"
-                            label="Да"
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                handleCompletion(true)
-                            }}
-                            loading={loading}
-                            data-yes-or-not
-                        />
-                        <Button
-                            type="button"
-                            typeButton="regular-primary"
-                            label="Нет"
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                handleCompletion(false)
-                                reading()
-                            }}
-                            loading={loading}
-                            data-yes-or-not
-                        />
-                    </>
-                )
             }
             if (
                 ["completion-recall", "completion-recall-no"].includes(operation!) &&
