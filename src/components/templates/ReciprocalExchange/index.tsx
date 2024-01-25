@@ -112,13 +112,9 @@ export const ReciprocalExchange = () => {
                 !values.my_offer && values.description ? serviceOffers.post(dataNewOffer) : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
             ]).then((response: [IReturnData<IResponseCreate>]) => {
                 if (response?.[0]?.ok) {
-                    const title = `-${response[0]?.res?.id!}:initiatorUserId:${userId}:consignedUserId:${offer?.userId}:time:${dayjs().format(
-                        "HH:mm:ss_DD.MM.YY",
-                    )}`
-
                     const dataBarter: IPostDataBarter = {
                         provider: "barter",
-                        title: title,
+                        title: "",
                         initialId: response[0]?.res?.id!, //number
                         consignedId: offer?.id!, //number
                         status: "initiated",

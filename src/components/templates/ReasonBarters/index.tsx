@@ -51,9 +51,11 @@ export const ReasonBarters = () => {
                 textReason = MENU_REASON.find((item) => item?.value === type)?.label!
             }
 
+            // reason: textReason
+
             Promise.all([
                 serviceNotifications.patch({ enabled: true, operation: "completion-no", read: true }, notificationId!),
-                serviceBarters.patch({ enabled: true, status: "destroyed", reason: textReason }, barterId!),
+                serviceBarters.patch({ enabled: true, status: `destroyed:${userId}:${textReason}` }, barterId!),
             ]).then(() => {
                 refetch()
                 refetchBarter()
