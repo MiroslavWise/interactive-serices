@@ -15,7 +15,7 @@ export const Buttons = () => {
     return typeof isAuth !== "undefined" ? (
         isAuth ? (
             <div className={styles.buttons}>
-                {pathname !== "/" ? <ButtonLink href={{ pathname: "/" }} label="Просмотр карты" typeButton="regular-primary" /> : null}
+                {pathname !== "/" ? <ButtonLink href={{ pathname: "/" }} label="Открыть карту" typeButton="regular-primary" /> : null}
                 <Button
                     label="Создать"
                     typeButton="fill-primary"
