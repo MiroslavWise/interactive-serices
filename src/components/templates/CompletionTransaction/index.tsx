@@ -10,6 +10,7 @@ import type { IValuesForm } from "./types/types"
 import { Button, ButtonClose, ButtonLink } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
 import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications } from "@/services"
 
@@ -31,6 +32,7 @@ export const CompletionTransaction = () => {
             rating: 3,
         },
     })
+    const { onBarters } = useToast()
     const visible = useAddTestimonials(({ visible }) => visible)
     const profile = useAddTestimonials(({ profile }) => profile)
     const barterId = useAddTestimonials(({ barterId }) => barterId)
@@ -48,7 +50,7 @@ export const CompletionTransaction = () => {
 
     const { refetch: refetchThread } = useQuery({
         queryFn: () => serviceThreads.getId(Number(threadId)),
-        queryKey: ["threads", `user=${userId}`, `id=${threadId}`],
+        queryKey: ["threads", { userId: userId, threadId: threadId }],
         enabled: false,
     })
 
@@ -124,6 +126,11 @@ export const CompletionTransaction = () => {
                     refetchThread()
                     refetchNotifications()
                     flushSync(async () => {
+                        onBarters({
+                            title: "Спасибо за обратную связь",
+                            message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
+                            status: "initiated",
+                        })
                         setIsFirst(false)
                         setLoading(false)
                     })

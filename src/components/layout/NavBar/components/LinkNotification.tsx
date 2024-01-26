@@ -15,10 +15,10 @@ export const LinkNotification = memo(function LinkNotification() {
     const pathname = usePathname()
     const [count, setCount] = useState<number | null>(null)
     const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
-    const [active, setActive, ref] = useOutsideClickEvent()
+    const [active, setActive, ref] = useOutsideClickEvent(writingNotifications)
     const userId = useAuth(({ userId }) => userId)
 
-    const { data } = useQuery({
+    const { data, refetch } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         refetchOnMount: true,
@@ -45,17 +45,19 @@ export const LinkNotification = memo(function LinkNotification() {
         }
     }, [data?.res])
 
-    // useEffect(() => {
-    //     if (data?.res) {
-    //         const notRead: number[] = []
-
-    //         data?.res?.forEach((item) => {
-    //             if (item?.read === false) {
-    //                 notRead.push(item.id)
-    //             }
-    //         })
-    //     }
-    // }, [active, data?.res])
+    function writingNotifications() {
+        if (data?.res) {
+            const notRead: number[] = []
+            data?.res?.forEach((item) => {
+                if (item.read === false) {
+                    notRead.push(item.id)
+                }
+            })
+            if (notRead.length > 0) {
+                Promise.all([...notRead.map((item) => serviceNotifications.patch({ enabled: true, read: true }, item!))]).then(() => refetch())
+            }
+        }
+    }
 
     return (
         <a
