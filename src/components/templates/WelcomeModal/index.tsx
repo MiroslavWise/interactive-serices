@@ -6,7 +6,7 @@ import { Content } from "./components/Content"
 import { ButtonClose } from "@/components/common/Buttons"
 
 import { cx } from "@/lib/cx"
-import { useWelcomeModal } from "@/store/hooks"
+import { useWelcomeModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -19,7 +19,7 @@ export function WelcomeModal() {
     }
 
     return isVisible ? (
-        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible} data-mobile={isMobile}>
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
             {isMobile ? (
                 <>
                     <Content />

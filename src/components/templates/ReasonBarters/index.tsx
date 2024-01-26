@@ -101,7 +101,7 @@ export const ReasonBarters = () => {
                                         maxLength={240}
                                         placeholder="Опишите причину своими словами..."
                                     />
-                                    <sup>
+                                    <sup data-more={watch("text")?.length > 210}>
                                         <span>{watch("text")?.length || 0}</span>/240
                                     </sup>
                                 </div>
