@@ -29,7 +29,7 @@ export const DiscussionBalloonComponent: TDiscussionBalloonComponent = ({}) => {
         queries: [
             {
                 queryFn: () => serviceOffers.getId(Number(id!)),
-                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
+                queryKey: ["offers", { offerId: id }],
                 refetchOnMount: false,
             },
             {

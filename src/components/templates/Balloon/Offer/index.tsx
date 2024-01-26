@@ -7,9 +7,9 @@ import { ItemProfile } from "./components/ItemProfile"
 import { ItemProposal } from "./components/ItemProposal"
 
 import { cx } from "@/lib/cx"
-import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store/hooks"
-import { serviceUser } from "@/services/users"
+import { serviceUser } from "@/services"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
+import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
