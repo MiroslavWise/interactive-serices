@@ -12,7 +12,7 @@ import { useCountMessagesNotReading } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const List: TList = memo(function List({ items, search, setTotal }) {
+export const List: TList = memo(function List({ items, search, setTotal, loadUser }) {
     const [state, setState] = useState<IFiltersItems[]>([])
     const { isLoading } = useCountMessagesNotReading()
 
@@ -28,7 +28,7 @@ export const List: TList = memo(function List({ items, search, setTotal }) {
 
     return (
         <ul className={isMobile ? styles.containerListMobile : styles.containerList}>
-            {isLoading
+            {isLoading || loadUser
                 ? [1, 2, 3].map((item) => <ThreadLoading key={`::loading::${item}`} />)
                 : state?.map((item, index) => <ItemListChat key={`${item?.thread?.id}-${index}-item-chat`} {...item} last={index < state.length - 1} />)}
         </ul>

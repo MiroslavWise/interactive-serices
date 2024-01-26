@@ -80,3 +80,16 @@ export function LoadingMyOffer() {
         </div>
     )
 }
+
+export function LoadingFeedback() {
+    return <div className={styles.containerFeedback}>
+        <div data-header>
+            <span data-user />
+            <span data-rating/>
+        </div>
+        <div data-content>
+            <span />
+            <span />
+        </div>
+    </div>
+}

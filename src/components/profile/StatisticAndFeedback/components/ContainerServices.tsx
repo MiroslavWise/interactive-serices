@@ -9,6 +9,7 @@ import Masonry from "react-responsive-masonry"
 
 import type { TContainerServices } from "./types/types"
 
+import { ServiceLoading } from "@/components/common"
 import { CardRequestsAndProposals } from "@/components/common/Card"
 
 import { serviceOffers } from "@/services"
@@ -18,9 +19,10 @@ import styles from "./styles/style.module.scss"
 export const ContainerServices: TContainerServices = ({}) => {
     const id = useSearchParams().get("id")
 
-    const { data: dataOffer } = useQuery({
+    const { data: dataOffer, isLoading } = useQuery({
         queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
         queryKey: ["offers", { userId: id, provider: "offer" }],
+        enabled: !!id,
     })
 
     const list = useMemo(() => {
@@ -28,8 +30,10 @@ export const ContainerServices: TContainerServices = ({}) => {
     }, [dataOffer?.res])
 
     return (
-        <section className={styles.containerServices}>
-            {isMobile ? (
+        <section className={styles.containerServices} data-loading={isLoading}>
+            {isLoading ? (
+                [1, 2, 3, 4].map((item) => <ServiceLoading key={`::item::offers::user::page::${item}::`} />)
+            ) : isMobile ? (
                 <ul className={styles.containerRequestsAndProposals}>
                     {list?.map((item) => (
                         <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
