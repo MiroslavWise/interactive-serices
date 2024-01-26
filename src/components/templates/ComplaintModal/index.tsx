@@ -71,7 +71,7 @@ export const ComplaintModal = () => {
                         }
                     }}
                     onChange={(event) => setValue("comment", event.target.value!)}
-                    maxLength={512}
+                    maxLength={1024}
                     placeholder={"Опишите причину вашей жалобы"}
                 />
                 <Button type="submit" typeButton="regular-primary" label="Пожаловаться" />
