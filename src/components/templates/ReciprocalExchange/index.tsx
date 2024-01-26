@@ -132,7 +132,7 @@ export const ReciprocalExchange = () => {
                                         title: "Предложение на обмен отправлено",
                                         message: message,
                                         status: "initiated",
-                                    })
+                                    }) 
                                     setLoading(false)
                                     dispatchReciprocalExchange({ visible: false, offer: undefined })
                                     dispatchBallonOffer({ visible: false })

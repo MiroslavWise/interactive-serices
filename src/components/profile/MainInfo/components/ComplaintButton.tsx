@@ -18,7 +18,7 @@ export const ComplaintButton = (props: { user: IUserResponse }) => {
     }
 
     return (
-        <p data-complaint onClick={handle}>
+        <p data-complaint onClick={handle}> 
             Пожаловаться
         </p>
     )

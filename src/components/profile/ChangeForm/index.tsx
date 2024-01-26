@@ -122,7 +122,7 @@ export const ChangeForm = () => {
                     valuesProfile.lastName = values.lastName
                 }
                 if (watch("username") !== dataProfile?.res?.username) {
-                    valuesProfile.username = values.username
+                    valuesProfile.username = values.username?.replace("@", "")
                 }
 
                 Promise.all([!!dataProfile?.res?.id ? serviceProfile.patch(valuesProfile, dataProfile?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(

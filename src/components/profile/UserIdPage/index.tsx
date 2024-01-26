@@ -12,7 +12,7 @@ export const UserIdPage = ({ id, user, ok }: { id: string; user: IUserResponse; 
         <ul className={styles.containerMobile} id="user-id">
             <MobileMainInfo user={user!} />
             <Badges id={id} />
-            <MobileInteractive />
+            <MobileInteractive user={user} />
         </ul>
     ) : (
         <section className={styles.container}>
