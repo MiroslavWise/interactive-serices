@@ -45,6 +45,18 @@ export const LinkNotification = memo(function LinkNotification() {
         }
     }, [data?.res])
 
+    // useEffect(() => {
+    //     if (data?.res) {
+    //         const notRead: number[] = []
+
+    //         data?.res?.forEach((item) => {
+    //             if (item?.read === false) {
+    //                 notRead.push(item.id)
+    //             }
+    //         })
+    //     }
+    // }, [active, data?.res])
+
     return (
         <a
             key={"::notifications::link::"}

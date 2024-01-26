@@ -53,7 +53,7 @@ export default function Notifications() {
                         refetch()
                     }
                 })
-            }, 5 * 1000)
+            }, 2 * 1000)
 
             setStateNotifications(values)
             setWaitingNotifications(array)
