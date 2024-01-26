@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 
 import type { IValuesForm } from "./types/types"
@@ -13,7 +14,6 @@ import { MENU_COMPLAINT } from "./constants/constants"
 import { dispatchComplaintModal, useComplaintModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { flushSync } from "react-dom"
 
 export const ComplaintModal = () => {
     const [loading, setLoading] = useState(false)
@@ -25,7 +25,7 @@ export const ComplaintModal = () => {
         reset,
         setValue,
     } = useForm<IValuesForm>({})
-    const { on } = useToast()
+    const { onBarters } = useToast()
     const user = useComplaintModal(({ user }) => user)
     const visibleComplaint = useComplaintModal(({ visibleComplaint }) => visibleComplaint)
 
@@ -40,6 +40,11 @@ export const ComplaintModal = () => {
                 reset()
                 handleClose()
                 setLoading(false)
+                onBarters({
+                    title: "Жалоба отправлена",
+                    message: `Мы получили вашу жалобу на @${user?.profile?.username!} и скоро страница пользователя будет проверена модераторами.`,
+                    status: "initiated",
+                })
             })
         }
     }

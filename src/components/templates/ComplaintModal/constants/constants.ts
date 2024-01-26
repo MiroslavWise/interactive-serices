@@ -7,7 +7,7 @@ export const MENU_COMPLAINT: IMenuReason[] = [
     },
     {
         value: "insult",
-        label: "Неуместное или оскорбительное поведение",
+        label: "Неуместное или оскорбительное поведение/контент",
     },
     {
         value: "spam",
