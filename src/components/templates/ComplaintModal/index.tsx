@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 import type { IValuesForm } from "./types/types"
@@ -8,17 +9,21 @@ import { ButtonClose, Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
+import { MENU_COMPLAINT } from "./constants/constants"
 import { dispatchComplaintModal, useComplaintModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { flushSync } from "react-dom"
 
 export const ComplaintModal = () => {
+    const [loading, setLoading] = useState(false)
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitted },
+        formState: { errors },
         watch,
         reset,
+        setValue,
     } = useForm<IValuesForm>({})
     const { on } = useToast()
     const user = useComplaintModal(({ user }) => user)
@@ -29,16 +34,14 @@ export const ComplaintModal = () => {
     }
 
     function submit(values: IValuesForm) {
-        on(
-            {
-                message: `Ваша жалоба на пользователя @${user?.profile?.username} отправлена`,
-            },
-            "error",
-        )
-        requestAnimationFrame(() => {
-            reset()
-            handleClose()
-        })
+        if (!loading) {
+            setLoading(true)
+            flushSync(() => {
+                reset()
+                handleClose()
+                setLoading(false)
+            })
+        }
     }
 
     const onSubmit = handleSubmit(submit)
@@ -47,32 +50,49 @@ export const ComplaintModal = () => {
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleComplaint}>
             <section data-section-modal>
                 <ButtonClose onClick={handleClose} position={{}} />
-                <header>
-                    <h3>
-                        Жалоба на <span>@{user?.profile?.username}</span>
-                    </h3>
-                </header>
+                <h2>Пожаловаться на пользователя</h2>
                 <form onSubmit={onSubmit}>
-                    <p>
-                        Мы в Sheira уделяем много внимания качеству сервиса и контента. Наши специалисты оперативно примут меры для устранения любых найденных
-                        нарушений. Пожалуйста, опишите подробно суть вашей жалобы. Мы сообщим вам о нашем решении в течение 48 часов.
-                    </p>
-                    <div data-text-area data-error={!!errors?.comment}>
-                        <textarea
-                            {...register("comment", { required: true, maxLength: 1024 })}
-                            onKeyDown={(event) => {
-                                if (event.keyCode === 13 || event.code === "Enter") {
-                                    onSubmit()
-                                }
-                            }}
-                            maxLength={1024}
-                            placeholder={"Опишите причину вашей жалобы"}
-                        />
-                        <sup data-more={watch("comment")?.length > 920}>
-                            <span>{watch("comment")?.length || 0}</span>/1024
-                        </sup>
+                    <div data-content>
+                        <p>
+                            Данная жалоба на <span>@{user?.profile?.username!}</span> будет проверена модераторами, и если будут найдены нарушения, пользователь
+                            получит бан.
+                        </p>
+                        <ul {...register("type", { required: true })}>
+                            {MENU_COMPLAINT.map((item) => (
+                                <fieldset
+                                    key={`::key::reason::menu::${item.value}::`}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        setValue("type", item.value!)
+                                    }}
+                                >
+                                    <div data-check={watch("type") === item.value} />
+                                    <label>{item.label}</label>
+                                </fieldset>
+                            ))}
+                            {watch("type") === "other" ? (
+                                <div data-text-area>
+                                    <textarea
+                                        {...register("comment", { required: watch("type") === "other", maxLength: 240 })}
+                                        maxLength={240}
+                                        placeholder="Опишите причину своими словами..."
+                                    />
+                                    <sup data-more={watch("comment")?.length > 920}>
+                                        <span>{watch("comment")?.length || 0}</span>/1024
+                                    </sup>
+                                </div>
+                            ) : null}
+                        </ul>
                     </div>
-                    <Button type="submit" typeButton="regular-primary" label="Пожаловаться" disabled={!watch("comment")} />
+                    <footer>
+                        <Button
+                            type="submit"
+                            typeButton="fill-primary"
+                            label="Отправить жалобу"
+                            loading={loading}
+                            disabled={!watch("type") || (watch("type") === "other" && !watch("comment"))}
+                        />
+                    </footer>
                 </form>
             </section>
         </div>

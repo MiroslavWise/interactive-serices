@@ -10,6 +10,7 @@ import type { TTypeReason } from "@/services/barters/types"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_REASON } from "./constants/constants"
 import { serviceBarters, serviceNotifications } from "@/services"
 import { dispatchReasonBarters, useAuth, useReasonBarters } from "@/store"
@@ -18,6 +19,7 @@ import styles from "./styles/style.module.scss"
 
 export const ReasonBarters = () => {
     const [loading, setLoading] = useState(false)
+    const { onBarters } = useToast()
     const userId = useAuth(({ userId }) => userId)
     const visible = useReasonBarters(({ visible }) => visible)
     const barterId = useReasonBarters(({ barterId }) => barterId)
@@ -60,6 +62,11 @@ export const ReasonBarters = () => {
                 refetch()
                 refetchBarter()
                 flushSync(() => {
+                    onBarters({
+                        title: "Спасибо за обратную связь",
+                        message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
+                        status: "initiated",
+                    })
                     handleClose()
                     setLoading(false)
                 })
@@ -76,21 +83,21 @@ export const ReasonBarters = () => {
     return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
             <section data-section-modal>
-                <h2>Пожалуйста, укажите причину несостоявшегося обмена</h2>
                 <ButtonClose position={{}} onClick={handleClose} />
+                <h2>Пожалуйста, укажите причину несостоявшегося обмена</h2>
                 <form onSubmit={onSubmit}>
                     <div data-content>
                         <p>Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей</p>
                         <ul {...register("type", { required: true })}>
                             {MENU_REASON.map((item) => (
-                                <fieldset key={`::key::reason::menu::${item.value}::`}>
-                                    <div
-                                        data-check={watch("type") === item.value}
-                                        onClick={(event) => {
-                                            event.stopPropagation()
-                                            setValue("type", item.value!)
-                                        }}
-                                    />
+                                <fieldset
+                                    key={`::key::reason::menu::${item.value}::`}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        setValue("type", item.value!)
+                                    }}
+                                >
+                                    <div data-check={watch("type") === item.value} />
                                     <label>{item.label}</label>
                                 </fieldset>
                             ))}
@@ -109,15 +116,6 @@ export const ReasonBarters = () => {
                         </ul>
                     </div>
                     <footer>
-                        <Button
-                            type="button"
-                            typeButton="regular-primary"
-                            label="Закрыть"
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                handleClose()
-                            }}
-                        />
                         <Button
                             type="submit"
                             typeButton="fill-primary"
