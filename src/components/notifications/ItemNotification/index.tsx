@@ -289,27 +289,27 @@ export const ItemNotification = (props: IResponseNotifications) => {
                     )
                 }
             }
-            // if (operation === "create") {
-            //     if (data?.status === "initiated") {
-            //         if (userId) {
-            //             const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
-            //             return (
-            //                 <ButtonLink
-            //                     type="button"
-            //                     typeButton="fill-primary"
-            //                     label="Перейти в чат"
-            //                     href={{ pathname: `/messages`, query: chat }}
-            //                     onClick={(event) => {
-            //                         event.stopPropagation()
-            //                         dispatchVisibleNotifications(false)
-            //                         reading()
-            //                     }}
-            //                     data-threads
-            //                 />
-            //             )
-            //         }
-            //     }
-            // }
+            if (operation === "create") {
+                if (data?.status === "initiated") {
+                    if (userId === data?.consigner?.userId) {
+                        const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
+                        return (
+                            <ButtonLink
+                                type="button"
+                                typeButton="fill-primary"
+                                label="Перейти в чат"
+                                href={{ pathname: `/messages`, query: chat }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchVisibleNotifications(false)
+                                    reading()
+                                }}
+                                data-threads
+                            />
+                        )
+                    }
+                }
+            }
         }
 
         return null
