@@ -341,7 +341,6 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 ]).then(() => {
                     refetch().then(() => {
                         setLoading(false)
-                        dispatchVisibleNotifications(false)
                     })
                 })
             } else {
@@ -365,6 +364,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
             testimonials: dataTestimonials?.res!,
             notificationId: id!,
         })
+        dispatchVisibleNotifications(false)
     }
 
     return (
