@@ -192,7 +192,32 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                     <p>
                         {initiator?.userId === userId ? (
                             <>
-                                <span>{dataConsignerProfile?.res?.firstName}</span> предлагает вам{" "}
+                                Вы предлагаете{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: initiator!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.initiator?.title?.toLowerCase()}
+                                </span>{" "}
+                                взамен на{" "}
+                                <span
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchBallonOffer({
+                                            visible: true,
+                                            offer: consigner!,
+                                        })
+                                    }}
+                                >
+                                    {infoOffers?.consigner?.title?.toLowerCase()}
+                                </span>
+                                : «{data?.res?.consigner?.title}».
+                                {/* <span>{dataConsignerProfile?.res?.firstName}</span> предлагает вам{" "}
                                 <span
                                     onClick={(event) => {
                                         event.stopPropagation()
@@ -216,7 +241,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                                 >
                                     {infoOffers?.initiator?.title?.toLowerCase()}
                                 </span>
-                                : «{data?.res?.consigner?.title}».
+                                : «{data?.res?.consigner?.title}». */}
                             </>
                         ) : consigner?.userId === userId ? (
                             <>
