@@ -59,7 +59,7 @@ export function NotificationsMobile() {
             setState({ new: newArray, old: oldArray })
             setWaitingNotifications(array)
 
-            const timer = setTimeout(() => {
+            return () => {
                 if (arrayNotRead?.length > 0) {
                     Promise.all(arrayNotRead.map((item) => serviceNotifications.patch({ read: true, enabled: true }, item))).then((responses) => {
                         if (responses.length > 0) {
@@ -67,9 +67,7 @@ export function NotificationsMobile() {
                         }
                     })
                 }
-            }, 5 * 1000)
-
-            return () => clearTimeout(timer)
+            }
         }
     }, [dataNotifications?.res, userId])
 
