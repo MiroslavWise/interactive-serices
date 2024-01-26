@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 
+import type { IUserResponse } from "@/services/users/types/usersService"
 import type { TItemInteractive } from "../StatisticAndFeedback/types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
@@ -10,11 +11,12 @@ import { ItemsReviews } from "../StatisticAndFeedback/components/ItemsReviews"
 import { ContainerServices } from "../StatisticAndFeedback/components/ContainerServices"
 
 import { cx } from "@/lib/cx"
+import { dispatchComplaintModal } from "@/store"
 import { ITEMS_INTERACTIVE } from "../StatisticAndFeedback/components/constants"
 
 import styles from "./style.module.scss"
 
-export const MobileInteractive = () => {
+export const MobileInteractive = ({ user }: { user: IUserResponse }) => {
     const [active, setActive] = useState<ISegmentValues<TItemInteractive>>(ITEMS_INTERACTIVE[0])
     const [isSticky, setIsSticky] = useState(false)
 
@@ -33,6 +35,16 @@ export const MobileInteractive = () => {
         return () => userIdElement?.removeEventListener("scroll", handleScroll)
     }, [])
 
+    function handle() {
+        if (user) {
+            dispatchComplaintModal({
+                visible: true,
+                user: user,
+            })
+            return
+        }
+    }
+
     return (
         <li className={styles.containerInteractive}>
             <Segments
@@ -45,6 +57,11 @@ export const MobileInteractive = () => {
                 isBorder
             />
             {active.value === "reviews" ? <ItemsReviews /> : active.value === "services" ? <ContainerServices /> : null}
+            <footer>
+                <a data-complaint onClick={handle}>
+                    Пожаловаться
+                </a>
+            </footer>
         </li>
     )
 }
