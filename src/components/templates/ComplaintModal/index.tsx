@@ -5,11 +5,10 @@ import { useForm } from "react-hook-form"
 import type { IValuesForm } from "./types/types"
 
 import { ButtonClose, Button } from "@/components/common"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useComplaintModal } from "@/store/state/useComplaintModal"
+import { dispatchComplaintModal, useComplaintModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -17,16 +16,16 @@ export const ComplaintModal = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitted },
         watch,
-        setValue,
         reset,
     } = useForm<IValuesForm>({})
-    const { visibleComplaint, user, dispatchComplaintModal } = useComplaintModal()
     const { on } = useToast()
+    const user = useComplaintModal(({ user }) => user)
+    const visibleComplaint = useComplaintModal(({ visibleComplaint }) => visibleComplaint)
 
     function handleClose() {
-        dispatchComplaintModal({ visible: false })
+        dispatchComplaintModal({ visible: false, user: undefined })
     }
 
     function submit(values: IValuesForm) {
@@ -44,38 +43,38 @@ export const ComplaintModal = () => {
 
     const onSubmit = handleSubmit(submit)
 
-    return visibleComplaint ? (
+    return (
         <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleComplaint}>
-            <form onSubmit={onSubmit}>
-                <ButtonClose
-                    onClick={handleClose}
-                    position={{
-                        top: 12,
-                        right: 12,
-                    }}
-                />
-                <h2>
-                    Оставить жалобу на <span>@{user?.profile?.username}</span>
-                </h2>
-                <h5>Данная жалоба будет проверена модераторами, и если будут найдены нарушения, пользователь получить бан!</h5>
-                <TextArea
-                    {...register("comment", {
-                        required: true,
-                        minLength: 5,
-                    })}
-                    data-error={errors.comment}
-                    value={watch("comment")}
-                    onKeyDown={(event) => {
-                        if (event.keyCode === 13 || event.code === "Enter") {
-                            onSubmit()
-                        }
-                    }}
-                    onChange={(event) => setValue("comment", event.target.value!)}
-                    maxLength={1024}
-                    placeholder={"Опишите причину вашей жалобы"}
-                />
-                <Button type="submit" typeButton="regular-primary" label="Пожаловаться" />
-            </form>
+            <section data-section-modal>
+                <ButtonClose onClick={handleClose} position={{}} />
+                <header>
+                    <h3>
+                        Жалоба на <span>@{user?.profile?.username}</span>
+                    </h3>
+                </header>
+                <form onSubmit={onSubmit}>
+                    <p>
+                        Мы в Sheira уделяем много внимания качеству сервиса и контента. Наши специалисты оперативно примут меры для устранения любых найденных
+                        нарушений. Пожалуйста, опишите подробно суть вашей жалобы. Мы сообщим вам о нашем решении в течение 48 часов.
+                    </p>
+                    <div data-text-area data-error={!!errors?.comment}>
+                        <textarea
+                            {...register("comment", { required: true, maxLength: 1024 })}
+                            onKeyDown={(event) => {
+                                if (event.keyCode === 13 || event.code === "Enter") {
+                                    onSubmit()
+                                }
+                            }}
+                            maxLength={1024}
+                            placeholder={"Опишите причину вашей жалобы"}
+                        />
+                        <sup data-more={watch("comment")?.length > 920}>
+                            <span>{watch("comment")?.length || 0}</span>/1024
+                        </sup>
+                    </div>
+                    <Button type="submit" typeButton="regular-primary" label="Пожаловаться" disabled={!watch("comment")} />
+                </form>
+            </section>
         </div>
-    ) : null
+    )
 }
