@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 import type { TRequestsAndProposals } from "./types"
 
 import { ButtonReplyPrimary } from "../../custom/ButtonReply"
-import { GeoTagging, NextImageMotion } from "@/components/common"
+import { GeoTagging, LoadingProfile, NextImageMotion } from "@/components/common"
 
 import { usePush } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"
@@ -27,7 +27,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     const { categoryId, title, userId, addresses, images, categories: categoriesOffer } = props ?? {}
     const { ref, type, ...offer } = props ?? {}
 
-    const { data: dataProfile } = useQuery({
+    const { data: dataProfile, isLoading: isLoadProfile } = useQuery({
         queryFn: () => serviceProfile.getUserId(userId!),
         queryKey: ["profile", userId!],
         enabled: !!userId,
@@ -69,14 +69,7 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
     }, [categories, categoriesOffer])
 
     return (
-        <li
-            className={styles.container}
-            data-mobile={isMobile}
-            data-type={type}
-            data-offers-card
-            onClick={handleCoordinates}
-            ref={props?.ref}
-        >
+        <li className={styles.container} data-mobile={isMobile} data-type={type} data-offers-card onClick={handleCoordinates} ref={props?.ref}>
             <header>
                 <img
                     src={IconCategory(offer?.categoryId!)}
@@ -96,44 +89,48 @@ export const CardRequestsAndProposals: TRequestsAndProposals = (props) => {
                 <h4>{categoryCurrent?.title || ""}</h4>
             </header>
             <section>
-                <div data-profile>
-                    <div
-                        data-circle
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            handleImages()
-                        }}
-                    >
-                        <div data-r>
-                            {images?.length
-                                ? images?.map((item, index) => (
-                                      <div
-                                          data-l
-                                          key={`::${item.id}::rotate::`}
-                                          style={{
-                                              transform: `rotate(${(360 / images.length) * index}deg)`,
-                                          }}
-                                      >
-                                          <div data-c />
-                                      </div>
-                                  ))
-                                : null}
+                {isLoadProfile ? (
+                    <LoadingProfile />
+                ) : (
+                    <div data-profile>
+                        <div
+                            data-circle
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleImages()
+                            }}
+                        >
+                            <div data-r>
+                                {images?.length
+                                    ? images?.map((item, index) => (
+                                          <div
+                                              data-l
+                                              key={`::${item.id}::rotate::`}
+                                              style={{
+                                                  transform: `rotate(${(360 / images.length) * index}deg)`,
+                                              }}
+                                          >
+                                              <div data-c />
+                                          </div>
+                                      ))
+                                    : null}
+                            </div>
+                            <NextImageMotion
+                                data-is-length={!!images?.length}
+                                src={dataProfile?.res?.image?.attributes?.url!}
+                                alt="avatar"
+                                width={42}
+                                height={42}
+                            />
                         </div>
-                        <NextImageMotion
-                            data-is-length={!!images?.length}
-                            src={dataProfile?.res?.image?.attributes?.url!}
-                            alt="avatar"
-                            width={42}
-                            height={42}
-                        />
+                        <div data-info>
+                            <p>
+                                {dataProfile?.res?.firstName || " "} {dataProfile?.res?.lastName || " "}
+                            </p>
+                            {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
+                        </div>
                     </div>
-                    <div data-info>
-                        <p>
-                            {dataProfile?.res?.firstName || " "} {dataProfile?.res?.lastName || " "}
-                        </p>
-                        {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
-                    </div>
-                </div>
+                )}
                 <h5>
                     <span>Могу:</span> {title}
                 </h5>

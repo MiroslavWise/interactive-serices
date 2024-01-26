@@ -11,6 +11,7 @@ export type TTypeOperation =
     | "accepted"
     | "completion-recall-no"
     | "feedback-received"
+    | "feedback-received-no"
 
 export type TTypeProviderNotifications = "barter"
 
