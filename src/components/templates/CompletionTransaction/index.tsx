@@ -53,7 +53,7 @@ export const CompletionTransaction = () => {
         enabled: false,
     })
 
-    const { data: dataNotifications, refetch: refetchNotifications } = useQuery({
+    const { refetch: refetchNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         enabled: false,
@@ -85,7 +85,6 @@ export const CompletionTransaction = () => {
         if (!loading) {
             setLoading(true)
 
-            const completionSurveyCurrent = dataNotifications?.res?.find((item) => item?.operation === "completion-survey" && item?.data?.id === barterId)?.id!
             const idOffer = data?.res?.initiator?.userId === userId ? data?.res?.consignedId : data?.res?.initialId
 
             Promise.all([
@@ -99,12 +98,20 @@ export const CompletionTransaction = () => {
                     enabled: true,
                 }),
                 !!notificationId
-                    ? serviceNotifications.patch({ operation: "feedback-received", enabled: true, read: true }, notificationId)
+                    ? serviceNotifications.patch(
+                          {
+                              operation:
+                                  data?.res?.status === "completed"
+                                      ? "feedback-received"
+                                      : data?.res?.status?.includes("destroyed")
+                                      ? "feedback-received-no"
+                                      : "feedback-received",
+                              enabled: true,
+                              read: true,
+                          },
+                          notificationId,
+                      )
                     : Promise.resolve({ ok: true }),
-                !!completionSurveyCurrent
-                    ? serviceNotifications.patch({ operation: "completion-yes", enabled: true, read: true }, completionSurveyCurrent)
-                    : Promise.resolve({ ok: true }),
-                !!completionSurveyCurrent ? serviceBarters.patch({ enabled: true, status: "completed" }, barterId!) : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
                 if (responses?.some((item) => item!?.ok)) {
                     refetchBarters()
@@ -135,6 +142,9 @@ export const CompletionTransaction = () => {
             <section>
                 <h5>Обзор</h5>
                 <ButtonClose onClick={() => dispatchAddTestimonials({ visible: false })} position={{}} />
+                <div data-dots>
+                    <img src="/svg/dots-vertical-gray.svg" alt="..." width={16} height={16} />
+                </div>
                 {isFirst ? (
                     <form onSubmit={onSubmit}>
                         <header>

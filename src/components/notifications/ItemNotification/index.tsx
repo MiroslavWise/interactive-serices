@@ -103,7 +103,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     const text: ReactNode | string | null = useMemo(() => {
         if (provider === "barter") {
             if (data?.status === "initiated") {
-                if (data?.userId === userId) {
+                if (data?.initiator?.userId === userId) {
                     return (
                         <p>
                             Вы предложили обмен{" "}
@@ -119,7 +119,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
                         </p>
                     )
                 } else {
-                    if (operation === "create") {
+                    if (operation === "create" && userId === data?.consigner?.userId) {
                         return (
                             <p>
                                 <Link
@@ -156,38 +156,46 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 )
             }
             if (["feedback-received", "completion-recall"].includes(operation!)) {
-                return (
-                    <p>
-                        Пользователь{" "}
-                        <Link
-                            href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                dispatchVisibleNotifications(false)
-                            }}
-                        >
-                            {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
-                        </Link>{" "}
-                        подтвердил, что обмен состоялся. Здорово! Вы можете рассказать как все прошло в отзывах.
-                    </p>
-                )
+                if (data?.updatedById === userId) {
+                    return <p>Вы подтвердили, что обмен состоялся. Здорово! Вы можете рассказать как все прошло в отзывах.</p>
+                } else {
+                    return (
+                        <p>
+                            Пользователь{" "}
+                            <Link
+                                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchVisibleNotifications(false)
+                                }}
+                            >
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                            </Link>{" "}
+                            подтвердил, что обмен состоялся. Здорово! Вы можете рассказать как все прошло в отзывах.
+                        </p>
+                    )
+                }
             }
-            if (operation === "completion-recall-no") {
-                return (
-                    <p>
-                        Пользователь{" "}
-                        <Link
-                            href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                dispatchVisibleNotifications(false)
-                            }}
-                        >
-                            {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
-                        </Link>{" "}
-                        подтвердил, что обмен не состоялся. Вы можете рассказать как все прошло в отзывах.
-                    </p>
-                )
+            if (["feedback-received-no", "completion-recall-no"].includes(operation!)) {
+                if (data?.updatedById === userId) {
+                    return <p>Вы не подтвердили, что обмен состоялся. Вы можете рассказать как все прошло в отзывах.</p>
+                } else {
+                    return (
+                        <p>
+                            Пользователь{" "}
+                            <Link
+                                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchVisibleNotifications(false)
+                                }}
+                            >
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                            </Link>{" "}
+                            подтвердил, что обмен не состоялся. Вы можете рассказать как все прошло в отзывах.
+                        </p>
+                    )
+                }
             }
             if (operation === "accepted") {
                 return (
