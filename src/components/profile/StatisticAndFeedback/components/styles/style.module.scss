@@ -67,6 +67,17 @@
             margin-bottom: 1rem;
         }
     }
+
+    &[data-loading="true"] {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem 1rem;
+        height: min-content;
+
+        & > * {
+            height: min-content;
+        }
+    }
 }
 
 //Items Blog Messages
@@ -83,8 +94,8 @@
     padding-bottom: 1.5rem;
 }
 
-[data-mobile=true]{
-    .listBlogMessages{
+[data-mobile="true"] {
+    .listBlogMessages {
         height: auto;
         overflow-y: visible;
         padding: 0;
@@ -142,6 +153,19 @@
         flex-direction: row;
         gap: 1rem 1rem;
         flex-wrap: wrap;
+    }
+
+    &[data-loading="true"] {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem 1rem;
+        height: min-content;
+
+        & > * {
+            border-radius: 1rem;
+            height: min-content;
+            border: 1px solid var(--gray-300);
+        }
     }
 }
 

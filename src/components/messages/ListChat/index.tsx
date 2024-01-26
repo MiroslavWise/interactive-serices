@@ -54,8 +54,13 @@ export const ListChat = memo(function ListChat() {
         })),
     })
 
+    const loadUser = useMemo(() => {
+        return arrayUsers?.some((item) => item.isLoading)
+    }, [arrayUsers])
+
     const itemsProvider = useMemo(() => {
-        return data?.res?.filter((item) => item.provider === type) || []
+        if (!data?.res) return []
+        return data?.res?.filter((item) => item.provider === type)
     }, [data?.res, type])
 
     const items: IFiltersItems[] = useMemo(() => {
@@ -121,7 +126,7 @@ export const ListChat = memo(function ListChat() {
                 </header>
             ) : null}
             <SearchBlock {...{ search, setSearch }} />
-            <List search={search} items={items} setTotal={setTotal} />
+            <List search={search} items={items} setTotal={setTotal} loadUser={loadUser} />
         </section>
     )
 })

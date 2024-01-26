@@ -9,6 +9,7 @@ import Masonry from "react-responsive-masonry"
 
 import type { TItemsReviews } from "./types/types"
 
+import { LoadingFeedback } from "@/components/common"
 import { CardReview } from "@/components/common/Card/Review"
 
 import { serviceTestimonials, serviceOffers } from "@/services"
@@ -47,9 +48,15 @@ export const ItemsReviews: TItemsReviews = ({}) => {
         }
     }, [dataTestimonials])
 
+    const isLoadAll = useMemo(() => {
+        return isLoading || dataTestimonials?.some((item) => item.isLoading)
+    }, [isLoading, dataTestimonials])
+
     return (
-        <div className={styles.containerItemsInteractive}>
-            {isMobile ? (
+        <div className={styles.containerItemsInteractive} data-loading={isLoadAll}>
+            {isLoadAll ? (
+                [1, 2, 3, 4].map((item) => <LoadingFeedback key={`::item::load::feedback::${item}`} />)
+            ) : isMobile ? (
                 <ul>
                     {listTestimonials.map((item) => (
                         <CardReview {...item!} key={`::card::review::${item?.id}::`} />
@@ -62,6 +69,7 @@ export const ItemsReviews: TItemsReviews = ({}) => {
                     ))}
                 </Masonry>
             )}
+            {}
         </div>
     )
 }

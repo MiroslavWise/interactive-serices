@@ -1,9 +1,6 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 
-import type {
-    IResponseThreads,
-    TTypeProviderThreads,
-} from "@/services/threads/types"
+import type { IResponseThreads, TTypeProviderThreads } from "@/services/threads/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
@@ -11,6 +8,7 @@ interface IList {
     items: IFiltersItems[]
     search: string
     setTotal: Dispatch<SetStateAction<number>>
+    loadUser: boolean
 }
 
 interface IItemListChat extends IFiltersItems {
