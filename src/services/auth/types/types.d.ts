@@ -3,8 +3,7 @@ import { IResponseLoginNot2fa } from "./authService"
 
 export interface IRequestPhone {
     phone: string
-    password?: string
-    repeat?: string
+    agree?: boolean
 }
 
 export type TStatusOk = "ok"
@@ -29,7 +28,7 @@ export interface IAuth {
     route: string
 
     sms({ code, id }: { code: string; id: number | string }): Promise<IReturnData<IResponseLoginNot2fa>>
-    phone(value: IRequestPhone | string): Promise<IReturnData<IResponsePhone>>
+    phone(value: IRequestPhone): Promise<IReturnData<IResponsePhone>>
     postGoogle(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
     postTelegram(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
     postYandex(values: Record<string, any>): Promise<IReturnData<IResponseLoginNot2fa>>
