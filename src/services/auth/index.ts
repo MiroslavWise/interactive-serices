@@ -8,8 +8,8 @@ export const serviceAuth: IAuth = {
     sms({ code, id }) {
         return wrapperFetch.methodPost(`${this.route}/sms`, { code, id })
     },
-    phone(value) {
-        return wrapperFetch.methodPost(`${this.route}/phone`, {...value, agree: true})
+    phone({phone}) {
+        return wrapperFetch.methodPost(`${this.route}/phone`, {phone:phone, agree: true})
     },
     postGoogle(values) {
         return wrapperFetch.methodPost(`${this.route}/google`, values)
