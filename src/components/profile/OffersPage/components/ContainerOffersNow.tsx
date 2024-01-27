@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TContainerOffersNow } from "./types/types"
 
+import { LoadingBarters } from "@/components/common"
 import { CardOffer } from "@/components/common/Card/Offer"
 
 import { useAuth } from "@/store"
@@ -14,7 +15,7 @@ import styles from "./styles/style.module.scss"
 
 export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
     const userId = useAuth(({ userId }) => userId)
-    const { data, refetch } = useQuery({
+    const { data, refetch, isLoading } = useQuery({
         queryFn: () =>
             serviceBarters.getReceiverId(userId!, {
                 status: "initiated",
@@ -31,13 +32,12 @@ export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
 
     return (
         <section className={styles.containerOffersNow}>
-            {Array.isArray(data?.res) ? (
-                <ul>
-                    {data?.res.map((item) => (
-                        <CardOffer key={`${item.id}-offer-page-${item.provider}`} {...item} refetch={refetch} />
-                    ))}
-                </ul>
-            ) : null}
+            <ul>
+                {isLoading
+                    ? [1, 2, 3].map((_) => <LoadingBarters key={`::item::load${_}::`} />)
+                    : Array.isArray(data?.res) &&
+                      data?.res.map((item) => <CardOffer key={`${item.id}-offer-page-${item.provider}`} {...item} refetch={refetch} />)}
+            </ul>
         </section>
     )
 }

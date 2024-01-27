@@ -27,11 +27,6 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
             setLoading(true)
             const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
 
-            if (phoneReplace?.length < 12) {
-                setError("phone", { message: "Номер телефона состоит из 11 цифр" })
-                setLoading(false)
-            }
-
             serviceAuth.phone({ phone: phoneReplace }).then((response) => {
                 if (response?.ok) {
                     if (response.ok) {
@@ -42,8 +37,8 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
                     if (response?.error?.message === "user not found") {
                         setError("phone", { message: "Данного пользователя не существует" })
                     }
-                    if (response?.error?.message === "Unauthorized") {
-                        setError("password", { message: "Не верный пароль" })
+                    if (response?.error?.message === "invalid parameters") {
+                        setError("phone", { message: "Не верные данные или данного номер не существует" })
                     }
                 }
                 console.log(" serviceAuth phone: ", response)
@@ -66,14 +61,19 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
                             placeholder="+7 999 000-00-00"
                             type="tel"
                             inputMode="numeric"
-                            {...register("phone", { required: true })}
+                            {...register("phone", { required: true, minLength: 11, maxLength: 16 })}
                             maxLength={16}
-                            onChange={(event) => {
-                                setValue("phone", event.target.value?.slice(0, 20))
-                            }}
                         />
                     </div>
-                    {!!errors?.phone ? <i>{errors?.phone?.message}</i> : null}
+                    {!!errors?.phone ? (
+                        <i>
+                            {errors.phone.type === "minLength"
+                                ? "Номер телефона состоит из 11 цифр"
+                                : errors?.phone?.type === "maxLength"
+                                ? "Номер имеет не более 11 цифр"
+                                : errors?.phone?.message}
+                        </i>
+                    ) : null}
                 </div>
             </section>
             {itemForgot}

@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import Link from "next/link"
 import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
@@ -11,23 +10,23 @@ import type { IPostOffers, IResponseCreate } from "@/services/offers/types"
 
 import { ItemOffer } from "./components/ItemOffer"
 import { ItemProfile } from "./components/ItemProfile"
-import { Button, ButtonClose } from "@/components/common"
 import { ItemImages } from "../Balloon/Offer/components/ItemImages"
+import { Button, ButtonClose, LoadingProfile } from "@/components/common"
 
+import {
+    useAuth,
+    dispatchBallonOffer,
+    useOffersCategories,
+    useReciprocalExchange,
+    dispatchReciprocalExchange,
+    dispatchReciprocalExchangeCollapse,
+} from "@/store"
 import { cx } from "@/lib/cx"
+import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 import { serviceNotifications, serviceBarters, serviceOffers, serviceUser } from "@/services"
-import {
-    useReciprocalExchange,
-    dispatchReciprocalExchange,
-    useOffersCategories,
-    useAuth,
-    dispatchBallonOffer,
-    dispatchReciprocalExchangeCollapse,
-} from "@/store"
-import { useWebSocket } from "@/context"
 
 import styles from "./styles/style.module.scss"
 
@@ -59,7 +58,7 @@ export const ReciprocalExchange = () => {
         refetchOnWindowFocus: false,
     })
 
-    const { data: dataUser } = useQuery({
+    const { data: dataUser, isLoading: isLoadUser } = useQuery({
         queryFn: () => serviceUser.getId(offer?.userId!),
         queryKey: ["user", { userId: offer?.userId }],
         enabled: !!offer?.userId,
@@ -112,13 +111,9 @@ export const ReciprocalExchange = () => {
                 !values.my_offer && values.description ? serviceOffers.post(dataNewOffer) : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
             ]).then((response: [IReturnData<IResponseCreate>]) => {
                 if (response?.[0]?.ok) {
-                    const title = `-${response[0]?.res?.id!}:initiatorUserId:${userId}:consignedUserId:${offer?.userId}:time:${dayjs().format(
-                        "HH:mm:ss_DD.MM.YY",
-                    )}`
-
                     const dataBarter: IPostDataBarter = {
                         provider: "barter",
-                        title: title,
+                        title: "",
                         initialId: response[0]?.res?.id!, //number
                         consignedId: offer?.id!, //number
                         status: "initiated",
@@ -137,7 +132,7 @@ export const ReciprocalExchange = () => {
                                         title: "Предложение на обмен отправлено",
                                         message: message,
                                         status: "initiated",
-                                    })
+                                    }) 
                                     setLoading(false)
                                     dispatchReciprocalExchange({ visible: false, offer: undefined })
                                     dispatchBallonOffer({ visible: false })
@@ -197,7 +192,7 @@ export const ReciprocalExchange = () => {
                 <ul>
                     <form onSubmit={onSubmit}>
                         <section data-profile-offer>
-                            <ItemProfile profile={profile!} geo={geo!} />
+                            {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} geo={geo!} />}
                             <ItemOffer />
                         </section>
                         <section>

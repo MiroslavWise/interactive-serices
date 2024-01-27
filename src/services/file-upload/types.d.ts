@@ -33,7 +33,7 @@ export interface IResponseUploadFile {
 
 type TTypeProvider = "profile" | "offer" | "discussion" | "alert" | "request" | "barter" | "threads"
 
-type TTypeStatusBarter = "initiated" | "executed" | "completed" | "destroyed" | "canceled" | "pre-completion"
+type TTypeStatusBarter = "initiated" | "executed" | "completed" | "destroyed" | "canceled" | "pre-completion" | "destroyed"
 
 export interface IProvider {
     type: TTypeProvider

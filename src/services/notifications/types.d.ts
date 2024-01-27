@@ -1,6 +1,6 @@
-import { IBarterResponse } from "../barters/types"
-import { TTypeStatusBarter } from "../file-upload/types"
+import type { IBarterResponse } from "../barters/types"
 import type { IReturnData, TOrder } from "../types/general"
+import type { TTypeStatusBarter } from "../file-upload/types"
 
 export type TTypeOperation =
     | "create"
@@ -11,6 +11,8 @@ export type TTypeOperation =
     | "accepted"
     | "completion-recall-no"
     | "feedback-received"
+    | "feedback-received-no"
+
 export type TTypeProviderNotifications = "barter"
 
 export interface IPostNotification {

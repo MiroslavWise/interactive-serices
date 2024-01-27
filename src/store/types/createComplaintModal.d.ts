@@ -6,13 +6,11 @@ export interface IStateComplaintModal {
     user?: IUserResponse
 }
 
-interface IAction {
+export interface IAction {
     visible: boolean
     user?: IUserResponse
 }
 
-export interface IActionComplaintModal {
-    dispatchComplaintModal: Dispatch<IAction>
-}
+export interface IActionComplaintModal {}
 
 export type TUseComplaintModal = IStateComplaintModal & IActionComplaintModal

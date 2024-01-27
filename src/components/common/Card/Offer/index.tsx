@@ -8,8 +8,9 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TCardOffer } from "./types"
 
-import { BlockBarter } from "./components/BlockBarter"
 import { BlockTitle } from "./components/BlockTitle"
+import { BlockBarter } from "./components/BlockBarter"
+import { LoadingProfile } from "@/components/common"
 
 import { serviceUser } from "@/services"
 import { useAuth, useVisibleExchanges } from "@/store/hooks"
@@ -25,7 +26,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
         return Number(initiator?.userId) === Number(myUserId) ? Number(consigner?.userId) : Number(initiator?.userId)
     }, [consigner, initiator, myUserId])
 
-    const { data: dataUser } = useQuery({
+    const { data: dataUser, isLoading: isLoadUser } = useQuery({
         queryFn: () => serviceUser.getId(idUser!),
         queryKey: ["user", { userId: idUser }],
         refetchOnMount: false,
@@ -35,7 +36,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
     return (
         <li className={styles.container}>
             <section className={styles.main}>
-                <BlockTitle {...dataUser?.res!} />
+                {isLoadUser ? <LoadingProfile /> : <BlockTitle {...dataUser?.res!} />}
                 <BlockBarter {...{ consigner, initiator }} />
             </section>
             <footer>
@@ -44,7 +45,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
                     <Link
                         href={{
                             pathname: "/messages",
-                            query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` }, 
+                            query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` },
                         }}
                         onClick={(event) => {
                             event.stopPropagation()

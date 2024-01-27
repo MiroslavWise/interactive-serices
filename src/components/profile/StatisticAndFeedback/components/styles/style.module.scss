@@ -67,6 +67,17 @@
             margin-bottom: 1rem;
         }
     }
+
+    &[data-loading="true"] {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem 1rem;
+        height: min-content;
+
+        & > * {
+            height: min-content;
+        }
+    }
 }
 
 //Items Blog Messages
@@ -81,8 +92,10 @@
     flex-direction: column;
     gap: 1rem;
     padding-bottom: 1.5rem;
+}
 
-    &.mobile {
+[data-mobile="true"] {
+    .listBlogMessages {
         height: auto;
         overflow-y: visible;
         padding: 0;
@@ -141,13 +154,25 @@
         gap: 1rem 1rem;
         flex-wrap: wrap;
     }
+
+    &[data-loading="true"] {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem 1rem;
+        height: min-content;
+
+        & > * {
+            border-radius: 1rem;
+            height: min-content;
+            border: 1px solid var(--gray-300);
+        }
+    }
 }
 
 [data-mobile="true"] {
     .containerServices {
         height: auto;
         padding: 0;
-        padding-bottom: 4.25rem;
     }
 
     .containerRequestsAndProposals {

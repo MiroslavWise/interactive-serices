@@ -9,9 +9,9 @@ import Masonry from "react-responsive-masonry"
 
 import type { TItemsReviews } from "./types/types"
 
+import { LoadingFeedback } from "@/components/common"
 import { CardReview } from "@/components/common/Card/Review"
 
-import { cx } from "@/lib/cx"
 import { serviceTestimonials, serviceOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
@@ -48,21 +48,28 @@ export const ItemsReviews: TItemsReviews = ({}) => {
         }
     }, [dataTestimonials])
 
+    const isLoadAll = useMemo(() => {
+        return isLoading || dataTestimonials?.some((item) => item.isLoading)
+    }, [isLoading, dataTestimonials])
+
     return (
-        <div className={cx(styles.containerItemsInteractive, isMobile && styles.mobile)}>
-            {isMobile ? (
+        <div className={styles.containerItemsInteractive} data-loading={isLoadAll}>
+            {isLoadAll ? (
+                [1, 2, 3, 4].map((item) => <LoadingFeedback key={`::item::load::feedback::${item}`} />)
+            ) : isMobile ? (
                 <ul>
                     {listTestimonials.map((item) => (
-                        <CardReview {...item!} key={`${item?.id}-card-review`} />
+                        <CardReview {...item!} key={`::card::review::${item?.id}::`} />
                     ))}
                 </ul>
             ) : (
                 <Masonry data-row columnsCount={2} gutter="16px">
                     {listTestimonials.map((item) => (
-                        <CardReview {...item!} key={`${item?.id}-card-review`} />
+                        <CardReview {...item!} key={`::card::review::${item?.id}::`} />
                     ))}
                 </Masonry>
             )}
+            {}
         </div>
     )
 }

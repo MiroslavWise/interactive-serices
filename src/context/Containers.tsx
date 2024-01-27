@@ -25,6 +25,7 @@ import {
     ReciprocalExchange,
     BalloonOffer,
     BalloonDiscussion,
+    ReasonBarters,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -43,6 +44,8 @@ import {
     useBalloonOffer,
     useBalloonDiscussion,
     useAddTestimonials,
+    useReasonBarters,
+    useComplaintModal,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -50,12 +53,14 @@ export const Containers = () => {
     const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
     const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
     const visibleBalloonOffer = useBalloonOffer(({ visible }) => visible)
+    const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
     const visibleTestimonials = useAddTestimonials(({ visible }) => visible)
     const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
     const visibleBalloonDiscussion = useBalloonDiscussion(({ visible }) => visible)
     const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
     const visibleReciprocalExchange = useReciprocalExchange(({ visible }) => visible)
     const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
+    const visibleComplaint = useComplaintModal(({ visibleComplaint }) => visibleComplaint)
     const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
     const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
 
@@ -87,12 +92,13 @@ export const Containers = () => {
             {isAuth && (
                 <>
                     <Onboarding />
-                    <ComplaintModal />
                     <NewServicesBanner />
                     <NewServiceBarterRequests />
                     {visibleFriends && <DroverFriends />}
                     {isMobile && <ExchangesModalMobile />}
                     {isVisible && <CreateNewOptionModal />}
+                    {visibleComplaint && <ComplaintModal />}
+                    {visibleReasonBarters && <ReasonBarters />}
                     {visibleUpdateMutual && <UpdateMutualOffer />}
                     {visibleTestimonials && <CompletionTransaction />}
                     {visibleReciprocalExchange && <ReciprocalExchange />}

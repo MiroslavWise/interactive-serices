@@ -31,7 +31,7 @@ export const AlertBalloonComponent: TAlertBalloonComponent = ({}) => {
         queries: [
             {
                 queryFn: () => serviceOffers.getId(Number(id!)),
-                queryKey: ["offers", `offer=${id!}`, `provider=${type}`],
+                queryKey: ["offers", { offerId: id }],
                 enabled: !!id,
                 refetchOnMount: false,
             },

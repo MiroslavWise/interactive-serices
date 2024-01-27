@@ -8,7 +8,7 @@ import type { IGeneralServiceAllItem } from "./types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { ButtonCanHelp } from "@/components/common/custom"
-import { GeoTagging, NextImageMotion } from "@/components/common"
+import { GeoTagging, LoadingProfile, NextImageMotion } from "@/components/common"
 import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/components/AvatarsBalloon"
 
 import { cx } from "@/lib/cx"
@@ -28,7 +28,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
     const { createGallery } = usePhotoVisible()
     const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
-    const { data: dataProfile } = useQuery({
+    const { data: dataProfile, isLoading: isLoadProfile } = useQuery({
         queryFn: () => serviceProfile.getUserId(userId!),
         queryKey: ["profile", userId!],
         enabled: !!userId,
@@ -127,31 +127,35 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                 {provider === "discussion" ? <AvatarsBalloon offerId={id} /> : null}
             </header>
             <section>
-                <div data-profile>
-                    <div
-                        data-circle
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            handleImages()
-                        }}
-                        data-not-image={images?.length === 0}
-                    >
-                        <div data-r />
-                        <NextImageMotion data-avatar src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={42} height={42} />
+                {isLoadProfile ? (
+                    <LoadingProfile />
+                ) : (
+                    <div data-profile>
+                        <div
+                            data-circle
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleImages()
+                            }}
+                            data-not-image={images?.length === 0}
+                        >
+                            <div data-r />
+                            <NextImageMotion data-avatar src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={42} height={42} />
+                        </div>
+                        <div
+                            data-info
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleProfile()
+                            }}
+                        >
+                            <p>
+                                {dataProfile?.res?.firstName || " "} {dataProfile?.res?.lastName || " "}
+                            </p>
+                            {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
+                        </div>
                     </div>
-                    <div
-                        data-info
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            handleProfile()
-                        }}
-                    >
-                        <p>
-                            {dataProfile?.res?.firstName || " "} {dataProfile?.res?.lastName || " "}
-                        </p>
-                        {geo ? <GeoTagging location={geo?.additional} fontSize={12} size={14} /> : null}
-                    </div>
-                </div>
+                )}
                 {title && (
                     <h4>
                         {provider === "offer" && <span>Могу: </span>}

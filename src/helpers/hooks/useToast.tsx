@@ -7,7 +7,7 @@ import { type DispatchWithoutAction } from "react"
 
 import { TTypeStatusBarter } from "@/services/file-upload/types"
 
-import { ButtonCircleGradient, ButtonClose, ButtonDefault, ButtonLink, NextImageMotion } from "@/components/common"
+import { ButtonCircleGradient, ButtonClose, Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 interface IValue {
     message?: string
@@ -88,9 +88,12 @@ export const useToast = () => {
     function on(value: IValue, type?: TTypeToast, onClick?: DispatchWithoutAction) {
         const buttons = (
             <div data-buttons>
-                <ButtonDefault
+                <Button
+                    type="button"
+                    typeButton="regular-primary"
                     label="Посмотреть"
-                    handleClick={() => {
+                    onClick={(event) => {
+                        event.stopPropagation()
                         if (onClick) onClick()
                     }}
                 />

@@ -36,11 +36,6 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             setLoading(true)
             const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
 
-            if (phoneReplace?.length <= 12) {
-                setError("phone", { message: "Требуется номер телефона, состоящий из 11 цифр" })
-                setLoading(false)
-            }
-
             serviceAuth
                 .phone({
                     phone: phoneReplace,
@@ -51,7 +46,12 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                         dispatchStartTimer()
                         dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
                     } else {
-                        setError("phone", { message: response?.error?.message! })
+                        if (response?.error?.message === "user not found") {
+                            setError("phone", { message: "Данного пользователя не существует" })
+                        }
+                        if (response?.error?.message === "invalid parameters") {
+                            setError("phone", { message: "Не верные данные или данного номер не существует" })
+                        }
                     }
                     setLoading(false)
                 })
@@ -77,15 +77,20 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                             placeholder="+7 999 000-00-00"
                             type="tel"
                             inputMode="numeric"
-                            {...register("phone", { required: true })}
+                            {...register("phone", { required: true, minLength: 11, maxLength: 16 })}
                             maxLength={16}
-                            onChange={(event) => {
-                                setValue("phone", event.target.value?.slice(0, 20))
-                            }}
                         />
                     </div>
                     {!!errors.phone ? (
-                        <i>{errors.phone && errors?.phone?.message === "user already exists" ? "Пользователь уже существует" : errors.phone?.message}</i>
+                        <i>
+                            {errors.phone && errors?.phone?.message === "user already exists"
+                                ? "Пользователь уже существует"
+                                : errors.phone.type === "minLength"
+                                ? "Номер телефона состоит из 11 цифр"
+                                : errors?.phone?.type === "maxLength"
+                                ? "Номер имеет не более 11 цифр"
+                                : errors?.phone?.message}
+                        </i>
                     ) : null}
                 </div>
             </section>

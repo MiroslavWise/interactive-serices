@@ -1,14 +1,11 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
-
 import type { IUserResponse } from "@/services/users/types/usersService"
 
-import { useComplaintModal } from "@/store/state/useComplaintModal"
+import { dispatchComplaintModal } from "@/store"
 
 export const ComplaintButton = (props: { user: IUserResponse }) => {
     const { user } = props ?? {}
-    const { dispatchComplaintModal } = useComplaintModal()
 
     function handle() {
         if (user) {
@@ -21,7 +18,7 @@ export const ComplaintButton = (props: { user: IUserResponse }) => {
     }
 
     return (
-        <p data-complaint onClick={handle}>
+        <p data-complaint onClick={handle}> 
             Пожаловаться
         </p>
     )

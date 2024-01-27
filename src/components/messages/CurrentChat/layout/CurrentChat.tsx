@@ -32,7 +32,7 @@ export const CurrentChat = () => {
 
     const { data } = useQuery({
         queryFn: () => serviceThreads.getId(Number(idThread)),
-        queryKey: ["threads", `user=${userId}`, `id=${idThread}`],
+        queryKey: ["threads", { userId: userId, threadId: idThread }],
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,

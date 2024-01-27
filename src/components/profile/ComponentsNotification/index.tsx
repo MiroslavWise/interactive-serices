@@ -8,12 +8,11 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TComponentsNotification } from "./types/types"
 
-import { ButtonCircleGradient, ButtonDefault } from "@/components/common/Buttons"
+import { ButtonCircleGradient, Button } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { serviceUser } from "@/services/users"
-import { serviceNotifications } from "@/services/notifications"
-import { useAuth, dispatchVisibleNotifications } from "@/store/hooks"
+import { serviceNotifications, serviceUser } from "@/services"
+import { useAuth, dispatchVisibleNotifications } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -77,9 +76,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
         <li className={styles.container} data-provider={props.provider} data-name={props.provider}>
             <div data-block-info>
                 <h3>
-                    {provider === "barter" && operation === "create" && data?.status === "initiated" ? (
-                        <span>Предложение обмена: </span>
-                    ) : null}
+                    {provider === "barter" && operation === "create" && data?.status === "initiated" ? <span>Предложение обмена: </span> : null}
                     {titleBarter}
                 </h3>
                 <div data-footer>
@@ -88,7 +85,15 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
                         <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
                     </div>
                     <div data-buttons>
-                        <ButtonDefault label="Посмотреть" handleClick={handleBarter} />
+                        <Button
+                            type="button"
+                            typeButton="regular-primary"
+                            label="Посмотреть"
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleBarter()
+                            }}
+                        />
                         <ButtonCircleGradient type="primary" handleClick={handleCancel} icon="/svg/x-close-primary.svg" />
                     </div>
                 </div>

@@ -3,12 +3,12 @@ import type { TMobileSegments } from "./types/types"
 import { MobileOfferSegment } from "@/components/common/Card/MobileOfferSegment"
 
 import { OFFERS_CARD } from "./constants"
-import { useVisibleExchanges } from "@/store/hooks"
+import { useVisibleExchanges } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const MobileSegments: TMobileSegments = () => {
-    const dispatchExchanges = useVisibleExchanges(({dispatchExchanges}) => dispatchExchanges)
+    const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
 
     return (
         <ul className={styles.containerOffersCardMobile}>

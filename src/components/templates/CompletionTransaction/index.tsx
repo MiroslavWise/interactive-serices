@@ -1,9 +1,8 @@
 "use client"
 
 import { flushSync } from "react-dom"
-import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
-import { isMobile } from "react-device-detect"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IValuesForm } from "./types/types"
@@ -11,6 +10,7 @@ import type { IValuesForm } from "./types/types"
 import { Button, ButtonClose, ButtonLink } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
 import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications } from "@/services"
 
@@ -26,12 +26,13 @@ export const CompletionTransaction = () => {
         handleSubmit,
         watch,
         setValue,
-        reset,
+        setFocus,
     } = useForm<IValuesForm>({
         defaultValues: {
             rating: 3,
         },
     })
+    const { onBarters } = useToast()
     const visible = useAddTestimonials(({ visible }) => visible)
     const profile = useAddTestimonials(({ profile }) => profile)
     const barterId = useAddTestimonials(({ barterId }) => barterId)
@@ -49,11 +50,11 @@ export const CompletionTransaction = () => {
 
     const { refetch: refetchThread } = useQuery({
         queryFn: () => serviceThreads.getId(Number(threadId)),
-        queryKey: ["threads", `user=${userId}`, `id=${threadId}`],
+        queryKey: ["threads", { userId: userId, threadId: threadId }],
         enabled: false,
     })
 
-    const { data: dataNotifications, refetch: refetchNotifications } = useQuery({
+    const { refetch: refetchNotifications } = useQuery({
         queryFn: () => serviceNotifications.get({ order: "DESC" }),
         queryKey: ["notifications", { userId: userId }],
         enabled: false,
@@ -81,11 +82,16 @@ export const CompletionTransaction = () => {
         enabled: false,
     })
 
+    useEffect(() => {
+        if (visible) {
+            setFocus("message")
+        }
+    }, [visible])
+
     function submit(values: IValuesForm) {
         if (!loading) {
             setLoading(true)
 
-            const completionSurveyCurrent = dataNotifications?.res?.find((item) => item?.operation === "completion-survey" && item?.data?.id === barterId)?.id!
             const idOffer = data?.res?.initiator?.userId === userId ? data?.res?.consignedId : data?.res?.initialId
 
             Promise.all([
@@ -99,12 +105,20 @@ export const CompletionTransaction = () => {
                     enabled: true,
                 }),
                 !!notificationId
-                    ? serviceNotifications.patch({ operation: "feedback-received", enabled: true, read: true }, notificationId)
+                    ? serviceNotifications.patch(
+                          {
+                              operation:
+                                  data?.res?.status === "completed"
+                                      ? "feedback-received"
+                                      : data?.res?.status?.includes("destroyed")
+                                      ? "feedback-received-no"
+                                      : "feedback-received",
+                              enabled: true,
+                              read: true,
+                          },
+                          notificationId,
+                      )
                     : Promise.resolve({ ok: true }),
-                !!completionSurveyCurrent
-                    ? serviceNotifications.patch({ operation: "completion-yes", enabled: true, read: true }, completionSurveyCurrent)
-                    : Promise.resolve({ ok: true }),
-                !!completionSurveyCurrent ? serviceBarters.patch({ enabled: true, status: "completed" }, barterId!) : Promise.resolve({ ok: true }),
             ]).then(async (responses) => {
                 if (responses?.some((item) => item!?.ok)) {
                     refetchBarters()
@@ -112,6 +126,11 @@ export const CompletionTransaction = () => {
                     refetchThread()
                     refetchNotifications()
                     flushSync(async () => {
+                        onBarters({
+                            title: "Спасибо за обратную связь",
+                            message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
+                            status: "initiated",
+                        })
                         setIsFirst(false)
                         setLoading(false)
                     })
@@ -122,11 +141,16 @@ export const CompletionTransaction = () => {
 
     const onSubmit = handleSubmit(submit)
 
+    console.log("errors: ", errors)
+
     return (
-        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible} data-mobile={isMobile}>
+        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
             <section>
                 <h5>Обзор</h5>
                 <ButtonClose onClick={() => dispatchAddTestimonials({ visible: false })} position={{}} />
+                <div data-dots>
+                    <img src="/svg/dots-vertical-gray.svg" alt="..." width={16} height={16} />
+                </div>
                 {isFirst ? (
                     <form onSubmit={onSubmit}>
                         <header>
@@ -166,7 +190,6 @@ export const CompletionTransaction = () => {
                                 <textarea
                                     {...register("message", {
                                         required: true,
-                                        minLength: 5,
                                     })}
                                     onKeyDown={(event) => {
                                         if (event.keyCode === 13 || event.code === "Enter") {
@@ -174,7 +197,7 @@ export const CompletionTransaction = () => {
                                         }
                                     }}
                                     placeholder="Напишите здесь свой отзыв..."
-                                    maxLength={240}
+                                    maxLength={1024}
                                 />
                                 <sup>
                                     <span>{watch("message")?.length || 0}</span>/240

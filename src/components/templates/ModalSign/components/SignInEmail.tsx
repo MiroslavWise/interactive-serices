@@ -5,13 +5,13 @@ import { IValuesSignForm } from "../types/types"
 
 import { Button } from "@/components/common"
 
+import { queryClient } from "@/context"
+import { serviceUser } from "@/services"
 import { useTokenHelper } from "@/helpers"
-import { serviceUser } from "@/services/users"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthModal, dispatchOnboarding, useAuth } from "@/store/hooks"
+import { dispatchAuthModal, dispatchOnboarding, useAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
-import { queryClient } from "@/context"
 
 export const SignInEmail = memo(function SignInEmail({
     children,
@@ -49,20 +49,19 @@ export const SignInEmail = memo(function SignInEmail({
                     password: value.password,
                 })
                 .then((response) => {
-                    if (response?.error?.code === 401 && response?.error?.message === "Unauthorized") {
+                    if (response?.error?.message === "Unauthorized") {
                         setError("password", { message: "Не верный пароль" })
                         return
                     }
-                    if (response.error?.code === 401 && response?.error?.message === "user is not verified") {
-                        on(
-                            {
-                                message: "Вы не потвердили профиль через уведомление, которое вам пришло на почту!",
-                            },
-                            "warning",
-                        )
+                    if (response?.error?.message === "user not found") {
+                        setError("email", { message: "" })
                         return
                     }
-                    if (response.error?.code === 404) {
+                    if (response.error?.code === 401 && response?.error?.message === "user is not verified") {
+                        setError("email", { message: "Аккаунт не верифицирован. Проверьте вашу почту" })
+                        return
+                    }
+                    if (response.error?.message === "user not found") {
                         setError("email", { message: "Данного пользователя не существует" })
                         return
                     }
