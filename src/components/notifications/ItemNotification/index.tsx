@@ -102,43 +102,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     const text: ReactNode | string | null = useMemo(() => {
         if (provider === "barter") {
-            if (data?.status === "initiated") {
-                if (data?.initiator?.userId === userId) {
-                    return (
-                        <p>
-                            Вы предложили обмен{" "}
-                            <Link
-                                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
-                                onClick={(event) => {
-                                    event.stopPropagation()
-                                    dispatchVisibleNotifications(false)
-                                }}
-                            >
-                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
-                            </Link>
-                        </p>
-                    )
-                } else {
-                    if (operation === "create" && userId === data?.consigner?.userId) {
-                        return (
-                            <p>
-                                <Link
-                                    href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
-                                    onClick={(event) => {
-                                        event.stopPropagation()
-                                        dispatchVisibleNotifications(false)
-                                    }}
-                                >
-                                    {dataProfile?.res?.firstName}
-                                </Link>{" "}
-                                предлагает вам <a>{categoryOfferName?.initiator?.title!}</a> взамен на <a>{categoryOfferName?.consigner?.title!}</a>:«
-                                {data?.initiator?.title!}».
-                            </p>
-                        )
-                    }
-                }
-            }
-            if (["completion-yes", "completion-survey", "completion-no"].includes(operation!)) {
+ if (["completion-yes", "completion-survey", "completion-no"].includes(operation!)) {
                 return (
                     <p>
                         Расскажите, обмен с пользователем{" "}
@@ -204,6 +168,43 @@ export const ItemNotification = (props: IResponseNotifications) => {
                     </p>
                 )
             }
+            if (data?.status === "initiated") {
+                if (data?.initiator?.userId === userId) {
+                    return (
+                        <p>
+                            Вы предложили обмен{" "}
+                            <Link
+                                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    dispatchVisibleNotifications(false)
+                                }}
+                            >
+                                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                            </Link>
+                        </p>
+                    )
+                } else {
+                    if (operation === "create" && userId === data?.consigner?.userId) {
+                        return (
+                            <p>
+                                <Link
+                                    href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        dispatchVisibleNotifications(false)
+                                    }}
+                                >
+                                    {dataProfile?.res?.firstName}
+                                </Link>{" "}
+                                предлагает вам <a>{categoryOfferName?.initiator?.title!}</a> взамен на <a>{categoryOfferName?.consigner?.title!}</a>:«
+                                {data?.initiator?.title!}».
+                            </p>
+                        )
+                    }
+                }
+            }
+           
         }
 
         return null
