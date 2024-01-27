@@ -8,8 +8,9 @@ import type { IResponseLoginNot2fa } from "@/services/auth/types/authService"
 
 export interface IPostDataUser {
     email: string
-    // password: string
-    // repeat: string
+    password: string
+    repeat: string
+    agree: boolean
 }
 
 export interface IPatchDataUser extends Partial<IPostDataUser> {

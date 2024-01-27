@@ -100,6 +100,7 @@ export const ContentCreatePassword = () => {
                                 setLoading(false)
                             }
                         } else {
+                            setError("password", { message: response?.error?.message })
                             setLoading(false)
                         }
                     })
@@ -142,9 +143,7 @@ export const ContentCreatePassword = () => {
                         <i>
                             {errors.password?.message === "validate_register"
                                 ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
-                                : errors.password
-                                ? "Требуется пароль"
-                                : ""}
+                                : errors.password?.message}
                         </i>
                     ) : null}
                 </div>
