@@ -5,7 +5,7 @@ import { wrapperFetch } from "@/services/requestsWrapper"
 
 export const RegistrationService: IRegistrationService = {
     async registration(data) {
-        return serviceUser.post(data).then((response) => {
+        return serviceUser.post({ ...data, agree: true }).then((response) => {
             if (response.ok) {
                 return {
                     ok: response.ok,
