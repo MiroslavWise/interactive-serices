@@ -1,9 +1,6 @@
-
-
-
-export interface IValuesForm{
+export interface IValuesForm {
     comment: string
     type: TValue
 }
 
-type TValue = "fraud" | "other" | "insult" | "spam"
+type TValue = "fraud" | "other" | "insult" | "spam" | "demeanor"

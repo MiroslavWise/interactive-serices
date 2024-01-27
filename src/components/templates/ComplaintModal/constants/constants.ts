@@ -6,8 +6,12 @@ export const MENU_COMPLAINT: IMenuReason[] = [
         label: "Мошенничество или обмен контактными данными",
     },
     {
+        value: "demeanor",
+        label: "Неуместное поведение",
+    },
+    {
         value: "insult",
-        label: "Неуместное или оскорбительное поведение/контент",
+        label: "Оскорбительной контент",
     },
     {
         value: "spam",
