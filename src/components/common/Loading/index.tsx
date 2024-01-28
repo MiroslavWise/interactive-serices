@@ -82,14 +82,21 @@ export function LoadingMyOffer() {
 }
 
 export function LoadingFeedback() {
-    return <div className={styles.containerFeedback}>
-        <div data-header>
-            <span data-user />
-            <span data-rating/>
+    return (
+        <div className={styles.containerFeedback}>
+            <div data-header>
+                <span data-user />
+                <span data-rating />
+            </div>
+            <div data-content>
+                <span />
+                <span />
+            </div>
         </div>
-        <div data-content>
-            <span />
-            <span />
-        </div>
-    </div>
+    )
 }
+
+export * from "./Threads/LoadingThreadsPage"
+export * from "./Threads/ComponentLoadingThread"
+export * from "./Threads/LoadingThreadNotice"
+export * from "./Threads/LoadingInput"

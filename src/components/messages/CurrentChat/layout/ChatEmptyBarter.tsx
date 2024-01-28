@@ -6,10 +6,11 @@ import { useInsertionEffect, useMemo } from "react"
 import type { IPostThreads } from "@/services/threads/types"
 import type { IPatchDataBarter } from "@/services/barters/types"
 
-import { useAuth } from "@/store/hooks"
-import { serviceBarters } from "@/services/barters"
-import { serviceThreads } from "@/services/threads"
+import { LoadingThreadsPage } from "@/components/common"
+
+import { useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
+import { serviceBarters, serviceThreads } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 import { useCountMessagesNotReading, usePush } from "@/helpers"
 
@@ -102,5 +103,9 @@ export const ChatEmptyBarter = () => {
         }
     }, [barterNumber, userId])
 
-    return <section className={styles.wrapper} />
+    return (
+        <section className={styles.wrapperLoading}>
+            <LoadingThreadsPage />
+        </section>
+    )
 }

@@ -1,28 +1,30 @@
 "use client"
 
 import { flushSync } from "react-dom"
-import { isMobile } from "react-device-detect"
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
 
 import { ItemTime } from "./ItemTime"
+import { NoticeBarter } from "./NoticeBarter"
 import { ItemMyMessage } from "./ItemMyMessage"
 import { ItemUserMessage } from "./ItemUserMessage"
+import { ComponentLoadingThread } from "@/components/common/Loading"
 
-import { useAuth } from "@/store/hooks"
-import { NoticeBarter } from "./NoticeBarter"
+import { useAuth } from "@/store"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 
 export const ListMessages = memo(function ListMessages({
     messages,
     dataUser,
     idBarter,
+    isLoading,
 }: {
     messages: IResponseMessage[]
     dataUser: IUserResponse
     idBarter: number
+    isLoading: boolean
 }) {
     const { join } = useJoinMessage()
     const { attributes } = useAuth(({ imageProfile }) => imageProfile) ?? {}
@@ -64,19 +66,10 @@ export const ListMessages = memo(function ListMessages({
         })
     }, [messages, numberIdMessage, messagesJoin])
 
-    if (isMobile) {
-        return (
-            <ul ref={ulChat}>
-                {!!idBarter && <NoticeBarter idBarter={idBarter!} userData={dataUser} />}
-                {messagesJoin}
-            </ul>
-        )
-    }
-
     return (
-        <ul ref={ulChat}>
+        <ul ref={ulChat} data-loading={isLoading}>
             {!!idBarter && <NoticeBarter idBarter={idBarter!} userData={dataUser} />}
-            {messagesJoin}
+            {isLoading ? [1, 2, 3].map((item) => <ComponentLoadingThread key={`::item::loading::thread::${item}::`} isRight={item % 2 === 0} />) : messagesJoin}
         </ul>
     )
 })
