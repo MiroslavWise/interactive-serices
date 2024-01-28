@@ -8,7 +8,7 @@ import { useQueries, useQuery } from "@tanstack/react-query"
 import type { IBarterResponse } from "@/services/barters/types"
 import type { IUserResponse } from "@/services/users/types/usersService"
 
-import { Button, GeoTagging, NextImageMotion } from "@/components/common"
+import { Button, GeoTagging, LoadingThreadNotice, NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
 import { serviceThreads, serviceBarters, serviceProfile } from "@/services"
@@ -38,7 +38,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         enabled: false,
     })
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryFn: () => serviceBarters.getId(idBarter),
         queryKey: ["barters", { id: idBarter }],
         enabled: !!idBarter,
@@ -131,7 +131,9 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         }
     }
 
-    return data?.ok ? (
+    return isLoading ? (
+        <LoadingThreadNotice />
+    ) : data?.ok ? (
         <section className={styles.wrapper} data-type={status}>
             <article>
                 {status === "executed" ? (
