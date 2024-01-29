@@ -53,10 +53,7 @@ export const SignInEmail = memo(function SignInEmail({
                         setError("password", { message: "Не верный пароль" })
                         return
                     }
-                    if (response?.error?.message === "user not found") {
-                        setError("email", { message: "" })
-                        return
-                    }
+                   
                     if (response.error?.code === 401 && response?.error?.message === "user is not verified") {
                         setError("email", { message: "Аккаунт не верифицирован. Проверьте вашу почту" })
                         return
