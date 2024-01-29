@@ -7,7 +7,7 @@ import { IUserResponse } from "@/services/users/types/usersService"
 
 import styles from "@/scss/page.module.scss"
 
-export const UserIdPage = ({ id, user, ok }: { id: string; user: IUserResponse; ok: boolean }) => {
+export const UserIdPage = ({ id, user, ok, isLoading }: { id: string; user: IUserResponse; ok: boolean; isLoading: boolean }) => {
     return isMobile ? (
         <ul className={styles.containerMobile} id="user-id">
             <MobileMainInfo user={user!} />

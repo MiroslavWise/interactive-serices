@@ -6,9 +6,9 @@ import { IValuesSignForm } from "../types/types"
 import { Button } from "@/components/common"
 
 import { queryClient } from "@/context"
-import { serviceUser } from "@/services"
 import { useTokenHelper } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
+import { serviceAuthErrors, serviceUser } from "@/services"
 import { dispatchAuthModal, dispatchOnboarding, useAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -49,19 +49,20 @@ export const SignInEmail = memo(function SignInEmail({
                     password: value.password,
                 })
                 .then((response) => {
-                    if (response?.error?.message === "Unauthorized") {
-                        setError("password", { message: "Не верный пароль" })
+                    if (response?.error?.message === "password is not match") {
+                        setError("password", { message: serviceAuthErrors.get("password is not match")! })
                         return
                     }
-                   
-                    if (response.error?.code === 401 && response?.error?.message === "user is not verified") {
-                        setError("email", { message: "Аккаунт не верифицирован. Проверьте вашу почту" })
-                        return
+
+                    if (!!response?.error?.message) {
+                        if (serviceAuthErrors.has(response?.error?.message)) {
+                            setError("email", { message: serviceAuthErrors.get(response?.error?.message!) })
+                            return
+                        } else {
+                            setError("email", { message: serviceAuthErrors.get("default") })
+                        }
                     }
-                    if (response.error?.message === "user not found") {
-                        setError("email", { message: "Данного пользователя не существует" })
-                        return
-                    }
+
                     if (response?.res?.secret && response?.res?.otpAuthUrl) {
                         setValueSecret({
                             secret: response?.res?.secret!,
@@ -154,7 +155,7 @@ export const SignInEmail = memo(function SignInEmail({
                                     data-eye
                                 />
                             </div>
-                            {!!errors?.[field.name] ? <i>{errors?.[field.name]?.message}</i> : null}
+                            {!!errors?.password ? <i>{errors?.password?.message}</i> : null}
                         </div>
                     )}
                 />

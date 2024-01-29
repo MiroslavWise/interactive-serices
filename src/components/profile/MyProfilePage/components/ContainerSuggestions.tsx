@@ -23,16 +23,30 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
     })
 
     return (
-        <ul className={styles.containerSuggestions} data-loading={isLoading}>
-            {isLoading
-                ? [1, 2, 3, 4].map((item) => <LoadingMyOffer key={`::item::my::offer::loading::${item}::`} />)
-                : Array.isArray(data?.res) && ["offer"].includes(stateProvider)
-                ? data?.res
-                      ?.filter((item) => item?.addresses?.length > 0)
-                      .map((item, index) => <CardSuggestion key={`${item.id}+${index}-${stateProvider}`} {...item} refetch={refetch} />)
-                : Array.isArray(data?.res) && ["discussion", "alert"].includes(stateProvider)
-                ? data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
-                : null}
+        <ul className={styles.containerSuggestions} data-loading={isLoading} data-length={data?.res?.length === 0}>
+            {isLoading ? (
+                [1, 2, 3, 4].map((item) => <LoadingMyOffer key={`::item::my::offer::loading::${item}::`} />)
+            ) : data?.res && Array.isArray(data?.res) && ["offer"].includes(stateProvider) && data?.res?.length > 0 ? (
+                data?.res
+                    ?.filter((item) => item?.addresses?.length > 0)
+                    .map((item, index) => <CardSuggestion key={`${item.id}+${index}-${stateProvider}`} {...item} refetch={refetch} />)
+            ) : data?.res && Array.isArray(data?.res) && ["discussion", "alert"].includes(stateProvider) && data?.res?.length > 0 ? (
+                data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
+            ) : (
+                <article>
+                    <h3>
+                        У вас пока нет{" "}
+                        {stateProvider === "offer"
+                            ? "предложений"
+                            : stateProvider === "discussion"
+                            ? "дискуссий"
+                            : stateProvider === "alert"
+                            ? "объявлений"
+                            : ""}
+                    </h3>
+                    <p>Здесь будут появляться уведомления, требующего вашего ответа. Например, ответить состоялся ли обмен или написать отзыв.</p>
+                </article>
+            )}
         </ul>
     )
 }
