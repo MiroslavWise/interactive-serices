@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 import type { TContainerSuggestions } from "./types/types"
+import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { LoadingMyOffer } from "@/components/common"
 import { CardSuggestion, CardDiscussion } from "@/components/common/Card"
@@ -11,6 +12,17 @@ import { serviceOffers } from "@/services"
 import { useAuth, useProviderProfileOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
+
+const titleEmpty: Map<TTypeProvider, string> = new Map([
+    ["offer", "У вас пока нет предложений"],
+    ["discussion", "У вас пока нет дискуссий"],
+    ["alert", "У вас пока нет объявлений"],
+])
+const descriptionEmpty: Map<TTypeProvider, string> = new Map([
+    ["offer", ""],
+    ["discussion", ""],
+    ["alert", ""],
+])
 
 export const ContainerSuggestions: TContainerSuggestions = () => {
     const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
@@ -34,17 +46,8 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
                 data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
             ) : (
                 <article>
-                    <h3>
-                        У вас пока нет{" "}
-                        {stateProvider === "offer"
-                            ? "предложений"
-                            : stateProvider === "discussion"
-                            ? "дискуссий"
-                            : stateProvider === "alert"
-                            ? "объявлений"
-                            : ""}
-                    </h3>
-                    <p>Здесь будут появляться уведомления, требующего вашего ответа. Например, ответить состоялся ли обмен или написать отзыв.</p>
+                    <h3>{titleEmpty.has(stateProvider) ? titleEmpty.get(stateProvider) : null}</h3>
+                    <p>{descriptionEmpty.has(stateProvider) ? descriptionEmpty.get(stateProvider) : null}</p>
                 </article>
             )}
         </ul>

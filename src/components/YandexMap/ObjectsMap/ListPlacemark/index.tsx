@@ -3,23 +3,46 @@
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import type { IQueriesOffers } from "@/services/offers/types"
+import type { TOrder } from "@/services/types/general"
+import type { TTypeProvider } from "@/services/file-upload/types"
 import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
 import { serviceOffers } from "@/services"
-import { useFilterMap, useBalloonCard } from "@/store"
+import { useFilterMap, useBalloonCard, useProviderOffersMap } from "@/store"
 
 export const ListPlacemark = memo(function ListPlacemark() {
     const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
     const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
-    const obj = idsNumber.length ? ({ category: idsNumber.join(","), order: "DESC" } as IQueriesOffers) : ({ order: "DESC" } as IQueriesOffers)
+    const type = useProviderOffersMap(({ type }) => type)
+
+    const typeOffers = useMemo(() => {
+        if (["offer", "request"].includes(type)) {
+            return {
+                get: {
+                    provider: type as TTypeProvider,
+                    order: "DESC" as TOrder,
+                },
+                keys: ["offers", `provider=${type}`],
+            }
+        } else {
+            return {
+                get: {
+                    order: "DESC" as TOrder,
+                },
+                keys: ["offers"],
+            }
+        }
+    }, [type])
+
+    const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
 
     const { data: dataPlaces } = useQuery({
-        queryFn: () => serviceOffers.get(obj),
-        queryKey: ["offers", { category: idsNumber.sort() }],
+        queryFn: () => serviceOffers.get({ ...typeOffers.get!, ...obj }),
+        queryKey: [...typeOffers.keys, `category=${idsNumber.join(":")}`],
+        enabled: !!type,
     })
 
     const marks: IPlacemarkCurrent[] = useMemo(() => {
