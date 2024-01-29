@@ -8,7 +8,7 @@ import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { Segments } from "@/components/common/Segments"
 
-import { useProviderProfileOffer, dispatchProvider } from "@/store/hooks"
+import { useProviderProfileOffer, dispatchProvider } from "@/store"
 
 import styles from "./styles/style.module.scss"
 

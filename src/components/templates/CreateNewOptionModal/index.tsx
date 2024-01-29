@@ -36,7 +36,7 @@ export const CreateNewOptionModal = () => {
     const [loading, setLoading] = useState(false)
     const [files, setFiles] = useState<File[]>([])
     const [strings, setStrings] = useState<string[]>([])
-    const debouncedValue = useDebounce(onChangeAddress, 600)
+    const debouncedValue = useDebounce(onChangeAddress, 200)
     const [loadingAddresses, setLoadingAddresses] = useState(false)
     const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
     const userId = useAuth(({ userId }) => userId)

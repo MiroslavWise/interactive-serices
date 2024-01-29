@@ -48,9 +48,9 @@ export const ListChat = memo(function ListChat() {
 
     const arrayUsers = useQueries({
         queries: usersIds.map((item) => ({
-            queryFn: () => serviceUser.getId(Number(item)),
+            queryFn: () => serviceUser.getId(item),
             queryKey: ["user", { userId: item }],
-            enabled: !!usersIds.length,
+            enabled: !!item,
         })),
     })
 
@@ -58,10 +58,11 @@ export const ListChat = memo(function ListChat() {
         return arrayUsers?.some((item) => item.isLoading)
     }, [arrayUsers])
 
-    const itemsProvider = useMemo(() => {
-        if (!data?.res) return []
-        return data?.res?.filter((item) => item.provider === type)
-    }, [data?.res, type])
+    const itemsProvider = data?.res || []
+    // useMemo(() => {
+    //     if (!data?.res) return []
+    //     return data?.res?.filter((item) => item.provider === type)
+    // }, [data?.res, type])
 
     const items: IFiltersItems[] = useMemo(() => {
         const ITEMS: IFiltersItems[] = []
@@ -113,7 +114,7 @@ export const ListChat = memo(function ListChat() {
                     <div data-total-number>
                         <h4>Сообщения</h4>
                     </div>
-                    <Segments
+                    {/* <Segments
                         type="primary"
                         active={SEGMENTS_CHAT.find((item) => item.value === type)!}
                         VALUES={SEGMENTS_CHAT}
@@ -122,7 +123,7 @@ export const ListChat = memo(function ListChat() {
                         }}
                         classNames={styles.segments}
                         isBorder
-                    />
+                    /> */}
                 </header>
             ) : null}
             <SearchBlock {...{ search, setSearch }} />

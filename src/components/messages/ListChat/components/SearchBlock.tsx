@@ -1,11 +1,11 @@
 "use client"
 
 import { memo } from "react"
-import { isMobile } from "react-device-detect"
+// import { isMobile } from "react-device-detect"
 
 import type { TSearchBlock } from "./types/types"
 
-import { SegmentChatMobile } from "./SegmentChatMobile"
+// import { SegmentChatMobile } from "./SegmentChatMobile"
 import { SearchInput } from "@/components/common/Inputs"
 
 import { cx } from "@/lib/cx"
@@ -16,7 +16,7 @@ export const SearchBlock: TSearchBlock = memo(function SearchBlock({ search, set
     return (
         <div className={cx(styles.blockSearch)}>
             <SearchInput placeholder="Поиск пользователя" value={search} setValue={setSearch} />
-            {isMobile && <SegmentChatMobile />}
+            {/* {isMobile && <SegmentChatMobile />} */}
         </div>
     )
 })

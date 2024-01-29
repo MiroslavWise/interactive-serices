@@ -94,7 +94,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
                 title: data?.title!,
                 name: `${dataProfile?.res?.firstName || ""} ${dataProfile?.res?.lastName || ""}`,
                 urlPhoto: dataProfile?.res?.image?.attributes?.url!,
-                idUser: dataProfile?.res?.id!,
+                idUser: dataProfile?.res?.userId!,
                 time: data?.updated!,
             })
         }

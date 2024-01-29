@@ -12,12 +12,12 @@ import type { IResponseMessage } from "@/services/messages/types"
 import { PopupMenu } from "../components/PopupMenu"
 import { ListMessages } from "../components/ListMessages"
 import { TextAreaSend } from "../components/TextAreaSend"
-import { NextImageMotion } from "@/components/common"
+import { NextImageMotion, LoadingInput } from "@/components/common"
 
 import { useWebSocket } from "@/context"
-import { serviceMessages, serviceThreads, serviceUser } from "@/services"
 import { useCountMessagesNotReading, usePush } from "@/helpers"
-import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage, dispatchDataUser } from "@/store/hooks"
+import { serviceMessages, serviceThreads, serviceUser } from "@/services"
+import { useAuth, usePopupMenuChat, dispatchMessagesType, useUserIdMessage, dispatchDataUser } from "@/store"
 
 import styles from "../styles/style.module.scss"
 
@@ -31,7 +31,7 @@ export const CurrentChat = () => {
     const { refetchCountMessages } = useCountMessagesNotReading()
 
     const { data } = useQuery({
-        queryFn: () => serviceThreads.getId(Number(idThread)),
+        queryFn: () => serviceThreads.getId(idThread!),
         queryKey: ["threads", { userId: userId, threadId: idThread }],
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -45,11 +45,8 @@ export const CurrentChat = () => {
         isLoading,
     } = useQuery({
         queryFn: () => serviceMessages.get({ thread: idThread }),
-        queryKey: ["messages", `user=${userId}`, `thread=${idThread}`],
+        queryKey: ["messages", { userId: userId, threadId: idThread }],
         refetchOnMount: true,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchIntervalInBackground: false,
     })
 
     useEffect(() => {
@@ -80,7 +77,7 @@ export const CurrentChat = () => {
     const userDataIdMassage = useUserIdMessage(({ userData }) => userData)
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUser.getId(Number(idUser)),
+        queryFn: () => serviceUser.getId(idUser!),
         queryKey: ["user", { userId: idUser }],
         enabled: !!idUser && !userDataIdMassage,
         refetchOnMount: true,
@@ -143,11 +140,11 @@ export const CurrentChat = () => {
         }
     }, [socket, refetch, idThread, userId])
 
-    useEffect(() => {
-        if (!!data?.res) {
-            dispatchMessagesType(data?.res?.provider)
-        }
-    }, [data?.res])
+    // useEffect(() => {
+    //     if (!!data?.res) {
+    //         dispatchMessagesType(data?.res?.provider)
+    //     }
+    // }, [data?.res])
 
     useEffect(() => {
         if (dataMessages?.res && userId && Array.isArray(dataMessages?.res)) {
@@ -161,12 +158,6 @@ export const CurrentChat = () => {
             })
         }
     }, [userId, dataMessages?.res])
-
-    // if (isLoading) return (
-    //     <div className={styles.wrapper} data-wrapper-loading>
-
-    //     </div>
-    // )
 
     if (isMobile)
         return (
@@ -184,17 +175,22 @@ export const CurrentChat = () => {
                     </button>
                 </header>
                 <section>
-                    <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
+                    <ListMessages
+                        messages={stateMessages}
+                        dataUser={dataUser?.res! || userDataIdMassage!}
+                        idBarter={data?.res?.barterId!}
+                        isLoading={isLoading}
+                    />
                 </section>
-                <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
+                {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />}
                 <PopupMenu dataUser={dataUser?.res} />
             </div>
         )
 
     return (
         <div className={styles.wrapper}>
-            <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} />
-            <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />
+            <ListMessages messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} idBarter={data?.res?.barterId!} isLoading={isLoading} />
+            {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />}
         </div>
     )
 }

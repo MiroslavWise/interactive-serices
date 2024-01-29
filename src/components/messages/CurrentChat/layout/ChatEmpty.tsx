@@ -3,12 +3,15 @@
 import { useInsertionEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { useCountMessagesNotReading, usePush } from "@/helpers"
-import { useAuth } from "@/store/hooks"
-import { serviceThreads } from "@/services/threads"
-import { useToast } from "@/helpers/hooks/useToast"
 import { IPostThreads } from "@/services/threads/types"
+
+import { LoadingThreadsPage } from "@/components/common"
+
+import { useAuth } from "@/store"
+import { serviceThreads } from "@/services"
+import { useToast } from "@/helpers/hooks/useToast"
 import { providerIsAscending } from "@/lib/sortIdAscending"
+import { useCountMessagesNotReading, usePush } from "@/helpers"
 
 import styles from "../styles/style.module.scss"
 
@@ -86,5 +89,9 @@ export const ChatEmpty = () => {
         }
     }, [idUser, userId])
 
-    return <section className={styles.wrapper} />
+    return (
+        <section className={styles.wrapperLoading}>
+            <LoadingThreadsPage />
+        </section>
+    )
 }

@@ -94,5 +94,5 @@ export default function UserId() {
         }
     }, [id, ok])
 
-    return <UserIdPage id={id!} user={res!} ok={ok!} />
+    return <UserIdPage id={id!} user={res!} ok={ok!} isLoading={isLoading} />
 }
