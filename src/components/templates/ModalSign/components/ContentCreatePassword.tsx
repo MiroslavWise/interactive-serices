@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form"
 
 import { Button } from "@/components/common"
 
-import { RegistrationService } from "@/services"
+import { RegistrationService, serviceAuthErrors } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
 import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store"
@@ -100,7 +100,11 @@ export const ContentCreatePassword = () => {
                                 setLoading(false)
                             }
                         } else {
-                            setError("password", { message: response?.error?.message })
+                            setError("password", {
+                                message: serviceAuthErrors.has(response?.error?.message)
+                                    ? serviceAuthErrors.get(response?.error?.message!)
+                                    : serviceAuthErrors.get("default"),
+                            })
                             setLoading(false)
                         }
                     })

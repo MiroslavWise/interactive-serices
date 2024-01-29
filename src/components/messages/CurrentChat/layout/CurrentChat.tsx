@@ -31,7 +31,7 @@ export const CurrentChat = () => {
     const { refetchCountMessages } = useCountMessagesNotReading()
 
     const { data } = useQuery({
-        queryFn: () => serviceThreads.getId(Number(idThread)),
+        queryFn: () => serviceThreads.getId(idThread!),
         queryKey: ["threads", { userId: userId, threadId: idThread }],
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -77,7 +77,7 @@ export const CurrentChat = () => {
     const userDataIdMassage = useUserIdMessage(({ userData }) => userData)
 
     const { data: dataUser } = useQuery({
-        queryFn: () => serviceUser.getId(Number(idUser)),
+        queryFn: () => serviceUser.getId(idUser!),
         queryKey: ["user", { userId: idUser }],
         enabled: !!idUser && !userDataIdMassage,
         refetchOnMount: true,
@@ -140,11 +140,11 @@ export const CurrentChat = () => {
         }
     }, [socket, refetch, idThread, userId])
 
-    useEffect(() => {
-        if (!!data?.res) {
-            dispatchMessagesType(data?.res?.provider)
-        }
-    }, [data?.res])
+    // useEffect(() => {
+    //     if (!!data?.res) {
+    //         dispatchMessagesType(data?.res?.provider)
+    //     }
+    // }, [data?.res])
 
     useEffect(() => {
         if (dataMessages?.res && userId && Array.isArray(dataMessages?.res)) {
