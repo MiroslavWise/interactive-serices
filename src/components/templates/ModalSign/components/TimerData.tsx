@@ -81,9 +81,12 @@ export const TimerData = memo(function TimerData() {
                     </b>
                 </>
             ) : (
-                <a onClick={handleRequestNew} data-loading={loading}>
-                    Запросить новый код
-                </a>
+                <p>
+                    Не приходит код?{" "}
+                    <a onClick={handleRequestNew} data-loading={loading}>
+                        Отправить снова
+                    </a>
+                </p>
             )}
         </article>
     )

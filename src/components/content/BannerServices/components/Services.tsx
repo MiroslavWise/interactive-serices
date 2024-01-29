@@ -7,18 +7,19 @@ import type { TServicesFC } from "../types/types"
 import type { TOrder } from "@/services/types/general"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
+import { ServiceLoading } from "@/components/common"
 import { GeneralServiceAllItem, CardRequestsAndProposals } from "@/components/common/Card"
 
 import { cx } from "@/lib/cx"
-import { serviceOffers } from "@/services/offers"
-import { useBounds, useFilterMap } from "@/store/hooks"
+import { serviceOffers } from "@/services"
+import { useBounds, useFilterMap, useProviderOffersMap } from "@/store"
 
 import styles from "../styles/style.module.scss"
-import { ServiceLoading } from "@/components/common"
 
-export const ServicesComponent: TServicesFC = memo(function $ServicesComponent({ setTotal, type, parentRef }) {
+export const ServicesComponent: TServicesFC = memo(function $ServicesComponent() {
     const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
     const bounds = useBounds(({ bounds }) => bounds)
+    const type = useProviderOffersMap(({ type }) => type)
     const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
     const typeOffers = useMemo(() => {
         if (["offer", "request"].includes(type)) {

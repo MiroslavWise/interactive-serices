@@ -3,20 +3,18 @@
 import { useRef, useState } from "react"
 import { isMobile } from "react-device-detect"
 
-import type { TServices } from "./types/types"
-import type { ISegmentValues } from "@/components/common/Segments/types"
-
 import { ServicesComponent } from "./components/Services"
 import { SearchField, Segments } from "@/components/common"
 
 import { SERVICES } from "./constants"
 
 import styles from "./styles/style.module.scss"
+import { dispatchProviderOffersMap, useProviderOffersMap } from "@/store"
 
 export const BannerServices = () => {
-    const [activeService, setActiveService] = useState<ISegmentValues<TServices>>(SERVICES[0])
     const [total, setTotal] = useState(0)
     const parentRef = useRef<HTMLUListElement>(null)
+    const type = useProviderOffersMap(({ type }) => type)
 
     function onSearch(value: string) {}
 
@@ -24,7 +22,15 @@ export const BannerServices = () => {
         <div className={styles.container}>
             <ul ref={parentRef}>
                 <header>
-                    <Segments VALUES={SERVICES} active={activeService} setActive={setActiveService} type="primary" isBorder />
+                    <Segments
+                        VALUES={SERVICES}
+                        active={SERVICES.find((item) => item.value === type)!}
+                        setActive={(value) => {
+                            dispatchProviderOffersMap(value.value!)
+                        }}
+                        type="primary"
+                        isBorder
+                    />
                 </header>
                 <div data-title-search>
                     <h2>Меняйте услуги на услуги. Помогайте другим. Общайтесь.</h2>
@@ -39,7 +45,7 @@ export const BannerServices = () => {
                             </div>
                         ) : null}
                     </section>
-                    <ServicesComponent type={activeService.value} setTotal={setTotal} parentRef={parentRef.current} />
+                    <ServicesComponent setTotal={setTotal} />
                 </div>
             </ul>
         </div>
