@@ -4,46 +4,24 @@ import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TServicesFC } from "../types/types"
-import type { TOrder } from "@/services/types/general"
-import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { ServiceLoading } from "@/components/common"
-import { GeneralServiceAllItem, CardRequestsAndProposals } from "@/components/common/Card"
+import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import { cx } from "@/lib/cx"
 import { serviceOffers } from "@/services"
-import { useBounds, useFilterMap, useProviderOffersMap } from "@/store"
+import { useBounds, useFilterMap } from "@/store"
 
 import styles from "../styles/style.module.scss"
 
 export const ServicesComponent: TServicesFC = memo(function $ServicesComponent() {
     const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
     const bounds = useBounds(({ bounds }) => bounds)
-    const type = useProviderOffersMap(({ type }) => type)
     const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
-    const typeOffers = useMemo(() => {
-        if (["offer", "request"].includes(type)) {
-            return {
-                get: {
-                    provider: type as TTypeProvider,
-                    order: "DESC" as TOrder,
-                },
-                keys: ["offers", `provider=${type}`],
-            }
-        } else {
-            return {
-                get: {
-                    order: "DESC" as TOrder,
-                },
-                keys: ["offers"],
-            }
-        }
-    }, [type])
 
     const { data, isLoading } = useQuery({
-        queryFn: () => serviceOffers.get({ ...typeOffers.get!, ...obj }),
-        queryKey: [...typeOffers.keys, `category=${idsNumber.join(":")}`],
-        enabled: !!type,
+        queryFn: () => serviceOffers.get({ order: "DESC", ...obj }),
+        queryKey: ["offers", `category=${idsNumber.join(":")}`],
     })
 
     const items = useMemo(() => {
@@ -75,16 +53,10 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
     }, [data?.res, bounds])
 
     return (
-        <ul className={cx(styles.services, ["offer", "request"].includes(type) && styles.requestsAndProposals)}>
+        <ul className={cx(styles.services)}>
             {isLoading
                 ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-                : items.map((item) =>
-                      type === "all" ? (
-                          <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />
-                      ) : (
-                          <CardRequestsAndProposals key={`::${item.id}::offer::`} {...item} type="optional-3" />
-                      ),
-                  )}
+                : items.map((item) => <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />)}
         </ul>
     )
 })
