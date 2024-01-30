@@ -146,6 +146,10 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
     if (isMobile) {
         return (
             <form onSubmit={onSubmit}>
+                <div data-files-input>
+                    <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
+                    <img src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} />
+                </div>
                 <input
                     type="text"
                     placeholder="Напишите сообщение..."
@@ -154,10 +158,6 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                     maxLength={1024}
                 />
                 <div data-buttons>
-                    <div data-files-input>
-                        <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
-                        <img src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} />
-                    </div>
                     <button type="submit" data-sent data-disabled={!watch("text") && strings?.length === 0} disabled={!watch("text") && strings?.length === 0}>
                         <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
                     </button>

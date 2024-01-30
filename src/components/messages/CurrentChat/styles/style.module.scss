@@ -243,10 +243,46 @@
 
         & > form {
             box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap: 0.75rem;
+
+            & > [data-files-input] {
+                height: 2.5rem;
+                width: 2.5rem;
+                border-radius: 50%;
+                background-color: var(--background-input);
+                overflow: hidden;
+                position: relative;
+                padding: 1.25rem;
+                cursor: pointer;
+
+                & > input {
+                    position: absolute;
+                    inset: 0;
+                    opacity: 0;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    z-index: 10;
+                    cursor: pointer;
+                }
+
+                & > img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    height: 1.25rem;
+                    width: 1.25rem;
+                    z-index: 9;
+                    cursor: pointer;
+                }
+            }
 
             & > input {
                 padding: 0.625rem;
-                padding-inline: 1rem calc(1rem + 1.25rem + 0.125rem + 1.25rem + 0.625rem);
+                padding-inline: 1rem calc(1rem + 1.25rem + 0.625rem);
             }
 
             & > [data-buttons] {
@@ -263,14 +299,6 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                }
-
-                & > [data-files-input] {
-                    width: 1.75rem;
-                    height: 1.75rem;
-                    border-radius: 50%;
-                    background-color: transparent;
-                    padding: 0.25rem;
                 }
 
                 & > [data-sent] {

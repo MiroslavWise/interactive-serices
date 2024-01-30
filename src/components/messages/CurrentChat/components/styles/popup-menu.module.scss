@@ -87,6 +87,12 @@
 
 [data-theme="dark"] {
     .wrapper {
+        .dots {
+            & > img {
+                filter: invert(1);
+            }
+        }
+
         .menu,
         [data-menu] {
             box-shadow: none;
