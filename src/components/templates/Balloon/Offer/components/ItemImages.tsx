@@ -46,7 +46,7 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
                 }
             }}
         >
-            <div data-images ref={refImages}> 
+            <div data-images ref={refImages}>
                 {images.map((item) => (
                     <NextImageMotion
                         key={`::${item.id}::photo::offer::`}
