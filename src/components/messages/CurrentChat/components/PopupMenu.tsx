@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { flushSync } from "react-dom"
 import { motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
@@ -52,14 +51,35 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
     }
 
     return (
-        <div className={styles.wrapper} data-visible={isVisible}>
-            <div className={cx(mainStyles.button, styles.dots)} onClick={() => setIsVisible()}>
-                <Image src="/svg/x-close.svg" alt="dots-vertical" width={24} height={24} unoptimized />
+        <div
+            className={styles.wrapper}
+            data-visible={isVisible}
+            onClick={(event) => {
+                event.stopPropagation()
+                setIsVisible(false)
+            }}
+        >
+            <div
+                className={cx(mainStyles.button, styles.dots)}
+                onClick={(event) => {
+                    event.stopPropagation()
+                    setIsVisible(false)
+                }}
+            >
+                <img src="/svg/x-close.svg" alt="close" width={24} height={24} />
             </div>
-            <motion.ul layout data-is-open={isVisible} className={cx(styles.menu)} initial={{ borderRadius: 12 }}>
+            <motion.ul
+                layout
+                data-is-open={isVisible}
+                className={cx(styles.menu)}
+                initial={{ borderRadius: 12 }}
+                onClick={(event) => {
+                    event.stopPropagation()
+                }}
+            >
                 {MENU_ITEM_POPUP.map((item) => (
                     <li key={item.value} onClick={() => handleClickMenu(item.value)}>
-                        <Image src={item.image.url} alt={item.image.alt} width={20} height={20} unoptimized />
+                        <img src={item.image.url} alt={item.image.alt} width={20} height={20} />
                         <p>{item.label}</p>
                     </li>
                 ))}
