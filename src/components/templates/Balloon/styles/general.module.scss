@@ -12,6 +12,7 @@
         position: relative;
         max-width: 25rem;
         height: fit-content;
+        max-height: 90%;
         width: 100%;
         border-radius: 2rem;
         display: flex;
@@ -79,6 +80,8 @@
 
             & > [data-container] {
                 border-radius: 0;
+                overflow: hidden;
+                overflow-y: auto;
             }
         }
     }
