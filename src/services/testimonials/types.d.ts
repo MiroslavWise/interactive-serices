@@ -5,6 +5,7 @@ export type TStatusFeedback = "published" | "blocked" | "edited"
 export type TNumberRating = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | number
 
 export interface IPostTestimonials {
+    receiverId: number
     targetId: number
     provider: TTypeProvider
     rating: TNumberRating
@@ -45,4 +46,5 @@ interface IQueries {
     status?: TStatusFeedback
     barter?: number
     offer?: number
+    receiver?: number | string
 }

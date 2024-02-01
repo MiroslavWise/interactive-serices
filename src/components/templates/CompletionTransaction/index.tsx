@@ -103,6 +103,7 @@ export const CompletionTransaction = () => {
                     message: values.message,
                     status: "published",
                     enabled: true,
+                    receiverId: profile?.userId!,
                 }),
                 !!notificationId
                     ? serviceNotifications.patch(
