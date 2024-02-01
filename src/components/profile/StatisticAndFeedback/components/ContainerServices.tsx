@@ -10,7 +10,7 @@ import Masonry from "react-responsive-masonry"
 import type { TContainerServices } from "./types/types"
 
 import { ServiceLoading } from "@/components/common"
-import { CardRequestsAndProposals } from "@/components/common/Card"
+import { GeneralServiceAllItem } from "@/components/common/Card"
 
 import { serviceOffers } from "@/services"
 
@@ -36,13 +36,13 @@ export const ContainerServices: TContainerServices = ({}) => {
             ) : isMobile ? (
                 <ul className={styles.containerRequestsAndProposals}>
                     {list?.map((item) => (
-                        <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
+                        <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
                     ))}
                 </ul>
             ) : (
                 <Masonry gutter="16px" columnsCount={2}>
                     {list.map((item) => (
-                        <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
+                        <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
                     ))}
                 </Masonry>
             )}

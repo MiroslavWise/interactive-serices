@@ -1,9 +1,9 @@
 import { isMobile } from "react-device-detect"
 
+import type { IUserResponse } from "@/services/users/types/usersService"
+
 import { Badges } from "@/components/profile/StatisticAndFeedback/components/Budges"
 import { MobileInteractive, MobileMainInfo, StatisticAndFeedback, MainInfo } from "@/components/profile"
-
-import { IUserResponse } from "@/services/users/types/usersService"
 
 import styles from "@/scss/page.module.scss"
 
