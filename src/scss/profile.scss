@@ -8,10 +8,14 @@
     gap: 1rem;
     overflow: hidden;
     overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 
     &::-webkit-scrollbar,
     &::-webkit-scrollbar-thumb {
-        display: none;
+        display: none !important;
+        height: 0px;
+        width: 0px;
     }
 }
 

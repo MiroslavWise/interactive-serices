@@ -29,8 +29,6 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
         }
     }
 
-    console.log("refImages: ", refImages.current)
-
     return (
         <div
             className={styles.container}
