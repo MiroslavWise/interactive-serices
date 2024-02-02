@@ -1,4 +1,5 @@
 import type { IReturnData } from "@/services/types/general"
+import type { IResponseLoginNot2fa } from "./authService"
 
 export interface IDataRegistration {
     email: string
@@ -13,5 +14,5 @@ export interface IResponseDataRegistration {
 
 export interface IRegistrationService {
     registration(value: IDataRegistration): Promise<IReturnData<IResponseDataRegistration>>
-    verification(value: { code: string }): Promise<IReturnData<IResponseDataRegistration>>
+    verification(value: { code: string }): Promise<IReturnData<IResponseLoginNot2fa>>
 }
