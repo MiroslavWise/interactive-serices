@@ -38,13 +38,16 @@ export const metadata: Metadata = {
     },
     category: "people, services",
     openGraph: {
+        type: "website",
+        locale: "ru",
+        url: env.server.host!,
+        siteName: "Sheira.ru",
         title: {
             default: "Sheira",
             template: "%s | Sheira",
         },
         images: "./favicon.ico",
-        description:
-            "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
+        description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
     },
     twitter: {
         title: {
@@ -76,11 +79,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <noscript>
                     <div>
                         <img
-                            src={
-                                env!?.server!?.host!?.includes("dev")
-                                    ? "https://mc.yandex.ru/watch/95807492"
-                                    : "https://mc.yandex.ru/watch/95807535"
-                            }
+                            src={env!?.server!?.host!?.includes("dev") ? "https://mc.yandex.ru/watch/95807492" : "https://mc.yandex.ru/watch/95807535"}
                             style={{ position: "absolute", left: -9999 }}
                             alt="-"
                         />
