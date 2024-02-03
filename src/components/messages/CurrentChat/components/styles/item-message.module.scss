@@ -24,7 +24,7 @@
     .messages {
         align-items: flex-start;
         .blockMessage {
-            background: var(--background-input);
+            background: var(--FG-first);
             border-radius: 0.75rem 0.75rem 0.75rem 0.125rem;
             transition: background, border-radius 0.3s ease-in-out;
 
@@ -42,10 +42,10 @@
             }
 
             p {
-                color: var(--gray-900);
+                color: var(--text-primary);
 
                 & > [data-username] {
-                    color: var(--error-600);
+                    color: var(--text-error);
                     cursor: pointer;
                 }
             }
@@ -62,7 +62,7 @@
     .messages {
         align-items: flex-end;
         .blockMessage {
-            background: var(--primary-500);
+            background: var(--btn-main-default);
             border-radius: 0.75rem 0.75rem 0.125rem 0.75rem;
 
             &.only {
@@ -79,16 +79,16 @@
             }
 
             p {
-                color: var(--supporting-white);
+                color: var(--text-button);
 
                 & > [data-username] {
-                    color: var(--error-600);
+                    color: var(--text-error);
                     cursor: pointer;
                 }
             }
 
             time {
-                color: var(--gray-400);
+                color: var(--text-disabled);
             }
         }
     }
@@ -136,7 +136,7 @@
                     right: calc(0.25rem + 0.375rem);
                     height: 1.25rem;
                     border-radius: 0.625rem;
-                    background-color: var(--opacity-white-hard-black-5);
+                    background-color: var(--BG-filter);
                     width: min-content;
                     padding: 0.125rem 0.375rem !important;
                     white-space: nowrap;
@@ -155,7 +155,7 @@
     .containerItemUserMessage {
         .blockMessage {
             min-width: 0.0625rem;
-            background: var(--background);
+            background: var(--BG-filter);
             max-width: 100%;
         }
     }
@@ -194,7 +194,7 @@
 }
 
 .time {
-    color: var(--gray-400);
+    color: var(--text-button-60);
     text-align: right;
     font-size: 0.625rem !important;
     font-style: normal;

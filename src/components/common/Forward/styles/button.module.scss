@@ -70,9 +70,9 @@
     }
 
     &[data-type-button="white"] {
-        background: var(--supporting-white);
+        background: var(--BG-first);
         & > span {
-            color: var(--primary-500);
+            color: var(--text-accent);
         }
 
         &:disabled {
@@ -81,24 +81,17 @@
         }
     }
     &[data-type-button="fill-primary"] {
-        background: var(--primary-500);
+        background: var(--btn-main-default);
         & > span {
-            color: var(--supporting-white);
+            color: var(--text-button);
         }
 
         &:hover {
-            background: var(--primary-400);
+            background: var(--btn-main-hover);
         }
         &:disabled {
             opacity: 0.5;
             cursor: no-drop;
-        }
-    }
-    &[data-type-button="fill-orange"] {
-        background: var(--gradient-optional-1);
-
-        & > span {
-            color: var(--supporting-white);
         }
     }
 
@@ -114,28 +107,20 @@
             cursor: no-drop;
         }
     }
+
     &[data-type-button="regular-primary"] {
-        background: var(--gray-100);
+        background: var(--btn-second-default);
 
         & > span {
-            color: var(--primary-500);
+            color: var(--text-accent);
         }
         &:hover {
-            background: var(--gray-200);
+            background: var(--btn-second-hover);
         }
 
         &:disabled {
             opacity: 0.5;
             cursor: no-drop;
-        }
-    }
-    &[data-type-button="regular-orange"] {
-        border: 0.125rem solid transparent !important;
-        background: linear-gradient(var(--button-default-background), var(--button-default-background)) padding-box,
-            var(--gradient-optional-1) border-box !important;
-
-        & > span {
-            color: #ee4e29;
         }
     }
 }

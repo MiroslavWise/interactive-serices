@@ -1,5 +1,5 @@
 @mixin h4 {
-    color: var(--gray-900);
+    color: var(--text-primary);
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;
@@ -13,8 +13,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    border-radius: 1.5rem;
-    background: var(--background);
+    border-radius: 1rem;
+    background: var(--BG-second);
     z-index: 2;
 
     h4 {
@@ -22,7 +22,7 @@
     }
 
     p {
-        color: var(--gray-500);
+        color: var(--text-secondary);
         font-size: 1rem;
         font-style: normal;
         font-weight: 400;
@@ -30,7 +30,7 @@
     }
 
     a {
-        color: var(--gray-400);
+        color: var(--text-accent);
         font-size: 1rem;
         font-style: normal;
         font-weight: 400;
@@ -39,7 +39,7 @@
     }
 
     textarea {
-        color: var(--gray-500);
+        color: var(--text-secondary);
         font-size: 1rem;
         font-style: normal;
         font-weight: 400;
@@ -66,7 +66,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--background-input);
+    background: var(--grey-field);
     border-radius: 1rem;
     cursor: pointer;
 
@@ -93,60 +93,11 @@
     align-items: center;
     z-index: 1;
 
-    & > nav {
-        display: flex;
-        flex-direction: row;
-
-        & > a {
-            padding: 0.25rem 0.5rem;
-            position: relative;
-
-            &::before {
-                content: "";
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                height: 0.125rem;
-                background: var(--primary-500, #6656db);
-                box-shadow: 0px 0.125rem 0.5rem 0px rgba(102, 86, 219, 0.49);
-                transform: scaleX(0);
-                transition: transform 0.3s ease-in-out;
-            }
-
-            & > span {
-                color: var(--color-text);
-                font-size: 1.25rem;
-                font-style: normal;
-                font-weight: 600;
-                letter-spacing: -0.3px;
-                transition: color var(--transition);
-            }
-
-            &[data-active="false"] {
-                cursor: pointer;
-            }
-
-            &[data-active="true"] {
-                & > span {
-                    color: var(--primary-500);
-                }
-                &::before {
-                    transform: scaleX(1);
-                }
-            }
-        }
-    }
-
     h4 {
         @include h4;
 
         & > span {
             cursor: pointer;
-
-            &[data-active="true"] {
-                color: var(--primary-500);
-            }
         }
     }
 
@@ -237,11 +188,11 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            background-color: var(--background);
+            background-color: var(--BG-second);
             border-radius: 1.5rem;
 
             h3 {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 text-align: center;
                 font-size: 1.25rem;
                 font-style: normal;
@@ -251,7 +202,7 @@
             }
 
             p {
-                color: var(--gray-500);
+                color: var(--text-secondary);
                 text-align: center;
                 font-size: 1rem;
                 font-style: normal;
@@ -292,7 +243,7 @@
     z-index: 10;
 
     border-radius: 1rem;
-    background: var(--background);
+    background: var(--BG-second);
 
     .blockAboutPhoto {
         display: inline-flex;
@@ -355,7 +306,7 @@
         z-index: 2;
 
         h4 {
-            color: var(--gray-900);
+            color: var(--text-primary);
             font-size: 1.25rem;
             font-style: normal;
             font-weight: 600;
@@ -363,7 +314,7 @@
         }
 
         .date {
-            color: var(--gray-500);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             font-style: normal;
             font-weight: 500;
@@ -372,7 +323,7 @@
         }
 
         .about {
-            color: var(--gray-500);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             font-style: normal;
             font-weight: 400;
@@ -381,7 +332,7 @@
         }
 
         a {
-            color: var(--gray-400);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             font-style: normal;
             font-weight: 400;
@@ -390,7 +341,7 @@
         }
 
         textarea {
-            color: var(--gray-500);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             font-style: normal;
             font-weight: 400;
@@ -437,6 +388,6 @@
         align-items: center;
         justify-content: center;
         padding: 0.625rem;
-        background-color: var(--background-input);
+        background-color: var(--grey-field);
     }
 }

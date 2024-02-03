@@ -1,12 +1,12 @@
 .wrapper {
     & > section {
         & > header {
-            background-color: var(--color-discussion);
+            background-color: var(--more-field);
 
             & > [data-img] {
                 width: 2rem;
                 height: 2rem;
-                background: var(--supporting-white);
+                background: var(--element-white);
                 border-radius: 2rem;
                 padding: 0.375rem;
                 display: flex;
@@ -29,7 +29,7 @@
                 gap: 0.75rem;
 
                 & > p {
-                    color: var(--gray-900);
+                    color: var(--text-primary);
                     font-size: 0.875rem;
                     font-style: normal;
                     font-weight: 400;
@@ -39,7 +39,7 @@
 
                 & > time {
                     text-align: start;
-                    color: var(--text-secondary, --gray-500);
+                    color: var(--text-secondary);
                     font-size: 0.75rem;
                     font-style: normal;
                     font-weight: 400;

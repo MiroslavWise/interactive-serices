@@ -7,8 +7,9 @@ import type { TCardSuggestion } from "./types"
 
 import { Header } from "./components/Header"
 import { Buttons } from "./components/Buttons"
-import { serviceTestimonials } from "@/services/testimonials"
 import { ContainerPhotos } from "./components/ContainerPhotos"
+
+import { serviceTestimonials } from "@/services"
 
 import styles from "./style.module.scss"
 

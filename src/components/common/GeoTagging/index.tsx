@@ -12,7 +12,6 @@ export const GeoTagging: TGeoTagging = ({ size, location, fontSize, onClick, cla
     }
     return (
         <div className={cx(styles.geo, className)} onClick={handle} data-geo>
-            <img src="/svg/geo-marker.svg" alt="geo" width={size || 20} height={size || 20} />
             <p style={{ fontSize: fontSize || 16 }}>{location}</p>
         </div>
     )

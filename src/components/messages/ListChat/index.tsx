@@ -9,13 +9,11 @@ import { IFiltersItems } from "./components/types/types"
 
 import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
-import { Segments } from "@/components/common/Segments"
 
+import { useAuth } from "@/store"
 import { serviceUser } from "@/services"
 import { useWebSocket } from "@/context"
-import { SEGMENTS_CHAT } from "./constants/segments"
 import { useCountMessagesNotReading } from "@/helpers"
-import { dispatchMessagesType, useAuth, useMessagesType } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -24,7 +22,6 @@ export const ListChat = memo(function ListChat() {
     const [search, setSearch] = useState("")
     const { socket } = useWebSocket() ?? {}
     const userId = useAuth(({ userId }) => userId)
-    const type = useMessagesType(({ type }) => type)
 
     const { data, refetchCountMessages } = useCountMessagesNotReading()
 

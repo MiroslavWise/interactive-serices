@@ -4,7 +4,7 @@ import type { IGetProfileIdResponse } from "@/services/profile/types/profileServ
 
 import { NextImageMotion } from "@/components/common"
 
-import { useBalloonOffer } from "@/store/hooks"
+import { useBalloonOffer } from "@/store"
 
 import styles from "../styles/profile.module.scss"
 

@@ -2,8 +2,8 @@
     width: 100%;
     border-radius: 1rem;
     border: 1px solid;
-    border-color: var(--gray-300);
-    background: var(--background);
+    border-color: var(--grey-stroke-light);
+    background-color: var(--BG-second);
     padding: 0.75rem;
     display: flex;
     flex-direction: row;
@@ -18,10 +18,6 @@
         height: 2.5rem;
         width: 2.5rem;
         border-radius: 0.625rem;
-    }
-
-    &:hover {
-        border-color: var(--gray-400);
     }
 
     &[data-active="true"] {
@@ -86,7 +82,7 @@
             align-items: flex-start;
 
             & > p {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 font-size: 0.875rem;
                 font-style: normal;
                 font-weight: 400;
@@ -94,14 +90,13 @@
                 letter-spacing: -0.01125rem;
 
                 & > a {
-                    color: var(--gray-900);
-                    cursor: pointer;
                     font-weight: 500;
+                    cursor: pointer;
                 }
             }
 
             & > time {
-                color: var(--gray-500);
+                color: var(--text-secondary);
                 font-size: 0.75rem;
                 font-style: normal;
                 font-weight: 400;
@@ -134,7 +129,7 @@
                     & > svg {
                         & > g {
                             & > path {
-                                fill: var(--primary-400);
+                                fill: var(--text-accent);
                             }
                         }
                     }
@@ -144,7 +139,7 @@
                     & > svg {
                         & > g {
                             & > path {
-                                fill: var(--primary-600);
+                                fill: var(--text-accent-2);
                             }
                         }
                     }

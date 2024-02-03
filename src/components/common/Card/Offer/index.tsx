@@ -13,7 +13,7 @@ import { BlockBarter } from "./components/BlockBarter"
 import { LoadingProfile } from "@/components/common"
 
 import { serviceUser } from "@/services"
-import { useAuth, useVisibleExchanges } from "@/store/hooks"
+import { useAuth, useVisibleExchanges } from "@/store"
 
 import styles from "./style.module.scss"
 

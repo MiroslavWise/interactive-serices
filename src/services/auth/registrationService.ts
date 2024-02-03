@@ -1,4 +1,5 @@
-import type { IRegistrationService, IResponseDataRegistration } from "./types/registrationService"
+import type { IResponseLoginNot2fa } from "./types/authService"
+import type { IRegistrationService } from "./types/registrationService"
 
 import { serviceUser, wrapperFetch } from "@/services"
 
@@ -19,7 +20,7 @@ export const RegistrationService: IRegistrationService = {
         })
     },
     async verification(value) {
-        return wrapperFetch.methodPost<{ code: string }, IResponseDataRegistration>("/auth/verify", value).then((response) => {
+        return wrapperFetch.methodPost<{ code: string }, IResponseLoginNot2fa>("/auth/verify", value).then((response) => {
             console.log("response verification: ", response)
             if (response.ok) {
                 return {

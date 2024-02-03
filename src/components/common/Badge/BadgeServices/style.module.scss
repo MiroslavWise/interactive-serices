@@ -7,15 +7,15 @@
     gap: 0.25rem;
     border-radius: 1rem;
     height: 2rem;
-    background: var(--background-input);
-    border: 1px solid var(--gray-300);
+    background: var(--grey-field);
+    border: 1px solid var(--grey-stroke-light);
     cursor: pointer;
 
     & > [data-img] {
         width: 1.5rem;
         height: 1.5rem;
         border-radius: 0.75rem;
-        background: var(--background);
+        background: var(--BG-icons);
         overflow: hidden;
         padding: 0.25rem;
         display: flex;
@@ -32,7 +32,7 @@
 
     p {
         max-width: calc(100% - 1.75rem - 0.5rem);
-        color: var(--gray-800);
+        color: var(--text-primary);
         font-size: 0.8125rem;
         font-style: normal;
         font-weight: 400;
