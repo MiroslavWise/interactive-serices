@@ -16,7 +16,7 @@
         width: 100%;
         height: fit-content;
         border-radius: 2rem;
-        background: var(--background);
+        background: var(--BG-second);
         z-index: 3;
 
         & > [data-close] {
@@ -40,7 +40,7 @@
             & > header {
                 width: 100%;
                 height: 4.75rem;
-                border-bottom: 1px solid var(--gray-300);
+                border-bottom: 1px solid var(--grey-separator);
                 padding: 1.5rem 0 1.25rem;
                 display: flex;
                 flex-direction: row;
@@ -48,7 +48,7 @@
                 justify-content: center;
 
                 & > h3 {
-                    color: var(--gray-900);
+                    color: var(--text-primary);
                     text-align: center;
                     font-size: 1.5rem;
                     font-style: normal;
@@ -104,7 +104,7 @@
                     max-width: 100%;
                     position: sticky;
                     top: 0;
-                    background: var(--background);
+                    background: transparent;
                     z-index: 100;
 
                     section {
@@ -139,7 +139,7 @@
     margin-top: 1.25rem;
 
     & > p {
-        color: var(--gray-500);
+        color: var(--text-secondary);
         text-align: center;
         font-size: 0.875rem;
         font-style: normal;
@@ -165,7 +165,7 @@
             height: 2.75rem;
             width: 3.4375rem;
             box-shadow: 0px 11px 20px 0px rgba(100, 104, 115, 0.1);
-            background: var(--background);
+            background: var(--BG-icons);
             cursor: pointer;
 
             & > [data-img] {
