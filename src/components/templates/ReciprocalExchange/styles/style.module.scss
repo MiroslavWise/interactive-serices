@@ -13,7 +13,7 @@
         height: 100%;
         max-width: 35rem;
         border-radius: 2rem;
-        background: var(--background);
+        background-color: var(--BG-second);
         display: flex;
         flex-direction: column;
 
@@ -27,10 +27,10 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--grey-separator);
 
             & > h3 {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 font-size: 2rem;
                 font-weight: 600;
                 text-align: center;
@@ -72,7 +72,7 @@
                     }
 
                     & > h4 {
-                        color: var(--gray-900);
+                        color: var(--text-primary);
                         font-size: 1.125rem;
                         font-style: normal;
                         font-weight: 600;
@@ -94,7 +94,7 @@
                             gap: 0.5rem;
 
                             & > p {
-                                color: var(--gray-900);
+                                color: var(--text-primary);
                                 font-size: 0.875rem;
                                 font-style: normal;
                                 font-weight: 500;
@@ -115,14 +115,15 @@
                                 & > a {
                                     height: 2.375rem;
                                     border-radius: 1.1875rem;
-                                    border: 1px solid var(--gray-200);
+                                    border: 1px solid;
+                                    border-color: var(--grey-stroke-light);
                                     display: flex;
                                     flex-direction: row;
                                     align-items: center;
                                     gap: 0.5rem;
                                     padding: 0.3125rem 0.75rem 0.3125rem 0.3125rem;
                                     cursor: pointer;
-                                    background: var(--background);
+                                    background: var(--BG-second);
 
                                     & > [data-img] {
                                         width: 1.75rem;
@@ -139,7 +140,7 @@
 
                                     & > span {
                                         width: 100%;
-                                        color: var(--gray-900);
+                                        color: var(--text-primary);
                                         font-size: 0.875rem;
                                         font-style: normal;
                                         font-weight: 500;
@@ -159,18 +160,15 @@
                                     }
 
                                     &[data-active="true"] {
-                                        background: var(--primary-500);
+                                        background: var(--element-accent-1);
+                                        border-color: var(--element-accent-1);
                                         & > [data-img] {
-                                            background: var(--supporting-white);
+                                            background: var(--element-white);
                                         }
 
                                         & > span {
-                                            color: var(--supporting-white);
+                                            color: var(--text-button);
                                         }
-                                    }
-
-                                    &[data-exist="true"] {
-                                        border-color: var(--primary-500);
                                     }
                                 }
                             }
@@ -203,7 +201,7 @@
                         justify-content: center;
                         opacity: 1;
                         cursor: pointer;
-                        border: 1px solid var(--gray-200);
+                        border: 1px solid var(--grey-stroke-light);
 
                         transition: var(--transition);
                         transition-property: opacity;
@@ -226,7 +224,8 @@
         width: 100%;
         position: relative;
         height: 7.5rem;
-        border: 1px solid var(--gray-300);
+        border: 1px solid;
+        border-color: var(--light-grey-stroke);
         border-radius: 1rem;
         overflow: hidden;
 
@@ -238,7 +237,7 @@
             outline: none !important;
             resize: none;
 
-            color: var(--gray-900);
+            color: var(--text-primary);
             font-size: 0.875rem;
             font-style: normal;
             font-weight: 400;
@@ -246,7 +245,7 @@
             letter-spacing: -0.01125rem;
 
             &::placeholder {
-                color: var(--gray-400);
+                color: var(--text-disabled);
             }
         }
 
@@ -255,7 +254,7 @@
             right: 0.875rem;
             bottom: 0.25rem;
 
-            color: var(--gray-900);
+            color: var(--text-primary);
             font-size: 0.75rem;
             font-style: normal;
             font-weight: 400;
@@ -273,7 +272,7 @@
             width: 100%;
             border-radius: 1rem;
             border: 1px solid;
-            border-color: var(--gray-300);
+            border-color: var(--grey-stroke-light);
             gap: 0.5rem;
             display: flex;
             flex-direction: column;
@@ -289,13 +288,13 @@
                 height: 2rem;
                 border-radius: 1rem;
                 border: 1px solid;
-                border-color: var(--gray-300);
+                border-color: var(--grey-stroke-light);
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 gap: 0.25rem;
                 padding: 0.25rem 0.375rem 0.25rem 0.25rem;
-                background-color: var(--gray-100);
+                background-color: var(--grey-filed);
                 width: fit-content;
 
                 transition: var(--transition);
@@ -306,7 +305,7 @@
                     height: 1.5rem;
                     padding: 0.25rem;
                     border-radius: 0.75rem;
-                    background-color: var(--background);
+                    background-color: var(--BG-icons);
 
                     transition: var(--transition);
                     transition-property: background-color;
@@ -319,7 +318,7 @@
                 }
 
                 & > span {
-                    color: var(--gray-900);
+                    color: var(--text-primary);
                     font-size: 0.8125rem;
                     font-style: normal;
                     font-weight: 400;
@@ -335,7 +334,7 @@
             }
 
             & > p {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 font-size: 0.875rem;
                 font-style: normal;
                 font-weight: 400;
@@ -348,30 +347,30 @@
             }
 
             &[data-active="true"] {
-                border-color: var(--primary-500);
+                border-color: var(--element-accent-1);
 
                 & > [data-category] {
-                    border-color: var(--primary-500);
-                    background-color: var(--primary-500);
+                    border-color: var(--element-accent-1);
+                    background-color: var(--element-accent-1);
 
                     & > [data-img] {
-                        background-color: var(--supporting-white);
+                        background-color: var(--element-white);
                     }
 
                     & > span {
-                        color: var(--supporting-white);
+                        color: var(--text-button);
                     }
                 }
             }
 
             &:hover {
-                border-color: var(--primary-500);
+                border-color: var(--element-accent-1);
             }
         }
     }
 
     [data-error] {
-        color: var(--error-600);
+        color: var(--text-error);
         font-size: 0.75rem;
         font-style: normal;
         font-weight: 500;
@@ -388,7 +387,7 @@
         cursor: pointer;
 
         & > span {
-            color: var(--primary-500);
+            color: var(--element-accent-1);
             font-size: 0.875rem;
             font-style: normal;
             font-weight: 500;

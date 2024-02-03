@@ -177,8 +177,8 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    border: 0.0625rem solid var(--gray-300);
-    background: var(--background-input);
+    border: none;
+    background: var(--BG-second);
     z-index: 22;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -195,8 +195,6 @@
 
 [data-theme="dark"] {
     .containerCloseButton {
-        border-color: var(--gray-200);
-        background: var(--gray-100);
         box-shadow: none !important;
 
         & > div {

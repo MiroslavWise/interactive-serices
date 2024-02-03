@@ -56,7 +56,7 @@ export interface IPositionAbsolute {
 
 interface IButtonClose {
     onClick: Dispatch<any> | DispatchWithoutAction
-    position: IPositionAbsolute
+    position?: IPositionAbsolute
     className?: string
 }
 

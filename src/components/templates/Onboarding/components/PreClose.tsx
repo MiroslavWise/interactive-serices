@@ -42,14 +42,7 @@ export const PreClose = () => {
                     ) : null}
                     <h3>
                         Прервать обучение по созданию{" "}
-                        {type === "offer"
-                            ? " Предложения"
-                            : type === "alert"
-                            ? " SOS-сообщения"
-                            : type === "discussion"
-                            ? "Обсуждения"
-                            : null}
-                        ?
+                        {type === "offer" ? " Предложения" : type === "alert" ? " SOS-сообщения" : type === "discussion" ? "Обсуждения" : null}?
                     </h3>
                 </article>
                 <div data-buttons>

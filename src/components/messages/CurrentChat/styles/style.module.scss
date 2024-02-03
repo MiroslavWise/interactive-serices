@@ -3,7 +3,7 @@
     height: 100%;
     border-radius: 1.25rem;
     overflow: hidden;
-    background: var(--background);
+    background-color: var(--BG-second);
 }
 
 .wrapperLoading {
@@ -11,7 +11,7 @@
     height: 100%;
     border-radius: 1.25rem;
     overflow: hidden;
-    background: var(--background);
+    background-color: var(--BG-second);
 }
 
 .wrapper {
@@ -40,7 +40,7 @@
         width: 100%;
         height: calc(1.25rem + 2.5rem + 1.25rem);
         z-index: 22;
-        background-color: var(--background);
+        background-color: var(--BG-second);
         padding: 1.25rem;
 
         & > [data-clipper],
@@ -72,15 +72,11 @@
             height: 2.5rem;
             border-radius: 1.25rem;
             writing-mode: horizontal-tb;
-            color: var(--gray-900);
             font-size: 0.875rem;
             font-style: normal;
             font-weight: 400;
             line-height: 1.25rem;
             letter-spacing: -0.02125rem;
-            &::placeholder {
-                color: var(--gray-500);
-            }
         }
     }
 }
@@ -89,7 +85,7 @@
     .wrapper {
         border-radius: 1.25rem;
         overflow: hidden;
-        background: var(--background);
+        background: var(--BG-second);
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -115,7 +111,7 @@
                 width: 2.5rem;
                 border-radius: 1.25rem;
                 padding: 0.625rem;
-                background-color: var(--background-input);
+                background-color: var(--BG-first);
             }
 
             & > input {
@@ -172,7 +168,7 @@
             justify-content: space-between;
             gap: 0.625rem;
             overflow: hidden;
-            background-color: var(--background);
+            background-color: var(--BG-first);
             box-shadow: rgba(136, 165, 191, 0.48) 4px 2px 4px 0px, rgba(255, 255, 255, 0.8) -4px -4px 4px 0px;
 
             & > article {
@@ -186,11 +182,11 @@
                     width: 1.75rem;
                     height: 1.75rem;
                     border-radius: 50%;
-                    background-color: var(--background-input);
+                    background-color: transparent;
                 }
 
                 & > h5 {
-                    color: var(--gray-900);
+                    color: var(--text-primary);
                     text-align: center;
                     font-size: 1rem;
                     font-style: normal;
@@ -208,7 +204,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: var(--background-input);
+                background: var(--BG-second);
                 backdrop-filter: blur(0.25rem);
                 cursor: pointer;
                 border: none;
@@ -252,7 +248,7 @@
                 height: 2.5rem;
                 width: 2.5rem;
                 border-radius: 50%;
-                background-color: var(--background-input);
+                background-color: var(--BG-second);
                 overflow: hidden;
                 position: relative;
                 padding: 1.25rem;
@@ -371,7 +367,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 1.5rem;
-    background: var(--background);
+    background: var(--BG-second);
     box-shadow: 0px 0.25rem 1.5rem 0px rgba(0, 0, 0, 0.12);
     backdrop-filter: blur(0.25rem);
 

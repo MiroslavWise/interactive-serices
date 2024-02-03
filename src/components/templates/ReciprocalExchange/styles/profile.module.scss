@@ -1,7 +1,8 @@
 .container {
     width: 100%;
-    border-radius: 1rem;
-    border: 1px solid var(--gray-300);
+    border-radius: 0.625rem;
+    border: 1px solid;
+    border-color: var(--grey-stroke-light);
     padding: 0.5rem;
     display: flex;
     flex-direction: row;
@@ -9,13 +10,14 @@
     align-items: flex-start;
 
     & > [data-img] {
-        background-color: var(--background-input);
+        background-color: var(--BG-second);
         width: 2.75rem;
         height: 2.75rem;
+        border-radius: 0.625rem;
         & > img {
             width: 2.75rem;
             height: 2.75rem;
-            border-radius: 0.76388rem;
+            border-radius: 0.625rem;
         }
     }
 
@@ -33,7 +35,7 @@
             gap: 0.25rem;
 
             & > h4 {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 font-size: 1rem;
                 font-style: normal;
                 font-weight: 500;
@@ -48,7 +50,11 @@
         }
 
         & > [data-geo] {
+            img {
+                display: none;
+            }
             & > p {
+                color: var(--text-secondary);
                 max-width: auto;
             }
         }

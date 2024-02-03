@@ -8,29 +8,29 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-export const ButtonClose: TButtonClose = ({ onClick, position: { top, left, right, bottom }, className }) => {
-    const position: CSSProperties = useMemo(() => {
+export const ButtonClose: TButtonClose = ({ onClick, position, className }) => {
+    const positionCSS: CSSProperties = useMemo(() => {
         const pos: IPositionAbsolute = {}
-        if (top) {
-            pos.top = top
+        if (position?.top) {
+            pos.top = position?.top
         }
-        if (left) {
-            pos.left = left
+        if (position?.left) {
+            pos.left = position?.left
         }
-        if (right) {
-            pos.right = right
+        if (position?.right) {
+            pos.right = position?.right
         }
-        if (bottom) {
-            pos.bottom = bottom
+        if (position?.bottom) {
+            pos.bottom = position?.bottom
         }
         return pos
-    }, [top, left, right, bottom])
+    }, [position])
 
     return (
         <button
             type="button"
             className={cx(styles.containerCloseButton, className)}
-            style={position}
+            style={positionCSS}
             onClick={(event) => {
                 event.stopPropagation()
                 if (onClick) onClick(event)

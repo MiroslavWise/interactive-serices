@@ -16,7 +16,7 @@
         flex-direction: column;
         gap: 1.875rem;
         border-radius: 2rem;
-        background: var(--background);
+        background: var(--BG-second);
 
         & > article {
             width: 100%;
@@ -29,7 +29,7 @@
                 width: 4.375rem;
                 height: 4.375rem;
                 border-radius: 2.1875rem;
-                background: var(--background-input);
+                background: var(--grey-field);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -41,7 +41,7 @@
             }
 
             & > h3 {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 text-align: center;
                 font-size: 1.5rem;
                 font-style: normal;
@@ -66,11 +66,11 @@
 
         & > footer {
             width: 100%;
-            border-top: 1px solid var(--gray-300);
+            border-top: 1px solid var(--grey-separator);
             padding-top: 1.25rem;
 
             & > p {
-                color: var(--gray-500);
+                color: var(--text-secondary);
                 text-align: center;
                 font-size: 0.875rem;
                 font-style: normal;
