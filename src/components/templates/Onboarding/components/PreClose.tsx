@@ -1,7 +1,7 @@
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchOnboarding, dispatchOnboardingContinue, useOnboarding } from "@/store/hooks"
+import { dispatchOnboarding, dispatchOnboardingContinue, useOnboarding } from "@/store"
 
 import styles from "../styles/pre-close.module.scss"
 

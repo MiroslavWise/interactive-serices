@@ -97,7 +97,7 @@
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
-                box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
+                box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
 
                 transition: var(--transition);
                 transition-property: opacity, visibility, transform;
@@ -200,7 +200,7 @@
 
             &[data-notification] {
                 & > section {
-                    box-shadow: none;
+                    box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
                 }
             }
         }
