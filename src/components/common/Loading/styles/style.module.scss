@@ -68,11 +68,11 @@
     padding: 0.75rem;
     gap: 0.625rem;
     border-radius: 1rem;
-    background-color: var(--glass-bg-color-1);
-    border: 1px solid var(--gray-200);
+    background-color: var(--BG-second);
+    border: 1px solid var(--grey-stroke-light);
 
     span {
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
     }
 
     & > [data-content],
@@ -119,7 +119,7 @@
 .containerService {
     @include container;
     gap: 0.75rem;
-    background-color: var(--background-input);
+    background-color: var(--BG-second);
     border-radius: 2rem;
     padding: 0.75rem;
     padding-bottom: 1.25rem;
@@ -132,7 +132,7 @@
         gap: 0.75rem;
 
         & > * {
-            background-color: var(--gray-200);
+            background-color: var(--BG-first);
         }
 
         & > [data-cirlce] {
@@ -151,7 +151,7 @@
 
     & > [data-footer] {
         width: 100%;
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
 
         border-radius: 0.25rem;
         height: 2rem;
@@ -166,8 +166,8 @@
 .container {
     @include container;
     padding: 1rem;
-    border-bottom: 1px solid var(--gray-300);
-    background-color: var(--background);
+    border-bottom: 1px solid var(--grey-stroke-light);
+    background-color: var(--BG-second);
     gap: 0.75rem;
     height: min-content;
 
@@ -176,7 +176,7 @@
         height: 1.25rem;
         width: 100%;
         border-radius: 0.25rem;
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
     }
 }
 
@@ -185,11 +185,11 @@
     gap: 1rem;
     padding: 1rem;
     border-radius: 1rem;
-    background-color: var(--background);
+    background-color: var(--BG-second);
     gap: 0.75rem;
 
     span {
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
     }
 
     & > * {
@@ -268,11 +268,11 @@
     gap: 0.75rem;
     padding: 0.75rem;
     border-radius: 1rem;
-    background-color: var(--background);
-    border: 1px solid var(--gray-300);
+    background-color: var(--BG-second);
+    border: 1px solid var(--grey-stroke-light);
 
     span {
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
     }
 
     & > [data-header] {
@@ -351,7 +351,7 @@
     }
 
     span {
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
     }
 
     &[data-right="true"] {
@@ -368,10 +368,10 @@
     border-radius: 1.25rem;
     gap: 1rem;
     padding: 1rem;
-    background-color: var(--primary-400);
+    background-color: var(----element-accent-1);
 
     span {
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
     }
 
     & > [data-header] {
@@ -416,7 +416,7 @@
         border-radius: 1.25rem;
         height: 2.5rem;
         padding: 1.25rem;
-        background-color: var(--gray-200);
+        background-color: var(--BG-first);
 
         &[data-circle] {
             width: 2.5rem;

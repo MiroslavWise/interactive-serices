@@ -1,6 +1,5 @@
 "use client"
 
-import { memo } from "react"
 import NextImage from "next/image"
 
 import type { IProps } from "./types"

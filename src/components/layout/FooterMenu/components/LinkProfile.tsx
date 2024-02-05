@@ -4,7 +4,8 @@ import { usePathname } from "next/navigation"
 
 import { useAuth } from "@/store/hooks"
 import { useSign } from "../hooks/useSign"
-import { ITEMS_LINK_FOOTER, ITEMS_LINK_ICON } from "../constants"
+import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
+import { ITEMS_LINK_FOOTER } from "../constants"
 
 import styles from "../styles/link.module.scss"
 
@@ -26,7 +27,7 @@ export const LinkProfile = memo(function LinkProfile() {
             }}
         >
             <div className={styles.itemsIconLabel}>
-                {isActive ? ITEMS_LINK_ICON.profile.active : ITEMS_LINK_ICON.profile["not-active"]}
+                {MENU_ICONS.profile}
                 <p>{isAuth ? "Профиль" : "Войти"}</p>
             </div>
         </Link>

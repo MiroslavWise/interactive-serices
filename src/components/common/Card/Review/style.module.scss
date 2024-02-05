@@ -6,8 +6,8 @@
     gap: 0.625rem;
     width: 100%;
     border-radius: 1rem;
-    border: 1px solid var(--gray-300);
-    background: var(--background);
+    border: 1px solid var(--grey-stroke-light);
+    background: var(--BG-second);
 
     .content {
         overflow: hidden;
@@ -29,16 +29,16 @@
                 gap: 0.5rem;
 
                 a {
-                    color: var(--primary-500);
+                    color: var(--text-accent);
                     font-size: 1rem;
                     font-weight: 600;
-                    line-height: 24px;
+                    line-height: 1.5rem;
                     letter-spacing: -0.5px;
                     cursor: pointer;
                 }
 
                 time {
-                    color: var(--gray-500);
+                    color: var(--text-secondary);
                     font-size: 0.625rem;
                     font-weight: 500;
                     line-height: 1.25rem;
@@ -52,7 +52,7 @@
         }
 
         .description {
-            color: var(--gray-900);
+            color: var(--text-primary);
             font-size: 14px;
             line-height: 1.25rem;
             letter-spacing: -0.5px;
@@ -67,7 +67,7 @@
             flex-wrap: wrap;
 
             .divImg {
-                flex: 0 0 calc(30% - 8px);
+                flex: 0 0 calc(30% - 0.5rem);
                 width: 100px;
                 height: 72px;
             }
@@ -81,7 +81,7 @@
 
 [data-mobile="true"] {
     .container {
-        width: calc(100% - 16px);
+        width: calc(100% - 1rem);
 
         .content {
             width: calc(100%);

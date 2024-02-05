@@ -10,6 +10,7 @@ import { ItemNotification } from "@/components/notifications"
 import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
+import { MENU_ICONS } from "../constants/menu-icons"
 
 export const LinkNotification = memo(function LinkNotification() {
     const pathname = usePathname()
@@ -70,7 +71,7 @@ export const LinkNotification = memo(function LinkNotification() {
             }}
             ref={ref}
         >
-            <img src="/icons/mobile/fill/bell-fill.svg" alt="bell" width={24} height={24} />
+            {MENU_ICONS.notifications}
             <span>Уведомления</span>
             {count ? (
                 <div data-count>

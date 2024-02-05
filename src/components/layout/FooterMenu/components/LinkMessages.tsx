@@ -4,8 +4,9 @@ import { usePathname } from "next/navigation"
 
 import { useAuth } from "@/store/hooks"
 import { useSign } from "../hooks/useSign"
+import { ITEMS_LINK_FOOTER } from "../constants"
 import { useCountMessagesNotReading } from "@/helpers"
-import { ITEMS_LINK_FOOTER, ITEMS_LINK_ICON } from "../constants"
+import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
@@ -28,7 +29,7 @@ export const LinkMessages = memo(function LinkMessages() {
             }}
         >
             <div className={styles.itemsIconLabel}>
-                {isActive ? ITEMS_LINK_ICON.messages.active : ITEMS_LINK_ICON.messages["not-active"]}
+                {MENU_ICONS.message}
                 <p>Сообщения</p>
             </div>
             {count ? (

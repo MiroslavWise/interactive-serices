@@ -22,7 +22,6 @@
             gap: 0.625rem;
 
             & > button {
-                background-color: var(--background);
                 cursor: pointer;
                 height: 2.25rem;
                 border-radius: 1.125rem;
@@ -30,14 +29,15 @@
                 &[data-comments] {
                     width: fit-content;
                     padding: 0.5rem 1rem;
-                    border: 1px solid var(--gray-300);
                     display: flex;
                     flex-direction: row;
                     align-items: center;
                     gap: 0.25rem;
+                    background-color: var(--BG-first);
+                    border: 1px solid var(--grey-stroke-light);
 
                     & > span {
-                        color: var(--gray-900);
+                        color: var(--text-primary);
                         font-size: 0.875rem;
                         font-style: normal;
                         font-weight: 400;
@@ -73,12 +73,13 @@
                     border: none;
                     outline: none;
                     filter: none;
+                    background-color: transparent;
 
                     transition: var(--transition);
                     transition-property: background-color, filter;
 
                     &:hover {
-                        background-color: var(--background-input);
+                        background-color: transparent;
                     }
 
                     & > [data-img] {
@@ -125,7 +126,7 @@
                 width: 1.75rem;
                 border-radius: 0.875rem;
                 padding: 0.125rem;
-                background-color: var(--background);
+                background-color: var(--BG-first);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -260,7 +261,7 @@
 
             & > h5,
             & > p {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 font-style: normal;
                 font-weight: 400;
                 line-height: 1.125rem;
@@ -271,7 +272,7 @@
                 font-size: 0.75rem;
 
                 & > time {
-                    color: var(--gray-400);
+                    color: var(--text-disabled);
                 }
             }
 

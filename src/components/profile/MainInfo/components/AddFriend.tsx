@@ -5,8 +5,8 @@ import { IUserResponse } from "@/services/users/types/usersService"
 
 import { Button } from "@/components/common"
 
-import { useAuth } from "@/store/hooks"
-import { serviceFriends } from "@/services/friends"
+import { useAuth } from "@/store"
+import { serviceFriends } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 
 export const AddFriend = ({ user }: { user: IUserResponse }) => {
