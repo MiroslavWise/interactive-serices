@@ -2,6 +2,7 @@ import Link from "next/link"
 import { memo } from "react"
 import { usePathname } from "next/navigation"
 
+import { MENU_ICONS } from "../constants/menu-icons"
 import { useCountMessagesNotReading } from "@/helpers"
 
 export const LinkMessages = memo(function LinkOffers() {
@@ -10,7 +11,7 @@ export const LinkMessages = memo(function LinkOffers() {
 
     return (
         <Link key="::messages::link::" data-active={pathname?.includes("/messages")} href={{ pathname: "/messages" }}>
-            <img src="/icons/mobile/fill/message-filled.svg" alt="messages" width={24} height={24} />
+            {MENU_ICONS.message}
             <span>Сообщения</span>
             {count ? (
                 <div data-count>

@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { useAuth } from "@/store"
 import { serviceBarters } from "@/services"
+import { MENU_ICONS } from "../constants/menu-icons"
 
 export const LinkOffers = memo(function LinkOffers() {
     const pathname = usePathname()
@@ -22,7 +23,7 @@ export const LinkOffers = memo(function LinkOffers() {
 
     return (
         <Link key="::offers::link::" data-active={pathname?.includes("/offers")} href={{ pathname: "/offers" }}>
-            <img src="/icons/mobile/fill/sharing-filled.svg" alt="offers" width={24} height={24} />
+            {MENU_ICONS.offers}
             <span>Предложения обменов</span>
             {data?.res?.length ? (
                 <div data-count>

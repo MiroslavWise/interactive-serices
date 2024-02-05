@@ -4,14 +4,13 @@ import Link from "next/link"
 import { memo, useMemo } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
-import { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types/usersService"
 
 import { BlockOther } from "./BlockOther"
-import { NextImageMotion } from "@/components/common/Image"
+import { NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { serviceProfile } from "@/services/profile"
-import { serviceFriends } from "@/services/friends"
+import { serviceFriends, serviceProfile } from "@/services"
 
 import styles from "../styles/circle-of-communication.module.scss"
 
@@ -53,7 +52,7 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({ user
         return dataProfiles.some((item) => item.isLoading)
     }, [dataProfiles])
 
-    return (
+    return profiles && profiles?.length > 0 ? (
         <BlockOther label="Круг общения">
             {profiles
                 ? profiles?.slice(0, 6)?.map((item, index) => (
@@ -70,5 +69,5 @@ export const CircleOfCommunication = memo(function $CircleOfCommunication({ user
                 </div>
             ) : null}
         </BlockOther>
-    )
+    ) : null
 })

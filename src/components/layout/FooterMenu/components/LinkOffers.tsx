@@ -6,7 +6,8 @@ import { useQuery } from "@tanstack/react-query"
 import { useAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { serviceBarters } from "@/services"
-import { ITEMS_LINK_FOOTER, ITEMS_LINK_ICON } from "../constants"
+import { ITEMS_LINK_FOOTER } from "../constants"
+import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
@@ -40,7 +41,7 @@ export const LinkOffers = memo(function LinkOffers() {
             }}
         >
             <div className={styles.itemsIconLabel}>
-                {isActive ? ITEMS_LINK_ICON.offers.active : ITEMS_LINK_ICON.offers["not-active"]}
+                {MENU_ICONS.offers}
                 <p>Обмен</p>
             </div>
             {data?.res?.length ? (

@@ -1,4 +1,4 @@
-import { One, Three, Two } from "@/components/promo"
+import { Five, Four, One, Seven, Six, Three, Two } from "@/components/promo"
 
 export default function Promo() {
     return (
@@ -6,6 +6,10 @@ export default function Promo() {
             <One />
             <Two />
             <Three />
+            <Four />
+            <Five />
+            <Six />
+            <Seven />
         </div>
     )
 }
