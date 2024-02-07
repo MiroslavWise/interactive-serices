@@ -1,22 +1,22 @@
-import type { IMetaData, IReturnData } from "@/services/types/general"
 import type { IResponseUploadFile } from "@/services/file-upload/types"
+import type { IMetaData, IResponseGeneral, IReturnData } from "@/services/types/general"
 
-interface IResponseGeneral<P> {
-    data: P
-    error: any | null
-    meta: IMetaData
-}
+export type IPromiseReturn<P> = Promise<IReturnData<P>>
+export type TReturnData = (values: IResponseGeneral) => IReturnData<P>
+export type TReturnError = (values: unknown) => IReturnData<unknown>
 
 export interface IWrapperFetch {
-    returnData(response: IResponseGeneral): IReturnData<P>
-    returnError(response: unknown): IReturnData<unknown>
-    header: HeadersInit
+  stringRequest: (value: string) => string
 
-    stringRequest: (value: string) => string
-    methodGet<P>(url: string, query?: Record<string | number, any>): Promise<IReturnData<P>>
-    methodGetId<P extends any>(url: string, id: string | number, value?: Record<string, any>): Promise<IReturnData<P>>
-    methodPost<T, P>(url: string, body?: T | string): Promise<IReturnData<P>>
-    methodPatch<T, P>(url: string, body: T, id: string | number): Promise<IReturnData<P>>
-    methodDelete<P>(url: string, id: string | number): Promise<IReturnData<P>>
-    methodUploadFile(url: string, file: FormData): Promise<IReturnData<IResponseUploadFile>>
+  MethodGet<P extends any>(values: { url: string; query?: Record<string | number, any>; cache?: RequestInit["cache"] }): IPromiseReturn<P>
+  MethodGetId<P extends any>(values: {
+    url: string
+    id: string | number
+    query?: Record<string, any>
+    cache?: RequestInit["cache"]
+  }): IPromiseReturn<P>
+  MethodPost<T, P>(values: { url: string; body?: T | string; cache?: RequestInit["cache"] }): IPromiseReturn<P>
+  MethodPatch<T, P>(values: { url: string; body: T; id: string | number; cache?: RequestInit["cache"] }): IPromiseReturn<P>
+  MethodDelete(values: { url: string; id: string | number }): IPromiseReturn<any>
+  MethodUploadFile(values: { url: string; file: FormData }): IPromiseReturn<IResponseUploadFile>
 }

@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import { IUserResponse } from "@/services/users/types/usersService"
+import { IUserResponse } from "@/services/users/types"
 
 export const useUserIdMessage = create<{ userData?: IUserResponse }>(() => ({}))
 

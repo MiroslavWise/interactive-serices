@@ -1,6 +1,6 @@
 import { memo } from "react"
 
-import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { NextImageMotion } from "@/components/common"
 

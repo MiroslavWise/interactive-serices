@@ -1,4 +1,4 @@
-import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IGetProfileIdResponse } from "@/services/profile/types"
 import type { IResponseTestimonials } from "@/services/testimonials/types"
 
 export interface IStateAddTestimonials {

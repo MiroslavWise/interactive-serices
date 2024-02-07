@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 import type { TItemInteractive } from "../StatisticAndFeedback/types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 

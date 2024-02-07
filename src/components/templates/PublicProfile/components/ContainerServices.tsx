@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 import { CardRequestsAndProposals } from "@/components/common/Card"
 

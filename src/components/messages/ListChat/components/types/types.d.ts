@@ -1,7 +1,7 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 
 import type { IResponseThreads, TTypeProviderThreads } from "@/services/threads/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
 interface IList {

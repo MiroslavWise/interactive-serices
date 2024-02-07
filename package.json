@@ -12,7 +12,7 @@
         "make:3000": "make build-run PORT=3000",
         "start-dev": "next build && next start -p 3000",
         "export": "next build && npx serve@latest out -p 3000",
-        "prod": "next lint && next build && npx serve@latest out -p 3000"
+        "prod": "next lint --no-cache && next build && npx serve@latest out -p 3000"
     },
     "dependencies": {
         "@pbe/react-yandex-maps": "1.2.5",

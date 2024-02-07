@@ -1,16 +1,14 @@
-import type { IReturnData, TProviderOffer } from "../types/general"
+import type { IPromiseReturn, TProviderOffer } from "../types/general"
 
 export interface IResponseOffersCategories {
-    id: number
-    provider: TProviderOffer
-    title: string
-    slug: string
-    description: string | null
-    content: string | null
+  id: number
+  provider: TProviderOffer
+  title: string
+  slug: string
+  description: string | null
+  content: string | null
 }
 
 export interface IServiceOffersCategories {
-    route: string
-    get(value?: Record<string, string | number>): Promise<IReturnData<IResponseOffersCategories[]>>
-    getId(id: number | string): Promise<IReturnData<IResponseOffersCategories>>
+  get(value?: Record<string, string | number>): IPromiseReturn<IResponseOffersCategories[]>
 }

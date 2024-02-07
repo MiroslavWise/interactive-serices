@@ -6,7 +6,7 @@ import { memo, useState, useMemo, useEffect } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
 import type { IBarterResponse } from "@/services/barters/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 import { Button, GeoTagging, LoadingThreadNotice, NextImageMotion } from "@/components/common"
 

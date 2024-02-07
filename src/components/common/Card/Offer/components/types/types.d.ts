@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import type { ISmallDataOfferBarter } from "@/services/barters/types"
-import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IGetProfileIdResponse } from "@/services/profile/types"
+import type { IUserResponse } from "@/services/users/types"
 
 interface IBlockBarter {
     consigner: ISmallDataOfferBarter
