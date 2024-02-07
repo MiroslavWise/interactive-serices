@@ -12,40 +12,40 @@ import type { TContainerServices } from "./types/types"
 import { ServiceLoading } from "@/components/common"
 import { GeneralServiceAllItem } from "@/components/common/Card"
 
-import { serviceOffers } from "@/services"
+import { getUserIdOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const ContainerServices: TContainerServices = ({}) => {
-    const id = useSearchParams().get("id")
+  const id = useSearchParams().get("id")
 
-    const { data: dataOffer, isLoading } = useQuery({
-        queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
-        queryKey: ["offers", { userId: id, provider: "offer" }],
-        enabled: !!id,
-    })
+  const { data: dataOffer, isLoading } = useQuery({
+    queryFn: () => getUserIdOffers(id!, { provider: "offer" }),
+    queryKey: ["offers", { userId: id, provider: "offer" }],
+    enabled: !!id,
+  })
 
-    const list = useMemo(() => {
-        return dataOffer?.res?.filter((item) => item?.addresses?.length > 0) || []
-    }, [dataOffer?.res])
+  const list = useMemo(() => {
+    return dataOffer?.res?.filter((item) => item?.addresses?.length > 0) || []
+  }, [dataOffer?.res])
 
-    return (
-        <section className={styles.containerServices} data-loading={isLoading}>
-            {isLoading ? (
-                [1, 2, 3, 4].map((item) => <ServiceLoading key={`::item::offers::user::page::${item}::`} />)
-            ) : isMobile ? (
-                <ul className={styles.containerRequestsAndProposals}>
-                    {list?.map((item) => (
-                        <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
-                    ))}
-                </ul>
-            ) : (
-                <Masonry gutter="16px" columnsCount={2}>
-                    {list.map((item) => (
-                        <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
-                    ))}
-                </Masonry>
-            )}
-        </section>
-    )
+  return (
+    <section className={styles.containerServices} data-loading={isLoading}>
+      {isLoading ? (
+        [1, 2, 3, 4].map((item) => <ServiceLoading key={`::item::offers::user::page::${item}::`} />)
+      ) : isMobile ? (
+        <ul className={styles.containerRequestsAndProposals}>
+          {list?.map((item) => (
+            <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
+          ))}
+        </ul>
+      ) : (
+        <Masonry gutter="16px" columnsCount={2}>
+          {list.map((item) => (
+            <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
+          ))}
+        </Masonry>
+      )}
+    </section>
+  )
 }
