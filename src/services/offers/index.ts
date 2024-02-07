@@ -1,24 +1,13 @@
 import type { IServiceOffers } from "./types"
-import { wrapperFetch } from "../requestsWrapper"
+import { wrapperPost, wrapperPatch, wrapperDelete, wrapperGet, wrapperGetId } from "../requestsWrapper"
+
+const url = "/offers"
 
 export const serviceOffers: IServiceOffers = {
-    route: "/offers",
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    get(value) {
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    patch(value, id) {
-        return wrapperFetch.methodPatch(this.route, value, id)
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId(this.route, id)
-    },
-    getUserId(id, value) {
-        return wrapperFetch.methodGetId(`${this.route}/user`, id, value)
-    },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
+  post: (body) => wrapperPost({ url, body }),
+  get: (query) => wrapperGet({ url, query }),
+  patch: (body, id) => wrapperPatch({ url, body, id }),
+  getId: (id) => wrapperGetId({ url, id }),
+  getUserId: (id, query) => wrapperGetId({ url: `${url}/user`, query, id }),
+  delete: (id) => wrapperDelete({ url, id }),
 }

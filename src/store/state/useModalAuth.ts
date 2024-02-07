@@ -11,7 +11,7 @@ import type {
     TTypeEmailOrNumber,
     IActionAuthModalVerification,
 } from "../types/useVisibleAndTypeAuthModalState"
-import { IUserResponse } from "@/services/users/types/usersService"
+import { IUserResponse } from "@/services/users/types"
 
 export const useModalAuth = create(
     persist<IUseVisibleAndTypeAuthModalState>(

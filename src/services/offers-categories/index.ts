@@ -1,18 +1,9 @@
-import { wrapperFetch } from "../requestsWrapper"
-import type { IServiceOffersCategories, IResponseOffersCategories } from "./types"
+import type { IServiceOffersCategories } from "./types"
+
+import { wrapperGet } from "../requestsWrapper"
+
+const url = "/offers-categories"
 
 export const serviceOffersCategories: IServiceOffersCategories = {
-    route: "/offers-categories",
-    get(value) {
-        return wrapperFetch.methodGet<IResponseOffersCategories[]>(
-            this.route,
-            value,
-        )
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId<IResponseOffersCategories>(
-            this.route,
-            id,
-        )
-    },
+  get: (query) => wrapperGet({ url, query, cache: "force-cache" }),
 }

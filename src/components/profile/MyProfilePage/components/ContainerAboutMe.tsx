@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import type { IPostProfileData } from "@/services/profile/types/profileService"
+import type { IPostProfileData } from "@/services/profile/types"
 
 import { useAuth } from "@/store"
 import { serviceProfile } from "@/services"

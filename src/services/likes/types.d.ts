@@ -1,25 +1,21 @@
-import type { IReturnData } from "../types/general"
+import type { IPromiseReturn } from "../types/general"
 
 export type TProviderLikes = "offer" | "user"
 
 export interface IPostDataLikes {
-    id: number
-    provider: TProviderLikes
+  id: number
+  provider: TProviderLikes
 }
 
 export interface IResponseLikes {
-    created: Date
-    id: number
-    provider: TProviderLikes
-    userId: number
+  created: Date
+  id: number
+  provider: TProviderLikes
+  userId: number
 }
 
 export interface ILikesService {
-    route: string
-    post(value: IPostDataLikes): Promise<IReturnData<number>>
-    get(): Promise<IReturnData<IResponseLikes[]>>
-    getTargetId(
-        provider: TProviderLikes,
-        id: number,
-    ): Promise<IReturnData<number>>
+  post(value: IPostDataLikes): IPromiseReturn<number>
+  get(): IPromiseReturn<IResponseLikes[]>
+  getTargetId(provider: TProviderLikes, id: number): IPromiseReturn<number>
 }

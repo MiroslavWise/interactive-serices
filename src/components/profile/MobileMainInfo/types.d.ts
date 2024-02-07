@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 interface IMobileMainInfo{
   user: IUserResponse

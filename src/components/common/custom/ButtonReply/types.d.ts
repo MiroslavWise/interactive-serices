@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import type { IResponseOffers } from "@/services/offers/types"
-import { IGetProfileIdResponse } from "@/services/profile/types/profileService"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import { IGetProfileIdResponse } from "@/services/profile/types"
+import type { IUserResponse } from "@/services/users/types"
 
 interface IProps {
     offer: IResponseOffers

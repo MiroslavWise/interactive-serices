@@ -1,28 +1,14 @@
 import type { IBartersService } from "./types"
 
-import { wrapperFetch } from "@/services/requestsWrapper"
+import { wrapperGet, wrapperGetId, wrapperPatch, wrapperPost } from "@/services/requestsWrapper"
+
+const url = "/barters"
 
 export const serviceBarters: IBartersService = {
-    route: "/barters",
-    get(value) {
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId(this.route, id)
-    },
-    getUserId(id, queries) {
-        return wrapperFetch.methodGetId(`${this.route}/initiator`, id, queries)
-    },
-    getReceiverId(id, queries) {
-        return wrapperFetch.methodGetId(`${this.route}/receiver`, id, queries)
-    },
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    patch(value, id) {
-        return wrapperFetch.methodPatch(this.route, value, id)
-    },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
+  get: (query) => wrapperGet({ url, query }),
+  getId: (id) => wrapperGetId({ url, id }),
+  getUserId: (id, query) => wrapperGetId({ url: `${url}/initiator`, id, query }),
+  getReceiverId: (id, query) => wrapperGetId({ url: `${url}/receiver`, id, query }),
+  post: (body) => wrapperPost({ url, body }),
+  patch: (body, id) => wrapperPatch({ url, body, id }),
 }

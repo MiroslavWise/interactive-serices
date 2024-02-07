@@ -1,6 +1,6 @@
 import { ISmallDataOfferBarter } from "@/services/barters/types"
 import { IResponseOffers } from "@/services/offers/types"
-import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 type TStateOffers = "current" | "array"
 

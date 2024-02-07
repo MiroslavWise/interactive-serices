@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 
-import { IUserResponse } from "@/services/users/types/usersService"
+import { IUserResponse } from "@/services/users/types"
 
 import { Button } from "@/components/common"
 

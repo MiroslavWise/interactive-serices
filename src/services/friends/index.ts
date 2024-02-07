@@ -1,22 +1,17 @@
 import type { IFriendsService } from "./types"
 
-import { wrapperFetch } from "../requestsWrapper"
+import { wrapperDelete, wrapperGet, wrapperGetId, wrapperPost } from "../requestsWrapper"
+
+const url = "/friends"
 
 export const serviceFriends: IFriendsService = {
-    route: "/friends",
-    get(value) {
-        let values: typeof value = {}
-        if (value) values = { ...value }
-        values.order = "DESC"
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId(this.route, id)
-    },
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
+  get(value) {
+    let query: typeof value = {}
+    if (value) query = { ...value }
+    query.order = "DESC"
+    return wrapperGet({ url, query })
+  },
+  getId: (id) => wrapperGetId({ url, id }),
+  post: (body) => wrapperPost({ url, body }),
+  delete: (id) => wrapperDelete({ url, id }),
 }

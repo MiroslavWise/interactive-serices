@@ -1,16 +1,11 @@
 import type { ILikesService } from "./types"
 
-import { wrapperFetch } from "../requestsWrapper"
+import { wrapperPost, wrapperGet, wrapperGetId } from "../requestsWrapper"
+
+const url = "/likes"
 
 export const serviceLikes: ILikesService = {
-    route: "/likes",
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    get() {
-        return wrapperFetch.methodGet(this.route)
-    },
-    getTargetId(provider, id) {
-        return wrapperFetch.methodGet(`${this.route}/${provider}/${id}`)
-    },
+  post: (body) => wrapperPost({ url, body }),
+  get: () => wrapperGet({ url }),
+  getTargetId: (provider, id) => wrapperGetId({ url: `${url}/${provider}`, id }),
 }

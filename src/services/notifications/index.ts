@@ -1,16 +1,11 @@
 import type { IServiceNotifications } from "./types"
 
-import { wrapperFetch } from "../requestsWrapper"
+import { wrapperPost, wrapperGet, wrapperPatch } from "../requestsWrapper"
+
+const url = "/notifications"
 
 export const serviceNotifications: IServiceNotifications = {
-    route: "/notifications",
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    get(value) {
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    patch(value, id) {
-        return wrapperFetch.methodPatch(this.route, value, id)
-    },
+  post: (body) => wrapperPost({ url, body }),
+  get: (query) => wrapperGet({ url, query }),
+  patch: (body, id) => wrapperPatch({ url, body, id }),
 }

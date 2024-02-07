@@ -1,6 +1,6 @@
 import type { Dispatch, DispatchWithoutAction } from "react"
 import type { IBarterResponse } from "@/services/barters/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 export interface IStateCompletionTransaction {
     visible: boolean

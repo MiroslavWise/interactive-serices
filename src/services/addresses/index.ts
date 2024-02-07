@@ -1,25 +1,22 @@
 import type { IServiceAddresses } from "./types/serviceAddresses"
 
-import { wrapperFetch } from "@/services"
+import { wrapperGet, wrapperGetId, wrapperPost, wrapperPatch } from "@/services"
 
 export const serviceAddresses: IServiceAddresses = {
-    route: "/addresses",
-    get(value) {
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId(this.route, id)
-    },
-    getHash(hash) {
-        return wrapperFetch.methodGetId(`${this.route}/hash`, hash)
-    },
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    patch(value, id) {
-        return wrapperFetch.methodPatch(this.route, value, id)
-    },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
+  route: "/addresses",
+  get(query) {
+    return wrapperGet({ url: this.route, query })
+  },
+  getId(id) {
+    return wrapperGetId({ url: this.route, id })
+  },
+  getHash(hash) {
+    return wrapperGetId({ url: `${this.route}/hash`, id: hash })
+  },
+  post(body) {
+    return wrapperPost({ url: this.route, body })
+  },
+  patch(body, id) {
+    return wrapperPatch({ url: this.route, body, id })
+  },
 }

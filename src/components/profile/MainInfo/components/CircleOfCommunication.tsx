@@ -4,7 +4,7 @@ import Link from "next/link"
 import { memo, useMemo } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 import { BlockOther } from "./BlockOther"
 import { NextImageMotion } from "@/components/common"

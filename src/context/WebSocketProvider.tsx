@@ -6,7 +6,7 @@ import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket
 import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
 import type { TTypeStatusBarter } from "@/services/file-upload/types"
-import type { IGetProfileIdResponse } from "@/services/profile/types/profileService"
+import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { useAuth } from "@/store"
 import env from "@/config/environment"

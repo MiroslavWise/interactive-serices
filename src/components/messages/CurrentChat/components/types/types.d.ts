@@ -2,7 +2,7 @@ import type { Dispatch, FC, SetStateAction } from "react"
 
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IResponseMessage } from "@/services/messages/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 interface ITextAreaSend {
     idUser: number

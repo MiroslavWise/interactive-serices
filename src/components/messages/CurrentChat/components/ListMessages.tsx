@@ -4,7 +4,7 @@ import { flushSync } from "react-dom"
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 import { ItemTime } from "./ItemTime"
 import { NoticeBarter } from "./NoticeBarter"

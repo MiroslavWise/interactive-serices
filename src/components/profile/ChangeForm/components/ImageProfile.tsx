@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { ChangeEvent, Dispatch, SetStateAction, memo, useState } from "react"
 
-import type { IPatchProfileData } from "@/services/profile/types/profileService"
+import type { IPatchProfileData } from "@/services/profile/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common"
 

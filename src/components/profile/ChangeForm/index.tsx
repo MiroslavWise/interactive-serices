@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from "react"
 import type { IValuesForm } from "./types/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
-import type { IPatchProfileData, IPostProfileData } from "@/services/profile/types/profileService"
+import type { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
 import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { ImageProfile } from "./components/ImageProfile"

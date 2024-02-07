@@ -1,9 +1,9 @@
-import { wrapperFetch } from ".."
-import { IServiceComplains } from "./types"
+import type { IServiceComplains } from "./types"
+
+import { wrapperPost } from ".."
+
+const url = "/complains"
 
 export const serviceComplains: IServiceComplains = {
-    route: "/complains",
-    post(values) {
-        return wrapperFetch.methodPost(this.route, values)
-    },
+  post: (body) => wrapperPost({ url, body }),
 }
