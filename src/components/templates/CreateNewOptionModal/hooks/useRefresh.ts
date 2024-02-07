@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { serviceOffers } from "@/services/offers"
+import { getOffers } from "@/services"
 
 export const useRefresh = () => {
-    const { refetch } = useQuery({
-        queryFn: () => serviceOffers.get({ order: "DESC" }),
-        queryKey: ["offers"],
-        enabled: false,
-    })
+  const { refetch } = useQuery({
+    queryFn: () => getOffers({ order: "DESC" }),
+    queryKey: ["offers"],
+    enabled: false,
+  })
 
-    return refetch
+  return refetch
 }

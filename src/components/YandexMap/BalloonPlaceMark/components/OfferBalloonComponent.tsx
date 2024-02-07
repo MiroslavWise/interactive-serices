@@ -1,63 +1,58 @@
 "use client"
 
-import { SyntheticEvent, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 
 import type { TOfferBalloonComponent } from "../types/types"
 
-import { NextImageMotion } from "@/components/common"
-import { ButtonReplyPrimary } from "@/components/common/custom"
-
-import { daysAgo, usePush } from "@/helpers"
-import { serviceOffers } from "@/services/offers"
-import { serviceProfile } from "@/services/profile"
+import { usePush } from "@/helpers"
+import { getIdOffer, serviceProfile } from "@/services"
 import { usePhotoVisible } from "../hooks/usePhotoVisible"
-import { useOffersCategories, useProfilePublic, useBalloonCard } from "@/store/hooks"
+import { useOffersCategories, useProfilePublic, useBalloonCard } from "@/store"
 
 export const OfferBalloonComponent: TOfferBalloonComponent = () => {
-    const { handlePush } = usePush()
-    const categories = useOffersCategories(({ categories }) => categories)
-    const { createGallery } = usePhotoVisible()
-    const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
-    const id = useBalloonCard(({ id }) => id)
-    const idUser = useBalloonCard(({ idUser }) => idUser)
-    const type = useBalloonCard(({ type }) => type)
-    const dispatch = useBalloonCard(({ dispatch }) => dispatch)
+  const { handlePush } = usePush()
+  const categories = useOffersCategories(({ categories }) => categories)
+  const { createGallery } = usePhotoVisible()
+  const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
+  const id = useBalloonCard(({ id }) => id)
+  const idUser = useBalloonCard(({ idUser }) => idUser)
+  const type = useBalloonCard(({ type }) => type)
+  const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
-    const [{ data }, { data: dataUser }] = useQueries({
-        queries: [
-            {
-                queryFn: () => serviceOffers.getId(Number(id!)),
-                queryKey: ["offers", { offerId: id }],
-                refetchOnMount: false,
-            },
-            {
-                queryFn: () => serviceProfile.getUserId(idUser!),
-                queryKey: ["profile", idUser!],
-                enabled: !!idUser,
-                refetchOnMount: false,
-            },
-        ],
-    })
+  const [{ data }, { data: dataUser }] = useQueries({
+    queries: [
+      {
+        queryFn: () => getIdOffer(Number(id!)),
+        queryKey: ["offers", { offerId: id }],
+        refetchOnMount: false,
+      },
+      {
+        queryFn: () => serviceProfile.getUserId(idUser!),
+        queryKey: ["profile", idUser!],
+        enabled: !!idUser,
+        refetchOnMount: false,
+      },
+    ],
+  })
 
-    function handleProfile() {
-        if (isMobile) {
-            handlePush(`/user?id=${idUser!}`)
-            dispatch({ visible: false })
-        } else {
-            dispatchProfilePublic({
-                visible: true,
-                idUser: idUser!,
-            })
-        }
+  function handleProfile() {
+    if (isMobile) {
+      handlePush(`/user?id=${idUser!}`)
+      dispatch({ visible: false })
+    } else {
+      dispatchProfilePublic({
+        visible: true,
+        idUser: idUser!,
+      })
     }
+  }
 
-    // const categoriesUser = dataUser?.res?.categories || []
+  // const categoriesUser = dataUser?.res?.categories || []
 
-    return (
-        <>
-            {/* <header>
+  return (
+    <>
+      {/* <header>
                 <div data-category-img>
                     {data?.res?.categoryId ? (
                         <img
@@ -152,7 +147,7 @@ export const OfferBalloonComponent: TOfferBalloonComponent = () => {
                     </ul>
                 ) : null}
                 <ButtonReplyPrimary isBalloon offer={data?.res!} user={dataUser?.res!} /> */}
-            {/* </div> */}
-        </>
-    )
+      {/* </div> */}
+    </>
+  )
 }
