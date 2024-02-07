@@ -1,9 +1,9 @@
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { getBarters, getTestimonials } from "@/services"
 
 import styles from "./styles/badges-colors.module.scss"
-import { useMemo } from "react"
 
 export const BadgesColors = ({ userId }: { userId: number | string }) => {
   const { data: dataBarters } = useQuery({

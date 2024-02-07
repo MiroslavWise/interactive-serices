@@ -7,7 +7,7 @@ import type { TItemsBadges } from "../types/types"
 
 import { BadgeAchievementsBorder } from "@/components/common/Badge/BadgeAchievementsBorder"
 
-import { serviceTestimonials, serviceBarters, getUserIdOffers } from "@/services"
+import { getUserIdOffers, getBarters, getTestimonials } from "@/services"
 
 export const ItemsBadges: TItemsBadges = ({ id }) => {
   const dataQueries = useQueries({
@@ -19,7 +19,7 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
       },
       {
         queryFn: () =>
-          serviceBarters.get({
+          getBarters({
             user: id,
             status: "completed",
             order: "DESC",
@@ -28,7 +28,7 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
         enabled: !!id,
       },
       {
-        queryFn: () => serviceTestimonials.get({ user: id! }),
+        queryFn: () => getTestimonials({ user: id! }),
         queryKey: ["testimonials", { userId: id }],
         enabled: !!id,
       },

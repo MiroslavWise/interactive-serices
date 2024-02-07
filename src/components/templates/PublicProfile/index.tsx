@@ -14,40 +14,40 @@ import { ItemSegments } from "./components/ItemSegments"
 import { InfoContainerProfile } from "./components/InfoContainerProfile"
 
 import { cx } from "@/lib/cx"
-import { serviceUser } from "@/services"
+import { getUserId } from "@/services"
 import { VALUES } from "./constants/SEGMENTS"
 import { dispatchProfilePublic, useProfilePublic } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const PublicProfile = () => {
-    const isLeft = useProfilePublic(({ isLeft }) => isLeft)
-    const idUser = useProfilePublic(({ idUser }) => idUser)
-    const visibleProfilePublic = useProfilePublic(({ visibleProfilePublic }) => visibleProfilePublic)
-    const [activeSegment, setActiveSegment] = useState<ISegmentValues<TTypeSegment>>(VALUES[0])
+  const isLeft = useProfilePublic(({ isLeft }) => isLeft)
+  const idUser = useProfilePublic(({ idUser }) => idUser)
+  const visibleProfilePublic = useProfilePublic(({ visibleProfilePublic }) => visibleProfilePublic)
+  const [activeSegment, setActiveSegment] = useState<ISegmentValues<TTypeSegment>>(VALUES[0])
 
-    const { data } = useQuery({
-        queryFn: () => serviceUser.getId(idUser!),
-        queryKey: ["user", { userId: idUser }],
-        enabled: visibleProfilePublic && !!idUser,
-    })
+  const { data } = useQuery({
+    queryFn: () => getUserId(idUser!),
+    queryKey: ["user", { userId: idUser }],
+    enabled: visibleProfilePublic && !!idUser,
+  })
 
-    function handleClose() {
-        dispatchProfilePublic({ visible: false })
-    }
+  function handleClose() {
+    dispatchProfilePublic({ visible: false })
+  }
 
-    return visibleProfilePublic ? (
-        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft}>
-            <section>
-                <ButtonClose onClick={handleClose} position={{}} />
-                <BlockDots id={idUser!} />
-                <ul data-opacity={!!data?.res} id="profile-public-id">
-                    <InfoContainerProfile {...data?.res!} />
-                    <ItemsBadges {...data?.res!} />
-                    <ItemSegments {...{ activeSegment, setActiveSegment }} />
-                    <Content {...data?.res!} type={activeSegment.value} />
-                </ul>
-            </section>
-        </div>
-    ) : null
+  return visibleProfilePublic ? (
+    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft}>
+      <section>
+        <ButtonClose onClick={handleClose} position={{}} />
+        <BlockDots id={idUser!} />
+        <ul data-opacity={!!data?.res} id="profile-public-id">
+          <InfoContainerProfile {...data?.res!} />
+          <ItemsBadges {...data?.res!} />
+          <ItemSegments {...{ activeSegment, setActiveSegment }} />
+          <Content {...data?.res!} type={activeSegment.value} />
+        </ul>
+      </section>
+    </div>
+  ) : null
 }

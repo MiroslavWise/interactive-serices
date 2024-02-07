@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation"
 import { UserIdPage } from "@/components/profile"
 
 import { usePush } from "@/helpers"
-import { serviceUser } from "@/services"
+import { getUserId } from "@/services"
 
 // export async function generateMetadata({ searchParams }: { searchParams: { id: string | number } }): Promise<Metadata> {
 //     if (searchParams?.id) {
@@ -79,7 +79,7 @@ export default function UserId() {
   const { handlePush } = usePush()
 
   const { data, isLoading } = useQuery({
-    queryFn: () => serviceUser.getId(id!),
+    queryFn: () => getUserId(id!),
     queryKey: ["user", { userId: id }],
     enabled: id !== "undefined" && id !== "null" && typeof id !== undefined,
     refetchOnReconnect: true,

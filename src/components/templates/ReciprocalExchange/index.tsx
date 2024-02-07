@@ -26,7 +26,7 @@ import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
-import { serviceNotifications, serviceBarters, serviceOffers, serviceUser, getUserIdOffers, postOffer } from "@/services"
+import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -59,7 +59,7 @@ export const ReciprocalExchange = () => {
   })
 
   const { data: dataUser, isLoading: isLoadUser } = useQuery({
-    queryFn: () => serviceUser.getId(offer?.userId!),
+    queryFn: () => getUserId(offer?.userId!),
     queryKey: ["user", { userId: offer?.userId }],
     enabled: !!offer?.userId,
     refetchOnMount: false,
@@ -120,7 +120,7 @@ export const ReciprocalExchange = () => {
             enabled: true,
           }
 
-          serviceBarters.post(dataBarter).then((response) => {
+          postBarter(dataBarter).then((response) => {
             console.log("%c ---OFFERS BARTERS---", "color: green", response)
             if (response?.ok) {
               const message = `${profile?.firstName || ""} ${
