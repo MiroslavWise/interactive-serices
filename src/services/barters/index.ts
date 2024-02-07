@@ -4,6 +4,8 @@ import { wrapperGet, wrapperGetId, wrapperPatch, wrapperPost } from "@/services/
 
 const url = "/barters"
 
+export const getBarters: IBartersService["get"] = (query) => wrapperGet({ url, query })
+
 export const serviceBarters: IBartersService = {
   get: (query) => wrapperGet({ url, query }),
   getId: (id) => wrapperGetId({ url, id }),

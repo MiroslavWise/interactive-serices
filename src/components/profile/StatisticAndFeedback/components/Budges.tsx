@@ -7,13 +7,13 @@ import type { TBadges } from "./types/types"
 
 import { BadgeAchievementsBorder } from "@/components/common"
 
-import { serviceTestimonials, serviceBarters, getUserIdOffers } from "@/services"
+import { serviceBarters, getUserIdOffers, getTestimonials } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const Badges: TBadges = ({ id }) => {
   const { data: dataTestimonials } = useQuery({
-    queryFn: () => serviceTestimonials.get({ receiver: id! }),
+    queryFn: () => getTestimonials({ receiver: id! }),
     queryKey: ["testimonials", { receiver: id }],
     enabled: !!id,
   })
