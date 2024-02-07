@@ -3,10 +3,10 @@ import { create } from "zustand"
 import type { IActionIChangeService, IStateChangeService } from "../types/typesChangeService"
 
 export const useChangeService = create<IStateChangeService>((set, get) => ({
-    visible: false,
+  visible: false,
 }))
 
 export const dispatchChangeService = (values: IActionIChangeService) =>
-    useChangeService.setState((_) => ({
-        ...values,
-    }))
+  useChangeService.setState((_) => ({
+    ...values,
+  }))

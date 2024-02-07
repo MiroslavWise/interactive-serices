@@ -9,14 +9,14 @@ import { usePush } from "@/helpers"
 import styles from "@/scss/page.module.scss"
 
 export default function LayoutProfile({ children }: { children: ReactNode }) {
-    const isAuth = useAuth(({ isAuth }) => isAuth)
-    const { handlePush } = usePush()
+  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const { handlePush } = usePush()
 
-    useEffect(() => {
-        if (typeof isAuth !== "undefined" && !isAuth) {
-            handlePush("/")
-        }
-    }, [isAuth])
+  useEffect(() => {
+    if (typeof isAuth !== "undefined" && !isAuth) {
+      handlePush("/")
+    }
+  }, [isAuth])
 
-    return isAuth ? isMobile ? children : <main className={styles.profileLayout}>{children}</main> : null
+  return isAuth ? isMobile ? children : <main className={styles.profileLayout}>{children}</main> : null
 }

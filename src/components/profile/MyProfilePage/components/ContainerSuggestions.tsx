@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query"
 import type { TContainerSuggestions } from "./types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
-import { LoadingMyOffer } from "@/components/common"
-import { CardSuggestion, CardDiscussion } from "@/components/common/Card"
+import { LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
+import { CardDiscussion } from "@/components/common/Card"
 
 import { getUserIdOffers } from "@/services"
 import { useAuth, useProviderProfileOffer } from "@/store"
@@ -41,7 +41,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
       ) : data?.res && Array.isArray(data?.res) && ["offer"].includes(stateProvider) && data?.res?.length > 0 ? (
         data?.res
           ?.filter((item) => item?.addresses?.length > 0)
-          .map((item, index) => <CardSuggestion key={`${item.id}+${index}-${stateProvider}`} {...item} refetch={refetch} />)
+          .map((item, index) => <PersonalAccountCardOffer key={`${item.id}+${index}-${stateProvider}`} offer={item!} refetch={refetch} />)
       ) : data?.res && Array.isArray(data?.res) && ["discussion", "alert"].includes(stateProvider) && data?.res?.length > 0 ? (
         data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
       ) : (

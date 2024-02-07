@@ -1,21 +1,21 @@
 .__page-messages__ {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 [data-mobile="false"] {
-    .__page-messages__ {
-        height: 100%;
-        display: grid;
-        grid-template-columns: 25rem 1fr 18.75rem;
-        gap: 1.25rem;
-        z-index: 40;
-    }
+  .__page-messages__ {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 25rem 1fr 18.75rem;
+    gap: 1.25rem;
+    z-index: 40;
+  }
 }
 
 [data-mobile="true"] {
-    .__page-messages__ {
-        position: relative;
-        inset: 0;
-    }
+  .__page-messages__ {
+    position: relative;
+    inset: 0;
+  }
 }
