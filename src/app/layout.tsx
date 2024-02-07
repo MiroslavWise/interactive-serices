@@ -16,82 +16,82 @@ import "react-toastify/dist/ReactToastify.css"
 const inter = Inter({ subsets: ["latin"], style: "normal" })
 
 export function generateViewport(): Viewport {
-    return {
-        width: "device-width",
-        initialScale: 1,
-        userScalable: false,
-        maximumScale: 1,
-        minimumScale: 1,
-    }
+  return {
+    width: "device-width",
+    initialScale: 1,
+    userScalable: false,
+    maximumScale: 1,
+    minimumScale: 1,
+  }
 }
 
 export const metadata: Metadata = {
+  title: {
+    default: "Sheira",
+    template: "%s | Sheira",
+  },
+  description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
+  keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
+  appleWebApp: {
+    title: "Sheira",
+    statusBarStyle: "default",
+  },
+  category: "people, services",
+  openGraph: {
+    type: "website",
+    locale: "ru",
+    url: env.server.host!,
+    siteName: "Sheira.ru",
     title: {
-        default: "Sheira",
-        template: "%s | Sheira",
+      default: "Sheira",
+      template: "%s | Sheira",
     },
+    images: "./favicon.ico",
     description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
-    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
-    appleWebApp: {
-        title: "Sheira",
-        statusBarStyle: "default",
+  },
+  twitter: {
+    title: {
+      default: "Sheira",
+      template: "%s | Sheira",
     },
-    category: "people, services",
-    openGraph: {
-        type: "website",
-        locale: "ru",
-        url: env.server.host!,
-        siteName: "Sheira.ru",
-        title: {
-            default: "Sheira",
-            template: "%s | Sheira",
-        },
-        images: "./favicon.ico",
-        description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
+    images: "./favicon.ico",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    "max-image-preview": "large",
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "standard",
     },
-    twitter: {
-        title: {
-            default: "Sheira",
-            template: "%s | Sheira",
-        },
-        images: "./favicon.ico",
-    },
-    robots: {
-        index: true,
-        follow: true,
-        "max-image-preview": "large",
-        googleBot: {
-            index: true,
-            follow: true,
-            "max-image-preview": "standard",
-        },
-    },
-    icons: {
-        icon: `./favicon.ico`,
-    },
+  },
+  icons: {
+    icon: `./favicon.ico`,
+  },
 }
 
 export default function Layout({ children }: { children: ReactNode }) {
-    return (
-        <html lang="ru">
-            <head>
-                <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
-                <noscript>
-                    <div>
-                        <img
-                            src={env!?.server!?.host!?.includes("dev") ? "https://mc.yandex.ru/watch/95807492" : "https://mc.yandex.ru/watch/95807535"}
-                            style={{ position: "absolute", left: -9999 }}
-                            alt="-"
-                        />
-                    </div>
-                </noscript>
-            </head>
-            <body className={inter.className} id="body-layout">
-                <Providers>
-                    <NavBarProfile />
-                    {children}
-                </Providers>
-            </body>
-        </html>
-    )
+  return (
+    <html lang="ru">
+      <head>
+        <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
+        <noscript>
+          <div>
+            <img
+              src={env!?.server!?.host!?.includes("dev") ? "https://mc.yandex.ru/watch/95807492" : "https://mc.yandex.ru/watch/95807535"}
+              style={{ position: "absolute", left: -9999 }}
+              alt="-"
+            />
+          </div>
+        </noscript>
+      </head>
+      <body className={inter.className} id="body-layout">
+        <Providers>
+          <NavBarProfile />
+          {children}
+        </Providers>
+      </body>
+    </html>
+  )
 }

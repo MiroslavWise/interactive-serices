@@ -9,24 +9,24 @@ import { ListChat, Chat, InterviewerInfo } from "@/components/messages"
 import { dispatchDataUser } from "@/store"
 
 export default function Messages() {
-    const searchParamsGet = useSearchParams()?.get
-    const [idThread, idBarter, idUser] = [searchParamsGet("thread"), searchParamsGet("barter-id"), searchParamsGet("user")]
+  const searchParamsGet = useSearchParams()?.get
+  const [idThread, idBarter, idUser] = [searchParamsGet("thread"), searchParamsGet("barter-id"), searchParamsGet("user")]
 
-    useEffect(() => {
-        return () => dispatchDataUser(undefined)
-    }, [])
+  useEffect(() => {
+    return () => dispatchDataUser(undefined)
+  }, [])
 
-    return isMobile ? (
-        [!!idUser, !!idThread, !!idBarter].some((item) => !!item) ? (
-            <Chat />
-        ) : (
-            <ListChat />
-        )
+  return isMobile ? (
+    [!!idUser, !!idThread, !!idBarter].some((item) => !!item) ? (
+      <Chat />
     ) : (
-        <>
-            <ListChat />
-            <Chat />
-            <InterviewerInfo />
-        </>
+      <ListChat />
     )
+  ) : (
+    <>
+      <ListChat />
+      <Chat />
+      <InterviewerInfo />
+    </>
+  )
 }
