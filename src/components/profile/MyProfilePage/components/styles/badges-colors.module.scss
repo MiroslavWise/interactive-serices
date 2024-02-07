@@ -1,0 +1,99 @@
+.container {
+  --purple-main: linear-gradient(112deg, #cdaeff -12.79%, #b39bff 53.95%, #9888ff 114.33%);
+  --orange-main: linear-gradient(115deg, #ffc992 -10.05%, #fd8b73 117.05%);
+  --red-main: linear-gradient(101deg, #f67377 0%, #e85a81 100%);
+
+  --second: rgba(255, 255, 255, 0.1);
+}
+
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.625rem;
+
+  & > section {
+    height: 4.5rem;
+    width: 100%;
+    position: relative;
+    border-radius: 1rem;
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+    overflow: hidden;
+
+    &[data-purple] {
+      background: var(--purple-main);
+    }
+
+    &[data-orange] {
+      background: var(--orange-main);
+    }
+
+    &[data-red] {
+      background: var(--red-main);
+    }
+
+    & > article {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      & > h4 {
+        color: var(--text-button);
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.25rem;
+        letter-spacing: -0.03125rem;
+      }
+
+      & > h2 {
+        color: var(--text-button);
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 2rem;
+        letter-spacing: -0.03125rem;
+      }
+    }
+
+    & > [data-icon] {
+      position: absolute;
+      transform: translateY(-50%);
+      top: 50%;
+      right: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      z-index: 4;
+
+      & > img {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+    }
+
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      background-color: var(--second);
+      height: 7rem;
+      width: 7rem;
+      top: -0.94rem;
+      border-radius: 3.5rem;
+    }
+
+    &::after {
+      z-index: 3;
+      right: -2.45rem;
+    }
+
+    &::before {
+      z-index: 2;
+      right: -0.625rem;
+    }
+  }
+}

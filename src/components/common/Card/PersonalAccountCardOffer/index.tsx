@@ -17,7 +17,7 @@ export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseO
   const dispatchUpdateMutual = useUpdateMutualOffer(({ dispatchUpdateMutual }) => dispatchUpdateMutual)
 
   const category = useMemo(() => {
-    return categories?.find((item) => offer?.categoryId)
+    return categories?.find((item) => offer?.categoryId === item?.id)
   }, [categories, offer])
 
   const categoriesInExchange = useMemo(() => {
@@ -81,33 +81,35 @@ export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseO
           </div>
           {images.length > 0 ? <ItemImages images={images} /> : null}
         </div>
-        <div data-exchange>
-          <span>В обмен</span>
-          <ul>
-            {categoriesInExchange.map((item) => (
-              <li key={`::item::exchange::${item?.id!}::`}>
-                <div data-img>
-                  <img
-                    src={IconCategory(item?.id!)}
-                    alt={`${item?.id!}`}
-                    width={16}
-                    height={16}
-                    onError={(error: any) => {
-                      if (error?.target) {
-                        try {
-                          error.target.src = `/svg/category/default.svg`
-                        } catch (e) {
-                          console.log("catch e: ", e)
+        {categoriesInExchange?.length > 0 ? (
+          <div data-exchange>
+            <span>В обмен</span>
+            <ul>
+              {categoriesInExchange.map((item) => (
+                <li key={`::item::exchange::${item?.id!}::`}>
+                  <div data-img>
+                    <img
+                      src={IconCategory(item?.id!)}
+                      alt={`${item?.id!}`}
+                      width={16}
+                      height={16}
+                      onError={(error: any) => {
+                        if (error?.target) {
+                          try {
+                            error.target.src = `/svg/category/default.svg`
+                          } catch (e) {
+                            console.log("catch e: ", e)
+                          }
                         }
-                      }
-                    }}
-                  />
-                </div>
-                <span>{item?.title}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                      }}
+                    />
+                  </div>
+                  <span>{item?.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         <div data-footer>
           <Button
             type="button"

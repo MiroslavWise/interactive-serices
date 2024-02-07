@@ -3,6 +3,8 @@ import type { IServiceTestimonials } from "./types"
 
 const url = "/testimonials"
 
+export const getTestimonials: IServiceTestimonials["get"] = (query) => wrapperGet({ url, query })
+
 export const serviceTestimonials: IServiceTestimonials = {
   post: (body) => wrapperPost({ url, body }),
   get: (query) => wrapperGet({ url, query }),
