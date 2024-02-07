@@ -1,11 +1,11 @@
 import type { IResponseLoginNot2fa } from "./types/authService"
 import type { IRegistrationService } from "./types/registrationService"
 
-import { serviceUser, wrapperPost } from "@/services"
+import { postUser, wrapperPost } from "@/services"
 
 export const RegistrationService: IRegistrationService = {
   async registration(data) {
-    return serviceUser.post({ ...data, agree: true }).then((response) => {
+    return postUser({ ...data, agree: true }).then((response) => {
       if (response.ok) {
         return {
           ok: response.ok,

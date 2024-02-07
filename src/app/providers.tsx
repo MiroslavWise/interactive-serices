@@ -17,13 +17,13 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     refresh()
-    window.addEventListener("load", () => {
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("/service-worker.js").then((response) => {
-          console.log("serviceWorker: ", response.scope)
-        })
-      }
-    })
+    // window.addEventListener("load", () => {
+    //   if ("serviceWorker" in navigator) {
+    //     navigator.serviceWorker.register("/service-worker.js").then((response) => {
+    //       console.log("serviceWorker: ", response.scope)
+    //     })
+    //   }
+    // })
     let vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty("--vh", `${vh}px`)
     document.documentElement.style.height = window.innerHeight.toString() + "px"

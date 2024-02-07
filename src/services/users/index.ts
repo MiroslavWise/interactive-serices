@@ -4,11 +4,9 @@ import { wrapperGet, wrapperGetId, wrapperPost, wrapperPatch, wrapperDelete } fr
 
 const url = "/user"
 
-export const serviceUser: IServiceUser = {
-  get: () => wrapperGet({ url }),
-  getId: (id) => wrapperGetId({ url, id }),
-  post: (body) => wrapperPost({ url, body }),
-  getEmail: (query) => wrapperGetId({ url: `${url}/email`, id: query }),
-  patch: (body, id) => wrapperPatch({ url, body, id }),
-  delete: (id) => wrapperDelete({ url, id }),
-}
+export const getUser: IServiceUser["get"] = () => wrapperGet({ url })
+export const getUserId: IServiceUser["getId"] = (id) => wrapperGetId({ url, id })
+export const postUser: IServiceUser["post"] = (body) => wrapperPost({ url, body })
+export const patchUser: IServiceUser["patch"] = (body, id) => wrapperPatch({ url, body, id })
+export const deleteUser: IServiceUser["delete"] = (id) => wrapperDelete({ url, id })
+export const getUserEmail: IServiceUser["getEmail"] = (query) => wrapperGetId({ url: `${url}/email`, id: query })

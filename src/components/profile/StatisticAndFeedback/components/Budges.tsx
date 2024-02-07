@@ -7,7 +7,7 @@ import type { TBadges } from "./types/types"
 
 import { BadgeAchievementsBorder } from "@/components/common"
 
-import { serviceBarters, getUserIdOffers, getTestimonials } from "@/services"
+import { getUserIdOffers, getTestimonials, getBarters } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -51,7 +51,7 @@ export const Badges: TBadges = ({ id }) => {
       },
       {
         queryFn: () =>
-          serviceBarters.get({
+          getBarters({
             user: id!,
             status: "completed",
             order: "DESC",

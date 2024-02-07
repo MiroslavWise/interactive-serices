@@ -10,7 +10,7 @@ import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { getTestimonials, serviceBarters, serviceNotifications, serviceProfile } from "@/services"
+import { getTestimonials, patchBarter, serviceNotifications, serviceProfile } from "@/services"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, useOffersCategories, dispatchReasonBarters } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -339,7 +339,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
         setLoading(true)
         Promise.all([
           serviceNotifications.patch({ enabled: true, operation: "completion-yes", read: true }, id!),
-          serviceBarters.patch({ enabled: true, status: "completed" }, data?.id!),
+          patchBarter({ enabled: true, status: "completed" }, data?.id!),
         ]).then(() => {
           refetch().then(() => {
             setLoading(false)

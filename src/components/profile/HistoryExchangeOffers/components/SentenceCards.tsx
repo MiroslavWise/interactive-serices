@@ -8,7 +8,7 @@ import { LoadingBarters } from "@/components/common"
 import { CardOffer } from "@/components/common/Card/Offer"
 
 import { useAuth } from "@/store"
-import { serviceBarters } from "@/services"
+import { getBarters } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -16,7 +16,7 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
   const userId = useAuth(({ userId }) => userId)
   const { data, isLoading } = useQuery({
     queryFn: () =>
-      serviceBarters.get({
+      getBarters({
         status: value.value,
         user: userId!,
         order: "DESC",
@@ -29,7 +29,7 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
     <ul className={styles.containerCards}>
       {isLoading ? (
         [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)
-      ) : Array.isArray(data?.res) ? (
+      ) : data?.res && Array.isArray(data?.res) && data?.res?.length > 0 ? (
         data?.res?.map((item) => <CardOffer key={`::history::page::${item.status}::${item.id}::`} {...item} />)
       ) : (
         <p>

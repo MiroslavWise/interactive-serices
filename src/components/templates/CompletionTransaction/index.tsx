@@ -12,7 +12,7 @@ import { Button, ButtonClose, ButtonLink } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
-import { serviceTestimonials, serviceThreads, serviceBarters, serviceNotifications, getTestimonials } from "@/services"
+import { serviceNotifications, getTestimonials, getBarterId, getThreadId, postTestimonial } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -43,13 +43,13 @@ export const CompletionTransaction = () => {
   const [strings, setStrings] = useState<string[]>([])
 
   const { data, refetch: refetchBarters } = useQuery({
-    queryFn: () => serviceBarters.getId(barterId!),
+    queryFn: () => getBarterId(barterId!),
     queryKey: ["barters", { id: barterId }],
     enabled: !!barterId,
   })
 
   const { refetch: refetchThread } = useQuery({
-    queryFn: () => serviceThreads.getId(Number(threadId)),
+    queryFn: () => getThreadId(Number(threadId)),
     queryKey: ["threads", { userId: userId, threadId: threadId }],
     enabled: false,
   })
@@ -95,7 +95,7 @@ export const CompletionTransaction = () => {
       const idOffer = data?.res?.initiator?.userId === userId ? data?.res?.consignedId : data?.res?.initialId
 
       Promise.all([
-        serviceTestimonials.post({
+        postTestimonial({
           targetId: idOffer!,
           provider: "offer",
           barterId: barterId!,

@@ -1,13 +1,10 @@
-import { wrapperPost, wrapperGet, wrapperPatch, wrapperGetId } from "../requestsWrapper"
 import type { IServiceTestimonials } from "./types"
+
+import { wrapperPost, wrapperGet, wrapperPatch, wrapperGetId } from "../requestsWrapper"
 
 const url = "/testimonials"
 
 export const getTestimonials: IServiceTestimonials["get"] = (query) => wrapperGet({ url, query })
-
-export const serviceTestimonials: IServiceTestimonials = {
-  post: (body) => wrapperPost({ url, body }),
-  get: (query) => wrapperGet({ url, query }),
-  patch: (body, id) => wrapperPatch({ url, body, id }),
-  getId: (id) => wrapperGetId({ url, id }),
-}
+export const postTestimonial: IServiceTestimonials["post"] = (body) => wrapperPost({ url, body })
+export const patchTestimonial: IServiceTestimonials["patch"] = (body, id) => wrapperPatch({ url, body, id })
+export const getTestimonialId: IServiceTestimonials["getId"] = (id) => wrapperGetId({ url, id })

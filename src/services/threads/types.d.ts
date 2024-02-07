@@ -1,4 +1,4 @@
-import { IImageData } from "@/store/types/useAuthState"
+import type { IImageData } from "@/store/types/useAuthState"
 import type { IPromiseReturn } from "../types/general"
 
 export type TTypeProviderThreads = "personal" | "barter" | "groups"
@@ -11,9 +11,6 @@ export interface IPostThreads {
   barterId?: number
   enabled?: boolean
 }
-//Partial
-
-//personal | barter
 
 export type IPatchThreads = Partial<IPostThreads>
 
