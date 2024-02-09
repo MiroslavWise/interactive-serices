@@ -14,7 +14,7 @@ export const serviceAuth: IAuth = {
 }
 
 export const serviceAuthErrors = new Map([
-  ["unauthorized", "Пользователь не авторизован"],
+  ["Unauthorized", "Пользователь не авторизован"],
   ["user is not verified", "Аккаунт не верефицирован. Проверьте письмо на вашей почте"],
   ["verification code expired or not found", "Ваше время верификации истекло"],
   ["user not found", "Аккаунт не существует"],

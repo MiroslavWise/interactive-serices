@@ -1,6 +1,9 @@
+import type { IReturnData } from "../types/general"
+import type { MethodDelete, MethodGet, MethodGetId, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
+
 import { URL_API } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import type { IWrapperFetch, TReturnData, TReturnError } from "./types"
+import { IResponseUploadFile } from "../file-upload/types"
 
 function header(): HeadersInit {
   const head: HeadersInit = {
@@ -14,7 +17,7 @@ function header(): HeadersInit {
   return head
 }
 
-const returnData: TReturnData = (response) => {
+function returnData<P>(response: any): IReturnData<P> {
   return {
     ok: !!response?.data,
     res: response?.data || null,
@@ -32,17 +35,17 @@ const returnError: TReturnError = (error) => {
   }
 }
 
-const returnWrapper = async (endpoint: URL, requestInit: RequestInit) => {
+async function returnWrapper<P extends any>(endpoint: URL, requestInit: RequestInit) {
   try {
     const response = await fetch(endpoint, requestInit)
     const responseData = await response.json()
-    return returnData(responseData)
+    return returnData<P>(responseData)
   } catch (error) {
     return returnError(error)
   }
 }
 
-export const wrapperGet: IWrapperFetch["MethodGet"] = async ({ url, query, cache }) => {
+export const wrapperGet: MethodGet<any> = ({ url, query, cache }) => {
   const endpoint = new URL(`${URL_API}${url}`)
 
   if (query) {
@@ -60,7 +63,7 @@ export const wrapperGet: IWrapperFetch["MethodGet"] = async ({ url, query, cache
   return returnWrapper(endpoint, requestInit)
 }
 
-export const wrapperGetId: IWrapperFetch["MethodGetId"] = async ({ url, id, query, cache }) => {
+export const wrapperGetId: MethodGetId<any> = async ({ url, id, query, cache }) => {
   const endpoint = new URL(`${URL_API}${url}/${id}`)
 
   if (query) {
@@ -78,7 +81,7 @@ export const wrapperGetId: IWrapperFetch["MethodGetId"] = async ({ url, id, quer
   return returnWrapper(endpoint, requestInit)
 }
 
-export const wrapperPost: IWrapperFetch["MethodPost"] = async ({ url, body, cache }) => {
+export const wrapperPost: MethodPost<any, any> = async ({ url, body, cache }) => {
   const endpoint = new URL(`${URL_API}${url}`)
 
   const requestInit: RequestInit = {
@@ -94,7 +97,7 @@ export const wrapperPost: IWrapperFetch["MethodPost"] = async ({ url, body, cach
   return returnWrapper(endpoint, requestInit)
 }
 
-export const wrapperPatch: IWrapperFetch["MethodPatch"] = async ({ url, id, body, cache }) => {
+export const wrapperPatch: MethodPatch<any, any> = async ({ url, id, body, cache }) => {
   const endpoint = new URL(`${URL_API}${url}/${id}`)
 
   const requestInit: RequestInit = {
@@ -110,7 +113,7 @@ export const wrapperPatch: IWrapperFetch["MethodPatch"] = async ({ url, id, body
   return returnWrapper(endpoint, requestInit)
 }
 
-export const wrapperDelete: IWrapperFetch["MethodDelete"] = async ({ url, id }) => {
+export const wrapperDelete: MethodDelete = async ({ url, id }) => {
   const endpoint = new URL(`${URL_API}${url}/${id}`)
 
   const requestInit: RequestInit = {
@@ -121,7 +124,7 @@ export const wrapperDelete: IWrapperFetch["MethodDelete"] = async ({ url, id }) 
   return returnWrapper(endpoint, requestInit)
 }
 
-export const wrapperUploadFile: IWrapperFetch["MethodUploadFile"] = async ({ url, file }) => {
+export const wrapperUploadFile: MethodUploadFile = async ({ url, file }) => {
   const endpoint = new URL(`${URL_API}${url}`)
 
   if (!useTokenHelper.authToken) {
@@ -137,5 +140,5 @@ export const wrapperUploadFile: IWrapperFetch["MethodUploadFile"] = async ({ url
     body: file,
   }
 
-  return returnWrapper(endpoint, requestInit)
+  return returnWrapper<IResponseUploadFile>(endpoint, requestInit)
 }
