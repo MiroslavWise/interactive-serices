@@ -49,12 +49,12 @@ export const SignInEmail = memo(function SignInEmail({
           password: value.password,
         })
         .then((response) => {
-          if (response?.error?.message === "password is not match") {
-            setError("password", { message: serviceAuthErrors.get("password is not match")! })
-            return
-          }
-
           if (!!response?.error?.message) {
+            const errorMessage = `${response?.error?.message}`.toLowerCase()
+            if (response?.error?.message === "password is not match") {
+              setError("password", { message: serviceAuthErrors.get("password is not match")! })
+              return
+            }
             if (serviceAuthErrors.has(response?.error?.message)) {
               setError("email", { message: serviceAuthErrors.get(response?.error?.message!) })
               return
