@@ -72,7 +72,7 @@
         }
 
         & > span {
-          color: var(--text-disabled);
+          color: var(--text-secondary);
         }
 
         & > p {
@@ -93,7 +93,7 @@
       gap: 0.25rem;
 
       & > span {
-        color: var(--text-disabled);
+        color: var(--text-secondary);
         font-size: 0.875rem;
         font-style: normal;
         font-weight: 400;
@@ -154,36 +154,89 @@
 
     & > [data-footer] {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0.75rem;
+      flex-direction: column;
+      gap: 1rem;
       padding-inline: 1rem;
       margin-top: auto;
 
-      & > button {
-        height: 2.25rem;
-        border-radius: 1.125rem;
+      & > [data-geo] {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0.25rem;
 
-        & > img {
-          height: 1rem;
+        & > [data-img-g],
+        & > button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: transparent;
+          border: none;
+          outline: none;
+        }
+
+        & > [data-img-g] {
           width: 1rem;
+          height: 1rem;
+
+          & > img {
+            height: 1rem;
+            width: 1rem;
+          }
+        }
+
+        & > span {
+          color: var(--text-secondary);
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.125rem; /* 128.571% */
+          letter-spacing: -0.03125rem;
+        }
+
+        & > button {
+          width: 1.25rem;
+          height: 1.25rem;
+          margin-left: auto;
+
+          & > img {
+            width: 1.25rem;
+            height: 1.25rem;
+          }
         }
       }
 
-      & > [data-cirlce] {
-        width: 2.25rem;
-
-        background-color: var(--grey-filed);
-        border-radius: 6.25rem;
-        padding: 0.625rem;
+      & > [data-buttons] {
         display: flex;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
+        gap: 0.75rem;
 
-        &:hover {
-          background: var(--btn-second-hover);
+        & > button {
+          height: 2.25rem;
+          border-radius: 1.125rem;
+
+          & > img {
+            height: 1rem;
+            width: 1rem;
+          }
+        }
+
+        & > [data-cirlce] {
+          width: 2.25rem;
+
+          background-color: var(--grey-filed);
+          border-radius: 6.25rem;
+          padding: 0.625rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          outline: none;
+
+          &:hover {
+            background: var(--btn-second-hover);
+          }
         }
       }
     }

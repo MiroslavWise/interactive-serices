@@ -11,13 +11,13 @@ import { useAuth } from "@/store/hooks"
 import styles from "./styles/style.module.scss"
 
 export function NavBarProfile() {
-    const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth(({ isAuth }) => isAuth)
 
-    return typeof isMobile !== "undefined" && !isMobile ? (
-        <nav className={styles.nav}>
-            <Logo />
-            {isAuth && <Links />}
-            <Buttons />
-        </nav>
-    ) : null
+  return typeof isMobile !== "undefined" && !isMobile ? (
+    <nav className={styles.nav}>
+      <Logo />
+      {isAuth && <Links />}
+      <Buttons />
+    </nav>
+  ) : null
 }

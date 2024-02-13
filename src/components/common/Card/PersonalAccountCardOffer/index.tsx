@@ -7,14 +7,17 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 
 import { deleteOffer } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { useOffersCategories, useUpdateMutualOffer } from "@/store"
+import { dispatchBallonOffer, useMapCoordinates, useOffersCategories, useUpdateMutualOffer } from "@/store"
 
 import styles from "./style.module.scss"
+import { usePush } from "@/helpers"
 
 export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseOffers; refetch(): Promise<any> }) => {
   const [loading, setLoading] = useState(false)
+  const { handlePush } = usePush()
   const categories = useOffersCategories(({ categories }) => categories)
   const dispatchUpdateMutual = useUpdateMutualOffer(({ dispatchUpdateMutual }) => dispatchUpdateMutual)
+  const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
 
   const category = useMemo(() => {
     return categories?.find((item) => offer?.categoryId === item?.id)
@@ -48,6 +51,22 @@ export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseO
           })
         })
       }
+    }
+  }
+
+  const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
+
+  function handleToMap() {
+    if (geoData) {
+      dispatchMapCoordinates({
+        coordinates: geoData?.coordinates?.split(" ")?.reverse()?.map(Number),
+        zoom: 20,
+      })
+      dispatchBallonOffer({
+        visible: true,
+        offer: offer,
+      })
+      handlePush("/")
     }
   }
 
@@ -111,16 +130,29 @@ export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseO
           </div>
         ) : null}
         <div data-footer>
-          <Button
-            type="button"
-            typeButton="regular-primary"
-            onClick={handleUpdate}
-            prefixIcon={<img src="/svg/change-icon.svg" alt="change" width={16} height={16} />}
-            label="Изменить предложение"
-          />
-          <button data-cirlce>
-            <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
-          </button>
+          {geoData ? (
+            <div data-geo>
+              <div data-img-g>
+                <img src="/svg/geo-marker.svg" alt="geo" width={16} height={16} />
+              </div>
+              <span>{geoData?.additional}</span>
+              <button onClick={handleToMap}>
+                <img src="/svg/arrow-right-accent.svg" alt="+" width={20} height={20} />
+              </button>
+            </div>
+          ) : null}
+          <div data-buttons>
+            <Button
+              type="button"
+              typeButton="regular-primary"
+              onClick={handleUpdate}
+              prefixIcon={<img src="/svg/change-icon.svg" alt="change" width={16} height={16} />}
+              label="Изменить предложение"
+            />
+            <button data-cirlce>
+              <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
+            </button>
+          </div>
         </div>
       </section>
     </div>

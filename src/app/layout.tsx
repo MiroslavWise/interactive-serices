@@ -12,8 +12,9 @@ import env from "@/config/environment"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
+import { cx } from "@/lib/cx"
 
-const inter = Inter({ subsets: ["latin"], style: "normal" })
+const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
 export function generateViewport(): Viewport {
   return {
@@ -86,7 +87,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
         </noscript>
       </head>
-      <body className={inter.className} id="body-layout">
+      <body className={cx(inter.className, inter.variable)} id="body-layout">
         <Providers>
           <NavBarProfile />
           {children}
