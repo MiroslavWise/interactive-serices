@@ -46,7 +46,7 @@ export const ChangeForm = () => {
     formState: { errors },
   } = useForm<IValuesForm>({ defaultValues: {} })
 
-  const [{ data, refetch }, { data: dataProfile, refetch: refetchProfile, isLoading }] = useQueries({
+  const [{ data }, { data: dataProfile, refetch: refetchProfile, isLoading }] = useQueries({
     queries: [
       {
         queryFn: () => getUser(),
@@ -324,38 +324,6 @@ export const ChangeForm = () => {
             </ul>
           </div>
         </fieldset>
-      </section>
-      <section>
-        <h3>Желаемые услуги</h3>
-        <div data-categories data-length={categoryProfile?.length > 0}>
-          {stateCategory?.length === 0 ? (
-            <>
-              <p>Добавьте услуги, которые вам интересны и вы бы хотели их получить</p>
-              <a
-                onClick={(event) => {
-                  event.stopPropagation()
-                  dispatchChangeService({ visible: true })
-                }}
-              >
-                <span>Добавить</span>
-                <img src="/svg/plus-primary.svg" alt="+" width={16} height={16} />
-              </a>
-            </>
-          ) : stateCategory?.length > 0 ? (
-            <>
-              <a
-                onClick={(event) => {
-                  event.stopPropagation()
-                  dispatchChangeService({ visible: true })
-                }}
-              >
-                <span>Добавить</span>
-                <img src="/svg/plus-primary.svg" alt="+" width={16} height={16} />
-              </a>
-              <BlockCategories stateCategory={stateCategory} refetch={refetch} />
-            </>
-          ) : null}
-        </div>
       </section>
       <footer>
         <Button type="submit" typeButton="fill-primary" label="Сохранить" loading={loading || isLoading} disabled={disabledButton} />

@@ -1,5 +1,7 @@
 import { type ReactNode } from "react"
 
+import { ChangeService } from "@/components/profile"
+
 import styles from "@/scss/page.module.scss"
 
 export default function LayoutMainProfile({ children, left, history }: Record<TRoutes, ReactNode>) {
@@ -8,6 +10,7 @@ export default function LayoutMainProfile({ children, left, history }: Record<TR
       {left}
       {children}
       {history}
+      <ChangeService />
     </div>
   )
 }

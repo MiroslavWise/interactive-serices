@@ -1,27 +1,23 @@
 "use client"
 
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TContainerSuggestions } from "./types/types"
 import type { TTypeProvider } from "@/services/file-upload/types"
 
-import { LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
+import { Button, LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
 import { CardDiscussion } from "@/components/common/Card"
 
 import { getUserIdOffers } from "@/services"
-import { useAuth, useProviderProfileOffer } from "@/store"
+import { openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 const titleEmpty: Map<TTypeProvider, string> = new Map([
-  ["offer", "У вас пока нет предложений"],
-  ["discussion", "У вас пока нет дискуссий"],
-  ["alert", "У вас пока нет объявлений"],
-])
-const descriptionEmpty: Map<TTypeProvider, string> = new Map([
-  ["offer", ""],
-  ["discussion", ""],
-  ["alert", ""],
+  ["offer", "У вас нет опубликованных предложений на карте."],
+  ["discussion", "У вас нет опубликованных дискуссий на карте."],
+  ["alert", "У вас нет опубликованных SOS-сообщений на карте."],
 ])
 
 export const ContainerSuggestions: TContainerSuggestions = () => {
@@ -33,6 +29,19 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
     queryKey: ["offers", { userId: userId, provider: stateProvider }],
     enabled: !!userId!,
   })
+
+  const functionAndTitle = useMemo(() => {
+    const title: Map<Partial<TTypeProvider>, string> = new Map([
+      ["offer", "Создать предложение"],
+      ["discussion", "Создать дискуссию"],
+      ["alert", "Создать SOS"],
+    ])
+
+    return {
+      title: title.get(stateProvider)!,
+      func: () => openCreateOffers(stateProvider),
+    }
+  }, [stateProvider])
 
   return (
     <ul className={styles.containerSuggestions} data-loading={isLoading} data-length={data?.res?.length === 0}>
@@ -47,7 +56,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
       ) : (
         <article>
           <h3>{titleEmpty.has(stateProvider) ? titleEmpty.get(stateProvider) : null}</h3>
-          <p>{descriptionEmpty.has(stateProvider) ? descriptionEmpty.get(stateProvider) : null}</p>
+          <Button type="button" typeButton="fill-primary" label={functionAndTitle?.title} onClick={functionAndTitle?.func} />
         </article>
       )}
     </ul>

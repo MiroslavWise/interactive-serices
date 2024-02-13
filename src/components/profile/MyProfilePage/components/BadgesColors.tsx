@@ -34,7 +34,7 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
   }, [dataTestimonials?.res])
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-badges-color>
       <section data-purple>
         <article>
           <h4>Обмены</h4>

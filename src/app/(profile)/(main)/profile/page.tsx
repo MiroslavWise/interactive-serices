@@ -2,20 +2,13 @@
 
 import { isMobile } from "react-device-detect"
 
-import { ButtonFriends } from "@/components/profile/BlockProfileAside/components/ButtonFriends"
-import { ContainerAboutMe, ContainerSuggestions, ContainerTagAndButton, M_ContainerAboutProfile } from "@/components/profile"
-import { BadgesColors } from "@/components/profile/MyProfilePage/components/BadgesColors"
-import { useAuth } from "@/store"
+import { ContainerAboutMe, ContainerSuggestions, ContainerTagAndButton, MContainerAboutProfile } from "@/components/profile"
 
 export default function MyProfilePage() {
-  const userId = useAuth(({ userId }) => userId)
-
   return (
     <>
       {typeof isMobile !== "undefined" && !isMobile ? <ContainerAboutMe /> : null}
-      {isMobile && <M_ContainerAboutProfile />}
-      {isMobile && <ButtonFriends />}
-      {isMobile && <BadgesColors userId={userId!} />}
+      {isMobile && <MContainerAboutProfile />}
       <ContainerTagAndButton />
       <ContainerSuggestions />
     </>

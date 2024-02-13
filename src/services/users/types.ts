@@ -24,8 +24,8 @@ export interface IUserResponse {
   email: string
   enabled: boolean
   verified: boolean
-  created: Date
-  updated: Date
+  created: Date | string
+  updated: Date | string
   deleted: any | null
   categories: IResponseOffersCategories[]
   // roles: IRolesResponse[]

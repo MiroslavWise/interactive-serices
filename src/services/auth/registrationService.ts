@@ -1,4 +1,3 @@
-import type { IResponseLoginNot2fa } from "./types/authService"
 import type { IRegistrationService } from "./types/registrationService"
 
 import { postUser, wrapperPost } from "@/services"
@@ -20,7 +19,7 @@ export const RegistrationService: IRegistrationService = {
     })
   },
   async verification(body) {
-    return wrapperPost<{ code: string }, IResponseLoginNot2fa>({ url: "/auth/verify", body }).then((response) => {
+    return wrapperPost({ url: "/auth/verify", body }).then((response) => {
       console.log("response verification: ", response)
       if (response.ok) {
         return {

@@ -13,7 +13,19 @@ export default function Messages() {
   const [idThread, idBarter, idUser] = [searchParamsGet("thread"), searchParamsGet("barter-id"), searchParamsGet("user")]
 
   useEffect(() => {
-    return () => dispatchDataUser(undefined)
+    const widthMarginMessage = `${25 + 3}rem`
+    const widthMarginProfile = `${17.125 + 3}rem`
+
+    function setDataRoot(value: string) {
+      document.documentElement.style.setProperty("--left-links-margin", value)
+    }
+
+    setDataRoot(widthMarginMessage)
+
+    return () => {
+      dispatchDataUser(undefined)
+      setDataRoot(widthMarginProfile)
+    }
   }, [])
 
   return isMobile ? (
