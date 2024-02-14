@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"

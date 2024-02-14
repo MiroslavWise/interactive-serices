@@ -1,68 +1,68 @@
 .containerClose {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    height: 3rem;
-    width: 3rem;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100px;
-    border: 1px solid var(--gray-300);
-    background: var(--supporting-white);
-    box-shadow: 0px 11px 1.25rem 0px rgba(100, 104, 115, 0.1);
-    cursor: pointer;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid var(--gray-300);
+  background: var(--supporting-white);
+  box-shadow: 0px 11px 1.25rem 0px rgba(100, 104, 115, 0.1);
+  cursor: pointer;
 }
 
 .containerLiNew {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    height: 3.75rem;
-    max-width: 22.5rem;
-    width: 100%;
-    border-radius: 1.875rem;
-    border: 1px solid var(--stroke-1);
-    background: var(--glass-bg-color-1);
-    cursor: pointer;
-    z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 3.75rem;
+  max-width: 22.5rem;
+  width: 100%;
+  border-radius: 1.875rem;
+  border: 1px solid var(--grey-stroke-light);
+  background: var(--BG-first);
+  cursor: pointer;
+  z-index: 2;
 
-    p {
-        color: var(--gray-900);
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 2rem;
-        letter-spacing: -0.01125rem;
+  p {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: -0.01125rem;
+  }
+
+  &[data-onboarding="true"] {
+    border: 1px solid var(--element-accent-1);
+
+    &:hover {
+      background: var(--element-accent-1);
+
+      & > p {
+        color: var(--text-button);
+      }
     }
+  }
 
-    &[data-onboarding="true"] {
-        border: 1px solid var(--primary-500);
-
-        &:hover {
-            background: var(--primary-500);
-
-            & > p {
-                color: var(--supporting-white);
-            }
-        }
-    }
-
-    &[data-not="true"] {
-        cursor: default;
-    }
+  &[data-not="true"] {
+    cursor: default;
+  }
 }
 
 [data-mobile="true"] {
-    .containerLiNew {
-        height: 60px;
-        max-width: 100%;
+  .containerLiNew {
+    height: 60px;
+    max-width: 100%;
 
-        p {
-            font-size: 18px;
-            line-height: 28px;
-        }
+    p {
+      font-size: 18px;
+      line-height: 28px;
     }
+  }
 }

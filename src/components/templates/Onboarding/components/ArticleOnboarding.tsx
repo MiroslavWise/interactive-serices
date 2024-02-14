@@ -1,3 +1,5 @@
+"use client"
+
 import { isMobile } from "react-device-detect"
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 

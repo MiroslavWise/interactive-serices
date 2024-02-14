@@ -27,6 +27,7 @@ import {
   BalloonDiscussion,
   ReasonBarters,
   OptionProfileMobile,
+  OutAccount,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -93,6 +94,7 @@ export const Containers = () => {
       {isAuth && (
         <>
           <Onboarding />
+          <OutAccount />
           <NewServicesBanner />
           <NewServiceBarterRequests />
           {visibleFriends && <DroverFriends />}

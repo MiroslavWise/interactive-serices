@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/common"
 
-import { dispatchOnboarding } from "@/store"
-import { useOut } from "@/helpers/hooks/useOut"
+import { dispatchOnboarding, dispatchOutAccount } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const FooterAsideLeft = () => {
-  const { out } = useOut()
+  function handleOut() {
+    dispatchOutAccount(true)
+  }
 
   function handleOpen() {
     dispatchOnboarding("open")
@@ -33,7 +34,7 @@ export const FooterAsideLeft = () => {
             </a>
           </p>
         </div>
-        <button type="button" onClick={out}>
+        <button type="button" onClick={handleOut} data-circle>
           <img src="/svg/log-out.svg" alt="out" width={16} height={16} />
         </button>
       </section>

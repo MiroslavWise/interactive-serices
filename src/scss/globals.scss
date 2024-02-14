@@ -79,7 +79,7 @@ input,
 textarea,
 select {
   font-family: inherit;
-  background: var(--background-input) !important;
+  background: var(--BG-second) !important;
   @media screen and (max-width: 768px) {
     font-size: 0.875rem;
     font-family: inherit;
@@ -156,9 +156,17 @@ input[type="text"] {
   }
 
   &:disabled {
-    color: var(--gray-400);
-    background: var(--gray-200);
-    border-color: var(--gray-300);
+    color: var(--text-disabled);
+    background: var(--grey-field);
+    border-color: var(--grey-stroke);
+  }
+}
+
+textarea {
+  &:disabled {
+    color: var(--text-disabled);
+    background: var(--grey-field);
+    border-color: var(--grey-stroke);
   }
 }
 

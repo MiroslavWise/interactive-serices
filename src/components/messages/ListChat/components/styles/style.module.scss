@@ -55,7 +55,7 @@
     transition-property: background-color;
 
     &[data-active="true"] {
-        background-color: var(--grey-filed);
+        background-color: var(--grey-field);
     }
 
     time {

@@ -1,3 +1,5 @@
+"use client"
+
 import { useMemo, useState } from "react"
 
 import type { IResponseOffers } from "@/services/offers/types"
@@ -7,7 +9,7 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 
 import { deleteOffer } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, useMapCoordinates, useOffersCategories, useUpdateMutualOffer } from "@/store"
+import { dispatchBallonOffer, dispatchDeleteOffer, useMapCoordinates, useOffersCategories, useUpdateMutualOffer } from "@/store"
 
 import styles from "./style.module.scss"
 import { usePush } from "@/helpers"
@@ -149,7 +151,7 @@ export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseO
               prefixIcon={<img src="/svg/change-icon.svg" alt="change" width={16} height={16} />}
               label="Изменить предложение"
             />
-            <button data-cirlce>
+            <button data-cirlce onClick={() => dispatchDeleteOffer({ visible: true, idOffer: offer?.id! })}>
               <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
             </button>
           </div>
