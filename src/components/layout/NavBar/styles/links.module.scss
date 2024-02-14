@@ -24,16 +24,11 @@
     & > svg {
       width: 1.5rem;
       height: 1.5rem;
+      & > path {
+        fill: var(--text-primary);
 
-      & > g {
-        & > g {
-          & > path {
-            stroke: var(--text-primary);
-
-            transition: var(--transition);
-            transition-property: stroke;
-          }
-        }
+        transition: var(--transition);
+        transition-property: fill;
       }
     }
 
@@ -87,12 +82,8 @@
     }
     &[data-active="true"] {
       & > svg {
-        & > g {
-          & > g {
-            & > path {
-              stroke: var(--element-accent-1);
-            }
-          }
+        & > path {
+          fill: var(--element-accent-1);
         }
       }
       & > span {

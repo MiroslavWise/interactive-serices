@@ -3,13 +3,16 @@
 import { isMobile } from "react-device-detect"
 import { useEffect, type ReactNode } from "react"
 
-import { useAuth } from "@/store"
+import { MobileChangeAbout } from "@/components/templates"
+
 import { usePush } from "@/helpers"
+import { useAuth, useMobileChangeAbout } from "@/store"
 
 import styles from "@/scss/page.module.scss"
 
 export default function LayoutProfile({ children }: { children: ReactNode }) {
   const isAuth = useAuth(({ isAuth }) => isAuth)
+  const visible = useMobileChangeAbout(({ visible }) => visible)
   const { handlePush } = usePush()
 
   useEffect(() => {
@@ -18,5 +21,14 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
     }
   }, [isAuth])
 
-  return isAuth ? isMobile ? children : <main className={styles.profileLayout}>{children}</main> : null
+  return isAuth ? (
+    isMobile ? (
+      <>
+        {children}
+        {visible && <MobileChangeAbout />}
+      </>
+    ) : (
+      <main className={styles.profileLayout}>{children}</main>
+    )
+  ) : null
 }

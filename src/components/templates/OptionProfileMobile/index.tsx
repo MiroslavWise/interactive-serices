@@ -1,18 +1,22 @@
 "use client"
 
-import { Button } from "@/components/common"
 import { useSwipeable } from "react-swipeable"
 
+import { Button } from "@/components/common"
+
 import { cx } from "@/lib/cx"
-import { useOut } from "@/helpers"
-import { useOptionProfileMobile, dispatchOptionProfileMobile, dispatchOnboarding } from "@/store"
+import {
+  useOptionProfileMobile,
+  dispatchOptionProfileMobile,
+  dispatchOnboarding,
+  dispatchMobileChangeAbout,
+  dispatchOutAccount,
+} from "@/store"
 
 import styles from "./style.module.scss"
 
 export const OptionProfileMobile = () => {
   const visible = useOptionProfileMobile(({ visible }) => visible)
-
-  const { out } = useOut()
 
   function handleOpen() {
     dispatchOnboarding("open")
@@ -20,6 +24,7 @@ export const OptionProfileMobile = () => {
   }
 
   function handleChangeAbout() {
+    dispatchMobileChangeAbout(true)
     dispatchOptionProfileMobile(false)
   }
 
@@ -59,7 +64,7 @@ export const OptionProfileMobile = () => {
             type="button"
             onClick={() => {
               dispatchOptionProfileMobile(false)
-              out()
+              dispatchOutAccount(true)
             }}
           >
             <img src="/svg/log-out.svg" alt="out" width={16} height={16} />
