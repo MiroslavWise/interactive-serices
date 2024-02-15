@@ -21,7 +21,6 @@ import styles from "./styles/style.module.scss"
 export const UpdateMutualOffer = () => {
   const userId = useAuth(({ userId }) => userId)
   const data = useUpdateMutualOffer(({ data }) => data)
-  const categories = useOffersCategories(({ categories }) => categories)
   const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
   const dispatchUpdateMutual = useUpdateMutualOffer(({ dispatchUpdateMutual }) => dispatchUpdateMutual)
   const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
@@ -46,7 +45,7 @@ export const UpdateMutualOffer = () => {
     enabled: false,
   })
 
-  const title = categories?.find((item) => item.id === data?.categoryId)?.title || null
+  const provider = data?.provider!
 
   const photos = data?.images || []
   const geo = data?.addresses?.[0] || null
@@ -110,12 +109,21 @@ export const UpdateMutualOffer = () => {
     setStrings((prev) => prev.filter((_, index) => index !== value))
   }
 
+  const headerTitle =
+    provider === "alert"
+      ? "Обновить SOS"
+      : provider === "offer"
+      ? "Обновить предложение"
+      : provider === "discussion"
+      ? "Обновить обсуждение"
+      : null
+
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleUpdateMutual}>
       <section>
         <ButtonClose onClick={cancel} position={{}} />
         <div data-header>
-          <h3>{title}</h3>
+          <h3>{headerTitle}</h3>
         </div>
         <form onSubmit={onSubmit}>
           {geo ? (

@@ -106,8 +106,7 @@
       &[data-buttons] {
         gap: 0.625rem;
 
-        & > button,
-        & > a {
+        & > button {
           height: 2.25rem;
           border-radius: 1.125rem;
         }
