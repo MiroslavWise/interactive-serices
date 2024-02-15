@@ -29,8 +29,9 @@ import {
   OptionProfileMobile,
   OutAccount,
   UpdateProfile,
+  DeleteUser,
 } from "@/components/templates"
-import { ExchangesModalMobile } from "@/components/profile"
+import { ChangeService, ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
 import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 
@@ -98,6 +99,8 @@ export const Containers = () => {
         <>
           <Onboarding />
           <OutAccount />
+          <DeleteUser />
+          <ChangeService />
           <NewServicesBanner />
           <NewServiceBarterRequests />
           {visibleFriends && <DroverFriends />}
