@@ -5,10 +5,10 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { BadgesColors } from "./BadgesColors"
-import { ButtonLink, NextImageMotion } from "@/components/common"
+import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { getProfileUserId, getUserId, serviceFriends } from "@/services"
-import { dispatchChangeService, dispatchOptionProfileMobile, useAuth, useDroverFriends } from "@/store"
+import { dispatchChangeService, dispatchOptionProfileMobile, dispatchUpdateProfile, useAuth, useDroverFriends } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
 
@@ -78,7 +78,7 @@ export const MContainerAboutProfile = () => {
           <p>{dataProfile?.res?.about || "Обо мне..."}</p>
         </section>
         <section data-buttons>
-          <ButtonLink type="button" typeButton="regular-primary" label="Редактировать профиль" href={{ pathname: "/profile-change" }} />
+          <Button type="button" typeButton="regular-primary" label="Редактировать профиль" onClick={() => dispatchUpdateProfile(true)} />
           <button type="button" data-circle onClick={handleOpenOption}>
             <img src="/svg/accent-dots.svg" alt="..." width={16} height={16} />
           </button>
