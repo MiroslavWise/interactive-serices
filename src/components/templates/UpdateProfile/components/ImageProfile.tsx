@@ -79,10 +79,14 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, i
         ) : null}
       </div>
       <div data-upload>
-        <p>
-          Загрузите фотографию, на которой будет различимо ваше лицо. Фотографии без лица, с приоритетом на иные части тела, а также
-          нерелевантные фотографии будут удалены
-        </p>
+        {!file.string && !image ? (
+          <p>
+            Загрузите фотографию, на которой будет различимо ваше лицо. Фотографии без лица, с приоритетом на иные части тела, а также
+            нерелевантные фотографии будут удалены
+          </p>
+        ) : (
+          <span></span>
+        )}
         <a>
           <input type="file" onChange={handleImageChange} accept=".jpg, .jpeg, .png, image/*" />
           Изменить
