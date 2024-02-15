@@ -22,6 +22,7 @@ export const ItemsReviews: TItemsReviews = ({}) => {
   const { data: dataTestimonials, isLoading: isLoadingTestimonials } = useQuery({
     queryFn: () => getTestimonials({ receiver: id! }),
     queryKey: ["testimonials", { receiver: id }],
+    refetchOnMount: true,
     enabled: !!id,
   })
 

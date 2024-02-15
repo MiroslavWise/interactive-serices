@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { IUserResponse } from "@/services/users/types"
 
-import { CardRequestsAndProposals } from "@/components/common/Card"
+import { CardRequestsAndProposals, GeneralServiceAllItem } from "@/components/common/Card"
 
 import { getUserIdOffers } from "@/services"
 
@@ -24,7 +24,7 @@ export const ContainerServices = memo(function ContainerServices(props: IUserRes
   return (
     <ul data-items>
       {list.map((item) => (
-        <CardRequestsAndProposals key={`${item.id}-public-profile`} type="optional-3" {...item} />
+        <GeneralServiceAllItem key={`${item.id}-public-profile`} {...item} />
       ))}
     </ul>
   )

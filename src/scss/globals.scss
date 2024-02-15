@@ -110,6 +110,11 @@ input[type="number"]:focus {
   -moz-appearance: textfield;
 }
 
+input[type="file"],
+input[type="file"]::-webkit-file-upload-button {
+  cursor: pointer;
+}
+
 input[type="email"],
 input[type="password"],
 input[type="tel"],
