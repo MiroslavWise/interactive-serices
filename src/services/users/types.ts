@@ -29,6 +29,7 @@ export interface IUserResponse {
   deleted: any | null
   categories: IResponseOffersCategories[]
   // roles: IRolesResponse[]
+  phones: any[]
   profile: IGetProfileIdResponse
   addresses: IAddressesResponse[]
 }

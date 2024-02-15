@@ -1,7 +1,7 @@
 import { type ReactNode } from "react"
 
-import { DeleteOffer } from "@/components/templates"
 import { ChangeService } from "@/components/profile"
+import { DeleteOffer, DeleteUser } from "@/components/templates"
 
 import styles from "@/scss/page.module.scss"
 
@@ -13,6 +13,7 @@ export default function LayoutMainProfile({ children, left, history }: Record<TR
       {history}
       <ChangeService />
       <DeleteOffer />
+      <DeleteUser />
     </div>
   )
 }

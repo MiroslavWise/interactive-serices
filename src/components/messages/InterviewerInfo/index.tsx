@@ -17,7 +17,7 @@ import { useCountMessagesNotReading } from "@/helpers"
 import { BADGES } from "@/mocks/components/auth/constants"
 
 import styles from "./styles/style.module.scss"
-import stylesHeader from "@/components/profile/BlockProfileAside/components/styles/style.module.scss"
+import stylesHeader from "@/components/profile/BlockProfileAside/styles/header.module.scss"
 
 export const InterviewerInfoCurrent = () => {
   const idThread = useSearchParams().get("thread")

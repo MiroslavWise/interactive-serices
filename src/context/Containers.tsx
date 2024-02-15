@@ -28,6 +28,7 @@ import {
   ReasonBarters,
   OptionProfileMobile,
   OutAccount,
+  UpdateProfile,
 } from "@/components/templates"
 import { ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -48,6 +49,7 @@ import {
   useAddTestimonials,
   useReasonBarters,
   useComplaintModal,
+  useUpdateProfile,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -64,6 +66,7 @@ export const Containers = () => {
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
   const visibleComplaint = useComplaintModal(({ visibleComplaint }) => visibleComplaint)
   const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
+  const visibleUpdateProfile = useUpdateProfile(({ visible }) => visible)
   const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
 
   return (
@@ -103,6 +106,7 @@ export const Containers = () => {
           {isVisible && <CreateNewOptionModal />}
           {visibleComplaint && <ComplaintModal />}
           {visibleReasonBarters && <ReasonBarters />}
+          {visibleUpdateProfile && <UpdateProfile />}
           {visibleUpdateMutual && <UpdateMutualOffer />}
           {visibleTestimonials && <CompletionTransaction />}
           {visibleReciprocalExchange && <ReciprocalExchange />}

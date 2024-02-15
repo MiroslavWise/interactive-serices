@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -9,7 +8,7 @@ import { serviceFriends } from "@/services/friends"
 import { DeclensionQuantityFriends } from "@/lib/declension"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
 
-import styles from "./styles/button-friends.module.scss"
+import styles from "../styles/button-friends.module.scss"
 
 export const ButtonFriends = () => {
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
@@ -32,7 +31,7 @@ export const ButtonFriends = () => {
   return (
     <div className={styles.container} onClick={handleOpen}>
       <p>{DeclensionQuantityFriends(friends)}</p>
-      <Image src="/svg/arrow-right.svg" alt="arrow-right" width={24} height={24} unoptimized />
+      <img src="/svg/arrow-right.svg" alt="arrow-right" width={24} height={24} />
     </div>
   )
 }

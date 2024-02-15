@@ -8,23 +8,23 @@ import type { IActionOffers, IStateOffers } from "@/components/profile/OffersPag
 import { ContainerHeader, ContainerOffersNow, MobileSegments } from "@/components/profile"
 
 const initialState: IStateOffers = {
-    total: 0,
+  total: 0,
 }
 
 function reducer(_: IStateOffers, action: IActionOffers) {
-    return {
-        total: action?.total!,
-    }
+  return {
+    total: action?.total!,
+  }
 }
 
 export default function OffersPage() {
-    const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-    return (
-        <>
-            {isMobile && <MobileSegments />}
-            <ContainerHeader total={state.total || 0} />
-            <ContainerOffersNow dispatch={dispatch} />
-        </>
-    )
+  return (
+    <>
+      {isMobile && <MobileSegments />}
+      <ContainerHeader total={state.total || 0} />
+      <ContainerOffersNow dispatch={dispatch} />
+    </>
+  )
 }

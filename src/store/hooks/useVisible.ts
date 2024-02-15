@@ -1,9 +1,8 @@
 export {
-    useUpdateProfileState as useUpdateProfile,
-    useWelcomeModalState as useWelcomeModal,
-    usePopupMenuChatState as usePopupMenuChat,
-    useVisibleExchangesState as useVisibleExchanges,
-    useVisibleBannerNewServicesState as useVisibleBannerNewServices,
-    useVisibleNewServiceBarterRequests,
+  useWelcomeModalState as useWelcomeModal,
+  usePopupMenuChatState as usePopupMenuChat,
+  useVisibleExchangesState as useVisibleExchanges,
+  useVisibleBannerNewServicesState as useVisibleBannerNewServices,
+  useVisibleNewServiceBarterRequests,
 } from "../state/useVisibleState"
 export * from "../state/useAnimateLoadPageState"

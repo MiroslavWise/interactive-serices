@@ -4,7 +4,7 @@ import { Button } from "@/components/common"
 
 import { dispatchOnboarding, dispatchOutAccount } from "@/store"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/footer.module.scss"
 
 export const FooterAsideLeft = () => {
   function handleOut() {

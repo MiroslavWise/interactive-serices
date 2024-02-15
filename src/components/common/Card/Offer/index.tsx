@@ -29,7 +29,6 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
   const { data: dataUser, isLoading: isLoadUser } = useQuery({
     queryFn: () => getUserId(idUser!),
     queryKey: ["user", { userId: idUser }],
-    refetchOnMount: false,
     enabled: !!idUser,
   })
 
@@ -54,7 +53,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
               }
             }}
           >
-            <img src="/svg/message-dots-circle.svg" alt="dots" width={16} height={16} />
+            <img src="/svg/message-dots-circle-primary.svg" alt="dots" width={16} height={16} />
           </Link>
         ) : null}
       </footer>
