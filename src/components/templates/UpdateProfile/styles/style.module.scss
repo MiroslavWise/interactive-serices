@@ -219,6 +219,7 @@
 
     & > section {
       max-width: 100%;
+      border-radius: 0;
 
       & > header {
         height: 4.25rem;
@@ -232,7 +233,8 @@
           padding-inline: 1.25rem;
 
           &[data-personal],
-          & > [data-input] {
+          & > [data-input],
+          & > [data-grid] {
             display: flex;
             flex-direction: column;
             gap: 1.25rem;
