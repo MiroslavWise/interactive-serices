@@ -6,6 +6,9 @@
   margin-top: auto;
 
   & > [data-button-forward] {
+    height: 2.25rem;
+    // background: var(--more-blue-gradient);
+
     & > img {
       width: 1.5rem;
       height: 1.5rem;

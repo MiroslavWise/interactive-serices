@@ -13,6 +13,11 @@
     letter-spacing: -0.03125rem;
   }
 
+  & > [data-button-forward] {
+    height: 2.25rem;
+    border-radius: 1.125rem;
+  }
+
   & > section {
     width: 100%;
     display: flex;
@@ -73,6 +78,7 @@
     gap: 0.75rem;
     border-radius: 0.75rem;
     background: var(--more-blue-gradient);
+    padding: 0.75rem;
 
     & > p {
       color: var(--text-button);

@@ -1,7 +1,7 @@
 import { FooterAsideLeft } from "./components/Footer"
 import { BlockProfileAside, BlockDesiredServices, ButtonFriends } from "@/components/profile"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const LeftAsideProfile = () => {
   return (

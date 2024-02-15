@@ -6,10 +6,10 @@ import { useQuery } from "@tanstack/react-query"
 import { Button } from "@/components/common"
 
 import { getUserId } from "@/services"
+import { IconCategory } from "@/lib/icon-set"
 import { dispatchChangeService, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
-import { IconCategory } from "@/lib/icon-set"
 
 export const BlockDesiredServices = () => {
   const userId = useAuth(({ userId }) => userId)

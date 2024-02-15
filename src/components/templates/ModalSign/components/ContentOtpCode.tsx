@@ -7,18 +7,17 @@ import type { TContentOtpCode } from "../types/types"
 
 import { Button } from "@/components/common"
 
+import { getUserId } from "@/services"
 import { useTokenHelper } from "@/helpers"
-import { dispatchAuthModal, useUpdateProfile, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchUpdateProfile, useAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
-import { getUserId } from "@/services"
 
 export const ContentOtpCode: TContentOtpCode = ({}) => {
   const setToken = useAuth(({ setToken }) => setToken)
   const changeAuth = useAuth(({ changeAuth }) => changeAuth)
   const email = useAuth(({ email }) => email)
   const [loading, setLoading] = useState(false)
-  const setVisible = useUpdateProfile(({ setVisible }) => setVisible)
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
@@ -69,7 +68,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
             email: email!,
           })
           if (!data?.res?.profile) {
-            setVisible(true)
+            dispatchUpdateProfile(true)
             return
           }
           if (!!data?.res?.profile) {
@@ -86,7 +85,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
         setLoading(false)
       }
     })
-  }, [inputValues, setVisible, changeAuth, setToken, dispatchAuthModal, email])
+  }, [inputValues, email])
 
   useEffect(() => {
     if (inputRefs.current[0]) {

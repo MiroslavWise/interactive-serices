@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { flushSync } from "react-dom"
+import { useQuery } from "@tanstack/react-query"
 
 import { Button, ButtonClose } from "@/components/common"
 
@@ -10,7 +11,6 @@ import { getUserIdOffers, patchOffer } from "@/services"
 import { useDeleteOffer, dispatchDeleteOffer, useAuth } from "@/store"
 
 import styles from "@/components/templates/OutAccount/style.module.scss"
-import { useQuery } from "@tanstack/react-query"
 
 export const DeleteOffer = () => {
   const userId = useAuth(({ userId }) => userId)

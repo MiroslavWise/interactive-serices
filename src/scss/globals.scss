@@ -125,7 +125,9 @@ input[type="text"] {
   color: var(--text-primary);
   font-size: 0.875rem;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
+  line-height: 1.25rem;
+  letter-spacing: -0.03125rem;
   border-radius: 1.5rem;
   border: 1px solid;
   border-color: var(--grey-stroke);

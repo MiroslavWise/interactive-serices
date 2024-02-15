@@ -4,8 +4,8 @@
   align-items: center;
   gap: 1.25rem;
   width: 100%;
-}
 
-.largeButton {
-  padding: 0.625rem 1.25rem;
+  [data-button-forward] {
+    height: 2.25rem;
+  }
 }

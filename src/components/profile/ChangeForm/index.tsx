@@ -13,12 +13,11 @@ import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/type
 
 import { ImageProfile } from "./components/ImageProfile"
 import { Button, ButtonLink } from "@/components/common"
-import { BlockCategories } from "./components/BlockCategories"
 
+import { useAuth } from "@/store"
 import { generateShortHash } from "@/lib/hash"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getLocationName } from "@/lib/location-name"
-import { dispatchChangeService, useAuth } from "@/store"
 import { useDebounce, useOut, usePush } from "@/helpers"
 import { serviceAddresses, getGeocodeSearch, fileUploadService, serviceProfile, getUser } from "@/services"
 

@@ -1,14 +1,14 @@
 import dayjs from "dayjs"
 import { useQuery } from "@tanstack/react-query"
 
-import type { THeaderBlock } from "./types/types"
+import type { THeaderBlock } from "../types/types"
 
 import { NextImageMotion } from "@/components/common"
 
 import { useAuth } from "@/store"
-import { getUserId, serviceProfile } from "@/services"
+import { getProfileUserId, getUserId } from "@/services"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/header.module.scss"
 
 export const HeaderBlock: THeaderBlock = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -20,12 +20,12 @@ export const HeaderBlock: THeaderBlock = () => {
   })
 
   const { data: dataProfile } = useQuery({
-    queryFn: () => serviceProfile.getUserId(userId!),
+    queryFn: () => getProfileUserId(userId!),
     queryKey: ["profile", userId],
     enabled: !!userId,
   })
 
-  const addressMain = data?.res?.addresses?.find((item) => item?.addressType === "main") || ""
+  const addressMain = data?.res?.addresses?.find((item) => item?.addressType === "main") || null
 
   return (
     <header className={styles.containerHeader}>

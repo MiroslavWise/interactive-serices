@@ -1,34 +1,17 @@
 import { flushSync } from "react-dom"
-import { useQuery } from "@tanstack/react-query"
-import { ChangeEvent, Dispatch, SetStateAction, memo, useState } from "react"
+import { ChangeEvent, memo, useState } from "react"
 
+import type { IMageProfile } from "../types/types"
 import type { IPatchProfileData } from "@/services/profile/types"
 
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
-import { useAuth } from "@/store"
-import { serviceProfile } from "@/services"
+import { patchProfile } from "@/services"
 
-import styles from "../styles/image-profile.module.scss"
+import styles from "../styles/image.module.scss"
 
-export const ImageProfile = memo(function ImageProfile({
-  image,
-  file,
-  setFile,
-  idProfile,
-}: {
-  image: string
-  file: { file: File | null; string: string }
-  setFile: Dispatch<SetStateAction<{ file: File | null; string: string }>>
-  idProfile: number
-}) {
+export const ImageProfile = memo(function ImageProfile({ file, image, setFile, idProfile, refetch }: IMageProfile) {
   const [loading, setLoading] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
-  const { refetch } = useQuery({
-    queryFn: () => serviceProfile.getUserId(userId!),
-    queryKey: ["profile", userId!],
-    enabled: false,
-  })
 
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     event.stopPropagation()
@@ -52,7 +35,7 @@ export const ImageProfile = memo(function ImageProfile({
         const dataPatch: IPatchProfileData = {
           imageId: null,
         }
-        await serviceProfile.patch(dataPatch, idProfile).then(() => {
+        await patchProfile(dataPatch, idProfile).then(() => {
           refetch().then(() => {
             setLoading(false)
           })
@@ -95,10 +78,16 @@ export const ImageProfile = memo(function ImageProfile({
           </button>
         ) : null}
       </div>
-      <a>
-        <input type="file" onChange={handleImageChange} accept=".jpg, .jpeg, .png, image/*" />
-        Изменить
-      </a>
+      <div data-upload>
+        <p>
+          Загрузите фотографию, на которой будет различимо ваше лицо. Фотографии без лица, с приоритетом на иные части тела, а также
+          нерелевантные фотографии будут удалены
+        </p>
+        <a>
+          <input type="file" onChange={handleImageChange} accept=".jpg, .jpeg, .png, image/*" />
+          Изменить
+        </a>
+      </div>
     </div>
   )
 })
