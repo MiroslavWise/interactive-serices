@@ -63,14 +63,16 @@ export const useAuth = create(
           })
       },
 
-      refresh() {
+      async refresh() {
         const refreshToken = get().refreshToken
         const email = get().email
         const expires = get().expires
 
         if (!isTokenExpired(get().expires) && typeof expires === "number") {
           changeAuthAction(set, get)
-          return
+          return {
+            ok: false,
+          }
         }
         if (typeof refreshToken !== "string") {
           set((state) => ({
@@ -78,7 +80,9 @@ export const useAuth = create(
             ...initialStateAuth,
             isAuth: false,
           }))
-          return
+          return {
+            ok: false,
+          }
         }
         if (typeof expires === "number" && isTokenExpired(expires) && typeof refreshToken === "string") {
           return AuthService.refresh({
@@ -93,12 +97,18 @@ export const useAuth = create(
                 userId: response?.res?.id!,
               })
               changeAuthAction(set, get)
+              return {
+                ok: true,
+              }
             } else {
               set((state) => ({
                 ...state,
                 ...initialStateAuth,
                 isAuth: false,
               }))
+              return {
+                ok: false,
+              }
             }
           })
         }
@@ -108,6 +118,7 @@ export const useAuth = create(
           ...initialStateAuth,
           isAuth: false,
         }))
+        return { ok: false }
       },
     }),
     {

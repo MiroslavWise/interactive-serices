@@ -33,6 +33,7 @@ import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId
 import styles from "./styles/style.module.scss"
 
 export const ReciprocalExchange = () => {
+  const refreshAuth = useAuth(({ refresh }) => refresh)
   const [loading, setLoading] = useState(false)
   const [expand, setExpand] = useState(false)
   const offer = useReciprocalExchange(({ offer }) => offer)
@@ -78,6 +79,8 @@ export const ReciprocalExchange = () => {
 
   const { res } = dataUser ?? {}
   const { profile } = res ?? {}
+
+  const onSubmit = handleSubmit(submit)
 
   async function submit(values: IFormValues) {
     if (!values.my_offer && !values.description) {
@@ -147,6 +150,15 @@ export const ReciprocalExchange = () => {
                 message: `Обмен с ${profile?.firstName} не может произойти. У нас какая-то ошибка создания. Мы работаем над исправлением`,
               })
               setError("root", { message: response?.error?.message })
+              if (response?.error?.message?.toLowerCase() === "invalid access token") {
+                refreshAuth().then((responseAuth) => {
+                  if (response.ok) {
+                    onSubmit()
+                  } else {
+                    dispatchReciprocalExchange({ offer: undefined, visible: false })
+                  }
+                })
+              }
               setLoading(false)
             }
           })
@@ -157,8 +169,6 @@ export const ReciprocalExchange = () => {
       })
     }
   }
-
-  const onSubmit = handleSubmit(submit)
 
   const geo = offer?.addresses?.[0]
 
