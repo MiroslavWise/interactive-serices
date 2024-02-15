@@ -87,41 +87,57 @@
             width: 100%;
             height: 3rem;
 
-            & > ul {
+            & > [data-load] {
+              top: 50%;
+              right: 0.875rem;
+              transform: translateY(-50%);
+              position: absolute;
+
+              & > img {
+                height: 1rem;
+                width: 1rem;
+                animation: rotate 1s linear infinite;
+              }
+            }
+
+            & > [data-ul] {
               position: absolute;
               top: calc(100% + 0.25rem);
               width: 100%;
-              border-radius: 0.75rem;
               background-color: var(--BG-second);
+              border-radius: 0.75rem;
               box-shadow: 0px 10px 16px 0px rgba(31, 31, 41, 0.1), 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
-              padding: 0.25rem;
+              max-height: 7.625rem;
 
-              display: flex;
-              flex-direction: column;
+              & > ul {
+                padding: 0.25rem;
+                display: flex;
+                flex-direction: column;
 
-              & > li {
-                width: 100%;
-                padding: 0.5rem;
-                padding-bottom: 0.625rem;
-                border-radius: 0.5rem;
-                cursor: pointer;
+                & > li {
+                  width: 100%;
+                  padding: 0.5rem;
+                  padding-bottom: 0.625rem;
+                  border-radius: 0.5rem;
+                  cursor: pointer;
 
-                background-color: transparent;
+                  background-color: transparent;
 
-                transition: var(--transition);
-                transition-property: background-color;
+                  transition: var(--transition);
+                  transition-property: background-color;
 
-                & > span {
-                  color: var(--text-primary);
-                  font-size: 0.875rem;
-                  font-style: normal;
-                  font-weight: 400;
-                  line-height: 1.25rem;
-                  letter-spacing: -0.03125rem;
-                }
+                  & > span {
+                    color: var(--text-primary);
+                    font-size: 0.875rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 1.25rem;
+                    letter-spacing: -0.03125rem;
+                  }
 
-                &:hover {
-                  background-color: var(--grey-field);
+                  &:hover {
+                    background-color: var(--grey-field);
+                  }
                 }
               }
             }
@@ -234,5 +250,11 @@
         }
       }
     }
+  }
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
   }
 }

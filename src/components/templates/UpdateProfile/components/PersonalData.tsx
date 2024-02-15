@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { flushSync } from "react-dom"
+import { useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
-import { getProfileUserId } from "@/services"
+import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 import { useQuery } from "@tanstack/react-query"
 
 import { IValuesForm } from "../types/types"
@@ -9,8 +10,10 @@ import { ImageProfile } from "./ImageProfile"
 import { FieldAddress } from "./FieldAddress"
 import { ButtonsFooter } from "./ButtonsFooter"
 
-import { useAuth } from "@/store"
-import { useOutsideClickEvent } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchUpdateProfile, useAuth } from "@/store"
+import { useOut, useOutsideClickEvent } from "@/helpers"
+import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
 
 const GENDER: { label: string; value: "male" | "female" }[] = [
   {
@@ -24,7 +27,10 @@ const GENDER: { label: string; value: "male" | "female" }[] = [
 ]
 
 export const PersonalData = () => {
+  const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
+  const { out } = useOut()
+  const { on } = useToast()
   const [file, setFile] = useState<{
     file: File | null
     string: string
@@ -36,6 +42,7 @@ export const PersonalData = () => {
     watch,
     setValue,
     setError,
+    handleSubmit,
     formState: { errors },
   } = useForm<IValuesForm>({})
 
@@ -48,8 +55,99 @@ export const PersonalData = () => {
   const image = data?.res?.image?.attributes?.url
   const idProfile = data?.res?.id!
 
+  useEffect(() => {
+    if (data?.ok) {
+      if (!!data?.res) {
+        const { res: resProfile } = data ?? {}
+        setValue("firstName", resProfile?.firstName!)
+        setValue("lastName", resProfile?.lastName!)
+        setValue("username", resProfile?.username!)
+        // setValue("gender", resProfile?.)
+      }
+    }
+  }, [data?.res])
+
+  async function UpdatePhotoProfile(id: number) {
+    return fileUploadService(file.file!, {
+      type: "profile",
+      userId: userId!,
+      idSupplements: id!,
+    })
+  }
+
+  function submit(values: IValuesForm) {
+    if (!values.username?.trim()) {
+      setError("username", { message: "Обязательно к заполнению" })
+      setLoading(false)
+      return
+    }
+    if (!loading) {
+      setLoading(true)
+
+      const valuesProfile: IPatchProfileData = {
+        enabled: true,
+      }
+
+      if (watch("firstName") !== data?.res?.firstName) {
+        valuesProfile.firstName = values.firstName
+      }
+      if (watch("lastName") !== data?.res?.lastName) {
+        valuesProfile.lastName = values.lastName
+      }
+      if (watch("username") !== data?.res?.username) {
+        valuesProfile.username = values.username?.replace("@", "")
+      }
+
+      Promise.all([!!data?.res?.id ? serviceProfile.patch(valuesProfile, data?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(
+        (responses) => {
+          if (responses?.[0]?.ok) {
+            const idProfile = responses?.[0]?.res?.id!
+            if (file.file) {
+              UpdatePhotoProfile(idProfile).then((response) => {
+                const dataPatch: IPostProfileData = { imageId: response?.res?.id }
+                serviceProfile.patch(dataPatch, idProfile).then(() => {
+                  refetch()
+                  flushSync(() => {
+                    dispatchUpdateProfile(false)
+                  })
+                })
+              })
+            } else {
+              refetch()
+              flushSync(() => {
+                dispatchUpdateProfile(false)
+              })
+            }
+          } else {
+            setLoading(false)
+            if (responses[0]?.error?.code === 409) {
+              return setError("username", { message: "user exists" })
+            }
+            if (responses[0]?.error?.code === 401) {
+              on({
+                message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
+              })
+              out()
+            }
+          }
+        },
+      )
+    }
+  }
+
+  const onSubmit = handleSubmit(submit)
+
+  const disabledButton: boolean = useMemo(() => {
+    return (
+      watch("firstName") === data?.res?.firstName &&
+      watch("lastName") === data?.res?.lastName &&
+      watch("username") === data?.res?.username &&
+      !file.string
+    )
+  }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string])
+
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <section>
         <ImageProfile image={image!} file={file} setFile={setFile} idProfile={idProfile} refetch={refetch} />
         <div data-grid>
@@ -85,27 +183,29 @@ export const PersonalData = () => {
                 readOnly
               />
               {focusGender ? (
-                <ul>
-                  {GENDER.map((item) => (
-                    <li
-                      key={`::key::gender::${item.value}::`}
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        setFocusGender(false)
-                        setValue("gender", item.value)
-                      }}
-                    >
-                      <span>{item.label}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div data-ul>
+                  <ul>
+                    {GENDER.map((item) => (
+                      <li
+                        key={`::key::gender::${item.value}::`}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          setFocusGender(false)
+                          setValue("gender", item.value)
+                        }}
+                      >
+                        <span>{item.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ) : null}
             </div>
           </fieldset>
         </div>
         <FieldAddress />
       </section>
-      <ButtonsFooter />
+      <ButtonsFooter disabled={disabledButton} loading={loading} />
     </form>
   )
 }

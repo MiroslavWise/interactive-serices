@@ -206,42 +206,7 @@ export const ChangeForm = () => {
     )
   }, [values])
 
-  function handleAddress(item: IFeatureMember) {
-    const coordinates = item?.GeoObject?.Point?.pos
-    const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
-    const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
-    const additional = item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
-    const value: IPostAddress = {
-      addressType: "main",
-      enabled: true,
-    }
-    const country = getLocationName(item, "country")
-    const street = getLocationName(item, "street")
-    const house = getLocationName(item, "house")
-    const city = getLocationName(item, "locality")
-    const region = getLocationName(item, "province")
-    const district = getLocationName(item, "area")
-    if (longitude) value.longitude = longitude
-    if (latitude) value.latitude = latitude
-    if (country) value.country = country
-    if (street) value.street = street
-    if (house) value.house = house
-    if (city) value.city = city
-    if (region) value.region = region
-    if (district) value.district = district
-    if (coordinates) value.coordinates = coordinates
-    if (additional) value.additional = additional
-    const hash = generateShortHash(additional!)
-    if (hash) value.hash = hash
-    setText(additional)
-    setActiveList(false)
-
-    Promise.all(address.map((item) => serviceAddresses.patch({ enabled: false }, item?.id))).then(() => {
-      serviceAddresses.post(value).then((response) => {
-        console.log("response address: ", response)
-      })
-    })
-  }
+ 
 
   const disabledButton: boolean = useMemo(() => {
     return (
@@ -313,10 +278,9 @@ export const ChangeForm = () => {
                       key={`::item::address::response::${item?.GeoObject?.uri}::`}
                       onClick={(event) => {
                         event.stopPropagation()
-                        handleAddress(item)
                       }}
                     >
-                      {item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}
+                      
                     </a>
                   ))
                 : null}
