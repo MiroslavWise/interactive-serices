@@ -87,7 +87,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
             }}
           />
         </div>
-        <h3>{title}</h3>
+        <h3>{iconTitleCategory.title}</h3>
       </header>
       {isLoadingProfile ? (
         <LoadingProfile />
