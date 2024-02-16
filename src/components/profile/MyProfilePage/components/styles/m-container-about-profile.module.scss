@@ -178,8 +178,10 @@
       border-radius: 0.75rem;
       border: none;
       outline: none;
+      background-color: var(--BG-second);
 
       h4 {
+        color: var(--text-secondary);
         font-size: 0.875rem;
         font-style: normal;
         font-weight: 400;
@@ -196,6 +198,7 @@
         gap: 0.625rem;
 
         h3 {
+          color: var(--text-primary);
           font-size: 1rem;
           font-style: normal;
           font-weight: 600;
@@ -206,29 +209,6 @@
         & > img {
           width: 1.25rem;
           height: 1.25rem;
-        }
-      }
-
-      &[data-services] {
-        background: var(--more-blue-gradient);
-
-        & > h4,
-        & > article > h3 {
-          color: var(--text-button);
-        }
-      }
-
-      &[data-friends] {
-        background-color: var(--BG-second);
-
-        & > h4 {
-          color: var(--text-secondary);
-        }
-
-        & > article {
-          h3 {
-            color: var(--text-primary);
-          }
         }
       }
     }
