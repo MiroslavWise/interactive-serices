@@ -11,6 +11,7 @@ import type { TContainerServices } from "./types/types"
 
 import { ServiceLoading } from "@/components/common"
 import { GeneralServiceAllItem } from "@/components/common/Card"
+import { GeneralOffer } from "@/components/common/Card/GeneralServiceAllItem"
 
 import { getUserIdOffers } from "@/services"
 
@@ -35,15 +36,17 @@ export const ContainerServices: TContainerServices = ({}) => {
         [1, 2, 3, 4].map((item) => <ServiceLoading key={`::item::offers::user::page::${item}::`} />)
       ) : isMobile ? (
         <ul className={styles.containerRequestsAndProposals}>
-          {list?.map((item) => (
-            <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
-          ))}
+          {list?.map((item) => {
+            if (item.provider === "offer") return <GeneralOffer key={`::${item?.id}::item::key::offer::`} offer={item} />
+            return <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
+          })}
         </ul>
       ) : (
         <Masonry gutter="16px" columnsCount={2}>
-          {list.map((item) => (
-            <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
-          ))}
+          {list.map((item) => {
+            if (item.provider === "offer") return <GeneralOffer key={`::${item?.id}::item::key::offer::`} offer={item} />
+            return <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
+          })}
         </Masonry>
       )}
     </section>

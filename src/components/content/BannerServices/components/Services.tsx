@@ -7,6 +7,7 @@ import type { TServicesFC } from "../types/types"
 
 import { ServiceLoading } from "@/components/common"
 import { GeneralServiceAllItem } from "@/components/common/Card"
+import { GeneralAlert, GeneralOffer } from "@/components/common/Card/GeneralServiceAllItem"
 
 import { cx } from "@/lib/cx"
 import { getOffers } from "@/services"
@@ -61,7 +62,11 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
     <ul className={cx(styles.services)}>
       {isLoading
         ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-        : items.map((item) => <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />)}
+        : items.map((item) => {
+            if (item.provider === "offer") return <GeneralOffer key={`::${item.id}::offer::`} offer={item} />
+            if (item.provider === "alert") return <GeneralAlert key={`::${item.id}::offer::`} offer={item} />
+            return <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />
+          })}
     </ul>
   )
 })
