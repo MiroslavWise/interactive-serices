@@ -7,7 +7,7 @@ import { Button } from "@/components/common"
 
 import { getUserId } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchChangeService, useAuth } from "@/store"
+import { dispatchActiveServicesFrom, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -27,7 +27,7 @@ export const BlockDesiredServices = () => {
   }, [data?.res])
 
   function addDesiredService() {
-    dispatchChangeService({ visible: true })
+    dispatchActiveServicesFrom(true)
   }
 
   return (

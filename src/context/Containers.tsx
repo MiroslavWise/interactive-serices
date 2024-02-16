@@ -30,6 +30,7 @@ import {
   OutAccount,
   UpdateProfile,
   DeleteUser,
+  ActiveServicesFrom,
 } from "@/components/templates"
 import { ChangeService, ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -51,6 +52,7 @@ import {
   useReasonBarters,
   useComplaintModal,
   useUpdateProfile,
+  useActiveServicesFrom,
 } from "@/store/hooks"
 
 export const Containers = () => {
@@ -69,6 +71,7 @@ export const Containers = () => {
   const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
   const visibleUpdateProfile = useUpdateProfile(({ visible }) => visible)
   const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
+  const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
 
   return (
     <>
@@ -111,6 +114,7 @@ export const Containers = () => {
           {visibleReasonBarters && <ReasonBarters />}
           {visibleUpdateProfile && <UpdateProfile />}
           {visibleUpdateMutual && <UpdateMutualOffer />}
+          {visibleActiveService && <ActiveServicesFrom />}
           {visibleTestimonials && <CompletionTransaction />}
           {visibleReciprocalExchange && <ReciprocalExchange />}
           {isMobile && visibleNotifications && <NotificationsMobile />}
