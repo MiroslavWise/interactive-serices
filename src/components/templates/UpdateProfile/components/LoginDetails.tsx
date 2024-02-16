@@ -1,9 +1,10 @@
-import { useForm } from "react-hook-form"
-import { ButtonsFooter } from "./ButtonsFooter"
-import { useQuery } from "@tanstack/react-query"
-import { dispatchDeleteUser, useAuth } from "@/store"
-import { getUserId } from "@/services"
 import dayjs from "dayjs"
+import { useForm } from "react-hook-form"
+import { useQuery } from "@tanstack/react-query"
+
+import { getUserId } from "@/services"
+import { getPhones } from "@/services/phones"
+import { dispatchDeleteUser, useAuth } from "@/store"
 
 export const LoginDetails = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -12,6 +13,15 @@ export const LoginDetails = () => {
     queryKey: ["user", { userId: userId }],
     enabled: !!userId,
   })
+
+  const { data: dataPhones } = useQuery({
+    queryFn: () => getPhones(),
+    queryKey: ["phones", { userId: userId }],
+    enabled: !!userId,
+  })
+
+  console.log("dataPhones: ", dataPhones)
+
   const { register, watch, setValue, setError } = useForm({})
 
   const email = data?.res?.email
@@ -37,8 +47,8 @@ export const LoginDetails = () => {
         </fieldset>
         <fieldset>
           <label>Номер телефона</label>
-          <input placeholder="Номер не добавлен" type="number" />
-          {phone && phone?.length > 0 ? <a>Добавить</a> : null}
+          <input placeholder="Номер не добавлен" type="number" readOnly disabled />
+          <a>Добавить</a>
         </fieldset>
         <fieldset>
           <label>Пароль</label>

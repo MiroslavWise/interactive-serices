@@ -5,10 +5,10 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { BadgesColors } from "./BadgesColors"
-import { Button, ButtonLink, NextImageMotion } from "@/components/common"
+import { Button, NextImageMotion } from "@/components/common"
 
 import { getProfileUserId, getUserId, serviceFriends } from "@/services"
-import { dispatchChangeService, dispatchOptionProfileMobile, dispatchUpdateProfile, useAuth, useDroverFriends } from "@/store"
+import { dispatchActiveServicesFrom, dispatchOptionProfileMobile, dispatchUpdateProfile, useAuth, useDroverFriends } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
 
@@ -44,8 +44,10 @@ export const MContainerAboutProfile = () => {
       : null
   }, [dataUser])
 
+  const categories = (dataUser?.res?.categories || []).length
+
   function addDesiredService() {
-    dispatchChangeService({ visible: true })
+    dispatchActiveServicesFrom(true)
   }
 
   function handleOpenOption() {
@@ -89,7 +91,7 @@ export const MContainerAboutProfile = () => {
         <button onClick={addDesiredService} data-services>
           <h4>Желаемые услуги</h4>
           <article>
-            <h3>Добавить</h3>
+            <h3>{categories || "Добавить"}</h3>
             <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
           </article>
         </button>
