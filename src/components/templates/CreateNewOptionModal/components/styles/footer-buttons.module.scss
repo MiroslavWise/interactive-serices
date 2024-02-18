@@ -1,32 +1,32 @@
 .footer {
-    position: absolute;
-    bottom: 42px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    z-index: 20;
+  position: absolute;
+  bottom: 42px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 20;
 
-    & > button {
-        max-width: 240px;
-        width: 100%;
-    }
+  & > button {
+    max-width: 240px;
+    width: 100%;
+  }
 }
 
 [data-mobile="true"] {
-    .footer {
-        position: static;
-        padding: 0 32px 40px;
-        & > button {
-            span {
-                font-size: 18px;
-                line-height: 28px;
-            }
-            height: 44px;
-        }
+  .footer {
+    position: static;
+    padding: 0 2rem 2.5rem;
+    & > button {
+      span {
+        font-size: 18px;
+        line-height: 28px;
+      }
+      height: 44px;
     }
+  }
 }
