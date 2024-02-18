@@ -134,13 +134,15 @@ export const UpdateMutualOffer = () => {
           ) : null}
           <div data-div>
             <label>Изменить текст, чтобы люди могли понять что вы хотите</label>
-            <TextArea
-              {...register("description", { required: true })}
-              value={watch("description")}
-              onChange={(event) => setValue("description", event.target.value)}
-              placeholder="Напишите что-нибудь"
-              maxLength={512}
-            />
+            <div data-text-area>
+              <textarea
+                placeholder="Напишите что-нибудь"
+                {...register("description", { required: true })}
+                data-error={!!errors?.description?.message}
+                maxLength={400}
+              />
+              <sup>{watch("description")?.length || 0}/400</sup>
+            </div>
           </div>
           <div data-div>
             <label>Добавить или удалить фото (не более 9 фото)</label>

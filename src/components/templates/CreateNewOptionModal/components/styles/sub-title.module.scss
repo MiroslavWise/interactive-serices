@@ -1,15 +1,15 @@
-.container{
-    width: 100%;
-    padding-bottom: 12px;
+.container {
+  width: 100%;
+  padding-bottom: 0.75rem;
 
-    h4{
-        width: 100%;
-        color: var(--gray-500);
-        text-align: center;
-        font-size: 1.25rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 30px;
-        letter-spacing: -0.5px;
-    }
+  h4 {
+    width: 100%;
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+  }
 }

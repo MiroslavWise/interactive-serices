@@ -1,23 +1,23 @@
 .container {
-    max-width: 560px;
+  max-width: 560px;
+  width: 100%;
+
+  ul {
     width: 100%;
+    display: grid;
+    justify-content: center;
+    gap: 1rem 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    z-index: 2;
+  }
+
+  &.mobile {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
 
     ul {
-        width: 100%;
-        display: grid;
-        justify-content: center;
-        gap: 16px 16px;
-        grid-template-columns: repeat(3, 1fr);
-        z-index: 2;
+      gap: 1.25rem 1.25rem;
+      grid-template-columns: repeat(2, 1fr);
     }
-
-    &.mobile {
-        padding-left: 20px;
-        padding-right: 20px;
-
-        ul {
-            gap: 20px 20px;
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
+  }
 }

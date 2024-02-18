@@ -31,6 +31,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      border-bottom: 1px solid var(--grey-separator);
 
       & > h3 {
         color: var(--text-primary);
@@ -59,6 +60,37 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+
+        & > [data-text-area] {
+          position: relative;
+          width: 100%;
+          height: 7.375rem;
+
+          & > textarea {
+            height: 100%;
+            border-radius: 1rem;
+            border: 1px solid var(--grey-stroke);
+            background: var(--BG-second);
+            padding: 0.875rem;
+            padding-bottom: calc(0.25rem + 1rem + 0.25rem);
+
+            &[data-error="true"] {
+              border: 1px solid var(--text-error);
+            }
+          }
+
+          & > sup {
+            position: absolute;
+            bottom: 0.25rem;
+            right: 0.875rem;
+            color: var(--text-primary);
+            text-align: right;
+            font-size: 0.75rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1rem;
+          }
+        }
 
         & > label {
           color: var(--text-primary);

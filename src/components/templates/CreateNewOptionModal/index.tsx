@@ -335,7 +335,7 @@ export const CreateNewOptionModal = () => {
                   {addressInit?.additional ? (
                     <p>{addressInit?.additional}</p>
                   ) : (
-                    <div data-input-selector {...register("addressFeature", { required: true })} ref={ref}>
+                    <div data-input-selector {...register("addressFeature", { required: !addressInit?.additional })} ref={ref}>
                       <input
                         {...register("address", { required: true })}
                         onChange={(event) => {
@@ -343,6 +343,8 @@ export const CreateNewOptionModal = () => {
                           debouncedValue()
                           setLoadingAddresses(true)
                         }}
+                        type="text"
+                        data-error={!!errors.addressFeature}
                         onFocus={() => setIsFocus(true)}
                         placeholder={placeholderInput || ""}
                         disabled={visible && step !== 2}
