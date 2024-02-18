@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchAddingPhoneNumber, useAddingPhoneNumber } from "@/store"
+import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAddingPhoneNumber } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -27,6 +27,8 @@ export const AddingPhoneNumber = () => {
   const onSubmit = handleSubmit((values) => {
     if (!loading) {
       setLoading(true)
+
+      dispatchNumberConfirmation(true, values.phone)
 
       flushSync(() => {
         setLoading(false)

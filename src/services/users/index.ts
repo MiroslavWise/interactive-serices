@@ -9,6 +9,6 @@ export const getUserId: IServiceUser["getId"] = (id) => wrapperGetId({ url, id }
 export const postUser: IServiceUser["post"] = (body) => wrapperPost({ url, body })
 export const patchUser: IServiceUser["patch"] = (body, id) => wrapperPatch({ url, body, id })
 export const deleteUser: IServiceUser["delete"] = (id) => wrapperDelete({ url, id })
-export const getUserEmail: IServiceUser["getEmail"] = (query) => wrapperGetId({ url: `${url}/email`, id: query })
+export const getUserEmail: IServiceUser["getEmail"] = (id) => wrapperGetId({ url: `${url}/email`, id })
 
 export const patchEmailPasswordUser: TPatchEmailPasswordUser = (body, id) => wrapperPatch({ url, body: { ...body, enabled: true }, id })
