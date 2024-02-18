@@ -9,17 +9,16 @@ import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { ButtonCanHelp } from "@/components/common/custom"
 import { GeoTagging, LoadingProfile, NextImageMotion } from "@/components/common"
-import { AvatarsBalloon } from "@/components/YandexMap/BalloonPlaceMark/components/AvatarsBalloon"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { serviceProfile } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { usePhotoVisible } from "@/components/YandexMap/BalloonPlaceMark/hooks/usePhotoVisible"
+import { usePhotoVisible } from "@/helpers/hooks/use-photo-visible.hook"
 import {
+  dispatchBallonAlert,
   dispatchBallonDiscussion,
   dispatchBallonOffer,
-  useBalloonCard,
   useMapCoordinates,
   useOffersCategories,
   useProfilePublic,
@@ -31,7 +30,6 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
   const { id, categoryId, provider, title, userId, addresses, className, images, style, categories: categoriesOffer, ref } = props ?? {}
   const { handlePush } = usePush()
   const categories = useOffersCategories(({ categories }) => categories)
-  const dispatch = useBalloonCard(({ dispatch }) => dispatch)
   const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
   const { createGallery } = usePhotoVisible()
   const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
@@ -72,25 +70,22 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
       dispatchMapCoordinates({
         coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
       })
+      const { ref, className, style, ...offer } = props ?? {}
       if (provider === "offer") {
-        const { ref, className, style, ...offer } = props ?? {}
         dispatchBallonOffer({
           visible: true,
           offer: offer,
         })
         return
       } else if (provider === "discussion") {
-        const { ref, className, style, ...offer } = props ?? {}
         dispatchBallonDiscussion({
           visible: true,
           offer: offer,
         })
-      } else {
-        dispatch({
+      } else if (provider === "alert") {
+        dispatchBallonAlert({
           visible: true,
-          id: id,
-          idUser: userId,
-          type: provider || null,
+          offer: offer,
         })
       }
     })
@@ -133,7 +128,6 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
         )}
         {categoryOffer && <h3>{categoryOffer}</h3>}
         {provider === "alert" ? <ButtonCanHelp id={id!} idUser={userId!} /> : null}
-        {provider === "discussion" ? <AvatarsBalloon offerId={id} /> : null}
       </header>
       <section>
         {isLoadProfile ? (

@@ -8,11 +8,10 @@ import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
 import { getOffers } from "@/services"
-import { useFilterMap, useBalloonCard } from "@/store"
+import { useFilterMap } from "@/store"
 
 export const ListPlacemark = memo(function ListPlacemark() {
   const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
-  const dispatch = useBalloonCard(({ dispatch }) => dispatch)
 
   const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
 
@@ -38,14 +37,13 @@ export const ListPlacemark = memo(function ListPlacemark() {
             coordinates: coordinates,
             idUser: item?.userId!,
             id: item?.id!,
-            dispatch: dispatch,
             offer: item,
           })
         })
     }
 
     return array
-  }, [dataPlaces?.res, dispatch])
+  }, [dataPlaces?.res])
 
-  return marks.map((item) => <PlacemarkCurrent key={`${item.id}-${item.offer.provider}-list`} {...item} dispatch={dispatch} />)
+  return marks.map((item) => <PlacemarkCurrent key={`${item.id}-${item.offer.provider}-list`} {...item} />)
 })

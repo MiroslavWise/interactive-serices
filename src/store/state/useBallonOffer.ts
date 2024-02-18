@@ -26,11 +26,27 @@ export const useBalloonDiscussion = create(
   ),
 )
 
+export const useBalloonAlert = create(
+  persist<IStateBallonOffer>(
+    (set, get) => ({
+      visible: false,
+    }),
+    {
+      name: "ballon-alert",
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+)
+
 export const dispatchBallonOffer = (values: IDispatchBallonOffer) =>
   useBalloonOffer.setState((_) => ({
     ...values,
   }))
 export const dispatchBallonDiscussion = (values: IDispatchBallonOffer) =>
   useBalloonDiscussion.setState((_) => ({
+    ...values,
+  }))
+export const dispatchBallonAlert = (values: IDispatchBallonOffer) =>
+  useBalloonAlert.setState((_) => ({
     ...values,
   }))
