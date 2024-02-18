@@ -36,6 +36,7 @@ import {
   AddEmail,
   CheckTheMail,
   BalloonAlert,
+  NumberConfirmation,
 } from "@/components/templates"
 import { ChangeService, ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -62,6 +63,7 @@ import {
   useAddEmail,
   useCheckTheMail,
   useBalloonAlert,
+  useNumberConfirmation,
 } from "@/store"
 
 export const Containers = () => {
@@ -86,6 +88,7 @@ export const Containers = () => {
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
   const visibleBalloonAlert = useBalloonAlert(({ visible }) => visible)
+  const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
 
   return (
     <>
@@ -120,6 +123,7 @@ export const Containers = () => {
           <ChangeService />
           <NewServicesBanner />
           <NewServiceBarterRequests />
+          {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
           {isMobile && <ExchangesModalMobile />}
