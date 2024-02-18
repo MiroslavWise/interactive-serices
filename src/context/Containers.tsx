@@ -31,6 +31,10 @@ import {
   UpdateProfile,
   DeleteUser,
   ActiveServicesFrom,
+  ChangePassword,
+  AddingPhoneNumber,
+  AddEmail,
+  CheckTheMail,
 } from "@/components/templates"
 import { ChangeService, ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -53,7 +57,11 @@ import {
   useComplaintModal,
   useUpdateProfile,
   useActiveServicesFrom,
-} from "@/store/hooks"
+  useChangePassword,
+  useAddingPhoneNumber,
+  useAddEmail,
+  useCheckTheMail,
+} from "@/store"
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -72,6 +80,10 @@ export const Containers = () => {
   const visibleUpdateProfile = useUpdateProfile(({ visible }) => visible)
   const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
   const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
+  const visibleChangePassword = useChangePassword(({ visible }) => visible)
+  const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
+  const visibleAddEmail = useAddEmail(({ visible }) => visible)
+  const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
 
   return (
     <>
@@ -106,6 +118,7 @@ export const Containers = () => {
           <ChangeService />
           <NewServicesBanner />
           <NewServiceBarterRequests />
+          {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
           {isMobile && <ExchangesModalMobile />}
           {isMobile && <OptionProfileMobile />}
@@ -113,9 +126,12 @@ export const Containers = () => {
           {visibleComplaint && <ComplaintModal />}
           {visibleReasonBarters && <ReasonBarters />}
           {visibleUpdateProfile && <UpdateProfile />}
+          {visibleChangePassword && <ChangePassword />}
           {visibleUpdateMutual && <UpdateMutualOffer />}
           {visibleActiveService && <ActiveServicesFrom />}
+          {visibleCheckTheMail && <CheckTheMail />}
           {visibleTestimonials && <CompletionTransaction />}
+          {visibleAddingPhoneNumber && <AddingPhoneNumber />}
           {visibleReciprocalExchange && <ReciprocalExchange />}
           {isMobile && visibleNotifications && <NotificationsMobile />}
         </>

@@ -1,6 +1,6 @@
-import { type IAuth } from "./types/types"
+import { TGetSession, TPostNewPassword, type IAuth } from "./types/types"
 
-import { wrapperPost } from "../requestsWrapper"
+import { wrapperGet, wrapperPost } from "../requestsWrapper"
 
 const route = "/auth"
 
@@ -13,6 +13,9 @@ export const serviceAuth: IAuth = {
   postVK: (body) => wrapperPost({ url: `${route}/vk`, body }),
 }
 
+export const postNewPassword: TPostNewPassword = (body) => wrapperPost({ url: `${route}/change-password`, body })
+export const getSession: TGetSession = () => wrapperGet({ url: `${route}/session` })
+
 export const serviceAuthErrors = new Map([
   ["Unauthorized", "Пользователь не авторизован"],
   ["user is not verified", "Аккаунт не верефицирован. Проверьте письмо на вашей почте"],
@@ -20,5 +23,6 @@ export const serviceAuthErrors = new Map([
   ["user not found", "Аккаунт не существует"],
   ["invalid access token", "Время токена истекло"],
   ["password is not match", "Не верный пароль"],
+  ["password is incorrect", "Пароль неверный"],
   ["default", "Какая-то ошибка у нас на сервере. Мы сейчас разбираемся"],
 ])

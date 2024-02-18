@@ -1,4 +1,4 @@
-import type { IServiceUser } from "./types"
+import type { IServiceUser, TPatchEmailPasswordUser } from "./types"
 
 import { wrapperGet, wrapperGetId, wrapperPost, wrapperPatch, wrapperDelete } from "@/services/requestsWrapper"
 
@@ -10,3 +10,5 @@ export const postUser: IServiceUser["post"] = (body) => wrapperPost({ url, body 
 export const patchUser: IServiceUser["patch"] = (body, id) => wrapperPatch({ url, body, id })
 export const deleteUser: IServiceUser["delete"] = (id) => wrapperDelete({ url, id })
 export const getUserEmail: IServiceUser["getEmail"] = (query) => wrapperGetId({ url: `${url}/email`, id: query })
+
+export const patchEmailPasswordUser: TPatchEmailPasswordUser = (body, id) => wrapperPatch({ url, body: { ...body, enabled: true }, id })
