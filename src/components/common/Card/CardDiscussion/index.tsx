@@ -7,13 +7,12 @@ import { IResponseOffers } from "@/services/offers/types"
 import { Button } from "@/components/common"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
-import { dispatchBallonDiscussion, useBalloonCard } from "@/store/hooks"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
 
 import styles from "./style.module.scss"
 
 export function CardDiscussion(props: IResponseOffers) {
-  const { title, images, provider, id, userId } = props ?? {}
-  const dispatch = useBalloonCard(({ dispatch }) => dispatch)
+  const { title, images, provider } = props ?? {}
 
   function handleOpenMore() {
     if (provider === "discussion") {
@@ -22,13 +21,17 @@ export function CardDiscussion(props: IResponseOffers) {
         offer: props,
       })
       return
+    } else if (provider === "alert") {
+      dispatchBallonAlert({
+        visible: true,
+        offer: props,
+      })
+    } else if (provider === "offer") {
+      dispatchBallonOffer({
+        visible: true,
+        offer: props,
+      })
     }
-    dispatch({
-      visible: true,
-      type: provider,
-      id: id,
-      idUser: userId,
-    })
   }
 
   return (

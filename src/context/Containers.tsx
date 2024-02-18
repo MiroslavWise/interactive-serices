@@ -35,10 +35,10 @@ import {
   AddingPhoneNumber,
   AddEmail,
   CheckTheMail,
+  BalloonAlert,
 } from "@/components/templates"
 import { ChangeService, ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
-import { BalloonPlaceMark } from "@/components/YandexMap/BalloonPlaceMark"
 
 import {
   useAuth,
@@ -61,6 +61,7 @@ import {
   useAddingPhoneNumber,
   useAddEmail,
   useCheckTheMail,
+  useBalloonAlert,
 } from "@/store"
 
 export const Containers = () => {
@@ -84,12 +85,12 @@ export const Containers = () => {
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
+  const visibleBalloonAlert = useBalloonAlert(({ visible }) => visible)
 
   return (
     <>
       <PhotoCarousel />
       <WelcomeModal />
-      <BalloonPlaceMark />
       {isAuth === false && (
         <>
           <Intro />
@@ -106,6 +107,7 @@ export const Containers = () => {
       )}
       {!isMobile && <PublicProfile />}
       {visibleBalloonOffer && <BalloonOffer />}
+      {visibleBalloonAlert && <BalloonAlert />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
       {visibleHasBalloon && <HasClustererBalloons />}
       {visibleBalloonDiscussion && <BalloonDiscussion />}
