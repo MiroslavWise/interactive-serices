@@ -5,7 +5,7 @@ import type { IAuthState, TUseAuth } from "../types/useAuthState"
 import type { IResponseLoginNot2fa } from "@/services/auth/types/authService"
 
 import { queryClient } from "@/context"
-import { serviceProfile, AuthService } from "@/services"
+import { serviceProfile, AuthService, getSession } from "@/services"
 import { signOutAction, setUserAction, setTokenAction, changeAuthAction } from "../action/useAuthAction"
 
 export const initialStateAuth: IAuthState = {
@@ -67,6 +67,8 @@ export const useAuth = create(
         const refreshToken = get().refreshToken
         const email = get().email
         const expires = get().expires
+
+        // getSession().then((response) => {})
 
         if (!isTokenExpired(get().expires) && typeof expires === "number") {
           changeAuthAction(set, get)
@@ -164,6 +166,6 @@ export const dispatchOuAuth = () => {
 function isTokenExpired(exp: number | undefined) {
   if (exp !== undefined) {
     const currentTime: number = Date.now()
-    return exp < currentTime
+    return exp < currentTime - 60 * 60 * 1_000
   }
 }

@@ -53,14 +53,14 @@ export const LoginDetails = () => {
           <label>Номер телефона</label>
           <input placeholder="Номер не добавлен" type="number" readOnly disabled />
           {phone && phone?.length > 0 ? (
-            <a onClick={() => dispatchAddingPhoneNumber(true)}>Добавить</a>
-          ) : (
             <span>
               Для изменения номера телефона, напишите в телеграм{" "}
               <a href="https://t.me/sheirainfo" target="_blank">
                 @sheirainfo
               </a>
             </span>
+          ) : (
+            <a onClick={() => dispatchAddingPhoneNumber(true)}>Добавить</a>
           )}
         </fieldset>
         {!!email ? (
