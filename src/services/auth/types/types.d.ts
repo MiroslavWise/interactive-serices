@@ -32,3 +32,12 @@ export interface IAuth {
   postYandex(values: Record<string, any>): IPromiseReturn<IResponseLoginNot2fa>
   postVK(values: Record<string, any>): IPromiseReturn<IResponseLoginNot2fa>
 }
+
+interface INewPassword {
+  oldPassword: string
+  password: string
+  repeat: string
+}
+
+export type TPostNewPassword = (values: INewPassword) => IPromiseReturn<any>
+export type TGetSession = () => IPromiseReturn<any>

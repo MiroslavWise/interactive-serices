@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { getUserId } from "@/services"
 import { getPhones } from "@/services/phones"
-import { dispatchDeleteUser, useAuth } from "@/store"
+import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchDeleteUser, useAuth } from "@/store"
 
 export const LoginDetails = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -22,11 +22,15 @@ export const LoginDetails = () => {
 
   console.log("dataPhones: ", dataPhones)
 
-  const { register, watch, setValue, setError } = useForm({})
-
   const email = data?.res?.email
   const create = data?.res?.created
   const phone = data?.res?.phones
+
+  console.log("phone: ", dataPhones)
+
+  function handleUpdatePassword() {
+    dispatchChangePassword(true)
+  }
 
   return (
     <form>
@@ -42,19 +46,36 @@ export const LoginDetails = () => {
               </a>
             </span>
           ) : (
-            <a>Добавить</a>
+            <a onClick={() => dispatchAddEmail(true)}>Добавить</a>
           )}
         </fieldset>
         <fieldset>
           <label>Номер телефона</label>
           <input placeholder="Номер не добавлен" type="number" readOnly disabled />
-          <a>Добавить</a>
+          {phone && phone?.length > 0 ? (
+            <a onClick={() => dispatchAddingPhoneNumber(true)}>Добавить</a>
+          ) : (
+            <span>
+              Для изменения номера телефона, напишите в телеграм{" "}
+              <a href="https://t.me/sheirainfo" target="_blank">
+                @sheirainfo
+              </a>
+            </span>
+          )}
         </fieldset>
-        <fieldset>
-          <label>Пароль</label>
-          <input value={create ? `Задан ${dayjs(create)?.format("DD.MM.YYYY")}` : ""} placeholder="пароль" type="text" readOnly disabled />
-          <a>Изменить</a>
-        </fieldset>
+        {!!email ? (
+          <fieldset>
+            <label>Пароль</label>
+            <input
+              value={create ? `Задан ${dayjs(create)?.format("DD.MM.YYYY")}` : ""}
+              placeholder="пароль"
+              type="text"
+              readOnly
+              disabled
+            />
+            <a onClick={handleUpdatePassword}>Изменить</a>
+          </fieldset>
+        ) : null}
       </section>
       <div data-delete-account>
         <a onClick={() => dispatchDeleteUser(true)}>Удалить аккаунт</a>

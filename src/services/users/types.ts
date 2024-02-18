@@ -28,7 +28,6 @@ export interface IUserResponse {
   updated: Date | string
   deleted: any | null
   categories: IResponseOffersCategories[]
-  // roles: IRolesResponse[]
   phones: any[]
   profile: IGetProfileIdResponse
   addresses: IAddressesResponse[]
@@ -42,3 +41,8 @@ export interface IServiceUser {
   patch(value: IPatchDataUser, id: number | string): IPromiseReturn<IUserResponse>
   delete(id: number | string): IPromiseReturn<IUserResponse>
 }
+
+export type TPatchEmailPasswordUser = (
+  values: { email: string; password: string; repeat: string },
+  id: number | string,
+) => IPromiseReturn<IUserResponse>
