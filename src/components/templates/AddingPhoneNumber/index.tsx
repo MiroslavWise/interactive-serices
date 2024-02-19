@@ -35,6 +35,9 @@ export const AddingPhoneNumber = () => {
       }).then((response) => {
         if (response.ok) {
           dispatchNumberConfirmation(true, values.phone)
+          flushSync(() => {
+            dispatchAddingPhoneNumber(false)
+          })
         } else {
           setError("phone", {
             message: serviceAuthErrors.has(response?.error?.message)
