@@ -2,8 +2,7 @@ import { IPromiseReturn } from "../types/general"
 
 export interface IRequestPhone {
   phone: string
-  orderBy: number
-  enabled: boolean
+  orderBy?: number
   description?: string
 }
 

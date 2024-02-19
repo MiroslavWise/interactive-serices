@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { postPhone } from "@/services/phones"
+import { serviceAuthErrors } from "@/services"
 import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAddingPhoneNumber } from "@/store"
 
 import styles from "./style.module.scss"
@@ -28,10 +30,21 @@ export const AddingPhoneNumber = () => {
     if (!loading) {
       setLoading(true)
 
-      dispatchNumberConfirmation(true, values.phone)
-
-      flushSync(() => {
-        setLoading(false)
+      postPhone({
+        phone: values.phone!,
+      }).then((response) => {
+        if (response.ok) {
+          dispatchNumberConfirmation(true, values.phone)
+        } else {
+          setError("phone", {
+            message: serviceAuthErrors.has(response?.error?.message)
+              ? serviceAuthErrors.get(response?.error?.message)
+              : response?.error?.message!,
+          })
+        }
+        flushSync(() => {
+          setLoading(false)
+        })
       })
     }
   })
@@ -70,9 +83,9 @@ export const AddingPhoneNumber = () => {
                 maxLength={16}
               />
             </div>
-            {!!errors?.phone?.message ? <i></i> : null}
+            {!!errors?.phone?.message ? <i>{errors?.phone?.message}</i> : null}
           </fieldset>
-          <Button type="submit" typeButton="fill-primary" label="Добавить" disabled={watch("phone")?.length > 9} loading={loading} />
+          <Button type="submit" typeButton="fill-primary" label="Добавить" disabled={watch("phone")?.length < 9} loading={loading} />
         </form>
       </section>
     </div>

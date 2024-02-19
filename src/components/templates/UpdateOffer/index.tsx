@@ -192,7 +192,7 @@ export const UpdateOffer = () => {
         </header>
         <form onSubmit={onSubmit}>
           <fieldset>
-            <label {...register("address", { required: true })}>Ваш адрес</label>
+            <label {...register("address", { required: true })}>Изменить адрес</label>
             <div data-input ref={refGeo}>
               <input
                 type="text"
@@ -230,7 +230,7 @@ export const UpdateOffer = () => {
             </div>
           </fieldset>
           <fieldset>
-            <label>Предложение</label>
+            <label>Изменить предложение</label>
             <div data-input {...register("category", { required: true })} ref={ref}>
               <input
                 type="text"
@@ -284,14 +284,14 @@ export const UpdateOffer = () => {
             </div>
           </fieldset>
           <fieldset>
-            <label>Измените описание, чтобы привлечь внимание Sheira-жителей к вашему предложению</label>
+            <label>Текущее описание</label>
             <div data-text-area>
               <textarea {...register("description", { required: true })} data-error={!!errors?.description} />
               <sup>{watch("description")?.length || 0}/400</sup>
             </div>
           </fieldset>
           <fieldset>
-            <label>Добавьте несколько фотографий и видео, это помогает выделить предложение среди других</label>
+            <label>Загруженные фото</label>
             <div data-photos>
               {photos.map((item) => (
                 <div data-photo key={`${item.id}-photo-state`} data-delete={deleteIdPhotos.includes(item.id!)}>

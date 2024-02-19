@@ -12,10 +12,9 @@ import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { FinishScreen } from "./components/FinishScreen"
-import { Button, ImageStatic } from "@/components/common"
-import { ButtonClose } from "@/components/common/Buttons"
 import { CustomSelect } from "@/components/common/custom"
 import { ArticleOnboarding } from "@/components/templates"
+import { Button, ImageStatic, WalletPay, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { createAddress } from "@/helpers/address/create"
@@ -422,6 +421,7 @@ export const CreateNewOptionModal = () => {
                   </div>
                 </fieldset>
                 {visible && [4, 5].includes(step) && <ArticleOnboarding />}
+                {typeAdd === "offer" ? <WalletPay /> : null}
                 <div data-footer>
                   <Button
                     type="submit"
