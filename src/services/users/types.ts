@@ -3,7 +3,7 @@ import type { IGetProfileIdResponse } from "@/services/profile/types"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
-// import type { IResponseLoginNot2fa } from "@/services/auth/types/authService"
+import { IResponsePhones } from "../phones/types"
 
 export interface IPostDataUser {
   email: string
@@ -28,7 +28,7 @@ export interface IUserResponse {
   updated: Date | string
   deleted: any | null
   categories: IResponseOffersCategories[]
-  phones: any[]
+  phones: IResponsePhones[]
   profile: IGetProfileIdResponse
   addresses: IAddressesResponse[]
 }

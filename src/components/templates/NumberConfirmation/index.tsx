@@ -8,10 +8,10 @@ import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { postVerifyPhone } from "@/services/phones"
+import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchNumberConfirmation, useNumberConfirmation } from "@/store"
 
 import styles from "./style.module.scss"
-import { useToast } from "@/helpers/hooks/useToast"
 
 export const NumberConfirmation = () => {
   const [loading, setLoading] = useState(false)

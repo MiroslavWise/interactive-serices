@@ -1,9 +1,7 @@
 import dayjs from "dayjs"
-import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
 import { getUserId } from "@/services"
-import { getPhones } from "@/services/phones"
 import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchDeleteUser, useAuth } from "@/store"
 
 export const LoginDetails = () => {
@@ -14,19 +12,14 @@ export const LoginDetails = () => {
     enabled: !!userId,
   })
 
-  const { data: dataPhones } = useQuery({
-    queryFn: () => getPhones(),
-    queryKey: ["phones", { userId: userId }],
-    enabled: !!userId,
-  })
-
-  console.log("dataPhones: ", dataPhones)
-
   const email = data?.res?.email
   const create = data?.res?.created
   const phone = data?.res?.phones
 
-  console.log("phone: ", dataPhones)
+  const number = phone && phone?.length > 0 ? phone[0]?.phone : null
+
+  console.log("number: ", number)
+  console.log("number !!!!: ", !!number ? (number[0] !== "8" ? `+${number}` : number) : "")
 
   function handleUpdatePassword() {
     dispatchChangePassword(true)
@@ -51,8 +44,14 @@ export const LoginDetails = () => {
         </fieldset>
         <fieldset>
           <label>Номер телефона</label>
-          <input placeholder="Номер не добавлен" type="number" readOnly disabled />
-          {phone && phone?.length > 0 ? (
+          <input
+            value={!!number ? (number[0] !== "8" ? `+${number}` : number) : ""}
+            placeholder="Номер не добавлен"
+            type="text"
+            readOnly
+            disabled
+          />
+          {number ? (
             <span>
               Для изменения номера телефона, напишите в телеграм{" "}
               <a href="https://t.me/sheirainfo" target="_blank">
