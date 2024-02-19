@@ -421,7 +421,7 @@ export const CreateNewOptionModal = () => {
                   </div>
                 </fieldset>
                 {visible && [4, 5].includes(step) && <ArticleOnboarding />}
-                {typeAdd === "offer" ? <WalletPay /> : null}
+                {/* {typeAdd === "offer" ? <WalletPay /> : null} */}
                 <div data-footer>
                   <Button
                     type="submit"
