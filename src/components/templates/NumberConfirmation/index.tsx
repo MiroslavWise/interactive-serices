@@ -7,14 +7,17 @@ import { useForm } from "react-hook-form"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { postVerifyPhone } from "@/services/phones"
 import { dispatchNumberConfirmation, useNumberConfirmation } from "@/store"
 
 import styles from "./style.module.scss"
+import { useToast } from "@/helpers/hooks/useToast"
 
 export const NumberConfirmation = () => {
   const [loading, setLoading] = useState(false)
   const number = useNumberConfirmation(({ number }) => number)
   const visible = useNumberConfirmation(({ visible }) => visible)
+  const { on } = useToast()
 
   const {
     register,
@@ -27,8 +30,21 @@ export const NumberConfirmation = () => {
     if (!loading) {
       setLoading(true)
 
-      flushSync(() => {
-        setLoading(false)
+      postVerifyPhone({
+        phone: number!,
+        code: values.code,
+      }).then((response) => {
+        if (response.ok) {
+          on({ message: "Номер телефона успешно добавлен" })
+          flushSync(() => {
+            close()
+          })
+        } else {
+          setError("code", { message: response?.error?.message })
+        }
+        flushSync(() => {
+          setLoading(false)
+        })
       })
     }
   })
@@ -60,6 +76,7 @@ export const NumberConfirmation = () => {
                 minLength={4}
                 data-error={!!errors.code}
               />
+              {!!errors?.code?.message ? <i>{errors?.code?.message}</i> : null}
             </fieldset>
             <p>
               Запросить новый код можно через
