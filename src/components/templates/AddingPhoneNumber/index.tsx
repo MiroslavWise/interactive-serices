@@ -65,7 +65,8 @@ export const AddingPhoneNumber = () => {
                 placeholder="+7 999 000-00-00"
                 type="tel"
                 inputMode="numeric"
-                {...register("phone", { required: true, minLength: 11, maxLength: 16 })}
+                data-error={!!errors.phone}
+                {...register("phone", { required: true })}
                 maxLength={16}
               />
             </div>

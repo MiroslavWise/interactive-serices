@@ -9,7 +9,7 @@ import type { IFormValues } from "./types/types"
 import type { IPostOffers, IQueriesOffers } from "@/services/offers/types"
 import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
+import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { FinishScreen } from "./components/FinishScreen"
 import { Button, ImageStatic } from "@/components/common"
@@ -18,8 +18,7 @@ import { CustomSelect } from "@/components/common/custom"
 import { ArticleOnboarding } from "@/components/templates"
 
 import { cx } from "@/lib/cx"
-import { generateShortHash } from "@/lib/hash"
-import { getLocationName } from "@/lib/location-name"
+import { createAddress } from "@/helpers/address/create"
 import { useAddCreateModal, closeCreateOffers, dispatchValidating } from "@/store"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchOnboarding, useAuth, useFilterMap, useOffersCategories, useOnboarding } from "@/store"
@@ -185,37 +184,6 @@ export const CreateNewOptionModal = () => {
           setLoadingAddresses(false)
         })
     }
-  }
-
-  async function createAddress(item: IFeatureMember) {
-    const coordinates = item?.GeoObject?.Point?.pos
-    const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
-    const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
-    const additional = item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
-    const value: IPostAddress = {
-      addressType: item!?.GeoObject!?.metaDataProperty!?.GeocoderMetaData!?.kind!,
-      enabled: true,
-    }
-    const country = getLocationName(item, "country")
-    const street = getLocationName(item, "street")
-    const house = getLocationName(item, "house")
-    const city = getLocationName(item, "locality")
-    const region = getLocationName(item, "province")
-    const district = getLocationName(item, "area")
-    if (longitude) value.longitude = longitude
-    if (latitude) value.latitude = latitude
-    if (country) value.country = country
-    if (street) value.street = street
-    if (house) value.house = house
-    if (city) value.city = city
-    if (region) value.region = region
-    if (district) value.district = district
-    if (coordinates) value.coordinates = coordinates
-    if (additional) value.additional = additional
-    const hash = generateShortHash(additional!)
-    if (hash) value.hash = hash
-
-    return serviceAddresses.post(value)
   }
 
   async function createAddressPost(values: IPostAddress) {

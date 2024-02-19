@@ -3,14 +3,13 @@
 import Link from "next/link"
 import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
-import { Button, ButtonClose, LoadingProfile } from "@/components/common"
+import { Button, ButtonClose, ImageCategory, LoadingProfile } from "@/components/common"
 
 import { ItemProfile } from "./components/ItemProfile"
 import { ItemProposal } from "./components/ItemProposal"
 
 import { cx } from "@/lib/cx"
 import { getUserId } from "@/services"
-import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -60,18 +59,7 @@ export const BalloonOffer = () => {
     <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
       <section data-section-modal>
         <header>
-          <div data-category-img>
-            {offer?.categoryId ? (
-              <img
-                src={
-                  ICON_OBJECT_OFFERS.hasOwnProperty(offer?.categoryId) ? ICON_OBJECT_OFFERS[offer?.categoryId!] : ICON_OBJECT_OFFERS.default
-                }
-                alt="category"
-                width={16}
-                height={16}
-              />
-            ) : null}
-          </div>
+          <div data-category-img>{offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}</div>
           <h3>{categoryCurrent?.title}</h3>
         </header>
         <ButtonClose position={{}} onClick={() => dispatchBallonOffer({ visible: false })} />

@@ -1,16 +1,16 @@
 html {
-    @media screen and (max-width: 360px) {
-        font-size: 75%;
-    }
+  @media screen and (max-width: 380px) {
+    font-size: 75%;
+  }
 }
 
 html,
 body {
-    overflow: hidden;
-    background: var(--BG-first);
+  overflow: hidden;
+  background: var(--BG-first);
 }
 
 body {
-    height: 100%;
-    position: relative;
+  height: 100%;
+  position: relative;
 }

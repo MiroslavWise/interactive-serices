@@ -37,6 +37,7 @@ import {
   CheckTheMail,
   BalloonAlert,
   NumberConfirmation,
+  UpdateOffer,
 } from "@/components/templates"
 import { ChangeService, ExchangesModalMobile } from "@/components/profile"
 import { FooterMenu, PhotoCarousel } from "@/components/layout"
@@ -64,6 +65,7 @@ import {
   useCheckTheMail,
   useBalloonAlert,
   useNumberConfirmation,
+  useUpdateOffer,
 } from "@/store"
 
 export const Containers = () => {
@@ -79,7 +81,6 @@ export const Containers = () => {
   const visibleReciprocalExchange = useReciprocalExchange(({ visible }) => visible)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
   const visibleComplaint = useComplaintModal(({ visibleComplaint }) => visibleComplaint)
-  const visibleUpdateMutual = useUpdateMutualOffer(({ visibleUpdateMutual }) => visibleUpdateMutual)
   const visibleUpdateProfile = useUpdateProfile(({ visible }) => visible)
   const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
   const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
@@ -89,6 +90,7 @@ export const Containers = () => {
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
   const visibleBalloonAlert = useBalloonAlert(({ visible }) => visible)
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
+  const visibleUpdateOffer = useUpdateOffer(({ visible }) => visible)
 
   return (
     <>
@@ -123,6 +125,7 @@ export const Containers = () => {
           <ChangeService />
           <NewServicesBanner />
           <NewServiceBarterRequests />
+          {visibleUpdateOffer && <UpdateOffer />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
@@ -133,7 +136,6 @@ export const Containers = () => {
           {visibleReasonBarters && <ReasonBarters />}
           {visibleUpdateProfile && <UpdateProfile />}
           {visibleChangePassword && <ChangePassword />}
-          {visibleUpdateMutual && <UpdateMutualOffer />}
           {visibleActiveService && <ActiveServicesFrom />}
           {visibleCheckTheMail && <CheckTheMail />}
           {visibleTestimonials && <CompletionTransaction />}
