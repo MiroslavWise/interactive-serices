@@ -6,7 +6,7 @@ export interface IRequestPhone {
   description?: string
 }
 
-interface IResponse {
+export interface IResponsePhones {
   id: number
   userId: number
   phone: string
@@ -18,6 +18,6 @@ interface IRequestVerifyPhone {
   code: string
 }
 
-export type TPostPhone = (values: IRequestPhone) => IPromiseReturn<IResponse>
-export type TGetPhones = () => IPromiseReturn<IResponse[]>
+export type TPostPhone = (values: IRequestPhone) => IPromiseReturn<IResponsePhones>
+export type TGetPhones = () => IPromiseReturn<IResponsePhones[]>
 export type TPostVerifyPhone = (values: IRequestVerifyPhone) => IPromiseReturn<any>

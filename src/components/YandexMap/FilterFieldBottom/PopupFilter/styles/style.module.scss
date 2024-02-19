@@ -1,137 +1,123 @@
 .popupFilter {
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    bottom: 14px;
-    left: 50%;
-    width: 554px;
-    height: 106.112px;
-    border-radius: 1rem;
-    background: rgba(0, 0, 0, 0.09);
-    border: 2px solid rgba(0, 0, 0, 0.06);
-    backdrop-filter: blur(0.25rem);
-    flex-shrink: 0;
-    z-index: 5;
-    transition: var(--transition);
-    transition-property: visibility, opacity;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  bottom: 14px;
+  left: 50%;
+  width: 554px;
+  height: 106.112px;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.09);
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(0.25rem);
+  flex-shrink: 0;
+  z-index: 5;
+  transition: var(--transition);
+  transition-property: visibility, opacity;
 
-    &[data-visible="true"] {
-        visibility: visible;
-        opacity: 1;
+  &[data-visible="true"] {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  & > ul {
+    position: relative;
+    height: 100%;
+    max-width: 554px;
+    width: 100%;
+    background: transparent;
+    overflow-x: auto;
+    scroll-direction: horizontal;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 0.75rem;
+    padding-inline: 1rem;
+
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-thumb {
+      display: none;
     }
 
-    & > ul {
-        position: relative;
-        height: 100%;
-        max-width: 554px;
-        width: 100%;
-        background: transparent;
-        overflow-x: auto;
-        scroll-direction: horizontal;
-        padding-bottom: 1rem;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-end;
-        gap: 0.75rem;
-        padding-inline: 1rem;
+    li {
+      height: 38px;
+      width: min-content;
+      display: flex;
+      padding: 5px 12px 5px 5px;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      border-radius: 19px;
+      border: 1px solid;
+      border-color: var(--grey-stroke-light);
+      background: var(--grey-field);
 
-        &::-webkit-scrollbar,
-        &::-webkit-scrollbar-thumb {
-            display: none;
+      transition: var(--transition);
+      transition-property: background;
+      cursor: pointer;
+
+      & > [data-icon] {
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 0.875rem;
+        background: var(--BG-icons);
+      }
+
+      p {
+        color: var(--text-primary);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.25rem;
+        letter-spacing: -0.5px;
+        white-space: nowrap;
+      }
+
+      &[data-active="true"] {
+        background: var(--element-accent-1);
+        border-color: var(--element-accent-1);
+
+        p {
+          color: var(--text-button);
         }
-
-        li {
-            height: 38px;
-            width: min-content;
-            display: flex;
-            padding: 5px 12px 5px 5px;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
-            border-radius: 19px;
-            border: 1px solid;
-            border-color: var(--gray-200);
-            background: var(--button-default-background);
-            transition: var(--transition);
-            transition-property: background;
-            cursor: pointer;
-
-            & > [data-icon] {
-                width: 1.75rem;
-                height: 1.75rem;
-                border-radius: 0.875rem;
-                background: var(--background);
-                border: 1px solid var(--stroke-1);
-            }
-
-            p {
-                color: var(--gray-900);
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 1.25rem;
-                letter-spacing: -0.5px;
-                white-space: nowrap;
-            }
-
-            &[data-active="true"] {
-                background: var(--primary-500);
-                border-color: var(--primary-500);
-
-                p {
-                    color: var(--supporting-white);
-                }
-            }
-        }
+      }
     }
-}
-
-[data-theme="dark"] {
-    .popupFilter {
-        & > ul {
-            li {
-                &[data-active="true"] {
-                    & > [data-icon] {
-                        background: var(--supporting-white);
-                    }
-                }
-            }
-        }
-    }
+  }
 }
 
 .button {
-    position: absolute;
-    width: 2rem;
-    height: 2rem;
-    padding: 0.5rem;
-    border-radius: 1rem;
-    border: 1px solid var(--stroke-1);
-    background: var(--button-default-background);
-    box-shadow: 0px 0.75rem 1.25rem 0px rgba(100, 104, 115, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 50%;
-    cursor: pointer;
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  background: var(--BG-second);
+  box-shadow: 0px 0.75rem 1.25rem 0px rgba(100, 104, 115, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  cursor: pointer;
 
-    &.prev {
-        left: -0.5rem;
-        transform: translate(-100%, -50%);
-    }
+  &.prev {
+    left: -0.5rem;
+    transform: translate(-100%, -50%);
+  }
 
-    &.next {
-        right: -0.5rem;
-        transform: translate(100%, -50%);
-    }
+  &.next {
+    right: -0.5rem;
+    transform: translate(100%, -50%);
+  }
 }
 
 .inputSearch {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    height: 52px;
-    transform: translate(-50%, -50%);
-    max-width: 346px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 52px;
+  transform: translate(-50%, -50%);
+  max-width: 346px;
 }
