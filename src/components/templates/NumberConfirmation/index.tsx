@@ -1,13 +1,15 @@
 "use client"
 
 import { useState } from "react"
+import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { dispatchNumberConfirmation, useNumberConfirmation } from "@/store"
-import { flushSync } from "react-dom"
+
+import styles from "./style.module.scss"
 
 export const NumberConfirmation = () => {
   const [loading, setLoading] = useState(false)
@@ -36,7 +38,7 @@ export const NumberConfirmation = () => {
   }
 
   return (
-    <div className={cx("wrapper-fixed")} data-visible={visible}>
+    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
       <section data-section-modal>
         <ButtonClose onClick={close} />
         <header>
