@@ -31,7 +31,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
     let title = ""
 
     if (categoryId) {
-      img = IconCategory(categoryId!)
+      img = IconCategory(categoryId!)!
     }
 
     if (categories && categoryId) {

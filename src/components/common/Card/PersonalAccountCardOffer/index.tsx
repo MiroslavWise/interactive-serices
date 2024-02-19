@@ -7,9 +7,15 @@ import type { IResponseOffers } from "@/services/offers/types"
 import { Button } from "@/components/common"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
-import { deleteOffer } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, dispatchDeleteOffer, useMapCoordinates, useOffersCategories, useUpdateMutualOffer } from "@/store"
+import {
+  dispatchBallonOffer,
+  dispatchDeleteOffer,
+  dispatchUpdateOffer,
+  useMapCoordinates,
+  useOffersCategories,
+  useUpdateMutualOffer,
+} from "@/store"
 
 import styles from "./style.module.scss"
 import { usePush } from "@/helpers"
@@ -36,24 +42,7 @@ export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseO
   }, [offer])
 
   function handleUpdate() {
-    dispatchUpdateMutual({
-      visible: true,
-      data: offer!,
-    })
-  }
-
-  function handleDelete() {
-    if (!loading) {
-      setLoading(true)
-      if (offer.id) {
-        deleteOffer(offer.id).then((response) => {
-          console.log("delete offer!", response)
-          requestAnimationFrame(() => {
-            refetch().finally(() => setLoading(false))
-          })
-        })
-      }
-    }
+    dispatchUpdateOffer(true, offer)
   }
 
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null

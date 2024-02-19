@@ -13,7 +13,7 @@ import type { IPostOffers, IResponseCreate } from "@/services/offers/types"
 import { ItemOffer } from "./components/ItemOffer"
 import { ItemProfile } from "./components/ItemProfile"
 import { ItemImages } from "../Balloon/Offer/components/ItemImages"
-import { Button, ButtonClose, LoadingProfile } from "@/components/common"
+import { Button, ButtonClose, ImageCategory, LoadingProfile } from "@/components/common"
 
 import {
   useAuth,
@@ -27,7 +27,6 @@ import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
 import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
@@ -238,21 +237,7 @@ export const ReciprocalExchange = () => {
                           }}
                         >
                           <div data-img>
-                            <img
-                              src={ICON_OBJECT_OFFERS.hasOwnProperty(item.id!) ? ICON_OBJECT_OFFERS[item.id!] : ICON_OBJECT_OFFERS.default}
-                              alt={`${item.id!}`}
-                              width={16}
-                              height={16}
-                              onError={(error: any) => {
-                                if (error?.target) {
-                                  try {
-                                    error.target.src = `/svg/category/default.svg`
-                                  } catch (e) {
-                                    console.log("catch e: ", e)
-                                  }
-                                }
-                              }}
-                            />
+                            <ImageCategory id={item.id!} />
                           </div>
                           <span>{item.title}</span>
                           {watch("category") === item.id ? <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} /> : null}
@@ -317,25 +302,7 @@ export const ReciprocalExchange = () => {
                           >
                             <div data-category>
                               <div data-img>
-                                <img
-                                  alt={`${item.id!}::`}
-                                  width={16}
-                                  height={16}
-                                  src={
-                                    ICON_OBJECT_OFFERS.hasOwnProperty(item.categoryId!)
-                                      ? ICON_OBJECT_OFFERS[item.categoryId!]
-                                      : ICON_OBJECT_OFFERS.default
-                                  }
-                                  onError={(error: any) => {
-                                    if (error?.target) {
-                                      try {
-                                        error.target.src = `/svg/category/default.svg`
-                                      } catch (e) {
-                                        console.log("catch e: ", e)
-                                      }
-                                    }
-                                  }}
-                                />
+                                <ImageCategory id={item.id!} />
                               </div>
                               <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
                             </div>

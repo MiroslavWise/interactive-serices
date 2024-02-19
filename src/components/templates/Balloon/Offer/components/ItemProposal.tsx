@@ -2,8 +2,9 @@ import { memo, useMemo } from "react"
 
 import { daysAgo } from "@/helpers"
 import { ItemImages } from "./ItemImages"
-import { ICON_OBJECT_OFFERS } from "@/lib/icon-set"
-import { useBalloonOffer, useOffersCategories } from "@/store/hooks"
+import { ImageCategory } from "@/components/common"
+
+import { useBalloonOffer, useOffersCategories } from "@/store"
 
 import styles from "../styles/proposal.module.scss"
 
@@ -35,12 +36,7 @@ export const ItemProposal = memo(function ItemProposal() {
             {categoriesOffer.map((item) => (
               <a key={`::${item.id}::wants::`}>
                 <div data-img>
-                  <img
-                    src={ICON_OBJECT_OFFERS.hasOwnProperty(item.id) ? ICON_OBJECT_OFFERS[item.id!] : ICON_OBJECT_OFFERS.default}
-                    alt="item"
-                    height={16}
-                    width={16}
-                  />
+                  <ImageCategory id={item.id!} />
                 </div>
                 <span>{item.title || ""}</span>
               </a>

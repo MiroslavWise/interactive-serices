@@ -45,7 +45,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
     let img = "/svg/category/default.svg"
 
     if (provider === "offer" && categoryId) {
-      img = IconCategory(categoryId!)
+      img = IconCategory(categoryId!)!
     }
 
     const obj: Readonly<Partial<Record<TTypeProvider, any>>> = {
