@@ -16,7 +16,7 @@ export const BalloonAlert = () => {
   const offer = useBalloonAlert(({ offer }) => offer)
   const visible = useBalloonAlert(({ visible }) => visible)
 
-  const images = offer?.images || []
+  const { title, content, images = [], updated } = offer ?? {}
 
   function close() {
     dispatchBallonAlert({ visible: false, offer: undefined })
@@ -30,13 +30,13 @@ export const BalloonAlert = () => {
           <div data-img>
             <img src="/svg/SOS.svg" alt="SOS" width={24} height={24} />
           </div>
-          <h3>SOS-cообщение</h3>
+          <h3>{content ? content : "SOS-cообщение"}</h3>
         </header>
         <div data-container>
           <article>
-            <p>{offer?.title}</p>
+            <p>{title}</p>
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
-            {offer?.updated ? <time>{daysAgo(offer?.updated)}</time> : null}
+            {updated ? <time>{daysAgo(updated)}</time> : null}
           </article>
           <BlockCommentaries isAlert />
         </div>

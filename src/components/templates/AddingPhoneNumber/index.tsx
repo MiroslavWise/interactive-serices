@@ -9,7 +9,7 @@ import { Button, ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { postPhone } from "@/services/phones"
 import { serviceAuthErrors } from "@/services"
-import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAddingPhoneNumber } from "@/store"
+import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, dispatchStartTimerNumberConfirmation, useAddingPhoneNumber } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -34,9 +34,10 @@ export const AddingPhoneNumber = () => {
         phone: values.phone!,
       }).then((response) => {
         if (response.ok) {
+          dispatchStartTimerNumberConfirmation()
           dispatchNumberConfirmation(true, values.phone)
           flushSync(() => {
-            dispatchAddingPhoneNumber(false)
+            close()
           })
         } else {
           setError("phone", {
