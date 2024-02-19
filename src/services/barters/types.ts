@@ -1,19 +1,20 @@
-import type { IReturnData, IPromiseReturn } from "@/services/types/general"
+import type { IPromiseReturn } from "@/services/types/general"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
-import type { TTypeProvider, TTypeStatusBarter } from "@/services/file-upload/types"
+import type { TTypeStatusBarter } from "@/services/file-upload/types"
+import { EnumTypeProvider } from "@/types/enum"
 
 export interface ISmallThread {
   id: number
   title: string
   parentId: number | null
   emitterId: number
-  provider: TTypeProvider
+  provider: EnumTypeProvider
 }
 
 export interface ISmallDataOfferBarter {
   id: number
   parentId?: number
-  provider: TTypeProvider
+  provider: EnumTypeProvider.barter
   title: string
   slug: string
   description: string | null
@@ -38,7 +39,7 @@ export interface IBarterResponse {
   imageId: number | null
   userId: number | null
   updatedById: number | null
-  provider: TTypeProvider
+  provider: EnumTypeProvider.barter
   created: Date
   updated: Date
   timestamp: Date
@@ -53,7 +54,7 @@ export interface IPostDataBarter {
   parentId?: number
   categoryId?: number
   threadId?: number
-  provider: TTypeProvider //всегда "barter"
+  provider: EnumTypeProvider.barter //всегда "barter"
   title: string
   imageId?: number | null
   orderBy?: number

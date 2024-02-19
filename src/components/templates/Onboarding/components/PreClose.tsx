@@ -4,6 +4,7 @@ import { cx } from "@/lib/cx"
 import { dispatchOnboarding, dispatchOnboardingContinue, useOnboarding } from "@/store"
 
 import styles from "../styles/pre-close.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const PreClose = () => {
   const type = useOnboarding(({ type }) => type)
@@ -22,15 +23,15 @@ export const PreClose = () => {
       <section>
         <ButtonClose position={{}} onClick={dispatchOnboardingContinue} />
         <article>
-          {["offer", "alert", "discussion"].includes(type!) ? (
+          {[EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(type! as EnumTypeProvider) ? (
             <div data-img>
               <img
                 src={
-                  type === "offer"
+                  type === EnumTypeProvider.offer
                     ? "/svg/3d/3d-speaker.svg"
-                    : type === "alert"
+                    : type === EnumTypeProvider.alert
                     ? "/svg/3d/3d-sos.svg"
-                    : type === "discussion"
+                    : type === EnumTypeProvider.discussion
                     ? "/svg/3d/3d-message.svg"
                     : ""
                 }
@@ -42,7 +43,14 @@ export const PreClose = () => {
           ) : null}
           <h3>
             Прервать обучение по созданию{" "}
-            {type === "offer" ? " Предложения" : type === "alert" ? " SOS-сообщения" : type === "discussion" ? "Обсуждения" : null}?
+            {type === EnumTypeProvider.offer
+              ? " Предложения"
+              : type === EnumTypeProvider.alert
+              ? " SOS-сообщения"
+              : type === EnumTypeProvider.discussion
+              ? "Обсуждения"
+              : null}
+            ?
           </h3>
         </article>
         <div data-buttons>

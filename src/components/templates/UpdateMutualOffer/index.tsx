@@ -17,6 +17,7 @@ import { getUserIdOffers, patchOffer, fileUploadService } from "@/services"
 import { useAuth, useOffersCategories, useUpdateMutualOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const UpdateMutualOffer = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -110,11 +111,11 @@ export const UpdateMutualOffer = () => {
   }
 
   const headerTitle =
-    provider === "alert"
+    provider === EnumTypeProvider.alert
       ? "Обновить SOS"
-      : provider === "offer"
+      : provider === EnumTypeProvider.offer
       ? "Обновить предложение"
-      : provider === "discussion"
+      : provider === EnumTypeProvider.discussion
       ? "Обновить обсуждение"
       : null
 

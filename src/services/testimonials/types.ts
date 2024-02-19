@@ -1,4 +1,4 @@
-import type { TTypeProvider } from "../file-upload/types"
+import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn } from "../types/general"
 
 export type TStatusFeedback = "published" | "blocked" | "edited"
@@ -7,7 +7,7 @@ export type TNumberRating = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | number
 export interface IPostTestimonials {
   receiverId: number
   targetId: number
-  provider: TTypeProvider
+  provider: EnumTypeProvider
   rating: TNumberRating
   barterId?: number
   message: string
@@ -21,7 +21,7 @@ export interface IResponseTestimonials {
   id: number
   userId: number
   targetId: number
-  provider: TTypeProvider
+  provider: EnumTypeProvider
   barterId?: number
   rating: TNumberRating //1-10
   message: string
@@ -39,7 +39,7 @@ export interface IServiceTestimonials {
 }
 
 interface IQueries {
-  provider?: TTypeProvider
+  provider?: EnumTypeProvider
   user?: number | string
   target?: number
   status?: TStatusFeedback

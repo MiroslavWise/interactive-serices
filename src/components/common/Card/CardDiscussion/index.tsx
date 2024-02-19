@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
@@ -15,18 +16,18 @@ export function CardDiscussion(props: IResponseOffers) {
   const { title, images, provider } = props ?? {}
 
   function handleOpenMore() {
-    if (provider === "discussion") {
+    if (provider === EnumTypeProvider.discussion) {
       dispatchBallonDiscussion({
         visible: true,
         offer: props,
       })
       return
-    } else if (provider === "alert") {
+    } else if (provider === EnumTypeProvider.alert) {
       dispatchBallonAlert({
         visible: true,
         offer: props,
       })
-    } else if (provider === "offer") {
+    } else if (provider === EnumTypeProvider.offer) {
       dispatchBallonOffer({
         visible: true,
         offer: props,

@@ -1,4 +1,4 @@
-import type { TTypeProvider } from "../file-upload/types"
+import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn } from "../types/general"
 
 export interface IPostOffersThreads {
@@ -30,6 +30,6 @@ interface IQueries {
   user?: number
   target?: number
   status?: string
-  provider?: TTypeProvider
+  provider?: EnumTypeProvider
   offer?: number
 }

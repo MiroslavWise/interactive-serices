@@ -1,17 +1,17 @@
+import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn } from "../types/general"
-import type { TTypeProvider } from "../file-upload/types"
 
 export interface IPostComplains {
   receiverId: number
   message: string
   enabled: boolean
-  provider: TTypeProvider //profile
+  provider: EnumTypeProvider //profile
 }
 
 export interface IResponseComplains {
   id: number
   message: string
-  provider: TTypeProvider
+  provider: EnumTypeProvider
   userId: number
   receiverId: number
   created: string

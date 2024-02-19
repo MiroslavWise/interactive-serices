@@ -17,6 +17,7 @@ import { IconCategory } from "@/lib/icon-set"
 import { useAuth, useProfilePublic, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
   const current = usePhotoOffer(({ current }) => current)
@@ -67,7 +68,8 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
 
   const geo = (offer?.addresses && offer?.addresses?.length && offer?.addresses[0]) || null
   const categoriesUser = useMemo(
-    () => (offer?.provider === "offer" ? categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || [] : []),
+    () =>
+      offer?.provider === EnumTypeProvider.offer ? categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || [] : [],
     [categories, offer?.categories, offer?.provider],
   )
 
@@ -118,7 +120,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                 <span>Могу: </span>
                 {offer?.title!}
               </h3>
-              {categoriesUser.length && offer?.provider === "offer" ? (
+              {categoriesUser.length && offer?.provider === EnumTypeProvider.offer ? (
                 <article data-article-want>
                   <p>Хочу:</p>
                   {categoriesUser.map((item) => (
@@ -190,7 +192,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
               >
                 <span>Подробнее</span>
               </Link>
-              {["offer"].includes(offer?.provider!) && userId && userId !== offer?.userId ? (
+              {[EnumTypeProvider.offer].includes(offer?.provider!) && userId && userId !== offer?.userId ? (
                 <Button
                   type="button"
                   typeButton="fill-primary"
@@ -199,7 +201,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                   suffixIcon={<img src="/svg/repeat-black.svg" alt="/repeat-black" width={24} height={24} />}
                 />
               ) : null}
-              {["alert"]?.includes(offer?.provider!) ? <ButtonCanHelp id={offer?.id!} idUser={offer?.userId!} /> : null}
+              {[EnumTypeProvider.alert]?.includes(offer?.provider!) ? <ButtonCanHelp id={offer?.id!} idUser={offer?.userId!} /> : null}
             </footer>
           </section>
         </>

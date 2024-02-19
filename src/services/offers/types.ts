@@ -1,8 +1,8 @@
-import type { TTypeProvider } from "../file-upload/types"
 import type { IPromiseReturn, TOrder } from "../types/general"
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IGetProfileIdResponse } from "../profile/types"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { EnumTypeProvider } from "@/types/enum"
 
 export interface IResponseCreate {
   id: number
@@ -13,7 +13,7 @@ export interface IPostOffers {
   categoryId?: number
   addresses?: number[]
   subscribers?: number[]
-  provider: TTypeProvider
+  provider: EnumTypeProvider
   title: string
   slug: string
   description?: string
@@ -35,7 +35,7 @@ export interface IResponseOffers {
   id: number
   parentId?: number
   categoryId?: number
-  provider: TTypeProvider
+  provider: EnumTypeProvider
   title: string
   slug: string
   description?: string
@@ -54,7 +54,7 @@ export interface IQueriesOffers {
   category?: string
   order?: TOrder
   user?: number
-  provider?: TTypeProvider
+  provider?: EnumTypeProvider
 }
 
 export interface IServiceOffers {

@@ -2,9 +2,11 @@
 
 import { useEffect } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { usePush } from "@/helpers"
 import { queryClient } from "@/context"
-import { getIdOffer, serviceOffers } from "@/services"
+import { getIdOffer } from "@/services"
 import { dispatchBallonOffer } from "@/store"
 
 export default function () {
@@ -32,7 +34,7 @@ export default function () {
             })
             .then((response) => {
               if (response.ok) {
-                if (response?.res?.provider === "offer") {
+                if (response?.res?.provider === EnumTypeProvider.offer) {
                   dispatchBallonOffer({
                     visible: true,
                     offer: response?.res!,

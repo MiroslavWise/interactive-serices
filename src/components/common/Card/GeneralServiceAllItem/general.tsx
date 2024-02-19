@@ -4,8 +4,8 @@ import { forwardRef, useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { IGeneralServiceAllItem } from "./types"
-import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { ButtonCanHelp } from "@/components/common/custom"
 import { GeoTagging, LoadingProfile, NextImageMotion } from "@/components/common"
@@ -44,22 +44,21 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
   const typeImagePng: string | null = useMemo(() => {
     let img = "/svg/category/default.svg"
 
-    if (provider === "offer" && categoryId) {
+    if (provider === EnumTypeProvider.offer && categoryId) {
       img = IconCategory(categoryId!)!
     }
 
-    const obj: Readonly<Partial<Record<TTypeProvider, any>>> = {
-      offer: img,
-      discussion: "/map/circle-discussion.png",
-      alert: "/map/circle-alert.png",
-      request: "/map/circle-offers-default.png",
+    const obj: Readonly<Partial<Record<EnumTypeProvider, any>>> = {
+      [EnumTypeProvider.offer]: img,
+      [EnumTypeProvider.discussion]: "/map/circle-discussion.png",
+      [EnumTypeProvider.alert]: "/map/circle-alert.png",
     }
 
     return obj[provider] || null
   }, [provider, categoryId])
 
   const categoryOffer: string | null =
-    ["offer"].includes(provider) && categoryId && categories.length
+    [EnumTypeProvider.offer].includes(provider) && categoryId && categories.length
       ? categories.find((item) => Number(item.id) === Number(categoryId))?.title!
       : null
 
@@ -71,18 +70,18 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
         coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
       })
       const { ref, className, style, ...offer } = props ?? {}
-      if (provider === "offer") {
+      if (provider === EnumTypeProvider.offer) {
         dispatchBallonOffer({
           visible: true,
           offer: offer,
         })
         return
-      } else if (provider === "discussion") {
+      } else if (provider === EnumTypeProvider.discussion) {
         dispatchBallonDiscussion({
           visible: true,
           offer: offer,
         })
-      } else if (provider === "alert") {
+      } else if (provider === EnumTypeProvider.alert) {
         dispatchBallonAlert({
           visible: true,
           offer: offer,
@@ -115,7 +114,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
   const geo = addresses && !!addresses.length && addresses[0]
 
   const categoriesUser = useMemo(() => {
-    return provider === "offer" ? categories?.filter((item) => categoriesOffer?.some((_) => item.id === _)) || [] : []
+    return provider === EnumTypeProvider.offer ? categories?.filter((item) => categoriesOffer?.some((_) => item.id === _)) || [] : []
   }, [categories, categoriesOffer])
 
   return (
@@ -127,7 +126,7 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
           <div className={styles.typeImage} />
         )}
         {categoryOffer && <h3>{categoryOffer}</h3>}
-        {provider === "alert" ? <ButtonCanHelp id={id!} idUser={userId!} /> : null}
+        {provider === EnumTypeProvider.alert ? <ButtonCanHelp id={id!} idUser={userId!} /> : null}
       </header>
       <section>
         {isLoadProfile ? (
@@ -161,11 +160,11 @@ export const GeneralServiceAllItem = forwardRef(function GeneralServiceAllItem(p
         )}
         {title && (
           <h4>
-            {provider === "offer" && <span>Могу: </span>}
+            {provider === EnumTypeProvider.offer && <span>Могу: </span>}
             {title}
           </h4>
         )}
-        {categoriesUser.length && provider === "offer" ? (
+        {categoriesUser.length && provider === EnumTypeProvider.offer ? (
           <article data-article-want>
             <p>Хочу:</p>
             {categoriesUser.map((item) => (

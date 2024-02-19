@@ -2,7 +2,7 @@ import { create } from "zustand"
 
 import type { IUseAddCreateModal } from "../types/useAddCreateModal"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import { TTypeProvider } from "@/services/file-upload/types"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const useAddCreateModal = create<IUseAddCreateModal>((set, get) => ({
   isVisible: false,
@@ -27,7 +27,7 @@ export const useAddCreateModal = create<IUseAddCreateModal>((set, get) => ({
   },
 }))
 
-export const openCreateOffers = (value: TTypeProvider) =>
+export const openCreateOffers = (value: EnumTypeProvider) =>
   useAddCreateModal.setState(() => ({
     isVisible: true,
     typeAdd: value,

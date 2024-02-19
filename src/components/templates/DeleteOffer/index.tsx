@@ -4,6 +4,8 @@ import { useState } from "react"
 import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
@@ -20,8 +22,8 @@ export const DeleteOffer = () => {
   const [loading, setLoading] = useState(false)
 
   const { refetch } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: "offer", order: "DESC" }),
-    queryKey: ["offers", { userId: userId, provider: "offer" }],
+    queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+    queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
     enabled: false,
   })
 

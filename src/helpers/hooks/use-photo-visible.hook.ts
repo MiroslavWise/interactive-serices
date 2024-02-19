@@ -1,5 +1,5 @@
 import { usePhotoOffer } from "@/store/hooks"
-import { IResponseOffers } from "@/services/offers/types"
+import type { IResponseOffers } from "@/services/offers/types"
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IAuthor } from "@/store/types/createPhotoOffer"
 

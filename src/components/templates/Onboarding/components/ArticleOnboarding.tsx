@@ -8,6 +8,7 @@ import { CONTENT_ALERT, CONTENT_DISCUSSION, CONTENT_OFFER } from "../constants/s
 import { useOnboarding, dispatchOnboarding, useVisibleBannerNewServices, useAddCreateModal, dispatchOnboardingType } from "@/store/hooks"
 
 import styles from "../styles/article-onboarding.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const ArticleOnboarding = () => {
   const refPosition = useRef<CSSProperties>({ top: "50%", left: "50%" })
@@ -159,25 +160,25 @@ export const ArticleOnboarding = () => {
   }
 
   function handlePrevType() {
-    if (type === "offer") {
+    if (type === EnumTypeProvider.offer) {
       return
-    } else if (type === "alert") {
-      dispatchOnboardingType("offer")
+    } else if (type === EnumTypeProvider.alert) {
+      dispatchOnboardingType(EnumTypeProvider.offer)
       return
-    } else if (type === "discussion") {
-      dispatchOnboardingType("alert")
+    } else if (type === EnumTypeProvider.discussion) {
+      dispatchOnboardingType(EnumTypeProvider.alert)
       return
     }
   }
 
   function handleNextType() {
-    if (type === "offer") {
-      dispatchOnboardingType("alert")
+    if (type === EnumTypeProvider.offer) {
+      dispatchOnboardingType(EnumTypeProvider.alert)
       return
-    } else if (type === "alert") {
-      dispatchOnboardingType("discussion")
+    } else if (type === EnumTypeProvider.alert) {
+      dispatchOnboardingType(EnumTypeProvider.discussion)
       return
-    } else if (type === "discussion") {
+    } else if (type === EnumTypeProvider.discussion) {
       return
     }
   }
@@ -228,11 +229,11 @@ export const ArticleOnboarding = () => {
             <h3>
               {" "}
               {step
-                ? type === "offer"
+                ? type === EnumTypeProvider.offer
                   ? CONTENT_OFFER?.[step]?.title
-                  : type === "alert"
+                  : type === EnumTypeProvider.alert
                   ? CONTENT_ALERT?.[step]?.title
-                  : type === "discussion"
+                  : type === EnumTypeProvider.discussion
                   ? CONTENT_DISCUSSION?.[step]?.title
                   : null
                 : null}
@@ -249,11 +250,11 @@ export const ArticleOnboarding = () => {
           </header>
           <p>
             {step
-              ? type === "offer"
+              ? type === EnumTypeProvider.offer
                 ? CONTENT_OFFER?.[step]?.description
-                : type === "alert"
+                : type === EnumTypeProvider.alert
                 ? CONTENT_ALERT?.[step]?.description
-                : type === "discussion"
+                : type === EnumTypeProvider.discussion
                 ? CONTENT_DISCUSSION?.[step]?.description
                 : null
               : null}
@@ -261,8 +262,16 @@ export const ArticleOnboarding = () => {
         </div>
         {step === 1 && !!type ? (
           <div data-footer>
-            {type !== "offer" ? <Button type="button" typeButton="regular-primary" label="Назад" onClick={handlePrevType} /> : null}
-            <Button type="button" typeButton="white" label="Далее" onClick={handleNextType} disabled={type === "discussion"} />
+            {type !== EnumTypeProvider.offer ? (
+              <Button type="button" typeButton="regular-primary" label="Назад" onClick={handlePrevType} />
+            ) : null}
+            <Button
+              type="button"
+              typeButton="white"
+              label="Далее"
+              onClick={handleNextType}
+              disabled={type === EnumTypeProvider.discussion}
+            />
           </div>
         ) : null}
         {step > 1 && step < 5 ? (

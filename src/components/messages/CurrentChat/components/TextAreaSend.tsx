@@ -6,6 +6,7 @@ import { isMobile } from "react-device-detect"
 import { ChangeEvent, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TTextAreaSend } from "./types/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
 
@@ -82,7 +83,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
         Promise.all(
           files.map((item) =>
             fileUploadService(item, {
-              type: "threads",
+              type: EnumTypeProvider.threads,
               userId: userId!,
               idSupplements: Number(idThread),
             }),

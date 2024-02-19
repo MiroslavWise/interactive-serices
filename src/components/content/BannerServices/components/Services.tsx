@@ -3,6 +3,7 @@
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TServicesFC } from "../types/types"
 
 import { ServiceLoading } from "@/components/common"
@@ -63,8 +64,8 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
       {isLoading
         ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
         : items.map((item) => {
-            if (item.provider === "offer") return <GeneralOffer key={`::${item.id}::offer::`} offer={item} />
-            if (item.provider === "alert") return <GeneralAlert key={`::${item.id}::offer::`} offer={item} />
+            if (item.provider === EnumTypeProvider.offer) return <GeneralOffer key={`::${item.id}::offer::`} offer={item} />
+            if (item.provider === EnumTypeProvider.alert) return <GeneralAlert key={`::${item.id}::offer::`} offer={item} />
             return <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />
           })}
     </ul>
