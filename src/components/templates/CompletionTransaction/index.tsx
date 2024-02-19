@@ -15,6 +15,7 @@ import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
 import { serviceNotifications, getTestimonials, getBarterId, getThreadId, postTestimonial } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const CompletionTransaction = () => {
   const [isFirst, setIsFirst] = useState(true)
@@ -75,10 +76,10 @@ export const CompletionTransaction = () => {
     queryFn: () =>
       getTestimonials({
         target: offerId!,
-        provider: "offer",
+        provider: EnumTypeProvider.offer,
         barter: barterId!,
       }),
-    queryKey: ["testimonials", { targetId: offerId, provider: "offer", barterId: barterId }],
+    queryKey: ["testimonials", { targetId: offerId, provider: EnumTypeProvider.offer, barterId: barterId }],
     enabled: false,
   })
 
@@ -97,7 +98,7 @@ export const CompletionTransaction = () => {
       Promise.all([
         postTestimonial({
           targetId: idOffer!,
-          provider: "offer",
+          provider: EnumTypeProvider.offer,
           barterId: barterId!,
           rating: values.rating!,
           message: values.message,

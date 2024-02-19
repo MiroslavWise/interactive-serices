@@ -3,8 +3,8 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TContainerSuggestions } from "./types/types"
-import type { TTypeProvider } from "@/services/file-upload/types"
 
 import { Button, LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
 import { CardDiscussion } from "@/components/common/Card"
@@ -14,10 +14,10 @@ import { openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
-const titleEmpty: Map<TTypeProvider, string> = new Map([
-  ["offer", "У вас нет опубликованных предложений на карте."],
-  ["discussion", "У вас нет опубликованных дискуссий на карте."],
-  ["alert", "У вас нет опубликованных SOS-сообщений на карте."],
+const titleEmpty: Map<EnumTypeProvider, string> = new Map([
+  [EnumTypeProvider.offer, "У вас нет опубликованных предложений на карте."],
+  [EnumTypeProvider.discussion, "У вас нет опубликованных дискуссий на карте."],
+  [EnumTypeProvider.alert, "У вас нет опубликованных SOS-сообщений на карте."],
 ])
 
 export const ContainerSuggestions: TContainerSuggestions = () => {
@@ -31,10 +31,10 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
   })
 
   const functionAndTitle = useMemo(() => {
-    const title: Map<Partial<TTypeProvider>, string> = new Map([
-      ["offer", "Создать предложение"],
-      ["discussion", "Создать дискуссию"],
-      ["alert", "Создать SOS"],
+    const title: Map<Partial<EnumTypeProvider>, string> = new Map([
+      [EnumTypeProvider.offer, "Создать предложение"],
+      [EnumTypeProvider.discussion, "Создать дискуссию"],
+      [EnumTypeProvider.alert, "Создать SOS"],
     ])
 
     return {
@@ -47,11 +47,14 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
     <ul className={styles.containerSuggestions} data-loading={isLoading} data-length={data?.res?.length === 0}>
       {isLoading ? (
         [1, 2, 3, 4].map((item) => <LoadingMyOffer key={`::item::my::offer::loading::${item}::`} />)
-      ) : data?.res && Array.isArray(data?.res) && ["offer"].includes(stateProvider) && data?.res?.length > 0 ? (
+      ) : data?.res && Array.isArray(data?.res) && [EnumTypeProvider.offer].includes(stateProvider) && data?.res?.length > 0 ? (
         data?.res
           ?.filter((item) => item?.addresses?.length > 0)
           .map((item, index) => <PersonalAccountCardOffer key={`${item.id}+${index}-${stateProvider}`} offer={item!} refetch={refetch} />)
-      ) : data?.res && Array.isArray(data?.res) && ["discussion", "alert"].includes(stateProvider) && data?.res?.length > 0 ? (
+      ) : data?.res &&
+        Array.isArray(data?.res) &&
+        [EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(stateProvider) &&
+        data?.res?.length > 0 ? (
         data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
       ) : (
         <article>

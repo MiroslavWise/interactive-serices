@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { type ReactNode, useMemo, useState } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { IResponseNotifications } from "@/services/notifications/types"
 import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
 
@@ -70,10 +71,10 @@ export const ItemNotification = (props: IResponseNotifications) => {
     queryFn: () =>
       getTestimonials({
         target: offerId!,
-        provider: "offer",
+        provider: EnumTypeProvider.offer,
         barter: data?.id!,
       }),
-    queryKey: ["testimonials", { barterId: data?.id, targetId: offerId, provider: "offer" }],
+    queryKey: ["testimonials", { barterId: data?.id, targetId: offerId, provider: EnumTypeProvider.offer }],
     enabled:
       ["executed", "destroyed", "completed"]?.includes(data?.status!) &&
       !!offerId &&

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query"
 //@ts-ignore
 import Masonry from "react-responsive-masonry"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TContainerServices } from "./types/types"
 
 import { ServiceLoading } from "@/components/common"
@@ -21,8 +22,8 @@ export const ContainerServices: TContainerServices = ({}) => {
   const id = useSearchParams().get("id")
 
   const { data: dataOffer, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(id!, { provider: "offer" }),
-    queryKey: ["offers", { userId: id, provider: "offer" }],
+    queryFn: () => getUserIdOffers(id!, { provider: EnumTypeProvider.offer }),
+    queryKey: ["offers", { userId: id, provider: EnumTypeProvider.offer }],
     enabled: !!id,
   })
 
@@ -37,14 +38,14 @@ export const ContainerServices: TContainerServices = ({}) => {
       ) : isMobile ? (
         <ul className={styles.containerRequestsAndProposals}>
           {list?.map((item) => {
-            if (item.provider === "offer") return <GeneralOffer key={`::${item?.id}::item::key::offer::`} offer={item} />
+            if (item.provider === EnumTypeProvider.offer) return <GeneralOffer key={`::${item?.id}::item::key::offer::`} offer={item} />
             return <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
           })}
         </ul>
       ) : (
         <Masonry gutter="16px" columnsCount={2}>
           {list.map((item) => {
-            if (item.provider === "offer") return <GeneralOffer key={`::${item?.id}::item::key::offer::`} offer={item} />
+            if (item.provider === EnumTypeProvider.offer) return <GeneralOffer key={`::${item?.id}::item::key::offer::`} offer={item} />
             return <GeneralServiceAllItem key={`::${item?.id}::item::key::offer::`} {...item} />
           })}
         </Masonry>

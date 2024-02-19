@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
 import type { TBadges } from "./types/types"
+import { EnumTypeProvider } from "@/types/enum"
 
 import { BadgeAchievementsBorder } from "@/components/common"
 
@@ -45,8 +46,8 @@ export const Badges: TBadges = ({ id }) => {
   const dataQueries = useQueries({
     queries: [
       {
-        queryFn: () => getUserIdOffers(id!, { provider: "offer", order: "DESC" }),
-        queryKey: ["offers", { userId: id, provider: "offer" }],
+        queryFn: () => getUserIdOffers(id!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+        queryKey: ["offers", { userId: id, provider: EnumTypeProvider.offer }],
         enabled: !!id,
       },
       {

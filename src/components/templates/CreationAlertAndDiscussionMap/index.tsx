@@ -12,6 +12,7 @@ import { NEW_CREATE_BADGES } from "../NewServicesBanner/constants"
 import { useVisibleBannerNewServices, openCreateOffers, dispatchAddressOffers } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({ refCreate, isOpen, addressInit, setIsOpen }) => {
   const { dispatchNewServicesBanner } = useVisibleBannerNewServices()
@@ -19,7 +20,7 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
   function handleType(value: TAddCreate) {
     if (value) {
       dispatchAddressOffers(addressInit)
-      openCreateOffers(value)
+      openCreateOffers(value as EnumTypeProvider)
     }
     dispatchNewServicesBanner(false)
   }

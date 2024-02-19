@@ -14,6 +14,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchUpdateProfile, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
 import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
+import { EnumTypeProvider } from "@/types/enum"
 
 const GENDER: { label: string; value: "male" | "female" }[] = [
   {
@@ -69,7 +70,7 @@ export const PersonalData = () => {
 
   async function UpdatePhotoProfile(id: number) {
     return fileUploadService(file.file!, {
-      type: "profile",
+      type: EnumTypeProvider.profile,
       userId: userId!,
       idSupplements: id!,
     })

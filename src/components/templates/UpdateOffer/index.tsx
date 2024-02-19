@@ -19,6 +19,7 @@ import { dispatchUpdateOffer, useAuth, useOffersCategories, useUpdateOffer } fro
 
 import styles from "./style.module.scss"
 import { UploadPhoto } from "@/components/common/custom"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const UpdateOffer = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -37,8 +38,8 @@ export const UpdateOffer = () => {
   const [focus, setFocus, ref] = useOutsideClickEvent()
 
   const { refetch } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: "offer", order: "DESC" }),
-    queryKey: ["offers", { userId: userId, provider: "offer" }],
+    queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+    queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
     enabled: false,
   })
 
@@ -140,7 +141,7 @@ export const UpdateOffer = () => {
         const responses = await Promise.all([
           ...files.map((item) =>
             fileUploadService(item!, {
-              type: "offer",
+              type: EnumTypeProvider.offer,
               userId: userId!,
               idSupplements: offer?.id!,
             }),

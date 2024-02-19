@@ -30,6 +30,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const ReciprocalExchange = () => {
   const refreshAuth = useAuth(({ refresh }) => refresh)
@@ -54,8 +55,8 @@ export const ReciprocalExchange = () => {
   })
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: "offer", order: "DESC" }),
-    queryKey: ["offers", { userId: userId, provider: "offer" }],
+    queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+    queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   })
@@ -93,7 +94,7 @@ export const ReciprocalExchange = () => {
 
       const dataNewOffer: IPostOffers = {
         categoryId: watch("category"),
-        provider: "offer",
+        provider: EnumTypeProvider.offer,
         title: values.description,
         slug: transliterateAndReplace(values.description),
         enabled: true,
@@ -116,7 +117,7 @@ export const ReciprocalExchange = () => {
       ]).then((response: [IReturnData<IResponseCreate>]) => {
         if (response?.[0]?.ok) {
           const dataBarter: IPostDataBarter = {
-            provider: "barter",
+            provider: EnumTypeProvider.barter,
             title: "",
             initialId: response[0]?.res?.id!, //number
             consignedId: offer?.id!, //number

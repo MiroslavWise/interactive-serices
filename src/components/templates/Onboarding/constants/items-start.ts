@@ -1,4 +1,4 @@
-import { TTypeProvider } from "@/services/file-upload/types"
+import { EnumTypeProvider } from "@/types/enum"
 
 interface IItemsStart {
   sub: string
@@ -6,7 +6,7 @@ interface IItemsStart {
     title: string
     icon: string
   }
-  action: TTypeProvider | null
+  action: EnumTypeProvider | null
 }
 
 export const ITEMS_START: IItemsStart[] = [
@@ -16,7 +16,7 @@ export const ITEMS_START: IItemsStart[] = [
       title: "Предложение",
       icon: "/svg/3d/3d-speaker.svg",
     },
-    action: "offer",
+    action: EnumTypeProvider.offer,
   },
   {
     sub: "Создать первое",
@@ -24,7 +24,7 @@ export const ITEMS_START: IItemsStart[] = [
       title: "SOS-сообщение",
       icon: "/svg/3d/3d-sos.svg",
     },
-    action: "alert",
+    action: EnumTypeProvider.alert,
   },
   {
     sub: "Создать первое",
@@ -32,7 +32,7 @@ export const ITEMS_START: IItemsStart[] = [
       title: "Дискуссию",
       icon: "/svg/3d/3d-message.svg",
     },
-    action: "discussion",
+    action: EnumTypeProvider.discussion,
   },
   {
     sub: "Попробовать позже",

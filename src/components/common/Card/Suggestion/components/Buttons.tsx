@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
@@ -44,7 +45,13 @@ export const Buttons = ({ refetch, offer }: { offer: IResponseOffers; refetch():
       <Button
         type="button"
         typeButton={"fill-primary"}
-        label={offer?.provider === "offer" ? "Изменить предложение" : offer?.provider === "request" ? "Изменить запрос" : "Изменить"}
+        label={
+          offer?.provider === EnumTypeProvider.offer
+            ? "Изменить предложение"
+            : offer?.provider === "request"
+            ? "Изменить запрос"
+            : "Изменить"
+        }
         onClick={handleUpdate}
         prefixIcon={<Image src="/svg/edit-white.svg" alt="edit" width={16} height={16} unoptimized />}
         className={styles.buttonFill}

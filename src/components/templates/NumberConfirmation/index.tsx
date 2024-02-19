@@ -3,21 +3,30 @@
 import { useState } from "react"
 import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
+import { useQuery } from "@tanstack/react-query"
 
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { getUserId } from "@/services"
 import { postVerifyPhone } from "@/services/phones"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchNumberConfirmation, useNumberConfirmation } from "@/store"
+import { dispatchNumberConfirmation, useAuth, useNumberConfirmation } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const NumberConfirmation = () => {
+  const userId = useAuth(({ userId }) => userId)
   const [loading, setLoading] = useState(false)
   const number = useNumberConfirmation(({ number }) => number)
   const visible = useNumberConfirmation(({ visible }) => visible)
   const { on } = useToast()
+
+  const { refetch } = useQuery({
+    queryFn: () => getUserId(userId!),
+    queryKey: ["user", { userId: userId }],
+    enabled: false,
+  })
 
   const {
     register,
@@ -35,6 +44,7 @@ export const NumberConfirmation = () => {
         code: values.code,
       }).then((response) => {
         if (response.ok) {
+          refetch()
           on({ message: "Номер телефона успешно добавлен" })
           flushSync(() => {
             close()

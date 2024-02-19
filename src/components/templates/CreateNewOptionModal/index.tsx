@@ -24,6 +24,7 @@ import { dispatchOnboarding, useAuth, useFilterMap, useOffersCategories, useOnbo
 import { getOffers, getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const CreateNewOptionModal = () => {
   const [isFirst, setIsFirst] = useState(true)
@@ -203,38 +204,38 @@ export const CreateNewOptionModal = () => {
   const onSubmit = handleSubmit(submit)
 
   const headerTitle =
-    typeAdd === "alert"
+    typeAdd === EnumTypeProvider.alert
       ? "У меня проблема / Хочу предупредить"
-      : typeAdd === "offer"
+      : typeAdd === EnumTypeProvider.offer
       ? "Добавить предложение"
-      : typeAdd === "discussion"
+      : typeAdd === EnumTypeProvider.discussion
       ? "Новое обсуждение"
       : null
 
   const title =
-    typeAdd === "alert"
+    typeAdd === EnumTypeProvider.alert
       ? "Что же произошло на самом деле?"
-      : typeAdd === "discussion"
+      : typeAdd === EnumTypeProvider.discussion
       ? "Придумайте заголовок для вашего обсуждения"
-      : typeAdd === "offer"
+      : typeAdd === EnumTypeProvider.offer
       ? "Добавьте текст, чтобы сделать ваше предложение более привлекательным и желанным"
       : null
 
   const titleAddress =
-    typeAdd === "alert"
+    typeAdd === EnumTypeProvider.alert
       ? "Введите адрес места происшествия или нужды в помощи"
-      : typeAdd === "offer"
+      : typeAdd === EnumTypeProvider.offer
       ? "Введите адрес, где вам нужна услуга"
-      : typeAdd === "discussion"
+      : typeAdd === EnumTypeProvider.discussion
       ? "Введите адрес, где вы хотели бы обсудить проблемы или предложения"
       : null
 
   const placeholderInput =
-    typeAdd === "alert"
+    typeAdd === EnumTypeProvider.alert
       ? "Введите свой адрес, чтобы другие люди из вашего района могли увидеть происшествие"
-      : typeAdd === "offer"
+      : typeAdd === EnumTypeProvider.offer
       ? "Введите свой адрес, чтобы мы могли показать ваше предложение на карте. Если вы оказываете услугу он-лайн, оставьте поле пустым"
-      : typeAdd === "discussion"
+      : typeAdd === EnumTypeProvider.discussion
       ? "Введите свой адрес, чтобы мы могли показать ваше обсуждение на карте"
       : null
 
@@ -358,7 +359,7 @@ export const CreateNewOptionModal = () => {
                   )}
                 </fieldset>
                 {visible && step === 2 && <ArticleOnboarding />}
-                {["offer"].includes(typeAdd!) ? (
+                {[EnumTypeProvider.offer].includes(typeAdd!) ? (
                   <fieldset {...register("categoryId", { required: true })} id="fieldset-create-option-modal-offer">
                     <label>
                       Предложение <sup>*</sup>

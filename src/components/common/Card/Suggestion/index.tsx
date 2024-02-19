@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TCardSuggestion } from "./types"
+import { EnumTypeProvider } from "@/types/enum"
 
 import { Header } from "./components/Header"
 import { Buttons } from "./components/Buttons"
@@ -17,8 +18,8 @@ export const CardSuggestion: TCardSuggestion = (props) => {
   const { refetch, ...rest } = props
 
   const { data: dataTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ provider: "offer", target: rest?.id }),
-    queryKey: ["testimonials", { targetId: rest?.id, provider: "offer" }],
+    queryFn: () => getTestimonials({ provider: EnumTypeProvider.offer, target: rest?.id }),
+    queryKey: ["testimonials", { targetId: rest?.id, provider: EnumTypeProvider.offer }],
     enabled: !!rest?.id,
   })
 

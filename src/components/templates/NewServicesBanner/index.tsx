@@ -1,5 +1,6 @@
 "use client"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TNewServicesBanner } from "./types/types"
 
 import { ButtonClose } from "@/components/common"
@@ -39,11 +40,11 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
         <h3>Я хочу создать</h3>
         <ul>
           <NewCreateBadge {...NEW_CREATE_BADGES[0]} />
-          {visible && step === 1 && type === "offer" && <ArticleOnboarding />}
+          {visible && step === 1 && type === EnumTypeProvider.offer && <ArticleOnboarding />}
           <NewCreateBadge {...NEW_CREATE_BADGES[1]} />
-          {visible && step === 1 && type === "alert" && <ArticleOnboarding />}
+          {visible && step === 1 && type === EnumTypeProvider.alert && <ArticleOnboarding />}
           <NewCreateBadge {...NEW_CREATE_BADGES[2]} />
-          {visible && step === 1 && type === "discussion" && <ArticleOnboarding />}
+          {visible && step === 1 && type === EnumTypeProvider.discussion && <ArticleOnboarding />}
         </ul>
       </section>
     </div>

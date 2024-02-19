@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import type { TTypeProvider } from "@/services/file-upload/types"
+import { EnumTypeProvider } from "@/types/enum"
 
 import type { IStateUseOnboarding, IValuesInterface, TActionOnboarding } from "../types/typeOnboarding"
 
@@ -17,7 +17,7 @@ export const useOnboarding = create<IStateUseOnboarding>((set, get) => ({
   isPreClose: false,
 }))
 
-export const dispatchOnboardingStart = (value: TTypeProvider | null) =>
+export const dispatchOnboardingStart = (value: EnumTypeProvider | null) =>
   useOnboarding.setState((_) => {
     if (value === null) {
       return {
@@ -46,7 +46,7 @@ export const dispatchOnboardingContinue = () =>
     isPreClose: false,
   }))
 
-export const dispatchOnboardingType = (type: TTypeProvider) => useOnboarding.setState((_) => ({ type }))
+export const dispatchOnboardingType = (type: EnumTypeProvider) => useOnboarding.setState((_) => ({ type }))
 
 export const dispatchOnboarding = (values: TActionOnboarding) =>
   useOnboarding.setState((_) => {
@@ -57,7 +57,7 @@ export const dispatchOnboarding = (values: TActionOnboarding) =>
           type: null,
         }
       }
-      if ([2, 2.5].includes(_.step) && _.type === "offer") {
+      if ([2, 2.5].includes(_.step) && _.type === EnumTypeProvider.offer) {
         return {
           step: _.step + 0.5,
         }
@@ -70,7 +70,7 @@ export const dispatchOnboarding = (values: TActionOnboarding) =>
         return {}
       }
 
-      if ([3, 2.5].includes(_.step) && _.type === "offer") {
+      if ([3, 2.5].includes(_.step) && _.type === EnumTypeProvider.offer) {
         return {
           step: _.step - 0.5,
         }

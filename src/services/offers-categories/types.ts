@@ -1,8 +1,9 @@
-import type { IPromiseReturn, TProviderOffer } from "../types/general"
+import { EnumTypeProvider } from "@/types/enum"
+import type { IPromiseReturn } from "../types/general"
 
 export interface IResponseOffersCategories {
   id: number
-  provider: TProviderOffer
+  provider: EnumTypeProvider | "main"
   title: string
   slug: string
   description: string | null

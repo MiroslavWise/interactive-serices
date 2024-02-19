@@ -7,6 +7,7 @@ import { ImageStatic } from "@/components/common"
 import { useVisibleBannerNewServices, useAddCreateModal, useOnboarding, dispatchOnboarding } from "@/store"
 
 import styles from "./styles/styles.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
   const type = useOnboarding(({ type }) => type)
@@ -19,12 +20,12 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
   function handleType() {
     if (visible && type === value) {
       dispatchOnboarding("next")
-      dispatchVisibleTypeCreateOptionals({ visible: true, type: value })
+      dispatchVisibleTypeCreateOptionals({ visible: true, type: value as EnumTypeProvider })
       dispatchNewServicesBanner(false)
     } else if (visible && type !== value) {
       return
     } else {
-      dispatchVisibleTypeCreateOptionals({ visible: true, type: value })
+      dispatchVisibleTypeCreateOptionals({ visible: true, type: value as EnumTypeProvider })
       dispatchNewServicesBanner(false)
     }
   }
