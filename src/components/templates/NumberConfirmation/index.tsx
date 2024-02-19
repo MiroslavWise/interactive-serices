@@ -5,13 +5,14 @@ import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
+import { TimerData } from "./components/TimerData"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getUserId } from "@/services"
 import { postVerifyPhone } from "@/services/phones"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchNumberConfirmation, useAuth, useNumberConfirmation } from "@/store"
+import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAuth, useNumberConfirmation } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -63,6 +64,13 @@ export const NumberConfirmation = () => {
     dispatchNumberConfirmation(false, undefined)
   }
 
+  function handleNew() {
+    dispatchNumberConfirmation(false, undefined)
+    flushSync(() => {
+      dispatchAddingPhoneNumber(true)
+    })
+  }
+
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
       <section data-section-modal>
@@ -73,7 +81,7 @@ export const NumberConfirmation = () => {
         <form onSubmit={onSubmit}>
           <p>
             Отправили проверочный код на номер
-            <span>{number}</span>
+            <span>{number ? (number[0] !== "8" ? `+${number}` : number) : ""}</span>
           </p>
           <article>
             <fieldset>
@@ -88,13 +96,10 @@ export const NumberConfirmation = () => {
               />
               {!!errors?.code?.message ? <i>{errors?.code?.message}</i> : null}
             </fieldset>
-            <p>
-              Запросить новый код можно через
-              <span>2:00</span>
-            </p>
+            <TimerData />
           </article>
           <footer>
-            <Button type="button" typeButton="regular-primary" label="Изменить номер" loading={loading} />
+            <Button type="button" typeButton="regular-primary" label="Изменить номер" loading={loading} onClick={handleNew} />
             <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} />
           </footer>
         </form>

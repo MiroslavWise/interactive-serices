@@ -1,15 +1,15 @@
 import dayjs from "dayjs"
 import { memo, useEffect, useState } from "react"
 
-import { serviceAuth } from "@/services"
-import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store"
+import { postPhone } from "@/services/phones"
+import { dispatchStartTimerNumberConfirmation, useNumberConfirmation, useTimerNumberConfirmation } from "@/store"
 
 const INITIAL_TIME = 120
 
 export const TimerData = memo(function TimerData() {
   const [loading, setLoading] = useState(false)
-  const phone = useModalAuth(({ phone }) => phone)
-  const time = useTimerModalAuth(({ time }) => time)
+  const number = useNumberConfirmation(({ number }) => number)
+  const time = useTimerNumberConfirmation(({ time }) => time)
   const [timerObject, setTimerObject] = useState({
     timer: INITIAL_TIME,
     sec: 0,
@@ -35,11 +35,11 @@ export const TimerData = memo(function TimerData() {
             minute: 0,
           })
         }
-      }, 1000)
+      }, 500)
 
       const deleteInterval = setTimeout(() => {
         clearInterval(interval)
-      }, (INITIAL_TIME + 7) * 1000)
+      }, (INITIAL_TIME + 7) * 500)
 
       return () => {
         clearTimeout(deleteInterval)
@@ -53,20 +53,17 @@ export const TimerData = memo(function TimerData() {
   function handleRequestNew() {
     if (!loading) {
       setLoading(true)
-      if (!!phone) {
-        serviceAuth
-          .phone({
-            phone: phone,
-          })
-          .then((response) => {
-            console.log("--REQUEST NEW CODE SMS PHONE---", response)
-            if (response.ok) {
-              dispatchStartTimer()
-              dispatchAuthModalCodeVerification({ phone: phone, idUser: response?.res?.id! })
-            } else {
-            }
-            setLoading(false)
-          })
+      if (!!number) {
+        postPhone({
+          phone: number,
+        }).then((response) => {
+          console.log("--REQUEST NEW CODE SMS PHONE---", response)
+          if (response.ok) {
+            dispatchStartTimerNumberConfirmation()
+          } else {
+          }
+          setLoading(false)
+        })
       }
     }
   }

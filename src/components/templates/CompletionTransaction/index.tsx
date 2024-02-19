@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { IValuesForm } from "./types/types"
 
 import { Button, ButtonClose, ButtonLink } from "@/components/common"
@@ -15,7 +16,6 @@ import { useAuth, useAddTestimonials, dispatchAddTestimonials } from "@/store"
 import { serviceNotifications, getTestimonials, getBarterId, getThreadId, postTestimonial } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 export const CompletionTransaction = () => {
   const [isFirst, setIsFirst] = useState(true)
@@ -61,25 +61,9 @@ export const CompletionTransaction = () => {
     enabled: false,
   })
 
-  const offerId: number | null = useMemo(() => {
-    if (!data?.res || !userId) {
-      return null
-    }
-    if (Number(data?.res?.initiator?.userId) === Number(userId)) {
-      return Number(data?.res?.consignedId)
-    } else {
-      return Number(data?.res?.initialId)
-    }
-  }, [data?.res, userId])
-
   const { refetch: refetchTestimonials } = useQuery({
-    queryFn: () =>
-      getTestimonials({
-        target: offerId!,
-        provider: EnumTypeProvider.offer,
-        barter: barterId!,
-      }),
-    queryKey: ["testimonials", { targetId: offerId, provider: EnumTypeProvider.offer, barterId: barterId }],
+    queryFn: () => getTestimonials({ receiver: profile?.userId! }),
+    queryKey: ["testimonials", { receiver: profile?.userId }],
     enabled: false,
   })
 

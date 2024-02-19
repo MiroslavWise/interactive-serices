@@ -29,8 +29,8 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
         enabled: !!id,
       },
       {
-        queryFn: () => getTestimonials({ user: id! }),
-        queryKey: ["testimonials", { userId: id }],
+        queryFn: () => getTestimonials({ receiver: id! }),
+        queryKey: ["testimonials", { receiver: id }],
         enabled: !!id,
       },
     ],
@@ -46,10 +46,8 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
       let summer: number = 0
 
       testimonials?.forEach((item) => {
-        if (item?.rating) {
-          quantity++
-          summer += Number(item.rating)
-        }
+        quantity++
+        summer += Number(item.rating)
       })
 
       return summer / quantity

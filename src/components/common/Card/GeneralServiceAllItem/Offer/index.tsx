@@ -1,17 +1,17 @@
 import { useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
+import { NextImageMotion, LoadingProfile } from "@/components/common"
+
 import { cx } from "@/lib/cx"
-import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from "@/store"
+import { getProfileUserId } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
+import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from "@/store"
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
-import { NextImageMotion } from "@/components/common/Image"
-import { useQuery } from "@tanstack/react-query"
-import { getProfileUserId } from "@/services"
-import { LoadingProfile } from "@/components/common/Loading"
 
 export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
   const { categoryId, title = "", userId, addresses = [], images = [] } = offer ?? {}
