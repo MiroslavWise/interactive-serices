@@ -6,6 +6,7 @@ import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
 import type { TComponentsNotification } from "./types/types"
 
 import { ButtonCircleGradient, Button } from "@/components/common"
@@ -76,7 +77,9 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     <li className={styles.container} data-provider={props.provider} data-name={props.provider}>
       <div data-block-info>
         <h3>
-          {provider === "barter" && operation === "create" && data?.status === "initiated" ? <span>Предложение обмена: </span> : null}
+          {provider === "barter" && operation === "create" && data?.status === EnumStatusBarter.INITIATED ? (
+            <span>Предложение обмена: </span>
+          ) : null}
           {titleBarter}
         </h3>
         <div data-footer>

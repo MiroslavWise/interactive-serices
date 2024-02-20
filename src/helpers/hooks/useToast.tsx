@@ -5,9 +5,8 @@ import { toast } from "react-toastify"
 import { isMobile } from "react-device-detect"
 import { type DispatchWithoutAction } from "react"
 
-import { TTypeStatusBarter } from "@/services/file-upload/types"
-
 import { ButtonCircleGradient, ButtonClose, Button, ButtonLink, NextImageMotion } from "@/components/common"
+import { EnumStatusBarter } from "@/types/enum"
 
 interface IValue {
   message?: string
@@ -72,7 +71,7 @@ export const useToast = () => {
             href={{ pathname: "/messages", query: { thread: threadId } }}
           />
         ) : null}
-        {status === "initiated" && threadIdBarter ? (
+        {status === EnumStatusBarter.INITIATED && threadIdBarter ? (
           <ButtonLink
             type="button"
             typeButton="fill-primary"
@@ -161,7 +160,7 @@ interface IPropsMessage {
 interface IPropsBarter {
   message: string
   title: string
-  status: TTypeStatusBarter | "accepted"
+  status: EnumStatusBarter | "accepted"
   threadId?: number
   threadIdBarter?: {
     [key: string]: string | number

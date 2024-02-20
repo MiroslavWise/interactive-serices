@@ -1,6 +1,5 @@
 import type { IBarterResponse } from "../barters/types"
 import type { IPromiseReturn, TOrder } from "../types/general"
-import type { TTypeStatusBarter } from "../file-upload/types"
 
 export type TTypeOperation =
   | "create"
@@ -23,9 +22,7 @@ export interface IPostNotification {
 
 export type TPatchNotification = Partial<IPostNotification>
 
-interface IDataBarterNotifications extends IBarterResponse {
-  threadId?: number | null
-}
+interface IDataBarterNotifications extends IBarterResponse {}
 
 export interface IResponseNotifications {
   id: number

@@ -30,7 +30,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 export const ReciprocalExchange = () => {
   const refreshAuth = useAuth(({ refresh }) => refresh)
@@ -107,7 +107,7 @@ export const ReciprocalExchange = () => {
           message: message || "",
           barterId: idBarter,
           emitterId: userId!,
-          status: "initiated",
+          status: EnumStatusBarter.INITIATED,
           created: new Date(),
         })
       }
@@ -121,7 +121,7 @@ export const ReciprocalExchange = () => {
             title: "",
             initialId: response[0]?.res?.id!, //number
             consignedId: offer?.id!, //number
-            status: "initiated",
+            status: EnumStatusBarter.INITIATED,
             enabled: true,
           }
 
@@ -138,7 +138,7 @@ export const ReciprocalExchange = () => {
                   onBarters({
                     title: "Предложение на обмен отправлено",
                     message: message,
-                    status: "initiated",
+                    status: EnumStatusBarter.INITIATED,
                   })
                   setLoading(false)
                   dispatchReciprocalExchange({ visible: false, offer: undefined })

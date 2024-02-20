@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import type { IValuesForm } from "./types/types"
 
 import { Button, ButtonClose, ButtonLink } from "@/components/common"
@@ -115,7 +115,7 @@ export const CompletionTransaction = () => {
             onBarters({
               title: "Спасибо за обратную связь",
               message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
-              status: "initiated",
+              status: EnumStatusBarter.INITIATED,
             })
             setIsFirst(false)
             setLoading(false)

@@ -13,10 +13,10 @@ import { cx } from "@/lib/cx"
 import styles from "./styles/style.module.scss"
 
 export const SearchBlock: TSearchBlock = memo(function SearchBlock({ search, setSearch }) {
-    return (
-        <div className={cx(styles.blockSearch)}>
-            <SearchInput placeholder="Поиск пользователя" value={search} setValue={setSearch} />
-            {/* {isMobile && <SegmentChatMobile />} */}
-        </div>
-    )
+  return (
+    <div className={cx(styles.blockSearch)}>
+      <SearchInput placeholder="Поиск пользователя" value={search} setValue={setSearch} />
+      {/* {isMobile && <SegmentChatMobile />} */}
+    </div>
+  )
 })

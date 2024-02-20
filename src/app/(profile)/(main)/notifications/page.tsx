@@ -10,6 +10,7 @@ import { ItemNotification } from "@/components/notifications"
 import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
 import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/NotificationsMobile/constants/navigation"
+import { EnumStatusBarter } from "@/types/enum"
 
 export default function Notifications() {
   const userId = useAuth(({ userId }) => userId)
@@ -33,7 +34,7 @@ export default function Notifications() {
 
       for (const item of values) {
         if (item?.provider === "barter") {
-          if (item?.data?.status === "initiated") {
+          if (item?.data?.status === EnumStatusBarter.INITIATED) {
             if (item?.data?.userId !== userId) {
               array.push(item)
             }

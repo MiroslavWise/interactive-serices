@@ -1,7 +1,7 @@
 "use client"
 
+import { EnumProviderThreads } from "@/types/enum"
 import type { TSegmentChatMobile } from "./types/types"
-import type { TTypeProviderThreads } from "@/services/threads/types"
 
 import { SEGMENTS_CHAT } from "../constants/segments"
 import { dispatchMessagesType, useMessagesType } from "@/store/state/useMessagesType"
@@ -11,7 +11,7 @@ import styles from "./styles/segment-chat-mobile.module.scss"
 export const SegmentChatMobile: TSegmentChatMobile = ({}) => {
   const type = useMessagesType(({ type }) => type)
 
-  function handle(value: TTypeProviderThreads) {
+  function handle(value: EnumProviderThreads) {
     const segment = SEGMENTS_CHAT.find((item) => item.value === value)!
     dispatchMessagesType(segment.value)
   }

@@ -3,6 +3,7 @@
 import { useInsertionEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
+import { EnumProviderThreads } from "@/types/enum"
 import { IPostThreads } from "@/services/threads/types"
 
 import { LoadingThreadsPage } from "@/components/common"
@@ -26,25 +27,25 @@ export const ChatEmpty = () => {
     async function getDataThread(emitterId: number, receiverId: number) {
       const { res } = await getThreads({
         user: emitterId,
-        provider: "personal",
+        provider: EnumProviderThreads.PERSONAL,
       })
       return res?.find(
         (item) =>
           ((item?.receiverIds?.find((id) => id === receiverId) && item?.emitterId === emitterId) ||
             (item?.receiverIds?.find((id) => id === emitterId) && item?.emitterId === receiverId)) &&
-          item?.provider?.includes("personal"),
+          item?.provider?.includes(EnumProviderThreads.PERSONAL),
       )
     }
 
     async function createThread(emitterId: number, receiverId: number) {
       const provider = providerIsAscending({
-        type: "personal",
+        type: EnumProviderThreads.PERSONAL,
         ids: [emitterId, receiverId],
       })!
       const data_: IPostThreads = {
         title: provider,
         receiverIds: [receiverId],
-        provider: "personal",
+        provider: EnumProviderThreads.PERSONAL,
         enabled: true,
       }
       const { res } = await postThread(data_)

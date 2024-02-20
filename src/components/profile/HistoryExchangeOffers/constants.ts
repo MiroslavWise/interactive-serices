@@ -1,14 +1,14 @@
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
-import type { TTypeStatusBarter } from "@/services/file-upload/types"
+import { EnumStatusBarter } from "@/types/enum"
 
-export const SEGMENTS: ISegmentValues<TTypeStatusBarter>[] = [
-    {
-        value: "executed",
-        label: "Текущее",
-    },
-    {
-        value: "completed",
-        label: "Завершенное",
-    },
+export const SEGMENTS: ISegmentValues<EnumStatusBarter>[] = [
+  {
+    value: EnumStatusBarter.EXECUTED,
+    label: "Текущее",
+  },
+  {
+    value: EnumStatusBarter.COMPLETED,
+    label: "Завершенное",
+  },
 ]

@@ -1,14 +1,16 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
+
 import { getBarters, getTestimonials } from "@/services"
 
 import styles from "./styles/badges-colors.module.scss"
 
 export const BadgesColors = ({ userId }: { userId: number | string }) => {
   const { data: dataBarters } = useQuery({
-    queryFn: () => getBarters({ user: userId!, status: "completed", order: "DESC" }),
-    queryKey: ["barters", { userId: userId, status: "completed" }],
+    queryFn: () => getBarters({ user: userId!, status: EnumStatusBarter.COMPLETED, order: "DESC" }),
+    queryKey: ["barters", { userId: userId, status: EnumStatusBarter.COMPLETED }],
     enabled: !!userId,
   })
 

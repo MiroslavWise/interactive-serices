@@ -8,7 +8,7 @@ import type { TItemsBadges } from "../types/types"
 import { BadgeAchievementsBorder } from "@/components/common/Badge/BadgeAchievementsBorder"
 
 import { getUserIdOffers, getBarters, getTestimonials } from "@/services"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 export const ItemsBadges: TItemsBadges = ({ id }) => {
   const dataQueries = useQueries({
@@ -22,10 +22,10 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
         queryFn: () =>
           getBarters({
             user: id,
-            status: "completed",
+            status: EnumStatusBarter.COMPLETED,
             order: "DESC",
           }),
-        queryKey: ["barters", { userId: id, status: "completed" }],
+        queryKey: ["barters", { userId: id, status: EnumStatusBarter.COMPLETED }],
         enabled: !!id,
       },
       {

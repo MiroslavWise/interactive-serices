@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation"
 import { useInsertionEffect, useMemo } from "react"
 
+import { EnumProviderThreads } from "@/types/enum"
 import type { IPostThreads } from "@/services/threads/types"
 import type { IPatchDataBarter } from "@/services/barters/types"
 
@@ -36,20 +37,20 @@ export const ChatEmptyBarter = () => {
     async function getDataThread() {
       const { res } = await getThreads({
         user: userId,
-        provider: "barter",
+        provider: EnumProviderThreads.BARTER,
       })
-      return res?.find((item) => item?.provider?.includes("barter") && item?.barterId === Number(barterNumber?.id))
+      return res?.find((item) => item?.provider?.includes(EnumProviderThreads.BARTER) && item?.barterId === Number(barterNumber?.id))
     }
 
     async function createThread(emitterId: number, receiverId: number) {
       const provider = providerIsAscending({
-        type: "barter",
+        type: EnumProviderThreads.BARTER,
         ids: [emitterId, receiverId, barterNumber?.id!],
       })!
       const data_: IPostThreads = {
         title: provider,
         receiverIds: [receiverId],
-        provider: "barter",
+        provider: EnumProviderThreads.BARTER,
         enabled: true,
       }
 

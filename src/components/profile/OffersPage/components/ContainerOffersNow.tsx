@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
 import type { TContainerOffersNow } from "./types/types"
 
 import { LoadingBarters } from "@/components/common"
@@ -18,10 +19,10 @@ export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
   const { data, refetch, isLoading } = useQuery({
     queryFn: () =>
       getBarterUserIdReceiver(userId!, {
-        status: "initiated",
+        status: EnumStatusBarter.INITIATED,
         order: "DESC",
       }),
-    queryKey: ["barters", { receiver: userId, status: "initiated" }],
+    queryKey: ["barters", { receiver: userId, status: EnumStatusBarter.INITIATED }],
   })
 
   useEffect(() => {
