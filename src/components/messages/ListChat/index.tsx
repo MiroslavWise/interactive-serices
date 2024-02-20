@@ -56,10 +56,6 @@ export const ListChat = memo(function ListChat() {
   }, [arrayUsers])
 
   const itemsProvider = data?.res || []
-  // useMemo(() => {
-  //     if (!data?.res) return []
-  //     return data?.res?.filter((item) => item.provider === type)
-  // }, [data?.res, type])
 
   const items: IFiltersItems[] = useMemo(() => {
     const ITEMS: IFiltersItems[] = []
@@ -111,16 +107,6 @@ export const ListChat = memo(function ListChat() {
           <div data-total-number>
             <h4>Сообщения</h4>
           </div>
-          {/* <Segments
-                        type="primary"
-                        active={SEGMENTS_CHAT.find((item) => item.value === type)!}
-                        VALUES={SEGMENTS_CHAT}
-                        setActive={(values) => {
-                            dispatchMessagesType(values.value)
-                        }}
-                        classNames={styles.segments}
-                        isBorder
-                    /> */}
         </header>
       ) : null}
       <SearchBlock {...{ search, setSearch }} />

@@ -16,7 +16,7 @@ import { MENU_COMPLAINT } from "./constants/constants"
 import { dispatchComplaintModal, useAuth, useComplaintModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 export const ComplaintModal = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -61,7 +61,7 @@ export const ComplaintModal = () => {
           onBarters({
             title: "Жалоба отправлена",
             message: `Мы получили вашу жалобу на @${user?.profile?.username!} и скоро страница пользователя будет проверена модераторами.`,
-            status: "initiated",
+            status: EnumStatusBarter.INITIATED,
           })
         })
       })

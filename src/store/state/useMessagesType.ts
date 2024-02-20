@@ -1,9 +1,10 @@
 import { create } from "zustand"
+
+import { EnumProviderThreads } from "@/types/enum"
 import { TUseMessagesType } from "../types/createMessagesType"
-import { TTypeProviderThreads } from "@/services/threads/types"
 
 export const useMessagesType = create<TUseMessagesType>(() => ({
-    type: "personal",
+  type: EnumProviderThreads.PERSONAL,
 }))
 
-export const dispatchMessagesType = (value: TTypeProviderThreads) => useMessagesType.setState((_) => ({ type: value }))
+export const dispatchMessagesType = (value: EnumProviderThreads) => useMessagesType.setState((_) => ({ type: value }))

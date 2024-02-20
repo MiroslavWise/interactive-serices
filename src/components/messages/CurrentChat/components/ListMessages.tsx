@@ -16,6 +16,7 @@ import { useAuth } from "@/store"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 import { NoticeOfferPay } from "./NoticeOfferPay"
 import { IResponseThread } from "@/services/threads/types"
+import { EnumProviderThreads } from "@/types/enum"
 
 export const ListMessages = memo(function ListMessages({
   messages,
@@ -74,8 +75,10 @@ export const ListMessages = memo(function ListMessages({
 
   return (
     <ul ref={ulChat} data-loading={isLoading}>
-      {thread?.provider === "barter" && thread?.barterId && <NoticeBarter idBarter={thread?.barterId!} userData={dataUser} />}
-      {thread?.provider === "offer-pay" ? <NoticeOfferPay thread={thread} userData={dataUser} /> : null}
+      {thread?.provider === EnumProviderThreads.BARTER && thread?.barterId && (
+        <NoticeBarter idBarter={thread?.barterId!} userData={dataUser} />
+      )}
+      {thread?.provider === EnumProviderThreads.OFFER_PAY ? <NoticeOfferPay thread={thread} userData={dataUser} /> : null}
       {isLoading
         ? [1, 2, 3].map((item) => <ComponentLoadingThread key={`::item::loading::thread::${item}::`} isRight={item % 2 === 0} />)
         : messagesJoin}

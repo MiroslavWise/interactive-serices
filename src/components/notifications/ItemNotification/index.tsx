@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { type ReactNode, useMemo, useState } from "react"
 
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import type { IResponseNotifications } from "@/services/notifications/types"
 import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
 
@@ -171,7 +171,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
           </p>
         )
       }
-      if (data?.status === "initiated") {
+      if (data?.status === EnumStatusBarter.INITIATED) {
         if (data?.initiator?.userId === userId) {
           return (
             <p>
@@ -246,7 +246,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       }
       if (
         ["completion-recall", "completion-recall-no"].includes(operation!) &&
-        ["completed", "destroyed"].includes(data?.status!) &&
+        [EnumStatusBarter.COMPLETED, EnumStatusBarter.DESTROYED].includes(data?.status!) &&
         isFeedback === false
       ) {
         return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
@@ -301,7 +301,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
         }
       }
       if (operation === "create") {
-        if (data?.status === "initiated") {
+        if (data?.status === EnumStatusBarter.INITIATED) {
           if (userId === data?.consigner?.userId) {
             const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
             return (
@@ -340,7 +340,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
         setLoading(true)
         Promise.all([
           serviceNotifications.patch({ enabled: true, operation: "completion-yes", read: true }, id!),
-          patchBarter({ enabled: true, status: "completed" }, data?.id!),
+          patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!),
         ]).then(() => {
           refetch().then(() => {
             setLoading(false)

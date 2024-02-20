@@ -6,6 +6,7 @@ import { memo, useEffect, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
 import type { TItemListChat } from "./types/types"
+import { EnumProviderThreads } from "@/types/enum"
 
 import { NextImageMotion, GeoTagging, BadgeServices } from "@/components/common"
 
@@ -78,13 +79,13 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
             <img src="/svg/verified-tick.svg" alt="verified" width={16} height={16} className={styles.verified} />
           </div>
           <div className={styles.nameAndGeo}>
-            {provider === "barter" ? (
+            {provider === EnumProviderThreads.BARTER ? (
               <div data-title-barter>
                 <BadgeServices {...dataBarter?.res?.initiator!} />
                 <img data-repeat src="/svg/repeat-white.svg" alt="barter" width={18} height={18} />
                 <BadgeServices {...dataBarter?.res?.consigner!} />
               </div>
-            ) : provider === "personal" ? (
+            ) : [EnumProviderThreads.OFFER_PAY, EnumProviderThreads.PERSONAL].includes(provider!) ? (
               <h4>
                 {people?.profile?.firstName || " "} {people?.profile?.lastName || " "}
               </h4>

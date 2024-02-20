@@ -1,17 +1,17 @@
 import type { Dispatch } from "react"
 
-import type { TTypeProviderThreads } from "@/services/threads/types"
+import { EnumProviderThreads } from "@/types/enum"
 
 interface IStateMessagesType {
-    type: TTypeProviderThreads
+  type: EnumProviderThreads
 }
 
 interface IAction {
-    type: TTypeProviderThreads
+  type: EnumProviderThreads
 }
 
 interface IActionMessagesType {
-    dispatchMessagesType: Dispatch<IAction>
+  dispatchMessagesType: Dispatch<IAction>
 }
 
 export type TUseMessagesType = IStateMessagesType

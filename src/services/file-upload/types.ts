@@ -33,8 +33,6 @@ export interface IResponseUploadFile {
   }
 }
 
-type TTypeStatusBarter = "initiated" | "executed" | "completed" | "destroyed" | "canceled" | "pre-completion" | "destroyed"
-
 export interface IProvider {
   type: EnumTypeProvider
   userId: number

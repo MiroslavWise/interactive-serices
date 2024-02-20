@@ -1,7 +1,6 @@
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IPromiseReturn } from "../types/general"
-
-export type TTypeProviderThreads = "personal" | "barter" | "groups" | "offer-pay"
+import { EnumProviderThreads } from "@/types/enum"
 
 export interface IPostThreads {
   title: "completed" | string
@@ -32,7 +31,7 @@ export interface IResponseThreads {
   emitterId: number
   offerId?: number
   receiverIds: number[]
-  provider: string
+  provider: EnumProviderThreads
   barterId?: number
   messages: IThreadsMessages[]
   created: Date
@@ -50,7 +49,7 @@ export interface IResponseThread {
   emitterId: number
   receiverIds: number[]
   enabled: boolean
-  provider: TTypeProviderThreads
+  provider: EnumProviderThreads
   barterId?: number
   offerId?: number
   created: Date | string
@@ -60,7 +59,7 @@ export interface IResponseThread {
 
 interface IQueryParams {
   user?: number | string
-  provider?: TTypeProviderThreads
+  provider?: EnumProviderThreads
   order?: "ASC" | "DESC"
   messagesLimit?: number
   messagesOrder?: "ASC" | "DESC"

@@ -3,6 +3,8 @@ import { memo } from "react"
 import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
+
 import { useAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { ITEMS_LINK_FOOTER } from "../constants"
@@ -19,10 +21,10 @@ export const LinkOffers = memo(function LinkOffers() {
   const { data } = useQuery({
     queryFn: () =>
       getBarterUserIdReceiver(userId!, {
-        status: "initiated",
+        status: EnumStatusBarter.INITIATED,
         order: "DESC",
       }),
-    queryKey: ["barters", { receiver: userId, status: "initiated" }],
+    queryKey: ["barters", { receiver: userId, status: EnumStatusBarter.INITIATED }],
     enabled: !!userId && isAuth,
     refetchOnReconnect: true,
     refetchOnMount: true,

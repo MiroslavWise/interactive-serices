@@ -6,6 +6,7 @@ import { useEffect, useInsertionEffect, useMemo } from "react"
 
 import { IPostThreads } from "@/services/threads/types"
 
+import { EnumProviderThreads } from "@/types/enum"
 import { LoadingThreadsPage } from "@/components/common"
 
 import { useAuth } from "@/store"
@@ -44,20 +45,22 @@ export function ChatOfferPay() {
     async function getDataThread() {
       const { res } = await getThreads({
         user: userId,
-        provider: "offer-pay",
+        provider: EnumProviderThreads.OFFER_PAY,
       })
-      return res?.find((item) => item?.provider?.includes("offer-pay") && Number(item?.offerId) === Number(offerNumber?.id))
+      return res?.find(
+        (item) => item?.provider?.includes(EnumProviderThreads.OFFER_PAY) && Number(item?.offerId) === Number(offerNumber?.id),
+      )
     }
 
     async function createThread(emitterId: number, receiverId: number) {
       const provider = providerIsAscending({
-        type: "offer-pay",
+        type: EnumProviderThreads.OFFER_PAY,
         ids: [emitterId, receiverId, offerNumber?.id!],
       })!
       const data_: IPostThreads = {
         title: provider,
         receiverIds: [receiverId],
-        provider: "offer-pay",
+        provider: EnumProviderThreads.OFFER_PAY,
         enabled: true,
       }
 

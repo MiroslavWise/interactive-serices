@@ -5,6 +5,7 @@ import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
 import type { TTypeReason } from "@/services/barters/types"
 
 import { Button, ButtonClose } from "@/components/common"
@@ -57,7 +58,7 @@ export const ReasonBarters = () => {
 
       Promise.all([
         serviceNotifications.patch({ enabled: true, operation: "completion-no", read: true }, notificationId!),
-        patchBarter({ enabled: true, status: `destroyed`, title: textReason }, barterId!),
+        patchBarter({ enabled: true, status: EnumStatusBarter.DESTROYED, title: textReason }, barterId!),
       ]).then(() => {
         refetch()
         refetchBarter()
@@ -65,7 +66,7 @@ export const ReasonBarters = () => {
           onBarters({
             title: "Спасибо за обратную связь",
             message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
-            status: "initiated",
+            status: EnumStatusBarter.INITIATED,
           })
           handleClose()
           setLoading(false)

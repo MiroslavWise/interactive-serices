@@ -4,7 +4,7 @@ import { useMemo } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
 import type { TBadges } from "./types/types"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { BadgeAchievementsBorder } from "@/components/common"
 
@@ -54,10 +54,10 @@ export const Badges: TBadges = ({ id }) => {
         queryFn: () =>
           getBarters({
             user: id!,
-            status: "completed",
+            status: EnumStatusBarter.COMPLETED,
             order: "DESC",
           }),
-        queryKey: ["barters", { userId: id, status: "completed" }],
+        queryKey: ["barters", { userId: id, status: EnumStatusBarter.COMPLETED }],
         enabled: !!id,
       },
     ],

@@ -16,6 +16,7 @@ import { useAuth, useOffersCategories, dispatchBallonOffer } from "@/store"
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
+import { EnumStatusBarter } from "@/types/enum"
 
 export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: { idBarter: number; userData?: IUserResponse | null }) {
   const threadId = useSearchParams().get("thread")
@@ -31,10 +32,10 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
   const { refetch: refetchBarters } = useQuery({
     queryFn: () =>
       getBarterUserIdReceiver(userId!, {
-        status: "initiated",
+        status: EnumStatusBarter.INITIATED,
         order: "DESC",
       }),
-    queryKey: ["barters", { receiver: userId, status: "initiated" }],
+    queryKey: ["barters", { receiver: userId, status: EnumStatusBarter.INITIATED }],
     enabled: false,
   })
 
@@ -54,12 +55,12 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
       {
         queryFn: () => serviceProfile.getUserId(initiator?.userId!),
         queryKey: ["profile", initiator?.userId!],
-        enabled: ok && ["executed", "completed"].includes(status!),
+        enabled: ok && [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!),
       },
       {
         queryFn: () => serviceProfile.getUserId(consigner?.userId!),
         queryKey: ["profile", consigner?.userId!],
-        enabled: ok && ["executed", "completed"].includes(status!),
+        enabled: ok && [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!),
       },
     ],
   })
@@ -87,7 +88,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
   function handleAccept() {
     if (!loading) {
       setLoading(true)
-      patchBarter({ status: "executed" }, idBarter!).then((response) => {
+      patchBarter({ status: EnumStatusBarter.EXECUTED }, idBarter!).then((response) => {
         if (response.ok) {
           const date = new Date()
           const receiverIds = [Number(userData?.id)]
@@ -106,7 +107,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         flushSync(() => {
           setStateBarter((prev) => ({
             ...prev!,
-            status: "executed",
+            status: EnumStatusBarter.EXECUTED,
           }))
           setLoading(false)
         })
@@ -117,16 +118,17 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
   function handleRejection() {
     if (!loading) {
       setLoading(true)
-      Promise.all([patchBarter({ status: "canceled", enabled: false }, idBarter!), patchThread({ enabled: false }, Number(threadId))]).then(
-        () => {
-          Promise.all([refetchBarters(), refetchCountMessages()]).then(() => {
-            flushSync(() => {
-              setLoading(false)
-              handleReplace("/messages")
-            })
+      Promise.all([
+        patchBarter({ status: EnumStatusBarter.CANCELED, enabled: false }, idBarter!),
+        patchThread({ enabled: false }, Number(threadId)),
+      ]).then(() => {
+        Promise.all([refetchBarters(), refetchCountMessages()]).then(() => {
+          flushSync(() => {
+            setLoading(false)
+            handleReplace("/messages")
           })
-        },
-      )
+        })
+      })
     }
   }
 
@@ -135,7 +137,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
   ) : data?.ok ? (
     <section className={styles.wrapper} data-type={status}>
       <article>
-        {status === "executed" ? (
+        {status === EnumStatusBarter.EXECUTED ? (
           <>
             <div data-lath>
               <span>В процессе</span>
@@ -189,7 +191,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
             {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
           </div>
         )}
-        {["initiated", "completed"].includes(status!) ? (
+        {[EnumStatusBarter.INITIATED, EnumStatusBarter.COMPLETED].includes(status!) ? (
           <p>
             {initiator?.userId === userId ? (
               <>
@@ -251,9 +253,9 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
           </p>
         ) : null}
       </article>
-      {status !== "executed" ? (
+      {status !== EnumStatusBarter.EXECUTED ? (
         <footer>
-          {status === "initiated" && res?.consigner?.userId === userId ? (
+          {status === EnumStatusBarter.INITIATED && res?.consigner?.userId === userId ? (
             <>
               <Button
                 type="button"

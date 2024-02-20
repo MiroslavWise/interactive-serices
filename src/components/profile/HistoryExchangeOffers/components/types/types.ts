@@ -1,14 +1,14 @@
 import type { FC, Dispatch, SetStateAction } from "react"
-import type { TTypeStatusBarter } from "@/services/file-upload/types"
+import { EnumStatusBarter } from "@/types/enum"
 import type { ISegmentValues } from "@/components/common/Segments/types"
 
 interface IHeader {
-    value: ISegmentValues<TTypeStatusBarter>
-    setValue: Dispatch<SetStateAction<ISegmentValues<TTypeStatusBarter>>>
+  value: ISegmentValues<EnumStatusBarter>
+  setValue: Dispatch<SetStateAction<ISegmentValues<EnumStatusBarter>>>
 }
 
 interface ISentenceCards {
-    value: ISegmentValues<TTypeStatusBarter>
+  value: ISegmentValues<EnumStatusBarter>
 }
 
 export type THeader = FC<IHeader>

@@ -6,11 +6,11 @@ import { cx } from "@/lib/cx"
 import styles from "./styles/time.module.scss"
 
 export const ItemTime: TItemTime = memo(function $ItemTime({ time }) {
-    return (
-        <div className={cx(styles.wrapper, "sticky")}>
-            <div className={styles.container}>
-                <span>{time}</span>
-            </div>
-        </div>
-    )
+  return (
+    <div className={cx(styles.wrapper, "sticky")}>
+      <div className={styles.container}>
+        <span>{time}</span>
+      </div>
+    </div>
+  )
 })

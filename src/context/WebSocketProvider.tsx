@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query"
 import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
 import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
-import type { TTypeStatusBarter } from "@/services/file-upload/types"
 import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { useAuth } from "@/store"
@@ -13,6 +12,7 @@ import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useCountMessagesNotReading, usePush } from "@/helpers"
 import { serviceNotifications, getBarterUserIdReceiver } from "@/services"
+import { EnumStatusBarter } from "@/types/enum"
 
 interface IContextSocket {
   socket: Socket | undefined
@@ -41,10 +41,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   const { refetch: refetchBarters } = useQuery({
     queryFn: () =>
       getBarterUserIdReceiver(userId!, {
-        status: "initiated",
+        status: EnumStatusBarter.INITIATED,
         order: "DESC",
       }),
-    queryKey: ["barters", { receiver: userId, status: "initiated" }],
+    queryKey: ["barters", { receiver: userId, status: EnumStatusBarter.INITIATED }],
     enabled: false,
   })
 
@@ -182,6 +182,6 @@ interface IBarterResponse {
   message: string
   receiverIds: number[]
   emitterId: number
-  status: TTypeStatusBarter | "accepted"
+  status: EnumStatusBarter | "accepted"
   threadId: number
 }
