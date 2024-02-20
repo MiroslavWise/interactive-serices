@@ -6,8 +6,8 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumTypeProvider } from "@/types/enum"
 import type { TContainerSuggestions } from "./types/types"
 
-import { Button, LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
 import { CardDiscussion } from "@/components/common/Card"
+import { Button, LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
 
 import { getUserIdOffers } from "@/services"
 import { openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
@@ -15,9 +15,9 @@ import { openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
 import styles from "./styles/style.module.scss"
 
 const titleEmpty: Map<EnumTypeProvider, string> = new Map([
-  [EnumTypeProvider.offer, "У вас нет опубликованных предложений на карте."],
-  [EnumTypeProvider.discussion, "У вас нет опубликованных дискуссий на карте."],
-  [EnumTypeProvider.alert, "У вас нет опубликованных SOS-сообщений на карте."],
+  [EnumTypeProvider.offer, "У вас нет опубликованных предложений на карте."],
+  [EnumTypeProvider.discussion, "У вас нет опубликованных дискуссий на карте."],
+  [EnumTypeProvider.alert, "У вас нет опубликованных SOS-сообщений на карте."],
 ])
 
 export const ContainerSuggestions: TContainerSuggestions = () => {
