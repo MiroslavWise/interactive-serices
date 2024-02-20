@@ -13,7 +13,6 @@ export const LoginDetails = () => {
   })
 
   const email = data?.res?.email
-  const create = data?.res?.created
   const phone = data?.res?.phones
 
   const number = phone && phone?.length > 0 ? phone[0]?.phone : null

@@ -5,6 +5,8 @@ import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 import { useQuery } from "@tanstack/react-query"
 
 import { IValuesForm } from "../types/types"
+import { EnumTypeProvider } from "@/types/enum"
+import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
 
 import { ImageProfile } from "./ImageProfile"
 import { FieldAddress } from "./FieldAddress"
@@ -13,8 +15,6 @@ import { ButtonsFooter } from "./ButtonsFooter"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchUpdateProfile, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
-import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
-import { EnumTypeProvider } from "@/types/enum"
 
 const GENDER: { label: string; value: "m" | "f" }[] = [
   {
@@ -98,7 +98,7 @@ export const PersonalData = () => {
       if (values.username !== data?.res?.username) {
         valuesProfile.username = values.username?.replace("@", "")
       }
-      if (values.gender !== data?.res?.gender) {
+      if (values.gender !== data?.res?.gender && ["f", "m"].includes(values.gender!)) {
         valuesProfile.gender = values.gender!
       }
 
@@ -143,6 +143,7 @@ export const PersonalData = () => {
 
   const disabledButton: boolean = useMemo(() => {
     return (
+      watch("gender") === data?.res?.gender &&
       watch("firstName") === data?.res?.firstName &&
       watch("lastName") === data?.res?.lastName &&
       watch("username") === data?.res?.username &&
@@ -173,18 +174,17 @@ export const PersonalData = () => {
             <input type="text" placeholder="Придумайте ник" {...register("username", { required: true })} data-error={!!errors.username} />
           </fieldset>
           <fieldset>
-            <label>Пол</label>
+            <label {...register("gender")}>Пол</label>
             <div data-input ref={ref} style={{ zIndex: 20 }}>
               <input
                 type="text"
                 placeholder="Выберите пол"
+                readOnly
                 onClick={(event) => {
                   event.stopPropagation()
                   setFocusGender(true)
                 }}
                 value={GENDER.find((item) => item.value === watch("gender"))?.label || ""}
-                {...register("gender")}
-                readOnly
               />
               {focusGender ? (
                 <div data-ul>
