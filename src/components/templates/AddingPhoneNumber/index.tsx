@@ -22,6 +22,7 @@ export const AddingPhoneNumber = () => {
     watch,
     setError,
     setFocus,
+    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm<{ phone: string }>({ defaultValues: { phone: "" } })
@@ -87,6 +88,7 @@ export const AddingPhoneNumber = () => {
                 data-error={!!errors.phone}
                 {...register("phone", { required: true })}
                 maxLength={16}
+                onChange={(event) => setValue("phone", event.target.value?.replaceAll("+", "")?.replaceAll(/[^\d]/g, ""))}
               />
             </div>
             {!!errors?.phone?.message ? <i>{errors?.phone?.message}</i> : null}

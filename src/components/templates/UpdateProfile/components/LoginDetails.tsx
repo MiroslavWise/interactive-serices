@@ -18,9 +18,6 @@ export const LoginDetails = () => {
 
   const number = phone && phone?.length > 0 ? phone[0]?.phone : null
 
-  console.log("number: ", number)
-  console.log("number !!!!: ", !!number ? (number[0] !== "8" ? `+${number}` : number) : "")
-
   function handleUpdatePassword() {
     dispatchChangePassword(true)
   }
