@@ -218,31 +218,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                   {infoOffers?.consigner?.title?.toLowerCase()}
                 </span>
                 : «{data?.res?.consigner?.title}».
-                {/* <span>{dataConsignerProfile?.res?.firstName}</span> предлагает вам{" "}
-                                <span
-                                    onClick={(event) => {
-                                        event.stopPropagation()
-                                        dispatchBallonOffer({
-                                            visible: true,
-                                            offer: consigner!,
-                                        })
-                                    }}
-                                >
-                                    {infoOffers?.consigner?.title?.toLowerCase()}
-                                </span>{" "}
-                                взамен на{" "}
-                                <span
-                                    onClick={(event) => {
-                                        event.stopPropagation()
-                                        dispatchBallonOffer({
-                                            visible: true,
-                                            offer: initiator!,
-                                        })
-                                    }}
-                                >
-                                    {infoOffers?.initiator?.title?.toLowerCase()}
-                                </span>
-                                : «{data?.res?.consigner?.title}». */}
               </>
             ) : consigner?.userId === userId ? (
               <>

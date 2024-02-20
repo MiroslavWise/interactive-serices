@@ -140,12 +140,6 @@ export const CurrentChat = () => {
     }
   }, [socket, refetch, idThread, userId])
 
-  // useEffect(() => {
-  //     if (!!data?.res) {
-  //         dispatchMessagesType(data?.res?.provider)
-  //     }
-  // }, [data?.res])
-
   useEffect(() => {
     if (dataMessages?.res && userId && Array.isArray(dataMessages?.res)) {
       const notMyMessages = dataMessages?.res?.filter((item) => item.receiverIds.includes(userId))
@@ -177,8 +171,8 @@ export const CurrentChat = () => {
         <section>
           <ListMessages
             messages={stateMessages}
+            thread={data?.res!}
             dataUser={dataUser?.res! || userDataIdMassage!}
-            idBarter={data?.res?.barterId!}
             isLoading={isLoading}
           />
         </section>
@@ -189,12 +183,7 @@ export const CurrentChat = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ListMessages
-        messages={stateMessages}
-        dataUser={dataUser?.res! || userDataIdMassage!}
-        idBarter={data?.res?.barterId!}
-        isLoading={isLoading}
-      />
+      <ListMessages thread={data?.res!} messages={stateMessages} dataUser={dataUser?.res! || userDataIdMassage!} isLoading={isLoading} />
       {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(idUser)} refetch={refetch} />}
     </div>
   )

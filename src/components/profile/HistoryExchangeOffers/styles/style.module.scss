@@ -1,19 +1,25 @@
 .container {
   position: fixed;
-  top: calc(4.875rem + 1.5rem);
-  right: 1.5rem;
-  height: calc(100vh - 4.875rem - 1.5rem - 1.5rem);
-  width: 25rem;
+  top: calc(4.875rem);
+  right: 0;
+  height: calc(100vh - 4.875rem);
+  width: 100%;
+  max-width: 24.375rem;
   display: inline-flex;
   padding: 0;
   padding-top: 1.25rem;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  border-radius: 2rem;
   background: var(--BG-second);
   z-index: 2;
   overflow: hidden;
+}
+
+[data-theme="light"] {
+  .container {
+    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+  }
 }
 
 [data-mobile="true"] {
