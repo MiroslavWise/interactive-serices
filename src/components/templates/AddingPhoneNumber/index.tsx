@@ -30,12 +30,14 @@ export const AddingPhoneNumber = () => {
     if (!loading) {
       setLoading(true)
 
+      const phone = values?.phone?.replaceAll(/[^\d]/g, "")
+
       postPhone({
-        phone: values.phone!,
+        phone: phone!,
       }).then((response) => {
         if (response.ok) {
           dispatchStartTimerNumberConfirmation()
-          dispatchNumberConfirmation(true, values.phone)
+          dispatchNumberConfirmation(true, phone)
           flushSync(() => {
             close()
           })

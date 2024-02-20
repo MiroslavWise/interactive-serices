@@ -51,7 +51,7 @@ export const SignInEmail = memo(function SignInEmail({
         .then((response) => {
           if (!!response?.error?.message) {
             const errorMessage = `${response?.error?.message}`.toLowerCase()
-            if (errorMessage === "password is not match") {
+            if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
               setError("password", { message: serviceAuthErrors.get("password is not match")! })
               return
             }
@@ -60,6 +60,7 @@ export const SignInEmail = memo(function SignInEmail({
               return
             } else {
               setError("email", { message: serviceAuthErrors.get("default") })
+              return
             }
           }
 

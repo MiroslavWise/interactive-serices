@@ -66,7 +66,8 @@ export const LoginDetails = () => {
           <fieldset>
             <label>Пароль</label>
             <input
-              value={create ? `Задан ${dayjs(create)?.format("DD.MM.YYYY")}` : ""}
+              value="********"
+              // value={create ? `Задан ${dayjs(create)?.format("DD.MM.YYYY")}` : ""}
               placeholder="пароль"
               type="text"
               readOnly
