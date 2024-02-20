@@ -10,11 +10,16 @@ import { dispatchDataUser } from "@/store"
 
 export default function Messages() {
   const searchParamsGet = useSearchParams()?.get
-  const [idThread, idBarter, idUser] = [searchParamsGet("thread"), searchParamsGet("barter-id"), searchParamsGet("user")]
+  const [idThread, idBarter, idUser, idOfferPay] = [
+    searchParamsGet("thread"),
+    searchParamsGet("barter-id"),
+    searchParamsGet("user"),
+    searchParamsGet("offer-pay"),
+  ]
 
   useEffect(() => {
-    const widthMarginMessage = `${25 + 3}rem`
-    const widthMarginProfile = `${17.125 + 3}rem`
+    const widthMarginMessage = `${25 + 2.75}rem`
+    const widthMarginProfile = `${17.5 + 1.25}rem`
 
     function setDataRoot(value: string) {
       document.documentElement.style.setProperty("--left-links-margin", value)
@@ -29,7 +34,7 @@ export default function Messages() {
   }, [])
 
   return isMobile ? (
-    [!!idUser, !!idThread, !!idBarter].some((item) => !!item) ? (
+    [!!idUser, !!idThread, !!idBarter, !!idOfferPay].some((item) => !!item) ? (
       <Chat />
     ) : (
       <ListChat />

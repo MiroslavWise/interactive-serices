@@ -1,22 +1,22 @@
 .nav {
-    position: fixed;
-    width: 100%;
-    height: 4.875rem;
-    padding: 0 3.25rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 70;
-    background: var(--BG-second);
-    border-bottom: 0.125rem solid var(--BG-second);
+  position: fixed;
+  width: 100%;
+  height: 4.875rem;
+  padding: 0 3.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 70;
+  background: var(--BG-second);
+  border-bottom: 1px solid var(--grey-stroke);
 
-    &[data-none="true"] {
-        display: none !important;
-    }
+  &[data-none="true"] {
+    display: none !important;
+  }
 }
 
 [data-mobile="true"] {
-    .nav {
-        display: none !important;
-    }
+  .nav {
+    display: none !important;
+  }
 }

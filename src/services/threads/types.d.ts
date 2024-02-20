@@ -1,12 +1,13 @@
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IPromiseReturn } from "../types/general"
 
-export type TTypeProviderThreads = "personal" | "barter" | "groups"
+export type TTypeProviderThreads = "personal" | "barter" | "groups" | "offer-pay"
 
 export interface IPostThreads {
   title: "completed" | string
   parentId?: number
   receiverIds: number[]
+  offerId?: number
   provider: string
   barterId?: number
   enabled?: boolean
@@ -29,6 +30,7 @@ export interface IResponseThreads {
   title: string
   parentId: number
   emitterId: number
+  offerId?: number
   receiverIds: number[]
   provider: string
   barterId?: number
@@ -50,6 +52,7 @@ export interface IResponseThread {
   enabled: boolean
   provider: TTypeProviderThreads
   barterId?: number
+  offerId?: number
   created: Date | string
   updated: Date | string
   messages: IThreadsMessages[]

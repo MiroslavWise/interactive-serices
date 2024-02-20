@@ -9,6 +9,7 @@ import { ItemProfile } from "./components/ItemProfile"
 import { ItemProposal } from "./components/ItemProposal"
 
 import { cx } from "@/lib/cx"
+import { usePush } from "@/helpers"
 import { getUserId } from "@/services"
 import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store"
 
@@ -20,6 +21,7 @@ export const BalloonOffer = () => {
   const categories = useOffersCategories(({ categories }) => categories)
   const visible = useBalloonOffer(({ visible }) => visible)
   const offer = useBalloonOffer(({ offer }) => offer)
+  const { handlePush } = usePush()
 
   const categoryCurrent = categories?.find((item) => item?.id === offer?.categoryId)
 
@@ -55,6 +57,25 @@ export const BalloonOffer = () => {
     }
   }
 
+  function handlePay() {
+    if (!userId) {
+      dispatchAuthModal({
+        visible: true,
+        type: "SignIn",
+      })
+      flushSync(() => {
+        dispatchBallonOffer({ visible: false })
+      })
+      return
+    } else if (!!userId && userId !== offer?.userId) {
+      handlePush(`/messages?offer-pay=${offer?.id}:${offer?.userId}`)
+      flushSync(() => {
+        dispatchBallonOffer({ visible: false })
+      })
+      return
+    }
+  }
+
   return (
     <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
       <section data-section-modal>
@@ -72,6 +93,13 @@ export const BalloonOffer = () => {
               typeButton="fill-primary"
               label="Откликнуться"
               onClick={handle}
+              disabled={!!userId && userId === offer?.userId}
+            />
+            <Button
+              type="button"
+              typeButton="regular-primary"
+              label="Заплатить"
+              onClick={handlePay}
               disabled={!!userId && userId === offer?.userId}
             />
             {userId && userId !== offer?.userId ? (

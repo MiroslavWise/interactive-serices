@@ -21,6 +21,9 @@ export function providerIsAscending(values: IValuesProviderIdAscending): string 
   if (type === "barter") {
     return `barter:${barterId}:${sortIdAscending(id1, id2)}`
   }
+  if (type === "offer-pay") {
+    return `offer-pay:${barterId}:${sortIdAscending(id1, id2)}`
+  }
   if (type === "personal") {
     return `personal:${sortIdAscending(id1, id2)}`
   }

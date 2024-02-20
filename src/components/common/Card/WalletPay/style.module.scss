@@ -7,7 +7,7 @@
   align-items: flex-start;
   gap: 1rem;
   padding: 1rem;
-  box-shadow: 0px 4px 16px 0px rgba(107, 119, 162, 0.1), 0px 2px 8px 0px rgba(107, 119, 162, 0.1);
+  border: 1px solid var(--grey-stroke-light);
 
   & > [data-img] {
     position: relative;
@@ -33,7 +33,7 @@
 }
 
 [data-theme="dark"] {
-  .container {
-    box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
-  }
+  // .container {
+  //   box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
+  // }
 }
