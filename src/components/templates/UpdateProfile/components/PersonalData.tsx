@@ -16,14 +16,14 @@ import { useOut, useOutsideClickEvent } from "@/helpers"
 import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
 import { EnumTypeProvider } from "@/types/enum"
 
-const GENDER: { label: string; value: "male" | "female" }[] = [
+const GENDER: { label: string; value: "m" | "f" }[] = [
   {
     label: "Мужской",
-    value: "male",
+    value: "m",
   },
   {
     label: "Женский",
-    value: "female",
+    value: "f",
   },
 ]
 
@@ -63,7 +63,7 @@ export const PersonalData = () => {
         setValue("firstName", resProfile?.firstName!)
         setValue("lastName", resProfile?.lastName!)
         setValue("username", resProfile?.username!)
-        // setValue("gender", resProfile?.)
+        setValue("gender", resProfile?.gender!)
       }
     }
   }, [data?.res])
@@ -89,14 +89,17 @@ export const PersonalData = () => {
         enabled: true,
       }
 
-      if (watch("firstName") !== data?.res?.firstName) {
+      if (values.firstName !== data?.res?.firstName) {
         valuesProfile.firstName = values.firstName
       }
-      if (watch("lastName") !== data?.res?.lastName) {
+      if (values.lastName !== data?.res?.lastName) {
         valuesProfile.lastName = values.lastName
       }
-      if (watch("username") !== data?.res?.username) {
+      if (values.username !== data?.res?.username) {
         valuesProfile.username = values.username?.replace("@", "")
+      }
+      if (values.gender !== data?.res?.gender) {
+        valuesProfile.gender = values.gender!
       }
 
       Promise.all([!!data?.res?.id ? serviceProfile.patch(valuesProfile, data?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(

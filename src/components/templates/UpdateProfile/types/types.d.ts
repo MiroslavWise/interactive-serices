@@ -5,7 +5,7 @@ export interface IValuesForm {
   lastName: string
   username: string
   email: string
-  gender: "male" | "female" | null
+  gender: "m" | "f" | null
 }
 
 export interface IMageProfile {
