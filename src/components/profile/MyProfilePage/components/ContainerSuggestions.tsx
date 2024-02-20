@@ -16,7 +16,7 @@ import styles from "./styles/style.module.scss"
 
 const titleEmpty: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "У вас нет опубликованных предложений на карте."],
-  [EnumTypeProvider.discussion, "У вас нет опубликованных дискуссий на карте."],
+  [EnumTypeProvider.discussion, "У вас нет опубликованных дискуссий на карте."],
   [EnumTypeProvider.alert, "У вас нет опубликованных SOS-сообщений на карте."],
 ])
 
