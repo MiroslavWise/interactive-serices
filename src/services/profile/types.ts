@@ -10,6 +10,7 @@ export interface IPostProfileData {
   enabled?: boolean
   userId?: string | number //post
   imageId?: number | null
+  gender?: "f" | "m"
 }
 
 export type IPatchProfileData = Partial<IPostProfileData>
@@ -22,6 +23,7 @@ export interface IGetProfileIdResponse {
   birthdate: Date
   about: string
   enabled: boolean
+  gender?: "f" | "m"
   created: Date
   updated: Date
   image: IImageData

@@ -27,8 +27,8 @@ export const LoginDetails = () => {
       <section data-personal>
         <fieldset>
           <label>Электронная почта</label>
-          <input value={email! || ""} readOnly disabled type="email" />
-          {email ? (
+          <input value={email! && !email?.includes("no-login:") ? email : ""} readOnly disabled type="email" />
+          {email && !email?.includes("no-login:") ? (
             <span>
               Для изменения электронной почты, напишите в телеграм{" "}
               <a href="https://t.me/sheirainfo" target="_blank">
@@ -59,17 +59,10 @@ export const LoginDetails = () => {
             <a onClick={() => dispatchAddingPhoneNumber(true)}>Добавить</a>
           )}
         </fieldset>
-        {!!email ? (
+        {!!email && !email?.includes("no-login:") ? (
           <fieldset>
             <label>Пароль</label>
-            <input
-              value="********"
-              // value={create ? `Задан ${dayjs(create)?.format("DD.MM.YYYY")}` : ""}
-              placeholder="пароль"
-              type="text"
-              readOnly
-              disabled
-            />
+            <input value="********" placeholder="пароль" type="text" readOnly disabled />
             <a onClick={handleUpdatePassword}>Изменить</a>
           </fieldset>
         ) : null}
