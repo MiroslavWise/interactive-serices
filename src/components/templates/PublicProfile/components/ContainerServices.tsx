@@ -4,8 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import type { IUserResponse } from "@/services/users/types"
 import { EnumTypeProvider } from "@/types/enum"
 
-import { GeneralServiceAllItem } from "@/components/common/Card"
-import { GeneralAlert, GeneralOffer } from "@/components/common/Card/GeneralServiceAllItem"
+import { GeneralItem } from "@/components/common"
 
 import { getUserIdOffers } from "@/services"
 
@@ -25,11 +24,9 @@ export const ContainerServices = memo(function ContainerServices(props: IUserRes
 
   return (
     <ul data-items>
-      {list.map((item) => {
-        if (item.provider === EnumTypeProvider.offer) return <GeneralOffer key={`${item.id}-public-profile`} offer={item} />
-        if (item.provider === EnumTypeProvider.alert) return <GeneralAlert key={`${item.id}-public-profile`} offer={item} />
-        return <GeneralServiceAllItem key={`${item.id}-public-profile`} {...item} />
-      })}
+      {list?.map((item) => (
+        <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
+      ))}
     </ul>
   )
 })

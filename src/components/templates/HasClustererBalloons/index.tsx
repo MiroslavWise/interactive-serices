@@ -1,10 +1,6 @@
 "use client"
 
-import { EnumTypeProvider } from "@/types/enum"
-
-import { ButtonClose } from "@/components/common"
-import { GeneralServiceAllItem } from "@/components/common/Card"
-import { GeneralAlert, GeneralOffer } from "@/components/common/Card/GeneralServiceAllItem"
+import { GeneralItem, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { dispatchHasBalloon, useHasBalloons } from "@/store/hooks"
@@ -30,11 +26,7 @@ export const HasClustererBalloons = () => {
         <div data-container>
           <ul>
             {offers && offers?.length > 0
-              ? offers.map((item) => {
-                  if (item.provider === EnumTypeProvider.offer) return <GeneralOffer key={`${item?.id}-offer-cluster`} offer={item} />
-                  if (item.provider === EnumTypeProvider.alert) return <GeneralAlert key={`${item?.id}-offer-cluster`} offer={item} />
-                  return <GeneralServiceAllItem key={`${item?.id}-offer-cluster`} {...item!} />
-                })
+              ? offers.map((item) => <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />)
               : null}
           </ul>
         </div>

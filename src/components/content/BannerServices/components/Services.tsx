@@ -3,12 +3,9 @@
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { EnumTypeProvider } from "@/types/enum"
 import type { TServicesFC } from "../types/types"
 
-import { ServiceLoading } from "@/components/common"
-import { GeneralServiceAllItem } from "@/components/common/Card"
-import { GeneralAlert, GeneralDiscussion, GeneralOffer } from "@/components/common/Card/GeneralServiceAllItem"
+import { ServiceLoading, GeneralItem } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getOffers } from "@/services"
@@ -63,12 +60,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
     <ul className={cx(styles.services)}>
       {isLoading
         ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-        : items.map((item) => {
-            if (item.provider === EnumTypeProvider.offer) return <GeneralOffer key={`::${item.id}::offer::`} offer={item} />
-            if (item.provider === EnumTypeProvider.alert) return <GeneralAlert key={`::${item.id}::offer::`} offer={item} />
-            if (item.provider === EnumTypeProvider.discussion) return <GeneralDiscussion key={`::${item.id}::offer::`} offer={item} />
-            return null
-          })}
+        : items.map((item) => <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />)}
     </ul>
   )
 })

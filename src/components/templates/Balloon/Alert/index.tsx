@@ -30,7 +30,7 @@ export const BalloonAlert = () => {
           <div data-img>
             <img src="/svg/SOS.svg" alt="SOS" width={24} height={24} />
           </div>
-          <h3>{content ? content : "SOS-cообщение"}</h3>
+          <h3 style={{ color: "var(--text-primary)" }}>{content ? content : "SOS-cообщение"}</h3>
         </header>
         <div data-container>
           <article>

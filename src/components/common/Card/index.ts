@@ -1,6 +1,6 @@
 export * from "./Blog"
 export * from "./Review"
 export * from "./Suggestion"
-export * from "./GeneralServiceAllItem/general"
 export * from "./CardDiscussion"
 export * from "./WalletPay"
+export * from "./GeneralServiceAllItem"
