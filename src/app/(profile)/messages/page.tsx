@@ -18,18 +18,18 @@ export default function Messages() {
   ]
 
   useEffect(() => {
-    const widthMarginMessage = `${25 + 2.75}rem`
-    const widthMarginProfile = `${17.5 + 3}rem`
+    // const widthMarginMessage = `${25 + 2.75}rem`
+    // const widthMarginProfile = `${17.5 + 3}rem`
 
-    function setDataRoot(value: string) {
-      document.documentElement.style.setProperty("--left-links-margin", value)
-    }
+    // function setDataRoot(value: string) {
+    //   document.documentElement.style.setProperty("--left-links-margin", value)
+    // }
 
-    setDataRoot(widthMarginMessage)
+    // setDataRoot(widthMarginMessage)
 
     return () => {
       dispatchDataUser(undefined)
-      setDataRoot(widthMarginProfile)
+      // setDataRoot(widthMarginProfile)
     }
   }, [])
 
