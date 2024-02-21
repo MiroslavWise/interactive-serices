@@ -70,7 +70,7 @@
   }
 
   &[data-type-button="white"] {
-    background: var(--BG-first);
+    background: var(--text-button);
     & > span {
       color: var(--text-accent);
     }
