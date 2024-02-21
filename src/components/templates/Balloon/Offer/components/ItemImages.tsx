@@ -36,8 +36,13 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
       data-images-offer
       className={styles.container}
       data-not-button={images?.length < 4}
+      onTouchMove={(event) => {
+        event.stopPropagation()
+        event.preventDefault()
+      }}
       onWheel={(event) => {
         event.stopPropagation()
+        event.preventDefault()
         if (refImages.current) {
           refImages.current.scrollBy({
             top: 0,

@@ -89,10 +89,11 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
             </>
           )}
         </p>
-        <p>
-          Вернитесь к <span onClick={handleToMap}>карточке</span> услуги, чтобы предложить обмен.
-        </p>
-        {userId !== resOffer?.userId ? <p></p> : null}
+        {userId !== resOffer?.userId ? (
+          <p>
+            Вернитесь к <span onClick={handleToMap}>карточке</span> услуги, чтобы предложить обмен.
+          </p>
+        ) : null}
       </article>
     </section>
   )
