@@ -19,7 +19,7 @@ export default function Messages() {
 
   useEffect(() => {
     const widthMarginMessage = `${25 + 2.75}rem`
-    const widthMarginProfile = `${17.5 + 1.25}rem`
+    const widthMarginProfile = `${17.5 + 3}rem`
 
     function setDataRoot(value: string) {
       document.documentElement.style.setProperty("--left-links-margin", value)

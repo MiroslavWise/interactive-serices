@@ -1,13 +1,25 @@
 .container {
   position: absolute;
-  right: 0;
-  top: calc(4.875rem);
-  height: calc(100% - 4.875rem);
+  right: 1.5rem;
+  top: calc(4.875rem + 1.5rem);
+  height: calc(100% - 4.875rem - 3rem);
   max-width: 24.375rem;
   width: 100%;
   background: var(--BG-second);
   z-index: 59;
   overflow: hidden;
+  border-radius: 2rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-shadow: inset 0 -20px 10px -10px var(--BG-second);
+    z-index: 60;
+    height: 1.5rem;
+    pointer-events: none;
+  }
 
   & > ul {
     position: relative;
