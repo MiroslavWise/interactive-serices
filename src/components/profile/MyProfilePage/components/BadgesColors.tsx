@@ -49,7 +49,7 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
       <section data-orange>
         <article>
           <h4>Рейтинг</h4>
-          <h2>{countTestimonials}</h2>
+          <h2>{Number(countTestimonials)?.toFixed(1)}</h2>
         </article>
         <div data-icon>
           <img src="/badges/star.svg" alt="barter" width={24} height={24} />

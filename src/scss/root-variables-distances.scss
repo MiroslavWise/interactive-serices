@@ -1,0 +1,13 @@
+:root {
+  --width-left-aside-profile: 17.5rem;
+  --height-header-nav-bar: 4.875rem;
+
+  //
+  --height-standard-header-modal: 4.75rem;
+}
+
+[data-mobile="true"] {
+  :root {
+    --height-standard-header-modal: 4.25rem;
+  }
+}

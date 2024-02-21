@@ -17,7 +17,7 @@
   width: 100%;
   overflow: hidden;
   background: transparent;
-  padding: calc(4.875rem + 1.5rem) 0 1.25rem;
+  padding: calc(var(--height-header-nav-bar) + 1.5rem) 0 1.25rem;
   display: flex;
   flex-direction: row;
   justify-content: center;

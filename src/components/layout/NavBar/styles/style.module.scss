@@ -1,14 +1,13 @@
 .nav {
   position: fixed;
   width: 100%;
-  height: 4.875rem;
+  height: var(--height-header-nav-bar);
   padding: 0 3.25rem;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   z-index: 70;
   background: var(--BG-second);
-  // border-bottom: 1px solid var(--grey-stroke);
 
   &[data-none="true"] {
     display: none !important;
