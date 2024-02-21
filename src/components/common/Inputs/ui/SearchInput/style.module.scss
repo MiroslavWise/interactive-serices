@@ -6,6 +6,7 @@
   border-radius: 1.625rem;
   background: var(--BG-second);
   overflow: hidden;
+  border: 1px solid var(--grey-stroke-light);
 
   input {
     width: 100%;
@@ -20,14 +21,6 @@
       font-style: normal;
       font-weight: 500;
       line-height: 1.25rem;
-    }
-
-    &::placeholder {
-      font-size: 0.875rem;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 1.25rem;
-      letter-spacing: -0.3px;
     }
   }
 

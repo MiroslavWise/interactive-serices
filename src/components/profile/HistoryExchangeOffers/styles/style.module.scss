@@ -1,8 +1,9 @@
 .container {
   position: fixed;
-  top: calc(4.875rem);
-  right: 0;
-  height: calc(100vh - 4.875rem);
+  top: calc(4.875rem + 1.5rem);
+  right: 1.5rem;
+  bottom: 1.5rem;
+  height: calc(100vh - 4.875rem - 3rem);
   width: 100%;
   max-width: 24.375rem;
   display: inline-flex;
@@ -14,6 +15,7 @@
   background: var(--BG-second);
   z-index: 2;
   overflow: hidden;
+  border-radius: 2rem;
 
   &::after {
     content: "";
@@ -27,11 +29,11 @@
   }
 }
 
-[data-theme="light"] {
-  .container {
-    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-  }
-}
+// [data-theme="light"] {
+//   .container {
+//     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+//   }
+// }
 
 [data-mobile="true"] {
   .container {
