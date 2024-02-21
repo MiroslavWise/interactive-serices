@@ -41,3 +41,4 @@ interface INewPassword {
 
 export type TPostNewPassword = (values: INewPassword) => IPromiseReturn<any>
 export type TGetSession = () => IPromiseReturn<any>
+export type TGetLogout = () => IPromiseReturn<any>

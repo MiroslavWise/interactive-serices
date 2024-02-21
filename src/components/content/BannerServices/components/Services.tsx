@@ -8,7 +8,7 @@ import type { TServicesFC } from "../types/types"
 
 import { ServiceLoading } from "@/components/common"
 import { GeneralServiceAllItem } from "@/components/common/Card"
-import { GeneralAlert, GeneralOffer } from "@/components/common/Card/GeneralServiceAllItem"
+import { GeneralAlert, GeneralDiscussion, GeneralOffer } from "@/components/common/Card/GeneralServiceAllItem"
 
 import { cx } from "@/lib/cx"
 import { getOffers } from "@/services"
@@ -66,7 +66,8 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
         : items.map((item) => {
             if (item.provider === EnumTypeProvider.offer) return <GeneralOffer key={`::${item.id}::offer::`} offer={item} />
             if (item.provider === EnumTypeProvider.alert) return <GeneralAlert key={`::${item.id}::offer::`} offer={item} />
-            return <GeneralServiceAllItem key={`::${item.id}::all::`} {...item} />
+            if (item.provider === EnumTypeProvider.discussion) return <GeneralDiscussion key={`::${item.id}::offer::`} offer={item} />
+            return null
           })}
     </ul>
   )

@@ -149,7 +149,7 @@ export const PersonalData = () => {
       watch("username") === data?.res?.username &&
       !file.string
     )
-  }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string])
+  }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string, watch("gender")])
 
   return (
     <form onSubmit={onSubmit}>
