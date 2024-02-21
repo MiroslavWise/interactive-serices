@@ -77,7 +77,7 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
           </div>
         </div>
         <p>
-          {userId !== resOffer?.userId ? (
+          {userId === resOffer?.userId ? (
             <>
               {userData?.profile?.firstName || ""} заинтересована в покупке вашей услуги{" "}
               <span onClick={handleDetailOffer}>{category?.title}</span>. Договоритесь о цене и условиях покупки в чате
