@@ -68,7 +68,9 @@ export const useAuth = create(
         const email = get().email
         const expires = get().expires
 
-        // getSession().then((response) => {})
+        getSession().then((response) => {
+          console.log("response auth session", { response })
+        })
 
         if (!isTokenExpired(get().expires) && typeof expires === "number") {
           changeAuthAction(set, get)

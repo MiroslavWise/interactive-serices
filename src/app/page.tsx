@@ -6,6 +6,8 @@ import { isMobile } from "react-device-detect"
 import { BannerServices, BannerSign, BannerAbout, MobileFilterMap, BannerStartCreate } from "@/components/content"
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
   ssr: false,
+  suspense: true,
+  loading: () => <div className="--loader--empty-screen--" />,
 })
 
 import { useAuth } from "@/store"
