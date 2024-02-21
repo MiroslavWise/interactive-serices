@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IResponseThread } from "@/services/threads/types"
@@ -12,7 +13,6 @@ import { daysAgo } from "@/helpers"
 import { getIdOffer } from "@/services"
 
 import styles from "./styles/notice-offer-pay.module.scss"
-import { useMemo } from "react"
 
 export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; userData: IUserResponse }) => {
   const userId = useAuth(({ userId }) => userId)

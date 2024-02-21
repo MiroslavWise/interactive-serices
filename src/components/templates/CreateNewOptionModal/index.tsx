@@ -146,11 +146,15 @@ export const CreateNewOptionModal = () => {
       desired: true,
     }
 
-    if (EnumTypeProvider.alert === typeAdd!) {
+    if ([EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)) {
       if (values.content) {
         data.content = values.content
       } else {
-        data.content = "SOS-сообщение"
+        if (EnumTypeProvider.alert === typeAdd) {
+          data.content = "SOS-сообщение"
+        } else if (EnumTypeProvider.discussion === typeAdd) {
+          data.content = "Дискуссия"
+        }
       }
     }
 
@@ -367,9 +371,12 @@ export const CreateNewOptionModal = () => {
                     </div>
                   )}
                 </fieldset>
-                {[EnumTypeProvider.alert].includes(typeAdd!) ? (
+                {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
                   <fieldset id="fieldset-create-option-modal-content-title-alert">
-                    <label>Заголовок SOS-cообщения</label>
+                    <label>
+                      Заголовок{" "}
+                      {EnumTypeProvider.alert === typeAdd! ? "SOS-cообщения" : EnumTypeProvider.discussion === typeAdd! ? "дискуссии" : ""}
+                    </label>
                     <input
                       {...register("content" /* { required: EnumTypeProvider.alert === typeAdd! } */)}
                       type="text"

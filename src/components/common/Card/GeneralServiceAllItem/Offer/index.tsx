@@ -1,28 +1,21 @@
 import { useMemo } from "react"
-import { useQuery } from "@tanstack/react-query"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
-import { NextImageMotion, LoadingProfile } from "@/components/common"
+import { ItemProfile } from "../components/ItemProfile"
 
 import { cx } from "@/lib/cx"
-import { getProfileUserId } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
 import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from "@/store"
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
+import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
   const { categoryId, title = "", userId, addresses = [], images = [] } = offer ?? {}
 
   const categories = useOffersCategories(({ categories }) => categories)
-
-  const { data: dataProfile, isLoading: isLoadingProfile } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
-    queryKey: ["profile", userId],
-    enabled: !!userId,
-  })
 
   const geo = addresses?.length > 0 ? addresses[0] : null
 
@@ -89,26 +82,10 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
         </div>
         <h3>{iconTitleCategory.title}</h3>
       </header>
-      {isLoadingProfile ? (
-        <LoadingProfile />
-      ) : (
-        <section>
-          <div data-avatar>
-            <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
-          </div>
-          <h4>
-            <span>
-              {dataProfile?.res?.firstName || ""} {dataProfile?.res?.lastName || ""}
-            </span>
-            <div data-icon>
-              <img src="/svg/verified-tick.svg" alt="tick" width={16} height={16} />
-            </div>
-          </h4>
-        </section>
-      )}
       <article>
         <p>{title}</p>
       </article>
+      {images?.length ? <ItemImages images={images} /> : null}
       {geo ? (
         <footer>
           <div data-geo>
@@ -117,6 +94,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
           <span>{geo?.additional}</span>
         </footer>
       ) : null}
+      <ItemProfile id={userId!} />
     </div>
   )
 }

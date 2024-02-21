@@ -33,6 +33,7 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
 
   return (
     <div
+      data-images-offer
       className={styles.container}
       data-not-button={images?.length < 4}
       onWheel={(event) => {

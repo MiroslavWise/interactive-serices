@@ -1,4 +1,4 @@
-import { TGetSession, TPostNewPassword, type IAuth } from "./types/types"
+import { TGetLogout, TGetSession, TPostNewPassword, type IAuth } from "./types/types"
 
 import { wrapperGet, wrapperPost } from "../requestsWrapper"
 
@@ -15,10 +15,11 @@ export const serviceAuth: IAuth = {
 
 export const postNewPassword: TPostNewPassword = (body) => wrapperPost({ url: `${route}/change-password`, body })
 export const getSession: TGetSession = () => wrapperGet({ url: `${route}/session` })
+export const getLogout: TGetLogout = () => wrapperGet({ url: `${route}/logout` })
 
 export const serviceAuthErrors = new Map([
   ["Unauthorized", "Пользователь не авторизован"],
-  ["user is not verified", "Аккаунт не верефицирован. Проверьте письмо на вашей почте"],
+  ["user is not verified", "Аккаунт не верифицирован. Проверьте письмо на вашей почте"],
   ["verification code expired or not found", "Ваше время верификации истекло"],
   ["user not found", "Аккаунт не существует"],
   ["invalid access token", "Время токена истекло"],
