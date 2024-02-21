@@ -18,12 +18,12 @@ export const getSession: TGetSession = () => wrapperGet({ url: `${route}/session
 export const getLogout: TGetLogout = () => wrapperGet({ url: `${route}/logout` })
 
 export const serviceAuthErrors = new Map([
-  ["Unauthorized", "Пользователь не авторизован"],
-  ["user is not verified", "Аккаунт не верифицирован. Проверьте письмо на вашей почте"],
+  ["unauthorized", "Пользователь не авторизован"],
+  ["user is not verified", "Аккаунт не прошел верификацию через e-mail. Проверьте почту"],
   ["verification code expired or not found", "Ваше время верификации истекло"],
-  ["user not found", "Аккаунт не существует"],
+  ["user not found", "Аккаунт не найден"],
   ["invalid access token", "Время токена истекло"],
-  ["password is not match", "Не верный пароль"],
-  ["password is incorrect", "Пароль неверный"],
+  ["password is not match", "Неверный пароль"],
+  ["password is incorrect", "Неверный пароль"],
   ["default", "Какая-то ошибка у нас на сервере. Мы сейчас разбираемся"],
 ])
