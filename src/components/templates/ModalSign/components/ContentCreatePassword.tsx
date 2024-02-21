@@ -34,52 +34,38 @@ export const ContentCreatePassword = () => {
     },
   })
 
-  function onEnter(values: IValues) {
-    console.log("onEnter values: ", values)
-    console.log("onEnter type: ", type)
-    console.log("onEnter codeReset: ", codeReset)
+  async function onEnter(values: IValues) {
     if (!loading) {
       setLoading(true)
       if (type === "ResetPassword" && !!codeReset) {
-        useForgotPasswordHelper
-          .resetPassword({
-            token: codeReset,
-            password: values.password,
-            repeat: values.repeat_password,
+        const response = await useForgotPasswordHelper.resetPassword({
+          token: codeReset,
+          password: values.password,
+          repeat: values.repeat_password,
+        })
+        if (response?.error.code === 400) {
+          setError("repeat_password", { message: "no_repeat" })
+        } else if (response?.error.code === 400) {
+          setError("repeat_password", { message: "no_repeat" })
+        } else if ([401 || 403].includes(response?.error?.code!)) {
+          on({ message: "Время восстановления пароля истекло" }, "warning")
+          handleReplace("/")
+        } else if (response?.error.code === 500) {
+          on(
+            {
+              message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
+            },
+            "error",
+          )
+        } else if (!response.ok) {
+          setError("repeat_password", { message: response?.error?.message })
+        } else if (response.ok) {
+          on({
+            message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
           })
-          .then((response) => {
-            if (response?.error.code === 400) {
-              setError("repeat_password", { message: "no_repeat" })
-              return
-            }
-            if ([401 || 403].includes(response?.error?.code!)) {
-              on({ message: "Время восстановления пароля истекло" }, "warning")
-              handleReplace("/")
-              return
-            }
-            if (response?.error.code === 500) {
-              on(
-                {
-                  message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
-                },
-                "error",
-              )
-            }
-            if (!response.ok) {
-              setError("repeat_password", { message: response?.error?.message })
-              return
-            }
-            if (response.ok) {
-              on({
-                message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
-              })
-              dispatchAuthModal({ type: "SignIn" })
-              return
-            }
-          })
-          .finally(() => {
-            setLoading(false)
-          })
+          dispatchAuthModal({ type: "SignIn" })
+        }
+        setLoading(false)
         return
       }
       if (!!email && typeEmailOrPhone === "email") {
@@ -111,10 +97,8 @@ export const ContentCreatePassword = () => {
           .finally(() => {
             setLoading(false)
           })
-        return
       } else {
         setLoading(false)
-        return
       }
     }
   }
