@@ -7,6 +7,7 @@
   padding-inline: 0 !important;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  overscroll-behavior-y: none;
 
   &::-webkit-scrollbar,
   &::-webkit-scrollbar-thumb {
@@ -26,6 +27,8 @@
     overflow-x: scroll;
     scroll-behavior: smooth;
     padding-inline: 1.25rem;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: contain;
 
     & > img {
       height: 5.625rem;
