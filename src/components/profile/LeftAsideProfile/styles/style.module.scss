@@ -1,12 +1,12 @@
 .asideLeft {
   position: fixed;
-  top: calc(4.875rem + 1.5rem);
+  top: calc(var(--height-header-nav-bar) + 1.5rem);
   left: 1.5rem;
   bottom: 1.5rem;
   width: 100%;
   border-radius: 2rem;
-  max-width: 17.5rem;
-  height: calc(100vh - 4.875rem - 3rem);
+  max-width: var(--width-left-aside-profile);
+  height: calc(100vh - var(--height-header-nav-bar) - 3rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -1,5 +1,5 @@
 .wrapper {
-  height: calc(100vh - 4.875rem);
+  height: calc(100vh - var(--height-header-nav-bar));
   display: flex;
   flex-direction: column;
   overflow-y: auto;
