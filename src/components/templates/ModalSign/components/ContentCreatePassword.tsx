@@ -38,35 +38,37 @@ export const ContentCreatePassword = () => {
     if (!loading) {
       setLoading(true)
       if (type === "ResetPassword" && !!codeReset) {
-        const response = await useForgotPasswordHelper.resetPassword({
-          token: codeReset,
-          password: values.password,
-          repeat: values.repeat_password,
-        })
-        if (response?.error.code === 400) {
-          setError("repeat_password", { message: "no_repeat" })
-        } else if (response?.error.code === 400) {
-          setError("repeat_password", { message: "no_repeat" })
-        } else if ([401 || 403].includes(response?.error?.code!)) {
-          on({ message: "Время восстановления пароля истекло" }, "warning")
-          handleReplace("/")
-        } else if (response?.error.code === 500) {
-          on(
-            {
-              message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
-            },
-            "error",
-          )
-        } else if (!response.ok) {
-          setError("repeat_password", { message: response?.error?.message })
-        } else if (response.ok) {
-          on({
-            message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
+        useForgotPasswordHelper
+          .resetPassword({
+            token: codeReset,
+            password: values.password,
+            repeat: values.repeat_password,
           })
-          dispatchAuthModal({ type: "SignIn" })
-        }
-        setLoading(false)
-        return
+          .then((response) => {
+            if (response?.error.code === 400) {
+              setError("repeat_password", { message: "no_repeat" })
+            } else if (response?.error.code === 400) {
+              setError("repeat_password", { message: "no_repeat" })
+            } else if ([401 || 403].includes(response?.error?.code!)) {
+              on({ message: "Время восстановления пароля истекло" }, "warning")
+              handleReplace("/")
+            } else if (response?.error.code === 500) {
+              on(
+                {
+                  message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
+                },
+                "error",
+              )
+            } else if (!response.ok) {
+              setError("repeat_password", { message: response?.error?.message })
+            } else if (response.ok) {
+              on({
+                message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
+              })
+              dispatchAuthModal({ type: "SignIn" })
+            }
+            setLoading(false)
+          })
       }
       if (!!email && typeEmailOrPhone === "email") {
         if (values.password !== values.repeat_password) {
@@ -169,7 +171,14 @@ export const ContentCreatePassword = () => {
             </div>
           )}
         />
-        <Button style={{ marginTop: "1rem" }} type="submit" typeButton="fill-primary" label="Продолжить" />
+        <Button
+          style={{ marginTop: "1rem" }}
+          type="submit"
+          typeButton="fill-primary"
+          label="Продолжить"
+          loading={loading}
+          disabled={watch("password") !== watch("repeat_password")}
+        />
       </form>
     </div>
   )
