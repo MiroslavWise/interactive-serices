@@ -8,15 +8,17 @@ import type { IUserResponse } from "@/services/users/types"
 
 import { LoadingThreadNotice } from "@/components/common"
 
-import { dispatchBallonOffer, dispatchMapCoordinates, useAuth, useOffersCategories } from "@/store"
-import { daysAgo } from "@/helpers"
 import { getIdOffer } from "@/services"
+import { daysAgo, usePush } from "@/helpers"
+import { dispatchBallonOffer, dispatchMapCoordinates, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/notice-offer-pay.module.scss"
+import { flushSync } from "react-dom"
 
 export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; userData: IUserResponse }) => {
   const userId = useAuth(({ userId }) => userId)
   const categories = useOffersCategories(({ categories }) => categories)
+  const { handlePush } = usePush()
   const { data, isLoading } = useQuery({
     queryFn: () => getIdOffer(thread?.offerId!),
     queryKey: ["offers", { offerId: thread?.offerId! }],
@@ -40,10 +42,12 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
           coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
         })
       }
-
       dispatchBallonOffer({
         visible: true,
         offer: resOffer,
+      })
+      flushSync(() => {
+        handlePush("/")
       })
     }
   }
