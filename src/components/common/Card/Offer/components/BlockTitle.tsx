@@ -3,8 +3,7 @@ import { useMemo } from "react"
 
 import type { TBlockTitle } from "./types/types"
 
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { NextImageMotion } from "@/components/common/Image"
+import { NextImageMotion, GeoTagging } from "@/components/common"
 
 import styles from "./styles/style.module.scss"
 

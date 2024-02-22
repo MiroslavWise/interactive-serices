@@ -1,13 +1,14 @@
 import Link from "next/link"
-import { memo, useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
+import { memo, useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
-import { ITEMS_LINK_FOOTER, ITEMS_LINK_ICON } from "../constants"
-
-import styles from "../styles/link.module.scss"
 import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
-import { useQuery } from "@tanstack/react-query"
+import { ITEMS_LINK_FOOTER } from "../constants"
+import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
+
+import styles from "../styles/link.module.scss"
 
 export const LinkMap = memo(function LinkMap() {
     const pathname = usePathname()
@@ -37,7 +38,7 @@ export const LinkMap = memo(function LinkMap() {
     return (
         <Link href={{ pathname: ITEMS_LINK_FOOTER.map }} data-active={isActive} className={styles.link}>
             <div className={styles.itemsIconLabel}>
-                {isActive ? ITEMS_LINK_ICON.map.active : ITEMS_LINK_ICON.map["not-active"]}
+                {MENU_ICONS.map}
                 <p>Карта</p>
             </div>
             {count ? (

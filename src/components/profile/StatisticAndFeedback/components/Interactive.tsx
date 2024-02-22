@@ -16,14 +16,14 @@ import { ITEMS_INTERACTIVE } from "./constants"
 import styles from "./styles/style.module.scss"
 
 export const Interactive: TInteractive = ({}) => {
-    const [active, setActive] = useState<ISegmentValues<TItemInteractive>>(ITEMS_INTERACTIVE[0])
+  const [active, setActive] = useState<ISegmentValues<TItemInteractive>>(ITEMS_INTERACTIVE[0])
 
-    return (
-        <section className={styles.interactive}>
-            <nav>
-                <Segments classNames={styles.segments} type="primary" VALUES={ITEMS_INTERACTIVE} active={active} setActive={setActive} isBorder />
-            </nav>
-            {active.value === "reviews" ? <ItemsReviews /> : active.value === "services" ? <ContainerServices /> : null}
-        </section>
-    )
+  return (
+    <section className={styles.interactive}>
+      <nav>
+        <Segments classNames={styles.segments} type="primary" VALUES={ITEMS_INTERACTIVE} active={active} setActive={setActive} isBorder />
+      </nav>
+      {active.value === "reviews" ? <ItemsReviews /> : active.value === "services" ? <ContainerServices /> : null}
+    </section>
+  )
 }

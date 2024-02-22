@@ -1,31 +1,32 @@
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
+import { EnumTypeProvider } from "@/types/enum"
 
-import { CardRequestsAndProposals } from "@/components/common/Card"
+import { GeneralItem } from "@/components/common"
 
-import { serviceOffers } from "@/services"
+import { getUserIdOffers } from "@/services"
 
 export const ContainerServices = memo(function ContainerServices(props: IUserResponse) {
-    const { id } = props ?? {}
+  const { id } = props ?? {}
 
-    const { data } = useQuery({
-        queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
-        queryKey: ["offers", { userId: id, provider: "offer" }],
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-    })
+  const { data } = useQuery({
+    queryFn: () => getUserIdOffers(id!, { provider: EnumTypeProvider.offer }),
+    queryKey: ["offers", { userId: id, provider: EnumTypeProvider.offer }],
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  })
 
-    const list = useMemo(() => {
-        return data?.res || []
-    }, [data?.res])
+  const list = useMemo(() => {
+    return data?.res || []
+  }, [data?.res])
 
-    return (
-        <ul data-items>
-            {list.map((item) => (
-                <CardRequestsAndProposals key={`${item.id}-public-profile`} type="optional-3" {...item} />
-            ))}
-        </ul>
-    )
+  return (
+    <ul data-items>
+      {list?.map((item) => (
+        <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
+      ))}
+    </ul>
+  )
 })

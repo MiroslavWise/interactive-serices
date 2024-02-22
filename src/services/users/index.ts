@@ -1,25 +1,14 @@
-import type { IServiceUser } from "./types/usersService"
+import type { IServiceUser, TPatchEmailPasswordUser } from "./types"
 
-import { wrapperFetch } from "@/services/requestsWrapper"
+import { wrapperGet, wrapperGetId, wrapperPost, wrapperPatch, wrapperDelete } from "@/services/requestsWrapper"
 
-export const serviceUser: IServiceUser = {
-    route: "/user",
-    get() {
-        return wrapperFetch.methodGet(this.route)
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId(this.route, id)
-    },
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    getEmail(value) {
-        return wrapperFetch.methodGetId(`${this.route}/email`, value)
-    },
-    patch(value, id) {
-        return wrapperFetch.methodPatch(this.route, value, id)
-    },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
-}
+const url = "/user"
+
+export const getUser: IServiceUser["get"] = () => wrapperGet({ url })
+export const getUserId: IServiceUser["getId"] = (id) => wrapperGetId({ url, id })
+export const postUser: IServiceUser["post"] = (body) => wrapperPost({ url, body })
+export const patchUser: IServiceUser["patch"] = (body, id) => wrapperPatch({ url, body, id })
+export const deleteUser: IServiceUser["delete"] = (id) => wrapperDelete({ url, id })
+export const getUserEmail: IServiceUser["getEmail"] = (id) => wrapperGetId({ url: `${url}/email`, id })
+
+export const patchEmailPasswordUser: TPatchEmailPasswordUser = (body, id) => wrapperPatch({ url, body: { ...body, enabled: true }, id })

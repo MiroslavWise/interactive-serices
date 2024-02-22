@@ -22,7 +22,7 @@
         z-index: 2;
         height: 100%;
         border-radius: 2rem;
-        background-color: var(--background);
+        background-color: var(--BG-second);
         display: flex;
         flex-direction: column;
 
@@ -44,7 +44,7 @@
             height: 4.75rem;
 
             & > h2 {
-                color: var(--gray-900);
+                color: var(--text-primary);
                 text-align: center;
                 font-size: 1.5rem;
                 font-style: normal;
@@ -128,7 +128,7 @@
     padding: 1.5rem;
 
     & > span {
-        color: var(--gray-500);
+        color: var(--text-secondary);
         font-size: 0.875rem;
         font-style: normal;
         font-weight: 400;
@@ -143,7 +143,7 @@
         position: relative;
         overflow: hidden;
         border-radius: 1.625rem;
-        border: 1px solid var(--gray-200);
+        border: 1px solid var(--grey-separator);
         margin-left: 2.25rem;
         padding: 1.625rem;
 
@@ -154,7 +154,7 @@
             height: 100%;
             border: none;
             border-radius: 0;
-            background-color: var(--background);
+            background-color: var(--BG-second);
             padding: 0.625rem 0.625rem 0.625rem calc(1rem + 1.25rem + 0.5rem);
 
             font-size: 1rem;
@@ -213,13 +213,13 @@
             align-items: center;
             gap: 0.25rem;
             border-radius: 0.5rem;
-            background-color: var(--text-light-black);
+            background-color: var(--element-grey);
 
             transition: var(--transition);
             transition-property: opacity;
 
             & > span {
-                color: var(--gray-50);
+                color: var(--text-button);
                 font-size: 0.875rem;
                 font-style: normal;
                 font-weight: 400;
@@ -295,8 +295,8 @@
                     }
 
                     &[data-check="true"] {
-                        border-color: var(--primary-500);
-                        background: var(--primary-500);
+                        border-color: var(--btn-main-default);
+                        background: var(--btn-main-default);
                         & > img {
                             opacity: 1;
                             visibility: visible;
@@ -309,7 +309,7 @@
                     width: 100%;
                     height: 100%;
                     border-radius: 0.75rem;
-                    border: solid var(--gray-200);
+                    border: solid var(--grey-stroke-light);
                     border-width: 1px;
                     display: flex;
                     flex-direction: row;
@@ -335,7 +335,7 @@
                     }
 
                     &:hover {
-                        border-color: var(--gray-500);
+                        border-color: var(--element-grey);
                     }
                 }
 
@@ -348,12 +348,12 @@
                         [data-img] {
                             opacity: 0.2;
                         }
-                        background: var(--gray-200);
+                        background: var(--BG-first);
                         & > p {
-                            color: var(--gray-500);
+                            color: var(--text-disabled);
                         }
                         &:hover {
-                            background: var(--gray-200);
+                            background: var(--BG-first);
 
                             & > [data-img-expand] {
                                 filter: none;
@@ -398,8 +398,8 @@
 
                     &[data-active="true"] {
                         & > [data-check] {
-                            border-color: var(--primary-500);
-                            background: var(--primary-500);
+                            border-color: var(--grey-stroke);
+                            background: transparent;
                         }
                     }
 
@@ -413,7 +413,7 @@
                             & > [data-img] {
                                 opacity: 0.2;
                             }
-                            color: var(--gray-500);
+                            color: var(--text-disabled);
                             cursor: no-drop !important;
                         }
                     }
@@ -434,7 +434,7 @@
                             transform: translateY(-50%) rotate(180deg);
                         }
 
-                        border-color: var(--gray-500);
+                        border-color: var(--text-secondary);
                     }
                 }
 
@@ -467,7 +467,7 @@
         height: 1rem;
         width: 1rem;
         border-radius: 0.25rem;
-        border: 1px solid var(--gray-300);
+        border: 1px solid var(--grey-stroke);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -496,7 +496,7 @@
     }
 
     p {
-        color: var(--gray-900);
+        color: var(--text-primary);
         font-size: 1rem;
         font-style: normal;
         font-weight: 400;

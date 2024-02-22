@@ -1,25 +1,16 @@
-import type {
-    IAuthService,
-    IRequestLogin,
-    IRequestRefresh,
-    IResponseLoginNot2fa,
-    IResponseLoginOtp,
-    IResponseRefresh,
-} from "./types/authService"
+import type { IAuthService } from "./types/authService"
 
-import { wrapperFetch } from "../requestsWrapper"
+import { wrapperPost } from "../requestsWrapper"
+
+const route = "/auth"
 
 export const AuthService: IAuthService = {
-    authToken() {
-        if (typeof window === "undefined") {
-            return ""
-        }
-        return JSON.parse(localStorage.getItem("auth")!).state.token
-    },
-    login(values) {
-        return wrapperFetch.methodPost<IRequestLogin, IResponseLoginOtp & IResponseLoginNot2fa>("/auth/login", values)
-    },
-    refresh(values) {
-        return wrapperFetch.methodPost<IRequestRefresh, IResponseRefresh>(`/auth/refresh`, values)
-    },
+  authToken() {
+    if (typeof window === "undefined") {
+      return ""
+    }
+    return JSON.parse(localStorage.getItem("auth")!).state.token
+  },
+  login: (body) => wrapperPost({ url: `${route}/login`, body }),
+  refresh: (body) => wrapperPost({ url: `${route}/refresh`, body }),
 }

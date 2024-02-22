@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 import type { TBlockBarter } from "./types/types"
 
 import { BadgeServices } from "@/components/common/Badge"

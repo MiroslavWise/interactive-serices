@@ -1,6 +1,6 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 import type { ISegmentValues } from "@/components/common/Segments/types"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 export type TTypeSegment = "reviews" | "services"
 

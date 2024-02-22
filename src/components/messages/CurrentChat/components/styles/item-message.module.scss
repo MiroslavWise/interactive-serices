@@ -1,211 +1,210 @@
 //containerItemUserMessage
 
 @mixin container {
-    position: relative;
-    width: 100%;
-    display: inline-flex;
-    gap: 0.75rem;
-    z-index: 2;
+  position: relative;
+  width: 100%;
+  display: inline-flex;
+  gap: 0.75rem;
+  z-index: 2;
 }
 
 .avatar {
-    position: sticky;
-    top: 0;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 1rem;
-    object-fit: cover;
+  position: sticky;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 1rem;
+  object-fit: cover;
 }
 
 .containerItemUserMessage {
-    @include container();
-    justify-content: flex-start;
+  @include container();
+  justify-content: flex-start;
 
-    .messages {
-        align-items: flex-start;
-        .blockMessage {
-            background: var(--background-input);
-            border-radius: 0.75rem 0.75rem 0.75rem 0.125rem;
-            transition: background, border-radius 0.3s ease-in-out;
+  .messages {
+    align-items: flex-start;
+    .blockMessage {
+      background: var(--BG-first);
+      border-radius: 0.75rem 0.75rem 0.75rem 0.125rem;
+      transition: background, border-radius 0.3s ease-in-out;
 
-            &.only {
-                border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
-            }
-            &.end {
-                border-radius: 0.125rem 0.75rem 0.75rem 0.75rem;
-            }
-            &.middle {
-                border-radius: 0.125rem 0.75rem 0.75rem 0.125rem;
-            }
-            &.start {
-                border-radius: 0.75rem 0.75rem 0.75rem 0.125rem;
-            }
+      &.only {
+        border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
+      }
+      &.end {
+        border-radius: 0.125rem 0.75rem 0.75rem 0.75rem;
+      }
+      &.middle {
+        border-radius: 0.125rem 0.75rem 0.75rem 0.125rem;
+      }
+      &.start {
+        border-radius: 0.75rem 0.75rem 0.75rem 0.125rem;
+      }
 
-            p {
-                color: var(--gray-900);
+      p {
+        color: var(--text-primary);
 
-                & > [data-username] {
-                    color: var(--error-600);
-                    cursor: pointer;
-                }
-            }
+        & > [data-username] {
+          color: var(--text-error);
+          cursor: pointer;
         }
+      }
     }
+  }
 }
 
 //containerItemMyMessage
 
 .containerItemMyMessage {
-    @include container();
-    justify-content: flex-end;
+  @include container();
+  justify-content: flex-end;
 
-    .messages {
-        align-items: flex-end;
-        .blockMessage {
-            background: var(--primary-500);
-            border-radius: 0.75rem 0.75rem 0.125rem 0.75rem;
+  .messages {
+    align-items: flex-end;
+    .blockMessage {
+      background: var(--btn-main-default);
+      border-radius: 0.75rem 0.75rem 0.125rem 0.75rem;
 
-            &.only {
-                border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
-            }
-            &.end {
-                border-radius: 0.75rem 0.125rem 0.75rem 0.75rem;
-            }
-            &.middle {
-                border-radius: 0.75rem 0.125rem 0.125rem 0.75rem;
-            }
-            &.start {
-                border-radius: 0.75rem 0.75rem 0.125rem 0.75rem;
-            }
+      &.only {
+        border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
+      }
+      &.end {
+        border-radius: 0.75rem 0.125rem 0.75rem 0.75rem;
+      }
+      &.middle {
+        border-radius: 0.75rem 0.125rem 0.125rem 0.75rem;
+      }
+      &.start {
+        border-radius: 0.75rem 0.75rem 0.125rem 0.75rem;
+      }
 
-            p {
-                color: var(--supporting-white);
+      p {
+        color: var(--text-button);
 
-                & > [data-username] {
-                    color: var(--error-600);
-                    cursor: pointer;
-                }
-            }
-
-            time {
-                color: var(--gray-400);
-            }
+        & > [data-username] {
+          color: var(--text-error);
+          cursor: pointer;
         }
+      }
+
+      time {
+        color: var(--text-disabled);
+      }
     }
+  }
 }
 
 .containerItemUserMessage,
 .containerItemMyMessage {
-    [data-images] {
-        border-radius: 0.4375;
-        height: fit-content;
+  [data-images] {
+    border-radius: 0.4375;
+    height: fit-content;
+    overflow: hidden;
+    width: fit-content;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
+    gap: 0.25rem 0.25rem;
+
+    & > img {
+      min-width: 7.5rem;
+      aspect-ratio: 3/2;
+      flex: 1 1 auto;
+      cursor: pointer;
+      border-radius: 0.35rem;
+    }
+  }
+
+  .messages {
+    p {
+      padding-inline: 0.375rem !important;
+    }
+
+    .blockMessage {
+      &[data-only-image="true"] {
         overflow: hidden;
-        width: fit-content;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -moz-flex;
-        display: -webkit-flex;
-        display: flex;
-        flex-flow: row wrap;
-        -webkit-flex-flow: row wrap;
-        gap: 0.25rem 0.25rem;
+        position: relative;
 
-        & > img {
-            min-width: 7.5rem;
-            aspect-ratio: 3/2;
-            flex: 1 1 auto;
-            cursor: pointer;
-            border-radius: 0.35rem;
+        .time {
+          position: absolute;
+          bottom: calc(0.25rem + 0.375rem);
+          right: calc(0.25rem + 0.375rem);
+          height: 1.25rem;
+          border-radius: 0.625rem;
+          background-color: var(--BG-filter);
+          width: min-content;
+          padding: 0.125rem 0.375rem !important;
+          white-space: nowrap;
         }
+      }
     }
-
-    .messages {
-        p {
-            padding-inline: 0.375rem !important;
-        }
-
-        .blockMessage {
-            &[data-only-image="true"] {
-                overflow: hidden;
-                position: relative;
-
-                .time {
-                    position: absolute;
-                    bottom: calc(0.25rem + 0.375rem);
-                    right: calc(0.25rem + 0.375rem);
-                    height: 1.25rem;
-                    border-radius: 0.625rem;
-                    background-color: var(--opacity-white-hard-black-5);
-                    width: min-content;
-                    padding: 0.125rem 0.375rem !important;
-                    white-space: nowrap;
-                }
-            }
-        }
-    }
+  }
 }
 
 [data-mobile="true"] {
-    .containerItemUserMessage,
-    .containerItemMyMessage {
-        padding-inline: 0.75rem;
-    }
+  .containerItemUserMessage,
+  .containerItemMyMessage {
+    padding-inline: 0.75rem;
+  }
 
-    .containerItemUserMessage {
-        .blockMessage {
-            min-width: 0.0625rem;
-            background: var(--background);
-            max-width: 100%;
-        }
+  .containerItemUserMessage {
+    .blockMessage {
+      min-width: 0.0625rem;
+      max-width: 100%;
     }
+  }
 
-    .containerItemMyMessage {
-        .blockMessage {
-            max-width: 100%;
-            min-width: 0.0625rem;
-        }
+  .containerItemMyMessage {
+    .blockMessage {
+      max-width: 100%;
+      min-width: 0.0625rem;
     }
+  }
 }
 
 .messages {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0.1875rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.1875rem;
 }
 
 .blockMessage {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    padding: 0.375rem 0.375rem;
-    max-width: 63%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.375rem 0.375rem;
+  max-width: 63%;
 
-    p {
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1.25rem;
-        letter-spacing: -0.3px;
-        // padding-right: 50px;
-    }
+  p {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+    letter-spacing: -0.3px;
+    // padding-right: 50px;
+  }
 }
 
 .time {
-    color: var(--gray-400);
-    text-align: right;
-    font-size: 0.625rem !important;
-    font-style: normal;
-    font-weight: 400 !important;
-    line-height: 0.875rem !important;
-    letter-spacing: -0.3px;
-    padding: 0 !important;
+  color: var(--text-button-60);
+  text-align: right;
+  font-size: 0.625rem !important;
+  font-style: normal;
+  font-weight: 400 !important;
+  line-height: 0.875rem !important;
+  letter-spacing: -0.3px;
+  padding: 0 !important;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }

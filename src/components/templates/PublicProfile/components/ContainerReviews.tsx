@@ -1,54 +1,27 @@
 import { memo, useMemo } from "react"
-import { useQueries, useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
-import { serviceOffers } from "@/services/offers"
-import { serviceTestimonials } from "@/services/testimonials"
+import { getTestimonials } from "@/services"
 import { CardReview } from "@/components/common/Card"
 
 export const ContainerReviews = memo(function ContainerReviews(props: IUserResponse) {
-    const { id } = props ?? {}
+  const { id } = props ?? {}
 
-    const { data, isLoading } = useQuery({
-        queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
-        queryKey: ["offers", { userId: id, provider: "offer" }],
-        enabled: !!id && typeof id !== "undefined",
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
-    })
+  const { data: dataTestimonials, isLoading: isLoadingTestimonials } = useQuery({
+    queryFn: () => getTestimonials({ receiver: id! }),
+    queryKey: ["testimonials", { receiver: id }],
+    enabled: !!id,
+  })
 
-    const idsOffers = useMemo(() => {
-        if (data?.res && !isLoading) {
-            return data?.res?.map((item) => item?.id)!
-        }
-        return []
-    }, [data?.res, isLoading])
+  const list = useMemo(() => dataTestimonials?.res || [], [dataTestimonials?.res])
 
-    const dataTestimonials = useQueries({
-        queries: idsOffers.map((item) => ({
-            queryFn: () => serviceTestimonials.get({ target: item!, provider: "offer" }),
-            queryKey: ["testimonials", { targetId: item, provider: "offer" }],
-            enabled: Array.isArray(idsOffers) && !!idsOffers?.length && !!id,
-        })),
-    })
-
-    const listTestimonials = useMemo(() => {
-        if (dataTestimonials?.every((item) => !item?.isLoading)) {
-            return dataTestimonials?.map((item) => item?.data?.res)?.flat()!
-        } else {
-            return []
-        }
-    }, [dataTestimonials])
-
-    console.log("listTestimonials: ", listTestimonials)
-
-    return (
-        <ul data-items>
-            {listTestimonials.map((item) => (
-                <CardReview {...item!} key={`${item?.id}-public`} />
-            ))}
-        </ul>
-    )
+  return (
+    <ul data-items>
+      {list.map((item) => (
+        <CardReview {...item!} key={`${item?.id}-public`} />
+      ))}
+    </ul>
+  )
 })

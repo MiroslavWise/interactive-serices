@@ -7,45 +7,45 @@ import { useQuery } from "@tanstack/react-query"
 //@ts-ignore
 import Masonry from "react-responsive-masonry"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TContainerServices } from "./types/types"
 
-import { ServiceLoading } from "@/components/common"
-import { CardRequestsAndProposals } from "@/components/common/Card"
+import { GeneralItem, ServiceLoading } from "@/components/common"
 
-import { serviceOffers } from "@/services"
+import { getUserIdOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const ContainerServices: TContainerServices = ({}) => {
-    const id = useSearchParams().get("id")
+  const id = useSearchParams().get("id")
 
-    const { data: dataOffer, isLoading } = useQuery({
-        queryFn: () => serviceOffers.getUserId(id!, { provider: "offer" }),
-        queryKey: ["offers", { userId: id, provider: "offer" }],
-        enabled: !!id,
-    })
+  const { data: dataOffer, isLoading } = useQuery({
+    queryFn: () => getUserIdOffers(id!, { provider: EnumTypeProvider.offer }),
+    queryKey: ["offers", { userId: id, provider: EnumTypeProvider.offer }],
+    enabled: !!id,
+  })
 
-    const list = useMemo(() => {
-        return dataOffer?.res?.filter((item) => item?.addresses?.length > 0) || []
-    }, [dataOffer?.res])
+  const list = useMemo(() => {
+    return dataOffer?.res?.filter((item) => item?.addresses?.length > 0) || []
+  }, [dataOffer?.res])
 
-    return (
-        <section className={styles.containerServices} data-loading={isLoading}>
-            {isLoading ? (
-                [1, 2, 3, 4].map((item) => <ServiceLoading key={`::item::offers::user::page::${item}::`} />)
-            ) : isMobile ? (
-                <ul className={styles.containerRequestsAndProposals}>
-                    {list?.map((item) => (
-                        <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
-                    ))}
-                </ul>
-            ) : (
-                <Masonry gutter="16px" columnsCount={2}>
-                    {list.map((item) => (
-                        <CardRequestsAndProposals key={`::${item?.id}::item::key::offer::`} {...item} type="optional-3" />
-                    ))}
-                </Masonry>
-            )}
-        </section>
-    )
+  return (
+    <section className={styles.containerServices} data-loading={isLoading}>
+      {isLoading ? (
+        [1, 2, 3, 4].map((item) => <ServiceLoading key={`::item::offers::user::page::${item}::`} />)
+      ) : isMobile ? (
+        <ul className={styles.containerRequestsAndProposals}>
+          {list?.map((item) => (
+            <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
+          ))}
+        </ul>
+      ) : (
+        <Masonry gutter="16px" columnsCount={2}>
+          {list?.map((item) => (
+            <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
+          ))}
+        </Masonry>
+      )}
+    </section>
+  )
 }

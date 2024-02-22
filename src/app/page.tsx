@@ -5,7 +5,9 @@ import { isMobile } from "react-device-detect"
 
 import { BannerServices, BannerSign, BannerAbout, MobileFilterMap, BannerStartCreate } from "@/components/content"
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
-    ssr: false,
+  ssr: false,
+  suspense: true,
+  loading: () => <div className="--loader--empty-screen--" />,
 })
 
 import { useAuth } from "@/store"
@@ -13,16 +15,16 @@ import { useAuth } from "@/store"
 import styles from "@/scss/page.module.scss"
 
 export default function Home() {
-    const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth(({ isAuth }) => isAuth)
 
-    return (
-        <main className={styles.main}>
-            <YandexMap />
-            {isAuth && <BannerSign />}
-            {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
-            {isAuth && isMobile && <BannerStartCreate />}
-            {isMobile && <MobileFilterMap />}
-            {!isMobile && <BannerServices />}
-        </main>
-    )
+  return (
+    <main className={styles.main}>
+      <YandexMap />
+      {isAuth && <BannerSign />}
+      {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
+      {isAuth && isMobile && <BannerStartCreate />}
+      {isMobile && <MobileFilterMap />}
+      {!isMobile && <BannerServices />}
+    </main>
+  )
 }

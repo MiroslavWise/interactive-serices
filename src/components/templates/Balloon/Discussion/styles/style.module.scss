@@ -1,52 +1,63 @@
 .wrapper {
-    & > section {
-        & > header {
-            background-color: var(--color-discussion);
+  & > section {
+    & > header {
+      background-color: #0eb014;
 
-            & > [data-img] {
-                width: 2rem;
-                height: 2rem;
-                background: var(--supporting-white);
-                border-radius: 2rem;
-                padding: 0.375rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+      & > [data-img] {
+        width: 2rem;
+        height: 2rem;
+        background: var(--element-white);
+        border-radius: 2rem;
+        padding: 0.375rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-                & > img {
-                    width: 1.25rem;
-                    height: 1.25rem;
-                }
-            }
+        & > img {
+          width: 1.25rem;
+          height: 1.25rem;
         }
-
-        & > [data-container] {
-            & > article {
-                width: 100%;
-                height: fit-content;
-                display: flex;
-                flex-direction: column;
-                gap: 0.75rem;
-
-                & > p {
-                    color: var(--gray-900);
-                    font-size: 0.875rem;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 1.25rem;
-                    letter-spacing: -0.02125rem;
-                }
-
-                & > time {
-                    text-align: start;
-                    color: var(--text-secondary, --gray-500);
-                    font-size: 0.75rem;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 1.125rem;
-                    letter-spacing: -0.00275rem;
-                }
-            }
-        }
+      }
     }
+
+    & > [data-container] {
+      & > article {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        & > p {
+          color: var(--text-primary);
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.25rem;
+          letter-spacing: -0.02125rem;
+        }
+
+        & > time {
+          text-align: start;
+          color: var(--text-secondary);
+          font-size: 0.75rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.125rem;
+          letter-spacing: -0.00275rem;
+        }
+      }
+    }
+
+    &[data-alert="true"] {
+      & > header {
+        background-color: var(--BG-second);
+        border-bottom: 1px solid rgba(239, 68, 36, 0.2);
+
+        & > [data-img] {
+          background-color: var(--element-error);
+        }
+      }
+    }
+  }
 }

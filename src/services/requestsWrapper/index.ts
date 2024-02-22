@@ -1,150 +1,144 @@
+import type { IReturnData } from "../types/general"
+import type { MethodDelete, MethodGet, MethodGetId, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
+
 import { URL_API } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import type { IWrapperFetch } from "./types"
+import { IResponseUploadFile } from "../file-upload/types"
 
-export const wrapperFetch: IWrapperFetch = {
-    get header() {
-        const head: HeadersInit = {
-            "Content-Type": "application/json",
-        }
-        if (useTokenHelper.authToken) {
-            head["Authorization"] = `Bearer ${useTokenHelper.authToken}`
-        }
-        return head
-    },
+function header(): HeadersInit {
+  const head: HeadersInit = {
+    "Content-Type": "application/json",
+  }
 
-    returnData(response) {
-        return {
-            ok: !!response?.data,
-            res: response?.data || null,
-            meta: response?.meta || null,
-            error: response?.error || response || null,
-        }
-    },
+  if (useTokenHelper.authToken) {
+    head["Authorization"] = `Bearer ${useTokenHelper.authToken}`
+  }
 
-    returnError(error) {
-        return {
-            ok: false,
-            res: null,
-            meta: null,
-            error: error,
-        }
-    },
+  return head
+}
 
-    async methodGet(url, query) {
-        const params: string = query
-            ? Object.entries(query)
-                  .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
-                  .replace("&", "?")
-            : ""
+function returnData<P>(response: any): IReturnData<P> {
+  return {
+    ok: !!response?.data,
+    res: response?.data || null,
+    meta: response?.meta || null,
+    error: response?.error || null,
+  }
+}
 
-        const RequestInit: RequestInit = {
-            method: "GET",
-            headers: this.header,
-            cache: "default",
-        }
+const returnError: TReturnError = (error) => {
+  return {
+    ok: false,
+    res: null,
+    meta: null,
+    error: error,
+  }
+}
 
-        try {
-            const response = await fetch(`${URL_API}${url}${params}`, RequestInit)
-            const responseData = await response.json()
-            return this.returnData(responseData)
-        } catch (e) {
-            return this.returnError(e)
-        }
-    },
-    async methodGetId(url, id, query) {
-        const params: string =
-            typeof query === "string"
-                ? query
-                : query
-                ? Object.entries(query)
-                      .reduce((prev, [key, value]) => prev + `&${key}=${value}`, ``)
-                      .replace("&", "?")
-                : ""
+async function returnWrapper<P extends any>(endpoint: URL, requestInit: RequestInit) {
+  try {
+    const response = await fetch(endpoint, requestInit)
+    const responseData = await response.json()
+    return returnData<P>(responseData)
+  } catch (error) {
+    return returnError(error)
+  }
+}
 
-        const requestInit: RequestInit = {
-            method: "GET",
-            headers: this.header,
-            cache: "default",
-        }
-        try {
-            const response = await fetch(`${URL_API}${url}/${id}${params}`, requestInit)
-            const responseData = await response.json()
-            return this.returnData(responseData)
-        } catch (e) {
-            return this.returnError(e)
-        }
-    },
-    async methodPost(url, body) {
-        const requestInit: RequestInit = {
-            method: "POST",
-            headers: this.header,
-            cache: "default",
-        }
-        if (body) {
-            requestInit.body = JSON.stringify(body)
-        }
-        try {
-            const response = await fetch(`${URL_API}${url}`, requestInit)
-            const responseData = await response.json()
-            return this.returnData(responseData)
-        } catch (e) {
-            return this.returnError(e)
-        }
-    },
-    async methodPatch(url, body, id) {
-        const requestInit: RequestInit = {
-            method: "PATCH",
-            headers: this.header,
-            body: JSON.stringify(body),
-            cache: "default",
-        }
+export const wrapperGet: MethodGet<any> = ({ url, query, cache }) => {
+  const endpoint = new URL(`${URL_API}${url}`)
 
-        try {
-            const response = await fetch(`${URL_API}${url}/${id}`, requestInit)
-            const responseData = await response.json()
-            return this.returnData(responseData)
-        } catch (e) {
-            return this.returnError(e)
-        }
-    },
-    async methodDelete(url, id) {
-        const requestInit: RequestInit = {
-            method: "DELETE",
-            headers: this.header,
-            cache: "default",
-        }
+  if (query) {
+    for (const [key, value] of Object.entries(query)) {
+      endpoint.searchParams.set(key, String(value))
+    }
+  }
 
-        try {
-            const response = await fetch(`${URL_API}${url}/${id}`, requestInit)
-            const responseData = await response.json()
-            return this.returnData(responseData)
-        } catch (e) {
-            return this.returnError(e)
-        }
-    },
-    async methodUploadFile(url, formData) {
-        try {
-            if (!useTokenHelper.authToken) {
-                return {
-                    ok: false,
-                    error: "Not Authorization",
-                }
-            }
-            const response = await fetch(`${URL_API}${url}`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${useTokenHelper.authToken}`,
-                },
-                body: formData,
-            })
-            const responseData = await response.json()
-            return this.returnData(responseData)
-        } catch (e) {
-            return this.returnError(e)
-        }
-    },
-    stringRequest(value: string) {
-        return `${URL_API}/${value}`
-    },
+  const requestInit: RequestInit = {
+    method: "GET",
+    headers: header(),
+    cache: cache || "default",
+  }
+
+  return returnWrapper(endpoint, requestInit)
+}
+
+export const wrapperGetId: MethodGetId<any> = async ({ url, id, query, cache }) => {
+  const endpoint = new URL(`${URL_API}${url}/${id}`)
+
+  if (query) {
+    for (const [key, value] of Object.entries(query)) {
+      endpoint.searchParams.set(key, String(value))
+    }
+  }
+
+  const requestInit: RequestInit = {
+    method: "GET",
+    headers: header(),
+    cache: cache || "default",
+  }
+
+  return returnWrapper(endpoint, requestInit)
+}
+
+export const wrapperPost: MethodPost<any, any> = async ({ url, body, cache }) => {
+  const endpoint = new URL(`${URL_API}${url}`)
+
+  const requestInit: RequestInit = {
+    method: "POST",
+    headers: header(),
+    cache: cache || "default",
+  }
+
+  if (body) {
+    requestInit.body = JSON.stringify(body)
+  }
+
+  return returnWrapper(endpoint, requestInit)
+}
+
+export const wrapperPatch: MethodPatch<any, any> = async ({ url, id, body, cache }) => {
+  const endpoint = new URL(`${URL_API}${url}/${id}`)
+
+  const requestInit: RequestInit = {
+    method: "PATCH",
+    headers: header(),
+    cache: cache || "default",
+  }
+
+  if (body) {
+    requestInit.body = JSON.stringify(body)
+  }
+
+  return returnWrapper(endpoint, requestInit)
+}
+
+export const wrapperDelete: MethodDelete = async ({ url, id }) => {
+  const endpoint = new URL(`${URL_API}${url}/${id}`)
+
+  const requestInit: RequestInit = {
+    method: "DELETE",
+    headers: header(),
+  }
+
+  return returnWrapper(endpoint, requestInit)
+}
+
+export const wrapperUploadFile: MethodUploadFile = async ({ url, file }) => {
+  const endpoint = new URL(`${URL_API}${url}`)
+
+  if (!useTokenHelper.authToken) {
+    return {
+      ok: false,
+      error: "Not Authorization",
+    }
+  }
+
+  const requestInit: RequestInit = {
+    method: "POST",
+    headers: { Authorization: `Bearer ${useTokenHelper.authToken}` },
+    body: file,
+  }
+
+  return returnWrapper<IResponseUploadFile>(endpoint, requestInit)
 }

@@ -1,36 +1,11 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
 
-    & > [data-buttons] {
-        width: 100%;
-        display: inline-flex;
-        align-items: center;
-
-        & > [data-button-default] {
-            width: 100%;
-            height: 2.25rem;
-
-            span {
-                font-size: 1rem;
-            }
-        }
-    }
-}
-
-.largeButton {
-    padding: 0.625rem 1.25rem;
-}
-
-[data-theme="light"] {
-    .container {
-        & > [data-friends] {
-            & > img {
-                filter: invert(1);
-            }
-        }
-    }
+  [data-button-forward] {
+    height: 2.25rem;
+  }
 }

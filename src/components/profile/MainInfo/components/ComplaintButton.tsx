@@ -1,6 +1,6 @@
 "use client"
 
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 import { dispatchComplaintModal } from "@/store"
 

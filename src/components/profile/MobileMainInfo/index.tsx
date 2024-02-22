@@ -16,45 +16,41 @@ import { useAuth } from "@/store"
 import styles from "./styles.module.scss"
 
 export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
-    const userId = useAuth(({ userId }) => userId)
+  const userId = useAuth(({ userId }) => userId)
 
-    const geo: IAddressesResponse | null = useMemo(() => {
-        return user?.addresses?.find((item) => item?.addressType === "main") || null
-    }, [user?.addresses])
+  const geo: IAddressesResponse | null = useMemo(() => {
+    return user?.addresses?.find((item) => item?.addressType === "main") || null
+  }, [user?.addresses])
 
-    return (
-        <li className={styles.containerMain}>
-            <div className={styles.blockAboutPhoto}>
-                <div className={styles.blockPhotoAch}>
-                    <div className={styles.avatar}>
-                        {user?.profile?.image?.attributes?.url ? (
-                            <NextImageMotion className={styles.photo} src={user?.profile?.image?.attributes?.url} alt="avatar" width={94} height={94} />
-                        ) : (
-                            <ImageStatic className={styles.photo} src="/png/default_avatar.png" alt="avatar" width={94} height={94} />
-                        )}
-                        {user?.profile?.image?.attributes?.url ? (
-                            <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={24} height={24} unoptimized />
-                        ) : null}
-                    </div>
-                </div>
-                <div className={styles.aboutBlock}>
-                    <h4>
-                        {user?.profile?.firstName || "____"} {user?.profile?.lastName || "----"}
-                    </h4>
-                    {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
-                    <p data-start className={styles.date}>
-                        На Sheira с {user?.created ? dayjs(user?.profile?.created).format("DD.MM.YYYY") : null}
-                    </p>
-                    {user?.profile?.about ? <p className={styles.about}>{user?.profile?.about}</p> : null}
-                </div>
-            </div>
-            {userId !== user?.id && !!userId ? (
-                <div className={styles.buttons}>
-                    <AddFriend user={user} />
-                    <Link data-circle-gradient href={Number(userId) === Number(user?.id) ? {} : { pathname: `/messages`, query: { user: user?.id } }}>
-                        <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
-                    </Link>
-                    {/* <button
+  return (
+    <li className={styles.containerMain}>
+      <div className={styles.blockAboutPhoto}>
+        <div className={styles.blockPhotoAch}>
+          <div className={styles.avatar}>
+            <NextImageMotion className={styles.photo} src={user?.profile?.image?.attributes?.url} alt="avatar" width={94} height={94} />
+            {user?.profile?.image?.attributes?.url ? (
+              <Image className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={24} height={24} unoptimized />
+            ) : null}
+          </div>
+        </div>
+        <div className={styles.aboutBlock}>
+          <h4>
+            {user?.profile?.firstName || "____"} {user?.profile?.lastName || "----"}
+          </h4>
+          {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
+          <p data-start className={styles.date}>
+            На Sheira с {user?.created ? dayjs(user?.profile?.created).format("DD.MM.YYYY") : null}
+          </p>
+          {user?.profile?.about ? <p className={styles.about}>{user?.profile?.about}</p> : null}
+        </div>
+      </div>
+      {userId !== user?.id && !!userId ? (
+        <div className={styles.buttons}>
+          <AddFriend user={user} />
+          <Link data-circle-gradient href={Number(userId) === Number(user?.id) ? {} : { pathname: `/messages`, query: { user: user?.id } }}>
+            <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
+          </Link>
+          {/* <button
                         data-circle-gradient
                         onClick={() => {
                             if (Number(userId) === Number(user?.id) || !userId) {
@@ -74,8 +70,8 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
                     >
                         <img src="/svg/repeat-01.svg" alt="repeat::1" width={20} height={20} />
                     </button> */}
-                </div>
-            ) : null}
-        </li>
-    )
+        </div>
+      ) : null}
+    </li>
+  )
 }

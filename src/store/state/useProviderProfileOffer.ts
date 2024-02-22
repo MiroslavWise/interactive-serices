@@ -1,18 +1,18 @@
 import { create } from "zustand"
 
-import type { TTypeProvider } from "@/services/file-upload/types"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const useProviderProfileOffer = create<TUseProviderProfileOffer>((set, get) => ({
-    stateProvider: "offer",
+  stateProvider: EnumTypeProvider.offer,
 }))
 
 interface IState {
-    stateProvider: TTypeProvider
+  stateProvider: EnumTypeProvider
 }
 
-export const dispatchProvider = (value: TTypeProvider) =>
-    useProviderProfileOffer.setState(() => ({
-        stateProvider: value,
-    }))
+export const dispatchProvider = (value: EnumTypeProvider) =>
+  useProviderProfileOffer.setState(() => ({
+    stateProvider: value,
+  }))
 
 type TUseProviderProfileOffer = IState

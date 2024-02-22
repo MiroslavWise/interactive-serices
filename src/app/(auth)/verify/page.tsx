@@ -1,12 +1,13 @@
 "use client"
 
 import { useEffect } from "react"
+import { flushSync } from "react-dom"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
+import { RegistrationService } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
-import { RegistrationService } from "@/services/auth/registrationService"
-import { dispatchAuthModal, dispatchOnboarding } from "@/store"
+import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 export default function PageVerify() {
     const verifyToken = useSearchParams()?.get("token")
@@ -18,14 +19,18 @@ export default function PageVerify() {
             RegistrationService.verification({ code: verifyToken! }).then((response) => {
                 if (response.ok) {
                     on({
-                        message: "Ваш аккаунт успешно прошёл верификацию. Теперь вы можете войти на аккаунт.",
+                        message: "Ваш аккаунт успешно прошёл верификацию",
                     })
-                    dispatchOnboarding("open")
-                    dispatchAuthModal({
-                        visible: true,
-                        type: "SignIn",
+                    if (response.res) {
+                        dispatchAuthToken({
+                            ...response.res,
+                            email: "",
+                        })
+                    }
+                    flushSync(() => {
+                        dispatchOnboarding("open")
+                        handlePush("/")
                     })
-                    handlePush("/")
                 } else {
                     on({
                         message: "Ваш аккаунт не прошёл верификацию.",

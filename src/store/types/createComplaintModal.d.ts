@@ -1,5 +1,5 @@
 import type { Dispatch } from "react"
-import type { IUserResponse } from "@/services/users/types/usersService"
+import type { IUserResponse } from "@/services/users/types"
 
 export interface IStateComplaintModal {
     visibleComplaint: boolean

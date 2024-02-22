@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation"
 import { UserIdPage } from "@/components/profile"
 
 import { usePush } from "@/helpers"
-import { serviceUser } from "@/services"
+import { getUserId } from "@/services"
 
 // export async function generateMetadata({ searchParams }: { searchParams: { id: string | number } }): Promise<Metadata> {
 //     if (searchParams?.id) {
@@ -75,24 +75,24 @@ import { serviceUser } from "@/services"
 // }
 
 export default function UserId() {
-    const id = useSearchParams().get("id")
-    const { handlePush } = usePush()
+  const id = useSearchParams().get("id")
+  const { handlePush } = usePush()
 
-    const { data, isLoading } = useQuery({
-        queryFn: () => serviceUser.getId(id!),
-        queryKey: ["user", { userId: id }],
-        enabled: id !== "undefined" && id !== "null" && typeof id !== undefined,
-        refetchOnReconnect: true,
-        retry: true,
-    })
+  const { data, isLoading } = useQuery({
+    queryFn: () => getUserId(id!),
+    queryKey: ["user", { userId: id }],
+    enabled: id !== "undefined" && id !== "null" && typeof id !== undefined,
+    refetchOnReconnect: true,
+    retry: true,
+  })
 
-    const { res, ok } = data ?? {}
+  const { res, ok } = data ?? {}
 
-    useEffect(() => {
-        if (id === undefined || typeof id === "undefined" || ok === false) {
-            handlePush("/")
-        }
-    }, [id, ok])
+  useEffect(() => {
+    if (id === undefined || typeof id === "undefined" || ok === false) {
+      handlePush("/")
+    }
+  }, [id, ok])
 
-    return <UserIdPage id={id!} user={res!} ok={ok!} isLoading={isLoading} />
+  return <UserIdPage id={id!} user={res!} ok={ok!} isLoading={isLoading} />
 }

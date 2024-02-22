@@ -1,25 +1,12 @@
 import type { IServiceThreads } from "./types"
 
-import { wrapperFetch } from "../requestsWrapper"
+import { wrapperGet, wrapperPost, wrapperGetId, wrapperDelete, wrapperPatch } from "../requestsWrapper"
 
-export const serviceThreads: IServiceThreads = {
-    route: "/threads",
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    get(value) {
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    patch(value, id) {
-        return wrapperFetch.methodPatch(this.route, value, id)
-    },
-    getId(id) {
-        return wrapperFetch.methodGetId(this.route, id, { messagesLimit: 0 })
-    },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
-    getUserId(userId) {
-        return wrapperFetch.methodGetId(`${this.route}/user`, userId)
-    },
-}
+const url = "/threads"
+
+export const getThreads: IServiceThreads["get"] = (query) => wrapperGet({ url, query })
+export const getThreadId: IServiceThreads["getId"] = (id) => wrapperGetId({ url, id, query: { messagesLimit: 0 } })
+export const getThreadUserId: IServiceThreads["getUserId"] = (id) => wrapperGetId({ url: `${url}/user`, id })
+export const postThread: IServiceThreads["post"] = (body) => wrapperPost({ url, body })
+export const patchThread: IServiceThreads["patch"] = (body, id) => wrapperPatch({ url, body, id })
+export const deleteThread: IServiceThreads["delete"] = (id) => wrapperDelete({ url, id })

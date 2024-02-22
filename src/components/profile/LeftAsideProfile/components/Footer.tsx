@@ -2,36 +2,42 @@
 
 import { Button } from "@/components/common"
 
-import { dispatchOnboarding } from "@/store"
-import { useOut } from "@/helpers/hooks/useOut"
+import { dispatchOnboarding, dispatchOutAccount } from "@/store"
 
-import styles from "./styles/style.module.scss"
+import styles from "../styles/footer.module.scss"
 
 export const FooterAsideLeft = () => {
-    const { out } = useOut()
+  function handleOut() {
+    dispatchOutAccount(true)
+  }
 
-    function handleOpen() {
-        dispatchOnboarding("open")
-    }
+  function handleOpen() {
+    dispatchOnboarding("open")
+  }
 
-    return (
-        <footer className={styles.footer}>
-            <Button
-                type="button"
-                label="Выйти"
-                typeButton="regular-primary"
-                prefixIcon={<img src="/svg/log-out.svg" alt="out" width={16} height={16} />}
-                onClick={out}
-            />
-            <section>
-                <p data-onboarding onClick={handleOpen}>
-                    Нужна помощь?
-                </p>
-                {/* <p>Пишите нам в телеграм:</p>
-                <a href="https://t.me/sheira" target="_blank">
-                    @sheira
-                </a> */}
-            </section>
-        </footer>
-    )
+  return (
+    <footer className={styles.footer}>
+      <Button
+        type="button"
+        typeButton="fill-primary"
+        label="Обучение"
+        prefixIcon={<img src="/svg/graduation-cap.svg" alt="" width={24} height={24} />}
+        onClick={handleOpen}
+      />
+      <section>
+        <div>
+          <p>Нужна помощь?</p>
+          <p>
+            Пишите в телеграм:{" "}
+            <a href="https://t.me/sheirainfo" target="_blank">
+              @sheirainfo
+            </a>
+          </p>
+        </div>
+        <button type="button" onClick={handleOut} data-circle>
+          <img src="/svg/log-out.svg" alt="out" width={16} height={16} />
+        </button>
+      </section>
+    </footer>
+  )
 }

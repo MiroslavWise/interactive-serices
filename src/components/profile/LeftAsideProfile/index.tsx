@@ -1,19 +1,17 @@
-"use client"
-
-import { isMobile } from "react-device-detect"
-
 import { FooterAsideLeft } from "./components/Footer"
-import { BlockProfileAside } from "@/components/profile/BlockProfileAside"
+import { BlockProfileAside, BlockDesiredServices, ButtonFriends } from "@/components/profile"
 
-import styles from "./style.module.scss"
+import styles from "./styles/style.module.scss"
 
 export const LeftAsideProfile = () => {
-    return (
-        <aside className={styles.asideLeft} data-mobile={isMobile}>
-            <BlockProfileAside />
-            {typeof isMobile !== undefined && !isMobile ? (
-                <FooterAsideLeft />
-            ) : null}
-        </aside>
-    )
+  return (
+    <aside className={styles.asideLeft}>
+      <ul>
+        <BlockProfileAside />
+        <ButtonFriends />
+        <BlockDesiredServices />
+        <FooterAsideLeft />
+      </ul>
+    </aside>
+  )
 }

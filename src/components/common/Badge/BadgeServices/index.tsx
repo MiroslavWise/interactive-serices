@@ -4,10 +4,9 @@ import type { TBadgeServices } from "./types"
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, useOffersCategories } from "@/store/hooks"
+import { dispatchBallonOffer, useOffersCategories } from "@/store"
 
 import styles from "./style.module.scss"
-import { SyntheticEvent } from "react"
 
 export const BadgeServices: TBadgeServices = (props) => {
     const { categoryId, id, isClickable } = props ?? {}

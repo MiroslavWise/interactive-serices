@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -9,30 +8,30 @@ import { serviceFriends } from "@/services/friends"
 import { DeclensionQuantityFriends } from "@/lib/declension"
 import { useDroverFriends } from "@/store/state/useDroverFriends"
 
-import styles from "./styles/button-friends.module.scss"
+import styles from "../styles/button-friends.module.scss"
 
 export const ButtonFriends = () => {
-    const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
-    const userId = useAuth(({ userId }) => userId)
+  const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
+  const userId = useAuth(({ userId }) => userId)
 
-    const { data } = useQuery({
-        queryFn: () => serviceFriends.get(),
-        queryKey: ["friends", `user=${userId}`, `filter=list`],
-        enabled: !!userId,
-    })
+  const { data } = useQuery({
+    queryFn: () => serviceFriends.get(),
+    queryKey: ["friends", `user=${userId}`, `filter=list`],
+    enabled: !!userId,
+  })
 
-    function handleOpen() {
-        dispatchFriends({ visible: true })
-    }
+  function handleOpen() {
+    dispatchFriends({ visible: true })
+  }
 
-    const friends = useMemo(() => {
-        return data?.res?.length || 0
-    }, [data?.res])
+  const friends = useMemo(() => {
+    return data?.res?.length || 0
+  }, [data?.res])
 
-    return (
-        <div className={styles.container} onClick={handleOpen}>
-            <p>{DeclensionQuantityFriends(friends)}</p>
-            <Image src="/svg/arrow-right.svg" alt="arrow-right" width={24} height={24} unoptimized />
-        </div>
-    )
+  return (
+    <div className={styles.container} onClick={handleOpen}>
+      <p>{DeclensionQuantityFriends(friends)}</p>
+      <img src="/svg/arrow-right.svg" alt="arrow-right" width={24} height={24} />
+    </div>
+  )
 }

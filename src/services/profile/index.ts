@@ -1,22 +1,16 @@
-import type { IServiceProfile } from "./types/profileService"
+import type { IServiceProfile } from "./types"
 
-import { wrapperFetch } from "@/services/requestsWrapper"
+import { wrapperGet, wrapperGetId, wrapperPost, wrapperPatch, wrapperDelete } from "@/services/requestsWrapper"
+
+const url = "/profile"
 
 export const serviceProfile: IServiceProfile = {
-    route: "/profile",
-    get(value) {
-        return wrapperFetch.methodGet(this.route, value)
-    },
-    getUserId(userId) {
-        return wrapperFetch.methodGetId(`${this.route}/user`, userId)
-    },
-    post(value) {
-        return wrapperFetch.methodPost(this.route, value)
-    },
-    patch(value, id) {
-        return wrapperFetch.methodPatch(this.route, value, id)
-    },
-    delete(id) {
-        return wrapperFetch.methodDelete(this.route, id)
-    },
+  get: (query) => wrapperGet({ url, query }),
+  getUserId: (id) => wrapperGetId({ url: `${url}/user`, id }),
+  post: (body) => wrapperPost({ url, body }),
+  patch: (body, id) => wrapperPatch({ url, body, id }),
+  delete: (id) => wrapperDelete({ url, id }),
 }
+
+export const patchProfile: IServiceProfile["patch"] = (body, id) => wrapperPatch({ url, body, id })
+export const getProfileUserId: IServiceProfile["getUserId"] = (id) => wrapperGetId({ url: `${url}/user`, id })
