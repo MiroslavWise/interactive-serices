@@ -28,11 +28,16 @@
   }
 }
 
-// [data-theme="light"] {
-//   .asideLeft {
-//     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
-//   }
-// }
+[data-theme="light"] {
+  .asideLeft {
+    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+  }
+}
+[data-theme="dark"] {
+  .asideLeft {
+    box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
+  }
+}
 
 [data-mobile="true"] {
   .asideLeft {

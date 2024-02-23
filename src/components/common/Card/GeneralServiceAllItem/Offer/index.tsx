@@ -1,19 +1,21 @@
+import dayjs from "dayjs"
 import { useMemo } from "react"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { ItemProfile } from "../components/ItemProfile"
+import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
 import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from "@/store"
+import { daysAgo } from "@/helpers"
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
-import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
-  const { categoryId, title = "", userId, addresses = [], images = [] } = offer ?? {}
+  const { categoryId, title = "", userId, addresses = [], images = [], created } = offer ?? {}
 
   const categories = useOffersCategories(({ categories }) => categories)
 
@@ -44,7 +46,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
 
     if (address) {
       dispatchMapCoordinates({
-        coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
+        coordinates: address?.coordinates?.split(" ")?.map(Number),
       })
     }
 
@@ -62,6 +64,9 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
         handle()
       }}
     >
+      <time dateTime={created as string}>
+        {daysAgo(created)} {dayjs(created).format("HH:mm ")}
+      </time>
       <header>
         <div data-img>
           <img

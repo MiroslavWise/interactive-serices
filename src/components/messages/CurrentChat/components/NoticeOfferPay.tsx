@@ -13,7 +13,6 @@ import { daysAgo, usePush } from "@/helpers"
 import { dispatchBallonOffer, dispatchMapCoordinates, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/notice-offer-pay.module.scss"
-import { flushSync } from "react-dom"
 
 export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; userData: IUserResponse }) => {
   const userId = useAuth(({ userId }) => userId)
@@ -39,16 +38,14 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
 
       if (address) {
         dispatchMapCoordinates({
-          coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
+          coordinates: address?.coordinates?.split(" ")?.map(Number),
         })
       }
       dispatchBallonOffer({
         visible: true,
         offer: resOffer,
       })
-      flushSync(() => {
-        handlePush("/")
-      })
+      handlePush("/")
     }
   }
 

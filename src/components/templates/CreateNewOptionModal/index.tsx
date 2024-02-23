@@ -25,6 +25,7 @@ import { getOffers, getUserIdOffers, patchOffer, postOffer, fileUploadService, s
 
 import styles from "./styles/style.module.scss"
 import { EnumTypeProvider } from "@/types/enum"
+import { queryClient } from "@/context"
 
 export const CreateNewOptionModal = () => {
   const [isFirst, setIsFirst] = useState(true)
@@ -189,13 +190,16 @@ export const CreateNewOptionModal = () => {
     }
   }
 
-  function onChangeAddress() {
+  async function onChangeAddress() {
     if (watch("address")?.length > 2 && isFocus) {
-      getGeocodeSearch(watch("address"))
-        .then((response) => setValuesAddresses(response))
-        .finally(() => {
-          setLoadingAddresses(false)
-        })
+      const slug = watch("address")?.replaceAll(" ", "-")
+      const response = await queryClient.fetchQuery({
+        queryFn: () => getGeocodeSearch(watch("address")),
+        queryKey: ["addresses", { string: slug }],
+      })
+
+      setValuesAddresses(response)
+      setLoadingAddresses(false)
     }
   }
 

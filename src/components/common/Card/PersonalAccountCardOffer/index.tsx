@@ -7,25 +7,15 @@ import type { IResponseOffers } from "@/services/offers/types"
 import { Button } from "@/components/common"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
+import { usePush } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"
-import {
-  dispatchBallonOffer,
-  dispatchDeleteOffer,
-  dispatchUpdateOffer,
-  useMapCoordinates,
-  useOffersCategories,
-  useUpdateMutualOffer,
-} from "@/store"
+import { dispatchBallonOffer, dispatchDeleteOffer, dispatchMapCoordinates, dispatchUpdateOffer, useOffersCategories } from "@/store"
 
 import styles from "./style.module.scss"
-import { usePush } from "@/helpers"
 
-export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseOffers; refetch(): Promise<any> }) => {
-  const [loading, setLoading] = useState(false)
+export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) => {
   const { handlePush } = usePush()
   const categories = useOffersCategories(({ categories }) => categories)
-  const dispatchUpdateMutual = useUpdateMutualOffer(({ dispatchUpdateMutual }) => dispatchUpdateMutual)
-  const dispatchMapCoordinates = useMapCoordinates(({ dispatchMapCoordinates }) => dispatchMapCoordinates)
 
   const category = useMemo(() => {
     return categories?.find((item) => offer?.categoryId === item?.id)
@@ -50,7 +40,7 @@ export const PersonalAccountCardOffer = ({ offer, refetch }: { offer: IResponseO
   function handleToMap() {
     if (geoData) {
       dispatchMapCoordinates({
-        coordinates: geoData?.coordinates?.split(" ")?.reverse()?.map(Number),
+        coordinates: geoData?.coordinates?.split(" ")?.map(Number),
         zoom: 20,
       })
       dispatchBallonOffer({
