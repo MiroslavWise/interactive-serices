@@ -50,7 +50,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
       ) : data?.res && Array.isArray(data?.res) && [EnumTypeProvider.offer].includes(stateProvider) && data?.res?.length > 0 ? (
         data?.res
           ?.filter((item) => item?.addresses?.length > 0)
-          .map((item, index) => <PersonalAccountCardOffer key={`${item.id}+${index}-${stateProvider}`} offer={item!} refetch={refetch} />)
+          .map((item, index) => <PersonalAccountCardOffer key={`${item.id}+${index}-${stateProvider}`} offer={item!} />)
       ) : data?.res &&
         Array.isArray(data?.res) &&
         [EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(stateProvider) &&

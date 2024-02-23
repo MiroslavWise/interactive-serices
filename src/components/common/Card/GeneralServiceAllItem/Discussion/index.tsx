@@ -1,5 +1,7 @@
 "use client"
 
+import dayjs from "dayjs"
+
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { ItemProfile } from "../components/ItemProfile"
@@ -7,12 +9,13 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 
 import { cx } from "@/lib/cx"
 import { dispatchBallonDiscussion } from "@/store"
+import { daysAgo } from "@/helpers"
 
 import styleMain from "../styles/main.module.scss"
 import styles from "../styles/discussion.module.scss"
 
 export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
-  const { id, title, content, addresses, userId, images = [] } = offer ?? {}
+  const { id, title, content, addresses, userId, images = [], created } = offer ?? {}
 
   const geo = addresses?.length > 0 ? addresses[0] : null
 
@@ -31,6 +34,9 @@ export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
         handle()
       }}
     >
+      <time dateTime={created as string}>
+        {daysAgo(created)} {dayjs(created).format("HH:mm ")}
+      </time>
       <header>
         <div data-img>
           <img src="/svg/discussin-card.svg" alt="dis" width={26} height={26} />

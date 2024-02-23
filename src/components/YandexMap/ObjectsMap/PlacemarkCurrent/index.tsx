@@ -19,7 +19,7 @@ export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
 const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = ({ id, item, idUser, offer }) => {
   return (
     <Placemark
-      geometry={item.reverse()}
+      geometry={item}
       properties={{
         id: id!,
         offer: offer,

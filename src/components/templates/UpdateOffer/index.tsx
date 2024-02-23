@@ -20,6 +20,7 @@ import { dispatchUpdateOffer, useAuth, useOffersCategories, useUpdateOffer } fro
 import styles from "./style.module.scss"
 import { UploadPhoto } from "@/components/common/custom"
 import { EnumTypeProvider } from "@/types/enum"
+import { queryClient } from "@/context"
 
 export const UpdateOffer = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -93,13 +94,15 @@ export const UpdateOffer = () => {
     )
   }, [categories, inputCategory])
 
-  function onChangeAddress() {
+  async function onChangeAddress() {
     if (inputGeo?.trim()?.length > 2) {
-      getGeocodeSearch(inputGeo!)
-        .then((response) => setValuesAddresses(response))
-        .finally(() => {
-          setLoadingAddresses(false)
-        })
+      const slug = inputGeo?.replaceAll(" ", "-")
+      const response = await queryClient.fetchQuery({
+        queryFn: () => getGeocodeSearch(inputGeo),
+        queryKey: ["addresses", { string: slug }],
+      })
+      setValuesAddresses(response)
+      setLoadingAddresses(false)
     }
   }
 

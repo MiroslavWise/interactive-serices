@@ -29,7 +29,8 @@ export const ListPlacemark = memo(function ListPlacemark() {
         ?.forEach((item) => {
           const coordinates: [number, number][] = item?.addresses?.map((_item) => {
             if (_item.coordinates) {
-              return [Number(_item.coordinates.split(" ")[0]), Number(_item.coordinates.split(" ")[1])]
+              const split = _item.coordinates.split(" ")
+              return [Number(split[0]), Number(split[1])]
             }
             return [0, 0]
           })

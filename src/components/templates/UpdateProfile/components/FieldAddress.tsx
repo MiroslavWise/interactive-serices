@@ -9,6 +9,7 @@ import { getLocationName } from "@/lib/location-name"
 import { useAuth } from "@/store"
 import { getGeocodeSearch, getUserId, serviceAddresses } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
+import { queryClient } from "@/context"
 
 export const FieldAddress = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -51,13 +52,15 @@ export const FieldAddress = () => {
     )
   }, [values])
 
-  function onValueFunc() {
+  async function onValueFunc() {
     if (text?.length > 2) {
-      getGeocodeSearch(text)
-        .then((response) => setValues(response))
-        .finally(() => {
-          setLoadingAddress(false)
-        })
+      const slug = text?.replaceAll(" ", "-")
+      const response = await queryClient.fetchQuery({
+        queryFn: () => getGeocodeSearch(text),
+        queryKey: ["addresses", { string: slug }],
+      })
+      setValues(response)
+      setLoadingAddress(false)
     } else {
       setLoadingAddress(false)
     }

@@ -35,7 +35,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
         if (!item?.addresses?.length) {
           return false
         }
-        const coordinates = item?.addresses[0]?.coordinates?.split(" ").reverse().map(Number).filter(Boolean)
+        const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
         if (!coordinates) {
           return false
         }

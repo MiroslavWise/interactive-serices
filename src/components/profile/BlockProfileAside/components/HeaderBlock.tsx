@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { THeaderBlock } from "../types/types"
@@ -25,7 +26,27 @@ export const HeaderBlock: THeaderBlock = () => {
     enabled: !!userId,
   })
 
-  const addressMain = data?.res?.addresses?.find((item) => item?.addressType === "main") || null
+  const addressMain = useMemo(() => {
+    if (!data?.res) return null
+
+    const main = data?.res?.addresses?.find((item) => item?.addressType === "main")
+
+    // city
+    // street
+    // house
+
+    if (main) {
+      const house = main?.house ?? ""
+      const street = main?.street ?? ""
+      const city = main?.city ?? ""
+
+      const address = [city, street, house].filter(Boolean).join(", ")
+
+      return address
+    }
+
+    return null
+  }, [data?.res])
 
   return (
     <header className={styles.containerHeader}>
@@ -39,7 +60,7 @@ export const HeaderBlock: THeaderBlock = () => {
         <h4>
           {dataProfile?.res?.firstName || "Имя"} {dataProfile?.res?.lastName || "Фамилия"}
         </h4>
-        {addressMain ? <p>{addressMain?.additional}</p> : null}
+        {addressMain ? <p>{addressMain}</p> : null}
         {data?.res?.created ? (
           <time dateTime={`${data?.res?.created!}`}>На Sheira с {dayjs(data?.res?.created!).format("DD.MM.YYYY")}</time>
         ) : null}
