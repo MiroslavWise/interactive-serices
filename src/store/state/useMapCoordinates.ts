@@ -35,3 +35,8 @@ export const dispatchMapCoordinates = ({ coordinates, zoom }: IDispatchMapCoordi
       zoom: getZoom,
     }
   })
+
+export const dispatchMapCoordinatesZoom = (zoom: number) =>
+  useMapCoordinates.setState((_) => ({
+    zoom: zoom,
+  }))

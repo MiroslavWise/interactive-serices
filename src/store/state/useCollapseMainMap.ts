@@ -8,4 +8,12 @@ export const useCollapseServices = create(
   }),
 )
 
+export const useCollapsePersonalScreen = create(
+  persist<{ visible: boolean }>(() => ({ visible: false }), {
+    name: "collapse-personal-screen",
+    storage: createJSONStorage(() => sessionStorage),
+  }),
+)
+
 export const dispatchCollapseServices = () => useCollapseServices.setState((_) => ({ visible: !_.visible }))
+export const dispatchCollapsePersonalScreen = () => useCollapsePersonalScreen.setState((_) => ({ visible: !_.visible }))
