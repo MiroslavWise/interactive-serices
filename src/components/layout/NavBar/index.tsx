@@ -2,8 +2,9 @@
 
 import { isMobile } from "react-device-detect"
 
-import { Links } from "./components/Links"
 import { Logo } from "./components/Logo"
+import { FooterMenu } from "../FooterMenu"
+import { Links } from "./components/Links"
 import { Buttons } from "./components/Buttons"
 
 import { useAuth } from "@/store/hooks"
@@ -19,5 +20,7 @@ export function NavBarProfile() {
       {isAuth && <Links />}
       <Buttons />
     </nav>
+  ) : isMobile ? (
+    <FooterMenu />
   ) : null
 }
