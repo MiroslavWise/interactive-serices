@@ -13,7 +13,6 @@ import {
   AboutSheiraPopup,
   NewServicesBanner,
   NotificationsMobile,
-  UpdateMutualOffer,
   PhotoPreviewModal,
   HasClustererBalloons,
   CompletionTransaction,
@@ -39,8 +38,8 @@ import {
   NumberConfirmation,
   UpdateOffer,
 } from "@/components/templates"
+import { PhotoCarousel } from "@/components/layout"
 import { ChangeService, ExchangesModalMobile } from "@/components/profile"
-import { FooterMenu, PhotoCarousel } from "@/components/layout"
 
 import {
   useAuth,
@@ -48,7 +47,6 @@ import {
   useHasBalloons,
   useDroverFriends,
   useVisibleNotifications,
-  useUpdateMutualOffer,
   useDataConfirmationPopUp,
   useAddCreateModal,
   useReciprocalExchange,
@@ -104,13 +102,8 @@ export const Containers = () => {
         </>
       )}
       <ToastContainer limit={3} />
-      {isMobile && (
-        <>
-          <FooterMenu />
-          <MobileFiltersMap />
-        </>
-      )}
       {!isMobile && <PublicProfile />}
+      {isMobile && <MobileFiltersMap />}
       {visibleBalloonOffer && <BalloonOffer />}
       {visibleBalloonAlert && <BalloonAlert />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
