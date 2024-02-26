@@ -64,7 +64,7 @@
     width: 100%;
     height: calc(100% - var(--height-filter-popup));
     overflow: hidden;
-    overflow-y: auto;
+
     padding: 0.625rem 1.25rem calc(1.25rem + 2.75rem + 1.25rem);
 
     & > section {
@@ -74,6 +74,7 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.625rem 0.625rem;
       grid-gap: 0.625rem;
+      overflow-y: auto;
 
       & > a {
         display: flex;
@@ -139,6 +140,7 @@
       bottom: 0;
       left: 0;
       right: 0;
+      z-index: 20;
     }
   }
 
@@ -146,5 +148,16 @@
     opacity: 1;
     visibility: visible;
     height: calc(100% - var(--height-header-nav-bar) - 3rem);
+  }
+}
+
+[data-theme="light"] {
+  .container {
+    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+  }
+}
+[data-theme="dark"] {
+  .container {
+    box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
   }
 }

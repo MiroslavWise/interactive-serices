@@ -12,6 +12,7 @@ import {
   ButtonCollapseServices,
   SearchAndFilters,
   FiltersScreen,
+  SearchFilters,
 } from "@/components/content"
 
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
@@ -36,6 +37,7 @@ export default function Home() {
       {isMobile && <MobileFilterMap />}
       {!isMobile && (
         <>
+          <SearchFilters />
           <FiltersScreen />
           <SearchAndFilters />
           <BannerServices />
