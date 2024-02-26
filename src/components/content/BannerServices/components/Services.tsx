@@ -1,48 +1,33 @@
 "use client"
 
 import { memo, useMemo } from "react"
-import { useQuery } from "@tanstack/react-query"
 
 import type { TServicesFC } from "../types/types"
 
 import { ServiceLoading, GeneralItem } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { getOffers } from "@/services"
 import { EnumTimesFilter } from "../constants"
-import { useBounds, useFilterMap, useFiltersServices } from "@/store"
+import { useBounds, useFiltersServices } from "@/store"
+import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 
 import styles from "../styles/style.module.scss"
 
 export const ServicesComponent: TServicesFC = memo(function $ServicesComponent() {
-  const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
+  const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
-  const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
-  const objProvider = providers === "all" ? {} : { provider: providers }
-  const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
-
-  const { data, isLoading } = useQuery({
-    queryFn: () => getOffers({ order: "DESC", ...obj, ...objProvider }),
-    queryKey: [
-      "offers",
-      {
-        ...obj,
-        ...objProvider,
-      },
-    ],
-  })
 
   const items = useMemo(() => {
-    if (!data?.res) {
+    if (!itemsOffers.length) {
       return []
     }
-    if (bounds && data?.res) {
+    if (bounds && itemsOffers) {
       const minCoords = bounds[0]
       const maxCoors = bounds[1]
 
       const dataAllItems =
-        data?.res?.filter((item) => {
+        itemsOffers?.filter((item) => {
           if (!item?.addresses?.length) {
             return false
           }
@@ -83,12 +68,10 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
           return time + objTime[timesFilter] - now > 0
         })
       }
-
-      return dataAllItems
     }
 
     return []
-  }, [data?.res, bounds, timesFilter])
+  }, [itemsOffers, bounds, timesFilter])
 
   return (
     <ul className={cx(styles.services)}>

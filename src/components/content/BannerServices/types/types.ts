@@ -8,3 +8,7 @@ interface IServicesFC {
 }
 
 export type TServicesFC = FC<IServicesFC>
+
+export interface IValuesFormFilters {
+  actives: number[]
+}

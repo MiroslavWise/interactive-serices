@@ -1,15 +1,15 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
 import type { IFormValues } from "./types/types"
-import type { IPostOffers, IQueriesOffers } from "@/services/offers/types"
+import type { IPostOffers } from "@/services/offers/types"
 import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
+import { EnumTypeProvider } from "@/types/enum"
 
 import { FinishScreen } from "./components/FinishScreen"
 import { CustomSelect } from "@/components/common/custom"
@@ -17,15 +17,15 @@ import { ArticleOnboarding } from "@/components/templates"
 import { Button, ImageStatic, WalletPay, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
+import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useAddCreateModal, closeCreateOffers, dispatchValidating } from "@/store"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
-import { dispatchOnboarding, useAuth, useFilterMap, useOffersCategories, useOnboarding } from "@/store"
-import { getOffers, getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
+import { dispatchOnboarding, useAuth, useOffersCategories, useOnboarding } from "@/store"
+import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
-import { queryClient } from "@/context"
 
 export const CreateNewOptionModal = () => {
   const [isFirst, setIsFirst] = useState(true)
@@ -43,22 +43,12 @@ export const CreateNewOptionModal = () => {
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const categories = useOffersCategories(({ categories }) => categories)
   const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
-
-  const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
-
-  const obj = idsNumber.length
-    ? ({ category: idsNumber.join(","), order: "DESC" } as IQueriesOffers)
-    : ({ order: "DESC" } as IQueriesOffers)
+  const { refetch: refetchDataMap } = useMapOffers()
 
   const { refetch } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: typeAdd, order: "DESC" }),
     queryKey: ["offers", { userId: userId, provider: typeAdd }],
     enabled: false,
-  })
-
-  const { refetch: refetchDataMap } = useQuery({
-    queryFn: () => getOffers(obj),
-    queryKey: ["offers", { category: idsNumber.sort() }],
   })
 
   const list = useMemo(() => {
@@ -112,22 +102,18 @@ export const CreateNewOptionModal = () => {
               ).then(() => {
                 refetch()
                 refetchDataMap()
-                flushSync(() => {
-                  setLoading(false)
-                  setIsFirst(false)
-                  dispatchOnboarding("close")
-                  reset()
-                })
-              })
-            } else {
-              refetch()
-              refetchDataMap()
-              flushSync(() => {
                 setLoading(false)
                 setIsFirst(false)
                 dispatchOnboarding("close")
                 reset()
               })
+            } else {
+              refetch()
+              refetchDataMap()
+              setLoading(false)
+              setIsFirst(false)
+              dispatchOnboarding("close")
+              reset()
             }
           })
         }

@@ -1,33 +1,24 @@
 "use client"
 
 import { memo, useMemo } from "react"
-import { useQuery } from "@tanstack/react-query"
 
 import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
 
 import { PlacemarkCurrent } from "../PlacemarkCurrent"
 
-import { getOffers } from "@/services"
-import { useFilterMap, useFiltersServices } from "@/store"
+import { useFiltersServices } from "@/store"
+import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 export const ListPlacemark = memo(function ListPlacemark() {
-  const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
-  const providers = useFiltersServices(({ providers }) => providers)
+  const { itemsOffers, isLoading } = useMapOffers()
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
-  const objProvider = providers === "all" ? {} : { provider: providers }
-  const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
-
-  const { data: dataPlaces } = useQuery({
-    queryFn: () => getOffers({ order: "DESC", ...obj, ...objProvider }),
-    queryKey: ["offers", { ...obj, ...objProvider }],
-  })
 
   const marks: IPlacemarkCurrent[] = useMemo(() => {
     const array: IPlacemarkCurrent[] = []
 
-    if (dataPlaces?.res && Array.isArray(dataPlaces.res)) {
-      dataPlaces?.res
+    if (itemsOffers && Array.isArray(itemsOffers)) {
+      itemsOffers
         ?.filter((item) => Array.isArray(item?.addresses) && item?.addresses?.length)
         ?.forEach((item) => {
           const coordinates: [number, number][] = item?.addresses?.map((_item) => {
@@ -72,7 +63,7 @@ export const ListPlacemark = memo(function ListPlacemark() {
     }
 
     return array
-  }, [dataPlaces?.res, timesFilter])
+  }, [itemsOffers, timesFilter])
 
   return marks.map((item) => <PlacemarkCurrent key={`${item.id}-${item.offer.provider}-list`} {...item} />)
 })
