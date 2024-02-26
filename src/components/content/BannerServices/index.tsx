@@ -1,21 +1,28 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { isMobile } from "react-device-detect"
 
 import { TServicesFilter } from "./types/types"
+import { EnumTypeProvider } from "@/types/enum"
 
+import { ImageCategory } from "@/components/common"
 import { ServicesComponent } from "./components/Services"
 import { IconSearch } from "@/components/icons/IconSearch"
+import { IconXClose } from "@/components/icons/IconXClose"
 import { IconFilters } from "@/components/icons/IconFilters"
 
 import { EnumTimesFilter, SERVICES, TIMES } from "./constants"
 import {
+  dispatchActiveFilterScreen,
   dispatchCollapseServices,
+  dispatchDataFilterScreen,
   dispatchFiltersServiceProvider,
   dispatchFiltersServiceTime,
   useCollapseServices,
+  useFiltersScreen,
   useFiltersServices,
+  useOffersCategories,
 } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -24,6 +31,8 @@ export const BannerServices = () => {
   const visible = useCollapseServices(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
+  const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
+  const categories = useOffersCategories(({ categories }) => categories)
   const [total, setTotal] = useState(0)
   const parentRef = useRef<HTMLUListElement>(null)
 
@@ -34,6 +43,12 @@ export const BannerServices = () => {
   function handleTimeFilter(value: EnumTimesFilter) {
     dispatchFiltersServiceTime(value)
   }
+
+  function deleteCategories(id: number) {
+    dispatchDataFilterScreen(activeFilters?.filter((item) => item !== id))
+  }
+
+  const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
   return !isMobile ? (
     <div className={styles.container} data-collapse={visible}>
@@ -68,6 +83,27 @@ export const BannerServices = () => {
               </a>
             ))}
           </div>
+          {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
+            <div data-filters-category>
+              {activeFilters.map((item) => (
+                <a key={`::key::item::filter::category::${item}::`}>
+                  <div data-icon>
+                    <ImageCategory id={item} />
+                  </div>
+                  <span>{itemCategory(item) ? itemCategory(item)?.title : null}</span>
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      deleteCategories(item)
+                    }}
+                  >
+                    <IconXClose />
+                  </button>
+                </a>
+              ))}
+            </div>
+          ) : null}
         </section>
         <div data-container>
           <ServicesComponent setTotal={setTotal} />
@@ -88,7 +124,13 @@ export const SearchAndFilters = () => {
         </span>
         <input type="text" placeholder="Что Вы ищете" />
       </div>
-      <button type="button">
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation()
+          dispatchActiveFilterScreen()
+        }}
+      >
         <IconFilters />
       </button>
     </div>
@@ -112,3 +154,5 @@ export const ButtonCollapseServices = () => {
     </button>
   )
 }
+
+export * from "./components/FiltersScreen"

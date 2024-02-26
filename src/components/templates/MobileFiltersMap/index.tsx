@@ -4,22 +4,15 @@ import { cx } from "@/lib/cx"
 import { useMemo, useState } from "react"
 import { useSwipeable } from "react-swipeable"
 
+import { ImageCategory } from "@/components/common"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
-import {
-  useFilterMap,
-  useOffersCategories,
-  useMobileFilterButton,
-  dispatchVisibleFilterMobileButton,
-  dispatchFilterMap,
-} from "@/store/hooks"
-import { IconCategory } from "@/lib/icon-set"
+import { useOffersCategories, useMobileFilterButton, dispatchVisibleFilterMobileButton } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
 export const MobileFiltersMap = () => {
   const visible = useMobileFilterButton(({ visible }) => visible)
-  const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
   const categories = useOffersCategories(({ categories }) => categories)
   const [value, setValue] = useState("")
 
@@ -62,28 +55,11 @@ export const MobileFiltersMap = () => {
           {categoriesMain.map((item) => (
             <li
               key={item.id + "-li-category"}
-              data-active={idsNumber.includes(item.id)}
               onClick={(event) => {
                 event.stopPropagation()
-                dispatchFilterMap(item.id)
               }}
             >
-              <img
-                data-icon
-                src={IconCategory(item.id)}
-                alt="icon"
-                width={28}
-                height={28}
-                onError={(error: any) => {
-                  if (error?.target) {
-                    try {
-                      error.target.src = IconCategory(item.id)
-                    } catch (e) {
-                      console.log("catch e: ", e)
-                    }
-                  }
-                }}
-              />
+              <ImageCategory id={item.id} />
               <p>{item.title}</p>
             </li>
           ))}
