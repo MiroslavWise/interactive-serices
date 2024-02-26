@@ -19,10 +19,13 @@ import {
   dispatchDataFilterScreen,
   dispatchFiltersServiceProvider,
   dispatchFiltersServiceTime,
+  dispatchValueSearchFilters,
+  dispatchVisibleSearchFilters,
   useCollapseServices,
   useFiltersScreen,
   useFiltersServices,
   useOffersCategories,
+  useSearchFilters,
 } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -115,6 +118,7 @@ export const BannerServices = () => {
 
 export const SearchAndFilters = () => {
   const visible = useCollapseServices(({ visible }) => visible)
+  const value = useSearchFilters(({ value }) => value)
 
   return (
     <div className={styles.containerSearchAndFilters} data-collapse={visible}>
@@ -122,7 +126,28 @@ export const SearchAndFilters = () => {
         <span data-icon-search>
           <IconSearch />
         </span>
-        <input type="text" placeholder="Что Вы ищете" />
+        <input
+          type="text"
+          placeholder="Что Вы ищете"
+          readOnly
+          value={value}
+          onClick={(event) => {
+            event.stopPropagation()
+            dispatchVisibleSearchFilters(true)
+          }}
+        />
+        {!!value ? (
+          <button
+            type="button"
+            data-icon-close
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchValueSearchFilters("", null)
+            }}
+          >
+            <IconXClose />
+          </button>
+        ) : null}
       </div>
       <button
         type="button"
@@ -156,3 +181,4 @@ export const ButtonCollapseServices = () => {
 }
 
 export * from "./components/FiltersScreen"
+export * from "./components/SearchFilters"

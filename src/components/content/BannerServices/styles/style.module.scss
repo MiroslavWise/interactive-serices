@@ -312,13 +312,16 @@
     border-color: var(--grey-stroke);
     box-shadow: 0;
 
-    & > [data-icon-search] {
+    & > [data-icon-search],
+    & > [data-icon-close] {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      left: 0.875rem;
       height: 1.25rem;
       width: 1.25rem;
+      background-color: transparent;
+      border: none;
+      outline: none;
 
       & > svg {
         width: 1.25rem;
@@ -326,10 +329,18 @@
       }
     }
 
+    & > [data-icon-search] {
+      left: 0.875rem;
+    }
+
+    & > [data-icon-close] {
+      right: 0.875rem;
+    }
+
     & > input {
       height: 100%;
       border-radius: 1.5rem;
-      padding-left: calc(0.875rem + 1.25rem + 0.5rem);
+      padding-inline: calc(0.875rem + 1.25rem + 0.5rem);
       border: none;
       outline: none;
       display: flex;
