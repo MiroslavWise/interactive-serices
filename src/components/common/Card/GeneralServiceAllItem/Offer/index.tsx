@@ -1,21 +1,22 @@
-import dayjs from "dayjs"
+"use client"
+
 import { useMemo } from "react"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { ItemProfile } from "../components/ItemProfile"
+import { HeaderTimeDots } from "../components/HeaderTimeDots"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
 import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from "@/store"
-import { daysAgo } from "@/helpers"
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
 
 export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
-  const { categoryId, title = "", userId, addresses = [], images = [], created } = offer ?? {}
+  const { categoryId, title = "", userId, addresses = [], images = [] } = offer ?? {}
 
   const categories = useOffersCategories(({ categories }) => categories)
 
@@ -64,9 +65,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
         handle()
       }}
     >
-      <time dateTime={created as string}>
-        {daysAgo(created)} {dayjs(created).format("HH:mm ")}
-      </time>
+      <HeaderTimeDots offer={offer} />
       <header>
         <div data-img>
           <img

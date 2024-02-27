@@ -11,6 +11,7 @@ import { daysAgo } from "@/helpers"
 
 import styles from "../styles/alert.module.scss"
 import styleMain from "../styles/main.module.scss"
+import { HeaderTimeDots } from "../components/HeaderTimeDots"
 
 export function GeneralAlert({ offer }: { offer: IResponseOffers }) {
   const { id, title, content, addresses, userId, images = [], created } = offer ?? {}
@@ -37,9 +38,7 @@ export function GeneralAlert({ offer }: { offer: IResponseOffers }) {
         handle()
       }}
     >
-      <time dateTime={created as string}>
-        {daysAgo(created)} {dayjs(created).format("HH:mm ")}
-      </time>
+      <HeaderTimeDots offer={offer} />
       <header>
         <div data-img>
           <img src="/svg/SOS.svg" alt="SOS" width={18} height={18} />
