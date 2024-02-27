@@ -1,19 +1,26 @@
 "use client"
 
-import { ReactNode, useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
 
 import { ImageCategory } from "@/components/common"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconXClose } from "@/components/icons/IconXClose"
 
-import { dispatchValueSearchFilters, dispatchVisibleSearchFilters, useOffersCategories, useSearchFilters } from "@/store"
+import {
+  dispatchClearSearchFilters,
+  dispatchValueSearchFilters,
+  dispatchVisibleSearchFilters,
+  useOffersCategories,
+  useSearchFilters,
+} from "@/store"
 
 import styles from "../styles/search-filters.module.scss"
 
 export const SearchFilters = () => {
   const visible = useSearchFilters(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
+  const history = useSearchFilters(({ history }) => history)
   const categories = useOffersCategories(({ categories }) => categories)
 
   const {
@@ -21,6 +28,7 @@ export const SearchFilters = () => {
     register,
     setFocus,
     watch,
+    setValue,
     handleSubmit,
   } = useForm<IValues>({
     defaultValues: { input: value },
@@ -40,6 +48,22 @@ export const SearchFilters = () => {
       return splitInput?.some((some) => item?.title?.toLowerCase()?.includes(some))
     })
   }, [categories, splitInput])
+
+  const filterItemsHistory = useMemo(() => {
+    if (!history.length || !categories.length) return []
+
+    const splitHistory = history.join(" ")?.replaceAll("  ", " ").split(" ")
+
+    return categories.filter((item) => {
+      return splitHistory?.some((some) => item?.title?.toLowerCase()?.includes(some))
+    })
+  }, [categories, history])
+
+  const firstSix = useMemo(() => {
+    if (!categories.length) return []
+
+    return categories?.filter((item) => item?.provider === "main")?.slice(0, 6)
+  }, [categories])
 
   useEffect(() => {
     if (visible) {
@@ -68,7 +92,7 @@ export const SearchFilters = () => {
 
   const onSubmit = handleSubmit(submit)
 
-  const title = useCallback(
+  const titleInput = useCallback(
     (value: string) => {
       const split = value.split(" ")
       return (
@@ -89,7 +113,31 @@ export const SearchFilters = () => {
         </>
       )
     },
-    [filterItems],
+    [filterItems, splitInput],
+  )
+  const titleHistory = useCallback(
+    (value: string) => {
+      const split = value.split(" ")
+      const splitHistory = history.join(" ")?.replaceAll("  ", " ").split(" ")
+      return (
+        <>
+          {split.map((item, index) =>
+            splitHistory.some((some) => item.toLowerCase().includes(some)) ? (
+              <b key={`::item::b::${item}::`}>
+                {item}
+                {index !== split.length - 1 ? " " : ""}
+              </b>
+            ) : (
+              <>
+                {item}
+                {index !== split.length - 1 ? " " : ""}
+              </>
+            ),
+          )}
+        </>
+      )
+    },
+    [filterItems, history],
   )
 
   return (
@@ -105,6 +153,7 @@ export const SearchFilters = () => {
             data-icon-close
             onClick={(event) => {
               event.stopPropagation()
+              setValue("input", "")
               close()
             }}
           >
@@ -124,14 +173,51 @@ export const SearchFilters = () => {
                 <div data-icon>
                   <ImageCategory id={item.id} />
                 </div>
-                <span>{title(item.title)}</span>
+                <span>{titleInput(item.title)}</span>
               </li>
             ))
-          ) : (
+          ) : !!input ? (
             <article>
               <h3>Ничего не найдено</h3>
               <p>Попробуйте изменить запрос или опишите его другими словами</p>
             </article>
+          ) : (
+            <div data-block-history>
+              {!!filterItemsHistory.length ? (
+                <div data-history>
+                  <div data-titles>
+                    <h3>История</h3>
+                    <a onClick={dispatchClearSearchFilters}>Очистить</a>
+                  </div>
+                  <div data-list>
+                    {filterItemsHistory.map((item) => (
+                      <a
+                        key={`::key::item::li::categories::search::h::${item.id}::`}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          onValue(item.id, item.title)
+                        }}
+                      >
+                        <div data-icon>
+                          <ImageCategory id={item.id} />
+                        </div>
+                        <span>{titleHistory(item.title)}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              <section data-grid>
+                {firstSix.map((item) => (
+                  <a key={`::item::grid::first::six::${item.id}::`}>
+                    <div data-icon>
+                      <ImageCategory id={item.id} />
+                    </div>
+                    <p>{item.title}</p>
+                  </a>
+                ))}
+              </section>
+            </div>
           )}
         </ul>
       </form>

@@ -7,7 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { usePush } from "@/helpers"
 import { queryClient } from "@/context"
 import { getIdOffer } from "@/services"
-import { dispatchBallonOffer } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
 
 export default function () {
   const { handlePush } = usePush()
@@ -15,7 +15,6 @@ export default function () {
   useEffect(() => {
     const hash = window.location.hash
     if (!!hash && hash?.includes("#")) {
-      // window.btoa(unescape(encodeURIComponent("offer_id:3")))
       const decode = decodeURIComponent(escape(window.atob(hash?.replace("#", ""))))
 
       const is = decode?.includes(":")
@@ -39,8 +38,18 @@ export default function () {
                     visible: true,
                     offer: response?.res!,
                   })
-                  handlePush("/")
+                } else if (response?.res?.provider === EnumTypeProvider.discussion) {
+                  dispatchBallonDiscussion({
+                    visible: true,
+                    offer: response?.res!,
+                  })
+                } else if (response?.res?.provider === EnumTypeProvider.alert) {
+                  dispatchBallonAlert({
+                    visible: true,
+                    offer: response?.res!,
+                  })
                 }
+                handlePush("/")
               } else {
                 handlePush("/")
               }
@@ -50,7 +59,7 @@ export default function () {
         }
       }
     } else {
+      handlePush("/")
     }
-    handlePush("/")
   }, [])
 }
