@@ -14,7 +14,7 @@ export function YMapsProvider({ children }: { children: ReactNode }) {
         coordorder: "longlat",
         mode: "release",
       }}
-      preload={true}
+      preload={false}
     >
       {children}
     </YMaps>
