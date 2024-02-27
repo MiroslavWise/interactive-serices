@@ -1,7 +1,7 @@
 "use client"
 
 import dayjs from "dayjs"
-import { DispatchWithoutAction, ReactNode, useEffect } from "react"
+import { DispatchWithoutAction, ReactNode } from "react"
 
 import { IResponseOffers } from "@/services/offers/types"
 
@@ -19,11 +19,9 @@ interface ITemsLinkSocial {
   linkCopy?: DispatchWithoutAction
 }
 
-interface IPropsLink {
-  link: DispatchWithoutAction
-}
+type TTypeLink = "link" | "tg" | "wa" | "vk"
 
-function ITEMS_LINK({ link }: IPropsLink): ITemsLinkSocial[] {
+function ITEMS_LINK({ link, tg, wa, vk }: Record<TTypeLink, DispatchWithoutAction>): ITemsLinkSocial[] {
   return [
     {
       icon: <IconLink />,
@@ -33,14 +31,17 @@ function ITEMS_LINK({ link }: IPropsLink): ITemsLinkSocial[] {
     {
       icon: <IconWhatsApp />,
       label: "WhatApp",
+      linkCopy: wa,
     },
     {
       icon: <IconTelegram />,
       label: "Телеграм",
+      linkCopy: tg,
     },
     {
       icon: <IconVK />,
       label: "Вконтакте",
+      linkCopy: vk,
     },
   ]
 }
@@ -52,7 +53,43 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
     link() {
       const w = window.btoa(unescape(encodeURIComponent(`offer_id:${offer.id}`)))
       const currentUrl = window.location.href
-      navigator.clipboard.writeText(`${currentUrl}offer#${w}`)
+
+      const url = `${currentUrl}offer#${w}`
+
+      navigator.clipboard.writeText(url)
+    },
+    tg() {
+      const w = window.btoa(unescape(encodeURIComponent(`offer_id:${offer.id}`)))
+      const currentUrl = window.location.href
+
+      const url = `${currentUrl}offer#${w}`
+
+      window.location.href = `tg://msg_url?url=${url}`
+    },
+    wa() {
+      const w = window.btoa(unescape(encodeURIComponent(`offer_id:${offer.id}`)))
+      const currentUrl = window.location.href
+
+      const url = `${currentUrl}offer#${w}`
+
+      const shareUrl = url
+      const shareText = offer.title
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}%20${encodeURIComponent(shareUrl)}`
+      window.location.href = whatsappUrl
+    },
+    vk() {
+      if (!!window.navigator.share!) {
+        const w = window.btoa(unescape(encodeURIComponent(`offer_id:${offer.id}`)))
+        const currentUrl = window.location.href
+
+        const url = `${currentUrl}offer#${w}`
+
+        navigator.share({
+          title: offer?.title!,
+          text: offer?.addresses[0]?.additional! || "",
+          url: url,
+        })
+      }
     },
   }
 
@@ -61,16 +98,17 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
       <time dateTime={offer.created as string}>
         {daysAgo(offer.created)} {dayjs(offer.created).format("HH:mm ")}
       </time>
-      <button
-        ref={ref}
-        onClick={(event) => {
-          event.stopPropagation()
-          setVisible(true)
-        }}
-      >
+      <div data-dots-and-button>
+        <button
+          ref={ref}
+          onClick={(event) => {
+            event.stopPropagation()
+            setVisible(true)
+          }}
+        />
         <IconDotsHorizontal />
         <article data-visible={visible}>
-          {ITEMS_LINK({ link: objCopy.link }).map((item) => (
+          {ITEMS_LINK({ ...objCopy }).map((item) => (
             <a
               key={`::key::copy::${item.label}::`}
               onClick={(event) => {
@@ -86,7 +124,7 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
             </a>
           ))}
         </article>
-      </button>
+      </div>
     </div>
   )
 }

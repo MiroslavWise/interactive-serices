@@ -24,7 +24,7 @@
       line-height: 1rem;
     }
 
-    & > button {
+    & > [data-dots-and-button] {
       position: relative;
       height: 1rem;
       width: 1rem;
@@ -36,9 +36,25 @@
       justify-content: center;
       z-index: 140;
 
+      & > button {
+        position: absolute;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 2rem;
+        width: 2rem;
+        z-index: 50;
+      }
+
       & > svg {
+        position: absolute;
+        inset: 0;
         width: 1rem;
         height: 1rem;
+        z-index: 23;
       }
 
       & > article {
@@ -90,7 +106,8 @@
             font-size: 0.875rem;
             font-style: normal;
             font-weight: 400;
-            line-height: 1.25rem; /* 142.857% */
+            line-height: 1.25rem;
+            white-space: nowrap;
           }
 
           &:hover,
@@ -280,13 +297,13 @@
 
 [data-theme="light"] {
   .container,
-  .container > [data-time-dots] > button > article {
+  .container > [data-time-dots] > [data-dots-and-button] > article {
     box-shadow: 0px 4px 24px 0px rgba(98, 106, 118, 0.08), 0px 2px 6px 0px rgba(98, 106, 118, 0.06);
   }
 }
 [data-theme="dark"] {
   .container,
-  .container > [data-time-dots] > button > article {
+  .container > [data-time-dots] > [data-dots-and-button] > article {
     box-shadow: 0px 12px 24px 0px rgba(32, 32, 32, 0.5);
   }
 }

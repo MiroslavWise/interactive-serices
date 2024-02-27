@@ -24,7 +24,7 @@
     margin: 0;
     -webkit-overflow-scrolling: touch;
     height: 100%;
-    padding-block: 2.5rem calc(3.375rem + 1rem);
+    padding-block: calc(var(--height-mobile-header) + 2.5rem) calc(3.375rem + 1rem);
     padding-inline: 1rem;
     gap: 0.625rem;
 
@@ -54,5 +54,6 @@
     -webkit-overflow-scrolling: touch;
     padding: 0.75rem;
     padding-bottom: 5rem;
+    padding-top: calc(var(--height-mobile-header) + 0.625rem);
   }
 }
