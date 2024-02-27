@@ -79,7 +79,7 @@ export const AddingPhoneNumber = () => {
                 setFocus("phone")
               }}
             >
-              {!!watch("phone") && `${watch("phone")}`[0] !== "8" ? <span>+</span> : null}
+              {!!watch("phone") && !["8", "+", 8].includes(`${watch("phone")}`[0]) ? <span>+</span> : null}
               <input
                 data-input-phone
                 placeholder="+7 999 000-00-00"

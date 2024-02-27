@@ -41,7 +41,7 @@ export const LoginDetails = () => {
         <fieldset>
           <label>Номер телефона</label>
           <input
-            value={!!number ? (number[0] !== "8" ? `+${number}` : number) : ""}
+            value={!!number ? (!["8", "+", 8].includes(number[0]) ? `+${number}` : number) : ""}
             placeholder="Номер не добавлен"
             type="text"
             readOnly
