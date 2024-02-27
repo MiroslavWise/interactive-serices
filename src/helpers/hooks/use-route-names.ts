@@ -14,18 +14,18 @@ const names = new Map([
 ])
 
 export const useRouteNames = () => {
-  // const pathname = usePathname()
+   const pathname = usePathname()
   const [state, setState] = useState<string | null>(null)
 
   // console.log("useRouteNames pathname", pathname)
 
-  // useEffect(() => {
-  //   if (names.has(pathname)) {
-  //     setState(names.get(pathname)!)
-  //   } else {
-  //     setState(names.get("/")!)
-  //   }
-  // }, [pathname])
+  useEffect(() => {
+     if (names.has(pathname)) {
+      setState(names.get(pathname)!)
+     } else {
+      setState(names.get("/")!)
+     }
+   }, [pathname])
 
   return state
 }
