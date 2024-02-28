@@ -6,6 +6,7 @@ import { isMobile } from "react-device-detect"
 import type { IActionOffers, IStateOffers } from "@/components/profile/OffersPage/types/types"
 
 import { ContainerHeader, ContainerOffersNow, MobileSegments } from "@/components/profile"
+import { OffersMobile } from "@/components/screens"
 
 const initialState: IStateOffers = {
   total: 0,
@@ -20,9 +21,10 @@ function reducer(_: IStateOffers, action: IActionOffers) {
 export default function OffersPage() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  return (
+  return isMobile ? (
+    <OffersMobile />
+  ) : (
     <>
-      {isMobile && <MobileSegments />}
       <ContainerHeader total={state.total || 0} />
       <ContainerOffersNow dispatch={dispatch} />
     </>

@@ -1,5 +1,4 @@
 export * from "./AnimatedLoadPage"
 export * from "./FooterMenu"
 export * from "./PhotoCarousel"
-export * from "./NavBar"
 export * from "./MobileHeader"

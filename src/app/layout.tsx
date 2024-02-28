@@ -1,18 +1,18 @@
-import Script from "next/script"
 import { Viewport } from "next"
-import { type Metadata } from "next"
+import Script from "next/script"
 import dynamic from "next/dynamic"
+import { type Metadata } from "next"
 import { type ReactNode } from "react"
 import { Inter } from "next/font/google"
 
-import { NavBarProfile } from "@/components/layout"
+const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
 const Providers = dynamic(() => import("./providers"), { ssr: false })
 
 import env from "@/config/environment"
+import { cx } from "@/lib/cx"
 
 import "@/scss/init.scss"
 import "react-toastify/dist/ReactToastify.css"
-import { cx } from "@/lib/cx"
 
 const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
 

@@ -24,6 +24,7 @@
         "million": "^3.0.3",
         "next": "14.0.3",
         "next-themes": "^0.2.1",
+        "nextjs-toploader": "^1.6.6",
         "react": "18.2.0",
         "react-device-detect": "^2.2.3",
         "react-dom": "^18.2.0",
