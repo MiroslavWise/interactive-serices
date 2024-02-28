@@ -12,10 +12,12 @@ import { IconRevers } from "@/components/icons/IconRevers"
 import { ImageCategory, NextImageMotion } from "../../Image"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-import { dispatchInitiatedBarter, useAuth, useOffersCategories } from "@/store"
+import { dispatchBallonOffer, dispatchInitiatedBarter, useAuth, useOffersCategories } from "@/store"
 import { getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import { IResponseOffers } from "@/services/offers/types"
+import { IconGeo } from "@/components/icons/IconGeo"
 
 const title: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.EXECUTED, "Начало обмена"],
@@ -74,8 +76,15 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
     [categories],
   )
 
+  function handle(offer: ISmallDataOfferBarter) {
+    dispatchBallonOffer({
+      visible: true,
+      offer: offer! as IResponseOffers,
+    })
+  }
+
   return (
-    <article className={styles.container}>
+    <article className={styles.container} data-status={status}>
       {[EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!) ? (
         <header>
           <span>
@@ -96,14 +105,34 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
               {dataUser?.res?.profile?.firstName || " "} {dataUser?.res?.profile?.lastName || " "}&nbsp;
               <IconVerifiedTick />
             </span>
-            {address ? <time>{address}</time> : null}
+            {[EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!) && address ? (
+              <time>{address}</time>
+            ) : status === EnumStatusBarter.INITIATED ? (
+              <a>{dayjs(created).format("HH:mm DD.MM.YY")}</a>
+            ) : null}
           </div>
         </section>
       )}
+      {status === EnumStatusBarter.INITIATED ? (
+        <section data-initiated>
+          <p>{barter?.initiator?.title || ""}</p>
+          {!!address ? (
+            <div data-geo>
+              <IconGeo />
+              <span>{address}</span>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
       {categoriesBarter ? (
         <section data-categories>
           <div data-first>
-            <article>
+            <article
+              onClick={(event) => {
+                event.stopPropagation()
+                handle(categoriesBarter?.start!)
+              }}
+            >
               <div data-icon>
                 <ImageCategory id={categoriesBarter?.start?.categoryId} />
               </div>
@@ -111,7 +140,13 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
             </article>
             <IconRevers />
           </div>
-          <article data-me>
+          <article
+            data-me
+            onClick={(event) => {
+              event.stopPropagation()
+              handle(categoriesBarter?.end!)
+            }}
+          >
             <div data-icon>
               <ImageCategory id={categoriesBarter?.end?.categoryId} />
             </div>

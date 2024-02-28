@@ -12,5 +12,9 @@ export const metadata: Metadata = {
 import main from "../layout.module.scss"
 
 export default function LayoutOffersMe({ children }: { children: ReactNode }) {
-  return <ul className={cx(main.wrapperInsideContainer, "__container-offer-page__")}>{children}</ul>
+  return (
+    <ul className={cx(main.wrapperInsideContainer, "__container-offer-page__")} data-none-scroll>
+      {children}
+    </ul>
+  )
 }
