@@ -146,7 +146,27 @@ export const useToast = () => {
     })
   }
 
-  return { on, onMessage, onBarters }
+  function onSimpleMessage(message: string) {
+    const div = (
+      <div className="message-notifications-toast barter-toast">
+        <ButtonClose position={{}} onClick={() => {}} />
+        <p>{message}</p>
+      </div>
+    )
+
+    return toast(div, {
+      position: isMobile ? "bottom-center" : "bottom-left",
+      autoClose: 3500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      className: classNames.default,
+    })
+  }
+
+  return { on, onMessage, onBarters, onSimpleMessage }
 }
 
 interface IPropsMessage {

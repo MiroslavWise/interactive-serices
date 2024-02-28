@@ -37,9 +37,10 @@ import {
   BalloonAlert,
   NumberConfirmation,
   UpdateOffer,
+  InitiatedBarterMobile,
 } from "@/components/templates"
 import { PhotoCarousel } from "@/components/layout"
-import { ChangeService, ExchangesModalMobile } from "@/components/profile"
+import { ChangeService } from "@/components/profile"
 
 import {
   useAuth,
@@ -122,9 +123,9 @@ export const Containers = () => {
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
-          {isMobile && <ExchangesModalMobile />}
           {isMobile && <OptionProfileMobile />}
           {isVisible && <CreateNewOptionModal />}
+          {isMobile && <InitiatedBarterMobile />}
           {visibleComplaint && <ComplaintModal />}
           {visibleReasonBarters && <ReasonBarters />}
           {visibleUpdateProfile && <UpdateProfile />}

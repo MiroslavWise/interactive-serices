@@ -12,7 +12,7 @@ import { useAuth } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 
-export function NavBarProfile() {
+export default function NavBarProfile() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
 
   return typeof isMobile !== "undefined" && !isMobile ? (

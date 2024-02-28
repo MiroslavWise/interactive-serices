@@ -12,6 +12,7 @@ import { IconTelegram } from "@/components/icons/IconTelegram"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 
 interface ITemsLinkSocial {
   icon: ReactNode
@@ -48,6 +49,7 @@ function ITEMS_LINK({ link, tg, wa, vk }: Record<TTypeLink, DispatchWithoutActio
 
 export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
   const [visible, setVisible, ref] = useOutsideClickEvent()
+  const { onSimpleMessage } = useToast()
 
   const objCopy = {
     link() {
@@ -57,6 +59,7 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
       const url = `${currentUrl}offer#${w}`
 
       navigator.clipboard.writeText(url)
+      onSimpleMessage("Ссылка скопирована")
     },
     tg() {
       const w = window.btoa(unescape(encodeURIComponent(`offer_id:${offer.id}`)))
@@ -96,7 +99,9 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
   return (
     <div data-time-dots>
       <time dateTime={offer.created as string}>
-        {daysAgo(offer.created)} {dayjs(offer.created).format("HH:mm ")}
+        {dayjs().format("DD:MM:YYYY") === dayjs(offer.created).format("DD:MM:YYYY")
+          ? `сегодня ${dayjs(offer.created).format("HH:mm")}`
+          : `${dayjs(offer.created).format("HH:mm, DD.MM.YYYY")}`}
       </time>
       <div data-dots-and-button>
         <button

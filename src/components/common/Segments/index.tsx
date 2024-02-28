@@ -14,7 +14,7 @@ export const Segments: TSegments = ({ VALUES, active, setActive, type, className
           id={id}
           key={item?.value}
           onClick={() => setActive(item)}
-          data-type={type}
+          data-type={type || "primary"}
           data-active={active.value === item.value}
           className={cx(
             styles.button,
