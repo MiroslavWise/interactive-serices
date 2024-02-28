@@ -33,10 +33,12 @@
           justify-content: center;
           padding: 2.5rem;
 
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          & > [data-image] {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
 
           & > [data-image] {
             width: 5rem;
