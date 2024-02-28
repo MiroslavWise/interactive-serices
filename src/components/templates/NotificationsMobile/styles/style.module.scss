@@ -25,9 +25,8 @@
       }
 
       & > button {
-        width: 2.75rem;
-        height: 2.75rem;
-        border-radius: 0.75rem;
+        width: 1.5rem;
+        height: 1.5rem;
         border: none;
         display: flex;
         align-items: center;
@@ -35,9 +34,12 @@
         padding: 0.625rem;
         background: transparent;
 
-        & > img {
+        & > svg {
           width: 1.5rem;
           height: 1.5rem;
+          & > path {
+            stroke: var(--text-primary);
+          }
         }
       }
     }

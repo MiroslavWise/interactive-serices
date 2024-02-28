@@ -14,6 +14,7 @@ import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "
 
 import styles from "./styles/style.module.scss"
 import { EnumStatusBarter } from "@/types/enum"
+import { IconXClose } from "@/components/icons/IconXClose"
 
 export function NotificationsMobile() {
   const userId = useAuth(({ userId }) => userId)
@@ -80,7 +81,7 @@ export function NotificationsMobile() {
         <header>
           <h3>Уведомления</h3>
           <button onClick={() => dispatchVisibleNotifications(false)}>
-            <img src="/svg/x-close.svg" alt="X" width={24} height={24} />
+            <IconXClose />
           </button>
         </header>
         {maps.length ? (
