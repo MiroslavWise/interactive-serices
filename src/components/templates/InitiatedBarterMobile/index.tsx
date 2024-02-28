@@ -45,7 +45,7 @@ export function InitiatedBarterMobile() {
         </button>
         <h3>Предложения обменов</h3>
       </header>
-      <ul>
+      <ul data-none-scroll>
         {counts ? <span>{counts} новых предложения</span> : null}
         {isLoading ? (
           [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)

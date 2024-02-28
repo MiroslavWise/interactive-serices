@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect"
 
 import type { IActionOffers, IStateOffers } from "@/components/profile/OffersPage/types/types"
 
-import { ContainerHeader, ContainerOffersNow, MobileSegments } from "@/components/profile"
+import { ContainerHeader, ContainerOffersNow } from "@/components/profile"
 import { OffersMobile } from "@/components/screens"
 
 const initialState: IStateOffers = {

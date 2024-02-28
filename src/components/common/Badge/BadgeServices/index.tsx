@@ -9,41 +9,41 @@ import { dispatchBallonOffer, useOffersCategories } from "@/store"
 import styles from "./style.module.scss"
 
 export const BadgeServices: TBadgeServices = (props) => {
-    const { categoryId, id, isClickable } = props ?? {}
-    const categories = useOffersCategories(({ categories }) => categories)
+  const { categoryId, id, isClickable } = props ?? {}
+  const categories = useOffersCategories(({ categories }) => categories)
 
-    const infoCategory = categories?.find((item) => item?.id === categoryId)
+  const infoCategory = categories?.find((item) => item?.id === categoryId)
 
-    function handle() {
-        if (id && isClickable) {
-            const { isClickable, ...offer } = props ?? {}
-            dispatchBallonOffer({
-                visible: true,
-                offer: offer! as IResponseOffers,
-            })
-        }
+  function handle() {
+    if (id && isClickable) {
+      const { isClickable, ...offer } = props ?? {}
+      dispatchBallonOffer({
+        visible: true,
+        offer: offer! as IResponseOffers,
+      })
     }
+  }
 
-    return (
-        <li className={styles.container} onClick={handle}>
-            <div data-img>
-                <img
-                    src={IconCategory(categoryId!)}
-                    alt="cat"
-                    height={16}
-                    width={16}
-                    onError={(error: any) => {
-                        if (error?.target) {
-                            try {
-                                error.target.src = `/svg/category/default.svg`
-                            } catch (e) {
-                                console.log("catch e: ", e)
-                            }
-                        }
-                    }}
-                />
-            </div>
-            <p>{infoCategory?.title! || "---{}---"}</p>
-        </li>
-    )
+  return (
+    <li className={styles.container} onClick={handle}>
+      <div data-img>
+        <img
+          src={IconCategory(categoryId!)}
+          alt="cat"
+          height={16}
+          width={16}
+          onError={(error: any) => {
+            if (error?.target) {
+              try {
+                error.target.src = `/svg/category/default.svg`
+              } catch (e) {
+                console.log("catch e: ", e)
+              }
+            }
+          }}
+        />
+      </div>
+      <p>{infoCategory?.title! || "---{}---"}</p>
+    </li>
+  )
 }
