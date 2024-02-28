@@ -25,6 +25,7 @@ export const dispatchOnboardingStart = (value: EnumTypeProvider | null) =>
       }
     } else {
       return {
+        visible: true,
         type: value,
         step: 0,
       }
