@@ -261,7 +261,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       if (operation === "create") {
         return (
           <p>
-            <a>{firstName}</a> предлагает оплатить ваше предложение: «{title}». Договоритесь о цене и условиях оплаты в чате
+            <a>{firstName}</a> предлагает оплатить вашу услугу: «{title}». Договоритесь о цене и условиях оплаты в чате
           </p>
         )
       }
