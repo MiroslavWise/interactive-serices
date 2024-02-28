@@ -26,7 +26,7 @@ const title: Map<EnumStatusBarter, string> = new Map([
 
 export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
   const userId = useAuth(({ userId }) => userId)
-  const { created, status, threadId, id } = barter ?? {}
+  const { created, status, threadId, id, updated } = barter ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
 
   const idUser = useMemo(() => {
@@ -88,7 +88,8 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       {[EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!) ? (
         <header>
           <span>
-            {title.has(status) ? title.get(status) : null} <time>{dayjs(created).format("DD.MM.YY")}</time>
+            {title.has(status) ? title.get(status) : null}{" "}
+            <time>{dayjs(EnumStatusBarter.EXECUTED === status ? created : updated).format("DD.MM.YY")}</time>
           </span>
           <BadgeStatus status={status} />
         </header>
