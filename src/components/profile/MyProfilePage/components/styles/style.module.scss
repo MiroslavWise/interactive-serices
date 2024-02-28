@@ -186,6 +186,15 @@
       background-color: var(--BG-second);
       border-radius: 1.5rem;
 
+      &[data-empty-null="true"] {
+        h3 {
+          max-width: 25rem;
+        }
+        & > button {
+          max-width: 15.625rem;
+        }
+      }
+
       h3 {
         color: var(--text-primary);
         text-align: center;
