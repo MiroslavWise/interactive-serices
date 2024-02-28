@@ -38,7 +38,7 @@ export interface IBarterResponse {
   imageId: number | null
   userId: number | null
   updatedById: number | null
-  provider: EnumTypeProvider.barter
+  provider: EnumTypeProvider
   created: Date
   updated: Date
   timestamp: Date

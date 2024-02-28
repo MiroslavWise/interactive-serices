@@ -12,7 +12,7 @@ export type TTypeOperation =
   | "feedback-received"
   | "feedback-received-no"
 
-export type TTypeProviderNotifications = "barter"
+export type TTypeProviderNotifications = "barter" | "offer-pay"
 
 export interface IPostNotification {
   read: boolean
@@ -22,13 +22,11 @@ export interface IPostNotification {
 
 export type TPatchNotification = Partial<IPostNotification>
 
-interface IDataBarterNotifications extends IBarterResponse {}
-
 export interface IResponseNotifications {
   id: number
   userId: number
   operation: TTypeOperation
-  data: IDataBarterNotifications
+  data: IBarterResponse
   created: string
   updated: string
   provider: TTypeProviderNotifications

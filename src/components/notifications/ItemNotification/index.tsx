@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { type ReactNode, useMemo, useState } from "react"
 
+import { IResponseThreads } from "@/services/threads/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import type { IResponseNotifications } from "@/services/notifications/types"
 import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
@@ -11,7 +12,7 @@ import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { getTestimonials, patchBarter, serviceNotifications, serviceProfile } from "@/services"
+import { getIdOffer, getProfileUserId, getTestimonials, patchBarter, serviceNotifications } from "@/services"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, useOffersCategories, dispatchReasonBarters } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -31,10 +32,21 @@ export const ItemNotification = (props: IResponseNotifications) => {
   const userId = useAuth(({ userId }) => userId)
   const categories = useOffersCategories(({ categories }) => categories)
 
-  const idUser = data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
+  const idUser = useMemo(() => {
+    if (provider === "barter") return data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
+    if (provider === "offer-pay") {
+      const dataTh = data as unknown as IResponseThreads
+      if (dataTh?.emitterId! === userId) {
+        return dataTh?.receiverIds[0]
+      } else if (dataTh?.receiverIds?.includes(userId!)) {
+        return dataTh?.emitterId
+      }
+    }
+    return null
+  }, [provider, data, userId])
 
   const { data: dataProfile } = useQuery({
-    queryFn: () => serviceProfile.getUserId(idUser!),
+    queryFn: () => getProfileUserId(idUser!),
     queryKey: ["profile", idUser!],
     enabled: !!idUser,
   })
@@ -49,23 +61,48 @@ export const ItemNotification = (props: IResponseNotifications) => {
     if (!data || !userId) {
       return null
     }
-    if (Number(data?.initiator?.userId) === Number(userId)) {
-      return Number(data?.consignedId)
-    } else {
-      return Number(data?.initialId)
+    if (provider === "barter") {
+      if (Number(data?.initiator?.userId!) === Number(userId)) {
+        return Number(data?.consignedId!)
+      } else {
+        return Number(data?.initialId!)
+      }
     }
-  }, [data, userId])
+
+    if (provider === "offer-pay") {
+      const dataTh = data as unknown as IResponseThreads
+      return dataTh?.offerId!
+    }
+
+    return null
+  }, [data, userId, provider])
+
+  const { data: dataOffer } = useQuery({
+    queryFn: () => getIdOffer(offerId!),
+    queryKey: ["offers", { offerId: offerId }],
+    enabled: !!offerId && provider === "offer-pay",
+  })
 
   const categoryOfferName = useMemo(() => {
     if (!data || !categories?.length) {
       return null
     }
 
-    return {
-      initiator: categories?.find((item) => item?.id === data?.initiator?.categoryId),
-      consigner: categories?.find((item) => item?.id === data?.consigner?.categoryId),
+    if (provider === "barter") {
+      return {
+        initiator: categories?.find((item) => item?.id === data?.initiator?.categoryId),
+        consigner: categories?.find((item) => item?.id === data?.consigner?.categoryId),
+      }
     }
-  }, [categories, data])
+
+    if (provider === "offer-pay") {
+      return {
+        offer: categories?.find((item) => item?.id === dataOffer?.res?.categoryId),
+      }
+    }
+
+    return null
+  }, [categories, data, provider, dataOffer])
 
   const { data: dataTestimonials } = useQuery({
     queryFn: () =>
@@ -78,16 +115,23 @@ export const ItemNotification = (props: IResponseNotifications) => {
     enabled:
       ["executed", "destroyed", "completed"]?.includes(data?.status!) &&
       !!offerId &&
+      provider === "barter" &&
       ["completion-recall-no", "completion-recall"].includes(operation!),
   })
 
   const isFeedback = useMemo(() => {
-    return dataTestimonials?.res?.some((item) => item?.userId === userId && item?.barterId === data?.id)
-  }, [userId, data?.id, dataTestimonials?.res])
+    if (provider === "barter") {
+      return dataTestimonials?.res?.some((item) => item?.userId === userId && item?.barterId === data?.id)
+    } else {
+      return undefined
+    }
+  }, [userId, data?.id, dataTestimonials?.res, provider])
 
   const type: TTypeIconNotification = useMemo(() => {
     switch (provider) {
       case "barter":
+        return "barter"
+      case "offer-pay":
         return "barter"
       default:
         return "barter"
@@ -98,6 +142,8 @@ export const ItemNotification = (props: IResponseNotifications) => {
     switch (provider) {
       case "barter":
         return "barter"
+      case "offer-pay":
+        return "personal"
       default:
         return "default"
     }
@@ -208,11 +254,45 @@ export const ItemNotification = (props: IResponseNotifications) => {
         }
       }
     }
+    if (provider === "offer-pay") {
+      const { image, firstName, lastName } = dataProfile?.res ?? {}
+      // const dataThread = data as unknown as IResponseThreads
+      const { title } = categoryOfferName?.offer ?? {}
+      if (operation === "create") {
+        return (
+          <p>
+            <a>{firstName}</a> предлагает оплатить ваше предложение: «{title}». Договоритесь о цене и условиях оплаты в чате
+          </p>
+        )
+      }
+    }
 
     return null
-  }, [data, provider, userId, dataProfile])
+  }, [data, provider, userId, dataProfile, categoryOfferName])
 
   const buttons: ReactNode | null = useMemo(() => {
+    if (provider === "offer-pay") {
+      if (operation === "create") {
+        const dataThread = data as unknown as IResponseThreads
+        const chat = { thread: dataThread?.id }
+
+        return (
+          <ButtonLink
+            type="button"
+            typeButton="fill-primary"
+            label="Перейти в чат"
+            href={{ pathname: `/messages`, query: chat }}
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchVisibleNotifications(false)
+              reading()
+            }}
+            data-threads
+          />
+        )
+      }
+    }
+
     if (provider === "barter") {
       if (operation === "completion-yes") {
         return (
@@ -247,6 +327,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       if (
         ["completion-recall", "completion-recall-no"].includes(operation!) &&
         [EnumStatusBarter.COMPLETED, EnumStatusBarter.DESTROYED].includes(data?.status!) &&
+        typeof isFeedback !== "undefined" &&
         isFeedback === false
       ) {
         return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
@@ -373,7 +454,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
   return (
     <li className={styles.container} data-type={type} data-active={!read}>
       <div data-avatar>
-        {currentType === "barter" ? (
+        {["barter", "personal"].includes(currentType!) ? (
           <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
         ) : ["information", "warning", "error"].includes(type) ? (
           <img src={IMG_TYPE?.[currentType]!} alt="type" width={24} height={24} />
