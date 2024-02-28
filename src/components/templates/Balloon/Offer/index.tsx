@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ButtonClose, ImageCategory, LoadingProfile } from "@/components/common"
 
@@ -34,13 +33,17 @@ export const BalloonOffer = () => {
   const { res } = data ?? {}
   const { profile } = res ?? {}
 
+  const { addresses } = offer ?? {}
+
+  const geo = !!addresses?.length
+
   function handle() {
     if (!userId) {
       dispatchAuthModal({
         visible: true,
         type: "SignIn",
       })
-      flushSync(() => {
+      requestAnimationFrame(() => {
         dispatchBallonOffer({ visible: false })
       })
       return
@@ -50,7 +53,7 @@ export const BalloonOffer = () => {
         offer: offer!,
         type: "current",
       })
-      flushSync(() => {
+      requestAnimationFrame(() => {
         dispatchBallonOffer({ visible: false })
       })
       return
@@ -63,13 +66,13 @@ export const BalloonOffer = () => {
         visible: true,
         type: "SignIn",
       })
-      flushSync(() => {
+      requestAnimationFrame(() => {
         dispatchBallonOffer({ visible: false })
       })
       return
     } else if (!!userId && userId !== offer?.userId) {
       handlePush(`/messages?offer-pay=${offer?.id}:${offer?.userId}`)
-      flushSync(() => {
+      requestAnimationFrame(() => {
         dispatchBallonOffer({ visible: false })
       })
       return
@@ -87,33 +90,35 @@ export const BalloonOffer = () => {
         <div data-container>
           {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} />}
           <ItemProposal />
-          <div data-buttons>
-            <Button
-              type="button"
-              typeButton="fill-primary"
-              label="Откликнуться"
-              onClick={handle}
-              disabled={!!userId && userId === offer?.userId}
-            />
-            <Button
-              type="button"
-              typeButton="regular-primary"
-              label="Заплатить"
-              onClick={handlePay}
-              disabled={!!userId && userId === offer?.userId}
-            />
-            {userId && userId !== offer?.userId ? (
-              <Link
-                data-circle
-                href={{ pathname: "/messages", query: { user: offer?.userId } }}
-                onClick={() => {
-                  dispatchBallonOffer({ visible: false })
-                }}
-              >
-                <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
-              </Link>
-            ) : null}
-          </div>
+          {geo ? (
+            <div data-buttons>
+              <Button
+                type="button"
+                typeButton="fill-primary"
+                label="Откликнуться"
+                onClick={handle}
+                disabled={!!userId && userId === offer?.userId}
+              />
+              <Button
+                type="button"
+                typeButton="regular-primary"
+                label="Заплатить"
+                onClick={handlePay}
+                disabled={!!userId && userId === offer?.userId}
+              />
+              {userId && userId !== offer?.userId ? (
+                <Link
+                  data-circle
+                  href={{ pathname: "/messages", query: { user: offer?.userId } }}
+                  onClick={() => {
+                    dispatchBallonOffer({ visible: false })
+                  }}
+                >
+                  <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
+                </Link>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </section>
     </div>
