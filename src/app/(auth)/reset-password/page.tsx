@@ -6,16 +6,17 @@ import { usePush } from "@/helpers"
 import { useSearchParams } from "next/navigation"
 import { dispatchAuthModalResetPassword } from "@/store/hooks"
 
+// million-ignore
 export default function PageResetPassword() {
-    const { handlePush } = usePush()
-    const passwordResetToken = useSearchParams()?.get("token")
+  const { handlePush } = usePush()
+  const passwordResetToken = useSearchParams()?.get("token")
 
-    useEffect(() => {
-        if (passwordResetToken) {
-            dispatchAuthModalResetPassword(passwordResetToken!)
-            handlePush("/")
-        }
-    }, [passwordResetToken])
+  useEffect(() => {
+    if (passwordResetToken) {
+      dispatchAuthModalResetPassword(passwordResetToken!)
+      handlePush("/")
+    }
+  }, [passwordResetToken])
 
-    return null
+  return null
 }
