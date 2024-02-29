@@ -90,7 +90,7 @@ export const BalloonOffer = () => {
         <div data-container>
           {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} />}
           <ItemProposal />
-          {geo ? (
+          
             <div data-buttons>
               <Button
                 type="button"
@@ -118,7 +118,7 @@ export const BalloonOffer = () => {
                 </Link>
               ) : null}
             </div>
-          ) : null}
+         
         </div>
       </section>
     </div>
