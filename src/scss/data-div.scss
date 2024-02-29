@@ -59,6 +59,13 @@
   }
 }
 
+[data-none-scroll] {
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+}
+
 [data-circle-gradient] {
   width: 2.75rem;
   height: 2.75rem;

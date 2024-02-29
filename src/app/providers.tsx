@@ -7,13 +7,21 @@ import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import "@/context/DayJSDefault"
-import { useAuth, useFetchingSession, useOffersCategories } from "@/store"
+import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
 
 export default function Providers({ children }: { children: ReactNode }) {
   const refresh = useAuth(({ refresh }) => refresh)
   const getCategories = useOffersCategories(({ getCategories }) => getCategories)
   const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
   const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
+  const isUse = useCookies(({ isUse }) => isUse)
+  const visibleCookies = useCookies(({ visible }) => visible)
+
+  useEffect(() => {
+    if (!isUse && !visibleCookies && typeof isUse !== "undefined") {
+      dispatchCookiesVisible(true)
+    }
+  }, [isUse, visibleCookies])
 
   useEffect(() => {
     refresh()

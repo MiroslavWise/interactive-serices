@@ -1,60 +1,77 @@
 "use client"
 
 import { memo, useMemo } from "react"
-import { useQuery } from "@tanstack/react-query"
 
 import type { TServicesFC } from "../types/types"
 
 import { ServiceLoading, GeneralItem } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { getOffers } from "@/services"
-import { useBounds, useFilterMap } from "@/store"
+import { EnumTimesFilter } from "../constants"
+import { useBounds, useFiltersServices } from "@/store"
+import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 
 import styles from "../styles/style.module.scss"
 
 export const ServicesComponent: TServicesFC = memo(function $ServicesComponent() {
-  const idsNumber = useFilterMap(({ idsNumber }) => idsNumber)
+  const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
-  const obj = idsNumber.length ? { category: idsNumber.join(",") } : {}
-
-  const { data, isLoading } = useQuery({
-    queryFn: () => getOffers({ order: "DESC", ...obj }),
-    queryKey: ["offers", `category=${idsNumber.join(":")}`],
-  })
+  const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
 
   const items = useMemo(() => {
-    if (!data?.res) {
+    if (!itemsOffers.length) {
       return []
     }
-    if (bounds && data?.res) {
+    if (bounds && itemsOffers) {
       const minCoords = bounds[0]
       const maxCoors = bounds[1]
 
-      return data?.res?.filter((item) => {
-        if (!item?.addresses?.length) {
+      const dataAllItems =
+        itemsOffers?.filter((item) => {
+          if (!item?.addresses?.length) {
+            return false
+          }
+          const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
+          if (!coordinates) {
+            return false
+          }
+
+          if (
+            coordinates[0] < maxCoors[0] &&
+            coordinates[0] > minCoords[0] &&
+            coordinates[1] < maxCoors[1] &&
+            coordinates[1] > minCoords[1]
+          ) {
+            return true
+          }
+
           return false
-        }
-        const coordinates = item?.addresses[0]?.coordinates?.split(" ").reverse().map(Number).filter(Boolean)
-        if (!coordinates) {
-          return false
+        }) || []
+
+      if (timesFilter === EnumTimesFilter.ALL) {
+        return dataAllItems || []
+      } else {
+        const day = 86_400_000
+        const week = day * 7
+        const month = day * 31
+
+        const objTime = {
+          [EnumTimesFilter.DAYS]: day,
+          [EnumTimesFilter.WEEK]: week,
+          [EnumTimesFilter.MONTH]: month,
         }
 
-        if (
-          coordinates[0] < maxCoors[0] &&
-          coordinates[0] > minCoords[0] &&
-          coordinates[1] < maxCoors[1] &&
-          coordinates[1] > minCoords[1]
-        ) {
-          return true
-        }
+        return dataAllItems.filter((item) => {
+          const time = new Date(item.created).valueOf()
+          const now = new Date().valueOf()
 
-        return false
-      })
+          return time + objTime[timesFilter] - now > 0
+        })
+      }
     }
 
-    return data?.res || []
-  }, [data?.res, bounds])
+    return []
+  }, [itemsOffers, bounds, timesFilter])
 
   return (
     <ul className={cx(styles.services)}>

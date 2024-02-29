@@ -11,6 +11,7 @@ import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 const ARRAY_QUERY = ["access_token", "client_id", "email", "id", "name", "picture", "verified_email"]
 
+// million-ignore
 export default function CallbackGoogle() {
   const { on } = useToast()
   const searchParams = useSearchParams()

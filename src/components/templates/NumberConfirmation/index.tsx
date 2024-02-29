@@ -81,7 +81,7 @@ export const NumberConfirmation = () => {
         <form onSubmit={onSubmit}>
           <p>
             Отправили проверочный код на номер
-            <span>{number ? (number[0] !== "8" ? `+${number}` : number) : ""}</span>
+            <span>{number ? (!["8", "+", 8].includes(number[0]) ? `+${number}` : number) : ""}</span>
           </p>
           <article>
             <fieldset>

@@ -13,7 +13,6 @@ import {
   AboutSheiraPopup,
   NewServicesBanner,
   NotificationsMobile,
-  UpdateMutualOffer,
   PhotoPreviewModal,
   HasClustererBalloons,
   CompletionTransaction,
@@ -38,9 +37,10 @@ import {
   BalloonAlert,
   NumberConfirmation,
   UpdateOffer,
+  InitiatedBarterMobile,
 } from "@/components/templates"
-import { ChangeService, ExchangesModalMobile } from "@/components/profile"
-import { FooterMenu, PhotoCarousel } from "@/components/layout"
+import { PhotoCarousel } from "@/components/layout"
+import { ChangeService } from "@/components/profile"
 
 import {
   useAuth,
@@ -48,7 +48,6 @@ import {
   useHasBalloons,
   useDroverFriends,
   useVisibleNotifications,
-  useUpdateMutualOffer,
   useDataConfirmationPopUp,
   useAddCreateModal,
   useReciprocalExchange,
@@ -104,13 +103,8 @@ export const Containers = () => {
         </>
       )}
       <ToastContainer limit={3} />
-      {isMobile && (
-        <>
-          <FooterMenu />
-          <MobileFiltersMap />
-        </>
-      )}
       {!isMobile && <PublicProfile />}
+      {isMobile && <MobileFiltersMap />}
       {visibleBalloonOffer && <BalloonOffer />}
       {visibleBalloonAlert && <BalloonAlert />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
@@ -129,9 +123,9 @@ export const Containers = () => {
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
-          {isMobile && <ExchangesModalMobile />}
           {isMobile && <OptionProfileMobile />}
           {isVisible && <CreateNewOptionModal />}
+          {isMobile && <InitiatedBarterMobile />}
           {visibleComplaint && <ComplaintModal />}
           {visibleReasonBarters && <ReasonBarters />}
           {visibleUpdateProfile && <UpdateProfile />}

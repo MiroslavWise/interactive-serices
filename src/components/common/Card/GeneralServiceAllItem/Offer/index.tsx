@@ -1,8 +1,12 @@
+"use client"
+
 import { useMemo } from "react"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { ItemProfile } from "../components/ItemProfile"
+import { HeaderTimeDots } from "../components/HeaderTimeDots"
+import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
@@ -10,7 +14,6 @@ import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
-import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
   const { categoryId, title = "", userId, addresses = [], images = [] } = offer ?? {}
@@ -44,7 +47,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
 
     if (address) {
       dispatchMapCoordinates({
-        coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
+        coordinates: address?.coordinates?.split(" ")?.map(Number),
       })
     }
 
@@ -62,6 +65,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
         handle()
       }}
     >
+      <HeaderTimeDots offer={offer} />
       <header>
         <div data-img>
           <img

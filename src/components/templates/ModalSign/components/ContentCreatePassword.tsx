@@ -45,27 +45,29 @@ export const ContentCreatePassword = () => {
             repeat: values.repeat_password,
           })
           .then((response) => {
-            if (response?.error.code === 400) {
-              setError("repeat_password", { message: "no_repeat" })
-            } else if (response?.error.code === 400) {
-              setError("repeat_password", { message: "no_repeat" })
-            } else if ([401 || 403].includes(response?.error?.code!)) {
-              on({ message: "Время восстановления пароля истекло" }, "warning")
-              handleReplace("/")
-            } else if (response?.error.code === 500) {
-              on(
-                {
-                  message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
-                },
-                "error",
-              )
-            } else if (!response.ok) {
-              setError("repeat_password", { message: response?.error?.message })
-            } else if (response.ok) {
+            if (response.ok) {
               on({
                 message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
               })
               dispatchAuthModal({ type: "SignIn" })
+            } else {
+              if (response?.error.code === 400) {
+                setError("repeat_password", { message: "no_repeat" })
+              } else if (response?.error.code === 400) {
+                setError("repeat_password", { message: "no_repeat" })
+              } else if ([401 || 403].includes(response?.error?.code!)) {
+                on({ message: "Время восстановления пароля истекло" }, "warning")
+                handleReplace("/")
+              } else if (response?.error.code === 500) {
+                on(
+                  {
+                    message: "Извините, у нас какиe-то ошибки. Мы работаем над этим :(",
+                  },
+                  "error",
+                )
+              } else if (!response.ok) {
+                setError("repeat_password", { message: response?.error?.message })
+              }
             }
             setLoading(false)
           })

@@ -14,18 +14,18 @@ import common from "../styles/general.module.scss"
 export const BalloonDiscussion = () => {
   const offer = useBalloonDiscussion(({ offer }) => offer)
   const visible = useBalloonDiscussion(({ visible }) => visible)
+  const { id, userId: idUser } = offer ?? {}
 
   const images = offer?.images || []
+
+  function close() {
+    dispatchBallonDiscussion({ visible: false, offer: undefined })
+  }
 
   return (
     <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
       <section data-section-modal>
-        <ButtonClose
-          position={{}}
-          onClick={() => {
-            dispatchBallonDiscussion({ visible: false, offer: undefined })
-          }}
-        />
+        <ButtonClose position={{}} onClick={close} />
         <header>
           <div data-img>
             <img src="/svg/3d/3d-message.svg" alt="dis" width={24} height={24} />
@@ -38,7 +38,7 @@ export const BalloonDiscussion = () => {
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
             {offer?.updated ? <time>{daysAgo(offer?.updated)}</time> : null}
           </article>
-          <BlockCommentaries />
+          <BlockCommentaries close={close} id={id!} idUser={idUser!} />
         </div>
       </section>
     </div>

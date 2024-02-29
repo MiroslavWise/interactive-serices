@@ -1,3 +1,5 @@
+import dayjs from "dayjs"
+
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { ItemProfile } from "../components/ItemProfile"
@@ -5,12 +7,14 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 
 import { cx } from "@/lib/cx"
 import { dispatchBallonAlert, dispatchMapCoordinates } from "@/store"
+import { daysAgo } from "@/helpers"
 
 import styles from "../styles/alert.module.scss"
 import styleMain from "../styles/main.module.scss"
+import { HeaderTimeDots } from "../components/HeaderTimeDots"
 
 export function GeneralAlert({ offer }: { offer: IResponseOffers }) {
-  const { id, title, content, addresses, userId, images = [] } = offer ?? {}
+  const { id, title, content, addresses, userId, images = [], created } = offer ?? {}
 
   const geo = addresses?.length > 0 ? addresses[0] : null
 
@@ -21,7 +25,7 @@ export function GeneralAlert({ offer }: { offer: IResponseOffers }) {
 
     if (address) {
       dispatchMapCoordinates({
-        coordinates: address?.coordinates?.split(" ")?.reverse()?.map(Number),
+        coordinates: address?.coordinates?.split(" ")?.map(Number),
       })
     }
   }
@@ -34,6 +38,7 @@ export function GeneralAlert({ offer }: { offer: IResponseOffers }) {
         handle()
       }}
     >
+      <HeaderTimeDots offer={offer} />
       <header>
         <div data-img>
           <img src="/svg/SOS.svg" alt="SOS" width={18} height={18} />

@@ -103,13 +103,15 @@ export const ListChat = memo(function ListChat() {
   return (
     <section className={isMobile ? styles.containerMobile : styles.container}>
       {!isMobile && typeof isMobile !== "undefined" ? (
-        <header>
-          <div data-total-number>
-            <h4>Сообщения</h4>
-          </div>
-        </header>
+        <>
+          <header>
+            <div data-total-number>
+              <h4>Сообщения</h4>
+            </div>
+          </header>
+          <SearchBlock {...{ search, setSearch }} />
+        </>
       ) : null}
-      <SearchBlock {...{ search, setSearch }} />
       <List search={search} items={items} setTotal={setTotal} loadUser={loadUser} />
     </section>
   )

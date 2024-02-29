@@ -3,7 +3,7 @@
 import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { DispatchWithoutAction, useEffect, useMemo, useRef, useState } from "react"
 
 import type { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
 
@@ -13,15 +13,23 @@ import { ItemComment } from "./ItemComment"
 import { ButtonNeedHelp } from "./ButtonNeedHelp"
 import { NextImageMotion } from "@/components/common"
 
-import { useAuth, useBalloonDiscussion } from "@/store"
+import { useAuth } from "@/store"
 import { serviceComments, serviceProfile, serviceOffersThreads } from "@/services"
 
 import styles from "../styles/block-commentaries.module.scss"
 
-export const BlockCommentaries = ({ isAlert }: { isAlert?: boolean }) => {
+export const BlockCommentaries = ({
+  isAlert,
+  close,
+  id,
+  idUser,
+}: {
+  isAlert?: boolean
+  close: DispatchWithoutAction
+  id: number
+  idUser: number
+}) => {
   const userId = useAuth(({ userId }) => userId)
-  const offer = useBalloonDiscussion(({ offer }) => offer)
-  const { id } = offer ?? {}
   const [loading, setLoading] = useState(false)
   const [expand, setExpand] = useState(false)
   const refList = useRef<HTMLDivElement>(null)
@@ -132,7 +140,7 @@ export const BlockCommentaries = ({ isAlert }: { isAlert?: boolean }) => {
               <img src="/svg/chevron-down.svg" alt="down" width={18} height={18} />
             </div>
           </button>
-          {isAlert ? <ButtonNeedHelp /> : <ButtonLike />}
+          {isAlert ? <ButtonNeedHelp idUser={idUser} close={close} /> : <ButtonLike />}
         </div>
       </div>
       {expand ? (

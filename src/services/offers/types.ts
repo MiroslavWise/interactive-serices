@@ -47,7 +47,8 @@ export interface IResponseOffers {
   categories: number[]
   addresses: IAddressesResponse[]
   images: IImageData[]
-  updated: Date
+  updated: Date | string
+  created: Date | string
 }
 
 export interface IQueriesOffers {

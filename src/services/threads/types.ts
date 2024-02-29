@@ -27,7 +27,7 @@ export interface IThreadsMessages {
 export interface IResponseThreads {
   id: number //id thread
   title: string
-  parentId: number
+  parentId: number | null
   emitterId: number
   offerId?: number
   receiverIds: number[]

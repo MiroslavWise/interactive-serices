@@ -178,20 +178,9 @@
   height: fit-content !important;
   cursor: pointer;
 
-  & > div {
-    background-size: cover;
+  & > svg {
     width: 1.375rem;
     height: 1.375rem;
-  }
-}
-
-[data-theme="dark"] {
-  .containerCloseButton {
-    box-shadow: none !important;
-
-    & > div {
-      filter: invert(1);
-    }
   }
 }
 

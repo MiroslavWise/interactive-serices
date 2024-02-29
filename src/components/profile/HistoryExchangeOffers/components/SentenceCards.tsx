@@ -4,8 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { TSentenceCards } from "./types/types"
 
-import { LoadingBarters } from "@/components/common"
-import { CardOffer } from "@/components/common/Card/Offer"
+import { CardBarter, LoadingBarters } from "@/components/common"
 
 import { useAuth } from "@/store"
 import { getBarters } from "@/services"
@@ -30,7 +29,7 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
       {isLoading ? (
         [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)
       ) : data?.res && Array.isArray(data?.res) && data?.res?.length > 0 ? (
-        data?.res?.map((item) => <CardOffer key={`::history::page::${item.status}::${item.id}::`} {...item} />)
+        data?.res?.map((item) => <CardBarter key={`::history::page::${item.status}::${item.id}::`} barter={item} />)
       ) : (
         <p>
           {value.value === "executed"

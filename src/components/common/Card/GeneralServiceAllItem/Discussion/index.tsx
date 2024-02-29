@@ -3,6 +3,7 @@
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { ItemProfile } from "../components/ItemProfile"
+import { HeaderTimeDots } from "../components/HeaderTimeDots"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
@@ -12,7 +13,7 @@ import styleMain from "../styles/main.module.scss"
 import styles from "../styles/discussion.module.scss"
 
 export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
-  const { id, title, content, addresses, userId, images = [] } = offer ?? {}
+  const { id, title, content, addresses, userId, images = [], created } = offer ?? {}
 
   const geo = addresses?.length > 0 ? addresses[0] : null
 
@@ -31,6 +32,7 @@ export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
         handle()
       }}
     >
+      <HeaderTimeDots offer={offer} />
       <header>
         <div data-img>
           <img src="/svg/discussin-card.svg" alt="dis" width={26} height={26} />
