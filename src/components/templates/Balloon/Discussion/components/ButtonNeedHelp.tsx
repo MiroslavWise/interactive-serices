@@ -27,7 +27,7 @@ export const ButtonNeedHelp = ({ idUser, close }: { idUser: number; close: Dispa
   }
 
   return (
-    <button className={styles.container}>
+    <button type="button" className={styles.container} onClick={handle}>
       <span>Могу помочь</span>
     </button>
   )
