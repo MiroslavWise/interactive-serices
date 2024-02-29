@@ -26,4 +26,5 @@ export const serviceAuthErrors = new Map([
   ["password is not match", "Неверный пароль"],
   ["password is incorrect", "Неверный пароль"],
   ["default", "Какая-то ошибка у нас на сервере. Мы сейчас разбираемся"],
+  ["email is not valid", "Не валидный email"],
 ])

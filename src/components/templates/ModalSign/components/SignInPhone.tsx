@@ -62,6 +62,9 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
               type="tel"
               inputMode="numeric"
               {...register("phone", { required: true, minLength: 11, maxLength: 16 })}
+              onChange={(event) => {
+                setValue("phone", event.target.value?.replaceAll(/[^\d]/g, ""))
+              }}
               maxLength={16}
             />
           </div>
