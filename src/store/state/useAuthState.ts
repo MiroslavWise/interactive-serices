@@ -158,7 +158,7 @@ export const dispatchAuthToken = (values: IResponseLoginNot2fa & { email: string
 
 function isTokenExpired(exp: number | undefined) {
   if (exp !== undefined) {
-    const currentTime: number = Date.now() - 60 * 60 * 1_000
+    const currentTime: number = Date.now()
     return exp < currentTime
   }
 }
