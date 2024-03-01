@@ -20,6 +20,12 @@ const YandexMap = dynamic(() => import("../components/YandexMap"), {
   suspense: true,
   loading: () => <div className="--loader--empty-screen--" />,
 })
+const Navigation = dynamic(() => import("@/components/content/mobile/Navigation"), {
+  ssr: false,
+})
+const MapSearch = dynamic(() => import("@/components/content/mobile/MapSearch"), {
+  ssr: false,
+})
 
 import { useAuth } from "@/store"
 
@@ -34,7 +40,13 @@ export default function Home() {
       {isAuth && <BannerSign />}
       {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
       {isAuth && isMobile && <BannerStartCreate />}
-      {isMobile && <MobileFilterMap />}
+      {isMobile && (
+        <>
+          <MobileFilterMap />
+          <MapSearch />
+          <Navigation />
+        </>
+      )}
       {!isMobile && (
         <>
           <SearchFilters />
