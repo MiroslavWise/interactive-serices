@@ -11,14 +11,11 @@ import { Header } from "./Header"
 import { ListPlacemark } from "./ObjectsMap"
 import { CreationAlertAndDiscussionMap } from "../templates"
 
-import { generateShortHash } from "@/lib/hash"
-import { getGeocodeSearchCoords } from "@/services"
-import { getLocationName } from "@/lib/location-name"
+import { getAddressCoords } from "@/helpers/get-address"
 import { useAddress, useOutsideClickEvent } from "@/helpers"
 import { dispatchHasBalloon, dispatchMapCoordinates, useAuth, useBounds, useMapCoordinates } from "@/store"
-import { getAddressCoords } from "@/helpers/get-address"
 
-const COORD = [59.57, 30.19]
+const COORD = [30.19, 59.57]
 
 const YandexMap: TYandexMap = ({}) => {
   const userId = useAuth(({ userId }) => userId)
