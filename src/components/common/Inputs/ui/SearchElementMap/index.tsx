@@ -71,11 +71,11 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
         className={styles.input}
         value={text}
         onChange={(event) => {
+          setText(event.target.value)
+          debouncedValue()
           setLoading(true)
           setIsActiveList(true)
           event.stopPropagation()
-          setText(event.target.value)
-          debouncedValue()
         }}
         onKeyDown={(event) => {
           if (event.keyCode === 13 || event.code === "Enter") {
