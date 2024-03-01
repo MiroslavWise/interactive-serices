@@ -5,7 +5,7 @@ import { useState } from "react"
 import { IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
 import { IconGeo } from "@/components/icons/IconGeo"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconChevron } from "@/components/icons/IconChevron"
 
 import { dispatchMapCoordinates, dispatchVisibleSearchMobile, useSearchMobile } from "@/store"
 
@@ -98,7 +98,7 @@ export default function MapSearch() {
               dispatchVisibleSearchMobile(false)
             }}
           >
-            <IconXClose />
+            <IconChevron />
           </button>
           <h3>Местоположение</h3>
         </header>
