@@ -1,18 +1,21 @@
-import { MouseEvent, memo, useCallback } from "react"
+"use client"
+
+import { MouseEvent, useCallback, useState } from "react"
 
 import { IconPlus } from "@/components/icons/IconPlus"
 import { IconMinus } from "@/components/icons/IconMinus"
 import { IconNavigate } from "@/components/icons/IconNavigate"
 
 import { useAddress } from "@/helpers"
-import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useCollapsePersonalScreen, useMapCoordinates } from "@/store"
+import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useMapCoordinates, useVisibleMobileAbout } from "@/store"
 
-import styles from "../styles/button-collapse.module.scss"
+import styles from "./style.module.scss"
 
-export const ButtonNavigation = memo(() => {
-  const visible = useCollapsePersonalScreen(({ visible }) => visible)
-  const zoom = useMapCoordinates(({ zoom }) => zoom) //10 20
+export default function Navigation() {
   const { coordinatesAddresses } = useAddress()
+  const visible = useVisibleMobileAbout(({ visible }) => visible)
+
+  const zoom = useMapCoordinates(({ zoom }) => zoom) //10 20
 
   function handleZoom(event: MouseEvent<HTMLButtonElement>, type: "-" | "+") {
     event.stopPropagation()
@@ -58,21 +61,20 @@ export const ButtonNavigation = memo(() => {
   }, [coordinatesAddresses])
 
   return (
-    <div className={styles.buttonNavigation} data-collapse={visible}>
+    <div className={styles.container} data-transform={visible}>
       <section>
-        <button onClick={(event) => handleZoom(event, "+")} disabled={zoom >= 20}>
+        <button onClick={(event) => handleZoom(event, "+")} disabled={zoom >= 20} data-plus>
           <div data-icon>
             <IconPlus />
           </div>
         </button>
-        <button onClick={(event) => handleZoom(event, "-")} disabled={zoom <= 10}>
+        <button onClick={(event) => handleZoom(event, "-")} disabled={zoom <= 10} data-minus>
           <div data-icon>
             <IconMinus />
           </div>
         </button>
       </section>
       <button
-        data-navigate
         onClick={(event) => {
           event.stopPropagation()
           handleAddressLocation()
@@ -82,4 +84,4 @@ export const ButtonNavigation = memo(() => {
       </button>
     </div>
   )
-})
+}
