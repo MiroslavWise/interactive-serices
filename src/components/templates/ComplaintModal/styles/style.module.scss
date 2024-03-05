@@ -1,142 +1,142 @@
 .wrapper {
-    background: rgba(0, 0, 0, 0.62);
-    backdrop-filter: blur(2.5px);
-    flex-direction: row;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 214;
-    display: none;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(2.5px);
+  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display: none;
 
-    &[data-visible="true"] {
-        display: flex;
+  &[data-visible="true"] {
+    z-index: 214;
+    display: flex;
+  }
+
+  & > section {
+    max-width: 31.25rem;
+    width: 100%;
+    position: relative;
+    padding: 2.5rem;
+    background-color: var(--BG-second);
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+
+    & > h2 {
+      width: 100%;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 2rem;
+      letter-spacing: -0.0075rem;
     }
 
-    & > section {
-        max-width: 31.25rem;
+    & > form {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.875rem;
+
+      & > [data-content] {
         width: 100%;
-        position: relative;
-        padding: 2.5rem;
-        background-color: var(--BG-second);
-        border-radius: 2rem;
         display: flex;
         flex-direction: column;
-        gap: 0.875rem;
+        gap: 1.5rem;
 
-        & > h2 {
-            width: 100%;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 2rem;
-            letter-spacing: -0.0075rem;
+        & > p {
+          color: var(--text-secondary);
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.25rem;
+          letter-spacing: -0.00438rem;
+
+          & > span {
+            color: var(--text-accent);
+          }
         }
 
-        & > form {
+        & > ul {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.625rem;
+
+          & > fieldset {
             width: 100%;
-            height: 100%;
             display: flex;
-            flex-direction: column;
-            gap: 1.875rem;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+            align-items: center;
 
-            & > [data-content] {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 1.5rem;
+            & > [data-check] {
+              width: 1rem;
+              height: 1rem;
+              aspect-ratio: 1/1;
+              border-radius: 50%;
+              border: 1px solid var(--element-accent-1);
+              padding: 0.5rem;
+              background-color: transparent;
+              cursor: pointer;
 
-                & > p {
-                    color: var(--text-secondary);
-                    font-size: 0.875rem;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 1.25rem;
-                    letter-spacing: -0.00438rem;
+              transition: var(--transition);
+              transition-property: background-color;
 
-                    & > span {
-                        color: var(--text-accent);
-                    }
-                }
-
-                & > ul {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.625rem;
-
-                    & > fieldset {
-                        width: 100%;
-                        display: flex;
-                        align-items: flex-start;
-                        gap: 0.75rem;
-                        cursor: pointer;
-                        align-items: center;
-
-                        & > [data-check] {
-                            width: 1rem;
-                            height: 1rem;
-                            aspect-ratio: 1/1;
-                            border-radius: 50%;
-                            border: 1px solid var(--element-accent-1);
-                            padding: 0.5rem;
-                            background-color: transparent;
-                            cursor: pointer;
-
-                            transition: var(--transition);
-                            transition-property: background-color;
-
-                            &[data-check="true"] {
-                                background-color: var(--element-accent-1);
-                            }
-                        }
-
-                        & > label {
-                            color: var(--text-primary);
-                            font-size: 1rem;
-                            font-style: normal;
-                            font-weight: 400;
-                            line-height: 1.5rem;
-                            letter-spacing: -0.015rem;
-                        }
-                    }
-                }
+              &[data-check="true"] {
+                background-color: var(--element-accent-1);
+              }
             }
 
-            & > footer {
-                width: 100%;
+            & > label {
+              color: var(--text-primary);
+              font-size: 1rem;
+              font-style: normal;
+              font-weight: 400;
+              line-height: 1.5rem;
+              letter-spacing: -0.015rem;
             }
+          }
         }
+      }
+
+      & > footer {
+        width: 100%;
+      }
     }
+  }
 }
 
 [data-mobile="true"] {
-    .wrapper {
-        padding: 0;
-        justify-content: flex-end;
-        & > section {
-            max-width: 100%;
-            padding: 1.25rem;
-            padding-bottom: 0;
-            padding-top: calc(1rem + 1rem);
-            border-radius: 2rem 2rem 0 0;
-            max-height: calc(100% - 2.5rem);
+  .wrapper {
+    padding: 0;
+    justify-content: flex-end;
+    & > section {
+      max-width: 100%;
+      padding: 1.25rem;
+      padding-bottom: 0;
+      padding-top: calc(1rem + 1rem);
+      border-radius: 2rem 2rem 0 0;
+      max-height: calc(100% - 2.5rem);
 
-            & > form {
-                overflow-y: auto;
-                padding-bottom: 1.25rem;
+      & > form {
+        overflow-y: auto;
+        padding-bottom: 1.25rem;
 
-                & > [data-content] {
-                    & > header {
-                    }
+        & > [data-content] {
+          & > header {
+          }
 
-                    & > ul {
-                    }
-                }
-
-                & > footer {
-                }
-            }
+          & > ul {
+          }
         }
+
+        & > footer {
+        }
+      }
     }
+  }
 }

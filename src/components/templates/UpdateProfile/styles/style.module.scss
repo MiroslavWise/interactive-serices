@@ -4,7 +4,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1998;
+
+  &[data-visible="true"] {
+    z-index: 1998;
+  }
 
   & > section {
     position: relative;

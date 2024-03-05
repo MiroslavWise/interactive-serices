@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 
 import type { IValuesForm } from "./types/types"
 import type { IPostComplains } from "@/services/complains/types"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { ButtonClose, Button } from "@/components/common"
 
@@ -16,7 +16,6 @@ import { MENU_COMPLAINT } from "./constants/constants"
 import { dispatchComplaintModal, useAuth, useComplaintModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 export const ComplaintModal = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -54,7 +53,7 @@ export const ComplaintModal = () => {
 
       serviceComplains.post(valuesData).then((response) => {
         console.log("%c response: serviceComplains: ", "color: green", response)
-        flushSync(() => {
+        requestAnimationFrame(() => {
           reset()
           handleClose()
           setLoading(false)

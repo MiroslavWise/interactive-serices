@@ -1,11 +1,14 @@
 .wrapper {
   background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(4px);
-  z-index: 1051;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   height: 100%;
+
+  &[data-visible="true"] {
+    z-index: 1051;
+  }
 
   & > section {
     position: relative;

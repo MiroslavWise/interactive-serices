@@ -7,7 +7,9 @@
 }
 
 .wrapper {
-  z-index: 2001;
+  &[data-visible="true"] {
+    z-index: 2001;
+  }
 
   &::after {
     content: "";

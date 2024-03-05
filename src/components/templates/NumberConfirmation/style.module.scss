@@ -1,11 +1,14 @@
 .wrapper {
   padding: 7.5rem 1.25rem 1.25rem;
-  z-index: 2019;
   background: rgba(5, 1, 13, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5.625rem 1.25rem 1.25rem;
+
+  &[data-visible="true"] {
+    z-index: 2019;
+  }
 
   & > section {
     position: relative;

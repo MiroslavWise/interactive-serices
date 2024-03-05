@@ -4,7 +4,10 @@
   align-items: center;
   padding: 1.25rem;
   background: rgba(5, 1, 13, 0.5);
-  z-index: 1999;
+
+  &[data-visible="true"] {
+    z-index: 1999;
+  }
 
   & > section {
     position: relative;

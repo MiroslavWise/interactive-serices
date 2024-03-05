@@ -1,11 +1,14 @@
 .wrapper {
-  z-index: 2002;
   background: rgba(5, 1, 13, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding: 1.25rem;
+
+  &[data-visible="true"] {
+    z-index: 2002;
+  }
 
   & > section {
     position: relative;

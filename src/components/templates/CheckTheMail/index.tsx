@@ -5,6 +5,8 @@ import { Button, ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { dispatchCheckTheMail, useCheckTheMail } from "@/store"
 
+import styles from "./style.module.scss"
+
 export const CheckTheMail = () => {
   const visible = useCheckTheMail(({ visible }) => visible)
   const email = useCheckTheMail(({ email }) => email)
@@ -14,7 +16,7 @@ export const CheckTheMail = () => {
   }
 
   return (
-    <div className={cx("wrapper-fixed")} data-visible={visible}>
+    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
       <section data-section-modal>
         <ButtonClose onClick={close} />
         <article>

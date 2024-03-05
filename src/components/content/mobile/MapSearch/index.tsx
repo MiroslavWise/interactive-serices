@@ -46,8 +46,8 @@ export default function MapSearch() {
   function handleAddress(value: IFeatureMember) {
     if (value) {
       const split = value?.GeoObject?.Point?.pos?.split(" ")
-      const longitude = split[0]
-      const latitude = split[1]
+      const longitude = split?.[0]!
+      const latitude = split?.[1]!
 
       const coordinates = [Number(longitude), Number(latitude)]
 
@@ -79,10 +79,10 @@ export default function MapSearch() {
             debouncedValue()
           }}
           onKeyDown={(event) => {
-            if (event.keyCode === 13 || event.code === "Enter") {
+            if (event?.keyCode === 13 || event?.code === "Enter") {
               if (!loading) {
-                if (values?.length > 0) {
-                  const item = values[0]
+                if (values && values?.length > 0) {
+                  const item = values?.[0]
                   handleAddress(item)
                 }
               }

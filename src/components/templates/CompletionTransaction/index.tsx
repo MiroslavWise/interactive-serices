@@ -1,8 +1,7 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
@@ -111,7 +110,7 @@ export const CompletionTransaction = () => {
           refetchTestimonials()
           refetchThread()
           refetchNotifications()
-          flushSync(async () => {
+          requestAnimationFrame(async () => {
             onBarters({
               title: "Спасибо за обратную связь",
               message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
@@ -126,8 +125,6 @@ export const CompletionTransaction = () => {
   }
 
   const onSubmit = handleSubmit(submit)
-
-  console.log("errors: ", errors)
 
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>

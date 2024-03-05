@@ -1,13 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 import { useMemo, useCallback, useState } from "react"
 
 import type { IReturnData } from "@/services/types/general"
 import type { IPostDataBarter } from "@/services/barters/types"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import type { IPostOffers, IResponseCreate } from "@/services/offers/types"
 
 import { ItemOffer } from "./components/ItemOffer"
@@ -30,7 +30,6 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 export const ReciprocalExchange = () => {
   const refreshAuth = useAuth(({ refresh }) => refresh)
@@ -131,10 +130,10 @@ export const ReciprocalExchange = () => {
               const message = `${profile?.firstName || ""} ${
                 profile?.lastName || ""
               } получила ваше предложение. Мы сообщим вам об её ответе.`
-              flushSync(() => {
+              requestAnimationFrame(() => {
                 socketWith(response?.res?.id!, !values.my_offer && values.description ? values.description : offer?.title!)
                 refetch()
-                flushSync(() => {
+                requestAnimationFrame(() => {
                   onBarters({
                     title: "Предложение на обмен отправлено",
                     message: message,

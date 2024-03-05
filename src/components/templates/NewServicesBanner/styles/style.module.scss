@@ -1,12 +1,15 @@
 .wrapper {
   background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(2.5px);
-  z-index: 1050;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 5.75rem;
   padding-bottom: 5.75rem;
+
+  &[data-visible="true"] {
+    z-index: 1050;
+  }
 
   & > section {
     position: relative;

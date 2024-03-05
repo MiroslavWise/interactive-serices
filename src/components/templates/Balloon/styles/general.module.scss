@@ -6,7 +6,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 214;
+
+  &[data-visible="true"] {
+    z-index: 214;
+  }
 
   & > section {
     position: relative;
