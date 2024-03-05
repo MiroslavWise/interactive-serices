@@ -1,6 +1,9 @@
 .wrapper {
-  z-index: 1000;
   background-color: var(--BG-second);
+
+  &[data-visible="true"] {
+    z-index: 1000;
+  }
 
   & > section {
     position: relative;

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 
 import { Button, ButtonClose } from "@/components/common"
@@ -58,7 +57,7 @@ export const ChangePassword = () => {
             setError("root", { message: messageError })
           }
         }
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setLoading(false)
         })
       })

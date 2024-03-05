@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
@@ -47,13 +46,13 @@ export const NumberConfirmation = () => {
         if (response.ok) {
           refetch()
           on({ message: "Номер телефона успешно добавлен" })
-          flushSync(() => {
+          requestAnimationFrame(() => {
             close()
           })
         } else {
           setError("code", { message: response?.error?.message })
         }
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setLoading(false)
         })
       })
@@ -66,7 +65,7 @@ export const NumberConfirmation = () => {
 
   function handleNew() {
     dispatchNumberConfirmation(false, undefined)
-    flushSync(() => {
+    requestAnimationFrame(() => {
       dispatchAddingPhoneNumber(true)
     })
   }

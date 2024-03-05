@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -39,7 +38,7 @@ export const DeleteOffer = () => {
           if (response.ok) {
             refetch()
           }
-          flushSync(() => {
+          requestAnimationFrame(() => {
             setLoading(false)
             close()
           })

@@ -1,5 +1,4 @@
 .wrapper {
-  z-index: 1011;
   background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(2.5px);
   padding: 2.5rem;
@@ -7,6 +6,10 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+
+  &[data-visible="true"] {
+    z-index: 1011;
+  }
 
   & > section {
     position: relative;

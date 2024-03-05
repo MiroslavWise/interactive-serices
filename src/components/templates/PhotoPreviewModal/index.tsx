@@ -5,6 +5,7 @@ import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
 import { useSwipeable } from "react-swipeable"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TPhotoPreviewModal } from "./types/types"
 import type { IResponseOffers } from "@/services/offers/types"
 
@@ -17,7 +18,6 @@ import { IconCategory } from "@/lib/icon-set"
 import { useAuth, useProfilePublic, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange } from "@/store/hooks"
 
 import styles from "./styles/layout.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
   const current = usePhotoOffer(({ current }) => current)

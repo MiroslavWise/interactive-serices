@@ -1,26 +1,25 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IValues } from "./types"
+import { EnumTypeProvider } from "@/types/enum"
 import type { IPatchOffers } from "@/services/offers/types"
 import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
+import { UploadPhoto } from "@/components/common/custom"
 import { Button, ButtonClose, ImageCategory, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { fileUploadService, getGeocodeSearch, getUserIdOffers, patchOffer } from "@/services"
 import { dispatchUpdateOffer, useAuth, useOffersCategories, useUpdateOffer } from "@/store"
 
 import styles from "./style.module.scss"
-import { UploadPhoto } from "@/components/common/custom"
-import { EnumTypeProvider } from "@/types/enum"
-import { queryClient } from "@/context"
 
 export const UpdateOffer = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -176,7 +175,7 @@ export const UpdateOffer = () => {
       patchOffer(body, offer?.id!).then((response) => {
         if (response.ok) {
           refetch()
-          flushSync(() => {
+          requestAnimationFrame(() => {
             close()
             setLoading(false)
           })

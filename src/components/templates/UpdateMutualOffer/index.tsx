@@ -5,19 +5,18 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { IValuesForm } from "./types/types"
 import type { IPatchOffers } from "@/services/offers/types"
 
 import { UploadPhoto } from "@/components/common/custom"
 import { Button, ButtonClose, NextImageMotion } from "@/components/common"
-import { TextArea } from "@/components/common/Inputs/components/TextArea"
 
 import { cx } from "@/lib/cx"
+import { useAuth, useUpdateMutualOffer } from "@/store"
 import { getUserIdOffers, patchOffer, fileUploadService } from "@/services"
-import { useAuth, useOffersCategories, useUpdateMutualOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 export const UpdateMutualOffer = () => {
   const userId = useAuth(({ userId }) => userId)

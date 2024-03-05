@@ -22,53 +22,53 @@ import { dispatchPage, useIntro, dispatchAuthModal, dispatchIntro, dispatchPrevI
 import styles from "./styles/style.module.scss"
 
 const SCREENS_IMAGES: Record<number, ReactNode> = {
-    0: <StartPage />,
-    1: <ScreenZero />,
-    2: <ScreenOne />,
-    3: <ScreenTwo />,
-    4: <ScreenThree />,
-    5: <ScreenFour />,
-    6: <ScreenFive />,
+  0: <StartPage />,
+  1: <ScreenZero />,
+  2: <ScreenOne />,
+  3: <ScreenTwo />,
+  4: <ScreenThree />,
+  5: <ScreenFour />,
+  6: <ScreenFive />,
 }
 
 export const Intro = () => {
-    const visible = useIntro(({ visible }) => visible)
-    const page = useIntro(({ page }) => page)
+  const visible = useIntro(({ visible }) => visible)
+  const page = useIntro(({ page }) => page)
 
-    const handlers = useSwipeable({
-        onSwipedDown(event) {
-            if (event.deltaY > 150) {
-                dispatchIntro(false)
-            }
-        },
-        onSwipedRight(event) {
-            if (event.deltaX > 120) {
-                dispatchPrevIntro()
-            }
-        },
-    })
+  const handlers = useSwipeable({
+    onSwipedDown(event) {
+      if (event.deltaY > 150) {
+        dispatchIntro(false)
+      }
+    },
+    onSwipedRight(event) {
+      if (event.deltaX > 120) {
+        dispatchPrevIntro()
+      }
+    },
+  })
 
-    return (
-        <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
-            <section {...handlers} onClick={dispatchPage}>
-                <TimeTrack />
-                <ItemsPages page={page}>
-                    <PhotoContainer>{SCREENS_IMAGES[page]}</PhotoContainer>
-                    <footer>
-                        <h3>{SCREENS[page].title}</h3>
-                        {SCREENS[page].description.length
-                            ? SCREENS[page].description.map((item, index) => <p key={index + "-description-intro"}>{item}</p>)
-                            : null}
-                        {page === 6 ? (
-                            <button onClick={() => dispatchAuthModal({ visible: true, type: "SignUp" })}>
-                                <span>Зарегистрироваться</span>
-                            </button>
-                        ) : null}
-                    </footer>
-                </ItemsPages>
-                <ButtonClose />
-                <ButtonsSwipePage />
-            </section>
-        </div>
-    )
+  return (
+    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
+      <section {...handlers} onClick={dispatchPage}>
+        <TimeTrack />
+        <ItemsPages page={page}>
+          <PhotoContainer>{SCREENS_IMAGES[page]}</PhotoContainer>
+          <footer>
+            <h3>{SCREENS[page].title}</h3>
+            {SCREENS[page].description.length
+              ? SCREENS[page].description.map((item, index) => <p key={index + "-description-intro"}>{item}</p>)
+              : null}
+            {page === 6 ? (
+              <button onClick={() => dispatchAuthModal({ visible: true, type: "SignUp" })}>
+                <span>Зарегистрироваться</span>
+              </button>
+            ) : null}
+          </footer>
+        </ItemsPages>
+        <ButtonClose />
+        <ButtonsSwipePage />
+      </section>
+    </div>
+  )
 }

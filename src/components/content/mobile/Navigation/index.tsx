@@ -53,7 +53,7 @@ export default function Navigation() {
     } else {
       if (!!coordinatesAddresses && coordinatesAddresses?.length) {
         dispatchMapCoordinates({
-          coordinates: coordinatesAddresses[0]!,
+          coordinates: coordinatesAddresses?.[0]!,
         })
       }
       console.error("%c Вы не дали доступ к геолокации", "color: #f00")

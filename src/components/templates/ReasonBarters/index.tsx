@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
@@ -62,7 +61,7 @@ export const ReasonBarters = () => {
       ]).then(() => {
         refetch()
         refetchBarter()
-        flushSync(() => {
+        requestAnimationFrame(() => {
           onBarters({
             title: "Спасибо за обратную связь",
             message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",

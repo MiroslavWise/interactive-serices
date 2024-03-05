@@ -14,17 +14,13 @@ import {
   FiltersScreen,
   SearchFilters,
 } from "@/components/content"
+import Navigation from "@/components/content/mobile/Navigation"
+import MapSearch from "@/components/content/mobile/MapSearch"
 
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
   ssr: false,
   suspense: true,
   loading: () => <div className="--loader--empty-screen--" />,
-})
-const Navigation = dynamic(() => import("@/components/content/mobile/Navigation"), {
-  ssr: false,
-})
-const MapSearch = dynamic(() => import("@/components/content/mobile/MapSearch"), {
-  ssr: false,
 })
 
 import { useAuth } from "@/store"
