@@ -11,6 +11,7 @@ import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOff
 
 export default function Providers({ children }: { children: ReactNode }) {
   const refresh = useAuth(({ refresh }) => refresh)
+  const categories = useOffersCategories(({ categories }) => categories)
   const getCategories = useOffersCategories(({ getCategories }) => getCategories)
   const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
   const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
@@ -39,7 +40,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         getFetchingOffersCategories(value)
       })
     }
-  }, [offersCategories])
+  }, [offersCategories, categories])
 
   return (
     <NextThemesProvider>

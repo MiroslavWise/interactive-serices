@@ -62,6 +62,26 @@
       }
     }
   }
+
+  [data-inform-off-barter] {
+    width: 100%;
+    padding-inline: 1.25rem;
+
+    & > article {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--grey-stroke);
+
+      & > span {
+        color: var(--text-primary);
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.25rem;
+      }
+    }
+  }
 }
 
 [data-theme="dark"] {

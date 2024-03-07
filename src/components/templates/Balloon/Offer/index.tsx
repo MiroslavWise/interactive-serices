@@ -1,15 +1,18 @@
 "use client"
 
 import Link from "next/link"
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ButtonClose, ImageCategory, LoadingProfile } from "@/components/common"
+
+import { EnumStatusBarter } from "@/types/enum"
 
 import { ItemProfile } from "./components/ItemProfile"
 import { ItemProposal } from "./components/ItemProposal"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
-import { getUserId } from "@/services"
+import { getBarters, getUserId } from "@/services"
 import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -30,12 +33,57 @@ export const BalloonOffer = () => {
     enabled: !!offer?.userId,
   })
 
+  //--
+  const { data: dataExecutedBarter, isLoading: isLoadingExecutedBarter } = useQuery({
+    queryFn: () =>
+      getBarters({
+        status: EnumStatusBarter.EXECUTED,
+        user: userId!,
+        order: "DESC",
+      }),
+    queryKey: ["barters", { userId: userId, status: EnumStatusBarter.EXECUTED }],
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    enabled: !!userId && visible && userId !== offer?.userId,
+  })
+  const { data: dataInitiatedBarter, isLoading: isLoadingInitiatedBarter } = useQuery({
+    queryFn: () =>
+      getBarters({
+        status: EnumStatusBarter.INITIATED,
+        user: userId!,
+        order: "DESC",
+      }),
+    queryKey: ["barters", { userId: userId, status: EnumStatusBarter.INITIATED }],
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    enabled: !!userId && visible && userId !== offer?.userId,
+  })
+  //--
+
+  const disabledReply = useMemo(() => {
+    if (isLoadingExecutedBarter || isLoadingInitiatedBarter) return true
+    const findExecuted = dataExecutedBarter?.res?.some((some) => {
+      if (
+        (some.initiator.userId === offer?.userId || some.consigner.userId === offer?.userId) &&
+        (some.consigner.id === offer.id || some.initiator.id)
+      ) {
+        return true
+      }
+    })
+    if (findExecuted) return true
+    const findInitiated = dataInitiatedBarter?.res?.some((some) => {
+      if (
+        (some.initiator.userId === offer?.userId || some.consigner.userId === offer?.userId) &&
+        (some.consigner.id === offer.id || some.initiator.id)
+      ) {
+        return true
+      }
+    })
+    if (findInitiated) return true
+  }, [isLoadingExecutedBarter, isLoadingInitiatedBarter, dataExecutedBarter?.res, dataInitiatedBarter?.res, offer])
+
   const { res } = data ?? {}
   const { profile } = res ?? {}
-
-  const { addresses } = offer ?? {}
-
-  const geo = !!addresses?.length
 
   function handle() {
     if (!userId) {
@@ -90,35 +138,44 @@ export const BalloonOffer = () => {
         <div data-container>
           {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} />}
           <ItemProposal />
-          
-            <div data-buttons>
-              <Button
-                type="button"
-                typeButton="fill-primary"
-                label="Откликнуться"
-                onClick={handle}
-                disabled={!!userId && userId === offer?.userId}
-              />
-              <Button
-                type="button"
-                typeButton="regular-primary"
-                label="Заплатить"
-                onClick={handlePay}
-                disabled={!!userId && userId === offer?.userId}
-              />
-              {userId && userId !== offer?.userId ? (
-                <Link
-                  data-circle
-                  href={{ pathname: "/messages", query: { user: offer?.userId } }}
-                  onClick={() => {
-                    dispatchBallonOffer({ visible: false })
-                  }}
-                >
-                  <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
-                </Link>
-              ) : null}
+          {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter ? (
+            <div data-inform-off-barter>
+              <article>
+                <span>
+                  Упс(. У вас уже есть созданное предложение данному пользователю!. Закончите его, что-бы снова иметь возможность
+                  обмениться)
+                </span>
+              </article>
             </div>
-         
+          ) : null}
+          <div data-buttons>
+            <Button
+              type="button"
+              typeButton="fill-primary"
+              label="Откликнуться"
+              onClick={handle}
+              loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
+              disabled={(!!userId && userId === offer?.userId) || disabledReply}
+            />
+            <Button
+              type="button"
+              typeButton="regular-primary"
+              label="Заплатить"
+              onClick={handlePay}
+              disabled={!!userId && userId === offer?.userId}
+            />
+            {userId && userId !== offer?.userId ? (
+              <Link
+                data-circle
+                href={{ pathname: "/messages", query: { user: offer?.userId } }}
+                onClick={() => {
+                  dispatchBallonOffer({ visible: false })
+                }}
+              >
+                <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
+              </Link>
+            ) : null}
+          </div>
         </div>
       </section>
     </div>

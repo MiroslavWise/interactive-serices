@@ -55,7 +55,6 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
       setText(value?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text)
       dispatchMapCoordinates({
         coordinates: coordinates,
-        zoom: 18,
       })
     }
     setIsActiveList(false)

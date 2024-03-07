@@ -27,7 +27,7 @@ import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId } from "@/services"
+import { serviceNotifications, getUserIdOffers, postOffer, postBarter, getUserId, getBarters } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -52,29 +52,25 @@ export const ReciprocalExchange = () => {
   } = useForm<IFormValues>({
     defaultValues: {},
   })
-
   const { data, isLoading } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
     queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    enabled: !!userId,
   })
-
   const { data: dataUser, isLoading: isLoadUser } = useQuery({
     queryFn: () => getUserId(offer?.userId!),
     queryKey: ["user", { userId: offer?.userId }],
-    enabled: !!offer?.userId,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    enabled: !!offer?.userId,
   })
-
-  //---
   const { refetch } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
     queryKey: ["notifications", { userId: userId }],
     enabled: false,
   })
-  //---
 
   const { res } = dataUser ?? {}
   const { profile } = res ?? {}

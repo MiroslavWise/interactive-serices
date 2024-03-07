@@ -7,7 +7,7 @@ export const useMapCoordinates = create(
   persist<IUseMapCoordinates>(
     (set, get) => ({
       coordinates: undefined,
-      zoom: 16,
+      zoom: 13,
       dispatchMapCoordinates({ coordinates, zoom }) {
         const getCoordinates = typeof coordinates === "undefined" ? get().coordinates : coordinates
         const getZoom = typeof zoom === "undefined" ? get().zoom : zoom

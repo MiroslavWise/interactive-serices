@@ -41,7 +41,6 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
     if (geoData) {
       dispatchMapCoordinates({
         coordinates: geoData?.coordinates?.split(" ")?.map(Number),
-        zoom: 20,
       })
       dispatchBallonOffer({
         visible: true,
