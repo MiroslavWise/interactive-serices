@@ -420,7 +420,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       if (value) {
         setLoading(true)
         Promise.all([
-          serviceNotifications.patch({ enabled: true, operation: "completion-yes", read: true }, id!),
+          // serviceNotifications.patch({ enabled: true, operation: "completion-yes", read: true }, id!),
           patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!),
         ]).then(() => {
           refetch().then(() => {
