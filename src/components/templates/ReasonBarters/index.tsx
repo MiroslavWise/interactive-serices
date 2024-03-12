@@ -56,7 +56,7 @@ export const ReasonBarters = () => {
       // reason: textReason
 
       Promise.all([
-        serviceNotifications.patch({ enabled: true, operation: "completion-no", read: true }, notificationId!),
+        // serviceNotifications.patch({ enabled: true, operation: "completion-no", read: true }, notificationId!),
         patchBarter({ enabled: true, status: EnumStatusBarter.DESTROYED, title: textReason }, barterId!),
       ]).then(() => {
         refetch()
