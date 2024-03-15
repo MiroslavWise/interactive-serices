@@ -132,7 +132,7 @@ export const BalloonOffer = () => {
         <div data-container>
           {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} />}
           <ItemProposal />
-          {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter ? (
+          {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
             <div data-inform-off-barter>
               <article>
                 <span>

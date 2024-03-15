@@ -434,6 +434,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       serviceNotifications.patch({ enabled: false, read: true }, id),
       patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, data?.id),
     ]).then((responses) => {
+      console.log("---responses--- ", responses)
       refetch()
       setLoading(false)
     })
@@ -443,10 +444,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     if (!loading) {
       if (value) {
         setLoading(true)
-        Promise.all([
-          // serviceNotifications.patch({ enabled: true, operation: "completion-yes", read: true }, id!),
-          patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!),
-        ]).then(() => {
+        Promise.all([patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!)]).then(() => {
           refetch().then(() => {
             setLoading(false)
           })
