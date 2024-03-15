@@ -123,9 +123,9 @@ export const ReciprocalExchange = () => {
           postBarter(dataBarter).then((response) => {
             console.log("%c ---OFFERS BARTERS---", "color: green", response)
             if (response?.ok) {
-              const message = `${profile?.firstName || ""} ${
+              const message = `Пользователь ${profile?.firstName || ""} ${
                 profile?.lastName || ""
-              } получила ваше предложение. Мы сообщим вам об её ответе.`
+              } получил ваше предложение. Мы сообщим вам об ответе.`
               requestAnimationFrame(() => {
                 socketWith(response?.res?.id!, !values.my_offer && values.description ? values.description : offer?.title!)
                 refetch()
@@ -303,7 +303,7 @@ export const ReciprocalExchange = () => {
                               <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
                             </div>
                             <p>{item.title}</p>
-                            {item?.images?.length > 0 ? <ItemImages images={item?.images} /> : null}
+                            {item?.images?.length > 0 ? <ItemImages images={item?.images} notTouch /> : null}
                           </a>
                         ))
                       : null}
