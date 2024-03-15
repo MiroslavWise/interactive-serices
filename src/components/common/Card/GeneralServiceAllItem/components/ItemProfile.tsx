@@ -1,10 +1,13 @@
+"use client"
+
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { LoadingProfile } from "@/components/common/Loading"
 
 import { getProfileUserId, getTestimonials } from "@/services"
 import { NextImageMotion } from "@/components/common/Image"
-import { useMemo } from "react"
+import { dispatchProfilePublic } from "@/store"
 
 const IconRating = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -44,12 +47,22 @@ export const ItemProfile = ({ id }: { id: number }) => {
 
   const name = `${data?.res?.firstName || " "} ${data?.res?.lastName || " "}`
 
+  function handleProfile() {
+    dispatchProfilePublic({ visible: true, idUser: id })
+  }
+
   return isLoading ? (
     <LoadingProfile />
   ) : (
     <section data-profile>
       <div data-footer-profile>
-        <div data-profile>
+        <div
+          data-profile
+          onClick={(event) => {
+            event.stopPropagation()
+            handleProfile()
+          }}
+        >
           <div data-avatar>
             <NextImageMotion src={data?.res?.image?.attributes?.url!} alt="avatar" width={24} height={24} />
           </div>

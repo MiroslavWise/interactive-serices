@@ -62,24 +62,18 @@ export const BalloonOffer = () => {
 
   const disabledReply = useMemo(() => {
     if (isLoadingExecutedBarter || isLoadingInitiatedBarter) return true
-    const findExecuted = dataExecutedBarter?.res?.some((some) => {
-      if (
+    const findExecuted = dataExecutedBarter?.res?.some(
+      (some) =>
         (some.initiator.userId === offer?.userId || some.consigner.userId === offer?.userId) &&
-        (some.consigner.id === offer.id || some.initiator.id)
-      ) {
-        return true
-      }
-    })
-    if (findExecuted) return true
-    const findInitiated = dataInitiatedBarter?.res?.some((some) => {
-      if (
+        (some.consigner.id === offer.id || some.initiator.id),
+    )
+    if (findExecuted) return "executed-have"
+    const findInitiated = dataInitiatedBarter?.res?.some(
+      (some) =>
         (some.initiator.userId === offer?.userId || some.consigner.userId === offer?.userId) &&
-        (some.consigner.id === offer.id || some.initiator.id)
-      ) {
-        return true
-      }
-    })
-    if (findInitiated) return true
+        (some.consigner.id === offer.id || some.initiator.id),
+    )
+    if (findInitiated) return "initiated-have"
   }, [isLoadingExecutedBarter, isLoadingInitiatedBarter, dataExecutedBarter?.res, dataInitiatedBarter?.res, offer])
 
   const { res } = data ?? {}
@@ -142,8 +136,11 @@ export const BalloonOffer = () => {
             <div data-inform-off-barter>
               <article>
                 <span>
-                  Упс(. У вас уже есть созданное предложение данному пользователю!. Закончите его, что-бы снова иметь возможность
-                  обмениться)
+                  {disabledReply === "executed-have"
+                    ? "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
+                    : disabledReply === "initiated-have"
+                    ? "Вы уже отправили данному пользователю свое предложение"
+                    : null}
                 </span>
               </article>
             </div>
@@ -155,7 +152,7 @@ export const BalloonOffer = () => {
               label="Откликнуться"
               onClick={handle}
               loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
-              disabled={(!!userId && userId === offer?.userId) || disabledReply}
+              disabled={(!!userId && userId === offer?.userId) || !!disabledReply}
             />
             <Button
               type="button"

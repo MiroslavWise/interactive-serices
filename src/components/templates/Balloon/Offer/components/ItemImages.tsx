@@ -10,7 +10,7 @@ import { dispatchPhotoCarousel } from "@/store"
 
 import styles from "../styles/images.module.scss"
 
-export const ItemImages = ({ images }: { images: IImageData[] }) => {
+export const ItemImages = ({ images, notTouch }: { images: IImageData[]; notTouch?: boolean }) => {
   const refImages = useRef<HTMLDivElement>(null)
 
   function to(value: boolean) {
@@ -66,11 +66,13 @@ export const ItemImages = ({ images }: { images: IImageData[] }) => {
                 url: item?.attributes?.url!,
                 id: item?.id,
               }))
-              dispatchPhotoCarousel({
-                visible: true,
-                photos: photos,
-                idPhoto: item?.id!,
-              })
+              if (!notTouch) {
+                dispatchPhotoCarousel({
+                  visible: true,
+                  photos: photos,
+                  idPhoto: item?.id!,
+                })
+              }
             }}
           />
         ))}

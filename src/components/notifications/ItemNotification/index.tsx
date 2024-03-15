@@ -400,6 +400,20 @@ export const ItemNotification = (props: IResponseNotifications) => {
               />
             )
           }
+          if (data.initiator.userId === userId) {
+            return (
+              <Button
+                type="button"
+                typeButton="regular-primary"
+                label="Отменить"
+                loading={loading}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  onCanceledAndDelete()
+                }}
+              />
+            )
+          }
         }
       }
     }
@@ -413,6 +427,16 @@ export const ItemNotification = (props: IResponseNotifications) => {
         if (response.ok) refetch()
       })
     }
+  }
+
+  function onCanceledAndDelete() {
+    Promise.all([
+      serviceNotifications.patch({ enabled: false, read: true }, id),
+      patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, data?.id),
+    ]).then((responses) => {
+      refetch()
+      setLoading(false)
+    })
   }
 
   function handleCompletion(value: boolean) {
