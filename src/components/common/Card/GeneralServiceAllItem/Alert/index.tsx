@@ -6,7 +6,7 @@ import { ItemProfile } from "../components/ItemProfile"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
-import { dispatchBallonAlert, dispatchMapCoordinates } from "@/store"
+import { dispatchBallonAlert, dispatchMapCoordinates, dispatchMobileSearchCategoryVisible } from "@/store"
 import { daysAgo } from "@/helpers"
 
 import styles from "../styles/alert.module.scss"
@@ -28,6 +28,7 @@ export function GeneralAlert({ offer }: { offer: IResponseOffers }) {
         coordinates: address?.coordinates?.split(" ")?.map(Number),
       })
     }
+    dispatchMobileSearchCategoryVisible(false)
   }
 
   return (

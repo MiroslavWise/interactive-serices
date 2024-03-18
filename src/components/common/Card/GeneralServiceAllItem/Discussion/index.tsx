@@ -7,7 +7,7 @@ import { HeaderTimeDots } from "../components/HeaderTimeDots"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
-import { dispatchBallonDiscussion } from "@/store"
+import { dispatchBallonDiscussion, dispatchMobileSearchCategoryVisible } from "@/store"
 
 import styleMain from "../styles/main.module.scss"
 import styles from "../styles/discussion.module.scss"
@@ -22,6 +22,7 @@ export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
       visible: true,
       offer: offer,
     })
+    dispatchMobileSearchCategoryVisible(false)
   }
 
   return (

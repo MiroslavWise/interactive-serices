@@ -24,7 +24,7 @@
 
   &[data-visible="true"] {
     transform: translateY(0.625rem);
-    z-index: 102;
+    z-index: 93;
   }
 
   & > input {
@@ -60,7 +60,7 @@
   visibility: hidden;
 
   &[data-visible="true"] {
-    z-index: 75;
+    z-index: 92;
     opacity: 1;
     visibility: visible;
   }
