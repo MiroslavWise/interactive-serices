@@ -32,6 +32,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { serviceNotifications, postOffer, postBarter, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import { createAddress } from "@/helpers/address/create"
 
 export const ReciprocalExchange = () => {
   const refreshAuth = useAuth(({ refresh }) => refresh)
@@ -85,6 +86,13 @@ export const ReciprocalExchange = () => {
         slug: transliterateAndReplace(values.description),
         enabled: true,
         desired: true,
+      }
+
+      if (values.select_new_proposal === ETypeOfNewCreated.new && !!values.addressFeature && !!values.check) {
+        const response = await createAddress(values.addressFeature)
+        if (response.ok) {
+          dataNewOffer.addresses = [response.res?.id!]
+        }
       }
 
       const socketWith = (idBarter: number, message: string) => {
@@ -163,7 +171,9 @@ export const ReciprocalExchange = () => {
     !watch("select_new_proposal") ||
     (watch("select_new_proposal") === ETypeOfNewCreated.interesting && !watch("description")?.trim()) ||
     (watch("select_new_proposal") === ETypeOfNewCreated.their && !watch("my_offer")) ||
-    (watch("select_new_proposal") === ETypeOfNewCreated.new && (!watch("description_new_offer") || !watch("categoryId")))
+    ((watch("select_new_proposal") === ETypeOfNewCreated.new && (!watch("description_new_offer") || !watch("categoryId"))) || watch("check")
+      ? !watch("addressFeature")
+      : false)
 
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
