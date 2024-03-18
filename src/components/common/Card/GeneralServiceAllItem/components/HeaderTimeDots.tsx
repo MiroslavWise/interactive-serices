@@ -108,7 +108,7 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
           ref={ref}
           onClick={(event) => {
             event.stopPropagation()
-            setVisible(true)
+            setVisible((prev) => !prev)
           }}
         />
         <IconDotsHorizontal />

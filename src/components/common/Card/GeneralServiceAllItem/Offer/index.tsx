@@ -10,7 +10,7 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from "@/store"
+import { dispatchBallonOffer, dispatchMapCoordinates, dispatchMobileSearchCategoryVisible, useOffersCategories } from "@/store"
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
@@ -55,6 +55,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
       visible: true,
       offer: offer,
     })
+    dispatchMobileSearchCategoryVisible(false)
   }
 
   return (

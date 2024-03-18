@@ -22,6 +22,10 @@ const YandexMap = dynamic(() => import("../components/YandexMap"), {
   suspense: true,
   loading: () => <div className="--loader--empty-screen--" />,
 })
+const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"), {
+  ssr: false,
+  suspense: false,
+})
 
 import { useAuth } from "@/store"
 
@@ -41,6 +45,7 @@ export default function Home() {
           <MobileFilterMap />
           <MapSearch />
           <Navigation />
+          <SearchCategory />
         </>
       )}
       {!isMobile && (
