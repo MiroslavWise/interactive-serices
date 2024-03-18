@@ -1,4 +1,3 @@
-export * from "./Blog"
 export * from "./Review"
 export * from "./Suggestion"
 export * from "./CardDiscussion"
