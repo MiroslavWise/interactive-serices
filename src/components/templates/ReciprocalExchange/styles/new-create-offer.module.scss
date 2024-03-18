@@ -10,12 +10,66 @@
     flex-direction: column;
     gap: 0.5rem;
 
-    & > label {
+    & > label,
+    & > [data-check] > label {
       color: var(--text-primary);
       font-size: 0.875rem;
       font-style: normal;
       font-weight: 500;
       line-height: 1.25rem;
+    }
+
+    & > [data-check] {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.625rem;
+      cursor: pointer;
+
+      & > [data-div-check] {
+        width: 1rem;
+        height: 1rem;
+        position: relative;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid;
+        border-color: var(--grey-stroke);
+        background-color: var(--BG-second);
+
+        transition: var(--transition);
+        transition-property: border-color, background-color;
+
+        &::after {
+          content: "";
+          position: absolute;
+          display: block;
+          bottom: 0.275rem;
+          left: 0.15rem;
+          opacity: 0;
+          transform: rotate(135deg) scale(0);
+          height: 0.25rem;
+          width: 0.5rem;
+          border-right: 2px solid var(--text-button);
+          border-top: 2px solid var(--text-button);
+          transition: var(--transition);
+          transition-property: transform, opacity;
+        }
+
+        &[data-div-check="true"] {
+          background-color: var(--element-accent-1);
+          border-color: var(--element-accent-1);
+
+          &::after {
+            opacity: 1;
+            transform: rotate(135deg) scale(1);
+          }
+        }
+      }
+
+      & > label {
+        white-space: nowrap;
+      }
     }
   }
 }

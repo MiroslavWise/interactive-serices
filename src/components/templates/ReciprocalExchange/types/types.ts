@@ -1,10 +1,16 @@
+import { IFeatureMember } from "@/services/addresses/types/geocodeSearch"
+
 export interface IFormValues {
   description: string
   category?: number
   my_offer?: number
   select_new_proposal: ETypeOfNewCreated
-  description_new_offer: string
+
   categoryId?: number
+  description_new_offer: string
+  check?: boolean
+  addressFeature?: IFeatureMember
+  address?: string
 }
 
 export enum ETypeOfNewCreated {
