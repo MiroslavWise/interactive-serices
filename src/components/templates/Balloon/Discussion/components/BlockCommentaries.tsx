@@ -1,6 +1,5 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 import { DispatchWithoutAction, useEffect, useMemo, useRef, useState } from "react"
@@ -74,7 +73,7 @@ export const BlockCommentaries = ({
 
   useEffect(() => {
     if (expand && currentComments?.length > 0) {
-      flushSync(() => {
+      requestAnimationFrame(() => {
         if (refList.current) {
           const top = refList.current.scrollHeight
           refList.current.scroll({ top: top + 100, behavior: "smooth" })
@@ -108,7 +107,7 @@ export const BlockCommentaries = ({
 
         serviceComments.post(data).then((response) => {
           console.log("---response comment---", response?.res)
-          flushSync(() => {
+          requestAnimationFrame(() => {
             refetchComments()
             setValue("text", "")
             setLoading(false)
@@ -140,7 +139,7 @@ export const BlockCommentaries = ({
               <img src="/svg/chevron-down.svg" alt="down" width={18} height={18} />
             </div>
           </button>
-          {isAlert ? <ButtonNeedHelp idUser={idUser} close={close} /> : <ButtonLike />}
+          {isAlert ? <ButtonNeedHelp idUser={idUser} close={close} /> : null}
         </div>
       </div>
       {expand ? (
