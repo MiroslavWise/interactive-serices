@@ -3,26 +3,13 @@
 import { EnumTypeProvider } from "@/types/enum"
 import type { TNewCreateBadge } from "../types/types"
 
-import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
-import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
-import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
+import { mapIconCreateOffer } from "@/utils"
 
 import { useVisibleBannerNewServices, useAddCreateModal, useOnboarding, dispatchOnboarding } from "@/store"
 
 import styles from "./styles/styles.module.scss"
 
-const map = new Map([
-  [
-    EnumTypeProvider.alert,
-    <div data-alert key={`::item::key::alert::svg::`}>
-      <IconAlertBalloon />
-    </div>,
-  ],
-  [EnumTypeProvider.offer, <IconOfferBalloon key={`::item::key::offer::svg::`} />],
-  [EnumTypeProvider.discussion, <IconDiscussionBalloon key={`::item::key::discussion::svg::`} />],
-])
-
-export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
+export const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)
   const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
@@ -51,7 +38,7 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
       id={`li-${value}-create`}
       data-not={visible && type !== value}
     >
-      {map.has(value) ? map.get(value) : null}
+      {mapIconCreateOffer.has(value) ? mapIconCreateOffer.get(value) : null}
       <p>{label}</p>
     </li>
   )
