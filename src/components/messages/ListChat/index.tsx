@@ -1,6 +1,5 @@
 "use client"
 
-import dayjs from "dayjs"
 import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 import { memo, useEffect, useMemo, useState } from "react"
@@ -13,7 +12,7 @@ import { SearchBlock } from "./components/SearchBlock"
 import { useAuth } from "@/store"
 import { getUserId } from "@/services"
 import { useWebSocket } from "@/context"
-import { useCountMessagesNotReading } from "@/helpers"
+import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
@@ -72,12 +71,12 @@ export const ListChat = memo(function ListChat() {
       })
       ITEMS.sort((prev, next) => {
         const prevNumber = prev.thread.messages?.[0]?.created!
-          ? dayjs(prev.thread.messages?.[0]?.created!).valueOf()
-          : dayjs(prev.thread?.created!).valueOf()
+          ? getMillisecond(prev.thread.messages?.[0]?.created!)
+          : getMillisecond(prev.thread?.created!)
 
         const nextNumber = next.thread.messages?.[0]?.created!
-          ? dayjs(next.thread.messages?.[0]?.created!).valueOf()
-          : dayjs(next.thread?.created!).valueOf()
+          ? getMillisecond(next.thread.messages?.[0]?.created!)
+          : getMillisecond(next.thread?.created!)
 
         return nextNumber - prevNumber
       })

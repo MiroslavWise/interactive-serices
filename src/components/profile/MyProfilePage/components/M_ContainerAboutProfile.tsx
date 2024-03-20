@@ -1,12 +1,12 @@
 "use client"
 
-import dayjs from "dayjs"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { BadgesColors } from "./BadgesColors"
 import { Button, NextImageMotion } from "@/components/common"
 
+import { dayFormat } from "@/helpers"
 import { getProfileUserId, getUserId, serviceFriends } from "@/services"
 import { dispatchActiveServicesFrom, dispatchOptionProfileMobile, dispatchUpdateProfile, useAuth, useDroverFriends } from "@/store"
 
@@ -73,7 +73,7 @@ export const MContainerAboutProfile = () => {
               {dataProfile?.res?.firstName || "Имя"} {dataProfile?.res?.lastName || "Фамилия"}
             </h3>
             {geoData ? <p>{geoData?.additional}</p> : null}
-            <time dateTime={`${dataUser?.res?.created!}`}>На Sheira с {dayjs(dataUser?.res?.created!).format("DD.MM.YYYY")}</time>
+            <time dateTime={`${dataUser?.res?.created!}`}>На Sheira с {dayFormat(dataUser?.res?.created!, "dd.MM.yyyy")}</time>
           </article>
         </section>
         <section data-about>

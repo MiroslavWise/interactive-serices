@@ -1,6 +1,5 @@
 "use client"
 
-import dayjs from "dayjs"
 import Link from "next/link"
 import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
@@ -16,6 +15,7 @@ import { getUserId } from "@/services"
 import { useAuth, useVisibleExchanges } from "@/store"
 
 import styles from "./style.module.scss"
+import { dayFormat } from "@/helpers"
 
 export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiator, consigner }) => {
   const myUserId = useAuth(({ userId }) => userId)
@@ -39,7 +39,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
         <BlockBarter {...{ consigner, initiator }} />
       </section>
       <footer>
-        <time dateTime={dayjs(timestamp!).format("DD-MM-YYYY")}>{dayjs(timestamp!).format("DD.MM.YYYY")}</time>
+        <time dateTime={timestamp as unknown as string}>{dayFormat(timestamp!, "dd.MM.yyyy")}</time>
         {!["completed", "destroyed"]?.includes(status) ? (
           <Link
             href={{

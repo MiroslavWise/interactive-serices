@@ -1,4 +1,4 @@
-import dayjs from "dayjs"
+import { dayFormat } from "@/helpers"
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 
@@ -18,5 +18,5 @@ export const useTimerNumberConfirmation = create(
 
 export const dispatchStartTimerNumberConfirmation = () =>
   useTimerNumberConfirmation.setState((_) => ({
-    time: dayjs().format(),
+    time: dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!,
   }))

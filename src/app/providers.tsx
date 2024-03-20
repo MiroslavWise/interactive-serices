@@ -6,7 +6,6 @@ import { type ReactNode, useEffect } from "react"
 import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
-import "@/context/DayJSDefault"
 import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
 
 export default function Providers({ children }: { children: ReactNode }) {
