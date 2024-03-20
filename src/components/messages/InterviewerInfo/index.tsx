@@ -1,6 +1,5 @@
 "use client"
 
-import dayjs from "dayjs"
 import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
@@ -11,7 +10,7 @@ import { Button, NextImageMotion, GeoTagging, ButtonLink } from "@/components/co
 import { patchThread } from "@/services"
 import { useUserIdMessage } from "@/store"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useCountMessagesNotReading } from "@/helpers"
+import { dayFormat, useCountMessagesNotReading } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 import stylesHeader from "@/components/profile/BlockProfileAside/styles/header.module.scss"
@@ -57,7 +56,7 @@ export const InterviewerInfoCurrent = () => {
               {userData?.profile?.firstName || ""} {userData?.profile?.lastName}
             </h4>
             {geo ? <GeoTagging size={16} fontSize={14} location={geo} /> : null}
-            {userData?.profile?.created! ? <p>На Sheira с {dayjs(userData?.profile?.created!).format("DD.MM.YYYY")}</p> : null}
+            {userData?.profile?.created! ? <p>На Sheira с {dayFormat(userData?.profile?.created!, "dd.MM.yyyy")}</p> : null}
           </section>
         </header>
       </div>

@@ -1,6 +1,5 @@
 "use client"
 
-import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
 import { isMobile } from "react-device-detect"
@@ -11,7 +10,7 @@ import type { TComponentsNotification } from "./types/types"
 
 import { ButtonCircleGradient, Button } from "@/components/common"
 
-import { usePush } from "@/helpers"
+import { dayFormat, usePush } from "@/helpers"
 import { getUserId, serviceNotifications } from "@/services"
 import { useAuth, dispatchVisibleNotifications } from "@/store"
 
@@ -85,7 +84,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
         <div data-footer>
           <div data-date>
             <Image src="/svg/calendar.svg" alt="calendar" width={16} height={16} unoptimized />
-            <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
+            <p>{dayFormat(created!, "dd.MM.yyyy")}</p>
           </div>
           <div data-buttons>
             <Button

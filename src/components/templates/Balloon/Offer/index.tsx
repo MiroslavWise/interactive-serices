@@ -3,12 +3,14 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { Button, ButtonClose, ImageCategory, LoadingProfile } from "@/components/common"
+import { Button, ButtonClose, ImageCategory } from "@/components/common"
 
+import { IResponseOffers } from "@/services/offers/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
-import { ItemProfile } from "./components/ItemProfile"
 import { ItemDescriptions } from "./components/ItemDescriptions"
+import { ProfileComponent } from "../components/ProfileComponent"
+import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
@@ -17,8 +19,6 @@ import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, use
 
 import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
-import { IResponseOffers } from "@/services/offers/types"
-import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
 export const BalloonOffer = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -29,13 +29,6 @@ export const BalloonOffer = () => {
 
   const categoryCurrent = categories?.find((item) => item?.id === offer?.categoryId)
 
-  const { data, isLoading: isLoadUser } = useQuery({
-    queryFn: () => getUserId(offer?.userId!),
-    queryKey: ["user", { userId: offer?.userId }],
-    enabled: !!offer?.userId,
-  })
-
-  //--
   const { data: dataExecutedBarter, isLoading: isLoadingExecutedBarter } = useQuery({
     queryFn: () =>
       getBarters({
@@ -77,9 +70,6 @@ export const BalloonOffer = () => {
     )
     if (findInitiated) return "initiated-have"
   }, [isLoadingExecutedBarter, isLoadingInitiatedBarter, dataExecutedBarter?.res, dataInitiatedBarter?.res, offer])
-
-  const { res } = data ?? {}
-  const { profile } = res ?? {}
 
   function handle() {
     if (!userId) {
@@ -132,7 +122,7 @@ export const BalloonOffer = () => {
         </header>
         <ButtonClose position={{}} onClick={() => dispatchBallonOffer({ visible: false })} />
         <div data-container>
-          {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} offer={offer as unknown as IResponseOffers} />}
+          <ProfileComponent offer={offer as unknown as IResponseOffers} />
           <ItemDescriptions offer={offer as unknown as IResponseOffers} />
           {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
             <div data-inform-off-barter>

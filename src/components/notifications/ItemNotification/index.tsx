@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { type ReactNode, useMemo, useState } from "react"
@@ -485,7 +484,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       <section>
         <article>
           {text}
-          <time dateTime={created}>{daysAgo(dayjs(created).format()!)} назад</time>
+          <time dateTime={created}>{daysAgo(created!)}</time>
           <ButtonsDots
             id={id}
             refetch={refetch}

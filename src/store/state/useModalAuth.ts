@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
@@ -12,6 +11,7 @@ import type {
   IActionAuthModalVerification,
 } from "../types/useVisibleAndTypeAuthModalState"
 import { IUserResponse } from "@/services/users/types"
+import { dayFormat } from "@/helpers"
 
 export const useModalAuth = create(
   persist<IUseVisibleAndTypeAuthModalState>(
@@ -76,7 +76,7 @@ export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionA
 
 export const dispatchStartTimer = () =>
   useTimerModalAuth.setState((_) => ({
-    time: dayjs().format(),
+    time: dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!,
   }))
 
 export const dispatchIntervalTimer = () => useTimerModalAuth.setState((_) => ({}))

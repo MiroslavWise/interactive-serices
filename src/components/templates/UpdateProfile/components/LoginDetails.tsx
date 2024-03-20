@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { useQuery } from "@tanstack/react-query"
 
 import { getUserId } from "@/services"

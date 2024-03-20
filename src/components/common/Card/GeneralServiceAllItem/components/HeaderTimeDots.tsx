@@ -1,6 +1,5 @@
 "use client"
 
-import dayjs from "dayjs"
 import { DispatchWithoutAction, ReactNode } from "react"
 
 import { IResponseOffers } from "@/services/offers/types"
@@ -98,11 +97,7 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
 
   return (
     <div data-time-dots>
-      <time dateTime={offer.created as string}>
-        {dayjs().format("DD:MM:YYYY") === dayjs(offer.created).format("DD:MM:YYYY")
-          ? `сегодня ${dayjs(offer.created).format("HH:mm")}`
-          : `${dayjs(offer.created).format("HH:mm, DD.MM.YYYY")}`}
-      </time>
+      <time dateTime={String(offer.created)}>{daysAgo(offer.created)}</time>
       <div data-dots-and-button>
         <button
           ref={ref}

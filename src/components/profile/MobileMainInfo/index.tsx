@@ -1,6 +1,5 @@
 "use client"
 
-import dayjs from "dayjs"
 import Link from "next/link"
 import Image from "next/image"
 import { useMemo } from "react"
@@ -9,9 +8,10 @@ import type { TMobileMainInfo } from "./types"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { AddFriend } from "../MainInfo/components/AddFriend"
-import { ImageStatic, NextImageMotion, GeoTagging } from "@/components/common"
+import { NextImageMotion, GeoTagging } from "@/components/common"
 
 import { useAuth } from "@/store"
+import { dayFormat } from "@/helpers"
 
 import styles from "./styles.module.scss"
 
@@ -39,7 +39,7 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
           </h4>
           {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
           <p data-start className={styles.date}>
-            На Sheira с {user?.created ? dayjs(user?.profile?.created).format("DD.MM.YYYY") : null}
+            На Sheira с {user?.created ? dayFormat(user?.profile?.created, "dd.MM.yyyy") : null}
           </p>
           {user?.profile?.about ? <p className={styles.about}>{user?.profile?.about}</p> : null}
         </div>
@@ -50,26 +50,6 @@ export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
           <Link data-circle-gradient href={Number(userId) === Number(user?.id) ? {} : { pathname: `/messages`, query: { user: user?.id } }}>
             <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
           </Link>
-          {/* <button
-                        data-circle-gradient
-                        onClick={() => {
-                            if (Number(userId) === Number(user?.id) || !userId) {
-                                return
-                            }
-                            if (userId) {
-                                // dispatchVisibleBarter({
-                                //     isVisible: true,
-                                //     dataProfile: {
-                                //         photo: user?.profile?.image?.attributes?.url,
-                                //         fullName: `${user?.profile?.firstName || ""} ${user?.profile?.lastName || ""}`,
-                                //         idUser: user?.profile?.userId!,
-                                //     },
-                                // })
-                            }
-                        }}
-                    >
-                        <img src="/svg/repeat-01.svg" alt="repeat::1" width={20} height={20} />
-                    </button> */}
         </div>
       ) : null}
     </li>

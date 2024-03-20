@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -10,6 +9,7 @@ import { useAuth } from "@/store"
 import { getProfileUserId, getUserId } from "@/services"
 
 import styles from "../styles/header.module.scss"
+import { dayFormat } from "@/helpers"
 
 export const HeaderBlock: THeaderBlock = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -62,7 +62,7 @@ export const HeaderBlock: THeaderBlock = () => {
         </h4>
         {addressMain ? <p>{addressMain}</p> : null}
         {data?.res?.created ? (
-          <time dateTime={`${data?.res?.created!}`}>На Sheira с {dayjs(data?.res?.created!).format("DD.MM.YYYY")}</time>
+          <time dateTime={`${data?.res?.created!}`}>На Sheira с {dayFormat(data?.res?.created!, "dd.MM.yyyy")}</time>
         ) : null}
       </section>
     </header>

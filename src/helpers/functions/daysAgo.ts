@@ -1,8 +1,6 @@
-import dayjs from "dayjs"
+import { ru } from "date-fns/locale"
+import { formatRelative, subDays, lightFormat, getTime } from "date-fns"
 
-export function daysAgo(date?: Date | string): string {
-    if (!date) {
-        return ""
-    }
-    return dayjs(date).fromNow(true)
-}
+export const daysAgo = (date?: Date | string) => (!!date ? formatRelative(subDays(date, 0), new Date(), { locale: ru }) : "")
+export const dayFormat = (date?: Date | string, format?: string) => (!!date ? lightFormat(date, format ?? "HH:mm dd.MM.yyyy") : null)
+export const getMillisecond = (date?: Date | string) => getTime(date!)

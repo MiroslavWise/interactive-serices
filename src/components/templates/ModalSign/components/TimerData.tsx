@@ -1,8 +1,8 @@
-import dayjs from "dayjs"
 import { memo, useEffect, useState } from "react"
 
 import { serviceAuth } from "@/services"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store"
+import { getMillisecond } from "@/helpers"
 
 const INITIAL_TIME = 120
 
@@ -19,7 +19,7 @@ export const TimerData = memo(function TimerData() {
   useEffect(() => {
     if (time) {
       const interval = setInterval(() => {
-        const seconds = INITIAL_TIME - Math.round(dayjs().valueOf() / 1000 - dayjs(time).valueOf() / 1000)
+        const seconds = INITIAL_TIME - Math.round(getMillisecond(new Date()) / 1000 - getMillisecond(time) / 1000)
         if (seconds > 0) {
           const minutes = Math.floor(seconds / 60)
           const second = Math.floor(seconds - minutes * 60)
