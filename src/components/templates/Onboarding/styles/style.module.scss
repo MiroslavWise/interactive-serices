@@ -117,19 +117,54 @@
                 transition-property: color;
               }
 
-              & > img {
+              & > svg {
                 height: 1.5rem;
                 width: 1.5rem;
+              }
+
+              & > [data-alert] {
+                height: 1.5rem;
+                width: 1.5rem;
+                border-radius: 0.75rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.28844rem 0.2885rem 0.2885rem 0.28844rem;
+                background-color: var(--text-error);
+
+                & > svg {
+                  width: 0.92306rem;
+                  height: 0.92306rem;
+                }
               }
             }
 
             &:hover {
-              background: var(--primary-500);
-              border: 1px solid var(--primary-500);
+              background: var(--element-accent-1);
+              border: 1px solid var(--element-accent-1);
+
+              & > p {
+                color: var(--text-button-60);
+              }
 
               & > [data-footer] {
                 & > b {
                   color: var(--text-button);
+                }
+
+                & > [data-alert] {
+                  background-color: var(--element-white);
+
+                  & > svg {
+                    path {
+                      fill: var(--text-error);
+                    }
+                  }
+                }
+
+                & > [data-offer-svg] > path,
+                & > [data-discussion-svg] > g > path {
+                  fill: var(--text-button);
                 }
               }
             }

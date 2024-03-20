@@ -11,6 +11,7 @@ import { ITEMS_START } from "./constants/items-start"
 import { dispatchOnboardingStart, useOnboarding } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
+import { mapIconCreateOffer } from "@/utils"
 
 export const Onboarding = () => {
   const step = useOnboarding(({ step }) => step)
@@ -42,7 +43,7 @@ export const Onboarding = () => {
                   {item?.footer ? (
                     <div data-footer>
                       <b>{item.footer.title}</b>
-                      <img src={item.footer.icon} alt="item-icon" width={24} height={24} />
+                      {mapIconCreateOffer.has(item.action!) ? mapIconCreateOffer.get(item.action!) : null}
                     </div>
                   ) : null}
                 </div>
