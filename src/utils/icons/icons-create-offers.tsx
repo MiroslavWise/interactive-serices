@@ -1,8 +1,8 @@
 import { EnumTypeProvider } from "@/types/enum"
 
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
-import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 export const mapIconCreateOffer = new Map([
   [

@@ -18,6 +18,7 @@
     }
 
     & > [data-container] {
+      gap: 1.5rem;
       & > article {
         width: 100%;
         height: fit-content;

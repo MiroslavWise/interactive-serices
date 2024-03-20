@@ -30,6 +30,7 @@
       align-items: center;
       gap: 0.625rem;
       padding: 1.25rem;
+      border-bottom: 1px solid var(--grey-stroke-light);
 
       & > h3 {
         color: var(--text-button);

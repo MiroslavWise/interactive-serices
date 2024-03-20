@@ -8,7 +8,7 @@ import { Button, ButtonClose, ImageCategory, LoadingProfile } from "@/components
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { ItemProfile } from "./components/ItemProfile"
-import { ItemProposal } from "./components/ItemProposal"
+import { ItemDescriptions } from "./components/ItemDescriptions"
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
@@ -17,6 +17,8 @@ import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, use
 
 import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
+import { IResponseOffers } from "@/services/offers/types"
+import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
 export const BalloonOffer = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -130,8 +132,8 @@ export const BalloonOffer = () => {
         </header>
         <ButtonClose position={{}} onClick={() => dispatchBallonOffer({ visible: false })} />
         <div data-container>
-          {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} />}
-          <ItemProposal />
+          {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} offer={offer as unknown as IResponseOffers} />}
+          <ItemDescriptions offer={offer as unknown as IResponseOffers} />
           {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
             <div data-inform-off-barter>
               <article>
@@ -145,6 +147,7 @@ export const BalloonOffer = () => {
               </article>
             </div>
           ) : null}
+          <GeoData offer={offer as unknown as IResponseOffers} />
           <div data-buttons>
             <Button
               type="button"

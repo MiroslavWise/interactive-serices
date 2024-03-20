@@ -3,6 +3,7 @@ import { useQueries } from "@tanstack/react-query"
 
 import { serviceLikes } from "@/services/likes"
 import { useAuth, useBalloonDiscussion } from "@/store/hooks"
+import IconLike from "@/components/icons/IconLike"
 
 export const ButtonLike = () => {
   const [loading, setLoading] = useState(false)
@@ -71,7 +72,7 @@ export const ButtonLike = () => {
         handle()
       }}
     >
-      <img src="/svg/thumbs-up.svg" alt="up" width={20} height={20} />
+      <IconLike is={myLike} />
       <span>{count}</span>
     </button>
   )
