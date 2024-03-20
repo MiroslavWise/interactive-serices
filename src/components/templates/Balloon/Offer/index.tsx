@@ -5,7 +5,7 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ButtonClose, ImageCategory, LoadingProfile } from "@/components/common"
 
-import { EnumStatusBarter } from "@/types/enum"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { ItemProfile } from "./components/ItemProfile"
 import { ItemProposal } from "./components/ItemProposal"
@@ -124,7 +124,7 @@ export const BalloonOffer = () => {
   return (
     <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
       <section data-section-modal>
-        <header>
+        <header data-color={EnumTypeProvider.offer}>
           <div data-category-img>{offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}</div>
           <h3>{categoryCurrent?.title}</h3>
         </header>

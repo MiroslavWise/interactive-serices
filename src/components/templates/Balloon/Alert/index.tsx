@@ -1,8 +1,10 @@
 "use client"
 
-import { ButtonClose } from "@/components/common"
+import { EnumTypeProvider } from "@/types/enum"
 
+import { ButtonClose } from "@/components/common"
 import { ItemImages } from "../Offer/components/ItemImages"
+import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
 import { BlockCommentaries } from "../Discussion/components/BlockCommentaries"
 
 import { cx } from "@/lib/cx"
@@ -26,9 +28,9 @@ export const BalloonAlert = () => {
     <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
       <section data-section-modal data-alert>
         <ButtonClose onClick={close} />
-        <header>
+        <header data-color={EnumTypeProvider.alert}>
           <div data-img>
-            <img src="/svg/SOS.svg" alt="SOS" width={24} height={24} />
+            <IconAlertBalloon />
           </div>
           <h3 style={{ color: "var(--text-primary)" }}>{content ? content : "SOS-cообщение"}</h3>
         </header>

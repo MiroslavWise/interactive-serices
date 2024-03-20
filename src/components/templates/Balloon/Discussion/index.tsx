@@ -1,7 +1,10 @@
 "use client"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { ItemImages } from "../Offer/components/ItemImages"
 import { BlockCommentaries } from "./components/BlockCommentaries"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
@@ -26,9 +29,9 @@ export const BalloonDiscussion = () => {
     <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
       <section data-section-modal>
         <ButtonClose position={{}} onClick={close} />
-        <header>
+        <header data-color={EnumTypeProvider.discussion}>
           <div data-img>
-            <img src="/svg/3d/3d-message.svg" alt="dis" width={24} height={24} />
+            <IconDiscussionBalloon />
           </div>
           <h3>Обсуждение</h3>
         </header>
