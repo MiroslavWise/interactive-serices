@@ -1,19 +1,23 @@
 import { EnumTypeProvider } from "@/types/enum"
 import type { INewCreateBadge } from "./types/types"
 
+import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
+import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
+
 export const NEW_CREATE_BADGES: INewCreateBadge[] = [
   {
-    imageSrc: "/svg/3d/3d-speaker.svg",
+    imageSrc: <IconOfferBalloon />,
     label: "Предложение",
     value: EnumTypeProvider.offer,
   },
   {
-    imageSrc: "/svg/3d/3d-sos.svg",
-    label: "SOS",
+    imageSrc: <IconAlertBalloon />,
+    label: "SOS-сообщение",
     value: EnumTypeProvider.alert,
   },
   {
-    imageSrc: "/svg/3d/3d-message.svg",
+    imageSrc: <IconDiscussionBalloon />,
     label: "Обсуждение",
     value: EnumTypeProvider.discussion,
   },

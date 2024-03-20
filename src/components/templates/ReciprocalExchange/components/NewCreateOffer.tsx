@@ -94,7 +94,7 @@ export const NewCreateOffer = memo(({}: IProps) => {
           <sup>{watch("description_new_offer")?.length || 0}/400</sup>
         </div>
       </fieldset>
-      <fieldset>
+      <fieldset data-address>
         <label>Ваш адрес</label>
         <div
           data-input-selector

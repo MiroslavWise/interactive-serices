@@ -29,14 +29,8 @@ export const NewServicesBanner: TNewServicesBanner = ({}) => {
 
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisibleNewServicesBanner}>
-      <section id="container-services-banner">
-        <ButtonClose
-          onClick={close}
-          position={{
-            right: 12,
-            top: 12,
-          }}
-        />
+      <section id="container-services-banner" data-section-modal>
+        <ButtonClose onClick={close} />
         <h3>Я хочу создать</h3>
         <ul>
           <NewCreateBadge {...NEW_CREATE_BADGES[0]} />

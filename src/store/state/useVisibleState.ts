@@ -17,6 +17,7 @@ export const useVisibleBannerNewServicesState = create<IUseVisibleBannerNewServi
 
 export const dispatchNewServicesBanner = (value: boolean) =>
   useVisibleBannerNewServicesState.setState((_) => ({
+    ..._,
     isVisibleNewServicesBanner: value,
   }))
 

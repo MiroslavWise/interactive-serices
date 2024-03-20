@@ -1,18 +1,14 @@
 .wrapper {
   & > section {
     & > header {
-      background-color: var(--element-accent-1);
-
       & > [data-category-img] {
         width: 1.5rem;
         height: 1.5rem;
-        background-color: var(--element-white);
-        border-radius: 0.75rem;
-        padding: 0.25rem;
+        border-radius: 0.25rem;
 
         & > img {
-          width: 1rem;
-          height: 1rem;
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
     }

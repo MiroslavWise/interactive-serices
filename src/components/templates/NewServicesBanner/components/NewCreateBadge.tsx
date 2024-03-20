@@ -1,13 +1,26 @@
 "use client"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TNewCreateBadge } from "../types/types"
 
-import { ImageStatic } from "@/components/common"
+import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
+import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { useVisibleBannerNewServices, useAddCreateModal, useOnboarding, dispatchOnboarding } from "@/store"
 
 import styles from "./styles/styles.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
+
+const map = new Map([
+  [
+    EnumTypeProvider.alert,
+    <div data-alert key={`::item::key::alert::svg::`}>
+      <IconAlertBalloon />
+    </div>,
+  ],
+  [EnumTypeProvider.offer, <IconOfferBalloon key={`::item::key::offer::svg::`} />],
+  [EnumTypeProvider.discussion, <IconDiscussionBalloon key={`::item::key::discussion::svg::`} />],
+])
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
   const type = useOnboarding(({ type }) => type)
@@ -38,7 +51,7 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
       id={`li-${value}-create`}
       data-not={visible && type !== value}
     >
-      <ImageStatic src={imageSrc} alt={imageSrc} width={36} height={36} />
+      {map.has(value) ? map.get(value) : null}
       <p>{label}</p>
     </li>
   )
