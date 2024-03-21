@@ -5,13 +5,13 @@ import { IResponseOffers } from "@/services/offers/types"
 
 import { ItemImages } from "../Offer/components/ItemImages"
 import { ProfileComponent } from "../components/ProfileComponent"
-import { BlockCommentaries } from "./components/BlockCommentaries"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
 import { cx } from "@/lib/cx"
-import { BlockAction } from "./components/BlockAction"
 import { ButtonClose } from "@/components/common"
+import { BlockAction } from "./components/BlockAction"
+import { BlockComments } from "../components/BlockComments"
 import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
@@ -46,7 +46,7 @@ export const BalloonDiscussion = () => {
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />
           <BlockAction offer={offer as unknown as IResponseOffers} />
-          <BlockCommentaries close={close} id={id!} idUser={idUser!} />
+          <BlockComments offer={offer as unknown as IResponseOffers} close={close} />
         </div>
       </section>
     </div>
