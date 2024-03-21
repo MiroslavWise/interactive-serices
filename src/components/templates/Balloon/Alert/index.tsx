@@ -5,9 +5,9 @@ import { IResponseOffers } from "@/services/offers/types"
 
 import { ButtonClose } from "@/components/common"
 import { ItemImages } from "../Offer/components/ItemImages"
+import { BlockComments } from "../components/BlockComments"
 import { ProfileComponent } from "../components/ProfileComponent"
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
-import { BlockCommentaries } from "../Discussion/components/BlockCommentaries"
 import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
 import { cx } from "@/lib/cx"
@@ -42,7 +42,7 @@ export const BalloonAlert = () => {
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />
-          <BlockCommentaries isAlert close={close} idUser={idUser!} id={id!} />
+          <BlockComments close={close} offer={offer as unknown as IResponseOffers} />
         </div>
       </section>
     </div>

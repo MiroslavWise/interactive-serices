@@ -1,25 +1,18 @@
-import { Dispatch, memo, SetStateAction, useState } from "react"
 import { useForm } from "react-hook-form"
-import { useQuery } from "@tanstack/react-query"
+import { Dispatch, memo, SetStateAction, useState } from "react"
 
 import { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
 
-import { NextImageMotion } from "@/components/common"
-
 import { useAuth } from "@/store"
-import { serviceComments, serviceProfile } from "@/services"
+import { serviceComments } from "@/services"
+
+import styles from "../styles/form-append-comment.module.scss"
 
 export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCurrentComments }: IProps) => {
   const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
 
   const { register, watch, setValue, handleSubmit } = useForm<IValues>({})
-
-  const { data: dataMyProfile } = useQuery({
-    queryFn: () => serviceProfile.getUserId(userId!),
-    queryKey: ["profile", userId!],
-    enabled: !!userId,
-  })
 
   function submit(values: IValues) {
     if (!loading) {
@@ -61,10 +54,7 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
   const onSubmit = handleSubmit(submit)
 
   return (
-    <form onSubmit={onSubmit}>
-      <div data-img-avatar>
-        <NextImageMotion src={dataMyProfile?.res?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
-      </div>
+    <form onSubmit={onSubmit} className={styles.container}>
       <input
         {...register("text", { required: true, minLength: 3, maxLength: 240 })}
         type="text"
