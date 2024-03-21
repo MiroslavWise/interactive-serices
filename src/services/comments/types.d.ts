@@ -32,6 +32,7 @@ interface IQueries {
   barter?: number
   offer?: number
   target?: number
+  limit?: number
 }
 
 export interface ICommentsService {

@@ -11,7 +11,7 @@ import { ItemsReviews } from "../StatisticAndFeedback/components/ItemsReviews"
 import { ContainerServices } from "../StatisticAndFeedback/components/ContainerServices"
 
 import { cx } from "@/lib/cx"
-import { dispatchComplaintModal } from "@/store"
+import { dispatchComplaintModalUser } from "@/store"
 import { ITEMS_INTERACTIVE } from "../StatisticAndFeedback/components/constants"
 
 import styles from "./style.module.scss"
@@ -37,7 +37,7 @@ export const MobileInteractive = ({ user }: { user: IUserResponse }) => {
 
     function handle() {
         if (user) {
-            dispatchComplaintModal({
+            dispatchComplaintModalUser({
                 visible: true,
                 user: user,
             })
