@@ -17,7 +17,6 @@ export function ProfileComponent({ offer }: IProps) {
     enabled: !!offer?.userId,
   })
   const { res } = data ?? {}
-  const { profile } = res ?? {}
 
-  return isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} offer={offer as unknown as IResponseOffers} />
+  return isLoadUser ? <LoadingProfile /> : <ItemProfile user={res!} offer={offer as unknown as IResponseOffers} />
 }

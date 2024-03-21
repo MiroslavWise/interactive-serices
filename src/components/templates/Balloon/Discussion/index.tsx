@@ -4,20 +4,18 @@ import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
 import { ItemImages } from "../Offer/components/ItemImages"
+import { ProfileComponent } from "../components/ProfileComponent"
 import { BlockCommentaries } from "./components/BlockCommentaries"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
+import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
 import { cx } from "@/lib/cx"
-import { daysAgo } from "@/helpers"
-import { getUserId } from "@/services"
 import { BlockAction } from "./components/BlockAction"
-import { ButtonClose, LoadingProfile } from "@/components/common"
+import { ButtonClose } from "@/components/common"
 import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store/hooks"
 
 import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
-import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
-import { ProfileComponent } from "../components/ProfileComponent"
 
 export const BalloonDiscussion = () => {
   const offer = useBalloonDiscussion(({ offer }) => offer)

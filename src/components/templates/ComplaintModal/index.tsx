@@ -13,7 +13,7 @@ import { cx } from "@/lib/cx"
 import { serviceComplains } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import { dispatchComplaintModal, useAuth, useComplaintModal } from "@/store"
+import { dispatchComplaintModalUser, useAuth, useComplaintModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -37,7 +37,7 @@ export const ComplaintModal = () => {
   })
 
   function handleClose() {
-    dispatchComplaintModal({ visible: false, user: undefined })
+    dispatchComplaintModalUser({ visible: false, user: undefined })
   }
 
   function submit(values: IValuesForm) {
