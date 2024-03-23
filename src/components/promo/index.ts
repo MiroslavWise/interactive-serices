@@ -1,7 +1,0 @@
-export * from "./components/One"
-export * from "./components/Two"
-export * from "./components/Four"
-export * from "./components/Three"
-export * from "./components/Five"
-export * from "./components/Six"
-export * from "./components/Seven"
