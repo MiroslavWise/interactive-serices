@@ -1,3 +1,19 @@
+@mixin gradient {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 2075px;
+  height: 1767px;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgb(250, 114, 107) 1.388%,
+    rgba(233, 111, 122, 0.88) 15.254%,
+    rgba(214, 108, 138, 0.75) 27.809%,
+    rgba(194, 104, 155, 0.61) 39.862%,
+    rgba(106, 89, 230, 0) 91%
+  );
+}
+
 .landing-page {
   position: fixed;
   z-index: 10000;
@@ -16,11 +32,55 @@
   & > article {
     width: 100%;
     position: relative;
-    z-index: 2;
+    z-index: 3;
+
+    & > [data-text] {
+      position: absolute;
+      background-color: rgb(248, 245, 254);
+      border-radius: 0.94rem;
+      width: 100%;
+      padding: 1.875rem 2.75rem 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 20;
+      box-shadow: 3px 4px 25px 0px rgba(83, 69, 175, 0.16);
+
+      & > p {
+        color: rgb(43, 35, 89);
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.625rem;
+        text-align: left;
+
+        & > span {
+          font-weight: 700;
+        }
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 2rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0.125rem;
+        z-index: 1;
+        background-color: #fff;
+        transform: rotate(45deg);
+      }
+    }
 
     &[data-one] {
       aspect-ratio: 2048/1384;
       height: auto;
+
+      &::before {
+        @include gradient;
+        left: -598px;
+        right: -197px;
+        top: -884px;
+      }
 
       & > svg {
         width: 100%;
@@ -181,6 +241,7 @@
     &[data-three] {
       aspect-ratio: 2048/1360;
       height: auto;
+      z-index: 8;
 
       & > svg {
         width: 100%;
@@ -190,47 +251,230 @@
       }
 
       & > [data-text] {
-        position: absolute;
         right: 50%;
-        background-color: #fff;
-        border-radius: 0.94rem;
         max-width: 30.25rem;
-        width: 100%;
-        padding: 1.875rem 2.75rem 2rem 2.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
         top: 55%;
         transform: translateY(-50%);
-        z-index: 20;
-
-        & > p {
-          color: rgb(43, 35, 89);
-          font-size: 1.25rem;
-          font-weight: 500;
-          line-height: 1.625rem;
-          text-align: left;
-        }
 
         &::after {
-          content: "";
-          position: absolute;
-          top: 2rem;
-          width: 1rem;
-          height: 1rem;
-          border-radius: 0.125rem;
           right: -0.475rem;
-          z-index: 1;
-          background-color: #fff;
-          transform: rotate(45deg);
+        }
+      }
+    }
+
+    &[data-pre-four] {
+      padding-top: 9.375rem;
+      height: auto;
+
+      &::before {
+        @include gradient;
+        right: -25%;
+        top: 8rem;
+        transform: translate(-10%, -50%) scale(1.2);
+      }
+
+      & > [data-text] {
+        left: 56%;
+        top: 35%;
+        max-width: 30.25rem;
+
+        &::after {
+          left: -0.475rem;
+        }
+      }
+
+      & > svg {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2048/934;
+      }
+    }
+
+    &[data-four] {
+      padding-top: 9.375rem;
+      height: auto;
+
+      & > [data-text] {
+        right: 55.7%;
+        max-width: 30.25rem;
+        top: 21.6%;
+
+        &::after {
+          right: -0.475rem;
+        }
+      }
+
+      & > svg {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2048/1079;
+      }
+    }
+
+    &[data-five] {
+      padding-top: 9.375rem;
+      height: auto;
+      z-index: 8;
+
+      & > [data-text] {
+        left: 55.7%;
+        top: calc(41.4% + 10rem);
+        transform: translateY(-50%);
+        max-width: 30.25rem;
+
+        &::after {
+          left: -0.475rem;
+        }
+      }
+
+      & > svg {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2048/1020;
+      }
+    }
+
+    &[data-six] {
+      padding-top: 9.375rem;
+
+      &::before {
+        @include gradient;
+        right: -40%;
+        top: 25rem;
+        transform: translate(-10%, -50%) scale(0.8);
+      }
+
+      & > [data-text] {
+        right: 55.7%;
+        max-width: 25.75rem;
+        top: calc(36.5% + 10rem);
+        transform: translateY(-50%);
+
+        &::after {
+          right: -0.475rem;
+        }
+      }
+
+      & > svg {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2048/973;
+      }
+    }
+
+    &[data-suffix-description] {
+      padding-block: 12.3125rem 0.5rem;
+      padding-inline: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 8;
+
+      & > section {
+        width: 100%;
+        max-width: 39.0625rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        & > p {
+          color: #fff;
+          font-size: 1.475rem;
+          font-weight: 400;
+          line-height: 1.875rem;
+          text-align: left;
+        }
+      }
+    }
+
+    &[data-last-city] {
+      padding-bottom: 16.5625rem;
+
+      & > svg {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2048/1487;
+      }
+
+      & > a {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 10.5625rem;
+        padding: 0.625rem 1.25rem;
+        height: 3.25rem;
+        width: 17.5rem;
+        border-radius: 1.625rem;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & > span {
+          color: rgb(58, 50, 117);
+          font-size: 1.125rem;
+          font-weight: 500;
+          line-height: 1.75rem;
+          text-align: center;
         }
       }
     }
   }
 
-  & > section {
+  & > footer {
+    position: relative;
     width: 100%;
-    height: 100vh;
-    background-color: red;
+    background-color: #3a3275;
+    padding-block: 3.3125rem 3.75rem;
+    padding-inline: 5rem;
+
+    display: grid;
+    grid-template-columns: 47.734375% 1fr;
+    gap: 3.375rem;
+
+    & > section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      & > h4 {
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 21px;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      & > article {
+        display: flex;
+        flex-direction: column;
+        gap: 0.0625rem;
+
+        & > p {
+          color: #b3a9ef;
+          font-size: 1rem;
+          font-weight: 500;
+          line-height: 1.275rem;
+          text-align: left;
+
+          & > span {
+            color: #fff;
+          }
+        }
+      }
+
+      & > [data-market] {
+        display: flex;
+        flex-direction: row;
+        gap: 1.75rem;
+
+        & > svg {
+          height: 2.5rem;
+          width: auto;
+        }
+      }
+    }
   }
 }
