@@ -1,20 +1,35 @@
 import Link from "next/link"
+import dynamic from "next/dynamic"
 
 import BackgroundSvgOne from "./svg/1"
-import BackgroundSvgThree from "./svg/3"
-import BackgroundSvgPreFour from "./svg/pre-4"
-import BackgroundSvgFour from "./svg/4"
-import BackgroundSvgFive from "./svg/5"
-import BackgroundSvgSix from "./svg/6"
-import BackgroundSvgLastCity from "./svg/last-city"
+import BackgroundSvgOneMobile from "./svg/1-mobile"
 
 import MainLogo from "./svg/logo"
 import IconApple from "./svg/apple"
 import IconGoogle from "./svg/google"
 import IconVK from "./svg/vk"
 import IconStar from "./svg/star"
-import IconApplePlay from "./svg/apple-play"
-import IconGooglePlay from "./svg/google-play"
+
+const BackgroundSvgThree = dynamic(() => import("./svg/3"), { ssr: true })
+const BackgroundSvgThreeMobile = dynamic(() => import("./svg/3-mobile"), { ssr: true })
+
+const BackgroundSvgPreFour = dynamic(() => import("./svg/pre-4"), { ssr: true })
+const BackgroundSvgPreFourMobile = dynamic(() => import("./svg/pre-4-mobile"), { ssr: true })
+
+const BackgroundSvgFour = dynamic(() => import("./svg/4"), { ssr: true })
+const BackgroundSvgFourMobile = dynamic(() => import("./svg/4-mobile"), { ssr: true })
+
+const BackgroundSvgFive = dynamic(() => import("./svg/5"), { ssr: true })
+const BackgroundSvgFiveMobile = dynamic(() => import("./svg/5-mobile"), { ssr: true })
+
+const BackgroundSvgSix = dynamic(() => import("./svg/6"), { ssr: true })
+const BackgroundSvgSixMobile = dynamic(() => import("./svg/6-mobile"), { ssr: true })
+
+const BackgroundSvgLastCity = dynamic(() => import("./svg/last-city"), { ssr: true })
+const BackgroundSvgLastCityMobile = dynamic(() => import("./svg/last-city-mobile"), { ssr: true })
+
+const IconApplePlay = dynamic(() => import("./svg/apple-play"), { ssr: true })
+const IconGooglePlay = dynamic(() => import("./svg/google-play"), { ssr: true })
 
 import "./style.scss"
 
@@ -46,6 +61,7 @@ export default function PageLanding() {
           </div>
         </section>
         <BackgroundSvgOne />
+        <BackgroundSvgOneMobile />
       </article>
       <article data-two>
         <section>
@@ -72,6 +88,7 @@ export default function PageLanding() {
           </p>
         </div>
         <BackgroundSvgThree />
+        <BackgroundSvgThreeMobile />
       </article>
       <article data-pre-four>
         <div data-text>
@@ -84,6 +101,7 @@ export default function PageLanding() {
           </p>
         </div>
         <BackgroundSvgPreFour />
+        <BackgroundSvgPreFourMobile />
       </article>
       <article data-four>
         <div data-text>
@@ -93,6 +111,7 @@ export default function PageLanding() {
           </p>
         </div>
         <BackgroundSvgFour />
+        <BackgroundSvgFourMobile />
       </article>
       <article data-five>
         <div data-text>
@@ -108,6 +127,7 @@ export default function PageLanding() {
           </p>
         </div>
         <BackgroundSvgFive />
+        <BackgroundSvgFiveMobile />
       </article>
       <article data-six>
         <div data-text>
@@ -118,6 +138,7 @@ export default function PageLanding() {
           <p>В Шейре можно меняться услугами — и в обмен на выгул пса Настя готовится испечь Евгению чудесный пирог.</p>
         </div>
         <BackgroundSvgSix />
+        <BackgroundSvgSixMobile />
       </article>
       <article data-suffix-description>
         <section>
@@ -132,6 +153,7 @@ export default function PageLanding() {
       </article>
       <article data-last-city>
         <BackgroundSvgLastCity />
+        <BackgroundSvgLastCityMobile />
         <Link href="https://sheira.ru/" target="_blank">
           <span>Перейти в Sheira</span>
         </Link>
