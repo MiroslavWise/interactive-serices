@@ -1,5 +1,5 @@
 export default () => (
-  <svg width="1280" height="929" viewBox="0 0 1280 929" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="1280" height="929" viewBox="0 0 1280 929" fill="none" xmlns="http://www.w3.org/2000/svg" data-svg-last-city>
     <rect width="1280" height="929" fill="url(#paoepw-302)" />
     <defs>
       <pattern id="paoepw-302" patternContentUnits="objectBoundingBox" width="1" height="1">
