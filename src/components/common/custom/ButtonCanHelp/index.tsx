@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
 
 import type { IProps } from "./types"
 
@@ -38,7 +37,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
         handle()
       }}
     >
-      <motion.div data-is-motion data-open={visible} layout>
+      <div data-is-motion data-open={visible}>
         {visible ? (
           <div data-enter>
             <ButtonClose
@@ -84,7 +83,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
             <span>Могу помочь</span>
           </button>
         )}
-      </motion.div>
+      </div>
     </div>
   )
 }

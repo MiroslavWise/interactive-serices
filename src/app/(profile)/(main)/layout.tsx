@@ -1,6 +1,6 @@
 import { type ReactNode } from "react"
 
-import { DeleteOffer, DeleteUser } from "@/components/templates"
+import { DeleteOffer } from "@/components/templates"
 
 import styles from "@/scss/page.module.scss"
 

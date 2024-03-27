@@ -8,7 +8,6 @@ import { getUserId, serviceAuth } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
-// million-ignore
 export default function CallbackTelegram() {
   const { on } = useToast()
   const { handlePush } = usePush()

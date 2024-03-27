@@ -92,7 +92,7 @@
   }
 }
 
-[data-mobile="true"] {
+@media screen and (max-width: 760px) {
   [data-section-modal] {
     & > [data-close] {
       top: 0rem !important;

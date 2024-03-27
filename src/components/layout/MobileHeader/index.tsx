@@ -3,7 +3,7 @@ import { NotificationBell } from "./components/NotificationBell"
 
 import styles from "./styles/styles.module.scss"
 
-export const MobileHeader = () => {
+export default function MobileHeader() {
   return (
     <header className={styles.header}>
       <Logo />

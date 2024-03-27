@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect } from "react"
-import { flushSync } from "react-dom"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
@@ -9,7 +8,6 @@ import { RegistrationService } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
-// million-ignore
 export default function PageVerify() {
   const verifyToken = useSearchParams()?.get("token")
   const { on } = useToast()
@@ -28,7 +26,7 @@ export default function PageVerify() {
               email: "",
             })
           }
-          flushSync(() => {
+          requestAnimationFrame(() => {
             dispatchOnboarding("open")
             handlePush("/")
           })

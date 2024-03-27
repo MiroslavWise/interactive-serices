@@ -58,13 +58,13 @@
   }
 }
 
-[data-mobile="true"] {
+@media screen and (max-width: 760px) {
   .wrapper {
     padding: 0.75rem;
 
     & > section {
       & > ul {
-        padding-bottom: calc(4.25rem + 1rem);
+        padding-bottom: calc(var(--height-mobile-footer-nav) + 1rem);
       }
     }
   }
