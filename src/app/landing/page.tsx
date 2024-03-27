@@ -28,8 +28,8 @@ const BackgroundSvgSixMobile = dynamic(() => import("./svg/6-mobile"), { ssr: tr
 const BackgroundSvgLastCity = dynamic(() => import("./svg/last-city"), { ssr: true })
 const BackgroundSvgLastCityMobile = dynamic(() => import("./svg/last-city-mobile"), { ssr: true })
 
-// const IconApplePlay = dynamic(() => import("./svg/apple-play"), { ssr: true })
-// const IconGooglePlay = dynamic(() => import("./svg/google-play"), { ssr: true })
+const IconApplePlay = dynamic(() => import("./svg/apple-play"), { ssr: true })
+const IconGooglePlay = dynamic(() => import("./svg/google-play"), { ssr: true })
 
 import "./style.scss"
 

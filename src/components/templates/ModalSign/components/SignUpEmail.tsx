@@ -112,6 +112,7 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
         label="Зарегистрироваться"
         loading={loading}
         disabled={!watch("checkbox") || !watch("email") || !watch("checkbox_personal_data")}
+        data-button-submit-register-email
       />
       {children}
     </form>
