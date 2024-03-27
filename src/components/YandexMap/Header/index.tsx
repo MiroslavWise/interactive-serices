@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
@@ -10,7 +9,7 @@ import type { THeaderMobile } from "./types"
 import { SearchElementMap } from "@/components/common"
 
 import { serviceNotifications } from "@/services"
-import { dispatchVisibleNotifications, useAuth } from "@/store"
+import { useAuth } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -66,18 +65,14 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
     //     </div>
     //   </div>
     // </motion.div>
-    <motion.div
+    <div
       id="headerRef"
       className={styles.containerSearchTop}
-      initial={{ top: `-6.25rem` }}
-      animate={{ top: `6.3125rem` }}
-      transition={{ duration: 0.5 }}
-      exit={{ top: `-6.25rem` }}
       style={{
         top: `6.3125rem`,
       }}
     >
       <SearchElementMap handleAddressLocation={handleAddressLocation} />
-    </motion.div>
+    </div>
   )
 }

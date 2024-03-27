@@ -358,11 +358,6 @@
   }
 }
 
-[data-theme="dark"] {
-  .wrapper {
-  }
-}
-
 [data-theme="light"] {
   .wrapper {
     [data-expand] {
@@ -375,7 +370,7 @@
   }
 }
 
-[data-mobile="true"] {
+@media screen and (max-width: 760px) {
   .wrapper {
     padding: 0;
     & > section {
@@ -392,9 +387,6 @@
 
       & > ul {
         height: calc(100% - 4.125rem);
-
-        & > form {
-        }
       }
     }
   }

@@ -33,7 +33,6 @@ async function fetchVK({ access_token, user_id }: { access_token: string; user_i
   }
 }
 
-// million-ignore
 export default function CallbackVK() {
   const { on } = useToast()
   const { handlePush } = usePush()

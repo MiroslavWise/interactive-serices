@@ -112,7 +112,7 @@
 
   & > section {
     width: 100%;
-    height: calc(100% - var(--height-mobile-header) - 4.25rem);
+    height: calc(100% - var(--height-mobile-header) - var(--height-mobile-footer-nav));
     padding-block: calc(1.25rem + 3rem + 0.25rem) 0.625rem;
     padding-inline: 1.25rem;
 

@@ -1,7 +1,5 @@
 "use client"
 
-import { flushSync } from "react-dom"
-import { motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 import { type DispatchWithoutAction, memo } from "react"
 
@@ -43,7 +41,7 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
   function handleDeleteChat() {
     patchThread({ enabled: false }, Number(idThread)).then((response) => {
       refetchCountMessages().finally(() => {
-        flushSync(() => {
+        requestAnimationFrame(() => {
           handleReplace("/messages")
         })
       })
@@ -68,11 +66,9 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
       >
         <img src="/svg/x-close.svg" alt="close" width={24} height={24} />
       </div>
-      <motion.ul
-        layout
+      <ul
         data-is-open={isVisible}
         className={cx(styles.menu)}
-        initial={{ borderRadius: 12 }}
         onClick={(event) => {
           event.stopPropagation()
         }}
@@ -83,7 +79,7 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
             <p>{item.label}</p>
           </li>
         ))}
-      </motion.ul>
+      </ul>
     </div>
   )
 })

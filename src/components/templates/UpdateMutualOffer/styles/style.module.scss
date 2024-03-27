@@ -191,7 +191,7 @@
   }
 }
 
-[data-mobile="true"] {
+@media screen and (max-width: 760px) {
   .wrapper {
     padding: 0;
     & > section {

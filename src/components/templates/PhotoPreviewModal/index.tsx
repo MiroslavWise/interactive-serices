@@ -201,7 +201,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                   suffixIcon={<img src="/svg/repeat-black.svg" alt="/repeat-black" width={24} height={24} />}
                 />
               ) : null}
-              {[EnumTypeProvider.alert]?.includes(offer?.provider!) ? <ButtonCanHelp id={offer?.id!} idUser={offer?.userId!} /> : null}
+              {/* {[EnumTypeProvider.alert]?.includes(offer?.provider!) ? <ButtonCanHelp id={offer?.id!} idUser={offer?.userId!} /> : null} */}
             </footer>
           </section>
         </>

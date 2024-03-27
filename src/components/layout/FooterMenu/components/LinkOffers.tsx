@@ -43,7 +43,7 @@ export const LinkOffers = memo(function LinkOffers() {
       }}
     >
       <div className={styles.itemsIconLabel}>
-        {MENU_ICONS.offers}
+        <article>{MENU_ICONS.offers}</article>
         <p>Обмен</p>
       </div>
       {data?.res?.length ? (

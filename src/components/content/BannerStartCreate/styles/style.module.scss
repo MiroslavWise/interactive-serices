@@ -1,23 +1,23 @@
 .container {
-    position: fixed;
-    background: var(--primary-500);
-    overflow: hidden;
-    height: 3rem;
-    width: 3rem;
-    border-radius: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    bottom: calc(4.25rem + 1rem);
-    left: 1.25rem;
+  position: fixed;
+  background: var(--primary-500);
+  overflow: hidden;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  bottom: calc(var(--height-mobile-footer-nav) + 1rem);
+  left: 1.25rem;
 
-    & > h3 {
-        color: #fff;
-        font-size: 1.25rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 1.75rem;
-        letter-spacing: -0.1px;
-    }
+  & > h3 {
+    color: #fff;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75rem;
+    letter-spacing: -0.1px;
+  }
 }
