@@ -80,7 +80,8 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
         </div>
       </section>
       {itemForgot}
-      <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} />
+
+      <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} data-button-submit-sign-in-phone />
       {children}
     </form>
   )

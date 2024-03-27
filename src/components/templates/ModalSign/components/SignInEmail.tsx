@@ -169,7 +169,7 @@ export const SignInEmail = memo(function SignInEmail({
         />
       </section>
       {itemForgot}
-      <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} />
+      <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} data-button-submit-sign-in-email />
       {children}
     </form>
   )

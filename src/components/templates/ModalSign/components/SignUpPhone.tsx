@@ -138,6 +138,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         label="Зарегистрироваться"
         loading={loading}
         disabled={!watch("checkbox") || !watch("phone") || !watch("checkbox_personal_data")}
+        data-button-submit-register-phone
       />
       {children}
     </form>
