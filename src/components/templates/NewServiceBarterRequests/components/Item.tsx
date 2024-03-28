@@ -1,13 +1,12 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { EnumTypeProvider } from "@/types/enum"
 import type { INewCreate, TNewCreate } from "../types/types"
 
 import { ImageStatic } from "@/components/common/Image"
 
-import { useVisibleNewServiceBarterRequests, useAddCreateModal } from "@/store/hooks"
+import { useResize } from "@/helpers"
+import { useVisibleNewServiceBarterRequests, useAddCreateModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -20,6 +19,8 @@ export const Item: TNewCreate = (props: INewCreate) => {
     ({ dispatchNewServiceBarterRequests }) => dispatchNewServiceBarterRequests,
   )
 
+  const { isTablet } = useResize()
+
   function handleType() {
     if (!value) {
       dispatchNewServiceBarterRequests(false)
@@ -29,7 +30,7 @@ export const Item: TNewCreate = (props: INewCreate) => {
     }
   }
   return (
-    <li className={styles.containerLi} onClick={handleType} data-mobile={isMobile}>
+    <li className={styles.containerLi} onClick={handleType} data-mobile={isTablet}>
       <ImageStatic src={imageSrc} width={36} height={36} alt={imageSrc} />
       <p>{label}</p>
     </li>

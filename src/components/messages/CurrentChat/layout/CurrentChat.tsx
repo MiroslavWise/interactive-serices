@@ -1,8 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { flushSync } from "react-dom"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
@@ -15,13 +13,14 @@ import { TextAreaSend } from "../components/TextAreaSend"
 import { NextImageMotion, LoadingInput } from "@/components/common"
 
 import { useWebSocket } from "@/context"
-import { useCountMessagesNotReading, usePush } from "@/helpers"
+import { useCountMessagesNotReading, usePush, useResize } from "@/helpers"
 import { getMessages, getThreadId, getUserId, postReadMessage } from "@/services"
 import { useAuth, usePopupMenuChat, useUserIdMessage, dispatchDataUser } from "@/store"
 
 import styles from "../styles/style.module.scss"
 
 export const CurrentChat = () => {
+  const { isTablet } = useResize()
   const idThread = useSearchParams()?.get("thread")
   const userId = useAuth(({ userId }) => userId)
   const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
@@ -101,7 +100,7 @@ export const CurrentChat = () => {
 
   useEffect(
     () => () => {
-      if (isMobile) {
+      if (isTablet) {
         setIsVisible(false)
       }
     },
@@ -146,14 +145,14 @@ export const CurrentChat = () => {
       const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
 
       Promise.all(notReading.map((item) => postReadMessage(item))).then((responses) => {
-        flushSync(() => {
+        requestAnimationFrame(() => {
           refetchCountMessages()
         })
       })
     }
   }, [userId, dataMessages?.res])
 
-  if (isMobile)
+  if (isTablet)
     return (
       <div className={styles.wrapper}>
         <header>

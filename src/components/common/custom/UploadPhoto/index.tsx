@@ -2,11 +2,10 @@
 
 import Image from "next/image"
 import { type ChangeEvent } from "react"
-import { isMobile } from "react-device-detect"
 
 import type { TUploadPhoto } from "./types"
 
-import { ImageStatic } from "@/components/common/Image"
+import { ImageStatic } from "@/components/common"
 
 import styles from "./style.module.scss"
 
@@ -33,7 +32,7 @@ export const UploadPhoto: TUploadPhoto = ({ index, selected, setFiles, setSelect
   }
 
   return (
-    <div className={styles.container} data-upload data-mobile={isMobile}>
+    <div className={styles.container} data-upload>
       {selected ? (
         <ImageStatic src={selected} height={900} width={300} alt="offer" className={styles.photo} onClick={() => deletePhoto(index)} />
       ) : (

@@ -1,12 +1,12 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { type ReactNode, useEffect } from "react"
 
 import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
+import { useResize } from "@/helpers"
 
 export default function Providers({ children }: { children: ReactNode }) {
   const refresh = useAuth(({ refresh }) => refresh)
@@ -16,6 +16,8 @@ export default function Providers({ children }: { children: ReactNode }) {
   const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
   const isUse = useCookies(({ isUse }) => isUse)
   const visibleCookies = useCookies(({ visible }) => visible)
+
+  const { isMobile, isTablet } = useResize()
 
   useEffect(() => {
     if (!isUse && !visibleCookies && typeof isUse !== "undefined") {
@@ -28,10 +30,14 @@ export default function Providers({ children }: { children: ReactNode }) {
     let vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty("--vh", `${vh}px`)
     document.documentElement.style.height = window.innerHeight.toString() + "px"
-    if (typeof isMobile !== "undefined") {
-      document.documentElement.dataset.mobile = `${isMobile}`
-    }
   }, [])
+
+  useEffect(() => {
+    document.documentElement.dataset.mobile = `${isMobile}`
+  }, [isMobile])
+  useEffect(() => {
+    document.documentElement.dataset.tablet = `${isTablet}`
+  }, [isTablet])
 
   useEffect(() => {
     if (offersCategories === false) {

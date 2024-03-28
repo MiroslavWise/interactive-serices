@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { useQueries } from "@tanstack/react-query"
 import { memo, useEffect, useMemo, useState } from "react"
 
@@ -12,11 +11,12 @@ import { SearchBlock } from "./components/SearchBlock"
 import { useAuth } from "@/store"
 import { getUserId } from "@/services"
 import { useWebSocket } from "@/context"
-import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
+import { getMillisecond, useCountMessagesNotReading, useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
 export const ListChat = memo(function ListChat() {
+  const { isTablet } = useResize()
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState("")
   const { socket } = useWebSocket() ?? {}
@@ -100,8 +100,8 @@ export const ListChat = memo(function ListChat() {
   }, [socket, userId])
 
   return (
-    <section className={isMobile ? styles.containerMobile : styles.container}>
-      {!isMobile && typeof isMobile !== "undefined" ? (
+    <section className={isTablet ? styles.containerMobile : styles.container}>
+      {!isTablet ? (
         <>
           <header>
             <div data-total-number>

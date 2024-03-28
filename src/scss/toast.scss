@@ -101,7 +101,7 @@
       }
     }
 
-    &[data-mobile="true"] {
+    &[data-tablet="true"] {
       flex-direction: column;
       gap: 0.5rem;
       & > [data-content] {
@@ -229,7 +229,7 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .Toastify {
     .Toastify__toast-container {
       display: flex;

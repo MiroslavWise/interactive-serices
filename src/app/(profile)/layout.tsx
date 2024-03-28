@@ -1,11 +1,10 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { useEffect, type ReactNode } from "react"
 
 import { MobileChangeAbout } from "@/components/templates"
 
-import { usePush } from "@/helpers"
+import { usePush, useResize } from "@/helpers"
 import { useAuth, useMobileChangeAbout } from "@/store"
 
 import styles from "@/scss/page.module.scss"
@@ -15,6 +14,8 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
   const visible = useMobileChangeAbout(({ visible }) => visible)
   const { handlePush } = usePush()
 
+  const { isTablet } = useResize()
+
   useEffect(() => {
     if (typeof isAuth !== "undefined" && !isAuth) {
       handlePush("/")
@@ -22,7 +23,7 @@ export default function LayoutProfile({ children }: { children: ReactNode }) {
   }, [isAuth])
 
   return isAuth ? (
-    isMobile ? (
+    isTablet ? (
       <>
         {children}
         {visible && <MobileChangeAbout />}

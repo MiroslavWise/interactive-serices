@@ -30,13 +30,13 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .wrapper {
     background: var(--background);
 
     & > ul {
       position: relative;
-      &[data-mobile="true"] {
+      &[data-tablet="true"] {
         padding: 0 0 14px;
         align-items: center;
         justify-content: center;

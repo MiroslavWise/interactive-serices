@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TCardOffer } from "./types"
@@ -12,14 +11,15 @@ import { BlockBarter } from "./components/BlockBarter"
 import { LoadingProfile } from "@/components/common"
 
 import { getUserId } from "@/services"
+import { dayFormat, useResize } from "@/helpers"
 import { useAuth, useVisibleExchanges } from "@/store"
 
 import styles from "./style.module.scss"
-import { dayFormat } from "@/helpers"
 
 export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiator, consigner }) => {
   const myUserId = useAuth(({ userId }) => userId)
   const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
+  const { isTablet } = useResize()
 
   const idUser = useMemo(() => {
     if (!initiator || !consigner) return null
@@ -48,7 +48,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
             }}
             onClick={(event) => {
               event.stopPropagation()
-              if (isMobile) {
+              if (isTablet) {
                 dispatchExchanges({ visible: false })
               }
             }}

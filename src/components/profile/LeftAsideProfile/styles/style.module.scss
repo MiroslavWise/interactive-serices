@@ -50,7 +50,7 @@ $width-left-aside-profile: var(--width-left-aside-profile);
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .asideLeft {
     display: none;
   }

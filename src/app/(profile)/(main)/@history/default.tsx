@@ -1,9 +1,10 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { HistoryExchangeOffers } from "@/components/profile"
 
+import { useResize } from "@/helpers"
+
 export default function Default() {
-    return !isMobile ? <HistoryExchangeOffers /> : null
+  const { isTablet } = useResize()
+  return !isTablet ? <HistoryExchangeOffers /> : null
 }

@@ -1,14 +1,16 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { Button } from "@/components/common"
+
+import { useResize } from "@/helpers"
 import { CONTENT_ALERT, CONTENT_DISCUSSION, CONTENT_OFFER } from "../constants/steps"
-import { useOnboarding, dispatchOnboarding, useVisibleBannerNewServices, useAddCreateModal, dispatchOnboardingType } from "@/store/hooks"
+import { useOnboarding, dispatchOnboarding, useVisibleBannerNewServices, useAddCreateModal, dispatchOnboardingType } from "@/store"
 
 import styles from "../styles/article-onboarding.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 export const ArticleOnboarding = () => {
   const refPosition = useRef<CSSProperties>({ top: "50%", left: "50%" })
@@ -19,6 +21,8 @@ export const ArticleOnboarding = () => {
   const visible = useOnboarding(({ visible }) => visible)
   const isVisibleNewServicesBanner = useVisibleBannerNewServices(({ isVisibleNewServicesBanner }) => isVisibleNewServicesBanner)
   const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
+
+  const { isTablet } = useResize()
 
   useEffect(() => {
     if (visible) {
@@ -51,7 +55,7 @@ export const ArticleOnboarding = () => {
   }, [step, type, visible, isVisibleNewServicesBanner])
 
   useEffect(() => {
-    if (!isMobile) {
+    if (!isTablet) {
       if (visible) {
         if (!!type && step > 1) {
           if (isVisible) {
@@ -149,7 +153,7 @@ export const ArticleOnboarding = () => {
         }
       }
     }
-  }, [isVisible, step, type, visible, isMobile])
+  }, [isVisible, step, type, visible, isTablet])
 
   function handleClose() {
     dispatchOnboarding("pre-close")

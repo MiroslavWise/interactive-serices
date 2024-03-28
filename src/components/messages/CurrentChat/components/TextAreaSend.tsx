@@ -1,8 +1,6 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
-import { isMobile } from "react-device-detect"
 import { ChangeEvent, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
@@ -13,10 +11,12 @@ import type { IRequestPostMessages } from "@/services/messages/types"
 import { FilesUpload } from "./FilesUpload"
 
 import { useAuth } from "@/store"
+import { useResize } from "@/helpers"
 import { useWebSocket } from "@/context"
 import { fileUploadService, postMessage } from "@/services"
 
 export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
+  const { isTablet } = useResize()
   const idThread = useSearchParams()?.get("thread")
   const { socket } = useWebSocket()
   const userId = useAuth(({ userId }) => userId)
@@ -112,7 +112,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                 console.log("message response :", response)
               },
             )
-            flushSync(() => {
+            requestAnimationFrame(() => {
               setValue("text", "")
               setFiles([])
               setStrings([])
@@ -128,7 +128,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
               created: date,
             }
             postMessage(data).then((response) => {
-              flushSync(() => {
+              requestAnimationFrame(() => {
                 setValue("text", "")
                 setFiles([])
                 setStrings([])
@@ -144,7 +144,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
 
   const onSubmit = handleSubmit(submit)
 
-  if (isMobile) {
+  if (isTablet) {
     return (
       <form onSubmit={onSubmit}>
         <div data-files-input>

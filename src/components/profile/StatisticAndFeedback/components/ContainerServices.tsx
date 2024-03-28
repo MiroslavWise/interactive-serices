@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 //@ts-ignore
@@ -12,12 +11,14 @@ import type { TContainerServices } from "./types/types"
 
 import { GeneralItem, ServiceLoading } from "@/components/common"
 
+import { useResize } from "@/helpers"
 import { getUserIdOffers } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const ContainerServices: TContainerServices = ({}) => {
   const id = useSearchParams().get("id")
+  const { isTablet } = useResize()
 
   const { data: dataOffer, isLoading } = useQuery({
     queryFn: () => getUserIdOffers(id!, { provider: EnumTypeProvider.offer }),
@@ -33,7 +34,7 @@ export const ContainerServices: TContainerServices = ({}) => {
     <section className={styles.containerServices} data-loading={isLoading}>
       {isLoading ? (
         [1, 2, 3, 4].map((item) => <ServiceLoading key={`::item::offers::user::page::${item}::`} />)
-      ) : isMobile ? (
+      ) : isTablet ? (
         <ul className={styles.containerRequestsAndProposals}>
           {list?.map((item) => (
             <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
