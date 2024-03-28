@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { memo, useEffect, useState } from "react"
 
 import type { IFiltersItems, TList } from "./types/types"
@@ -8,11 +7,12 @@ import type { IFiltersItems, TList } from "./types/types"
 import { ItemListChat } from "./ItemListChat"
 import { ThreadLoading } from "@/components/common"
 
-import { useCountMessagesNotReading } from "@/helpers"
+import { useCountMessagesNotReading, useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
 export const List: TList = memo(function List({ items, search, setTotal, loadUser }) {
+  const { isTablet } = useResize()
   const [state, setState] = useState<IFiltersItems[]>([])
   const { isLoading } = useCountMessagesNotReading()
 
@@ -27,7 +27,7 @@ export const List: TList = memo(function List({ items, search, setTotal, loadUse
   }, [search, items, setTotal])
 
   return (
-    <ul className={isMobile ? styles.containerListMobile : styles.containerList}>
+    <ul className={isTablet ? styles.containerListMobile : styles.containerList}>
       {isLoading || loadUser
         ? [1, 2, 3].map((item) => <ThreadLoading key={`::loading::${item}`} />)
         : state?.map((item, index) => (

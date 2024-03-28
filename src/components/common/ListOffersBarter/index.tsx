@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { forwardRef, useMemo } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -8,7 +7,7 @@ import type { TListOffersBarter } from "./types"
 
 import { Button } from "../Forward"
 
-import { useOffersCategories, useAddCreateModal } from "@/store/hooks"
+import { useOffersCategories, useAddCreateModal } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -33,7 +32,7 @@ export const ListOffersBarter = forwardRef(function ListOffersBarter(props: TLis
   }
 
   return (
-    <article className={styles.container} data-mobile={isMobile} {...rest}>
+    <article className={styles.container} {...rest}>
       <ul style={{ height: height }}>
         {items?.map((item) => (
           <li

@@ -281,7 +281,7 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .wrapper {
     padding: 0;
 
@@ -306,7 +306,7 @@
         [data-photos] {
           grid-template-columns: repeat(2, calc(50% - 0.5rem));
           & > [data-upload] {
-            &[data-mobile="true"] {
+            &[data-tablet="true"] {
               aspect-ratio: 3/4;
             }
           }

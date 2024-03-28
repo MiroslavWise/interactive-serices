@@ -1,9 +1,11 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { LeftAsideProfile } from "@/components/profile"
 
+import { useResize } from "@/helpers"
+
 export default function Default() {
-    return !isMobile ? <LeftAsideProfile /> : null
+  const { isTablet } = useResize()
+
+  return !isTablet ? <LeftAsideProfile /> : null
 }

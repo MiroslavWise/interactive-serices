@@ -1,7 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { EnumTypeProvider } from "@/types/enum"
 import type { TContainerTagAndButton } from "./types/types"
 import type { ISegmentValues } from "@/components/common/Segments/types"
@@ -14,7 +12,7 @@ import styles from "./styles/style.module.scss"
 
 const TABS: ISegmentValues<EnumTypeProvider>[] = [
   {
-    label: isMobile ? "Предложения" : "Мои предложения",
+    label: "Предложения",
     value: EnumTypeProvider.offer,
   },
   {

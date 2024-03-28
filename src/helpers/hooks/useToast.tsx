@@ -2,11 +2,13 @@
 
 import Link from "next/link"
 import { toast } from "react-toastify"
-import { isMobile } from "react-device-detect"
 import { type DispatchWithoutAction } from "react"
 
-import { ButtonCircleGradient, ButtonClose, Button, ButtonLink, NextImageMotion } from "@/components/common"
 import { EnumStatusBarter } from "@/types/enum"
+
+import { ButtonCircleGradient, ButtonClose, Button, ButtonLink, NextImageMotion } from "@/components/common"
+
+import { useResize } from "./use-resize.hook"
 
 interface IValue {
   message?: string
@@ -19,6 +21,7 @@ interface IValue {
 }
 
 export const useToast = () => {
+  const { isTablet } = useResize()
   const classNames: Record<TTypeToast, string> = {
     success: "toast-success",
     error: "toast-error",
@@ -47,7 +50,7 @@ export const useToast = () => {
 
     return toast(Message, {
       toastId: id,
-      position: isMobile ? "bottom-center" : "bottom-left",
+      position: isTablet ? "bottom-center" : "bottom-left",
       autoClose: false,
       hideProgressBar: true,
       closeOnClick: true,
@@ -84,7 +87,7 @@ export const useToast = () => {
 
     return toast(Message, {
       toastId: Math.random(),
-      position: isMobile ? "bottom-center" : "bottom-left",
+      position: isTablet ? "bottom-center" : "bottom-left",
       autoClose: 7 * 1_000,
       hideProgressBar: true,
       closeOnClick: true,
@@ -111,7 +114,7 @@ export const useToast = () => {
     )
 
     const message = (
-      <div className="toast-data-render" data-mobile={isMobile}>
+      <div className="toast-data-render" data-mobile={isTablet}>
         {type === "message" ? (
           <>
             <div data-content className="message">
@@ -135,7 +138,7 @@ export const useToast = () => {
 
     return toast(message, {
       toastId: value.id || Math.random(),
-      position: isMobile ? "bottom-center" : "bottom-left",
+      position: isTablet ? "bottom-center" : "bottom-left",
       autoClose: 7500,
       hideProgressBar: true,
       closeOnClick: true,
@@ -155,7 +158,7 @@ export const useToast = () => {
     )
 
     return toast(div, {
-      position: isMobile ? "bottom-center" : "bottom-left",
+      position: isTablet ? "bottom-center" : "bottom-left",
       autoClose: 3500,
       hideProgressBar: true,
       closeOnClick: true,

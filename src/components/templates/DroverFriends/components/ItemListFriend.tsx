@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TItemListFriend } from "../types/types"
@@ -10,7 +9,7 @@ import { NextImageMotion } from "@/components/common/Image"
 import { GeoTagging } from "@/components/common/GeoTagging"
 import { ButtonCircleGradient } from "@/components/common/Buttons"
 
-import { usePush } from "@/helpers"
+import { usePush, useResize } from "@/helpers"
 import { useProfilePublic } from "@/store"
 import { getUserId, serviceFriends } from "@/services"
 import { useReloadFriends } from "../hooks/useReloadFriends"
@@ -28,6 +27,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   })
+  const { isTablet } = useResize()
 
   const geo = data?.res?.addresses?.find((item) => item.addressType === "main") || null
 
@@ -64,7 +64,7 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
   }
 
   function handleProfile() {
-    if (isMobile) {
+    if (isTablet) {
       handlePush(`/user?id=${id}`)
     } else {
       dispatchProfilePublic({ visible: true, idUser: id! })

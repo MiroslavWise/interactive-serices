@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { isMobile } from "react-device-detect"
 
 import {
   BannerServices,
@@ -28,19 +27,22 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
 })
 
 import { useAuth } from "@/store"
+import { useResize } from "@/helpers"
 
 import styles from "@/scss/page.module.scss"
 
 export default function Home() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
 
+  const { isMobile, isTablet } = useResize()
+
   return (
     <main className={styles.main}>
       <YandexMap />
       {isAuth && <BannerSign />}
       {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
-      {isAuth && isMobile && <BannerStartCreate />}
-      {isMobile && (
+      {isAuth && (isMobile || isTablet) && <BannerStartCreate />}
+      {(isMobile || isTablet) && (
         <>
           <MobileFilterMap />
           <MapSearch />
@@ -48,7 +50,7 @@ export default function Home() {
           <SearchCategory />
         </>
       )}
-      {!isMobile && (
+      {!isMobile && !isTablet && (
         <>
           <SearchFilters />
           <FiltersScreen />

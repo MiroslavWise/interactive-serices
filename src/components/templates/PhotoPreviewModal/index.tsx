@@ -2,20 +2,18 @@
 
 import Link from "next/link"
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useSwipeable } from "react-swipeable"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { TPhotoPreviewModal } from "./types/types"
 import type { IResponseOffers } from "@/services/offers/types"
 
-import { ButtonCanHelp } from "@/components/common/custom"
 import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { daysAgo } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"
-import { useAuth, useProfilePublic, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange } from "@/store/hooks"
+import { daysAgo, useResize } from "@/helpers"
+import { useAuth, useProfilePublic, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange, dispatchProfilePublic } from "@/store"
 
 import styles from "./styles/layout.module.scss"
 
@@ -28,7 +26,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
   const userId = useAuth(({ userId }) => userId)
   const offer = usePhotoOffer(({ offer }) => offer)
   const categories = useOffersCategories(({ categories }) => categories)
-  const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
+  const { isTablet } = useResize()
 
   const widthCarousel: number = useMemo(() => {
     return photos.length * 90 + photos.length * 13 - 13 + 40 || 0
@@ -97,10 +95,10 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
               <div data-title>
                 <Link
                   data-author
-                  href={isMobile ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
+                  href={isTablet ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
                   onClick={(event) => {
                     event.stopPropagation()
-                    if (!isMobile) {
+                    if (!isTablet) {
                       dispatchProfilePublic({
                         visible: true,
                         idUser: author?.idUser!,
@@ -179,10 +177,10 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
             </div>
             <footer>
               <Link
-                href={isMobile ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
+                href={isTablet ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
                 onClick={(event) => {
                   event.stopPropagation()
-                  if (!isMobile) {
+                  if (!isTablet) {
                     dispatchProfilePublic({
                       visible: true,
                       idUser: author?.idUser!,

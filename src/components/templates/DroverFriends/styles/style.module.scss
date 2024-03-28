@@ -1,222 +1,224 @@
 .wrapper {
-    position: fixed;
-    inset: 0;
-    height: 100%;
+  position: fixed;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(2.5px);
+  z-index: 850;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  & > section {
+    position: relative;
+    max-width: 716px;
     width: 100%;
-    background: rgba(0, 0, 0, 0.62);
-    backdrop-filter: blur(2.5px);
-    z-index: 850;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    height: 100%;
+    border-radius: 32px 0px 0px 32px;
+    background: var(--background);
+    overflow: hidden;
 
-    & > section {
-        position: relative;
-        max-width: 716px;
+    & > article {
+      width: 100%;
+      padding-top: 12px;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 24px;
+      & > header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 3rem;
         width: 100%;
-        height: 100%;
-        border-radius: 32px 0px 0px 32px;
-        background: var(--background);
-        overflow: hidden;
 
-        & > article {
-            width: 100%;
-            padding-top: 12px;
-            height: auto;
+        & > p {
+          color: var(--gray-500);
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 24px;
+        }
+      }
+
+      & > [data-segments] {
+        height: 3.125rem;
+        max-width: fit-content;
+        width: 100%;
+        margin: 0 auto;
+        background: var(--background-input);
+        & > li {
+          transition: none !important;
+          width: 168px !important;
+          background: transparent;
+        }
+      }
+
+      & > [data-search-block] {
+        width: 100%;
+        max-width: 340px;
+        height: 3.125rem;
+
+        & > [data-search] {
+          width: 100%;
+          height: 3.125rem;
+        }
+      }
+
+      & > [data-list] {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 0.75rem;
+        padding: 0 32px 32px;
+        z-index: 2;
+
+        & > li {
+          width: 100%;
+          padding: 16px;
+          z-index: 3;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          border-radius: 16px;
+          border: 2px solid var(--stroke-1);
+          background: var(--background-input);
+          box-shadow: 0px 7px 12px 0px rgba(142, 141, 177, 0.15);
+
+          & > [data-block-profile],
+          & > [data-block-buttons] {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            justify-content: flex-start;
-            gap: 24px;
-            & > header {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                height: 3rem;
-                width: 100%;
-
-                & > p {
-                    color: var(--gray-500);
-                    font-size: 1rem;
-                    font-style: normal;
-                    font-weight: 500;
-                    line-height: 24px;
-                }
-            }
-
-            & > [data-segments] {
-                height: 3.125rem;
-                max-width: fit-content;
-                width: 100%;
-                margin: 0 auto;
-                background: var(--background-input);
-                & > li {
-                    transition: none !important;
-                    width: 168px !important;
-                    background: transparent;
-                }
-            }
-
-            & > [data-search-block] {
-                width: 100%;
-                max-width: 340px;
-                height: 3.125rem;
-
-                & > [data-search] {
-                    width: 100%;
-                    height: 3.125rem;
-                }
-            }
-
-            & > [data-list] {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                gap: 0.75rem;
-                padding: 0 32px 32px;
-                z-index: 2;
-
-                & > li {
-                    width: 100%;
-                    padding: 16px;
-                    z-index: 3;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 1rem;
-                    border-radius: 16px;
-                    border: 2px solid var(--stroke-1);
-                    background: var(--background-input);
-                    box-shadow: 0px 7px 12px 0px rgba(142, 141, 177, 0.15);
-
-                    & > [data-block-profile],
-                    & > [data-block-buttons] {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 0.75rem;
-                    }
-
-                    & > [data-block-profile] {
-                        & > [data-block-avatar] {
-                            position: relative;
-                            height: 60px;
-                            width: 60px;
-                            & > img {
-                                height: 60px;
-                                width: 60px;
-                                border-radius: 16.667px;
-                                border: 3px solid var(--stroke-1);
-                                cursor: pointer;
-                            }
-                        }
-                        & > [data-name-geo] {
-                            display: flex;
-                            flex-direction: column;
-                            align-items: flex-start;
-                            width: min-content;
-                            gap: 4px;
-
-                            h4 {
-                                color: var(--gray-900);
-                                font-size: 18px;
-                                font-style: normal;
-                                font-weight: 500;
-                                letter-spacing: -0.5px;
-                            }
-                        }
-                    }
-                    & > [data-block-buttons] {
-                        & > [data-circle-gradient] {
-                            height: 44px;
-                            width: 44px;
-                        }
-                        & > [data-button-default] {
-                            height: 36px;
-                            padding: 6px 12px;
-                            max-width: 172px;
-                            width: 100%;
-
-                            & > span {
-                                font-size: 14px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    &[data-mobile="true"] {
-        & > section {
-            border-radius: 0;
-            max-width: 100%;
-            overflow-y: scroll;
             gap: 0.75rem;
+          }
 
-            & > article {
-                & > header {
-                    display: none;
-                }
-
-                & > [data-close-segment] {
-                    position: sticky;
-                    top: 12px;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    width: 100%;
-                    padding: 0 16px;
-                    gap: 1rem;
-                    z-index: 50;
-                    & > [data-segments] {
-                        width: 100%;
-                        & > li {
-                            width: 30%;
-                            padding: 12px 3px;
-                        }
-                    }
-                    & > [data-close] {
-                        position: relative;
-                        inset: initial !important;
-                    }
-                }
-
-                & > [data-search-block] {
-                    max-width: 100%;
-                    padding: 0 16px;
-                    position: sticky;
-                    top: calc(12px + 50px + 12px);
-                    z-index: 50;
-                }
-
-                & > [data-list] {
-                    padding: 0 16px 16px;
-
-                    & > li {
-                        flex-direction: column;
-
-                        & > [data-block-profile] {
-                            width: 100%;
-                        }
-                        & > [data-block-buttons] {
-                            width: 100%;
-                            justify-content: flex-end;
-                        }
-                    }
-                }
+          & > [data-block-profile] {
+            & > [data-block-avatar] {
+              position: relative;
+              height: 60px;
+              width: 60px;
+              & > img {
+                height: 60px;
+                width: 60px;
+                border-radius: 16.667px;
+                border: 3px solid var(--stroke-1);
+                cursor: pointer;
+              }
             }
+            & > [data-name-geo] {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              width: min-content;
+              gap: 4px;
+
+              h4 {
+                color: var(--gray-900);
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                letter-spacing: -0.5px;
+              }
+            }
+          }
+          & > [data-block-buttons] {
+            & > [data-circle-gradient] {
+              height: 44px;
+              width: 44px;
+            }
+            & > [data-button-default] {
+              height: 36px;
+              padding: 6px 12px;
+              max-width: 172px;
+              width: 100%;
+
+              & > span {
+                font-size: 14px;
+              }
+            }
+          }
         }
+      }
     }
+  }
+}
+
+[data-tablet="true"] {
+  .wrapper {
+    & > section {
+      border-radius: 0;
+      max-width: 100%;
+      overflow-y: scroll;
+      gap: 0.75rem;
+
+      & > article {
+        & > header {
+          display: none;
+        }
+
+        & > [data-close-segment] {
+          position: sticky;
+          top: 12px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+          padding: 0 16px;
+          gap: 1rem;
+          z-index: 50;
+          & > [data-segments] {
+            width: 100%;
+            & > li {
+              width: 30%;
+              padding: 12px 3px;
+            }
+          }
+          & > [data-close] {
+            position: relative;
+            inset: initial !important;
+          }
+        }
+
+        & > [data-search-block] {
+          max-width: 100%;
+          padding: 0 16px;
+          position: sticky;
+          top: calc(12px + 50px + 12px);
+          z-index: 50;
+        }
+
+        & > [data-list] {
+          padding: 0 16px 16px;
+
+          & > li {
+            flex-direction: column;
+
+            & > [data-block-profile] {
+              width: 100%;
+            }
+            & > [data-block-buttons] {
+              width: 100%;
+              justify-content: flex-end;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 [data-theme="dark"] {
-    .wrapper {
-        backdrop-filter: blur(4px);
-    }
+  .wrapper {
+    backdrop-filter: blur(4px);
+  }
 }

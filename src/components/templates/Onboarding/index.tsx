@@ -1,23 +1,24 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { PreClose } from "./components/PreClose"
 import { CreateOnboarding } from "./components/CreateOnboarding"
 import { ArticleOnboarding } from "./components/ArticleOnboarding"
 
 import { cx } from "@/lib/cx"
+import { useResize } from "@/helpers"
+import { mapIconCreateOffer } from "@/utils"
 import { ITEMS_START } from "./constants/items-start"
-import { dispatchOnboardingStart, useOnboarding } from "@/store/hooks"
+import { dispatchOnboardingStart, useOnboarding } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { mapIconCreateOffer } from "@/utils"
 
 export const Onboarding = () => {
   const step = useOnboarding(({ step }) => step)
   const type = useOnboarding(({ type }) => type)
   const isPreClose = useOnboarding(({ isPreClose }) => isPreClose)
   const visible = useOnboarding(({ visible }) => visible)
+
+  const { isTablet } = useResize()
 
   if (type === null) {
     return (
@@ -59,7 +60,7 @@ export const Onboarding = () => {
     <>
       {isPreClose && visible && <PreClose />}
       {step === 0 && !!type && <CreateOnboarding />}
-      {step >= 1 && !!type && visible && !isMobile && <ArticleOnboarding />}
+      {step >= 1 && !!type && visible && !isTablet && <ArticleOnboarding />}
     </>
   )
 }

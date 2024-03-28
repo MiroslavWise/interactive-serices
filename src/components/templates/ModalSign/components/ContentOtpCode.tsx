@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { useRef, useState, useEffect, type ChangeEvent, type KeyboardEvent, useCallback } from "react"
 
 import type { TContentOtpCode } from "../types/types"
@@ -8,7 +7,7 @@ import type { TContentOtpCode } from "../types/types"
 import { Button } from "@/components/common"
 
 import { getUserId } from "@/services"
-import { useTokenHelper } from "@/helpers"
+import { useResize, useTokenHelper } from "@/helpers"
 import { dispatchAuthModal, dispatchUpdateProfile, useAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -21,6 +20,9 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
   const [inputValues, setInputValues] = useState(Array(6).fill(""))
   const [errorCode, setErrorCode] = useState("")
   const inputRefs = useRef<HTMLInputElement[]>([])
+
+  const { isTablet } = useResize()
+
   async function clip() {
     const text = await navigator.clipboard.readText()
     const split = text.split("")
@@ -121,7 +123,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
           />
         ))}
       </div>
-      {isMobile ? <Button type="button" typeButton="fill-primary" label="Вставить" className="w-100" onClick={clip} /> : null}
+      {isTablet ? <Button type="button" typeButton="fill-primary" label="Вставить" className="w-100" onClick={clip} /> : null}
       {errorCode ? (
         <p className="error-p" style={{ marginTop: -15, marginBottom: -15 }}>
           {errorCode}

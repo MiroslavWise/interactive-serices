@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { ToastContainer } from "react-toastify"
 
 import {
@@ -66,6 +65,7 @@ import {
   useNumberConfirmation,
   useUpdateOffer,
 } from "@/store"
+import { useResize } from "@/helpers"
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -91,6 +91,8 @@ export const Containers = () => {
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
   const visibleUpdateOffer = useUpdateOffer(({ visible }) => visible)
 
+  const { isTablet } = useResize()
+
   return (
     <>
       <PhotoCarousel />
@@ -103,8 +105,8 @@ export const Containers = () => {
         </>
       )}
       <ToastContainer limit={3} />
-      {!isMobile && <PublicProfile />}
-      {isMobile && <MobileFiltersMap />}
+      {!isTablet && <PublicProfile />}
+      {isTablet && <MobileFiltersMap />}
       {visibleBalloonOffer && <BalloonOffer />}
       {visibleBalloonAlert && <BalloonAlert />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
@@ -123,9 +125,9 @@ export const Containers = () => {
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
-          {isMobile && <OptionProfileMobile />}
+          {isTablet && <OptionProfileMobile />}
           {isVisible && <CreateNewOptionModal />}
-          {isMobile && <InitiatedBarterMobile />}
+          {isTablet && <InitiatedBarterMobile />}
           {visibleComplaint && <ComplaintModal />}
           {visibleReasonBarters && <ReasonBarters />}
           {visibleUpdateProfile && <UpdateProfile />}
@@ -135,7 +137,7 @@ export const Containers = () => {
           {visibleTestimonials && <CompletionTransaction />}
           {visibleAddingPhoneNumber && <AddingPhoneNumber />}
           {visibleReciprocalExchange && <ReciprocalExchange />}
-          {isMobile && visibleNotifications && <NotificationsMobile />}
+          {isTablet && visibleNotifications && <NotificationsMobile />}
         </>
       )}
     </>

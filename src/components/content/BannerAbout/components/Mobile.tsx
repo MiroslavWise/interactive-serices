@@ -1,15 +1,15 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
-import { dispatchIntro, useVisibleMobileAbout, dispatchVisibleMobileAbout } from "@/store/hooks"
+import { useResize } from "@/helpers"
+import { dispatchIntro, useVisibleMobileAbout, dispatchVisibleMobileAbout } from "@/store"
 
 import styles from "../styles/mobile.module.scss"
 
 export function BannerAboutMobile() {
+  const { isTablet } = useResize()
   const visible = useVisibleMobileAbout(({ visible }) => visible)
 
-  return isMobile ? (
+  return isTablet ? (
     <div
       onClick={() => {
         if (!visible) {
