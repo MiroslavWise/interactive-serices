@@ -1,6 +1,7 @@
 "use client"
 
 import { ToastContainer } from "react-toastify"
+import dynamic from "next/dynamic"
 
 import {
   Intro,
@@ -66,6 +67,7 @@ import {
   useUpdateOffer,
 } from "@/store"
 import { useResize } from "@/helpers"
+const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -105,6 +107,7 @@ export const Containers = () => {
         </>
       )}
       <ToastContainer limit={3} />
+      <CookiesToast />
       {!isTablet && <PublicProfile />}
       {isTablet && <MobileFiltersMap />}
       {visibleBalloonOffer && <BalloonOffer />}
