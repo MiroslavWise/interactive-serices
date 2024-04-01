@@ -5,8 +5,8 @@ import { type ReactNode, useEffect } from "react"
 import { AnimatedLoadPage } from "@/components/layout"
 import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
-import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
 import { useResize } from "@/helpers"
+import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
 
 export default ({ children }: { children: ReactNode }) => {
   const refresh = useAuth(({ refresh }) => refresh)
@@ -15,15 +15,14 @@ export default ({ children }: { children: ReactNode }) => {
   const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
   const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
   const isUse = useCookies(({ isUse }) => isUse)
-  const visibleCookies = useCookies(({ visible }) => visible)
 
   const { isMobile, isTablet } = useResize()
 
   useEffect(() => {
-    if (!isUse && !visibleCookies && typeof isUse !== "undefined") {
+    if (!isUse && typeof isUse !== "undefined") {
       dispatchCookiesVisible(true)
     }
-  }, [isUse, visibleCookies])
+  }, [isUse])
 
   useEffect(() => {
     refresh()
