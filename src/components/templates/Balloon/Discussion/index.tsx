@@ -20,17 +20,15 @@ import common from "../styles/general.module.scss"
 export const BalloonDiscussion = () => {
   const offer = useBalloonDiscussion(({ offer }) => offer)
   const visible = useBalloonDiscussion(({ visible }) => visible)
-  const { id, userId: idUser, content } = offer ?? {}
-
-  const images = offer?.images || []
+  const { content, title, images = [] } = offer ?? {}
 
   function close() {
     dispatchBallonDiscussion({ visible: false, offer: undefined })
   }
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
-      <section data-section-modal>
+    <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible} data-test="wrapper-balloon-discussion">
+      <section data-section-modal data-test="section-balloon-discussion">
         <ButtonClose position={{}} onClick={close} />
         <header data-color={EnumTypeProvider.discussion}>
           <div data-img>
@@ -41,7 +39,7 @@ export const BalloonDiscussion = () => {
         <div data-container>
           <ProfileComponent offer={offer as unknown as IResponseOffers} />
           <article>
-            <p>{offer?.title}</p>
+            <p>{title}</p>
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />

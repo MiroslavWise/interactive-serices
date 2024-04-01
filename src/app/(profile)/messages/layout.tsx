@@ -1,5 +1,4 @@
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
 
 import "./layout.scss"
 
@@ -9,6 +8,4 @@ export const metadata: Metadata = {
   twitter: { title: "Сообщения" },
 }
 
-export default function LayoutMessages({ children }: { children: ReactNode }) {
-  return <div className="__page-messages__">{children}</div>
-}
+export default ({ children }: { children: React.ReactNode }) => <div className="__page-messages__">{children}</div>

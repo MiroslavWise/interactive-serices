@@ -1,11 +1,10 @@
 "use client"
 
-import { type ReactNode } from "react"
 import { YMaps } from "@pbe/react-yandex-maps"
 
 import env from "@/config/environment"
 
-export function YMapsProvider({ children }: { children: ReactNode }) {
+export function YMapsProvider({ children }: { children: React.ReactNode }) {
   return (
     <YMaps
       query={{

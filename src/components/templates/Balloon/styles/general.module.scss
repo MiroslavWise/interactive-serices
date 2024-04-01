@@ -31,6 +31,7 @@
       gap: 0.625rem;
       padding: 1.25rem;
       border-bottom: 1px solid var(--grey-stroke-light);
+      height: var(--height-standard-header-modal);
 
       & > h3 {
         color: var(--text-primary);
@@ -102,6 +103,7 @@
       max-width: 100%;
 
       & > header {
+        height: 4.25rem;
         & > h3 {
           padding-right: calc(2.75rem + 0.625rem);
         }
@@ -111,6 +113,7 @@
         border-radius: 0;
         overflow: hidden;
         overflow-y: auto;
+        height: calc(100% - 4.25rem);
       }
     }
   }

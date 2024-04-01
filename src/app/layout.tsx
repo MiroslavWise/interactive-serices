@@ -2,7 +2,6 @@ import { Viewport } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
 import { Inter } from "next/font/google"
 
 const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
@@ -42,12 +41,12 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ru",
     url: env.server.host!,
-    siteName: "Sheira.ru",
+    siteName: "Sheira",
     title: {
       default: "Sheira",
       template: "%s | Sheira",
     },
-    images: "./favicon.ico",
+    images: "/icons/icon.png",
     description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
   },
   twitter: {
@@ -55,7 +54,7 @@ export const metadata: Metadata = {
       default: "Sheira",
       template: "%s | Sheira",
     },
-    images: "./favicon.ico",
+    images: "/icons/icon.png",
   },
   robots: {
     index: true,
@@ -68,11 +67,11 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: `./favicon.ico`,
+    icon: "/icons/icon.png",
   },
 }
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
       <head>

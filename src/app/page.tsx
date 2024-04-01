@@ -34,15 +34,15 @@ import styles from "@/scss/page.module.scss"
 export default function Home() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
 
-  const { isMobile, isTablet } = useResize()
+  const { isTablet } = useResize()
 
   return (
     <main className={styles.main}>
       <YandexMap />
       {isAuth && <BannerSign />}
       {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
-      {isAuth && (isMobile || isTablet) && <BannerStartCreate />}
-      {(isMobile || isTablet) && (
+      {isAuth && isTablet && <BannerStartCreate />}
+      {isTablet && (
         <>
           <MobileFilterMap />
           <MapSearch />
@@ -50,7 +50,7 @@ export default function Home() {
           <SearchCategory />
         </>
       )}
-      {!isMobile && !isTablet && (
+      {!isTablet && (
         <>
           <SearchFilters />
           <FiltersScreen />

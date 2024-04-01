@@ -188,7 +188,7 @@ export const ReciprocalExchange = () => {
           }}
         />
         <header>
-          <h3>Что вы можете предложить?</h3>
+          <h3>Отклик</h3>
         </header>
         <ul>
           <FormProvider {...methods}>

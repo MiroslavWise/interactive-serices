@@ -44,8 +44,13 @@ export const BlockComments = memo(({ close, offer }: IProps) => {
   }, [dataComments?.res])
 
   return (
-    <div className={styles.container}>
-      <ListCommentaries currentComments={currentComments} expand={expand} setExpand={setExpand} currentOffersThreadId={currentOffersThreads?.id!} />
+    <div className={styles.container} data-text="container-commentaries">
+      <ListCommentaries
+        currentComments={currentComments}
+        expand={expand}
+        setExpand={setExpand}
+        currentOffersThreadId={currentOffersThreads?.id!}
+      />
       {!!userId ? (
         <FormAppendComment
           idOffersThread={currentOffersThreads?.id!}
