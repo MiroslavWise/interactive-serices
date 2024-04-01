@@ -13,7 +13,6 @@ import { getUserId, patchUser } from "@/services"
 import { dispatchChangeService, useAuth, useChangeService, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)

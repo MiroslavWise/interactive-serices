@@ -36,7 +36,7 @@ export const ListCommentaries = memo(({ expand, currentComments = [], setExpand,
   }, [data?.res])
 
   return (
-    <div data-list ref={refList}>
+    <div data-list ref={refList} data-test="balloon-list-commentaries">
       {!expand && firstComment ? (
         <ItemComment key={`::key::comment::item::${firstComment.id}::first::`} {...firstComment} />
       ) : isLoading ? (

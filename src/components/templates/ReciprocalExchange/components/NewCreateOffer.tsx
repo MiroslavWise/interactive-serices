@@ -13,7 +13,7 @@ import { CustomSelect } from "@/components/common/custom"
 import { queryClient } from "@/context"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { getGeocodeSearch } from "@/services"
-import { dispatchValidating, useOffersCategories } from "@/store"
+import { useOffersCategories } from "@/store"
 
 import styles from "../styles/new-create-offer.module.scss"
 

@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
 import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
+import { EnumStatusBarter } from "@/types/enum"
 import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { useAuth } from "@/store"
@@ -12,7 +13,6 @@ import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useCountMessagesNotReading, usePush } from "@/helpers"
 import { serviceNotifications, getBarterUserIdReceiver } from "@/services"
-import { EnumStatusBarter } from "@/types/enum"
 
 interface IContextSocket {
   socket: Socket | undefined
@@ -26,7 +26,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   const token = useAuth(({ token }) => token)
   const userId = useAuth(({ userId }) => userId)
   const threadId = useSearchParams().get("thread")
-  const { on, onMessage, onBarters } = useToast()
+  const { on, onMessage } = useToast()
   const { handlePush } = usePush()
   const [isFetch, setIsFetch] = useState(false)
   const [socketState, setSocketState] = useState<Socket | null>(null)

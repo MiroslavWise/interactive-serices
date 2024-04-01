@@ -19,6 +19,10 @@
 
     & > [data-container] {
       gap: 1.5rem;
+      overflow: hidden;
+      overflow-y: auto;
+      height: calc(100% - var(--height-standard-header-modal));
+
       & > article {
         width: 100%;
         height: fit-content;

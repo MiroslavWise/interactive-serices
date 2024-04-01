@@ -1,5 +1,4 @@
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
 
 const title = "Согласие на получение рассылки рекламно-информационных материалов"
 
@@ -11,6 +10,6 @@ export const metadata: Metadata = {
   openGraph: { title, description: title },
 }
 
-export default function LayoutTermsConsentToReceiveMailings({ children }: { children: ReactNode }) {
+export default function LayoutTermsConsentToReceiveMailings({ children }: { children: React.ReactNode }) {
   return children
 }

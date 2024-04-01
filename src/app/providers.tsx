@@ -8,7 +8,7 @@ import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, Query
 import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
 import { useResize } from "@/helpers"
 
-export default function Providers({ children }: { children: ReactNode }) {
+export default ({ children }: { children: ReactNode }) => {
   const refresh = useAuth(({ refresh }) => refresh)
   const categories = useOffersCategories(({ categories }) => categories)
   const getCategories = useOffersCategories(({ getCategories }) => getCategories)
