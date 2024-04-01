@@ -37,14 +37,16 @@ export const BalloonDiscussion = () => {
           <h3> {content ? content : "Обсуждение"}</h3>
         </header>
         <div data-container>
-          <ProfileComponent offer={offer as unknown as IResponseOffers} />
-          <article>
-            <p>{title}</p>
-            {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
-          </article>
-          <GeoData offer={offer as unknown as IResponseOffers} />
-          <BlockAction offer={offer as unknown as IResponseOffers} />
-          <BlockComments offer={offer as unknown as IResponseOffers} close={close} />
+          <div data-container-children>
+            <ProfileComponent offer={offer as unknown as IResponseOffers} />
+            <article>
+              <p>{title}</p>
+              {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
+            </article>
+            <GeoData offer={offer as unknown as IResponseOffers} />
+            <BlockAction offer={offer as unknown as IResponseOffers} />
+            <BlockComments offer={offer as unknown as IResponseOffers} close={close} />
+          </div>
         </div>
       </section>
     </div>

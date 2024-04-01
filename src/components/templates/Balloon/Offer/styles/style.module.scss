@@ -13,7 +13,7 @@
       }
     }
 
-    & > [data-container] {
+    [data-container-children] {
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -75,30 +75,6 @@
         font-style: normal;
         font-weight: 400;
         line-height: 1.25rem;
-      }
-    }
-  }
-}
-
-[data-theme="dark"] {
-  .wrapper {
-    & > section {
-      & > [data-container] {
-        & > [data-buttons] {
-          & > [data-cirlce] {
-          }
-        }
-      }
-    }
-  }
-}
-
-[data-tablet="true"] {
-  .wrapper {
-    & > section {
-      & > header {
-        & > h3 {
-        }
       }
     }
   }

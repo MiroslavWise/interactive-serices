@@ -12,8 +12,8 @@ export const ListCommentaries = memo(({ expand, currentComments = [], setExpand,
   const refList = useRef<HTMLDivElement>(null)
 
   const { data, isLoading } = useQuery({
-    queryFn: () => serviceComments.get({ offer: currentOffersThreadId!, limit: 1 }),
-    queryKey: ["comments", { offerId: currentOffersThreadId, limit: 1 }],
+    queryFn: () => serviceComments.get({ offer: currentOffersThreadId!, limit: 2 }),
+    queryKey: ["comments", { offerId: currentOffersThreadId, limit: 2 }],
     enabled: !!currentOffersThreadId,
     refetchOnMount: true,
   })
@@ -35,6 +35,8 @@ export const ListCommentaries = memo(({ expand, currentComments = [], setExpand,
     return data?.res[0]
   }, [data?.res])
 
+  const length = data?.meta?.total || 0
+
   return (
     <div data-list ref={refList} data-test="balloon-list-commentaries">
       {!expand && firstComment ? (
@@ -42,7 +44,7 @@ export const ListCommentaries = memo(({ expand, currentComments = [], setExpand,
       ) : isLoading ? (
         <LoadingProfile />
       ) : null}
-      {!expand ? (
+      {!expand && length > 1 ? (
         <button
           type="button"
           data-button-expand

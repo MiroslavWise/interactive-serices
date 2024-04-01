@@ -14,7 +14,7 @@ import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/componen
 
 import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
-import { getBarters, getUserId } from "@/services"
+import { getBarters } from "@/services"
 import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -122,49 +122,51 @@ export const BalloonOffer = () => {
         </header>
         <ButtonClose position={{}} onClick={() => dispatchBallonOffer({ visible: false })} />
         <div data-container>
-          <ProfileComponent offer={offer as unknown as IResponseOffers} />
-          <ItemDescriptions offer={offer as unknown as IResponseOffers} />
-          {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
-            <div data-inform-off-barter>
-              <article>
-                <span>
-                  {disabledReply === "executed-have"
-                    ? "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
-                    : disabledReply === "initiated-have"
-                    ? "Вы уже отправили данному пользователю свое предложение"
-                    : null}
-                </span>
-              </article>
-            </div>
-          ) : null}
-          <GeoData offer={offer as unknown as IResponseOffers} />
-          <div data-buttons>
-            <Button
-              type="button"
-              typeButton="fill-primary"
-              label="Откликнуться"
-              onClick={handle}
-              loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
-              disabled={(!!userId && userId === offer?.userId) || !!disabledReply}
-            />
-            <Button
-              type="button"
-              typeButton="regular-primary"
-              label="Заплатить"
-              onClick={handlePay}
-              disabled={!!userId && userId === offer?.userId}
-            />
-            {userId && userId !== offer?.userId ? (
-              <Link
-                data-circle
-                href={{ pathname: "/messages", query: { user: offer?.userId } }}
-                onClick={() => {
-                  dispatchBallonOffer({ visible: false })
-                }}
-              >
-                <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
-              </Link>
+          <div data-container-children>
+            <ProfileComponent offer={offer as unknown as IResponseOffers} />
+            <ItemDescriptions offer={offer as unknown as IResponseOffers} />
+            {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
+              <div data-inform-off-barter>
+                <article>
+                  <span>
+                    {disabledReply === "executed-have"
+                      ? "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
+                      : disabledReply === "initiated-have"
+                      ? "Вы уже отправили данному пользователю свое предложение"
+                      : null}
+                  </span>
+                </article>
+              </div>
             ) : null}
+            <GeoData offer={offer as unknown as IResponseOffers} />
+            <div data-buttons>
+              <Button
+                type="button"
+                typeButton="fill-primary"
+                label="Откликнуться"
+                onClick={handle}
+                loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
+                disabled={(!!userId && userId === offer?.userId) || !!disabledReply}
+              />
+              <Button
+                type="button"
+                typeButton="regular-primary"
+                label="Заплатить"
+                onClick={handlePay}
+                disabled={!!userId && userId === offer?.userId}
+              />
+              {userId && userId !== offer?.userId ? (
+                <Link
+                  data-circle
+                  href={{ pathname: "/messages", query: { user: offer?.userId } }}
+                  onClick={() => {
+                    dispatchBallonOffer({ visible: false })
+                  }}
+                >
+                  <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
+                </Link>
+              ) : null}
+            </div>
           </div>
         </div>
       </section>
