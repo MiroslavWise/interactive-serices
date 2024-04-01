@@ -17,36 +17,42 @@
       }
     }
 
-    & > [data-container] {
-      gap: 1.5rem;
+    [data-container] {
       overflow: hidden;
-      overflow-y: auto;
       height: calc(100% - var(--height-standard-header-modal));
+      position: relative;
 
-      & > article {
+      & > [data-container-children] {
+        overflow: hidden;
+        overflow-y: auto;
+        height: 100%;
         width: 100%;
-        height: fit-content;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
 
-        & > p {
-          color: var(--text-primary);
-          font-size: 0.875rem;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 1.25rem;
-          letter-spacing: -0.02125rem;
-        }
+        & > article {
+          width: 100%;
+          height: fit-content;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
 
-        & > time {
-          text-align: start;
-          color: var(--text-secondary);
-          font-size: 0.75rem;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 1.125rem;
-          letter-spacing: -0.00275rem;
+          & > p {
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.25rem;
+            letter-spacing: -0.02125rem;
+          }
+
+          & > time {
+            text-align: start;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.125rem;
+            letter-spacing: -0.00275rem;
+          }
         }
       }
     }

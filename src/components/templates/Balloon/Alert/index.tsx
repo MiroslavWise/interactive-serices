@@ -36,13 +36,15 @@ export const BalloonAlert = () => {
           <h3 style={{ color: "var(--text-primary)" }}>{content ? content : "SOS-cообщение"}</h3>
         </header>
         <div data-container>
-          <ProfileComponent offer={offer as unknown as IResponseOffers} />
-          <article>
-            <p>{title}</p>
-            {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
-          </article>
-          <GeoData offer={offer as unknown as IResponseOffers} />
-          <BlockComments close={close} offer={offer as unknown as IResponseOffers} />
+          <div data-container-children>
+            <ProfileComponent offer={offer as unknown as IResponseOffers} />
+            <article>
+              <p>{title}</p>
+              {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
+            </article>
+            <GeoData offer={offer as unknown as IResponseOffers} />
+            <BlockComments close={close} offer={offer as unknown as IResponseOffers} />
+          </div>
         </div>
       </section>
     </div>
