@@ -50,7 +50,8 @@
 [data-tablet="true"] {
   .container {
     right: 1.25rem;
-    max-width: calc(100%);
+    max-width: calc(100% - 2.5rem);
+    bottom: calc(1.25rem + var(--height-mobile-footer-nav));
 
     & > button {
       max-width: 100%;
