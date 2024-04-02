@@ -1,7 +1,7 @@
 import { memo } from "react"
 
 import { useSign } from "../hooks/useSign"
-import { dispatchNewServicesBanner, useAuth } from "@/store/hooks"
+import { dispatchModal, EModalData, useAuth } from "@/store"
 
 import styles from "../styles/link.module.scss"
 
@@ -16,7 +16,7 @@ export const CreateButton = memo(function CreateButton() {
         event.stopPropagation()
         if (typeof isAuth !== "undefined") {
           if (isAuth) {
-            dispatchNewServicesBanner(true)
+            dispatchModal(EModalData.NewServicesBanner)
           } else {
             handleAuthModal()
           }

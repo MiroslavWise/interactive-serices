@@ -1,13 +1,12 @@
 "use client"
 
 import { Button } from "@/components/common"
-import { useAuth, useVisibleBannerNewServices, dispatchAuthModal } from "@/store/hooks"
+import { useAuth, dispatchAuthModal, dispatchModal, EModalData } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
 
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
-  const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
   return typeof isAuth !== "undefined" ? (
     <div className={styles.buttons}>
@@ -18,7 +17,8 @@ export const Buttons = () => {
           className={styles.widthButton}
           suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
           style={{ width: "100%" }}
-          onClick={() => dispatchNewServicesBanner(true)}
+          onClick={() => dispatchModal(EModalData.NewServicesBanner)}
+          data-text="nav-bar-button-create"
           id="nav-bar-button-create"
         />
       ) : (
