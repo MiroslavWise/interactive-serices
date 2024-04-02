@@ -21,17 +21,12 @@ export const ContentCreatePassword = () => {
   const codeReset = useModalAuth(({ codeReset }) => codeReset)
   const email = useModalAuth(({ email }) => email)
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setError,
-    watch,
-  } = useForm<IValues>({
+  const { control, handleSubmit, setError, watch } = useForm<IValues>({
     defaultValues: {
       password: "",
       repeat_password: "",
     },
+    reValidateMode: "onChange",
   })
 
   async function onEnter(values: IValues) {
@@ -111,34 +106,36 @@ export const ContentCreatePassword = () => {
     <div className={styles.content}>
       <p>Придумайте пароль для входа в аккаунт</p>
       <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
-        <div data-label-input data-password>
-          <label htmlFor="password">Пароль</label>
+        <>
           <Controller
             name="password"
             control={control}
             rules={{ required: true, minLength: 5 }}
-            render={({ field }) => (
-              <div>
-                <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
-                <img
-                  onClick={() => setIsPass((prev) => !prev)}
-                  src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                  data-eye
-                />
+            render={({ field, fieldState: { error } }) => (
+              <div data-label-input data-password>
+                <label htmlFor={field.name}>Пароль</label>
+                <div>
+                  <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                  <img
+                    onClick={() => setIsPass((prev) => !prev)}
+                    src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
+                    alt="eye"
+                    width={20}
+                    height={20}
+                    data-eye
+                  />
+                </div>
+                {error ? (
+                  <i>
+                    {error?.message === "validate_register"
+                      ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
+                      : error?.message}
+                  </i>
+                ) : null}
               </div>
             )}
           />
-          {errors.password ? (
-            <i>
-              {errors.password?.message === "validate_register"
-                ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
-                : errors.password?.message}
-            </i>
-          ) : null}
-        </div>
+        </>
         <Controller
           name="repeat_password"
           control={control}
@@ -147,11 +144,11 @@ export const ContentCreatePassword = () => {
             minLength: 5,
             validate: (value) => value === watch("password"),
           }}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <div data-label-input data-password>
               <label htmlFor={field.name}>Подтвердите пароль</label>
               <div>
-                <input {...field} placeholder="Введите пароль еще раз" type={isPass ? "text" : "password"} />
+                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} />
                 <img
                   onClick={() => setIsPass_((prev) => !prev)}
                   src={isPass_ ? "/svg/eye.svg" : "/svg/eye-off.svg"}
@@ -161,13 +158,13 @@ export const ContentCreatePassword = () => {
                   data-eye
                 />
               </div>
-              {errors.repeat_password ? (
+              {error ? (
                 <i>
-                  {errors?.repeat_password?.type === "validate"
+                  {error?.type === "validate"
                     ? "Пароли не совпадают"
-                    : errors.repeat_password.type === "minLength"
+                    : error.type === "minLength"
                     ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру  и не менее 5 символов"
-                    : errors?.repeat_password?.message}
+                    : error?.message}
                 </i>
               ) : null}
             </div>
@@ -179,7 +176,7 @@ export const ContentCreatePassword = () => {
           typeButton="fill-primary"
           label="Продолжить"
           loading={loading}
-          disabled={watch("password") !== watch("repeat_password")}
+          disabled={watch("password") !== watch("repeat_password") || !watch("password")}
         />
       </form>
     </div>
