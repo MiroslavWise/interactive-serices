@@ -18,7 +18,6 @@ export default function SharedPopupButton({ offer, user }: { offer: IResponseOff
       ref={ref}
       onClick={(event) => {
         event.stopPropagation()
-        event.preventDefault()
         setVisible((prev) => !prev)
       }}
     >

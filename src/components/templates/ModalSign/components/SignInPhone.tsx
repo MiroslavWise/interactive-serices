@@ -1,7 +1,7 @@
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { type ReactNode, memo, useState } from "react"
 
-import { IValuesSignForm } from "../types/types"
+import { resolverPhoneSigIn, TSchemaPhoneSignIn } from "../utils/phone-sign-in.schema"
 
 import { Button } from "@/components/common"
 
@@ -20,9 +20,9 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
     register,
     setValue,
     formState: { errors },
-  } = useForm<IValuesSignForm>({ defaultValues: { phone: "" } })
+  } = useForm<TSchemaPhoneSignIn>({ defaultValues: { phone: "" }, resolver: resolverPhoneSigIn })
 
-  function onEnter(values: IValuesSignForm) {
+  function onEnter(values: TSchemaPhoneSignIn) {
     if (!loading) {
       setLoading(true)
       const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
@@ -34,10 +34,11 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
             dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
           }
         } else {
-          if (response?.error?.message === "user not found") {
+          if (response?.error?.message === "user already exists") {
+            setError("phone", { message: "Пользователь уже существует" })
+          } else if (response?.error?.message === "user not found") {
             setError("phone", { message: "Данного пользователя не существует" })
-          }
-          if (response?.error?.message === "invalid parameters") {
+          } else if (response?.error?.message === "invalid parameters") {
             setError("phone", { message: "Не верные данные или данного номер не существует" })
           }
         }
@@ -54,7 +55,7 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
       <section className={styles.section}>
         <div data-label-input>
           <label htmlFor="phone">Телефон</label>
-          <div data-phone-div data-error={!!errors?.country || !!errors?.code || !!errors?.phone}>
+          <div data-phone-div data-error={!!errors?.phone}>
             {!!watch("phone") && !["8", "+", 8].includes(`${watch("phone")}`[0]) ? <span>+</span> : null}
             <input
               data-input-phone
@@ -63,20 +64,12 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
               inputMode="numeric"
               {...register("phone", { required: true, minLength: 11, maxLength: 16 })}
               onChange={(event) => {
-                setValue("phone", event.target.value?.replaceAll(/[^\d]/g, ""))
+                setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))
               }}
               maxLength={16}
             />
           </div>
-          {!!errors?.phone ? (
-            <i>
-              {errors.phone.type === "minLength"
-                ? "Номер телефона состоит из 11 цифр"
-                : errors?.phone?.type === "maxLength"
-                ? "Номер имеет не более 11 цифр"
-                : errors?.phone?.message}
-            </i>
-          ) : null}
+          {!!errors.phone ? <i>{errors?.phone?.message}</i> : null}
         </div>
       </section>
       {itemForgot}

@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
+import { TValidateSchemaPassword, resolverPassword } from "../utils/password.schema"
+
 import { Button } from "@/components/common"
 
-import { RegistrationService, serviceAuthErrors } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
+import { RegistrationService, serviceAuthErrors } from "@/services"
 import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -21,15 +23,11 @@ export const ContentCreatePassword = () => {
   const codeReset = useModalAuth(({ codeReset }) => codeReset)
   const email = useModalAuth(({ email }) => email)
 
-  const { control, handleSubmit, setError, watch } = useForm<IValues>({
-    defaultValues: {
-      password: "",
-      repeat_password: "",
-    },
-    reValidateMode: "onChange",
+  const { control, handleSubmit, setError, watch } = useForm<TValidateSchemaPassword>({
+    resolver: resolverPassword,
   })
 
-  async function onEnter(values: IValues) {
+  async function onEnter(values: TValidateSchemaPassword) {
     if (!loading) {
       setLoading(true)
       if (type === "ResetPassword" && !!codeReset) {
@@ -125,13 +123,7 @@ export const ContentCreatePassword = () => {
                     data-eye
                   />
                 </div>
-                {error ? (
-                  <i>
-                    {error?.message === "validate_register"
-                      ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру."
-                      : error?.message}
-                  </i>
-                ) : null}
+                {error ? <i>{error?.message}</i> : null}
               </div>
             )}
           />
@@ -158,15 +150,7 @@ export const ContentCreatePassword = () => {
                   data-eye
                 />
               </div>
-              {error ? (
-                <i>
-                  {error?.type === "validate"
-                    ? "Пароли не совпадают"
-                    : error.type === "minLength"
-                    ? "Пароль должен содержать хотя бы одну большую и маленькую букву и цифру  и не менее 5 символов"
-                    : error?.message}
-                </i>
-              ) : null}
+              {error ? <i>{error?.message}</i> : null}
             </div>
           )}
         />
@@ -176,14 +160,9 @@ export const ContentCreatePassword = () => {
           typeButton="fill-primary"
           label="Продолжить"
           loading={loading}
-          disabled={watch("password") !== watch("repeat_password") || !watch("password")}
+          disabled={watch("password") !== watch("repeat_password")}
         />
       </form>
     </div>
   )
-}
-
-interface IValues {
-  password: string
-  repeat_password: string
 }
