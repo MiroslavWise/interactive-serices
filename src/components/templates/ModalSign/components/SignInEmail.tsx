@@ -133,7 +133,7 @@ export const SignInEmail = memo(function SignInEmail({
           rules={{ required: true }}
           control={control}
           render={({ field }) => (
-            <div data-label-input>
+            <div data-label-input data-test="sign-in-email">
               <label htmlFor={field.name}>Email</label>
               <input
                 autoComplete="off"
@@ -152,7 +152,7 @@ export const SignInEmail = memo(function SignInEmail({
           control={control}
           rules={{ required: true, minLength: 5 }}
           render={({ field }) => (
-            <div data-label-input data-password>
+            <div data-label-input data-password data-test="sign-in-password">
               <label htmlFor={field.name}>Пароль</label>
               <div>
                 <input {...field} autoComplete="off" placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
