@@ -49,7 +49,7 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
       ) : null}
       <article data-column>
         <p>
-          Нет аккаунта?{" "}
+          Нет аккаунта?&nbsp;
           <a data-a-on-register-type onClick={() => dispatchAuthModal({ type: "SignUp" })}>
             Зарегистрироваться
           </a>

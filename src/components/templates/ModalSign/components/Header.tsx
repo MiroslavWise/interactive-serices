@@ -6,7 +6,7 @@ export const HeaderAuth = memo(function HeaderAuth() {
   const type = useModalAuth(({ type }) => type)
   const email = useModalAuth(({ email }) => email)
   const phone = useModalAuth(({ phone }) => phone)
-  //Восстановление пароля
+
   return (
     <header>
       <h3>

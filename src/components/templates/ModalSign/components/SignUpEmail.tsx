@@ -2,7 +2,7 @@ import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { ReactNode, memo, useState } from "react"
 
-import { IValuesRegistrationForm } from "../types/types"
+import { resolverEmailSignUp, TSchemaEmailSignUp } from "../utils/email-sign-up.schema"
 
 import { Button } from "@/components/common"
 
@@ -19,15 +19,14 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<IValuesRegistrationForm>({
+  } = useForm<TSchemaEmailSignUp>({
     defaultValues: {
       email: email || "",
-      checkbox: false,
-      checkbox_personal_data: false,
     },
+    resolver: resolverEmailSignUp,
   })
 
-  const onRegister = async (values: IValuesRegistrationForm) => {
+  const onRegister = async (values: TSchemaEmailSignUp) => {
     if (!loading) {
       setLoading(true)
       getUserEmail(values.email!).then((response) => {
@@ -55,20 +54,12 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
           <label htmlFor="email">Электронная почта</label>
           <input
             data-error={!!errors.email}
-            type="email"
+            type="text"
             placeholder="email_address@mail.com"
             inputMode="email"
             {...register("email", { required: true })}
           />
-          {!!errors.email ? (
-            <i>
-              {errors.email && errors?.email?.message === "user already exists"
-                ? "Пользователь уже существует"
-                : errors?.email
-                ? "Поле не может оставаться незаполненным"
-                : "Какая-то ошибка с Email"}
-            </i>
-          ) : null}
+          {!!errors.email ? <i>{errors?.email?.message}</i> : null}
         </div>
       </section>
       <div className={styles.RememberChange}>
@@ -80,15 +71,15 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
             </span>
           </label>
           <p data-terms data-error={!!errors.checkbox}>
-            Регистрируясь, вы соглашаетесь с{" "}
+            Регистрируясь, вы соглашаетесь с&nbsp;
             <Link href={{ pathname: "/terms-rules" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Правилами пользования
             </Link>
-            ,{" "}
+            ,&nbsp;
             <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Политикой конфиденциальности
-            </Link>{" "}
-            и{" "}
+            </Link>
+            &nbsp;и&nbsp;
             <Link href={{ pathname: "/terms-consent-to-receive-mailings" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Согласие на получение рассылки
             </Link>
@@ -111,7 +102,7 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
         typeButton="fill-primary"
         label="Зарегистрироваться"
         loading={loading}
-        disabled={!watch("checkbox") || !watch("email") || !watch("checkbox_personal_data")}
+        disabled={!watch("checkbox") || !watch("email") || !watch("checkbox_personal_data") || !!errors.email}
         data-button-submit-register-email
       />
       {children}

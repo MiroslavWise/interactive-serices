@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
-import type { TContentCodeVerification } from "../types/types"
+import { resolverCodeVerification, TSchemaCodeVerification } from "../utils/code-verification.schema"
 
 import { TimerData } from "./TimerData"
 import { Button } from "@/components/common"
@@ -13,7 +13,7 @@ import { dispatchAuthModal, useAuth, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
-export const ContentCodeVerification: TContentCodeVerification = ({}) => {
+export const ContentCodeVerification = ({}) => {
   const [loading, setLoading] = useState(false)
   const phone = useModalAuth(({ phone }) => phone)
   const idUser = useModalAuth(({ idUser }) => idUser)
@@ -24,10 +24,8 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<IValues>({
-    defaultValues: {
-      code: "",
-    },
+  } = useForm<TSchemaCodeVerification>({
+    resolver: resolverCodeVerification,
   })
 
   function handleChange() {
@@ -37,7 +35,7 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
     })
   }
 
-  function handleConfirmation(values: IValues) {
+  function handleConfirmation(values: TSchemaCodeVerification) {
     if (!loading) {
       setLoading(true)
       serviceAuth
@@ -121,8 +119,4 @@ export const ContentCodeVerification: TContentCodeVerification = ({}) => {
       </form>
     </div>
   )
-}
-
-interface IValues {
-  code: string
 }

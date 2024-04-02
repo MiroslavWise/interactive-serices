@@ -10,6 +10,7 @@ import { serviceAuth } from "@/services/auth"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
+import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.schema"
 
 export const SignUpPhone = memo(function SignUpPhone({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
@@ -23,18 +24,17 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     setFocus,
     setValue,
     setError,
-  } = useForm<IValuesRegistrationForm>({
+  } = useForm<TSchemaPhoneSignUp>({
     defaultValues: {
       phone: phone,
-      checkbox: false,
-      checkbox_personal_data: false,
     },
+    resolver: resolverPhoneSignUp,
   })
 
-  const onRegister = async (values: IValuesRegistrationForm) => {
+  const onRegister = async (values: TSchemaPhoneSignUp) => {
     if (!loading) {
       setLoading(true)
-      const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
+      const phoneReplace = String(values.phone).replaceAll(/[^\d]/g, "")
 
       serviceAuth
         .phone({
@@ -46,10 +46,11 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             dispatchStartTimer()
             dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
           } else {
-            if (response?.error?.message === "user not found") {
+            if (response?.error?.message === "user already exists") {
+              setError("phone", { message: "Пользователь уже существует" })
+            } else if (response?.error?.message === "user not found") {
               setError("phone", { message: "Данного пользователя не существует" })
-            }
-            if (response?.error?.message === "invalid parameters") {
+            } else if (response?.error?.message === "invalid parameters") {
               setError("phone", { message: "Не верные данные или данного номер не существует" })
             }
           }
@@ -65,7 +66,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
           <label htmlFor="phone">Телефон</label>
           <div
             data-phone-div
-            data-error={!!errors?.country || !!errors?.code || !!errors?.phone}
+            data-error={!!errors?.phone}
             onClick={(event) => {
               event.stopPropagation()
               setFocus("phone")
@@ -75,26 +76,14 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             <input
               data-input-phone
               placeholder="+7 999 000-00-00"
-              type="tel"
+              type="text"
               inputMode="numeric"
-              {...register("phone", { required: true, minLength: 11, maxLength: 16 })}
-              onChange={(event) => {
-                setValue("phone", event.target.value?.replaceAll(/[^\d]/g, ""))
-              }}
-              maxLength={16}
+              {...register("phone", { required: true })}
+              onChange={(event) => setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))}
+              maxLength={11}
             />
           </div>
-          {!!errors.phone ? (
-            <i>
-              {errors.phone && errors?.phone?.message === "user already exists"
-                ? "Пользователь уже существует"
-                : errors.phone.type === "minLength"
-                ? "Номер телефона состоит из 11 цифр"
-                : errors?.phone?.type === "maxLength"
-                ? "Номер имеет не более 11 цифр"
-                : errors?.phone?.message}
-            </i>
-          ) : null}
+          {!!errors.phone ? <i>{errors?.phone?.message}</i> : null}
         </div>
       </section>
       <div className={styles.RememberChange}>
@@ -106,15 +95,15 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             </span>
           </label>
           <p data-terms data-error={!!errors.checkbox}>
-            Регистрируясь, вы соглашаетесь с{" "}
+            Регистрируясь, вы соглашаетесь с&nbsp;
             <Link href={{ pathname: "/terms-rules" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Правилами пользования
             </Link>
-            ,{" "}
+            ,&nbsp;
             <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Политикой конфиденциальности
-            </Link>{" "}
-            и{" "}
+            </Link>
+            &nbsp;и&nbsp;
             <Link href={{ pathname: "/terms-consent-to-receive-mailings" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Согласие на получение рассылки
             </Link>

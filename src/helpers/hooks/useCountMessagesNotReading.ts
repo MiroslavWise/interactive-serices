@@ -21,6 +21,7 @@ export const useCountMessagesNotReading = () => {
       }),
     queryKey: ["threads", { user: userId }],
     refetchOnMount: true,
+    enabled: !!userId,
   })
 
   const count = useMemo(() => {

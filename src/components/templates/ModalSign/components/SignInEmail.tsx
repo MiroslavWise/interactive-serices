@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form"
 import { type ReactNode, memo, useState, Dispatch, SetStateAction } from "react"
 
-import { IValuesSignForm } from "../types/types"
+import { resolverEmailSignIn, TSchemaEmailSignIn } from "../utils/email-sign-in.schema"
 
 import { Button } from "@/components/common"
 
@@ -38,9 +38,11 @@ export const SignInEmail = memo(function SignInEmail({
     control,
     setError,
     formState: { errors },
-  } = useForm<IValuesSignForm>({ defaultValues: { email: "", password: "" } })
+  } = useForm<TSchemaEmailSignIn>({
+    resolver: resolverEmailSignIn,
+  })
 
-  function onEnter(value: IValuesSignForm) {
+  function onEnter(value: TSchemaEmailSignIn) {
     if (!loading) {
       setLoading(true)
       useTokenHelper
@@ -135,7 +137,7 @@ export const SignInEmail = memo(function SignInEmail({
               <label htmlFor={field.name}>Email</label>
               <input
                 autoComplete="off"
-                type="email"
+                type="text"
                 placeholder="Введите свой email"
                 inputMode="email"
                 {...field}

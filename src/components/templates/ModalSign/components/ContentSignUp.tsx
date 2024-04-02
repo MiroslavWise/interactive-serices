@@ -37,7 +37,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
       ) : null}
       <article data-column>
         <p>
-          Уже есть аккаунт?{" "}
+          Уже есть аккаунт?&nbsp;
           <a data-a-on-sign-in-type onClick={() => dispatchAuthModal({ type: "SignIn" })}>
             Войти
           </a>
