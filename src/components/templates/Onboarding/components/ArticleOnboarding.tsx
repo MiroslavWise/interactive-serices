@@ -8,7 +8,7 @@ import { Button } from "@/components/common"
 
 import { useResize } from "@/helpers"
 import { CONTENT_ALERT, CONTENT_DISCUSSION, CONTENT_OFFER } from "../constants/steps"
-import { useOnboarding, dispatchOnboarding, useVisibleBannerNewServices, useAddCreateModal, dispatchOnboardingType } from "@/store"
+import { useOnboarding, dispatchOnboarding, useAddCreateModal, dispatchOnboardingType, useModal, EModalData } from "@/store"
 
 import styles from "../styles/article-onboarding.module.scss"
 
@@ -19,7 +19,7 @@ export const ArticleOnboarding = () => {
   const type = useOnboarding(({ type }) => type)
   const valid = useOnboarding(({ valid }) => valid)
   const visible = useOnboarding(({ visible }) => visible)
-  const isVisibleNewServicesBanner = useVisibleBannerNewServices(({ isVisibleNewServicesBanner }) => isVisibleNewServicesBanner)
+  const dataModal = useModal(({ data }) => data)
   const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
 
   const { isTablet } = useResize()
@@ -27,7 +27,7 @@ export const ArticleOnboarding = () => {
   useEffect(() => {
     if (visible) {
       if (!!type && step > 0) {
-        if (isVisibleNewServicesBanner) {
+        if (dataModal === EModalData.NewServicesBanner) {
           const idContainer = document.getElementById("container-services-banner")
           const leftContainer = idContainer?.getBoundingClientRect().left
 
@@ -52,7 +52,7 @@ export const ArticleOnboarding = () => {
         }
       }
     }
-  }, [step, type, visible, isVisibleNewServicesBanner])
+  }, [step, type, visible, dataModal])
 
   useEffect(() => {
     if (!isTablet) {

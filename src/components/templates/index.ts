@@ -1,7 +1,6 @@
 export * from "./WelcomeModal"
 export * from "./CreateNewOptionModal"
 export * from "./NewServicesBanner"
-export * from "./NewServiceBarterRequests"
 export * from "./CreationAlertAndDiscussionMap"
 export * from "./AboutSheiraPopup"
 export * from "./ModalSign"

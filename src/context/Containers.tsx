@@ -11,14 +11,12 @@ import {
   WelcomeModal,
   ComplaintModal,
   AboutSheiraPopup,
-  NewServicesBanner,
   NotificationsMobile,
   PhotoPreviewModal,
   HasClustererBalloons,
   CompletionTransaction,
   CreateNewOptionModal,
   DataConfirmationPopUp,
-  NewServiceBarterRequests,
   MobileFiltersMap,
   Onboarding,
   ReciprocalExchange,
@@ -68,6 +66,7 @@ import {
 } from "@/store"
 import { useResize } from "@/helpers"
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
+const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -108,6 +107,7 @@ export const Containers = () => {
       )}
       <ToastContainer limit={3} />
       <CookiesToast />
+      <Modal />
       {!isTablet && <PublicProfile />}
       {isTablet && <MobileFiltersMap />}
       {visibleBalloonOffer && <BalloonOffer />}
@@ -122,8 +122,6 @@ export const Containers = () => {
           <OutAccount />
           <DeleteUser />
           <ChangeService />
-          <NewServicesBanner />
-          <NewServiceBarterRequests />
           {visibleUpdateOffer && <UpdateOffer />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}

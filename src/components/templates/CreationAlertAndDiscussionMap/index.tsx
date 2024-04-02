@@ -1,13 +1,12 @@
 "use client"
 
 import { EnumTypeProvider } from "@/types/enum"
-import type { TAddCreate } from "@/store/types/useAddCreateModal"
 import type { TCreationAlertAndDiscussionMap } from "./types/types"
 
 import { ButtonClose } from "@/components/common"
 
 import { NEW_CREATE_BADGES } from "../NewServicesBanner/constants"
-import { openCreateOffers, dispatchAddressOffers, dispatchNewServicesBanner } from "@/store"
+import { openCreateOffers, dispatchAddressOffers } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -17,7 +16,6 @@ export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({ 
       dispatchAddressOffers(addressInit)
       openCreateOffers(value as EnumTypeProvider)
     }
-    dispatchNewServicesBanner(false)
   }
 
   return (
