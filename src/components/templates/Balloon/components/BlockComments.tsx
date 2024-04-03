@@ -10,11 +10,13 @@ import { ListCommentaries } from "./ListCommentaries"
 import { FormAppendComment } from "./FormAppendComment"
 
 import { useAuth } from "@/store"
+import { useWebSocket } from "@/context"
 import { serviceComments, serviceOffersThreads } from "@/services"
 
 import styles from "../styles/block-comments.module.scss"
 
 export const BlockComments = memo(({ close, offer }: IProps) => {
+  const { socket } = useWebSocket() ?? {}
   const userId = useAuth(({ userId }) => userId)
   const [expand, setExpand] = useState(false)
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
@@ -42,6 +44,25 @@ export const BlockComments = memo(({ close, offer }: IProps) => {
       }
     }
   }, [dataComments?.res])
+
+  useEffect(() => {
+    if (socket && currentOffersThreads) {
+      const commentResponse = (event: any) => {
+        console.log("commentResponse: ", event)
+        if (event.user_id !== userId) {
+          refetchComments()
+        }
+      }
+
+      if (userId && socket) {
+        socket?.on(`commentResponse-${currentOffersThreads.id}`, commentResponse)
+      }
+
+      return () => {
+        socket?.off(`commentResponse-${currentOffersThreads.id}`, commentResponse)
+      }
+    }
+  }, [socket, currentOffersThreads, userId])
 
   return (
     <div className={styles.container} data-text="container-commentaries">
