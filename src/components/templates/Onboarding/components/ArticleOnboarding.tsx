@@ -20,7 +20,6 @@ export const ArticleOnboarding = () => {
   const valid = useOnboarding(({ valid }) => valid)
   const visible = useOnboarding(({ visible }) => visible)
   const dataModal = useModal(({ data }) => data)
-  const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
 
   const { isTablet } = useResize()
 
@@ -58,7 +57,7 @@ export const ArticleOnboarding = () => {
     if (!isTablet) {
       if (visible) {
         if (!!type && step > 1) {
-          if (isVisible) {
+          if (dataModal === EModalData.CreateNewOptionModal) {
             const idUL = document.getElementById("ul-create-option-modal")
             const idContainer = document.getElementById("container-create-option-modal")
 
@@ -153,7 +152,7 @@ export const ArticleOnboarding = () => {
         }
       }
     }
-  }, [isVisible, step, type, visible, isTablet])
+  }, [dataModal, step, type, visible, isTablet])
 
   function handleClose() {
     dispatchOnboarding("pre-close")

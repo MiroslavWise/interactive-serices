@@ -1,5 +1,4 @@
 export * from "./WelcomeModal"
-export * from "./CreateNewOptionModal"
 export * from "./NewServicesBanner"
 export * from "./CreationAlertAndDiscussionMap"
 export * from "./AboutSheiraPopup"

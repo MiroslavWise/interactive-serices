@@ -21,6 +21,7 @@ export const dispatchModalClose = () =>
 
 export enum EModalData {
   NewServicesBanner = "new-services-banner",
+  CreateNewOptionModal = "create-new-option-modal",
 }
 
 interface IStateUseModal {

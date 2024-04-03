@@ -11,8 +11,5 @@ export interface IValuesVisibleType {
 
 export interface IUseAddCreateModal {
   typeAdd?: EnumTypeProvider
-  isVisible: boolean
   addressInit?: IPostAddress
-
-  dispatchVisibleTypeCreateOptionals: Dispatch<IValuesVisibleType | void>
 }

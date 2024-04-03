@@ -5,27 +5,24 @@ import type { TNewCreateBadge } from "../types/types"
 
 import { mapIconCreateOffer } from "@/utils"
 
-import { useAddCreateModal, useOnboarding, dispatchOnboarding, dispatchModalClose } from "@/store"
+import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/styles.module.scss"
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)
-  const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
-    ({ dispatchVisibleTypeCreateOptionals }) => dispatchVisibleTypeCreateOptionals,
-  )
 
   function handleType() {
     if (visible && type === value) {
       dispatchOnboarding("next")
-      dispatchVisibleTypeCreateOptionals({ visible: true, type: value as EnumTypeProvider })
-      dispatchModalClose()
+      openCreateOffers(value as EnumTypeProvider)
+      dispatchModal(EModalData.CreateNewOptionModal)
     } else if (visible && type !== value) {
       return
     } else {
-      dispatchVisibleTypeCreateOptionals({ visible: true, type: value as EnumTypeProvider })
-      dispatchModalClose()
+      openCreateOffers(value as EnumTypeProvider)
+      dispatchModal(EModalData.CreateNewOptionModal)
     }
   }
 
