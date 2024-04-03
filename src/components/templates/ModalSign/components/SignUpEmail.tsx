@@ -50,7 +50,7 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
   return (
     <form onSubmit={handleSubmit(onRegister)}>
       <section className={styles.section}>
-        <div data-label-input>
+        <div data-label-input data-test="sign-up-email">
           <label htmlFor="email">Электронная почта</label>
           <input
             data-error={!!errors.email}
@@ -103,7 +103,7 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
         label="Зарегистрироваться"
         loading={loading}
         disabled={!watch("checkbox") || !watch("email") || !watch("checkbox_personal_data") || !!errors.email}
-        data-button-submit-register-email
+        data-test="sign-up-email-submit"
       />
       {children}
     </form>

@@ -1,7 +1,6 @@
 "use client"
 
 import { EnumTypeProvider } from "@/types/enum"
-import type { TNewServicesBanner } from "./types/types"
 
 import { NewCreateBadge } from "./components/NewCreateBadge"
 
@@ -10,7 +9,7 @@ import { useOnboarding } from "@/store"
 
 import { ArticleOnboarding } from "@/components/templates"
 
-export const NewServicesBanner: TNewServicesBanner = ({}) => {
+export default function NewServicesBanner() {
   const step = useOnboarding(({ step }) => step)
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)

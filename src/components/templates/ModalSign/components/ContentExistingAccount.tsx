@@ -11,8 +11,16 @@ export const ContentExistingAccount = () => {
         <p>Аккаунт с таким номером уже существует</p>
       </article>
       <form>
-        <Button type="button" typeButton="fill-primary" label="Войти" onClick={() => dispatchAuthModal({ type: "SignIn" })} />
-        <a onClick={() => dispatchAuthModal({ type: "SignUp" })}>Продолжить регистрацию</a>
+        <Button
+          type="button"
+          typeButton="fill-primary"
+          label="Войти"
+          onClick={() => dispatchAuthModal({ type: "SignIn" })}
+          data-test="existing-account-button-enter"
+        />
+        <a onClick={() => dispatchAuthModal({ type: "SignUp" })} data-test="existing-account-continue-link">
+          Продолжить регистрацию
+        </a>
       </form>
     </div>
   )

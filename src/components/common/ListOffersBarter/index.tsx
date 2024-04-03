@@ -7,16 +7,13 @@ import type { TListOffersBarter } from "./types"
 
 import { Button } from "../Forward"
 
-import { useOffersCategories, useAddCreateModal } from "@/store"
+import { useOffersCategories, openCreateOffers, dispatchModal, EModalData } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const ListOffersBarter = forwardRef(function ListOffersBarter(props: TListOffersBarter) {
   const { items, active, onClick, ...rest } = props ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
-  const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
-    ({ dispatchVisibleTypeCreateOptionals }) => dispatchVisibleTypeCreateOptionals,
-  )
 
   const height = useMemo(() => {
     const length = items?.length || 70 + 32
@@ -25,10 +22,8 @@ export const ListOffersBarter = forwardRef(function ListOffersBarter(props: TLis
   }, [items])
 
   function updateProfileOffers() {
-    dispatchVisibleTypeCreateOptionals({
-      visible: true,
-      type: EnumTypeProvider.offer,
-    })
+    openCreateOffers(EnumTypeProvider.offer)
+    dispatchModal(EModalData.CreateNewOptionModal)
   }
 
   return (

@@ -62,7 +62,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
   return (
     <form onSubmit={handleSubmit(onRegister)}>
       <section className={styles.section}>
-        <div data-label-input>
+        <div data-label-input data-test="sign-up-phone">
           <label htmlFor="phone">Телефон</label>
           <div
             data-phone-div
@@ -127,7 +127,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         label="Зарегистрироваться"
         loading={loading}
         disabled={!watch("checkbox") || !watch("phone") || !watch("checkbox_personal_data")}
-        data-button-submit-register-phone
+        data-test="sign-up-phone-submit"
       />
       {children}
     </form>

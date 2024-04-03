@@ -15,7 +15,6 @@ import {
   PhotoPreviewModal,
   HasClustererBalloons,
   CompletionTransaction,
-  CreateNewOptionModal,
   DataConfirmationPopUp,
   MobileFiltersMap,
   Onboarding,
@@ -47,7 +46,6 @@ import {
   useDroverFriends,
   useVisibleNotifications,
   useDataConfirmationPopUp,
-  useAddCreateModal,
   useReciprocalExchange,
   useBalloonOffer,
   useBalloonDiscussion,
@@ -70,7 +68,6 @@ const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
-  const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
   const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
   const visibleBalloonOffer = useBalloonOffer(({ visible }) => visible)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
@@ -127,7 +124,6 @@ export const Containers = () => {
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
           {isTablet && <OptionProfileMobile />}
-          {isVisible && <CreateNewOptionModal />}
           {isTablet && <InitiatedBarterMobile />}
           {visibleComplaint && <ComplaintModal />}
           {visibleReasonBarters && <ReasonBarters />}

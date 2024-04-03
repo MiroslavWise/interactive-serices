@@ -57,7 +57,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
           control={control}
           rules={{ required: true }}
           render={({ field, fieldState: { error } }) => (
-            <div data-label-input>
+            <div data-label-input data-test="forgot-password-email">
               <label htmlFor="email">Электронная почта</label>
               <input data-error={!!error} type="text" inputMode="email" placeholder="email_address@mail.com" {...field} />
               {error ? <i>{error.message}</i> : null}
@@ -68,7 +68,10 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
       </form>
       <article data-column>
         <p>
-          Уже есть аккаунт? <a onClick={() => dispatchAuthModal({ type: "SignIn" })}>Войти</a>
+          Уже есть аккаунт?&nbsp;
+          <a onClick={() => dispatchAuthModal({ type: "SignIn" })} data-test="forgot-password-enter">
+            Войти
+          </a>
         </p>
       </article>
     </div>

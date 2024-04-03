@@ -53,7 +53,7 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
   return (
     <form onSubmit={submit}>
       <section className={styles.section}>
-        <div data-label-input>
+        <div data-label-input data-test="sign-in-phone">
           <label htmlFor="phone">Телефон</label>
           <div data-phone-div data-error={!!errors?.phone}>
             {!!watch("phone") && !["8", "+", 8].includes(`${watch("phone")}`[0]) ? <span>+</span> : null}
@@ -74,7 +74,7 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
       </section>
       {itemForgot}
 
-      <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} data-button-submit-sign-in-phone />
+      <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} data-test="sign-in-phone-submit" />
       {children}
     </form>
   )

@@ -110,7 +110,7 @@ export const ContentCreatePassword = () => {
             control={control}
             rules={{ required: true, minLength: 5 }}
             render={({ field, fieldState: { error } }) => (
-              <div data-label-input data-password>
+              <div data-label-input data-password data-test="create-password">
                 <label htmlFor={field.name}>Пароль</label>
                 <div>
                   <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
@@ -137,7 +137,7 @@ export const ContentCreatePassword = () => {
             validate: (value) => value === watch("password"),
           }}
           render={({ field, fieldState: { error } }) => (
-            <div data-label-input data-password>
+            <div data-label-input data-password data-test="create-password-repeat">
               <label htmlFor={field.name}>Подтвердите пароль</label>
               <div>
                 <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} />
@@ -161,6 +161,7 @@ export const ContentCreatePassword = () => {
           label="Продолжить"
           loading={loading}
           disabled={watch("password") !== watch("repeat_password")}
+          data-test="create-password-submit"
         />
       </form>
     </div>

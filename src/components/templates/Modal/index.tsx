@@ -19,7 +19,7 @@ export default function Modal() {
     <div className={styles.wrapperModal} data-visible={visible}>
       <section className={STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : ""} id={ID_MODAL.has(data!) ? ID_MODAL.get(data!) : ""}>
         {visible ? <ButtonClose onClick={close} /> : null}
-        {DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null}
+        {data && DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null}
       </section>
     </div>
   )

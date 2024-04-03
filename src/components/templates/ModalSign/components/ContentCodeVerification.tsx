@@ -88,7 +88,7 @@ export const ContentCodeVerification = ({}) => {
               maxLength: 6,
             }}
             render={({ field }) => (
-              <div data-label-input>
+              <div data-label-input data-test="code-verification">
                 <label htmlFor={field.name}>Код из СМС</label>
                 <input
                   data-error={!!errors.code}
@@ -113,6 +113,7 @@ export const ContentCodeVerification = ({}) => {
             onClick={handleChange}
             loading={loading}
             disabled={loading}
+            data-test="code-verification-submit"
           />
           <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} disabled={loading} />
         </footer>

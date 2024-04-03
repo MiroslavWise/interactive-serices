@@ -33,11 +33,12 @@ export const ContentCurrentUser = () => {
       <Button type="button" typeButton="fill-primary" label="Войти" onClick={() => dispatchAuthModal({ type: "SignIn" })} />
       <article data-column style={{ marginTop: "-1.25rem" }}>
         <p>
-          Не помните пароль?{" "}
+          Не помните пароль?&nbsp;
           <a
             onClick={() => {
               dispatchAuthModal({ type: "ForgotPassword", email: user?.email! })
             }}
+            data-test="current-user-restore-link"
           >
             Восстановить
           </a>
