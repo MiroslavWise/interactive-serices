@@ -8,19 +8,17 @@ import { HeaderTimeDots } from "../components/HeaderTimeDots"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
-import { dispatchBallonDiscussion, dispatchMobileSearchCategoryVisible } from "@/store"
+import { dispatchBallonDiscussion, dispatchMobileSearchCategoryVisible, dispatchModal, EModalData } from "@/store"
 
 import styleMain from "../styles/main.module.scss"
 import styles from "../styles/discussion.module.scss"
 
-export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
-  const { id, title, content, addresses, userId, images = [], created } = offer ?? {}
+export default function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
+  const { id, title, content, userId, images = [] } = offer ?? {}
 
   function handle() {
-    dispatchBallonDiscussion({
-      visible: true,
-      offer: offer,
-    })
+    dispatchBallonDiscussion({ offer: offer })
+    dispatchModal(EModalData.BalloonDiscussion)
     dispatchMobileSearchCategoryVisible(false)
   }
 

@@ -10,7 +10,7 @@ import IconAlertCircle from "@/components/icons/IconAlertCircle"
 import { ITEMS_LINK } from "@/components/common/maps/CopyLinks"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchComplaintModalUser } from "@/store"
+import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
 
 export const PopupShared = ({
   offer,
@@ -29,9 +29,9 @@ export const PopupShared = ({
   function handle() {
     if (user) {
       dispatchComplaintModalUser({
-        visible: true,
         user: user,
       })
+      dispatchModal(EModalData.ComplaintModal)
       return
     }
   }

@@ -4,7 +4,7 @@ import type { TBadgeServices } from "./types"
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, useOffersCategories } from "@/store"
+import { dispatchBallonOffer, dispatchModal, EModalData, useOffersCategories } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -17,10 +17,8 @@ export const BadgeServices: TBadgeServices = (props) => {
   function handle() {
     if (id && isClickable) {
       const { isClickable, ...offer } = props ?? {}
-      dispatchBallonOffer({
-        visible: true,
-        offer: offer! as IResponseOffers,
-      })
+      dispatchModal(EModalData.BalloonOffer)
+      dispatchBallonOffer({ offer: offer! as IResponseOffers })
     }
   }
 

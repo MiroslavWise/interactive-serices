@@ -8,7 +8,7 @@ import { Button, NextImageMotion } from "@/components/common"
 
 import { dayFormat } from "@/helpers"
 import { getProfileUserId, getUserId, serviceFriends } from "@/services"
-import { dispatchActiveServicesFrom, dispatchOptionProfileMobile, dispatchUpdateProfile, useAuth, useDroverFriends } from "@/store"
+import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile, EModalData, useAuth, useDroverFriends } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
 
@@ -80,7 +80,12 @@ export const MContainerAboutProfile = () => {
           <p>{dataProfile?.res?.about || "Обо мне..."}</p>
         </section>
         <section data-buttons>
-          <Button type="button" typeButton="regular-primary" label="Редактировать профиль" onClick={() => dispatchUpdateProfile(true)} />
+          <Button
+            type="button"
+            typeButton="regular-primary"
+            label="Редактировать профиль"
+            onClick={() => dispatchModal(EModalData.UpdateProfile)}
+          />
           <button type="button" data-circle onClick={handleOpenOption}>
             <img src="/svg/accent-dots.svg" alt="..." width={16} height={16} />
           </button>

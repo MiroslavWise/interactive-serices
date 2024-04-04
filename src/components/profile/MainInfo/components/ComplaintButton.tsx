@@ -2,7 +2,7 @@
 
 import type { IUserResponse } from "@/services/users/types"
 
-import { dispatchComplaintModalUser } from "@/store"
+import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
 
 export const ComplaintButton = (props: { user: IUserResponse }) => {
   const { user } = props ?? {}
@@ -10,9 +10,9 @@ export const ComplaintButton = (props: { user: IUserResponse }) => {
   function handle() {
     if (user) {
       dispatchComplaintModalUser({
-        visible: true,
         user: user,
       })
+      dispatchModal(EModalData.ComplaintModal)
       return
     }
   }

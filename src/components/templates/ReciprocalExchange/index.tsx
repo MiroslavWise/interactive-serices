@@ -24,6 +24,7 @@ import {
   useReciprocalExchange,
   dispatchReciprocalExchange,
   dispatchReciprocalExchangeCollapse,
+  dispatchModalClose,
 } from "@/store"
 import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
@@ -136,7 +137,8 @@ export const ReciprocalExchange = () => {
                   })
                   setLoading(false)
                   dispatchReciprocalExchange({ visible: false, offer: undefined })
-                  dispatchBallonOffer({ visible: false })
+                  dispatchBallonOffer({ offer: undefined })
+                  dispatchModalClose()
                 })
               })
             } else {

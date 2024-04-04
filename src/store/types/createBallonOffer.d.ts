@@ -3,11 +3,9 @@ import type { ISmallDataOfferBarter } from "@/services/barters/types"
 import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 export interface IStateBallonOffer {
-    visible: boolean
-    offer?: ISmallDataOfferBarter | IResponseOffers
+  offer?: ISmallDataOfferBarter | IResponseOffers
 }
 
 export interface IDispatchBallonOffer {
-    visible: boolean
-    offer?: ISmallDataOfferBarter | IResponseOffers
+  offer?: ISmallDataOfferBarter | IResponseOffers
 }

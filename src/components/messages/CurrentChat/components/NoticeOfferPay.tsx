@@ -10,7 +10,7 @@ import { LoadingThreadNotice } from "@/components/common"
 
 import { getIdOffer } from "@/services"
 import { daysAgo, usePush } from "@/helpers"
-import { dispatchBallonOffer, dispatchMapCoordinates, useAuth, useOffersCategories } from "@/store"
+import { dispatchBallonOffer, dispatchMapCoordinates, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/notice-offer-pay.module.scss"
 
@@ -41,20 +41,16 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
           coordinates: address?.coordinates?.split(" ")?.map(Number),
         })
       }
-      dispatchBallonOffer({
-        visible: true,
-        offer: resOffer,
-      })
+      dispatchBallonOffer({ offer: resOffer })
+      dispatchModal(EModalData.BalloonOffer)
       handlePush("/")
     }
   }
 
   function handleDetailOffer() {
     if (!!resOffer) {
-      dispatchBallonOffer({
-        visible: true,
-        offer: resOffer,
-      })
+      dispatchBallonOffer({ offer: resOffer })
+      dispatchModal(EModalData.BalloonOffer)
     }
   }
 

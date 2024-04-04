@@ -12,7 +12,15 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import { getIdOffer, getProfileUserId, getTestimonials, patchBarter, serviceNotifications } from "@/services"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, useOffersCategories, dispatchReasonBarters } from "@/store"
+import {
+  useAuth,
+  dispatchVisibleNotifications,
+  dispatchAddTestimonials,
+  useOffersCategories,
+  dispatchReasonBarters,
+  dispatchModal,
+  EModalData,
+} from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -462,13 +470,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
   function handleRecall() {
     serviceNotifications.patch({ enabled: true, read: true }, id!).then(() => refetch())
     dispatchAddTestimonials({
-      visible: true,
       profile: dataProfile?.res!,
       threadId: data?.threadId!,
       barterId: data?.id!,
       testimonials: dataTestimonials?.res!,
       notificationId: id!,
     })
+    dispatchModal(EModalData.CompletionTransaction)
     dispatchVisibleNotifications(false)
   }
 

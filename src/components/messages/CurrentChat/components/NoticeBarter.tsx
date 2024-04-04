@@ -12,7 +12,7 @@ import { Button, GeoTagging, LoadingThreadNotice, NextImageMotion } from "@/comp
 
 import { useWebSocket } from "@/context"
 import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
-import { useAuth, useOffersCategories, dispatchBallonOffer } from "@/store"
+import { useAuth, useOffersCategories, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
@@ -150,10 +150,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 <a
                   onClick={(event) => {
                     event.stopPropagation()
-                    dispatchBallonOffer({
-                      visible: true,
-                      offer: initiator!,
-                    })
+                    dispatchBallonOffer({ offer: initiator! })
+                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title}
@@ -169,10 +167,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 <a
                   onClick={(event) => {
                     event.stopPropagation()
-                    dispatchBallonOffer({
-                      visible: true,
-                      offer: consigner!,
-                    })
+                    dispatchBallonOffer({ offer: consigner! })
+                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title}
@@ -199,10 +195,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
-                    dispatchBallonOffer({
-                      visible: true,
-                      offer: initiator!,
-                    })
+                    dispatchBallonOffer({ offer: initiator! })
+                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
@@ -211,10 +205,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
-                    dispatchBallonOffer({
-                      visible: true,
-                      offer: consigner!,
-                    })
+                    dispatchBallonOffer({ offer: consigner! })
+                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}
@@ -227,10 +219,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
-                    dispatchBallonOffer({
-                      visible: true,
-                      offer: initiator!,
-                    })
+                    dispatchBallonOffer({ offer: initiator! })
+                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
@@ -239,10 +229,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
-                    dispatchBallonOffer({
-                      visible: true,
-                      offer: consigner!,
-                    })
+                    dispatchBallonOffer({ offer: consigner! })
+                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}

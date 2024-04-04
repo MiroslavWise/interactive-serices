@@ -7,7 +7,7 @@ import { Button, ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { useOut } from "@/helpers"
 import { deleteUser } from "@/services"
-import { dispatchDeleteUser, useAuth, useDeleteUser, dispatchUpdateProfile } from "@/store"
+import { dispatchDeleteUser, dispatchModalClose, useAuth, useDeleteUser } from "@/store"
 
 import styles from "@/components/templates/OutAccount/style.module.scss"
 
@@ -27,8 +27,8 @@ export const DeleteUser = () => {
       deleteUser(userId!).then((response) => {
         if (response.ok) {
           out()
-          dispatchDeleteUser(false)
-          dispatchUpdateProfile(false)
+          dispatchModalClose()
+          close()
         }
         setLoading(false)
       })
