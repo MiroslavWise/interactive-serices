@@ -1,23 +1,55 @@
 import { ReactNode } from "react"
 import dynamic from "next/dynamic"
 
-import { EModalData } from "@/store"
+import { Load } from "@/components/common"
 
-import CreateNewOptionModal from "../CreateNewOptionModal"
-import NewServicesBanner from "../NewServicesBanner"
-// const CreateNewOptionModal = dynamic(() => import("../CreateNewOptionModal"), { ssr: false })
-// const NewServicesBanner = dynamic(() => import("../NewServicesBanner"), { ssr: false })
+const CreateNewOptionModal = dynamic(() => import("../CreateNewOptionModal"), { ssr: false, loading: Load })
+const NewServicesBanner = dynamic(() => import("../NewServicesBanner"), { ssr: false, loading: Load })
+const CompletionTransaction = dynamic(() => import("../CompletionTransaction"), { ssr: false, loading: Load })
+const ComplaintModal = dynamic(() => import("../ComplaintModal"), { ssr: false, loading: Load })
+const UpdateProfile = dynamic(() => import("../UpdateProfile"), { ssr: false, loading: Load })
+const ModalSign = dynamic(() => import("../ModalSign"), { ssr: false, loading: Load })
+const BalloonAlert = dynamic(() => import("../Balloon/Alert"), { ssr: false, loading: Load })
+const BalloonDiscussion = dynamic(() => import("../Balloon/Discussion"), { ssr: false, loading: Load })
+const BalloonOffer = dynamic(() => import("../Balloon/Offer"), { ssr: false, loading: Load })
+
+import { cx } from "@/lib/cx"
+import { EModalData } from "@/store"
 
 import styleNewServiceBanner from "@/components/templates/NewServicesBanner/styles/style.module.scss"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
+import stylesCompletionTransaction from "@/components/templates/CompletionTransaction/styles/style.module.scss"
+import stylesComplaintModal from "@/components/templates/ComplaintModal/styles/style.module.scss"
+import stylesUpdateProfile from "@/components/templates/UpdateProfile/styles/style.module.scss"
+import stylesGeneralOffer from "@/components/templates/Balloon/styles/general.module.scss"
+import stylesOffer from "@/components/templates/Balloon/Offer/styles/style.module.scss"
+import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
+
+const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
+const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
+const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.container)
 
 export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.NewServicesBanner, <NewServicesBanner key="::key::modal::new-services-banner" />],
   [EModalData.CreateNewOptionModal, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />],
+  [EModalData.CompletionTransaction, <CompletionTransaction key="::key::modal::completion-transaction" />],
+  [EModalData.ComplaintModal, <ComplaintModal key="::key::modal::complaint-modal" />],
+  [EModalData.UpdateProfile, <UpdateProfile key="::key::modal::update-profile" />],
+  [EModalData.ModalSign, <ModalSign key="::key::modal::modal-sign" />],
+  [EModalData.BalloonAlert, <BalloonAlert key="::key::modal::modal-sign" />],
+  [EModalData.BalloonDiscussion, <BalloonDiscussion key="::key::modal::modal-sign" />],
+  [EModalData.BalloonOffer, <BalloonOffer key="::key::modal::modal-sign" />],
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, styleNewServiceBanner.container],
   [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container],
+  [EModalData.CompletionTransaction, stylesCompletionTransaction.container],
+  [EModalData.ComplaintModal, stylesComplaintModal.container],
+  [EModalData.UpdateProfile, stylesUpdateProfile.container],
+  [EModalData.ModalSign, "section-auth"],
+  [EModalData.BalloonAlert, stringBalloonAlert],
+  [EModalData.BalloonDiscussion, stringBalloonDiscussion],
+  [EModalData.BalloonOffer, stringBalloonOffer],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

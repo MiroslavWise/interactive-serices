@@ -1,4 +1,3 @@
-import { flushSync } from "react-dom"
 import { ChangeEvent, memo, useState } from "react"
 
 import type { IMageProfile } from "../types/types"
@@ -46,7 +45,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, i
           file: null,
           string: "",
         })
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setLoading(false)
         })
       }

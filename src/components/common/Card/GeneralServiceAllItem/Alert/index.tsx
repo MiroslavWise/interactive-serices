@@ -6,18 +6,19 @@ import { HeaderTimeDots } from "../components/HeaderTimeDots"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
-import { dispatchBallonAlert, dispatchMapCoordinates, dispatchMobileSearchCategoryVisible } from "@/store"
+import { dispatchBallonAlert, dispatchMapCoordinates, dispatchMobileSearchCategoryVisible, dispatchModal, EModalData } from "@/store"
 
 import styles from "../styles/alert.module.scss"
 import styleMain from "../styles/main.module.scss"
 
-export function GeneralAlert({ offer }: { offer: IResponseOffers }) {
-  const { id, title, content, addresses, userId, images = [], created } = offer ?? {}
+export default function GeneralAlert({ offer }: { offer: IResponseOffers }) {
+  const { id, title, content, addresses, userId, images = [] } = offer ?? {}
 
   function handle() {
     const [address] = addresses
 
-    dispatchBallonAlert({ visible: true, offer: offer })
+    dispatchBallonAlert({ offer: offer })
+    dispatchModal(EModalData.BalloonDiscussion)
 
     if (address) {
       dispatchMapCoordinates({

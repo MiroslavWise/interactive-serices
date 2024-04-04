@@ -8,7 +8,7 @@ import { Button } from "@/components/common"
 
 import { getUserId } from "@/services"
 import { useResize, useTokenHelper } from "@/helpers"
-import { dispatchAuthModal, dispatchUpdateProfile, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchModal, EModalData, useAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -70,7 +70,7 @@ export const ContentOtpCode: TContentOtpCode = ({}) => {
             email: email!,
           })
           if (!data?.res?.profile) {
-            dispatchUpdateProfile(true)
+            dispatchModal(EModalData.UpdateProfile)
             return
           }
           if (!!data?.res?.profile) {

@@ -11,7 +11,7 @@ import { IconRevers } from "@/components/icons/IconRevers"
 import { ImageCategory, NextImageMotion } from "../../Image"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-import { dispatchBallonOffer, dispatchInitiatedBarter, useAuth, useOffersCategories } from "@/store"
+import { dispatchBallonOffer, dispatchInitiatedBarter, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
 import { getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
@@ -77,10 +77,8 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
   )
 
   function handle(offer: ISmallDataOfferBarter) {
-    dispatchBallonOffer({
-      visible: true,
-      offer: offer! as IResponseOffers,
-    })
+    dispatchBallonOffer({ offer: offer! as IResponseOffers })
+    dispatchModal(EModalData.BalloonOffer)
   }
 
   return (

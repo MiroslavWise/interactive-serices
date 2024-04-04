@@ -5,7 +5,7 @@ import { Placemark } from "@pbe/react-yandex-maps"
 
 import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
 
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 
 import { TYPE_ICON } from "./constants"
 import { IconCategory } from "@/lib/icon-set"
@@ -47,13 +47,16 @@ const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = 
         event.preventDefault()
         event.stopPropagation()
         if (offer?.provider === EnumTypeProvider.offer) {
-          dispatchBallonOffer({ visible: true, offer: offer })
+          dispatchBallonOffer({ offer: offer })
+          dispatchModal(EModalData.BalloonOffer)
           return
         } else if (offer?.provider === EnumTypeProvider.discussion) {
-          dispatchBallonDiscussion({ visible: true, offer: offer })
+          dispatchBallonDiscussion({ offer: offer })
+          dispatchModal(EModalData.BalloonDiscussion)
           return
         } else if (offer?.provider === EnumTypeProvider.alert) {
-          dispatchBallonAlert({ visible: true, offer: offer })
+          dispatchBallonAlert({ offer: offer })
+          dispatchModal(EModalData.BalloonAlert)
         }
       }}
     />

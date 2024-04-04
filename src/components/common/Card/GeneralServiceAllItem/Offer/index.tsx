@@ -11,12 +11,19 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
 import { GeoData } from "../components/GeoData"
-import { dispatchBallonOffer, dispatchMapCoordinates, dispatchMobileSearchCategoryVisible, useOffersCategories } from "@/store"
+import {
+  dispatchBallonOffer,
+  dispatchMapCoordinates,
+  dispatchMobileSearchCategoryVisible,
+  dispatchModal,
+  EModalData,
+  useOffersCategories,
+} from "@/store"
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
 
-export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
+export default function GeneralOffer({ offer }: { offer: IResponseOffers }) {
   const { categoryId, title = "", userId, addresses = [], images = [] } = offer ?? {}
 
   const categories = useOffersCategories(({ categories }) => categories)
@@ -50,10 +57,8 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
       })
     }
 
-    dispatchBallonOffer({
-      visible: true,
-      offer: offer,
-    })
+    dispatchBallonOffer({ offer: offer })
+    dispatchModal(EModalData.BalloonOffer)
     dispatchMobileSearchCategoryVisible(false)
   }
 

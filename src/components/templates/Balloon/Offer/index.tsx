@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { Button, ButtonClose, ImageCategory } from "@/components/common"
+import { Button, ImageCategory } from "@/components/common"
 
 import { IResponseOffers } from "@/services/offers/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
@@ -12,18 +12,27 @@ import { ItemDescriptions } from "./components/ItemDescriptions"
 import { ProfileComponent } from "../components/ProfileComponent"
 import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
-import { cx } from "@/lib/cx"
 import { usePush } from "@/helpers"
 import { getBarters } from "@/services"
-import { dispatchAuthModal, dispatchBallonOffer, dispatchReciprocalExchange, useAuth, useBalloonOffer, useOffersCategories } from "@/store"
+import {
+  dispatchAuthModal,
+  dispatchBallonOffer,
+  dispatchModalClose,
+  dispatchReciprocalExchange,
+  EModalData,
+  useAuth,
+  useBalloonOffer,
+  useModal,
+  useOffersCategories,
+} from "@/store"
 
 import styles from "./styles/style.module.scss"
 import common from "../styles/general.module.scss"
 
-export const BalloonOffer = () => {
+export default function BalloonOffer() {
   const userId = useAuth(({ userId }) => userId)
   const categories = useOffersCategories(({ categories }) => categories)
-  const visible = useBalloonOffer(({ visible }) => visible)
+  const dataModal = useModal(({ data }) => data)
   const offer = useBalloonOffer(({ offer }) => offer)
   const { handlePush } = usePush()
 
@@ -39,7 +48,7 @@ export const BalloonOffer = () => {
     queryKey: ["barters", { userId: userId, status: EnumStatusBarter.EXECUTED }],
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!userId && visible && userId !== offer?.userId,
+    enabled: !!userId && dataModal === EModalData.BalloonOffer && userId !== offer?.userId,
   })
   const { data: dataInitiatedBarter, isLoading: isLoadingInitiatedBarter } = useQuery({
     queryFn: () =>
@@ -51,7 +60,7 @@ export const BalloonOffer = () => {
     queryKey: ["barters", { userId: userId, status: EnumStatusBarter.INITIATED }],
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!userId && visible && userId !== offer?.userId,
+    enabled: !!userId && dataModal === EModalData.BalloonOffer && userId !== offer?.userId,
   })
   //--
 
@@ -78,7 +87,7 @@ export const BalloonOffer = () => {
         type: "SignIn",
       })
       requestAnimationFrame(() => {
-        dispatchBallonOffer({ visible: false })
+        dispatchModalClose()
       })
       return
     } else if (!!userId && userId !== offer?.userId) {
@@ -88,7 +97,7 @@ export const BalloonOffer = () => {
         type: "current",
       })
       requestAnimationFrame(() => {
-        dispatchBallonOffer({ visible: false })
+        dispatchModalClose()
       })
       return
     }
@@ -101,75 +110,72 @@ export const BalloonOffer = () => {
         type: "SignIn",
       })
       requestAnimationFrame(() => {
-        dispatchBallonOffer({ visible: false })
+        dispatchModalClose()
       })
       return
     } else if (!!userId && userId !== offer?.userId) {
       handlePush(`/messages?offer-pay=${offer?.id}:${offer?.userId}`)
       requestAnimationFrame(() => {
-        dispatchBallonOffer({ visible: false })
+        dispatchModalClose()
       })
       return
     }
   }
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
-      <section data-section-modal>
-        <header data-color={EnumTypeProvider.offer}>
-          <div data-category-img>{offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}</div>
-          <h3>{categoryCurrent?.title}</h3>
-        </header>
-        <ButtonClose position={{}} onClick={() => dispatchBallonOffer({ visible: false })} />
-        <div data-container>
-          <div data-container-children>
-            <ProfileComponent offer={offer as unknown as IResponseOffers} />
-            <ItemDescriptions offer={offer as unknown as IResponseOffers} />
-            {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
-              <div data-inform-off-barter>
-                <article>
-                  <span>
-                    {disabledReply === "executed-have"
-                      ? "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
-                      : disabledReply === "initiated-have"
-                      ? "Вы уже отправили данному пользователю свое предложение"
-                      : null}
-                  </span>
-                </article>
-              </div>
-            ) : null}
-            <GeoData offer={offer as unknown as IResponseOffers} />
-            <div data-buttons>
-              <Button
-                type="button"
-                typeButton="fill-primary"
-                label="Откликнуться"
-                onClick={handle}
-                loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
-                disabled={(!!userId && userId === offer?.userId) || !!disabledReply}
-              />
-              <Button
-                type="button"
-                typeButton="regular-primary"
-                label="Заплатить"
-                onClick={handlePay}
-                disabled={!!userId && userId === offer?.userId}
-              />
-              {userId && userId !== offer?.userId ? (
-                <Link
-                  data-circle
-                  href={{ pathname: "/messages", query: { user: offer?.userId } }}
-                  onClick={() => {
-                    dispatchBallonOffer({ visible: false })
-                  }}
-                >
-                  <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
-                </Link>
-              ) : null}
+    <>
+      <header data-color={EnumTypeProvider.offer}>
+        <div data-category-img>{offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}</div>
+        <h3>{categoryCurrent?.title}</h3>
+      </header>
+      <div data-container>
+        <div data-container-children>
+          <ProfileComponent offer={offer as unknown as IResponseOffers} />
+          <ItemDescriptions offer={offer as unknown as IResponseOffers} />
+          {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
+            <div data-inform-off-barter>
+              <article>
+                <span>
+                  {disabledReply === "executed-have"
+                    ? "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
+                    : disabledReply === "initiated-have"
+                    ? "Вы уже отправили данному пользователю свое предложение"
+                    : null}
+                </span>
+              </article>
             </div>
+          ) : null}
+          <GeoData offer={offer as unknown as IResponseOffers} />
+          <div data-buttons>
+            <Button
+              type="button"
+              typeButton="fill-primary"
+              label="Откликнуться"
+              onClick={handle}
+              loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
+              disabled={(!!userId && userId === offer?.userId) || !!disabledReply}
+            />
+            <Button
+              type="button"
+              typeButton="regular-primary"
+              label="Заплатить"
+              onClick={handlePay}
+              disabled={!!userId && userId === offer?.userId}
+            />
+            {userId && userId !== offer?.userId ? (
+              <Link data-circle href={{ pathname: "/messages", query: { user: offer?.userId } }} onClick={dispatchModalClose}>
+                <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
+              </Link>
+            ) : null}
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </>
   )
+
+  // return (
+  //   <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
+  //     <section data-section-modal></section>
+  //   </div>
+  // )
 }

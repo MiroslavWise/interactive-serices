@@ -1,4 +1,3 @@
-import { flushSync } from "react-dom"
 import { useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
@@ -13,7 +12,7 @@ import { FieldAddress } from "./FieldAddress"
 import { ButtonsFooter } from "./ButtonsFooter"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchUpdateProfile, useAuth } from "@/store"
+import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
 
 const GENDER: { label: string; value: "m" | "f" }[] = [
@@ -111,16 +110,12 @@ export const PersonalData = () => {
                 const dataPatch: IPostProfileData = { imageId: response?.res?.id }
                 serviceProfile.patch(dataPatch, idProfile).then(() => {
                   refetch()
-                  flushSync(() => {
-                    dispatchUpdateProfile(false)
-                  })
+                  requestAnimationFrame(dispatchModalClose)
                 })
               })
             } else {
               refetch()
-              flushSync(() => {
-                dispatchUpdateProfile(false)
-              })
+              requestAnimationFrame(dispatchModalClose)
             }
           } else {
             setLoading(false)
