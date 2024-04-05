@@ -62,7 +62,7 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
               placeholder="+7 999 000-00-00"
               type="tel"
               inputMode="numeric"
-              {...register("phone", { required: true, minLength: 11, maxLength: 16 })}
+              {...register("phone", { required: true })}
               onChange={(event) => {
                 setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))
               }}
