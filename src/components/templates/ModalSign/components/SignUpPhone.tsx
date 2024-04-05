@@ -80,7 +80,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
               inputMode="numeric"
               {...register("phone", { required: true })}
               onChange={(event) => setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))}
-              maxLength={11}
+              //maxLength={11}
             />
           </div>
           {!!errors.phone ? <i>{errors?.phone?.message}</i> : null}
