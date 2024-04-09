@@ -20,11 +20,8 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
   } = useFormContext<IFormValues>()
 
   return (
-    <div
-      className={styles.container}
-      {...register("category", { required: watch("select_new_proposal") === ETypeOfNewCreated.interesting })}
-    >
-      <section>
+    <div className={styles.container}>
+      <section {...register("category", { required: watch("select_new_proposal") === ETypeOfNewCreated.interesting })}>
         {categoriesWants
           ?.filter((item) => (!!watch("category") ? item?.id === watch("category") : true))
           ?.map((item) => (
