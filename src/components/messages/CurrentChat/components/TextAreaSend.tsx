@@ -157,6 +157,7 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
           {...register("text", { required: files.length ? false : true })}
           autoComplete="off"
           maxLength={1024}
+          enterKeyHint="send"
         />
         <div data-buttons>
           <button

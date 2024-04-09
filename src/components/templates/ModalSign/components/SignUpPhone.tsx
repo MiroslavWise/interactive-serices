@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { type ReactNode, memo, useState } from "react"
 
 import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.schema"
@@ -24,6 +24,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     setValue,
     setError,
     clearErrors,
+    control,
   } = useForm<TSchemaPhoneSignUp>({
     defaultValues: {
       phone: phone,
@@ -57,31 +58,41 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
   return (
     <form onSubmit={handleSubmit(onRegister)}>
       <section className={styles.section}>
-        <div data-label-input data-test="sign-up-phone">
-          <label htmlFor="phone">Телефон</label>
-          <div
-            data-phone-div
-            data-error={!!errors?.phone}
-            onClick={(event) => {
-              event.stopPropagation()
-              setFocus("phone")
-            }}
-          >
-            {!!watch("phone") && !["8", "+", 8].includes(`${watch("phone")}`[0]) ? <span>+</span> : null}
-            <input
-              data-input-phone
-              placeholder="+7 999 000-00-00"
-              type="text"
-              inputMode="numeric"
-              {...register("phone", { required: true })}
-              onChange={(event) => {
-                setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))
-                clearErrors("phone")
-              }}
-            />
-          </div>
-          {!!errors.phone ? <i>{errors?.phone?.message}</i> : null}
-        </div>
+        <Controller
+          name="phone"
+          control={control}
+          rules={{ required: true }}
+          render={({ field, fieldState: { error } }) => (
+            <div data-label-input data-test="sign-up-phone">
+              <label htmlFor={field.name} title="Телефон">
+                Телефон
+              </label>
+              <div
+                data-phone-div
+                data-error={!!errors?.phone}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  setFocus("phone")
+                }}
+              >
+                {!!field.value && !["8", "+", 8].includes(field.value[0]) ? <span>+</span> : null}
+                <input
+                  data-input-phone
+                  placeholder="+7 999 000-00-00"
+                  type="text"
+                  inputMode="numeric"
+                  {...field}
+                  title="Ввод номера"
+                  onChange={(event) => {
+                    field.onChange(String(event.target.value).trim().replaceAll(/[^\d]/g, ""))
+                    clearErrors("phone")
+                  }}
+                />
+              </div>
+              {!!error ? <i>{error?.message}</i> : null}
+            </div>
+          )}
+        />
       </section>
       <div className={styles.RememberChange}>
         <div className={styles.checkRemember}>

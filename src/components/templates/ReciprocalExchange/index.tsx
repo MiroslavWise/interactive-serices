@@ -15,7 +15,7 @@ import { ETypeOfNewCreated, IFormValues } from "./types/types"
 import { ItemOffer } from "./components/ItemOffer"
 import { ChooseAnOffer } from "./components/Select"
 import { ItemProfile } from "./components/ItemProfile"
-import { Button, ButtonClose, LoadingProfile } from "@/components/common"
+import { Button, LoadingProfile } from "@/components/common"
 
 import {
   useAuth,
@@ -24,22 +24,17 @@ import {
   useReciprocalExchange,
   dispatchReciprocalExchange,
   dispatchReciprocalExchangeCollapse,
-  dispatchModalClose,
 } from "@/store"
-import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
+import { createAddress } from "@/helpers/address/create"
 import { serviceNotifications, postOffer, postBarter, getUserId } from "@/services"
 
-import styles from "./styles/style.module.scss"
-import { createAddress } from "@/helpers/address/create"
-
-export const ReciprocalExchange = () => {
+export default function ReciprocalExchange() {
   const refreshAuth = useAuth(({ refresh }) => refresh)
   const [loading, setLoading] = useState(false)
   const offer = useReciprocalExchange(({ offer }) => offer)
-  const visible = useReciprocalExchange(({ visible }) => visible)
   const categories = useOffersCategories(({ categories }) => categories)
   const userId = useAuth(({ userId }) => userId)
   const { socket } = useWebSocket()
@@ -72,7 +67,7 @@ export const ReciprocalExchange = () => {
 
   async function submit(values: IFormValues) {
     if (!values.my_offer && !values.description) {
-      setError("description", { message: "Введите описание (минимум 5 симвоволов)" })
+      setError("description", { message: "Введите описание (минимум 5 символов)" })
       setError("root", { message: "Вы не выбрали то, что хотите предложить взамен" })
       return
     }
@@ -138,7 +133,6 @@ export const ReciprocalExchange = () => {
                   setLoading(false)
                   dispatchReciprocalExchange({ visible: false, offer: undefined })
                   dispatchBallonOffer({ offer: undefined })
-                  dispatchModalClose()
                 })
               })
             } else {
@@ -171,64 +165,53 @@ export const ReciprocalExchange = () => {
 
   const disabled =
     !watch("select_new_proposal") ||
-    (watch("select_new_proposal") === ETypeOfNewCreated.interesting && !watch("description")?.trim()) ||
+    (watch("select_new_proposal") === ETypeOfNewCreated.interesting && (!watch("description")?.trim() || !watch("category"))) ||
     (watch("select_new_proposal") === ETypeOfNewCreated.their && !watch("my_offer")) ||
     ((watch("select_new_proposal") === ETypeOfNewCreated.new && (!watch("description_new_offer") || !watch("categoryId"))) || watch("check")
       ? !watch("addressFeature")
       : false)
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
-      <section data-section-modal>
-        <ButtonClose
-          position={{}}
-          onClick={() => {
-            if (loading) {
-              return
-            }
-            dispatchReciprocalExchange({ visible: false, offer: undefined })
-          }}
-        />
-        <header>
-          <h3>Отклик</h3>
-        </header>
-        <ul>
-          <FormProvider {...methods}>
-            <form onSubmit={onSubmit}>
-              <section data-profile-offer>
-                {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} geo={geo!} />}
-                <ItemOffer />
-              </section>
-              <ChooseAnOffer loading={loading} firstName={profile?.firstName || " "} categoriesWants={categoriesWants} />
-              {!!errors?.root ? <i data-error>{errors?.root?.message}</i> : null}
-              <footer>
-                <Button
-                  type="submit"
-                  typeButton="fill-primary"
-                  label="Предложить обмен"
-                  loading={loading}
-                  prefixIcon={<img src="/svg/repeat-white.svg" alt="repeat" height={20} width={20} />}
-                  disabled={!!disabled}
-                />
-                <Link
-                  href={{
-                    pathname: "/messages",
-                    query: {
-                      user: offer?.userId,
-                    },
-                  }}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    dispatchReciprocalExchangeCollapse(true)
-                  }}
-                >
-                  <img src="/svg/message-dots-circle-primary.svg" alt="dots" width={24} height={24} />
-                </Link>
-              </footer>
-            </form>
-          </FormProvider>
-        </ul>
-      </section>
-    </div>
+    <>
+      <header>
+        <h3>Отклик</h3>
+      </header>
+      <ul>
+        <FormProvider {...methods}>
+          <form onSubmit={onSubmit}>
+            <section data-profile-offer>
+              {isLoadUser ? <LoadingProfile /> : <ItemProfile profile={profile!} geo={geo!} />}
+              <ItemOffer />
+            </section>
+            <ChooseAnOffer loading={loading} firstName={profile?.firstName || " "} categoriesWants={categoriesWants} />
+            {!!errors?.root ? <i data-error>{errors?.root?.message}</i> : null}
+            <footer>
+              <Button
+                type="submit"
+                typeButton="fill-primary"
+                label="Предложить обмен"
+                loading={loading}
+                prefixIcon={<img src="/svg/repeat-white.svg" alt="repeat" height={20} width={20} />}
+                disabled={!!disabled}
+              />
+              <Link
+                href={{
+                  pathname: "/messages",
+                  query: {
+                    user: offer?.userId,
+                  },
+                }}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  dispatchReciprocalExchangeCollapse(true)
+                }}
+              >
+                <img src="/svg/message-dots-circle-primary.svg" alt="dots" width={24} height={24} />
+              </Link>
+            </footer>
+          </form>
+        </FormProvider>
+      </ul>
+    </>
   )
 }

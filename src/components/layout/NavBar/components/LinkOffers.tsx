@@ -1,9 +1,10 @@
-import Link from "next/link"
 import { memo } from "react"
 import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
+
+import LinkProgress from "@/components/common/LinkProgress"
 
 import { useAuth } from "@/store"
 import { getBarterUserIdReceiver } from "@/services"
@@ -24,7 +25,7 @@ export const LinkOffers = memo(function LinkOffers() {
   })
 
   return (
-    <Link key="::offers::link::" data-active={pathname?.includes("/offers")} href={{ pathname: "/offers" }}>
+    <LinkProgress key="::offers::link::" data-active={pathname?.includes("/offers")} href="/offers">
       {MENU_ICONS.offers}
       <span>Предложения обменов</span>
       {data?.res?.length ? (
@@ -32,6 +33,6 @@ export const LinkOffers = memo(function LinkOffers() {
           <span>{data?.res?.length > 9 ? "9+" : data?.res?.length || 0}</span>
         </div>
       ) : null}
-    </Link>
+    </LinkProgress>
   )
 })

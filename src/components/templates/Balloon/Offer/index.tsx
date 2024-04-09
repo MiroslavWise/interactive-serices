@@ -86,18 +86,12 @@ export default function BalloonOffer() {
         visible: true,
         type: "SignIn",
       })
-      requestAnimationFrame(() => {
-        dispatchModalClose()
-      })
       return
     } else if (!!userId && userId !== offer?.userId) {
       dispatchReciprocalExchange({
         visible: true,
         offer: offer!,
         type: "current",
-      })
-      requestAnimationFrame(() => {
-        dispatchModalClose()
       })
       return
     }

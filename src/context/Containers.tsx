@@ -1,7 +1,7 @@
 "use client"
 
-import { ToastContainer } from "react-toastify"
 import dynamic from "next/dynamic"
+import { ToastContainer } from "react-toastify"
 
 import {
   Intro,
@@ -15,7 +15,6 @@ import {
   DataConfirmationPopUp,
   MobileFiltersMap,
   Onboarding,
-  ReciprocalExchange,
   ReasonBarters,
   OptionProfileMobile,
   OutAccount,
@@ -39,20 +38,17 @@ import {
   useDroverFriends,
   useVisibleNotifications,
   useDataConfirmationPopUp,
-  useReciprocalExchange,
-  useBalloonOffer,
-  useBalloonDiscussion,
   useReasonBarters,
   useActiveServicesFrom,
   useChangePassword,
   useAddingPhoneNumber,
   useAddEmail,
   useCheckTheMail,
-  useBalloonAlert,
   useNumberConfirmation,
   useUpdateOffer,
 } from "@/store"
 import { useResize } from "@/helpers"
+
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 
@@ -62,7 +58,6 @@ export const Containers = () => {
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
   const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
-  const visibleReciprocalExchange = useReciprocalExchange(({ visible }) => visible)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
   const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
   const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
@@ -77,6 +72,7 @@ export const Containers = () => {
 
   return (
     <>
+      <Modal />
       <PhotoCarousel />
       <WelcomeModal />
       {isAuth === false && (
@@ -87,7 +83,6 @@ export const Containers = () => {
       )}
       <ToastContainer limit={3} />
       <CookiesToast />
-      <Modal />
       {!isTablet && <PublicProfile />}
       {isTablet && <MobileFiltersMap />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
@@ -110,7 +105,6 @@ export const Containers = () => {
           {visibleActiveService && <ActiveServicesFrom />}
           {visibleCheckTheMail && <CheckTheMail />}
           {visibleAddingPhoneNumber && <AddingPhoneNumber />}
-          {visibleReciprocalExchange && <ReciprocalExchange />}
           {isTablet && visibleNotifications && <NotificationsMobile />}
         </>
       )}
