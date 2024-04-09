@@ -5,7 +5,7 @@ import { resolverPhoneSigIn, TSchemaPhoneSignIn } from "../utils/phone-sign-in.s
 
 import { Button } from "@/components/common"
 
-import { serviceAuth } from "@/services/auth"
+import { functionAuthErrors, serviceAuth } from "@/services/auth"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
@@ -20,6 +20,7 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
     register,
     setValue,
     formState: { errors },
+    clearErrors,
   } = useForm<TSchemaPhoneSignIn>({ defaultValues: { phone: "" }, resolver: resolverPhoneSigIn })
 
   function onEnter(values: TSchemaPhoneSignIn) {
@@ -34,13 +35,8 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
             dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
           }
         } else {
-          if (response?.error?.message === "user already exists") {
-            setError("phone", { message: "Пользователь уже существует" })
-          } else if (response?.error?.message === "user not found") {
-            setError("phone", { message: "Данного пользователя не существует" })
-          } else if (response?.error?.message === "invalid parameters") {
-            setError("phone", { message: "Не верные данные или данного номер не существует" })
-          }
+          const errorMessage = response?.error?.message
+          setError("phone", { message: functionAuthErrors(errorMessage) })
         }
         console.log(" serviceAuth phone: ", response)
         setLoading(false)
@@ -65,8 +61,9 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
               {...register("phone", { required: true })}
               onChange={(event) => {
                 setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))
+                clearErrors("phone")
               }}
-              maxLength={16}
+              maxLength={14}
             />
           </div>
           {!!errors.phone ? <i>{errors?.phone?.message}</i> : null}

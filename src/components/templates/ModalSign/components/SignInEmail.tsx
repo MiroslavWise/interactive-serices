@@ -8,7 +8,7 @@ import { Button } from "@/components/common"
 import { queryClient } from "@/context"
 import { useTokenHelper } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { getUserId, serviceAuthErrors } from "@/services"
+import { functionAuthErrors, getUserId, serviceAuthErrors } from "@/services"
 import { dispatchAuthModal, dispatchOnboarding, useAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -52,7 +52,7 @@ export const SignInEmail = memo(function SignInEmail({
         })
         .then((response) => {
           if (!!response?.error?.message) {
-            const errorMessage = `${response?.error?.message}`.toLowerCase()
+            const errorMessage = response?.error?.message
             if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
               setError("password", { message: serviceAuthErrors.get("password is not match")! })
               return
@@ -61,7 +61,7 @@ export const SignInEmail = memo(function SignInEmail({
               setError("email", { message: serviceAuthErrors.get(errorMessage!) })
               return
             } else {
-              setError("email", { message: serviceAuthErrors.get("default") })
+              setError("email", { message: functionAuthErrors(errorMessage) })
               return
             }
           }

@@ -7,7 +7,7 @@ import { Button } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
-import { RegistrationService, serviceAuthErrors } from "@/services"
+import { functionAuthErrors, RegistrationService } from "@/services"
 import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -38,19 +38,21 @@ export const ContentCreatePassword = () => {
             repeat: values.repeat_password,
           })
           .then((response) => {
+            setLoading(false)
             if (response.ok) {
               on({
                 message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
               })
               dispatchAuthModal({ type: "SignIn" })
             } else {
+              const errorMessage = response?.error?.message
               if (response?.error.code === 400) {
-                setError("repeat_password", { message: "no_repeat" })
-              } else if (response?.error.code === 400) {
-                setError("repeat_password", { message: "no_repeat" })
+                setError("repeat_password", { message: functionAuthErrors(errorMessage) })
+                return
               } else if ([401 || 403].includes(response?.error?.code!)) {
                 on({ message: "Время восстановления пароля истекло" }, "warning")
                 handleReplace("/")
+                return
               } else if (response?.error.code === 500) {
                 on(
                   {
@@ -58,19 +60,14 @@ export const ContentCreatePassword = () => {
                   },
                   "error",
                 )
-              } else if (!response.ok) {
-                setError("repeat_password", { message: response?.error?.message })
+                return
+              } else {
+                setError("repeat_password", { message: functionAuthErrors(errorMessage) })
               }
             }
-            setLoading(false)
           })
       }
       if (!!email && typeEmailOrPhone === "email") {
-        if (values.password !== values.repeat_password) {
-          setError("repeat_password", { message: "Пароли не совпадают" })
-          setLoading(false)
-          return
-        }
         RegistrationService.registration({
           email: email,
           password: values.password!,
@@ -84,9 +81,7 @@ export const ContentCreatePassword = () => {
               }
             } else {
               setError("password", {
-                message: serviceAuthErrors.has(response?.error?.message)
-                  ? serviceAuthErrors.get(response?.error?.message!)
-                  : serviceAuthErrors.get("default"),
+                message: functionAuthErrors(response?.error?.message!),
               })
               setLoading(false)
             }
@@ -108,12 +103,12 @@ export const ContentCreatePassword = () => {
           <Controller
             name="password"
             control={control}
-            rules={{ required: true, minLength: 5 }}
+            rules={{ required: true }}
             render={({ field, fieldState: { error } }) => (
               <div data-label-input data-password data-test="create-password">
                 <label htmlFor={field.name}>Пароль</label>
                 <div>
-                  <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
+                  <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} minLength={6} />
                   <img
                     onClick={() => setIsPass((prev) => !prev)}
                     src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
@@ -133,14 +128,12 @@ export const ContentCreatePassword = () => {
           control={control}
           rules={{
             required: true,
-            minLength: 5,
-            validate: (value) => value === watch("password"),
           }}
           render={({ field, fieldState: { error } }) => (
             <div data-label-input data-password data-test="create-password-repeat">
               <label htmlFor={field.name}>Подтвердите пароль</label>
               <div>
-                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} />
+                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} minLength={6} />
                 <img
                   onClick={() => setIsPass_((prev) => !prev)}
                   src={isPass_ ? "/svg/eye.svg" : "/svg/eye-off.svg"}

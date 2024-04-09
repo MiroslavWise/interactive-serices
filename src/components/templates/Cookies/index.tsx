@@ -15,9 +15,8 @@ export default function CookiesToast() {
   return (
     <article className={styles.container} data-active={visible}>
       <p>
-        Мы используем файлы <span>Cookies</span> от Яндекс.Метрика для сбора информации о вашем использовании этого сайта в целях улучшения
-        его функциональности и предоставления вам более качественного обслуживания. Однако мы <span>НЕ</span> собираем и <span>НЕ</span>
-        &nbsp;используем вашу личную информацию.
+        Мы используем <span>cookies</span> для улучшения работы сайта. Оставаясь с нами вы соглашаетесь на использование&nbsp;
+        <span>файлов cookie</span>
       </p>
       <Button label="Хорошо" onClick={handle} />
     </article>
