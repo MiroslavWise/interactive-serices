@@ -2,15 +2,14 @@ import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { type ReactNode, memo, useState } from "react"
 
-import type { IValuesRegistrationForm } from "../types/types"
+import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.schema"
 
 import { Button } from "@/components/common"
 
-import { serviceAuth } from "@/services/auth"
+import { functionAuthErrors, serviceAuth } from "@/services/auth"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth } from "@/store/hooks"
 
 import styles from "../styles/form.module.scss"
-import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.schema"
 
 export const SignUpPhone = memo(function SignUpPhone({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
@@ -24,6 +23,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     setFocus,
     setValue,
     setError,
+    clearErrors,
   } = useForm<TSchemaPhoneSignUp>({
     defaultValues: {
       phone: phone,
@@ -46,13 +46,8 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             dispatchStartTimer()
             dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
           } else {
-            if (response?.error?.message === "user already exists") {
-              setError("phone", { message: "Пользователь уже существует" })
-            } else if (response?.error?.message === "user not found") {
-              setError("phone", { message: "Данного пользователя не существует" })
-            } else if (response?.error?.message === "invalid parameters") {
-              setError("phone", { message: "Не верные данные или данного номер не существует" })
-            }
+            const errorMessage = response?.error?.message
+            setError("phone", { message: functionAuthErrors(errorMessage) })
           }
           setLoading(false)
         })
@@ -79,8 +74,10 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
               type="text"
               inputMode="numeric"
               {...register("phone", { required: true })}
-              onChange={(event) => setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))}
-              maxLength={11}
+              onChange={(event) => {
+                setValue("phone", String(event.target.value).trim().replaceAll(/[^\d]/g, ""))
+                clearErrors("phone")
+              }}
             />
           </div>
           {!!errors.phone ? <i>{errors?.phone?.message}</i> : null}

@@ -17,7 +17,7 @@ export const postNewPassword: TPostNewPassword = (body) => wrapperPost({ url: `$
 export const getSession: TGetSession = () => wrapperGet({ url: `${route}/session` })
 export const getLogout: TGetLogout = () => wrapperGet({ url: `${route}/logout` })
 
-export const serviceAuthErrors = new Map([
+export const serviceAuthErrors: Map<string, string> = new Map([
   ["unauthorized", "Пользователь не авторизован"],
   ["user is not verified", "Аккаунт не прошел верификацию через e-mail. Проверьте почту"],
   ["verification code expired or not found", "Ваше время верификации истекло"],
@@ -27,4 +27,23 @@ export const serviceAuthErrors = new Map([
   ["password is incorrect", "Неверный пароль"],
   ["default", "Какая-то ошибка у нас на сервере. Мы сейчас разбираемся"],
   ["email is not valid", "Не валидный email"],
+  ["password is not strong enough", "Пароль недостаточно сложный"],
+  ["repeat is not strong enough", "Повтор недостаточно надёжный"],
 ])
+
+export const functionAuthErrors = (messages: string | string[]): string => {
+  if (!messages) {
+    return ``
+  }
+
+  if (typeof messages === "string") {
+    const messagesLowerCase = messages?.toLocaleLowerCase()
+    return serviceAuthErrors.has(messagesLowerCase) ? serviceAuthErrors.get(messagesLowerCase)! : messagesLowerCase
+  } else if (Array.isArray(messages)) {
+    return messages
+      ?.map((item) => (serviceAuthErrors.has(item.toLowerCase()) ? serviceAuthErrors.get(item.toLowerCase()) : item))
+      .join(", ")
+  } else {
+    return ``
+  }
+}

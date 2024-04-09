@@ -459,16 +459,8 @@ export default function CreateNewOptionModal() {
           </ul>
         </>
       ) : (
-        <FinishScreen typeAdd={typeAdd!} setIsFirst={setIsFirst} />
+        <FinishScreen typeAdd={typeAdd!} />
       )}
     </>
   )
-
-  // return (
-  //   <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={isVisible}>
-  //     <section id="container-create-option-modal" data-is-onboarding={visible}>
-
-  //     </section>
-  //   </div>
-  // )
 }

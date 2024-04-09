@@ -8,7 +8,6 @@ export const schemaPhoneSignUp = z.object({
     .string()
     .trim()
     .min(11, { message: "Номер телефона состоит из 11 цифр" })
-    .length(11, { message: "Номер телефона состоит из 11 цифр" })
     .default(""),
   checkbox: z.boolean().default(false),
   checkbox_personal_data: z.boolean().default(false),

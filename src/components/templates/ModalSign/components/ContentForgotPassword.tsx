@@ -8,6 +8,7 @@ import { resolverForgotPassword, TSchemaForgotPassword } from "../utils/forgot-p
 
 import { Button } from "@/components/common"
 
+import { functionAuthErrors } from "@/services"
 import { dispatchAuthModal, useModalAuth } from "@/store"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
 
@@ -32,15 +33,8 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
               type: "InformationEmailReset",
               email: values.email,
             })
-          }
-          if (response?.error?.code === 401) {
-            setError("email", { message: "user is not verified" })
-          }
-          if (response?.error?.code === 404) {
-            setError("email", { message: "user not found" })
-          }
-          if (response?.error?.code && response?.error?.code >= 500 && response?.error?.code <= 599) {
-            setError("email", { message: "something went wrong" })
+          } else {
+            setError("email", { message: functionAuthErrors(response?.error?.message) })
           }
         })
         .finally(() => {
