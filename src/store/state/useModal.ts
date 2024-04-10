@@ -30,6 +30,8 @@ export enum EModalData {
   BalloonDiscussion = "balloon-discussion",
   BalloonAlert = "balloon-alert",
   ReciprocalExchange = "reciprocal-exchange",
+  OutAccount = "out-account",
+  UpdateOffer = "update-offer",
 }
 
 interface IStateUseModal {

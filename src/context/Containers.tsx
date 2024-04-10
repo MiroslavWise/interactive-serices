@@ -17,7 +17,6 @@ import {
   Onboarding,
   ReasonBarters,
   OptionProfileMobile,
-  OutAccount,
   DeleteUser,
   ActiveServicesFrom,
   ChangePassword,
@@ -25,7 +24,6 @@ import {
   AddEmail,
   CheckTheMail,
   NumberConfirmation,
-  UpdateOffer,
   InitiatedBarterMobile,
 } from "@/components/templates"
 import { PhotoCarousel } from "@/components/layout"
@@ -66,7 +64,6 @@ export const Containers = () => {
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
-  const visibleUpdateOffer = useUpdateOffer(({ visible }) => visible)
 
   const { isTablet } = useResize()
 
@@ -91,10 +88,8 @@ export const Containers = () => {
       {isAuth && (
         <>
           <Onboarding />
-          <OutAccount />
           <DeleteUser />
           <ChangeService />
-          {visibleUpdateOffer && <UpdateOffer />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}

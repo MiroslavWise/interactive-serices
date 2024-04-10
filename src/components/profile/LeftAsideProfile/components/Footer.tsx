@@ -2,13 +2,13 @@
 
 import { Button } from "@/components/common"
 
-import { dispatchOnboarding, dispatchOutAccount } from "@/store"
+import { dispatchModal, dispatchOnboarding, EModalData } from "@/store"
 
 import styles from "../styles/footer.module.scss"
 
 export const FooterAsideLeft = () => {
   function handleOut() {
-    dispatchOutAccount(true)
+    dispatchModal(EModalData.OutAccount)
   }
 
   function handleOpen() {
