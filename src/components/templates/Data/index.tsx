@@ -13,6 +13,8 @@ const BalloonAlert = dynamic(() => import("../Balloon/Alert"), { ssr: false, loa
 const BalloonDiscussion = dynamic(() => import("../Balloon/Discussion"), { ssr: false, loading: Load })
 const BalloonOffer = dynamic(() => import("../Balloon/Offer"), { ssr: false, loading: Load })
 const ReciprocalExchange = dynamic(() => import("../ReciprocalExchange"), { ssr: false, loading: Load })
+const OutAccount = dynamic(() => import("../OutAccount"), { ssr: false, loading: Load })
+const UpdateOffer = dynamic(() => import("../UpdateOffer"), { ssr: false, loading: Load })
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
@@ -26,6 +28,8 @@ import stylesGeneralOffer from "@/components/templates/Balloon/styles/general.mo
 import stylesOffer from "@/components/templates/Balloon/Offer/styles/style.module.scss"
 import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
 import stylesReciprocalExchange from "@/components/templates/ReciprocalExchange/styles/style.module.scss"
+import stylesOutAccount from "@/components/templates/OutAccount/style.module.scss"
+import stylesUpdateOffer from "@/components/templates/UpdateOffer/style.module.scss"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -42,6 +46,8 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.BalloonDiscussion, <BalloonDiscussion key="::key::modal::modal-sign" />], //Балун дискуссии
   [EModalData.BalloonOffer, <BalloonOffer key="::key::modal::modal-sign" />], //балун оффера
   [EModalData.ReciprocalExchange, <ReciprocalExchange key="::key::modal::reciprocal-exchange" />], //Обмен предложениями
+  [EModalData.OutAccount, <OutAccount key="::key::modal::out-account" />], //Выход с аккаунта
+  [EModalData.UpdateOffer, <UpdateOffer key="::key::modal::out-account" />], //Изменение оффера
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, styleNewServiceBanner.container],
@@ -54,6 +60,8 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.BalloonDiscussion, stringBalloonDiscussion],
   [EModalData.BalloonOffer, stringBalloonOffer],
   [EModalData.ReciprocalExchange, stylesReciprocalExchange.container],
+  [EModalData.OutAccount, stylesOutAccount.container],
+  [EModalData.UpdateOffer, stylesUpdateOffer.container],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([
