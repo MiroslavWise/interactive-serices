@@ -2,8 +2,8 @@
 
 import { type ReactNode, useEffect } from "react"
 
-import { AnimatedLoadPage } from "@/components/layout"
-import { YMapsProvider, WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
+// import { AnimatedLoadPage } from "@/components/layout"
+import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
 import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
@@ -15,7 +15,6 @@ export default ({ children }: { children: ReactNode }) => {
   const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
   const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
   const isUse = useCookies(({ isUse }) => isUse)
-
   const { isMobile, isTablet } = useResize()
 
   useEffect(() => {
@@ -50,13 +49,11 @@ export default ({ children }: { children: ReactNode }) => {
     <NextThemesProvider>
       <QueryClientProviderContext>
         <WebSocketProvider>
-          <YMapsProvider>
-            {children}
-            <Containers />
-          </YMapsProvider>
+          {children}
+          <Containers />
         </WebSocketProvider>
       </QueryClientProviderContext>
-      <AnimatedLoadPage />
+      {/* <AnimatedLoadPage /> */}
     </NextThemesProvider>
   )
 }

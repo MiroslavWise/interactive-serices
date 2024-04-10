@@ -30,7 +30,7 @@ export const FormFilterScreen = () => {
   const onSubmit = handleSubmit(submit)
 
   function close() {
-    dispatchActiveFilterScreen()
+    dispatchActiveFilterScreen(false)
   }
 
   function handleCategory(id: number) {
