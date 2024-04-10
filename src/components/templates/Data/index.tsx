@@ -32,16 +32,16 @@ const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAl
 const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.container)
 
 export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
-  [EModalData.NewServicesBanner, <NewServicesBanner key="::key::modal::new-services-banner" />],
-  [EModalData.CreateNewOptionModal, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />],
-  [EModalData.CompletionTransaction, <CompletionTransaction key="::key::modal::completion-transaction" />],
-  [EModalData.ComplaintModal, <ComplaintModal key="::key::modal::complaint-modal" />],
-  [EModalData.UpdateProfile, <UpdateProfile key="::key::modal::update-profile" />],
-  [EModalData.ModalSign, <ModalSign key="::key::modal::modal-sign" />],
-  [EModalData.BalloonAlert, <BalloonAlert key="::key::modal::modal-sign" />],
-  [EModalData.BalloonDiscussion, <BalloonDiscussion key="::key::modal::modal-sign" />],
-  [EModalData.BalloonOffer, <BalloonOffer key="::key::modal::modal-sign" />],
-  [EModalData.ReciprocalExchange, <ReciprocalExchange key="::key::modal::reciprocal-exchange" />],
+  [EModalData.NewServicesBanner, <NewServicesBanner key="::key::modal::new-services-banner" />], //Выбор трёх созданий: предложения, дискуссии и алерта
+  [EModalData.CreateNewOptionModal, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения, дискуссии и алерта
+  [EModalData.CompletionTransaction, <CompletionTransaction key="::key::modal::completion-transaction" />], //Отзыв о завершении обмена
+  [EModalData.ComplaintModal, <ComplaintModal key="::key::modal::complaint-modal" />], //Жалоба на пользователя
+  [EModalData.UpdateProfile, <UpdateProfile key="::key::modal::update-profile" />], //Редактирование профиля
+  [EModalData.ModalSign, <ModalSign key="::key::modal::modal-sign" />], //Флоу логина и регаистрации
+  [EModalData.BalloonAlert, <BalloonAlert key="::key::modal::modal-sign" />], //Балун алерта
+  [EModalData.BalloonDiscussion, <BalloonDiscussion key="::key::modal::modal-sign" />], //Балун дискуссии
+  [EModalData.BalloonOffer, <BalloonOffer key="::key::modal::modal-sign" />], //балун оффера
+  [EModalData.ReciprocalExchange, <ReciprocalExchange key="::key::modal::reciprocal-exchange" />], //Обмен предложениями
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, styleNewServiceBanner.container],
