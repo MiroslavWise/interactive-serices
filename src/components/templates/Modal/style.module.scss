@@ -46,6 +46,7 @@
     & > section {
       border-radius: 1.5rem 1.5rem 0rem 0rem;
       transform: translateY(100%);
+      overflow: hidden;
 
       & > [data-close] {
         top: 0rem !important;

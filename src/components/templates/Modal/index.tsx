@@ -41,8 +41,22 @@ export default function Modal() {
   }
 
   return (
-    <div className={styles.wrapperModal} data-visible={visible} ref={ref}>
-      <section className={STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : ""} id={ID_MODAL.has(data!) ? ID_MODAL.get(data!) : ""}>
+    <div
+      className={styles.wrapperModal}
+      data-visible={visible}
+      ref={ref}
+      onClick={(event) => {
+        event.stopPropagation()
+        close()
+      }}
+    >
+      <section
+        className={STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : ""}
+        id={ID_MODAL.has(data!) ? ID_MODAL.get(data!) : ""}
+        onClick={(event) => {
+          event.stopPropagation()
+        }}
+      >
         {visible ? <ButtonClose onClick={close} /> : null}
         {data && DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null}
       </section>
