@@ -95,6 +95,8 @@ export const ContentCreatePassword = () => {
     }
   }
 
+  const disabled = watch("password") !== watch("repeat_password") || !watch("password") || !watch("repeat_password")
+
   return (
     <div className={styles.content}>
       <p>Придумайте пароль для входа в аккаунт</p>
@@ -153,7 +155,7 @@ export const ContentCreatePassword = () => {
           typeButton="fill-primary"
           label="Продолжить"
           loading={loading}
-          disabled={watch("password") !== watch("repeat_password")}
+          disabled={disabled}
           data-test="create-password-submit"
         />
       </form>
