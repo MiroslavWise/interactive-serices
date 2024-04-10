@@ -4,7 +4,7 @@ import { YMaps } from "@pbe/react-yandex-maps"
 
 import env from "@/config/environment"
 
-export function YMapsProvider({ children }: { children: React.ReactNode }) {
+export default function YMapsProvider({ children }: { children: React.ReactNode }) {
   return (
     <YMaps
       query={{

@@ -16,6 +16,9 @@ import {
 import Navigation from "@/components/content/mobile/Navigation"
 import MapSearch from "@/components/content/mobile/MapSearch"
 
+const YMapsProvider = dynamic(() => import("@/context/YMapsProvider"), {
+  ssr: false,
+})
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
   ssr: false,
   suspense: true,
@@ -37,28 +40,29 @@ export default function Home() {
   const { isTablet } = useResize()
 
   return (
-    <main className={styles.main}>
-      <YandexMap />
-      {isAuth && <BannerSign />}
-      {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
-      {isAuth && isTablet && <BannerStartCreate />}
-      {isTablet && (
-        <>
-          <MobileFilterMap />
-          <MapSearch />
-          <Navigation />
-          <SearchCategory />
-        </>
-      )}
-      {!isTablet && (
-        <>
-          <SearchFilters />
-          <FiltersScreen />
-          <SearchAndFilters />
-          <BannerServices />
-          <ButtonCollapseServices />
-        </>
-      )}
-    </main>
+    <YMapsProvider>
+      <main className={styles.main}>
+        <YandexMap />
+        {isAuth && <BannerSign />}
+        {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
+        {isAuth && isTablet && <BannerStartCreate />}
+        {isTablet ? (
+          <>
+            <MobileFilterMap />
+            <MapSearch />
+            <Navigation />
+            <SearchCategory />
+          </>
+        ) : (
+          <>
+            <SearchFilters />
+            <FiltersScreen />
+            <SearchAndFilters />
+            <BannerServices />
+            <ButtonCollapseServices />
+          </>
+        )}
+      </main>
+    </YMapsProvider>
   )
 }

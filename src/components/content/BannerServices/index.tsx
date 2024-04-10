@@ -154,7 +154,7 @@ export const SearchAndFilters = () => {
         type="button"
         onClick={(event) => {
           event.stopPropagation()
-          dispatchActiveFilterScreen()
+          dispatchActiveFilterScreen(true)
         }}
       >
         <IconFilters />

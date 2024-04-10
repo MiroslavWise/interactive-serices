@@ -10,6 +10,6 @@ interface IActiveFilters {
   activeFilters: number[]
 }
 
-export const dispatchActiveFilterScreen = () => useFiltersScreen.setState((_) => ({ ..._, visible: !_.visible }))
+export const dispatchActiveFilterScreen = (value: boolean) => useFiltersScreen.setState((_) => ({ ..._, visible: value }))
 export const dispatchDataFilterScreen = (values: number[]) =>
   useFiltersScreen.setState((_) => ({ ..._, activeFilters: values.sort((a, b) => a - b) }))
