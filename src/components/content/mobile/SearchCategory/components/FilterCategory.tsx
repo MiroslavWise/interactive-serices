@@ -1,17 +1,11 @@
 import { useMemo, useState } from "react"
 
 import { IconXClose } from "@/components/icons/IconXClose"
+import { Button, ImageCategory } from "@/components/common"
 
-import {
-  dispatchActiveFilterScreen,
-  dispatchDataFilterScreen,
-  dispatchMobileSearchCategoryVisible,
-  useFiltersScreen,
-  useOffersCategories,
-} from "@/store"
+import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen, useOffersCategories } from "@/store"
 
 import styles from "../styles/filter-category.module.scss"
-import { Button, ImageCategory } from "@/components/common"
 
 export default function FilterCategory() {
   const visible = useFiltersScreen(({ visible }) => visible)
@@ -32,7 +26,6 @@ export default function FilterCategory() {
   function handleOk() {
     dispatchDataFilterScreen(state)
     dispatchActiveFilterScreen(false)
-    dispatchMobileSearchCategoryVisible(false)
   }
 
   return (
@@ -44,7 +37,6 @@ export default function FilterCategory() {
           onClick={(event) => {
             event.stopPropagation()
             dispatchActiveFilterScreen(false)
-            dispatchMobileSearchCategoryVisible(false)
           }}
         >
           <IconXClose />

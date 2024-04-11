@@ -12,7 +12,6 @@ import {
   NotificationsMobile,
   PhotoPreviewModal,
   HasClustererBalloons,
-  DataConfirmationPopUp,
   MobileFiltersMap,
   Onboarding,
   ReasonBarters,
@@ -35,7 +34,6 @@ import {
   useHasBalloons,
   useDroverFriends,
   useVisibleNotifications,
-  useDataConfirmationPopUp,
   useReasonBarters,
   useActiveServicesFrom,
   useChangePassword,
@@ -43,7 +41,6 @@ import {
   useAddEmail,
   useCheckTheMail,
   useNumberConfirmation,
-  useUpdateOffer,
 } from "@/store"
 import { useResize } from "@/helpers"
 
@@ -57,7 +54,6 @@ export const Containers = () => {
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
   const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
-  const visibleDataConfirmation = useDataConfirmationPopUp(({ visibleDataConfirmation }) => visibleDataConfirmation)
   const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
   const visibleChangePassword = useChangePassword(({ visible }) => visible)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
@@ -84,7 +80,6 @@ export const Containers = () => {
       {isTablet && <MobileFiltersMap />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
       {visibleHasBalloon && <HasClustererBalloons />}
-      {visibleDataConfirmation && <DataConfirmationPopUp />}
       {isAuth && (
         <>
           <Onboarding />
