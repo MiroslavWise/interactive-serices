@@ -1,9 +1,8 @@
+import { Controller, useForm } from "react-hook-form"
 import { useEffect, useMemo, useState } from "react"
-import { useForm } from "react-hook-form"
 import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 import { useQuery } from "@tanstack/react-query"
 
-import { IValuesForm } from "../types/types"
 import { EnumTypeProvider } from "@/types/enum"
 import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
 
@@ -14,6 +13,7 @@ import { ButtonsFooter } from "./ButtonsFooter"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
+import { resolverUpdateForm, TSchemaUpdateForm } from "../utils/update-form.schema"
 
 const GENDER: { label: string; value: "m" | "f" }[] = [
   {
@@ -43,8 +43,11 @@ export const PersonalData = () => {
     setValue,
     setError,
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm<IValuesForm>({})
+  } = useForm<TSchemaUpdateForm>({
+    resolver: resolverUpdateForm,
+  })
 
   const { data, refetch } = useQuery({
     queryFn: () => getProfileUserId(userId!),
@@ -75,7 +78,7 @@ export const PersonalData = () => {
     })
   }
 
-  function submit(values: IValuesForm) {
+  function submit(values: TSchemaUpdateForm) {
     if (!values.username?.trim()) {
       setError("username", { message: "Обязательно к заполнению" })
       setLoading(false)
@@ -151,25 +154,46 @@ export const PersonalData = () => {
       <section>
         <ImageProfile image={image!} file={file} setFile={setFile} idProfile={idProfile} refetch={refetch} />
         <div data-grid>
+          <Controller
+            name="firstName"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset>
+                <label htmlFor={field.name}>Имя</label>
+                <input type="text" placeholder="Введите имя" {...field} data-error={!!error} />
+                {!!error ? <i>{error?.message}</i> : null}
+              </fieldset>
+            )}
+          />
+          <Controller
+            name="lastName"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset>
+                <label htmlFor={field.name}>Фамилия</label>
+                <input type="text" placeholder="Введите фамилию" {...field} data-error={!!error} />
+                {!!error ? <i>{error?.message}</i> : null}
+              </fieldset>
+            )}
+          />
+          <Controller
+            name="username"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset>
+                <label htmlFor={field.name}>Ник</label>
+                <input type="text" placeholder="Придумайте ник" {...field} data-error={!!error} />
+                {!!error ? <i>{error?.message}</i> : null}
+              </fieldset>
+            )}
+          />
           <fieldset>
-            <label>Имя</label>
-            <input type="text" placeholder="Введите имя" {...register("firstName", { required: true })} data-error={!!errors?.firstName} />
-          </fieldset>
-          <fieldset>
-            <label>Фамилия</label>
-            <input
-              type="text"
-              placeholder="Введите фамилию"
-              {...register("lastName", { required: true })}
-              data-error={!!errors?.lastName}
-            />
-          </fieldset>
-          <fieldset>
-            <label>Ник</label>
-            <input type="text" placeholder="Придумайте ник" {...register("username", { required: true })} data-error={!!errors.username} />
-          </fieldset>
-          <fieldset>
-            <label {...register("gender")}>Пол</label>
+            <label htmlFor="gender" {...register("gender")}>
+              Пол
+            </label>
             <div data-input ref={ref} style={{ zIndex: 20 }}>
               <input
                 type="text"
@@ -200,6 +224,7 @@ export const PersonalData = () => {
                 </div>
               ) : null}
             </div>
+            {!!errors?.gender ? <i>{errors?.gender?.message}</i> : null}
           </fieldset>
         </div>
         <FieldAddress />
