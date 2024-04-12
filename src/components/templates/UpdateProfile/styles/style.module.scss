@@ -136,6 +136,15 @@
           }
         }
 
+        & > i {
+          margin-top: -0.25rem;
+          color: var(--text-error);
+          font-size: 0.75rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1rem; /* 133.333% */
+        }
+
         span,
         a {
           padding-top: 0.125rem;

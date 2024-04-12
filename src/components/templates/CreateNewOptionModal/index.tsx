@@ -303,9 +303,7 @@ export default function CreateNewOptionModal() {
           <ul id="ul-create-option-modal">
             <form onSubmit={onSubmit}>
               <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }}>
-                <label htmlFor="address">
-                  {addressInit?.additional ? "По адресу" : titleAddress} <sup>*</sup>
-                </label>
+                <label htmlFor="address">{addressInit?.additional ? "По адресу" : titleAddress}</label>
                 {addressInit?.additional ? (
                   <p>{addressInit?.additional}</p>
                 ) : (
@@ -381,9 +379,7 @@ export default function CreateNewOptionModal() {
               {visible && step === 2 && <ArticleOnboarding />}
               {[EnumTypeProvider.offer].includes(typeAdd!) ? (
                 <fieldset {...register("categoryId", { required: true })} id="fieldset-create-option-modal-offer">
-                  <label>
-                    Предложение <sup>*</sup>
-                  </label>
+                  <label>Предложение</label>
                   <CustomSelect
                     disabled={visible && step !== 2.5}
                     placeholder="Выберите категории"
@@ -401,9 +397,7 @@ export default function CreateNewOptionModal() {
               ) : null}
               {visible && step === 2.5 && <ArticleOnboarding />}
               <fieldset id="fieldset-create-option-modal-title">
-                <label htmlFor="title">
-                  {title} <sup>*</sup>
-                </label>
+                <label htmlFor="title">{title}</label>
                 <div data-text-area data-focus={visible && step === 3}>
                   <textarea
                     disabled={visible && step !== 3}

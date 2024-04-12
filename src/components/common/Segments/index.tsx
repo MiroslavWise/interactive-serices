@@ -20,6 +20,7 @@ export const Segments: TSegments = ({ VALUES, active, setActive, type, className
             styles.button,
             active.value !== item.value && styles[borderClassNames(VALUES.indexOf(active), index, VALUES.length)],
           )}
+          data-test={`segments-${item.value}`}
         >
           <p>{item.label}</p>
         </li>

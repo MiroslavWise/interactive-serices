@@ -7,7 +7,7 @@ import { Button } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
-import { functionAuthErrors, RegistrationService } from "@/services"
+import { functionAuthErrors, RegistrationService, serviceAuthErrors } from "@/services"
 import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -80,10 +80,25 @@ export const ContentCreatePassword = () => {
                 setLoading(false)
               }
             } else {
-              setError("password", {
-                message: functionAuthErrors(response?.error?.message!),
-              })
               setLoading(false)
+              if (
+                Array.isArray(response?.error?.message!) &&
+                response?.error?.message?.some((item: string) => item?.toLowerCase() === "password is not strong enough")
+              ) {
+                setError("password", { message: serviceAuthErrors.get("password is not strong enough") })
+                return
+              } else if (
+                Array.isArray(response?.error?.message!) &&
+                response?.error?.message?.some((item: string) => item?.toLowerCase() === "password is not strong enough")
+              ) {
+                setError("repeat_password", { message: serviceAuthErrors.get("repeat is not strong enough") })
+                return
+              } else {
+                setError("password", {
+                  message: functionAuthErrors(response?.error?.message!),
+                })
+                return
+              }
             }
           })
           .finally(() => {

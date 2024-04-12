@@ -1,6 +1,8 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
+
 export const schemaPassword = z
   .object({
     password: z.string().min(6, { message: "Введите минимум 6 символов для пароля" }).default(""),
