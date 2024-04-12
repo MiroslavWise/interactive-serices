@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useCallback, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 
 import { Button, ButtonClose } from "@/components/common"
 
-import type { IValues } from "./types"
+import { resolverPassword, TKeysPassword, TSchemaPassword } from "./utils/password.schema"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -16,9 +16,9 @@ import styles from "./style.module.scss"
 
 export const ChangePassword = () => {
   const [loading, setLoading] = useState(false)
-  const [visiblePass, setVisiblePass] = useState({
-    old: false,
-    new: false,
+  const [visiblePass, setVisiblePass] = useState<Record<TKeysPassword, boolean>>({
+    oldPassword: false,
+    password: false,
     repeat: false,
   })
   const { on } = useToast()
@@ -29,13 +29,15 @@ export const ChangePassword = () => {
     watch,
     formState: { errors },
     handleSubmit,
+    control,
     setError,
-  } = useForm<IValues>({})
+  } = useForm<TSchemaPassword>({
+    resolver: resolverPassword,
+  })
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((data: TSchemaPassword) => {
     if (!loading) {
       setLoading(true)
-      console.log("data: ", data)
 
       postNewPassword(data).then((response) => {
         console.log("response postNewPassword: ", response)
@@ -68,6 +70,13 @@ export const ChangePassword = () => {
     dispatchChangePassword(false)
   }
 
+  const onVisiblePassword = useCallback((value: TKeysPassword) => {
+    setVisiblePass((prev) => ({
+      ...prev,
+      [value]: !prev[value],
+    }))
+  }, [])
+
   const disabled = !watch("oldPassword") || !watch("password") || !watch("repeat") || watch("password") !== watch("repeat")
 
   return (
@@ -80,78 +89,67 @@ export const ChangePassword = () => {
         <form onSubmit={onSubmit}>
           <p>Введите ваш текущий пароль для подтверждения аккаунта.</p>
           <article>
-            <fieldset>
-              <label>Старый пароль</label>
-              <div data-input>
-                <input
-                  type={visiblePass.old ? "text" : "password"}
-                  placeholder="Введите пароль"
-                  {...register("oldPassword", { required: { message: "Обязательное поле", value: true } })}
-                  data-error={!!errors.oldPassword}
-                />
-                <img
-                  onClick={() =>
-                    setVisiblePass((prev) => ({
-                      ...prev,
-                      old: !prev.old,
-                    }))
-                  }
-                  src={visiblePass.old ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              {errors.oldPassword ? <i>{errors.oldPassword.message}</i> : null}
-            </fieldset>
-            <fieldset>
-              <label>Пароль</label>
-              <div data-input>
-                <input
-                  type={visiblePass.new ? "text" : "password"}
-                  placeholder="Введите пароль"
-                  {...register("password", { required: { message: "Обязательное поле", value: true } })}
-                  data-error={!!errors.password}
-                />
-                <img
-                  onClick={() =>
-                    setVisiblePass((prev) => ({
-                      ...prev,
-                      old: !prev.new,
-                    }))
-                  }
-                  src={visiblePass.new ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              {errors.password ? <i>{errors.password.message}</i> : null}
-            </fieldset>
-            <fieldset>
-              <label>Повторите пароль</label>
-              <div data-input>
-                <input
-                  type={visiblePass.repeat ? "text" : "password"}
-                  placeholder="Введите пароль ещё раз"
-                  {...register("repeat", { required: { message: "Обязательное поле", value: true } })}
-                  data-error={!!errors.password}
-                />
-                <img
-                  onClick={() =>
-                    setVisiblePass((prev) => ({
-                      ...prev,
-                      old: !prev.repeat,
-                    }))
-                  }
-                  src={visiblePass.repeat ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              {errors.repeat ? <i>{errors.repeat.message}</i> : null}
-            </fieldset>
+            <Controller
+              name="oldPassword"
+              rules={{ required: true }}
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <fieldset>
+                  <label htmlFor={field.name}>Старый пароль</label>
+                  <div data-input>
+                    <input
+                      type={visiblePass.oldPassword ? "text" : "password"}
+                      placeholder="Введите пароль"
+                      {...field}
+                      data-error={!!error}
+                    />
+                    <button type="button" onClick={() => onVisiblePassword(field.name)}>
+                      <img src={visiblePass.oldPassword ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
+                    </button>
+                  </div>
+                  {error ? <i>{error.message}</i> : null}
+                </fieldset>
+              )}
+            />
+            <Controller
+              name="password"
+              rules={{ required: true }}
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <fieldset>
+                  <label htmlFor={field.name}>Пароль</label>
+                  <div data-input>
+                    <input type={visiblePass.password ? "text" : "password"} placeholder="Введите пароль" {...field} data-error={!!error} />
+                    <button type="button" onClick={() => onVisiblePassword(field.name)}>
+                      <img src={visiblePass.password ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
+                    </button>
+                  </div>
+                  {error ? <i>{error.message}</i> : null}
+                </fieldset>
+              )}
+            />
+            <Controller
+              name="repeat"
+              rules={{ required: true }}
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <fieldset>
+                  <label htmlFor={field.name}>Повторите пароль</label>
+                  <div data-input>
+                    <input
+                      type={visiblePass.repeat ? "text" : "password"}
+                      placeholder="Введите пароль ещё раз"
+                      {...field}
+                      data-error={!!error}
+                    />
+                    <button type="button" onClick={() => onVisiblePassword(field.name)}>
+                      <img src={visiblePass.repeat ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
+                    </button>
+                  </div>
+                  {error ? <i>{error.message}</i> : null}
+                </fieldset>
+              )}
+            />
             {errors.root?.message ? <i>{errors.root?.message}</i> : null}
           </article>
           <Button type="submit" typeButton="fill-primary" label="Подтвердить" disabled={disabled} loading={loading} />
