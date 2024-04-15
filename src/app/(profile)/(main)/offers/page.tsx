@@ -1,11 +1,12 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { useReducer } from "react"
 
 import type { IActionOffers, IStateOffers } from "@/components/profile/OffersPage/types/types"
 
+const OffersMobile = dynamic(() => import("@/components/screens/offers"), { ssr: false })
 import { ContainerHeader, ContainerOffersNow } from "@/components/profile"
-import { OffersMobile } from "@/components/screens"
 
 import { useResize } from "@/helpers"
 

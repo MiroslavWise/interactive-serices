@@ -2,8 +2,6 @@ import { CONSENT_TO_RECEIVE_MAILINGS } from "@/helpers/constants/consent-to-rece
 
 export const dynamic = "force-static"
 export const dynamicParams = false
-export const revalidate = false
-export const fetchCache = "force-cache"
 
 export default function TermsConsentToReceiveMailings() {
   return (
