@@ -20,6 +20,7 @@ export const CreateButton = memo(function CreateButton() {
           if (isAuth) {
             dispatchModal(EModalData.NewServicesBanner)
           } else {
+            event.preventDefault()
             handleAuthModal()
           }
         }

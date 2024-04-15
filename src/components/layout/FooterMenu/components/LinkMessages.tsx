@@ -25,7 +25,10 @@ export const LinkMessages = memo(function LinkMessages() {
       className={styles.link}
       onClick={(event) => {
         event.stopPropagation()
-        handleAuthModal()
+        if (!isAuth) {
+          event.preventDefault()
+          handleAuthModal()
+        }
       }}
     >
       <div className={styles.itemsIconLabel}>
