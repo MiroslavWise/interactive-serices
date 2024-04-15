@@ -2,7 +2,6 @@
 
 import { type ReactNode, useEffect } from "react"
 
-// import { AnimatedLoadPage } from "@/components/layout"
 import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
@@ -53,7 +52,6 @@ export default ({ children }: { children: ReactNode }) => {
           <Containers />
         </WebSocketProvider>
       </QueryClientProviderContext>
-      {/* <AnimatedLoadPage /> */}
     </NextThemesProvider>
   )
 }
