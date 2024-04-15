@@ -11,4 +11,6 @@ export const metadata: Metadata = {
   },
 }
 
+export const dynamicParams = true
+
 export default ({ children }: { children: ReactNode }) => <Suspense fallback={false}>{children}</Suspense>

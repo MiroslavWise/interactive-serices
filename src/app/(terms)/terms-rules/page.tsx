@@ -2,8 +2,6 @@ import { RULES } from "@/helpers/constants/rules"
 
 export const dynamic = "force-static"
 export const dynamicParams = false
-export const revalidate = false
-export const fetchCache = "force-cache"
 
 export default function TermsRules() {
   return (

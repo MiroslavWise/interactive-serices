@@ -12,8 +12,6 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-static"
 export const dynamicParams = false
-export const revalidate = false
-export const fetchCache = "force-cache"
 
 export default function LayoutTermsPolicy({ children }: { children: React.ReactNode }) {
   return children

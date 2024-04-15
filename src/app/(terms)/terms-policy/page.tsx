@@ -2,8 +2,6 @@ import { POLICY } from "@/helpers/constants/policy"
 
 export const dynamic = "force-static"
 export const dynamicParams = false
-export const revalidate = false
-export const fetchCache = "force-cache"
 
 export default function TermsPolicy() {
   return (

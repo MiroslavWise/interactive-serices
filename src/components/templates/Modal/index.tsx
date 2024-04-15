@@ -8,7 +8,7 @@ import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
 
 import styles from "./style.module.scss"
 
-export default function Modal() {
+const Modal = () => {
   const data = useModal(({ data }) => data)
   const visible = useModal(({ visible }) => visible)
   const ref = useRef<HTMLDivElement>(null)
@@ -63,3 +63,6 @@ export default function Modal() {
     </div>
   )
 }
+
+Modal.displayName = "Modal"
+export default Modal

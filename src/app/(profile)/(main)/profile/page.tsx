@@ -4,9 +4,6 @@ import { ContainerAboutMe, ContainerSuggestions, ContainerTagAndButton, MContain
 
 import { useResize } from "@/helpers"
 
-export const dynamic = "force-static"
-export const dynamicParams = false
-
 export default function MyProfilePage() {
   const { isTablet } = useResize()
 

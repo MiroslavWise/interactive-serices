@@ -1,10 +1,11 @@
 import { memo } from "react"
 
+import IconPlus from "@/components/icons/IconPlus"
+
 import { useSign } from "../hooks/useSign"
 import { dispatchModal, EModalData, useAuth } from "@/store"
 
 import styles from "../styles/link.module.scss"
-import { IconPlus } from "@/components/icons/IconPlus"
 
 export const CreateButton = memo(function CreateButton() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
