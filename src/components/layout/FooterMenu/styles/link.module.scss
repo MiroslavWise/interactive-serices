@@ -63,9 +63,12 @@
     padding: 0.3125rem;
     background: var(--BG-filter);
 
-    & > img {
+    & > svg {
       height: 0.875rem;
       width: 0.875rem;
+      & > path {
+        fill: var(--text-button);
+      }
     }
   }
 
@@ -105,16 +108,6 @@
       font-style: normal;
       font-weight: 600;
       line-height: 0.575rem;
-    }
-  }
-}
-
-[data-theme="dark"] {
-  .link {
-    .centerPoligon {
-      & > img {
-        filter: invert(1);
-      }
     }
   }
 }

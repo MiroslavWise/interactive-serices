@@ -1,14 +1,12 @@
 import { Controller, useForm } from "react-hook-form"
 import { useEffect, useMemo, useState } from "react"
-import { fileUploadService, getProfileUserId, getUserId, serviceAddresses, serviceProfile } from "@/services"
+import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
 
 import { ImageProfile } from "./ImageProfile"
-import { FieldAddress } from "./FieldAddress"
 import { ButtonsFooter } from "./ButtonsFooter"
 
 import { useToast } from "@/helpers/hooks/useToast"
@@ -30,7 +28,6 @@ const GENDER: { label: string; value: "m" | "f" }[] = [
 export const PersonalData = () => {
   const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
-  const [stateAddress, setStateAddress] = useState<IPostAddress | null>(null)
   const { out } = useOut()
   const { on } = useToast()
   const [file, setFile] = useState<{
@@ -59,21 +56,6 @@ export const PersonalData = () => {
 
   const image = data?.res?.image?.attributes?.url
   const idProfile = data?.res?.id!
-
-  const { data: dataUser, refetch: refetchUser } = useQuery({
-    queryFn: () => getUserId(userId!),
-    queryKey: ["user", { userId: userId }],
-    enabled: !!userId!,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-  })
-
-  const address = useMemo(() => {
-    if (dataUser?.res && dataUser?.res?.addresses?.length > 0) {
-      return dataUser?.res?.addresses?.filter((item) => item?.addressType === "main")
-    }
-    return []
-  }, [dataUser?.res?.addresses])
 
   useEffect(() => {
     if (data?.ok) {
@@ -121,46 +103,36 @@ export const PersonalData = () => {
         valuesProfile.gender = values.gender!
       }
 
-      Promise.all([
-        !!data?.res?.id ? serviceProfile.patch(valuesProfile, data?.res?.id!) : serviceProfile.post(valuesProfile!),
-        !!stateAddress
-          ? Promise.all(
-              address.filter((item) => item.addressType === "main").map((item) => serviceAddresses.patch({ enabled: false }, item?.id)),
-            ).then(() => {
-              serviceAddresses.post(stateAddress).then((response) => {
-                console.log("response address: ", response)
-                refetchUser()
+      Promise.all([!!data?.res?.id ? serviceProfile.patch(valuesProfile, data?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(
+        (responses) => {
+          if (responses?.[0]?.ok) {
+            const idProfile = responses?.[0]?.res?.id!
+            if (file.file) {
+              UpdatePhotoProfile(idProfile).then((response) => {
+                const dataPatch: IPostProfileData = { imageId: response?.res?.id }
+                serviceProfile.patch(dataPatch, idProfile).then(() => {
+                  refetch()
+                  requestAnimationFrame(dispatchModalClose)
+                })
               })
-            })
-          : Promise.resolve({ ok: true }),
-      ]).then((responses) => {
-        if (responses?.[0]?.ok) {
-          const idProfile = responses?.[0]?.res?.id!
-          if (file.file) {
-            UpdatePhotoProfile(idProfile).then((response) => {
-              const dataPatch: IPostProfileData = { imageId: response?.res?.id }
-              serviceProfile.patch(dataPatch, idProfile).then(() => {
-                refetch()
-                requestAnimationFrame(dispatchModalClose)
-              })
-            })
+            } else {
+              refetch()
+              requestAnimationFrame(dispatchModalClose)
+            }
           } else {
-            refetch()
-            requestAnimationFrame(dispatchModalClose)
+            setLoading(false)
+            if (responses[0]?.error?.code === 409) {
+              return setError("username", { message: "user exists" })
+            }
+            if (responses[0]?.error?.code === 401) {
+              on({
+                message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
+              })
+              out()
+            }
           }
-        } else {
-          setLoading(false)
-          if (responses[0]?.error?.code === 409) {
-            return setError("username", { message: "user exists" })
-          }
-          if (responses[0]?.error?.code === 401) {
-            on({
-              message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
-            })
-            out()
-          }
-        }
-      })
+        },
+      )
     }
   }
 
@@ -172,10 +144,9 @@ export const PersonalData = () => {
       watch("firstName") === data?.res?.firstName &&
       watch("lastName") === data?.res?.lastName &&
       watch("username") === data?.res?.username &&
-      !file.string &&
-      !stateAddress
+      !file.string
     )
-  }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string, watch("gender"), stateAddress])
+  }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string, watch("gender")])
 
   return (
     <form onSubmit={onSubmit}>
@@ -261,7 +232,6 @@ export const PersonalData = () => {
             {!!errors?.gender ? <i>{errors?.gender?.message}</i> : null}
           </fieldset>
         </div>
-        <FieldAddress setStateAddress={setStateAddress} address={address} />
       </section>
       <ButtonsFooter disabled={disabledButton} loading={loading} />
     </form>

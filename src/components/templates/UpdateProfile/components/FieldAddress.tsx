@@ -132,3 +132,14 @@ export const FieldAddress = ({ address, setStateAddress }: IProps) => {
     </fieldset>
   )
 }
+
+// !!stateAddress
+//   ? Promise.all(
+//       address.filter((item) => item.addressType === "main").map((item) => serviceAddresses.patch({ enabled: false }, item?.id)),
+//     ).then(() => {
+//       serviceAddresses.post(stateAddress).then((response) => {
+//         console.log("response address: ", response)
+//         refetchUser()
+//       })
+//     })
+//   : Promise.resolve({ ok: true }),

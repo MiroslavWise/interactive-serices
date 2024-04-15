@@ -4,6 +4,7 @@ import { useSign } from "../hooks/useSign"
 import { dispatchModal, EModalData, useAuth } from "@/store"
 
 import styles from "../styles/link.module.scss"
+import { IconPlus } from "@/components/icons/IconPlus"
 
 export const CreateButton = memo(function CreateButton() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -25,7 +26,7 @@ export const CreateButton = memo(function CreateButton() {
     >
       <div className={styles.itemsIconLabel}>
         <div className={styles.centerPoligon} id="id-create-menu-footer">
-          <img src="/svg/plus.svg" alt="plus" width={20} height={20} />
+          <IconPlus />
         </div>
         <p>Создать</p>
       </div>

@@ -95,7 +95,7 @@
         height: 1.5rem;
         transform: rotate(180deg);
         & > path {
-          stroke: var(--text-primary);
+          fill: var(--text-primary);
         }
       }
     }
