@@ -1,10 +1,10 @@
 import { Controller, useForm } from "react-hook-form"
 import { useEffect, useMemo, useState } from "react"
-import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
+import { resolverUpdateForm, TSchemaUpdateForm } from "../utils/update-form.schema"
 
 import { ImageProfile } from "./ImageProfile"
 import { ButtonsFooter } from "./ButtonsFooter"
@@ -12,7 +12,7 @@ import { ButtonsFooter } from "./ButtonsFooter"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
-import { resolverUpdateForm, TSchemaUpdateForm } from "../utils/update-form.schema"
+import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 
 const GENDER: { label: string; value: "m" | "f" }[] = [
   {

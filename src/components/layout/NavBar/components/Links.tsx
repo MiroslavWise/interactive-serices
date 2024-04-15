@@ -6,8 +6,9 @@ import { LinkProfile } from "./LinkProfile"
 import { LinkMessages } from "./LinkMessages"
 import { LinkNotification } from "./LinkNotification"
 
-import styles from "../styles/links.module.scss"
 import { useAuth } from "@/store"
+
+import styles from "../styles/links.module.scss"
 
 export const Links = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)

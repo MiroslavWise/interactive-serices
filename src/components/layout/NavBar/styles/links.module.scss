@@ -191,6 +191,12 @@
         }
       }
     }
+
+    @media screen and (max-width: 1244px) {
+      & > span {
+        display: none;
+      }
+    }
   }
 }
 
