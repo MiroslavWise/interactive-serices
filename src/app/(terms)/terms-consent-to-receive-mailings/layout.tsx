@@ -2,6 +2,11 @@ import { type Metadata } from "next"
 
 const title = "Согласие на получение рассылки рекламно-информационных материалов"
 
+export const dynamic = "force-static"
+export const dynamicParams = false
+export const revalidate = false
+export const fetchCache = "force-cache"
+
 export const metadata: Metadata = {
   title,
   description: title,
