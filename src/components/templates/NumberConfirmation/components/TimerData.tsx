@@ -6,7 +6,7 @@ import { getMillisecond } from "@/helpers"
 
 const INITIAL_TIME = 120
 
-export const TimerData = memo(function TimerData() {
+export const TimerData = memo(() => {
   const [loading, setLoading] = useState(false)
   const number = useNumberConfirmation(({ number }) => number)
   const time = useTimerNumberConfirmation(({ time }) => time)
@@ -69,7 +69,7 @@ export const TimerData = memo(function TimerData() {
   }
 
   return (
-    <article data-column>
+    <article data-column data-test="article-timer-data">
       {timerObject.timer ? (
         <>
           <p>Запросить новый код можно через</p>
@@ -79,8 +79,8 @@ export const TimerData = memo(function TimerData() {
         </>
       ) : (
         <p>
-          Не приходит код?{" "}
-          <a onClick={handleRequestNew} data-loading={loading}>
+          Не приходит код?&nbsp;
+          <a onClick={handleRequestNew} data-loading={loading} data-test="a-timer-data-request-new">
             Отправить снова
           </a>
         </p>

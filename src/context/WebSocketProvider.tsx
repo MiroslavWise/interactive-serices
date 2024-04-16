@@ -1,18 +1,15 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
 import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
 import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
 import { EnumStatusBarter } from "@/types/enum"
 import type { IGetProfileIdResponse } from "@/services/profile/types"
 
+import { AuthListener } from "./AuthListener"
+
 import { useAuth } from "@/store"
 import env from "@/config/environment"
-import { useToast } from "@/helpers/hooks/useToast"
-import { useCountMessagesNotReading, usePush } from "@/helpers"
-import { serviceNotifications, getBarterUserIdReceiver } from "@/services"
 
 interface IContextSocket {
   socket: Socket | undefined
@@ -25,72 +22,14 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   const token = useAuth(({ token }) => token)
   const userId = useAuth(({ userId }) => userId)
-  const threadId = useSearchParams().get("thread")
-  const { on, onMessage } = useToast()
-  const { handlePush } = usePush()
   const [isFetch, setIsFetch] = useState(false)
   const [socketState, setSocketState] = useState<Socket | null>(null)
-  const { refetchCountMessages } = useCountMessagesNotReading()
-
-  const { refetch: refetchNotifications } = useQuery({
-    queryFn: () => serviceNotifications.get({ order: "DESC" }),
-    queryKey: ["notifications", { userId: userId }],
-    enabled: false,
-  })
-
-  const { refetch: refetchBarters } = useQuery({
-    queryFn: () =>
-      getBarterUserIdReceiver(userId!, {
-        status: EnumStatusBarter.INITIATED,
-        order: "DESC",
-      }),
-    queryKey: ["barters", { receiver: userId, status: EnumStatusBarter.INITIATED }],
-    enabled: false,
-  })
-
-  function barterResponse(event: IBarterResponse) {
-    console.log("%c barterResponse", "color: blue; font-size: 1.5rem;", event)
-    refetchNotifications()
-    refetchBarters()
-  }
-  interface IThreadResponse {}
-
-  function threadResponse(event: IThreadResponse) {
-    console.log("%c threadResponse", "color: green; font-size: 1rem;", event)
-    refetchNotifications()
-    refetchCountMessages()
-  }
 
   useEffect(() => {
     if (!socketState) {
       setIsFetch(false)
     }
-    const chatResponse = (event: IChatResponse) => {
-      console.log("%c chatResponse event: ", "color: #d0d", event)
-      if (Number(threadId) !== event.threadId && userId !== event?.emitterId) {
-        onMessage({
-          id: event.id,
-          threadId: event.threadId,
-          name: `${event.emitter?.profile?.firstName || ""} ${event.emitter?.profile?.lastName || ""}`,
-          message: `${event.message}`,
-          photo: event.emitter?.profile?.image?.attributes?.url! || "",
-        })
-        refetchCountMessages()
-      }
-    }
-
-    if (socketState && userId) {
-      socketState?.on(`chatResponse-${userId}`, chatResponse)
-      socketState?.on(`barterResponse-${userId}`, barterResponse)
-      socketState?.on(`threadResponse-${userId}`, threadResponse)
-
-      return () => {
-        socketState?.off(`chatResponse-${userId}`, chatResponse)
-        socketState?.off(`barterResponse-${userId}`, barterResponse)
-        socketState?.off(`threadResponse-${userId}`, threadResponse)
-      }
-    }
-  }, [socketState, on, threadId, handlePush, userId])
+  }, [socketState])
 
   useInsertionEffect(() => {
     function connectError(e: any) {
@@ -131,7 +70,12 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [token, userId, isFetch])
 
-  return <CreateContextWebSocket.Provider value={{ socket: socketState! }}>{children}</CreateContextWebSocket.Provider>
+  return (
+    <CreateContextWebSocket.Provider value={{ socket: socketState! }}>
+      {children}
+      <AuthListener />
+    </CreateContextWebSocket.Provider>
+  )
 }
 
 export const useWebSocket = () => {

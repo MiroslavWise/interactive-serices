@@ -9,10 +9,8 @@
 
   //
   --height-standard-header-modal: 4.75rem;
-}
 
-[data-tablet="true"] {
-  :root {
+  @media screen and (max-width: 768px) {
     --height-standard-header-modal: 4.25rem;
   }
 }
