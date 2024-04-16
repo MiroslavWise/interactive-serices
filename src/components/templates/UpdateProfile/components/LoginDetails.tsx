@@ -23,7 +23,7 @@ export const LoginDetails = () => {
   return (
     <form data-test="form-login-details">
       <section data-personal>
-        <fieldset>
+        <fieldset data-test="fieldset-login-details-email">
           <label>Электронная почта</label>
           <input
             value={email! && !email?.includes("no-login:") ? email : ""}
@@ -43,7 +43,7 @@ export const LoginDetails = () => {
             <a onClick={() => dispatchAddEmail(true)}>Добавить</a>
           )}
         </fieldset>
-        <fieldset>
+        <fieldset data-test="fieldset-login-details-phone">
           <label>Номер телефона</label>
           <input
             value={!!number ? (!["8", "+", 8].includes(number[0]) ? `+${number}` : number) : ""}
@@ -65,7 +65,7 @@ export const LoginDetails = () => {
           )}
         </fieldset>
         {!!email && !email?.includes("no-login:") ? (
-          <fieldset>
+          <fieldset data-test="fieldset-login-details-password">
             <label>Пароль</label>
             <input value="********" placeholder="пароль" type="text" readOnly disabled data-test="input-login-details-password" />
             <a onClick={handleUpdatePassword} data-test="a-login-details-on-modal-update-password">

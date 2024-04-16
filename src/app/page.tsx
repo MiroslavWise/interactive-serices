@@ -3,8 +3,6 @@
 import dynamic from "next/dynamic"
 
 import {
-  BannerServices,
-  BannerSign,
   BannerAbout,
   MobileFilterMap,
   BannerStartCreate,
@@ -17,6 +15,12 @@ import Navigation from "@/components/content/mobile/Navigation"
 import MapSearch from "@/components/content/mobile/MapSearch"
 
 const YMapsProvider = dynamic(() => import("@/context/YMapsProvider"), {
+  ssr: false,
+})
+const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
+  ssr: false,
+})
+const BannerServices = dynamic(() => import("@/components/content/BannerServices"), {
   ssr: false,
 })
 const YandexMap = dynamic(() => import("../components/YandexMap"), {

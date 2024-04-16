@@ -30,7 +30,7 @@ import { useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const BannerServices = () => {
+function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
@@ -116,6 +116,9 @@ export const BannerServices = () => {
     </div>
   ) : null
 }
+
+BannerServices.displayName = "BannerServices"
+export default BannerServices
 
 export const SearchAndFilters = () => {
   const visible = useCollapseServices(({ visible }) => visible)

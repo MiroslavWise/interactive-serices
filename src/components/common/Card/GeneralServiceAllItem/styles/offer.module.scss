@@ -11,10 +11,10 @@
       border-radius: 0.25rem;
 
       & > img {
-        position: absolute;
-        inset: 0;
-        height: 100%;
-        width: 100%;
+        position: absolute !important;
+        inset: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
       }
     }
   }

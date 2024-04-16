@@ -8,7 +8,7 @@ import { dispatchCollapsePersonalScreen, useAuth, useCollapsePersonalScreen } fr
 
 import styles from "./styles/button-collapse.module.scss"
 
-export function BannerSign() {
+function BannerSign() {
   const { isTablet } = useResize()
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
@@ -34,3 +34,6 @@ export function BannerSign() {
     </>
   ) : null
 }
+
+BannerSign.displayName = "BannerSign"
+export default BannerSign

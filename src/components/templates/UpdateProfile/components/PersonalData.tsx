@@ -158,7 +158,7 @@ export const PersonalData = () => {
             rules={{ required: true }}
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <fieldset>
+              <fieldset data-test="fieldset-personal-data-firstName">
                 <label htmlFor={field.name} title="Имя пользователя">
                   Имя
                 </label>
@@ -172,7 +172,7 @@ export const PersonalData = () => {
             rules={{ required: true }}
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <fieldset>
+              <fieldset data-test="fieldset-personal-data-lastName">
                 <label htmlFor={field.name} title="Фамилия пользователя">
                   Фамилия
                 </label>
@@ -186,7 +186,7 @@ export const PersonalData = () => {
             rules={{ required: true }}
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <fieldset>
+              <fieldset data-test="fieldset-personal-data-username">
                 <label htmlFor={field.name} title="Никнейм пользователя">
                   Ник
                 </label>
@@ -195,7 +195,7 @@ export const PersonalData = () => {
               </fieldset>
             )}
           />
-          <fieldset>
+          <fieldset data-test="fieldset-personal-data-gender">
             <label htmlFor="gender" {...register("gender")} title="Пол пользователя">
               Пол
             </label>

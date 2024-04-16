@@ -11,7 +11,7 @@ import { useVisiblePhotosCarousel, dispatchPhotoCarousel } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
-export function PhotoCarousel() {
+function PhotoCarousel() {
   const { isTablet } = useResize()
 
   const isVisible = useVisiblePhotosCarousel(({ isVisible }) => isVisible)
@@ -34,3 +34,6 @@ export function PhotoCarousel() {
     </div>
   )
 }
+
+PhotoCarousel.displayName = "PhotoCarousel"
+export default PhotoCarousel
