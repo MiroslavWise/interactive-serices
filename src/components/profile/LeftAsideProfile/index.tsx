@@ -7,7 +7,7 @@ import styles from "./styles/style.module.scss"
 
 export const LeftAsideProfile = memo(function ({ isCollapsed = false }: { isCollapsed?: boolean }) {
   return (
-    <aside className={styles.asideLeft} data-collapsed={isCollapsed}>
+    <aside className={styles.asideLeft} data-collapsed={isCollapsed} data-test="left-aside-profile">
       <ul>
         <BlockProfileAside />
         <ButtonFriends />

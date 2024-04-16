@@ -149,7 +149,7 @@ export const PersonalData = () => {
   }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string, watch("gender")])
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} data-test="form-personal-data">
       <section>
         <ImageProfile image={image!} file={file} setFile={setFile} idProfile={idProfile} refetch={refetch} />
         <div data-grid>
@@ -162,7 +162,7 @@ export const PersonalData = () => {
                 <label htmlFor={field.name} title="Имя пользователя">
                   Имя
                 </label>
-                <input type="text" placeholder="Введите имя" {...field} data-error={!!error} />
+                <input type="text" placeholder="Введите имя" {...field} data-error={!!error} data-test="input-personal-data-firstName" />
                 {!!error ? <i>{error?.message}</i> : null}
               </fieldset>
             )}
@@ -176,7 +176,7 @@ export const PersonalData = () => {
                 <label htmlFor={field.name} title="Фамилия пользователя">
                   Фамилия
                 </label>
-                <input type="text" placeholder="Введите фамилию" {...field} data-error={!!error} />
+                <input type="text" placeholder="Введите фамилию" {...field} data-error={!!error} data-test="input-personal-data-lastName" />
                 {!!error ? <i>{error?.message}</i> : null}
               </fieldset>
             )}
@@ -190,7 +190,7 @@ export const PersonalData = () => {
                 <label htmlFor={field.name} title="Никнейм пользователя">
                   Ник
                 </label>
-                <input type="text" placeholder="Придумайте ник" {...field} data-error={!!error} />
+                <input type="text" placeholder="Придумайте ник" {...field} data-error={!!error} data-test="input-personal-data-username" />
                 {!!error ? <i>{error?.message}</i> : null}
               </fieldset>
             )}
@@ -209,10 +209,11 @@ export const PersonalData = () => {
                   setFocusGender(true)
                 }}
                 value={GENDER.find((item) => item.value === watch("gender"))?.label || ""}
+                data-test="input-personal-data-gender"
               />
               {focusGender ? (
-                <div data-ul>
-                  <ul>
+                <div data-ul data-test="input-personal-data-gender-div-ul">
+                  <ul data-test="input-personal-data-gender-list-ul">
                     {GENDER.map((item) => (
                       <li
                         key={`::key::gender::${item.value}::`}
@@ -221,6 +222,7 @@ export const PersonalData = () => {
                           setFocusGender(false)
                           setValue("gender", item.value)
                         }}
+                        data-test="input-personal-data-gender-list-li"
                       >
                         <span>{item.label}</span>
                       </li>
