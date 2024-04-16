@@ -55,7 +55,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, i
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-test="container-update-image-profile">
       <div data-img={!!file.string || !!image}>
         {file.string ? (
           <ImageStatic src={file.string} alt="avatar" width={80} height={80} />
@@ -72,6 +72,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, i
               handleDelete()
             }}
             disabled={loading}
+            data-test="button-update-image-profile-delete-photo"
           >
             <img src="/svg/x-close.svg" alt="x" width={16} height={16} />
           </button>
@@ -87,7 +88,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, i
           <span></span>
         )}
         <a>
-          <input type="file" onChange={handleImageChange} accept=".jpg, .jpeg, .png, image/*" />
+          <input type="file" onChange={handleImageChange} accept=".jpg, .jpeg, .png, image/*" data-test="input-update-image-profile" />
           Изменить
         </a>
       </div>

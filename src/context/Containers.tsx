@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { ToastContainer } from "react-toastify"
 
 import {
   Intro,
@@ -25,7 +24,6 @@ import {
   NumberConfirmation,
   InitiatedBarterMobile,
 } from "@/components/templates"
-import { PhotoCarousel } from "@/components/layout"
 import { ChangeService } from "@/components/profile"
 
 import {
@@ -46,6 +44,8 @@ import { useResize } from "@/helpers"
 
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
+const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
+const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
