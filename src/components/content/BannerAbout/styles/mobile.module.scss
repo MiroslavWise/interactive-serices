@@ -6,15 +6,16 @@
   cursor: pointer;
   transition: var(--transition);
   transition-property: bottom;
-  bottom: calc(var(--height-mobile-footer-nav) + 1rem);
+  bottom: calc(var(--height-mobile-footer-nav) + 1rem + 6.5rem);
   left: 1.25rem;
 
   &[data-visible="true"] {
-    right: 1.25rem;
+    // right: 1.25rem;
     padding: 1.5rem;
     flex-direction: column;
     gap: 1rem;
     border-radius: 2rem;
+    right: calc(1.25rem + 3rem + 1.25rem);
   }
 
   &[data-visible="false"] {
