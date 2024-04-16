@@ -10,7 +10,7 @@ import { CardDiscussion } from "@/components/common/Card"
 import { Button, LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
 
 import { getUserIdOffers } from "@/services"
-import { dispatchOnboardingStart, openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
+import { dispatchModal, dispatchOnboardingStart, EModalData, openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -61,7 +61,10 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
 
     return {
       title: title.get(stateProvider)!,
-      func: () => openCreateOffers(stateProvider),
+      func: () => {
+        openCreateOffers(stateProvider)
+        dispatchModal(EModalData.CreateNewOptionModal)
+      },
     }
   }, [stateProvider])
 
@@ -74,7 +77,10 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
 
     return {
       label: label.get(stateProvider),
-      func: () => dispatchOnboardingStart(stateProvider),
+      func: () => {
+        dispatchOnboardingStart(stateProvider)
+        dispatchModal(EModalData.CreateNewOptionModal)
+      },
     }
   }, [stateProvider])
 
