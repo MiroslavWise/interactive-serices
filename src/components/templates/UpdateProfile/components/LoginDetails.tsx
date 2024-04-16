@@ -21,14 +21,20 @@ export const LoginDetails = () => {
   }
 
   return (
-    <form>
+    <form data-test="form-login-details">
       <section data-personal>
         <fieldset>
           <label>Электронная почта</label>
-          <input value={email! && !email?.includes("no-login:") ? email : ""} readOnly disabled type="email" />
+          <input
+            value={email! && !email?.includes("no-login:") ? email : ""}
+            readOnly
+            disabled
+            type="email"
+            data-test="input-login-details-email"
+          />
           {email && !email?.includes("no-login:") ? (
             <span>
-              Для изменения электронной почты, напишите в телеграм{" "}
+              Для изменения электронной почты, напишите в телеграм&nbsp;
               <a href="https://t.me/sheirainfo" target="_blank">
                 @sheirainfo
               </a>
@@ -45,10 +51,11 @@ export const LoginDetails = () => {
             type="text"
             readOnly
             disabled
+            data-test="input-login-details-phone"
           />
           {number ? (
             <span>
-              Для изменения номера телефона, напишите в телеграм{" "}
+              Для изменения номера телефона, напишите в телеграм&nbsp;
               <a href="https://t.me/sheirainfo" target="_blank">
                 @sheirainfo
               </a>
@@ -60,8 +67,10 @@ export const LoginDetails = () => {
         {!!email && !email?.includes("no-login:") ? (
           <fieldset>
             <label>Пароль</label>
-            <input value="********" placeholder="пароль" type="text" readOnly disabled />
-            <a onClick={handleUpdatePassword}>Изменить</a>
+            <input value="********" placeholder="пароль" type="text" readOnly disabled data-test="input-login-details-password" />
+            <a onClick={handleUpdatePassword} data-test="a-login-details-on-modal-update-password">
+              Изменить
+            </a>
           </fieldset>
         ) : null}
       </section>

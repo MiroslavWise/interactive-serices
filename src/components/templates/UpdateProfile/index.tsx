@@ -16,7 +16,7 @@ export default function UpdateProfile() {
       <header>
         <h3>Редактирование профиля</h3>
       </header>
-      <article>
+      <article data-test="article-modal-update-profile">
         <Segments VALUES={SEGMENTS} active={active} setActive={setActive} isBorder type="primary" />
       </article>
       {active.value === "personal-data" ? <PersonalData /> : active.value === "login-details" ? <LoginDetails /> : null}

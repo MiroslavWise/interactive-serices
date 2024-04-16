@@ -31,7 +31,7 @@ export const BlockDesiredServices = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-test="profile-block-desired-services">
       <p>Желаемые услуги</p>
       {isLoading ? (
         <div />
@@ -61,12 +61,24 @@ export const BlockDesiredServices = () => {
               </div>
             ))}
           </section>
-          <Button type="button" typeButton="regular-primary" label="Изменить" onClick={addDesiredService} />
+          <Button
+            type="button"
+            typeButton="regular-primary"
+            label="Изменить"
+            onClick={addDesiredService}
+            data-test="profile-block-desired-services-button-on-modal-change"
+          />
         </>
       ) : (
         <article>
           <p>Добавьте услуги, которые вам интересны и вы бы хотели их получить</p>
-          <Button type="button" typeButton="white" label="Добавить" onClick={addDesiredService} />
+          <Button
+            type="button"
+            typeButton="white"
+            label="Добавить"
+            onClick={addDesiredService}
+            data-test="profile-block-desired-services-button-on-modal-add"
+          />
         </article>
       )}
     </div>
