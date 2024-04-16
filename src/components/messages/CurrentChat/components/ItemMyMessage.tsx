@@ -10,7 +10,7 @@ import { ImageStatic, NextImageMotion } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { useResize } from "@/helpers"
 import { dispatchPhotoCarousel } from "@/store"
-import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
+import { timeNowOrBeforeChat, timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
 import { stylesBlockRight } from "@/lib/styles-block-message"
 
 import styles from "./styles/item-message.module.scss"
@@ -78,8 +78,8 @@ export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo,
               </div>
             ) : null}
             <p>{item.message}</p>
-            <time className={styles.time}>
-              {timeNowOrBeforeChat(item?.time)}{" "}
+            <time className={styles.time} title={item?.time! as string} dateTime={item?.time as string}>
+              {timeNowOrBeforeChatHours(item?.time)}&nbsp;
               <img
                 src={
                   item?.reading === null

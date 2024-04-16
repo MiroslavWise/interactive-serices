@@ -80,13 +80,13 @@ export const ChangePassword = () => {
   const disabled = !watch("oldPassword") || !watch("password") || !watch("repeat") || watch("password") !== watch("repeat")
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
+    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible} data-test="modal-change-password">
       <section data-section-modal>
         <ButtonClose onClick={close} />
         <header>
           <h3>Изменение пароля</h3>
         </header>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} data-test="form-change-password">
           <p>Введите ваш текущий пароль для подтверждения аккаунта.</p>
           <article>
             <Controller
@@ -94,7 +94,7 @@ export const ChangePassword = () => {
               rules={{ required: true }}
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <fieldset>
+                <fieldset data-test={`fieldset-change-password-${field.name}`}>
                   <label htmlFor={field.name}>Старый пароль</label>
                   <div data-input>
                     <input
@@ -102,6 +102,7 @@ export const ChangePassword = () => {
                       placeholder="Введите пароль"
                       {...field}
                       data-error={!!error}
+                      data-test={`input-change-password-${field.name}`}
                     />
                     <button type="button" onClick={() => onVisiblePassword(field.name)}>
                       <img src={visiblePass.oldPassword ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
@@ -116,10 +117,16 @@ export const ChangePassword = () => {
               rules={{ required: true }}
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <fieldset>
+                <fieldset data-test={`fieldset-change-password-${field.name}`}>
                   <label htmlFor={field.name}>Пароль</label>
                   <div data-input>
-                    <input type={visiblePass.password ? "text" : "password"} placeholder="Введите пароль" {...field} data-error={!!error} />
+                    <input
+                      type={visiblePass.password ? "text" : "password"}
+                      placeholder="Введите пароль"
+                      {...field}
+                      data-error={!!error}
+                      data-test={`input-change-password-${field.name}`}
+                    />
                     <button type="button" onClick={() => onVisiblePassword(field.name)}>
                       <img src={visiblePass.password ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
                     </button>
@@ -133,7 +140,7 @@ export const ChangePassword = () => {
               rules={{ required: true }}
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <fieldset>
+                <fieldset data-test={`fieldset-change-password-${field.name}`}>
                   <label htmlFor={field.name}>Повторите пароль</label>
                   <div data-input>
                     <input
@@ -141,6 +148,7 @@ export const ChangePassword = () => {
                       placeholder="Введите пароль ещё раз"
                       {...field}
                       data-error={!!error}
+                      data-test={`input-change-password-${field.name}`}
                     />
                     <button type="button" onClick={() => onVisiblePassword(field.name)}>
                       <img src={visiblePass.repeat ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
@@ -152,7 +160,14 @@ export const ChangePassword = () => {
             />
             {errors.root?.message ? <i>{errors.root?.message}</i> : null}
           </article>
-          <Button type="submit" typeButton="fill-primary" label="Подтвердить" disabled={disabled} loading={loading} />
+          <Button
+            type="submit"
+            typeButton="fill-primary"
+            label="Подтвердить"
+            disabled={disabled}
+            loading={loading}
+            data-test="button-change-password-submit"
+          />
         </form>
       </section>
     </div>

@@ -8,9 +8,9 @@ import styles from "./styles/time.module.scss"
 export const ItemTime: TItemTime = memo(function $ItemTime({ time }) {
   return (
     <div className={cx(styles.wrapper, "sticky")}>
-      <div className={styles.container}>
+      <article className={styles.container}>
         <span>{time}</span>
-      </div>
+      </article>
     </div>
   )
 })

@@ -10,3 +10,8 @@ export function timeNowOrBeforeChat(time: Date | string): string | null {
   }
   return null
 }
+
+export function timeNowOrBeforeChatHours(time: Date | string): string | null {
+  if (!time) return null
+  return dayFormat(time, "HH:mm")
+}

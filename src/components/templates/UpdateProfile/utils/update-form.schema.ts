@@ -1,7 +1,11 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-const nullableStringGender = z.nullable(z.literal("m").or(z.literal("f")))
+const nullableStringGender = z.enum(["m", "f"], {
+  errorMap: () => ({
+    message: "Выберите пол",
+  }),
+})
 const stringMinThree = (message: string, messageMax: string, regex: RegExp) =>
   z.string().trim().min(3, { message }).max(32, { message: messageMax }).regex(regex, {
     message: "Не верный формат поля",
@@ -14,5 +18,6 @@ export const schemaUpdateForm = z.object({
   gender: nullableStringGender,
 })
 
+export type TGenderForm = z.infer<typeof nullableStringGender>
 export const resolverUpdateForm = zodResolver(schemaUpdateForm)
 export type TSchemaUpdateForm = z.infer<typeof schemaUpdateForm>

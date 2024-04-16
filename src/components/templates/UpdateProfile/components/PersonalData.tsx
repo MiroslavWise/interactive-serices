@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
-import { resolverUpdateForm, TSchemaUpdateForm } from "../utils/update-form.schema"
+import { resolverUpdateForm, TGenderForm, TSchemaUpdateForm } from "../utils/update-form.schema"
 
 import { ImageProfile } from "./ImageProfile"
 import { ButtonsFooter } from "./ButtonsFooter"
@@ -14,7 +14,7 @@ import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
 import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 
-const GENDER: { label: string; value: "m" | "f" }[] = [
+const GENDER: { label: string; value: TGenderForm }[] = [
   {
     label: "Мужской",
     value: "m",
@@ -100,7 +100,7 @@ export const PersonalData = () => {
         valuesProfile.username = values.username?.replace("@", "")
       }
       if (values.gender !== data?.res?.gender && ["f", "m"].includes(values.gender!)) {
-        valuesProfile.gender = values.gender!
+        valuesProfile.gender = values.gender
       }
 
       Promise.all([!!data?.res?.id ? serviceProfile.patch(valuesProfile, data?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(

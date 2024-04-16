@@ -9,7 +9,8 @@ import { cx } from "@/lib/cx"
 import { patchThread } from "@/services"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useCountMessagesNotReading } from "@/helpers"
-import { usePopupMenuChat, useMessagesType } from "@/store"
+import { IconXClose } from "@/components/icons/IconXClose"
+import { usePopupMenuChat } from "@/store"
 import { MENU_ITEM_POPUP, type TTypeActionMenu } from "../constants"
 
 import mainStyles from "../styles/style.module.scss"
@@ -18,7 +19,6 @@ import styles from "./styles/popup-menu.module.scss"
 export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
   const searchParams = useSearchParams()
   const idThread = searchParams?.get("thread")
-  const type = useMessagesType(({ type }) => type)
   const isVisible = usePopupMenuChat(({ isVisible }) => isVisible)
   const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
   const { handlePush, handleReplace } = usePush()
@@ -57,15 +57,17 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
         setIsVisible(false)
       }}
     >
-      <div
+      <button
         className={cx(mainStyles.button, styles.dots)}
         onClick={(event) => {
           event.stopPropagation()
           setIsVisible(false)
         }}
+        type="button"
+        title="Закрыть модальное окно"
       >
-        <img src="/svg/x-close.svg" alt="close" width={24} height={24} />
-      </div>
+        <IconXClose />
+      </button>
       <ul
         data-is-open={isVisible}
         className={cx(styles.menu)}
