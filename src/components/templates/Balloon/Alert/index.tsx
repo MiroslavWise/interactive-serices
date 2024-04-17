@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect } from "react"
+
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
@@ -9,19 +11,15 @@ import { ProfileComponent } from "../components/ProfileComponent"
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
 import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
-import { dispatchBallonAlert, dispatchModalClose, useBalloonAlert } from "@/store"
-
-import common from "../styles/general.module.scss"
-import styles from "../Discussion/styles/style.module.scss"
+import { dispatchBallonAlert, useBalloonAlert } from "@/store"
 
 export default function BalloonAlert() {
   const offer = useBalloonAlert(({ offer }) => offer)
   const { title, content, images = [] } = offer ?? {}
 
-  function close() {
-    dispatchModalClose()
-    dispatchBallonAlert({ offer: undefined })
-  }
+  useEffect(() => {
+    return () => dispatchBallonAlert({ offer: undefined })
+  }, [])
 
   return (
     <>
@@ -39,7 +37,7 @@ export default function BalloonAlert() {
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />
-          <BlockComments close={close} offer={offer as unknown as IResponseOffers} />
+          <BlockComments offer={offer as unknown as IResponseOffers} />
         </div>
       </div>
     </>

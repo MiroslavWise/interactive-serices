@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ImageCategory } from "@/components/common"
 
@@ -25,9 +25,6 @@ import {
   useModal,
   useOffersCategories,
 } from "@/store"
-
-import styles from "./styles/style.module.scss"
-import common from "../styles/general.module.scss"
 
 export default function BalloonOffer() {
   const userId = useAuth(({ userId }) => userId)
@@ -115,6 +112,10 @@ export default function BalloonOffer() {
       return
     }
   }
+
+  useEffect(() => {
+    return () => dispatchBallonOffer({ offer: undefined })
+  }, [])
 
   return (
     <>

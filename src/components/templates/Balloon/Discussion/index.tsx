@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect } from "react"
+
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
@@ -11,16 +13,15 @@ import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/componen
 import { BlockAction } from "./components/BlockAction"
 import { BlockComments } from "../components/BlockComments"
 
-import { dispatchBallonDiscussion, dispatchModalClose, useBalloonDiscussion } from "@/store"
+import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store"
 
 export default function BalloonDiscussion() {
   const offer = useBalloonDiscussion(({ offer }) => offer)
   const { content, title, images = [] } = offer ?? {}
 
-  function close() {
-    dispatchModalClose()
-    dispatchBallonDiscussion({ offer: undefined })
-  }
+  useEffect(() => {
+    return () => dispatchBallonDiscussion({ offer: undefined })
+  }, [])
 
   return (
     <>
@@ -39,19 +40,9 @@ export default function BalloonDiscussion() {
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />
           <BlockAction offer={offer as unknown as IResponseOffers} />
-          <BlockComments offer={offer as unknown as IResponseOffers} close={close} />
+          <BlockComments offer={offer as unknown as IResponseOffers} />
         </div>
       </div>
     </>
   )
-
-  // return (
-  // <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible} data-test="wrapper-balloon-discussion">
-  {
-    /* <section data-section-modal data-test="section-balloon-discussion"></section> */
-  }
-  {
-    /* </div> */
-  }
-  // )
 }

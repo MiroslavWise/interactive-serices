@@ -160,7 +160,6 @@ export default function UpdateOffer() {
       if (JSON.stringify(photos.sort()) !== JSON.stringify(offer?.images.map((item) => item.id)?.sort())) {
         body.images = [...photos]
       }
-      console.log("body end: ", body)
 
       if (Object.entries(body).length === 0) {
         close()

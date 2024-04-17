@@ -18,7 +18,7 @@ export default function GeneralAlert({ offer }: { offer: IResponseOffers }) {
     const [address] = addresses
 
     dispatchBallonAlert({ offer: offer })
-    dispatchModal(EModalData.BalloonDiscussion)
+    dispatchModal(EModalData.BalloonAlert)
 
     if (address) {
       dispatchMapCoordinates({

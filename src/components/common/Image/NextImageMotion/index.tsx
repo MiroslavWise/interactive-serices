@@ -1,12 +1,13 @@
 "use client"
 
 import NextImage from "next/image"
+// import { isBlurhashValid } from "blurhash"
+// import { blurhashToBase64 } from "blurhash-base64"
 
 import type { IProps } from "./types"
 
 import { ImageStatic } from "../ImageStatic"
 
-// import { myImageLoader } from "@/helpers/functions/myImageLoader"
 import { blurDefaultOffer, defaultAvatar } from "@/helpers/image/base64"
 
 const altName = {
@@ -17,7 +18,7 @@ const altName = {
 type TTypes = typeof NextImage.defaultProps & IProps
 
 export const NextImageMotion = (props: TTypes) => {
-  const { src, ref, alt, className, height, width, ...rest } = props ?? {}
+  const { src, ref, alt, hash, className, height, width, ...rest } = props ?? {}
 
   return typeof src === "string" && src?.includes("http") ? (
     <NextImage

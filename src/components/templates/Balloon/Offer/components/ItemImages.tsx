@@ -57,8 +57,8 @@ export const ItemImages = ({ images, notTouch }: { images: IImageData[]; notTouc
           <NextImageMotion
             key={`::${item.id}::photo::offer::`}
             src={item?.attributes?.url!}
-            alt="offer-image"
             width={80}
+            alt={"offer-image"}
             height={90}
             onClick={(event) => {
               event.stopPropagation()

@@ -15,7 +15,7 @@ import { serviceComments, serviceOffersThreads } from "@/services"
 
 import styles from "../styles/block-comments.module.scss"
 
-export const BlockComments = memo(({ close, offer }: IProps) => {
+export const BlockComments = memo(({ offer }: IProps) => {
   const { socket } = useWebSocket() ?? {}
   const userId = useAuth(({ userId }) => userId)
   const [expand, setExpand] = useState(false)
@@ -84,6 +84,5 @@ export const BlockComments = memo(({ close, offer }: IProps) => {
 })
 
 interface IProps {
-  close: DispatchWithoutAction
   offer: IResponseOffers
 }
