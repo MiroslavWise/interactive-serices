@@ -43,6 +43,7 @@ export const PersonalData = () => {
     setError,
     handleSubmit,
     control,
+    clearErrors,
     formState: { errors },
   } = useForm<TSchemaUpdateForm>({
     resolver: resolverUpdateForm,
@@ -208,6 +209,7 @@ export const PersonalData = () => {
                   event.stopPropagation()
                   setFocusGender(true)
                 }}
+                data-error={!!errors?.gender}
                 value={GENDER.find((item) => item.value === watch("gender"))?.label || ""}
                 data-test="input-personal-data-gender"
               />
@@ -221,6 +223,7 @@ export const PersonalData = () => {
                           event.stopPropagation()
                           setFocusGender(false)
                           setValue("gender", item.value)
+                          clearErrors("gender")
                         }}
                         data-test="input-personal-data-gender-list-li"
                       >

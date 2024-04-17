@@ -8,7 +8,12 @@ import styles from "../styles/components.module.scss"
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
 
-  return typeof isAuth !== "undefined" ? (
+  return typeof isAuth === "undefined" ? (
+    <div className={styles.buttons} data-loading>
+      <span />
+      <span />
+    </div>
+  ) : (
     <div className={styles.buttons}>
       {isAuth ? (
         <Button
@@ -38,5 +43,5 @@ export const Buttons = () => {
         </>
       )}
     </div>
-  ) : null
+  )
 }
