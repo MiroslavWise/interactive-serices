@@ -10,8 +10,8 @@ import IconGoogle from "./svg/google"
 import IconVK from "./svg/vk"
 import IconStar from "./svg/star"
 
-const BackgroundSvgThree = dynamic(() => import("./svg/3"), { ssr: true })
-const BackgroundSvgThreeMobile = dynamic(() => import("./svg/3-mobile"), { ssr: true })
+const BackgroundSvgTwo = dynamic(() => import("./svg/2"), { ssr: true })
+const BackgroundSvgTwoMobile = dynamic(() => import("./svg/2-mobile"), { ssr: true })
 
 const BackgroundSvgPreFour = dynamic(() => import("./svg/pre-4"), { ssr: true })
 const BackgroundSvgPreFourMobile = dynamic(() => import("./svg/pre-4-mobile"), { ssr: true })
@@ -81,23 +81,21 @@ export default function PageLanding() {
       </article>
       <article data-three>
         <div data-text>
-          <p>Настя — одна из счастливых жительниц нового большого ЖК, похожего на гигантскую букву П</p>
           <p>
-            Пока Настя не освоилась — ей еще предстоит познакомиться с соседями, отыскать хороший маникюр и СТО, и найти новых клиентов для
-            своего мини-бизнеса с вкусными пирогами.
+            Настя живёт в большом ЖК. Конечно, далеко не каждый его уголок хорошо убирают. Вот и Настя поскальзывается и падает прямо у
+            подъезда.
           </p>
         </div>
-        <BackgroundSvgThree />
-        <BackgroundSvgThreeMobile />
+        <BackgroundSvgTwo />
+        <BackgroundSvgTwoMobile />
       </article>
       <article data-pre-four>
         <div data-text>
           <p>
-            В первый же день с Настей случается проишествие — она подскальзывается прямо у подъезда. Пока врач выписывает лекарство, Настя
-            находит в интернете Sheira — сервис для соседей, где можно размещать информацию на карте.
+            Врач выписывает таблетки, а Настя находит <span>Sheira</span> - сервис, где можно размещать информацию на карте.
           </p>
           <p>
-            <span>«Расскажу всем про эту застывшую лужу!» — решает Настя и создает на карте в Шейре яркое предупреждение.</span>
+            <span>«Расскажу всем про это!» — решает Настя и создает на карте Sheira предупреждение про скользкое место.</span>
           </p>
         </div>
         <BackgroundSvgPreFour />
@@ -106,8 +104,8 @@ export default function PageLanding() {
       <article data-four>
         <div data-text>
           <p>
-            Другие пользователи Шейры хвалят Настю за пост, она не может сдержать улыбку. Сервис Шейра, с его картой и полезными карточками,
-            становится для Насти проводником и помощником в новом незнакомом месте.
+            Другие пользователи Шейры хвалят Настю за пост. Настя, понимает, что сервис <span>Sheira</span>, с его картой и полезными
+            карточками - это и общение, и помощь рядом с домом, и новые клиенты для мини-бизнеса.
           </p>
         </div>
         <BackgroundSvgFour />
@@ -116,14 +114,8 @@ export default function PageLanding() {
       <article data-five>
         <div data-text>
           <p>
-            Насте нравится новый сервис. Шейра похожа на чат с соседями, только удобнее и понятнее, ведь любую активность сразу видно
-            на карте.
-          </p>
-          <p>
-            Настя создает карточку с предложением:&nbsp;
-            <span>
-              «Научу вас делать панкейки», выбирает то, что хочет взамен — выгул собаки — и постит предложение прямо на карту Шейры.
-            </span>
+            Настя создаёт карточку: <span>&#171;Научу вас делать панкейки&#187;</span>, выбирает то, что хочет взамен - выгул собаки - и
+            постит карточку прямо на карту Шейры.
           </p>
         </div>
         <BackgroundSvgFive />
@@ -140,20 +132,25 @@ export default function PageLanding() {
         <BackgroundSvgSix />
         <BackgroundSvgSixMobile />
       </article>
-      <article data-suffix-description>
-        <section>
-          <p>
-            После обмена Настя понимает — Шейра создана для того, чтобы помогать другим и реализовывать классные идеи вместе с соседями!
-          </p>
-          <p>
-            Спустя пару месяцев ее ЖК на карте Шейры становится самым заметным в округе — здесь постоянно меняются разными бытовыми
-            услугами, обращают внимание на происшествия и собираются вместе.
-          </p>
-        </section>
-      </article>
       <article data-last-city>
+        <div data-text>
+          <div data-after />
+          <p>
+            Оказывается, Шейра - отличная площадка, что-бы помогать другим, общаться с соседями и вместе воплощатьв жизнь классные идеи!
+          </p>
+        </div>
         <BackgroundSvgLastCity />
         <BackgroundSvgLastCityMobile />
+        <section>
+          <p>
+            <span>Sheira</span> - это уникальный сервис с реальной картой вашего города и разными активностями на ней. <span>Sheira</span>{" "}
+            поможет найти специалистов поблизости, обсудить важные вопросы района и привлечь внимание к локальной проблема.
+          </p>
+          <p>
+            Зарегистрируйтесь в <span>Sheira</span> - и вы откроете для себя мир талантливых и неравнодушных людей, которые живут совсем
+            рядом с вами.
+          </p>
+        </section>
         <Link href="https://sheira.ru/" target="_blank">
           <span>Перейти в Sheira</span>
         </Link>
