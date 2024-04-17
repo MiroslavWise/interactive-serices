@@ -32,6 +32,7 @@ export enum EModalData {
   ReciprocalExchange = "reciprocal-exchange",
   OutAccount = "out-account",
   UpdateOffer = "update-offer",
+  ChangePassword = "change-password",
 }
 
 interface IStateUseModal {

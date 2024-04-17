@@ -15,6 +15,7 @@ const BalloonOffer = dynamic(() => import("../Balloon/Offer"), { ssr: false, loa
 const ReciprocalExchange = dynamic(() => import("../ReciprocalExchange"), { ssr: false, loading: Load })
 const OutAccount = dynamic(() => import("../OutAccount"), { ssr: false, loading: Load })
 const UpdateOffer = dynamic(() => import("../UpdateOffer"), { ssr: false, loading: Load })
+const ChangePassword = dynamic(() => import("../ChangePassword"), { ssr: false, loading: Load })
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
@@ -30,6 +31,7 @@ import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/
 import stylesReciprocalExchange from "@/components/templates/ReciprocalExchange/styles/style.module.scss"
 import stylesOutAccount from "@/components/templates/OutAccount/style.module.scss"
 import stylesUpdateOffer from "@/components/templates/UpdateOffer/style.module.scss"
+import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -48,6 +50,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.ReciprocalExchange, <ReciprocalExchange key="::key::modal::reciprocal-exchange" />], //Обмен предложениями
   [EModalData.OutAccount, <OutAccount key="::key::modal::out-account" />], //Выход с аккаунта
   [EModalData.UpdateOffer, <UpdateOffer key="::key::modal::out-account" />], //Изменение оффера
+  [EModalData.ChangePassword, <ChangePassword key="::key::modal::change-password" />], //Изменение пароля
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, styleNewServiceBanner.container],
@@ -62,6 +65,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.ReciprocalExchange, stylesReciprocalExchange.container],
   [EModalData.OutAccount, stylesOutAccount.container],
   [EModalData.UpdateOffer, stylesUpdateOffer.container],
+  [EModalData.ChangePassword, stylesChangePassword.container],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

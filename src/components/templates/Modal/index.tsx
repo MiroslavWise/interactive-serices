@@ -1,17 +1,28 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
+
 import { ButtonClose } from "@/components/common"
 
-import { useModal, dispatchModalClose } from "@/store"
 import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
+
+import { useModal, dispatchModalClose, EModalData, dispatchModal } from "@/store"
 
 import styles from "./style.module.scss"
 
-const Modal = () => {
+function Modal() {
   const data = useModal(({ data }) => data)
   const visible = useModal(({ visible }) => visible)
   const ref = useRef<HTMLDivElement>(null)
+
+  const close = useCallback(() => {
+    console.log("close: ", close)
+    if (data === EModalData.ChangePassword) {
+      dispatchModal(EModalData.UpdateProfile)
+    } else {
+      dispatchModalClose()
+    }
+  }, [data])
 
   useEffect(() => {
     if (visible) {
@@ -34,17 +45,14 @@ const Modal = () => {
         }
       }
     }
-  }, [visible])
-
-  function close() {
-    dispatchModalClose()
-  }
+  }, [visible, data])
 
   return (
     <div
       className={styles.wrapperModal}
       data-visible={visible}
       ref={ref}
+      data-enum={data}
       onClick={(event) => {
         event.stopPropagation()
         close()

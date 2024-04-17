@@ -1,10 +1,9 @@
-import { create } from "zustand"
+import { dispatchModal, EModalData } from "./useModal"
 
-export const useChangePassword = create<{ visible: boolean }>(() => ({
-  visible: false,
-}))
-
-export const dispatchChangePassword = (value: boolean) =>
-  useChangePassword.setState(() => ({
-    visible: value,
-  }))
+export const dispatchChangePassword = (value: boolean) => {
+  if (value) {
+    dispatchModal(EModalData.ChangePassword)
+  } else {
+    dispatchModal(EModalData.UpdateProfile)
+  }
+}

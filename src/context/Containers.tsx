@@ -17,7 +17,6 @@ import {
   OptionProfileMobile,
   DeleteUser,
   ActiveServicesFrom,
-  ChangePassword,
   AddingPhoneNumber,
   AddEmail,
   CheckTheMail,
@@ -34,7 +33,6 @@ import {
   useVisibleNotifications,
   useReasonBarters,
   useActiveServicesFrom,
-  useChangePassword,
   useAddingPhoneNumber,
   useAddEmail,
   useCheckTheMail,
@@ -55,7 +53,6 @@ export const Containers = () => {
   const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
   const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
-  const visibleChangePassword = useChangePassword(({ visible }) => visible)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
@@ -91,7 +88,6 @@ export const Containers = () => {
           {isTablet && <OptionProfileMobile />}
           {isTablet && <InitiatedBarterMobile />}
           {visibleReasonBarters && <ReasonBarters />}
-          {visibleChangePassword && <ChangePassword />}
           {visibleActiveService && <ActiveServicesFrom />}
           {visibleCheckTheMail && <CheckTheMail />}
           {visibleAddingPhoneNumber && <AddingPhoneNumber />}
