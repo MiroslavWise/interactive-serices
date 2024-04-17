@@ -16,7 +16,6 @@ function Modal() {
   const ref = useRef<HTMLDivElement>(null)
 
   const close = useCallback(() => {
-    console.log("close: ", close)
     if (data === EModalData.ChangePassword) {
       dispatchModal(EModalData.UpdateProfile)
     } else {
@@ -26,23 +25,21 @@ function Modal() {
 
   useEffect(() => {
     if (visible) {
-      if (ref.current) {
-        const keyDown = (e: KeyboardEvent) => {
-          if (e.code == "Escape" || e.keyCode === 27) {
-            close()
-          }
-        }
-
-        const popState = (e: any) => {
+      const keyDown = (e: KeyboardEvent) => {
+        if (e.code == "Escape" || e.keyCode === 27) {
           close()
         }
+      }
 
-        window.addEventListener("popstate", popState, false)
-        document.addEventListener("keydown", keyDown, false)
-        return () => {
-          document?.removeEventListener("keydown", keyDown)
-          window.removeEventListener("popstate", popState)
-        }
+      const popState = (e: any) => {
+        close()
+      }
+
+      window.addEventListener("popstate", popState, false)
+      document.addEventListener("keydown", keyDown, false)
+      return () => {
+        document?.removeEventListener("keydown", keyDown)
+        window.removeEventListener("popstate", popState)
       }
     }
   }, [visible, data])
@@ -66,7 +63,7 @@ function Modal() {
         }}
       >
         {visible ? <ButtonClose onClick={close} /> : null}
-        {data && DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null}
+        {data ? (DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null) : null}
       </section>
     </div>
   )

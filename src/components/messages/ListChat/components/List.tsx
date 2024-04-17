@@ -1,11 +1,15 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { memo, useEffect, useState } from "react"
 
 import type { IFiltersItems, TList } from "./types/types"
 
-import { ItemListChat } from "./ItemListChat"
 import { ThreadLoading } from "@/components/common"
+const ItemListChat = dynamic(() => import("./ItemListChat").then((res) => res.ItemListChat), {
+  ssr: false,
+  loading: () => <ThreadLoading key={`load-l`} />,
+})
 
 import { useCountMessagesNotReading, useResize } from "@/helpers"
 
