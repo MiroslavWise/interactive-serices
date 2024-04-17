@@ -37,7 +37,7 @@
     }
   }
 
-  [data-container] {
+  & > [data-container] {
     width: 100%;
     padding: 0;
     border-radius: 0 0 2rem 2rem;
@@ -52,6 +52,7 @@
       width: 100%;
       display: flex;
       overflow: hidden;
+      overflow-y: auto;
       flex-direction: column;
       gap: 1.25rem;
 
@@ -83,8 +84,6 @@
 
     [data-container] {
       border-radius: 0;
-      overflow: hidden;
-      overflow-y: auto;
       height: calc(100% - 4.25rem);
     }
   }
