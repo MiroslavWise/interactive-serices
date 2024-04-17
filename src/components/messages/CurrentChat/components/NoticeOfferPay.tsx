@@ -32,21 +32,6 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
     return categories?.find((item) => item.id === resOffer?.categoryId)!
   }, [categories, resOffer])
 
-  function handleToMap() {
-    if (!!resOffer) {
-      const [address] = resOffer?.addresses
-
-      if (address) {
-        dispatchMapCoordinates({
-          coordinates: address?.coordinates?.split(" ")?.map(Number),
-        })
-      }
-      dispatchBallonOffer({ offer: resOffer })
-      dispatchModal(EModalData.BalloonOffer)
-      handlePush("/")
-    }
-  }
-
   function handleDetailOffer() {
     if (!!resOffer) {
       dispatchBallonOffer({ offer: resOffer })
@@ -84,7 +69,7 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
         </p>
         {userId !== resOffer?.userId ? (
           <p>
-            Вернитесь к <span onClick={handleToMap}>карточке</span> услуги, чтобы предложить обмен.
+            Вернитесь к <span onClick={handleDetailOffer}>карточке</span> услуги, чтобы предложить обмен.
           </p>
         ) : null}
       </article>

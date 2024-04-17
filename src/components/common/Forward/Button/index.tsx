@@ -10,7 +10,7 @@ import { cx } from "@/lib/cx"
 import styles from "../styles/button.module.scss"
 
 export const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HTMLButtonElement>) {
-  const { loading, label, suffixIcon, prefixIcon, typeButton, className, ...rest } = props ?? {}
+  const { loading, label, suffixIcon, prefixIcon, typeButton, className, title, ...rest } = props ?? {}
 
   return (
     <button
@@ -22,6 +22,8 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
       ref={ref}
       data-loading={loading}
       data-button-forward
+      title={title ? title : label}
+      aria-label={label ?? "Кнопка"}
     >
       {prefixIcon ? prefixIcon : null}
       <span>{label}</span>
@@ -34,7 +36,7 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
 })
 
 export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & typeof Link.defaultProps) {
-  const { label, href, suffixIcon, prefixIcon, typeButton, ...rest } = props ?? {}
+  const { label, href, suffixIcon, prefixIcon, title, typeButton, ...rest } = props ?? {}
 
   return (
     <Link
@@ -43,6 +45,8 @@ export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & ty
       className={styles.container}
       data-type-button={typeButton || "fill-primary"}
       data-button-forward
+      title={title ? title : label}
+      aria-label={label ?? "Ссылка"}
     >
       {prefixIcon}
       <span>{label}</span>
