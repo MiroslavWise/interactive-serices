@@ -15,7 +15,6 @@ import {
   Onboarding,
   ReasonBarters,
   OptionProfileMobile,
-  DeleteUser,
   ActiveServicesFrom,
   AddingPhoneNumber,
   AddEmail,
@@ -80,7 +79,6 @@ export const Containers = () => {
       {isAuth && (
         <>
           <Onboarding />
-          <DeleteUser />
           <ChangeService />
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
