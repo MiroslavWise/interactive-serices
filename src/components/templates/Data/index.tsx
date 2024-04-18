@@ -14,6 +14,8 @@ const BalloonDiscussion = dynamic(() => import("../Balloon/Discussion"), { ssr: 
 const BalloonOffer = dynamic(() => import("../Balloon/Offer"), { ssr: false, loading: Load })
 const ReciprocalExchange = dynamic(() => import("../ReciprocalExchange"), { ssr: false, loading: Load })
 const OutAccount = dynamic(() => import("../OutAccount"), { ssr: false, loading: Load })
+const DeleteOffer = dynamic(() => import("../DeleteOffer"), { ssr: false, loading: Load })
+const DeleteUser = dynamic(() => import("../DeleteUser"), { ssr: false, loading: Load })
 const UpdateOffer = dynamic(() => import("../UpdateOffer"), { ssr: false, loading: Load })
 const ChangePassword = dynamic(() => import("../ChangePassword"), { ssr: false, loading: Load })
 
@@ -51,6 +53,8 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.OutAccount, <OutAccount key="::key::modal::out-account" />], //Выход с аккаунта
   [EModalData.UpdateOffer, <UpdateOffer key="::key::modal::out-account" />], //Изменение оффера
   [EModalData.ChangePassword, <ChangePassword key="::key::modal::change-password" />], //Изменение пароля
+  [EModalData.DeleteOffer, <DeleteOffer key="::key::modal::delete-offer" />], //Удаление оффера
+  [EModalData.DeleteUser, <DeleteUser key="::key::modal::delete-user" />], //Удаление оффера
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, styleNewServiceBanner.container],
@@ -64,6 +68,8 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.BalloonOffer, stringBalloonOffer],
   [EModalData.ReciprocalExchange, stylesReciprocalExchange.container],
   [EModalData.OutAccount, stylesOutAccount.container],
+  [EModalData.DeleteOffer, stylesOutAccount.container],
+  [EModalData.DeleteUser, stylesOutAccount.container],
   [EModalData.UpdateOffer, stylesUpdateOffer.container],
   [EModalData.ChangePassword, stylesChangePassword.container],
 ])

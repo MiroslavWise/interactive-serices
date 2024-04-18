@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 import { getUserId } from "@/services"
-import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchDeleteUser, useAuth } from "@/store"
+import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchModal, EModalData, useAuth } from "@/store"
 
 export const LoginDetails = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -75,7 +75,13 @@ export const LoginDetails = () => {
         ) : null}
       </section>
       <div data-delete-account>
-        <a onClick={() => dispatchDeleteUser(true)}>Удалить аккаунт</a>
+        <a
+          onClick={() => {
+            dispatchModal(EModalData.DeleteUser)
+          }}
+        >
+          Удалить аккаунт
+        </a>
       </div>
     </form>
   )

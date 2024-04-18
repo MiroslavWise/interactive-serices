@@ -16,7 +16,7 @@ function Modal() {
   const ref = useRef<HTMLDivElement>(null)
 
   const close = useCallback(() => {
-    if (data === EModalData.ChangePassword) {
+    if (data && [EModalData.ChangePassword, EModalData.DeleteUser].includes(data)) {
       dispatchModal(EModalData.UpdateProfile)
     } else {
       dispatchModalClose()
