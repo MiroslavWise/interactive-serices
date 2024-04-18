@@ -12,7 +12,7 @@ import { ButtonsFooter } from "./ButtonsFooter"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
-import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
+import { fileUploadService, getProfileUserId, serviceAuthErrors, serviceProfile } from "@/services"
 
 const GENDER: { label: string; value: TGenderForm }[] = [
   {
@@ -28,6 +28,7 @@ const GENDER: { label: string; value: TGenderForm }[] = [
 export const PersonalData = () => {
   const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
+  const [errorFile, setErrorFile] = useState<null | string>(null)
   const { out } = useOut()
   const { on } = useToast()
   const [file, setFile] = useState<{
@@ -110,11 +111,17 @@ export const PersonalData = () => {
             const idProfile = responses?.[0]?.res?.id!
             if (file.file) {
               UpdatePhotoProfile(idProfile).then((response) => {
-                const dataPatch: IPostProfileData = { imageId: response?.res?.id }
-                serviceProfile.patch(dataPatch, idProfile).then(() => {
-                  refetch()
-                  requestAnimationFrame(dispatchModalClose)
-                })
+                if (response?.ok) {
+                  const dataPatch: IPostProfileData = { imageId: response?.res?.id }
+                  serviceProfile.patch(dataPatch, idProfile).then(() => {
+                    refetch()
+                    requestAnimationFrame(dispatchModalClose)
+                  })
+                } else {
+                  if (response?.error?.message?.toLowerCase()?.includes("request entity too large") || response?.error?.code === 413) {
+                    setErrorFile(serviceAuthErrors.get("request entity too large") || null)
+                  }
+                }
               })
             } else {
               refetch()
@@ -152,7 +159,15 @@ export const PersonalData = () => {
   return (
     <form onSubmit={onSubmit} data-test="form-personal-data">
       <section>
-        <ImageProfile image={image!} file={file} setFile={setFile} idProfile={idProfile} refetch={refetch} />
+        <ImageProfile
+          image={image!}
+          file={file}
+          setFile={setFile}
+          idProfile={idProfile}
+          refetch={refetch}
+          errorFile={errorFile}
+          setErrorFile={setErrorFile}
+        />
         <div data-grid>
           <Controller
             name="firstName"
