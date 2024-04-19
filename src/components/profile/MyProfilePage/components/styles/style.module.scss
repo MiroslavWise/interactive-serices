@@ -119,7 +119,7 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .containerTagAndButton {
     display: flex;
     flex-direction: column;
@@ -215,7 +215,7 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .containerSuggestions {
     height: auto;
     display: flex;

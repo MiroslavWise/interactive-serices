@@ -2,24 +2,24 @@
 
 import type { IUserResponse } from "@/services/users/types"
 
-import { dispatchComplaintModal } from "@/store"
+import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
 
 export const ComplaintButton = (props: { user: IUserResponse }) => {
-    const { user } = props ?? {}
+  const { user } = props ?? {}
 
-    function handle() {
-        if (user) {
-            dispatchComplaintModal({
-                visible: true,
-                user: user,
-            })
-            return
-        }
+  function handle() {
+    if (user) {
+      dispatchComplaintModalUser({
+        user: user,
+      })
+      dispatchModal(EModalData.ComplaintModal)
+      return
     }
+  }
 
-    return (
-        <p data-complaint onClick={handle}> 
-            Пожаловаться
-        </p>
-    )
+  return (
+    <p data-complaint onClick={handle}>
+      Пожаловаться
+    </p>
+  )
 }

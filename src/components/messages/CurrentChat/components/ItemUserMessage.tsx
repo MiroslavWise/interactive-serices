@@ -1,7 +1,6 @@
 "use client"
 
 import { memo } from "react"
-import { isMobile } from "react-device-detect"
 
 import type { TItemMessage } from "./types/types"
 import type { IPhoto } from "@/store/types/useVisiblePhotosCarousel"
@@ -9,20 +8,22 @@ import type { IPhoto } from "@/store/types/useVisiblePhotosCarousel"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchPhotoCarousel } from "@/store/hooks"
+import { useResize } from "@/helpers"
+import { dispatchPhotoCarousel } from "@/store"
+import { timeNowOrBeforeChat, timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
 import { stylesBlockRight } from "@/lib/styles-block-message"
-import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
 
 export const ItemUserMessage: TItemMessage = memo(function $ItemUserMessage({ photo, messages }) {
+  const { isTablet } = useResize()
   function handleImage(id: number, photos: IPhoto[]) {
     dispatchPhotoCarousel({ visible: true, idPhoto: id, photos })
   }
 
   return (
     <li className={styles.containerItemUserMessage}>
-      {!isMobile ? (
+      {!isTablet ? (
         photo ? (
           <NextImageMotion src={photo} alt="avatar" width={32} height={32} className={styles.avatar} />
         ) : (
@@ -57,7 +58,9 @@ export const ItemUserMessage: TItemMessage = memo(function $ItemUserMessage({ ph
               ) : null,
             )}
             <p>{item.message}</p>
-            <time className={styles.time}>{timeNowOrBeforeChat(item?.time!)}</time>
+            <time className={styles.time} title={item?.time as string} dateTime={item?.time as string}>
+              {timeNowOrBeforeChatHours(item?.time!)}
+            </time>
           </div>
         ))}
       </div>

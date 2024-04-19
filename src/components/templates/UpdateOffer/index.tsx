@@ -1,28 +1,24 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IValues } from "./types"
+import { EnumTypeProvider } from "@/types/enum"
 import type { IPatchOffers } from "@/services/offers/types"
 import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import { Button, ButtonClose, ImageCategory, NextImageMotion } from "@/components/common"
+import { UploadPhoto } from "@/components/common/custom"
+import { Button, ImageCategory, NextImageMotion } from "@/components/common"
 
-import { cx } from "@/lib/cx"
+import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { fileUploadService, getGeocodeSearch, getUserIdOffers, patchOffer } from "@/services"
 import { dispatchUpdateOffer, useAuth, useOffersCategories, useUpdateOffer } from "@/store"
 
-import styles from "./style.module.scss"
-import { UploadPhoto } from "@/components/common/custom"
-import { EnumTypeProvider } from "@/types/enum"
-import { queryClient } from "@/context"
-
-export const UpdateOffer = () => {
+export default function UpdateOffer() {
   const userId = useAuth(({ userId }) => userId)
   const [loading, setLoading] = useState(false)
   const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
@@ -31,7 +27,6 @@ export const UpdateOffer = () => {
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const debouncedValue = useDebounce(onChangeAddress, 200)
-  const visible = useUpdateOffer(({ visible }) => visible)
   const offer = useUpdateOffer(({ offer }) => offer)
   const categories = useOffersCategories(({ categories }) => categories)
   const [inputCategory, setInputCategory] = useState("")
@@ -165,7 +160,6 @@ export const UpdateOffer = () => {
       if (JSON.stringify(photos.sort()) !== JSON.stringify(offer?.images.map((item) => item.id)?.sort())) {
         body.images = [...photos]
       }
-      console.log("body end: ", body)
 
       if (Object.entries(body).length === 0) {
         close()
@@ -176,7 +170,7 @@ export const UpdateOffer = () => {
       patchOffer(body, offer?.id!).then((response) => {
         if (response.ok) {
           refetch()
-          flushSync(() => {
+          requestAnimationFrame(() => {
             close()
             setLoading(false)
           })
@@ -188,161 +182,158 @@ export const UpdateOffer = () => {
   })
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
-      <section data-section-modal>
-        <ButtonClose onClick={close} />
-        <header>
-          <h3>Обновить предложение</h3>
-        </header>
-        <form onSubmit={onSubmit}>
-          <fieldset>
-            <label {...register("address", { required: true })}>Изменить адрес</label>
-            <div data-input ref={refGeo}>
-              <input
-                type="text"
-                data-error={!!errors.address}
-                value={inputGeo}
-                onChange={(event) => {
-                  setInputGeo(event.target.value || "")
-                  debouncedValue()
-                  setLoadingAddresses(true)
-                }}
-                onFocus={(event) => {
-                  event.stopPropagation()
-                  setFocusGeo(true)
-                }}
+    <>
+      <header>
+        <h3>Обновить предложение</h3>
+      </header>
+      <form onSubmit={onSubmit}>
+        <fieldset>
+          <label {...register("address", { required: true })}>Изменить адрес</label>
+          <div data-input ref={refGeo}>
+            <input
+              type="text"
+              data-error={!!errors.address}
+              value={inputGeo}
+              onChange={(event) => {
+                setInputGeo(event.target.value || "")
+                debouncedValue()
+                setLoadingAddresses(true)
+              }}
+              onFocus={(event) => {
+                event.stopPropagation()
+                setFocusGeo(true)
+              }}
+            />
+            {focusGeo && exactAddresses ? (
+              <div data-list>
+                <ul>
+                  {exactAddresses.map((item) => (
+                    <li
+                      key={`::key::${item.GeoObject.uri}::category::`}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        setValue("address", item!)
+                        setInputGeo(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
+                        setFocusGeo(false)
+                      }}
+                    >
+                      <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        </fieldset>
+        <fieldset>
+          <label>Изменить предложение</label>
+          <div data-input {...register("category", { required: true })} ref={ref}>
+            <input
+              type="text"
+              value={inputCategory}
+              onChange={(event) => setInputCategory(event.target.value || "")}
+              data-error={!!errors.category}
+              readOnly={!!category}
+              disabled={!!category}
+              onFocus={(event) => {
+                event.stopPropagation()
+                setFocus(true)
+              }}
+            />
+            {category ? (
+              <div data-category>
+                <div data-icon>
+                  <ImageCategory id={category.id!} />
+                </div>
+                <span>{category.title}</span>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    deleteCategory()
+                  }}
+                >
+                  <img src="/svg/x-close.svg" alt="x" width={16} height={16} />
+                </button>
+              </div>
+            ) : null}
+            {focus && !watch("category") ? (
+              <div data-list>
+                <ul>
+                  {listCategories.map((item) => (
+                    <li
+                      key={`::key::${item.value}::category::`}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        setValue("category", item.value)
+                      }}
+                    >
+                      <div data-icon>
+                        <ImageCategory id={item.value!} />
+                      </div>
+                      <span>{item.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        </fieldset>
+        <fieldset>
+          <label>Текущее описание</label>
+          <div data-text-area>
+            <textarea {...register("description", { required: true })} data-error={!!errors?.description} />
+            <sup>{watch("description")?.length || 0}/400</sup>
+          </div>
+        </fieldset>
+        <fieldset>
+          <label>Загруженные фото</label>
+          <div data-photos>
+            {photos.map((item) => (
+              <div data-photo key={`${item.id}-photo-state`} data-delete={deleteIdPhotos.includes(item.id!)}>
+                <NextImageMotion src={item.attributes.url} alt="offer-image" width={400} height={400} data-image />
+                <div
+                  data-trash
+                  onClick={() => {
+                    setDeleteIdPhotos((prev) => {
+                      if (prev.includes(item.id)) {
+                        return prev.filter((_) => _ !== item.id)
+                      } else {
+                        return [...prev, item.id]
+                      }
+                    })
+                  }}
+                >
+                  <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
+                </div>
+              </div>
+            ))}
+            {strings.map((item, index) => (
+              <UploadPhoto
+                key={`${item}-photo-${index}`}
+                index={index}
+                selected={item}
+                files={files[index]}
+                setFiles={(value) => setFiles((prev) => [...prev, value])}
+                setSelectedImage={(value) => setStrings((prev) => [...prev, value])}
+                deleteFile={deleteFile}
               />
-              {focusGeo && exactAddresses ? (
-                <div data-list>
-                  <ul>
-                    {exactAddresses.map((item) => (
-                      <li
-                        key={`::key::${item.GeoObject.uri}::category::`}
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          setValue("address", item!)
-                          setInputGeo(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
-                          setFocusGeo(false)
-                        }}
-                      >
-                        <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </div>
-          </fieldset>
-          <fieldset>
-            <label>Изменить предложение</label>
-            <div data-input {...register("category", { required: true })} ref={ref}>
-              <input
-                type="text"
-                value={inputCategory}
-                onChange={(event) => setInputCategory(event.target.value || "")}
-                data-error={!!errors.category}
-                readOnly={!!category}
-                disabled={!!category}
-                onFocus={(event) => {
-                  event.stopPropagation()
-                  setFocus(true)
-                }}
+            ))}
+            {files.length <= 9 ? (
+              <UploadPhoto
+                key={`upload-000`}
+                index={strings.length}
+                selected={""}
+                files={files[files.length]}
+                setFiles={(value) => setFiles((prev) => [...prev, value])}
+                setSelectedImage={(value) => setStrings((prev) => [...prev, value])}
+                deleteFile={deleteFile}
               />
-              {category ? (
-                <div data-category>
-                  <div data-icon>
-                    <ImageCategory id={category.id!} />
-                  </div>
-                  <span>{category.title}</span>
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      deleteCategory()
-                    }}
-                  >
-                    <img src="/svg/x-close.svg" alt="x" width={16} height={16} />
-                  </button>
-                </div>
-              ) : null}
-              {focus && !watch("category") ? (
-                <div data-list>
-                  <ul>
-                    {listCategories.map((item) => (
-                      <li
-                        key={`::key::${item.value}::category::`}
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          setValue("category", item.value)
-                        }}
-                      >
-                        <div data-icon>
-                          <ImageCategory id={item.value!} />
-                        </div>
-                        <span>{item.label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </div>
-          </fieldset>
-          <fieldset>
-            <label>Текущее описание</label>
-            <div data-text-area>
-              <textarea {...register("description", { required: true })} data-error={!!errors?.description} />
-              <sup>{watch("description")?.length || 0}/400</sup>
-            </div>
-          </fieldset>
-          <fieldset>
-            <label>Загруженные фото</label>
-            <div data-photos>
-              {photos.map((item) => (
-                <div data-photo key={`${item.id}-photo-state`} data-delete={deleteIdPhotos.includes(item.id!)}>
-                  <NextImageMotion src={item.attributes.url} alt="offer-image" width={400} height={400} data-image />
-                  <div
-                    data-trash
-                    onClick={() => {
-                      setDeleteIdPhotos((prev) => {
-                        if (prev.includes(item.id)) {
-                          return prev.filter((_) => _ !== item.id)
-                        } else {
-                          return [...prev, item.id]
-                        }
-                      })
-                    }}
-                  >
-                    <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
-                  </div>
-                </div>
-              ))}
-              {strings.map((item, index) => (
-                <UploadPhoto
-                  key={`${item}-photo-${index}`}
-                  index={index}
-                  selected={item}
-                  files={files[index]}
-                  setFiles={(value) => setFiles((prev) => [...prev, value])}
-                  setSelectedImage={(value) => setStrings((prev) => [...prev, value])}
-                  deleteFile={deleteFile}
-                />
-              ))}
-              {files.length <= 9 ? (
-                <UploadPhoto
-                  key={`upload-000`}
-                  index={strings.length}
-                  selected={""}
-                  files={files[files.length]}
-                  setFiles={(value) => setFiles((prev) => [...prev, value])}
-                  setSelectedImage={(value) => setStrings((prev) => [...prev, value])}
-                  deleteFile={deleteFile}
-                />
-              ) : null}
-            </div>
-          </fieldset>
-          <Button type="submit" typeButton="fill-primary" label="Обновить" loading={loading} />
-        </form>
-      </section>
-    </div>
+            ) : null}
+          </div>
+        </fieldset>
+        <Button type="submit" typeButton="fill-primary" label="Обновить" loading={loading} />
+      </form>
+    </>
   )
 }

@@ -1,31 +1,8 @@
 import { create } from "zustand"
 
-import type { IUseVisibleBannerNewServicesState, IUseVisibleNewServiceBarterRequests } from "../types/useVisibleBannerNewServicesState"
 import type { IUseWelcomeModal } from "../types/useWelcomeModal"
-import type { IUseUpdateProfileState } from "../types/useUpdateProfile"
 import type { IUsePopupMenuChat } from "../types/usePopupMenuChat"
 import type { IUseVisibleExchanges } from "../types/useVisibleExchanges"
-
-export const useVisibleBannerNewServicesState = create<IUseVisibleBannerNewServicesState>((set, get) => ({
-  isVisibleNewServicesBanner: false,
-  dispatchNewServicesBanner(value) {
-    set({
-      isVisibleNewServicesBanner: value,
-    })
-  },
-}))
-
-export const dispatchNewServicesBanner = (value: boolean) =>
-  useVisibleBannerNewServicesState.setState((_) => ({
-    isVisibleNewServicesBanner: value,
-  }))
-
-export const useVisibleNewServiceBarterRequests = create<IUseVisibleNewServiceBarterRequests>((set, get) => ({
-  isVisibleNewServiceBarterRequests: false,
-  dispatchNewServiceBarterRequests(value) {
-    set({ isVisibleNewServiceBarterRequests: value })
-  },
-}))
 
 export const useVisibleExchangesState = create<IUseVisibleExchanges>((set, get) => ({
   isVisible: false,

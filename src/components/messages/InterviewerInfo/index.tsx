@@ -1,20 +1,16 @@
 "use client"
 
-import dayjs from "dayjs"
 import { useMemo } from "react"
-import { flushSync } from "react-dom"
 import { useSearchParams } from "next/navigation"
 
 import { IPatchThreads } from "@/services/threads/types"
 
-import { BadgeAchievements } from "@/components/common/Badge"
 import { Button, NextImageMotion, GeoTagging, ButtonLink } from "@/components/common"
 
 import { patchThread } from "@/services"
 import { useUserIdMessage } from "@/store"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useCountMessagesNotReading } from "@/helpers"
-import { BADGES } from "@/mocks/components/auth/constants"
+import { dayFormat, useCountMessagesNotReading } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 import stylesHeader from "@/components/profile/BlockProfileAside/styles/header.module.scss"
@@ -29,7 +25,7 @@ export const InterviewerInfoCurrent = () => {
     const data: IPatchThreads = { enabled: false }
     patchThread(data, Number(idThread)).then((response) => {
       refetchCountMessages().finally(() => {
-        flushSync(() => {
+        requestAnimationFrame(() => {
           console.log("%c --- response delete ---", "color: #f0f", response)
           handleReplace("/messages")
         })
@@ -60,14 +56,9 @@ export const InterviewerInfoCurrent = () => {
               {userData?.profile?.firstName || ""} {userData?.profile?.lastName}
             </h4>
             {geo ? <GeoTagging size={16} fontSize={14} location={geo} /> : null}
-            {userData?.profile?.created! ? <p>На Sheira с {dayjs(userData?.profile?.created!).format("DD.MM.YYYY")}</p> : null}
+            {userData?.profile?.created! ? <p>На Sheira с {dayFormat(userData?.profile?.created!, "dd.MM.yyyy")}</p> : null}
           </section>
         </header>
-        <ul className={styles.badges}>
-          {BADGES.slice(1, 3).map((item) => (
-            <BadgeAchievements classNames={[styles.badge]} key={`${item.title}_is_auth_banner`} title={item.title} total={item.total} />
-          ))}
-        </ul>
       </div>
       <div className={styles.buttons}>
         <ButtonLink typeButton="fill-primary" label="Посмотреть профиль" href={{ pathname: "/user", query: { id: userData!?.id! } }} />

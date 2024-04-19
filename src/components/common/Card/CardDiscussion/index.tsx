@@ -8,7 +8,7 @@ import { IResponseOffers } from "@/services/offers/types"
 import { Button } from "@/components/common"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -17,21 +17,15 @@ export function CardDiscussion(props: IResponseOffers) {
 
   function handleOpenMore() {
     if (provider === EnumTypeProvider.discussion) {
-      dispatchBallonDiscussion({
-        visible: true,
-        offer: props,
-      })
+      dispatchBallonDiscussion({ offer: props })
+      dispatchModal(EModalData.BalloonDiscussion)
       return
     } else if (provider === EnumTypeProvider.alert) {
-      dispatchBallonAlert({
-        visible: true,
-        offer: props,
-      })
+      dispatchBallonAlert({ offer: props })
+      dispatchModal(EModalData.BalloonAlert)
     } else if (provider === EnumTypeProvider.offer) {
-      dispatchBallonOffer({
-        visible: true,
-        offer: props,
-      })
+      dispatchBallonOffer({ offer: props })
+      dispatchModal(EModalData.BalloonOffer)
     }
   }
 

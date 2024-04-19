@@ -28,7 +28,7 @@ export const ButtonFriends = () => {
   }, [data?.res])
 
   return (
-    <button className={styles.button} onClick={handleOpen}>
+    <button className={styles.button} onClick={handleOpen} data-test="aside-profile-button-friends">
       <span>{DeclensionQuantityFriends(friends)}</span>
       <img src="/svg/arrow-right.svg" alt="right" width={20} height={20} />
     </button>

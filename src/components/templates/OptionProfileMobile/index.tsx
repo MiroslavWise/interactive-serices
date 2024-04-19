@@ -10,7 +10,8 @@ import {
   dispatchOptionProfileMobile,
   dispatchOnboarding,
   dispatchMobileChangeAbout,
-  dispatchOutAccount,
+  dispatchModal,
+  EModalData,
 } from "@/store"
 
 import styles from "./style.module.scss"
@@ -54,7 +55,7 @@ export const OptionProfileMobile = () => {
           <div>
             <p>Нужна помощь?</p>
             <p>
-              Пишите в телеграм:{" "}
+              Пишите в телеграм:&nbsp;
               <a href="https://t.me/sheirainfo" target="_blank">
                 @sheirainfo
               </a>
@@ -64,7 +65,7 @@ export const OptionProfileMobile = () => {
             type="button"
             onClick={() => {
               dispatchOptionProfileMobile(false)
-              dispatchOutAccount(true)
+              dispatchModal(EModalData.OutAccount)
             }}
           >
             <img src="/svg/log-out.svg" alt="out" width={16} height={16} />

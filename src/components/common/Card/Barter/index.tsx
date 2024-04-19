@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { useCallback, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -12,12 +11,13 @@ import { IconRevers } from "@/components/icons/IconRevers"
 import { ImageCategory, NextImageMotion } from "../../Image"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-import { dispatchBallonOffer, dispatchInitiatedBarter, useAuth, useOffersCategories } from "@/store"
+import { dispatchBallonOffer, dispatchInitiatedBarter, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
 import { getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
 import { IResponseOffers } from "@/services/offers/types"
 import { IconGeo } from "@/components/icons/IconGeo"
+import { dayFormat, daysAgo } from "@/helpers"
 
 const title: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.EXECUTED, "Начало обмена"],
@@ -77,10 +77,8 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
   )
 
   function handle(offer: ISmallDataOfferBarter) {
-    dispatchBallonOffer({
-      visible: true,
-      offer: offer! as IResponseOffers,
-    })
+    dispatchBallonOffer({ offer: offer! as IResponseOffers })
+    dispatchModal(EModalData.BalloonOffer)
   }
 
   return (
@@ -89,7 +87,9 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
         <header>
           <span>
             {title.has(status) ? title.get(status) : null}{" "}
-            <time>{dayjs(EnumStatusBarter.EXECUTED === status ? created : updated).format("DD.MM.YY")}</time>
+            <time dateTime={String(EnumStatusBarter.EXECUTED === status ? created : updated)}>
+              {dayFormat(EnumStatusBarter.EXECUTED === status ? created : updated, "dd.MM.yy")}
+            </time>
           </span>
           <BadgeStatus status={status} />
         </header>
@@ -109,7 +109,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
             {[EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!) && address ? (
               <time>{address}</time>
             ) : status === EnumStatusBarter.INITIATED ? (
-              <a>{dayjs(created).format("HH:mm DD.MM.YY")}</a>
+              <a>{daysAgo(String(created))}</a>
             ) : null}
           </div>
         </section>

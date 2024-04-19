@@ -4,7 +4,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 2019;
+
+  &[data-visible="true"] {
+    z-index: 2019;
+  }
 
   & > section {
     position: relative;
@@ -74,7 +77,7 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .wrapper {
     justify-content: flex-end;
     padding: 0;

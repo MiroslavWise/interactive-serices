@@ -1,3 +1,5 @@
+// import { encode } from "blurhash"
+
 import type { IReturnData } from "../types/general"
 import type { IResponseUploadFile, IProvider } from "./types"
 
@@ -36,6 +38,7 @@ export async function fileUploadService(uploadFile: File, provider: IProvider): 
   formData.append("ext", `.${uploadFile.name.split(".").at(-1)}`)
   formData.append("alt", uploadFile.name)
   formData.append("hash", "")
+  // formData.append("hash", resolve ?? "")
   formData.append("height", dimensions.height.toString())
   formData.append("width", dimensions.width.toString())
   formData.append("provider", `${provider.type}:${provider.userId}:${provider.idSupplements}`)
@@ -46,3 +49,32 @@ export async function fileUploadService(uploadFile: File, provider: IProvider): 
 
   return await wrapperUploadFile({ url: "/files/upload", file: formData })
 }
+
+// const loadImage = async (src: any) =>
+//   new Promise((resolve, reject) => {
+//     const img = new Image()
+//     img.onload = () => resolve(img)
+//     img.onerror = (...args) => reject(args)
+//     img.src = src
+//   })
+
+// function getImageData(image: any) {
+//   const canvas = document.createElement("canvas")
+//   canvas.width = image.width
+//   canvas.height = image.height
+//   const context = canvas.getContext("2d")
+//   if (context) {
+//     context.drawImage(image, 0, 0)
+//     return context.getImageData(0, 0, image.width, image.height)
+//   }
+//   return null
+// }
+
+// async function encodeImageToBlurhash(imageUrl: ImageData | null) {
+//   if (imageUrl) {
+//     const image = await loadImage(imageUrl)
+//     const imageData = getImageData(image)
+//     return encode(imageData!?.data, imageData!?.width, imageData!?.height, 4, 4)
+//   }
+//   return null
+// }

@@ -1,20 +1,17 @@
 "use client"
 
-import { Dispatch, SetStateAction } from "react"
+import { EnumTypeProvider } from "@/types/enum"
 
 import { Button, ImageStatic } from "@/components/common"
 
-import { closeCreateOffers } from "@/store/state/useAddCreateModal"
+import { closeCreateOffers, dispatchModalClose } from "@/store"
 
 import styles from "./styles/finish-screen.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
-export const FinishScreen = ({ typeAdd, setIsFirst }: { typeAdd: EnumTypeProvider; setIsFirst: Dispatch<SetStateAction<boolean>> }) => {
+export const FinishScreen = ({ typeAdd }: { typeAdd: EnumTypeProvider }) => {
   function onClose() {
     closeCreateOffers()
-    setTimeout(() => {
-      setIsFirst(true)
-    }, 151)
+    dispatchModalClose()
   }
 
   return (

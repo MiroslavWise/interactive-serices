@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 
 import { Button, ButtonClose } from "@/components/common"
@@ -39,7 +38,7 @@ export const AddingPhoneNumber = () => {
         if (response.ok) {
           dispatchStartTimerNumberConfirmation()
           dispatchNumberConfirmation(true, phone)
-          flushSync(() => {
+          requestAnimationFrame(() => {
             close()
           })
         } else {
@@ -49,7 +48,7 @@ export const AddingPhoneNumber = () => {
               : response?.error?.message!,
           })
         }
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setLoading(false)
         })
       })

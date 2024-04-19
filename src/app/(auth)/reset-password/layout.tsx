@@ -11,6 +11,4 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LayoutResetPassword({ children }: { children: ReactNode }) {
-  return <Suspense fallback={false}>{children}</Suspense>
-}
+export default ({ children }: { children: ReactNode }) => <Suspense fallback={false}>{children}</Suspense>

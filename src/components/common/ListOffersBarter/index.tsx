@@ -1,6 +1,5 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { forwardRef, useMemo } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -8,16 +7,13 @@ import type { TListOffersBarter } from "./types"
 
 import { Button } from "../Forward"
 
-import { useOffersCategories, useAddCreateModal } from "@/store/hooks"
+import { useOffersCategories, openCreateOffers, dispatchModal, EModalData } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const ListOffersBarter = forwardRef(function ListOffersBarter(props: TListOffersBarter) {
   const { items, active, onClick, ...rest } = props ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
-  const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
-    ({ dispatchVisibleTypeCreateOptionals }) => dispatchVisibleTypeCreateOptionals,
-  )
 
   const height = useMemo(() => {
     const length = items?.length || 70 + 32
@@ -26,14 +22,12 @@ export const ListOffersBarter = forwardRef(function ListOffersBarter(props: TLis
   }, [items])
 
   function updateProfileOffers() {
-    dispatchVisibleTypeCreateOptionals({
-      visible: true,
-      type: EnumTypeProvider.offer,
-    })
+    openCreateOffers(EnumTypeProvider.offer)
+    dispatchModal(EModalData.CreateNewOptionModal)
   }
 
   return (
-    <article className={styles.container} data-mobile={isMobile} {...rest}>
+    <article className={styles.container} {...rest}>
       <ul style={{ height: height }}>
         {items?.map((item) => (
           <li

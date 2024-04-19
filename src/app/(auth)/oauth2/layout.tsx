@@ -14,6 +14,4 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LayoutCallback({ children }: { children: ReactNode }) {
-  return children
-}
+export default ({ children }: { children: ReactNode }) => children

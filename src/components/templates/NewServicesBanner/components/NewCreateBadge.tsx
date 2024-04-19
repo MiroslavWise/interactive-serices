@@ -1,32 +1,28 @@
 "use client"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { TNewCreateBadge } from "../types/types"
 
-import { ImageStatic } from "@/components/common"
+import { mapIconCreateOffer } from "@/utils"
 
-import { useVisibleBannerNewServices, useAddCreateModal, useOnboarding, dispatchOnboarding } from "@/store"
+import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/styles.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
-export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
+export const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)
-  const dispatchVisibleTypeCreateOptionals = useAddCreateModal(
-    ({ dispatchVisibleTypeCreateOptionals }) => dispatchVisibleTypeCreateOptionals,
-  )
-  const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
 
   function handleType() {
     if (visible && type === value) {
       dispatchOnboarding("next")
-      dispatchVisibleTypeCreateOptionals({ visible: true, type: value as EnumTypeProvider })
-      dispatchNewServicesBanner(false)
+      openCreateOffers(value as EnumTypeProvider)
+      dispatchModal(EModalData.CreateNewOptionModal)
     } else if (visible && type !== value) {
       return
     } else {
-      dispatchVisibleTypeCreateOptionals({ visible: true, type: value as EnumTypeProvider })
-      dispatchNewServicesBanner(false)
+      openCreateOffers(value as EnumTypeProvider)
+      dispatchModal(EModalData.CreateNewOptionModal)
     }
   }
 
@@ -38,7 +34,7 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, imageSrc, label }) => {
       id={`li-${value}-create`}
       data-not={visible && type !== value}
     >
-      <ImageStatic src={imageSrc} alt={imageSrc} width={36} height={36} />
+      {mapIconCreateOffer.has(value) ? mapIconCreateOffer.get(value) : null}
       <p>{label}</p>
     </li>
   )

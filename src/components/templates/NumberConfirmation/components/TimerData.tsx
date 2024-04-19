@@ -1,12 +1,12 @@
-import dayjs from "dayjs"
 import { memo, useEffect, useState } from "react"
 
 import { postPhone } from "@/services/phones"
 import { dispatchStartTimerNumberConfirmation, useNumberConfirmation, useTimerNumberConfirmation } from "@/store"
+import { getMillisecond } from "@/helpers"
 
 const INITIAL_TIME = 120
 
-export const TimerData = memo(function TimerData() {
+export const TimerData = memo(() => {
   const [loading, setLoading] = useState(false)
   const number = useNumberConfirmation(({ number }) => number)
   const time = useTimerNumberConfirmation(({ time }) => time)
@@ -19,7 +19,7 @@ export const TimerData = memo(function TimerData() {
   useEffect(() => {
     if (time) {
       const interval = setInterval(() => {
-        const seconds = INITIAL_TIME - Math.round(dayjs().valueOf() / 1000 - dayjs(time).valueOf() / 1000)
+        const seconds = INITIAL_TIME - Math.round(getMillisecond(new Date()) / 1000 - getMillisecond(time) / 1000)
         if (seconds > 0) {
           const minutes = Math.floor(seconds / 60)
           const second = Math.floor(seconds - minutes * 60)
@@ -69,7 +69,7 @@ export const TimerData = memo(function TimerData() {
   }
 
   return (
-    <article data-column>
+    <article data-column data-test="article-timer-data">
       {timerObject.timer ? (
         <>
           <p>Запросить новый код можно через</p>
@@ -79,8 +79,8 @@ export const TimerData = memo(function TimerData() {
         </>
       ) : (
         <p>
-          Не приходит код?{" "}
-          <a onClick={handleRequestNew} data-loading={loading}>
+          Не приходит код?&nbsp;
+          <a onClick={handleRequestNew} data-loading={loading} data-test="a-timer-data-request-new">
             Отправить снова
           </a>
         </p>

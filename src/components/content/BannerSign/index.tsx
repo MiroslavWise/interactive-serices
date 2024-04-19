@@ -1,20 +1,20 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { LeftAsideProfile } from "@/components/profile"
 import { ButtonNavigation } from "./components/ButtonNavigation"
 
-import { dispatchCollapsePersonalScreen, useAuth, useCollapsePersonalScreen } from "@/store/hooks"
+import { useResize } from "@/helpers"
+import { dispatchCollapsePersonalScreen, useAuth, useCollapsePersonalScreen } from "@/store"
 
 import styles from "./styles/button-collapse.module.scss"
 
-export function BannerSign() {
+function BannerSign() {
+  const { isTablet } = useResize()
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
 
   if (typeof isAuth === "undefined") return null
-  if (isMobile) return null
+  if (isTablet) return null
 
   return isAuth ? (
     <>
@@ -34,3 +34,6 @@ export function BannerSign() {
     </>
   ) : null
 }
+
+BannerSign.displayName = "BannerSign"
+export default BannerSign

@@ -1,13 +1,19 @@
+"use client"
+
 import { LinkMap } from "./LinkMap"
 import { LinkOffers } from "./LinkOffers"
 import { LinkProfile } from "./LinkProfile"
 import { LinkMessages } from "./LinkMessages"
 import { LinkNotification } from "./LinkNotification"
 
+import { useAuth } from "@/store"
+
 import styles from "../styles/links.module.scss"
 
 export const Links = () => {
-  return (
+  const isAuth = useAuth(({ isAuth }) => isAuth)
+
+  return isAuth ? (
     <ul className={styles.linksWrapper}>
       <LinkMap />
       <LinkProfile />
@@ -15,5 +21,5 @@ export const Links = () => {
       <LinkMessages />
       <LinkNotification />
     </ul>
-  )
+  ) : null
 }

@@ -1,42 +1,29 @@
-import { useQuery } from "@tanstack/react-query"
-import { useEffect, useMemo, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 
-import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { IAddressesResponse, IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
+import { queryClient } from "@/context"
+import { getGeocodeSearch } from "@/services"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
-import { useAuth } from "@/store"
-import { getGeocodeSearch, getUserId, serviceAddresses } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
-import { queryClient } from "@/context"
 
-export const FieldAddress = () => {
-  const userId = useAuth(({ userId }) => userId)
+interface IProps {
+  setStateAddress: Dispatch<SetStateAction<IPostAddress | null>>
+  address: IAddressesResponse[]
+}
+
+export const FieldAddress = ({ address, setStateAddress }: IProps) => {
   const [text, setText] = useState("")
   const [loadingAddress, setLoadingAddress] = useState(false)
   const [activeList, setActiveList, ref] = useOutsideClickEvent()
   const [values, setValues] = useState<IResponseGeocode | null>(null)
-  const debouncedValue = useDebounce(onValueFunc, 1500)
-
-  const { data, refetch } = useQuery({
-    queryFn: () => getUserId(userId!),
-    queryKey: ["user", { userId: userId }],
-    enabled: !!userId!,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-  })
-
-  const address = useMemo(() => {
-    if (data?.res && data?.res?.addresses?.length > 0) {
-      return data?.res?.addresses?.filter((item) => item?.addressType === "main")
-    }
-    return []
-  }, [data?.res?.addresses])
+  const debouncedValue = useDebounce(onValueFunc, 150)
 
   useEffect(() => {
     if (address?.length > 0) {
-      const textAddress = address?.[0]?.additional
+      const textAddress = address?.filter((item) => item.addressType === "main")?.[0]?.additional
       setText(textAddress)
     }
   }, [address])
@@ -93,19 +80,15 @@ export const FieldAddress = () => {
     if (additional) value.additional = additional
     const hash = generateShortHash(additional!)
     if (hash) value.hash = hash
+    setStateAddress(value)
     setText(additional)
-
-    return Promise.all(address.map((item) => serviceAddresses.patch({ enabled: false }, item?.id))).then(() => {
-      serviceAddresses.post(value).then((response) => {
-        console.log("response address: ", response)
-        refetch()
-      })
-    })
   }
 
   return (
     <fieldset ref={ref}>
-      <label>Адрес проживания</label>
+      <label htmlFor="address" title="Адрес проживания">
+        Адрес проживания
+      </label>
       <div data-input>
         <input
           type="text"
@@ -149,3 +132,14 @@ export const FieldAddress = () => {
     </fieldset>
   )
 }
+
+// !!stateAddress
+//   ? Promise.all(
+//       address.filter((item) => item.addressType === "main").map((item) => serviceAddresses.patch({ enabled: false }, item?.id)),
+//     ).then(() => {
+//       serviceAddresses.post(stateAddress).then((response) => {
+//         console.log("response address: ", response)
+//         refetchUser()
+//       })
+//     })
+//   : Promise.resolve({ ok: true }),

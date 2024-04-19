@@ -1,6 +1,14 @@
 import { create } from "zustand"
 
 import type { IResponseOffers } from "@/services/offers/types"
+import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
-export const useUpdateOffer = create<{ visible: boolean; offer?: IResponseOffers }>(() => ({ visible: false }))
-export const dispatchUpdateOffer = (visible: boolean, offer?: IResponseOffers) => useUpdateOffer.setState(() => ({ visible, offer }))
+export const useUpdateOffer = create<{ offer?: IResponseOffers }>(() => ({}))
+export const dispatchUpdateOffer = (visible: boolean, offer?: IResponseOffers) => {
+  if (visible) {
+    dispatchModal(EModalData.UpdateOffer)
+  } else {
+    dispatchModalClose()
+  }
+  useUpdateOffer.setState(() => ({ offer }))
+}

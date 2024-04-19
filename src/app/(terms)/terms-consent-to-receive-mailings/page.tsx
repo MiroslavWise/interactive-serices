@@ -1,5 +1,8 @@
 import { CONSENT_TO_RECEIVE_MAILINGS } from "@/helpers/constants/consent-to-receive-mailings"
 
+export const dynamic = "force-static"
+export const dynamicParams = false
+
 export default function TermsConsentToReceiveMailings() {
   return (
     <ul>

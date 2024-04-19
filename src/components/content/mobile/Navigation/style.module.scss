@@ -8,16 +8,16 @@
   position: fixed;
   z-index: 15;
   right: 1.25rem;
-  bottom: calc(4.25rem + 6.5rem + 1rem);
+  bottom: calc(var(--height-mobile-footer-nav) + 6.5rem + 1rem);
   display: flex;
   flex-direction: column;
   gap: 5.75rem;
   width: 3rem;
   transform: translateY(0);
 
-  &[data-transform="true"] {
-    transform: translateY(-4rem);
-  }
+  // &[data-transform="true"] {
+  //   transform: translateY(-4rem);
+  // }
 
   & > section {
     width: 100%;

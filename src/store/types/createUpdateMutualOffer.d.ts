@@ -2,18 +2,16 @@ import type { IResponseOffers } from "@/services/offers/types"
 import type { Dispatch } from "react"
 
 interface IStateUpdateMutualOffer {
-    visibleUpdateMutual: boolean
-    data?: IResponseOffers
+  data?: IResponseOffers
 }
 
 interface IAction {
-    visible: boolean
-    data?: IResponseOffers
+  visible: boolean
+  data?: IResponseOffers
 }
 
 interface IActionUpdateMutualOffer {
-    dispatchUpdateMutual: Dispatch<IAction>
+  dispatchUpdateMutual: Dispatch<IAction>
 }
 
-export type TUseUpdateMutualOffer = IStateUpdateMutualOffer &
-    IActionUpdateMutualOffer
+export type TUseUpdateMutualOffer = IStateUpdateMutualOffer & IActionUpdateMutualOffer

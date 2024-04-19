@@ -24,7 +24,7 @@
 
   &[data-visible="true"] {
     transform: translateY(0.625rem);
-    z-index: 102;
+    z-index: 93;
   }
 
   & > input {
@@ -60,7 +60,7 @@
   visibility: hidden;
 
   &[data-visible="true"] {
-    z-index: 75;
+    z-index: 92;
     opacity: 1;
     visibility: visible;
   }
@@ -95,7 +95,7 @@
         height: 1.5rem;
         transform: rotate(180deg);
         & > path {
-          stroke: var(--text-primary);
+          fill: var(--text-primary);
         }
       }
     }
@@ -112,7 +112,7 @@
 
   & > section {
     width: 100%;
-    height: calc(100% - var(--height-mobile-header) - 4.25rem);
+    height: calc(100% - var(--height-mobile-header) - var(--height-mobile-footer-nav));
     padding-block: calc(1.25rem + 3rem + 0.25rem) 0.625rem;
     padding-inline: 1.25rem;
 

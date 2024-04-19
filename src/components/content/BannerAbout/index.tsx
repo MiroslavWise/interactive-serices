@@ -1,8 +1,12 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { BannerAboutMobile } from "./components/Mobile"
 import { BannerAboutDesktop } from "./components/Desktop"
 
-export const BannerAbout = () => (isMobile ? <BannerAboutMobile /> : <BannerAboutDesktop />)
+import { useResize } from "@/helpers"
+
+export const BannerAbout = () => {
+  const { isTablet } = useResize()
+
+  return isTablet ? <BannerAboutMobile /> : <BannerAboutDesktop />
+}

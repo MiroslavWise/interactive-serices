@@ -11,6 +11,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LayoutVerify({ children }: { children: ReactNode }) {
-  return <Suspense fallback={false}>{children}</Suspense>
-}
+export const dynamicParams = true
+
+export default ({ children }: { children: ReactNode }) => <Suspense fallback={false}>{children}</Suspense>

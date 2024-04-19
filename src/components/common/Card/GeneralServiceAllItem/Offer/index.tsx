@@ -10,17 +10,23 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, dispatchMapCoordinates, useOffersCategories } from "@/store"
+import { GeoData } from "../components/GeoData"
+import {
+  dispatchBallonOffer,
+  dispatchMapCoordinates,
+  dispatchMobileSearchCategoryVisible,
+  dispatchModal,
+  EModalData,
+  useOffersCategories,
+} from "@/store"
 
 import styles from "../styles/offer.module.scss"
 import styleMain from "../styles/main.module.scss"
 
-export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
+export default function GeneralOffer({ offer }: { offer: IResponseOffers }) {
   const { categoryId, title = "", userId, addresses = [], images = [] } = offer ?? {}
 
   const categories = useOffersCategories(({ categories }) => categories)
-
-  const geo = addresses?.length > 0 ? addresses[0] : null
 
   const iconTitleCategory = useMemo(() => {
     let img = "/svg/category/default.svg"
@@ -51,10 +57,9 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
       })
     }
 
-    dispatchBallonOffer({
-      visible: true,
-      offer: offer,
-    })
+    dispatchBallonOffer({ offer: offer })
+    dispatchModal(EModalData.BalloonOffer)
+    dispatchMobileSearchCategoryVisible(false)
   }
 
   return (
@@ -90,14 +95,7 @@ export function GeneralOffer({ offer }: { offer: IResponseOffers }) {
         <p>{title}</p>
       </article>
       {images?.length ? <ItemImages images={images} /> : null}
-      {geo ? (
-        <footer>
-          <div data-geo>
-            <img src="/svg/geo-marker.svg" alt="geo" width={16} height={16} />
-          </div>
-          <span>{geo?.additional}</span>
-        </footer>
-      ) : null}
+      <GeoData offer={offer} />
       <ItemProfile id={userId!} />
     </div>
   )

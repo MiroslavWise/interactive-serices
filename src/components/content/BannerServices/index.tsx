@@ -1,7 +1,6 @@
 "use client"
 
 import { useCallback, useRef, useState } from "react"
-import { isMobile } from "react-device-detect"
 
 import { TServicesFilter } from "./types/types"
 import { EnumTypeProvider } from "@/types/enum"
@@ -27,10 +26,11 @@ import {
   useOffersCategories,
   useSearchFilters,
 } from "@/store"
+import { useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const BannerServices = () => {
+function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
@@ -38,6 +38,7 @@ export const BannerServices = () => {
   const categories = useOffersCategories(({ categories }) => categories)
   const [total, setTotal] = useState(0)
   const parentRef = useRef<HTMLUListElement>(null)
+  const { isTablet } = useResize()
 
   function handleProvider(value: TServicesFilter) {
     dispatchFiltersServiceProvider(value)
@@ -53,7 +54,7 @@ export const BannerServices = () => {
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
-  return !isMobile ? (
+  return !isTablet ? (
     <div className={styles.container} data-collapse={visible}>
       <header />
       <ul ref={parentRef}>
@@ -116,6 +117,9 @@ export const BannerServices = () => {
   ) : null
 }
 
+BannerServices.displayName = "BannerServices"
+export default BannerServices
+
 export const SearchAndFilters = () => {
   const visible = useCollapseServices(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
@@ -153,7 +157,7 @@ export const SearchAndFilters = () => {
         type="button"
         onClick={(event) => {
           event.stopPropagation()
-          dispatchActiveFilterScreen()
+          dispatchActiveFilterScreen(true)
         }}
       >
         <IconFilters />

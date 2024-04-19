@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
 import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
+import { IconXClose } from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
 import { serviceNotifications } from "@/services"
@@ -13,8 +15,6 @@ import { type TTypeWaiting, NAVIGATION_STATUSES } from "./constants/navigation"
 import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { EnumStatusBarter } from "@/types/enum"
-import { IconXClose } from "@/components/icons/IconXClose"
 
 export function NotificationsMobile() {
   const userId = useAuth(({ userId }) => userId)

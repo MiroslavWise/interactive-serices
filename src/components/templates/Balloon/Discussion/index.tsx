@@ -1,46 +1,48 @@
 "use client"
 
+import { useEffect } from "react"
+
+import { EnumTypeProvider } from "@/types/enum"
+import { IResponseOffers } from "@/services/offers/types"
+
 import { ItemImages } from "../Offer/components/ItemImages"
-import { BlockCommentaries } from "./components/BlockCommentaries"
+import { ProfileComponent } from "../components/ProfileComponent"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
+import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
 
-import { cx } from "@/lib/cx"
-import { daysAgo } from "@/helpers"
-import { ButtonClose } from "@/components/common"
-import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store/hooks"
+import { BlockAction } from "./components/BlockAction"
+import { BlockComments } from "../components/BlockComments"
 
-import styles from "./styles/style.module.scss"
-import common from "../styles/general.module.scss"
+import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store"
 
-export const BalloonDiscussion = () => {
+export default function BalloonDiscussion() {
   const offer = useBalloonDiscussion(({ offer }) => offer)
-  const visible = useBalloonDiscussion(({ visible }) => visible)
-  const { id, userId: idUser } = offer ?? {}
+  const { content, title, images = [] } = offer ?? {}
 
-  const images = offer?.images || []
-
-  function close() {
-    dispatchBallonDiscussion({ visible: false, offer: undefined })
-  }
+  useEffect(() => {
+    return () => dispatchBallonDiscussion({ offer: undefined })
+  }, [])
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
-      <section data-section-modal>
-        <ButtonClose position={{}} onClick={close} />
-        <header>
-          <div data-img>
-            <img src="/svg/3d/3d-message.svg" alt="dis" width={24} height={24} />
-          </div>
-          <h3>Обсуждение</h3>
-        </header>
-        <div data-container>
-          <article>
-            <p>{offer?.title}</p>
-            {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
-            {offer?.updated ? <time>{daysAgo(offer?.updated)}</time> : null}
-          </article>
-          <BlockCommentaries close={close} id={id!} idUser={idUser!} />
+    <>
+      <header data-color={EnumTypeProvider.discussion}>
+        <div data-img>
+          <IconDiscussionBalloon />
         </div>
-      </section>
-    </div>
+        <h3> {content ? content : "Обсуждение"}</h3>
+      </header>
+      <div data-container>
+        <div data-container-children>
+          <ProfileComponent offer={offer as unknown as IResponseOffers} />
+          <article>
+            <p>{title}</p>
+            {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
+          </article>
+          <GeoData offer={offer as unknown as IResponseOffers} />
+          <BlockAction offer={offer as unknown as IResponseOffers} />
+          <BlockComments offer={offer as unknown as IResponseOffers} />
+        </div>
+      </div>
+    </>
   )
 }

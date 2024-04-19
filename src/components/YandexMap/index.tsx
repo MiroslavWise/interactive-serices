@@ -161,4 +161,6 @@ const YandexMap: TYandexMap = ({}) => {
   )
 }
 
+YandexMap.displayName = "YandexMap"
+
 export default YandexMap

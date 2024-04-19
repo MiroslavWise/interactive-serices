@@ -11,7 +11,7 @@ export const FiltersScreen = () => {
   const visible = useFiltersScreen(({ visible }) => visible)
 
   function close() {
-    dispatchActiveFilterScreen()
+    dispatchActiveFilterScreen(false)
   }
 
   return (

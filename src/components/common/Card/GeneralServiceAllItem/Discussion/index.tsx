@@ -2,26 +2,24 @@
 
 import type { IResponseOffers } from "@/services/offers/types"
 
+import { GeoData } from "../components/GeoData"
 import { ItemProfile } from "../components/ItemProfile"
 import { HeaderTimeDots } from "../components/HeaderTimeDots"
 import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
-import { dispatchBallonDiscussion } from "@/store"
+import { dispatchBallonDiscussion, dispatchMobileSearchCategoryVisible, dispatchModal, EModalData } from "@/store"
 
 import styleMain from "../styles/main.module.scss"
 import styles from "../styles/discussion.module.scss"
 
-export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
-  const { id, title, content, addresses, userId, images = [], created } = offer ?? {}
-
-  const geo = addresses?.length > 0 ? addresses[0] : null
+export default function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
+  const { id, title, content, userId, images = [] } = offer ?? {}
 
   function handle() {
-    dispatchBallonDiscussion({
-      visible: true,
-      offer: offer,
-    })
+    dispatchBallonDiscussion({ offer: offer })
+    dispatchModal(EModalData.BalloonDiscussion)
+    dispatchMobileSearchCategoryVisible(false)
   }
 
   return (
@@ -43,14 +41,7 @@ export function GeneralDiscussion({ offer }: { offer: IResponseOffers }) {
         <p>{title}</p>
       </article>
       {images?.length ? <ItemImages images={images} /> : null}
-      {geo ? (
-        <footer>
-          <div data-geo>
-            <img src="/svg/geo-marker.svg" alt="geo" width={16} height={16} />
-          </div>
-          <span>{geo?.additional}</span>
-        </footer>
-      ) : null}
+      <GeoData offer={offer} />
       <ItemProfile id={userId!} />
     </div>
   )

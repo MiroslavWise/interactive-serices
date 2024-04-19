@@ -1,9 +1,9 @@
-import { isMobile } from "react-device-detect"
 import { CSSProperties, useEffect, useRef, useState } from "react"
 
 import { cx } from "@/lib/cx"
 
-import { dispatchOnboarding, useOnboarding, useVisibleBannerNewServices } from "@/store/hooks"
+import { useResize } from "@/helpers"
+import { dispatchModal, dispatchOnboarding, EModalData, useOnboarding } from "@/store"
 
 import styles from "../styles/create-onboarding.module.scss"
 
@@ -12,11 +12,12 @@ export const CreateOnboarding = () => {
   const [positionCreateButton, setPositionCreateButton] = useState<CSSProperties>({})
   const step = useOnboarding(({ step }) => step)
   const visible = useOnboarding(({ visible }) => visible)
-  const dispatchNewServicesBanner = useVisibleBannerNewServices(({ dispatchNewServicesBanner }) => dispatchNewServicesBanner)
   const ref = useRef<HTMLDivElement | null>(null)
 
+  const { isTablet } = useResize()
+
   useEffect(() => {
-    if (isMobile) {
+    if (isTablet) {
       if (step === 0 && visible) {
         const idCreate = document.getElementById("id-create-menu-footer")
         const getBoundaryCreate = idCreate?.getBoundingClientRect()
@@ -82,7 +83,7 @@ export const CreateOnboarding = () => {
         })
       }
     }
-  }, [visible, step, ref, isMobile])
+  }, [visible, step, ref, isTablet])
 
   return (
     <div ref={ref} className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
@@ -91,7 +92,7 @@ export const CreateOnboarding = () => {
         style={positionCreateButton}
         onClick={(event) => {
           event.stopPropagation()
-          dispatchNewServicesBanner(true)
+          dispatchModal(EModalData.NewServicesBanner)
           dispatchOnboarding("next")
         }}
       />
@@ -99,7 +100,7 @@ export const CreateOnboarding = () => {
         style={positionSection}
         onClick={(event) => {
           event.stopPropagation()
-          dispatchNewServicesBanner(true)
+          dispatchModal(EModalData.NewServicesBanner)
           dispatchOnboarding("next")
         }}
       >

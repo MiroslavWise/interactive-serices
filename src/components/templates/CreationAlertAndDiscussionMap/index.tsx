@@ -1,28 +1,21 @@
 "use client"
 
-import { memo } from "react"
-
+import { EnumTypeProvider } from "@/types/enum"
 import type { TCreationAlertAndDiscussionMap } from "./types/types"
-import type { TAddCreate } from "@/store/types/useAddCreateModal"
 
 import { ButtonClose } from "@/components/common"
-import { ImageStatic } from "@/components/common/Image"
 
 import { NEW_CREATE_BADGES } from "../NewServicesBanner/constants"
-import { useVisibleBannerNewServices, openCreateOffers, dispatchAddressOffers } from "@/store/hooks"
+import { openCreateOffers, dispatchAddressOffers } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
-export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({ refCreate, isOpen, addressInit, setIsOpen }) => {
-  const { dispatchNewServicesBanner } = useVisibleBannerNewServices()
-
-  function handleType(value: TAddCreate) {
+export const CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({ refCreate, isOpen, addressInit, setIsOpen }) => {
+  function handleType(value: EnumTypeProvider) {
     if (value) {
       dispatchAddressOffers(addressInit)
       openCreateOffers(value as EnumTypeProvider)
     }
-    dispatchNewServicesBanner(false)
   }
 
   return (
@@ -31,8 +24,13 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
       <h3>Я хочу создать</h3>
       <ul>
         {NEW_CREATE_BADGES.map((item) => (
-          <li key={`${item.value}-map-absolute`} className={styles.containerLiNew} onClick={() => handleType(item.value!)}>
-            <ImageStatic src={item.imageSrc} alt={item.imageSrc} width={36} height={36} />
+          <li
+            key={`${item.value}-map-absolute`}
+            className={styles.containerLiNew}
+            onClick={() => handleType(item.value!)}
+            data-provider={item.value}
+          >
+            {item.imageSrc}
             <p>{item.label}</p>
           </li>
         ))}
@@ -45,5 +43,3 @@ export const $CreationAlertAndDiscussionMap: TCreationAlertAndDiscussionMap = ({
     </div>
   )
 }
-
-export const CreationAlertAndDiscussionMap = memo($CreationAlertAndDiscussionMap)

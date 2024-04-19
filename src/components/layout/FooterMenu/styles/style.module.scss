@@ -4,12 +4,19 @@
   left: 0;
   right: 0;
   width: 100%;
-  max-height: 4.25rem;
-  height: 100%;
+  height: var(--height-mobile-footer-nav);
   background-color: var(--BG-second);
-  z-index: 99;
   opacity: 1;
   visibility: visible;
+  display: none;
+  padding-block: 0.25rem;
+  z-index: -1;
+  border-top: 1px solid var(--grey-stroke-light);
+
+  @media screen and (max-width: 760px) {
+    display: inline-block;
+    z-index: 99;
+  }
 
   &[data-not-active="true"] {
     opacity: 0 !important;
@@ -24,6 +31,7 @@
     align-items: center;
     justify-content: space-around;
     backdrop-filter: blur(0.25rem);
+    gap: 0.25rem;
   }
 }
 
@@ -31,9 +39,5 @@
   .container {
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
     backdrop-filter: blur(0.625rem);
-
-    .centerPoligon {
-      background: var(--primary-800);
-    }
   }
 }

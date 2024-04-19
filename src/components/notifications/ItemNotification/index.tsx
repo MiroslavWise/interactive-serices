@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { type ReactNode, useMemo, useState } from "react"
@@ -13,7 +12,15 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import { getIdOffer, getProfileUserId, getTestimonials, patchBarter, serviceNotifications } from "@/services"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, useOffersCategories, dispatchReasonBarters } from "@/store"
+import {
+  useAuth,
+  dispatchVisibleNotifications,
+  dispatchAddTestimonials,
+  useOffersCategories,
+  dispatchReasonBarters,
+  dispatchModal,
+  EModalData,
+} from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -400,6 +407,20 @@ export const ItemNotification = (props: IResponseNotifications) => {
               />
             )
           }
+          if (data.initiator.userId === userId) {
+            return (
+              <Button
+                type="button"
+                typeButton="regular-primary"
+                label="Отменить"
+                loading={loading}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  onCanceledAndDelete()
+                }}
+              />
+            )
+          }
         }
       }
     }
@@ -415,14 +436,22 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
   }
 
+  function onCanceledAndDelete() {
+    Promise.all([
+      serviceNotifications.patch({ enabled: false, read: true }, id),
+      patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, data?.id),
+    ]).then((responses) => {
+      console.log("---responses--- ", responses)
+      refetch()
+      setLoading(false)
+    })
+  }
+
   function handleCompletion(value: boolean) {
     if (!loading) {
       if (value) {
         setLoading(true)
-        Promise.all([
-          serviceNotifications.patch({ enabled: true, operation: "completion-yes", read: true }, id!),
-          patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!),
-        ]).then(() => {
+        Promise.all([patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!)]).then(() => {
           refetch().then(() => {
             setLoading(false)
           })
@@ -441,13 +470,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
   function handleRecall() {
     serviceNotifications.patch({ enabled: true, read: true }, id!).then(() => refetch())
     dispatchAddTestimonials({
-      visible: true,
       profile: dataProfile?.res!,
       threadId: data?.threadId!,
       barterId: data?.id!,
       testimonials: dataTestimonials?.res!,
       notificationId: id!,
     })
+    dispatchModal(EModalData.CompletionTransaction)
     dispatchVisibleNotifications(false)
   }
 
@@ -463,7 +492,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       <section>
         <article>
           {text}
-          <time dateTime={created}>{daysAgo(dayjs(created).format()!)} назад</time>
+          <time dateTime={created}>{daysAgo(created!)}</time>
           <ButtonsDots
             id={id}
             refetch={refetch}

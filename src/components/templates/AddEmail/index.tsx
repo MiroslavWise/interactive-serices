@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 
 import { IValues } from "./types"
@@ -41,7 +40,7 @@ export const AddEmail = () => {
       patchEmailPasswordUser({ ...values }, userId!).then((response) => {
         if (response.ok) {
           close()
-          flushSync(() => {
+          requestAnimationFrame(() => {
             dispatchCheckTheMail(true, values.email)
           })
         } else {

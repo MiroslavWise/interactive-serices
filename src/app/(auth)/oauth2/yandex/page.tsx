@@ -11,7 +11,6 @@ import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 const ARRAY_QUERY = ["access_token", "client_id", "email", "id", "login", "name", "picture", "psuid", "refresh_token"]
 
-// million-ignore
 export default function CallbackYandex() {
   const { on } = useToast()
   const searchParam = useSearchParams()

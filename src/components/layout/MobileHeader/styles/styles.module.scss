@@ -7,11 +7,15 @@
   position: fixed;
   z-index: 71;
   background-color: var(--BG-second);
-  display: flex;
   align-items: center;
   justify-content: space-between;
   padding-inline: 1.25rem;
   padding-block: 0.625rem;
+  display: none;
+
+  @media screen and (max-width: 760px) {
+    display: flex;
+  }
 
   & > h3 {
     color: var(--text-primary);

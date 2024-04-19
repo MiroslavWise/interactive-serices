@@ -49,6 +49,10 @@
           cursor: pointer;
         }
       }
+
+      @media screen and (max-width: 768px) {
+        background: var(--BG-second);
+      }
     }
   }
 }
@@ -140,13 +144,17 @@
           width: min-content;
           padding: 0.125rem 0.375rem !important;
           white-space: nowrap;
+
+          @media screen and (max-width: 768px) {
+            background-color: var(--BG-first);
+          }
         }
       }
     }
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .containerItemUserMessage,
   .containerItemMyMessage {
     padding-inline: 0.75rem;

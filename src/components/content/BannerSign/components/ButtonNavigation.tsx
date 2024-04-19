@@ -1,6 +1,6 @@
 import { MouseEvent, memo, useCallback } from "react"
 
-import { IconPlus } from "@/components/icons/IconPlus"
+import IconPlus from "@/components/icons/IconPlus"
 import { IconMinus } from "@/components/icons/IconMinus"
 import { IconNavigate } from "@/components/icons/IconNavigate"
 

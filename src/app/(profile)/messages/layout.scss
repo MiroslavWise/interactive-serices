@@ -3,7 +3,7 @@
   height: 100%;
 }
 
-[data-mobile="false"] {
+[data-tablet="false"] {
   .__page-messages__ {
     padding-inline: 1.25rem;
     height: 100%;
@@ -14,7 +14,7 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .__page-messages__ {
     position: relative;
     inset: 0;

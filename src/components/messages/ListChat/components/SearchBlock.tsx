@@ -1,11 +1,9 @@
 "use client"
 
 import { memo } from "react"
-// import { isMobile } from "react-device-detect"
 
 import type { TSearchBlock } from "./types/types"
 
-// import { SegmentChatMobile } from "./SegmentChatMobile"
 import { SearchInput } from "@/components/common/Inputs"
 
 import { cx } from "@/lib/cx"

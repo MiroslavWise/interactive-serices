@@ -1,5 +1,4 @@
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
 
 const title = "Правилами пользования"
 
@@ -11,6 +10,9 @@ export const metadata: Metadata = {
   openGraph: { title, description: title },
 }
 
-export default function LayoutTermsPolicy({ children }: { children: ReactNode }) {
+export const dynamic = "force-static"
+export const dynamicParams = false
+
+export default function LayoutTermsPolicy({ children }: { children: React.ReactNode }) {
   return children
 }

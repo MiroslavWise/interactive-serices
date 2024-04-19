@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -10,6 +9,7 @@ import { useAuth } from "@/store"
 import { getProfileUserId, getUserId } from "@/services"
 
 import styles from "../styles/header.module.scss"
+import { dayFormat } from "@/helpers"
 
 export const HeaderBlock: THeaderBlock = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -49,20 +49,28 @@ export const HeaderBlock: THeaderBlock = () => {
   }, [data?.res])
 
   return (
-    <header className={styles.containerHeader}>
-      <div className={styles.avatar} data-null-avatar={!!dataProfile?.res?.image?.attributes}>
-        <NextImageMotion className={styles.photo} src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={94} height={94} />
+    <header className={styles.containerHeader} data-test="block-profile-aside-header">
+      <div className={styles.avatar} data-null-avatar={!!dataProfile?.res?.image?.attributes} data-test="block-profile-aside-avatar-div">
+        <NextImageMotion
+          className={styles.photo}
+          src={dataProfile?.res?.image?.attributes?.url!}
+          alt="avatar"
+          width={94}
+          height={94}
+          data-test="block-profile-aside-avatar-img"
+        />
         {!!dataProfile?.res?.image?.attributes ? (
           <img className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} />
         ) : null}
       </div>
-      <section>
-        <h4>
+      <section data-test="block-profile-aside-section-info">
+        <h4 data-test="block-profile-aside-section-info-h4">
           {dataProfile?.res?.firstName || "Имя"} {dataProfile?.res?.lastName || "Фамилия"}
         </h4>
-        {addressMain ? <p>{addressMain}</p> : null}
         {data?.res?.created ? (
-          <time dateTime={`${data?.res?.created!}`}>На Sheira с {dayjs(data?.res?.created!).format("DD.MM.YYYY")}</time>
+          <time dateTime={`${data?.res?.created!}`} data-test="block-profile-aside-section-info-time">
+            На Sheira с {dayFormat(data?.res?.created!, "dd.MM.yyyy")}
+          </time>
         ) : null}
       </section>
     </header>

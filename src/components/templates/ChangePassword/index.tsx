@@ -1,42 +1,33 @@
 "use client"
 
-import { useState } from "react"
-import { flushSync } from "react-dom"
-import { useForm } from "react-hook-form"
+import { useCallback, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 
-import { Button, ButtonClose } from "@/components/common"
+import { Button } from "@/components/common"
 
-import type { IValues } from "./types"
+import { resolverPassword, TKeysPassword, TSchemaPassword } from "./utils/password.schema"
 
-import { cx } from "@/lib/cx"
+import { dispatchChangePassword } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { postNewPassword, serviceAuthErrors } from "@/services"
-import { dispatchChangePassword, useChangePassword } from "@/store"
+// import { strengthPassword } from "@/helpers/functions/strength-password"
 
-import styles from "./style.module.scss"
-
-export const ChangePassword = () => {
+function ChangePassword() {
   const [loading, setLoading] = useState(false)
-  const [visiblePass, setVisiblePass] = useState({
-    old: false,
-    new: false,
+  const [visiblePass, setVisiblePass] = useState<Record<TKeysPassword, boolean>>({
+    oldPassword: false,
+    password: false,
     repeat: false,
   })
   const { on } = useToast()
-  const visible = useChangePassword(({ visible }) => visible)
 
-  const {
-    register,
-    watch,
-    formState: { errors },
-    handleSubmit,
-    setError,
-  } = useForm<IValues>({})
+  const { watch, handleSubmit, control, setError } = useForm<TSchemaPassword>({
+    resolver: resolverPassword,
+  })
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((data: TSchemaPassword) => {
     if (!loading) {
       setLoading(true)
-      console.log("data: ", data)
 
       postNewPassword(data).then((response) => {
         console.log("response postNewPassword: ", response)
@@ -58,7 +49,7 @@ export const ChangePassword = () => {
             setError("root", { message: messageError })
           }
         }
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setLoading(false)
         })
       })
@@ -69,95 +60,117 @@ export const ChangePassword = () => {
     dispatchChangePassword(false)
   }
 
+  const onVisiblePassword = useCallback((value: TKeysPassword) => {
+    setVisiblePass((prev) => ({
+      ...prev,
+      [value]: !prev[value],
+    }))
+  }, [])
+
   const disabled = !watch("oldPassword") || !watch("password") || !watch("repeat") || watch("password") !== watch("repeat")
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
-      <section data-section-modal>
-        <ButtonClose onClick={close} />
-        <header>
-          <h3>Изменение пароля</h3>
-        </header>
-        <form onSubmit={onSubmit}>
-          <p>Введите ваш текущий пароль для подтверждения аккаунта.</p>
-          <article>
-            <fieldset>
-              <label>Старый пароль</label>
-              <div data-input>
-                <input
-                  type={visiblePass.old ? "text" : "password"}
-                  placeholder="Введите пароль"
-                  {...register("oldPassword", { required: { message: "Обязательное поле", value: true } })}
-                  data-error={!!errors.oldPassword}
-                />
-                <img
-                  onClick={() =>
-                    setVisiblePass((prev) => ({
-                      ...prev,
-                      old: !prev.old,
-                    }))
-                  }
-                  src={visiblePass.old ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              {errors.oldPassword ? <i>{errors.oldPassword.message}</i> : null}
-            </fieldset>
-            <fieldset>
-              <label>Пароль</label>
-              <div data-input>
-                <input
-                  type={visiblePass.new ? "text" : "password"}
-                  placeholder="Введите пароль"
-                  {...register("password", { required: { message: "Обязательное поле", value: true } })}
-                  data-error={!!errors.password}
-                />
-                <img
-                  onClick={() =>
-                    setVisiblePass((prev) => ({
-                      ...prev,
-                      old: !prev.new,
-                    }))
-                  }
-                  src={visiblePass.new ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              {errors.password ? <i>{errors.password.message}</i> : null}
-            </fieldset>
-            <fieldset>
-              <label>Повторите пароль</label>
-              <div data-input>
-                <input
-                  type={visiblePass.repeat ? "text" : "password"}
-                  placeholder="Введите пароль ещё раз"
-                  {...register("repeat", { required: { message: "Обязательное поле", value: true } })}
-                  data-error={!!errors.password}
-                />
-                <img
-                  onClick={() =>
-                    setVisiblePass((prev) => ({
-                      ...prev,
-                      old: !prev.repeat,
-                    }))
-                  }
-                  src={visiblePass.repeat ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              {errors.repeat ? <i>{errors.repeat.message}</i> : null}
-            </fieldset>
-            {errors.root?.message ? <i>{errors.root?.message}</i> : null}
-          </article>
-          <Button type="submit" typeButton="fill-primary" label="Подтвердить" disabled={disabled} loading={loading} />
-        </form>
-      </section>
-    </div>
+    <>
+      <header>
+        <h3>Изменение пароля</h3>
+      </header>
+      <form onSubmit={onSubmit} data-test="form-change-password">
+        <p>Введите ваш текущий пароль для подтверждения аккаунта.</p>
+        <article>
+          <Controller
+            name="oldPassword"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset data-test={`fieldset-change-password-${field.name}`}>
+                <label htmlFor={field.name}>Старый пароль</label>
+                <div data-input>
+                  <input
+                    type={visiblePass.oldPassword ? "text" : "password"}
+                    placeholder="Введите пароль"
+                    {...field}
+                    data-error={!!error}
+                    data-test={`input-change-password-${field.name}`}
+                  />
+                  <button type="button" onClick={() => onVisiblePassword(field.name)}>
+                    <img src={visiblePass.oldPassword ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
+                  </button>
+                </div>
+                {error ? <i>{error.message}</i> : null}
+              </fieldset>
+            )}
+          />
+          <Controller
+            name="password"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => {
+              // const valueNumber = strengthPassword(field.value)
+              return (
+                <fieldset data-test={`fieldset-change-password-${field.name}`}>
+                  <label htmlFor={field.name}>Пароль</label>
+                  <div data-input>
+                    <input
+                      type={visiblePass.password ? "text" : "password"}
+                      placeholder="Введите пароль"
+                      {...field}
+                      data-error={!!error}
+                      data-test={`input-change-password-${field.name}`}
+                    />
+                    <button type="button" onClick={() => onVisiblePassword(field.name)}>
+                      <img src={visiblePass.password ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
+                    </button>
+                  </div>
+                  {/* <div data-strength>
+                    <span
+                      style={{
+                        transform: `translateX(${valueNumber * 100 - 100}%)`,
+                        backgroundColor:
+                          valueNumber <= 0.4 ? "var(--text-error)" : valueNumber < 0.77 ? "var(--more-orange)" : "var(--more-green)",
+                      }}
+                    />
+                  </div> */}
+                  {error ? <i>{error.message}</i> : null}
+                </fieldset>
+              )
+            }}
+          />
+          <Controller
+            name="repeat"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset data-test={`fieldset-change-password-${field.name}`}>
+                <label htmlFor={field.name}>Повторите пароль</label>
+                <div data-input>
+                  <input
+                    type={visiblePass.repeat ? "text" : "password"}
+                    placeholder="Введите пароль ещё раз"
+                    {...field}
+                    data-error={!!error}
+                    data-test={`input-change-password-${field.name}`}
+                  />
+                  <button type="button" onClick={() => onVisiblePassword(field.name)}>
+                    <img src={visiblePass.repeat ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
+                  </button>
+                </div>
+                {error ? <i>{error.message}</i> : null}
+              </fieldset>
+            )}
+          />
+        </article>
+        <Button
+          type="submit"
+          typeButton="fill-primary"
+          label="Подтвердить"
+          disabled={disabled}
+          loading={loading}
+          data-test="button-change-password-submit"
+        />
+      </form>
+    </>
   )
 }
+
+ChangePassword.displayName = "ChangePassword"
+export default ChangePassword

@@ -39,11 +39,14 @@ export const LinkOffers = memo(function LinkOffers() {
       className={styles.link}
       onClick={(event) => {
         event.stopPropagation()
-        handleAuthModal()
+        if (!isAuth) {
+          event.preventDefault()
+          handleAuthModal()
+        }
       }}
     >
       <div className={styles.itemsIconLabel}>
-        {MENU_ICONS.offers}
+        <article>{MENU_ICONS.offers}</article>
         <p>Обмен</p>
       </div>
       {data?.res?.length ? (

@@ -1,12 +1,14 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { useReducer } from "react"
-import { isMobile } from "react-device-detect"
 
 import type { IActionOffers, IStateOffers } from "@/components/profile/OffersPage/types/types"
 
+const OffersMobile = dynamic(() => import("@/components/screens/offers"), { ssr: false })
 import { ContainerHeader, ContainerOffersNow } from "@/components/profile"
-import { OffersMobile } from "@/components/screens"
+
+import { useResize } from "@/helpers"
 
 const initialState: IStateOffers = {
   total: 0,
@@ -20,8 +22,9 @@ function reducer(_: IStateOffers, action: IActionOffers) {
 
 export default function OffersPage() {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { isTablet } = useResize()
 
-  return isMobile ? (
+  return isTablet ? (
     <OffersMobile />
   ) : (
     <>

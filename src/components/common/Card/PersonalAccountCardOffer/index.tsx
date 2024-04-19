@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 
 import type { IResponseOffers } from "@/services/offers/types"
 
@@ -9,7 +9,15 @@ import { ItemImages } from "@/components/templates/Balloon/Offer/components/Item
 
 import { usePush } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, dispatchDeleteOffer, dispatchMapCoordinates, dispatchUpdateOffer, useOffersCategories } from "@/store"
+import {
+  dispatchBallonOffer,
+  dispatchDeleteOffer,
+  dispatchMapCoordinates,
+  dispatchModal,
+  dispatchUpdateOffer,
+  EModalData,
+  useOffersCategories,
+} from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -40,13 +48,11 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
   function handleToMap() {
     if (geoData) {
       dispatchMapCoordinates({
+        zoom: 17,
         coordinates: geoData?.coordinates?.split(" ")?.map(Number),
-        zoom: 20,
       })
-      dispatchBallonOffer({
-        visible: true,
-        offer: offer,
-      })
+      dispatchModal(EModalData.BalloonOffer)
+      dispatchBallonOffer({ offer: offer })
       handlePush("/")
     }
   }

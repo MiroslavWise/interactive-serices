@@ -1,7 +1,9 @@
 import { memo } from "react"
 
+import IconPlus from "@/components/icons/IconPlus"
+
 import { useSign } from "../hooks/useSign"
-import { dispatchNewServicesBanner, useAuth } from "@/store/hooks"
+import { dispatchModal, EModalData, useAuth } from "@/store"
 
 import styles from "../styles/link.module.scss"
 
@@ -16,8 +18,9 @@ export const CreateButton = memo(function CreateButton() {
         event.stopPropagation()
         if (typeof isAuth !== "undefined") {
           if (isAuth) {
-            dispatchNewServicesBanner(true)
+            dispatchModal(EModalData.NewServicesBanner)
           } else {
+            event.preventDefault()
             handleAuthModal()
           }
         }
@@ -25,7 +28,7 @@ export const CreateButton = memo(function CreateButton() {
     >
       <div className={styles.itemsIconLabel}>
         <div className={styles.centerPoligon} id="id-create-menu-footer">
-          <img src="/svg/plus.svg" alt="plus" width={20} height={20} />
+          <IconPlus />
         </div>
         <p>Создать</p>
       </div>

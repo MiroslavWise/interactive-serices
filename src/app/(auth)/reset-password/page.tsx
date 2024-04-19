@@ -6,7 +6,6 @@ import { usePush } from "@/helpers"
 import { useSearchParams } from "next/navigation"
 import { dispatchAuthModalResetPassword } from "@/store/hooks"
 
-// million-ignore
 export default function PageResetPassword() {
   const { handlePush } = usePush()
   const passwordResetToken = useSearchParams()?.get("token")

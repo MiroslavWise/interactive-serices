@@ -7,7 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { usePush } from "@/helpers"
 import { queryClient } from "@/context"
 import { getIdOffer } from "@/services"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 
 export default function () {
   const { handlePush } = usePush()
@@ -34,27 +34,20 @@ export default function () {
             .then((response) => {
               if (response.ok) {
                 if (response?.res?.provider === EnumTypeProvider.offer) {
-                  dispatchBallonOffer({
-                    visible: true,
-                    offer: response?.res!,
-                  })
+                  dispatchModal(EModalData.BalloonOffer)
+                  dispatchBallonOffer({ offer: response?.res! })
                 } else if (response?.res?.provider === EnumTypeProvider.discussion) {
-                  dispatchBallonDiscussion({
-                    visible: true,
-                    offer: response?.res!,
-                  })
+                  dispatchModal(EModalData.BalloonDiscussion)
+                  dispatchBallonDiscussion({ offer: response?.res! })
                 } else if (response?.res?.provider === EnumTypeProvider.alert) {
-                  dispatchBallonAlert({
-                    visible: true,
-                    offer: response?.res!,
-                  })
+                  dispatchModal(EModalData.BalloonAlert)
+                  dispatchBallonAlert({ offer: response?.res! })
                 }
                 handlePush("/")
               } else {
                 handlePush("/")
               }
             })
-
           return
         }
       }

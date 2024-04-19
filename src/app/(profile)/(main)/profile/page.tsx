@@ -1,14 +1,16 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
-
 import { ContainerAboutMe, ContainerSuggestions, ContainerTagAndButton, MContainerAboutProfile } from "@/components/profile"
 
+import { useResize } from "@/helpers"
+
 export default function MyProfilePage() {
+  const { isTablet } = useResize()
+
   return (
     <>
-      {typeof isMobile !== "undefined" && !isMobile ? <ContainerAboutMe /> : null}
-      {isMobile && <MContainerAboutProfile />}
+      {!isTablet ? <ContainerAboutMe /> : null}
+      {isTablet && <MContainerAboutProfile />}
       <ContainerTagAndButton />
       <ContainerSuggestions />
     </>

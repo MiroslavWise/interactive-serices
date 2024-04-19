@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { flushSync } from "react-dom"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
@@ -9,7 +8,7 @@ import { TimerData } from "./components/TimerData"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { getUserId } from "@/services"
+import { functionAuthErrors, getUserId } from "@/services"
 import { postVerifyPhone } from "@/services/phones"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAuth, useNumberConfirmation } from "@/store"
@@ -47,13 +46,13 @@ export const NumberConfirmation = () => {
         if (response.ok) {
           refetch()
           on({ message: "Номер телефона успешно добавлен" })
-          flushSync(() => {
+          requestAnimationFrame(() => {
             close()
           })
         } else {
-          setError("code", { message: response?.error?.message })
+          setError("code", { message: functionAuthErrors(response?.error?.message) })
         }
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setLoading(false)
         })
       })
@@ -66,7 +65,7 @@ export const NumberConfirmation = () => {
 
   function handleNew() {
     dispatchNumberConfirmation(false, undefined)
-    flushSync(() => {
+    requestAnimationFrame(() => {
       dispatchAddingPhoneNumber(true)
     })
   }
@@ -84,7 +83,7 @@ export const NumberConfirmation = () => {
             <span>{number ? (!["8", "+", 8].includes(number[0]) ? `+${number}` : number) : ""}</span>
           </p>
           <article>
-            <fieldset>
+            <fieldset data-test="fieldset-number-confirmation">
               <label>Код из СМС</label>
               <input
                 type="number"
@@ -93,14 +92,28 @@ export const NumberConfirmation = () => {
                 maxLength={12}
                 minLength={4}
                 data-error={!!errors.code}
+                data-test="input-number-confirmation"
               />
               {!!errors?.code?.message ? <i>{errors?.code?.message}</i> : null}
             </fieldset>
             <TimerData />
           </article>
           <footer>
-            <Button type="button" typeButton="regular-primary" label="Изменить номер" loading={loading} onClick={handleNew} />
-            <Button type="submit" typeButton="fill-primary" label="Продолжить" loading={loading} />
+            <Button
+              type="button"
+              typeButton="regular-primary"
+              label="Изменить номер"
+              loading={loading}
+              onClick={handleNew}
+              data-test="button-number-confirmation-change"
+            />
+            <Button
+              type="submit"
+              typeButton="fill-primary"
+              label="Продолжить"
+              loading={loading}
+              data-test="button-number-confirmation-submit"
+            />
           </footer>
         </form>
       </section>

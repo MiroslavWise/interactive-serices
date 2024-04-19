@@ -2,7 +2,7 @@
 
 import { MouseEvent, useCallback, useState } from "react"
 
-import { IconPlus } from "@/components/icons/IconPlus"
+import IconPlus from "@/components/icons/IconPlus"
 import { IconMinus } from "@/components/icons/IconMinus"
 import { IconNavigate } from "@/components/icons/IconNavigate"
 
@@ -53,7 +53,7 @@ export default function Navigation() {
     } else {
       if (!!coordinatesAddresses && coordinatesAddresses?.length) {
         dispatchMapCoordinates({
-          coordinates: coordinatesAddresses[0]!,
+          coordinates: coordinatesAddresses?.[0]!,
         })
       }
       console.error("%c Вы не дали доступ к геолокации", "color: #f00")

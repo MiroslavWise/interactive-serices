@@ -1,10 +1,13 @@
 .wrapper {
-  z-index: 2018;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5.625rem 1.25rem 1.25rem;
   background: rgba(5, 1, 13, 0.5);
+
+  &[data-visible="true"] {
+    z-index: 2018;
+  }
 
   & > section {
     position: relative;
@@ -101,7 +104,7 @@
   }
 }
 
-[data-mobile="true"] {
+[data-tablet="true"] {
   .wrapper {
     padding: 0;
 

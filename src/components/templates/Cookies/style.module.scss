@@ -1,0 +1,60 @@
+.container {
+  position: fixed;
+  left: 1.25rem;
+  bottom: 1.25rem;
+
+  z-index: -1;
+  opacity: 0;
+  visibility: hidden;
+
+  transition: var(--transition);
+  transition-property: opacity, visibility, z-index;
+
+  padding: 1rem;
+  background-color: var(--element-accent-2);
+  border-radius: 1rem;
+  box-shadow: 0px 4px 24px 0px rgba(128, 136, 143, 0.13);
+  width: 100%;
+  max-width: 22.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & > p {
+    color: var(--text-tab);
+    text-align: justify;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.25rem;
+
+    & > span {
+      font-weight: 500;
+    }
+  }
+
+  & > button {
+    max-width: 10.625rem;
+    height: 2.25rem;
+    border-radius: 1.125rem;
+  }
+
+  &[data-active="true"] {
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+[data-tablet="true"] {
+  .container {
+    right: 1.25rem;
+    max-width: calc(100% - 2.5rem);
+    bottom: calc(1.25rem + var(--height-mobile-footer-nav));
+
+    & > button {
+      max-width: 100%;
+    }
+  }
+}

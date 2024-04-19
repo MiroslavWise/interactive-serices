@@ -1,15 +1,19 @@
 import { create } from "zustand"
-import { TUseUpdateMutualOffer } from "../types/createUpdateMutualOffer"
 
-export const useUpdateMutualOffer = create<TUseUpdateMutualOffer>(
-    (set, get) => ({
-        visibleUpdateMutual: false,
+import { IStateUpdateMutualOffer } from "../types/createUpdateMutualOffer"
+import { IResponseOffers } from "@/services/offers/types"
+import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
-        dispatchUpdateMutual({ visible, data }) {
-            set({
-                visibleUpdateMutual: visible,
-                data: data,
-            })
-        },
-    }),
-)
+export const useUpdateMutualOffer = create<IStateUpdateMutualOffer>((set, get) => ({}))
+
+export const dispatchUpdateMutual = ({ data, visible }: { data: IResponseOffers | undefined; visible: boolean }) => {
+  if (visible) {
+    dispatchModal(EModalData.UpdateProfile)
+  } else {
+    dispatchModalClose()
+  }
+  useUpdateMutualOffer.setState((_) => ({
+    ..._,
+    data: data,
+  }))
+}

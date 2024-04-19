@@ -1,14 +1,16 @@
 "use client"
 
-import { isMobile } from "react-device-detect"
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { Button } from "@/components/common"
+
+import { useResize } from "@/helpers"
 import { CONTENT_ALERT, CONTENT_DISCUSSION, CONTENT_OFFER } from "../constants/steps"
-import { useOnboarding, dispatchOnboarding, useVisibleBannerNewServices, useAddCreateModal, dispatchOnboardingType } from "@/store/hooks"
+import { useOnboarding, dispatchOnboarding, useAddCreateModal, dispatchOnboardingType, useModal, EModalData } from "@/store"
 
 import styles from "../styles/article-onboarding.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 export const ArticleOnboarding = () => {
   const refPosition = useRef<CSSProperties>({ top: "50%", left: "50%" })
@@ -17,13 +19,14 @@ export const ArticleOnboarding = () => {
   const type = useOnboarding(({ type }) => type)
   const valid = useOnboarding(({ valid }) => valid)
   const visible = useOnboarding(({ visible }) => visible)
-  const isVisibleNewServicesBanner = useVisibleBannerNewServices(({ isVisibleNewServicesBanner }) => isVisibleNewServicesBanner)
-  const isVisible = useAddCreateModal(({ isVisible }) => isVisible)
+  const dataModal = useModal(({ data }) => data)
+
+  const { isTablet } = useResize()
 
   useEffect(() => {
     if (visible) {
       if (!!type && step > 0) {
-        if (isVisibleNewServicesBanner) {
+        if (dataModal === EModalData.NewServicesBanner) {
           const idContainer = document.getElementById("container-services-banner")
           const leftContainer = idContainer?.getBoundingClientRect().left
 
@@ -48,13 +51,13 @@ export const ArticleOnboarding = () => {
         }
       }
     }
-  }, [step, type, visible, isVisibleNewServicesBanner])
+  }, [step, type, visible, dataModal])
 
   useEffect(() => {
-    if (!isMobile) {
+    if (!isTablet) {
       if (visible) {
         if (!!type && step > 1) {
-          if (isVisible) {
+          if (dataModal === EModalData.CreateNewOptionModal) {
             const idUL = document.getElementById("ul-create-option-modal")
             const idContainer = document.getElementById("container-create-option-modal")
 
@@ -149,7 +152,7 @@ export const ArticleOnboarding = () => {
         }
       }
     }
-  }, [isVisible, step, type, visible, isMobile])
+  }, [dataModal, step, type, visible, isTablet])
 
   function handleClose() {
     dispatchOnboarding("pre-close")

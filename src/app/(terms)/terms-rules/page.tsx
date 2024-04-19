@@ -1,5 +1,8 @@
 import { RULES } from "@/helpers/constants/rules"
 
+export const dynamic = "force-static"
+export const dynamicParams = false
+
 export default function TermsRules() {
   return (
     <ul>

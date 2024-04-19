@@ -10,7 +10,7 @@ import { LoadingThreadNotice } from "@/components/common"
 
 import { getIdOffer } from "@/services"
 import { daysAgo, usePush } from "@/helpers"
-import { dispatchBallonOffer, dispatchMapCoordinates, useAuth, useOffersCategories } from "@/store"
+import { dispatchBallonOffer, dispatchMapCoordinates, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/notice-offer-pay.module.scss"
 
@@ -32,29 +32,10 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
     return categories?.find((item) => item.id === resOffer?.categoryId)!
   }, [categories, resOffer])
 
-  function handleToMap() {
-    if (!!resOffer) {
-      const [address] = resOffer?.addresses
-
-      if (address) {
-        dispatchMapCoordinates({
-          coordinates: address?.coordinates?.split(" ")?.map(Number),
-        })
-      }
-      dispatchBallonOffer({
-        visible: true,
-        offer: resOffer,
-      })
-      handlePush("/")
-    }
-  }
-
   function handleDetailOffer() {
     if (!!resOffer) {
-      dispatchBallonOffer({
-        visible: true,
-        offer: resOffer,
-      })
+      dispatchBallonOffer({ offer: resOffer })
+      dispatchModal(EModalData.BalloonOffer)
     }
   }
 
@@ -88,7 +69,7 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
         </p>
         {userId !== resOffer?.userId ? (
           <p>
-            Вернитесь к <span onClick={handleToMap}>карточке</span> услуги, чтобы предложить обмен.
+            Вернитесь к <span onClick={handleDetailOffer}>карточке</span> услуги, чтобы предложить обмен.
           </p>
         ) : null}
       </article>

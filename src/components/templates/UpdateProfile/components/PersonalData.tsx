@@ -1,22 +1,20 @@
-import { flushSync } from "react-dom"
+import { Controller, useForm } from "react-hook-form"
 import { useEffect, useMemo, useState } from "react"
-import { useForm } from "react-hook-form"
-import { fileUploadService, getProfileUserId, serviceProfile } from "@/services"
 import { useQuery } from "@tanstack/react-query"
 
-import { IValuesForm } from "../types/types"
 import { EnumTypeProvider } from "@/types/enum"
 import { IPatchProfileData, IPostProfileData } from "@/services/profile/types"
+import { resolverUpdateForm, TGenderForm, TSchemaUpdateForm } from "../utils/update-form.schema"
 
 import { ImageProfile } from "./ImageProfile"
-import { FieldAddress } from "./FieldAddress"
 import { ButtonsFooter } from "./ButtonsFooter"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchUpdateProfile, useAuth } from "@/store"
+import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
+import { fileUploadService, getProfileUserId, serviceAuthErrors, serviceProfile } from "@/services"
 
-const GENDER: { label: string; value: "m" | "f" }[] = [
+const GENDER: { label: string; value: TGenderForm }[] = [
   {
     label: "Мужской",
     value: "m",
@@ -30,6 +28,7 @@ const GENDER: { label: string; value: "m" | "f" }[] = [
 export const PersonalData = () => {
   const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
+  const [errorFile, setErrorFile] = useState<null | string>(null)
   const { out } = useOut()
   const { on } = useToast()
   const [file, setFile] = useState<{
@@ -44,8 +43,12 @@ export const PersonalData = () => {
     setValue,
     setError,
     handleSubmit,
+    control,
+    clearErrors,
     formState: { errors },
-  } = useForm<IValuesForm>({})
+  } = useForm<TSchemaUpdateForm>({
+    resolver: resolverUpdateForm,
+  })
 
   const { data, refetch } = useQuery({
     queryFn: () => getProfileUserId(userId!),
@@ -76,7 +79,7 @@ export const PersonalData = () => {
     })
   }
 
-  function submit(values: IValuesForm) {
+  function submit(values: TSchemaUpdateForm) {
     if (!values.username?.trim()) {
       setError("username", { message: "Обязательно к заполнению" })
       setLoading(false)
@@ -99,7 +102,7 @@ export const PersonalData = () => {
         valuesProfile.username = values.username?.replace("@", "")
       }
       if (values.gender !== data?.res?.gender && ["f", "m"].includes(values.gender!)) {
-        valuesProfile.gender = values.gender!
+        valuesProfile.gender = values.gender
       }
 
       Promise.all([!!data?.res?.id ? serviceProfile.patch(valuesProfile, data?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(
@@ -108,19 +111,21 @@ export const PersonalData = () => {
             const idProfile = responses?.[0]?.res?.id!
             if (file.file) {
               UpdatePhotoProfile(idProfile).then((response) => {
-                const dataPatch: IPostProfileData = { imageId: response?.res?.id }
-                serviceProfile.patch(dataPatch, idProfile).then(() => {
-                  refetch()
-                  flushSync(() => {
-                    dispatchUpdateProfile(false)
+                if (response?.ok) {
+                  const dataPatch: IPostProfileData = { imageId: response?.res?.id }
+                  serviceProfile.patch(dataPatch, idProfile).then(() => {
+                    refetch()
+                    requestAnimationFrame(dispatchModalClose)
                   })
-                })
+                } else {
+                  if (response?.error?.message?.toLowerCase()?.includes("request entity too large") || response?.error?.code === 413) {
+                    setErrorFile(serviceAuthErrors.get("request entity too large") || null)
+                  }
+                }
               })
             } else {
               refetch()
-              flushSync(() => {
-                dispatchUpdateProfile(false)
-              })
+              requestAnimationFrame(dispatchModalClose)
             }
           } else {
             setLoading(false)
@@ -152,29 +157,64 @@ export const PersonalData = () => {
   }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string, watch("gender")])
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} data-test="form-personal-data">
       <section>
-        <ImageProfile image={image!} file={file} setFile={setFile} idProfile={idProfile} refetch={refetch} />
+        <ImageProfile
+          image={image!}
+          file={file}
+          setFile={setFile}
+          idProfile={idProfile}
+          refetch={refetch}
+          errorFile={errorFile}
+          setErrorFile={setErrorFile}
+        />
         <div data-grid>
-          <fieldset>
-            <label>Имя</label>
-            <input type="text" placeholder="Введите имя" {...register("firstName", { required: true })} data-error={!!errors?.firstName} />
-          </fieldset>
-          <fieldset>
-            <label>Фамилия</label>
-            <input
-              type="text"
-              placeholder="Введите фамилию"
-              {...register("lastName", { required: true })}
-              data-error={!!errors?.lastName}
-            />
-          </fieldset>
-          <fieldset>
-            <label>Ник</label>
-            <input type="text" placeholder="Придумайте ник" {...register("username", { required: true })} data-error={!!errors.username} />
-          </fieldset>
-          <fieldset>
-            <label {...register("gender")}>Пол</label>
+          <Controller
+            name="firstName"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset data-test="fieldset-personal-data-firstName">
+                <label htmlFor={field.name} title="Имя пользователя">
+                  Имя
+                </label>
+                <input type="text" placeholder="Введите имя" {...field} data-error={!!error} data-test="input-personal-data-firstName" />
+                {!!error ? <i>{error?.message}</i> : null}
+              </fieldset>
+            )}
+          />
+          <Controller
+            name="lastName"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset data-test="fieldset-personal-data-lastName">
+                <label htmlFor={field.name} title="Фамилия пользователя">
+                  Фамилия
+                </label>
+                <input type="text" placeholder="Введите фамилию" {...field} data-error={!!error} data-test="input-personal-data-lastName" />
+                {!!error ? <i>{error?.message}</i> : null}
+              </fieldset>
+            )}
+          />
+          <Controller
+            name="username"
+            rules={{ required: true }}
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset data-test="fieldset-personal-data-username">
+                <label htmlFor={field.name} title="Никнейм пользователя">
+                  Ник
+                </label>
+                <input type="text" placeholder="Придумайте ник" {...field} data-error={!!error} data-test="input-personal-data-username" />
+                {!!error ? <i>{error?.message}</i> : null}
+              </fieldset>
+            )}
+          />
+          <fieldset data-test="fieldset-personal-data-gender">
+            <label htmlFor="gender" {...register("gender")} title="Пол пользователя">
+              Пол
+            </label>
             <div data-input ref={ref} style={{ zIndex: 20 }}>
               <input
                 type="text"
@@ -184,11 +224,13 @@ export const PersonalData = () => {
                   event.stopPropagation()
                   setFocusGender(true)
                 }}
+                data-error={!!errors?.gender}
                 value={GENDER.find((item) => item.value === watch("gender"))?.label || ""}
+                data-test="input-personal-data-gender"
               />
               {focusGender ? (
-                <div data-ul>
-                  <ul>
+                <div data-ul data-test="input-personal-data-gender-div-ul">
+                  <ul data-test="input-personal-data-gender-list-ul">
                     {GENDER.map((item) => (
                       <li
                         key={`::key::gender::${item.value}::`}
@@ -196,7 +238,9 @@ export const PersonalData = () => {
                           event.stopPropagation()
                           setFocusGender(false)
                           setValue("gender", item.value)
+                          clearErrors("gender")
                         }}
+                        data-test="input-personal-data-gender-list-li"
                       >
                         <span>{item.label}</span>
                       </li>
@@ -205,9 +249,9 @@ export const PersonalData = () => {
                 </div>
               ) : null}
             </div>
+            {!!errors?.gender ? <i>{errors?.gender?.message}</i> : null}
           </fieldset>
         </div>
-        <FieldAddress />
       </section>
       <ButtonsFooter disabled={disabledButton} loading={loading} />
     </form>

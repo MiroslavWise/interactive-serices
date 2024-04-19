@@ -1,9 +1,7 @@
 "use client"
 
-import dayjs from "dayjs"
 import Image from "next/image"
 import { useMemo } from "react"
-import { isMobile } from "react-device-detect"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
@@ -11,13 +9,14 @@ import type { TComponentsNotification } from "./types/types"
 
 import { ButtonCircleGradient, Button } from "@/components/common"
 
-import { usePush } from "@/helpers"
+import { dayFormat, usePush, useResize } from "@/helpers"
 import { getUserId, serviceNotifications } from "@/services"
 import { useAuth, dispatchVisibleNotifications } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
+  const { isTablet } = useResize()
   const userId = useAuth(({ userId }) => userId)
   const { data, created, operation, provider, id } = props ?? {}
   const { handlePush } = usePush()
@@ -38,7 +37,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
   })
 
   function handleCancel() {
-    if (isMobile) {
+    if (isTablet) {
       dispatchVisibleNotifications(false)
     }
     serviceNotifications.patch(
@@ -85,7 +84,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
         <div data-footer>
           <div data-date>
             <Image src="/svg/calendar.svg" alt="calendar" width={16} height={16} unoptimized />
-            <p>{dayjs(created!).format("DD/MM/YYYY")}</p>
+            <p>{dayFormat(created!, "dd.MM.yyyy")}</p>
           </div>
           <div data-buttons>
             <Button
