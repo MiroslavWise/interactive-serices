@@ -9,6 +9,7 @@ import type {
   IUseModalAuthEmailOrPhone,
   TTypeEmailOrNumber,
   IActionAuthModalVerification,
+  TTypeSign,
 } from "../types/useVisibleAndTypeAuthModalState"
 import { IUserResponse } from "@/services/users/types"
 import { dayFormat } from "@/helpers"
@@ -18,6 +19,7 @@ export const useModalAuth = create(
   persist<IUseVisibleAndTypeAuthModalState>(
     () => ({
       type: null,
+      prevType: null,
     }),
     {
       name: "modal-auth",
@@ -108,11 +110,20 @@ export const dispatchAuthModalCurrentUser = ({ user }: { user?: IUserResponse })
   }))
 }
 
-export const dispatchAuthModalCodeVerification = ({ phone, idUser }: { phone: string; idUser: number | string }) => {
+export const dispatchAuthModalCodeVerification = ({
+  phone,
+  idUser,
+  prevType,
+}: {
+  phone: string
+  idUser: number | string
+  prevType: TTypeSign
+}) => {
   dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
     phone: phone,
     idUser: idUser,
     type: "CodeVerification",
+    prevType: prevType,
   }))
 }

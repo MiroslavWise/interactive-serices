@@ -9,6 +9,7 @@ const INITIAL_TIME = 120
 export const TimerData = memo(function TimerData() {
   const [loading, setLoading] = useState(false)
   const phone = useModalAuth(({ phone }) => phone)
+  const prevType = useModalAuth(({ prevType }) => prevType)
   const time = useTimerModalAuth(({ time }) => time)
   const [timerObject, setTimerObject] = useState({
     timer: INITIAL_TIME,
@@ -62,7 +63,7 @@ export const TimerData = memo(function TimerData() {
             console.log("--REQUEST NEW CODE SMS PHONE---", response)
             if (response.ok) {
               dispatchStartTimer()
-              dispatchAuthModalCodeVerification({ phone: phone, idUser: response?.res?.id! })
+              dispatchAuthModalCodeVerification({ phone: phone, idUser: response?.res?.id!, prevType: prevType })
             } else {
             }
             setLoading(false)
