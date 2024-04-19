@@ -120,6 +120,18 @@
     width: 100% !important;
     z-index: 4;
 
+    & > span {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1.125rem;
+
+      & > sup {
+        color: var(--text-error);
+      }
+    }
+
     p {
       margin-top: 0.75rem;
       margin-bottom: 0.75rem;
