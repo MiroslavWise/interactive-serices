@@ -125,30 +125,31 @@ export const ContentCreatePassword = () => {
     <div className={styles.content}>
       <p>Придумайте пароль для входа в аккаунт</p>
       <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
-        <>
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: true }}
-            render={({ field, fieldState: { error } }) => (
-              <div data-label-input data-password data-test="create-password">
-                <label htmlFor={field.name}>Пароль</label>
-                <div>
-                  <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} minLength={6} />
-                  <img
-                    onClick={() => setIsPass((prev) => !prev)}
-                    src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                    alt="eye"
-                    width={20}
-                    height={20}
-                    data-eye
-                  />
-                </div>
-                {error ? <i>{error?.message}</i> : null}
+        <span style={{ marginTop: "-1.25rem" }}>
+          <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ
+        </span>
+        <Controller
+          name="password"
+          control={control}
+          rules={{ required: true }}
+          render={({ field, fieldState: { error } }) => (
+            <div data-label-input data-password data-test="create-password">
+              <label htmlFor={field.name}>Пароль</label>
+              <div>
+                <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} minLength={6} />
+                <img
+                  onClick={() => setIsPass((prev) => !prev)}
+                  src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
+                  alt="eye"
+                  width={20}
+                  height={20}
+                  data-eye
+                />
               </div>
-            )}
-          />
-        </>
+              {error ? <i>{error?.message}</i> : null}
+            </div>
+          )}
+        />
         <Controller
           name="repeat_password"
           control={control}
