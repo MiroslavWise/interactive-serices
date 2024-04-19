@@ -71,7 +71,7 @@ export const InterviewerInfoCurrent = () => {
 export const InterviewerInfoEmpty = () => <section className={styles.container} />
 
 export const InterviewerInfo = () => {
-  const idThread = useSearchParams()?.get("thread")
+  const idThread = useSearchParams().get("thread")
 
   return idThread ? <InterviewerInfoCurrent /> : <InterviewerInfoEmpty />
 }

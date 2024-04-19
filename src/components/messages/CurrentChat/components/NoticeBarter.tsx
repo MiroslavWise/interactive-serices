@@ -1,6 +1,5 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useSearchParams } from "next/navigation"
 import { memo, useState, useMemo, useEffect } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
@@ -104,7 +103,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
           })
           refetchBarters()
         }
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setStateBarter((prev) => ({
             ...prev!,
             status: EnumStatusBarter.EXECUTED,
@@ -123,7 +122,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         patchThread({ enabled: false }, Number(threadId)),
       ]).then(() => {
         Promise.all([refetchBarters(), refetchCountMessages()]).then(() => {
-          flushSync(() => {
+          setTimeout(() => {
             setLoading(false)
             handleReplace("/messages")
           })

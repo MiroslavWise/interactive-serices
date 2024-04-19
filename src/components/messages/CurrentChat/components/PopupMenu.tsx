@@ -18,7 +18,7 @@ import styles from "./styles/popup-menu.module.scss"
 
 export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
   const searchParams = useSearchParams()
-  const idThread = searchParams?.get("thread")
+  const idThread = searchParams.get("thread")
   const isVisible = usePopupMenuChat(({ isVisible }) => isVisible)
   const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
   const { handlePush, handleReplace } = usePush()

@@ -17,7 +17,7 @@ import { fileUploadService, postMessage } from "@/services"
 
 export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
   const { isTablet } = useResize()
-  const idThread = useSearchParams()?.get("thread")
+  const idThread = useSearchParams().get("thread")
   const { socket } = useWebSocket()
   const userId = useAuth(({ userId }) => userId)
   const { register, setValue, handleSubmit, watch } = useForm<{

@@ -21,7 +21,7 @@ import styles from "../styles/style.module.scss"
 
 export const CurrentChat = () => {
   const { isTablet } = useResize()
-  const idThread = useSearchParams()?.get("thread")
+  const idThread = useSearchParams().get("thread")
   const userId = useAuth(({ userId }) => userId)
   const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
   const { handleReplace } = usePush()

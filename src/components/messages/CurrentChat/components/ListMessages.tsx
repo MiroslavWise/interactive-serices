@@ -1,6 +1,5 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
@@ -60,7 +59,7 @@ export const ListMessages = memo(function ListMessages({
   }, [dataUser, messages, join, userId, attributes?.url])
 
   useEffect(() => {
-    flushSync(() => {
+    setTimeout(() => {
       if (messages?.length > 0) {
         if (ulChat.current) {
           const top = ulChat.current.scrollHeight

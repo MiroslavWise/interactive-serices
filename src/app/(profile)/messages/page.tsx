@@ -9,13 +9,10 @@ import { useResize } from "@/helpers"
 import { dispatchDataUser } from "@/store"
 
 export default function Messages() {
-  const searchParamsGet = useSearchParams()?.get
-  const [idThread, idBarter, idUser, idOfferPay] = [
-    searchParamsGet("thread"),
-    searchParamsGet("barter-id"),
-    searchParamsGet("user"),
-    searchParamsGet("offer-pay"),
-  ]
+  const idThread = useSearchParams().get("thread")
+  const idBarter = useSearchParams().get("barter-id")
+  const idUser = useSearchParams().get("user")
+  const idOfferPay = useSearchParams().get("offer-pay")
   const { isTablet } = useResize()
 
   useEffect(() => {
