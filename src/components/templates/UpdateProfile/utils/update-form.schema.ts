@@ -7,9 +7,15 @@ const nullableStringGender = z.enum(["m", "f"], {
   }),
 })
 const stringMinThree = (message: string, messageMax: string, regex: RegExp) =>
-  z.string().trim().min(1, { message }).min(3, { message }).max(32, { message: messageMax }).regex(regex, {
-    message: "Не верный формат поля",
-  })
+  z
+    .string({ errorMap: () => ({ message }) })
+    .trim()
+    .min(1, { message })
+    .min(3, { message })
+    .max(32, { message: messageMax })
+    .regex(regex, {
+      message: "Не верный формат поля",
+    })
 
 export const schemaUpdateForm = z.object({
   firstName: stringMinThree("Минимум 3 символа в имени", "Максимум 32 символа в имени", /^[a-zA-Zа-яА-Яёй\-]+$/),
