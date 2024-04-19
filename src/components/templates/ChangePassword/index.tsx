@@ -100,6 +100,9 @@ function ChangePassword() {
               </fieldset>
             )}
           />
+          <span>
+            <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ
+          </span>
           <Controller
             name="password"
             rules={{ required: true }}
@@ -121,15 +124,6 @@ function ChangePassword() {
                       <img src={visiblePass.password ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
                     </button>
                   </div>
-                  {/* <div data-strength>
-                    <span
-                      style={{
-                        transform: `translateX(${valueNumber * 100 - 100}%)`,
-                        backgroundColor:
-                          valueNumber <= 0.4 ? "var(--text-error)" : valueNumber < 0.77 ? "var(--more-orange)" : "var(--more-green)",
-                      }}
-                    />
-                  </div> */}
                   {error ? <i>{error.message}</i> : null}
                 </fieldset>
               )

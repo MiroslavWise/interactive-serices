@@ -43,6 +43,18 @@
       flex-direction: column;
       gap: 1.25rem;
 
+      & > span {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.125rem;
+
+        & > sup {
+          color: var(--text-error);
+        }
+      }
+
       & > fieldset {
         width: 100%;
         display: flex;
