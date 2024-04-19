@@ -47,7 +47,7 @@ export const ContentCreatePassword = () => {
             } else {
               const errorMessage = response?.error?.message
               if (response?.error.code === 400) {
-                setError("repeat_password", { message: functionAuthErrors(errorMessage) })
+                setError("password", { message: functionAuthErrors(errorMessage) })
                 return
               } else if ([401 || 403].includes(response?.error?.code!)) {
                 on({ message: "Время восстановления пароля истекло" }, "warning")
@@ -62,7 +62,19 @@ export const ContentCreatePassword = () => {
                 )
                 return
               } else {
-                setError("repeat_password", { message: functionAuthErrors(errorMessage) })
+                if (
+                  (typeof errorMessage === "string" && errorMessage?.toLowerCase()?.includes("repeat is not strong enough")) ||
+                  (Array.isArray(errorMessage) &&
+                    errorMessage?.some((item) => item?.toLowerCase()?.includes("repeat is not strong enough")))
+                ) {
+                  setError("repeat_password", { message: functionAuthErrors("repeat is not strong enough") })
+                } else if (
+                  (typeof errorMessage === "string" && errorMessage?.toLowerCase()?.includes("password is not strong enough")) ||
+                  (Array.isArray(errorMessage) &&
+                    errorMessage?.some((item) => item?.toLowerCase()?.includes("password is not strong enough")))
+                ) {
+                  setError("password", { message: functionAuthErrors("password is not strong enough") })
+                }
               }
             }
           })
@@ -83,14 +95,11 @@ export const ContentCreatePassword = () => {
               setLoading(false)
               if (
                 Array.isArray(response?.error?.message!) &&
-                response?.error?.message?.some((item: string) => item?.toLowerCase() === "password is not strong enough")
+                response?.error?.message?.some((item: string) =>
+                  ["password is not strong enough", "repeat is not strong enough"].includes(item?.toLowerCase()),
+                )
               ) {
                 setError("password", { message: serviceAuthErrors.get("password is not strong enough") })
-                return
-              } else if (
-                Array.isArray(response?.error?.message!) &&
-                response?.error?.message?.some((item: string) => item?.toLowerCase() === "password is not strong enough")
-              ) {
                 setError("repeat_password", { message: serviceAuthErrors.get("repeat is not strong enough") })
                 return
               } else {
