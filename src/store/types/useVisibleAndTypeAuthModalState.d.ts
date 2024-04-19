@@ -31,6 +31,7 @@ export interface IActionCreatePassword {
 }
 export interface IUseVisibleAndTypeAuthModalState {
   type: TTypeSign
+  prevType: TTypeSign
   email?: string
   phone?: string
   verification?: {

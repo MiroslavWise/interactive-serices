@@ -16,22 +16,18 @@ import styles from "../styles/form.module.scss"
 export const ContentCodeVerification = ({}) => {
   const [loading, setLoading] = useState(false)
   const phone = useModalAuth(({ phone }) => phone)
+  const prevType = useModalAuth(({ prevType }) => prevType)
   const idUser = useModalAuth(({ idUser }) => idUser)
   const setToken = useAuth(({ setToken }) => setToken)
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm<TSchemaCodeVerification>({
+  const { control, handleSubmit, setError } = useForm<TSchemaCodeVerification>({
     resolver: resolverCodeVerification,
   })
 
   function handleChange() {
     dispatchAuthModal({
       visible: true,
-      type: "SignUp",
+      type: prevType || "SignUp",
     })
   }
 
@@ -87,11 +83,11 @@ export const ContentCodeVerification = ({}) => {
               minLength: 6,
               maxLength: 6,
             }}
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <div data-label-input data-test="code-verification">
                 <label htmlFor={field.name}>Код из СМС</label>
                 <input
-                  data-error={!!errors.code}
+                  data-error={!!error}
                   placeholder="Введите код из СМС-сообщения"
                   maxLength={6}
                   type="number"
@@ -99,7 +95,7 @@ export const ContentCodeVerification = ({}) => {
                   pattern="[0-9]*"
                   {...field}
                 />
-                {!!errors?.code ? <i>{errors?.code?.message}</i> : null}
+                {!!error ? <i>{error?.message}</i> : null}
               </div>
             )}
           />

@@ -32,7 +32,7 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
         if (response?.ok) {
           if (response.ok) {
             dispatchStartTimer()
-            dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id! })
+            dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id!, prevType: "SignIn" })
           }
         } else {
           const errorMessage = response?.error?.message
@@ -70,7 +70,6 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
         </div>
       </section>
       {itemForgot}
-
       <Button type="submit" typeButton="fill-primary" label="Войти" loading={loading} data-test="sign-in-phone-submit" />
       {children}
     </form>

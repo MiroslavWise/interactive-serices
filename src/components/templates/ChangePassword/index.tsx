@@ -10,6 +10,7 @@ import { resolverPassword, TKeysPassword, TSchemaPassword } from "./utils/passwo
 import { dispatchChangePassword } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { postNewPassword, serviceAuthErrors } from "@/services"
+// import { strengthPassword } from "@/helpers/functions/strength-password"
 
 function ChangePassword() {
   const [loading, setLoading] = useState(false)
@@ -103,24 +104,36 @@ function ChangePassword() {
             name="password"
             rules={{ required: true }}
             control={control}
-            render={({ field, fieldState: { error } }) => (
-              <fieldset data-test={`fieldset-change-password-${field.name}`}>
-                <label htmlFor={field.name}>Пароль</label>
-                <div data-input>
-                  <input
-                    type={visiblePass.password ? "text" : "password"}
-                    placeholder="Введите пароль"
-                    {...field}
-                    data-error={!!error}
-                    data-test={`input-change-password-${field.name}`}
-                  />
-                  <button type="button" onClick={() => onVisiblePassword(field.name)}>
-                    <img src={visiblePass.password ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
-                  </button>
-                </div>
-                {error ? <i>{error.message}</i> : null}
-              </fieldset>
-            )}
+            render={({ field, fieldState: { error } }) => {
+              // const valueNumber = strengthPassword(field.value)
+              return (
+                <fieldset data-test={`fieldset-change-password-${field.name}`}>
+                  <label htmlFor={field.name}>Пароль</label>
+                  <div data-input>
+                    <input
+                      type={visiblePass.password ? "text" : "password"}
+                      placeholder="Введите пароль"
+                      {...field}
+                      data-error={!!error}
+                      data-test={`input-change-password-${field.name}`}
+                    />
+                    <button type="button" onClick={() => onVisiblePassword(field.name)}>
+                      <img src={visiblePass.password ? "/svg/eye.svg" : "/svg/eye-off.svg"} alt="eye" width={20} height={20} />
+                    </button>
+                  </div>
+                  {/* <div data-strength>
+                    <span
+                      style={{
+                        transform: `translateX(${valueNumber * 100 - 100}%)`,
+                        backgroundColor:
+                          valueNumber <= 0.4 ? "var(--text-error)" : valueNumber < 0.77 ? "var(--more-orange)" : "var(--more-green)",
+                      }}
+                    />
+                  </div> */}
+                  {error ? <i>{error.message}</i> : null}
+                </fieldset>
+              )
+            }}
           />
           <Controller
             name="repeat"
