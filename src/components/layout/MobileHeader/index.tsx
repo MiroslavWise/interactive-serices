@@ -5,7 +5,7 @@ import styles from "./styles/styles.module.scss"
 
 export default function MobileHeader() {
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-test="header-mobile">
       <Logo />
       <NotificationBell />
     </header>

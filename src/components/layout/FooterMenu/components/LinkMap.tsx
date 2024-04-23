@@ -36,7 +36,7 @@ export const LinkMap = memo(function LinkMap() {
   const isActive = pathname === ITEMS_LINK_FOOTER.map
 
   return (
-    <Link href={{ pathname: ITEMS_LINK_FOOTER.map }} data-active={isActive} className={styles.link}>
+    <Link href={{ pathname: ITEMS_LINK_FOOTER.map }} data-active={isActive} className={styles.link} data-test="link-footer-menu-mobile-map">
       <div className={styles.itemsIconLabel}>
         <article>{MENU_ICONS.map}</article>
         <p>Карта</p>

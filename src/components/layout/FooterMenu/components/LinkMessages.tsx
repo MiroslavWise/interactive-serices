@@ -30,6 +30,7 @@ export const LinkMessages = memo(function LinkMessages() {
           handleAuthModal()
         }
       }}
+      data-test="link-footer-menu-mobile-messages"
     >
       <div className={styles.itemsIconLabel}>
         <article>{MENU_ICONS.message}</article>
