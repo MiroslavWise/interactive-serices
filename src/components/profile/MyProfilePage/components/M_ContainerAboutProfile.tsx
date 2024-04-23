@@ -85,22 +85,23 @@ export const MContainerAboutProfile = () => {
             typeButton="regular-primary"
             label="Редактировать профиль"
             onClick={() => dispatchModal(EModalData.UpdateProfile)}
+            data-test="button-open-modal-update-profile"
           />
-          <button type="button" data-circle onClick={handleOpenOption}>
+          <button type="button" data-circle onClick={handleOpenOption} data-test="button-open-option">
             <img src="/svg/accent-dots.svg" alt="..." width={16} height={16} />
           </button>
         </section>
         <BadgesColors userId={userId!} />
       </div>
       <div data-block-buttons>
-        <button onClick={addDesiredService} data-services>
+        <button onClick={addDesiredService} data-services data-test="button-open-modal-add-desired-service">
           <h4>Желаемые услуги</h4>
           <article>
             <h3>{categories || "Добавить"}</h3>
             <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
           </article>
         </button>
-        <button onClick={handleOpen} data-friends>
+        <button onClick={handleOpen} data-friends data-test="button-open-modal-friends">
           <h4>Мои друзья</h4>
           <article>
             <h3>{friends}</h3>
