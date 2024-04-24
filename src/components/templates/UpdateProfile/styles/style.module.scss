@@ -236,6 +236,11 @@
           flex-direction: column;
           gap: 1.25rem;
         }
+
+        [data-ul] {
+          top: inherit !important;
+          bottom: calc(100% + 0.25rem);
+        }
       }
 
       & > footer {
@@ -259,16 +264,8 @@
 
 [data-theme="dark"] {
   .container {
-    & > form {
-      & > section {
-        & > [data-grid] {
-          & > [data-input] {
-            & > [data-ul] {
-              box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7), 0px 10px 16px 0px rgba(31, 31, 41, 0.1);
-            }
-          }
-        }
-      }
+    [data-ul] {
+      box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7), 0px 10px 16px 0px rgba(31, 31, 41, 0.1) !important;
     }
   }
 }
