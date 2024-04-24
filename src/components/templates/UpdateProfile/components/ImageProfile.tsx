@@ -50,7 +50,6 @@ export const ImageProfile = memo(function ImageProfile({
     },
     maxFiles: 1,
     multiple: false,
-    maxSize: 9.9 * 1024 * 1024,
   })
 
   async function handleDelete() {
