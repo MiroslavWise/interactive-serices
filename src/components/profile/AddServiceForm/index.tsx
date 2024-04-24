@@ -102,25 +102,33 @@ export const ChangeService = () => {
 
   return (
     <div className={styles.wrapper} data-active={visible} data-blur-modal>
-      <section>
-        <header>
+      <section data-test="section-change-service">
+        <header data-test="header-change-service">
           <a
             onClick={(event) => {
               event.stopPropagation()
               dispatchChangeService({ visible: false })
             }}
+            data-test="a-back-change-service"
           >
             <img src="/svg/arrow-left.svg" alt="<=" width={24} height={24} />
           </a>
           <h2>Добавить услуги</h2>
         </header>
         <ul>
-          <form className={styles.form} onSubmit={onSubmit}>
+          <form className={styles.form} onSubmit={onSubmit} data-test="form-change-service">
             <span>
               Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.
             </span>
             <div data-search>
-              <input {...register("search-categories")} placeholder="Найти услугу" type="text" list="search" autoComplete="off" />
+              <input
+                {...register("search-categories")}
+                placeholder="Найти услугу"
+                type="text"
+                list="search"
+                autoComplete="off"
+                data-test="input-search-change-service"
+              />
               <img src="/svg/search-md.svg" alt="search" width={20} height={20} data-search />
               <img
                 src="/svg/x-close.svg"
@@ -133,13 +141,13 @@ export const ChangeService = () => {
                   setValue("search-categories", "")
                 }}
               />
-              <datalist id="search">
+              <datalist id="search" data-test="search-datalist-change-service">
                 {categories.map((item) => (
                   <option key={`::category::list::data::${item.id}::`} value={item.title} />
                 ))}
               </datalist>
             </div>
-            <div data-categories-selected={selectedCategories.length > 0}>
+            <div data-categories-selected={selectedCategories.length > 0} data-test="categories-selected-change-service">
               {selectedCategories.map((item) => (
                 <a key={`::selected::item::${item.id}::`}>
                   <span>{item.title}</span>
@@ -152,6 +160,7 @@ export const ChangeService = () => {
                         watch("categories").filter((item_) => item_ !== item.id),
                       )
                     }}
+                    data-test="button-selected-current-change-service-on-delete"
                   >
                     <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} />
                   </button>
@@ -164,7 +173,7 @@ export const ChangeService = () => {
               ))}
             </section>
             <footer>
-              <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} />
+              <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} data-test="button-change-service-submit" />
             </footer>
           </form>
         </ul>

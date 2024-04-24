@@ -15,14 +15,12 @@ import {
   Onboarding,
   ReasonBarters,
   OptionProfileMobile,
-  ActiveServicesFrom,
   AddingPhoneNumber,
   AddEmail,
   CheckTheMail,
   NumberConfirmation,
   InitiatedBarterMobile,
 } from "@/components/templates"
-import { ChangeService } from "@/components/profile"
 
 import {
   useAuth,
@@ -31,7 +29,6 @@ import {
   useDroverFriends,
   useVisibleNotifications,
   useReasonBarters,
-  useActiveServicesFrom,
   useAddingPhoneNumber,
   useAddEmail,
   useCheckTheMail,
@@ -43,6 +40,7 @@ const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { s
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
+const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -51,7 +49,6 @@ export const Containers = () => {
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
   const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
-  const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
@@ -85,9 +82,8 @@ export const Containers = () => {
           {visibleFriends && <DroverFriends />}
           {isTablet && <OptionProfileMobile />}
           {isTablet && <InitiatedBarterMobile />}
-          {visibleReasonBarters && <ReasonBarters />}
-          {visibleActiveService && <ActiveServicesFrom />}
           {visibleCheckTheMail && <CheckTheMail />}
+          {visibleReasonBarters && <ReasonBarters />}
           {visibleAddingPhoneNumber && <AddingPhoneNumber />}
           {isTablet && visibleNotifications && <NotificationsMobile />}
         </>

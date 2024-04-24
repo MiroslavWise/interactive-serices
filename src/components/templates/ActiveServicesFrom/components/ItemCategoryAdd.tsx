@@ -16,6 +16,7 @@ export function ItemCategoryAdd() {
         event.stopPropagation()
         handleAdd()
       }}
+      data-test="alias-button-modal-active-services-from"
     >
       <footer>
         <img src="/svg/plus-gray.svg" alt="+" width={16} height={16} />

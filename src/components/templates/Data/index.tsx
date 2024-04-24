@@ -18,6 +18,7 @@ const DeleteOffer = dynamic(() => import("../DeleteOffer"), { ssr: false, loadin
 const DeleteUser = dynamic(() => import("../DeleteUser"), { ssr: false, loading: Load })
 const UpdateOffer = dynamic(() => import("../UpdateOffer"), { ssr: false, loading: Load })
 const ChangePassword = dynamic(() => import("../ChangePassword"), { ssr: false, loading: Load })
+const ActiveServicesFrom = dynamic(() => import("../ActiveServicesFrom"), { ssr: false, loading: Load })
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
@@ -34,6 +35,7 @@ import stylesReciprocalExchange from "@/components/templates/ReciprocalExchange/
 import stylesOutAccount from "@/components/templates/OutAccount/style.module.scss"
 import stylesUpdateOffer from "@/components/templates/UpdateOffer/style.module.scss"
 import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
+import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -55,6 +57,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.ChangePassword, <ChangePassword key="::key::modal::change-password" />], //Изменение пароля
   [EModalData.DeleteOffer, <DeleteOffer key="::key::modal::delete-offer" />], //Удаление оффера
   [EModalData.DeleteUser, <DeleteUser key="::key::modal::delete-user" />], //Удаление оффера
+  [EModalData.ActiveServicesFrom, <ActiveServicesFrom key="::key::modal::active-services-from" />], //Желаемые услуги
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, styleNewServiceBanner.container],
@@ -72,6 +75,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.DeleteUser, stylesOutAccount.container],
   [EModalData.UpdateOffer, stylesUpdateOffer.container],
   [EModalData.ChangePassword, stylesChangePassword.container],
+  [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

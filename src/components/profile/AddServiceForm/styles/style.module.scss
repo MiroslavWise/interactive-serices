@@ -380,6 +380,7 @@
           flex-direction: row;
           align-items: center;
           gap: 1.25rem;
+          cursor: pointer;
 
           [data-img] {
             padding: 0;
@@ -474,6 +475,8 @@
     padding: 0.125rem;
     cursor: pointer;
     position: relative;
+    outline: none;
+    background-color: transparent;
 
     & > svg {
       position: absolute;
