@@ -33,12 +33,6 @@
     }
   }
 
-  &[data-visible="true"] {
-    opacity: 1;
-    visibility: visible;
-    z-index: 999;
-  }
-
   @media screen and (max-width: 746px) {
     padding: 0;
     justify-content: flex-end;
@@ -47,6 +41,7 @@
       border-radius: 1.5rem 1.5rem 0rem 0rem;
       transform: translateY(100%);
       overflow: hidden;
+      min-height: 5rem;
 
       & > [data-close] {
         top: 0rem !important;
@@ -62,5 +57,11 @@
         transform: translateY(0);
       }
     }
+  }
+
+  &[data-visible="true"] {
+    opacity: 1;
+    visibility: visible;
+    z-index: 999;
   }
 }
