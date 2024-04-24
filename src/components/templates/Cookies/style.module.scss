@@ -29,8 +29,13 @@
     font-weight: 300;
     line-height: 1.25rem;
 
-    & > span {
+    & > span,
+    & > a {
       font-weight: 500;
+    }
+
+    & > a {
+      text-decoration: underline !important;
     }
   }
 
