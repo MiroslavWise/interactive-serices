@@ -1,5 +1,7 @@
 "use client"
 
+import IconPlus from "@/components/icons/IconPlus"
+
 import { dispatchChangeService } from "@/store"
 
 import styles from "../styles/item-add.module.scss"
@@ -19,7 +21,7 @@ export function ItemCategoryAdd() {
       data-test="alias-button-modal-active-services-from"
     >
       <footer>
-        <img src="/svg/plus-gray.svg" alt="+" width={16} height={16} />
+        <IconPlus />
         <span>Добавить</span>
       </footer>
     </li>
