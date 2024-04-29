@@ -6,7 +6,7 @@ import { ButtonClose } from "@/components/common"
 
 import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
 
-import { useModal, dispatchModalClose, EModalData, dispatchModal } from "@/store"
+import { useModal, dispatchModalClose, EModalData, dispatchModal, useCreateNewCategory, dispatchVisibleCreateNewCategory } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -14,14 +14,20 @@ function Modal() {
   const data = useModal(({ data }) => data)
   const visible = useModal(({ visible }) => visible)
   const ref = useRef<HTMLDivElement>(null)
+  const visibleCreateCategory = useCreateNewCategory(({ visible }) => visible)
 
   const close = useCallback(() => {
     if (data && [EModalData.ChangePassword, EModalData.DeleteUser].includes(data)) {
       dispatchModal(EModalData.UpdateProfile)
+      return
+    } else if (data === EModalData.CreateNewOptionModal && visibleCreateCategory) {
+      dispatchVisibleCreateNewCategory(false)
+      return
     } else {
       dispatchModalClose()
+      return
     }
-  }, [data])
+  }, [data, visibleCreateCategory])
 
   useEffect(() => {
     if (visible) {

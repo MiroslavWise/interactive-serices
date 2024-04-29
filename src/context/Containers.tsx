@@ -33,12 +33,14 @@ import {
   useAddEmail,
   useCheckTheMail,
   useNumberConfirmation,
+  useCreateNewCategory,
 } from "@/store"
 import { useResize } from "@/helpers"
 
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
+const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
 const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
 
@@ -53,6 +55,7 @@ export const Containers = () => {
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
+  const visibleCreateNewCategory = useCreateNewCategory(({ visible }) => visible)
 
   const { isTablet } = useResize()
 
@@ -84,6 +87,7 @@ export const Containers = () => {
           {isTablet && <InitiatedBarterMobile />}
           {visibleCheckTheMail && <CheckTheMail />}
           {visibleReasonBarters && <ReasonBarters />}
+          {visibleCreateNewCategory && <CreateNewCategory />}
           {visibleAddingPhoneNumber && <AddingPhoneNumber />}
           {isTablet && visibleNotifications && <NotificationsMobile />}
         </>
