@@ -3,11 +3,11 @@ import { ISegmentValues } from "@/components/common/Segments/types"
 
 export const SEGMENTS: ISegmentValues<EnumStatusBarter>[] = [
   {
-    label: "Текущие",
+    label: "Текущее",
     value: EnumStatusBarter.EXECUTED,
   },
   {
-    label: "Завершённые",
+    label: "Завершённое",
     value: EnumStatusBarter.COMPLETED,
   },
 ]
