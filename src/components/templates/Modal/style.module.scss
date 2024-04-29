@@ -1,4 +1,8 @@
 .wrapperModal {
+  --padding-top: 2.5rem;
+}
+
+.wrapperModal {
   position: fixed;
   inset: 0;
   width: 100%;
@@ -11,6 +15,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: var(--padding-top);
 
   &::-webkit-scrollbar,
   &::-webkit-scrollbar-thumb {
@@ -35,6 +40,7 @@
 
   @media screen and (max-width: 746px) {
     padding: 0;
+    padding-top: 0;
     justify-content: flex-end;
 
     & > section {

@@ -41,6 +41,18 @@ function Modal() {
   }, [data, visibleCreateCategory, visibleOnboarding])
 
   useEffect(() => {
+    if (ref.current && data) {
+      if ([EModalData.DeleteUser, EModalData.OutAccount, EModalData.DeleteOffer].includes(data)) {
+        ref.current.style.setProperty("--padding-top", "12.5rem")
+      } else if ([EModalData.SuccessNewOptional].includes(data)) {
+        ref.current.style.setProperty("--padding-top", "9.375rem")
+      } else {
+        ref.current.style.setProperty("--padding-top", "2.5rem")
+      }
+    }
+  }, [data])
+
+  useEffect(() => {
     if (visible) {
       const keyDown = (e: KeyboardEvent) => {
         if (e.code == "Escape" || e.keyCode === 27) {

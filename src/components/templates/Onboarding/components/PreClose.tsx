@@ -1,5 +1,6 @@
 import { EnumTypeProvider } from "@/types/enum"
 
+import IconWarn from "@/components/icons/IconWarn"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
@@ -19,40 +20,38 @@ export const PreClose = () => {
     dispatchOnboarding("close")
   }
 
+  const title = new Map([
+    [EnumTypeProvider.offer, "Прервать обучение по созданию Предложения?"],
+    [EnumTypeProvider.alert, "Прервать обучение по созданию SOS-сообщения?"],
+    [EnumTypeProvider.discussion, "Прервать обучение по созданию Обсуждения?  "],
+  ])
+
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
       <section>
         <ButtonClose position={{}} onClick={dispatchOnboardingContinue} />
         <article>
-          {[EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(type! as EnumTypeProvider) ? (
-            <div data-img>
-              <img
-                src={
-                  type === EnumTypeProvider.offer
-                    ? "/svg/3d/3d-speaker.svg"
-                    : type === EnumTypeProvider.alert
-                    ? "/svg/3d/3d-sos.svg"
-                    : type === EnumTypeProvider.discussion
-                    ? "/svg/3d/3d-message.svg"
-                    : ""
-                }
-                alt="pre-close"
-                width={40}
-                height={40}
-              />
+          <div data-img>
+            <img
+              src={
+                type === EnumTypeProvider.offer
+                  ? "/svg/3d/3d-speaker.svg"
+                  : type === EnumTypeProvider.alert
+                  ? "/svg/3d/3d-sos.svg"
+                  : type === EnumTypeProvider.discussion
+                  ? "/svg/3d/3d-message.svg"
+                  : ""
+              }
+              alt="pre-close"
+              width={40}
+              height={40}
+            />
+            <div data-warn>
+              <IconWarn />
             </div>
-          ) : null}
-          <h3>
-            Прервать обучение по созданию{" "}
-            {type === EnumTypeProvider.offer
-              ? " Предложения"
-              : type === EnumTypeProvider.alert
-              ? " SOS-сообщения"
-              : type === EnumTypeProvider.discussion
-              ? "Обсуждения"
-              : null}
-            ?
-          </h3>
+          </div>
+          <h3>{title.has(type as EnumTypeProvider) ? title.get(title as unknown as EnumTypeProvider) : null}</h3>
+          <p>Заполненные поля не сохранятся</p>
         </article>
         <div data-buttons>
           <Button type="button" typeButton="regular-primary" label="Нет, остаться" onClick={handleContinue} />
