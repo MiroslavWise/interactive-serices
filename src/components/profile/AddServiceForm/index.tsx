@@ -34,7 +34,7 @@ export const ChangeService = () => {
   })
 
   useEffect(() => {
-    if (data?.res && data?.res?.categories?.length > 0) {
+    if (data?.res && Array.isArray(data?.res?.categories)) {
       setValue(
         "categories",
         data?.res?.categories?.map((item) => item?.id!),
@@ -70,7 +70,7 @@ export const ChangeService = () => {
   const filter: IMainAndSubCategories[] = useMemo(() => {
     return categoriesMainSub.filter(
       (item) =>
-        item?.main?.title?.toLowerCase()?.includes(watch("search-categories")?.toLowerCase()?.trim()) ||
+        item?.main?.title?.toLowerCase()?.includes(watch("search-categories")?.trim()?.toLowerCase()) ||
         item?.subs?.some((item_) => item_?.title?.toLowerCase()?.includes(watch("search-categories")?.toLowerCase()?.trim())),
     )
   }, [watch("search-categories"), categoriesMainSub])
@@ -141,11 +141,6 @@ export const ChangeService = () => {
                   setValue("search-categories", "")
                 }}
               />
-              <datalist id="search" data-test="search-datalist-change-service">
-                {categories.map((item) => (
-                  <option key={`::category::list::data::${item.id}::`} value={item.title} />
-                ))}
-              </datalist>
             </div>
             <div data-categories-selected={selectedCategories.length > 0} data-test="categories-selected-change-service">
               {selectedCategories.map((item) => (
