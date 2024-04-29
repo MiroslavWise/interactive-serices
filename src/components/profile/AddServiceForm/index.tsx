@@ -13,6 +13,7 @@ import { getUserId, patchUser } from "@/services"
 import { dispatchChangeService, useAuth, useChangeService, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import ItemCategorySearch from "./components/ItemCategorySearch"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)
@@ -42,6 +43,9 @@ export const ChangeService = () => {
     }
   }, [data])
 
+  const idsActive = watch("categories")
+  const isFilter = watch("search-categories")?.trim()?.length > 0
+
   const onSubmit = handleSubmit(submit)
 
   const categoriesMainSub = useMemo(() => {
@@ -67,13 +71,9 @@ export const ChangeService = () => {
     }
   }, [categories])
 
-  const filter: IMainAndSubCategories[] = useMemo(() => {
-    return categoriesMainSub.filter(
-      (item) =>
-        item?.main?.title?.toLowerCase()?.includes(watch("search-categories")?.trim()?.toLowerCase()) ||
-        item?.subs?.some((item_) => item_?.title?.toLowerCase()?.includes(watch("search-categories")?.toLowerCase()?.trim())),
-    )
-  }, [watch("search-categories"), categoriesMainSub])
+  const filter = useMemo(() => {
+    return categories.filter((item) => item?.title?.toLowerCase()?.includes(watch("search-categories")?.trim()?.toLowerCase()))
+  }, [watch("search-categories"), categories])
 
   const selectedCategories = useMemo(() => {
     return categories?.filter((item) => watch("categories")?.includes(item?.id!))
@@ -162,10 +162,14 @@ export const ChangeService = () => {
                 </a>
               ))}
             </div>
-            <section {...register("categories")}>
-              {filter.map((item) => (
-                <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={watch("categories")} />
-              ))}
+            <section {...register("categories")} data-is-filter={isFilter}>
+              {isFilter
+                ? filter.map((item) => (
+                    <ItemCategorySearch key={`::item::filter::map::${item.id}::`} item={item} setValue={setValue} idsActive={idsActive} />
+                  ))
+                : categoriesMainSub.map((item) => (
+                    <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={idsActive} />
+                  ))}
             </section>
             <footer>
               <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} data-test="button-change-service-submit" />
