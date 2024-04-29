@@ -29,6 +29,7 @@ import {
   useAuth,
   useOffersCategories,
   useOnboarding,
+  dispatchVisibleCreateNewCategory,
 } from "@/store"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
 
@@ -212,11 +213,11 @@ export default function CreateNewOptionModal() {
 
   const headerTitle =
     typeAdd === EnumTypeProvider.alert
-      ? "У меня проблема / Хочу предупредить"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Добавить предложение"
+      ? "Новое SOS-сообщение"
       : typeAdd === EnumTypeProvider.discussion
       ? "Новое обсуждение"
+      : typeAdd === EnumTypeProvider.offer
+      ? "Новое предложение"
       : null
 
   const title =
@@ -225,25 +226,25 @@ export default function CreateNewOptionModal() {
       : typeAdd === EnumTypeProvider.discussion
       ? "Придумайте заголовок для вашего обсуждения"
       : typeAdd === EnumTypeProvider.offer
-      ? "Добавьте текст, чтобы сделать ваше предложение более привлекательным и желанным"
+      ? "Описание предложения"
       : null
 
-  const titleAddress =
+  const placeholderDescription =
     typeAdd === EnumTypeProvider.alert
-      ? "Введите адрес места происшествия или нужды в помощи"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Введите адрес, где вам нужна услуга"
+      ? "Опишите, что случилось, упоминая детали, которые посчитаете важными"
       : typeAdd === EnumTypeProvider.discussion
-      ? "Введите адрес, где вы хотели бы обсудить проблемы или предложения"
+      ? "Раскройте более подробно тему обсуждения, добавив детали"
+      : typeAdd === EnumTypeProvider.offer
+      ? "Добавьте описание, чтобы привлечь внимание к вашему предложению"
       : null
 
-  const placeholderInput =
+  const descriptionImages =
     typeAdd === EnumTypeProvider.alert
-      ? "Введите свой адрес, чтобы другие люди из вашего района могли увидеть происшествие"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Введите свой адрес, чтобы мы могли показать ваше предложение на карте. Если вы оказываете услугу он-лайн, оставьте поле пустым"
+      ? "Если у вас есть фото или видео возникшей проблемы, добавьте"
       : typeAdd === EnumTypeProvider.discussion
-      ? "Введите свой адрес, чтобы мы могли показать ваше обсуждение на карте"
+      ? "Фото или видео, раскрывающие суть предложенной темы, точно пригодятся"
+      : typeAdd === EnumTypeProvider.offer
+      ? "Добавьте фотографии и видео, это помогает выделить предложение среди других"
       : null
 
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
@@ -270,14 +271,8 @@ export default function CreateNewOptionModal() {
 
   function handleClose() {
     if (!visible) {
-      requestAnimationFrame(() => {
-        setFiles([])
-        setStrings([])
-        reset()
-        setIsFirst(true)
-        closeCreateOffers()
-        dispatchModalClose()
-      })
+      closeCreateOffers()
+      dispatchModalClose()
     }
   }
 
@@ -291,6 +286,9 @@ export default function CreateNewOptionModal() {
     }
   }, [watch("title"), watch("categoryId"), files, visible])
 
+  const disabledButton =
+    !watch("addressFeature") || !watch("title")?.trim() || (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
+
   return (
     <>
       {isFirst ? (
@@ -303,7 +301,7 @@ export default function CreateNewOptionModal() {
           <ul id="ul-create-option-modal">
             <form onSubmit={onSubmit}>
               <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }}>
-                <label htmlFor="address">{addressInit?.additional ? "По адресу" : titleAddress}</label>
+                <label htmlFor="address">{addressInit?.additional ? "По адресу" : "Ваш адрес"}</label>
                 {addressInit?.additional ? (
                   <p>{addressInit?.additional}</p>
                 ) : (
@@ -318,7 +316,7 @@ export default function CreateNewOptionModal() {
                       type="text"
                       data-error={!!errors.addressFeature}
                       onFocus={() => setIsFocus(true)}
-                      placeholder={placeholderInput || ""}
+                      placeholder="Введите адрес"
                       disabled={visible && step !== 2}
                       data-focus={visible && step === 2}
                       autoComplete="off"
@@ -393,6 +391,20 @@ export default function CreateNewOptionModal() {
                     focus={visible && step === 2.5}
                   />
                   {errors?.categoryId ? <i>Важное поле</i> : null}
+                  {!visible ? (
+                    <button
+                      type="button"
+                      title="Предложить категорию"
+                      aria-label="Предложить категорию"
+                      data-span-new-category
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        dispatchVisibleCreateNewCategory(true)
+                      }}
+                    >
+                      <span>Предложить категорию</span>
+                    </button>
+                  ) : null}
                 </fieldset>
               ) : null}
               {visible && step === 2.5 && <ArticleOnboarding />}
@@ -403,7 +415,7 @@ export default function CreateNewOptionModal() {
                     disabled={visible && step !== 3}
                     maxLength={512}
                     {...register("title", { required: true })}
-                    placeholder="Напиши что-нибудь"
+                    placeholder={placeholderDescription || ""}
                   />
                   <sup>{watch("title")?.length || 0}/512</sup>
                 </div>
@@ -411,7 +423,8 @@ export default function CreateNewOptionModal() {
               </fieldset>
               {visible && step === 3 && <ArticleOnboarding />}
               <fieldset data-photos id="fieldset-create-option-modal-photos" data-disabled={visible && step !== 3}>
-                <label>Вы можете добавить фото, если хотите</label>
+                <label htmlFor="images">Фото или видео</label>
+                <p>{descriptionImages}</p>
                 <div data-images data-focus={visible && step === 4}>
                   {strings.map((item, index) => (
                     <div key={`${index}-image`} data-image>
@@ -430,8 +443,7 @@ export default function CreateNewOptionModal() {
                       </button>
                     </div>
                   ))}
-                  <div data-image>
-                    <img src="/svg/plus-gray.svg" data-plus alt="plus-gray" height={60} width={60} />
+                  <div data-image="new">
                     <input type="file" accept="image/*" onChange={handleImageChange} disabled={visible && step !== 4} multiple />
                   </div>
                 </div>
@@ -443,7 +455,7 @@ export default function CreateNewOptionModal() {
                   type="submit"
                   typeButton="fill-primary"
                   label="Создать"
-                  disabled={loading}
+                  disabled={loading || disabledButton}
                   loading={loading}
                   id="button-create-option-modal-submit"
                   data-test="create-option-modal-submit"

@@ -1,6 +1,6 @@
 .container {
   height: 100%;
-  max-width: 38.25rem;
+  max-width: 35rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,6 +67,24 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
+
+        & > [data-span-new-category] {
+          width: min-content;
+          background-color: transparent;
+          outline: none;
+          border: none;
+          height: 1.25rem;
+
+          & > span {
+            white-space: nowrap;
+            text-align: start;
+            color: var(--text-accent);
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.25rem;
+          }
+        }
 
         & > [data-text-area] {
           position: relative;
@@ -158,6 +176,16 @@
             text-align: start;
           }
 
+          & > p {
+            width: 100%;
+            text-align: start;
+            color: var(--text-disabled);
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.25rem;
+          }
+
           & > [data-images] {
             width: 100%;
             display: grid;
@@ -174,14 +202,37 @@
               width: 100%;
               height: auto;
               border-radius: 1rem;
-              border: 0.125rem dashed var(--grey-stroke-light);
-              background: var(--BG-first);
+              border: 0.0625rem dashed var(--grey-stroke-light);
+              background: var(--BG-second);
               aspect-ratio: 152/196;
               display: flex;
               justify-content: center;
               align-items: center;
               position: relative;
               overflow: hidden;
+
+              &[data-image="new"] {
+                &::after,
+                &::before {
+                  content: "";
+                  z-index: 6;
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  background-color: var(--text-accent);
+                  border-radius: 0.0625rem;
+                }
+
+                &:after {
+                  height: 1.25rem;
+                  width: 0.125rem;
+                }
+                &:before {
+                  width: 1.25rem;
+                  height: 0.125rem;
+                }
+              }
 
               transition: var(--transition);
               transition-property: border;
