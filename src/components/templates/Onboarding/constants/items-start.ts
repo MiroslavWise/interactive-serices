@@ -11,7 +11,7 @@ interface IItemsStart {
 
 export const ITEMS_START: IItemsStart[] = [
   {
-    sub: "Создать первое",
+    sub: "Создать",
     footer: {
       title: "Предложение",
       icon: "/svg/3d/3d-speaker.svg",
@@ -19,7 +19,7 @@ export const ITEMS_START: IItemsStart[] = [
     action: EnumTypeProvider.offer,
   },
   {
-    sub: "Создать первое",
+    sub: "Создать",
     footer: {
       title: "SOS-сообщение",
       icon: "/svg/3d/3d-sos.svg",
@@ -27,7 +27,7 @@ export const ITEMS_START: IItemsStart[] = [
     action: EnumTypeProvider.alert,
   },
   {
-    sub: "Создать первое",
+    sub: "Создать",
     footer: {
       title: "Дискуссию",
       icon: "/svg/3d/3d-message.svg",

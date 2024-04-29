@@ -279,12 +279,12 @@ export default function CreateNewOptionModal() {
   useEffect(() => {
     if (visible) {
       dispatchValidating({
-        isCategoryId: !!watch("categoryId"),
+        isCategoryId: !!watch("categoryId") || !!watch("content")?.trim(),
         isTitle: !!watch("title"),
         isFiles: !!files.length,
       })
     }
-  }, [watch("title"), watch("categoryId"), files, visible])
+  }, [watch("title"), watch("categoryId"), watch("content"), files, visible])
 
   const disabledButton =
     !watch("addressFeature") || !watch("title")?.trim() || (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
@@ -361,10 +361,13 @@ export default function CreateNewOptionModal() {
                 )}
               </fieldset>
               {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
-                <fieldset id="fieldset-create-option-modal-content-title-alert">
+                <fieldset id="fieldset-create-option-modal-offer">
                   <label>
-                    Заголовок{" "}
-                    {EnumTypeProvider.alert === typeAdd! ? "SOS-cообщения" : EnumTypeProvider.discussion === typeAdd! ? "дискуссии" : ""}
+                    {typeAdd === EnumTypeProvider.alert
+                      ? "Название проблемы"
+                      : typeAdd === EnumTypeProvider.discussion
+                      ? "Название обсуждения"
+                      : null}
                   </label>
                   <input
                     {...register("content" /* { required: EnumTypeProvider.alert === typeAdd! } */)}
