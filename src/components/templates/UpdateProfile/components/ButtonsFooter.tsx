@@ -17,6 +17,7 @@ export const ButtonsFooter = ({ disabled, loading }: { disabled: boolean; loadin
       label="Отменить"
       onClick={dispatchModalClose}
       loading={loading}
+      disabled={disabled}
       data-test="modal-update-profile-button-cancel"
     />
   </footer>
