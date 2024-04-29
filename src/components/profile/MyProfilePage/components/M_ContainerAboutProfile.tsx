@@ -64,7 +64,7 @@ export const MContainerAboutProfile = () => {
         <section data-profile>
           <div data-img={!!dataProfile?.res?.image?.attributes?.url!}>
             <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={80} height={80} />
-            {!!dataUser?.res?.profile?.image?.attributes?.url ? (
+            {!!dataProfile?.res?.image?.attributes?.url ? (
               <img data-absolute src="/svg/verified-tick.svg" alt="tick" width={32} height={32} />
             ) : null}
           </div>

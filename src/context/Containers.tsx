@@ -34,6 +34,7 @@ import {
   useCheckTheMail,
   useNumberConfirmation,
   useCreateNewCategory,
+  useChangeService,
 } from "@/store"
 import { useResize } from "@/helpers"
 
@@ -56,6 +57,7 @@ export const Containers = () => {
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
   const visibleCreateNewCategory = useCreateNewCategory(({ visible }) => visible)
+  const visibleChangeService = useChangeService(({ visible }) => visible)
 
   const { isTablet } = useResize()
 
@@ -79,7 +81,7 @@ export const Containers = () => {
       {isAuth && (
         <>
           <Onboarding />
-          <ChangeService />
+          {visibleChangeService && <ChangeService />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
