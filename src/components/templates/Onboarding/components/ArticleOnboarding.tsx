@@ -1,6 +1,6 @@
 "use client"
 
-import { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 
@@ -8,18 +8,29 @@ import { Button } from "@/components/common"
 
 import { useResize } from "@/helpers"
 import { CONTENT_ALERT, CONTENT_DISCUSSION, CONTENT_OFFER } from "../constants/steps"
-import { useOnboarding, dispatchOnboarding, useAddCreateModal, dispatchOnboardingType, useModal, EModalData } from "@/store"
+import { useOnboarding, dispatchOnboarding, dispatchOnboardingType, useModal, EModalData } from "@/store"
 
 import styles from "../styles/article-onboarding.module.scss"
 
 export const ArticleOnboarding = () => {
-  const refPosition = useRef<CSSProperties>({ top: "50%", left: "50%" })
-  const [position, setPosition] = useState<CSSProperties>(refPosition.current)
+  const [position, setPosition] = useState<{ top: string; left: string }>({ top: "50%", left: "50%" })
   const step = useOnboarding(({ step }) => step)
   const type = useOnboarding(({ type }) => type)
   const valid = useOnboarding(({ valid }) => valid)
   const visible = useOnboarding(({ visible }) => visible)
   const dataModal = useModal(({ data }) => data)
+  const refArticle = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (refArticle.current) {
+      if (position.top) {
+        refArticle.current.style.setProperty("--top", position.top as string)
+      }
+      if (position.left) {
+        refArticle.current.style.setProperty("--left", position.left as string)
+      }
+    }
+  }, [position])
 
   const { isTablet } = useResize()
 
@@ -37,12 +48,8 @@ export const ArticleOnboarding = () => {
               const top = id?.getBoundingClientRect().top
 
               if (top && leftContainer) {
-                refPosition.current = {
-                  top: top,
-                  left: `calc(${leftContainer}px - 1.5rem)`,
-                }
                 setPosition({
-                  top: top,
+                  top: `${top}px`,
                   left: `calc(${leftContainer}px - 1.5rem)`,
                 })
               }
@@ -93,31 +100,31 @@ export const ArticleOnboarding = () => {
               if (step === 2) {
                 setPosition((prev) => ({
                   ...prev,
-                  top: topAddressUL,
+                  top: `${topAddressUL}px`,
                 }))
               }
               if (step === 2.5) {
                 setPosition((prev) => ({
                   ...prev,
-                  top: topOfferUL,
+                  top: `${topOfferUL}px`,
                 }))
               }
               if (step === 3) {
                 setPosition((prev) => ({
                   ...prev,
-                  top: topTitleUL,
+                  top: `${topTitleUL}px`,
                 }))
               }
               if (step === 4) {
                 setPosition((prev) => ({
                   ...prev,
-                  top: topPhotosUL,
+                  top: `${topPhotosUL}px`,
                 }))
               }
               if (step === 5) {
                 setPosition((prev) => ({
                   ...prev,
-                  top: topSubmitUL! + heightSubmit!,
+                  top: `${topSubmitUL! + heightSubmit!}px`,
                 }))
               }
             }
@@ -125,16 +132,16 @@ export const ArticleOnboarding = () => {
             setPosition({
               top:
                 step === 2
-                  ? topAddress
+                  ? `${topAddress}px`
                   : step === 2.5
-                  ? topOffer
+                  ? `${topOffer}px`
                   : step === 3
-                  ? topTitle
+                  ? `${topTitle}px`
                   : step === 4
-                  ? topPhotos
+                  ? `${topPhotos}px`
                   : step === 5
-                  ? topSubmit! + heightSubmit!
-                  : 20,
+                  ? `${topSubmit! + heightSubmit!}px`
+                  : `1.25rem`,
               left: `calc(${leftContainer}px - 1.5rem)`,
             })
             if (step === 5) {
@@ -221,16 +228,15 @@ export const ArticleOnboarding = () => {
   return step !== 0 ? (
     <article
       className={styles.container}
-      style={position}
       data-visible={visible && step > 0}
       data-option={step > 1 && step <= 5}
       data-finally={step === 5}
+      ref={refArticle}
     >
       <section data-finally={step === 5}>
         <div data-content>
           <header>
             <h3>
-              {" "}
               {step
                 ? type === EnumTypeProvider.offer
                   ? CONTENT_OFFER?.[step]?.title
