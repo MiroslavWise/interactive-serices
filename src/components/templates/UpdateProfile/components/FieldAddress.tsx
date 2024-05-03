@@ -34,7 +34,7 @@ export const FieldAddress = ({ address, setStateAddress }: IProps) => {
     }
     return (
       values?.response?.GeoObjectCollection?.featureMember?.filter((item) =>
-        item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some((_) => _?.kind === "country"),
+        item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some((_) => _?.kind === "street"),
       ) || null
     )
   }, [values])

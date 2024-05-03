@@ -8,10 +8,10 @@ import { getLocationName } from "@/lib/location-name"
 export async function createAddress(item: IFeatureMember) {
   const additional = item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
   const hash = generateShortHash(additional!)
-  const response = await serviceAddresses.getHash(hash!)
-  if (response.ok) {
-    return response
-  }
+  // const response = await serviceAddresses.getHash(hash!)
+  // if (response.ok) {
+  //   return response
+  // }
   const coordinates = item?.GeoObject?.Point?.pos
   const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
   const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
