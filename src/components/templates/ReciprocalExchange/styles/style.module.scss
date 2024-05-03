@@ -293,15 +293,6 @@
     }
   }
 
-  [data-error] {
-    color: var(--text-error);
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 1.125rem;
-    letter-spacing: -0.01125rem;
-  }
-
   [data-expand] {
     width: min-content;
     display: flex;
@@ -338,6 +329,14 @@
     &[data-is-loading="true"] {
       cursor: progress;
     }
+  }
+
+  i {
+    color: var(--text-error);
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.125rem;
   }
 
   @media screen and (max-width: 760px) {

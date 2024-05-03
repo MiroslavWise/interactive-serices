@@ -204,8 +204,8 @@ export default function CreateNewOptionModal() {
       return null
     }
     return (
-      valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter(
-        (item) => item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components,
+      valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter((item) =>
+        item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "street"),
       ) || null
     )
   }, [valuesAddresses])
