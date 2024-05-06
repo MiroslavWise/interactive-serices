@@ -23,7 +23,7 @@ export const Buttons = () => {
           suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
           style={{ width: "100%" }}
           onClick={() => dispatchModal(EModalData.NewServicesBanner)}
-          data-text="nav-bar-button-create"
+          data-test="nav-bar-button-create"
           id="nav-bar-button-create"
         />
       ) : (
