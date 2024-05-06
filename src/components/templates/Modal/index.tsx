@@ -85,6 +85,7 @@ function Modal() {
       }}
     >
       <section
+        data-test={`modal-section-${data}`}
         className={STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : ""}
         id={ID_MODAL.has(data!) ? ID_MODAL.get(data!) : ""}
         onClick={(event) => {

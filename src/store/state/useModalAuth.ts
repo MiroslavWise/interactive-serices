@@ -91,12 +91,15 @@ export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionA
   }))
 }
 
-export const dispatchStartTimer = () =>
-  useTimerModalAuth.setState((_) => ({
-    time: dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!,
-  }))
+export const dispatchStartTimer = () => {
+  const newTimer = dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!
 
-export const dispatchIntervalTimer = () => useTimerModalAuth.setState((_) => ({}))
+  useTimerModalAuth.setState((_) => ({
+    time: newTimer,
+  }))
+}
+
+export const dispatchIntervalTimer = () => useTimerModalAuth.setState((_) => ({}), true)
 
 export const dispatchAuthModalCurrentUser = ({ user }: { user?: IUserResponse }) => {
   if (!!user) {
