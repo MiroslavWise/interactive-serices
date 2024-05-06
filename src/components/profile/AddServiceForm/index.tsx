@@ -163,13 +163,21 @@ export const ChangeService = () => {
               ))}
             </div>
             <section {...register("categories")} data-is-filter={isFilter}>
-              {isFilter
-                ? filter.map((item) => (
+              {isFilter ? (
+                filter.length ? (
+                  filter.map((item) => (
                     <ItemCategorySearch key={`::item::filter::map::${item.id}::`} item={item} setValue={setValue} idsActive={idsActive} />
                   ))
-                : categoriesMainSub.map((item) => (
-                    <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={idsActive} />
-                  ))}
+                ) : (
+                  <article>
+                    <p>Результатов не найдено</p>
+                  </article>
+                )
+              ) : (
+                categoriesMainSub.map((item) => (
+                  <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={idsActive} />
+                ))
+              )}
             </section>
             <footer>
               <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} data-test="button-change-service-submit" />

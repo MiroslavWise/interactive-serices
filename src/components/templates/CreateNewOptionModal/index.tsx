@@ -297,9 +297,9 @@ export default function CreateNewOptionModal() {
           <h3>{headerTitle}</h3>
         </header>
       ) : null}
-      <ul id="ul-create-option-modal">
-        <form onSubmit={onSubmit}>
-          <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }}>
+      <ul id="ul-create-option-modal" data-test="ul-create-new-option">
+        <form onSubmit={onSubmit} data-test="from-create-new-option">
+          <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }} data-test="fieldset-create-new-option-addressInit">
             <label htmlFor="address">{addressInit?.additional ? "По адресу" : "Ваш адрес"}</label>
             {addressInit?.additional ? (
               <p>{addressInit?.additional}</p>
@@ -360,7 +360,7 @@ export default function CreateNewOptionModal() {
             )}
           </fieldset>
           {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
-            <fieldset id="fieldset-create-option-modal-offer">
+            <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">
               <label>
                 {typeAdd === EnumTypeProvider.alert
                   ? "Название проблемы"
@@ -378,7 +378,11 @@ export default function CreateNewOptionModal() {
           ) : null}
           {visible && step === 2 && <ArticleOnboarding />}
           {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <fieldset {...register("categoryId", { required: true })} id="fieldset-create-option-modal-offer">
+            <fieldset
+              {...register("categoryId", { required: true })}
+              id="fieldset-create-option-modal-offer"
+              data-test="fieldset-create-new-option-categoryId"
+            >
               <label>Предложение</label>
               <CustomSelect
                 disabled={visible && step !== 2.5}
@@ -410,7 +414,7 @@ export default function CreateNewOptionModal() {
             </fieldset>
           ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
-          <fieldset id="fieldset-create-option-modal-title">
+          <fieldset id="fieldset-create-option-modal-title" data-test="fieldset-create-new-option-description">
             <label htmlFor="title">{title}</label>
             <div data-text-area data-focus={visible && step === 3}>
               <textarea
@@ -424,7 +428,12 @@ export default function CreateNewOptionModal() {
             {errors?.title ? <i>Обязательное поле</i> : null}
           </fieldset>
           {visible && step === 3 && <ArticleOnboarding />}
-          <fieldset data-photos id="fieldset-create-option-modal-photos" data-disabled={visible && step !== 3}>
+          <fieldset
+            data-photos
+            id="fieldset-create-option-modal-photos"
+            data-disabled={visible && step !== 3}
+            data-test="fieldset-create-new-option-images"
+          >
             <label htmlFor="images">Фото или видео</label>
             <p>{descriptionImages}</p>
             <div data-images data-focus={visible && step === 4}>
@@ -460,7 +469,7 @@ export default function CreateNewOptionModal() {
               disabled={loading || disabledButton}
               loading={loading}
               id="button-create-option-modal-submit"
-              data-test="create-option-modal-submit"
+              data-test="button-create-new-option-submit"
             />
           </div>
         </form>

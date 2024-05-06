@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation"
 import type { TItemListChat } from "./types/types"
 import { EnumProviderThreads } from "@/types/enum"
 
+import IconRepeat from "@/components/icons/IconRepeat"
 import { NextImageMotion, GeoTagging, BadgeServices } from "@/components/common"
 
 import { getBarterId } from "@/services"
@@ -16,7 +17,7 @@ import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
 
-export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, people, last }) {
+export const ItemListChat: TItemListChat = memo(({ thread, people, last }) => {
   const userId = useAuth(({ userId }) => userId)
   const idThread = useSearchParams().get("thread")
   const { provider } = thread ?? {}
@@ -80,11 +81,13 @@ export const ItemListChat: TItemListChat = memo(function ItemListChat({ thread, 
           </div>
           <div className={styles.nameAndGeo}>
             {provider === EnumProviderThreads.BARTER ? (
-              <div data-title-barter>
-                <BadgeServices {...dataBarter?.res?.initiator!} />
-                <img data-repeat src="/svg/repeat-white.svg" alt="barter" width={18} height={18} />
-                <BadgeServices {...dataBarter?.res?.consigner!} />
-              </div>
+              <h4>
+                <article>
+                  <IconRepeat />
+                </article>
+                &nbsp;
+                {people?.profile?.firstName || " "} {people?.profile?.lastName || " "}
+              </h4>
             ) : [EnumProviderThreads.OFFER_PAY, EnumProviderThreads.PERSONAL].includes(provider!) ? (
               <h4>
                 {people?.profile?.firstName || " "} {people?.profile?.lastName || " "}

@@ -15,7 +15,7 @@ import { getMillisecond, useCountMessagesNotReading, useResize } from "@/helpers
 
 import styles from "./styles/style.module.scss"
 
-export const ListChat = memo(function ListChat() {
+export const ListChat = memo(() => {
   const { isTablet } = useResize()
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState("")

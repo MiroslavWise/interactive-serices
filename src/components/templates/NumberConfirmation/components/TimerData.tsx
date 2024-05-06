@@ -1,8 +1,8 @@
 import { memo, useEffect, useState } from "react"
 
 import { postPhone } from "@/services/phones"
+import { dayFormat, getMillisecond } from "@/helpers"
 import { dispatchStartTimerNumberConfirmation, useNumberConfirmation, useTimerNumberConfirmation } from "@/store"
-import { getMillisecond } from "@/helpers"
 
 const INITIAL_TIME = 120
 
@@ -19,7 +19,10 @@ export const TimerData = memo(() => {
   useEffect(() => {
     if (time) {
       const interval = setInterval(() => {
-        const seconds = INITIAL_TIME - Math.round(getMillisecond(new Date()) / 1000 - getMillisecond(time) / 1000)
+        const intSecondNow = getMillisecond(dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!) / 1000
+        const intSecondOld = getMillisecond(time) / 1000
+
+        const seconds = INITIAL_TIME - Math.round(intSecondNow - intSecondOld)
         if (seconds > 0) {
           const minutes = Math.floor(seconds / 60)
           const second = Math.floor(seconds - minutes * 60)

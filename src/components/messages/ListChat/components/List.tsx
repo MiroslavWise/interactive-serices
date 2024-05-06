@@ -15,7 +15,7 @@ import { useCountMessagesNotReading, useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const List: TList = memo(function List({ items, search, setTotal, loadUser }) {
+export const List: TList = memo(({ items, search, setTotal, loadUser }) => {
   const { isTablet } = useResize()
   const [state, setState] = useState<IFiltersItems[]>([])
   const { isLoading } = useCountMessagesNotReading()

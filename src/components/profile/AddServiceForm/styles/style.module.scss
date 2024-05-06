@@ -318,6 +318,23 @@
           }
         }
       }
+
+      & > article {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding-inline: 1.25rem;
+
+        & > p {
+          color: var(--text-primary);
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.5rem;
+        }
+      }
     }
 
     & > a {
