@@ -1,5 +1,5 @@
 export default () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" data-svg-icon-repeat>
     <path
       d="M16.0833 3.58398H6.91667C3.82227 3.58398 1.5 5.82151 1.5 9.00065"
       stroke="var(--element-grey-light)"
