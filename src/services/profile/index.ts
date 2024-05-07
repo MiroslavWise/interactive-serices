@@ -6,7 +6,7 @@ const url = "/profile"
 
 export const serviceProfile: IServiceProfile = {
   get: (query) => wrapperGet({ url, query }),
-  getUserId: (id) => wrapperGetId({ url: `${url}/user`, id }),
+  getUserId: (id) => wrapperGetId({ url: url, id }),
   post: (body) => wrapperPost({ url, body }),
   patch: (body, id) => wrapperPatch({ url, body, id }),
   delete: (id) => wrapperDelete({ url, id }),
