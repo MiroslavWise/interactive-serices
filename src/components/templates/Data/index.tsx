@@ -3,8 +3,8 @@ import dynamic from "next/dynamic"
 
 import { Load } from "@/components/common"
 
+import NewServicesBanner from "../NewServicesBanner"
 const CreateNewOptionModal = dynamic(() => import("../CreateNewOptionModal"), { ssr: false, loading: Load })
-const NewServicesBanner = dynamic(() => import("../NewServicesBanner"), { ssr: false, loading: Load })
 const CompletionTransaction = dynamic(() => import("../CompletionTransaction"), { ssr: false, loading: Load })
 const ComplaintModal = dynamic(() => import("../ComplaintModal"), { ssr: false, loading: Load })
 const UpdateProfile = dynamic(() => import("../UpdateProfile"), { ssr: false, loading: Load })
