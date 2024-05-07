@@ -36,23 +36,20 @@ export const ArticleOnboarding = () => {
 
   useEffect(() => {
     if (visible) {
-      if (!!type && step > 0) {
+      if (!!type && step === 1) {
         if (dataModal === EModalData.NewServicesBanner) {
           const idContainer = document.getElementById("container-services-banner")
           const leftContainer = idContainer?.getBoundingClientRect().left
+          const id = document.getElementById(`li-${type}-create`)
 
-          if (step === 1) {
-            const id = document.getElementById(`li-${type}-create`)
+          if (id) {
+            const top = id?.getBoundingClientRect().top
 
-            if (id) {
-              const top = id?.getBoundingClientRect().top
-
-              if (top && leftContainer) {
-                setPosition({
-                  top: `${top}px`,
-                  left: `calc(${leftContainer}px - 1.5rem)`,
-                })
-              }
+            if (top && leftContainer) {
+              setPosition({
+                top: `${top}px`,
+                left: `calc(${leftContainer}px - 1.5rem)`,
+              })
             }
           }
         }
