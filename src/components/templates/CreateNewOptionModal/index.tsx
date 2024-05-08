@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { IFormValues } from "./types/types"
@@ -34,6 +34,7 @@ import {
   EModalData,
 } from "@/store"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 export default function CreateNewOptionModal() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -267,10 +268,13 @@ export default function CreateNewOptionModal() {
     }
   }
 
-  function deletePhoto(index: number) {
-    setFiles((prev) => prev.filter((_, i) => index !== i))
-    setStrings((prev) => prev.filter((_, i) => index !== i))
-  }
+  const deletePhoto = useCallback(
+    (index: number) => {
+      setFiles((prev) => prev.filter((_, i) => index !== i))
+      setStrings((prev) => prev.filter((_, i) => index !== i))
+    },
+    [files, strings],
+  )
 
   function handleClose() {
     if (!visible) {
@@ -446,13 +450,10 @@ export default function CreateNewOptionModal() {
                     type="button"
                     data-trash
                     onClick={() => {
-                      if (visible && step !== 4) {
-                        deletePhoto(index)
-                      }
+                      deletePhoto(index)
                     }}
-                    disabled={visible && step !== 4}
                   >
-                    <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
+                    <IconTrashBlack />
                   </button>
                 </div>
               ))}
