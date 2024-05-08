@@ -1,4 +1,3 @@
-import { IUserResponse } from "@/services/users/types"
 import { IResponseOffers } from "@/services/offers/types"
 
 import { PopupShared } from "./Popup"
@@ -8,7 +7,7 @@ import { useOutsideClickEvent } from "@/helpers"
 
 import styles from "../styles/shared-popup.module.scss"
 
-export default function SharedPopupButton({ offer, user }: { offer: IResponseOffers; user: IUserResponse }) {
+export default function SharedPopupButton({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
 
   return (
@@ -22,7 +21,7 @@ export default function SharedPopupButton({ offer, user }: { offer: IResponseOff
       }}
     >
       <IconDotsHorizontal />
-      <PopupShared offer={offer} visible={visible} user={user} setVisible={setVisible} />
+      <PopupShared offer={offer} visible={visible} setVisible={setVisible} />
     </button>
   )
 }

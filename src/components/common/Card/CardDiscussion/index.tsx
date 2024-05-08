@@ -6,7 +6,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
-import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
+import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 

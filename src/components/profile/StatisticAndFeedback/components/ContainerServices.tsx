@@ -9,7 +9,8 @@ import Masonry from "react-responsive-masonry"
 import { EnumTypeProvider } from "@/types/enum"
 import type { TContainerServices } from "./types/types"
 
-import { GeneralItem, ServiceLoading } from "@/components/common"
+import { ServiceLoading } from "@/components/common"
+import CardBallon from "@/components/common/Card/CardBallon"
 
 import { useResize } from "@/helpers"
 import { getUserIdOffers } from "@/services"
@@ -37,13 +38,13 @@ export const ContainerServices: TContainerServices = ({}) => {
       ) : isTablet ? (
         <ul className={styles.containerRequestsAndProposals}>
           {list?.map((item) => (
-            <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
+            <CardBallon key={`::offer::general::${item.id}::`} offer={item} />
           ))}
         </ul>
       ) : (
         <Masonry gutter="16px" columnsCount={2}>
           {list?.map((item) => (
-            <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
+            <CardBallon key={`::offer::general::${item.id}::`} offer={item} />
           ))}
         </Masonry>
       )}

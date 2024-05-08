@@ -1,6 +1,7 @@
 "use client"
 
-import { GeneralItem, ButtonClose } from "@/components/common"
+import { ButtonClose, ServiceLoading } from "@/components/common"
+import CardBallon from "@/components/common/Card/CardBallon"
 
 import { cx } from "@/lib/cx"
 import { dispatchHasBalloon, useHasBalloons } from "@/store/hooks"
@@ -25,9 +26,7 @@ export const HasClustererBalloons = () => {
         </header>
         <div data-container>
           <ul>
-            {offers && offers?.length > 0
-              ? offers.map((item) => <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />)
-              : null}
+            {offers && offers?.length > 0 ? offers.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />) : null}
           </ul>
         </div>
       </section>

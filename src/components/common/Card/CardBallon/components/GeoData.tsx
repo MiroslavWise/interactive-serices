@@ -6,7 +6,7 @@ import { IResponseOffers } from "@/services/offers/types"
 
 import styles from "../styles/geo-data.module.scss"
 
-export const GeoData = memo(({ offer }: { offer: IResponseOffers }) => {
+function GeoData({ offer }: { offer: IResponseOffers }) {
   const geo = useMemo(() => {
     if (!offer?.addresses?.length) return null
 
@@ -33,4 +33,7 @@ export const GeoData = memo(({ offer }: { offer: IResponseOffers }) => {
       <span>{geo}</span>
     </footer>
   ) : null
-})
+}
+
+GeoData.displayName = "GeoData"
+export default memo(GeoData)

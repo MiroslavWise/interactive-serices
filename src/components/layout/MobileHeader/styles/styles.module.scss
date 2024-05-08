@@ -13,6 +13,13 @@
   padding-block: 0.625rem;
   display: none;
 
+  transition: var(--transition);
+  transition-property: transform;
+
+  &[data-not="true"] {
+    transform: translateY(-100%);
+  }
+
   @media screen and (max-width: 760px) {
     display: flex;
   }

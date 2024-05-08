@@ -14,24 +14,23 @@ import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
 
 export const PopupShared = ({
   offer,
-  user,
   visible,
   setVisible,
 }: {
   offer: IResponseOffers
   visible: boolean
-  user: IUserResponse
   setVisible: Dispatch<SetStateAction<boolean>>
 }) => {
+  const { user } = offer ?? {}
   const [state, setState] = useState(true)
   const { onSimpleMessage } = useToast()
 
   function handle() {
     if (user) {
-      dispatchComplaintModalUser({
-        user: user,
-      })
-      dispatchModal(EModalData.ComplaintModal)
+      // dispatchComplaintModalUser({
+      //   user: user,
+      // })
+      // dispatchModal(EModalData.ComplaintModal)
       return
     }
   }

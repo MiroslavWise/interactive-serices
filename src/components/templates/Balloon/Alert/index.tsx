@@ -5,11 +5,11 @@ import { useEffect } from "react"
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
-import { ItemImages } from "../Offer/components/ItemImages"
+import ItemImages from "../Offer/components/ItemImages"
 import { BlockComments } from "../components/BlockComments"
 import { ProfileComponent } from "../components/ProfileComponent"
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
-import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
+import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { dispatchBallonAlert, useBalloonAlert } from "@/store"
 

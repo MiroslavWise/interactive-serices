@@ -5,10 +5,10 @@ import { useEffect } from "react"
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
-import { ItemImages } from "../Offer/components/ItemImages"
+import ItemImages from "../Offer/components/ItemImages"
 import { ProfileComponent } from "../components/ProfileComponent"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
-import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
+import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { BlockAction } from "./components/BlockAction"
 import { BlockComments } from "../components/BlockComments"

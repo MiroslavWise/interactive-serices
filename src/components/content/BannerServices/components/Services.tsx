@@ -1,10 +1,11 @@
 "use client"
 
-import { memo, useMemo } from "react"
+import { memo, Suspense, useMemo } from "react"
 
 import type { TServicesFC } from "../types/types"
 
-import { ServiceLoading, GeneralItem } from "@/components/common"
+import { ServiceLoading } from "@/components/common"
+import CardBallon from "@/components/common/Card/CardBallon"
 
 import { cx } from "@/lib/cx"
 import { EnumTimesFilter } from "../constants"
@@ -75,9 +76,11 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
 
   return (
     <ul className={cx(styles.services)}>
-      {isLoading
-        ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-        : items.map((item) => <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />)}
+      <Suspense fallback={false}>
+        {isLoading
+          ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
+          : items.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />)}
+      </Suspense>
     </ul>
   )
 })

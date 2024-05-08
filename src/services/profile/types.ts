@@ -1,5 +1,6 @@
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IPromiseReturn } from "@/services/types/general"
+import { TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 
 export interface IPostProfileData {
   username?: string
@@ -10,10 +11,11 @@ export interface IPostProfileData {
   enabled?: boolean
   userId?: string | number //post
   imageId?: number | null
-  gender?: "f" | "m"
+  gender?: TGenderForm
 }
 
 export type IPatchProfileData = Partial<IPostProfileData>
+
 export interface IGetProfileIdResponse {
   id: number
   userId: number
@@ -23,7 +25,7 @@ export interface IGetProfileIdResponse {
   birthdate: Date
   about: string
   enabled: boolean
-  gender?: "f" | "m"
+  gender?: TGenderForm
   created: Date
   updated: Date
   image: IImageData

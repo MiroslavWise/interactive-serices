@@ -2,11 +2,13 @@
 
 import { memo, useMemo } from "react"
 
-import { GeneralItem, ServiceLoading } from "@/components/common"
+import { ServiceLoading } from "@/components/common"
+import CardBallon from "@/components/common/Card/CardBallon"
+// const CardBallon = dynamic(() => import("@/components/common/Card/CardBallon"), { ssr: false, loading: ServiceLoading })
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
-import { useBounds, useFiltersServices, useOffersCategories } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
+import { useBounds, useFiltersServices, useOffersCategories } from "@/store"
 
 export const ServicesMobile = memo(({ input }: { input: string }) => {
   const { itemsOffers, isLoading } = useMapOffers()
@@ -94,7 +96,7 @@ export const ServicesMobile = memo(({ input }: { input: string }) => {
     <ul>
       {isLoading
         ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-        : filterItems.map((item) => <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />)}
+        : filterItems.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />)}
     </ul>
   )
 })

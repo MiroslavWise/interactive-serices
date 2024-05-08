@@ -13,4 +13,4 @@ export const serviceProfile: IServiceProfile = {
 }
 
 export const patchProfile: IServiceProfile["patch"] = (body, id) => wrapperPatch({ url, body, id })
-export const getProfileUserId: IServiceProfile["getUserId"] = (id) => wrapperGetId({ url: `${url}`, id })
+export const getProfileUserId: IServiceProfile["getUserId"] = (id) => wrapperGetId({ url: url, id })

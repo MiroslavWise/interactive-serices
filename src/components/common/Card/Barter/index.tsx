@@ -77,8 +77,8 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
   )
 
   function handle(offer: ISmallDataOfferBarter) {
-    dispatchBallonOffer({ offer: offer! as IResponseOffers })
-    dispatchModal(EModalData.BalloonOffer)
+    // dispatchBallonOffer({ offer: offer! as IResponseOffers })
+    // dispatchModal(EModalData.BalloonOffer)
   }
 
   return (

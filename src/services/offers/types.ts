@@ -1,8 +1,8 @@
 import type { IPromiseReturn, TOrder } from "../types/general"
 import type { IImageData } from "@/store/types/useAuthState"
-import type { IGetProfileIdResponse } from "../profile/types"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumTypeProvider } from "@/types/enum"
+import { TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 
 export interface IResponseCreate {
   id: number
@@ -31,6 +31,17 @@ export interface IPostOffers {
 
 export type IPatchOffers = Partial<IPostOffers> & { categories?: number[] }
 
+export interface IUserOffer {
+  about: string | null
+  birthdate: string | null
+  firstName: string
+  gender: TGenderForm
+  id: number
+  lastName: string
+  username: string
+  image?: IImageData
+}
+
 export interface IResponseOffers {
   id: number
   parentId?: number
@@ -43,10 +54,11 @@ export interface IResponseOffers {
   imageId?: number | null
   featuredId?: number
   bannerId?: number | null
-  userId?: number
+  userId: number
   categories: number[]
   addresses: IAddressesResponse[]
   images: IImageData[]
+  user: IUserOffer
   updated: Date | string
   created: Date | string
 }

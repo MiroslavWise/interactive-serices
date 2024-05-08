@@ -1,5 +1,7 @@
 "use client"
 
+import { memo } from "react"
+
 import { IResponseOffers } from "@/services/offers/types"
 import { ITEMS_LINK } from "@/components/common/maps/CopyLinks"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
@@ -7,7 +9,7 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { useToast } from "@/helpers/hooks/useToast"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 
-export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
+function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const { onSimpleMessage } = useToast()
 
@@ -39,23 +41,11 @@ export const HeaderTimeDots = ({ offer }: { offer: IResponseOffers }) => {
               <span>{item.label}</span>
             </a>
           ))}
-          {/* {ITEMS_LINK({ ...objCopy }).map((item) => (
-            <a
-              key={`::key::copy::${item.label}::`}
-              onClick={(event) => {
-                event.stopPropagation()
-                if (item.linkCopy) {
-                  item.linkCopy()
-                }
-                setVisible(false)
-              }}
-            >
-              <div data-icon>{item.icon}</div>
-              <span>{item.label}</span>
-            </a>
-          ))} */}
         </article>
       </div>
     </div>
   )
 }
+
+HeaderTimeDots.displayName = "HeaderTimeDots"
+export default memo(HeaderTimeDots)
