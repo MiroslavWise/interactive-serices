@@ -1,19 +1,16 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
-import type { IPostProfileData } from "@/services/profile/types"
+import { FormChangeAbout } from "./FormChangeAbout"
 
 import { BadgesColors } from "./BadgesColors"
 
 import { useAuth } from "@/store"
-import { useOut } from "@/helpers/hooks/useOut"
-import { getProfileUserId, patchProfile } from "@/services"
+import { getProfileUserId } from "@/services"
 
 import styles from "./styles/about-me.module.scss"
-import { useForm } from "react-hook-form"
-import { FormChangeAbout } from "./FormChangeAbout"
 
 const Edit = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">

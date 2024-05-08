@@ -293,6 +293,12 @@
               }
             }
           }
+
+          & > i {
+            width: 100%;
+            text-align: start;
+            color: var(--text-disabled);
+          }
         }
       }
 

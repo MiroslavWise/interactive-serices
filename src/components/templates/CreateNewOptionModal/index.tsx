@@ -257,12 +257,14 @@ export default function CreateNewOptionModal() {
     if (file && file?.length > 0) {
       for (let i = 0; i < file.length; i++) {
         if (file[i]) {
-          const reader = new FileReader()
-          reader.onloadend = () => {
-            setStrings((prev) => [...prev, reader.result as string])
+          if (file[i].size < 9.9 * 1024 * 1024) {
+            const reader = new FileReader()
+            reader.onloadend = () => {
+              setStrings((prev) => [...prev, reader.result as string])
+            }
+            reader.readAsDataURL(file[i])
+            setFiles((prev) => [...prev, file[i]])
           }
-          reader.readAsDataURL(file[i])
-          setFiles((prev) => [...prev, file[i]])
         }
       }
     }
@@ -461,6 +463,7 @@ export default function CreateNewOptionModal() {
                 <input type="file" accept="image/*" onChange={handleImageChange} disabled={visible && step !== 4} multiple />
               </div>
             </div>
+            <i>Максимальный размер фото - 10 МБ</i>
           </fieldset>
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
           {typeAdd === "offer" ? <WalletPay /> : null}
