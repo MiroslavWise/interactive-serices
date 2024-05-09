@@ -11,9 +11,9 @@ import { LoadingProfile } from "@/components/common"
 export const ListCommentaries = memo(({ expand, currentComments = [], setExpand, currentOffersThreadId }: IProps) => {
   const refList = useRef<HTMLDivElement>(null)
 
-  const { data, isLoading } = useQuery({
-    queryFn: () => serviceComments.get({ offer: currentOffersThreadId!, limit: 2 }),
-    queryKey: ["comments", { offerId: currentOffersThreadId, limit: 2 }],
+  const { data: dataComments, isLoading } = useQuery({
+    queryFn: () => serviceComments.get({ offer: currentOffersThreadId }),
+    queryKey: ["comments", `offer=${currentOffersThreadId}`],
     enabled: !!currentOffersThreadId,
     refetchOnMount: true,
   })
@@ -30,12 +30,12 @@ export const ListCommentaries = memo(({ expand, currentComments = [], setExpand,
   }, [currentComments, expand])
 
   const firstComment = useMemo(() => {
-    if (!data?.res || data?.res?.length === 0) return null
+    if (!dataComments?.res || dataComments?.res?.length === 0) return null
 
-    return data?.res[0]
-  }, [data?.res])
+    return dataComments?.res[0]
+  }, [dataComments?.res])
 
-  const length = data?.meta?.total || 0
+  const length = dataComments?.meta?.total || 0
 
   return (
     <div data-list ref={refList} data-test="balloon-list-commentaries">
