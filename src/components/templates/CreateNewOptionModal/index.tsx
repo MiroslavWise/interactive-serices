@@ -1,8 +1,8 @@
 "use client"
 
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { IFormValues } from "./types/types"
@@ -80,11 +80,11 @@ const descriptionImages = (value: EnumTypeProvider) =>
     ? "Добавьте фотографии и видео, это помогает выделить предложение среди других"
     : null
 
+const sleep = () => new Promise((r) => setTimeout(r, 50))
+
 export default function CreateNewOptionModal() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
   const [loading, setLoading] = useState(false)
-  const [files, setFiles] = useState<File[]>([])
-  const [strings, setStrings] = useState<string[]>([])
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
@@ -118,6 +118,7 @@ export default function CreateNewOptionModal() {
     reset,
     watch,
     register,
+    control,
     handleSubmit,
     setValue,
     formState: { errors },
@@ -126,6 +127,10 @@ export default function CreateNewOptionModal() {
       categoryId: null,
       title: "",
       address: addressInit ? true : "",
+      file: {
+        file: [],
+        string: [],
+      },
     },
   })
 
@@ -135,7 +140,7 @@ export default function CreateNewOptionModal() {
         if (response.res) {
           const id = response.res?.id
           Promise.all(
-            files.map((item) =>
+            watch("file.file").map((item) =>
               fileUploadService(item!, {
                 type: typeAdd!,
                 userId: userId!,
@@ -259,32 +264,57 @@ export default function CreateNewOptionModal() {
 
   const onSubmit = handleSubmit(submit)
 
-  function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files
+  async function handleImageChange(
+    current: {
+      file: File[]
+      string: string[]
+    },
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    const files = event.target.files
 
-    if (file && file?.length > 0) {
-      for (let i = 0; i < file.length; i++) {
-        if (file[i]) {
-          if (file[i].size < 9.9 * 1024 * 1024) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-              setStrings((prev) => [...prev, reader.result as string])
+    let filesReady = {
+      file: [...current.file] as File[],
+      string: [...current.string] as string[],
+    }
+
+    if (files && files?.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+
+        if (file) {
+          if (file.size < 9.9 * 1024 * 1024) {
+            const is = current.file.some((_) => _.size === file.size && _.name === file.name)
+
+            if (is) {
+              continue
             }
-            reader.readAsDataURL(file[i])
-            setFiles((prev) => [...prev, file[i]])
+
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = function (f) {
+              filesReady = {
+                ...filesReady,
+                file: [...filesReady.file, file],
+                string: [...filesReady.string, f!.target!.result as string],
+              }
+            }
           }
         }
       }
     }
+
+    await sleep()
+
+    return Promise.resolve(filesReady)
   }
 
-  const deletePhoto = useCallback(
-    (index: number) => {
-      setFiles((prev) => prev.filter((_, i) => index !== i))
-      setStrings((prev) => prev.filter((_, i) => index !== i))
-    },
-    [files, strings],
-  )
+  function deletePhoto(values: { file: File[]; string: string[] }, index: number) {
+    return {
+      file: values.file.filter((_, i) => index !== i),
+      string: values.string.filter((_, i) => index !== i),
+    }
+  }
 
   function handleClose() {
     if (!visible) {
@@ -298,10 +328,10 @@ export default function CreateNewOptionModal() {
       dispatchValidating({
         isCategoryId: !!watch("categoryId") || !!watch("content")?.trim(),
         isTitle: !!watch("title"),
-        isFiles: !!files.length,
+        isFiles: !!watch("file.file").length,
       })
     }
-  }, [watch("title"), watch("categoryId"), watch("content"), files, visible])
+  }, [watch("title"), watch("categoryId"), watch("content"), watch("file.file"), visible])
 
   const disabledButton =
     !watch("addressFeature") || !watch("title")?.trim() || (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
@@ -433,35 +463,54 @@ export default function CreateNewOptionModal() {
             {errors?.title ? <i>Обязательное поле</i> : null}
           </fieldset>
           {visible && step === 3 && <ArticleOnboarding />}
-          <fieldset
-            data-photos
-            id="fieldset-create-option-modal-photos"
-            data-disabled={visible && step !== 3}
-            data-test="fieldset-create-new-option-images"
-          >
-            <label htmlFor="images">Фото или видео</label>
-            <p>{descriptionImages(typeAdd!)}</p>
-            <div data-images data-focus={visible && step === 4}>
-              {strings.map((item, index) => (
-                <div key={`${index}-image`} data-image>
-                  <ImageStatic data-img src={item} alt="offer" width={304} height={392} />
-                  <button
-                    type="button"
-                    data-trash
-                    onClick={() => {
-                      deletePhoto(index)
-                    }}
-                  >
-                    <IconTrashBlack />
-                  </button>
+          <Controller
+            name="file"
+            control={control}
+            render={({ field }) => (
+              <fieldset
+                data-photos
+                id="fieldset-create-option-modal-photos"
+                data-disabled={visible && step !== 3}
+                data-test="fieldset-create-new-option-images"
+              >
+                <label htmlFor={field.name}>Фото или видео</label>
+                <p>{descriptionImages(typeAdd!)}</p>
+                <div data-images data-focus={visible && step === 4}>
+                  {field.value.string.map((item, index) => {
+                    return (
+                      <div key={`${index}-image`} data-image>
+                        <ImageStatic data-img src={item! as string} alt="offer" width={304} height={392} />
+                        <button
+                          type="button"
+                          data-trash
+                          onClick={() => {
+                            const deleteData = deletePhoto(field.value, index)
+                            field.onChange(deleteData)
+                          }}
+                        >
+                          <IconTrashBlack />
+                        </button>
+                      </div>
+                    )
+                  })}
+                  <div data-image="new">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (event) => {
+                        const dataValues = await handleImageChange(field.value, event)
+                        field.onChange(dataValues)
+                        event.target.value = ""
+                      }}
+                      disabled={visible && step !== 4}
+                      multiple
+                    />
+                  </div>
                 </div>
-              ))}
-              <div data-image="new">
-                <input type="file" accept="image/*" onChange={handleImageChange} disabled={visible && step !== 4} multiple />
-              </div>
-            </div>
-            <i>Максимальный размер фото - 10 МБ</i>
-          </fieldset>
+                <i>Максимальный размер фото - 10 МБ</i>
+              </fieldset>
+            )}
+          />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
           {typeAdd === "offer" ? <WalletPay /> : null}
           <div data-footer>
