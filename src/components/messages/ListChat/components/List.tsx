@@ -6,10 +6,7 @@ import { memo, useEffect, useState } from "react"
 import type { IFiltersItems, TList } from "./types/types"
 
 import { ThreadLoading } from "@/components/common"
-const ItemListChat = dynamic(() => import("./ItemListChat").then((res) => res.ItemListChat), {
-  ssr: false,
-  loading: () => <ThreadLoading key={`load-l`} />,
-})
+import ItemListChat from "./ItemListChat"
 
 import { useCountMessagesNotReading, useResize } from "@/helpers"
 
