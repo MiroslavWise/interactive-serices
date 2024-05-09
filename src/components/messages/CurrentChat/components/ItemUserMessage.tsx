@@ -10,8 +10,8 @@ import { ImageStatic, NextImageMotion } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { useResize } from "@/helpers"
 import { dispatchPhotoCarousel } from "@/store"
-import { timeNowOrBeforeChat, timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
 import { stylesBlockRight } from "@/lib/styles-block-message"
+import { timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
 

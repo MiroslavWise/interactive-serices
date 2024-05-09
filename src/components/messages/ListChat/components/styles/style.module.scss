@@ -154,6 +154,14 @@
           filter: invert(1);
         }
 
+        & > span {
+          color: var(--BG-filter);
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 1.25rem;
+        }
+
         h4 {
           display: inline-flex;
           flex-direction: row;

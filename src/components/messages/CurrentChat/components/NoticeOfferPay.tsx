@@ -13,8 +13,9 @@ import { daysAgo, usePush } from "@/helpers"
 import { dispatchBallonOffer, dispatchMapCoordinates, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/notice-offer-pay.module.scss"
+import { IUserOffer } from "@/services/offers/types"
 
-export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; userData: IUserResponse }) => {
+export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; userData: IUserOffer }) => {
   const userId = useAuth(({ userId }) => userId)
   const categories = useOffersCategories(({ categories }) => categories)
   const { handlePush } = usePush()
@@ -57,8 +58,8 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
         <p>
           {userId === resOffer?.userId ? (
             <>
-              {userData?.profile?.firstName || ""} заинтересована в покупке вашей услуги{" "}
-              <span onClick={handleDetailOffer}>{category?.title}</span>. Договоритесь о цене и условиях покупки в чате
+              {userData?.firstName || ""} заинтересована в покупке вашей услуги <span onClick={handleDetailOffer}>{category?.title}</span>.
+              Договоритесь о цене и условиях покупки в чате
             </>
           ) : (
             <>

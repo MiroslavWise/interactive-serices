@@ -4,10 +4,9 @@ import type { IResponseThreads } from "@/services/threads/types"
 import type { IUserResponse } from "@/services/users/types"
 
 interface IList {
-  items: IFiltersItems[]
+  items: IResponseThreads[]
   search: string
   setTotal: Dispatch<SetStateAction<number>>
-  loadUser: boolean
 }
 
 interface IItemListChat extends IFiltersItems {
@@ -23,7 +22,6 @@ interface ISegmentChatMobile {}
 
 export interface IFiltersItems {
   thread: IResponseThreads
-  people: IUserResponse
 }
 
 export type TList = FC<IList>
