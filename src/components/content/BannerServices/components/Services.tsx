@@ -75,7 +75,7 @@ export const ServicesComponent: TServicesFC = memo(function $ServicesComponent()
   }, [itemsOffers, bounds, timesFilter])
 
   return (
-    <ul className={cx(styles.services)}>
+    <ul className={cx(styles.services)} data-test="ul-services-component">
       <Suspense fallback={false}>
         {isLoading
           ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)

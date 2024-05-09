@@ -86,6 +86,7 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
             }
           }
         }}
+        data-test="input-search-element-map"
       />
       <button
         data-circle
@@ -95,12 +96,13 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
             handleAddressLocation()
           }
         }}
+        data-test="button-search-element-map-handle-address-location"
       >
         <img data-loading-image={loading} src={loading ? "/svg/spinner.svg" : "/svg/mark.svg"} alt="mark" width={20} height={20} />
       </button>
-      <section data-active={activeIsList}>
+      <section data-active={activeIsList} data-test="section-search-element-map">
         {values?.length > 0 ? (
-          <ul>
+          <ul data-test="section-ul-search-element-map">
             {values?.map((item) => (
               <a
                 key={`::key::map::address::${item?.GeoObject?.uri}::`}

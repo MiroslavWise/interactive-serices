@@ -55,10 +55,10 @@ function BannerServices() {
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
   return !isTablet ? (
-    <div className={styles.container} data-collapse={visible}>
+    <div className={styles.container} data-collapse={visible} data-test="banner-services">
       <header />
-      <ul ref={parentRef}>
-        <section>
+      <ul ref={parentRef} data-test="ul-banner-services">
+        <section data-test="ul-section-banner-services">
           <div data-filters-services>
             {SERVICES.map((item) => (
               <a
@@ -68,6 +68,7 @@ function BannerServices() {
                   event.stopPropagation()
                   handleProvider(item.value)
                 }}
+                data-test={`services-a-banner-services-${item.value}`}
               >
                 <span>{item.label}</span>
               </a>
@@ -82,15 +83,16 @@ function BannerServices() {
                   event.stopPropagation()
                   handleTimeFilter(item.value)
                 }}
+                data-test={`times-a-banner-services-${item.value}`}
               >
                 <span>{item.label}</span>
               </a>
             ))}
           </div>
           {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
-            <div data-filters-category>
+            <div data-filters-category data-test="filters-category-banner-services">
               {activeFilters.map((item) => (
-                <a key={`::key::item::filter::category::${item}::`}>
+                <a key={`::key::item::filter::category::${item}::`} data-test={`a-filters-category-banner-service-${item}`}>
                   <div data-icon>
                     <ImageCategory id={item} />
                   </div>
@@ -109,7 +111,7 @@ function BannerServices() {
             </div>
           ) : null}
         </section>
-        <div data-container>
+        <div data-container data-test="ul-section-container-banner-services">
           <ServicesComponent setTotal={setTotal} />
         </div>
       </ul>
@@ -125,7 +127,7 @@ export const SearchAndFilters = () => {
   const value = useSearchFilters(({ value }) => value)
 
   return (
-    <div className={styles.containerSearchAndFilters} data-collapse={visible}>
+    <div className={styles.containerSearchAndFilters} data-collapse={visible} data-test="search-and-filters">
       <div data-search>
         <span data-icon-search>
           <IconSearch />
@@ -139,6 +141,7 @@ export const SearchAndFilters = () => {
             event.stopPropagation()
             dispatchVisibleSearchFilters(true)
           }}
+          data-test="input-search-and-filters"
         />
         {!!value ? (
           <button
@@ -148,6 +151,7 @@ export const SearchAndFilters = () => {
               event.stopPropagation()
               dispatchValueSearchFilters("", null)
             }}
+            data-test="button-search-and-filters-on-clear"
           >
             <IconXClose />
           </button>
@@ -159,6 +163,7 @@ export const SearchAndFilters = () => {
           event.stopPropagation()
           dispatchActiveFilterScreen(true)
         }}
+        data-test="button-search-and-filters-on-close"
       >
         <IconFilters />
       </button>
@@ -178,6 +183,7 @@ export const ButtonCollapseServices = () => {
         event.stopPropagation()
         dispatchCollapseServices()
       }}
+      data-test="button-collapse-services"
     >
       <img src="/svg/chevron-right-accent.svg" alt="right" width={12} height={12} />
     </button>

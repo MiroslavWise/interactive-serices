@@ -43,7 +43,7 @@ export const FormFilterScreen = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} onReset={() => reset()}>
+    <form onSubmit={onSubmit} onReset={() => reset()} data-test="form-filter-screen">
       <section {...register("actives")}>
         {mainCategories.map((item) => (
           <a
@@ -62,8 +62,8 @@ export const FormFilterScreen = () => {
         ))}
       </section>
       <footer>
-        <Button type="submit" typeButton="fill-primary" label="Применить" />
-        <Button type="reset" typeButton="regular-primary" label="Сбросить" />
+        <Button type="submit" typeButton="fill-primary" label="Применить" data-test="button-submit-filter-screen" />
+        <Button type="reset" typeButton="regular-primary" label="Сбросить" data-test="button-reset-filter-screen" />
       </footer>
     </form>
   )

@@ -142,12 +142,12 @@ export const SearchFilters = () => {
 
   return (
     <div className={styles.wrapper} data-visible={visible}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} data-test="form-search-filters">
         <header>
           <div data-icon-search>
             <IconSearch />
           </div>
-          <input type="text" {...register("input")} placeholder="Что Вы ищете" />
+          <input type="text" {...register("input")} placeholder="Что Вы ищете" data-test="input-search-filters" />
           <button
             type="button"
             data-icon-close
@@ -156,11 +156,12 @@ export const SearchFilters = () => {
               setValue("input", "")
               close()
             }}
+            data-test="button-search-filters-on-clear"
           >
             <IconXClose />
           </button>
         </header>
-        <ul>
+        <ul data-test="ul-search-filters">
           {filterItems.length ? (
             filterItems.map((item) => (
               <li

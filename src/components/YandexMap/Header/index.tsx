@@ -43,6 +43,7 @@ export const Header: THeaderMobile = ({ handleAddressLocation }) => {
       style={{
         top: `6.3125rem`,
       }}
+      data-test="div-search-map"
     >
       <SearchElementMap handleAddressLocation={handleAddressLocation} />
     </div>

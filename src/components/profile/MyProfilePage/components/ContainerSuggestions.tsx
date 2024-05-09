@@ -85,7 +85,12 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
   }, [stateProvider])
 
   return (
-    <ul className={styles.containerSuggestions} data-loading={isLoading} data-length={data?.res?.length === 0}>
+    <ul
+      className={styles.containerSuggestions}
+      data-loading={isLoading}
+      data-length={data?.res?.length === 0}
+      data-test="profile-container-suggestions"
+    >
       {isLoading ? (
         [1, 2, 3, 4].map((item) => <LoadingMyOffer key={`::item::my::offer::loading::${item}::`} />)
       ) : data?.res && Array.isArray(data?.res) && [EnumTypeProvider.offer].includes(stateProvider) && data?.res?.length > 0 ? (
@@ -111,6 +116,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
             typeButton="fill-primary"
             label={length === 0 ? functionCreateFirst.label : functionAndTitle?.title}
             onClick={length === 0 ? functionCreateFirst.func : functionAndTitle?.func}
+            data-test={`button-profile-container-suggestions-on-create-${stateProvider}`}
           />
         </article>
       )}
