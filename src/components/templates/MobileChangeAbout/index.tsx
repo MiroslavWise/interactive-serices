@@ -52,7 +52,7 @@ export const MobileChangeAbout = () => {
     if (!loading) {
       setLoading(true)
       if (!!idProfile) {
-        patchProfile({ about: data.about, enabled: true }, idProfile!).then((response) => {
+        patchProfile({ about: data.about, enabled: true }).then((response) => {
           if (response.ok) {
             refetch()
           }

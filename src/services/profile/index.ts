@@ -8,9 +8,9 @@ export const serviceProfile: IServiceProfile = {
   get: (query) => wrapperGet({ url, query }),
   getUserId: (id) => wrapperGetId({ url: url, id }),
   post: (body) => wrapperPost({ url, body }),
-  patch: (body, id) => wrapperPatch({ url, body, id }),
+  patch: (body) => wrapperPatch({ url, body }),
   delete: (id) => wrapperDelete({ url, id }),
 }
 
-export const patchProfile: IServiceProfile["patch"] = (body, id) => wrapperPatch({ url, body, id })
+export const patchProfile: IServiceProfile["patch"] = (body) => wrapperPatch({ url, body })
 export const getProfileUserId: IServiceProfile["getUserId"] = (id) => wrapperGetId({ url: url, id })

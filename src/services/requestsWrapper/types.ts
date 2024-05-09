@@ -27,7 +27,7 @@ export type MethodPost<T extends Record<string, any>, P extends Record<string, a
 export type MethodPatch<T extends Record<string, any>, P extends Record<string, any>> = (values: {
   url: string
   body: T
-  id: string | number
+  id?: string | number
   cache?: RequestCache
 }) => IPromiseReturn<P>
 

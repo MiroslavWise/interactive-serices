@@ -98,7 +98,7 @@ export const wrapperPost: MethodPost<any, any> = async ({ url, body, cache }) =>
 }
 
 export const wrapperPatch: MethodPatch<any, any> = async ({ url, id, body, cache }) => {
-  const endpoint = new URL(`${URL_API}${url}/${id}`)
+  const endpoint = new URL(`${URL_API}${url}${id ? `/${id}` : ""}`)
 
   const requestInit: RequestInit = {
     method: "PATCH",

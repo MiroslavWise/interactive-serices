@@ -43,7 +43,7 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
       const oldText = res?.about || ""
 
       if (newText !== oldText && !!newText) {
-        patchProfile({ about: values.text! }, userId!)
+        patchProfile({ about: values.text! })
           .then((response) => {
             if (response.error?.code === 401) {
               out()

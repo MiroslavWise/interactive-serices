@@ -58,7 +58,7 @@ export const ImageProfile = memo(function ImageProfile({
         const dataPatch: IPatchProfileData = {
           imageId: null,
         }
-        await patchProfile(dataPatch, idProfile).then(() => {
+        await patchProfile(dataPatch).then(() => {
           refetch().then(() => {
             setLoading(false)
           })
