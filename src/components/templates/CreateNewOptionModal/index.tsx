@@ -134,13 +134,13 @@ export default function CreateNewOptionModal() {
     },
   })
 
-  function create(data: IPostOffers) {
+  function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
       if (response.ok) {
         if (response.res) {
           const id = response.res?.id
           Promise.all(
-            watch("file.file").map((item) =>
+            files.map((item) =>
               fileUploadService(item!, {
                 type: typeAdd!,
                 userId: userId!,
@@ -210,20 +210,26 @@ export default function CreateNewOptionModal() {
         if (addressInit) {
           createAddressPost(addressInit).then((response) => {
             if (response?.ok) {
-              create({
-                ...data,
-                addresses: [response.res?.id!],
-              })
+              create(
+                {
+                  ...data,
+                  addresses: [response.res?.id!],
+                },
+                values.file.file,
+              )
             }
           })
           return
         } else if (watch("addressFeature")) {
           createAddress(watch("addressFeature")).then((response) => {
             if (response?.ok) {
-              create({
-                ...data,
-                addresses: [response.res?.id!],
-              })
+              create(
+                {
+                  ...data,
+                  addresses: [response.res?.id!],
+                },
+                values.file.file,
+              )
             }
           })
           return
