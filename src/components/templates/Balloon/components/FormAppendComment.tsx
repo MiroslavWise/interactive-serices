@@ -77,11 +77,10 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
                 onSubmit()
               }
             }}
-            data-error={!!error}
           />
         )}
       />
-      <button type="submit" disabled={watch("text").trim().length > 2 || loading}>
+      <button type="submit" disabled={watch("text").trim().length < 3 || loading}>
         <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
       </button>
     </form>
