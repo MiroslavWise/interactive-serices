@@ -10,19 +10,10 @@ import { patchProfile } from "@/services"
 
 import styles from "../styles/image.module.scss"
 
-export const ImageProfile = memo(function ImageProfile({
-  file,
-  image,
-  setFile,
-  idProfile,
-  refetch,
-  errorFile,
-  setErrorFile,
-}: IMageProfile) {
+export const ImageProfile = memo(function ImageProfile({ file, image, setFile, refetch, errorFile, setErrorFile }: IMageProfile) {
   const [loading, setLoading] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log("acceptedFiles: ", acceptedFiles)
     const file = acceptedFiles[0]
 
     if (file) {
