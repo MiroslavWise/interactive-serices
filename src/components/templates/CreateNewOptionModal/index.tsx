@@ -11,7 +11,6 @@ import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import { FinishScreen } from "./components/FinishScreen"
 import { CustomSelect } from "@/components/common/custom"
 import { ArticleOnboarding } from "@/components/templates"
 import { Button, ImageStatic, WalletPay } from "@/components/common"
@@ -35,6 +34,51 @@ import {
 } from "@/store"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
+
+const titleContent = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : ""
+const titlePlaceholderContent = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Например, потерял(а) телефон"
+    : value === EnumTypeProvider.discussion
+    ? "Например, турнир по петангу 12.01"
+    : ""
+
+const headerTitle = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Новое SOS-сообщение"
+    : value === EnumTypeProvider.discussion
+    ? "Новое обсуждение"
+    : value === EnumTypeProvider.offer
+    ? "Новое предложение"
+    : null
+
+const title = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Опишите проблему"
+    : value === EnumTypeProvider.discussion
+    ? "Ваш комментарий"
+    : value === EnumTypeProvider.offer
+    ? "Описание предложения"
+    : null
+
+const placeholderDescription = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Опишите, что случилось, упоминая детали, которые посчитаете важными"
+    : value === EnumTypeProvider.discussion
+    ? "Раскройте более подробно тему обсуждения, добавив детали"
+    : value === EnumTypeProvider.offer
+    ? "Добавьте описание, чтобы привлечь внимание к вашему предложению"
+    : null
+
+const descriptionImages = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Если у вас есть фото или видео возникшей проблемы, добавьте"
+    : value === EnumTypeProvider.discussion
+    ? "Фото или видео, раскрывающие суть предложенной темы, точно пригодятся"
+    : value === EnumTypeProvider.offer
+    ? "Добавьте фотографии и видео, это помогает выделить предложение среди других"
+    : null
 
 export default function CreateNewOptionModal() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -215,42 +259,6 @@ export default function CreateNewOptionModal() {
 
   const onSubmit = handleSubmit(submit)
 
-  const headerTitle =
-    typeAdd === EnumTypeProvider.alert
-      ? "Новое SOS-сообщение"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Новое обсуждение"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Новое предложение"
-      : null
-
-  const title =
-    typeAdd === EnumTypeProvider.alert
-      ? "Опишите, что у вас случилось?"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Придумайте заголовок для вашего обсуждения"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Описание предложения"
-      : null
-
-  const placeholderDescription =
-    typeAdd === EnumTypeProvider.alert
-      ? "Опишите, что случилось, упоминая детали, которые посчитаете важными"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Раскройте более подробно тему обсуждения, добавив детали"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Добавьте описание, чтобы привлечь внимание к вашему предложению"
-      : null
-
-  const descriptionImages =
-    typeAdd === EnumTypeProvider.alert
-      ? "Если у вас есть фото или видео возникшей проблемы, добавьте"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Фото или видео, раскрывающие суть предложенной темы, точно пригодятся"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Добавьте фотографии и видео, это помогает выделить предложение среди других"
-      : null
-
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files
 
@@ -302,7 +310,7 @@ export default function CreateNewOptionModal() {
     <>
       {typeAdd ? (
         <header>
-          <h3>{headerTitle}</h3>
+          <h3>{headerTitle(typeAdd)}</h3>
         </header>
       ) : null}
       <ul id="ul-create-option-modal" data-test="ul-create-new-option">
@@ -369,19 +377,8 @@ export default function CreateNewOptionModal() {
           </fieldset>
           {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
             <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">
-              <label>
-                {typeAdd === EnumTypeProvider.alert
-                  ? "Название проблемы"
-                  : typeAdd === EnumTypeProvider.discussion
-                  ? "Название обсуждения"
-                  : null}
-              </label>
-              <input
-                {...register("content" /* { required: EnumTypeProvider.alert === typeAdd! } */)}
-                type="text"
-                maxLength={32}
-                placeholder="Например, потерял(а) телефон"
-              />
+              <label>{titleContent(typeAdd!)}</label>
+              <input {...register("content")} type="text" maxLength={32} placeholder={titlePlaceholderContent(typeAdd!)} />
             </fieldset>
           ) : null}
           {visible && step === 2 && <ArticleOnboarding />}
@@ -423,13 +420,13 @@ export default function CreateNewOptionModal() {
           ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
           <fieldset id="fieldset-create-option-modal-title" data-test="fieldset-create-new-option-description">
-            <label htmlFor="title">{title}</label>
+            <label htmlFor="title">{title(typeAdd!)}</label>
             <div data-text-area data-focus={visible && step === 3}>
               <textarea
                 disabled={visible && step !== 3}
                 maxLength={512}
                 {...register("title", { required: true })}
-                placeholder={placeholderDescription || ""}
+                placeholder={placeholderDescription(typeAdd!) || ""}
               />
               <sup>{watch("title")?.length || 0}/512</sup>
             </div>
@@ -443,7 +440,7 @@ export default function CreateNewOptionModal() {
             data-test="fieldset-create-new-option-images"
           >
             <label htmlFor="images">Фото или видео</label>
-            <p>{descriptionImages}</p>
+            <p>{descriptionImages(typeAdd!)}</p>
             <div data-images data-focus={visible && step === 4}>
               {strings.map((item, index) => (
                 <div key={`${index}-image`} data-image>
