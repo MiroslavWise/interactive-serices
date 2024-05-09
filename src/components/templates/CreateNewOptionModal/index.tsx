@@ -220,8 +220,8 @@ export default function CreateNewOptionModal() {
             }
           })
           return
-        } else if (watch("addressFeature")) {
-          createAddress(watch("addressFeature")).then((response) => {
+        } else if (values.addressFeature) {
+          createAddress(values.addressFeature).then((response) => {
             if (response?.ok) {
               create(
                 {
