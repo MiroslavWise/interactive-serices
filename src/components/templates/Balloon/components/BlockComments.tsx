@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { DispatchWithoutAction, memo, useEffect, useMemo, useRef, useState } from "react"
+import { Dispatch, memo, SetStateAction, useEffect, useMemo, useState } from "react"
 
 import { IResponseOffers } from "@/services/offers/types"
 import { ICommentsResponse } from "@/services/comments/types"
@@ -15,10 +15,9 @@ import { serviceComments, serviceOffersThreads } from "@/services"
 
 import styles from "../styles/block-comments.module.scss"
 
-export const BlockComments = memo(({ offer }: IProps) => {
+export const BlockComments = memo(({ offer, expandComment, setExpandComment }: IProps) => {
   const { socket } = useWebSocket() ?? {}
   const userId = useAuth(({ userId }) => userId)
-  const [expand, setExpand] = useState(false)
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
   const { data: dataOffersThreads } = useQuery({
@@ -68,8 +67,8 @@ export const BlockComments = memo(({ offer }: IProps) => {
     <div className={styles.container} data-text="container-commentaries">
       <ListCommentaries
         currentComments={currentComments}
-        expand={expand}
-        setExpand={setExpand}
+        expand={expandComment}
+        setExpand={setExpandComment}
         currentOffersThreadId={currentOffersThreads?.id!}
       />
       {!!userId ? (
@@ -85,4 +84,7 @@ export const BlockComments = memo(({ offer }: IProps) => {
 
 interface IProps {
   offer: IResponseOffers
+  expandComment: boolean
+
+  setExpandComment: Dispatch<SetStateAction<boolean>>
 }

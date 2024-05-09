@@ -1,23 +1,23 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
+import BlockAction from "./components/BlockAction"
 import ItemImages from "../Offer/components/ItemImages"
+import { BlockComments } from "../components/BlockComments"
 import { ProfileComponent } from "../components/ProfileComponent"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
-import { BlockAction } from "./components/BlockAction"
-import { BlockComments } from "../components/BlockComments"
-
 import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store"
 
-export default function BalloonDiscussion() {
+function BalloonDiscussion() {
   const offer = useBalloonDiscussion(({ offer }) => offer)
   const { content, title, images = [] } = offer ?? {}
+  const [expandComment, setExpandComment] = useState(false)
 
   useEffect(() => {
     return () => dispatchBallonDiscussion({ offer: undefined })
@@ -39,10 +39,13 @@ export default function BalloonDiscussion() {
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />
-          <BlockAction offer={offer as unknown as IResponseOffers} />
-          <BlockComments offer={offer as unknown as IResponseOffers} />
+          <BlockAction offer={offer as unknown as IResponseOffers} setExpandComment={setExpandComment} />
+          <BlockComments offer={offer as unknown as IResponseOffers} expandComment={expandComment} setExpandComment={setExpandComment} />
         </div>
       </div>
     </>
   )
 }
+
+BalloonDiscussion.displayName = "BalloonDiscussion"
+export default BalloonDiscussion

@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { Dispatch, SetStateAction, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import IconComment from "@/components/icons/IconComment"
@@ -7,9 +7,11 @@ import { serviceComments, serviceOffersThreads } from "@/services"
 
 interface IProps {
   id: number
+
+  setExpandComment: Dispatch<SetStateAction<boolean>>
 }
 
-export const ButtonComments = ({ id }: IProps) => {
+export const ButtonComments = ({ id, setExpandComment }: IProps) => {
   const { data: dataOffersThreads } = useQuery({
     queryFn: () =>
       serviceOffersThreads.get({
@@ -32,8 +34,12 @@ export const ButtonComments = ({ id }: IProps) => {
 
   const length = dataComments?.res?.length || 0
 
+  function handleOnExpand() {
+    setExpandComment(true)
+  }
+
   return (
-    <button type="button">
+    <button type="button" onClick={handleOnExpand}>
       <IconComment />
       <span>{length}</span>
     </button>
