@@ -13,7 +13,7 @@ export const ListCommentaries = memo(({ expand, currentComments = [], setExpand,
 
   const { data: dataComments, isLoading } = useQuery({
     queryFn: () => serviceComments.get({ offer: currentOffersThreadId }),
-    queryKey: ["comments", `offer=${currentOffersThreadId}`],
+    queryKey: ["comments", { offerThreads: currentOffersThreadId }],
     enabled: !!currentOffersThreadId,
     refetchOnMount: true,
   })
