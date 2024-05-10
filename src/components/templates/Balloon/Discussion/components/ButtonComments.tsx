@@ -17,7 +17,7 @@ export const ButtonComments = ({ id, setExpandComment }: IProps) => {
       serviceOffersThreads.get({
         offer: id!,
       }),
-    queryKey: ["offers-threads", id!],
+    queryKey: ["offers-threads", { id: id }],
     enabled: !!id!,
   })
 
@@ -28,7 +28,7 @@ export const ButtonComments = ({ id, setExpandComment }: IProps) => {
 
   const { data: dataComments } = useQuery({
     queryFn: () => serviceComments.get({ offer: currentOffersThreads?.id! }),
-    queryKey: ["comments", `offer=${currentOffersThreads?.id!}`],
+    queryKey: ["comments", { offerThreads: currentOffersThreads?.id }],
     enabled: !!currentOffersThreads?.id!,
   })
 
