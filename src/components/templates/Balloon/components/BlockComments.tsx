@@ -28,12 +28,14 @@ export const BlockComments = memo(({ offer, expandComment, setExpandComment }: I
     queryKey: ["offers-threads", { id: offer.id }],
     enabled: !!offer.id,
   })
+
   const currentOffersThreads = useMemo(() => {
     return dataOffersThreads?.res?.find((item) => item?.offerId === offer.id) || null
   }, [dataOffersThreads?.res, offer.id])
+
   const { data: dataComments, refetch: refetchComments } = useQuery({
     queryFn: () => serviceComments.get({ offer: currentOffersThreads?.id! }),
-    queryKey: ["comments", { offerId: currentOffersThreads?.id }],
+    queryKey: ["comments", { offerThreads: currentOffersThreads?.id }],
     enabled: !!currentOffersThreads?.id!,
   })
   useEffect(() => {

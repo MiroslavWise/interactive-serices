@@ -17,7 +17,7 @@ interface IProps {
 function BlockAction({ offer, setExpandComment }: IProps) {
   return (
     <div className={styles.container}>
-      <ButtonLike />
+      <ButtonLike offer={offer} />
       <ButtonComments id={offer.id} setExpandComment={setExpandComment} />
       <ButtonActivity offer={offer} />
     </div>
