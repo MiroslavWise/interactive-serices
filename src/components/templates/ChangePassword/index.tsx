@@ -21,8 +21,13 @@ function ChangePassword() {
   })
   const { on } = useToast()
 
-  const { watch, handleSubmit, control, setError } = useForm<TSchemaPassword>({
+  const { watch, handleSubmit, control, setError, clearErrors, trigger } = useForm<TSchemaPassword>({
     resolver: resolverPassword,
+    defaultValues: {
+      password: "",
+      repeat: "",
+    },
+    mode: "onChange",
   })
 
   const onSubmit = handleSubmit((data: TSchemaPassword) => {
@@ -108,7 +113,6 @@ function ChangePassword() {
             rules={{ required: true }}
             control={control}
             render={({ field, fieldState: { error } }) => {
-              // const valueNumber = strengthPassword(field.value)
               return (
                 <fieldset data-test={`fieldset-change-password-${field.name}`}>
                   <label htmlFor={field.name}>Пароль</label>
@@ -117,6 +121,11 @@ function ChangePassword() {
                       type={visiblePass.password ? "text" : "password"}
                       placeholder="Введите пароль"
                       {...field}
+                      onChange={(event) => {
+                        field.onChange(event)
+                        trigger(field.name)
+                        trigger("repeat")
+                      }}
                       data-error={!!error}
                       data-test={`input-change-password-${field.name}`}
                     />
@@ -141,6 +150,10 @@ function ChangePassword() {
                     type={visiblePass.repeat ? "text" : "password"}
                     placeholder="Введите пароль ещё раз"
                     {...field}
+                    onChange={(event) => {
+                      field.onChange(event)
+                      trigger(field.name)
+                    }}
                     data-error={!!error}
                     data-test={`input-change-password-${field.name}`}
                   />
