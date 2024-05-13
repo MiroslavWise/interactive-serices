@@ -126,7 +126,7 @@ export const ContentCreatePassword = () => {
       <p>Придумайте пароль для входа в аккаунт</p>
       <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
         <span style={{ marginTop: "-1.25rem" }}>
-          <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ
+          <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру, и не менее 6 символов
         </span>
         <Controller
           name="password"
