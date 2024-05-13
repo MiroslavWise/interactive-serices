@@ -100,7 +100,6 @@ export const ContentCreatePassword = () => {
                 )
               ) {
                 setError("password", { message: serviceAuthErrors.get("password is not strong enough") })
-                setError("repeat_password", { message: serviceAuthErrors.get("repeat is not strong enough") })
                 return
               } else {
                 setError("password", {
