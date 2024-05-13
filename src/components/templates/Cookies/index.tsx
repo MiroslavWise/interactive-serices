@@ -18,11 +18,10 @@ export default function CookiesToast() {
   return (
     <article className={styles.container} data-active={visible}>
       <p>
-        Мы используем <span>cookies</span> для улучшения работы сайта. Оставаясь с нами вы соглашаетесь на использование&nbsp;
+        Мы используем&nbsp;<Link href="/terms-rules">cookies</Link>&nbsp;для улучшения работы сайта. Оставаясь с нами, вы соглашаетесь на использование&nbsp;
         <Link
           href={{
-            pathname: "/terms-policy",
-            hash: "p-terms-policy-14",
+            pathname: "/terms-rules"
           }}
         >
           файлов cookie
