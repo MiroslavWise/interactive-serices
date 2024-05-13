@@ -136,7 +136,7 @@ export const ContentCreatePassword = () => {
             <div data-label-input data-password data-test="create-password">
               <label htmlFor={field.name}>Пароль</label>
               <div>
-                <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} minLength={6} />
+                <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} />
                 <img
                   onClick={() => setIsPass((prev) => !prev)}
                   src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
@@ -160,7 +160,7 @@ export const ContentCreatePassword = () => {
             <div data-label-input data-password data-test="create-password-repeat">
               <label htmlFor={field.name}>Подтвердите пароль</label>
               <div>
-                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} minLength={6} />
+                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} />
                 <img
                   onClick={() => setIsPass_((prev) => !prev)}
                   src={isPass_ ? "/svg/eye.svg" : "/svg/eye-off.svg"}
