@@ -32,7 +32,7 @@ export const useTimerModalAuth = create(
   persist<IUseTimerModalAuth>(() => ({}), { name: "timer-auth-create", storage: createJSONStorage(() => sessionStorage) }),
 )
 export const useModalAuthEmailOrPhone = create(
-  persist<IUseModalAuthEmailOrPhone>(() => ({ typeEmailOrPhone: "email" }), {
+  persist<IUseModalAuthEmailOrPhone>(() => ({ typeEmailOrPhone: "phone" }), {
     name: "email-or-phone-state",
     storage: createJSONStorage(() => localStorage),
   }),
