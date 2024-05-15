@@ -7,7 +7,7 @@ export const useSign = () => {
     if (!isAuth && typeof isAuth !== "undefined") {
       dispatchAuthModal({
         visible: true,
-        type: "SignIn",
+        type: "SignUp",
       })
     }
   }

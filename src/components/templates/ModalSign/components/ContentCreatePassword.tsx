@@ -100,7 +100,6 @@ export const ContentCreatePassword = () => {
                 )
               ) {
                 setError("password", { message: serviceAuthErrors.get("password is not strong enough") })
-                setError("repeat_password", { message: serviceAuthErrors.get("repeat is not strong enough") })
                 return
               } else {
                 setError("password", {
@@ -126,7 +125,7 @@ export const ContentCreatePassword = () => {
       <p>Придумайте пароль для входа в аккаунт</p>
       <form className={styles.form} onSubmit={handleSubmit(onEnter)}>
         <span style={{ marginTop: "-1.25rem" }}>
-          <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ
+          <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру, и не менее 6 символов
         </span>
         <Controller
           name="password"
@@ -136,7 +135,7 @@ export const ContentCreatePassword = () => {
             <div data-label-input data-password data-test="create-password">
               <label htmlFor={field.name}>Пароль</label>
               <div>
-                <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} minLength={6} />
+                <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} data-error={!!error} />
                 <img
                   onClick={() => setIsPass((prev) => !prev)}
                   src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
@@ -160,7 +159,9 @@ export const ContentCreatePassword = () => {
             <div data-label-input data-password data-test="create-password-repeat">
               <label htmlFor={field.name}>Подтвердите пароль</label>
               <div>
-                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} minLength={6} />
+                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} 
+data-error={!!error}
+/>
                 <img
                   onClick={() => setIsPass_((prev) => !prev)}
                   src={isPass_ ? "/svg/eye.svg" : "/svg/eye-off.svg"}
