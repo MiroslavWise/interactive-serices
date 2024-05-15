@@ -1,25 +1,15 @@
-import { useQuery } from "@tanstack/react-query"
-
 import type { ICommentsResponse } from "@/services/comments/types"
 
 import { NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { serviceProfile } from "@/services/profile"
 
 import styles from "../styles/item-comment.module.scss"
 
 export const ItemComment = (props: ICommentsResponse) => {
-  const { userId, message, created } = props ?? {}
+  const { message, created, user } = props ?? {}
 
-  const { data: dataProfile } = useQuery({
-    queryFn: () => serviceProfile.getUserId(userId!),
-    queryKey: ["profile", userId],
-    enabled: !!userId,
-  })
-
-  const { res: resProfile } = dataProfile ?? {}
-  const { image, firstName, lastName } = resProfile ?? {}
+  const { image, firstName, lastName } = user ?? {}
 
   return (
     <div className={styles.container}>

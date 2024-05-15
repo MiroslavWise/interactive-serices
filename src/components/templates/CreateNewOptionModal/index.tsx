@@ -1,8 +1,8 @@
 "use client"
 
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { IFormValues } from "./types/types"
@@ -11,7 +11,6 @@ import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import { FinishScreen } from "./components/FinishScreen"
 import { CustomSelect } from "@/components/common/custom"
 import { ArticleOnboarding } from "@/components/templates"
 import { Button, ImageStatic, WalletPay } from "@/components/common"
@@ -29,15 +28,63 @@ import {
   useAuth,
   useOffersCategories,
   useOnboarding,
+  dispatchVisibleCreateNewCategory,
+  dispatchModal,
+  EModalData,
 } from "@/store"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
+
+const titleContent = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : ""
+const titlePlaceholderContent = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Например, потерял(а) телефон"
+    : value === EnumTypeProvider.discussion
+    ? "Например, турнир по петангу 12.01"
+    : ""
+
+const headerTitle = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Новое SOS-сообщение"
+    : value === EnumTypeProvider.discussion
+    ? "Новое обсуждение"
+    : value === EnumTypeProvider.offer
+    ? "Новое предложение"
+    : null
+
+const title = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Опишите проблему"
+    : value === EnumTypeProvider.discussion
+    ? "Ваш комментарий"
+    : value === EnumTypeProvider.offer
+    ? "Описание предложения"
+    : null
+
+const placeholderDescription = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Опишите, что случилось, упоминая детали, которые посчитаете важными"
+    : value === EnumTypeProvider.discussion
+    ? "Раскройте более подробно тему обсуждения, добавив детали"
+    : value === EnumTypeProvider.offer
+    ? "Добавьте описание, чтобы привлечь внимание к вашему предложению"
+    : null
+
+const descriptionImages = (value: EnumTypeProvider) =>
+  value === EnumTypeProvider.alert
+    ? "Если у вас есть фото или видео возникшей проблемы, добавьте"
+    : value === EnumTypeProvider.discussion
+    ? "Фото или видео, раскрывающие суть предложенной темы, точно пригодятся"
+    : value === EnumTypeProvider.offer
+    ? "Добавьте фотографии и видео, это помогает выделить предложение среди других"
+    : null
+
+const sleep = () => new Promise((r) => setTimeout(r, 50))
 
 export default function CreateNewOptionModal() {
-  const [isFirst, setIsFirst] = useState(true)
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
   const [loading, setLoading] = useState(false)
-  const [files, setFiles] = useState<File[]>([])
-  const [strings, setStrings] = useState<string[]>([])
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
@@ -71,6 +118,7 @@ export default function CreateNewOptionModal() {
     reset,
     watch,
     register,
+    control,
     handleSubmit,
     setValue,
     formState: { errors },
@@ -79,10 +127,14 @@ export default function CreateNewOptionModal() {
       categoryId: null,
       title: "",
       address: addressInit ? true : "",
+      file: {
+        file: [],
+        string: [],
+      },
     },
   })
 
-  function create(data: IPostOffers) {
+  function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
       if (response.ok) {
         if (response.res) {
@@ -107,7 +159,7 @@ export default function CreateNewOptionModal() {
                 refetch()
                 refetchDataMap()
                 setLoading(false)
-                setIsFirst(false)
+                dispatchModal(EModalData.SuccessNewOptional)
                 dispatchOnboarding("close")
                 reset()
               })
@@ -115,7 +167,7 @@ export default function CreateNewOptionModal() {
               refetch()
               refetchDataMap()
               setLoading(false)
-              setIsFirst(false)
+              dispatchModal(EModalData.SuccessNewOptional)
               dispatchOnboarding("close")
               reset()
             }
@@ -158,20 +210,26 @@ export default function CreateNewOptionModal() {
         if (addressInit) {
           createAddressPost(addressInit).then((response) => {
             if (response?.ok) {
-              create({
-                ...data,
-                addresses: [response.res?.id!],
-              })
+              create(
+                {
+                  ...data,
+                  addresses: [response.res?.id!],
+                },
+                values.file.file,
+              )
             }
           })
           return
-        } else if (watch("addressFeature")) {
-          createAddress(watch("addressFeature")).then((response) => {
+        } else if (values.addressFeature) {
+          createAddress(values.addressFeature).then((response) => {
             if (response?.ok) {
-              create({
-                ...data,
-                addresses: [response.res?.id!],
-              })
+              create(
+                {
+                  ...data,
+                  addresses: [response.res?.id!],
+                },
+                values.file.file,
+              )
             }
           })
           return
@@ -203,258 +261,277 @@ export default function CreateNewOptionModal() {
     }
     return (
       valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter(
-        (item) => item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components,
+        (item) =>
+          item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "street") &&
+          item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "locality"),
       ) || null
     )
   }, [valuesAddresses])
 
   const onSubmit = handleSubmit(submit)
 
-  const headerTitle =
-    typeAdd === EnumTypeProvider.alert
-      ? "У меня проблема / Хочу предупредить"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Добавить предложение"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Новое обсуждение"
-      : null
+  async function handleImageChange(
+    current: {
+      file: File[]
+      string: string[]
+    },
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    const files = event.target.files
 
-  const title =
-    typeAdd === EnumTypeProvider.alert
-      ? "Опишите, что у вас случилось?"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Придумайте заголовок для вашего обсуждения"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Добавьте текст, чтобы сделать ваше предложение более привлекательным и желанным"
-      : null
+    let filesReady = {
+      file: [...current.file] as File[],
+      string: [...current.string] as string[],
+    }
 
-  const titleAddress =
-    typeAdd === EnumTypeProvider.alert
-      ? "Введите адрес места происшествия или нужды в помощи"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Введите адрес, где вам нужна услуга"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Введите адрес, где вы хотели бы обсудить проблемы или предложения"
-      : null
+    if (files && files?.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
 
-  const placeholderInput =
-    typeAdd === EnumTypeProvider.alert
-      ? "Введите свой адрес, чтобы другие люди из вашего района могли увидеть происшествие"
-      : typeAdd === EnumTypeProvider.offer
-      ? "Введите свой адрес, чтобы мы могли показать ваше предложение на карте. Если вы оказываете услугу он-лайн, оставьте поле пустым"
-      : typeAdd === EnumTypeProvider.discussion
-      ? "Введите свой адрес, чтобы мы могли показать ваше обсуждение на карте"
-      : null
+        if (file) {
+          if (file.size < 9.9 * 1024 * 1024) {
+            const is = current.file.some((_) => _.size === file.size && _.name === file.name)
 
-  function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files
+            if (is) {
+              continue
+            }
 
-    if (file && file?.length > 0) {
-      for (let i = 0; i < file.length; i++) {
-        if (file[i]) {
-          const reader = new FileReader()
-          reader.onloadend = () => {
-            setStrings((prev) => [...prev, reader.result as string])
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = function (f) {
+              filesReady = {
+                ...filesReady,
+                file: [...filesReady.file, file],
+                string: [...filesReady.string, f!.target!.result as string],
+              }
+            }
           }
-          reader.readAsDataURL(file[i])
-          setFiles((prev) => [...prev, file[i]])
         }
       }
     }
+
+    await sleep()
+
+    return Promise.resolve(filesReady)
   }
 
-  function deletePhoto(index: number) {
-    setFiles((prev) => prev.filter((_, i) => index !== i))
-    setStrings((prev) => prev.filter((_, i) => index !== i))
+  function deletePhoto(values: { file: File[]; string: string[] }, index: number) {
+    return {
+      file: values.file.filter((_, i) => index !== i),
+      string: values.string.filter((_, i) => index !== i),
+    }
   }
 
   function handleClose() {
     if (!visible) {
-      requestAnimationFrame(() => {
-        setFiles([])
-        setStrings([])
-        reset()
-        setIsFirst(true)
-        closeCreateOffers()
-        dispatchModalClose()
-      })
+      closeCreateOffers()
+      dispatchModalClose()
     }
   }
 
   useEffect(() => {
     if (visible) {
       dispatchValidating({
-        isCategoryId: !!watch("categoryId"),
+        isCategoryId: !!watch("categoryId") || !!watch("content")?.trim(),
         isTitle: !!watch("title"),
-        isFiles: !!files.length,
+        isFiles: !!watch("file.file").length,
       })
     }
-  }, [watch("title"), watch("categoryId"), files, visible])
+  }, [watch("title"), watch("categoryId"), watch("content"), watch("file.file"), visible])
+
+  const disabledButton =
+    !watch("addressFeature") || !watch("title")?.trim() || (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
 
   return (
     <>
-      {isFirst ? (
-        <>
-          {typeAdd ? (
-            <header>
-              <h3>{headerTitle}</h3>
-            </header>
-          ) : null}
-          <ul id="ul-create-option-modal">
-            <form onSubmit={onSubmit}>
-              <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }}>
-                <label htmlFor="address">{addressInit?.additional ? "По адресу" : titleAddress}</label>
-                {addressInit?.additional ? (
-                  <p>{addressInit?.additional}</p>
-                ) : (
-                  <div data-input-selector {...register("addressFeature", { required: !addressInit?.additional })} ref={ref}>
-                    <input
-                      {...register("address", { required: true })}
-                      onChange={(event) => {
-                        setValue("address", event.target.value)
-                        debouncedValue()
-                        setLoadingAddresses(true)
-                      }}
-                      type="text"
-                      data-error={!!errors.addressFeature}
-                      onFocus={() => setIsFocus(true)}
-                      placeholder={placeholderInput || ""}
-                      disabled={visible && step !== 2}
-                      data-focus={visible && step === 2}
-                      autoComplete="off"
-                    />
-                    <div data-select-icon>
-                      <img
-                        src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
-                        alt="chevron"
-                        width={20}
-                        height={20}
-                        data-chevron
-                        data-loading={loadingAddresses}
+      {typeAdd ? (
+        <header>
+          <h3>{headerTitle(typeAdd)}</h3>
+        </header>
+      ) : null}
+      <ul id="ul-create-option-modal" data-test="ul-create-new-option">
+        <form onSubmit={onSubmit} data-test="from-create-new-option">
+          <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }} data-test="fieldset-create-new-option-addressInit">
+            <label htmlFor="address">{addressInit?.additional ? "По адресу" : "Ваш адрес"}</label>
+            {addressInit?.additional ? (
+              <p>{addressInit?.additional}</p>
+            ) : (
+              <div data-input-selector {...register("addressFeature", { required: !addressInit?.additional })} ref={ref}>
+                <input
+                  {...register("address", { required: true })}
+                  onChange={(event) => {
+                    setValue("address", event.target.value)
+                    debouncedValue()
+                    setLoadingAddresses(true)
+                  }}
+                  type="text"
+                  data-error={!!errors.addressFeature}
+                  onFocus={() => setIsFocus(true)}
+                  placeholder="Введите адрес"
+                  disabled={visible && step !== 2}
+                  data-focus={visible && step === 2}
+                  autoComplete="off"
+                />
+                <div data-select-icon>
+                  <img
+                    src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
+                    alt="chevron"
+                    width={20}
+                    height={20}
+                    data-chevron
+                    data-loading={loadingAddresses}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      setIsFocus(false)
+                    }}
+                  />
+                </div>
+                <ul data-active={isFocus}>
+                  {Array.isArray(exactAddresses) ? (
+                    exactAddresses.map((item, index) => (
+                      <li
+                        key={`${item.GeoObject.uri}-${index}`}
                         onClick={(event) => {
                           event.stopPropagation()
+                          dispatchValidating({
+                            isAddress: !!item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
+                          })
+                          setValue("addressFeature", item)
+                          setValue("address", item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
                           setIsFocus(false)
                         }}
-                      />
-                    </div>
-                    <ul data-active={isFocus}>
-                      {Array.isArray(exactAddresses) ? (
-                        exactAddresses.map((item, index) => (
-                          <li
-                            key={`${item.GeoObject.uri}-${index}`}
-                            onClick={(event) => {
-                              event.stopPropagation()
-                              dispatchValidating({
-                                isAddress: !!item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
-                              })
-                              setValue("addressFeature", item)
-                              setValue("address", item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
-                              setIsFocus(false)
-                            }}
-                          >
-                            <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
-                          </li>
-                        ))
-                      ) : (
-                        <p>{loadingAddresses ? "Идёт загрузка адресов" : "Не найдено подходящих адресов"}</p>
-                      )}
-                    </ul>
-                  </div>
-                )}
-              </fieldset>
-              {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
-                <fieldset id="fieldset-create-option-modal-content-title-alert">
-                  <label>
-                    Заголовок{" "}
-                    {EnumTypeProvider.alert === typeAdd! ? "SOS-cообщения" : EnumTypeProvider.discussion === typeAdd! ? "дискуссии" : ""}
-                  </label>
-                  <input
-                    {...register("content" /* { required: EnumTypeProvider.alert === typeAdd! } */)}
-                    type="text"
-                    maxLength={32}
-                    placeholder="Например, потерял(а) телефон"
-                  />
-                </fieldset>
-              ) : null}
-              {visible && step === 2 && <ArticleOnboarding />}
-              {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-                <fieldset {...register("categoryId", { required: true })} id="fieldset-create-option-modal-offer">
-                  <label>Предложение</label>
-                  <CustomSelect
-                    disabled={visible && step !== 2.5}
-                    placeholder="Выберите категории"
-                    list={list}
-                    value={watch("categoryId")}
-                    setValue={(value) => {
-                      if (value) {
-                        setValue("categoryId", value as number)
-                      }
-                    }}
-                    focus={visible && step === 2.5}
-                  />
-                  {errors?.categoryId ? <i>Важное поле</i> : null}
-                </fieldset>
-              ) : null}
-              {visible && step === 2.5 && <ArticleOnboarding />}
-              <fieldset id="fieldset-create-option-modal-title">
-                <label htmlFor="title">{title}</label>
-                <div data-text-area data-focus={visible && step === 3}>
-                  <textarea
-                    disabled={visible && step !== 3}
-                    maxLength={512}
-                    {...register("title", { required: true })}
-                    placeholder="Напиши что-нибудь"
-                  />
-                  <sup>{watch("title")?.length || 0}/512</sup>
-                </div>
-                {errors?.title ? <i>Обязательное поле</i> : null}
-              </fieldset>
-              {visible && step === 3 && <ArticleOnboarding />}
-              <fieldset data-photos id="fieldset-create-option-modal-photos" data-disabled={visible && step !== 3}>
-                <label>Вы можете добавить фото, если хотите</label>
-                <div data-images data-focus={visible && step === 4}>
-                  {strings.map((item, index) => (
-                    <div key={`${index}-image`} data-image>
-                      <ImageStatic data-img src={item} alt="offer" width={304} height={392} />
-                      <button
-                        type="button"
-                        data-trash
-                        onClick={() => {
-                          if (visible && step !== 4) {
-                            deletePhoto(index)
-                          }
-                        }}
-                        disabled={visible && step !== 4}
                       >
-                        <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
-                      </button>
-                    </div>
-                  ))}
-                  <div data-image>
-                    <img src="/svg/plus-gray.svg" data-plus alt="plus-gray" height={60} width={60} />
-                    <input type="file" accept="image/*" onChange={handleImageChange} disabled={visible && step !== 4} multiple />
+                        <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                      </li>
+                    ))
+                  ) : (
+                    <p>{loadingAddresses ? "Идёт загрузка адресов" : "Не найдено подходящих адресов"}</p>
+                  )}
+                </ul>
+              </div>
+            )}
+          </fieldset>
+          {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
+            <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">
+              <label>{titleContent(typeAdd!)}</label>
+              <input {...register("content")} type="text" maxLength={32} placeholder={titlePlaceholderContent(typeAdd!)} />
+            </fieldset>
+          ) : null}
+          {visible && step === 2 && <ArticleOnboarding />}
+          {[EnumTypeProvider.offer].includes(typeAdd!) ? (
+            <fieldset
+              {...register("categoryId", { required: true })}
+              id="fieldset-create-option-modal-offer"
+              data-test="fieldset-create-new-option-categoryId"
+            >
+              <label>Предложение</label>
+              <CustomSelect
+                disabled={visible && step !== 2.5}
+                placeholder="Выберите категории"
+                list={list}
+                value={watch("categoryId")}
+                setValue={(value) => {
+                  if (value) {
+                    setValue("categoryId", value as number)
+                  }
+                }}
+                focus={visible && step === 2.5}
+              />
+              {errors?.categoryId ? <i>Важное поле</i> : null}
+              {!visible ? (
+                <button
+                  type="button"
+                  title="Предложить категорию"
+                  aria-label="Предложить категорию"
+                  data-span-new-category
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    dispatchVisibleCreateNewCategory(true)
+                  }}
+                >
+                  <span>Предложить категорию</span>
+                </button>
+              ) : null}
+            </fieldset>
+          ) : null}
+          {visible && step === 2.5 && <ArticleOnboarding />}
+          <fieldset id="fieldset-create-option-modal-title" data-test="fieldset-create-new-option-description">
+            <label htmlFor="title">{title(typeAdd!)}</label>
+            <div data-text-area data-focus={visible && step === 3}>
+              <textarea
+                disabled={visible && step !== 3}
+                maxLength={512}
+                {...register("title", { required: true })}
+                placeholder={placeholderDescription(typeAdd!) || ""}
+              />
+              <sup>{watch("title")?.length || 0}/512</sup>
+            </div>
+            {errors?.title ? <i>Обязательное поле</i> : null}
+          </fieldset>
+          {visible && step === 3 && <ArticleOnboarding />}
+          <Controller
+            name="file"
+            control={control}
+            render={({ field }) => (
+              <fieldset
+                data-photos
+                id="fieldset-create-option-modal-photos"
+                data-disabled={visible && step !== 3}
+                data-test="fieldset-create-new-option-images"
+              >
+                <label htmlFor={field.name}>Фото или видео</label>
+                <p>{descriptionImages(typeAdd!)}</p>
+                <div data-images data-focus={visible && step === 4}>
+                  {field.value.string.map((item, index) => {
+                    return (
+                      <div key={`${index}-image`} data-image>
+                        <ImageStatic data-img src={item! as string} alt="offer" width={304} height={392} />
+                        <button
+                          type="button"
+                          data-trash
+                          onClick={() => {
+                            const deleteData = deletePhoto(field.value, index)
+                            field.onChange(deleteData)
+                          }}
+                        >
+                          <IconTrashBlack />
+                        </button>
+                      </div>
+                    )
+                  })}
+                  <div data-image="new">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (event) => {
+                        const dataValues = await handleImageChange(field.value, event)
+                        field.onChange(dataValues)
+                        event.target.value = ""
+                      }}
+                      disabled={visible && step !== 4}
+                      multiple
+                    />
                   </div>
                 </div>
+                <i>Максимальный размер фото - 10 МБ</i>
               </fieldset>
-              {visible && [4, 5].includes(step) && <ArticleOnboarding />}
-              {typeAdd === "offer" ? <WalletPay /> : null}
-              <div data-footer>
-                <Button
-                  type="submit"
-                  typeButton="fill-primary"
-                  label="Создать"
-                  disabled={loading}
-                  loading={loading}
-                  id="button-create-option-modal-submit"
-                  data-test="create-option-modal-submit"
-                />
-              </div>
-            </form>
-          </ul>
-        </>
-      ) : (
-        <FinishScreen typeAdd={typeAdd!} />
-      )}
+            )}
+          />
+          {visible && [4, 5].includes(step) && <ArticleOnboarding />}
+          {typeAdd === "offer" ? <WalletPay /> : null}
+          <div data-footer>
+            <Button
+              type="submit"
+              typeButton="fill-primary"
+              label="Создать"
+              disabled={loading || disabledButton}
+              loading={loading}
+              id="button-create-option-modal-submit"
+              data-test="button-create-new-option-submit"
+            />
+          </div>
+        </form>
+      </ul>
     </>
   )
 }

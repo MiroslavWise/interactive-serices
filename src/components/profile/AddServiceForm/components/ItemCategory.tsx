@@ -5,7 +5,7 @@ import type { IMainAndSubCategories, IValuesCategories } from "../types/types"
 
 import { IconCategory } from "@/lib/icon-set"
 
-const IconCheck = () => (
+export const IconCheck = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
     <path d="M10 3L4.5 8.5L2 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
@@ -18,9 +18,10 @@ export const ItemCategory = memo(function ItemCategory(
   const [expand, setExpand] = useState(false)
 
   return (
-    <a data-expand={expand}>
+    <a data-expand={expand} data-test={`main-expand-change-service-${main?.id}`}>
       <div data-main data-disabled={idsActive?.length >= 5 && !idsActive?.includes(main?.id)}>
-        <div
+        <button
+          type="button"
           data-check={idsActive?.includes(main?.id)}
           onClick={(event) => {
             event.stopPropagation()
@@ -36,9 +37,10 @@ export const ItemCategory = memo(function ItemCategory(
               setValue("categories", [...idsActive, main.id])
             }
           }}
+          data-test={`button-main-expand-change-service-on-checked`}
         >
           <IconCheck />
-        </div>
+        </button>
         <span
           onClick={(event) => {
             event.stopPropagation()
@@ -87,6 +89,7 @@ export const ItemCategory = memo(function ItemCategory(
               }
             }}
             data-disabled={idsActive?.length >= 5 && !idsActive.includes(item?.id!)}
+            data-test={`sub-expand-change-service-${item.id}`}
           >
             <div data-check>{idsActive.includes(item?.id!) ? <IconCheck /> : null}</div>
             <span>

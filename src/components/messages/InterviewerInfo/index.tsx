@@ -1,11 +1,11 @@
 "use client"
 
-import { useMemo } from "react"
+import { memo } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { IPatchThreads } from "@/services/threads/types"
 
-import { Button, NextImageMotion, GeoTagging, ButtonLink } from "@/components/common"
+import { Button, NextImageMotion, ButtonLink } from "@/components/common"
 
 import { patchThread } from "@/services"
 import { useUserIdMessage } from "@/store"
@@ -15,7 +15,7 @@ import { dayFormat, useCountMessagesNotReading } from "@/helpers"
 import styles from "./styles/style.module.scss"
 import stylesHeader from "@/components/profile/BlockProfileAside/styles/header.module.scss"
 
-export const InterviewerInfoCurrent = () => {
+export const InterviewerInfoCurrent = memo(function () {
   const idThread = useSearchParams().get("thread")
   const { handleReplace } = usePush()
   const userData = useUserIdMessage(({ userData }) => userData)
@@ -33,30 +33,19 @@ export const InterviewerInfoCurrent = () => {
     })
   }
 
-  const geo: string | null = useMemo(() => {
-    return userData?.addresses?.find((_) => _.addressType === "main")?.additional || null
-  }, [userData])
-
   return (
     <section className={styles.container}>
       <div className={styles.contentProfile}>
         <header className={stylesHeader.containerHeader}>
           <div className={stylesHeader.avatar}>
-            <NextImageMotion
-              className={stylesHeader.photo}
-              src={userData?.profile?.image?.attributes?.url!}
-              alt="avatar"
-              width={94}
-              height={94}
-            />
+            <NextImageMotion className={stylesHeader.photo} src={userData?.image?.attributes?.url!} alt="avatar" width={94} height={94} />
             {true ? <img className={stylesHeader.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} /> : null}
           </div>
           <section className={stylesHeader.title}>
             <h4>
-              {userData?.profile?.firstName || ""} {userData?.profile?.lastName}
+              {userData?.firstName || ""} {userData?.lastName}
             </h4>
-            {geo ? <GeoTagging size={16} fontSize={14} location={geo} /> : null}
-            {userData?.profile?.created! ? <p>На Sheira с {dayFormat(userData?.profile?.created!, "dd.MM.yyyy")}</p> : null}
+            {/* {userData?.created! ? <p>На Sheira с {dayFormat(userData?.profile?.created!, "dd.MM.yyyy")}</p> : null} */}
           </section>
         </header>
       </div>
@@ -66,12 +55,12 @@ export const InterviewerInfoCurrent = () => {
       </div>
     </section>
   )
-}
+})
 
 export const InterviewerInfoEmpty = () => <section className={styles.container} />
 
 export const InterviewerInfo = () => {
-  const idThread = useSearchParams()?.get("thread")
+  const idThread = useSearchParams().get("thread")
 
   return idThread ? <InterviewerInfoCurrent /> : <InterviewerInfoEmpty />
 }

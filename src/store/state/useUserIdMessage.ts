@@ -1,10 +1,10 @@
 import { create } from "zustand"
 
-import { IUserResponse } from "@/services/users/types"
+import { IUserOffer } from "@/services/offers/types"
 
-export const useUserIdMessage = create<{ userData?: IUserResponse }>(() => ({}))
+export const useUserIdMessage = create<{ userData?: IUserOffer }>(() => ({}))
 
-export const dispatchDataUser = (value?: IUserResponse) =>
-    useUserIdMessage.setState((_) => ({
-        userData: value,
-    }))
+export const dispatchDataUser = (value?: IUserOffer) =>
+  useUserIdMessage.setState((_) => ({
+    userData: value,
+  }))

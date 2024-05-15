@@ -32,7 +32,7 @@ export const ItemCategory = memo(function ItemCategory(
   }
 
   return (
-    <li className={styles.container}>
+    <li className={styles.container} data-test="li-modal-active-services-from">
       <header>
         <div data-img>
           <img
@@ -51,7 +51,7 @@ export const ItemCategory = memo(function ItemCategory(
             }}
           />
         </div>
-        <button onClick={deleteCategory}>
+        <button onClick={deleteCategory} data-test="li-button-modal-active-services-from-on-delete">
           <img src="/svg/x-close.svg" alt={"x"} width={16} height={16} />
         </button>
       </header>

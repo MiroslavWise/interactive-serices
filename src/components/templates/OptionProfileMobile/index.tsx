@@ -38,8 +38,13 @@ export const OptionProfileMobile = () => {
   })
 
   return (
-    <div className={cx(styles.wrapper, "wrapper-fixed")} data-visible={visible} onClick={(event) => dispatchOptionProfileMobile(false)}>
-      <section onClick={(event) => event.stopPropagation()} {...handlers}>
+    <div
+      className={cx(styles.wrapper, "wrapper-fixed")}
+      data-visible={visible}
+      onClick={(event) => dispatchOptionProfileMobile(false)}
+      data-test="wrapper-option-profile-mobile"
+    >
+      <section onClick={(event) => event.stopPropagation()} {...handlers} data-test="section-option-profile-mobile">
         <div data-line-gray />
         <div data-buttons>
           <Button type="button" typeButton="regular-primary" label="Изменить описание обо мне" onClick={handleChangeAbout} />
@@ -49,6 +54,7 @@ export const OptionProfileMobile = () => {
             label="Обучение"
             prefixIcon={<img src="/svg/graduation-cap-primary.svg" alt="g" width={24} height={24} />}
             onClick={handleOpen}
+            data-test="button-option-profile-mobile-on-modal-onboarding"
           />
         </div>
         <article>
@@ -67,6 +73,7 @@ export const OptionProfileMobile = () => {
               dispatchOptionProfileMobile(false)
               dispatchModal(EModalData.OutAccount)
             }}
+            data-test="button-option-profile-mobile-on-modal-out-account"
           >
             <img src="/svg/log-out.svg" alt="out" width={16} height={16} />
           </button>

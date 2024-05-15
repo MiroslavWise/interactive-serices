@@ -9,8 +9,7 @@ export default function MyProfilePage() {
 
   return (
     <>
-      {!isTablet ? <ContainerAboutMe /> : null}
-      {isTablet && <MContainerAboutProfile />}
+      {isTablet ? <MContainerAboutProfile /> : <ContainerAboutMe />}
       <ContainerTagAndButton />
       <ContainerSuggestions />
     </>

@@ -15,14 +15,12 @@ import {
   Onboarding,
   ReasonBarters,
   OptionProfileMobile,
-  ActiveServicesFrom,
   AddingPhoneNumber,
   AddEmail,
   CheckTheMail,
   NumberConfirmation,
   InitiatedBarterMobile,
 } from "@/components/templates"
-import { ChangeService } from "@/components/profile"
 
 import {
   useAuth,
@@ -31,18 +29,21 @@ import {
   useDroverFriends,
   useVisibleNotifications,
   useReasonBarters,
-  useActiveServicesFrom,
   useAddingPhoneNumber,
   useAddEmail,
   useCheckTheMail,
   useNumberConfirmation,
+  useCreateNewCategory,
+  useChangeService,
 } from "@/store"
 import { useResize } from "@/helpers"
 
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
+const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
+const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -51,11 +52,12 @@ export const Containers = () => {
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
   const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
-  const visibleActiveService = useActiveServicesFrom(({ visible }) => visible)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
+  const visibleCreateNewCategory = useCreateNewCategory(({ visible }) => visible)
+  const visibleChangeService = useChangeService(({ visible }) => visible)
 
   const { isTablet } = useResize()
 
@@ -79,15 +81,15 @@ export const Containers = () => {
       {isAuth && (
         <>
           <Onboarding />
-          <ChangeService />
+          {visibleChangeService && <ChangeService />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
           {visibleFriends && <DroverFriends />}
           {isTablet && <OptionProfileMobile />}
           {isTablet && <InitiatedBarterMobile />}
-          {visibleReasonBarters && <ReasonBarters />}
-          {visibleActiveService && <ActiveServicesFrom />}
           {visibleCheckTheMail && <CheckTheMail />}
+          {visibleReasonBarters && <ReasonBarters />}
+          {visibleCreateNewCategory && <CreateNewCategory />}
           {visibleAddingPhoneNumber && <AddingPhoneNumber />}
           {isTablet && visibleNotifications && <NotificationsMobile />}
         </>

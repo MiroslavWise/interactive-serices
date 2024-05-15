@@ -2,16 +2,19 @@
 
 import { memo, useMemo } from "react"
 
-import { GeneralItem, ServiceLoading } from "@/components/common"
+import { ServiceLoading } from "@/components/common"
+import CardBallon from "@/components/common/Card/CardBallon"
+// const CardBallon = dynamic(() => import("@/components/common/Card/CardBallon"), { ssr: false, loading: ServiceLoading })
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
-import { useBounds, useFiltersServices } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
+import { useBounds, useFiltersServices, useOffersCategories } from "@/store"
 
-export const ServicesMobile = memo(() => {
+export const ServicesMobile = memo(({ input }: { input: string }) => {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
+  const categories = useOffersCategories(({ categories }) => categories)
 
   const items = useMemo(() => {
     if (!itemsOffers.length) {
@@ -68,11 +71,32 @@ export const ServicesMobile = memo(() => {
     return []
   }, [itemsOffers, bounds, timesFilter])
 
+  const filterItems = useMemo(() => {
+    if (!input.trim()) {
+      return items
+    } else {
+      const search = input.toLowerCase().trim()
+      return items.filter((item) => {
+        const categoriesFilter = categories.filter((_) => _.title.toLowerCase().includes(search))
+        if (categoriesFilter.some((_) => _.id === item.categoryId)) {
+          return true
+        }
+        if (item?.title && item?.title?.toLowerCase()?.includes(search)) {
+          return true
+        }
+        if (item?.content && item?.content?.toLowerCase()?.includes(search)) {
+          return true
+        }
+        return false
+      })
+    }
+  }, [input, items, categories])
+
   return (
     <ul>
       {isLoading
         ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-        : items.map((item) => <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />)}
+        : filterItems.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />)}
     </ul>
   )
 })

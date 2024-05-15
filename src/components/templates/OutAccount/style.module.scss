@@ -74,6 +74,10 @@
   @media screen and (max-width: 768px) {
     padding-top: 2.25rem;
 
+    transition: var(--transition);
+    transition-duration: 400ms;
+    transition-property: transform;
+
     & > article {
       padding-inline: 0;
     }

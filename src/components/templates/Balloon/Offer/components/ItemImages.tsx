@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { memo, useRef } from "react"
 
 import type { IImageData } from "@/store/types/useAuthState"
 
@@ -10,7 +10,7 @@ import { dispatchPhotoCarousel } from "@/store"
 
 import styles from "../styles/images.module.scss"
 
-export const ItemImages = ({ images, notTouch }: { images: IImageData[]; notTouch?: boolean }) => {
+function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boolean }) {
   const refImages = useRef<HTMLDivElement>(null)
 
   function to(value: boolean) {
@@ -98,3 +98,6 @@ export const ItemImages = ({ images, notTouch }: { images: IImageData[]; notTouc
     </div>
   )
 }
+
+ItemImages.displayName = "ItemImages"
+export default memo(ItemImages)

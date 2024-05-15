@@ -1,6 +1,5 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
@@ -17,6 +16,7 @@ import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 import { NoticeOfferPay } from "./NoticeOfferPay"
 import { IResponseThread } from "@/services/threads/types"
 import { EnumProviderThreads } from "@/types/enum"
+import { IUserOffer } from "@/services/offers/types"
 
 export const ListMessages = memo(function ListMessages({
   messages,
@@ -25,7 +25,7 @@ export const ListMessages = memo(function ListMessages({
   thread,
 }: {
   messages: IResponseMessage[]
-  dataUser: IUserResponse
+  dataUser: IUserOffer
   isLoading: boolean
   thread: IResponseThread
 }) {
@@ -43,11 +43,7 @@ export const ListMessages = memo(function ListMessages({
         }
         if (Number(item.emitterId) === Number(dataUser?.id!) && item.type === "messages") {
           return (
-            <ItemUserMessage
-              key={`${item?.id}-message-${item.id}`}
-              photo={dataUser?.profile?.image?.attributes?.url!}
-              messages={item.messages!}
-            />
+            <ItemUserMessage key={`${item?.id}-message-${item.id}`} photo={dataUser?.image?.attributes?.url!} messages={item.messages!} />
           )
         }
         if (item.type === "time") {
@@ -60,7 +56,7 @@ export const ListMessages = memo(function ListMessages({
   }, [dataUser, messages, join, userId, attributes?.url])
 
   useEffect(() => {
-    flushSync(() => {
+    setTimeout(() => {
       if (messages?.length > 0) {
         if (ulChat.current) {
           const top = ulChat.current.scrollHeight

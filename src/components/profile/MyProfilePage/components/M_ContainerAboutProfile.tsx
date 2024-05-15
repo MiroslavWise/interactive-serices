@@ -7,7 +7,7 @@ import { BadgesColors } from "./BadgesColors"
 import { Button, NextImageMotion } from "@/components/common"
 
 import { dayFormat } from "@/helpers"
-import { getProfileUserId, getUserId, serviceFriends } from "@/services"
+import { getProfile, getUserId, serviceFriends } from "@/services"
 import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile, EModalData, useAuth, useDroverFriends } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
@@ -23,7 +23,7 @@ export const MContainerAboutProfile = () => {
   })
 
   const { data: dataProfile } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId!],
     enabled: !!userId,
   })
@@ -64,7 +64,7 @@ export const MContainerAboutProfile = () => {
         <section data-profile>
           <div data-img={!!dataProfile?.res?.image?.attributes?.url!}>
             <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={80} height={80} />
-            {!!dataUser?.res?.profile?.image?.attributes?.url ? (
+            {!!dataProfile?.res?.image?.attributes?.url ? (
               <img data-absolute src="/svg/verified-tick.svg" alt="tick" width={32} height={32} />
             ) : null}
           </div>
@@ -85,22 +85,23 @@ export const MContainerAboutProfile = () => {
             typeButton="regular-primary"
             label="Редактировать профиль"
             onClick={() => dispatchModal(EModalData.UpdateProfile)}
+            data-test="button-open-modal-update-profile"
           />
-          <button type="button" data-circle onClick={handleOpenOption}>
+          <button type="button" data-circle onClick={handleOpenOption} data-test="button-open-option">
             <img src="/svg/accent-dots.svg" alt="..." width={16} height={16} />
           </button>
         </section>
         <BadgesColors userId={userId!} />
       </div>
       <div data-block-buttons>
-        <button onClick={addDesiredService} data-services>
+        <button onClick={addDesiredService} data-services data-test="button-open-modal-add-desired-service">
           <h4>Желаемые услуги</h4>
           <article>
             <h3>{categories || "Добавить"}</h3>
             <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
           </article>
         </button>
-        <button onClick={handleOpen} data-friends>
+        <button onClick={handleOpen} data-friends data-test="button-open-modal-friends">
           <h4>Мои друзья</h4>
           <article>
             <h3>{friends}</h3>

@@ -12,7 +12,7 @@ import { ButtonsFooter } from "./ButtonsFooter"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
-import { fileUploadService, getProfileUserId, serviceAuthErrors, serviceProfile } from "@/services"
+import { fileUploadService, getProfile, serviceAuthErrors, serviceProfile } from "@/services"
 
 const GENDER: { label: string; value: TGenderForm }[] = [
   {
@@ -51,7 +51,7 @@ export const PersonalData = () => {
   })
 
   const { data, refetch } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId!],
     enabled: !!userId,
   })
@@ -105,42 +105,40 @@ export const PersonalData = () => {
         valuesProfile.gender = values.gender
       }
 
-      Promise.all([!!data?.res?.id ? serviceProfile.patch(valuesProfile, data?.res?.id!) : serviceProfile.post(valuesProfile!)]).then(
-        (responses) => {
-          if (responses?.[0]?.ok) {
-            const idProfile = responses?.[0]?.res?.id!
-            if (file.file) {
-              UpdatePhotoProfile(idProfile).then((response) => {
-                if (response?.ok) {
-                  const dataPatch: IPostProfileData = { imageId: response?.res?.id }
-                  serviceProfile.patch(dataPatch, idProfile).then(() => {
-                    refetch()
-                    requestAnimationFrame(dispatchModalClose)
-                  })
-                } else {
-                  if (response?.error?.message?.toLowerCase()?.includes("request entity too large") || response?.error?.code === 413) {
-                    setErrorFile(serviceAuthErrors.get("request entity too large") || null)
-                  }
+      Promise.all([!!data?.ok ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)]).then((responses) => {
+        if (responses?.[0]?.ok) {
+          const idProfile = responses?.[0]?.res?.id!
+          if (file.file) {
+            UpdatePhotoProfile(idProfile).then((response) => {
+              if (response?.ok) {
+                const dataPatch: IPostProfileData = { imageId: response?.res?.id }
+                serviceProfile.patch(dataPatch).then(() => {
+                  refetch()
+                  requestAnimationFrame(dispatchModalClose)
+                })
+              } else {
+                if (response?.error?.message?.toLowerCase()?.includes("request entity too large") || response?.error?.code === 413) {
+                  setErrorFile(serviceAuthErrors.get("request entity too large") || null)
                 }
-              })
-            } else {
-              refetch()
-              requestAnimationFrame(dispatchModalClose)
-            }
+              }
+            })
           } else {
-            setLoading(false)
-            if (responses[0]?.error?.code === 409) {
-              return setError("username", { message: "user exists" })
-            }
-            if (responses[0]?.error?.code === 401) {
-              on({
-                message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
-              })
-              out()
-            }
+            refetch()
+            requestAnimationFrame(dispatchModalClose)
           }
-        },
-      )
+        } else {
+          setLoading(false)
+          if (responses[0]?.error?.code === 409) {
+            return setError("username", { message: "user exists" })
+          }
+          if (responses[0]?.error?.code === 401) {
+            on({
+              message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
+            })
+            out()
+          }
+        }
+      })
     }
   }
 

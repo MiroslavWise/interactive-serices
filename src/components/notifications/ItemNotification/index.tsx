@@ -42,11 +42,15 @@ export const ItemNotification = (props: IResponseNotifications) => {
   const idUser = useMemo(() => {
     if (provider === "barter") return data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
     if (provider === "offer-pay") {
-      const dataTh = data as unknown as IResponseThreads
+      const dataTh = data as unknown as IResponseThreads & { emitterId: number; receiverIds: number[] }
       if (dataTh?.emitterId! === userId) {
         return dataTh?.receiverIds[0]
       } else if (dataTh?.receiverIds?.includes(userId!)) {
         return dataTh?.emitterId
+      } else if (dataTh?.emitter?.id === userId) {
+        return dataTh?.receivers[0]?.id
+      } else if (dataTh?.receivers?.some((_) => _?.id === userId)) {
+        return dataTh?.emitter?.id
       }
     }
     return null

@@ -17,8 +17,8 @@ export const BadgeServices: TBadgeServices = (props) => {
   function handle() {
     if (id && isClickable) {
       const { isClickable, ...offer } = props ?? {}
-      dispatchModal(EModalData.BalloonOffer)
-      dispatchBallonOffer({ offer: offer! as IResponseOffers })
+      // dispatchModal(EModalData.BalloonOffer)
+      // dispatchBallonOffer({ offer: offer! as IResponseOffers })
     }
   }
 

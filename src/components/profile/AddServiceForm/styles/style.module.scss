@@ -272,6 +272,71 @@
     flex-direction: column;
     gap: 0.75rem;
 
+    &[data-is-filter="true"] {
+      & > [data-item] {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1.25rem;
+        cursor: pointer;
+
+        [data-img] {
+          padding: 0;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        & > span {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 0.875rem;
+        }
+
+        &[data-active="true"] {
+          & > [data-check] {
+            border-color: var(--grey-stroke);
+            background: var(--element-accent-1);
+          }
+        }
+
+        &[data-disabled="true"] {
+          & > [data-check] {
+            filter: grayscale(100%);
+            cursor: no-drop !important;
+          }
+
+          & > span {
+            & > [data-img] {
+              opacity: 0.2;
+            }
+            color: var(--text-disabled);
+            cursor: no-drop !important;
+          }
+        }
+      }
+
+      & > article {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding-inline: 1.25rem;
+
+        & > p {
+          color: var(--text-primary);
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.5rem;
+        }
+      }
+    }
+
     & > a {
       position: relative;
       width: 100%;
@@ -380,6 +445,7 @@
           flex-direction: row;
           align-items: center;
           gap: 1.25rem;
+          cursor: pointer;
 
           [data-img] {
             padding: 0;
@@ -474,6 +540,8 @@
     padding: 0.125rem;
     cursor: pointer;
     position: relative;
+    outline: none;
+    background-color: transparent;
 
     & > svg {
       position: absolute;

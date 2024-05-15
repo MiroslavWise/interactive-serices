@@ -9,20 +9,13 @@ import { ImageStatic, NextImageMotion } from "@/components/common"
 import { patchProfile } from "@/services"
 
 import styles from "../styles/image.module.scss"
+import { useAuth } from "@/store"
 
-export const ImageProfile = memo(function ImageProfile({
-  file,
-  image,
-  setFile,
-  idProfile,
-  refetch,
-  errorFile,
-  setErrorFile,
-}: IMageProfile) {
+export const ImageProfile = memo(function ImageProfile({ file, image, setFile, refetch, errorFile, setErrorFile }: IMageProfile) {
+  const userId = useAuth(({ userId }) => userId)
   const [loading, setLoading] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log("acceptedFiles: ", acceptedFiles)
     const file = acceptedFiles[0]
 
     if (file) {
@@ -50,7 +43,6 @@ export const ImageProfile = memo(function ImageProfile({
     },
     maxFiles: 1,
     multiple: false,
-    maxSize: 9.9 * 1024 * 1024,
   })
 
   async function handleDelete() {
@@ -59,7 +51,7 @@ export const ImageProfile = memo(function ImageProfile({
         const dataPatch: IPatchProfileData = {
           imageId: null,
         }
-        await patchProfile(dataPatch, idProfile).then(() => {
+        await patchProfile(dataPatch).then(() => {
           refetch().then(() => {
             setLoading(false)
           })

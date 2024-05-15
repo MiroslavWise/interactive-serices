@@ -2,7 +2,7 @@ import { memo, useMemo } from "react"
 
 import { IResponseOffers } from "@/services/offers/types"
 
-import { ItemImages } from "./ItemImages"
+import ItemImages from "./ItemImages"
 import { ImageCategory } from "@/components/common"
 import IconRepeat from "@/components/icons/IconRepeat"
 

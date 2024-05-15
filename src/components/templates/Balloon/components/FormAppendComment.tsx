@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { Dispatch, memo, SetStateAction, useState } from "react"
 
 import { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
@@ -11,10 +11,15 @@ import styles from "../styles/form-append-comment.module.scss"
 export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCurrentComments }: IProps) => {
   const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
+  const user = useAuth(({ user }) => user)
 
-  const { register, watch, setValue, handleSubmit } = useForm<IValues>({})
+  const { watch, handleSubmit, reset, control } = useForm<IValues>({
+    defaultValues: {
+      text: "",
+    },
+  })
 
-  function submit(values: IValues) {
+  const onSubmit = handleSubmit(function (values) {
     if (!loading) {
       setLoading(true)
       if (!!values?.text?.trim()) {
@@ -34,11 +39,12 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
             userId: userId!,
             status: "create",
             created: new Date(),
+            user: user!,
           },
         ])
 
         serviceComments.post(data).then((response) => {
-          setValue("text", "")
+          reset()
           requestAnimationFrame(() => {
             refetchComments().then(() => {
               setLoading(false)
@@ -49,25 +55,34 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
         setLoading(false)
       }
     }
-  }
-
-  const onSubmit = handleSubmit(submit)
+  })
 
   return (
     <form onSubmit={onSubmit} className={styles.container}>
-      <input
-        {...register("text", { required: true, minLength: 3, maxLength: 240 })}
-        type="text"
-        placeholder="Ваш комментарий..."
-        autoComplete="off"
-        maxLength={240}
-        onKeyDown={(event) => {
-          if (event.keyCode === 13 || event.code === "Enter") {
-            onSubmit()
-          }
+      <Controller
+        name="text"
+        control={control}
+        rules={{
+          required: true,
+          minLength: 3,
+          maxLength: 240,
         }}
+        render={({ field, fieldState: { error }, formState }) => (
+          <input
+            {...field}
+            type="text"
+            placeholder="Ваш комментарий... (мин. 3 символа)"
+            autoComplete="off"
+            maxLength={240}
+            onKeyDown={(event) => {
+              if (event.keyCode === 13 || event.code === "Enter") {
+                onSubmit()
+              }
+            }}
+          />
+        )}
       />
-      <button type="submit" disabled={!watch("text")?.trim() || loading}>
+      <button type="submit" disabled={watch("text").trim().length < 3 || loading}>
         <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
       </button>
     </form>

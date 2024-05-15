@@ -1,5 +1,4 @@
 export * from "./Review"
 export * from "./CardDiscussion"
 export * from "./WalletPay"
-export * from "./GeneralServiceAllItem"
 export * from "./Barter"

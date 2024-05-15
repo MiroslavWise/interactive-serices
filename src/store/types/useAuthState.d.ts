@@ -1,4 +1,5 @@
 import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
+import { IUserOffer } from "@/services/offers/types"
 import { IReturnData } from "@/services/types/general"
 import type { DispatchWithoutAction, Dispatch } from "react"
 
@@ -16,15 +17,6 @@ export interface ISetToken {
   expires: number
   ok: boolean
   email: string
-}
-
-interface IUser {
-  firstName: string
-  lastName: string
-  username: string
-  birthdate: Date | string
-  about?: string
-  enabled: boolean
 }
 
 export interface IImageData {
@@ -52,7 +44,7 @@ export interface IAuthState {
   userId?: number
   profileId?: number
   isAuth?: boolean
-  user?: IUser
+  user?: IUserOffer
   imageProfile?: IImageData
   createdUser?: string | Date
   addresses?: IAddressesResponse[]

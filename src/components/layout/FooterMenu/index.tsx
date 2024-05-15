@@ -15,7 +15,7 @@ export default function FooterMenu({}) {
   const thread = useSearchParams()?.get("thread")
 
   return (
-    <footer className={styles.container} data-not-active={pathname.includes("messages") && !!thread}>
+    <footer className={styles.container} data-not-active={pathname.includes("messages") && !!thread} data-test="footer-menu-mobile">
       <nav>
         <LinkMap />
         <LinkOffers />

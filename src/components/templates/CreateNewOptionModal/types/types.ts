@@ -6,4 +6,9 @@ export interface IFormValues {
   addressFeature: IFeatureMember
   categoryId: number | null
   content: string
+
+  file: {
+    file: File[]
+    string: string[]
+  }
 }

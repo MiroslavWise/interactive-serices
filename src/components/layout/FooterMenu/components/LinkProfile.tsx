@@ -28,6 +28,7 @@ export const LinkProfile = memo(function LinkProfile() {
           handleAuthModal()
         }
       }}
+      data-test="link-footer-menu-mobile-profile"
     >
       <div className={styles.itemsIconLabel}>
         <article>{MENU_ICONS.profile}</article>

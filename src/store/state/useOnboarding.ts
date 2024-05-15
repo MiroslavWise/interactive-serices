@@ -58,7 +58,7 @@ export const dispatchOnboarding = (values: TActionOnboarding) =>
           type: null,
         }
       }
-      if ([2, 2.5].includes(_.step) && _.type === EnumTypeProvider.offer) {
+      if ([2, 2.5].includes(_.step)) {
         return {
           step: _.step + 0.5,
         }
@@ -71,7 +71,7 @@ export const dispatchOnboarding = (values: TActionOnboarding) =>
         return {}
       }
 
-      if ([3, 2.5].includes(_.step) && _.type === EnumTypeProvider.offer) {
+      if ([3, 2.5].includes(_.step)) {
         return {
           step: _.step - 0.5,
         }

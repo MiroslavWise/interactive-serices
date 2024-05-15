@@ -1,9 +1,3 @@
-import { create } from "zustand"
+import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
-import type { IStateActiveServicesFrom } from "../types/typeActiveServicesFrom"
-
-export const useActiveServicesFrom = create<IStateActiveServicesFrom>(() => ({
-  visible: false,
-}))
-
-export const dispatchActiveServicesFrom = (value: boolean) => useActiveServicesFrom.setState((_) => ({ visible: value }))
+export const dispatchActiveServicesFrom = (value: boolean) => (value ? dispatchModal(EModalData.ActiveServicesFrom) : dispatchModalClose())

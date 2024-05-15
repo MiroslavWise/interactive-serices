@@ -25,6 +25,7 @@ export const CreateButton = memo(function CreateButton() {
           }
         }
       }}
+      data-test="link-footer-menu-mobile-create"
     >
       <div className={styles.itemsIconLabel}>
         <div className={styles.centerPoligon} id="id-create-menu-footer">

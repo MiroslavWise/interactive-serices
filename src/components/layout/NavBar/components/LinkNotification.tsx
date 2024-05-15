@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation"
-import { memo, useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { memo, useEffect, useState } from "react"
 
 import type { IResponseNotifications } from "@/services/notifications/types"
 
@@ -8,11 +8,11 @@ import LinkProgress from "@/components/common/LinkProgress"
 import { ItemNotification } from "@/components/notifications"
 
 import { useAuth } from "@/store"
-import { serviceNotifications } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
+import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
 
-export const LinkNotification = memo(function LinkNotification() {
+export const LinkNotification = memo(() => {
   const pathname = usePathname()
   const [count, setCount] = useState<number | null>(null)
   const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
@@ -32,6 +32,7 @@ export const LinkNotification = memo(function LinkNotification() {
       let count = 0
       const newArray: IResponseNotifications[] = []
       const oldArray: IResponseNotifications[] = []
+
       for (const item of data?.res) {
         if (item.read) {
           oldArray.push(item)

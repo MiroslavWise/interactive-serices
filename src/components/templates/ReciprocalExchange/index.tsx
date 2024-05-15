@@ -66,20 +66,32 @@ export default function ReciprocalExchange() {
   const onSubmit = handleSubmit(submit)
 
   async function submit(values: IFormValues) {
-    if (!values.my_offer && !values.description) {
-      setError("description", { message: "Введите описание (минимум 5 символов)" })
-      setError("root", { message: "Вы не выбрали то, что хотите предложить взамен" })
+    if (values.select_new_proposal === ETypeOfNewCreated.new && !values.description_new_offer) {
+      setError("description_new_offer", { message: "Введите описание (минимум 5 символов)" })
       return
     }
 
+    if (values.select_new_proposal === ETypeOfNewCreated.interesting && !values.description) {
+      setError("description", { message: "Введите описание (минимум 5 символов)" })
+      return
+    }
     if (!loading) {
       setLoading(true)
 
-      const dataNewOffer: IPostOffers = {
-        categoryId: watch("category"),
+      const dataNewEmptyOffer: IPostOffers = {
+        categoryId: values.category,
         provider: EnumTypeProvider.offer,
         title: values.description,
         slug: transliterateAndReplace(values.description),
+        enabled: true,
+        desired: true,
+      }
+
+      const dataNewOffer: IPostOffers = {
+        categoryId: values.categoryId!,
+        provider: EnumTypeProvider.offer,
+        title: values.description_new_offer,
+        slug: transliterateAndReplace(values.description_new_offer),
         enabled: true,
         desired: true,
       }
@@ -102,8 +114,12 @@ export default function ReciprocalExchange() {
         })
       }
 
-      Promise.all([
-        !values.my_offer && values.description ? postOffer(dataNewOffer) : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
+      await Promise.all([
+        values.select_new_proposal === ETypeOfNewCreated.interesting
+          ? postOffer(dataNewEmptyOffer)
+          : values.select_new_proposal === ETypeOfNewCreated.new
+          ? postOffer(dataNewOffer)
+          : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
       ]).then((response: [IReturnData<IResponseCreate>]) => {
         if (response?.[0]?.ok) {
           const dataBarter: IPostDataBarter = {

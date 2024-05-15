@@ -1,3 +1,4 @@
+import type { IUserOffer } from "../offers/types"
 import type { IPromiseReturn } from "@/services/types/general"
 
 export type TTypeStatusComments = "published" | "create"
@@ -13,6 +14,7 @@ export interface ICommentsResponse {
   enabled: boolean
   created?: Date
   updated?: Date
+  user: IUserOffer
 }
 
 export interface IPostDataComment {

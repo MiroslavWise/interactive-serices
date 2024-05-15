@@ -17,15 +17,15 @@ export default function OutAccount() {
 
   return (
     <>
-      <article>
+      <article data-test="article-out-account">
         <div data-img>
           <img src="/svg/log-out.svg" alt="out" width={20} height={20} />
         </div>
         <h2>Вы уверены, что хотите выйти из аккаунта?</h2>
       </article>
-      <footer>
-        <Button type="button" typeButton="fill-primary" label="Да, выйти" onClick={outAccount} />
-        <Button type="button" typeButton="regular-primary" label="Нет, остаться" onClick={close} />
+      <footer data-test="footer-out-account">
+        <Button type="button" typeButton="fill-primary" label="Да, выйти" onClick={outAccount} data-test="button-out-account-on-out" />
+        <Button type="button" typeButton="regular-primary" label="Нет, остаться" onClick={close} data-test="button-out-account-close" />
       </footer>
     </>
   )

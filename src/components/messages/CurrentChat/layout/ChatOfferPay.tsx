@@ -1,6 +1,5 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useInsertionEffect, useMemo } from "react"
 
@@ -92,7 +91,7 @@ export function ChatOfferPay() {
       }
       if (idCreate) {
         refetchCountMessages()
-        flushSync(() => {
+        requestAnimationFrame(() => {
           handleReplace(`/messages?thread=${idCreate}`)
         })
         return

@@ -15,7 +15,7 @@ export const FiltersScreen = () => {
   }
 
   return (
-    <div className={styles.container} data-visible={visible}>
+    <div className={styles.container} data-visible={visible} data-test="filters-screen">
       <button data-close onClick={close}>
         <IconXClose />
       </button>

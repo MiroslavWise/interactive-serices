@@ -13,6 +13,7 @@ import { getUserId, patchUser } from "@/services"
 import { dispatchChangeService, useAuth, useChangeService, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import ItemCategorySearch from "./components/ItemCategorySearch"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)
@@ -34,13 +35,16 @@ export const ChangeService = () => {
   })
 
   useEffect(() => {
-    if (data?.res && data?.res?.categories?.length > 0) {
+    if (data?.res && Array.isArray(data?.res?.categories)) {
       setValue(
         "categories",
         data?.res?.categories?.map((item) => item?.id!),
       )
     }
   }, [data])
+
+  const idsActive = watch("categories")
+  const isFilter = watch("search-categories")?.trim()?.length > 0
 
   const onSubmit = handleSubmit(submit)
 
@@ -67,13 +71,9 @@ export const ChangeService = () => {
     }
   }, [categories])
 
-  const filter: IMainAndSubCategories[] = useMemo(() => {
-    return categoriesMainSub.filter(
-      (item) =>
-        item?.main?.title?.toLowerCase()?.includes(watch("search-categories")?.toLowerCase()?.trim()) ||
-        item?.subs?.some((item_) => item_?.title?.toLowerCase()?.includes(watch("search-categories")?.toLowerCase()?.trim())),
-    )
-  }, [watch("search-categories"), categoriesMainSub])
+  const filter = useMemo(() => {
+    return categories.filter((item) => item?.title?.toLowerCase()?.includes(watch("search-categories")?.trim()?.toLowerCase()))
+  }, [watch("search-categories"), categories])
 
   const selectedCategories = useMemo(() => {
     return categories?.filter((item) => watch("categories")?.includes(item?.id!))
@@ -102,25 +102,33 @@ export const ChangeService = () => {
 
   return (
     <div className={styles.wrapper} data-active={visible} data-blur-modal>
-      <section>
-        <header>
+      <section data-test="section-change-service">
+        <header data-test="header-change-service">
           <a
             onClick={(event) => {
               event.stopPropagation()
               dispatchChangeService({ visible: false })
             }}
+            data-test="a-back-change-service"
           >
             <img src="/svg/arrow-left.svg" alt="<=" width={24} height={24} />
           </a>
           <h2>Добавить услуги</h2>
         </header>
         <ul>
-          <form className={styles.form} onSubmit={onSubmit}>
+          <form className={styles.form} onSubmit={onSubmit} data-test="form-change-service">
             <span>
               Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.
             </span>
             <div data-search>
-              <input {...register("search-categories")} placeholder="Найти услугу" type="text" list="search" autoComplete="off" />
+              <input
+                {...register("search-categories")}
+                placeholder="Найти услугу"
+                type="text"
+                list="search"
+                autoComplete="off"
+                data-test="input-search-change-service"
+              />
               <img src="/svg/search-md.svg" alt="search" width={20} height={20} data-search />
               <img
                 src="/svg/x-close.svg"
@@ -133,13 +141,8 @@ export const ChangeService = () => {
                   setValue("search-categories", "")
                 }}
               />
-              <datalist id="search">
-                {categories.map((item) => (
-                  <option key={`::category::list::data::${item.id}::`} value={item.title} />
-                ))}
-              </datalist>
             </div>
-            <div data-categories-selected={selectedCategories.length > 0}>
+            <div data-categories-selected={selectedCategories.length > 0} data-test="categories-selected-change-service">
               {selectedCategories.map((item) => (
                 <a key={`::selected::item::${item.id}::`}>
                   <span>{item.title}</span>
@@ -152,19 +155,32 @@ export const ChangeService = () => {
                         watch("categories").filter((item_) => item_ !== item.id),
                       )
                     }}
+                    data-test="button-selected-current-change-service-on-delete"
                   >
                     <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} />
                   </button>
                 </a>
               ))}
             </div>
-            <section {...register("categories")}>
-              {filter.map((item) => (
-                <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={watch("categories")} />
-              ))}
+            <section {...register("categories")} data-is-filter={isFilter}>
+              {isFilter ? (
+                filter.length ? (
+                  filter.map((item) => (
+                    <ItemCategorySearch key={`::item::filter::map::${item.id}::`} item={item} setValue={setValue} idsActive={idsActive} />
+                  ))
+                ) : (
+                  <article>
+                    <p>Результатов не найдено</p>
+                  </article>
+                )
+              ) : (
+                categoriesMainSub.map((item) => (
+                  <ItemCategory key={`::main::category::${item?.main?.id}::`} {...item} setValue={setValue} idsActive={idsActive} />
+                ))
+              )}
             </section>
             <footer>
-              <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} />
+              <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} data-test="button-change-service-submit" />
             </footer>
           </form>
         </ul>

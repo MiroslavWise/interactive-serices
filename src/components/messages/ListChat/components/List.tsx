@@ -1,41 +1,44 @@
 "use client"
 
-import dynamic from "next/dynamic"
 import { memo, useEffect, useState } from "react"
 
-import type { IFiltersItems, TList } from "./types/types"
+import type { TList } from "./types/types"
+import { IResponseThreads } from "@/services/threads/types"
 
+import { ItemListChat } from "./ItemListChat"
 import { ThreadLoading } from "@/components/common"
-const ItemListChat = dynamic(() => import("./ItemListChat").then((res) => res.ItemListChat), {
-  ssr: false,
-  loading: () => <ThreadLoading key={`load-l`} />,
-})
 
+import { useAuth } from "@/store"
 import { useCountMessagesNotReading, useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const List: TList = memo(function List({ items, search, setTotal, loadUser }) {
+export const List: TList = memo(({ items = [], search = "", setTotal }) => {
+  const userId = useAuth(({ userId }) => userId)
   const { isTablet } = useResize()
-  const [state, setState] = useState<IFiltersItems[]>([])
+  const [state, setState] = useState<IResponseThreads[]>(items)
   const { isLoading } = useCountMessagesNotReading()
 
   useEffect(() => {
-    if (items.length) {
+    const searchTrim = search?.trim()?.toLowerCase()
+    if (items.length && !!searchTrim) {
       const filters =
-        items?.filter((item) =>
-          `${item?.people?.profile?.firstName} ${item?.people?.profile?.lastName}`?.toLowerCase()?.includes(search?.toLowerCase()),
-        ) || []
+        items?.filter((item) => {
+          if (!searchTrim) return true
+          const interlocutor = item.emitter.id === userId ? item.receivers[0] : item.emitter
+
+          return `${interlocutor?.firstName} ${interlocutor?.lastName}`?.toLowerCase()?.includes(searchTrim)
+        }) || []
       setState(filters)
     }
-  }, [search, items, setTotal])
+  }, [search, items, userId])
 
   return (
     <ul className={isTablet ? styles.containerListMobile : styles.containerList}>
-      {isLoading || loadUser
+      {isLoading
         ? [1, 2, 3].map((item) => <ThreadLoading key={`::loading::${item}`} />)
         : state?.map((item, index) => (
-            <ItemListChat key={`${item?.thread?.id}-${index}-item-chat`} {...item} last={index < state.length - 1} />
+            <ItemListChat key={`${item?.id}-${index}-item-chat`} thread={item} last={index < items.length - 1} />
           ))}
     </ul>
   )

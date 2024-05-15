@@ -5,6 +5,7 @@ export const useCookies = create(
   persist<IStateCookies>(() => ({ isUse: false, visible: false }), {
     name: "::--cookies--::",
     storage: createJSONStorage(() => localStorage),
+    version: 3,
   }),
 )
 

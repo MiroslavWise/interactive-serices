@@ -22,6 +22,7 @@ const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
 })
 const BannerServices = dynamic(() => import("@/components/content/BannerServices"), {
   ssr: false,
+  suspense: true,
 })
 const YandexMap = dynamic(() => import("../components/YandexMap"), {
   ssr: false,

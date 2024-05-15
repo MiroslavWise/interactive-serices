@@ -44,6 +44,7 @@ export const LinkOffers = memo(function LinkOffers() {
           handleAuthModal()
         }
       }}
+      data-test="link-footer-menu-mobile-offers"
     >
       <div className={styles.itemsIconLabel}>
         <article>{MENU_ICONS.offers}</article>

@@ -1,12 +1,12 @@
 import { memo, useEffect, useState } from "react"
 
 import { serviceAuth } from "@/services"
+import { dayFormat, getMillisecond } from "@/helpers"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store"
-import { getMillisecond } from "@/helpers"
 
 const INITIAL_TIME = 120
 
-export const TimerData = memo(function TimerData() {
+export const TimerData = memo(() => {
   const [loading, setLoading] = useState(false)
   const phone = useModalAuth(({ phone }) => phone)
   const prevType = useModalAuth(({ prevType }) => prevType)
@@ -20,7 +20,10 @@ export const TimerData = memo(function TimerData() {
   useEffect(() => {
     if (time) {
       const interval = setInterval(() => {
-        const seconds = INITIAL_TIME - Math.round(getMillisecond(new Date()) / 1000 - getMillisecond(time) / 1000)
+        const intSecondNow = getMillisecond(dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!) / 1000
+        const intSecondOld = getMillisecond(time) / 1000
+
+        const seconds = INITIAL_TIME - Math.round(intSecondNow - intSecondOld)
         if (seconds > 0) {
           const minutes = Math.floor(seconds / 60)
           const second = Math.floor(seconds - minutes * 60)

@@ -10,7 +10,7 @@ import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { ItemDescriptions } from "./components/ItemDescriptions"
 import { ProfileComponent } from "../components/ProfileComponent"
-import { GeoData } from "@/components/common/Card/GeneralServiceAllItem/components/GeoData"
+import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { usePush } from "@/helpers"
 import { getBarters } from "@/services"

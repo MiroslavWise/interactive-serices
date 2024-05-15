@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import type { IUserResponse } from "@/services/users/types"
 import { EnumTypeProvider } from "@/types/enum"
 
-import { GeneralItem } from "@/components/common"
+import CardBallon from "@/components/common/Card/CardBallon"
 
 import { getUserIdOffers } from "@/services"
 
@@ -25,7 +25,7 @@ export const ContainerServices = memo(function ContainerServices(props: IUserRes
   return (
     <ul data-items>
       {list?.map((item) => (
-        <GeneralItem key={`::offer::general::${item.id}::`} offer={item} />
+        <CardBallon key={`::offer::general::${item.id}::`} offer={item} />
       ))}
     </ul>
   )

@@ -31,8 +31,8 @@ export const ChatEmpty = () => {
       })
       return res?.find(
         (item) =>
-          ((item?.receiverIds?.find((id) => id === receiverId) && item?.emitterId === emitterId) ||
-            (item?.receiverIds?.find((id) => id === emitterId) && item?.emitterId === receiverId)) &&
+          ((item?.receivers?.find((_) => _.id === receiverId) && item?.emitter?.id! === emitterId) ||
+            (item?.receivers?.find((_) => _.id === emitterId) && item?.emitter?.id! === receiverId)) &&
           item?.provider?.includes(EnumProviderThreads.PERSONAL),
       )
     }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { Dispatch, SetStateAction, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -8,7 +8,7 @@ import { Button } from "@/components/common"
 
 import { useAuth } from "@/store"
 import { useOut } from "@/helpers"
-import { getProfileUserId, patchProfile } from "@/services"
+import { getProfile, patchProfile } from "@/services"
 
 export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetStateAction<boolean>> }) => {
   const [loading, setLoading] = useState(false)
@@ -16,7 +16,7 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
   const userId = useAuth(({ userId }) => userId)
 
   const { data: dataProfile, refetch } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId],
     enabled: !!userId,
   })
@@ -27,6 +27,7 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
     register,
     watch,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<{ text: string }>({
     defaultValues: {
@@ -37,17 +38,27 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
   const onSubmit = handleSubmit((values) => {
     if (!loading) {
       setLoading(true)
-      patchProfile({ about: values.text! }, res?.id!)
-        .then((response) => {
-          if (response.error?.code === 401) {
-            out()
-            return
-          }
-          refetch()
-        })
-        .finally(() => {
-          setIsEditing(false)
-        })
+
+      const newText = values?.text?.trim()
+      const oldText = res?.about || ""
+
+      if (newText !== oldText && !!newText) {
+        patchProfile({ about: values.text! })
+          .then((response) => {
+            if (response.error?.code === 401) {
+              out()
+              return
+            }
+            refetch()
+          })
+          .finally(() => {
+            setLoading(false)
+            setIsEditing(false)
+          })
+      } else {
+        setLoading(false)
+        setIsEditing(false)
+      }
     }
   })
 
@@ -58,7 +69,12 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
 
   return (
     <form onSubmit={onSubmit}>
-      <textarea {...register("text", { required: true })} data-error={!!errors?.text} />
+      <Controller
+        name="text"
+        control={control}
+        rules={{ required: true }}
+        render={({ field, fieldState: { error } }) => <textarea {...field} data-error={!!error} />}
+      />
       <footer>
         <div data-buttons>
           <Button type="submit" typeButton="fill-primary" label="Сохранить" disabled={disabled} loading={loading} />

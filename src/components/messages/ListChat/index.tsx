@@ -14,8 +14,9 @@ import { useWebSocket } from "@/context"
 import { getMillisecond, useCountMessagesNotReading, useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
+import { IResponseThreads } from "@/services/threads/types"
 
-export const ListChat = memo(function ListChat() {
+export const ListChat = memo(() => {
   const { isTablet } = useResize()
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState("")
@@ -24,66 +25,22 @@ export const ListChat = memo(function ListChat() {
 
   const { data, refetchCountMessages } = useCountMessagesNotReading()
 
-  const usersIds = useMemo(() => {
-    if (!!data?.res && !!userId) {
-      const idsArray =
-        data?.res?.map((item) => {
-          return Number(item?.emitterId) === Number(userId) ? Number(item?.receiverIds[0]) : Number(item?.emitterId)
-        }) || []
-      const ids = new Set(idsArray)
-      const array: number[] = []
-      ids.forEach((item) => {
-        if (item) {
-          array.push(item)
-        }
-      })
-      return array
-    }
-    return []
-  }, [data?.res, userId])
-
-  const arrayUsers = useQueries({
-    queries: usersIds.map((item) => ({
-      queryFn: () => getUserId(item),
-      queryKey: ["user", { userId: item }],
-      enabled: !!item,
-    })),
-  })
-
-  const loadUser = useMemo(() => {
-    return arrayUsers?.some((item) => item.isLoading)
-  }, [arrayUsers])
-
   const itemsProvider = data?.res || []
 
-  const items: IFiltersItems[] = useMemo(() => {
-    const ITEMS: IFiltersItems[] = []
-    if (itemsProvider?.length && arrayUsers?.every((item) => !item.isLoading)) {
-      itemsProvider?.forEach((item) => {
-        const idUser = Number(item?.emitterId) === Number(userId) ? Number(item?.receiverIds[0]) : Number(item?.emitterId)
-        const people = arrayUsers.find((item) => Number(item?.data?.res?.id) === Number(idUser) && item?.data?.res?.profile)
-        if (people) {
-          ITEMS.push({
-            thread: item!,
-            people: people?.data?.res!,
-          })
-        }
-      })
+  const items: IResponseThreads[] = useMemo(() => {
+    const ITEMS: IResponseThreads[] = itemsProvider
+    if (ITEMS.length) {
       ITEMS.sort((prev, next) => {
-        const prevNumber = prev.thread.messages?.[0]?.created!
-          ? getMillisecond(prev.thread.messages?.[0]?.created!)
-          : getMillisecond(prev.thread?.created!)
+        const prevNumber = prev.messages?.[0]?.created! ? getMillisecond(prev.messages?.[0]?.created!) : getMillisecond(prev?.created!)
 
-        const nextNumber = next.thread.messages?.[0]?.created!
-          ? getMillisecond(next.thread.messages?.[0]?.created!)
-          : getMillisecond(next.thread?.created!)
+        const nextNumber = next.messages?.[0]?.created! ? getMillisecond(next.messages?.[0]?.created!) : getMillisecond(next?.created!)
 
         return nextNumber - prevNumber
       })
     }
 
     return ITEMS
-  }, [arrayUsers, itemsProvider, userId])
+  }, [itemsProvider])
 
   useEffect(() => {
     function chatResponse(event: any) {
@@ -111,7 +68,7 @@ export const ListChat = memo(function ListChat() {
           <SearchBlock {...{ search, setSearch }} />
         </>
       ) : null}
-      <List search={search} items={items} setTotal={setTotal} loadUser={loadUser} />
+      <List search={search} items={items} setTotal={setTotal} />
     </section>
   )
 })

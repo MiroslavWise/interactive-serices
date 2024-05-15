@@ -19,7 +19,7 @@ import styles from "../styles/style.module.scss"
 
 export const ChatEmptyBarter = () => {
   const { on } = useToast()
-  const idBarter = useSearchParams()?.get("barter-id")
+  const idBarter = useSearchParams().get("barter-id")
   const userId = useAuth(({ userId }) => userId)
   const { handleReplace } = usePush()
   const { refetchCountMessages } = useCountMessagesNotReading()

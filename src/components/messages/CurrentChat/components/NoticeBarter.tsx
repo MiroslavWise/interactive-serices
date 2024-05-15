@@ -1,6 +1,5 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useSearchParams } from "next/navigation"
 import { memo, useState, useMemo, useEffect } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
@@ -17,8 +16,9 @@ import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patc
 
 import styles from "./styles/notice-barter.module.scss"
 import { EnumStatusBarter } from "@/types/enum"
+import { IUserOffer } from "@/services/offers/types"
 
-export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: { idBarter: number; userData?: IUserResponse | null }) {
+export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: { idBarter: number; userData?: IUserOffer | null }) {
   const threadId = useSearchParams().get("thread")
   const user = useAuth(({ user }) => user)
   const userId = useAuth(({ userId }) => userId)
@@ -82,7 +82,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
   }, [categories, consigner, initiator])
 
   const geo = useMemo(() => {
-    return userData?.addresses?.find((item) => item?.addressType === "main")
+    // return userData?.addresses?.find((item) => item?.addressType === "main")
+    return null
   }, [userData])
 
   function handleAccept() {
@@ -104,7 +105,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
           })
           refetchBarters()
         }
-        flushSync(() => {
+        requestAnimationFrame(() => {
           setStateBarter((prev) => ({
             ...prev!,
             status: EnumStatusBarter.EXECUTED,
@@ -123,7 +124,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
         patchThread({ enabled: false }, Number(threadId)),
       ]).then(() => {
         Promise.all([refetchBarters(), refetchCountMessages()]).then(() => {
-          flushSync(() => {
+          setTimeout(() => {
             setLoading(false)
             handleReplace("/messages")
           })
@@ -184,7 +185,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
               </div>
               <time>{daysAgo(res?.created)}</time>
             </div>
-            {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null}
+            {/* {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null} */}
           </div>
         )}
         {[EnumStatusBarter.INITIATED, EnumStatusBarter.COMPLETED].includes(status!) ? (

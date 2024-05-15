@@ -1,33 +1,41 @@
 import { useEffect, useState } from "react"
-import { useQueries } from "@tanstack/react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 
-import { serviceLikes } from "@/services/likes"
-import { useAuth, useBalloonDiscussion } from "@/store/hooks"
+import { IResponseOffers } from "@/services/offers/types"
+
 import IconLike from "@/components/icons/IconLike"
 
-export const ButtonLike = () => {
+import { useAuth } from "@/store"
+import { serviceLikes } from "@/services/likes"
+
+interface IProps {
+  offer: IResponseOffers
+}
+
+export const ButtonLike = ({ offer }: IProps) => {
   const [loading, setLoading] = useState(false)
   const [count, setCount] = useState(0)
   const [myLike, setMyLike] = useState(false)
   const userId = useAuth(({ userId }) => userId)
-  const offer = useBalloonDiscussion(({ offer }) => offer)
   const { id } = offer ?? {}
 
-  const [{ data: dataLikesMy, isLoading: isLoadingLikesMy }, { data, isLoading }] = useQueries({
-    queries: [
-      {
-        queryFn: () => serviceLikes.get(),
-        queryKey: ["likes", `user=${userId}`],
-        enabled: !!userId,
-        refetchOnMount: true,
-      },
-      {
-        queryFn: () => serviceLikes.getTargetId("offer", id!),
-        queryKey: ["likes", `provider=offer`, `id=${id}`],
-        enabled: !!id,
-        refetchOnMount: true,
-      },
-    ],
+  const {
+    data: dataLikesMy,
+    isLoading: isLoadingLikesMy,
+    isPending: isPendingLikesMy,
+    refetch,
+  } = useQuery({
+    queryFn: () => serviceLikes.get(),
+    queryKey: ["likes", `user=${userId}`],
+    enabled: !!userId,
+    refetchOnMount: true,
+  })
+
+  const { data, isLoading, isPending } = useQuery({
+    queryFn: () => serviceLikes.getTargetId("offer", id!),
+    queryKey: ["likes", `provider=offer`, `id=${id}`],
+    enabled: !!id,
+    refetchOnMount: true,
   })
 
   useEffect(() => {
@@ -37,17 +45,17 @@ export const ButtonLike = () => {
   }, [data])
 
   useEffect(() => {
-    const isLike = !!dataLikesMy?.res?.some(
-      (item) => Number(item?.id) === Number(id) && Number(item?.userId) === Number(userId) && item.provider === "offer",
-    )
+    if (userId && dataLikesMy?.res && id) {
+      const isLike = dataLikesMy?.res?.some(
+        (item) => Number(item?.id) === Number(id) && Number(item?.userId) === Number(userId) && item.provider === "offer",
+      )
 
-    if (isLike) {
       setMyLike(isLike)
     }
   }, [userId, dataLikesMy?.res, id])
 
   function handle() {
-    if (!loading && !!userId && !isLoading && !isLoadingLikesMy) {
+    if (!loading && !!userId && !isLoading && !isLoadingLikesMy && !isPendingLikesMy && !isPending) {
       setLoading(true)
       serviceLikes
         .post({
@@ -55,11 +63,8 @@ export const ButtonLike = () => {
           provider: "offer",
         })
         .then(async (response) => {
-          if (response?.ok) {
-            setCount(response?.res! || 0)
-          }
-          setMyLike((prev) => !prev)
-          setLoading(false)
+          setCount((_) => (myLike ? _ - 1 : _ + 1))
+          setMyLike((_) => !_)
         })
     }
   }

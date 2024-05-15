@@ -5,7 +5,7 @@ import { useMemo } from "react"
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
-import { ItemImages } from "@/components/templates/Balloon/Offer/components/ItemImages"
+import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { usePush } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"

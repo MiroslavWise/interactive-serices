@@ -9,7 +9,7 @@ import type { IValue } from "./types"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { getProfileUserId, patchProfile } from "@/services"
+import { getProfile, patchProfile } from "@/services"
 import { useAuth, dispatchMobileChangeAbout, useMobileChangeAbout } from "@/store"
 
 import styles from "./style.module.scss"
@@ -26,7 +26,7 @@ export const MobileChangeAbout = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId!],
     enabled: !!userId && visible,
   })
@@ -52,7 +52,7 @@ export const MobileChangeAbout = () => {
     if (!loading) {
       setLoading(true)
       if (!!idProfile) {
-        patchProfile({ about: data.about, enabled: true }, idProfile!).then((response) => {
+        patchProfile({ about: data.about, enabled: true }).then((response) => {
           if (response.ok) {
             refetch()
           }

@@ -111,10 +111,10 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
             <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Политикой конфиденциальности
             </Link>
-            &nbsp;и&nbsp;
+            {/* &nbsp;и&nbsp;
             <Link href={{ pathname: "/terms-consent-to-receive-mailings" }} target="_blank" rel="license" referrerPolicy="no-referrer">
               Согласие на получение рассылки
-            </Link>
+            </Link> */}
           </p>
         </div>
         <div className={styles.checkRemember}>

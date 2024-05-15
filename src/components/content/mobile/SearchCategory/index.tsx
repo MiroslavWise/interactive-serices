@@ -1,6 +1,7 @@
 "use client"
 
-import { useCallback } from "react"
+import dynamic from "next/dynamic"
+import { useCallback, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { TServicesFilter } from "../../BannerServices/types/types"
@@ -27,7 +28,6 @@ import {
 } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import dynamic from "next/dynamic"
 
 export default function SearchCategory() {
   const visible = useMobileSearchCategory(({ visible }) => visible)
@@ -36,6 +36,7 @@ export default function SearchCategory() {
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const categories = useOffersCategories(({ categories }) => categories)
   const visibleFilter = useFiltersScreen(({ visible }) => visible)
+  const [input, setInput] = useState("")
 
   function handleProvider(value: TServicesFilter) {
     dispatchFiltersServiceProvider(value)
@@ -72,8 +73,22 @@ export default function SearchCategory() {
             event.stopPropagation()
             dispatchMobileSearchCategoryVisible(true)
           }}
+          value={input}
+          onChange={(event) => setInput(event.target.value || "")}
           placeholder="Что Вы ищете"
         />
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            setInput("")
+          }}
+          title="Очистить поле ввода"
+          aria-label="Очистить поле ввода"
+          data-clear-input={!!input?.trim()}
+        >
+          <IconXClose />
+        </button>
         <button
           type="button"
           data-filter
@@ -138,7 +153,7 @@ export default function SearchCategory() {
             </div>
           ) : null}
         </article>
-        <ServicesMobile />
+        <ServicesMobile input={input} />
       </section>
     </div>
   )
