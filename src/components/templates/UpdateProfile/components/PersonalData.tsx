@@ -12,7 +12,7 @@ import { ButtonsFooter } from "./ButtonsFooter"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
-import { fileUploadService, getProfileUserId, serviceAuthErrors, serviceProfile } from "@/services"
+import { fileUploadService, getProfile, serviceAuthErrors, serviceProfile } from "@/services"
 
 const GENDER: { label: string; value: TGenderForm }[] = [
   {
@@ -51,7 +51,7 @@ export const PersonalData = () => {
   })
 
   const { data, refetch } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId!],
     enabled: !!userId,
   })
@@ -105,7 +105,7 @@ export const PersonalData = () => {
         valuesProfile.gender = values.gender
       }
 
-      Promise.all([!!data?.res?.id ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)]).then((responses) => {
+      Promise.all([!!data?.ok ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)]).then((responses) => {
         if (responses?.[0]?.ok) {
           const idProfile = responses?.[0]?.res?.id!
           if (file.file) {

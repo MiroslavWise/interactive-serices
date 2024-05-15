@@ -7,7 +7,7 @@ import { BadgesColors } from "./BadgesColors"
 import { Button, NextImageMotion } from "@/components/common"
 
 import { dayFormat } from "@/helpers"
-import { getProfileUserId, getUserId, serviceFriends } from "@/services"
+import { getProfile, getUserId, serviceFriends } from "@/services"
 import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile, EModalData, useAuth, useDroverFriends } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
@@ -23,7 +23,7 @@ export const MContainerAboutProfile = () => {
   })
 
   const { data: dataProfile } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId!],
     enabled: !!userId,
   })

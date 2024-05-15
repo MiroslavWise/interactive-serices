@@ -36,7 +36,7 @@ export interface IProfileResponse {
 }
 
 export interface IServiceProfile {
-  get(value: { [key: string]: string | number }): IPromiseReturn<IGetProfileIdResponse>
+  get(): IPromiseReturn<IGetProfileIdResponse>
   getUserId(id: number | string): IPromiseReturn<IGetProfileIdResponse>
   post(value: IPostProfileData): IPromiseReturn<IProfileResponse>
   patch(value: IPatchProfileData): IPromiseReturn<IGetProfileIdResponse>

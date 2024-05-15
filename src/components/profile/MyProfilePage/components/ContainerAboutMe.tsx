@@ -8,7 +8,7 @@ import { FormChangeAbout } from "./FormChangeAbout"
 import { BadgesColors } from "./BadgesColors"
 
 import { useAuth } from "@/store"
-import { getProfileUserId } from "@/services"
+import { getProfile } from "@/services"
 
 import styles from "./styles/about-me.module.scss"
 
@@ -35,7 +35,7 @@ export const ContainerAboutMe = () => {
   const userId = useAuth(({ userId }) => userId)
 
   const { data: dataProfile, isLoading } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId],
     enabled: !!userId,
   })

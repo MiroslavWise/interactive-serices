@@ -6,10 +6,10 @@ import type { THeaderBlock } from "../types/types"
 import { NextImageMotion } from "@/components/common"
 
 import { useAuth } from "@/store"
-import { getProfileUserId, getUserId } from "@/services"
+import { dayFormat } from "@/helpers"
+import { getProfile, getUserId } from "@/services"
 
 import styles from "../styles/header.module.scss"
-import { dayFormat } from "@/helpers"
 
 export const HeaderBlock: THeaderBlock = () => {
   const userId = useAuth(({ userId }) => userId)
@@ -21,32 +21,10 @@ export const HeaderBlock: THeaderBlock = () => {
   })
 
   const { data: dataProfile } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId],
     enabled: !!userId,
   })
-
-  const addressMain = useMemo(() => {
-    if (!data?.res) return null
-
-    const main = data?.res?.addresses?.find((item) => item?.addressType === "main")
-
-    // city
-    // street
-    // house
-
-    if (main) {
-      const house = main?.house ?? ""
-      const street = main?.street ?? ""
-      const city = main?.city ?? ""
-
-      const address = [city, street, house].filter(Boolean).join(", ")
-
-      return address
-    }
-
-    return null
-  }, [data?.res])
 
   return (
     <header className={styles.containerHeader} data-test="block-profile-aside-header">

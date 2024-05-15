@@ -8,7 +8,7 @@ import { Button } from "@/components/common"
 
 import { useAuth } from "@/store"
 import { useOut } from "@/helpers"
-import { getProfileUserId, patchProfile } from "@/services"
+import { getProfile, patchProfile } from "@/services"
 
 export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetStateAction<boolean>> }) => {
   const [loading, setLoading] = useState(false)
@@ -16,7 +16,7 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
   const userId = useAuth(({ userId }) => userId)
 
   const { data: dataProfile, refetch } = useQuery({
-    queryFn: () => getProfileUserId(userId!),
+    queryFn: () => getProfile(),
     queryKey: ["profile", userId],
     enabled: !!userId,
   })

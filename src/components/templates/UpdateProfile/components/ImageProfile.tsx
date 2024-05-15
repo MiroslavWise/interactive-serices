@@ -9,8 +9,10 @@ import { ImageStatic, NextImageMotion } from "@/components/common"
 import { patchProfile } from "@/services"
 
 import styles from "../styles/image.module.scss"
+import { useAuth } from "@/store"
 
 export const ImageProfile = memo(function ImageProfile({ file, image, setFile, refetch, errorFile, setErrorFile }: IMageProfile) {
+  const userId = useAuth(({ userId }) => userId)
   const [loading, setLoading] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
