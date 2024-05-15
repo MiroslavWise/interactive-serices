@@ -33,7 +33,7 @@ export type IPatchOffers = Partial<IPostOffers> & { categories?: number[] }
 
 export interface IUserOffer {
   about: string | null
-  birthdate: string | null
+  birthdate: Date | string | null
   firstName: string
   gender: TGenderForm
   id: number

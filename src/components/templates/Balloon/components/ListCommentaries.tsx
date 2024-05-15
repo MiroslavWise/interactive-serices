@@ -8,7 +8,7 @@ import { ItemComment } from "./ItemComment"
 import { serviceComments } from "@/services"
 import { LoadingProfile } from "@/components/common"
 
-export const ListCommentaries = memo(({ expand, currentComments = [], setExpand, currentOffersThreadId }: IProps) => {
+export function ListCommentaries({ expand, currentComments = [], setExpand, currentOffersThreadId }: IProps) {
   const refList = useRef<HTMLDivElement>(null)
 
   const { data: dataComments, isLoading } = useQuery({
@@ -59,7 +59,7 @@ export const ListCommentaries = memo(({ expand, currentComments = [], setExpand,
       {expand ? currentComments.map((item) => <ItemComment key={`::key::comment::item::${item.id}::`} {...item} />) : null}
     </div>
   )
-})
+}
 
 interface IProps {
   currentOffersThreadId: number

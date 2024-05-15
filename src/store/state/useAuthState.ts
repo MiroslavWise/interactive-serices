@@ -53,9 +53,11 @@ export const useAuth = create(
                     firstName: data.firstName,
                     lastName: data?.lastName,
                     username: data?.username,
-                    birthdate: data?.birthdate,
+                    birthdate: data?.birthdate as Date | string,
                     about: data?.about,
-                    enabled: data?.enabled,
+                    image: data?.image,
+                    id: data?.id,
+                    gender: data?.gender!,
                   },
                 })
               }

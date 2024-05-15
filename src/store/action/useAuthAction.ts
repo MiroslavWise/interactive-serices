@@ -1,25 +1,28 @@
-import type { ISetAction, IGetAction, IUser, ISetToken, IAuthState } from "../types/useAuthState"
+import type { ISetAction, IGetAction, ISetToken, IAuthState } from "../types/useAuthState"
 
 import { getUserId } from "@/services"
 import { queryClient } from "@/context"
 import { initialStateAuth } from "../state/useAuthState"
+import { IUserOffer } from "@/services/offers/types"
 
 export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
   set((state) => ({ ...initialState, isAuth: false }))
 }
 
-export const setUserAction = (value: (IUser & { profileId: number }) | null, set: ISetAction) => {
+export const setUserAction = (value: IUserOffer | null, set: ISetAction) => {
   if (value) {
-    const { firstName, lastName, username, birthdate, enabled, profileId } = value ?? {}
+    const { firstName, lastName, username, birthdate, image, id, about, gender } = value ?? {}
     set({
       user: {
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        birthdate: birthdate,
-        enabled: enabled,
+        firstName,
+        lastName,
+        username,
+        birthdate,
+        image,
+        id,
+        about,
+        gender,
       },
-      profileId: profileId,
     })
   }
 }
@@ -58,7 +61,7 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
             })
           }
           if (!!response?.res?.profile) {
-            const { firstName, lastName, username, about, birthdate, enabled, id, image } = response?.res?.profile ?? {}
+            const { firstName, lastName, username, about, birthdate, id, image, gender } = response?.res?.profile ?? {}
             set({
               user: {
                 firstName: firstName,
@@ -66,10 +69,10 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
                 username: username,
                 birthdate: birthdate,
                 about: about,
-                enabled: enabled,
+                image,
+                id,
+                gender: gender!,
               },
-              profileId: id,
-              imageProfile: image || undefined,
             })
             set({ isAuth: true })
           }

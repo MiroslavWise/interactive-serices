@@ -11,6 +11,7 @@ import styles from "../styles/form-append-comment.module.scss"
 export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCurrentComments }: IProps) => {
   const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
+  const user = useAuth(({ user }) => user)
 
   const { watch, handleSubmit, reset, control } = useForm<IValues>({
     defaultValues: {
@@ -38,6 +39,7 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
             userId: userId!,
             status: "create",
             created: new Date(),
+            user: user!,
           },
         ])
 
