@@ -284,7 +284,7 @@ export default function CreateNewOptionModal() {
       string: [...current.string] as string[],
     }
 
-    if (files && files?.length > 0) {
+    if (files) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
 
@@ -312,7 +312,10 @@ export default function CreateNewOptionModal() {
 
     await sleep()
 
-    return Promise.resolve(filesReady)
+    return Promise.resolve({
+      file: filesReady.file.splice(0, 9),
+      string: filesReady.string.splice(0, 9),
+    })
   }
 
   function deletePhoto(values: { file: File[]; string: string[] }, index: number) {
@@ -499,21 +502,24 @@ export default function CreateNewOptionModal() {
                       </div>
                     )
                   })}
-                  <div data-image="new">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async (event) => {
-                        const dataValues = await handleImageChange(field.value, event)
-                        field.onChange(dataValues)
-                        event.target.value = ""
-                      }}
-                      disabled={visible && step !== 4}
-                      multiple
-                    />
-                  </div>
+                  {field.value.string.length < 9 ? (
+                    <div data-image="new">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (event) => {
+                          const dataValues = await handleImageChange(field.value, event)
+                          field.onChange(dataValues)
+                          event.target.value = ""
+                        }}
+                        disabled={visible && step !== 4}
+                        multiple
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 <i>Максимальный размер фото - 10 МБ</i>
+                <i>Не более 9 изображений</i>
               </fieldset>
             )}
           />
