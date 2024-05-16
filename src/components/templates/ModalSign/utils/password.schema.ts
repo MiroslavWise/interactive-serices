@@ -18,9 +18,9 @@ export const schemaPassword = z
       .regex(passwordValidation_0_9, { message: "Нужна цифра [0-9]" })
       .regex(passwordValidation, { message: "Пароль недостаточно сложный" })
       .default(""),
-    repeat_password: z.string().trim().default(""),
+    repeat: z.string().trim().default(""),
   })
-  .refine((data) => data.password === data.repeat_password, {
+  .refine((data) => data.password === data.repeat, {
     path: ["repeat_password"],
     message: "Пароли не совпадают",
   })

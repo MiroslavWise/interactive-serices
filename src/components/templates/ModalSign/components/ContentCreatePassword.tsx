@@ -27,7 +27,7 @@ export const ContentCreatePassword = () => {
     resolver: resolverPassword,
     defaultValues: {
       password: "",
-      repeat_password: "",
+      repeat: "",
     },
   })
 
@@ -39,7 +39,7 @@ export const ContentCreatePassword = () => {
           .resetPassword({
             token: codeReset,
             password: values.password,
-            repeat: values.repeat_password,
+            repeat: values.repeat,
           })
           .then((response) => {
             setLoading(false)
@@ -81,7 +81,7 @@ export const ContentCreatePassword = () => {
         RegistrationService.registration({
           email: email,
           password: values.password!,
-          repeat: values.repeat_password!,
+          repeat: values.repeat!,
         })
           .then((response) => {
             if (response.ok) {
@@ -116,7 +116,7 @@ export const ContentCreatePassword = () => {
     }
   }
 
-  const disabled = watch("password") !== watch("repeat_password") || !watch("password") || !watch("repeat_password")
+  const disabled = watch("password") !== watch("repeat") || !watch("password") || !watch("repeat")
 
   return (
     <div className={styles.content}>
@@ -141,7 +141,7 @@ export const ContentCreatePassword = () => {
                   onChange={(event) => {
                     field.onChange(event.target.value.replaceAll(" ", ""))
                     trigger(field.name)
-                    trigger("repeat_password")
+                    trigger("repeat")
                   }}
                 />
                 <img
@@ -158,7 +158,7 @@ export const ContentCreatePassword = () => {
           )}
         />
         <Controller
-          name="repeat_password"
+          name="repeat"
           control={control}
           rules={{
             required: true,
