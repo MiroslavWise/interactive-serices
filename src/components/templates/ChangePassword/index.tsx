@@ -122,7 +122,7 @@ function ChangePassword() {
                       placeholder="Введите пароль"
                       {...field}
                       onChange={(event) => {
-                        field.onChange(event.target.value.trim())
+                        field.onChange(event.target.value.replaceAll(" ", ""))
                         trigger(field.name)
                         trigger("repeat")
                       }}
@@ -151,7 +151,7 @@ function ChangePassword() {
                     placeholder="Введите пароль ещё раз"
                     {...field}
                     onChange={(event) => {
-                      field.onChange(event.target.value.trim())
+                      field.onChange(event.target.value.replaceAll(" ", ""))
                       trigger(field.name)
                     }}
                     data-error={!!error}

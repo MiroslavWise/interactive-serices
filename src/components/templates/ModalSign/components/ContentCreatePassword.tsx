@@ -139,7 +139,7 @@ export const ContentCreatePassword = () => {
                   type={isPass ? "text" : "password"}
                   data-error={!!error}
                   onChange={(event) => {
-                    field.onChange(event.target.value.trim())
+                    field.onChange(event.target.value.replaceAll(" ", ""))
                     trigger(field.name)
                     trigger("repeat_password")
                   }}
@@ -173,7 +173,7 @@ export const ContentCreatePassword = () => {
                   type={isPass_ ? "text" : "password"}
                   data-error={!!error}
                   onChange={(event) => {
-                    field.onChange(event.target.value.trim())
+                    field.onChange(event.target.value.replaceAll(" ", ""))
                     trigger(field.name)
                   }}
                 />

@@ -6,7 +6,7 @@ const passwordValidation_a_z = new RegExp(/^(?=.*?[a-z]).{1,}$/)
 const passwordValidation_A_Z = new RegExp(/^(?=.*?[A-Z]).{1,}$/)
 const passwordValidation_0_9 = new RegExp(/^(?=.*?[0-9]).{1,}$/)
 
-const stringPassword = z.string().min(6, { message: "Введите минимум 6 символов для пароля" })
+const stringPassword = z.string().trim().min(6, { message: "Введите минимум 6 символов для пароля" })
 
 export const schemaPassword = z
   .object({
@@ -17,7 +17,7 @@ export const schemaPassword = z
       .regex(passwordValidation_0_9, { message: "Нужна цифра [0-9]" })
       .regex(passwordValidation, { message: "Пароль недостаточно сложный" })
       .default(""),
-    repeat: z.string().default(""),
+    repeat: z.string().trim().default(""),
   })
   .refine((data) => data.password === data.repeat, {
     path: ["repeat"],

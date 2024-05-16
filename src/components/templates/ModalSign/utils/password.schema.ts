@@ -10,13 +10,14 @@ export const schemaPassword = z
   .object({
     password: z
       .string()
+      .trim()
       .min(6, { message: "Введите минимум 6 символов" })
       .regex(passwordValidation_a_z, { message: "Нужен символ в нижнем регистре [a-z]" })
       .regex(passwordValidation_A_Z, { message: "Нужен символ в верхнем регистре [A-Z]" })
       .regex(passwordValidation_0_9, { message: "Нужна цифра [0-9]" })
       .regex(passwordValidation, { message: "Пароль недостаточно сложный" })
       .default(""),
-    repeat_password: z.string().default(""),
+    repeat_password: z.string().trim().default(""),
   })
   .refine((data) => data.password === data.repeat_password, {
     path: ["repeat_password"],
