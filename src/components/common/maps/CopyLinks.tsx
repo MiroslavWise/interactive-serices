@@ -31,7 +31,7 @@ export function ITEMS_LINK({ offer, onSimpleMessage }: IProps): ITemsLinkSocial[
   const objCopy = {
     link() {
       const w = window.btoa(unescape(encodeURIComponent(`offer_id:${id}`)))
-      const url = `${env.server.host}offer#${w}`
+      const url = `${env.server.host}/offer#${w}`
       navigator.clipboard.writeText(url)
       if (onSimpleMessage) {
         onSimpleMessage("Ссылка скопирована")
@@ -39,12 +39,12 @@ export function ITEMS_LINK({ offer, onSimpleMessage }: IProps): ITemsLinkSocial[
     },
     tg() {
       const w = window.btoa(unescape(encodeURIComponent(`offer_id:${id}`)))
-      const url = `${env.server.host}offer#${w}`
+      const url = `${env.server.host}/offer#${w}`
       window.location.href = `tg://msg_url?url=${url}`
     },
     wa() {
       const w = window.btoa(unescape(encodeURIComponent(`offer_id:${id}`)))
-      const url = `${env.server.host}offer#${w}`
+      const url = `${env.server.host}/offer#${w}`
       const shareUrl = url
       const shareText = title
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}%20${encodeURIComponent(shareUrl)}`
@@ -53,7 +53,7 @@ export function ITEMS_LINK({ offer, onSimpleMessage }: IProps): ITemsLinkSocial[
     vk() {
       if (!!window.navigator.share!) {
         const w = window.btoa(unescape(encodeURIComponent(`offer_id:${id}`)))
-        const url = `${env.server.host}offer#${w}`
+        const url = `${env.server.host}/offer#${w}`
         navigator.share({
           title: title!,
           text: address ? address?.additional! : "",
