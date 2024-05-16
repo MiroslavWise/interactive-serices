@@ -10,7 +10,6 @@ import { resolverPassword, TKeysPassword, TSchemaPassword } from "./utils/passwo
 import { dispatchChangePassword } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { postNewPassword, serviceAuthErrors } from "@/services"
-// import { strengthPassword } from "@/helpers/functions/strength-password"
 
 function ChangePassword() {
   const [loading, setLoading] = useState(false)
@@ -21,7 +20,7 @@ function ChangePassword() {
   })
   const { on } = useToast()
 
-  const { watch, handleSubmit, control, setError, clearErrors, trigger } = useForm<TSchemaPassword>({
+  const { watch, handleSubmit, control, setError, trigger } = useForm<TSchemaPassword>({
     resolver: resolverPassword,
     defaultValues: {
       password: "",
@@ -106,7 +105,7 @@ function ChangePassword() {
             )}
           />
           <span>
-            <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ
+            <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру, и не менее 6 символов
           </span>
           <Controller
             name="password"
