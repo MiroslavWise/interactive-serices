@@ -97,8 +97,33 @@
       right: 0;
       padding: 1.25rem;
       padding-top: 2.25rem;
+      transform: none;
       border-radius: 1.5rem 1.5rem 0rem 0rem;
       width: 100%;
+
+      // &::after {
+      //   content: "";
+      //   position: fixed;
+      //   inset: 0;
+      //   width: 100%;
+      //   height: 100%;
+      //   z-index: 9;
+      //   background: rgba(5, 1, 13, 0.5);
+      // }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    &[data-active="true"] {
+      &::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9;
+        background: rgba(5, 1, 13, 0.5);
+      }
     }
   }
 

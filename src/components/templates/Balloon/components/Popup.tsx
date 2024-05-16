@@ -10,7 +10,7 @@ import IconAlertCircle from "@/components/icons/IconAlertCircle"
 import { ITEMS_LINK } from "@/components/common/maps/CopyLinks"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
+// import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
 
 export const PopupShared = ({
   offer,

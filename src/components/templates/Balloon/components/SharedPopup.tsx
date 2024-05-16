@@ -19,6 +19,7 @@ export default function SharedPopupButton({ offer }: { offer: IResponseOffers })
         event.stopPropagation()
         setVisible((prev) => !prev)
       }}
+      data-active={visible}
     >
       <IconDotsHorizontal />
       <PopupShared offer={offer} visible={visible} setVisible={setVisible} />
