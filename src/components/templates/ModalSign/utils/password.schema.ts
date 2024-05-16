@@ -12,6 +12,7 @@ export const schemaPassword = z
       .string()
       .trim()
       .min(6, { message: "Введите минимум 6 символов" })
+      .max(20, { message: "Не более 20 символов" })
       .regex(passwordValidation_a_z, { message: "Нужен символ в нижнем регистре [a-z]" })
       .regex(passwordValidation_A_Z, { message: "Нужен символ в верхнем регистре [A-Z]" })
       .regex(passwordValidation_0_9, { message: "Нужна цифра [0-9]" })

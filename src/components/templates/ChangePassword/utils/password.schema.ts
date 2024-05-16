@@ -6,7 +6,11 @@ const passwordValidation_a_z = new RegExp(/^(?=.*?[a-z]).{1,}$/)
 const passwordValidation_A_Z = new RegExp(/^(?=.*?[A-Z]).{1,}$/)
 const passwordValidation_0_9 = new RegExp(/^(?=.*?[0-9]).{1,}$/)
 
-const stringPassword = z.string().trim().min(6, { message: "Введите минимум 6 символов для пароля" })
+const stringPassword = z
+  .string()
+  .trim()
+  .min(6, { message: "Введите минимум 6 символов для пароля" })
+  .max(20, { message: "Не более 20 символов" })
 
 export const schemaPassword = z
   .object({
