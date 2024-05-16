@@ -10,7 +10,7 @@ const stringPassword = z.string().min(6, { message: "Введите миниму
 
 export const schemaPassword = z
   .object({
-    oldPassword: stringPassword,
+    oldPassword: z.string().min(1, { message: "Введите старый пароль" }).default(""),
     password: stringPassword
       .regex(passwordValidation_a_z, { message: "Нужен символ в нижнем регистре [a-z]" })
       .regex(passwordValidation_A_Z, { message: "Нужен символ в верхнем регистре [A-Z]" })
