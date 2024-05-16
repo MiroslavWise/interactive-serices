@@ -23,6 +23,7 @@ function ChangePassword() {
   const { watch, handleSubmit, control, setError, trigger } = useForm<TSchemaPassword>({
     resolver: resolverPassword,
     defaultValues: {
+      oldPassword: "",
       password: "",
       repeat: "",
     },
@@ -90,9 +91,9 @@ function ChangePassword() {
                 <label htmlFor={field.name}>Старый пароль</label>
                 <div data-input>
                   <input
+                    {...field}
                     type={visiblePass.oldPassword ? "text" : "password"}
                     placeholder="Введите пароль"
-                    {...field}
                     data-error={!!error}
                     data-test={`input-change-password-${field.name}`}
                   />
@@ -121,7 +122,7 @@ function ChangePassword() {
                       placeholder="Введите пароль"
                       {...field}
                       onChange={(event) => {
-                        field.onChange(event)
+                        field.onChange(event.target.value.trim())
                         trigger(field.name)
                         trigger("repeat")
                       }}
@@ -150,7 +151,7 @@ function ChangePassword() {
                     placeholder="Введите пароль ещё раз"
                     {...field}
                     onChange={(event) => {
-                      field.onChange(event)
+                      field.onChange(event.target.value.trim())
                       trigger(field.name)
                     }}
                     data-error={!!error}

@@ -25,6 +25,10 @@ export const ContentCreatePassword = () => {
 
   const { control, handleSubmit, setError, watch, trigger } = useForm<TValidateSchemaPassword>({
     resolver: resolverPassword,
+    defaultValues: {
+      password: "",
+      repeat_password: "",
+    },
   })
 
   async function onEnter(values: TValidateSchemaPassword) {
@@ -125,7 +129,7 @@ export const ContentCreatePassword = () => {
           name="password"
           control={control}
           rules={{ required: true }}
-          render={({ field, fieldState: { error }, formState }) => (
+          render={({ field, fieldState: { error } }) => (
             <div data-label-input data-password data-test="create-password">
               <label htmlFor={field.name}>Пароль</label>
               <div>
@@ -135,7 +139,7 @@ export const ContentCreatePassword = () => {
                   type={isPass ? "text" : "password"}
                   data-error={!!error}
                   onChange={(event) => {
-                    field.onChange(event)
+                    field.onChange(event.target.value.trim())
                     trigger(field.name)
                     trigger("repeat_password")
                   }}
@@ -169,7 +173,7 @@ export const ContentCreatePassword = () => {
                   type={isPass_ ? "text" : "password"}
                   data-error={!!error}
                   onChange={(event) => {
-                    field.onChange(event)
+                    field.onChange(event.target.value.trim())
                     trigger(field.name)
                   }}
                 />
