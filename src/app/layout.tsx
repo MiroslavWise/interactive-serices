@@ -42,18 +42,9 @@ export const metadata: Metadata = {
     locale: "ru",
     url: env.server.host!,
     siteName: "Sheira",
-    title: {
-      default: "Sheira",
-      template: "%s | Sheira",
-    },
     images: "/icons/icon.png",
-    description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
   },
   twitter: {
-    title: {
-      default: "Sheira",
-      template: "%s | Sheira",
-    },
     images: "/icons/icon.png",
   },
   robots: {
