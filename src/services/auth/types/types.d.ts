@@ -4,6 +4,7 @@ import type { IReturnData, IPromiseReturn } from "@/services/types/general"
 export interface IRequestPhone {
   phone: string
   agree?: boolean
+  params?: string
 }
 
 export type TStatusOk = "ok"

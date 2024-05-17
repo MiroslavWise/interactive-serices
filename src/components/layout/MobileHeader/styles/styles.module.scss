@@ -14,6 +14,7 @@
   display: none;
 
   transition: var(--transition);
+  transition-duration: 350ms;
   transition-property: transform;
 
   &[data-not="true"] {
