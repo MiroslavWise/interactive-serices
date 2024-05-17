@@ -16,6 +16,7 @@
     flex-direction: column;
     gap: 0.75rem;
     overflow: hidden;
+    height: 100%;
 
     & > [data-header] {
       padding-inline: 1rem;
@@ -28,12 +29,22 @@
       }
     }
 
+    & > p {
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.25rem;
+      padding-inline: 1rem;
+    }
+
     & > [data-container-photos] {
       padding-top: 0;
       padding-bottom: 0;
     }
 
     & > [data-footer] {
+      margin-top: auto;
       padding-inline: 1rem;
       width: 100%;
       display: flex;

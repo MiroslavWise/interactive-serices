@@ -23,8 +23,12 @@ export const ContentCreatePassword = () => {
   const codeReset = useModalAuth(({ codeReset }) => codeReset)
   const email = useModalAuth(({ email }) => email)
 
-  const { control, handleSubmit, setError, watch } = useForm<TValidateSchemaPassword>({
+  const { control, handleSubmit, setError, watch, trigger } = useForm<TValidateSchemaPassword>({
     resolver: resolverPassword,
+    defaultValues: {
+      password: "",
+      repeat: "",
+    },
   })
 
   async function onEnter(values: TValidateSchemaPassword) {
@@ -35,7 +39,7 @@ export const ContentCreatePassword = () => {
           .resetPassword({
             token: codeReset,
             password: values.password,
-            repeat: values.repeat_password,
+            repeat: values.repeat,
           })
           .then((response) => {
             setLoading(false)
@@ -63,12 +67,6 @@ export const ContentCreatePassword = () => {
                 return
               } else {
                 if (
-                  (typeof errorMessage === "string" && errorMessage?.toLowerCase()?.includes("repeat is not strong enough")) ||
-                  (Array.isArray(errorMessage) &&
-                    errorMessage?.some((item) => item?.toLowerCase()?.includes("repeat is not strong enough")))
-                ) {
-                  setError("repeat_password", { message: functionAuthErrors("repeat is not strong enough") })
-                } else if (
                   (typeof errorMessage === "string" && errorMessage?.toLowerCase()?.includes("password is not strong enough")) ||
                   (Array.isArray(errorMessage) &&
                     errorMessage?.some((item) => item?.toLowerCase()?.includes("password is not strong enough")))
@@ -83,7 +81,7 @@ export const ContentCreatePassword = () => {
         RegistrationService.registration({
           email: email,
           password: values.password!,
-          repeat: values.repeat_password!,
+          repeat: values.repeat!,
         })
           .then((response) => {
             if (response.ok) {
@@ -118,7 +116,7 @@ export const ContentCreatePassword = () => {
     }
   }
 
-  const disabled = watch("password") !== watch("repeat_password") || !watch("password") || !watch("repeat_password")
+  const disabled = watch("password") !== watch("repeat") || !watch("password") || !watch("repeat")
 
   return (
     <div className={styles.content}>
@@ -135,7 +133,17 @@ export const ContentCreatePassword = () => {
             <div data-label-input data-password data-test="create-password">
               <label htmlFor={field.name}>Пароль</label>
               <div>
-                <input {...field} placeholder="Введите свой пароль" type={isPass ? "text" : "password"} data-error={!!error} />
+                <input
+                  {...field}
+                  placeholder="Введите свой пароль"
+                  type={isPass ? "text" : "password"}
+                  data-error={!!error}
+                  onChange={(event) => {
+                    field.onChange(event.target.value.replaceAll(" ", ""))
+                    trigger(field.name)
+                    trigger("repeat")
+                  }}
+                />
                 <img
                   onClick={() => setIsPass((prev) => !prev)}
                   src={isPass ? "/svg/eye.svg" : "/svg/eye-off.svg"}
@@ -150,7 +158,7 @@ export const ContentCreatePassword = () => {
           )}
         />
         <Controller
-          name="repeat_password"
+          name="repeat"
           control={control}
           rules={{
             required: true,
@@ -159,9 +167,16 @@ export const ContentCreatePassword = () => {
             <div data-label-input data-password data-test="create-password-repeat">
               <label htmlFor={field.name}>Подтвердите пароль</label>
               <div>
-                <input {...field} placeholder="Введите пароль еще раз" type={isPass_ ? "text" : "password"} 
-data-error={!!error}
-/>
+                <input
+                  {...field}
+                  placeholder="Введите пароль еще раз"
+                  type={isPass_ ? "text" : "password"}
+                  data-error={!!error}
+                  onChange={(event) => {
+                    field.onChange(event.target.value.replaceAll(" ", ""))
+                    trigger(field.name)
+                  }}
+                />
                 <img
                   onClick={() => setIsPass_((prev) => !prev)}
                   src={isPass_ ? "/svg/eye.svg" : "/svg/eye-off.svg"}

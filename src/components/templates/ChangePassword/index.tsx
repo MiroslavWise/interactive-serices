@@ -10,7 +10,6 @@ import { resolverPassword, TKeysPassword, TSchemaPassword } from "./utils/passwo
 import { dispatchChangePassword } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { postNewPassword, serviceAuthErrors } from "@/services"
-// import { strengthPassword } from "@/helpers/functions/strength-password"
 
 function ChangePassword() {
   const [loading, setLoading] = useState(false)
@@ -21,9 +20,10 @@ function ChangePassword() {
   })
   const { on } = useToast()
 
-  const { watch, handleSubmit, control, setError, clearErrors, trigger } = useForm<TSchemaPassword>({
+  const { watch, handleSubmit, control, setError, trigger } = useForm<TSchemaPassword>({
     resolver: resolverPassword,
     defaultValues: {
+      oldPassword: "",
       password: "",
       repeat: "",
     },
@@ -91,9 +91,9 @@ function ChangePassword() {
                 <label htmlFor={field.name}>Старый пароль</label>
                 <div data-input>
                   <input
+                    {...field}
                     type={visiblePass.oldPassword ? "text" : "password"}
                     placeholder="Введите пароль"
-                    {...field}
                     data-error={!!error}
                     data-test={`input-change-password-${field.name}`}
                   />
@@ -106,7 +106,7 @@ function ChangePassword() {
             )}
           />
           <span>
-            <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ
+            <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру, и не менее 6 символов
           </span>
           <Controller
             name="password"
@@ -122,7 +122,7 @@ function ChangePassword() {
                       placeholder="Введите пароль"
                       {...field}
                       onChange={(event) => {
-                        field.onChange(event)
+                        field.onChange(event.target.value.replaceAll(" ", ""))
                         trigger(field.name)
                         trigger("repeat")
                       }}
@@ -151,7 +151,7 @@ function ChangePassword() {
                     placeholder="Введите пароль ещё раз"
                     {...field}
                     onChange={(event) => {
-                      field.onChange(event)
+                      field.onChange(event.target.value.replaceAll(" ", ""))
                       trigger(field.name)
                     }}
                     data-error={!!error}

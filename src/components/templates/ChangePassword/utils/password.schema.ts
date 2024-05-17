@@ -1,25 +1,17 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
+import { schemaPassword } from "../../ModalSign/utils/password.schema"
 
-const stringPassword = z.string().min(6, { message: "Введите минимум 6 символов для пароля" })
+export const schemaPasswordOld = z.object({
+  oldPassword: z.string().min(1, { message: "Введите старый пароль" }).default(""),
+})
 
-export const schemaPassword = z
-  .object({
-    oldPassword: stringPassword,
-    password: stringPassword.regex(passwordValidation, {
-      message: "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ",
-    }),
-    repeat: stringPassword.regex(passwordValidation, {
-      message: "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ",
-    }),
-  })
-  .refine((data) => data.password === data.repeat, {
-    path: ["repeat"],
-    message: "Пароли не совпадают",
-  })
+export const schemaPasswordAndOld = z.intersection(schemaPasswordOld, schemaPassword).refine((data) => data.password === data.repeat, {
+  path: ["repeat"],
+  message: "Пароли не совпадают",
+})
 
-export const resolverPassword = zodResolver(schemaPassword)
-export type TSchemaPassword = z.infer<typeof schemaPassword>
+export const resolverPassword = zodResolver(schemaPasswordAndOld)
+export type TSchemaPassword = z.infer<typeof schemaPasswordAndOld>
 export type TKeysPassword = keyof TSchemaPassword

@@ -13,7 +13,15 @@ import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dis
 import styles from "./style.module.scss"
 
 export function CardDiscussion(props: IResponseOffers) {
-  const { title, images, provider } = props ?? {}
+  const { title, images, provider, content } = props ?? {}
+
+  const contentTitle = content
+    ? content
+    : provider === EnumTypeProvider.alert
+    ? "SOS-сообщение"
+    : provider === EnumTypeProvider.discussion
+    ? "Дискуссия"
+    : "Заголовок"
 
   function handleOpenMore() {
     if (provider === EnumTypeProvider.discussion) {
@@ -33,8 +41,9 @@ export function CardDiscussion(props: IResponseOffers) {
     <li className={styles.container}>
       <article>
         <div data-header>
-          <h4>{title}</h4>
+          <h4>{contentTitle}</h4>
         </div>
+        <p>{title || ""}</p>
         {images.length > 0 ? <ItemImages images={images} /> : null}
         <div data-footer>
           <Button
