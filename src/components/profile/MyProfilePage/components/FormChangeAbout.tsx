@@ -8,6 +8,7 @@ import { Button } from "@/components/common"
 
 import { useAuth } from "@/store"
 import { useOut } from "@/helpers"
+import { resolverAbout, TValidateSchemaAbout } from "../utils/about.schema"
 import { getProfile, patchProfile } from "@/services"
 
 export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetStateAction<boolean>> }) => {
@@ -15,24 +16,19 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
   const { out } = useOut()
   const userId = useAuth(({ userId }) => userId)
 
-  const { data: dataProfile, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryFn: () => getProfile(),
     queryKey: ["profile", userId],
     enabled: !!userId,
   })
 
-  const { res } = dataProfile ?? {}
+  const { res } = data ?? {}
 
-  const {
-    register,
-    watch,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<{ text: string }>({
+  const { watch, handleSubmit, control, trigger } = useForm<TValidateSchemaAbout>({
     defaultValues: {
       text: res?.about || "",
     },
+    resolver: resolverAbout,
   })
 
   const onSubmit = handleSubmit((values) => {
@@ -73,14 +69,29 @@ export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetSt
         name="text"
         control={control}
         rules={{ required: true }}
-        render={({ field, fieldState: { error } }) => <textarea {...field} data-error={!!error} />}
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <textarea
+              {...field}
+              onChange={(event) => {
+                field.onChange(event)
+                trigger(field.name)
+              }}
+              data-error={!!error}
+            />
+            {
+              <i data-error={!!error}>
+                {!!error ? error.message : null} {field.value.length}/512
+              </i>
+            }
+          </>
+        )}
       />
       <footer>
         <div data-buttons>
           <Button type="submit" typeButton="fill-primary" label="Сохранить" disabled={disabled} loading={loading} />
           <Button type="button" typeButton="regular-primary" label="Отменить" onClick={handleCancel} loading={loading} />
         </div>
-        <sup>{watch("text")?.length || 0}/512</sup>
       </footer>
     </form>
   )

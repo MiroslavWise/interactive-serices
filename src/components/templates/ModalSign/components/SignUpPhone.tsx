@@ -7,7 +7,7 @@ import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.
 import { Button } from "@/components/common"
 
 import { functionAuthErrors, serviceAuth } from "@/services/auth"
-import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth } from "@/store/hooks"
+import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useUTM } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -15,13 +15,17 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
   const [loading, setLoading] = useState(false)
   const phone = useModalAuth(({ phone }) => phone)
 
+  const utm_source = useUTM(({ utm_source }) => utm_source)
+  const utm_medium = useUTM(({ utm_medium }) => utm_medium)
+  const utm_campaign = useUTM(({ utm_campaign }) => utm_campaign)
+  const utm_content = useUTM(({ utm_content }) => utm_content)
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
     setFocus,
-    setValue,
     setError,
     clearErrors,
     control,
@@ -37,9 +41,27 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
       setLoading(true)
       const phoneReplace = String(values.phone).replaceAll(/[^\d]/g, "")
 
+      const stringParams = new URLSearchParams()
+
+      if (utm_source) {
+        stringParams.set("utm_source", utm_source)
+      }
+      if (utm_medium) {
+        stringParams.set("utm_medium", utm_medium)
+      }
+      if (utm_campaign) {
+        stringParams.set("utm_campaign", utm_campaign)
+      }
+      if (utm_content) {
+        stringParams.set("utm_content", utm_content)
+      }
+
+      const string = stringParams.toString()
+
       serviceAuth
         .phone({
           phone: phoneReplace,
+          params: string ? string : undefined,
         })
         .then((response) => {
           console.log("response: ", response)

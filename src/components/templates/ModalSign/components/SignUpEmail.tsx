@@ -7,12 +7,13 @@ import { resolverEmailSignUp, TSchemaEmailSignUp } from "../utils/email-sign-up.
 import { Button } from "@/components/common"
 
 import { getUserEmail } from "@/services"
-import { dispatchAuthModalCreatePassword, dispatchAuthModalCurrentUser, useModalAuth } from "@/store"
+import { dispatchAuthModalCreatePassword, dispatchAuthModalCurrentUser, useModalAuth, useUTM } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
 export const SignUpEmail = memo(function SignUpEmail({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
+
   const email = useModalAuth(({ email }) => email)
   const {
     register,

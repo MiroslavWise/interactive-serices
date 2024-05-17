@@ -34,7 +34,11 @@ export const ContainerAboutMe = () => {
   const [isEditing, setIsEditing] = useState(false)
   const userId = useAuth(({ userId }) => userId)
 
-  const { data: dataProfile, isLoading } = useQuery({
+  const {
+    data: dataProfile,
+    isLoading,
+    isPending,
+  } = useQuery({
     queryFn: () => getProfile(),
     queryKey: ["profile", userId],
     enabled: !!userId,
@@ -50,11 +54,11 @@ export const ContainerAboutMe = () => {
           <button
             type="button"
             onClick={() => {
-              if (!isLoading) {
+              if (!isLoading || !isPending) {
                 setIsEditing(true)
               }
             }}
-            disabled={isLoading}
+            disabled={isLoading || isPending}
           >
             <Edit />
           </button>
@@ -63,7 +67,15 @@ export const ContainerAboutMe = () => {
           {isEditing ? (
             <FormChangeAbout setIsEditing={setIsEditing} />
           ) : (
-            <span>{res?.about ? res?.about : "Нажмите, чтобы редактировать информацию о себе."}</span>
+            <span
+              onClick={() => {
+                if (!res?.about && (!isLoading || !isPending)) {
+                  setIsEditing(true)
+                }
+              }}
+            >
+              {res?.about ? res?.about : "Нажмите, чтобы редактировать информацию о себе."}
+            </span>
           )}
         </article>
       </section>
