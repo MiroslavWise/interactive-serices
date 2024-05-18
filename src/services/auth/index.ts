@@ -6,7 +6,7 @@ const route = "/auth"
 
 export const serviceAuth: IAuth = {
   sms: (body) => wrapperPost({ url: `${route}/sms`, body }),
-  phone: ({ phone }) => wrapperPost({ url: `${route}/phone`, body: { phone: phone, agree: true } }),
+  phone: ({ phone, params }) => wrapperPost({ url: `${route}/phone${params ? `/?${params}` : ""}`, body: { phone: phone, agree: true } }),
   postGoogle: (body) => wrapperPost({ url: `${route}/google`, body }),
   postTelegram: (body) => wrapperPost({ url: `${route}/telegram`, body }),
   postYandex: (body) => wrapperPost({ url: `${route}/yandex`, body }),

@@ -8,7 +8,14 @@ import { Button } from "@/components/common"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
 import { functionAuthErrors, RegistrationService, serviceAuthErrors } from "@/services"
-import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone } from "@/store"
+import {
+  dispatchAuthModal,
+  dispatchAuthModalInformationCreateAccount,
+  type IStateUTM,
+  useModalAuth,
+  useModalAuthEmailOrPhone,
+  useUTM,
+} from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -22,6 +29,11 @@ export const ContentCreatePassword = () => {
   const type = useModalAuth(({ type }) => type)
   const codeReset = useModalAuth(({ codeReset }) => codeReset)
   const email = useModalAuth(({ email }) => email)
+
+  const utm_source = useUTM(({ utm_source }) => utm_source)
+  const utm_medium = useUTM(({ utm_medium }) => utm_medium)
+  const utm_campaign = useUTM(({ utm_campaign }) => utm_campaign)
+  const utm_content = useUTM(({ utm_content }) => utm_content)
 
   const { control, handleSubmit, setError, watch, trigger } = useForm<TValidateSchemaPassword>({
     resolver: resolverPassword,
@@ -78,11 +90,31 @@ export const ContentCreatePassword = () => {
           })
       }
       if (!!email && typeEmailOrPhone === "email") {
-        RegistrationService.registration({
-          email: email,
-          password: values.password!,
-          repeat: values.repeat!,
-        })
+        const stringParams = new URLSearchParams()
+
+        if (utm_source) {
+          stringParams.set("utm_source", utm_source)
+        }
+        if (utm_medium) {
+          stringParams.set("utm_medium", utm_medium)
+        }
+        if (utm_campaign) {
+          stringParams.set("utm_campaign", utm_campaign)
+        }
+        if (utm_content) {
+          stringParams.set("utm_content", utm_content)
+        }
+
+        const string = stringParams.toString()
+
+        RegistrationService.registration(
+          {
+            email: email,
+            password: values.password!,
+            repeat: values.repeat!,
+          },
+          string ? string : undefined,
+        )
           .then((response) => {
             if (response.ok) {
               if (response.res) {
