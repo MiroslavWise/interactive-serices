@@ -259,13 +259,15 @@ export default function CreateNewOptionModal() {
     if (!valuesAddresses) {
       return null
     }
-    return (
-      valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter(
-        (item) =>
-          item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "street") &&
-          item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "locality"),
-      ) || null
+
+    const addresses = valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter(
+      (item) =>
+        item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "street") &&
+        item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "locality") &&
+        ["RU", "BY"].includes(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code!),
     )
+
+    return Array.isArray(addresses) && addresses?.length > 0 ? addresses : null
   }, [valuesAddresses])
 
   const onSubmit = handleSubmit(submit)
@@ -345,6 +347,8 @@ export default function CreateNewOptionModal() {
   const disabledButton =
     !watch("addressFeature") || !watch("title")?.trim() || (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
 
+  const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
+
   return (
     <>
       {typeAdd ? (
@@ -389,7 +393,7 @@ export default function CreateNewOptionModal() {
                     }}
                   />
                 </div>
-                <ul data-active={isFocus}>
+                <ul data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))} data-is-empty-search={isEmptySearch}>
                   {Array.isArray(exactAddresses) ? (
                     exactAddresses.map((item, index) => (
                       <li
@@ -407,9 +411,9 @@ export default function CreateNewOptionModal() {
                         <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
                       </li>
                     ))
-                  ) : (
-                    <p>{loadingAddresses ? "Идёт загрузка адресов" : "Не найдено подходящих адресов"}</p>
-                  )}
+                  ) : isEmptySearch ? (
+                    <p>Введите более точный адрес поиска, с указанием улицы</p>
+                  ) : null}
                 </ul>
               </div>
             )}
