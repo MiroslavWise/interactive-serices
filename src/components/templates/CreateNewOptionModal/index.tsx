@@ -1,8 +1,8 @@
 "use client"
 
-import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { IFormValues } from "./types/types"
@@ -13,6 +13,7 @@ import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { CustomSelect } from "@/components/common/custom"
 import { ArticleOnboarding } from "@/components/templates"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { Button, ImageStatic, WalletPay } from "@/components/common"
 
 import { queryClient } from "@/context"
@@ -31,9 +32,10 @@ import {
   dispatchVisibleCreateNewCategory,
   dispatchModal,
   EModalData,
+  useModal,
+  useNewServicesBannerMap,
 } from "@/store"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 const titleContent = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : ""
@@ -93,8 +95,10 @@ export default function CreateNewOptionModal() {
   const visible = useOnboarding(({ visible }) => visible)
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const categories = useOffersCategories(({ categories }) => categories)
-  const addressInit = useAddCreateModal(({ addressInit }) => addressInit)
   const { refetch: refetchDataMap } = useMapOffers()
+
+  const stateModal = useModal(({ data }) => data)
+  const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
 
   const { refetch } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: typeAdd, order: "DESC" }),
@@ -126,13 +130,16 @@ export default function CreateNewOptionModal() {
     defaultValues: {
       categoryId: null,
       title: "",
-      address: addressInit ? true : "",
+      address: "",
+      content: "",
       file: {
         file: [],
         string: [],
       },
     },
   })
+
+  console.log("errors: ", errors)
 
   function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
@@ -206,34 +213,30 @@ export default function CreateNewOptionModal() {
     }
     if (!loading) {
       setLoading(true)
-      if (values) {
-        if (addressInit) {
-          createAddressPost(addressInit).then((response) => {
-            if (response?.ok) {
-              create(
-                {
-                  ...data,
-                  addresses: [response.res?.id!],
-                },
-                values.file.file,
-              )
-            }
-          })
-          return
-        } else if (values.addressFeature) {
-          createAddress(values.addressFeature).then((response) => {
-            if (response?.ok) {
-              create(
-                {
-                  ...data,
-                  addresses: [response.res?.id!],
-                },
-                values.file.file,
-              )
-            }
-          })
-          return
-        }
+      if (initMapAddress && stateModal === EModalData.CreateNewOptionModalMap) {
+        createAddressPost(initMapAddress).then((response) => {
+          if (response?.ok) {
+            create(
+              {
+                ...data,
+                addresses: [response.res?.id!],
+              },
+              values.file.file,
+            )
+          }
+        })
+      } else {
+        createAddress(values.addressFeature).then((response) => {
+          if (response?.ok) {
+            create(
+              {
+                ...data,
+                addresses: [response.res?.id!],
+              },
+              values.file.file,
+            )
+          }
+        })
       }
     }
   }
@@ -345,7 +348,9 @@ export default function CreateNewOptionModal() {
   }, [watch("title"), watch("categoryId"), watch("content"), watch("file.file"), visible])
 
   const disabledButton =
-    !watch("addressFeature") || !watch("title")?.trim() || (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
+    (stateModal === EModalData.CreateNewOptionModal ? !watch("addressFeature") : false) ||
+    !watch("title")?.trim() ||
+    (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
 
   const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
 
@@ -359,64 +364,74 @@ export default function CreateNewOptionModal() {
       <ul id="ul-create-option-modal" data-test="ul-create-new-option">
         <form onSubmit={onSubmit} data-test="from-create-new-option">
           <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }} data-test="fieldset-create-new-option-addressInit">
-            <label htmlFor="address">{addressInit?.additional ? "По адресу" : "Ваш адрес"}</label>
-            {addressInit?.additional ? (
-              <p>{addressInit?.additional}</p>
-            ) : (
-              <div data-input-selector {...register("addressFeature", { required: !addressInit?.additional })} ref={ref}>
-                <input
-                  {...register("address", { required: true })}
-                  onChange={(event) => {
-                    setValue("address", event.target.value)
-                    debouncedValue()
-                    setLoadingAddresses(true)
-                  }}
-                  type="text"
-                  data-error={!!errors.addressFeature}
-                  onFocus={() => setIsFocus(true)}
-                  placeholder="Введите адрес"
-                  disabled={visible && step !== 2}
-                  data-focus={visible && step === 2}
-                  autoComplete="off"
-                />
-                <div data-select-icon>
-                  <img
-                    src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
-                    alt="chevron"
-                    width={20}
-                    height={20}
-                    data-chevron
-                    data-loading={loadingAddresses}
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      setIsFocus(false)
+            <label htmlFor="address">Ваш адрес</label>
+            <div
+              data-input-selector
+              {...register("addressFeature", { required: stateModal === EModalData.CreateNewOptionModal })}
+              ref={ref}
+            >
+              <Controller
+                name="address"
+                control={control}
+                rules={{
+                  required: stateModal === EModalData.CreateNewOptionModal,
+                }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    onChange={(event) => {
+                      setValue("address", event.target.value)
+                      debouncedValue()
+                      setLoadingAddresses(true)
                     }}
+                    value={stateModal === EModalData.CreateNewOptionModalMap ? initMapAddress?.additional : field.value}
+                    type="text"
+                    data-error={!!errors.addressFeature}
+                    onFocus={() => setIsFocus(true)}
+                    placeholder="Введите адрес"
+                    disabled={(visible && step !== 2) || (stateModal === EModalData.CreateNewOptionModalMap && !!initMapAddress)}
+                    data-focus={visible && step === 2}
+                    autoComplete="off"
                   />
-                </div>
-                <ul data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))} data-is-empty-search={isEmptySearch}>
-                  {Array.isArray(exactAddresses) ? (
-                    exactAddresses.map((item, index) => (
-                      <li
-                        key={`${item.GeoObject.uri}-${index}`}
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          dispatchValidating({
-                            isAddress: !!item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
-                          })
-                          setValue("addressFeature", item)
-                          setValue("address", item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
-                          setIsFocus(false)
-                        }}
-                      >
-                        <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
-                      </li>
-                    ))
-                  ) : isEmptySearch ? (
-                    <p>Введите более точный адрес поиска, с указанием улицы</p>
-                  ) : null}
-                </ul>
+                )}
+              />
+              <div data-select-icon>
+                <img
+                  src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
+                  alt="chevron"
+                  width={20}
+                  height={20}
+                  data-chevron
+                  data-loading={loadingAddresses}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    setIsFocus(false)
+                  }}
+                />
               </div>
-            )}
+              <ul data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))} data-is-empty-search={isEmptySearch}>
+                {Array.isArray(exactAddresses) ? (
+                  exactAddresses.map((item, index) => (
+                    <li
+                      key={`${item.GeoObject.uri}-${index}`}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        dispatchValidating({
+                          isAddress: !!item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
+                        })
+                        setValue("addressFeature", item)
+                        setValue("address", item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
+                        setIsFocus(false)
+                      }}
+                    >
+                      <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                    </li>
+                  ))
+                ) : isEmptySearch ? (
+                  <p>Введите более точный адрес поиска, с указанием улицы</p>
+                ) : null}
+              </ul>
+            </div>
           </fieldset>
           {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
             <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">

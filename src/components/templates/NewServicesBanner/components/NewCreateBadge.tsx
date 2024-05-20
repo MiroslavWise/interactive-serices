@@ -5,13 +5,14 @@ import type { TNewCreateBadge } from "../types/types"
 
 import { mapIconCreateOffer } from "@/utils"
 
-import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData } from "@/store"
+import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData, useModal } from "@/store"
 
 import styles from "./styles/styles.module.scss"
 
 export const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)
+  const state = useModal(({ data }) => data)
 
   function handleType() {
     if (visible && type === value) {
@@ -22,7 +23,11 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
       return
     } else {
       openCreateOffers(value as EnumTypeProvider)
-      dispatchModal(EModalData.CreateNewOptionModal)
+      if (state === EModalData.NewServicesBannerMap) {
+        dispatchModal(EModalData.CreateNewOptionModalMap)
+      } else {
+        dispatchModal(EModalData.CreateNewOptionModal)
+      }
     }
   }
 

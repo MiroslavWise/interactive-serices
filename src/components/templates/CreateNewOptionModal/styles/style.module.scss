@@ -334,6 +334,12 @@
 
       transition: var(--transition);
       transition-property: border;
+
+      &:disabled {
+        border-color: var(--grey-stroke);
+        color: var(--text-disabled);
+        background-color: var(--grey-field);
+      }
     }
 
     & > ul {
