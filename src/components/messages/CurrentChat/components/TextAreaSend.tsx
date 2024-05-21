@@ -150,7 +150,7 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
                 console.log("message response :", response)
               },
             )
-            requestAnimationFrame(() => {
+            setTimeout(() => {
               reset()
               setLoading(false)
             })
@@ -164,7 +164,7 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
               created: date,
             }
             postMessage(data).then(() => {
-              requestAnimationFrame(() => {
+              setTimeout(() => {
                 reset()
                 setLoading(false)
                 refetch()
@@ -177,8 +177,6 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
   })
 
   const strings = useMemo(() => watch("file").string, [watch("file")])
-
-  console.log("strings: ", strings)
 
   return (
     <form onSubmit={onSubmit}>
