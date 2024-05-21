@@ -79,7 +79,7 @@ function Modal() {
       data-visible={visible}
       ref={ref}
       data-enum={data}
-      onMouseUp={(event) => {
+      onClick={(event) => {
         event.stopPropagation()
         close()
       }}
