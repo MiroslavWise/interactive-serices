@@ -3,18 +3,18 @@ import type { TTypeFriends } from "@/store/types/createDroverFriends"
 import type { IFriendsResponse } from "@/services/friends/types"
 
 export interface IListFriends {
-    list: IFriendsResponse[]
-    type: TTypeFriends
+  list: IFriendsResponse[]
+  type: TTypeFriends
 }
 
 export interface IEnabledHook {
-    enabled?: boolean
-    type?: TTypeFriends | "list"
+  enabled?: boolean
+  type?: TTypeFriends | "list"
 }
 
 export interface IItemListFriend {
-    id: number
-    type: TTypeFriends
+  user: IFriendsResponse
+  type: TTypeFriends
 }
 
 export type TListFriends = FC<IListFriends>

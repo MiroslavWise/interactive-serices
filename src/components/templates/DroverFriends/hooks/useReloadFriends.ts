@@ -8,55 +8,51 @@ import { serviceFriends } from "@/services/friends"
 import { TTypeFriends } from "@/store/types/createDroverFriends"
 
 export const useReloadFriends = ({ enabled, type }: IEnabledHook) => {
-    const userId = useAuth(({userId}) => userId)
+  const userId = useAuth(({ userId }) => userId)
 
-    const list: TTypeFriends[] = ["request", "response", "list"]
+  const list: TTypeFriends[] = ["request", "response", "list"]
 
-    const [
-        { refetch: refetchRequest, data: dataRequest },
-        { refetch: refetchResponse, data: dataResponse },
-        { refetch: refetchList, data: dataList },
-    ] = useQueries({
-        queries: list.map((item) => ({
-            queryFn: () =>
-                serviceFriends.get(
-                    ["request", "response"].includes(item!)
-                        ? { filter: item as Exclude<TTypeFriends, "list"> }
-                        : undefined,
-                ),
-            queryKey: ["friends", `user=${userId}`, `filter=${item}`],
-            enabled: !!enabled,
-        })),
-    })
+  const [
+    { refetch: refetchRequest, data: dataRequest },
+    { refetch: refetchResponse, data: dataResponse },
+    { refetch: refetchList, data: dataList },
+  ] = useQueries({
+    queries: list.map((item) => ({
+      queryFn: () =>
+        serviceFriends.get(["request", "response"].includes(item!) ? { filter: item as Exclude<TTypeFriends, "list"> } : undefined),
+      queryKey: ["friends", `user=${userId}`, `filter=${item}`],
+      enabled: !!enabled,
+    })),
+  })
 
-    async function refresh(values: TTypeFriends[]) {
-        console.log("%c refresh: ", "color: green; font-size: 15px", values)
-        return Promise.all(
-            values.map((item) => {
-                if (item === "list") {
-                    return refetchList()
-                }
-                if (item === "request") {
-                    return refetchRequest()
-                }
-                if (item === "response") {
-                    return refetchResponse()
-                }
-            }),
-        )
+  async function refresh(values: TTypeFriends[]) {
+    console.log("%c refresh: ", "color: green; font-size: 15px", values)
+    return Promise.all(
+      values.map((item) => {
+        if (item === "list") {
+          return refetchList()
+        }
+        if (item === "request") {
+          return refetchRequest()
+        }
+        if (item === "response") {
+          return refetchResponse()
+        }
+      }),
+    )
+  }
+
+  const data = useMemo(() => {
+    if (type === "list") {
+      return dataList
     }
+    if (type === "request") {
+      return dataRequest
+    }
+    if (type === "response") {
+      return dataResponse
+    }
+  }, [type, dataList, dataRequest, dataResponse])
 
-    const data = useMemo(() => {
-        if (type === "list") {
-            return dataList
-        }
-        if (type === "request") {
-            return dataRequest
-        }
-        if (type === "response") {
-            return dataResponse
-        }
-    }, [type, dataList, dataRequest, dataResponse])
-
-    return { data, refresh }
+  return { data, refresh }
 }

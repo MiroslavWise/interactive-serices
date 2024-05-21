@@ -36,6 +36,7 @@ import {
   useNewServicesBannerMap,
 } from "@/store"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
+import { IconXClose } from "@/components/icons/IconXClose"
 
 const titleContent = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : ""
@@ -353,6 +354,8 @@ export default function CreateNewOptionModal() {
     (typeAdd === EnumTypeProvider.offer ? !watch("categoryId") : false)
 
   const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
+  const focusAddress = () => setIsFocus(true)
+  const blurAddress = () => setIsFocus(false)
 
   return (
     <>
@@ -363,13 +366,14 @@ export default function CreateNewOptionModal() {
       ) : null}
       <ul id="ul-create-option-modal" data-test="ul-create-new-option">
         <form onSubmit={onSubmit} data-test="from-create-new-option">
-          <fieldset id="fieldset-create-option-modal-address" style={{ zIndex: 100 }} data-test="fieldset-create-new-option-addressInit">
+          <fieldset
+            id="fieldset-create-option-modal-address"
+            style={{ zIndex: 100 }}
+            data-test="fieldset-create-new-option-addressInit"
+            ref={ref}
+          >
             <label htmlFor="address">Ваш адрес</label>
-            <div
-              data-input-selector
-              {...register("addressFeature", { required: stateModal === EModalData.CreateNewOptionModal })}
-              ref={ref}
-            >
+            <div data-input-selector {...register("addressFeature", { required: stateModal === EModalData.CreateNewOptionModal })}>
               <Controller
                 name="address"
                 control={control}
@@ -387,7 +391,7 @@ export default function CreateNewOptionModal() {
                     value={stateModal === EModalData.CreateNewOptionModalMap ? initMapAddress?.additional : field.value}
                     type="text"
                     data-error={!!errors.addressFeature}
-                    onFocus={() => setIsFocus(true)}
+                    onFocus={focusAddress}
                     placeholder="Введите адрес"
                     disabled={(visible && step !== 2) || (stateModal === EModalData.CreateNewOptionModalMap && !!initMapAddress)}
                     data-focus={visible && step === 2}
@@ -395,20 +399,16 @@ export default function CreateNewOptionModal() {
                   />
                 )}
               />
-              <div data-select-icon>
-                <img
-                  src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
-                  alt="chevron"
-                  width={20}
-                  height={20}
-                  data-chevron
-                  data-loading={loadingAddresses}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    setIsFocus(false)
-                  }}
-                />
-              </div>
+              <button
+                data-select-icon={isFocus}
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  blurAddress()
+                }}
+              >
+                <IconXClose />
+              </button>
               <ul data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))} data-is-empty-search={isEmptySearch}>
                 {Array.isArray(exactAddresses) ? (
                   exactAddresses.map((item, index) => (
@@ -421,14 +421,14 @@ export default function CreateNewOptionModal() {
                         })
                         setValue("addressFeature", item)
                         setValue("address", item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
-                        setIsFocus(false)
+                        blurAddress()
                       }}
                     >
                       <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
                     </li>
                   ))
                 ) : isEmptySearch ? (
-                  <p>Введите более точный адрес поиска, с указанием улицы</p>
+                  <p>По вашему запросу нет подходящих адресов</p>
                 ) : null}
               </ul>
             </div>
