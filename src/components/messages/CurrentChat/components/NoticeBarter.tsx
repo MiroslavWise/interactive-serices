@@ -18,8 +18,9 @@ import styles from "./styles/notice-barter.module.scss"
 import { EnumStatusBarter } from "@/types/enum"
 import { IUserOffer } from "@/services/offers/types"
 
-export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: { idBarter: number; userData?: IUserOffer | null }) {
+export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEnemy }: { idBarter: number; user: IUserOffer }) {
   const threadId = useSearchParams().get("thread")
+  const { firstName } = userEnemy ?? {}
   const user = useAuth(({ user }) => user)
   const userId = useAuth(({ userId }) => userId)
   const categories = useOffersCategories(({ categories }) => categories)
@@ -81,18 +82,13 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, userData }: {
     }
   }, [categories, consigner, initiator])
 
-  const geo = useMemo(() => {
-    // return userData?.addresses?.find((item) => item?.addressType === "main")
-    return null
-  }, [userData])
-
   function handleAccept() {
     if (!loading) {
       setLoading(true)
       patchBarter({ status: EnumStatusBarter.EXECUTED }, idBarter!).then((response) => {
         if (response.ok) {
           const date = new Date()
-          const receiverIds = [Number(userData?.id)]
+          const receiverIds = [Number(userEnemy?.id)]
           const message = `Пользователь ${user?.username} согласился принять ваш запрос на обмен!`
           socket?.emit("barter", {
             receiverIds: receiverIds,

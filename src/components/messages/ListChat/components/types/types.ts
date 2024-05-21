@@ -6,7 +6,6 @@ import type { IUserResponse } from "@/services/users/types"
 interface IList {
   items: IResponseThreads[]
   search: string
-  setTotal: Dispatch<SetStateAction<number>>
 }
 
 interface IItemListChat extends IFiltersItems {

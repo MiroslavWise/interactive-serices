@@ -1,5 +1,6 @@
 import { IImageData } from "@/store/types/useAuthState"
 import type { IPromiseReturn } from "../types/general"
+import { IUserOffer } from "../offers/types"
 
 export interface IRequestPostMessages {
   threadId: number
@@ -22,6 +23,7 @@ export interface IResponseMessageProps {
   message: string
   parentId: number | null
   threadId: number
+  emitter: IUserOffer
   emitterId: number
   receiverIds: number[]
   images: IImageData[] | string[]

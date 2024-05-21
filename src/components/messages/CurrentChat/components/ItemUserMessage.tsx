@@ -8,28 +8,26 @@ import type { IPhoto } from "@/store/types/useVisiblePhotosCarousel"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { useResize } from "@/helpers"
 import { dispatchPhotoCarousel } from "@/store"
 import { stylesBlockRight } from "@/lib/styles-block-message"
 import { timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/item-message.module.scss"
 
-export const ItemUserMessage: TItemMessage = memo(function $ItemUserMessage({ photo, messages }) {
-  const { isTablet } = useResize()
+export const ItemUserMessage: TItemMessage = memo(({ photo, messages }) => {
   function handleImage(id: number, photos: IPhoto[]) {
     dispatchPhotoCarousel({ visible: true, idPhoto: id, photos })
   }
 
   return (
     <li className={styles.containerItemUserMessage}>
-      {!isTablet ? (
-        photo ? (
+      <div data-avatar>
+        {photo ? (
           <NextImageMotion src={photo} alt="avatar" width={32} height={32} className={styles.avatar} />
         ) : (
           <ImageStatic src="/png/default_avatar.png" alt="avatar" width={32} height={32} className={styles.avatar} />
-        )
-      ) : null}
+        )}
+      </div>
       <div className={styles.messages}>
         {messages?.map((item, index) => (
           <div

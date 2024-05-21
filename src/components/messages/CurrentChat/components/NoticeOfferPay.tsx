@@ -8,17 +8,17 @@ import type { IUserResponse } from "@/services/users/types"
 
 import { LoadingThreadNotice } from "@/components/common"
 
+import { daysAgo } from "@/helpers"
 import { getIdOffer } from "@/services"
-import { daysAgo, usePush } from "@/helpers"
-import { dispatchBallonOffer, dispatchMapCoordinates, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
+import { IUserOffer } from "@/services/offers/types"
+import { dispatchBallonOffer, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/notice-offer-pay.module.scss"
-import { IUserOffer } from "@/services/offers/types"
 
-export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; userData: IUserOffer }) => {
+export const NoticeOfferPay = ({ thread, user }: { thread: IResponseThread; user: IUserOffer }) => {
   const userId = useAuth(({ userId }) => userId)
   const categories = useOffersCategories(({ categories }) => categories)
-  const { handlePush } = usePush()
+  const { firstName } = user ?? {}
   const { data, isLoading } = useQuery({
     queryFn: () => getIdOffer(thread?.offerId!),
     queryKey: ["offers", { offerId: thread?.offerId! }],
@@ -58,7 +58,7 @@ export const NoticeOfferPay = ({ thread, userData }: { thread: IResponseThread; 
         <p>
           {userId === resOffer?.userId ? (
             <>
-              {userData?.firstName || ""} заинтересована в покупке вашей услуги <span onClick={handleDetailOffer}>{category?.title}</span>.
+              {firstName || ""} заинтересована в покупке вашей услуги <span onClick={handleDetailOffer}>{category?.title}</span>.
               Договоритесь о цене и условиях покупки в чате
             </>
           ) : (
