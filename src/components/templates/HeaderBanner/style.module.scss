@@ -182,24 +182,31 @@
       height: 100%;
 
       & > img {
+        display: block;
         width: 100%;
         height: auto;
         aspect-ratio: 150/64;
       }
     }
 
-    & > [data-c="1"] {
-      top: -1rem;
-      left: 56%;
-    }
-    & > [data-c="2"] {
-      right: 0.5rem;
-      transform: translateX(0);
-    }
+    & > [data-c] {
+      width: 11rem;
+      height: 11rem;
 
-    & > [data-c="3"],
-    & > [data-c="4"] {
-      display: none;
+      & > [data-c="1"] {
+        top: -1rem;
+        left: 36%;
+      }
+      & > [data-c="2"] {
+        left: auto;
+        right: 0.5rem;
+        transform: translateX(0);
+      }
+
+      & > [data-c="3"],
+      & > [data-c="4"] {
+        display: none;
+      }
     }
   }
 
