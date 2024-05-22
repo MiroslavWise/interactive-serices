@@ -11,6 +11,7 @@ import {
   dispatchClearSearchFilters,
   dispatchValueSearchFilters,
   dispatchVisibleSearchFilters,
+  useAdvertisingBanner,
   useOffersCategories,
   useSearchFilters,
 } from "@/store"
@@ -22,16 +23,10 @@ export const SearchFilters = () => {
   const value = useSearchFilters(({ value }) => value)
   const history = useSearchFilters(({ history }) => history)
   const categories = useOffersCategories(({ categories }) => categories)
+  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
-  const {
-    formState: { errors },
-    register,
-    setFocus,
-    watch,
-    setValue,
-    handleSubmit,
-  } = useForm<IValues>({
-    defaultValues: { input: value },
+  const { register, setFocus, watch, setValue, handleSubmit } = useForm<IValues>({
+    defaultValues: { input: value || "" },
   })
 
   const input = watch("input")?.trim() || ""
@@ -141,7 +136,7 @@ export const SearchFilters = () => {
   )
 
   return (
-    <div className={styles.wrapper} data-visible={visible}>
+    <div className={styles.wrapper} data-visible={visible} data-is-banner={visibleAdvertisingBanner}>
       <form onSubmit={onSubmit} data-test="form-search-filters">
         <header>
           <div data-icon-search>

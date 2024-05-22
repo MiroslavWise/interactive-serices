@@ -4,8 +4,8 @@ import dynamic from "next/dynamic"
 import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 
-const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
 const Providers = dynamic(() => import("./providers"), { ssr: false })
+const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
 
 import env from "@/config/environment"
 import { cx } from "@/lib/cx"

@@ -283,6 +283,12 @@
     }
   }
 
+  &[data-is-banner="true"] {
+    & > form {
+      top: calc(var(--height-header-nav-bar) + 1.5rem + 2.75rem);
+    }
+  }
+
   &[data-visible="true"] {
     opacity: 1;
     visibility: visible;

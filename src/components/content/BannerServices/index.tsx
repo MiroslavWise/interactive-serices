@@ -20,6 +20,7 @@ import {
   dispatchFiltersServiceTime,
   dispatchValueSearchFilters,
   dispatchVisibleSearchFilters,
+  useAdvertisingBanner,
   useCollapseServices,
   useFiltersScreen,
   useFiltersServices,
@@ -36,9 +37,9 @@ function BannerServices() {
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const categories = useOffersCategories(({ categories }) => categories)
-  const [total, setTotal] = useState(0)
   const parentRef = useRef<HTMLUListElement>(null)
   const { isTablet } = useResize()
+  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   function handleProvider(value: TServicesFilter) {
     dispatchFiltersServiceProvider(value)
@@ -55,7 +56,7 @@ function BannerServices() {
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
   return !isTablet ? (
-    <div className={styles.container} data-collapse={visible} data-test="banner-services">
+    <div className={styles.container} data-collapse={visible} data-test="banner-services" data-is-banner={visibleAdvertisingBanner}>
       <header />
       <ul ref={parentRef} data-test="ul-banner-services">
         <section data-test="ul-section-banner-services">
@@ -112,7 +113,7 @@ function BannerServices() {
           ) : null}
         </section>
         <div data-container data-test="ul-section-container-banner-services">
-          <ServicesComponent setTotal={setTotal} />
+          <ServicesComponent />
         </div>
       </ul>
     </div>
@@ -125,9 +126,15 @@ export default BannerServices
 export const SearchAndFilters = () => {
   const visible = useCollapseServices(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
+  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   return (
-    <div className={styles.containerSearchAndFilters} data-collapse={visible} data-test="search-and-filters">
+    <div
+      className={styles.containerSearchAndFilters}
+      data-collapse={visible}
+      data-test="search-and-filters"
+      data-is-banner={visibleAdvertisingBanner}
+    >
       <div data-search>
         <span data-icon-search>
           <IconSearch />
@@ -173,6 +180,7 @@ export const SearchAndFilters = () => {
 
 export const ButtonCollapseServices = () => {
   const visible = useCollapseServices(({ visible }) => visible)
+  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   return (
     <button
@@ -184,6 +192,7 @@ export const ButtonCollapseServices = () => {
         dispatchCollapseServices()
       }}
       data-test="button-collapse-services"
+      data-is-banner={visibleAdvertisingBanner}
     >
       <img src="/svg/chevron-right-accent.svg" alt="right" width={12} height={12} />
     </button>

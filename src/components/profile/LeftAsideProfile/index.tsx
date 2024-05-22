@@ -5,9 +5,9 @@ import { BlockProfileAside, BlockDesiredServices, ButtonFriends } from "@/compon
 
 import styles from "./styles/style.module.scss"
 
-export const LeftAsideProfile = memo(function ({ isCollapsed = false }: { isCollapsed?: boolean }) {
+export const LeftAsideProfile = memo(function ({ isCollapsed = false, isBanner = false }: { isCollapsed?: boolean; isBanner?: boolean }) {
   return (
-    <aside className={styles.asideLeft} data-collapsed={isCollapsed} data-test="left-aside-profile">
+    <aside className={styles.asideLeft} data-collapsed={isCollapsed} data-test="left-aside-profile" data-is-banner={isBanner}>
       <ul>
         <BlockProfileAside />
         <ButtonFriends />
