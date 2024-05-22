@@ -26,8 +26,8 @@ const GENDER: { label: string; value: TGenderForm }[] = [
 ]
 
 export const PersonalData = () => {
-  const [loading, setLoading] = useState(false)
   const userId = useAuth(({ userId }) => userId)
+  const [loading, setLoading] = useState(false)
   const [errorFile, setErrorFile] = useState<null | string>(null)
   const { out } = useOut()
   const { on } = useToast()
@@ -43,6 +43,7 @@ export const PersonalData = () => {
     setValue,
     setError,
     handleSubmit,
+    trigger,
     control,
     clearErrors,
     formState: { errors },
@@ -57,7 +58,6 @@ export const PersonalData = () => {
   })
 
   const image = data?.res?.image?.attributes?.url
-  const idProfile = data?.res?.id!
 
   useEffect(() => {
     if (data?.ok) {
@@ -80,11 +80,6 @@ export const PersonalData = () => {
   }
 
   function submit(values: TSchemaUpdateForm) {
-    if (!values.username?.trim()) {
-      setError("username", { message: "Обязательно к заполнению" })
-      setLoading(false)
-      return
-    }
     if (!loading) {
       setLoading(true)
 
@@ -105,9 +100,9 @@ export const PersonalData = () => {
         valuesProfile.gender = values.gender
       }
 
-      Promise.all([!!data?.ok ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)]).then((responses) => {
-        if (responses?.[0]?.ok) {
-          const idProfile = responses?.[0]?.res?.id!
+      Promise.resolve(!!data?.ok ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)).then((responseOk) => {
+        if (responseOk?.ok) {
+          const idProfile = userId!
           if (file.file) {
             UpdatePhotoProfile(idProfile).then((response) => {
               if (response?.ok) {
@@ -128,10 +123,10 @@ export const PersonalData = () => {
           }
         } else {
           setLoading(false)
-          if (responses[0]?.error?.code === 409) {
-            return setError("username", { message: "user exists" })
+          if (responseOk?.error?.code === 409 || responseOk?.error?.message === "username already exists") {
+            return setError("username", { message: "Пользователь с таким ником уже существует" })
           }
-          if (responses[0]?.error?.code === 401) {
+          if (responseOk?.error?.code === 401) {
             on({
               message: "Извините, ваш токен истёк. Перезайдите, пожалуйста!",
             })
@@ -157,15 +152,7 @@ export const PersonalData = () => {
   return (
     <form onSubmit={onSubmit} data-test="form-personal-data">
       <section>
-        <ImageProfile
-          image={image!}
-          file={file}
-          setFile={setFile}
-          idProfile={idProfile}
-          refetch={refetch}
-          errorFile={errorFile}
-          setErrorFile={setErrorFile}
-        />
+        <ImageProfile image={image!} file={file} setFile={setFile} refetch={refetch} errorFile={errorFile} setErrorFile={setErrorFile} />
         <div data-grid>
           <Controller
             name="firstName"
@@ -204,7 +191,17 @@ export const PersonalData = () => {
                 <label htmlFor={field.name} title="Никнейм пользователя">
                   Ник
                 </label>
-                <input type="text" placeholder="Придумайте ник" {...field} data-error={!!error} data-test="input-personal-data-username" />
+                <input
+                  type="text"
+                  placeholder="Придумайте ник"
+                  {...field}
+                  onChange={(event) => {
+                    field.onChange(event)
+                    trigger(field.name)
+                  }}
+                  data-error={!!error}
+                  data-test="input-personal-data-username"
+                />
                 {!!error ? <i>{error?.message}</i> : null}
               </fieldset>
             )}
