@@ -2,6 +2,7 @@
   position: relative;
 
   & > input {
+    height: 3rem !important;
     &:disabled {
       border-color: var(--grey-stroke);
       color: var(--text-disabled);
