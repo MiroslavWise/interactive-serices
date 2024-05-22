@@ -139,7 +139,7 @@ export const useToast = () => {
     return toast(message, {
       toastId: value.id || Math.random(),
       position: isTablet ? "bottom-center" : "bottom-left",
-      autoClose: 7500,
+      autoClose: 3500,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
