@@ -7,13 +7,13 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { EnumTypeProvider } from "@/types/enum"
 import type { IFormValues } from "./types/types"
 import type { IPostOffers } from "@/services/offers/types"
-import type { ISelectList } from "@/components/common/custom/Select/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import { CustomSelect } from "@/components/common/custom"
 import { ArticleOnboarding } from "@/components/templates"
+import { IconXClose } from "@/components/icons/IconXClose"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import ControllerCategory from "./components/ControllerCategory"
 import { Button, ImageStatic, WalletPay } from "@/components/common"
 
 import { queryClient } from "@/context"
@@ -27,61 +27,15 @@ import {
   dispatchModalClose,
   dispatchOnboarding,
   useAuth,
-  useOffersCategories,
   useOnboarding,
-  dispatchVisibleCreateNewCategory,
   dispatchModal,
   EModalData,
   useModal,
   useNewServicesBannerMap,
 } from "@/store"
+import { descriptionImages, headerTitle, placeholderDescription, titleContent, title, titlePlaceholderContent } from "./constants/titles"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
-import { IconXClose } from "@/components/icons/IconXClose"
-
-const titleContent = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : ""
-const titlePlaceholderContent = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert
-    ? "Например, потерял(а) телефон"
-    : value === EnumTypeProvider.discussion
-    ? "Например, турнир по петангу 12.01"
-    : ""
-
-const headerTitle = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert
-    ? "Новое SOS-сообщение"
-    : value === EnumTypeProvider.discussion
-    ? "Новое обсуждение"
-    : value === EnumTypeProvider.offer
-    ? "Новое предложение"
-    : null
-
-const title = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert
-    ? "Опишите проблему"
-    : value === EnumTypeProvider.discussion
-    ? "Ваш комментарий"
-    : value === EnumTypeProvider.offer
-    ? "Описание предложения"
-    : null
-
-const placeholderDescription = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert
-    ? "Опишите, что случилось, упоминая детали, которые посчитаете важными"
-    : value === EnumTypeProvider.discussion
-    ? "Раскройте более подробно тему обсуждения, добавив детали"
-    : value === EnumTypeProvider.offer
-    ? "Добавьте описание, чтобы привлечь внимание к вашему предложению"
-    : null
-
-const descriptionImages = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert
-    ? "Если у вас есть фото или видео возникшей проблемы, добавьте"
-    : value === EnumTypeProvider.discussion
-    ? "Фото или видео, раскрывающие суть предложенной темы, точно пригодятся"
-    : value === EnumTypeProvider.offer
-    ? "Добавьте фотографии и видео, это помогает выделить предложение среди других"
-    : null
+import { useToast } from "@/helpers/hooks/useToast"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
@@ -95,8 +49,8 @@ export default function CreateNewOptionModal() {
   const step = useOnboarding(({ step }) => step)
   const visible = useOnboarding(({ visible }) => visible)
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
-  const categories = useOffersCategories(({ categories }) => categories)
   const { refetch: refetchDataMap } = useMapOffers()
+  const { on } = useToast()
 
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
@@ -106,18 +60,6 @@ export default function CreateNewOptionModal() {
     queryKey: ["offers", { userId: userId, provider: typeAdd }],
     enabled: false,
   })
-
-  const list = useMemo(() => {
-    return (
-      categories.map(
-        (item) =>
-          ({
-            label: item.title,
-            value: item.id,
-          } as ISelectList),
-      ) || []
-    )
-  }, [categories])
 
   const {
     reset,
@@ -139,8 +81,6 @@ export default function CreateNewOptionModal() {
       },
     },
   })
-
-  console.log("errors: ", errors)
 
   function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
@@ -210,7 +150,7 @@ export default function CreateNewOptionModal() {
     }
 
     if (values?.categoryId) {
-      data.categoryId = values.categoryId!
+      data.categoryId = Number(values.categoryId!)
     }
     if (!loading) {
       setLoading(true)
@@ -299,6 +239,7 @@ export default function CreateNewOptionModal() {
             const is = current.file.some((_) => _.size === file.size && _.name === file.name)
 
             if (is) {
+              on({ message: "Вы можете прикрепить одну копию одного изображения" })
               continue
             }
 
@@ -441,40 +382,7 @@ export default function CreateNewOptionModal() {
           ) : null}
           {visible && step === 2 && <ArticleOnboarding />}
           {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <fieldset
-              {...register("categoryId", { required: true })}
-              id="fieldset-create-option-modal-offer"
-              data-test="fieldset-create-new-option-categoryId"
-            >
-              <label>Предложение</label>
-              <CustomSelect
-                disabled={visible && step !== 2.5}
-                placeholder="Выберите категории"
-                list={list}
-                value={watch("categoryId")}
-                setValue={(value) => {
-                  if (value) {
-                    setValue("categoryId", value as number)
-                  }
-                }}
-                focus={visible && step === 2.5}
-              />
-              {errors?.categoryId ? <i>Важное поле</i> : null}
-              {!visible ? (
-                <button
-                  type="button"
-                  title="Предложить категорию"
-                  aria-label="Предложить категорию"
-                  data-span-new-category
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    dispatchVisibleCreateNewCategory(true)
-                  }}
-                >
-                  <span>Предложить категорию</span>
-                </button>
-              ) : null}
-            </fieldset>
+            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} />
           ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
           <fieldset id="fieldset-create-option-modal-title" data-test="fieldset-create-new-option-description">
@@ -484,7 +392,7 @@ export default function CreateNewOptionModal() {
                 disabled={visible && step !== 3}
                 maxLength={512}
                 {...register("title", { required: true })}
-                placeholder={placeholderDescription(typeAdd!) || ""}
+                placeholder={placeholderDescription(typeAdd!)}
               />
               <sup>{watch("title")?.length || 0}/512</sup>
             </div>

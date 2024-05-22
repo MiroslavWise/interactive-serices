@@ -150,14 +150,6 @@
           border-radius: 1rem;
         }
 
-        & > [data-text-area] {
-          &[data-focus="true"] {
-            // & > textarea {
-            //   border: 0.0625rem solid var(--text-accent);
-            // }
-          }
-        }
-
         & > i {
           margin-top: -0.3125rem;
           color: var(--text-error);
@@ -195,16 +187,6 @@
 
             @media screen and (max-width: 760px) {
               grid-template-columns: repeat(2, minmax(0, 1fr));
-              // display: flex;
-              // flex-direction: row;
-              // flex-wrap: nowrap;
-              // overflow: hidden;
-              // overflow-x: scroll;
-
-              // & > * {
-              //   min-width: 8rem;
-              //   max-width: 8rem;
-              // }
             }
 
             & > [data-image] {

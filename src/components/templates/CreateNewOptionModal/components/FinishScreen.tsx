@@ -6,7 +6,7 @@ import { Button, ImageStatic } from "@/components/common"
 
 import { closeCreateOffers, dispatchModalClose } from "@/store"
 
-import styles from "./styles/finish-screen.module.scss"
+import styles from "../styles/finish-screen.module.scss"
 
 export const FinishScreen = ({ typeAdd }: { typeAdd: EnumTypeProvider }) => {
   function onClose() {
