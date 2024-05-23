@@ -18,7 +18,10 @@ const content = z
   .default("")
   .refine(
     (value) => {
-      const split = value.split("")
+      const split = value
+        .trim()
+        .split("")
+        .filter((_) => _ !== " ")
 
       let count = 0
 
