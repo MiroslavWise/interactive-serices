@@ -6,34 +6,30 @@ import { schemaFeatureMember, schemaPostAddress } from "@/services/addresses/typ
 
 import { EModalData } from "@/store"
 
-const regexContent = /[^\s\w\dа-яё]/gi
+const regexContent = /[^a-z0-9а-яёй\s]/i
 
 export const LIMIT_DESCRIPTION = 512
+export const LIMIT_TITLE_CONTENT = 32
 
 const content = z
   .string()
   .trim()
   .min(1, { message: "Поле не может оставаться незаполненным" })
-  .max(32, { message: "Название не более 32 символов" })
+  .max(LIMIT_TITLE_CONTENT, { message: "Название не более 32 символов" })
   .default("")
   .refine(
     (value) => {
-      const split = value
-        .trim()
-        .split("")
-        .filter((_) => _ !== " ")
+      const split = value.trim().split("")
 
       let count = 0
 
-      for (let i = 0; i < split.length; i++) {
-        if (count >= 5) {
-          return false
+      split.forEach((item) => {
+        regexContent.lastIndex = 0
+        const test = regexContent.test(item)
+        if (test) {
+          ++count
         }
-
-        if (regexContent.test(split[i])) {
-          count = +1
-        }
-      }
+      })
 
       if (count >= 5) {
         return false

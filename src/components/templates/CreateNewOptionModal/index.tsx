@@ -102,8 +102,6 @@ export default function CreateNewOptionModal() {
       : undefined,
   })
 
-  console.log("errors: ", errors)
-
   function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
       if (response.ok) {
@@ -406,7 +404,13 @@ export default function CreateNewOptionModal() {
               render={({ field, fieldState: { error } }) => (
                 <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">
                   <label htmlFor={field.name}>{titleContent(typeAdd!)}</label>
-                  <input {...field} type="text" placeholder={titlePlaceholderContent(typeAdd!)} data-error={!!error} />
+                  <input
+                    {...field}
+                    onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
+                    type="text"
+                    placeholder={titlePlaceholderContent(typeAdd!)}
+                    data-error={!!error}
+                  />
                   {!!error ? <i>{error.message}</i> : null}
                 </fieldset>
               )}
