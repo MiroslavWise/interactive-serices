@@ -23,7 +23,7 @@ interface IQueries {
 
 export interface IFriendsService {
   get(values?: IQueries): IPromiseReturn<IFriendsResponse[]>
-  getId(id: number | string): IPromiseReturn<IFriendResponseId[]>
+  getId(id: number | string): IPromiseReturn<IFriendsResponse[]>
   post(value: IPostDataFriends): IPromiseReturn<IFriendsResponse>
   delete(id: number | string): IPromiseReturn<{ id: number }>
 }
