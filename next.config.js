@@ -18,8 +18,8 @@ module.exports = {
     formats: ["image/avif", "image/webp"],
     domains: [process.env.NEXT_PUBLIC_DOMAIN],
   },
-  webpack: (config, { isServer }) => {
-    config.optimization.splitChunks = false
-    return config
-  },
+  // webpack: (config, { isServer }) => {
+  //   config.optimization.splitChunks = false
+  //   return config
+  // },
 }

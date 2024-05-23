@@ -18,7 +18,7 @@ import styles from "./styles/style.module.scss"
 export const ItemListChat: TItemListChat = memo(({ thread, last }) => {
   const userId = useAuth(({ userId }) => userId)
   const idThread = useSearchParams().get("thread")
-  const { provider, emitter, receivers, id } = thread ?? {}
+  const { provider, emitter, receivers, id, messages } = thread ?? {}
 
   const user = useMemo(() => {
     if (userId === emitter?.id) {
@@ -28,16 +28,12 @@ export const ItemListChat: TItemListChat = memo(({ thread, last }) => {
     }
   }, [userId, emitter, receivers])
 
-  // const idBarter = useMemo(() => (thread?.title?.includes("barter") ? thread?.title?.split(":")?.[1] : null), [thread.title])
-  // const geo: string | null = useMemo(() => user?.addresses?.find((item) => item?.addressType === "main")?.additional || null, [people])
-  // const geo = null
-
   const lastMessage = useMemo(() => {
     if (!thread?.messages || !thread?.messages?.length || !userId) {
       return null
     }
 
-    const lastMessage = thread?.messages?.[0]
+    const lastMessage = messages?.[0]
     const notRead = !!userId && !lastMessage?.readIds?.includes(userId) && lastMessage?.emitterId !== userId
     const images = lastMessage?.images
 
@@ -54,7 +50,7 @@ export const ItemListChat: TItemListChat = memo(({ thread, last }) => {
         {lastMessage?.message ? <p>{lastMessage?.message}</p> : lastMessage?.images?.length > 0 ? <i>Фотографии</i> : null}
       </div>
     )
-  }, [thread?.messages, userId])
+  }, [messages, userId])
 
   useEffect(() => {
     if (!!user) {
@@ -93,7 +89,6 @@ export const ItemListChat: TItemListChat = memo(({ thread, last }) => {
               </h4>
             ) : null}
             <span>@{user?.username}</span>
-            {/* {geo ? <GeoTagging location={geo} size={14} fontSize={12} /> : null} */}
           </div>
         </div>
       </div>

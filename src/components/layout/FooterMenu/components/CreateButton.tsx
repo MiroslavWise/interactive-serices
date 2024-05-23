@@ -3,11 +3,11 @@ import { memo } from "react"
 import IconPlus from "@/components/icons/IconPlus"
 
 import { useSign } from "../hooks/useSign"
-import { dispatchModal, EModalData, useAuth } from "@/store"
+import { dispatchNewServicesBanner, useAuth } from "@/store"
 
 import styles from "../styles/link.module.scss"
 
-export const CreateButton = memo(function CreateButton() {
+export const CreateButton = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const handleAuthModal = useSign()
 
@@ -18,13 +18,15 @@ export const CreateButton = memo(function CreateButton() {
         event.stopPropagation()
         if (typeof isAuth !== "undefined") {
           if (isAuth) {
-            dispatchModal(EModalData.NewServicesBanner)
+            dispatchNewServicesBanner()
           } else {
             event.preventDefault()
             handleAuthModal()
           }
         }
       }}
+      title="Создать"
+      aria-label="Создать предложение, дискуссию или SOS-сообщение"
       data-test="link-footer-menu-mobile-create"
     >
       <div className={styles.itemsIconLabel}>
@@ -35,4 +37,4 @@ export const CreateButton = memo(function CreateButton() {
       </div>
     </a>
   )
-})
+}

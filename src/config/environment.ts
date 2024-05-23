@@ -7,7 +7,6 @@ const env: IEnv = {
   auto_verification: Boolean(process.env.NEXT_PUBLIC_AUTO_VERIFICATION),
   api_key_yandex: process.env.NEXT_PUBLIC_API_KEY_YANDEX!,
 }
-
 export default env
 
 interface IEnv {

@@ -15,7 +15,7 @@ import { stylesBlockRight } from "@/lib/styles-block-message"
 
 import styles from "./styles/item-message.module.scss"
 
-export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo, messages }) {
+export const ItemMyMessage: TItemMessage = memo(({ photo, messages }) => {
   const { isTablet } = useResize()
 
   function handleImage(id: number, photos: IPhoto[]) {
@@ -96,13 +96,13 @@ export const ItemMyMessage: TItemMessage = memo(function $ItemMyMessage({ photo,
           </div>
         ))}
       </div>
-      {!isTablet ? (
-        photo ? (
+      <div data-avatar>
+        {photo ? (
           <NextImageMotion src={photo} alt="avatar" width={32} height={32} className={styles.avatar} />
         ) : (
           <ImageStatic src="/png/default_avatar.png" alt="avatar" width={32} height={32} className={styles.avatar} />
-        )
-      ) : null}
+        )}
+      </div>
     </li>
   )
 })

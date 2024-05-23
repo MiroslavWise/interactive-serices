@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 import type { TList } from "./types/types"
 import { IResponseThreads } from "@/services/threads/types"
@@ -13,7 +13,7 @@ import { useCountMessagesNotReading, useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const List: TList = memo(({ items = [], search = "", setTotal }) => {
+export const List: TList = ({ items = [], search = "" }) => {
   const userId = useAuth(({ userId }) => userId)
   const { isTablet } = useResize()
   const [state, setState] = useState<IResponseThreads[]>(items)
@@ -21,7 +21,12 @@ export const List: TList = memo(({ items = [], search = "", setTotal }) => {
 
   useEffect(() => {
     const searchTrim = search?.trim()?.toLowerCase()
-    if (items.length && !!searchTrim) {
+    if (items.length) {
+      if (!searchTrim) {
+        setState(items)
+        return
+      }
+
       const filters =
         items?.filter((item) => {
           if (!searchTrim) return true
@@ -42,4 +47,4 @@ export const List: TList = memo(({ items = [], search = "", setTotal }) => {
           ))}
     </ul>
   )
-})
+}

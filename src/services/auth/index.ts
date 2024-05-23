@@ -32,6 +32,7 @@ export const serviceAuthErrors: Map<string, string> = new Map([
   ["wrong sms code", "Неправильный смс-код"],
   ["throttlerexception: too many requests", "Слишком много запросов"],
   ["request entity too large", "Слишком большой, по объёму, запрос"],
+  ["password too weak", "Пароль слишком слабый"],
 ])
 
 export const functionAuthErrors = (messages: string | string[]): string => {

@@ -3,7 +3,6 @@
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
 import type { IResponseMessage } from "@/services/messages/types"
-import type { IUserResponse } from "@/services/users/types"
 
 import { ItemTime } from "./ItemTime"
 import { NoticeBarter } from "./NoticeBarter"
@@ -12,25 +11,24 @@ import { ItemUserMessage } from "./ItemUserMessage"
 import { ComponentLoadingThread } from "@/components/common/Loading"
 
 import { useAuth } from "@/store"
-import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 import { NoticeOfferPay } from "./NoticeOfferPay"
-import { IResponseThread } from "@/services/threads/types"
 import { EnumProviderThreads } from "@/types/enum"
 import { IUserOffer } from "@/services/offers/types"
+import { IResponseThread } from "@/services/threads/types"
+import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 
 export const ListMessages = memo(function ListMessages({
   messages,
-  dataUser,
+  user,
   isLoading,
   thread,
 }: {
   messages: IResponseMessage[]
-  dataUser: IUserOffer
+  user: IUserOffer
   isLoading: boolean
   thread: IResponseThread
 }) {
   const { join } = useJoinMessage()
-  const { attributes } = useAuth(({ imageProfile }) => imageProfile) ?? {}
   const userId = useAuth(({ userId }) => userId)
   const ulChat = useRef<HTMLUListElement>(null)
   const numberIdMessage = useRef<number | null>(null)
@@ -38,12 +36,18 @@ export const ListMessages = memo(function ListMessages({
   const messagesJoin: ReactNode = useMemo(() => {
     if (Array.isArray(messages)) {
       return join(messages).map((item) => {
-        if (Number(item.emitterId) === Number(userId) && item.type === "messages") {
-          return <ItemMyMessage key={`${item.id}-message-${item.id}`} photo={attributes?.url!} messages={item.messages!} />
-        }
-        if (Number(item.emitterId) === Number(dataUser?.id!) && item.type === "messages") {
+        if (Number(item.emitter?.id) === Number(userId) && item.type === "messages") {
           return (
-            <ItemUserMessage key={`${item?.id}-message-${item.id}`} photo={dataUser?.image?.attributes?.url!} messages={item.messages!} />
+            <ItemMyMessage key={`${item.id}-message-${item.id}`} photo={item?.emitter?.image?.attributes?.url!} messages={item.messages!} />
+          )
+        }
+        if (Number(item.emitter?.id) === Number(user?.id) && item.type === "messages") {
+          return (
+            <ItemUserMessage
+              key={`${item?.id}-message-${item.id}`}
+              photo={item?.emitter?.image?.attributes?.url!}
+              messages={item.messages!}
+            />
           )
         }
         if (item.type === "time") {
@@ -53,7 +57,7 @@ export const ListMessages = memo(function ListMessages({
       })
     }
     return null
-  }, [dataUser, messages, join, userId, attributes?.url])
+  }, [user?.id, messages, userId])
 
   useEffect(() => {
     setTimeout(() => {
@@ -71,10 +75,8 @@ export const ListMessages = memo(function ListMessages({
 
   return (
     <ul ref={ulChat} data-loading={isLoading}>
-      {thread?.provider === EnumProviderThreads.BARTER && thread?.barterId && (
-        <NoticeBarter idBarter={thread?.barterId!} userData={dataUser} />
-      )}
-      {thread?.provider === EnumProviderThreads.OFFER_PAY ? <NoticeOfferPay thread={thread} userData={dataUser} /> : null}
+      {thread?.provider === EnumProviderThreads.BARTER && thread?.barterId && <NoticeBarter idBarter={thread?.barterId!} user={user} />}
+      {thread?.provider === EnumProviderThreads.OFFER_PAY ? <NoticeOfferPay thread={thread} user={user} /> : null}
       {isLoading
         ? [1, 2, 3].map((item) => <ComponentLoadingThread key={`::item::loading::thread::${item}::`} isRight={item % 2 === 0} />)
         : messagesJoin}

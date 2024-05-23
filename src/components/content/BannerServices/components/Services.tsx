@@ -14,7 +14,7 @@ import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 
 import styles from "../styles/style.module.scss"
 
-export const ServicesComponent: TServicesFC = memo(function $ServicesComponent() {
+export const ServicesComponent = memo(function () {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)

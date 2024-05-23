@@ -74,7 +74,8 @@ import { getUserId } from "@/services"
 //     }
 // }
 
-export default function UserId() {
+export default function UserId({ searchParams }: { searchParams: any }) {
+  console.log("searchParams: ", searchParams)
   const id = useSearchParams().get("id")
   const { handlePush } = usePush()
 

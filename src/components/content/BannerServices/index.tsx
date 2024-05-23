@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef } from "react"
 
 import { TServicesFilter } from "./types/types"
 import { EnumTypeProvider } from "@/types/enum"
@@ -26,7 +26,6 @@ import {
   useOffersCategories,
   useSearchFilters,
 } from "@/store"
-import { useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
@@ -36,9 +35,7 @@ function BannerServices() {
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const categories = useOffersCategories(({ categories }) => categories)
-  const [total, setTotal] = useState(0)
   const parentRef = useRef<HTMLUListElement>(null)
-  const { isTablet } = useResize()
 
   function handleProvider(value: TServicesFilter) {
     dispatchFiltersServiceProvider(value)
@@ -54,7 +51,7 @@ function BannerServices() {
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
-  return !isTablet ? (
+  return (
     <div className={styles.container} data-collapse={visible} data-test="banner-services">
       <header />
       <ul ref={parentRef} data-test="ul-banner-services">
@@ -112,11 +109,11 @@ function BannerServices() {
           ) : null}
         </section>
         <div data-container data-test="ul-section-container-banner-services">
-          <ServicesComponent setTotal={setTotal} />
+          <ServicesComponent />
         </div>
       </ul>
     </div>
-  ) : null
+  )
 }
 
 BannerServices.displayName = "BannerServices"

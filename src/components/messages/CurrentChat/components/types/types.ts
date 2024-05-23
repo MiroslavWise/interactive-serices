@@ -1,9 +1,8 @@
 import type { Dispatch, FC, SetStateAction } from "react"
 
+import { IUserOffer } from "@/services/offers/types"
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IResponseMessage } from "@/services/messages/types"
-import type { IUserResponse } from "@/services/users/types"
-import { IUserOffer } from "@/services/offers/types"
 
 interface ITextAreaSend {
   idUser: number
@@ -33,10 +32,7 @@ interface IItemTime {
 }
 
 interface IFilesUpload {
-  files: File[]
   strings: string[]
-  addFile: Dispatch<File>
-  addString: Dispatch<string>
   deleteFile: Dispatch<number>
 }
 

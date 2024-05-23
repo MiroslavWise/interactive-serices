@@ -151,6 +151,12 @@
   }
 }
 
+[data-header-is-banner="true"] {
+  .container {
+    top: calc(var(--height-header-nav-bar) + 2.75rem + 1.5rem);
+  }
+}
+
 [data-theme="light"] {
   .container {
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);

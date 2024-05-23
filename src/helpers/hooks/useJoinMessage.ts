@@ -2,9 +2,10 @@
 
 import { useId } from "react"
 
+import { dayFormat } from "../functions/daysAgo"
+import { IUserOffer } from "@/services/offers/types"
 import type { IImageData } from "@/store/types/useAuthState"
 import type { IResponseMessage } from "@/services/messages/types"
-import { dayFormat } from "../functions/daysAgo"
 
 function useJoinMessage() {
   const idMessage = useId()
@@ -26,7 +27,7 @@ function useJoinMessage() {
             time: dayFormat(message.created, "dd.MM.yyyy")!,
           })
         }
-        if (items.at(-1)?.emitterId === message?.emitterId) {
+        if (items.at(-1)?.emitter?.id === message?.emitterId) {
           items.at(-1)?.messages?.push({
             message: message?.message || "",
             id: `${message?.id}-${idMessage}`,
@@ -38,7 +39,7 @@ function useJoinMessage() {
           })
         } else {
           items.push({
-            emitterId: message?.emitterId,
+            emitter: message?.emitter!,
             id: `${message.id}_${message?.emitterId}`,
             type: "messages",
             messages: [
@@ -75,7 +76,7 @@ interface IReturnMessages {
   }[]
   type: "messages" | "time"
   time?: string
-  emitterId?: string | number
+  emitter?: IUserOffer
   id?: string | number
 }
 

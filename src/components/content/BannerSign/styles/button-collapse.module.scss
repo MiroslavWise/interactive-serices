@@ -25,6 +25,10 @@ $width-left-aside-profile: var(--width-left-aside-profile);
   justify-content: center;
   background-color: var(--BG-second);
 
+  &[data-is-banner="true"] {
+    top: calc(var(--height-header-nav-bar) + 1.5rem + 1.75rem + 2.75rem);
+  }
+
   & > img {
     width: 0.75rem;
     height: 0.75rem;

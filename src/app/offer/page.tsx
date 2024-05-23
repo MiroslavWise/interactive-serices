@@ -16,16 +16,11 @@ export default function () {
     const hash = window.location.hash
     if (!!hash && hash?.includes("#")) {
       const decode = decodeURIComponent(escape(window.atob(hash?.replace("#", ""))))
-
       const is = decode?.includes(":")
+
       if (is) {
         const id = decode?.split(":")?.[1]
-
-        console.log("is: ", is)
-
         if (!!id) {
-          console.log("id:", id)
-
           queryClient
             .fetchQuery({
               queryFn: () => getIdOffer(id),

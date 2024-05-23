@@ -1,0 +1,196 @@
+.container {
+  position: relative;
+
+  & > input {
+    height: 3rem !important;
+    outline: none !important;
+    border-radius: 1.5rem;
+    padding: 0 3rem 0 0.875rem;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+    border: 0.0625rem solid var(--grey-stroke);
+    background: var(--BG-second);
+
+    &[data-error="true"] {
+      border-color: var(--element-error);
+    }
+
+    transition: var(--transition);
+    transition-property: border;
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+
+    &:disabled {
+      border-color: var(--grey-stroke);
+      color: var(--text-disabled);
+      background-color: var(--grey-field);
+      cursor: no-drop;
+    }
+  }
+
+  & > [data-current] {
+    position: absolute;
+    top: calc(1.25rem + 0.5rem + 0.5rem + 1rem);
+    transform: translateY(-50%);
+    max-width: calc(100% - 0.875rem - 0.875rem);
+    left: 0.875rem;
+    height: 2rem;
+    padding: 0.25rem;
+    padding-right: 0.375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    border-radius: 1rem;
+    border: 1px solid var(--grey-stroke-light);
+    background-color: var(--grey-field);
+
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+
+    &[data-current="true"] {
+      opacity: 1;
+      visibility: visible;
+      z-index: 90;
+    }
+
+    & > [data-icon] {
+      width: 1.5rem;
+      height: 1.5rem;
+      position: relative;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      background-color: var(--BG-icons);
+
+      & > img {
+        width: 1rem;
+        height: 1rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    & > span {
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.125rem;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      line-clamp: 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    & > button {
+      width: 1rem;
+      height: 1rem;
+      position: relative;
+      padding: 0.5rem;
+      background-color: transparent;
+      border: none;
+      outline: none;
+
+      & > svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1rem;
+        height: 1rem;
+        transform: translate(-50%, -50%);
+
+        & > path {
+          stroke: var(--element-grey);
+        }
+      }
+    }
+  }
+
+  & > [data-list] {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(1.25rem + 0.5rem + 3rem + 0.25rem);
+    border-radius: 0.75rem;
+    background: var(--BG-second);
+    box-shadow: 0 4px 24px 0 rgba(98, 106, 118, 0.08), 0 2px 6px 0 rgba(98, 106, 118, 0.06);
+    overflow: hidden;
+    max-height: 13.25rem;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+
+    &[data-list="true"] {
+      opacity: 1;
+      visibility: visible;
+      z-index: 90;
+    }
+
+    & > ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      padding: 0.75rem 0.275rem;
+      overflow: hidden;
+      overflow-y: scroll;
+      max-height: 13.25rem;
+
+      & > li {
+        width: 100%;
+        padding: 0.375rem;
+        display: grid;
+        grid-template-columns: 1.5rem 1fr;
+        gap: 0.5rem;
+        cursor: pointer;
+        border-radius: 0.375rem;
+
+        &:hover {
+          background: var(--grey-field);
+        }
+
+        & > [data-icon] {
+          width: 1.5rem;
+          height: 1.5rem;
+          padding: 0.75rem;
+          position: relative;
+          z-index: 2;
+
+          & > img {
+            width: 1rem;
+            height: 1rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+          }
+        }
+
+        & > span {
+          color: var(--text-primary);
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.25rem;
+
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          line-clamp: 1;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

@@ -1,46 +1,32 @@
 "use client"
 
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 
 import type { TItemListFriend } from "../types/types"
 
-import { NextImageMotion } from "@/components/common/Image"
-import { GeoTagging } from "@/components/common/GeoTagging"
-import { ButtonCircleGradient } from "@/components/common/Buttons"
+import { NextImageMotion } from "@/components/common"
+import { ButtonCircleGradient } from "@/components/common"
 
-import { usePush, useResize } from "@/helpers"
 import { useProfilePublic } from "@/store"
-import { getUserId, serviceFriends } from "@/services"
+import { serviceFriends } from "@/services"
+import { usePush, useResize } from "@/helpers"
 import { useReloadFriends } from "../hooks/useReloadFriends"
 
-export const ItemListFriend: TItemListFriend = ({ id, type }) => {
+export const ItemListFriend: TItemListFriend = ({ user, type }) => {
+  const { image, firstName, lastName, username, id } = user ?? {}
   const [loading, setLoading] = useState(false)
   const { refresh } = useReloadFriends({ enabled: false, type: type })
   const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
   const { handlePush } = usePush()
-  const { data } = useQuery({
-    queryFn: () => getUserId(id!),
-    queryKey: ["user", { userId: id }],
-    enabled: !!id,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  })
   const { isTablet } = useResize()
-
-  const geo = data?.res?.addresses?.find((item) => item.addressType === "main") || null
 
   function handleSuccess() {
     if (!loading) {
       setLoading(true)
-      serviceFriends.post({ id: id }).then((response) => {
+      serviceFriends.post({ id: id }).then(() => {
         setTimeout(() => {
-          refresh([type, "list"]).then((response) => {
-            console.log("%c ---response: ---", "color: #0f0", response)
-            requestAnimationFrame(() => {
-              setLoading(false)
-            })
+          refresh([type, "list"]).then(() => {
+            setLoading(false)
           })
         }, 850)
       })
@@ -75,13 +61,13 @@ export const ItemListFriend: TItemListFriend = ({ id, type }) => {
     <li>
       <div data-block-profile>
         <div data-block-avatar onClick={handleProfile}>
-          <NextImageMotion src={data?.res?.profile?.image?.attributes?.url!} alt="avatar" width={60} height={60} />
+          <NextImageMotion src={image?.attributes?.url!} alt="avatar" width={60} height={60} />
         </div>
         <div data-name-geo>
           <h4>
-            {data?.res?.profile?.firstName} {data?.res?.profile?.lastName}
+            {firstName} {lastName}
           </h4>
-          {geo ? <GeoTagging location={geo?.additional!} fontSize={14} size={16} /> : null}
+          <p>{username}</p>
         </div>
       </div>
       <div data-block-buttons>

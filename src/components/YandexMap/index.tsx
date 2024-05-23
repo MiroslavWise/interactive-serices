@@ -1,27 +1,23 @@
 "use client"
 
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useEffect, useCallback, useRef } from "react"
 
 import type { TTypeInstantsMap, TYandexMap } from "./types"
 import type { IResponseOffers } from "@/services/offers/types"
-import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 import { Header } from "./Header"
 import { ListPlacemark } from "./ObjectsMap"
-import { CreationAlertAndDiscussionMap } from "../templates"
 
+import { useAddress } from "@/helpers"
 import { getAddressCoords } from "@/helpers/get-address"
-import { useAddress, useOutsideClickEvent } from "@/helpers"
-import { dispatchHasBalloon, dispatchMapCoordinates, useAuth, useBounds, useMapCoordinates } from "@/store"
+import { dispatchHasBalloon, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth, useBounds, useMapCoordinates } from "@/store"
 
 const COORD = [30.19, 59.57]
 
 const YandexMap: TYandexMap = ({}) => {
   const userId = useAuth(({ userId }) => userId)
   const { coordinatesAddresses } = useAddress()
-  const [isOpen, setIsOpen, refCreate] = useOutsideClickEvent()
-  const [addressInit, setAddressInit] = useState<IPostAddress | undefined>(undefined)
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const instanceRef: TTypeInstantsMap = useRef()
@@ -38,10 +34,9 @@ const YandexMap: TYandexMap = ({}) => {
     getAddressCoords({ mapOne, mapTwo }).then((response) => {
       if (response) {
         console.log("response: ", response)
-        setAddressInit(response)
+        dispatchNewServicesBannerMap(response)
       }
     })
-    setIsOpen(true)
   }
 
   const handleAddressLocation = useCallback(() => {
@@ -156,7 +151,6 @@ const YandexMap: TYandexMap = ({}) => {
           <ListPlacemark />
         </Clusterer>
       </Map>
-      <CreationAlertAndDiscussionMap isOpen={isOpen} setIsOpen={setIsOpen} refCreate={refCreate} addressInit={addressInit} />
     </>
   )
 }

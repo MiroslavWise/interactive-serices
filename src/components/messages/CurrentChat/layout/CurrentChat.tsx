@@ -8,13 +8,13 @@ import { useEffect, useMemo, useState } from "react"
 import type { IResponseMessage } from "@/services/messages/types"
 
 import { PopupMenu } from "../components/PopupMenu"
+import TextAreaSend from "../components/TextAreaSend"
 import { ListMessages } from "../components/ListMessages"
-import { TextAreaSend } from "../components/TextAreaSend"
 import { NextImageMotion, LoadingInput } from "@/components/common"
 
 import { useWebSocket } from "@/context"
+import { getMessages, getThreadId, postReadMessage } from "@/services"
 import { useCountMessagesNotReading, usePush, useResize } from "@/helpers"
-import { getMessages, getThreadId, getUserId, postReadMessage } from "@/services"
 import { useAuth, usePopupMenuChat, useUserIdMessage, dispatchDataUser } from "@/store"
 
 import styles from "../styles/style.module.scss"
@@ -155,7 +155,7 @@ export const CurrentChat = () => {
           </button>
         </header>
         <section>
-          <ListMessages messages={stateMessages} thread={data?.res!} dataUser={user! || userDataIdMassage!} isLoading={isLoading} />
+          <ListMessages messages={stateMessages} thread={data?.res!} user={user! || userDataIdMassage!} isLoading={isLoading} />
         </section>
         {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(user?.id)} refetch={refetch} />}
         <PopupMenu dataUser={user} />
@@ -164,7 +164,7 @@ export const CurrentChat = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ListMessages thread={data?.res!} messages={stateMessages} dataUser={user! || userDataIdMassage!} isLoading={isLoading} />
+      <ListMessages thread={data?.res!} messages={stateMessages} user={user! || userDataIdMassage!} isLoading={isLoading} />
       {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(user?.id)} refetch={refetch} />}
     </div>
   )

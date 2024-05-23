@@ -43,28 +43,37 @@
     background-color: var(--BG-second);
     padding: 1.25rem;
 
-    & > [data-clipper],
-    & > [data-buttons] > [data-files-input] {
+    & > article {
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      background: var(--BG-first);
       cursor: pointer;
 
       & > input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
         width: 100%;
         height: 100%;
-        opacity: 0;
-        position: absolute;
-        z-index: 4;
-        cursor: pointer;
       }
 
-      & > img {
+      & > svg {
+        position: absolute;
         width: 1.25rem;
         height: 1.25rem;
-        position: relative;
-        z-index: 3;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      @media screen and (max-width: 768px) {
       }
     }
 
@@ -76,7 +85,6 @@
       font-style: normal;
       font-weight: 400;
       line-height: 1.25rem;
-      letter-spacing: -0.02125rem;
     }
   }
 }
@@ -105,14 +113,6 @@
       flex-direction: row;
       align-items: center;
       gap: 0.25rem;
-
-      & > [data-clipper] {
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 1.25rem;
-        padding: 0.625rem;
-        background-color: var(--BG-first);
-      }
 
       & > input {
         width: 100%;
@@ -244,38 +244,6 @@
       flex-direction: row;
       gap: 0.75rem;
 
-      & > [data-files-input] {
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 50%;
-        background-color: var(--BG-second);
-        overflow: hidden;
-        position: relative;
-        padding: 1.25rem;
-        cursor: pointer;
-
-        & > input {
-          position: absolute;
-          inset: 0;
-          opacity: 0;
-          width: 2.5rem;
-          height: 2.5rem;
-          z-index: 10;
-          cursor: pointer;
-        }
-
-        & > img {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          height: 1.25rem;
-          width: 1.25rem;
-          z-index: 9;
-          cursor: pointer;
-        }
-      }
-
       & > input {
         padding: 0.625rem;
         padding-inline: 1rem calc(1rem + 1.25rem + 0.625rem);
@@ -290,6 +258,7 @@
         flex-direction: row;
         align-items: center;
         gap: 0.625rem;
+        z-index: 100;
 
         & > [data-sent] {
           display: flex;
@@ -313,17 +282,6 @@
             width: 1.25rem;
           }
         }
-      }
-    }
-  }
-}
-
-[data-theme="light"] {
-  .wrapper {
-    [data-files-input],
-    [data-clipper] {
-      img {
-        filter: invert(1);
       }
     }
   }

@@ -9,10 +9,8 @@ import { ImageStatic, NextImageMotion } from "@/components/common"
 import { patchProfile } from "@/services"
 
 import styles from "../styles/image.module.scss"
-import { useAuth } from "@/store"
 
 export const ImageProfile = memo(function ImageProfile({ file, image, setFile, refetch, errorFile, setErrorFile }: IMageProfile) {
-  const userId = useAuth(({ userId }) => userId)
   const [loading, setLoading] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -96,13 +94,13 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
         ) : null}
       </div>
       <div data-upload {...getRootProps()}>
-        {!file.string && !image ? (
+        {errorFile ? (
+          <i>{errorFile}</i>
+        ) : !file.string && !image ? (
           <p>
             Загрузите фотографию, на которой будет различимо ваше лицо. Фотографии без лица, с приоритетом на иные части тела, а также
             нерелевантные фотографии будут удалены
           </p>
-        ) : errorFile ? (
-          <i>{errorFile}</i>
         ) : null}
         <a>
           <input type="file" data-test="input-update-image-profile" {...getInputProps()} multiple={false} />

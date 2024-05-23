@@ -1,7 +1,7 @@
 "use client"
 
-import { useForm } from "react-hook-form"
-import { ChangeEvent, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { ChangeEvent, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -14,55 +14,92 @@ import { useAuth } from "@/store"
 import { useResize } from "@/helpers"
 import { useWebSocket } from "@/context"
 import { fileUploadService, postMessage } from "@/services"
+import { resolverChatSend, TSchemaChatSend } from "../utils/chat-send.schema"
+import IconClipper from "@/components/icons/IconClipper"
 
-export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
+const sleep = () => new Promise((r) => setTimeout(r, 50))
+const MAX_FILE_SIZE = 9.9 * 1024 * 1024
+
+const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
   const { isTablet } = useResize()
+  const [loading, setLoading] = useState(false)
   const idThread = useSearchParams().get("thread")
   const { socket } = useWebSocket()
   const userId = useAuth(({ userId }) => userId)
-  const { register, setValue, handleSubmit, watch } = useForm<{
-    text: string
-  }>({})
-  const [loading, setLoading] = useState(false)
-  const [files, setFiles] = useState<File[]>([])
-  const [strings, setStrings] = useState<string[]>([])
+  const user = useAuth(({ user }) => user)
+  const { setValue, handleSubmit, watch, reset, control } = useForm<TSchemaChatSend>({
+    defaultValues: {
+      text: "",
+      file: {
+        file: [],
+        string: [],
+      },
+    },
+    resolver: resolverChatSend,
+  })
 
   function deleteFile(index: number) {
-    setFiles((prev) => prev.filter((_, i) => i !== index))
-    setStrings((prev) => prev.filter((_, i) => i !== index))
+    setValue("file", {
+      file: watch("file.file").filter((_, i) => i !== index),
+      string: watch("file.string").filter((_, i) => i !== index),
+    })
   }
 
-  function addFile(value: File) {
-    setFiles((prev) => [...prev, value])
-  }
-  function addString(value: string) {
-    setStrings((prev) => [...prev, value])
-  }
+  async function handleImageChange(
+    current: {
+      file: File[]
+      string: string[]
+    },
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    const files = event.target.files
 
-  function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files
+    let filesReady = {
+      file: [...current.file] as File[],
+      string: [...current.string] as string[],
+    }
 
-    if (file && file?.length > 0) {
-      for (let i = 0; i < file.length; i++) {
-        if (file[i]) {
-          const reader = new FileReader()
-          reader.onloadend = () => {
-            setStrings((prev) => [...prev, reader.result as string])
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+
+        if (file) {
+          if (file.size < MAX_FILE_SIZE) {
+            const is = current.file.some((_) => _.size === file.size && _.name === file.name)
+
+            if (is) {
+              continue
+            }
+
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = function (f) {
+              filesReady = {
+                ...filesReady,
+                file: [...filesReady.file, file],
+                string: [...filesReady.string, f!.target!.result as string],
+              }
+            }
           }
-          reader.readAsDataURL(file[i])
-          setFiles((prev) => [...prev, file[i]])
         }
       }
     }
+
+    await sleep()
+
+    return Promise.resolve({
+      file: filesReady.file.splice(0, 9),
+      string: filesReady.string.splice(0, 9),
+    })
   }
 
-  async function submit({ text }: { text: string }) {
+  const onSubmit = handleSubmit(function ({ text, file }) {
     if (!loading) {
       setLoading(true)
       const date = new Date()
       const message = text
       const receiverIds = [Number(idUser)]
-      if (message || files.length) {
+      if (message || file.file.length) {
         setStateMessages((prev) => [
           ...prev,
           {
@@ -75,13 +112,14 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
             receiverIds: receiverIds,
             temporary: true,
             readIds: [],
+            emitter: user!,
             created: date,
-            images: [...strings],
+            images: [...file.string],
           },
         ])
 
         Promise.all(
-          files.map((item) =>
+          file.file.map((item) =>
             fileUploadService(item, {
               type: EnumTypeProvider.threads,
               userId: userId!,
@@ -112,10 +150,8 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
                 console.log("message response :", response)
               },
             )
-            requestAnimationFrame(() => {
-              setValue("text", "")
-              setFiles([])
-              setStrings([])
+            setTimeout(() => {
+              reset()
               setLoading(false)
             })
           } else {
@@ -127,11 +163,9 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
               enabled: true,
               created: date,
             }
-            postMessage(data).then((response) => {
-              requestAnimationFrame(() => {
-                setValue("text", "")
-                setFiles([])
-                setStrings([])
+            postMessage(data).then(() => {
+              setTimeout(() => {
+                reset()
                 setLoading(false)
                 refetch()
               })
@@ -140,62 +174,71 @@ export const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages 
         })
       }
     }
-  }
+  })
 
-  const onSubmit = handleSubmit(submit)
+  const strings = useMemo(() => watch("file").string, [watch("file")])
 
-  if (isTablet) {
-    return (
-      <form onSubmit={onSubmit}>
-        <div data-files-input>
-          <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
-          <img src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} />
-        </div>
-        <input
-          type="text"
-          placeholder="Напишите сообщение..."
-          {...register("text", { required: files.length ? false : true })}
-          autoComplete="off"
-          maxLength={1024}
-          enterKeyHint="send"
+  return (
+    <form onSubmit={onSubmit}>
+      <article>
+        <IconClipper />
+        <Controller
+          name="file"
+          control={control}
+          render={({ field }) => (
+            <input
+              type="file"
+              onChange={async (event) => {
+                const dataValues = await handleImageChange(field.value, event)
+                console.log("dataValues: ", dataValues)
+                field.onChange(dataValues)
+                event.target.value = ""
+              }}
+              accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg"
+              multiple
+            />
+          )}
         />
+      </article>
+      {isTablet ? (
         <div data-buttons>
           <button
             type="submit"
             data-sent
-            data-disabled={!watch("text") && strings?.length === 0}
-            disabled={!watch("text") && strings?.length === 0}
+            data-disabled={!watch("text") && watch("file.string").length === 0}
+            disabled={!watch("text") && watch("file.string").length === 0}
           >
             <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
           </button>
         </div>
-        <FilesUpload {...{ files, strings, addFile, addString, deleteFile }} />
-      </form>
-    )
-  }
-
-  return (
-    <form onSubmit={onSubmit}>
-      <div data-clipper>
-        <input type="file" onChange={handleImageChange} accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg" multiple />
-        <img src="/svg/paperclip-gray.svg" alt="paperclip" width={20} height={20} />
-      </div>
-      <input
-        type="text"
-        placeholder="Напишите сообщение..."
-        {...register("text", { required: files.length ? false : true })}
-        autoComplete="off"
-        maxLength={1024}
+      ) : (
+        <button
+          type="submit"
+          data-sent
+          data-disabled={!watch("text") && watch("file.string").length === 0}
+          disabled={!watch("text") && watch("file.string").length === 0}
+        >
+          <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
+        </button>
+      )}
+      <Controller
+        name="text"
+        control={control}
+        render={({ field, fieldState }) => (
+          <input
+            {...field}
+            type="text"
+            placeholder="Напишите сообщение..."
+            autoComplete="off"
+            enterKeyHint="send"
+            data-error={!!fieldState.error}
+          />
+        )}
       />
-      <button
-        type="submit"
-        data-sent
-        data-disabled={!watch("text") && strings?.length === 0}
-        disabled={!watch("text") && strings?.length === 0}
-      >
-        <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
-      </button>
-      <FilesUpload {...{ files, strings, addFile, addString, deleteFile }} />
+      <FilesUpload {...{ strings: strings, deleteFile }} />
     </form>
   )
 }
+
+TextAreaSend.displayName = "TextAreaSend"
+export default TextAreaSend

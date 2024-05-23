@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/common"
-import { useAuth, dispatchAuthModal, dispatchModal, EModalData } from "@/store/hooks"
+import { useAuth, dispatchAuthModal, dispatchNewServicesBanner } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
 
@@ -22,7 +22,7 @@ export const Buttons = () => {
           className={styles.widthButton}
           suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
           style={{ width: "100%" }}
-          onClick={() => dispatchModal(EModalData.NewServicesBanner)}
+          onClick={dispatchNewServicesBanner}
           data-test="nav-bar-button-create"
           id="nav-bar-button-create"
         />

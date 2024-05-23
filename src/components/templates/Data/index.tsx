@@ -45,7 +45,9 @@ const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.c
 
 export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.NewServicesBanner, <NewServicesBanner key="::key::modal::new-services-banner" />], //Выбор трёх созданий: предложения, дискуссии и алерта
+  [EModalData.NewServicesBannerMap, <NewServicesBanner key="::key::modal::new-services-banner" />], //Выбор трёх созданий: предложения, дискуссии и алерта
   [EModalData.CreateNewOptionModal, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения, дискуссии и алерта
+  [EModalData.CreateNewOptionModalMap, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения, дискуссии и алерта
   [EModalData.CompletionTransaction, <CompletionTransaction key="::key::modal::completion-transaction" />], //Отзыв о завершении обмена
   [EModalData.ComplaintModal, <ComplaintModal key="::key::modal::complaint-modal" />], //Жалоба на пользователя
   [EModalData.UpdateProfile, <UpdateProfile key="::key::modal::update-profile" />], //Редактирование профиля
@@ -64,7 +66,9 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, styleNewServiceBanner.container],
+  [EModalData.NewServicesBannerMap, styleNewServiceBanner.container],
   [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container],
+  [EModalData.CreateNewOptionModalMap, styleCreateNewOptionModal.container],
   [EModalData.CompletionTransaction, stylesCompletionTransaction.container],
   [EModalData.ComplaintModal, stylesComplaintModal.container],
   [EModalData.UpdateProfile, stylesUpdateProfile.container],

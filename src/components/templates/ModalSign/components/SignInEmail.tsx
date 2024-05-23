@@ -52,10 +52,13 @@ export const SignInEmail = memo(function SignInEmail({
         })
         .then((response) => {
           if (!!response?.error?.message) {
-            const errorMessage = response?.error?.message
+            const errorMessage = String(response?.error?.message)?.toLowerCase()
             if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
               setError("password", { message: serviceAuthErrors.get("password is not match")! })
               return
+            }
+            if (errorMessage.includes("password too weak")) {
+              return setError("password", { message: serviceAuthErrors.get("password too weak") })
             }
             if (serviceAuthErrors.has(errorMessage)) {
               setError("email", { message: serviceAuthErrors.get(errorMessage!) })

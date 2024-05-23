@@ -79,18 +79,16 @@ export default function BalloonOffer() {
 
   function handle() {
     if (!userId) {
-      dispatchAuthModal({
+      return dispatchAuthModal({
         visible: true,
         type: "SignIn",
       })
-      return
     } else if (!!userId && userId !== offer?.userId) {
-      dispatchReciprocalExchange({
+      return dispatchReciprocalExchange({
         visible: true,
         offer: offer!,
         type: "current",
       })
-      return
     }
   }
 
@@ -167,10 +165,4 @@ export default function BalloonOffer() {
       </div>
     </>
   )
-
-  // return (
-  //   <div className={cx("wrapper-fixed", styles.wrapper, common.wrapper)} data-visible={visible}>
-  //     <section data-section-modal></section>
-  //   </div>
-  // )
 }

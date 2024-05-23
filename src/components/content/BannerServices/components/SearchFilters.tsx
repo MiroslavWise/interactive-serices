@@ -11,6 +11,7 @@ import {
   dispatchClearSearchFilters,
   dispatchValueSearchFilters,
   dispatchVisibleSearchFilters,
+  useAdvertisingBanner,
   useOffersCategories,
   useSearchFilters,
 } from "@/store"
@@ -23,15 +24,8 @@ export const SearchFilters = () => {
   const history = useSearchFilters(({ history }) => history)
   const categories = useOffersCategories(({ categories }) => categories)
 
-  const {
-    formState: { errors },
-    register,
-    setFocus,
-    watch,
-    setValue,
-    handleSubmit,
-  } = useForm<IValues>({
-    defaultValues: { input: value },
+  const { register, setFocus, watch, setValue, handleSubmit } = useForm<IValues>({
+    defaultValues: { input: value || "" },
   })
 
   const input = watch("input")?.trim() || ""
