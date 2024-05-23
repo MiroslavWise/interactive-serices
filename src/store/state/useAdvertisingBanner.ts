@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from "zustand/middleware"
 export const useAdvertisingBanner = create(
   persist<IStateUseAdvertisingBanner>(
     () => ({
-      visible: true,
+      visible: false,
     }),
     {
       name: "::advertising-banner::",
