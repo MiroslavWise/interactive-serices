@@ -6,7 +6,7 @@ import { schemaFeatureMember, schemaPostAddress } from "@/services/addresses/typ
 
 import { EModalData } from "@/store"
 
-const regexContent = /\W/g
+const regexContent = /[^\s\w\dа-яё]/gi
 
 export const LIMIT_DESCRIPTION = 512
 
@@ -31,7 +31,7 @@ const content = z
         }
 
         if (regexContent.test(split[i])) {
-          count++
+          count = +1
         }
       }
 
