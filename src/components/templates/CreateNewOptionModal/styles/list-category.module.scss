@@ -3,10 +3,32 @@
 
   & > input {
     height: 3rem !important;
+    outline: none !important;
+    border-radius: 1.5rem;
+    padding: 0 3rem 0 0.875rem;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+    border: 0.0625rem solid var(--grey-stroke);
+    background: var(--BG-second);
+
+    &[data-error="true"] {
+      border-color: var(--element-error);
+    }
+
+    transition: var(--transition);
+    transition-property: border;
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+
     &:disabled {
       border-color: var(--grey-stroke);
       color: var(--text-disabled);
       background-color: var(--grey-field);
+      cursor: no-drop;
     }
   }
 
@@ -34,7 +56,7 @@
     &[data-current="true"] {
       opacity: 1;
       visibility: visible;
-      z-index: 120;
+      z-index: 90;
     }
 
     & > [data-icon] {
@@ -111,7 +133,7 @@
     &[data-list="true"] {
       opacity: 1;
       visibility: visible;
-      z-index: 120;
+      z-index: 90;
     }
 
     & > ul {

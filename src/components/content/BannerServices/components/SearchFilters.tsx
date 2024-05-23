@@ -23,7 +23,6 @@ export const SearchFilters = () => {
   const value = useSearchFilters(({ value }) => value)
   const history = useSearchFilters(({ history }) => history)
   const categories = useOffersCategories(({ categories }) => categories)
-  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   const { register, setFocus, watch, setValue, handleSubmit } = useForm<IValues>({
     defaultValues: { input: value || "" },
@@ -136,7 +135,7 @@ export const SearchFilters = () => {
   )
 
   return (
-    <div className={styles.wrapper} data-visible={visible} data-is-banner={visibleAdvertisingBanner}>
+    <div className={styles.wrapper} data-visible={visible}>
       <form onSubmit={onSubmit} data-test="form-search-filters">
         <header>
           <div data-icon-search>

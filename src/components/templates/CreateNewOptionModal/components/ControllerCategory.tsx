@@ -1,8 +1,6 @@
 import { useCallback, useMemo, useState } from "react"
 import { type Control, Controller } from "react-hook-form"
 
-import { IFormValues } from "../types/types"
-
 import { ImageCategory } from "@/components/common"
 
 import { useOutsideClickEvent } from "@/helpers"
@@ -10,9 +8,10 @@ import { dispatchVisibleCreateNewCategory, useOffersCategories } from "@/store"
 
 import styles from "../styles/list-category.module.scss"
 import { IconXClose } from "@/components/icons/IconXClose"
+import { TSchemaCreate } from "../utils/create.schema"
 
 interface IProps {
-  control: Control<IFormValues, any>
+  control: Control<TSchemaCreate, any>
   visible: boolean
   disabled: boolean
 }
@@ -42,18 +41,21 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
           ref={ref}
           className={styles.container}
         >
-          <label htmlFor={field.name}>Предложение</label>
+          <label htmlFor={field.name} title="Преложение">
+            Предложение
+          </label>
           <input
             type="text"
             onClick={(event) => {
               event.stopPropagation()
               setOpen(true)
             }}
+            placeholder={!!field.value ? "" : "Выберите категорию"}
             value={value}
             onChange={(event) => setValue(event.target.value)}
             disabled={disabled || !!field.value}
           />
-          {!!error ? <i>Важное поле</i> : null}
+          {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div data-current={!!field.value}>
             <div data-icon>{field.value ? <ImageCategory id={field.value!} /> : null}</div>
             <span>{currentCategory(field.value!)?.title || null}</span>

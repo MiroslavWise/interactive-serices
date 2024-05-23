@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef } from "react"
 
 import { TServicesFilter } from "./types/types"
 import { EnumTypeProvider } from "@/types/enum"
@@ -20,14 +20,12 @@ import {
   dispatchFiltersServiceTime,
   dispatchValueSearchFilters,
   dispatchVisibleSearchFilters,
-  useAdvertisingBanner,
   useCollapseServices,
   useFiltersScreen,
   useFiltersServices,
   useOffersCategories,
   useSearchFilters,
 } from "@/store"
-import { useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
@@ -38,8 +36,6 @@ function BannerServices() {
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const categories = useOffersCategories(({ categories }) => categories)
   const parentRef = useRef<HTMLUListElement>(null)
-  const { isTablet } = useResize()
-  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   function handleProvider(value: TServicesFilter) {
     dispatchFiltersServiceProvider(value)
@@ -55,8 +51,8 @@ function BannerServices() {
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
-  return !isTablet ? (
-    <div className={styles.container} data-collapse={visible} data-test="banner-services" data-is-banner={visibleAdvertisingBanner}>
+  return (
+    <div className={styles.container} data-collapse={visible} data-test="banner-services">
       <header />
       <ul ref={parentRef} data-test="ul-banner-services">
         <section data-test="ul-section-banner-services">
@@ -117,7 +113,7 @@ function BannerServices() {
         </div>
       </ul>
     </div>
-  ) : null
+  )
 }
 
 BannerServices.displayName = "BannerServices"
@@ -126,15 +122,9 @@ export default BannerServices
 export const SearchAndFilters = () => {
   const visible = useCollapseServices(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
-  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   return (
-    <div
-      className={styles.containerSearchAndFilters}
-      data-collapse={visible}
-      data-test="search-and-filters"
-      data-is-banner={visibleAdvertisingBanner}
-    >
+    <div className={styles.containerSearchAndFilters} data-collapse={visible} data-test="search-and-filters">
       <div data-search>
         <span data-icon-search>
           <IconSearch />
@@ -180,7 +170,6 @@ export const SearchAndFilters = () => {
 
 export const ButtonCollapseServices = () => {
   const visible = useCollapseServices(({ visible }) => visible)
-  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   return (
     <button
@@ -192,7 +181,6 @@ export const ButtonCollapseServices = () => {
         dispatchCollapseServices()
       }}
       data-test="button-collapse-services"
-      data-is-banner={visibleAdvertisingBanner}
     >
       <img src="/svg/chevron-right-accent.svg" alt="right" width={12} height={12} />
     </button>

@@ -86,9 +86,19 @@
           }
         }
 
+        & > i {
+          color: var(--text-error);
+          text-align: start;
+          font-size: 0.75rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1rem;
+        }
+
         & > [data-text-area] {
           position: relative;
           width: 100%;
+          border: none !important;
 
           & > sup {
             position: absolute;
@@ -132,6 +142,10 @@
           font-weight: 400;
           line-height: 1.25rem;
           color: var(--text-primary);
+
+          &[data-error="true"] {
+            border-color: var(--element-error);
+          }
 
           transition: var(--transition);
           transition-property: border;
@@ -322,6 +336,14 @@
         color: var(--text-disabled);
         background-color: var(--grey-field);
       }
+    }
+
+    & > i {
+      color: var(--text-error);
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1rem;
     }
 
     & > ul {

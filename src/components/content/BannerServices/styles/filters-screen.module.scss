@@ -22,10 +22,6 @@
 
   z-index: 90;
 
-  &[data-is-banner="true"] {
-    top: calc(var(--height-header-nav-bar) + 2.75rem + 1.5rem);
-  }
-
   & > [data-close] {
     position: absolute;
     top: 1.25rem;
@@ -152,6 +148,12 @@
     opacity: 1;
     visibility: visible;
     height: calc(100% - var(--height-header-nav-bar) - 3rem);
+  }
+}
+
+[data-header-is-banner="true"] {
+  .container {
+    top: calc(var(--height-header-nav-bar) + 2.75rem + 1.5rem);
   }
 }
 

@@ -5,7 +5,7 @@ import { type ReactNode, useEffect } from "react"
 import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
-import { dispatchCookiesVisible, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
+import { dispatchCookiesVisible, useAdvertisingBanner, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
 
 export default ({ children }: { children: ReactNode }) => {
   const refresh = useAuth(({ refresh }) => refresh)
@@ -13,8 +13,13 @@ export default ({ children }: { children: ReactNode }) => {
   const getCategories = useOffersCategories(({ getCategories }) => getCategories)
   const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
   const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
+  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
   const isUse = useCookies(({ isUse }) => isUse)
   const { isMobile, isTablet } = useResize()
+
+  useEffect(() => {
+    document.documentElement.dataset.headerIsBanner = `${visibleAdvertisingBanner}`
+  }, [visibleAdvertisingBanner])
 
   useEffect(() => {
     if (!isUse && typeof isUse !== "undefined") {
