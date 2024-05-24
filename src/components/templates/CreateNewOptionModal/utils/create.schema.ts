@@ -15,6 +15,7 @@ const content = z
   .string()
   .trim()
   .min(1, { message: "Поле не может оставаться незаполненным" })
+  .min(3, { message: "Не менее 3 символов в названии" })
   .max(LIMIT_TITLE_CONTENT, { message: "Название не более 32 символов" })
   .default("")
   .refine(
@@ -53,6 +54,7 @@ const title = z
   .string()
   .trim()
   .min(1, { message: "Обязательное поле" })
+  .min(3, { message: "Не менее 3-х символов в описании" })
   .max(LIMIT_DESCRIPTION, { message: "Не более 512 символов" })
   .default("")
 const address = z.string().min(1, { message: "Поле не может оставаться незаполненным" }).default("")
