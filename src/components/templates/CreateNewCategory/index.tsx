@@ -6,36 +6,48 @@ import { Controller, useForm } from "react-hook-form"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchVisibleCreateNewCategory, useCreateNewCategory } from "@/store"
-
-import styles from "./styles.module.scss"
+import { postOfferCategory } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchVisibleCreateNewCategory, useCreateNewCategory } from "@/store"
+import { LIMIT_TITLE_CREATE_OFFER_CATEGORY, TCreateOfferCategory } from "./utils/create.schema"
+
+import styles from "./styles/style.module.scss"
 
 function CreateNewCategory() {
   const [loading, setLoading] = useState(false)
   const visible = useCreateNewCategory(({ visible }) => visible)
   const { onBarters } = useToast()
 
-  const { reset, control, watch, handleSubmit } = useForm<IV>({
+  const { control, handleSubmit } = useForm<TCreateOfferCategory>({
     defaultValues: {
-      description: "",
+      title: "",
+      enabled: true,
+      tags: true,
     },
   })
 
   const onSubmit = handleSubmit((values) => {
     if (!loading) {
-      const description = values.description.trim()
       setLoading(true)
-      onBarters({
-        message: "Мы обязательно рассмотрим его и ответим вам в личных сообщениях",
-        title: "Спасибо за предложение",
-        status: "accepted",
+      const title = values.title.trim()
+
+      const body: TCreateOfferCategory = {
+        title: title,
+        enabled: true,
+        tags: true,
+      }
+
+      postOfferCategory({ body }).then((response) => {
+        setLoading(false)
+        onBarters({
+          message: "Мы обязательно рассмотрим его и ответим вам в личных сообщениях",
+          title: "Спасибо за предложение",
+          status: "accepted",
+        })
+        dispatchVisibleCreateNewCategory(false)
       })
-      dispatchVisibleCreateNewCategory(false)
     }
   })
-
-  const disabled = !watch("description").trim()
 
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
@@ -50,7 +62,7 @@ function CreateNewCategory() {
         </header>
         <form onSubmit={onSubmit}>
           <Controller
-            name="description"
+            name="title"
             control={control}
             rules={{ required: true }}
             render={({ field, fieldState }) => (
@@ -60,13 +72,21 @@ function CreateNewCategory() {
                   «Починить авто» или «Покормить крокодила». Мы обязательно рассмотрим ваше предложение
                 </label>
                 <span>
-                  <textarea {...field} placeholder="Ваше предложение" maxLength={70} data-error={!!fieldState.error} />
-                  <sup>{field.value.length}/70</sup>
+                  <textarea
+                    {...field}
+                    onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
+                    placeholder="Ваше предложение"
+                    maxLength={80}
+                    data-error={!!fieldState.error}
+                  />
+                  <sup>
+                    {field.value.length}/{LIMIT_TITLE_CREATE_OFFER_CATEGORY}
+                  </sup>
                 </span>
               </article>
             )}
           />
-          <Button type="submit" typeButton="fill-primary" label="Предложить" disabled={disabled} loading={loading} />
+          <Button type="submit" typeButton="fill-primary" label="Предложить" loading={loading} />
         </form>
       </section>
     </div>
@@ -75,8 +95,3 @@ function CreateNewCategory() {
 
 CreateNewCategory.displayName = "CreateNewCategory"
 export default CreateNewCategory
-
-interface IV {
-  title?: string
-  description: string
-}
