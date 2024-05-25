@@ -1,3 +1,5 @@
+import TableRows from "./components/table-rows"
+
 import styles from "./page.module.scss"
 
 export default () => {
@@ -11,9 +13,12 @@ export default () => {
               <th>ID пользователя</th>
               <th>Заголовок предложения</th>
               <th>Тэги</th>
-              <th></th>
+              <th>Действия</th>
             </tr>
           </thead>
+          <tbody>
+            <TableRows />
+          </tbody>
         </table>
       </section>
     </main>
