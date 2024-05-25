@@ -48,6 +48,7 @@ export interface IAuthState {
   imageProfile?: IImageData
   createdUser?: string | Date
   addresses?: IAddressesResponse[]
+  roles: objRole[] | null
 }
 
 export interface IAuthAction {

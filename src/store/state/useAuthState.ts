@@ -5,7 +5,7 @@ import type { IAuthState, TUseAuth } from "../types/useAuthState"
 import type { IResponseLoginNot2fa } from "@/services/auth/types/authService"
 
 import { queryClient } from "@/context"
-import { serviceProfile, AuthService, getSession } from "@/services"
+import { serviceProfile, AuthService, getUserId } from "@/services"
 import { signOutAction, setUserAction, setTokenAction, changeAuthAction } from "../action/useAuthAction"
 
 export const initialStateAuth: IAuthState = {
@@ -20,6 +20,7 @@ export const initialStateAuth: IAuthState = {
   imageProfile: undefined,
   createdUser: undefined,
   addresses: undefined,
+  roles: null,
 }
 
 export const useAuth = create(
@@ -39,6 +40,21 @@ export const useAuth = create(
         signOutAction(set, initialStateAuth)
       },
       updateProfile() {
+        queryClient
+          .fetchQuery({
+            queryFn: () => getUserId(get().userId!),
+            queryKey: ["user", { userId: get().userId! }],
+          })
+          .then((response) => {
+            if (response.ok && response?.res) {
+              const roles = response.res.roles
+              if (roles) {
+                set({
+                  roles: roles,
+                })
+              }
+            }
+          })
         queryClient
           .fetchQuery({
             queryFn: () => serviceProfile.getUserId(get().userId!),

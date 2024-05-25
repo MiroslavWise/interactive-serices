@@ -31,6 +31,7 @@ import {
   EModalData,
   useModal,
   useNewServicesBannerMap,
+  useOffersCategories,
 } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import {
@@ -65,6 +66,7 @@ export default function CreateNewOptionModal() {
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const { refetch: refetchDataMap } = useMapOffers()
   const { on } = useToast()
+  const categories = useOffersCategories(({ categories }) => categories)
 
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
@@ -170,12 +172,25 @@ export default function CreateNewOptionModal() {
       const title = values.title.trim().replaceAll(regexMoreSpace, " ")
       if (!!title) {
         data.title = title
+        data.slug = transliterateAndReplace(title).slice(0, 254)
       } else {
         if (EnumTypeProvider.alert === typeAdd) {
           data.title = "SOS-сообщение"
+          data.slug = transliterateAndReplace("SOS-сообщение").slice(0, 254)
         } else if (EnumTypeProvider.discussion === typeAdd) {
           data.title = "Дискуссия"
+          data.slug = transliterateAndReplace("Дискуссия").slice(0, 254)
         }
+      }
+    }
+    if (typeAdd === EnumTypeProvider.offer && values?.categoryId) {
+      const title = categories.find((_) => _.id === values.categoryId)?.title
+
+      if (title) {
+        data.title = title.slice(0, 143)
+        data.slug = transliterateAndReplace(title).slice(0, 254)
+      } else {
+        data.title = description.slice(0, 144)
       }
     }
 
@@ -403,7 +418,6 @@ export default function CreateNewOptionModal() {
               </fieldset>
             )}
           />
-
           {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
             <Controller
               name="title"
