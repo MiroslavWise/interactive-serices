@@ -52,10 +52,11 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
         <fieldset>
           <div data-text-area>
             <textarea
-              {...register("description", { required: watch("select_new_proposal") === ETypeOfNewCreated.interesting, minLength: 5 })}
+              {...register("description", { required: watch("select_new_proposal") === ETypeOfNewCreated.interesting, minLength: 1 })}
               placeholder="Описание предложения..."
+              maxLength={512}
             />
-            <sup>{watch("description")?.length || 0}/400</sup>
+            <sup>{watch("description")?.length || 0}/512</sup>
           </div>
           {errors.description ? <i>{errors?.description?.message}</i> : null}
         </fieldset>

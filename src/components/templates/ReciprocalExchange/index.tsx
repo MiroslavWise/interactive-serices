@@ -39,7 +39,12 @@ export default function ReciprocalExchange() {
   const userId = useAuth(({ userId }) => userId)
   const { socket } = useWebSocket()
   const { on, onBarters } = useToast()
-  const methods = useForm<IFormValues>({})
+  const methods = useForm<IFormValues>({
+    defaultValues: {
+      description_new_offer: "",
+      description: "",
+    },
+  })
 
   const {
     watch,
