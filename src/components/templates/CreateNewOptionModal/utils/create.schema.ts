@@ -9,14 +9,14 @@ import { EModalData } from "@/store"
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
 export const LIMIT_DESCRIPTION = 512
-export const LIMIT_TITLE_CONTENT = 32
+export const LIMIT_TITLE = 255
 
 const title = z
   .string()
   .trim()
   .min(1, { message: "Поле не может оставаться незаполненным" })
   .min(3, { message: "Не менее 3 символов в названии" })
-  .max(LIMIT_TITLE_CONTENT, { message: "Название не более 32 символов" })
+  .max(LIMIT_TITLE, { message: `Название не более ${LIMIT_TITLE} символов` })
   .default("")
   .refine(
     (value) => {
@@ -55,7 +55,7 @@ const description = z
   .trim()
   .min(1, { message: "Обязательное поле" })
   .min(3, { message: "Не менее 3-х символов в описании" })
-  .max(LIMIT_DESCRIPTION, { message: "Не более 512 символов" })
+  .max(LIMIT_DESCRIPTION, { message: `Не более ${LIMIT_DESCRIPTION} символов` })
   .default("")
 const address = z.string().min(1, { message: "Поле не может оставаться незаполненным" }).default("")
 const file = z.object({
