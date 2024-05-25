@@ -83,7 +83,7 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
         <div data-block-offer>
           <div data-proposal>
             <span>Предложение</span>
-            <p>{offer?.title}</p>
+            <p>{offer?.description}</p>
           </div>
           {images.length > 0 ? <ItemImages images={images} /> : null}
         </div>

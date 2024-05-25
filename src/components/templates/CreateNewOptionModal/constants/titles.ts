@@ -21,7 +21,7 @@ export const placeholderDescription = (value: EnumTypeProvider) =>
     ? "Добавьте описание, чтобы привлечь внимание к вашему предложению"
     : ""
 
-export const title = (value: EnumTypeProvider) =>
+export const description = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert
     ? "Опишите проблему"
     : value === EnumTypeProvider.discussion

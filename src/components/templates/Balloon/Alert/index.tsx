@@ -16,7 +16,7 @@ import { dispatchBallonAlert, useBalloonAlert } from "@/store"
 
 export default function BalloonAlert() {
   const offer = useBalloonAlert(({ offer }) => offer)
-  const { title, content, images = [] } = offer ?? {}
+  const { title, description, images = [] } = offer ?? {}
   const [expandComment, setExpandComment] = useState(false)
 
   useEffect(() => {
@@ -29,13 +29,13 @@ export default function BalloonAlert() {
         <div data-img>
           <IconAlertBalloon />
         </div>
-        <h3 style={{ color: "var(--text-primary)" }}>{content ? content : "SOS-cообщение"}</h3>
+        <h3 style={{ color: "var(--text-primary)" }}>{title ? title : "SOS-cообщение"}</h3>
       </header>
       <div data-container>
         <div data-container-children>
           <ProfileComponent offer={offer as unknown as IResponseOffers} />
           <article>
-            <p>{title}</p>
+            <p>{description}</p>
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />

@@ -9,7 +9,7 @@ export const useAdvertisingBanner = create(
     {
       name: "::advertising-banner::",
       storage: createJSONStorage(() => sessionStorage),
-      version: 0.1,
+      version: 0.3,
     },
   ),
 )

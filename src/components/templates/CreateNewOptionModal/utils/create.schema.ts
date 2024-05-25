@@ -11,7 +11,7 @@ const regexContent = /[^a-z0-9а-яёй\s]/i
 export const LIMIT_DESCRIPTION = 512
 export const LIMIT_TITLE_CONTENT = 32
 
-const content = z
+const title = z
   .string()
   .trim()
   .min(1, { message: "Поле не может оставаться незаполненным" })
@@ -50,7 +50,7 @@ const categoryId = z
   .refine((value) => ["string", "number"].includes(typeof value), {
     message: "Поле не может оставаться незаполненным",
   })
-const title = z
+const description = z
   .string()
   .trim()
   .min(1, { message: "Обязательное поле" })
@@ -70,20 +70,20 @@ const initAddress = schemaPostAddress.refine((value) => !!value && typeof value 
 })
 
 const base = z.object({
-  title: title,
+  description: description,
   address: address,
   type: z.nativeEnum(EnumTypeProvider),
   typeModal: z.nativeEnum(EModalData),
   file: file,
 })
 
-const schemaAlertAndDiscussion = base.merge(z.object({ content: content, addressFeature: addressFeature }))
-const schemaAlertAndDiscussionMap = base.merge(z.object({ content: content, initAddress: initAddress }))
+const schemaAlertAndDiscussion = base.merge(z.object({ title: title, addressFeature: addressFeature }))
+const schemaAlertAndDiscussionMap = base.merge(z.object({ title: title, initAddress: initAddress }))
 const schemaOffer = base.merge(z.object({ categoryId: categoryId, addressFeature: addressFeature }))
 const schemaOfferMap = base.merge(z.object({ categoryId: categoryId, initAddress: initAddress }))
 
 const schemaCreate = base.extend({
-  content: content,
+  title: title,
   categoryId: categoryId,
   addressFeature: addressFeature,
   initAddress: initAddress,

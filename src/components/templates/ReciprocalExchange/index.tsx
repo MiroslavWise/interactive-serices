@@ -81,7 +81,7 @@ export default function ReciprocalExchange() {
       const dataNewEmptyOffer: IPostOffers = {
         categoryId: values.category,
         provider: EnumTypeProvider.offer,
-        title: values.description,
+        description: values.description,
         slug: transliterateAndReplace(values.description),
         enabled: true,
         desired: true,
@@ -90,7 +90,7 @@ export default function ReciprocalExchange() {
       const dataNewOffer: IPostOffers = {
         categoryId: values.categoryId!,
         provider: EnumTypeProvider.offer,
-        title: values.description_new_offer,
+        description: values.description_new_offer,
         slug: transliterateAndReplace(values.description_new_offer),
         enabled: true,
         desired: true,
