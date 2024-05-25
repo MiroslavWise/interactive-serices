@@ -5,6 +5,7 @@ export interface IRequestPhone {
   phone: string
   agree?: boolean
   params?: string
+  marketing?: boolean
 }
 
 export type TStatusOk = "ok"

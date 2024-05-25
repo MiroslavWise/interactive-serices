@@ -4,12 +4,14 @@ import type { IAddressesResponse } from "@/services/addresses/types/serviceAddre
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 import { IResponsePhones } from "../phones/types"
+import { TRole } from "../roles/types"
 
 export interface IPostDataUser {
   email: string
   password: string
   repeat: string
   agree: boolean
+  marketing: boolean
 }
 
 export interface IPatchDataUser extends Partial<IPostDataUser> {
@@ -31,6 +33,7 @@ export interface IUserResponse {
   phones: IResponsePhones[]
   profile: IGetProfileIdResponse
   addresses: IAddressesResponse[]
+  roles: TRole[]
 }
 
 export interface IServiceUser {

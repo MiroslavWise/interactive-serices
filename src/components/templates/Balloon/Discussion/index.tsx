@@ -16,7 +16,7 @@ import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store"
 
 function BalloonDiscussion() {
   const offer = useBalloonDiscussion(({ offer }) => offer)
-  const { content, title, images = [] } = offer ?? {}
+  const { description, title, images = [] } = offer ?? {}
   const [expandComment, setExpandComment] = useState(false)
 
   useEffect(() => {
@@ -29,13 +29,13 @@ function BalloonDiscussion() {
         <div data-img>
           <IconDiscussionBalloon />
         </div>
-        <h3> {content ? content : "Обсуждение"}</h3>
+        <h3> {title ? title : "Обсуждение"}</h3>
       </header>
       <div data-container>
         <div data-container-children>
           <ProfileComponent offer={offer as unknown as IResponseOffers} />
           <article>
-            <p>{title}</p>
+            <p>{description}</p>
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />

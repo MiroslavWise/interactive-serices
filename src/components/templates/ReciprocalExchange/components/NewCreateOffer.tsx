@@ -90,8 +90,9 @@ export const NewCreateOffer = memo(({}: IProps) => {
           <textarea
             {...register("description_new_offer", { required: watch("select_new_proposal") === ETypeOfNewCreated.new, minLength: 5 })}
             placeholder="Описание предложения..."
+            maxLength={512}
           />
-          <sup>{watch("description_new_offer")?.length || 0}/400</sup>
+          <sup>{watch("description_new_offer")?.length || 0}/512</sup>
         </div>
       </fieldset>
       <fieldset data-address>

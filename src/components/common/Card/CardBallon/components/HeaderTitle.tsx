@@ -10,7 +10,7 @@ interface IProps {
 }
 
 function HeaderTitle({ offer }: IProps) {
-  const { provider, categoryId, content } = offer ?? {}
+  const { provider, categoryId, title } = offer ?? {}
 
   const categories = useOffersCategories(({ categories }) => categories)
 
@@ -64,14 +64,14 @@ function HeaderTitle({ offer }: IProps) {
           <div data-img>
             <img src="/svg/SOS.svg" alt="SOS" width={18} height={18} />
           </div>
-          <h3>{content ? content : "SOS-сообщение"}</h3>
+          <h3>{title ? title : "SOS-сообщение"}</h3>
         </>
       ) : provider === EnumTypeProvider.discussion ? (
         <>
           <div data-img>
             <img src="/svg/discussin-card.svg" alt="dis" width={26} height={26} />
           </div>
-          <h3>{content ? content : "Обсуждение"}</h3>
+          <h3>{title ? title : "Обсуждение"}</h3>
         </>
       ) : null}
     </header>

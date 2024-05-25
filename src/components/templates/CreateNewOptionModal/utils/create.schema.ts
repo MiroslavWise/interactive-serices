@@ -9,13 +9,14 @@ import { EModalData } from "@/store"
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
 export const LIMIT_DESCRIPTION = 512
-export const LIMIT_TITLE_CONTENT = 32
+export const LIMIT_TITLE = 144
 
-const content = z
+const title = z
   .string()
   .trim()
   .min(1, { message: "Поле не может оставаться незаполненным" })
-  .max(LIMIT_TITLE_CONTENT, { message: "Название не более 32 символов" })
+  .min(3, { message: "Не менее 3 символов в названии" })
+  .max(LIMIT_TITLE, { message: `Название не более ${LIMIT_TITLE} символов` })
   .default("")
   .refine(
     (value) => {
@@ -49,11 +50,12 @@ const categoryId = z
   .refine((value) => ["string", "number"].includes(typeof value), {
     message: "Поле не может оставаться незаполненным",
   })
-const title = z
+const description = z
   .string()
   .trim()
   .min(1, { message: "Обязательное поле" })
-  .max(LIMIT_DESCRIPTION, { message: "Не более 512 символов" })
+  .min(3, { message: "Не менее 3-х символов в описании" })
+  .max(LIMIT_DESCRIPTION, { message: `Не более ${LIMIT_DESCRIPTION} символов` })
   .default("")
 const address = z.string().min(1, { message: "Поле не может оставаться незаполненным" }).default("")
 const file = z.object({
@@ -68,20 +70,20 @@ const initAddress = schemaPostAddress.refine((value) => !!value && typeof value 
 })
 
 const base = z.object({
-  title: title,
+  description: description,
   address: address,
   type: z.nativeEnum(EnumTypeProvider),
   typeModal: z.nativeEnum(EModalData),
   file: file,
 })
 
-const schemaAlertAndDiscussion = base.merge(z.object({ content: content, addressFeature: addressFeature }))
-const schemaAlertAndDiscussionMap = base.merge(z.object({ content: content, initAddress: initAddress }))
+const schemaAlertAndDiscussion = base.merge(z.object({ title: title, addressFeature: addressFeature }))
+const schemaAlertAndDiscussionMap = base.merge(z.object({ title: title, initAddress: initAddress }))
 const schemaOffer = base.merge(z.object({ categoryId: categoryId, addressFeature: addressFeature }))
 const schemaOfferMap = base.merge(z.object({ categoryId: categoryId, initAddress: initAddress }))
 
 const schemaCreate = base.extend({
-  content: content,
+  title: title,
   categoryId: categoryId,
   addressFeature: addressFeature,
   initAddress: initAddress,

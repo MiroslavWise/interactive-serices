@@ -13,10 +13,10 @@ import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dis
 import styles from "./style.module.scss"
 
 export function CardDiscussion(props: IResponseOffers) {
-  const { title, images, provider, content } = props ?? {}
+  const { title, images, provider, description } = props ?? {}
 
-  const contentTitle = content
-    ? content
+  const contentTitle = title
+    ? title
     : provider === EnumTypeProvider.alert
     ? "SOS-сообщение"
     : provider === EnumTypeProvider.discussion
@@ -43,7 +43,7 @@ export function CardDiscussion(props: IResponseOffers) {
         <div data-header>
           <h4>{contentTitle}</h4>
         </div>
-        <p>{title || ""}</p>
+        <p>{description || ""}</p>
         {images.length > 0 ? <ItemImages images={images} /> : null}
         <div data-footer>
           <Button

@@ -31,6 +31,7 @@ import {
   EModalData,
   useModal,
   useNewServicesBannerMap,
+  useOffersCategories,
 } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import {
@@ -42,7 +43,14 @@ import {
   resolverOfferMap,
 } from "./utils/create.schema"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
-import { descriptionImages, headerTitle, placeholderDescription, titleContent, title, titlePlaceholderContent } from "./constants/titles"
+import {
+  descriptionImages,
+  headerTitle,
+  placeholderDescription,
+  titleContent,
+  description,
+  titlePlaceholderContent,
+} from "./constants/titles"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
@@ -58,6 +66,7 @@ export default function CreateNewOptionModal() {
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const { refetch: refetchDataMap } = useMapOffers()
   const { on } = useToast()
+  const categories = useOffersCategories(({ categories }) => categories)
 
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
@@ -78,10 +87,10 @@ export default function CreateNewOptionModal() {
     formState: { errors },
   } = useForm<TSchemaCreate>({
     defaultValues: {
-      title: "",
+      description: "",
       categoryId: null,
       address: stateModal === EModalData.CreateNewOptionModalMap ? initMapAddress?.additional! : "",
-      content: "",
+      title: "",
       typeModal: stateModal!,
       initAddress: initMapAddress!,
       file: {
@@ -150,25 +159,38 @@ export default function CreateNewOptionModal() {
 
   function submit(values: TSchemaCreate) {
     const regexMoreSpace = /\s+/g
-    const title = values.title.trim().replaceAll(regexMoreSpace, " ")
+    const description = values.description.trim().replaceAll(regexMoreSpace, " ")
     const data: IPostOffers = {
       provider: typeAdd!,
-      title: title,
-      slug: transliterateAndReplace(title),
+      description: description,
+      slug: transliterateAndReplace(description).slice(0, 254),
       enabled: true,
       desired: true,
     }
 
     if ([EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)) {
-      const content = values.content.trim().replaceAll(regexMoreSpace, " ")
-      if (!!content) {
-        data.content = content
+      const title = values.title.trim().replaceAll(regexMoreSpace, " ")
+      if (!!title) {
+        data.title = title
+        data.slug = transliterateAndReplace(title).slice(0, 254)
       } else {
         if (EnumTypeProvider.alert === typeAdd) {
-          data.content = "SOS-сообщение"
+          data.title = "SOS-сообщение"
+          data.slug = transliterateAndReplace("SOS-сообщение").slice(0, 254)
         } else if (EnumTypeProvider.discussion === typeAdd) {
-          data.content = "Дискуссия"
+          data.title = "Дискуссия"
+          data.slug = transliterateAndReplace("Дискуссия").slice(0, 254)
         }
+      }
+    }
+    if (typeAdd === EnumTypeProvider.offer && values?.categoryId) {
+      const title = categories.find((_) => _.id === values.categoryId)?.title
+
+      if (title) {
+        data.title = title.slice(0, 143)
+        data.slug = transliterateAndReplace(title).slice(0, 254)
+      } else {
+        data.title = description.slice(0, 144)
       }
     }
 
@@ -191,7 +213,7 @@ export default function CreateNewOptionModal() {
         })
       } else {
         if (values?.addressFeature!) {
-          createAddress(values?.addressFeature!).then((response) => {
+          createAddress(values?.addressFeature!, userId!).then((response) => {
             if (response?.ok) {
               create(
                 {
@@ -304,12 +326,12 @@ export default function CreateNewOptionModal() {
   useEffect(() => {
     if (visible) {
       dispatchValidating({
-        isCategoryId: !!watch("categoryId") || !!watch("content")?.trim(),
-        isTitle: !!watch("title"),
+        isCategoryId: !!watch("categoryId") || !!watch("title")?.trim(),
+        isTitle: !!watch("description"),
         isFiles: !!watch("file.file").length,
       })
     }
-  }, [watch("title"), watch("categoryId"), watch("content"), watch("file.file"), visible])
+  }, [watch("description"), watch("categoryId"), watch("title"), watch("file.file"), visible])
 
   const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
   const focusAddress = () => setIsFocus(true)
@@ -396,10 +418,9 @@ export default function CreateNewOptionModal() {
               </fieldset>
             )}
           />
-
           {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
             <Controller
-              name="content"
+              name="title"
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">
@@ -422,11 +443,11 @@ export default function CreateNewOptionModal() {
           ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
           <Controller
-            name="title"
+            name="description"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <fieldset id="fieldset-create-option-modal-title" data-test="fieldset-create-new-option-description">
-                <label htmlFor="title">{title(typeAdd!)}</label>
+                <label htmlFor="title">{description(typeAdd!)}</label>
                 <div data-text-area data-focus={visible && step === 3}>
                   <textarea
                     disabled={visible && step !== 3}

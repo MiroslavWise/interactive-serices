@@ -126,7 +126,7 @@ export default function UpdateOffer() {
       }
 
       if (values.address !== offer?.addresses[0]?.id && values.address) {
-        const { res } = await createAddress(values.address! as IFeatureMember)
+        const { res } = await createAddress(values.address! as IFeatureMember, userId!)
         console.log("body responses: ", res)
         if (res?.id) {
           body.addresses = [res?.id!]

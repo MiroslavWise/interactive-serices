@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { ReactNode, memo, useState } from "react"
 
 import { resolverEmailSignUp, TSchemaEmailSignUp } from "../utils/email-sign-up.schema"
@@ -7,11 +7,11 @@ import { resolverEmailSignUp, TSchemaEmailSignUp } from "../utils/email-sign-up.
 import { Button } from "@/components/common"
 
 import { getUserEmail } from "@/services"
-import { dispatchAuthModalCreatePassword, dispatchAuthModalCurrentUser, useModalAuth, useUTM } from "@/store"
+import { dispatchAuthModalCreatePassword, dispatchAuthModalCurrentUser, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
-export const SignUpEmail = memo(function SignUpEmail({ children }: { children: ReactNode }) {
+export const SignUpEmail = memo(function ({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
 
   const email = useModalAuth(({ email }) => email)
@@ -19,10 +19,13 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<TSchemaEmailSignUp>({
     defaultValues: {
       email: email || "",
+      agree: false,
+      marketing: false,
     },
     resolver: resolverEmailSignUp,
   })
@@ -40,6 +43,8 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
           if (response?.error?.message === "user not found") {
             dispatchAuthModalCreatePassword({
               email: values.email,
+              agree: !!values.agree,
+              marketing: !!values.marketing,
             })
           }
         }
@@ -64,46 +69,50 @@ export const SignUpEmail = memo(function SignUpEmail({ children }: { children: R
         </div>
       </section>
       <div className={styles.RememberChange}>
-        <div className={styles.checkRemember}>
-          <label className={styles.checkbox} data-check={watch("checkbox")}>
-            <input type="checkbox" {...register("checkbox", { required: true })} />
-            <span className={styles.checkmark}>
-              <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={watch("checkbox")} />
-            </span>
-          </label>
-          <p data-terms data-error={!!errors.checkbox}>
-            Регистрируясь, вы соглашаетесь с&nbsp;
-            <Link href={{ pathname: "/terms-rules" }} target="_blank" rel="license" referrerPolicy="no-referrer">
-              Правилами пользования
-            </Link>
-            ,&nbsp;
-            <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
-              Политикой конфиденциальности
-            </Link>
-            {/* &nbsp;и&nbsp;
-            <Link href={{ pathname: "/terms-consent-to-receive-mailings" }} target="_blank" rel="license" referrerPolicy="no-referrer">
-              Согласие на получение рассылки
-            </Link> */}
-          </p>
-        </div>
-        <div className={styles.checkRemember}>
-          <label className={styles.checkbox} data-check={watch("checkbox_personal_data")}>
-            <input type="checkbox" {...register("checkbox_personal_data", { required: true })} />
-            <span className={styles.checkmark}>
-              <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={watch("checkbox_personal_data")} />
-            </span>
-          </label>
-          <p data-terms data-error={!!errors.checkbox_personal_data}>
-            Я даю согласие на обработку персональных данных
-          </p>
-        </div>
+        <Controller
+          name="agree"
+          control={control}
+          render={({ field, fieldState }) => (
+            <div className={styles.checkRemember}>
+              <label className={styles.checkbox} data-check={!!field.value}>
+                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <span className={styles.checkmark}>
+                  <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
+                </span>
+              </label>
+              <p data-terms data-error={!!fieldState.error}>
+                Даю согласие на обработку персональных данных в соответствии с&nbsp;
+                <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
+                  Политикой конфиденциальности
+                </Link>
+              </p>
+            </div>
+          )}
+        />
+        <Controller
+          name="marketing"
+          control={control}
+          render={({ field, fieldState }) => (
+            <div className={styles.checkRemember}>
+              <label className={styles.checkbox} data-check={!!field.value}>
+                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <span className={styles.checkmark}>
+                  <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
+                </span>
+              </label>
+              <p data-terms data-error={!!fieldState.error}>
+                Даю согласие на <a>маркетинговые коммуникации</a>
+              </p>
+            </div>
+          )}
+        />
       </div>
       <Button
         type="submit"
         typeButton="fill-primary"
         label="Зарегистрироваться"
         loading={loading}
-        disabled={!watch("checkbox") || !watch("email") || !watch("checkbox_personal_data") || !!errors.email}
+        disabled={!watch("agree") || !watch("email")}
         data-test="sign-up-email-submit"
       />
       {children}

@@ -23,7 +23,7 @@ interface IProps {
 }
 
 function CardBallon({ offer }: IProps) {
-  const { provider, title, userId, images, addresses, user } = offer ?? {}
+  const { provider, description, userId, images, addresses, user } = offer ?? {}
 
   function handleClick() {
     const [address] = addresses
@@ -59,7 +59,7 @@ function CardBallon({ offer }: IProps) {
       <HeaderTimeDots offer={offer} />
       <HeaderTitle offer={offer} />
       <section>
-        <p>{title}</p>
+        <p>{description}</p>
       </section>
       {images?.length ? <ItemImages images={images} /> : null}
       <GeoData offer={offer} />

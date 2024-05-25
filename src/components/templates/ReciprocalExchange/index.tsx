@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { FormProvider, useForm } from "react-hook-form"
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { useMemo, useState } from "react"
+import { FormProvider, useForm } from "react-hook-form"
 
 import type { IReturnData } from "@/services/types/general"
 import type { IPostDataBarter } from "@/services/barters/types"
@@ -39,7 +39,12 @@ export default function ReciprocalExchange() {
   const userId = useAuth(({ userId }) => userId)
   const { socket } = useWebSocket()
   const { on, onBarters } = useToast()
-  const methods = useForm<IFormValues>({})
+  const methods = useForm<IFormValues>({
+    defaultValues: {
+      description_new_offer: "",
+      description: "",
+    },
+  })
 
   const {
     watch,
@@ -81,8 +86,8 @@ export default function ReciprocalExchange() {
       const dataNewEmptyOffer: IPostOffers = {
         categoryId: values.category,
         provider: EnumTypeProvider.offer,
-        title: values.description,
-        slug: transliterateAndReplace(values.description),
+        description: values.description,
+        slug: transliterateAndReplace(values.description).slice(0, 254),
         enabled: true,
         desired: true,
       }
@@ -90,14 +95,14 @@ export default function ReciprocalExchange() {
       const dataNewOffer: IPostOffers = {
         categoryId: values.categoryId!,
         provider: EnumTypeProvider.offer,
-        title: values.description_new_offer,
-        slug: transliterateAndReplace(values.description_new_offer),
+        description: values.description_new_offer,
+        slug: transliterateAndReplace(values.description_new_offer).slice(0, 254),
         enabled: true,
         desired: true,
       }
 
       if (values.select_new_proposal === ETypeOfNewCreated.new && !!values.addressFeature && !!values.check) {
-        const response = await createAddress(values.addressFeature)
+        const response = await createAddress(values.addressFeature, userId!)
         if (response.ok) {
           dataNewOffer.addresses = [response.res?.id!]
         }

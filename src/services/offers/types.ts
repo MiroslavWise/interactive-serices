@@ -14,9 +14,9 @@ export interface IPostOffers {
   addresses?: number[]
   subscribers?: number[]
   provider: EnumTypeProvider
-  title: string
+  title?: string
   slug: string
-  description?: string
+  description: string
   content?: string
   imageId?: number | null
   featuredId?: number | null

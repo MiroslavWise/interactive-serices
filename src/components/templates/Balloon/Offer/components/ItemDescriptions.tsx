@@ -11,7 +11,7 @@ import { useOffersCategories } from "@/store"
 import styles from "../styles/proposal.module.scss"
 
 export const ItemDescriptions = memo(function ItemProposal({ offer }: { offer: IResponseOffers }) {
-  const proposal = offer?.title
+  const proposal = offer?.description
   const images = offer?.images || []
   const categories = useOffersCategories(({ categories }) => categories)
 
