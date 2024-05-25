@@ -28,6 +28,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     setError,
     clearErrors,
     control,
+    setValue,
   } = useForm<TSchemaPhoneSignUp>({
     defaultValues: {
       phone: phone,
@@ -124,7 +125,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
           render={({ field, fieldState }) => (
             <div className={styles.checkRemember}>
               <label className={styles.checkbox} data-check={!!field.value}>
-                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <input type="checkbox" onClick={() => setValue(field.name, !field.value)} />
                 <span className={styles.checkmark}>
                   <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
                 </span>
@@ -144,7 +145,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
           render={({ field, fieldState }) => (
             <div className={styles.checkRemember}>
               <label className={styles.checkbox} data-check={!!field.value}>
-                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <input type="checkbox" onClick={() => setValue(field.name, !field.value)} />
                 <span className={styles.checkmark}>
                   <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
                 </span>

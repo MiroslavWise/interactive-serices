@@ -74,12 +74,14 @@ export const dispatchAuthModalInformationCreateAccount = (value: string) => {
   }))
 }
 
-export const dispatchAuthModalCreatePassword = ({ email, phone }: IActionCreatePassword) => {
+export const dispatchAuthModalCreatePassword = ({ email, phone, agree, marketing }: IActionCreatePassword) => {
   dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
     type: "CreatePassword",
     email: email,
     phone: phone,
+    agree,
+    marketing,
   }))
 }
 

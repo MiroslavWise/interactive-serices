@@ -20,6 +20,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm<TSchemaEmailSignUp>({
     defaultValues: {
@@ -75,7 +76,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
           render={({ field, fieldState }) => (
             <div className={styles.checkRemember}>
               <label className={styles.checkbox} data-check={!!field.value}>
-                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <input type="checkbox" onClick={() => setValue(field.name, !field.value)} />
                 <span className={styles.checkmark}>
                   <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
                 </span>
@@ -95,7 +96,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
           render={({ field, fieldState }) => (
             <div className={styles.checkRemember}>
               <label className={styles.checkbox} data-check={!!field.value}>
-                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <input type="checkbox" onClick={() => setValue(field.name, !field.value)} />
                 <span className={styles.checkmark}>
                   <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
                 </span>
