@@ -21,7 +21,6 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
   const utm_content = useUTM(({ utm_content }) => utm_content)
 
   const {
-    register,
     handleSubmit,
     watch,
     formState: { errors },
@@ -62,6 +61,8 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         .phone({
           phone: phoneReplace,
           params: string ? string : undefined,
+          agree: !!values.agree,
+          marketing: !!values.marketing,
         })
         .then((response) => {
           console.log("response: ", response)
@@ -117,46 +118,50 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         />
       </section>
       <div className={styles.RememberChange}>
-        <div className={styles.checkRemember}>
-          <label className={styles.checkbox} data-check={watch("checkbox")}>
-            <input type="checkbox" {...register("checkbox", { required: true })} />
-            <span className={styles.checkmark}>
-              <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={watch("checkbox")} />
-            </span>
-          </label>
-          <p data-terms data-error={!!errors.checkbox}>
-            Регистрируясь, вы соглашаетесь с&nbsp;
-            <Link href={{ pathname: "/terms-rules" }} target="_blank" rel="license" referrerPolicy="no-referrer">
-              Правилами пользования
-            </Link>
-            ,&nbsp;
-            <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
-              Политикой конфиденциальности
-            </Link>
-            {/* &nbsp;и&nbsp;
-            <Link href={{ pathname: "/terms-consent-to-receive-mailings" }} target="_blank" rel="license" referrerPolicy="no-referrer">
-              Согласие на получение рассылки
-            </Link> */}
-          </p>
-        </div>
-        <div className={styles.checkRemember}>
-          <label className={styles.checkbox} data-check={watch("checkbox_personal_data")}>
-            <input type="checkbox" {...register("checkbox_personal_data", { required: true })} />
-            <span className={styles.checkmark}>
-              <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={watch("checkbox_personal_data")} />
-            </span>
-          </label>
-          <p data-terms data-error={!!errors.checkbox_personal_data}>
-            Я даю согласие на обработку персональных данных
-          </p>
-        </div>
+        <Controller
+          name="agree"
+          control={control}
+          render={({ field, fieldState }) => (
+            <div className={styles.checkRemember}>
+              <label className={styles.checkbox} data-check={!!field.value}>
+                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <span className={styles.checkmark}>
+                  <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
+                </span>
+              </label>
+              <p data-terms data-error={!!fieldState.error}>
+                Даю согласие на обработку персональных данных в соответствии с&nbsp;
+                <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
+                  Политикой конфиденциальности
+                </Link>
+              </p>
+            </div>
+          )}
+        />
+        <Controller
+          name="marketing"
+          control={control}
+          render={({ field, fieldState }) => (
+            <div className={styles.checkRemember}>
+              <label className={styles.checkbox} data-check={!!field.value}>
+                <input type="checkbox" onClick={() => field.onChange(!field.value)} />
+                <span className={styles.checkmark}>
+                  <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
+                </span>
+              </label>
+              <p data-terms data-error={!!fieldState.error}>
+                Даю согласие на <a>маркетинговые коммуникации</a>
+              </p>
+            </div>
+          )}
+        />
       </div>
       <Button
         type="submit"
         typeButton="fill-primary"
         label="Зарегистрироваться"
         loading={loading}
-        disabled={!watch("checkbox") || !watch("phone") || !watch("checkbox_personal_data")}
+        disabled={!watch("agree") || !watch("phone")}
         data-test="sign-up-phone-submit"
       />
       {children}

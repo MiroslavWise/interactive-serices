@@ -10,6 +10,7 @@ export interface IPostDataUser {
   password: string
   repeat: string
   agree: boolean
+  marketing: boolean
 }
 
 export interface IPatchDataUser extends Partial<IPostDataUser> {

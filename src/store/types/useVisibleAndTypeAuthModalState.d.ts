@@ -28,11 +28,15 @@ export interface IAction {
 export interface IActionCreatePassword {
   email?: string
   phone?: string
+  agree: boolean
+  marketing: boolean
 }
 export interface IUseVisibleAndTypeAuthModalState {
   type: TTypeSign
   prevType: TTypeSign
   email?: string
+  agree?: boolean
+  marketing?: boolean
   phone?: string
   verification?: {
     confirmationCode: string

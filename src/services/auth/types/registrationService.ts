@@ -5,6 +5,8 @@ export interface IDataRegistration {
   email: string
   password: string
   repeat: string
+  agree: boolean
+  marketing: boolean
 }
 
 export interface IResponseDataRegistration {

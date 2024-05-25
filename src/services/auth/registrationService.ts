@@ -3,8 +3,8 @@ import type { IRegistrationService } from "./types/registrationService"
 import { postUser, wrapperPost } from "@/services"
 
 export const RegistrationService: IRegistrationService = {
-  async registration(data, urlSearchParams) {
-    return postUser({ ...data, agree: true }, urlSearchParams).then((response) => {
+  async registration({ email, password, repeat, agree, marketing }, urlSearchParams) {
+    return postUser({ email, password, repeat, agree, marketing }, urlSearchParams).then((response) => {
       if (response.ok) {
         return {
           ok: response.ok,

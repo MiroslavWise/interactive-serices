@@ -29,6 +29,8 @@ export const ContentCreatePassword = () => {
   const type = useModalAuth(({ type }) => type)
   const codeReset = useModalAuth(({ codeReset }) => codeReset)
   const email = useModalAuth(({ email }) => email)
+  const agree = useModalAuth(({ agree }) => agree)
+  const marketing = useModalAuth(({ marketing }) => marketing)
 
   const utm_source = useUTM(({ utm_source }) => utm_source)
   const utm_medium = useUTM(({ utm_medium }) => utm_medium)
@@ -112,6 +114,8 @@ export const ContentCreatePassword = () => {
             email: email,
             password: values.password!,
             repeat: values.repeat!,
+            agree: !!agree,
+            marketing: !!marketing,
           },
           string ? string : undefined,
         )
