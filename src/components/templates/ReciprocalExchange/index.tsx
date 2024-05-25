@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { FormProvider, useForm } from "react-hook-form"
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { useMemo, useState } from "react"
+import { FormProvider, useForm } from "react-hook-form"
 
 import type { IReturnData } from "@/services/types/general"
 import type { IPostDataBarter } from "@/services/barters/types"
