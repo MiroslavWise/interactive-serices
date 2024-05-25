@@ -102,7 +102,7 @@ export default function ReciprocalExchange() {
       }
 
       if (values.select_new_proposal === ETypeOfNewCreated.new && !!values.addressFeature && !!values.check) {
-        const response = await createAddress(values.addressFeature)
+        const response = await createAddress(values.addressFeature, userId!)
         if (response.ok) {
           dataNewOffer.addresses = [response.res?.id!]
         }

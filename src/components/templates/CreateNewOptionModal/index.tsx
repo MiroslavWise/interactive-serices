@@ -198,7 +198,7 @@ export default function CreateNewOptionModal() {
         })
       } else {
         if (values?.addressFeature!) {
-          createAddress(values?.addressFeature!).then((response) => {
+          createAddress(values?.addressFeature!, userId!).then((response) => {
             if (response?.ok) {
               create(
                 {
