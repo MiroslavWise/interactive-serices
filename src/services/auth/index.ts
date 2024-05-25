@@ -1,4 +1,4 @@
-import { TGetLogout, TGetSession, TPostNewPassword, type IAuth } from "./types/types"
+import { TGetLogout, TGetSession, TPostNewPassword, type IAuth, IRequestPhone } from "./types/types"
 
 import { wrapperGet, wrapperPost } from "../requestsWrapper"
 
@@ -6,7 +6,20 @@ const route = "/auth"
 
 export const serviceAuth: IAuth = {
   sms: (body) => wrapperPost({ url: `${route}/sms`, body }),
-  phone: ({ phone, params }) => wrapperPost({ url: `${route}/phone${params ? `/?${params}` : ""}`, body: { phone: phone, agree: true } }),
+  phone: ({ phone, agree, marketing, params }) => {
+    const data: IRequestPhone = {
+      phone: phone,
+    }
+
+    if (typeof agree === "boolean") {
+      data.agree = agree
+    }
+    if (typeof marketing === "boolean") {
+      data.marketing = marketing
+    }
+
+    return wrapperPost({ url: `${route}/phone${params ? `/?${params}` : ""}`, body: data })
+  },
   postGoogle: (body) => wrapperPost({ url: `${route}/google`, body }),
   postTelegram: (body) => wrapperPost({ url: `${route}/telegram`, body }),
   postYandex: (body) => wrapperPost({ url: `${route}/yandex`, body }),
