@@ -82,7 +82,7 @@ export default function ReciprocalExchange() {
         categoryId: values.category,
         provider: EnumTypeProvider.offer,
         description: values.description,
-        slug: transliterateAndReplace(values.description),
+        slug: transliterateAndReplace(values.description).slice(0, 254),
         enabled: true,
         desired: true,
       }
@@ -91,7 +91,7 @@ export default function ReciprocalExchange() {
         categoryId: values.categoryId!,
         provider: EnumTypeProvider.offer,
         description: values.description_new_offer,
-        slug: transliterateAndReplace(values.description_new_offer),
+        slug: transliterateAndReplace(values.description_new_offer).slice(0, 254),
         enabled: true,
         desired: true,
       }

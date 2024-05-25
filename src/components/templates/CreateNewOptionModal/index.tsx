@@ -161,7 +161,7 @@ export default function CreateNewOptionModal() {
     const data: IPostOffers = {
       provider: typeAdd!,
       description: description,
-      slug: transliterateAndReplace(description),
+      slug: transliterateAndReplace(description).slice(0, 254),
       enabled: true,
       desired: true,
     }
