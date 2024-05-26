@@ -69,12 +69,13 @@
     padding: 0;
 
     & > section {
-      height: calc(100% - var(--height-mobile-footer-nav));
+      // height: calc(100% - var(--height-mobile-footer-nav));
+      height: 100%;
       max-width: 100%;
       &>ul{
         padding-top: calc(var(--height-mobile-header) + 1.25rem);
         padding-inline: 0.75rem;
-        padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25);
+        padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25rem);
       }
     }
   }
