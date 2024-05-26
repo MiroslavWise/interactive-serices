@@ -151,7 +151,10 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
                 </span>
               </label>
               <p data-terms data-error={!!fieldState.error}>
-                Даю согласие на <a>маркетинговые коммуникации</a>
+                Даю согласие на&nbsp;
+                <Link href={{ pathname: "/legal/ads-agreement" }} target="_blank">
+                  маркетинговые коммуникации
+                </Link>
               </p>
             </div>
           )}

@@ -60,6 +60,13 @@ export const changeAuthAction = (set: ISetAction, get: IGetAction) => {
               addresses: response?.res?.addresses?.filter((item) => item.addressType === "main") || [],
             })
           }
+          if (response?.res?.roles) {
+            const roles = response?.res?.roles
+
+            set({
+              roles: roles,
+            })
+          }
           if (!!response?.res?.profile) {
             const { firstName, lastName, username, about, birthdate, id, image, gender } = response?.res?.profile ?? {}
             set({

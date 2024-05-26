@@ -83,7 +83,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
               </label>
               <p data-terms data-error={!!fieldState.error}>
                 Даю согласие на обработку персональных данных в соответствии с&nbsp;
-                <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
+                <Link href={{ pathname: "/legal/privacy-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                   Политикой конфиденциальности
                 </Link>
               </p>
@@ -102,7 +102,10 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
                 </span>
               </label>
               <p data-terms data-error={!!fieldState.error}>
-                Даю согласие на <a>маркетинговые коммуникации</a>
+                Даю согласие на&nbsp;
+                <Link href={{ pathname: "/legal/ads-agreement" }} target="_blank">
+                  маркетинговые коммуникации
+                </Link>
               </p>
             </div>
           )}
