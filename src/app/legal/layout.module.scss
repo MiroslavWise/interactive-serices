@@ -69,6 +69,7 @@
     padding: 0;
 
     & > section {
+      height: calc(100% - var(--height-mobile-footer-nav));
       max-width: 100%;
       &>ul{
         padding-top: calc(var(--height-mobile-header) + 1.25rem);
