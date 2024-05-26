@@ -1,7 +1,8 @@
+import Link from "next/link"
+
 import { LinkItem } from "./LinkItem"
 
 import { ITEMS_SOCIAL_LINK } from "../constants/social"
-import Link from "next/link"
 
 export function LinksSocial() {
   return (
@@ -17,7 +18,10 @@ export function LinksSocial() {
       <span>
         Создавая аккаунт, вы соглашаетесь
         <br />
-        с&nbsp;<Link href={{ pathname: "/terms-rules" }}>Правилами пользования</Link>
+        с&nbsp;
+        <Link href={{ pathname: "/legal/terms" }} target="_blank">
+          Правилами пользования
+        </Link>
       </span>
     </article>
   )
