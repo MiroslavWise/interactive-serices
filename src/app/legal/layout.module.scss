@@ -20,7 +20,6 @@
       width: 100%;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      height: calc(100%);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -67,10 +66,15 @@
 
   @media screen and (max-width: 768px) {
     height: 100vh;
-    padding-top: calc(var(--height-mobile-header) + 1.25rem);
+    padding: 0;
 
     & > section {
-      padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25);
+      max-width: 100%;
+      &>ul{
+        padding-top: calc(var(--height-mobile-header) + 1.25rem);
+        padding-inline: 0.75rem;
+        padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25);
+      }
     }
   }
 }
