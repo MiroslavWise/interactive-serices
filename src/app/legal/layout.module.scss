@@ -66,7 +66,11 @@
   }
 
   @media screen and (max-width: 768px) {
+    height: 100vh;
     padding-top: calc(var(--height-mobile-header) + 1.25rem);
-    padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25);
+
+    & > section {
+      padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25);
+    }
   }
 }

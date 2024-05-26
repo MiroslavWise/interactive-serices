@@ -11,9 +11,9 @@ export default ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     console.log("roles template: ", roles)
-    if (!roles) {
-      handlePush("/")
-    }
+    // if (!roles) {
+    //   handlePush("/")
+    // }
   }, [roles])
 
   return children
