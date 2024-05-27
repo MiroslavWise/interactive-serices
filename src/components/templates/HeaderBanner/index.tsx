@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { format } from "date-fns"
 import { useTheme } from "next-themes"
 
 import { ButtonCloseHeaderBanner } from "./ButtonClose"
@@ -9,45 +10,31 @@ import PromotionalBadge from "@/components/common/PromotionalBadge"
 import styles from "./style.module.scss"
 
 const BALLS = [1, 2, 3, 4]
-const COLORS_BALL = new Map([
-  [1, "#35BFD2"],
-  [2, "#35D2BF"],
-  [3, "#35BFD2"],
-  [4, "#35D2BF"],
-])
-
-const COLORS_BALL_LIGHT = new Map([
-  [1, "#FF03F5"],
-  [2, "#7F53FF"],
-  [3, "#7F53FF"],
-  [4, "#FF03F5"],
-])
-
-const COLORS_BALL_DARK = new Map([
-  [1, "#FF03F5"],
-  [2, "#7F53FF"],
-  [3, "#7F53FF"],
-  [4, "#FF03F5"],
-])
 const TITLE = "Выиграй iPhone 15!"
+
+const day = format(new Date(), "dd") || 0
+const time = Math.round(Number(day) % 3)
 
 function HeaderBanner() {
   const { systemTheme } = useTheme()
 
-  const erid = systemTheme === "light" ? "LjN8KMsno" : systemTheme === "dark" ? "LjN8KMCpw" : "LjN8KPZCT"
+  const erid =
+    time === 0
+      ? systemTheme === "light"
+        ? "LjN8KMsno"
+        : systemTheme === "dark"
+        ? "LjN8KMCpw"
+        : "null"
+      : time === 1
+      ? "LjN8KPZCT"
+      : time === 2
+      ? "LjN8KQEAK"
+      : "null"
 
   return (
-    <article className={styles.container}>
+    <article className={styles.container} data-time-number={time}>
       {BALLS.map((_) => (
-        <span
-          key={`::key::ball::${_}::`}
-          data-c={_}
-          style={{
-            backgroundColor: `${(systemTheme === "light" ? COLORS_BALL_LIGHT : systemTheme === "dark" ? COLORS_BALL_DARK : COLORS_BALL).get(
-              _,
-            )}`,
-          }}
-        />
+        <span key={`::key::ball::${_}::`} data-c={_} />
       ))}
       <b>{TITLE}</b>
       <Link
@@ -72,7 +59,7 @@ function HeaderBanner() {
         <Image src={"/png/iphone/Free_Iphone_15-mobile.png"} width={150} height={64} alt="iphone2" unoptimized />
       </div>
       <ButtonCloseHeaderBanner />
-      <PromotionalBadge erid={systemTheme === "light" ? "LjN8KMsno" : systemTheme === "dark" ? "LjN8KMCpw" : "LjN8KPZCT"} />
+      <PromotionalBadge erid={erid} />
     </article>
   )
 }
