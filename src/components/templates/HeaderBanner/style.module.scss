@@ -1,14 +1,112 @@
+@mixin time0 {
+  background-color: #1d0d27;
+
+  & > b,
+  & > a > span {
+    color: var(--text-tab);
+  }
+
+  & > [data-c] {
+    &[data-c="1"] {
+      background-color: #ff03f5;
+    }
+    &[data-c="2"] {
+      background-color: #7f53ff;
+    }
+    &[data-c="3"] {
+      background-color: #7f53ff;
+    }
+    &[data-c="4"] {
+      background-color: #ff03f5;
+    }
+  }
+}
+
+@mixin time0-dark {
+  background-color: #ebcaff;
+
+  & > [data-close] {
+    & > [data-svg-x-close] {
+      & > path {
+        stroke: #98a2b3;
+      }
+    }
+  }
+}
+
+@mixin time1 {
+  background-color: #6b5ae7;
+
+  & > b,
+  & > a > span {
+    color: var(--text-button);
+  }
+
+  & > a > svg > path {
+    fill: var(--text-button);
+  }
+
+  & > [data-c] {
+    &[data-c="1"] {
+      background-color: #35bfd2;
+    }
+    &[data-c="2"] {
+      background-color: #35d2bf;
+    }
+    &[data-c="3"] {
+      background-color: #35bfd2;
+    }
+    &[data-c="4"] {
+      background-color: #35d2bf;
+    }
+  }
+}
+@mixin time2 {
+  background-color: #a31ad3;
+
+  & > b,
+  & > a > span {
+    color: var(--text-button);
+  }
+
+  & > a > svg > path {
+    fill: var(--text-button);
+  }
+
+  & > [data-c] {
+    &[data-c="1"] {
+      background-color: #f11933;
+    }
+    &[data-c="2"] {
+      background-color: #ff1f62;
+    }
+    &[data-c="3"] {
+      background-color: #ff4d77;
+    }
+    &[data-c="4"] {
+      background-color: #ff1e54;
+    }
+  }
+}
+
 .container {
-  --element-blue: #1d0d27;
+  &[data-time-number="0"] {
+    @include time0;
+  }
+  &[data-time-number="1"] {
+    @include time1;
+  }
+  &[data-time-number="2"] {
+    @include time2;
+  }
 }
 
 [data-theme="dark"] {
   .container {
-    --element-blue: #ebcaff;
+    &[data-time-number="0"] {
+      @include time0-dark;
+    }
   }
-}
-
-@mixin c {
 }
 
 .container {
@@ -16,9 +114,8 @@
   top: var(--height-header-nav-bar);
   overflow: hidden;
   width: 100%;
-  background-color: var(--element-blue);
   height: var(--height--banner--promotional);
-  box-shadow: 0px 4px 24px 0px rgba(3, 2, 34, 0.4);
+  box-shadow: 0px 0.25rem 1.5rem 0px rgba(3, 2, 34, 0.4);
   z-index: 69;
   display: flex;
   align-items: center;
@@ -144,7 +241,7 @@
       height: 1.25rem;
 
       & > path {
-        stroke: white;
+        stroke: #fff;
       }
     }
   }
