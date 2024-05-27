@@ -30,7 +30,8 @@ export const metadata: Metadata = {
     default: "Sheira",
     template: "%s | Sheira",
   },
-  description: "Шейра — это сайт, где люди меняются услугами в своем городе. Sheira is a site where people swap services in their city",
+  description:
+    "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
   keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
   appleWebApp: {
     title: "Sheira",

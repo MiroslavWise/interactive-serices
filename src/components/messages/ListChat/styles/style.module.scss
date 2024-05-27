@@ -77,3 +77,11 @@
     z-index: 10;
   }
 }
+
+[data-header-is-banner="true"] {
+  .containerMobile {
+    & > ul {
+      padding-top: calc(var(--height-mobile-header) + var(--height--banner--promotional)) !important;
+    }
+  }
+}

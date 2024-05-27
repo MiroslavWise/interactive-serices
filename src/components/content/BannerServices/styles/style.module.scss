@@ -411,15 +411,15 @@
 
 [data-header-is-banner="true"] {
   .container {
-    top: calc(var(--height-header-nav-bar) + 2.75rem + 1.5rem);
-    height: calc(100% - var(--height-header-nav-bar) - 3rem - 2.75rem);
+    top: calc(var(--height-header-nav-bar) + var(--height--banner--promotional) + 1.5rem);
+    height: calc(100% - var(--height-header-nav-bar) - 3rem - var(--height--banner--promotional));
   }
 
   .containerSearchAndFilters {
-    top: calc(var(--height-header-nav-bar) + 1.5rem + 2.75rem + 1.25rem);
+    top: calc(var(--height-header-nav-bar) + 1.5rem + var(--height--banner--promotional) + 1.25rem);
   }
 
   .buttonCollapse {
-    top: calc(var(--height-header-nav-bar) + 1.5rem + 1.75rem + 2.75rem);
+    top: calc(var(--height-header-nav-bar) + 1.5rem + 1.75rem + var(--height--banner--promotional));
   }
 }

@@ -14,3 +14,11 @@
     --height-standard-header-modal: 4.25rem;
   }
 }
+
+:root {
+  --height--banner--promotional: 2.75rem;
+
+  @media screen and (max-width: 768px) {
+    --height--banner--promotional: 4rem;
+  }
+}
