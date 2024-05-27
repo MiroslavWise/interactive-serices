@@ -1,3 +1,22 @@
+@mixin loading {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    width: 45%;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    background: linear-gradient(to right, transparent 0%, #e8e8e8 50%, transparent 100%);
+    animation: loading 0.6s ease-in-out infinite;
+  }
+}
+
 .main {
   width: 100%;
   height: 100%;
@@ -67,6 +86,24 @@
             }
           }
 
+          & > td {
+            border-style: solid;
+            border-color: var(--text-disabled);
+            border-width: 0;
+          }
+
+          & > td:nth-child(1),
+          & > td:nth-child(2),
+          & > td:nth-child(3),
+          & > td:nth-child(4) {
+            border-bottom-width: 1px;
+          }
+
+          & > td:nth-child(2),
+          & > td:nth-child(3) {
+            border-left-width: 1px;
+          }
+
           & > td:nth-child(4) {
             display: flex;
             flex-direction: row;
@@ -90,11 +127,82 @@
           }
         }
       }
+
+      & > thead {
+        & > tr {
+          & > th {
+            border-style: solid;
+            border-color: var(--text-disabled);
+            border-width: 0;
+          }
+
+          & > th:nth-child(2),
+          & > th:nth-child(3),
+          & > th:nth-child(4) {
+            border-left-width: 1px;
+          }
+        }
+      }
+
+      & > tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+        overflow-y: auto;
+        height: fit-content;
+        max-height: calc(100% - 14rem);
+
+        & > tr {
+          &[data-load] {
+            & > td {
+              & > span {
+                width: 100%;
+                height: 1.25rem;
+                border-radius: 0.25rem;
+                background-color: var(--BG-first);
+                @include loading;
+              }
+            }
+          }
+        }
+      }
+
+      & > tfoot {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.25rem;
+        padding: 0.625rem;
+
+        & > [data-buttons] {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 1.25rem;
+        }
+      }
     }
   }
 
   @media screen and (max-width: 768px) {
     padding-top: var(--height-mobile-header);
     padding-bottom: var(--height-mobile-footer-nav);
+  }
+}
+
+[data-header-is-banner="true"] {
+  .main {
+    padding: calc(var(--height-header-nav-bar) + 1.25rem + var(--height--banner--promotional)) 1.25rem 1.25rem;
+  }
+}
+
+@keyframes loading {
+  from {
+    transform: translateX(-140%);
+  }
+  to {
+    transform: translateX(140%);
   }
 }
