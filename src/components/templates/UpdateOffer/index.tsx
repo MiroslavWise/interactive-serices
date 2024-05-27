@@ -61,7 +61,7 @@ export default function UpdateOffer() {
     setValue,
   } = useForm<IValues>({
     defaultValues: {
-      description: offer?.title!,
+      description: offer?.description!,
       category: offer?.categoryId!,
       address: geo?.id,
     },
@@ -117,8 +117,8 @@ export default function UpdateOffer() {
       setLoading(true)
       const body: IPatchOffers = {}
 
-      if (offer?.title !== values.description && !!values.description) {
-        body.title = values.description
+      if (offer?.description !== values.description && !!values.description) {
+        body.description = values.description
       }
 
       if (offer?.categoryId !== values.category && !!values.category) {

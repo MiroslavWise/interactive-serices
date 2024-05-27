@@ -84,6 +84,7 @@ export default function CreateNewOptionModal() {
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<TSchemaCreate>({
     defaultValues: {
@@ -199,33 +200,25 @@ export default function CreateNewOptionModal() {
     }
     if (!loading) {
       setLoading(true)
-      if (initMapAddress && stateModal === EModalData.CreateNewOptionModalMap) {
-        createAddressPost(initMapAddress).then((response) => {
-          if (response?.ok) {
-            create(
-              {
-                ...data,
-                addresses: [response.res?.id!],
-              },
-              values.file.file,
-            )
-          }
-        })
-      } else {
-        if (values?.addressFeature!) {
-          createAddress(values?.addressFeature!, userId!).then((response) => {
-            if (response?.ok) {
-              create(
-                {
-                  ...data,
-                  addresses: [response.res?.id!],
-                },
-                values.file.file,
-              )
-            }
-          })
+
+      Promise.resolve(
+        initMapAddress && stateModal === EModalData.CreateNewOptionModalMap
+          ? createAddressPost(initMapAddress)
+          : createAddress(values?.addressFeature!, userId!),
+      ).then((response) => {
+        if (response.ok) {
+          create(
+            {
+              ...data,
+              addresses: [response.res?.id!],
+            },
+            values.file.file,
+          )
+        } else {
+          setError("root", { message: response?.error?.message })
+          setLoading(false)
         }
-      }
+      })
     }
   }
 
