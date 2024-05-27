@@ -34,3 +34,10 @@
     display: none;
   }
 }
+
+[data-header-is-banner="true"] {
+  .container {
+    top: calc(var(--height-header-nav-bar) + 1.5rem + var(--height--banner--promotional));
+    height: calc(100vh - var(--height-header-nav-bar) - 3rem - var(--height--banner--promotional));
+  }
+}

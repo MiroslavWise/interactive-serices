@@ -49,3 +49,20 @@
     padding-top: calc(var(--height-mobile-header) + 0.625rem);
   }
 }
+
+[data-header-is-banner="true"] {
+  .__container-profile-page__ {
+    height: calc(100vh - var(--height-header-nav-bar) - var(--height--banner--promotional));
+
+    @media screen and (max-width: 768px) {
+      padding-block: calc(var(--height-mobile-header) + 2.5rem + var(--height--banner--promotional)) calc(3.375rem + 1rem);
+    }
+  }
+
+  .__container-offer-page__ {
+    height: calc(100vh - 4.8125rem - 1.5rem - var(--height--banner--promotional));
+    @media screen and (max-width: 768px) {
+      padding-top: calc(var(--height-mobile-header) + 0.625rem + var(--height--banner--promotional));
+    }
+  }
+}

@@ -1,9 +1,10 @@
 .container {
-  --height: 2.75rem;
-  --element-blue: #6b5ae7;
+  --element-blue: #1d0d27;
+}
 
-  @media screen and (max-width: 768px) {
-    --height: 4rem;
+[data-theme="dark"] {
+  .container {
+    --element-blue: #ebcaff;
   }
 }
 
@@ -16,7 +17,7 @@
   overflow: hidden;
   width: 100%;
   background-color: var(--element-blue);
-  height: var(--height);
+  height: var(--height--banner--promotional);
   box-shadow: 0px 4px 24px 0px rgba(3, 2, 34, 0.4);
   z-index: 69;
   display: flex;
@@ -34,8 +35,8 @@
 
   & > [data-c] {
     position: absolute;
-    width: 18rem;
-    height: 18rem;
+    width: 15rem;
+    height: 15rem;
     border-radius: 50%;
     top: 0;
 
@@ -43,26 +44,26 @@
     filter: blur(60px);
 
     &[data-c="1"] {
-      left: 9.7%;
+      left: 11%;
       transform: translateX(-50%);
     }
     &[data-c="2"] {
-      left: 8.8%;
+      left: 20%;
       transform: translateX(-50%);
     }
     &[data-c="3"] {
-      right: 20.8%;
+      right: 21%;
       transform: translateX(50%);
     }
     &[data-c="4"] {
-      right: 11.8%;
+      right: 14.8%;
       transform: translateX(50%);
     }
   }
 
   & > b,
   & > a > span {
-    color: var(--text-button);
+    color: var(--text-tab);
     text-align: center;
     font-size: 0.875rem;
     font-style: normal;
@@ -86,7 +87,7 @@
       height: 1rem;
 
       & > path {
-        fill: white;
+        fill: var(--text-tab);
       }
     }
   }
@@ -148,6 +149,10 @@
     }
   }
 
+  & > [data-promotional-badge] {
+    right: calc(0.625rem + 1.25rem + 0.625rem);
+  }
+
   @media screen and (max-width: 768px) {
     top: var(--height-mobile-header);
     padding-block: 0.625rem;
@@ -156,6 +161,10 @@
     justify-content: flex-start;
     gap: 0.125rem;
     padding-left: 1.25rem;
+
+    & > [data-promotional-badge] {
+      right: 0.375rem;
+    }
 
     & > a,
     & > b {

@@ -123,6 +123,6 @@
 
 [data-header-is-banner="true"] {
   .containerSearchTop {
-    top: calc(6.3125rem + 2.75rem);
+    top: calc(6.3125rem + var(--height--banner--promotional));
   }
 }

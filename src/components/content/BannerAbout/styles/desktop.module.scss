@@ -36,3 +36,9 @@
     }
   }
 }
+
+[data-header-is-banner="true"] {
+  .container {
+    top: calc(var(--height-header-nav-bar) + 1.5rem + var(--height--banner--promotional));
+  }
+}

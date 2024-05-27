@@ -6,6 +6,5 @@ import { useResize } from "@/helpers"
 
 export default function PageHistory() {
   const { isTablet } = useResize()
-
   return !isTablet ? <HistoryExchangeOffers /> : null
 }
