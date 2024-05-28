@@ -4,6 +4,7 @@ import { getUserId } from "@/services"
 import { queryClient } from "@/context"
 import { initialStateAuth } from "../state/useAuthState"
 import { IUserOffer } from "@/services/offers/types"
+import { IUserResponse } from "@/services/users/types"
 
 export const signOutAction = (set: ISetAction, initialState: IAuthState) => {
   set((state) => ({ ...initialState, isAuth: false }))

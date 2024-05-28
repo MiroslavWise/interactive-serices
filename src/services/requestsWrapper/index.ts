@@ -118,6 +118,50 @@ const instance = axios.create({
   baseURL: URL_API,
 })
 
+interface IPost {
+  url: string
+  body: object | any
+}
+
+const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
+  const head: RawAxiosRequestHeaders = {
+    "Content-Type": "application/json",
+  }
+
+  let data = {}
+
+  if (typeof body === "object") {
+    data = { ...body }
+  }
+
+  if (useTokenHelper.authToken) {
+    head.Authorization = `Bearer ${useTokenHelper.authToken}`
+  }
+
+  try {
+    const response = await instance.post(url, { ...data }, { headers: head })
+
+    if (response.status >= 200 && response.status <= 299) {
+      return {
+        ok: true,
+        meta: response.data?.meta,
+        res: response.data?.data,
+        error: response.data?.error || null,
+      }
+    } else {
+      return {
+        ok: false,
+        error: response.data?.error,
+      }
+    }
+  } catch (e) {
+    return {
+      ok: false,
+      error: e,
+    }
+  }
+}
+
 const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
   let params = {}
   if (query && typeof query === "object") {
@@ -157,4 +201,4 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
   }
 }
 
-export { get }
+export { get, post }

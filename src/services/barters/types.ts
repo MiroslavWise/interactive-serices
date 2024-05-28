@@ -1,6 +1,7 @@
+import { IUserOffer } from "../offers/types"
 import type { IPromiseReturn } from "@/services/types/general"
-import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
+import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 
 export interface ISmallThread {
   id: number
@@ -26,6 +27,7 @@ export interface ISmallDataOfferBarter {
   images: any[]
   addresses: IAddressesResponse[]
   categories: number[]
+  user: IUserOffer
 }
 
 export interface IBarterResponse {

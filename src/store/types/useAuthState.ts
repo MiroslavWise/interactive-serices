@@ -1,7 +1,8 @@
-import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
-import { IUserOffer } from "@/services/offers/types"
-import { IReturnData } from "@/services/types/general"
 import type { DispatchWithoutAction, Dispatch } from "react"
+
+import { TRole } from "@/services/roles/types"
+import { IUserOffer } from "@/services/offers/types"
+import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 export type TAuthSuffix = "AuthJWT"
 export type TAuthPostfix = "RefreshToken" | "Token" | "UserId"
@@ -48,13 +49,13 @@ export interface IAuthState {
   imageProfile?: IImageData
   createdUser?: string | Date
   addresses?: IAddressesResponse[]
-  roles: objRole[] | null
+  roles: TRole[] | null
 }
 
 export interface IAuthAction {
   updateProfile: DispatchWithoutAction
   refresh(): Promise<{ ok: boolean }>
-  getUser: Dispatch<(IUser & { profileId: number }) | null>
+  getUser: Dispatch<(IUserOffer & { profileId: number }) | null>
   changeAuth: DispatchWithoutAction
   setToken: Dispatch<ISetToken>
   signOut: DispatchWithoutAction
