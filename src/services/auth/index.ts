@@ -1,6 +1,6 @@
 import { TGetLogout, TGetSession, TPostNewPassword, type IAuth, IRequestPhone } from "./types/types"
 
-import { wrapperGet, wrapperPost } from "../requestsWrapper"
+import { get, wrapperPost } from "../requestsWrapper"
 
 const route = "/auth"
 
@@ -27,8 +27,8 @@ export const serviceAuth: IAuth = {
 }
 
 export const postNewPassword: TPostNewPassword = (body) => wrapperPost({ url: `${route}/change-password`, body })
-export const getSession: TGetSession = () => wrapperGet({ url: `${route}/session` })
-export const getLogout: TGetLogout = () => wrapperGet({ url: `${route}/logout` })
+export const getSession: TGetSession = () => get({ url: `${route}/session` })
+export const getLogout: TGetLogout = () => get({ url: `${route}/logout` })
 
 export const serviceAuthErrors: Map<string, string> = new Map([
   ["unauthorized", "Пользователь не авторизован"],

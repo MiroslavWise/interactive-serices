@@ -1,18 +1,14 @@
 import type { IServiceAddresses } from "./types/serviceAddresses"
 
-import { wrapperGet, wrapperGetId, wrapperPost, wrapperPatch } from "@/services"
+import { wrapperPost, wrapperPatch, get } from "@/services"
+
+const url = "/addresses"
 
 export const serviceAddresses: IServiceAddresses = {
   route: "/addresses",
-  get(query) {
-    return wrapperGet({ url: this.route, query })
-  },
-  getId(id) {
-    return wrapperGetId({ url: this.route, id })
-  },
-  getHash(hash) {
-    return wrapperGetId({ url: `${this.route}/hash`, id: hash })
-  },
+  get: (query) => get({ url, query }),
+  getId: (id) => get({ url: `${url}/${id}` }),
+  getHash: (hash) => get({ url: `${url}/hash/${hash}` }),
   post(body) {
     return wrapperPost({ url: this.route, body })
   },

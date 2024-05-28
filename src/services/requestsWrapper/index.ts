@@ -47,42 +47,6 @@ async function returnWrapper<P extends any>(endpoint: URL, requestInit: RequestI
   }
 }
 
-export const wrapperGet: MethodGet<any> = ({ url, query, cache }) => {
-  const endpoint = new URL(`${URL_API}${url}`)
-
-  if (query) {
-    for (const [key, value] of Object.entries(query)) {
-      endpoint.searchParams.set(key, String(value))
-    }
-  }
-
-  const requestInit: RequestInit = {
-    method: "GET",
-    headers: header(),
-    cache: cache || "default",
-  }
-
-  return returnWrapper(endpoint, requestInit)
-}
-
-export const wrapperGetId: MethodGetId<any> = async ({ url, id, query, cache }) => {
-  const endpoint = new URL(`${URL_API}${url}/${id}`)
-
-  if (query) {
-    for (const [key, value] of Object.entries(query)) {
-      endpoint.searchParams.set(key, String(value))
-    }
-  }
-
-  const requestInit: RequestInit = {
-    method: "GET",
-    headers: header(),
-    cache: cache || "default",
-  }
-
-  return returnWrapper(endpoint, requestInit)
-}
-
 export const wrapperPost: MethodPost<any, any> = async ({ url, body, cache }) => {
   const endpoint = new URL(`${URL_API}${url}`)
 
