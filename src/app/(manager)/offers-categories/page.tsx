@@ -10,8 +10,9 @@ export default () => {
           <caption>Таблица предложений к &laquo;Категории офферов&raquo;</caption>
           <thead>
             <tr>
-              <th>Провайдер</th>
+              <th />
               <th>Заголовок предложения</th>
+              <th>Провайдер</th>
               <th>Тэги</th>
               <th>Действия</th>
             </tr>

@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from "zustand/middleware"
 import type { IUseOffersCategories } from "../types/useOffersCategories"
 
 import { arrayHash } from "@/lib/hashArray"
-import { serviceOffersCategories } from "@/services/offers-categories"
+import { getOffersCategories } from "@/services/offers-categories"
 
 export const useOffersCategories = create(
   persist<IUseOffersCategories>(
@@ -13,7 +13,7 @@ export const useOffersCategories = create(
       hash: undefined,
 
       async getCategories() {
-        return serviceOffersCategories.get().then((response) => {
+        return getOffersCategories().then((response) => {
           if (response?.ok) {
             if (!!response?.res) {
               if (Array.isArray(response?.res)) {

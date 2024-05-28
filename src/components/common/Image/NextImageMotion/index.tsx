@@ -1,8 +1,6 @@
 "use client"
 
 import NextImage from "next/image"
-// import { isBlurhashValid } from "blurhash"
-// import { blurhashToBase64 } from "blurhash-base64"
 
 import type { IProps } from "./types"
 

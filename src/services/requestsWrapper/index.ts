@@ -1,9 +1,11 @@
+import axios, { RawAxiosRequestHeaders, type AxiosHeaders } from "axios"
+
 import type { IReturnData } from "../types/general"
+import { IResponseUploadFile } from "../file-upload/types"
 import type { MethodDelete, MethodGet, MethodGetId, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
 
 import { URL_API } from "@/helpers"
 import { useTokenHelper } from "@/helpers/auth/tokenHelper"
-import { IResponseUploadFile } from "../file-upload/types"
 
 function header(): HeadersInit {
   const head: HeadersInit = {
@@ -142,3 +144,53 @@ export const wrapperUploadFile: MethodUploadFile = async ({ url, file }) => {
 
   return returnWrapper<IResponseUploadFile>(endpoint, requestInit)
 }
+
+interface IGet {
+  url: string
+  query?: object | any
+}
+
+const instance = axios.create({
+  baseURL: URL_API,
+})
+
+const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
+  let params = {}
+  if (query && typeof query === "object") {
+    const obj = Object.entries(query).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+    params = obj
+  }
+
+  const head: RawAxiosRequestHeaders = {
+    "Content-Type": "application/json",
+  }
+
+  if (useTokenHelper.authToken) {
+    head.Authorization = `Bearer ${useTokenHelper.authToken}`
+  }
+
+  try {
+    const response = await instance.get(url, { headers: head, params: params })
+
+    if (response.status >= 200 && response.status <= 299) {
+      return {
+        ok: true,
+        meta: response.data?.meta,
+        res: response.data?.data,
+        error: response.data?.error || null,
+      }
+    } else {
+      return {
+        ok: false,
+        error: response.data?.error,
+      }
+    }
+  } catch (e) {
+    return {
+      ok: false,
+      error: e,
+    }
+  }
+}
+
+export { get }
