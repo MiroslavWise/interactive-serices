@@ -1,11 +1,10 @@
 import type { IResponseLoginNot2fa } from "./authService"
-import type { IReturnData, IPromiseReturn } from "@/services/types/general"
+import type { IPromiseReturn } from "@/services/types/general"
+import { IAgree } from "./typeAgree"
 
-export interface IRequestPhone {
+export interface IRequestPhone extends Partial<IAgree> {
   phone: string
-  agree?: boolean
   params?: string
-  marketing?: boolean
 }
 
 export type TStatusOk = "ok"
