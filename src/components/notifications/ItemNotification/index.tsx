@@ -91,7 +91,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
   const { data: dataOffer } = useQuery({
     queryFn: () => getIdOffer(offerId!),
     queryKey: ["offers", { offerId: offerId }],
-    enabled: !!offerId && provider === "offer-pay",
+    enabled: !!offerId && ["barter", "offer-pay"].includes(provider),
   })
 
   const categoryOfferName = useMemo(() => {

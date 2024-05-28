@@ -1,6 +1,6 @@
 import type { IFriendsService } from "./types"
 
-import { wrapperDelete, wrapperGet, wrapperGetId, wrapperPost } from "../requestsWrapper"
+import { wrapperDelete, get, wrapperPost } from "../requestsWrapper"
 
 const url = "/friends"
 
@@ -9,9 +9,9 @@ export const serviceFriends: IFriendsService = {
     let query: typeof value = {}
     if (value) query = { ...value }
     query.order = "DESC"
-    return wrapperGet({ url, query })
+    return get({ url, query })
   },
-  getId: (id) => wrapperGetId({ url, id }),
+  getId: (id) => get({ url: `${url}/${id}` }),
   post: (body) => wrapperPost({ url, body }),
   delete: (id) => wrapperDelete({ url, id }),
 }

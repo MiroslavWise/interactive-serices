@@ -73,15 +73,18 @@
             align-items: center;
 
             &:nth-child(1) {
-              width: 10rem;
+              width: 4rem;
             }
             &:nth-child(2) {
-              width: calc(60%);
+              width: calc(50%);
             }
             &:nth-child(3) {
-              width: calc(40%);
+              width: calc(25%);
             }
             &:nth-child(4) {
+              width: calc(25%);
+            }
+            &:nth-child(5) {
               width: 8rem;
             }
           }
@@ -95,16 +98,18 @@
           & > td:nth-child(1),
           & > td:nth-child(2),
           & > td:nth-child(3),
-          & > td:nth-child(4) {
+          & > td:nth-child(4),
+          & > td:nth-child(5) {
             border-bottom-width: 1px;
           }
 
           & > td:nth-child(2),
-          & > td:nth-child(3) {
+          & > td:nth-child(3),
+          & > td:nth-child(4) {
             border-left-width: 1px;
           }
 
-          & > td:nth-child(4) {
+          & > td:nth-child(5) {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -138,7 +143,8 @@
 
           & > th:nth-child(2),
           & > th:nth-child(3),
-          & > th:nth-child(4) {
+          & > th:nth-child(4),
+          & > th:nth-child(5) {
             border-left-width: 1px;
           }
         }
@@ -148,9 +154,7 @@
         display: flex;
         flex-direction: column;
         gap: 0.125rem;
-        overflow-y: auto;
         height: fit-content;
-        max-height: calc(100% - 14rem);
 
         & > tr {
           &[data-load] {
@@ -186,6 +190,12 @@
     }
   }
 
+  table {
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: calc(100%);
+  }
+
   @media screen and (max-width: 768px) {
     padding-top: var(--height-mobile-header);
     padding-bottom: var(--height-mobile-footer-nav);
@@ -194,7 +204,8 @@
 
 [data-header-is-banner="true"] {
   .main {
-    padding: calc(var(--height-header-nav-bar) + 1.25rem + var(--height--banner--promotional)) 1.25rem 1.25rem;
+    padding: calc(var(--height-header-nav-bar) + 1.25rem + var(--height--banner--promotional)) 1.25rem
+      calc(var(--height-mobile-footer-nav) + 1.25rem);
   }
 }
 

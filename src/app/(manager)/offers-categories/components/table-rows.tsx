@@ -5,20 +5,19 @@ import { useQuery } from "@tanstack/react-query"
 
 import { IQueryOffersCategories, IResponseOffersCategories } from "@/services/offers-categories/types"
 
+import { Button } from "@/components/common"
 import IconEdit from "@/components/icons/IconEdit"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
-import { serviceOffersCategories } from "@/services"
-import { Button } from "@/components/common"
+import { getOffersCategories } from "@/services"
 
 interface IPropRow extends IResponseOffersCategories {}
 
 const Row = ({ id, title, slug, provider }: IPropRow) => (
   <tr>
-    <td>
-      {provider} {id}
-    </td>
+    <td>{id}</td>
     <td>{title}</td>
+    <td>{provider}</td>
     <td>{slug}</td>
     <td>
       <button type="button">
@@ -33,6 +32,7 @@ const Row = ({ id, title, slug, provider }: IPropRow) => (
 
 const LoadRow = () => (
   <tr data-load>
+    <td />
     <td>
       <span />
     </td>
@@ -59,7 +59,7 @@ function TableRows() {
   }, [page])
 
   const { data, isLoading } = useQuery({
-    queryFn: () => serviceOffersCategories.get({ query: query }),
+    queryFn: () => getOffersCategories({ query: query }),
     queryKey: ["offers-categories", query],
   })
 
@@ -67,7 +67,7 @@ function TableRows() {
   const total = data?.meta?.total || 0
 
   const maxPage = Math.ceil(total / 15) | 1
-  const onIncrement = () => setPage((_) => (_ < maxPage ? _ + 1 : _))
+  const onIncrement = () => setPage((_) => (_ < maxPage - 1 ? _ + 1 : _))
   const onDecrement = () => setPage((_) => (_ <= 1 ? 1 : _ - 1))
 
   return (

@@ -1,5 +1,3 @@
-// import { encode } from "blurhash"
-
 import type { IReturnData } from "../types/general"
 import type { IResponseUploadFile, IProvider } from "./types"
 
