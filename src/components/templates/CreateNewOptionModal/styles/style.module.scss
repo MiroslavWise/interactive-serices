@@ -216,6 +216,56 @@
               position: relative;
               overflow: hidden;
 
+              &[data-current] {
+                & > article {
+                  opacity: 0;
+                  visibility: hidden;
+                  --b: 0.25rem;
+                  --c: #fff;
+                  --p: 0;
+                  --w: 2.5rem;
+
+                  position: absolute;
+                  transform: translate(-50%, -50%);
+                  top: 50%;
+                  left: 50%;
+                  width: var(--w);
+                  height: var(--w);
+                  aspect-ratio: 1/1;
+                  background-color: #05010d79;
+                  border-radius: 1.25rem;
+                  z-index: 4;
+                  overflow: hidden;
+
+                  transition-property: opacity, visibility;
+                  transition-duration: 150ms;
+                  transition-timing-function: ease-in-out;
+
+                  &::before,
+                  &::after {
+                    content: "";
+                    position: absolute;
+                    border-radius: 50%;
+                    transition-property: background, transform, -webkit-mask;
+                    transition-duration: 150ms;
+                    transition-timing-function: ease-in-out;
+                  }
+
+                  &::before {
+                    inset: 0;
+                    background: radial-gradient(farthest-side, var(--c) 98%, #0000) top/var(--b) var(--b) no-repeat,
+                      conic-gradient(var(--c) calc(var(--p) * 1%), #0000 0);
+                    -webkit-mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+                    mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+                  }
+                  &::after {
+                    inset: calc(50% - var(--b) / 2);
+                    background: var(--c);
+                    transform: rotate(calc(var(--p) * 3.6deg)) translateY(calc(50% - var(--w) / 2));
+                  }
+                }
+              }
+
               &[data-image="new"] {
                 &::after,
                 &::before {

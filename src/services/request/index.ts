@@ -95,7 +95,7 @@ export const wrapperDelete: MethodDelete = async ({ url, id }) => {
   return returnWrapper(endpoint, requestInit)
 }
 
-const postForm: MethodUploadFile = async ({ url, file }) => {
+const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
   const fullTokenString = authToken()
 
   if (!fullTokenString) {
@@ -117,8 +117,9 @@ const postForm: MethodUploadFile = async ({ url, file }) => {
     .postForm(url, file, {
       headers: head,
       onUploadProgress: (event) => {
-        console.log("onUploadProgress event total: ", event.total)
-        console.log("onUploadProgress event loaded: ", event.loaded)
+        if (onUploadProgress) {
+          onUploadProgress(event, file.get("caption"))
+        }
       },
     })
     .then(({ data, status }) => {
@@ -159,10 +160,7 @@ interface IGet {
   query?: object | any
 }
 
-interface IPatch {
-  url: string
-  body: object | any
-}
+interface IPatch extends IPost {}
 
 const patch = async ({ url, body }: IPatch): Promise<IReturnData<any>> => {
   const head: RawAxiosRequestHeaders = {

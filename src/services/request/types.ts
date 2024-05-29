@@ -1,5 +1,7 @@
 import type { IResponseUploadFile } from "@/services/file-upload/types"
 import type { IResponseGeneral, IReturnData } from "@/services/types/general"
+import { type AxiosProgressEvent } from "axios"
+import { Dispatch } from "react"
 
 export type IPromiseReturn<P> = Promise<IReturnData<P>>
 export type TReturnData<P> = (values: IResponseGeneral<P>) => IReturnData<P>
@@ -33,7 +35,11 @@ export type MethodPatch<T extends Record<string, any>, P extends Record<string, 
 
 export type MethodDelete = (values: { url: string; id: string | number }) => IPromiseReturn<any>
 
-export type MethodUploadFile = (values: { url: string; file: FormData }) => IPromiseReturn<IResponseUploadFile>
+export type MethodUploadFile = (values: {
+  url: string
+  file: FormData
+  onUploadProgress?: (value: AxiosProgressEvent, name: FormDataEntryValue | null) => void
+}) => IPromiseReturn<IResponseUploadFile>
 
 export interface IWrapperFetch {
   stringRequest: (value: string) => string
