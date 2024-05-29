@@ -12,7 +12,7 @@ import styles from "./styles/style.module.scss"
 
 const TABS: ISegmentValues<EnumTypeProvider>[] = [
   {
-    label: "Предложения",
+    label: "Мои предложения",
     value: EnumTypeProvider.offer,
   },
   {
