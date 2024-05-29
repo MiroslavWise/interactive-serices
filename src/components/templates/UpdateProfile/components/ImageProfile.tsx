@@ -104,7 +104,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
         ) : null}
         <a>
           <input type="file" data-test="input-update-image-profile" {...getInputProps()} multiple={false} />
-          Изменить
+          {!file.string && !image ? "Загрузить" : "Изменить"}
         </a>
       </div>
     </div>
