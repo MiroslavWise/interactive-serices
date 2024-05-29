@@ -16,7 +16,7 @@ import styles from "../styles/form.module.scss"
 
 export const ContentCodeVerification = ({}) => {
   const [loading, setLoading] = useState(false)
-  const phone = useModalAuth(({ phone }) => phone)
+  const phone = useModalAuth(({ phone = "" }) => phone)
   const prevType = useModalAuth(({ prevType }) => prevType)
   const idUser = useModalAuth(({ idUser }) => idUser)
 
@@ -69,7 +69,10 @@ export const ContentCodeVerification = ({}) => {
     <div className={styles.content}>
       <article data-column>
         <p>Отправили проверочный код на номер</p>
-        <b>{phone}</b>
+        <b>
+          {phone[0] !== "8" ? "+" : ""}
+          {phone}
+        </b>
       </article>
       <form onSubmit={handleSubmit(handleConfirmation)}>
         <section className={styles.section}>

@@ -29,7 +29,7 @@ export const useModalAuth = create(
 )
 
 export const useTimerModalAuth = create(
-  persist<IUseTimerModalAuth>(() => ({}), { name: "timer-auth-create", storage: createJSONStorage(() => sessionStorage) }),
+  persist<IUseTimerModalAuth>(() => ({ time: undefined }), { name: "timer-auth-create", storage: createJSONStorage(() => sessionStorage) }),
 )
 export const useModalAuthEmailOrPhone = create(
   persist<IUseModalAuthEmailOrPhone>(() => ({ typeEmailOrPhone: "phone" }), {
@@ -94,10 +94,10 @@ export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionA
 }
 
 export const dispatchStartTimer = () => {
-  const newTimer = dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!
+  const timeSecond = Date.now() / 1000
 
   useTimerModalAuth.setState((_) => ({
-    time: newTimer,
+    time: timeSecond,
   }))
 }
 
