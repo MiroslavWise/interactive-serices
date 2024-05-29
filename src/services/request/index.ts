@@ -1,11 +1,14 @@
 import axios, { AxiosError, RawAxiosRequestHeaders } from "axios"
 
 import type { IReturnData } from "../types/general"
-import { IResponseUploadFile } from "../file-upload/types"
 import type { MethodDelete, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
 
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
+
+export const instance = axios.create({
+  baseURL: URL_API,
+})
 
 function header(): HeadersInit {
   const head: HeadersInit = {
@@ -92,9 +95,7 @@ export const wrapperDelete: MethodDelete = async ({ url, id }) => {
   return returnWrapper(endpoint, requestInit)
 }
 
-export const wrapperUploadFile: MethodUploadFile = async ({ url, file }) => {
-  const endpoint = new URL(`${URL_API}${url}`)
-
+const postForm: MethodUploadFile = async ({ url, file }) => {
   const fullTokenString = authToken()
 
   if (!fullTokenString) {
@@ -104,23 +105,59 @@ export const wrapperUploadFile: MethodUploadFile = async ({ url, file }) => {
     }
   }
 
-  const requestInit: RequestInit = {
-    method: "POST",
-    headers: { Authorization: fullTokenString },
-    body: file,
+  const head: RawAxiosRequestHeaders = {
+    "Content-Type": "application/json",
   }
 
-  return returnWrapper<IResponseUploadFile>(endpoint, requestInit)
+  if (fullTokenString) {
+    head.Authorization = fullTokenString
+  }
+
+  return instance
+    .postForm(url, file, {
+      headers: head,
+      onUploadProgress: (event) => {
+        console.log("onUploadProgress event total: ", event.total)
+        console.log("onUploadProgress event loaded: ", event.loaded)
+      },
+    })
+    .then(({ data, status }) => {
+      if (status >= 200 && status < 300) {
+        return {
+          ok: true,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
+      } else {
+        return {
+          ok: false,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
+      }
+    })
+    .catch((error) => {
+      if (error instanceof AxiosError) {
+        const e = error?.response?.data?.error
+        return {
+          ok: false,
+          error: e,
+        }
+      }
+
+      return {
+        ok: false,
+        error: error,
+      }
+    })
 }
 
 interface IGet {
   url: string
   query?: object | any
 }
-
-export const instance = axios.create({
-  baseURL: URL_API,
-})
 
 interface IPatch {
   url: string
@@ -145,13 +182,28 @@ const patch = async ({ url, body }: IPatch): Promise<IReturnData<any>> => {
   }
 
   return instance
-    .patch(url, { ...data }, { headers: head })
-    .then(({ data }) => {
-      return {
-        ok: true,
-        meta: data?.meta || null,
-        res: data?.data || null,
-        error: data?.error || null,
+    .patch(
+      url,
+      { ...data },
+      {
+        headers: head,
+      },
+    )
+    .then(({ data, status }) => {
+      if (status >= 200 && status < 300) {
+        return {
+          ok: true,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
+      } else {
+        return {
+          ok: false,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
       }
     })
     .catch((error) => {
@@ -194,12 +246,21 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
 
   return instance
     .post(url, { ...data }, { headers: head })
-    .then(({ data }) => {
-      return {
-        ok: true,
-        meta: data?.meta || null,
-        res: data?.data || null,
-        error: data?.error || null,
+    .then(({ data, status }) => {
+      if (status >= 200 && status < 300) {
+        return {
+          ok: true,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
+      } else {
+        return {
+          ok: false,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
       }
     })
     .catch((error) => {
@@ -237,12 +298,21 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
 
   return instance
     .get(url, { headers: head, params: params })
-    .then(({ data }) => {
-      return {
-        ok: true,
-        meta: data?.meta || null,
-        res: data?.data || null,
-        error: data?.error || null,
+    .then(({ data, status }) => {
+      if (status >= 200 && status < 300) {
+        return {
+          ok: true,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
+      } else {
+        return {
+          ok: false,
+          meta: data?.meta || null,
+          res: data?.data || null,
+          error: data?.error || null,
+        }
       }
     })
     .catch((error) => {
@@ -261,4 +331,4 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
     })
 }
 
-export { get, post, patch }
+export { get, post, patch, postForm }

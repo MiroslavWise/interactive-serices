@@ -1,7 +1,7 @@
 import type { IReturnData } from "../types/general"
 import type { IResponseUploadFile, IProvider } from "./types"
 
-import { wrapperUploadFile } from "../request"
+import { postForm } from "../request"
 
 import { generateShortHash } from "@/lib/hash"
 
@@ -45,5 +45,5 @@ export async function fileUploadService(uploadFile: File, provider: IProvider): 
   formData.append("type", uploadFile.type)
   formData.append("file", uploadFile)
 
-  return await wrapperUploadFile({ url: "/files/upload", file: formData })
+  return await postForm({ url: "/files/upload", file: formData })
 }
