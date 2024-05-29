@@ -1,4 +1,5 @@
 import type { IUserResponse } from "@/services/users/types"
+import { z } from "zod"
 
 export type TTypeSign =
   | "SignIn"
@@ -43,8 +44,11 @@ export interface IUseVisibleAndTypeAuthModalState {
   idUser?: number | string
 }
 
+const time = z.number().default(Date.now()).optional()
+type TTime = z.infer<typeof time>
+
 export interface IUseTimerModalAuth {
-  time?: string
+  time: TTime
 }
 
 export type TTypeEmailOrNumber = "email" | "phone"

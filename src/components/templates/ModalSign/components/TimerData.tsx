@@ -1,7 +1,6 @@
 import { memo, useEffect, useState } from "react"
 
 import { serviceAuth } from "@/services"
-import { dayFormat, getMillisecond } from "@/helpers"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store"
 
 const INITIAL_TIME = 120
@@ -20,8 +19,8 @@ export const TimerData = memo(() => {
   useEffect(() => {
     if (time) {
       const interval = setInterval(() => {
-        const intSecondNow = getMillisecond(dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!) / 1000
-        const intSecondOld = getMillisecond(time) / 1000
+        const intSecondNow = Date.now() / 1000
+        const intSecondOld = time
 
         const seconds = INITIAL_TIME - Math.round(intSecondNow - intSecondOld)
         if (seconds > 0) {
@@ -43,7 +42,7 @@ export const TimerData = memo(() => {
 
       const deleteInterval = setTimeout(() => {
         clearInterval(interval)
-      }, (INITIAL_TIME + 7) * 1000)
+      }, (INITIAL_TIME + 1) * 1000)
 
       return () => {
         clearTimeout(deleteInterval)
