@@ -1,6 +1,6 @@
 import type { IFriendsService } from "./types"
 
-import { wrapperDelete, get, wrapperPost } from "../requestsWrapper"
+import { wrapperDelete, get, wrapperPost } from "../request"
 
 const url = "/friends"
 

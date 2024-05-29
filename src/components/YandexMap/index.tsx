@@ -11,12 +11,12 @@ import { ListPlacemark } from "./ObjectsMap"
 
 import { useAddress } from "@/helpers"
 import { getAddressCoords } from "@/helpers/get-address"
-import { dispatchHasBalloon, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth, useBounds, useMapCoordinates } from "@/store"
+import { dispatchHasBalloon, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth_, useBounds, useMapCoordinates } from "@/store"
 
 const COORD = [30.19, 59.57]
 
 const YandexMap: TYandexMap = ({}) => {
-  const userId = useAuth(({ userId }) => userId)
+  const auth = useAuth_(({ auth }) => auth) ?? {}
   const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
@@ -25,7 +25,7 @@ const YandexMap: TYandexMap = ({}) => {
   const dispatchBounds = useBounds(({ dispatchBounds }) => dispatchBounds)
 
   function onContextMenu(e: any) {
-    if (!userId) {
+    if (!auth) {
       return
     }
     const mapOne: number = e?._sourceEvent?.originalEvent?.coords?.[0]

@@ -1,37 +1,20 @@
 import { useForm, Controller } from "react-hook-form"
-import { type ReactNode, memo, useState, Dispatch, SetStateAction } from "react"
+import { type ReactNode, memo, useState } from "react"
 
 import { resolverEmailSignIn, TSchemaEmailSignIn } from "../utils/email-sign-in.schema"
 
 import { Button } from "@/components/common"
 
-import { queryClient } from "@/context"
-import { useTokenHelper } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { functionAuthErrors, getUserId, serviceAuthErrors } from "@/services"
-import { dispatchAuthModal, dispatchOnboarding, useAuth } from "@/store"
+import { functionAuthErrors, serviceAuthErrors } from "@/services"
+import { dispatchAuthModal, dispatchLoginTokenData } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
-export const SignInEmail = memo(function SignInEmail({
-  children,
-  itemForgot,
-  setValueSecret,
-}: {
-  children: ReactNode
-  itemForgot: ReactNode
-  setValueSecret: Dispatch<
-    SetStateAction<{
-      url: string
-      secret: string
-    }>
-  >
-}) {
+export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: { children: ReactNode; itemForgot: ReactNode }) {
   const [loading, setLoading] = useState(false)
   const [isPass, setIsPass] = useState(false)
   const { on } = useToast()
-  const setToken = useAuth(({ setToken }) => setToken)
-  const changeAuth = useAuth(({ changeAuth }) => changeAuth)
 
   const {
     handleSubmit,
@@ -45,12 +28,10 @@ export const SignInEmail = memo(function SignInEmail({
   function onEnter(value: TSchemaEmailSignIn) {
     if (!loading) {
       setLoading(true)
-      useTokenHelper
-        .login({
-          email: value.email,
-          password: value.password,
-        })
+
+      dispatchLoginTokenData({ email: value.email, password: value.password })
         .then((response) => {
+          console.log("dispatchLoginTokenData response: ", response)
           if (!!response?.error?.message) {
             const errorMessage = String(response?.error?.message)?.toLowerCase()
             if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
@@ -68,15 +49,6 @@ export const SignInEmail = memo(function SignInEmail({
               return
             }
           }
-
-          if (response?.res?.secret && response?.res?.otpAuthUrl) {
-            setValueSecret({
-              secret: response?.res?.secret!,
-              url: response?.res?.otpAuthUrl!,
-            })
-            dispatchAuthModal({ type: "FirstLoginQR" })
-            return
-          }
           if (!!response?.error && !response?.ok) {
             console.log("ERROR ---У нас возникла ошибка, мы сейчас её решаем!---", response?.error)
             on(
@@ -88,41 +60,38 @@ export const SignInEmail = memo(function SignInEmail({
             return
           }
           if (response.ok) {
-            if (response.res?.accessToken && response?.res?.refreshToken && response?.res?.tokenType) {
-              queryClient
-                .fetchQuery({
-                  queryFn: () => getUserId(response?.res?.id!),
-                  queryKey: ["user", { userId: response?.res?.id }],
-                })
-                .then((responseUser) => {
-                  setToken({
-                    ok: true,
-                    token: response?.res?.accessToken!,
-                    refreshToken: response?.res?.refreshToken!,
-                    expires: response?.res?.expires!,
-                    userId: response?.res?.id!,
-                    email: value?.email!,
-                  })
-                  if (!responseUser?.res?.profile) {
-                    dispatchAuthModal({ visible: false })
-                    dispatchOnboarding("open")
-                    return
-                  }
-                  if (!!responseUser?.res?.profile) {
-                    dispatchAuthModal({ visible: false })
-                    return changeAuth()
-                  }
-                })
-              dispatchAuthModal({ visible: false })
-              return
-            }
-            dispatchAuthModal({ type: "OtpCode" })
-            return
+            dispatchAuthModal({ visible: false })
+            // if (response.res?.accessToken && response?.res?.refreshToken && response?.res?.tokenType) {
+            //   queryClient
+            //     .fetchQuery({
+            //       queryFn: () => getUserId(response?.res?.id!),
+            //       queryKey: ["user", { userId: response?.res?.id }],
+            //     })
+            //     .then((responseUser) => {
+            //       setToken({
+            //         ok: true,
+            //         token: response?.res?.accessToken!,
+            //         refreshToken: response?.res?.refreshToken!,
+            //         expires: response?.res?.expires!,
+            //         userId: response?.res?.id!,
+            //         email: value?.email!,
+            //       })
+            //       if (!responseUser?.res?.profile) {
+            //         dispatchAuthModal({ visible: false })
+            //         dispatchOnboarding("open")
+            //         return
+            //       }
+            //       if (!!responseUser?.res?.profile) {
+            //         dispatchAuthModal({ visible: false })
+            //         return changeAuth()
+            //       }
+            //     })
+            //   dispatchAuthModal({ visible: false })
+            //   return
+            // }
           }
         })
-        .finally(() => {
-          setLoading(false)
-        })
+        .finally(() => setLoading(false))
     }
   }
 

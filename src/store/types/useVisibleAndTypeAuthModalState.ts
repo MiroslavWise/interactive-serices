@@ -1,5 +1,3 @@
-import type { Dispatch } from "react"
-
 import type { IUserResponse } from "@/services/users/types"
 
 export type TTypeSign =
@@ -7,8 +5,6 @@ export type TTypeSign =
   | "SignUp"
   | "SelectVerification"
   | "ForgotPassword"
-  | "FirstLoginQR"
-  | "OtpCode"
   | "ResetPassword"
   | "CodeVerification"
   | "CreatePassword"

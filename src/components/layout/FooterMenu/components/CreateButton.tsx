@@ -3,12 +3,12 @@ import { memo } from "react"
 import IconPlus from "@/components/icons/IconPlus"
 
 import { useSign } from "../hooks/useSign"
-import { dispatchNewServicesBanner, useAuth } from "@/store"
+import { dispatchNewServicesBanner, useAuth_ } from "@/store"
 
 import styles from "../styles/link.module.scss"
 
 export const CreateButton = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
   const handleAuthModal = useSign()
 
   return (

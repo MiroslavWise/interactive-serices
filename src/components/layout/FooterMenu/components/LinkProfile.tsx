@@ -2,7 +2,7 @@ import Link from "next/link"
 import { memo } from "react"
 import { usePathname } from "next/navigation"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth_ } from "@/store/hooks"
 import { useSign } from "../hooks/useSign"
 import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 import { ITEMS_LINK_FOOTER } from "../constants"
@@ -12,7 +12,7 @@ import styles from "../styles/link.module.scss"
 export const LinkProfile = memo(function LinkProfile() {
   const pathname = usePathname()
   const handleAuthModal = useSign()
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
 
   const isActive = pathname.includes(ITEMS_LINK_FOOTER.profile)
 

@@ -9,7 +9,7 @@ import { ICommentsResponse } from "@/services/comments/types"
 import { ListCommentaries } from "./ListCommentaries"
 import { FormAppendComment } from "./FormAppendComment"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useWebSocket } from "@/context"
 import { serviceComments, serviceOffersThreads } from "@/services"
 
@@ -17,7 +17,7 @@ import styles from "../styles/block-comments.module.scss"
 
 export function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { socket } = useWebSocket() ?? {}
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
   const { data: dataOffersThreads } = useQuery({

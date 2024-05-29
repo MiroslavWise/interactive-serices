@@ -4,9 +4,10 @@ import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
-import { RegistrationService } from "@/services"
+import { getUserId, RegistrationService } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthToken, dispatchOnboarding } from "@/store"
+import { queryClient } from "@/context"
 
 export const dynamicParams = true
 
@@ -23,15 +24,26 @@ export default function PageVerify() {
             message: "Ваш аккаунт успешно прошёл верификацию",
           })
           if (response.res) {
-            dispatchAuthToken({
-              ...response.res,
-              email: "",
-            })
+            queryClient
+              .fetchQuery({
+                queryFn: () => getUserId(response.res?.id!),
+                queryKey: ["user", { userId: response.res?.id }],
+              })
+              .then(({ ok, res }) => {
+                if (ok) {
+                  dispatchAuthToken({ user: res!, auth: response?.res! })
+                  requestAnimationFrame(() => {
+                    dispatchOnboarding("open")
+                    handlePush("/")
+                  })
+                } else {
+                  on({
+                    message: "Ваш аккаунт не прошёл верификацию.",
+                  })
+                  handlePush("/")
+                }
+              })
           }
-          requestAnimationFrame(() => {
-            dispatchOnboarding("open")
-            handlePush("/")
-          })
         } else {
           on({
             message: "Ваш аккаунт не прошёл верификацию.",

@@ -1,6 +1,6 @@
 import type { IServiceOffersThreads } from "./types"
 
-import { wrapperDelete, get, wrapperPost, wrapperPatch } from "../requestsWrapper"
+import { wrapperDelete, get, wrapperPost, wrapperPatch } from "../request"
 
 const url = "/offers-threads"
 

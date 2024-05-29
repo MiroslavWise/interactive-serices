@@ -11,7 +11,7 @@ import { ButtonClose } from "@/components/common/Buttons"
 import { Segments } from "@/components/common/Segments"
 
 import { useResize } from "@/helpers"
-import { useDroverFriends, useAuth } from "@/store"
+import { useDroverFriends, useAuth_ } from "@/store"
 import { SEGMENT_FRIENDS } from "./constants/segments"
 import { useReloadFriends } from "./hooks/useReloadFriends"
 
@@ -19,7 +19,7 @@ import styles from "./styles/style.module.scss"
 
 export function DroverFriends() {
   const { isTablet } = useResize()
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
   const [segment, setSegment] = useState<ISegmentValues<TTypeFriends>>(SEGMENT_FRIENDS[0])

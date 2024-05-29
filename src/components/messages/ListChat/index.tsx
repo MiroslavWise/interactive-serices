@@ -1,13 +1,11 @@
 "use client"
 
-import { memo, useEffect, useMemo, useState } from "react"
-
-import { IResponseThreads } from "@/services/threads/types"
+import { useEffect, useMemo, useState } from "react"
 
 import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useWebSocket } from "@/context"
 import { getMillisecond, useCountMessagesNotReading, useResize } from "@/helpers"
 
@@ -17,7 +15,7 @@ export const ListChat = () => {
   const { isTablet } = useResize()
   const [search, setSearch] = useState("")
   const { socket } = useWebSocket() ?? {}
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
 
   const { data, refetchCountMessages } = useCountMessagesNotReading()
 

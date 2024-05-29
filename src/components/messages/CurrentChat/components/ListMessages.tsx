@@ -2,6 +2,9 @@
 
 import { type ReactNode, memo, useMemo, useRef, useEffect } from "react"
 
+import { EnumProviderThreads } from "@/types/enum"
+import { IUserOffer } from "@/services/offers/types"
+import { IResponseThread } from "@/services/threads/types"
 import type { IResponseMessage } from "@/services/messages/types"
 
 import { ItemTime } from "./ItemTime"
@@ -10,11 +13,8 @@ import { ItemMyMessage } from "./ItemMyMessage"
 import { ItemUserMessage } from "./ItemUserMessage"
 import { ComponentLoadingThread } from "@/components/common/Loading"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { NoticeOfferPay } from "./NoticeOfferPay"
-import { EnumProviderThreads } from "@/types/enum"
-import { IUserOffer } from "@/services/offers/types"
-import { IResponseThread } from "@/services/threads/types"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 
 export const ListMessages = memo(function ListMessages({
@@ -29,7 +29,7 @@ export const ListMessages = memo(function ListMessages({
   thread: IResponseThread
 }) {
   const { join } = useJoinMessage()
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const ulChat = useRef<HTMLUListElement>(null)
   const numberIdMessage = useRef<number | null>(null)
 

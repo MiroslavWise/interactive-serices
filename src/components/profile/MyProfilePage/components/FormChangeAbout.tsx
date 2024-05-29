@@ -4,17 +4,18 @@ import { Controller, useForm } from "react-hook-form"
 import { Dispatch, SetStateAction, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { resolverAbout, TValidateSchemaAbout } from "../utils/about.schema"
+
 import { Button } from "@/components/common"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useOut } from "@/helpers"
-import { resolverAbout, TValidateSchemaAbout } from "../utils/about.schema"
 import { getProfile, patchProfile } from "@/services"
 
 export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetStateAction<boolean>> }) => {
   const [loading, setLoading] = useState(false)
   const { out } = useOut()
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
 
   const { data, refetch } = useQuery({
     queryFn: () => getProfile(),

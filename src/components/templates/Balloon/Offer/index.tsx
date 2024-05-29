@@ -20,14 +20,14 @@ import {
   dispatchModalClose,
   dispatchReciprocalExchange,
   EModalData,
-  useAuth,
+  useAuth_,
   useBalloonOffer,
   useModal,
   useOffersCategories,
 } from "@/store"
 
 export default function BalloonOffer() {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
   const dataModal = useModal(({ data }) => data)
   const offer = useBalloonOffer(({ offer }) => offer)

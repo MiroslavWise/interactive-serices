@@ -4,8 +4,10 @@ import { useEffect } from "react"
 
 import { usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
-import { dispatchAuthToken } from "@/store/hooks"
+import { dispatchAuthToken, dispatchOnboarding } from "@/store/hooks"
 import { useToast } from "@/helpers/hooks/useToast"
+import { queryClient } from "@/context"
+import { getUserId } from "@/services"
 
 async function fetchVK({ access_token, user_id }: { access_token: string; user_id: string }) {
   try {
@@ -60,11 +62,31 @@ export default function CallbackVK() {
                 console.log("response: postVK", response)
                 if (response.ok) {
                   if (response?.res) {
-                    dispatchAuthToken({ email: "", ...response?.res })
-                    handlePush("/")
-                    on({
-                      message: "Авторизация через сервис ВКонтакте прошла успешно",
-                    })
+                    queryClient
+                      .fetchQuery({
+                        queryFn: () => getUserId(response.res?.id!),
+                        queryKey: ["user", { userId: response.res?.id }],
+                      })
+                      .then(({ ok, res }) => {
+                        if (ok) {
+                          if (res) {
+                            if (!res?.profile?.username) {
+                              dispatchOnboarding("open")
+                            }
+                          }
+                          dispatchAuthToken({ auth: response.res!, user: res! })
+                          handlePush("/")
+                          on({
+                            message: "Авторизация через сервис ВКонтакте прошла успешно",
+                          })
+                        } else {
+                          on({
+                            message:
+                              "К сожалению, сейчас мы не можем авторизовать вас через ВКонтакте. Пожалуйста, попробуйте другой способ.",
+                          })
+                          handlePush("/")
+                        }
+                      })
                   }
                 } else {
                   on({

@@ -6,11 +6,10 @@ import { Button } from "@/components/common"
 
 import { useOut } from "@/helpers"
 import { patchUser } from "@/services"
-import { dispatchModal, dispatchModalClose, EModalData, useAuth } from "@/store"
+import { dispatchModal, dispatchModalClose, EModalData, useAuth_ } from "@/store"
 
 function DeleteUser() {
-  const userId = useAuth(({ userId }) => userId)
-  const role = useAuth(({ user }) => user)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { out } = useOut()
   const [loading, setLoading] = useState(false)
 

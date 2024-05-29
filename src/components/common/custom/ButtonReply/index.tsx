@@ -7,7 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { Button, ButtonCircleGradient, ButtonClose } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { useAuth, dispatchAuthModal, dispatchProfilePublic, dispatchReciprocalExchange } from "@/store/hooks"
+import { useAuth_, dispatchAuthModal, dispatchProfilePublic, dispatchReciprocalExchange } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -15,7 +15,7 @@ export const ButtonReplyPrimary: TProps = ({ profile, offer, isBalloon }) => {
   const [visible, setVisible] = useState(false)
   const { handlePush } = usePush()
   const { systemTheme } = useTheme()
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
 
   function handleBarter() {
     const provider = offer?.provider!

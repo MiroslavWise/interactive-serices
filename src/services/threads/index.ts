@@ -1,6 +1,6 @@
 import type { IServiceThreads } from "./types"
 
-import { get, wrapperPost, wrapperDelete, wrapperPatch } from "../requestsWrapper"
+import { get, wrapperPost, wrapperDelete, wrapperPatch } from "../request"
 
 const url = "/threads"
 

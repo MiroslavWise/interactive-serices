@@ -1,12 +1,12 @@
 "use client"
 
 import { Button } from "@/components/common"
-import { useAuth, dispatchAuthModal, dispatchNewServicesBanner } from "@/store/hooks"
+import { dispatchAuthModal, dispatchNewServicesBanner, useAuth_ } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
 
 export const Buttons = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
 
   return typeof isAuth === "undefined" ? (
     <div className={styles.buttons} data-loading>

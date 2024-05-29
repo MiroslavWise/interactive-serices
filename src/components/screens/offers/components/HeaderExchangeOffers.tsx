@@ -1,18 +1,18 @@
+import { useMemo } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
 
+import { NextImageMotion } from "@/components/common"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { getBarterUserIdReceiver, getUserId } from "@/services"
-import { dispatchInitiatedBarter, useAuth } from "@/store"
+import { dispatchInitiatedBarter, useAuth_ } from "@/store"
 
 import styles from "../styles/header-exchange-offers.module.scss"
-import { useMemo } from "react"
-import { NextImageMotion } from "@/components/common"
 
 export const HeaderExchangeOffers = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
     queryFn: () =>

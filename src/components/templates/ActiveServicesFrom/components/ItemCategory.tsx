@@ -4,7 +4,7 @@ import { memo, useState } from "react"
 
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { patchUser } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
 
@@ -13,7 +13,7 @@ import styles from "../styles/item.module.scss"
 export const ItemCategory = memo(function ItemCategory(
   props: IResponseOffersCategories & { refetch(): Promise<any>; categories: IResponseOffersCategories[] },
 ) {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { id, title, categories = [], refetch } = props ?? {}
   const [loading, setLoading] = useState(false)
 

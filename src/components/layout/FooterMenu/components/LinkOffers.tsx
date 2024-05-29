@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { getBarterUserIdReceiver } from "@/services"
@@ -16,16 +16,16 @@ import styles from "../styles/link.module.scss"
 export const LinkOffers = memo(function LinkOffers() {
   const pathname = usePathname()
   const handleAuthModal = useSign()
-  const isAuth = useAuth(({ isAuth }) => isAuth)
-  const userId = useAuth(({ userId }) => userId)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
+  const { id } = useAuth_(({ auth }) => auth) ?? {}
   const { data } = useQuery({
     queryFn: () =>
-      getBarterUserIdReceiver(userId!, {
+      getBarterUserIdReceiver(id!, {
         status: EnumStatusBarter.INITIATED,
         order: "DESC",
       }),
-    queryKey: ["barters", { receiver: userId, status: EnumStatusBarter.INITIATED }],
-    enabled: !!userId && isAuth,
+    queryKey: ["barters", { receiver: id, status: EnumStatusBarter.INITIATED }],
+    enabled: !!id && isAuth,
     refetchOnReconnect: true,
     refetchOnMount: true,
   })

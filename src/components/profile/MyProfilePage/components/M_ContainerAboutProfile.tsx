@@ -8,12 +8,12 @@ import { Button, NextImageMotion } from "@/components/common"
 
 import { dayFormat } from "@/helpers"
 import { getProfile, getUserId, serviceFriends } from "@/services"
-import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile, EModalData, useAuth, useDroverFriends } from "@/store"
+import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile, EModalData, useAuth_, useDroverFriends } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
 
 export const MContainerAboutProfile = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
 
   const { data: dataUser } = useQuery({

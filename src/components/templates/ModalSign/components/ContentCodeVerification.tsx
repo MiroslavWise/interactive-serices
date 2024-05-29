@@ -6,10 +6,11 @@ import { Controller, useForm } from "react-hook-form"
 import { resolverCodeVerification, TSchemaCodeVerification } from "../utils/code-verification.schema"
 
 import { TimerData } from "./TimerData"
+import { queryClient } from "@/context"
 import { Button } from "@/components/common"
 
-import { serviceAuth } from "@/services"
-import { dispatchAuthModal, useAuth, useModalAuth } from "@/store"
+import { getUser, serviceAuth } from "@/services"
+import { dispatchAuthModal, dispatchAuthToken, dispatchOnboarding, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -18,7 +19,6 @@ export const ContentCodeVerification = ({}) => {
   const phone = useModalAuth(({ phone }) => phone)
   const prevType = useModalAuth(({ prevType }) => prevType)
   const idUser = useModalAuth(({ idUser }) => idUser)
-  const setToken = useAuth(({ setToken }) => setToken)
 
   const { control, handleSubmit, setError } = useForm<TSchemaCodeVerification>({
     resolver: resolverCodeVerification,
@@ -39,20 +39,21 @@ export const ContentCodeVerification = ({}) => {
           code: values.code!,
           id: idUser!,
         })
-        .then((response) => {
+        .then(async (response) => {
           if (response.ok) {
             if (response?.res) {
+              const { res } = await queryClient.fetchQuery({
+                queryFn: () => getUser(),
+                queryKey: ["user", { userId: response.res?.id }],
+              })
+
+              dispatchAuthToken({ auth: response?.res!, user: res! })
+              if (!res?.profile?.username) {
+                dispatchOnboarding("open")
+              }
               dispatchAuthModal({
                 visible: false,
                 type: null,
-              })
-              setToken({
-                ok: true,
-                token: response?.res?.accessToken!,
-                refreshToken: response?.res?.refreshToken!,
-                expires: response?.res?.expires!,
-                userId: response?.res?.id!,
-                email: "",
               })
             }
           } else {

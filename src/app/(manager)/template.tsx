@@ -2,19 +2,19 @@
 
 import { useEffect } from "react"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { usePush } from "@/helpers"
 
 export default ({ children }: { children: React.ReactNode }) => {
-  const roles = useAuth(({ roles }) => roles)
+  const user = useAuth_(({ user }) => user)
   const { handlePush } = usePush()
 
   useEffect(() => {
-    console.log("roles template: ", roles)
+    console.log("roles template: ", user)
     // if (!roles) {
     //   handlePush("/")
     // }
-  }, [roles])
+  }, [user])
 
   return children
 }

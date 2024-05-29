@@ -1,6 +1,6 @@
 import type { IMessages } from "./types"
 
-import { wrapperPost, wrapperPatch, get } from "../requestsWrapper"
+import { wrapperPost, wrapperPatch, get } from "../request"
 
 const url = "/messages"
 

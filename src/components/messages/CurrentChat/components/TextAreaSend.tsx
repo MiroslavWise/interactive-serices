@@ -6,16 +6,17 @@ import { useSearchParams } from "next/navigation"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { TTextAreaSend } from "./types/types"
+import { IUserOffer } from "@/services/offers/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
+import { resolverChatSend, TSchemaChatSend } from "../utils/chat-send.schema"
 
 import { FilesUpload } from "./FilesUpload"
+import IconClipper from "@/components/icons/IconClipper"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useResize } from "@/helpers"
 import { useWebSocket } from "@/context"
 import { fileUploadService, postMessage } from "@/services"
-import { resolverChatSend, TSchemaChatSend } from "../utils/chat-send.schema"
-import IconClipper from "@/components/icons/IconClipper"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 const MAX_FILE_SIZE = 9.9 * 1024 * 1024
@@ -25,8 +26,8 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
   const [loading, setLoading] = useState(false)
   const idThread = useSearchParams().get("thread")
   const { socket } = useWebSocket()
-  const userId = useAuth(({ userId }) => userId)
-  const user = useAuth(({ user }) => user)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const user = useAuth_(({ user }) => user)
   const { setValue, handleSubmit, watch, reset, control } = useForm<TSchemaChatSend>({
     defaultValues: {
       text: "",
@@ -37,6 +38,17 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
     },
     resolver: resolverChatSend,
   })
+
+  const userData: IUserOffer = {
+    about: user?.profile?.about ?? "",
+    birthdate: user?.profile?.birthdate ?? "",
+    firstName: user?.profile?.firstName ?? "",
+    lastName: user?.profile?.lastName ?? "",
+    gender: user?.profile?.gender!,
+    id: user?.id!,
+    username: user?.profile?.username ?? "",
+    image: user?.profile?.image,
+  }
 
   function deleteFile(index: number) {
     setValue("file", {
@@ -112,7 +124,7 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
             receiverIds: receiverIds,
             temporary: true,
             readIds: [],
-            emitter: user!,
+            emitter: userData!,
             created: date,
             images: [...file.string],
           },

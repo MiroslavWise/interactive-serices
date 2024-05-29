@@ -8,13 +8,13 @@ import { IResponseThreads } from "@/services/threads/types"
 import { ItemListChat } from "./ItemListChat"
 import { ThreadLoading } from "@/components/common"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useCountMessagesNotReading, useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
 export const List: TList = ({ items = [], search = "" }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { isTablet } = useResize()
   const [state, setState] = useState<IResponseThreads[]>(items)
   const { isLoading } = useCountMessagesNotReading()

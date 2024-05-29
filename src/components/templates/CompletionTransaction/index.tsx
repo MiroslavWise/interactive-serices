@@ -10,13 +10,13 @@ import type { IValuesForm } from "./types/types"
 import { Button, ButtonLink } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { useAuth, useAddTestimonials, useModal, EModalData, dispatchModalClose, dispatchAddTestimonials } from "@/store"
 import { serviceNotifications, getTestimonials, getBarterId, getThreadId, postTestimonial } from "@/services"
+import { useAuth_, useAddTestimonials, useModal, EModalData, dispatchModalClose, dispatchAddTestimonials } from "@/store"
 
 export default function CompletionTransaction() {
   const [isFirst, setIsFirst] = useState(true)
   const [loading, setLoading] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { register, handleSubmit, watch, setValue, setFocus } = useForm<IValuesForm>({
     defaultValues: {
       rating: 3,

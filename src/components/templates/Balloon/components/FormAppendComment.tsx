@@ -3,21 +3,33 @@ import { Dispatch, memo, SetStateAction, useState } from "react"
 
 import { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { serviceComments } from "@/services"
 
 import styles from "../styles/form-append-comment.module.scss"
+import { IUserOffer } from "@/services/offers/types"
 
 export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCurrentComments }: IProps) => {
   const [loading, setLoading] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
-  const user = useAuth(({ user }) => user)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const user = useAuth_(({ user }) => user)
 
   const { watch, handleSubmit, reset, control } = useForm<IValues>({
     defaultValues: {
       text: "",
     },
   })
+
+  const userData: IUserOffer = {
+    about: user?.profile?.about ?? "",
+    birthdate: user?.profile?.birthdate ?? "",
+    firstName: user?.profile?.firstName ?? "",
+    lastName: user?.profile?.lastName ?? "",
+    gender: user?.profile?.gender!,
+    id: user?.id!,
+    username: user?.profile?.username ?? "",
+    image: user?.profile?.image,
+  }
 
   const onSubmit = handleSubmit(function (values) {
     if (!loading) {
@@ -39,7 +51,7 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
             userId: userId!,
             status: "create",
             created: new Date(),
-            user: user!,
+            user: userData!,
           },
         ])
 

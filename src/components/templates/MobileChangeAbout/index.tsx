@@ -9,12 +9,12 @@ import { Button, ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { getProfile, patchProfile } from "@/services"
 import { LIMIT_LENGTH_ABOUT, MIN_LENGTH_ABOUT, resolverAboutSchema, TAboutSchema } from "./utils/about.schema"
-import { useAuth, dispatchMobileChangeAbout, useMobileChangeAbout } from "@/store"
+import { useAuth_, dispatchMobileChangeAbout, useMobileChangeAbout } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const MobileChangeAbout = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const visible = useMobileChangeAbout(({ visible }) => visible)
   const [loading, setLoading] = useState(false)
 

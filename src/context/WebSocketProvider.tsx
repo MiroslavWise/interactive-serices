@@ -8,7 +8,7 @@ import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { AuthListener } from "./AuthListener"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import env from "@/config/environment"
 
 interface IContextSocket {
@@ -20,8 +20,8 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 })
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
-  const token = useAuth(({ token }) => token)
-  const userId = useAuth(({ userId }) => userId)
+  const { accessToken } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth_(({ user }) => user) ?? {}
   const [isFetch, setIsFetch] = useState(false)
   const [socketState, setSocketState] = useState<Socket | null>(null)
 
@@ -40,10 +40,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
       console.info("%c--- error socket --- ", "color: #f00; font-size: 1.5rem;", e)
     }
     if (!isFetch) {
-      if (token) {
+      if (accessToken) {
         const options: Partial<ManagerOptions & SocketOptions> = {
           auth: {
-            accessToken: token,
+            accessToken: accessToken,
           },
           withCredentials: true,
           path: "/ws/socket.io",
@@ -63,12 +63,12 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         socket.connect()
       }
 
-      if (!token) {
+      if (!accessToken) {
         setSocketState(null)
         setIsFetch(false)
       }
     }
-  }, [token, userId, isFetch])
+  }, [accessToken, userId, isFetch])
 
   return (
     <CreateContextWebSocket.Provider value={{ socket: socketState! }}>

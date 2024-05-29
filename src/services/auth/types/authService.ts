@@ -1,5 +1,5 @@
-import { IReturnData } from "@/services/types/general"
-import type { Dispatch, DispatchWithoutAction } from "react"
+import type { IReturnData } from "@/services/types/general"
+import { type TAuth } from "@/store"
 
 export type TPostfix = "Token" | "RefreshToken" | "UserId"
 
@@ -23,8 +23,6 @@ export interface IAuthService {
   refresh(values: IRequestRefresh): Promise<IReturnData<IResponseRefresh>>
 }
 
-import type { IReturnData } from "@/services/types/general"
-
 export interface IRequestLogin {
   email: string
   password: string
@@ -36,15 +34,7 @@ export interface IResponseLoginOtp {
   otpAuthUrl?: string
 }
 
-export interface IResponseLoginNot2fa {
-  accessToken: string
-  expiresIn: number
-  refreshToken: string
-  expires: number
-  scope: string
-  tokenType: string
-  id: number
-}
+export interface IResponseLoginNot2fa extends TAuth {}
 
 export interface IRequestRefresh {
   refreshToken: string
@@ -57,8 +47,4 @@ export interface IResponseRefresh {
   scope: string
   tokenType: string
   expires: number
-}
-export interface IServiceAuth {
-  login(value: IRequestLogin): Promise<IReturnData<IResponseLoginOtp & IResponseLoginNot2fa>>
-  refresh(values: IRequestRefresh): Promise<IReturnData<IResponseRefresh>>
 }

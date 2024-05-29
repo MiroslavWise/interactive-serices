@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
 
 import { getUserId } from "@/services"
-import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchModal, EModalData, useAuth } from "@/store"
+import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchModal, EModalData, useAuth_ } from "@/store"
 
 export const LoginDetails = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ user }) => user) ?? {}
   const { data } = useQuery({
     queryFn: () => getUserId(userId!),
     queryKey: ["user", { userId: userId }],

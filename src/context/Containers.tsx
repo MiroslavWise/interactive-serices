@@ -23,7 +23,6 @@ import {
 } from "@/components/templates"
 
 import {
-  useAuth,
   usePhotoOffer,
   useHasBalloons,
   useDroverFriends,
@@ -36,6 +35,7 @@ import {
   useCreateNewCategory,
   useChangeService,
   useAdvertisingBanner,
+  useAuth_,
 } from "@/store"
 import { useResize } from "@/helpers"
 
@@ -48,7 +48,7 @@ const ChangeService = dynamic(() => import("@/components/profile").then((res) =>
 const HeaderBanner = dynamic(() => import("@/components/templates/HeaderBanner"), { ssr: false })
 
 export const Containers = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
   const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)

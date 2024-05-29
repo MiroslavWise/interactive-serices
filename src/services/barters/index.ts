@@ -1,6 +1,6 @@
 import type { IBartersService } from "./types"
 
-import { get, wrapperPatch, wrapperPost } from "@/services/requestsWrapper"
+import { get, wrapperPatch, wrapperPost } from "@/services/request"
 
 const url = "/barters"
 

@@ -1,5 +1,3 @@
-import type { Dispatch } from "react"
-
 import type { IReturnData } from "@/services/types/general"
 
 export interface IPasswordRecovery {

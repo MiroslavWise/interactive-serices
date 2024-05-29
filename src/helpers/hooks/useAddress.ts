@@ -4,10 +4,10 @@ import { useMemo } from "react"
 
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 
 export const useAddress = () => {
-  const addresses = useAuth(({ addresses }) => addresses)
+  const { addresses } = useAuth_(({ user }) => user) ?? {}
 
   const idsAddresses: number[] | null = useMemo(() => {
     if (!addresses) return null

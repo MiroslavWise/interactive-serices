@@ -1,5 +1,3 @@
-import type { TContentSignIn } from "../types/types"
-
 import { LinksSocial } from "./LinksSocial"
 import { SignInEmail } from "./SignInEmail"
 import { SignInPhone } from "./SignInPhone"
@@ -9,7 +7,7 @@ import { dispatchAuthModal, dispatchIModalAuthEmailOrPhone, useModalAuthEmailOrP
 
 import styles from "../styles/form.module.scss"
 
-export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
+export const ContentSignIn = ({}) => {
   const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
 
   return (
@@ -30,7 +28,6 @@ export const ContentSignIn: TContentSignIn = ({ setValueSecret }) => {
               <a onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}>Забыли пароль?</a>
             </div>
           }
-          setValueSecret={setValueSecret}
         >
           <LinksSocial />
         </SignInEmail>

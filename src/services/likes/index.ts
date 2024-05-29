@@ -1,6 +1,6 @@
 import type { ILikesService } from "./types"
 
-import { wrapperPost, get } from "../requestsWrapper"
+import { wrapperPost, get } from "../request"
 
 const url = "/likes"
 

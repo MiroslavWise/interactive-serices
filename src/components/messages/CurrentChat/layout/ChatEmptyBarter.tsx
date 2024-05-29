@@ -9,18 +9,18 @@ import type { IPatchDataBarter } from "@/services/barters/types"
 
 import { LoadingThreadsPage } from "@/components/common"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
-import { getThreads, patchBarter, postThread } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 import { useCountMessagesNotReading, usePush } from "@/helpers"
+import { getThreads, patchBarter, postThread } from "@/services"
 
 import styles from "../styles/style.module.scss"
 
 export const ChatEmptyBarter = () => {
   const { on } = useToast()
   const idBarter = useSearchParams().get("barter-id")
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { handleReplace } = usePush()
   const { refetchCountMessages } = useCountMessagesNotReading()
 

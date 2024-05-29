@@ -12,10 +12,10 @@ import { Button } from "@/components/common"
 import { serviceComplains } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import { dispatchComplaintModalUser, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
+import { dispatchComplaintModalUser, dispatchModalClose, useAuth_, useComplaintModal } from "@/store"
 
 export default function ComplaintModal() {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
   const [loading, setLoading] = useState(false)
 
   const { onBarters } = useToast()
@@ -88,8 +88,8 @@ export default function ComplaintModal() {
                   maxLength={240}
                   placeholder="Опишите причину своими словами..."
                 />
-                <sup data-more={watch("text")?.length > 920}>
-                  <span>{watch("text")?.length || 0}</span>/1024
+                <sup data-more={watch("text")?.length > 240}>
+                  <span>{watch("text")?.length || 0}</span>/240
                 </sup>
               </div>
             ) : null}

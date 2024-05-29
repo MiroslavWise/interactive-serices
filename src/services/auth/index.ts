@@ -1,6 +1,6 @@
 import { TGetLogout, TGetSession, TPostNewPassword, type IAuth, IRequestPhone } from "./types/types"
 
-import { get, wrapperPost } from "../requestsWrapper"
+import { get, wrapperPost } from "../request"
 
 const route = "/auth"
 

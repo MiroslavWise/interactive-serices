@@ -8,10 +8,10 @@ import { EnumTypeProvider } from "@/types/enum"
 import { Button } from "@/components/common"
 
 import { getUserIdOffers, patchOffer } from "@/services"
-import { useDeleteOffer, dispatchDeleteOffer, useAuth } from "@/store"
+import { useDeleteOffer, dispatchDeleteOffer, useAuth_ } from "@/store"
 
 function DeleteOffer() {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const idOffer = useDeleteOffer(({ idOffer }) => idOffer)
 
   const [loading, setLoading] = useState(false)

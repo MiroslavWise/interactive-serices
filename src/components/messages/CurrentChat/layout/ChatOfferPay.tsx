@@ -8,7 +8,7 @@ import { IPostThreads } from "@/services/threads/types"
 import { EnumProviderThreads } from "@/types/enum"
 import { LoadingThreadsPage } from "@/components/common"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getThreads, postThread } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
@@ -19,7 +19,7 @@ import styles from "../styles/style.module.scss"
 export function ChatOfferPay() {
   const { on } = useToast()
   const idOfferPay = useSearchParams().get("offer-pay")
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { handleReplace } = usePush()
   const { refetchCountMessages } = useCountMessagesNotReading()
 

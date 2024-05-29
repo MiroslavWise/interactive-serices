@@ -5,14 +5,14 @@ import type { THeaderBlock } from "../types/types"
 
 import { NextImageMotion } from "@/components/common"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 import { dayFormat } from "@/helpers"
 import { getProfile, getUserId } from "@/services"
 
 import styles from "../styles/header.module.scss"
 
 export const HeaderBlock: THeaderBlock = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
 
   const { data } = useQuery({
     queryFn: () => getUserId(userId!),

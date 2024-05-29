@@ -1,5 +1,5 @@
 import type { IServiceOffers } from "./types"
-import { wrapperPatch, wrapperDelete, get, post } from "../requestsWrapper"
+import { wrapperPatch, wrapperDelete, get, post } from "../request"
 
 const url = "/offers"
 

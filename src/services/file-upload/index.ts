@@ -1,7 +1,7 @@
 import type { IReturnData } from "../types/general"
 import type { IResponseUploadFile, IProvider } from "./types"
 
-import { wrapperUploadFile } from "../requestsWrapper"
+import { wrapperUploadFile } from "../request"
 
 import { generateShortHash } from "@/lib/hash"
 

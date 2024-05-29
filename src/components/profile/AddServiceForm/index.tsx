@@ -10,14 +10,14 @@ import { Button } from "@/components/common"
 import { ItemCategory } from "./components/ItemCategory"
 
 import { getUserId, patchUser } from "@/services"
-import { dispatchChangeService, useAuth, useChangeService, useOffersCategories } from "@/store"
+import { dispatchChangeService, useAuth_, useChangeService, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
 import ItemCategorySearch from "./components/ItemCategorySearch"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const visible = useChangeService(({ visible }) => visible)
   const categories = useOffersCategories(({ categories }) => categories)
 

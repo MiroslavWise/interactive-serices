@@ -1,19 +1,21 @@
-import axios, { RawAxiosRequestHeaders, type AxiosHeaders } from "axios"
+import axios, { RawAxiosRequestHeaders } from "axios"
 
 import type { IReturnData } from "../types/general"
 import { IResponseUploadFile } from "../file-upload/types"
-import type { MethodDelete, MethodGet, MethodGetId, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
+import type { MethodDelete, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
 
 import { URL_API } from "@/helpers"
-import { useTokenHelper } from "@/helpers/auth/tokenHelper"
+import { authToken } from "../auth/authService"
 
 function header(): HeadersInit {
   const head: HeadersInit = {
     "Content-Type": "application/json",
   }
 
-  if (useTokenHelper.authToken) {
-    head["Authorization"] = `Bearer ${useTokenHelper.authToken}`
+  const fullTokenString = authToken()
+
+  if (fullTokenString) {
+    head.Authorization = fullTokenString
   }
 
   return head
@@ -93,7 +95,9 @@ export const wrapperDelete: MethodDelete = async ({ url, id }) => {
 export const wrapperUploadFile: MethodUploadFile = async ({ url, file }) => {
   const endpoint = new URL(`${URL_API}${url}`)
 
-  if (!useTokenHelper.authToken) {
+  const fullTokenString = authToken()
+
+  if (!fullTokenString) {
     return {
       ok: false,
       error: "Not Authorization",
@@ -102,7 +106,7 @@ export const wrapperUploadFile: MethodUploadFile = async ({ url, file }) => {
 
   const requestInit: RequestInit = {
     method: "POST",
-    headers: { Authorization: `Bearer ${useTokenHelper.authToken}` },
+    headers: { Authorization: fullTokenString },
     body: file,
   }
 
@@ -114,9 +118,55 @@ interface IGet {
   query?: object | any
 }
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: URL_API,
 })
+
+interface IPatch {
+  url: string
+  body: object | any
+}
+
+const patch = async ({ url, body }: IPatch): Promise<IReturnData<any>> => {
+  const head: RawAxiosRequestHeaders = {
+    "Content-Type": "application/json",
+  }
+
+  let data = {}
+
+  if (typeof body === "object") {
+    data = { ...body }
+  }
+
+  const fullTokenString = authToken()
+
+  if (fullTokenString) {
+    head.Authorization = fullTokenString
+  }
+
+  try {
+    const response = await instance.patch(url, { ...data }, { headers: head })
+
+    if (response.status >= 200 && response.status <= 299) {
+      return {
+        ok: true,
+        meta: response.data?.meta,
+        res: response.data?.data,
+        error: response.data?.error || null,
+      }
+    } else {
+      return {
+        ok: false,
+        error: response.data?.error,
+      }
+    }
+  } catch (e) {
+    return {
+      ok: false,
+      error: e,
+    }
+  }
+}
 
 interface IPost {
   url: string
@@ -134,8 +184,10 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
     data = { ...body }
   }
 
-  if (useTokenHelper.authToken) {
-    head.Authorization = `Bearer ${useTokenHelper.authToken}`
+  const fullTokenString = authToken()
+
+  if (fullTokenString) {
+    head.Authorization = fullTokenString
   }
 
   try {
@@ -173,8 +225,10 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
     "Content-Type": "application/json",
   }
 
-  if (useTokenHelper.authToken) {
-    head.Authorization = `Bearer ${useTokenHelper.authToken}`
+  const fullTokenString = authToken()
+
+  if (fullTokenString) {
+    head.Authorization = fullTokenString
   }
 
   try {
@@ -201,4 +255,4 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
   }
 }
 
-export { get, post }
+export { get, post, patch }

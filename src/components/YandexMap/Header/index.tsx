@@ -1,6 +1,6 @@
 "use client"
 
-import type { THeaderMobile } from "./types"
+import { DispatchWithoutAction } from "react"
 
 import { SearchElementMap } from "@/components/common"
 
@@ -8,7 +8,7 @@ import { useResize } from "@/helpers"
 
 import styles from "./styles/style.module.scss"
 
-export const Header: THeaderMobile = ({ handleAddressLocation }) => {
+export const Header = ({ handleAddressLocation }: { handleAddressLocation: DispatchWithoutAction }) => {
   const { isTablet } = useResize()
 
   return !isTablet ? (

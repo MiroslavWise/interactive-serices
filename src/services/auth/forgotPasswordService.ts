@@ -1,6 +1,6 @@
 import type { IForgotPasswordService } from "./types/forgotPasswordService"
 
-import { wrapperPost } from "@/services/requestsWrapper"
+import { wrapperPost } from "@/services/request"
 
 const route = "/auth"
 

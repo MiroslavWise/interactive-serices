@@ -6,12 +6,12 @@ import { LinkProfile } from "./LinkProfile"
 import { LinkMessages } from "./LinkMessages"
 import { LinkNotification } from "./LinkNotification"
 
-import { useAuth } from "@/store"
+import { useAuth_ } from "@/store"
 
 import styles from "../styles/links.module.scss"
 
 export const Links = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
 
   return isAuth ? (
     <ul className={styles.linksWrapper}>

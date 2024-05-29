@@ -4,8 +4,8 @@ import { useEffect } from "react"
 
 import { queryClient } from "@/context"
 import { URL_API, usePush } from "@/helpers"
-import { getUserId, serviceAuth } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
+import { getUserId, serviceAuth } from "@/services"
 import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 export default function CallbackTelegram() {
@@ -28,14 +28,14 @@ export default function CallbackTelegram() {
                 queryFn: () => getUserId(response.res?.id!),
                 queryKey: ["user", { userId: response.res?.id }],
               })
-              .then((resUser) => {
-                if (resUser?.ok) {
-                  if (resUser.res) {
-                    if (!resUser?.res?.profile?.id) {
+              .then(({ ok, res }) => {
+                if (ok) {
+                  if (res) {
+                    if (!res?.profile?.username) {
                       dispatchOnboarding("open")
                     }
                   }
-                  dispatchAuthToken({ email: "", ...response?.res! })
+                  dispatchAuthToken({ user: res!, auth: response?.res! })
                   handlePush("/")
                   on({
                     message: "Авторизация через сервис Telegram прошла успешно",
@@ -49,14 +49,11 @@ export default function CallbackTelegram() {
               })
           }
         } else {
-          //tgAuthResult
-          if (!response.ok) {
-            if (!!response?.error) {
-              if (response?.error?.code === 401) {
-                if (!!queryForBody[0]) {
-                  document.location.href = `${URL_API}/telegram/login`
-                  return
-                }
+          if (!!response?.error) {
+            if (response?.error?.code === 401) {
+              if (!!queryForBody[0]) {
+                document.location.href = `${URL_API}/telegram/login`
+                return
               }
             }
           }

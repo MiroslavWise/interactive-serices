@@ -1,6 +1,6 @@
 import type { IServiceOffersCategories, TPostOfferCategory } from "./types"
 
-import { get, wrapperPost } from "../requestsWrapper"
+import { get, wrapperPost } from "../request"
 
 const url = "/offers-categories"
 

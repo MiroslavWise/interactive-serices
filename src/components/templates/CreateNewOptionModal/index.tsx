@@ -25,7 +25,7 @@ import {
   dispatchValidating,
   dispatchModalClose,
   dispatchOnboarding,
-  useAuth,
+  useAuth_,
   useOnboarding,
   dispatchModal,
   EModalData,
@@ -60,7 +60,7 @@ export default function CreateNewOptionModal() {
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const step = useOnboarding(({ step }) => step)
   const visible = useOnboarding(({ visible }) => visible)
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)

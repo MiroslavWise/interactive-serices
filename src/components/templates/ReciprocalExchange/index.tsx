@@ -18,12 +18,13 @@ import { ItemProfile } from "./components/ItemProfile"
 import { Button, LoadingProfile } from "@/components/common"
 
 import {
-  useAuth,
   dispatchBallonOffer,
   useOffersCategories,
   useReciprocalExchange,
   dispatchReciprocalExchange,
   dispatchReciprocalExchangeCollapse,
+  useAuth_,
+  dispatchRefresh,
 } from "@/store"
 import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
@@ -32,11 +33,10 @@ import { createAddress } from "@/helpers/address/create"
 import { serviceNotifications, postOffer, postBarter, getUserId } from "@/services"
 
 export default function ReciprocalExchange() {
-  const refreshAuth = useAuth(({ refresh }) => refresh)
   const [loading, setLoading] = useState(false)
   const offer = useReciprocalExchange(({ offer }) => offer)
   const categories = useOffersCategories(({ categories }) => categories)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { socket } = useWebSocket()
   const { on, onBarters } = useToast()
   const methods = useForm<IFormValues>({
@@ -162,7 +162,7 @@ export default function ReciprocalExchange() {
               })
               setError("root", { message: response?.error?.message })
               if (response?.error?.message?.toLowerCase() === "invalid access token") {
-                refreshAuth().then((responseAuth) => {
+                dispatchRefresh().then((responseAuth) => {
                   if (response.ok) {
                     onSubmit()
                   } else {

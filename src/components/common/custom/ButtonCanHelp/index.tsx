@@ -5,12 +5,12 @@ import type { IProps } from "./types"
 import { Button, ButtonClose } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { useAuth, dispatchAuthModal } from "@/store/hooks"
+import { dispatchAuthModal, useAuth_ } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const ButtonCanHelp = ({ id, idUser }: IProps) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const { handlePush } = usePush()
   const [visible, setVisible] = useState(false)
 

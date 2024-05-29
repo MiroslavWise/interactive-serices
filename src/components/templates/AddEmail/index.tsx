@@ -9,12 +9,12 @@ import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { patchEmailPasswordUser } from "@/services"
-import { dispatchAddEmail, dispatchCheckTheMail, useAddEmail, useAuth } from "@/store"
+import { dispatchAddEmail, dispatchCheckTheMail, useAddEmail, useAuth_ } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const AddEmail = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const [visiblePass, setVisiblePass] = useState({
     password: false,

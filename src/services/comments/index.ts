@@ -1,5 +1,5 @@
 import type { ICommentsService } from "./types"
-import { get, wrapperPost, wrapperPatch } from "../requestsWrapper"
+import { get, wrapperPost, wrapperPatch } from "../request"
 
 const url = "/comments"
 

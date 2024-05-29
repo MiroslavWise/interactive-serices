@@ -1,7 +1,7 @@
-import { dispatchAuthModal, useAuth } from "@/store/hooks"
+import { dispatchAuthModal, useAuth_ } from "@/store/hooks"
 
 export const useSign = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const isAuth = useAuth_(({ isAuth }) => isAuth)
 
   function handleAuthModal() {
     if (!isAuth && typeof isAuth !== "undefined") {
