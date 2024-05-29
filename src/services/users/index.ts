@@ -10,7 +10,7 @@ export const postUser: IServiceUser["post"] = (body, urlSearchParams) =>
   post({ url: `${url}${urlSearchParams ? `/?${urlSearchParams}` : ""}`, body })
 export const patchUser: IServiceUser["patch"] = (body, id) => patch({ url: `${url}/${id}`, body })
 export const deleteUser: IServiceUser["delete"] = (id) => wrapperDelete({ url, id })
-export const getUserEmail: IServiceUser["getEmail"] = (id) => get({ url: `${url}/email/${id}` })
+export const getUserEmail: IServiceUser["getEmail"] = (email) => get({ url: `${url}/email/${email}` })
 
 export const patchEmailPasswordUser: TPatchEmailPasswordUser = (body, id) =>
   patch({ url: `${url}/${id}`, body: { ...body, enabled: true } })

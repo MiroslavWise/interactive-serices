@@ -1,4 +1,4 @@
-import axios, { RawAxiosRequestHeaders } from "axios"
+import axios, { AxiosError, RawAxiosRequestHeaders } from "axios"
 
 import type { IReturnData } from "../types/general"
 import { IResponseUploadFile } from "../file-upload/types"
@@ -144,28 +144,30 @@ const patch = async ({ url, body }: IPatch): Promise<IReturnData<any>> => {
     head.Authorization = fullTokenString
   }
 
-  try {
-    const response = await instance.patch(url, { ...data }, { headers: head })
-
-    if (response.status >= 200 && response.status <= 299) {
+  return instance
+    .patch(url, { ...data }, { headers: head })
+    .then(({ data }) => {
       return {
         ok: true,
-        meta: response.data?.meta,
-        res: response.data?.data,
-        error: response.data?.error || null,
+        meta: data?.meta || null,
+        res: data?.data || null,
+        error: data?.error || null,
       }
-    } else {
+    })
+    .catch((error) => {
+      if (error instanceof AxiosError) {
+        const e = error?.response?.data?.error
+        return {
+          ok: false,
+          error: e,
+        }
+      }
+
       return {
         ok: false,
-        error: response.data?.error,
+        error: error,
       }
-    }
-  } catch (e) {
-    return {
-      ok: false,
-      error: e,
-    }
-  }
+    })
 }
 
 interface IPost {
@@ -190,28 +192,30 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
     head.Authorization = fullTokenString
   }
 
-  try {
-    const response = await instance.post(url, { ...data }, { headers: head })
-
-    if (response.status >= 200 && response.status <= 299) {
+  return instance
+    .post(url, { ...data }, { headers: head })
+    .then(({ data }) => {
       return {
         ok: true,
-        meta: response.data?.meta,
-        res: response.data?.data,
-        error: response.data?.error || null,
+        meta: data?.meta || null,
+        res: data?.data || null,
+        error: data?.error || null,
       }
-    } else {
+    })
+    .catch((error) => {
+      if (error instanceof AxiosError) {
+        const e = error?.response?.data?.error
+        return {
+          ok: false,
+          error: e,
+        }
+      }
+
       return {
         ok: false,
-        error: response.data?.error,
+        error: error,
       }
-    }
-  } catch (e) {
-    return {
-      ok: false,
-      error: e,
-    }
-  }
+    })
 }
 
 const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
@@ -231,28 +235,30 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
     head.Authorization = fullTokenString
   }
 
-  try {
-    const response = await instance.get(url, { headers: head, params: params })
-
-    if (response.status >= 200 && response.status <= 299) {
+  return instance
+    .get(url, { headers: head, params: params })
+    .then(({ data }) => {
       return {
         ok: true,
-        meta: response.data?.meta,
-        res: response.data?.data,
-        error: response.data?.error || null,
+        meta: data?.meta || null,
+        res: data?.data || null,
+        error: data?.error || null,
       }
-    } else {
+    })
+    .catch((error) => {
+      if (error instanceof AxiosError) {
+        const e = error?.response?.data?.error
+        return {
+          ok: false,
+          error: e,
+        }
+      }
+
       return {
         ok: false,
-        error: response.data?.error,
+        error: error,
       }
-    }
-  } catch (e) {
-    return {
-      ok: false,
-      error: e,
-    }
-  }
+    })
 }
 
 export { get, post, patch }

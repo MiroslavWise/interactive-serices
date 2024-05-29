@@ -61,34 +61,6 @@ export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: {
           }
           if (response.ok) {
             dispatchAuthModal({ visible: false })
-            // if (response.res?.accessToken && response?.res?.refreshToken && response?.res?.tokenType) {
-            //   queryClient
-            //     .fetchQuery({
-            //       queryFn: () => getUserId(response?.res?.id!),
-            //       queryKey: ["user", { userId: response?.res?.id }],
-            //     })
-            //     .then((responseUser) => {
-            //       setToken({
-            //         ok: true,
-            //         token: response?.res?.accessToken!,
-            //         refreshToken: response?.res?.refreshToken!,
-            //         expires: response?.res?.expires!,
-            //         userId: response?.res?.id!,
-            //         email: value?.email!,
-            //       })
-            //       if (!responseUser?.res?.profile) {
-            //         dispatchAuthModal({ visible: false })
-            //         dispatchOnboarding("open")
-            //         return
-            //       }
-            //       if (!!responseUser?.res?.profile) {
-            //         dispatchAuthModal({ visible: false })
-            //         return changeAuth()
-            //       }
-            //     })
-            //   dispatchAuthModal({ visible: false })
-            //   return
-            // }
           }
         })
         .finally(() => setLoading(false))
