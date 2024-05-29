@@ -2,54 +2,42 @@
   position: relative;
   display: flex;
   width: 100%;
-  height: 3.25rem;
-  padding: 0.375rem 0.375rem 0.375rem 1rem;
+  height: 3rem;
   align-items: center;
-  border-radius: 1.625rem;
-  background-color: var(--background-input);
+  border-radius: 1.5rem;
   z-index: 120;
 
-  & > [data-geo] {
+  & > [data-icon] {
     position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+
+    & > svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
   }
 
   & > input {
-    height: 3.25rem;
+    height: 3rem;
     width: 100%;
-    border-radius: 100%;
-    border-radius: 1.625rem;
-    background-color: var(--background-input);
-    padding-left: 1.625rem !important;
+    border-radius: 1.5rem;
+    color: var(--text-primary);
+    background-color: var(--BG-second);
+    padding-inline: calc(1rem + 1.25rem + 0.375rem) 0.875rem !important;
+    padding-block: calc(0.25rem + 0.625rem);
+    outline: none !important;
+    border: none !important;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
 
-    &[type="text"] {
-      outline: none;
-      border: none;
-      color: var(--gray-900);
-      font-size: 0.875rem;
-      font-weight: 500;
-      line-height: 1.25rem;
-      letter-spacing: -0.5px;
-    }
     &::placeholder {
-      color: var(--gray-400);
-      font-size: 0.875rem;
-      font-weight: 500;
-      line-height: 1.25rem;
-      letter-spacing: -0.5px;
+      color: var(--text-disabled);
     }
-  }
-
-  & > [data-circle] {
-    position: absolute;
-    height: 2.5rem;
-    width: 2.5rem;
-    padding: 0.625rem;
-    border-radius: 1.25rem;
-    background: var(--background);
-    right: 0.375rem;
-    top: 0.375rem;
-    border: none;
-    cursor: pointer;
   }
 
   & > section {
@@ -61,7 +49,7 @@
     width: 100%;
     max-height: 12.375rem;
     border-radius: 0.75rem;
-    background-color: var(--background);
+    background-color: var(--BG-second);
     box-shadow: 0px 10px 16px 0px rgba(31, 31, 41, 0.1);
     overflow: hidden;
     transform: translateY(-2rem);
@@ -97,16 +85,15 @@
         transition-property: background-color;
 
         & > span {
-          color: var(--gray-800);
+          color: var(--text-primary);
           font-size: 0.875rem;
           font-style: normal;
           font-weight: 400;
           line-height: 1.25rem;
-          letter-spacing: -0.02125rem;
         }
 
         &:hover {
-          background-color: var(--gray-200);
+          background-color: var(--grey-field);
         }
       }
 
@@ -119,7 +106,7 @@
           border-radius: 0.5rem;
           position: relative;
           overflow: hidden;
-          background-color: var(--background-input);
+          background-color: var(--grey-field);
 
           &::before {
             content: "";
@@ -146,23 +133,21 @@
       gap: 0.5rem;
 
       & > h3 {
-        color: var(--gray-900);
+        color: var(--text-primary);
         text-align: center;
         font-size: 1.25rem;
         font-style: normal;
         font-weight: 600;
         line-height: 1.875rem;
-        letter-spacing: -0.02125rem;
       }
 
       & > p {
-        color: var(--gray-500);
+        color: var(--text-primary);
         text-align: center;
         font-size: 1rem;
         font-style: normal;
         font-weight: 400;
         line-height: 1.5rem;
-        letter-spacing: -0.02125rem;
       }
     }
 
