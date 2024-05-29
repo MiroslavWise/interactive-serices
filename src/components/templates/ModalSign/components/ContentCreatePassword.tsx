@@ -171,7 +171,7 @@ export const ContentCreatePassword = () => {
               <div>
                 <input
                   {...field}
-                  placeholder="Введите свой пароль"
+                  placeholder="Введите пароль"
                   type={isPass ? "text" : "password"}
                   data-error={!!error}
                   onChange={(event) => {
