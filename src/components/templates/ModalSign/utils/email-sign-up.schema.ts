@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { agree, marketing } from "./agree.schema"
 
 export const schemaEmailSignUp = z.object({
-  email: z.string().email({ message: "Не валидный Email" }),
+  email: z.string().min(1, { message: "Поле не может оставаться незаполненным" }).email({ message: "Такой почты не существует" }),
   agree: agree,
   marketing: marketing,
 })
