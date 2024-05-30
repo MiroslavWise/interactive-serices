@@ -221,6 +221,10 @@
         font-style: normal;
         font-weight: 500;
         line-height: 1.125rem;
+
+        & > a {
+          cursor: pointer;
+        }
       }
 
       &[data-password] > div {
