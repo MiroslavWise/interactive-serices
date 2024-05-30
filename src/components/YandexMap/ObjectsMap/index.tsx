@@ -76,7 +76,7 @@ export const ListPlacemark = memo(function ListPlacemark() {
       }}
       options={{
         iconLayout: "default#image",
-        iconImageHref: TYPE_ICON[item?.offer?.provider!!].default || IconCategory(item?.offer?.categoryId!),
+        iconImageHref: TYPE_ICON[item?.offer?.provider!!] || IconCategory(item?.offer?.categoryId!),
         iconImageSize: [18.92 * 2, 18.92 * 2],
         zIndex: 45,
         zIndexActive: 50,

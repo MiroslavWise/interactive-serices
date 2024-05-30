@@ -8,14 +8,7 @@ import { Button } from "@/components/common"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"
 import { functionAuthErrors, RegistrationService, serviceAuthErrors } from "@/services"
-import {
-  dispatchAuthModal,
-  dispatchAuthModalInformationCreateAccount,
-  type IStateUTM,
-  useModalAuth,
-  useModalAuthEmailOrPhone,
-  useUTM,
-} from "@/store"
+import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone, useUTM } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -43,6 +36,7 @@ export const ContentCreatePassword = () => {
       password: "",
       repeat: "",
     },
+    reValidateMode: "onChange",
   })
 
   async function onEnter(values: TValidateSchemaPassword) {
@@ -152,7 +146,7 @@ export const ContentCreatePassword = () => {
     }
   }
 
-  const disabled = watch("password") !== watch("repeat") || !watch("password") || !watch("repeat")
+  const disabled = !watch("password") || !watch("repeat")
 
   return (
     <div className={styles.content}>
