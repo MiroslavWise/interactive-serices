@@ -21,7 +21,7 @@ export const schemaPassword = z
     repeat: z.string().trim().default(""),
   })
   .refine((data) => data.password === data.repeat, {
-    path: ["repeat_password"],
+    path: ["repeat"],
     message: "Пароли не совпадают",
   })
 
