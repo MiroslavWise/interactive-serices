@@ -76,7 +76,7 @@ export const LoginDetails = () => {
         ) : null}
       </section>
       <div data-delete-account>
-        <span>На Sheira c {format(new Date(9, 7, 1997), "do MMMM yyyy")}</span>
+        <span>На Sheira c {format(user?.created || new Date(), "do MMMM yyyy")}</span>
         <a
           onClick={() => {
             dispatchModal(EModalData.DeleteUser)

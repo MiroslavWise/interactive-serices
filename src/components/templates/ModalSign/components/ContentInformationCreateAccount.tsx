@@ -1,6 +1,6 @@
 import { Button } from "@/components/common"
 
-import { dispatchAuthModal, useModalAuth } from "@/store/hooks"
+import { dispatchAuthModal, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 

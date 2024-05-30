@@ -1,11 +1,11 @@
-import { memo } from "react"
+import { useModalAuth } from "@/store"
 
-import { useModalAuth } from "@/store/hooks"
-
-export const HeaderAuth = memo(function HeaderAuth() {
+function HeaderAuth() {
   const type = useModalAuth(({ type }) => type)
   const email = useModalAuth(({ email }) => email)
   const phone = useModalAuth(({ phone }) => phone)
+
+  //data-display-none={["InformationCreateAccount"].includes(type!)}
 
   return (
     <header>
@@ -28,4 +28,7 @@ export const HeaderAuth = memo(function HeaderAuth() {
       </h3>
     </header>
   )
-})
+}
+
+HeaderAuth.displayName = "HeaderAuth"
+export default HeaderAuth

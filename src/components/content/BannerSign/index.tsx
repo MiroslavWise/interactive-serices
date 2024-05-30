@@ -1,7 +1,7 @@
 "use client"
 
-import { LeftAsideProfile } from "@/components/profile"
 import { ButtonNavigation } from "./components/ButtonNavigation"
+import LeftAsideProfile from "@/components/profile/LeftAsideProfile"
 
 import { useResize } from "@/helpers"
 import { dispatchCollapsePersonalScreen, useAdvertisingBanner, useAuth_, useCollapsePersonalScreen } from "@/store"
