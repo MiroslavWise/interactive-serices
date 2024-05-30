@@ -18,6 +18,18 @@ $width-left-aside-profile: var(--width-left-aside-profile);
   background: var(--BG-second);
   z-index: 2;
 
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  * {
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
+  }
+
   &[data-is-banner="true"] {
     top: calc(var(--height-header-nav-bar) + 1.5rem + 2.75rem);
     height: calc(100vh - var(--height-header-nav-bar) - 3rem - 2.75rem);
