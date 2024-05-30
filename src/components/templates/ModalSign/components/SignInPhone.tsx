@@ -36,7 +36,11 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
           }
         } else {
           const errorMessage = response?.error?.message
-          setError("phone", { message: functionAuthErrors(errorMessage) })
+          if(errorMessage === "must agree"){
+            setError("phone", {message: "Данный аккаунт не зарегистрирован. Пройдите регистрацию"})
+          } else {
+            setError("phone", { message: functionAuthErrors(errorMessage) })
+          }
         }
         console.log(" serviceAuth phone: ", response)
         setLoading(false)

@@ -46,6 +46,7 @@ export const serviceAuthErrors: Map<string, string> = new Map([
   ["throttlerexception: too many requests", "Слишком много запросов"],
   ["request entity too large", "Слишком большой, по объёму, запрос"],
   ["password too weak", "Пароль слишком слабый"],
+  ["must agree", "Нет согласия с Пользовательским соглашением"],
 ])
 
 export const functionAuthErrors = (messages: string | string[]): string => {
