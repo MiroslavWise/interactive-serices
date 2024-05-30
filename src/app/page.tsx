@@ -41,7 +41,6 @@ import styles from "@/scss/page.module.scss"
 
 export default function Home() {
   const isAuth = useAuth_(({ isAuth }) => isAuth)
-  console.log("isAuth: ", isAuth)
 
   const { isTablet } = useResize()
 
