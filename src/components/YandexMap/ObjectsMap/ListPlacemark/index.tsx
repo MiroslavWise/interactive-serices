@@ -32,8 +32,6 @@ export const ListPlacemark = memo(function ListPlacemark() {
           if (timesFilter === EnumTimesFilter.ALL) {
             array.push({
               coordinates: coordinates,
-              idUser: item?.userId!,
-              id: item?.id!,
               offer: item,
             })
           } else {
@@ -53,8 +51,6 @@ export const ListPlacemark = memo(function ListPlacemark() {
             if (time + objTime[timesFilter] - now > 0) {
               array.push({
                 coordinates: coordinates,
-                idUser: item?.userId!,
-                id: item?.id!,
                 offer: item,
               })
             }
@@ -65,5 +61,7 @@ export const ListPlacemark = memo(function ListPlacemark() {
     return array
   }, [itemsOffers, timesFilter])
 
-  return marks.map((item) => <PlacemarkCurrent key={`${item.id}-${item.offer.provider}-list`} {...item} />)
+  return marks.map((item) => (
+    <PlacemarkCurrent key={`${item.offer.id}-${item.offer.provider}-list`} coordinates={item?.coordinates || []} offer={item?.offer!} />
+  ))
 })

@@ -3,8 +3,6 @@ import type { IResponseOffers } from "@/services/offers/types"
 
 export interface IPlacemarkCurrent {
   coordinates: [number, number][]
-  id: string | number
-  idUser: number | string
   offer: IResponseOffers
 }
 
