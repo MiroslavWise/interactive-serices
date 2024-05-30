@@ -1,14 +1,16 @@
 "use client"
 
 import { memo, useMemo } from "react"
+import { Placemark } from "@pbe/react-yandex-maps"
 
-import type { IPlacemarkCurrent } from "../PlacemarkCurrent/types"
+import { EnumTypeProvider } from "@/types/enum"
+import type { IPlacemarkCurrent } from "./types"
 
-import { PlacemarkCurrent } from "../PlacemarkCurrent"
-
-import { useFiltersServices } from "@/store"
+import { TYPE_ICON } from "./constants"
+import { IconCategory } from "@/lib/icon-set"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData, useFiltersServices } from "@/store"
 
 export const ListPlacemark = memo(function ListPlacemark() {
   const { itemsOffers, isLoading } = useMapOffers()
@@ -62,6 +64,39 @@ export const ListPlacemark = memo(function ListPlacemark() {
   }, [itemsOffers, timesFilter])
 
   return marks.map((item) => (
-    <PlacemarkCurrent key={`${item.offer.id}-${item.offer.provider}-list`} coordinates={item?.coordinates || []} offer={item?.offer!} />
+    <Placemark
+      key={`${item.offer.id}-${item.offer.provider}-list`}
+      geometry={item?.coordinates[0]}
+      modules={["geoObject.addon.balloon"]}
+      properties={{
+        id: item.offer?.id!,
+        offer: item?.offer,
+        idUser: item?.offer?.userId,
+        item: item?.coordinates[0],
+      }}
+      options={{
+        iconLayout: "default#image",
+        iconImageHref: TYPE_ICON[item?.offer?.provider!!].default || IconCategory(item?.offer?.categoryId!),
+        iconImageSize: [18.92 * 1.5, 18.92 * 1.5],
+        zIndex: 45,
+        zIndexActive: 50,
+      }}
+      onClick={(event: any) => {
+        event.preventDefault()
+        event.stopPropagation()
+        if (item?.offer?.provider === EnumTypeProvider.offer) {
+          dispatchBallonOffer({ offer: item?.offer! })
+          dispatchModal(EModalData.BalloonOffer)
+          return
+        } else if (item?.offer?.provider === EnumTypeProvider.discussion) {
+          dispatchBallonDiscussion({ offer: item?.offer! })
+          dispatchModal(EModalData.BalloonDiscussion)
+          return
+        } else if (item?.offer?.provider === EnumTypeProvider.alert) {
+          dispatchBallonAlert({ offer: item?.offer! })
+          dispatchModal(EModalData.BalloonAlert)
+        }
+      }}
+    />
   ))
 })
