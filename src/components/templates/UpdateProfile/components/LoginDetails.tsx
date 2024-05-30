@@ -2,13 +2,14 @@ import { useQuery } from "@tanstack/react-query"
 
 import { getUserId } from "@/services"
 import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchModal, EModalData, useAuth_ } from "@/store"
+import { format } from "date-fns"
 
 export const LoginDetails = () => {
-  const { id: userId } = useAuth_(({ user }) => user) ?? {}
+  const user = useAuth_(({ user }) => user)
   const { data } = useQuery({
-    queryFn: () => getUserId(userId!),
-    queryKey: ["user", { userId: userId }],
-    enabled: !!userId,
+    queryFn: () => getUserId(user?.id!),
+    queryKey: ["user", { userId: user?.id! }],
+    enabled: !!user,
   })
 
   const email = data?.res?.email
@@ -75,6 +76,7 @@ export const LoginDetails = () => {
         ) : null}
       </section>
       <div data-delete-account>
+        <span>На Sheira c {format(new Date(9, 7, 1997), "do MMMM yyyy")}</span>
         <a
           onClick={() => {
             dispatchModal(EModalData.DeleteUser)

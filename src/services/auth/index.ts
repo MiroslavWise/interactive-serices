@@ -39,7 +39,7 @@ export const serviceAuthErrors: Map<string, string> = new Map([
   ["password is not match", "Неверный пароль"],
   ["password is incorrect", "Неверный пароль"],
   ["default", "Какая-то ошибка у нас на сервере. Мы сейчас разбираемся"],
-  ["email is not valid", "Не валидный email"],
+  ["email is not valid", "Такой почты не существует"],
   ["password is not strong enough", "Пароль недостаточно сложный"],
   ["repeat is not strong enough", "Повтор недостаточно надёжный"],
   ["wrong sms code", "Неправильный смс-код"],
