@@ -10,16 +10,16 @@ export const TYPE_ICON: Record<EnumTypeProvider, { default: string; active: stri
     active: "",
   },
   [EnumTypeProvider.offer]: {
-    default: "",
-    active: "",
+    default: "/map/droplet/offer.svg",
+    active: "/map/droplet/offer.svg",
   },
   [EnumTypeProvider.alert]: {
-    default: "/map/circle-alert.png",
-    active: "/map/default-alert-hover.png",
+    default: "/map/droplet/sos.svg",
+    active: "/map/droplet/sos.svg",
   },
   [EnumTypeProvider.discussion]: {
-    default: "/map/circle-discussion.png",
-    active: "/map/default-discussion-hover.png",
+    default: "/map/droplet/discussion.svg",
+    active: "/map/droplet/discussion.svg",
   },
   [EnumTypeProvider.barter]: {
     default: "",

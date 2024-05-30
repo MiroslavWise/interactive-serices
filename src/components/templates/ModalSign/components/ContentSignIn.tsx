@@ -32,15 +32,7 @@ export const ContentSignIn = ({}) => {
           <LinksSocial />
         </SignInEmail>
       ) : typeEmailOrPhone === "phone" ? (
-        <SignInPhone
-          itemForgot={
-            <div className={styles.RememberChange}>
-              <a data-a-on-forgot-password-type onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}>
-                Забыли пароль?
-              </a>
-            </div>
-          }
-        >
+        <SignInPhone itemForgot={null}>
           <LinksSocial />
         </SignInPhone>
       ) : null}

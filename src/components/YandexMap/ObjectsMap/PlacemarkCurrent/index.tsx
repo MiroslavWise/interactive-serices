@@ -3,13 +3,12 @@
 import { type FC, memo } from "react"
 import { Placemark } from "@pbe/react-yandex-maps"
 
+import { EnumTypeProvider } from "@/types/enum"
 import type { IPlacemarkCurrent, TPlacemarkCurrent } from "./types"
-
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 
 import { TYPE_ICON } from "./constants"
 import { IconCategory } from "@/lib/icon-set"
-import { EnumTypeProvider } from "@/types/enum"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 
 const PlacemarkCurrentStates: TPlacemarkCurrent = ({ coordinates, id, idUser, offer }) => {
   return coordinates.map((item) => <Place key={`${item[0]}-${item[1]}-${id}`} item={item} id={id} idUser={idUser} offer={offer} />)
@@ -17,9 +16,12 @@ const PlacemarkCurrentStates: TPlacemarkCurrent = ({ coordinates, id, idUser, of
 export const PlacemarkCurrent: TPlacemarkCurrent = memo(PlacemarkCurrentStates)
 
 const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = ({ id, item, idUser, offer }) => {
+  //
   return (
     <Placemark
       geometry={item}
+      className={offer?.provider}
+      modules={["geoObject.addon.balloon"]}
       properties={{
         id: id!,
         offer: offer,
@@ -29,19 +31,9 @@ const PlaceState: FC<Partial<IPlacemarkCurrent> & { item: [number, number] }> = 
       options={{
         iconLayout: "default#image",
         iconImageHref: TYPE_ICON[offer?.provider!!].default || IconCategory(offer?.categoryId!),
-        iconImageSize: [37, 37],
-        hideIconOnBalloonOpen: false,
+        iconImageSize: [18.92 * 1.5, 18.92 * 1.5],
         zIndex: 45,
-        balloonZIndex: "42",
         zIndexActive: 50,
-        iconColor:
-          offer?.provider === EnumTypeProvider.alert
-            ? "#eb3f5e"
-            : offer?.provider === EnumTypeProvider.offer
-            ? "#a26be8"
-            : offer?.provider === EnumTypeProvider.discussion
-            ? "#ee4e29"
-            : "#000",
       }}
       onClick={(event: any) => {
         event.preventDefault()
