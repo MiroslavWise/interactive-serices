@@ -1,6 +1,6 @@
 "use client"
 
-import { LeftAsideProfile } from "@/components/profile"
+import LeftAsideProfile from "@/components/profile/LeftAsideProfile"
 
 import { useResize } from "@/helpers"
 import { useAdvertisingBanner } from "@/store"

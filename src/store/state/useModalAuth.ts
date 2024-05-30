@@ -12,7 +12,6 @@ import type {
   TTypeSign,
 } from "../types/useVisibleAndTypeAuthModalState"
 import { IUserResponse } from "@/services/users/types"
-import { dayFormat } from "@/helpers"
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
 export const useModalAuth = create(
