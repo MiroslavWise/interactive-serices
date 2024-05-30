@@ -5,10 +5,6 @@ export const TYPE_ICON: Record<EnumTypeProvider, { default: string; active: stri
     default: "",
     active: "",
   },
-  [EnumTypeProvider.request]: {
-    default: "",
-    active: "",
-  },
   [EnumTypeProvider.offer]: {
     default: "/map/droplet/offer.png",
     active: "/map/droplet/offer.png",
