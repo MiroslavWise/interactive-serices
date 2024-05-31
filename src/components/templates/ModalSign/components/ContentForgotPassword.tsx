@@ -18,7 +18,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
   const [loading, setLoading] = useState(false)
   const email = useModalAuth(({ email }) => email)
   const { control, handleSubmit, setError } = useForm<TSchemaForgotPassword>({
-    defaultValues: { email: email },
+    defaultValues: { email: email || "" },
     resolver: resolverForgotPassword,
   })
 
@@ -52,8 +52,15 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
           rules={{ required: true }}
           render={({ field, fieldState: { error } }) => (
             <div data-label-input data-test="forgot-password-email">
-              <label htmlFor="email">Электронная почта</label>
-              <input data-error={!!error} type="text" inputMode="email" placeholder="email_address@mail.com" {...field} />
+              <label htmlFor={field.name}>Электронная почта</label>
+              <input
+                {...field}
+                type="text"
+                inputMode="email"
+                placeholder="email_address@mail.com"
+                enterKeyHint="enter"
+                data-error={!!error}
+              />
               {error ? <i>{error.message}</i> : null}
             </div>
           )}
