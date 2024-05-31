@@ -12,12 +12,12 @@ import { IconXClose } from "@/components/icons/IconXClose"
 import { cx } from "@/lib/cx"
 import { serviceNotifications } from "@/services"
 import { type TTypeWaiting, NAVIGATION_STATUSES } from "./constants/navigation"
-import { useVisibleNotifications, dispatchVisibleNotifications, useAuth_ } from "@/store"
+import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export function NotificationsMobile() {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useVisibleNotifications(({ visible }) => visible)
 
   const [status, setStatus] = useState<TTypeWaiting>("all")

@@ -10,13 +10,13 @@ import { EnumProviderThreads } from "@/types/enum"
 import IconRepeat from "@/components/icons/IconRepeat"
 import { NextImageMotion } from "@/components/common"
 
-import { dispatchDataUser, useAuth_ } from "@/store"
+import { dispatchDataUser, useAuth } from "@/store"
 import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 
 import styles from "./styles/style.module.scss"
 
 export const ItemListChat: TItemListChat = memo(({ thread, last }) => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const idThread = useSearchParams().get("thread")
   const { provider, emitter, receivers, id, messages } = thread ?? {}
 

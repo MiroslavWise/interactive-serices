@@ -4,11 +4,11 @@ import { ItemCategory } from "./components/ItemCategory"
 import { ItemCategoryAdd } from "./components/ItemCategoryAdd"
 
 import { getUserId } from "@/services"
-import { EModalData, useAuth_, useModal } from "@/store"
+import { EModalData, useAuth, useModal } from "@/store"
 
 function ActiveServicesFrom() {
   const data = useModal(({ data }) => data)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data: dataUser, refetch } = useQuery({
     queryFn: () => getUserId(userId!),

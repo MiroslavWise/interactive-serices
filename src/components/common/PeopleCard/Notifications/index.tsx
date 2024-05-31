@@ -6,13 +6,13 @@ import type { TPeopleCardNotifications } from "./types"
 
 import { Button, ImageStatic, NextImageMotion, ButtonCircleGradient } from "@/components/common"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "./style.module.scss"
 
 export const PeopleCard: TPeopleCardNotifications = ({ avatar, name, date, rate, description, path, userId }) => {
-  const { id: myId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: myId } = useAuth(({ auth }) => auth) ?? {}
   const { handlePush } = usePush()
 
   return (

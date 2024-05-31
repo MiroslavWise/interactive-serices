@@ -3,12 +3,12 @@ import { useQueries } from "@tanstack/react-query"
 
 import type { IEnabledHook } from "../types/types"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { serviceFriends } from "@/services/friends"
 import { TTypeFriends } from "@/store/types/createDroverFriends"
 
 export const useReloadFriends = ({ enabled, type }: IEnabledHook) => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const list: TTypeFriends[] = ["request", "response", "list"]
 

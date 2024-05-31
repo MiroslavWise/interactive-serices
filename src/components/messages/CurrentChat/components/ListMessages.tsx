@@ -13,7 +13,7 @@ import { ItemMyMessage } from "./ItemMyMessage"
 import { ItemUserMessage } from "./ItemUserMessage"
 import { ComponentLoadingThread } from "@/components/common/Loading"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { NoticeOfferPay } from "./NoticeOfferPay"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
 
@@ -29,7 +29,7 @@ export const ListMessages = memo(function ListMessages({
   thread: IResponseThread
 }) {
   const { join } = useJoinMessage()
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const ulChat = useRef<HTMLUListElement>(null)
   const numberIdMessage = useRef<number | null>(null)
 

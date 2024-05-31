@@ -11,12 +11,12 @@ import { ListPlacemark } from "./ObjectsMap"
 
 import { useAddress } from "@/helpers"
 import { getAddressCoords } from "@/helpers/get-address"
-import { dispatchHasBalloon, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth_, useBounds, useMapCoordinates } from "@/store"
+import { dispatchHasBalloon, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth, useBounds, useMapCoordinates } from "@/store"
 
 const COORD = [30.19, 59.57]
 
 const YandexMap: TYandexMap = ({}) => {
-  const auth = useAuth_(({ auth }) => auth) ?? {}
+  const auth = useAuth(({ auth }) => auth) ?? {}
   const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
@@ -112,7 +112,7 @@ const YandexMap: TYandexMap = ({}) => {
         width={"100%"}
         height={"100%"}
       >
-        <Clusterer
+        {/* <Clusterer
           options={{
             iconLayout: "cluster#pieChart",
             iconContentLayout: "cluster#pieChart",
@@ -147,9 +147,9 @@ const YandexMap: TYandexMap = ({}) => {
               offers: ids?.map((item) => item.offer),
             })
           }}
-        >
-          <ListPlacemark />
-        </Clusterer>
+        > */}
+        <ListPlacemark />
+        {/* </Clusterer> */}
       </Map>
     </>
   )

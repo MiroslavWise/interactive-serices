@@ -6,11 +6,11 @@ import type { TInfoContainerProfile } from "../types/types"
 import { ImageStatic, NextImageMotion, GeoTagging } from "@/components/common"
 import { AddFriend } from "@/components/profile/MainInfo/components/AddFriend"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 
 export const InfoContainerProfile: TInfoContainerProfile = (props) => {
   const { profile, addresses, id } = props ?? {}
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const geo = addresses?.find((item) => item.addressType === "main")?.additional || null
 

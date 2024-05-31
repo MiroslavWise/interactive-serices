@@ -15,14 +15,14 @@ import { NextImageMotion, LoadingInput } from "@/components/common"
 import { useWebSocket } from "@/context"
 import { getMessages, getThreadId, postReadMessage } from "@/services"
 import { useCountMessagesNotReading, usePush, useResize } from "@/helpers"
-import { useAuth_, usePopupMenuChat, useUserIdMessage, dispatchDataUser } from "@/store"
+import { useAuth, usePopupMenuChat, useUserIdMessage, dispatchDataUser } from "@/store"
 
 import styles from "../styles/style.module.scss"
 
 export const CurrentChat = () => {
   const { isTablet } = useResize()
   const idThread = useSearchParams().get("thread")
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
   const { handleReplace } = usePush()
   const { socket } = useWebSocket() ?? {}

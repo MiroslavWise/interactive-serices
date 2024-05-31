@@ -62,11 +62,7 @@ export const NewCreateOffer = memo(({}: IProps) => {
     if (!valuesAddresses) {
       return null
     }
-    return (
-      valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter((item) =>
-        item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components.some((item) => item.kind === "street"),
-      ) || null
-    )
+    return valuesAddresses?.response?.GeoObjectCollection?.featureMember || null
   }, [valuesAddresses])
 
   return (

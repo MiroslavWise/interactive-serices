@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { List } from "./components/List"
 import { SearchBlock } from "./components/SearchBlock"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { getMillisecond, useCountMessagesNotReading, useResize } from "@/helpers"
 
@@ -15,7 +15,7 @@ export const ListChat = () => {
   const { isTablet } = useResize()
   const [search, setSearch] = useState("")
   const { socket } = useWebSocket() ?? {}
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, refetchCountMessages } = useCountMessagesNotReading()
 

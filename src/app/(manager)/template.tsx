@@ -2,11 +2,11 @@
 
 import { useEffect } from "react"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { usePush } from "@/helpers"
 
 export default ({ children }: { children: React.ReactNode }) => {
-  const user = useAuth_(({ user }) => user)
+  const user = useAuth(({ user }) => user)
   const { handlePush } = usePush()
 
   useEffect(() => {

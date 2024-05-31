@@ -34,13 +34,13 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
   suspense: false,
 })
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { useResize } from "@/helpers"
 
 import styles from "@/scss/page.module.scss"
 
 export default function Home() {
-  const isAuth = useAuth_(({ isAuth }) => isAuth)
+  const isAuth = useAuth(({ isAuth }) => isAuth)
 
   const { isTablet } = useResize()
 

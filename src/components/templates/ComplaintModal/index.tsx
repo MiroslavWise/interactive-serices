@@ -12,10 +12,10 @@ import { Button } from "@/components/common"
 import { serviceComplains } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import { dispatchComplaintModalUser, dispatchModalClose, useAuth_, useComplaintModal } from "@/store"
+import { dispatchComplaintModalUser, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
 
 export default function ComplaintModal() {
-  const isAuth = useAuth_(({ isAuth }) => isAuth)
+  const isAuth = useAuth(({ isAuth }) => isAuth)
   const [loading, setLoading] = useState(false)
 
   const { onBarters } = useToast()

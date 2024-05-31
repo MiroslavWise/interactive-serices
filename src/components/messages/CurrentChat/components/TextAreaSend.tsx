@@ -13,7 +13,7 @@ import { resolverChatSend, TSchemaChatSend } from "../utils/chat-send.schema"
 import { FilesUpload } from "./FilesUpload"
 import IconClipper from "@/components/icons/IconClipper"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { useResize } from "@/helpers"
 import { useWebSocket } from "@/context"
 import { fileUploadService, postMessage } from "@/services"
@@ -26,8 +26,8 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
   const [loading, setLoading] = useState(false)
   const idThread = useSearchParams().get("thread")
   const { socket } = useWebSocket()
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
-  const user = useAuth_(({ user }) => user)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const user = useAuth(({ user }) => user)
   const { setValue, handleSubmit, watch, reset, control } = useForm<TSchemaChatSend>({
     defaultValues: {
       text: "",

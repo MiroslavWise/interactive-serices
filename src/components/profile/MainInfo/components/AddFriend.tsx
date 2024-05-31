@@ -5,13 +5,13 @@ import { IUserResponse } from "@/services/users/types"
 
 import { Button } from "@/components/common"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { serviceFriends } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 
 export const AddFriend = ({ user }: { user: IUserResponse }) => {
   const [loading, setLoading] = useState(false)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [isFriends, setIsFriends] = useState(false)
   const [isRequest, setIsRequest] = useState(false)
   const [isResponse, setIsResponse] = useState(false)

@@ -9,13 +9,13 @@ import type { TContainerOffersNow } from "./types/types"
 import { LoadingBarters } from "@/components/common"
 import { CardOffer } from "@/components/common/Card/Offer"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { getBarterUserIdReceiver } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data, refetch, isLoading } = useQuery({
     queryFn: () =>
       getBarterUserIdReceiver(userId!, {

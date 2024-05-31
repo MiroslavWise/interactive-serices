@@ -10,7 +10,7 @@ import { ImageProfile } from "./ImageProfile"
 import { ButtonsFooter } from "./ButtonsFooter"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchModalClose, useAuth_ } from "@/store"
+import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
 import { fileUploadService, getProfile, serviceAuthErrors, serviceProfile } from "@/services"
 
@@ -26,7 +26,7 @@ const GENDER: { label: string; value: TGenderForm }[] = [
 ]
 
 export const PersonalData = () => {
-  const { id: userId } = useAuth_(({ user }) => user) ?? {}
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const [loading, setLoading] = useState(false)
   const [errorFile, setErrorFile] = useState<null | string>(null)
   const { out } = useOut()

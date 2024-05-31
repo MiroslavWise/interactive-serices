@@ -1,14 +1,14 @@
 "use client"
 
 import { serviceNotifications } from "@/services"
-import { dispatchVisibleNotifications, useAuth_ } from "@/store"
+import { dispatchVisibleNotifications, useAuth } from "@/store"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 
 export const NotificationBell = () => {
   const [count, setCount] = useState<number | null>(null)
-  const isAuth = useAuth_(({ isAuth }) => isAuth)
-  const { id } = useAuth_(({ auth }) => auth) ?? {}
+  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data: dataNotifications } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
     queryKey: ["notifications", { userId: id }],

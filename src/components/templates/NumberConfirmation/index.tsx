@@ -11,12 +11,12 @@ import { cx } from "@/lib/cx"
 import { functionAuthErrors, getUserId } from "@/services"
 import { postVerifyPhone } from "@/services/phones"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAuth_, useNumberConfirmation } from "@/store"
+import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAuth, useNumberConfirmation } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const NumberConfirmation = () => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const number = useNumberConfirmation(({ number }) => number)
   const visible = useNumberConfirmation(({ visible }) => visible)

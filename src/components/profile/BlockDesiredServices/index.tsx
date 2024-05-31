@@ -7,12 +7,12 @@ import { Button } from "@/components/common"
 
 import { getUserId } from "@/services"
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchActiveServicesFrom, useAuth_ } from "@/store"
+import { dispatchActiveServicesFrom, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const BlockDesiredServices = () => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
     queryFn: () => getUserId(userId!),

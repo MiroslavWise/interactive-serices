@@ -12,7 +12,7 @@ import { Button, LoadingThreadNotice, NextImageMotion } from "@/components/commo
 
 import { useWebSocket } from "@/context"
 import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
-import { useAuth_, useOffersCategories, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
+import { useAuth, useOffersCategories, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
@@ -20,8 +20,8 @@ import styles from "./styles/notice-barter.module.scss"
 export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEnemy }: { idBarter: number; user: IUserOffer }) {
   const threadId = useSearchParams().get("thread")
   const { firstName } = userEnemy ?? {}
-  const user = useAuth_(({ user }) => user)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const user = useAuth(({ user }) => user)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
   const [loading, setLoading] = useState(false)
   const { socket } = useWebSocket()

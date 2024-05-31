@@ -6,13 +6,13 @@ import { EnumStatusBarter } from "@/types/enum"
 
 import LinkProgress from "@/components/common/LinkProgress"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { getBarterUserIdReceiver } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
 
 export const LinkOffers = memo(function LinkOffers() {
   const pathname = usePathname()
-  const { id } = useAuth_(({ auth }) => auth) ?? {}
+  const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data } = useQuery({
     queryFn: () =>
       getBarterUserIdReceiver(id!, {

@@ -11,7 +11,7 @@ import { OffersMy } from "./OffersMy"
 import { NewCreateOffer } from "./NewCreateOffer"
 import { CategoriesWants } from "./CategoriesWants"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { getUserIdOffers } from "@/services"
 import { SELECT_NEW_PROPOSAL } from "../constants/select"
 import { IResponseOffersCategories } from "@/services/offers-categories/types"
@@ -19,7 +19,7 @@ import { IResponseOffersCategories } from "@/services/offers-categories/types"
 import styles from "../styles/choose-an-offer.module.scss"
 
 export const ChooseAnOffer = memo(({ loading, firstName, categoriesWants = [] }: IProps) => {
-  const { id: userId } = useAuth_(({ user }) => user) ?? {}
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const { register, setValue, watch } = useFormContext<IFormValues>()
 
   const { data: dataOffersMy, isLoading } = useQuery({

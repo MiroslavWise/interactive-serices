@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { memo, useEffect, useState } from "react"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
@@ -13,7 +13,7 @@ import styles from "../styles/link.module.scss"
 export const LinkMap = memo(function LinkMap() {
   const pathname = usePathname()
   const [count, setCount] = useState<number | null>(null)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),

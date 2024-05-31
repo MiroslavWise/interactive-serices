@@ -7,13 +7,13 @@ import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
 import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/NotificationsMobile/constants/navigation"
 import { EnumStatusBarter } from "@/types/enum"
 
 export default function Notifications() {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [status, setStatus] = useState<TTypeWaiting>("all")
 
   const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])

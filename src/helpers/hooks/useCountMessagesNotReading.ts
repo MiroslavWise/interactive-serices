@@ -1,11 +1,11 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { getThreads } from "@/services"
 
 export const useCountMessagesNotReading = () => {
-  const { id } = useAuth_(({ auth }) => auth) ?? {}
+  const { id } = useAuth(({ auth }) => auth) ?? {}
 
   const {
     data,

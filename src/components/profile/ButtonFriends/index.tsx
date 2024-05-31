@@ -4,13 +4,13 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { serviceFriends } from "@/services"
-import { useAuth_, useDroverFriends } from "@/store"
+import { useAuth, useDroverFriends } from "@/store"
 import { DeclensionQuantityFriends } from "@/lib/declension"
 
 import styles from "./style.module.scss"
 
 export const ButtonFriends = () => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
 
   const { data } = useQuery({
