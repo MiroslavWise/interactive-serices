@@ -12,7 +12,7 @@ import { Button, ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_REASON } from "./constants/constants"
-import { dispatchReasonBarters, useAuth_, useReasonBarters } from "@/store"
+import { dispatchReasonBarters, useAuth, useReasonBarters } from "@/store"
 import { getBarterId, patchBarter, serviceNotifications } from "@/services"
 
 import styles from "./styles/style.module.scss"
@@ -20,7 +20,7 @@ import styles from "./styles/style.module.scss"
 export const ReasonBarters = () => {
   const [loading, setLoading] = useState(false)
   const { onBarters } = useToast()
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useReasonBarters(({ visible }) => visible)
   const barterId = useReasonBarters(({ barterId }) => barterId)
   const notificationId = useReasonBarters(({ notificationId }) => notificationId)

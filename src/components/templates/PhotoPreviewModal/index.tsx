@@ -13,7 +13,7 @@ import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
 import { daysAgo, useResize } from "@/helpers"
-import { useAuth_, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange, dispatchProfilePublic } from "@/store"
+import { useAuth, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange, dispatchProfilePublic } from "@/store"
 
 import styles from "./styles/layout.module.scss"
 
@@ -23,7 +23,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
   const dispatchPhotoOffer = usePhotoOffer(({ dispatchPhotoOffer }) => dispatchPhotoOffer)
   const visible = usePhotoOffer(({ visible }) => visible)
   const author = usePhotoOffer(({ author }) => author)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const offer = usePhotoOffer(({ offer }) => offer)
   const categories = useOffersCategories(({ categories }) => categories)
   const { isTablet } = useResize()

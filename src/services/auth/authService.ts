@@ -2,7 +2,7 @@ import { type IReturnData } from "../types/general"
 import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/email-sign-in.schema"
 
 import { instance } from "../request"
-import { isTokenExpired, NAME_STORAGE_USE_AUTH, type TAuth } from "@/store"
+import { isTokenExpired, useAuth, type TAuth } from "@/store"
 
 const url = "/auth"
 
@@ -36,12 +36,14 @@ export async function login({ email, password }: TSchemaEmailSignIn): Promise<IR
 }
 
 export async function refresh() {
-  const email = JSON.parse(localStorage.getItem(NAME_STORAGE_USE_AUTH)!).state.user?.email as string
-  const refreshToken = JSON.parse(localStorage.getItem(NAME_STORAGE_USE_AUTH)!).state.auth?.refreshToken as string
-  const expires = JSON.parse(localStorage.getItem(NAME_STORAGE_USE_AUTH)!).state.auth?.expires as number
-  const auth = JSON.parse(localStorage.getItem(NAME_STORAGE_USE_AUTH)!).state.auth as TAuth
+  const auth = useAuth.getState().auth
+  const user = useAuth.getState().user
 
-  if (!email || !refreshToken) return { ok: false }
+  if (!auth) return { ok: false }
+
+  const expires = auth?.expires
+  const refreshToken = auth?.refreshToken
+  const email = user?.email
 
   const boolean = isTokenExpired(expires ? Number(expires) : undefined)
 
@@ -77,8 +79,9 @@ export async function refresh() {
 export function authToken(): string | null {
   if (typeof window === "undefined") return null
 
-  const typeToken = JSON.parse(localStorage.getItem(NAME_STORAGE_USE_AUTH)!).state.auth?.tokenType
-  const token = JSON.parse(localStorage.getItem(NAME_STORAGE_USE_AUTH)!).state.auth?.accessToken
+  const auth = useAuth.getState().auth
+  const typeToken = auth?.tokenType
+  const accessToken = auth?.accessToken
 
-  return token && typeToken ? `${typeToken} ${token}` : null
+  return accessToken && typeToken ? `${typeToken} ${accessToken}` : null
 }

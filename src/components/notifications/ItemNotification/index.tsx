@@ -13,7 +13,7 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 import { daysAgo } from "@/helpers"
 import { getIdOffer, getProfileUserId, getTestimonials, patchBarter, serviceNotifications } from "@/services"
 import {
-  useAuth_,
+  useAuth,
   dispatchVisibleNotifications,
   dispatchAddTestimonials,
   useOffersCategories,
@@ -36,7 +36,7 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
 export const ItemNotification = (props: IResponseNotifications) => {
   const { created, provider, operation, data, id, read } = props ?? {}
   const [loading, setLoading] = useState(false)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
 
   const idUser = useMemo(() => {

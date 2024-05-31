@@ -3,7 +3,7 @@ import { Dispatch, memo, SetStateAction, useState } from "react"
 
 import { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { serviceComments } from "@/services"
 
 import styles from "../styles/form-append-comment.module.scss"
@@ -11,8 +11,8 @@ import { IUserOffer } from "@/services/offers/types"
 
 export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCurrentComments }: IProps) => {
   const [loading, setLoading] = useState(false)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
-  const user = useAuth_(({ user }) => user)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const user = useAuth(({ user }) => user)
 
   const { watch, handleSubmit, reset, control } = useForm<IValues>({
     defaultValues: {

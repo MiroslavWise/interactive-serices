@@ -9,7 +9,7 @@ import { queryClient } from "@/context"
 import { getLogout, getUser, login, refresh } from "@/services"
 
 export const NAME_STORAGE_USE_AUTH = "::---sheira-auth---::"
-export const useAuth_ = create(
+export const useAuth = create(
   persist<IStateUseAuth>(
     () => ({
       auth: null,
@@ -31,7 +31,7 @@ export const useAuth_ = create(
 export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSignIn) => {
   return login({ email, password }).then((response) => {
     if (response.ok) {
-      useAuth_.setState((_) => ({
+      useAuth.setState((_) => ({
         ..._,
         auth: response.res,
         isAuth: true,
@@ -45,7 +45,7 @@ export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSi
           })
           .then(({ res, ok }) => {
             if (ok) {
-              useAuth_.setState((_) => ({
+              useAuth.setState((_) => ({
                 ..._,
                 user: res,
               }))
@@ -55,7 +55,7 @@ export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSi
 
       return response
     } else {
-      useAuth_.setState((_) => ({
+      useAuth.setState((_) => ({
         ..._,
         auth: null,
         isAuth: false,
@@ -69,7 +69,7 @@ export const dispatchRefresh = async () => {
   return refresh().then((response) => {
     const { ok, res } = response
     if (ok) {
-      useAuth_.setState((_) => ({
+      useAuth.setState((_) => ({
         ..._,
         auth: res as TAuth,
         isAuth: true,
@@ -77,7 +77,7 @@ export const dispatchRefresh = async () => {
 
       return response
     } else {
-      useAuth_.setState(
+      useAuth.setState(
         (_) => ({
           auth: null,
           user: null,
@@ -92,11 +92,11 @@ export const dispatchRefresh = async () => {
 }
 
 export const dispatchAuthToken = ({ auth, user }: { auth: TAuth; user: IUserResponse }) =>
-  useAuth_.setState((_) => ({ user, auth, isAuth: true }), true)
+  useAuth.setState((_) => ({ user, auth, isAuth: true }), true)
 
 export const dispatchClearAuth = async () => {
   return getLogout().then(() => {
-    useAuth_.setState(
+    useAuth.setState(
       (_) => ({
         ..._,
         auth: null,

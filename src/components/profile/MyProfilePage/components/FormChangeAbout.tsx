@@ -8,14 +8,14 @@ import { resolverAbout, TValidateSchemaAbout } from "../utils/about.schema"
 
 import { Button } from "@/components/common"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { useOut } from "@/helpers"
 import { getProfile, patchProfile } from "@/services"
 
 export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetStateAction<boolean>> }) => {
   const [loading, setLoading] = useState(false)
   const { out } = useOut()
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, refetch } = useQuery({
     queryFn: () => getProfile(),

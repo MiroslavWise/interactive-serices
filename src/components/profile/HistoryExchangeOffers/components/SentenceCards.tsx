@@ -6,13 +6,13 @@ import type { TSentenceCards } from "./types/types"
 
 import { CardBarter, LoadingBarters } from "@/components/common"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { getBarters } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
 export const SentenceCards: TSentenceCards = ({ value }) => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data, isLoading } = useQuery({
     queryFn: () =>
       getBarters({

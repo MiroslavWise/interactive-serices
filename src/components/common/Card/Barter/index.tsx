@@ -14,7 +14,7 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { dayFormat, daysAgo } from "@/helpers"
 import { getUserId } from "@/services"
-import { dispatchInitiatedBarter, useAuth_, useOffersCategories } from "@/store"
+import { dispatchInitiatedBarter, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -24,7 +24,7 @@ const title: Map<EnumStatusBarter, string> = new Map([
 ])
 
 export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { created, status, threadId, id, updated } = barter ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
 

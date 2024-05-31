@@ -8,7 +8,7 @@ import { IPostThreads } from "@/services/threads/types"
 
 import { LoadingThreadsPage } from "@/components/common"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getThreads, postThread } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
@@ -19,7 +19,7 @@ import styles from "../styles/style.module.scss"
 export const ChatEmpty = () => {
   const { on } = useToast()
   const idUser = useSearchParams().get("user")
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { handleReplace } = usePush()
   const { refetchCountMessages } = useCountMessagesNotReading()
 

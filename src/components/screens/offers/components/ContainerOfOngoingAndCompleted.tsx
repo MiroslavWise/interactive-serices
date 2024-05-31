@@ -5,7 +5,7 @@ import { EnumStatusBarter } from "@/types/enum"
 
 import { CardBarter, LoadingBarters, Segments } from "@/components/common"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { getBarters } from "@/services"
 import { SEGMENTS } from "../constants/segments"
 
@@ -19,7 +19,7 @@ const emptyDescription: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.COMPLETED, "У вас нет завершённых предложений, появится, когда вы завершите обмен"],
 ])
 export const ContainerOfOngoingAndCompleted = () => {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [active, setActive] = useState(SEGMENTS[0])
 
   const { data, isLoading } = useQuery({

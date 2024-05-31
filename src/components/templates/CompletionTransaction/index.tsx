@@ -11,12 +11,12 @@ import { Button, ButtonLink } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import { serviceNotifications, getTestimonials, getBarterId, getThreadId, postTestimonial } from "@/services"
-import { useAuth_, useAddTestimonials, useModal, EModalData, dispatchModalClose, dispatchAddTestimonials } from "@/store"
+import { useAuth, useAddTestimonials, useModal, EModalData, dispatchModalClose, dispatchAddTestimonials } from "@/store"
 
 export default function CompletionTransaction() {
   const [isFirst, setIsFirst] = useState(true)
   const [loading, setLoading] = useState(false)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { register, handleSubmit, watch, setValue, setFocus } = useForm<IValuesForm>({
     defaultValues: {
       rating: 3,

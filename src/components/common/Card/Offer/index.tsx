@@ -12,12 +12,12 @@ import { LoadingProfile } from "@/components/common"
 
 import { getUserId } from "@/services"
 import { dayFormat, useResize } from "@/helpers"
-import { useAuth_, useVisibleExchanges } from "@/store"
+import { useAuth, useVisibleExchanges } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiator, consigner }) => {
-  const { id: myUserId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: myUserId } = useAuth(({ auth }) => auth) ?? {}
   const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
   const { isTablet } = useResize()
 

@@ -10,13 +10,13 @@ import { IGetProfileIdResponse } from "@/services/profile/types"
 import { useWebSocket } from "./WebSocketProvider"
 import { useToast } from "@/helpers/hooks/useToast"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { useCountMessagesNotReading } from "@/helpers"
 import { getBarterUserIdReceiver, serviceNotifications } from "@/services"
 
 function Listener() {
   const { socket } = useWebSocket() ?? {}
-  const { id: userId } = useAuth_(({ user }) => user) ?? {}
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const { onMessage } = useToast()
   const { refetchCountMessages } = useCountMessagesNotReading()
   const threadId = useSearchParams().get("thread")
@@ -86,7 +86,7 @@ function Listener() {
 }
 
 export function AuthListener() {
-  const isAuth = useAuth_(({ isAuth }) => isAuth)
+  const isAuth = useAuth(({ isAuth }) => isAuth)
 
   return isAuth ? <Listener /> : null
 }

@@ -16,10 +16,10 @@ import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { fileUploadService, getGeocodeSearch, getUserIdOffers, patchOffer } from "@/services"
-import { dispatchUpdateOffer, useAuth_, useOffersCategories, useUpdateOffer } from "@/store"
+import { dispatchUpdateOffer, useAuth, useOffersCategories, useUpdateOffer } from "@/store"
 
 export default function UpdateOffer() {
-  const { id: userId } = useAuth_(({ user }) => user) ?? {}
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const [loading, setLoading] = useState(false)
   const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
   const [files, setFiles] = useState<File[]>([])

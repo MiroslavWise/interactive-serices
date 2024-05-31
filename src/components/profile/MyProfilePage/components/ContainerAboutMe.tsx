@@ -7,7 +7,7 @@ import { FormChangeAbout } from "./FormChangeAbout"
 
 import { BadgesColors } from "./BadgesColors"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import { getProfile } from "@/services"
 
 import styles from "./styles/about-me.module.scss"
@@ -32,7 +32,7 @@ const Edit = () => (
 
 export const ContainerAboutMe = () => {
   const [isEditing, setIsEditing] = useState(false)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const {
     data: dataProfile,

@@ -8,12 +8,12 @@ import { CardBarter, LoadingBarters } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getBarterUserIdReceiver } from "@/services"
-import { dispatchInitiatedBarter, useAuth_, useInitiatedBarter } from "@/store"
+import { dispatchInitiatedBarter, useAuth, useInitiatedBarter } from "@/store"
 
 import styles from "./style.module.scss"
 
 export function InitiatedBarterMobile() {
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useInitiatedBarter(({ visible }) => visible)
 
   const { data, isLoading } = useQuery({

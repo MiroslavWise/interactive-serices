@@ -3,10 +3,10 @@ import { ru } from "date-fns/locale"
 import { useQuery } from "@tanstack/react-query"
 
 import { getUserId } from "@/services"
-import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchModal, EModalData, useAuth_ } from "@/store"
+import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchModal, EModalData, useAuth } from "@/store"
 
 export const LoginDetails = () => {
-  const user = useAuth_(({ user }) => user)
+  const user = useAuth(({ user }) => user)
   const { data } = useQuery({
     queryFn: () => getUserId(user?.id!),
     queryKey: ["user", { userId: user?.id! }],

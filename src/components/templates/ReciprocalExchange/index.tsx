@@ -23,7 +23,7 @@ import {
   useReciprocalExchange,
   dispatchReciprocalExchange,
   dispatchReciprocalExchangeCollapse,
-  useAuth_,
+  useAuth,
   dispatchRefresh,
 } from "@/store"
 import { useWebSocket } from "@/context"
@@ -36,7 +36,7 @@ export default function ReciprocalExchange() {
   const [loading, setLoading] = useState(false)
   const offer = useReciprocalExchange(({ offer }) => offer)
   const categories = useOffersCategories(({ categories }) => categories)
-  const { id: userId } = useAuth_(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { socket } = useWebSocket()
   const { on, onBarters } = useToast()
   const methods = useForm<IFormValues>({

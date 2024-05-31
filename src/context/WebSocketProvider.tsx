@@ -8,7 +8,7 @@ import type { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { AuthListener } from "./AuthListener"
 
-import { useAuth_ } from "@/store"
+import { useAuth } from "@/store"
 import env from "@/config/environment"
 
 interface IContextSocket {
@@ -20,8 +20,8 @@ const CreateContextWebSocket = createContext<IContextSocket>({
 })
 
 export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
-  const { accessToken } = useAuth_(({ auth }) => auth) ?? {}
-  const { id: userId } = useAuth_(({ user }) => user) ?? {}
+  const { accessToken } = useAuth(({ auth }) => auth) ?? {}
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const [isFetch, setIsFetch] = useState(false)
   const [socketState, setSocketState] = useState<Socket | null>(null)
 

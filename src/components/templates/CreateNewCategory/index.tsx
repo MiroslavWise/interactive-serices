@@ -9,7 +9,7 @@ import { cx } from "@/lib/cx"
 import { postOfferCategory } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchVisibleCreateNewCategory, useCreateNewCategory } from "@/store"
-import { LIMIT_TITLE_CREATE_OFFER_CATEGORY, TCreateOfferCategory } from "./utils/create.schema"
+import { LIMIT_TITLE_CREATE_OFFER_CATEGORY, resolverCreateOfferCategory, TCreateOfferCategory } from "./utils/create.schema"
 
 import styles from "./styles/style.module.scss"
 
@@ -18,12 +18,14 @@ function CreateNewCategory() {
   const visible = useCreateNewCategory(({ visible }) => visible)
   const { onBarters } = useToast()
 
-  const { control, handleSubmit } = useForm<TCreateOfferCategory>({
+  const { control, handleSubmit, trigger } = useForm<TCreateOfferCategory>({
     defaultValues: {
       title: "",
       enabled: true,
       tags: true,
     },
+    reValidateMode: "onChange",
+    resolver: resolverCreateOfferCategory,
   })
 
   const onSubmit = handleSubmit((values) => {
@@ -35,9 +37,11 @@ function CreateNewCategory() {
         title: title,
         enabled: true,
         tags: true,
+        provider: "main",
       }
 
       postOfferCategory({ body }).then((response) => {
+        console.log("---postOfferCategory response---", response)
         setLoading(false)
         onBarters({
           message: "Мы обязательно рассмотрим его и ответим вам в личных сообщениях",
@@ -74,12 +78,15 @@ function CreateNewCategory() {
                 <span>
                   <textarea
                     {...field}
-                    onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
+                    onChange={(event) => {
+                      field.onChange(event.target.value.replace(/\s{2,}/g, " "))
+                      trigger(field.name)
+                    }}
                     placeholder="Ваше предложение"
-                    maxLength={80}
+                    maxLength={75}
                     data-error={!!fieldState.error}
                   />
-                  <sup>
+                  <sup data-error={!!fieldState.error}>
                     {field.value.length}/{LIMIT_TITLE_CREATE_OFFER_CATEGORY}
                   </sup>
                 </span>
