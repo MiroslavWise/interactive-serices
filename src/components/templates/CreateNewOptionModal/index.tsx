@@ -74,8 +74,6 @@ export default function CreateNewOptionModal() {
 
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
 
-  console.log("progress:", progress)
-
   function onUploadProgress(value: AxiosProgressEvent, name: FormDataEntryValue | null) {
     setProgress((prev) => ({
       ...prev,
