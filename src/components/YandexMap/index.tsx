@@ -11,21 +11,26 @@ import { ListPlacemark } from "./ObjectsMap"
 
 import { useAddress } from "@/helpers"
 import { getAddressCoords } from "@/helpers/get-address"
-import { dispatchHasBalloon, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth, useBounds, useMapCoordinates } from "@/store"
+import { dispatchAuthModal, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth, useBounds, useMapCoordinates } from "@/store"
+import { useToast } from "@/helpers/hooks/useToast"
 
 const COORD = [30.19, 59.57]
 
 const YandexMap: TYandexMap = ({}) => {
   const auth = useAuth(({ auth }) => auth) ?? {}
+  const isAuth = useAuth(({ isAuth }) => isAuth) ?? {}
   const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const instanceRef: TTypeInstantsMap = useRef()
   const bounds = useBounds(({ bounds }) => bounds)
   const dispatchBounds = useBounds(({ dispatchBounds }) => dispatchBounds)
+  const { on } = useToast()
 
   function onContextMenu(e: any) {
-    if (!auth) {
+    if (!isAuth) {
+      dispatchAuthModal({ visible: true, type: "SignIn" })
+      on({ message: "Вы не можете создать услугу и беседу, пока не войдёте или не зарегистрируетесь на нашем сервисе" })
       return
     }
     const mapOne: number = e?._sourceEvent?.originalEvent?.coords?.[0]
