@@ -3,6 +3,7 @@ import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/
 
 import { instance } from "../request"
 import { isTokenExpired, useAuth, type TAuth } from "@/store"
+import { AxiosError } from "axios"
 
 const url = "/auth"
 
@@ -28,6 +29,14 @@ export async function login({ email, password }: TSchemaEmailSignIn): Promise<IR
       meta: null,
     }
   } catch (e) {
+    if (e instanceof AxiosError) {
+      const error = e?.response?.data?.error
+      return {
+        ok: false,
+        error: error,
+      }
+    }
+
     return {
       ok: false,
       error: e,
@@ -70,6 +79,14 @@ export async function refresh() {
       }
     }
   } catch (e) {
+    if (e instanceof AxiosError) {
+      const error = e?.response?.data?.error
+      return {
+        ok: false,
+        error: error,
+      }
+    }
+
     return {
       ok: false,
     }

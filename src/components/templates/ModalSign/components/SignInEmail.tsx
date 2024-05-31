@@ -31,7 +31,7 @@ export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: {
 
       dispatchLoginTokenData({ email: value.email, password: value.password })
         .then((response) => {
-          console.log("dispatchLoginTokenData response: ", response)
+          console.log("response: ", response)
           if (!!response?.error?.message) {
             const errorMessage = String(response?.error?.message)?.toLowerCase()
             if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
