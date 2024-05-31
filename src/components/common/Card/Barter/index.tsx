@@ -6,18 +6,17 @@ import { IBarterResponse, ISmallDataOfferBarter } from "@/services/barters/types
 
 import { ButtonLink } from "../../Forward"
 import { LoadingProfile } from "../../Loading"
+import { IconGeo } from "@/components/icons/IconGeo"
 import { BadgeStatus } from "./components/BadgeStatus"
 import { IconRevers } from "@/components/icons/IconRevers"
 import { ImageCategory, NextImageMotion } from "../../Image"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-import { dispatchBallonOffer, dispatchInitiatedBarter, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
+import { dayFormat, daysAgo } from "@/helpers"
 import { getUserId } from "@/services"
+import { dispatchInitiatedBarter, useAuth, useOffersCategories } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { IResponseOffers } from "@/services/offers/types"
-import { IconGeo } from "@/components/icons/IconGeo"
-import { dayFormat, daysAgo } from "@/helpers"
 
 const title: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.EXECUTED, "Начало обмена"],
@@ -25,7 +24,7 @@ const title: Map<EnumStatusBarter, string> = new Map([
 ])
 
 export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { created, status, threadId, id, updated } = barter ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
 
@@ -76,11 +75,6 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
     [categories],
   )
 
-  function handle(offer: ISmallDataOfferBarter) {
-    // dispatchBallonOffer({ offer: offer! as IResponseOffers })
-    // dispatchModal(EModalData.BalloonOffer)
-  }
-
   return (
     <article className={styles.container} data-status={status}>
       {[EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!) ? (
@@ -128,12 +122,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       {categoriesBarter ? (
         <section data-categories>
           <div data-first>
-            <article
-              onClick={(event) => {
-                event.stopPropagation()
-                handle(categoriesBarter?.start!)
-              }}
-            >
+            <article>
               <div data-icon>
                 <ImageCategory id={categoriesBarter?.start?.categoryId} />
               </div>
@@ -141,13 +130,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
             </article>
             <IconRevers />
           </div>
-          <article
-            data-me
-            onClick={(event) => {
-              event.stopPropagation()
-              handle(categoriesBarter?.end!)
-            }}
-          >
+          <article data-me>
             <div data-icon>
               <ImageCategory id={categoriesBarter?.end?.categoryId} />
             </div>

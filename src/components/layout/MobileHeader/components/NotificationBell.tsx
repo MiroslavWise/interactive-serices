@@ -7,12 +7,12 @@ import { useEffect, useState } from "react"
 
 export const NotificationBell = () => {
   const [count, setCount] = useState<number | null>(null)
-  const token = useAuth(({ token }) => token)
-  const userId = useAuth(({ userId }) => userId)
+  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data: dataNotifications } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
-    queryKey: ["notifications", { userId: userId }],
-    enabled: !!userId,
+    queryKey: ["notifications", { userId: id }],
+    enabled: !!id,
     refetchOnMount: true,
   })
 
@@ -28,7 +28,7 @@ export const NotificationBell = () => {
     }
   }, [dataNotifications?.res])
 
-  return !!token ? (
+  return !!isAuth ? (
     <button
       data-notifications
       onClick={(event) => {

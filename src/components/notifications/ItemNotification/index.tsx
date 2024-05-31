@@ -36,7 +36,7 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
 export const ItemNotification = (props: IResponseNotifications) => {
   const { created, provider, operation, data, id, read } = props ?? {}
   const [loading, setLoading] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
 
   const idUser = useMemo(() => {
@@ -91,7 +91,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
   const { data: dataOffer } = useQuery({
     queryFn: () => getIdOffer(offerId!),
     queryKey: ["offers", { offerId: offerId }],
-    enabled: !!offerId && provider === "offer-pay",
+    enabled: !!offerId && ["barter", "offer-pay"].includes(provider),
   })
 
   const categoryOfferName = useMemo(() => {

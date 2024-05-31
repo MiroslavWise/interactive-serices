@@ -51,6 +51,8 @@ import {
   description,
   titlePlaceholderContent,
 } from "./constants/titles"
+import { AxiosProgressEvent } from "axios"
+import CurrentImage from "./components/CurrentImage"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
@@ -60,16 +62,26 @@ export default function CreateNewOptionModal() {
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const step = useOnboarding(({ step }) => step)
   const visible = useOnboarding(({ visible }) => visible)
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const { refetch: refetchDataMap } = useMapOffers()
   const { on } = useToast()
   const categories = useOffersCategories(({ categories }) => categories)
-
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
+
+  const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
+
+  console.log("progress:", progress)
+
+  function onUploadProgress(value: AxiosProgressEvent, name: FormDataEntryValue | null) {
+    setProgress((prev) => ({
+      ...prev,
+      [String(name)]: value,
+    }))
+  }
 
   const { refetch } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: typeAdd, order: "DESC" }),
@@ -84,6 +96,7 @@ export default function CreateNewOptionModal() {
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<TSchemaCreate>({
     defaultValues: {
@@ -111,6 +124,17 @@ export default function CreateNewOptionModal() {
       : undefined,
   })
 
+  const onProgress = (files: File[], index: number): number => {
+    const file = files[index]
+    const name = file?.name
+
+    if (Object.hasOwn(progress, name)) {
+      return (progress[name].loaded / (progress[name].total! || 1)) * 100
+    }
+
+    return 0
+  }
+
   function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
       if (response.ok) {
@@ -122,6 +146,7 @@ export default function CreateNewOptionModal() {
                 type: typeAdd!,
                 userId: userId!,
                 idSupplements: id!,
+                onUploadProgress: onUploadProgress,
               }),
             ),
           ).then((responses) => {
@@ -199,33 +224,25 @@ export default function CreateNewOptionModal() {
     }
     if (!loading) {
       setLoading(true)
-      if (initMapAddress && stateModal === EModalData.CreateNewOptionModalMap) {
-        createAddressPost(initMapAddress).then((response) => {
-          if (response?.ok) {
-            create(
-              {
-                ...data,
-                addresses: [response.res?.id!],
-              },
-              values.file.file,
-            )
-          }
-        })
-      } else {
-        if (values?.addressFeature!) {
-          createAddress(values?.addressFeature!, userId!).then((response) => {
-            if (response?.ok) {
-              create(
-                {
-                  ...data,
-                  addresses: [response.res?.id!],
-                },
-                values.file.file,
-              )
-            }
-          })
+
+      Promise.resolve(
+        initMapAddress && stateModal === EModalData.CreateNewOptionModalMap
+          ? createAddressPost(initMapAddress)
+          : createAddress(values?.addressFeature!, userId!),
+      ).then((response) => {
+        if (response.ok) {
+          create(
+            {
+              ...data,
+              addresses: [response.res?.id!],
+            },
+            values.file.file,
+          )
+        } else {
+          setError("root", { message: response?.error?.message })
+          setLoading(false)
         }
-      }
+      })
     }
   }
 
@@ -307,13 +324,6 @@ export default function CreateNewOptionModal() {
       file: filesReady.file.splice(0, 9),
       string: filesReady.string.splice(0, 9),
     })
-  }
-
-  function deletePhoto(values: { file: File[]; string: string[] }, index: number) {
-    return {
-      file: values.file.filter((_, i) => index !== i),
-      string: values.string.filter((_, i) => index !== i),
-    }
   }
 
   function handleClose() {
@@ -477,23 +487,15 @@ export default function CreateNewOptionModal() {
                 <label htmlFor={field.name}>Фото или видео</label>
                 <p>{descriptionImages(typeAdd!)}</p>
                 <div data-images data-focus={visible && step === 4}>
-                  {field.value.string.map((item, index) => {
-                    return (
-                      <div key={`${index}-image`} data-image>
-                        <ImageStatic data-img src={item! as string} alt="offer" width={304} height={392} />
-                        <button
-                          type="button"
-                          data-trash
-                          onClick={() => {
-                            const deleteData = deletePhoto(field.value, index)
-                            field.onChange(deleteData)
-                          }}
-                        >
-                          <IconTrashBlack />
-                        </button>
-                      </div>
-                    )
-                  })}
+                  {field.value.string.map((item, index) => (
+                    <CurrentImage
+                      key={`${index}-image`}
+                      item={item}
+                      index={index}
+                      field={field}
+                      progress={!loading ? null : onProgress(field.value.file, index)}
+                    />
+                  ))}
                   {field.value.string.length < 9 ? (
                     <div data-image="new">
                       <input

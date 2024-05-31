@@ -4,7 +4,6 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IResponseThread } from "@/services/threads/types"
-import type { IUserResponse } from "@/services/users/types"
 
 import { LoadingThreadNotice } from "@/components/common"
 
@@ -16,7 +15,7 @@ import { dispatchBallonOffer, dispatchModal, EModalData, useAuth, useOffersCateg
 import styles from "./styles/notice-offer-pay.module.scss"
 
 export const NoticeOfferPay = ({ thread, user }: { thread: IResponseThread; user: IUserOffer }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
   const { firstName } = user ?? {}
   const { data, isLoading } = useQuery({

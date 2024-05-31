@@ -1,16 +1,10 @@
 "use client"
 
-import { useAuth } from "@/store"
-import { getLogout } from "@/services"
+import { dispatchClearAuth } from "@/store"
 
 export const useOut = () => {
-  const signOut = useAuth(({ signOut }) => signOut)
-
   function out() {
-    getLogout().then((response) => {
-      console.log("response logout: ", response)
-      signOut()
-    })
+    dispatchClearAuth()
   }
 
   return { out }

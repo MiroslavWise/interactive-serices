@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { useQueries, useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import { IResponseOffers } from "@/services/offers/types"
 
 import IconLike from "@/components/icons/IconLike"
 
 import { useAuth } from "@/store"
-import { serviceLikes } from "@/services/likes"
+import { serviceLikes } from "@/services"
 
 interface IProps {
   offer: IResponseOffers
@@ -16,14 +16,13 @@ export const ButtonLike = ({ offer }: IProps) => {
   const [loading, setLoading] = useState(false)
   const [count, setCount] = useState(0)
   const [myLike, setMyLike] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id } = offer ?? {}
 
   const {
     data: dataLikesMy,
     isLoading: isLoadingLikesMy,
     isPending: isPendingLikesMy,
-    refetch,
   } = useQuery({
     queryFn: () => serviceLikes.get(),
     queryKey: ["likes", `user=${userId}`],

@@ -4,10 +4,11 @@ import { useSearchParams } from "next/navigation"
 import { memo, useState, useMemo, useEffect } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
+import { IUserOffer } from "@/services/offers/types"
 import type { IBarterResponse } from "@/services/barters/types"
-import type { IUserResponse } from "@/services/users/types"
 
-import { Button, GeoTagging, LoadingThreadNotice, NextImageMotion } from "@/components/common"
+import { Button, LoadingThreadNotice, NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
 import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
@@ -15,14 +16,12 @@ import { useAuth, useOffersCategories, dispatchBallonOffer, dispatchModal, EModa
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
-import { EnumStatusBarter } from "@/types/enum"
-import { IUserOffer } from "@/services/offers/types"
 
 export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEnemy }: { idBarter: number; user: IUserOffer }) {
   const threadId = useSearchParams().get("thread")
   const { firstName } = userEnemy ?? {}
   const user = useAuth(({ user }) => user)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
   const [loading, setLoading] = useState(false)
   const { socket } = useWebSocket()
@@ -89,7 +88,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
         if (response.ok) {
           const date = new Date()
           const receiverIds = [Number(userEnemy?.id)]
-          const message = `Пользователь ${user?.username} согласился принять ваш запрос на обмен!`
+          const message = `Пользователь ${user?.profile?.username} согласился принять ваш запрос на обмен!`
           socket?.emit("barter", {
             receiverIds: receiverIds,
             message: message,

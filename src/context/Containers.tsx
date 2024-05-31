@@ -23,7 +23,6 @@ import {
 } from "@/components/templates"
 
 import {
-  useAuth,
   usePhotoOffer,
   useHasBalloons,
   useDroverFriends,
@@ -36,6 +35,7 @@ import {
   useCreateNewCategory,
   useChangeService,
   useAdvertisingBanner,
+  useAuth,
 } from "@/store"
 import { useResize } from "@/helpers"
 

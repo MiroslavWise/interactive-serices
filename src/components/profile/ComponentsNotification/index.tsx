@@ -17,7 +17,7 @@ import styles from "./styles/style.module.scss"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
   const { isTablet } = useResize()
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data, created, operation, provider, id } = props ?? {}
   const { handlePush } = usePush()
 

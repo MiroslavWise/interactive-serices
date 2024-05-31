@@ -1,11 +1,8 @@
 import type { IServiceOffersCategories, TPostOfferCategory } from "./types"
 
-import { wrapperGet, wrapperPost } from "../requestsWrapper"
+import { get, wrapperPost } from "../request"
 
 const url = "/offers-categories"
 
-export const serviceOffersCategories: IServiceOffersCategories = {
-  get: (query) => wrapperGet({ url, query, cache: "force-cache" }),
-}
-
+export const getOffersCategories: IServiceOffersCategories["get"] = (value) => get({ url, query: value?.query })
 export const postOfferCategory: TPostOfferCategory = ({ body }) => wrapperPost({ url, body })

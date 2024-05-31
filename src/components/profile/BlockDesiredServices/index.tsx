@@ -12,7 +12,7 @@ import { dispatchActiveServicesFrom, useAuth } from "@/store"
 import styles from "./style.module.scss"
 
 export const BlockDesiredServices = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
     queryFn: () => getUserId(userId!),

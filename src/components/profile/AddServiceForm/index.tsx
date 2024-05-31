@@ -17,7 +17,7 @@ import ItemCategorySearch from "./components/ItemCategorySearch"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useChangeService(({ visible }) => visible)
   const categories = useOffersCategories(({ categories }) => categories)
 

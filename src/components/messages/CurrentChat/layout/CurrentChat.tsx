@@ -22,7 +22,7 @@ import styles from "../styles/style.module.scss"
 export const CurrentChat = () => {
   const { isTablet } = useResize()
   const idThread = useSearchParams().get("thread")
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const setIsVisible = usePopupMenuChat(({ setIsVisible }) => setIsVisible)
   const { handleReplace } = usePush()
   const { socket } = useWebSocket() ?? {}

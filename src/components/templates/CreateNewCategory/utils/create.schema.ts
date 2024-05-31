@@ -3,15 +3,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 export const LIMIT_TITLE_CREATE_OFFER_CATEGORY = 70
 
+const title = z
+  .string()
+  .trim()
+  .min(1, { message: "Поле, обязательно для заполнения" })
+  .max(LIMIT_TITLE_CREATE_OFFER_CATEGORY, { message: `Не более ${LIMIT_TITLE_CREATE_OFFER_CATEGORY} символов` })
+  .default("")
+
 export const schema = z.object({
   parentId: z.number().optional(),
   provider: z.string().optional(),
-  title: z
-    .string()
-    .trim()
-    .min(1, { message: "Поле, обязательно для заполнения" })
-    .max(LIMIT_TITLE_CREATE_OFFER_CATEGORY, { message: `Не более ${LIMIT_TITLE_CREATE_OFFER_CATEGORY} символов` })
-    .default(""),
+  title: title,
   slug: z.string().optional(),
   description: z.string().optional(),
   content: z.string().optional(),

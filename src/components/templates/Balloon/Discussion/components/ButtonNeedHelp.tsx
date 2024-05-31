@@ -6,7 +6,7 @@ import { dispatchAuthModal, useAuth } from "@/store"
 import styles from "../styles/button-need-help.module.scss"
 
 export const ButtonNeedHelp = ({ idUser, close }: { idUser: number; close: DispatchWithoutAction }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { handlePush } = usePush()
 
   function handle() {

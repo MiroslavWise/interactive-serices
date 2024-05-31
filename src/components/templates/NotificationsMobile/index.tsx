@@ -17,7 +17,7 @@ import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "
 import styles from "./styles/style.module.scss"
 
 export function NotificationsMobile() {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useVisibleNotifications(({ visible }) => visible)
 
   const [status, setStatus] = useState<TTypeWaiting>("all")

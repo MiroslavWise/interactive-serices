@@ -19,7 +19,7 @@ import { fileUploadService, getGeocodeSearch, getUserIdOffers, patchOffer } from
 import { dispatchUpdateOffer, useAuth, useOffersCategories, useUpdateOffer } from "@/store"
 
 export default function UpdateOffer() {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const [loading, setLoading] = useState(false)
   const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
   const [files, setFiles] = useState<File[]>([])
@@ -61,7 +61,7 @@ export default function UpdateOffer() {
     setValue,
   } = useForm<IValues>({
     defaultValues: {
-      description: offer?.title!,
+      description: offer?.description!,
       category: offer?.categoryId!,
       address: geo?.id,
     },
@@ -117,8 +117,8 @@ export default function UpdateOffer() {
       setLoading(true)
       const body: IPatchOffers = {}
 
-      if (offer?.title !== values.description && !!values.description) {
-        body.title = values.description
+      if (offer?.description !== values.description && !!values.description) {
+        body.description = values.description
       }
 
       if (offer?.categoryId !== values.category && !!values.category) {

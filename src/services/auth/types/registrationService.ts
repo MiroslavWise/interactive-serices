@@ -1,12 +1,11 @@
 import type { IReturnData } from "@/services/types/general"
 import type { IResponseLoginNot2fa } from "./authService"
+import { IAgree } from "./typeAgree"
 
-export interface IDataRegistration {
+export interface IDataRegistration extends IAgree {
   email: string
   password: string
   repeat: string
-  agree: boolean
-  marketing: boolean
 }
 
 export interface IResponseDataRegistration {

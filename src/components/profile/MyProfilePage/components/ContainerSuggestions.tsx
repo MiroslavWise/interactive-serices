@@ -36,7 +36,7 @@ const titleEmptyNull: Map<EnumTypeProvider, string> = new Map([
 
 export const ContainerSuggestions: TContainerSuggestions = () => {
   const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data: dataOffersAll, isLoading: isLoadingAll } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { order: "DESC" }),

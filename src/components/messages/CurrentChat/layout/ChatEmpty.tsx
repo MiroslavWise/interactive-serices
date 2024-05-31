@@ -19,7 +19,7 @@ import styles from "../styles/style.module.scss"
 export const ChatEmpty = () => {
   const { on } = useToast()
   const idUser = useSearchParams().get("user")
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { handleReplace } = usePush()
   const { refetchCountMessages } = useCountMessagesNotReading()
 

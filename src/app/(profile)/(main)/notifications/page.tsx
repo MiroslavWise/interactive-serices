@@ -13,7 +13,7 @@ import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/N
 import { EnumStatusBarter } from "@/types/enum"
 
 export default function Notifications() {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [status, setStatus] = useState<TTypeWaiting>("all")
 
   const [stateNotifications, setStateNotifications] = useState<IResponseNotifications[]>([])

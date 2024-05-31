@@ -17,7 +17,7 @@ import styles from "../styles/block-comments.module.scss"
 
 export function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { socket } = useWebSocket() ?? {}
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
   const { data: dataOffersThreads } = useQuery({

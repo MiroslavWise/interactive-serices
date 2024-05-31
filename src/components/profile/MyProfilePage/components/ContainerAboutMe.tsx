@@ -32,7 +32,7 @@ const Edit = () => (
 
 export const ContainerAboutMe = () => {
   const [isEditing, setIsEditing] = useState(false)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const {
     data: dataProfile,

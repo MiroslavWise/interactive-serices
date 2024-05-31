@@ -16,7 +16,7 @@ import { getBarterUserIdReceiver, serviceNotifications } from "@/services"
 
 function Listener() {
   const { socket } = useWebSocket() ?? {}
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const { onMessage } = useToast()
   const { refetchCountMessages } = useCountMessagesNotReading()
   const threadId = useSearchParams().get("thread")

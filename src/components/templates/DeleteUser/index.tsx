@@ -9,8 +9,7 @@ import { patchUser } from "@/services"
 import { dispatchModal, dispatchModalClose, EModalData, useAuth } from "@/store"
 
 function DeleteUser() {
-  const userId = useAuth(({ userId }) => userId)
-  const role = useAuth(({ user }) => user)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { out } = useOut()
   const [loading, setLoading] = useState(false)
 

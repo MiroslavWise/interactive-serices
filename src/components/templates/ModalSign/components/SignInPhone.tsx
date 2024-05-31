@@ -1,16 +1,22 @@
 import { useForm } from "react-hook-form"
-import { type ReactNode, memo, useState } from "react"
+import { DispatchWithoutAction, type ReactNode, memo, useState } from "react"
 
 import { resolverPhoneSigIn, TSchemaPhoneSignIn } from "../utils/phone-sign-in.schema"
 
 import { Button } from "@/components/common"
 
-import { functionAuthErrors, serviceAuth } from "@/services/auth"
-import { dispatchAuthModalCodeVerification, dispatchStartTimer } from "@/store/hooks"
+import { functionAuthErrors, serviceAuth } from "@/services"
+import { dispatchAuthModal, dispatchAuthModalCodeVerification, dispatchStartTimer } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
-export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: { children: ReactNode; itemForgot: ReactNode }) {
+const messageRegister = ({ cb }: { cb: DispatchWithoutAction }) => (
+  <i>
+    Аккаунт с данным номером не найден. Пройдите <a onClick={cb}>регистрацию</a>
+  </i>
+)
+
+export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; itemForgot: ReactNode }) => {
   const [loading, setLoading] = useState(false)
 
   const {
@@ -23,7 +29,9 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
     clearErrors,
   } = useForm<TSchemaPhoneSignIn>({ defaultValues: { phone: "" }, resolver: resolverPhoneSigIn })
 
-  function onEnter(values: TSchemaPhoneSignIn) {
+  const onRegister = () => dispatchAuthModal({ type: "SignUp" })
+
+  const submit = handleSubmit(function (values) {
     if (!loading) {
       setLoading(true)
       const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
@@ -36,15 +44,17 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
           }
         } else {
           const errorMessage = response?.error?.message
-          setError("phone", { message: functionAuthErrors(errorMessage) })
+          if (errorMessage === "must agree") {
+            setError("phone", { type: "on_register" })
+          } else {
+            setError("phone", { message: functionAuthErrors(errorMessage) })
+          }
         }
         console.log(" serviceAuth phone: ", response)
         setLoading(false)
       })
     }
-  }
-
-  const submit = handleSubmit(onEnter)
+  })
 
   return (
     <form onSubmit={submit}>
@@ -66,7 +76,11 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
               maxLength={14}
             />
           </div>
-          {!!errors.phone ? <i>{errors?.phone?.message}</i> : null}
+          {!!errors.phone && errors.phone.type === "on_register" ? (
+            messageRegister({ cb: onRegister })
+          ) : !!errors.phone ? (
+            <i>{errors?.phone?.message}</i>
+          ) : null}
         </div>
       </section>
       {itemForgot}
@@ -74,4 +88,4 @@ export const SignInPhone = memo(function SignInPhone({ children, itemForgot }: {
       {children}
     </form>
   )
-})
+}

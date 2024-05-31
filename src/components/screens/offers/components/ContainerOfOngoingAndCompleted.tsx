@@ -19,7 +19,7 @@ const emptyDescription: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.COMPLETED, "У вас нет завершённых предложений, появится, когда вы завершите обмен"],
 ])
 export const ContainerOfOngoingAndCompleted = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [active, setActive] = useState(SEGMENTS[0])
 
   const { data, isLoading } = useQuery({

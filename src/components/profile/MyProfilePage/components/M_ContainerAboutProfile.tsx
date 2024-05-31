@@ -13,7 +13,7 @@ import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile,
 import styles from "./styles/m-container-about-profile.module.scss"
 
 export const MContainerAboutProfile = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
 
   const { data: dataUser } = useQuery({

@@ -77,6 +77,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             />
           </div>
         </noscript>
+        {!env!?.server!?.host!?.includes("dev") ? <Script src="/scripts/mail-ru-metrics.js" /> : null}
+        <noscript>
+          <div>
+            <img
+              src="https://top-fwz1.mail.ru/counter?id=3519466;js=na"
+              style={{ position: "absolute", left: "-9999px" }}
+              alt="Top.Mail.Ru"
+            />
+          </div>
+        </noscript>
       </head>
       <body className={cx(inter.className, inter.variable)} id="body-layout">
         <Providers>

@@ -17,15 +17,15 @@ export const LinkOffers = memo(function LinkOffers() {
   const pathname = usePathname()
   const handleAuthModal = useSign()
   const isAuth = useAuth(({ isAuth }) => isAuth)
-  const userId = useAuth(({ userId }) => userId)
+  const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data } = useQuery({
     queryFn: () =>
-      getBarterUserIdReceiver(userId!, {
+      getBarterUserIdReceiver(id!, {
         status: EnumStatusBarter.INITIATED,
         order: "DESC",
       }),
-    queryKey: ["barters", { receiver: userId, status: EnumStatusBarter.INITIATED }],
-    enabled: !!userId && isAuth,
+    queryKey: ["barters", { receiver: id, status: EnumStatusBarter.INITIATED }],
+    enabled: !!id && isAuth,
     refetchOnReconnect: true,
     refetchOnMount: true,
   })

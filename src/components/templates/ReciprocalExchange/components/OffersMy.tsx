@@ -16,7 +16,7 @@ import { useAuth, useOffersCategories } from "@/store"
 import styles from "../styles/offers-my.module.scss"
 
 export const OffersMy = memo(({ loading }: IProps) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const categories = useOffersCategories(({ categories }) => categories)
   const {
     register,

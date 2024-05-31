@@ -19,7 +19,7 @@ import { IResponseOffersCategories } from "@/services/offers-categories/types"
 import styles from "../styles/choose-an-offer.module.scss"
 
 export const ChooseAnOffer = memo(({ loading, firstName, categoriesWants = [] }: IProps) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ user }) => user) ?? {}
   const { register, setValue, watch } = useFormContext<IFormValues>()
 
   const { data: dataOffersMy, isLoading } = useQuery({

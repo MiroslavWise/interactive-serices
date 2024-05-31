@@ -8,10 +8,6 @@ export interface IResetEmailData {
   password_reset_token: string
 }
 
-export type TContentSignIn = FC<{
-  setValueSecret: Dispatch<SetStateAction<{ url: string; secret: string }>>
-}>
-
 export type TContentForgotPassword = FC<{}>
 
 export type TContentSignUp = FC<{}>

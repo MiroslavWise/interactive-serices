@@ -1,9 +1,7 @@
-// import { encode } from "blurhash"
-
 import type { IReturnData } from "../types/general"
 import type { IResponseUploadFile, IProvider } from "./types"
 
-import { wrapperUploadFile } from "../requestsWrapper"
+import { postForm } from "../request"
 
 import { generateShortHash } from "@/lib/hash"
 
@@ -38,7 +36,6 @@ export async function fileUploadService(uploadFile: File, provider: IProvider): 
   formData.append("ext", `.${uploadFile.name.split(".").at(-1)}`)
   formData.append("alt", uploadFile.name)
   formData.append("hash", "")
-  // formData.append("hash", resolve ?? "")
   formData.append("height", dimensions.height.toString())
   formData.append("width", dimensions.width.toString())
   formData.append("provider", `${provider.type}:${provider.userId}:${provider.idSupplements}`)
@@ -47,5 +44,5 @@ export async function fileUploadService(uploadFile: File, provider: IProvider): 
   formData.append("type", uploadFile.type)
   formData.append("file", uploadFile)
 
-  return await wrapperUploadFile({ url: "/files/upload", file: formData })
+  return await postForm({ url: "/files/upload", file: formData, onUploadProgress: provider?.onUploadProgress })
 }

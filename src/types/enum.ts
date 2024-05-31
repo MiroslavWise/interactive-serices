@@ -3,7 +3,6 @@ export enum EnumTypeProvider {
   offer = "offer",
   discussion = "discussion",
   alert = "alert",
-  request = "request",
   barter = "barter",
   threads = "threads",
 }

@@ -31,6 +31,6 @@
     "server.js",
     "src/components/templates/Onboarding/layout",
     "src/components/templates/BallonOffer"
-  ],
+, "src/components/YandexMap/ObjectsMap/index.tsx"  ],
   "exclude": ["node_modules"]
 }

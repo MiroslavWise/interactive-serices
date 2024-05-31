@@ -20,7 +20,7 @@ import styles from "./styles/style.module.scss"
 export const ReasonBarters = () => {
   const [loading, setLoading] = useState(false)
   const { onBarters } = useToast()
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useReasonBarters(({ visible }) => visible)
   const barterId = useReasonBarters(({ barterId }) => barterId)
   const notificationId = useReasonBarters(({ notificationId }) => notificationId)

@@ -14,7 +14,7 @@ import { useAuth, dispatchMobileChangeAbout, useMobileChangeAbout } from "@/stor
 import styles from "./styles/style.module.scss"
 
 export const MobileChangeAbout = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useMobileChangeAbout(({ visible }) => visible)
   const [loading, setLoading] = useState(false)
 

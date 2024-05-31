@@ -11,7 +11,7 @@ import { getUserIdOffers, patchOffer } from "@/services"
 import { useDeleteOffer, dispatchDeleteOffer, useAuth } from "@/store"
 
 function DeleteOffer() {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const idOffer = useDeleteOffer(({ idOffer }) => idOffer)
 
   const [loading, setLoading] = useState(false)

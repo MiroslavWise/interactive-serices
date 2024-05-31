@@ -14,7 +14,7 @@ import { useCountMessagesNotReading, useResize } from "@/helpers"
 import styles from "./styles/style.module.scss"
 
 export const List: TList = ({ items = [], search = "" }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { isTablet } = useResize()
   const [state, setState] = useState<IResponseThreads[]>(items)
   const { isLoading } = useCountMessagesNotReading()

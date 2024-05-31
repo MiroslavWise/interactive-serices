@@ -16,7 +16,7 @@ import { timeNowOrBeforeChat } from "@/lib/timeNowOrBefore"
 import styles from "./styles/style.module.scss"
 
 export const ItemListChat: TItemListChat = memo(({ thread, last }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const idThread = useSearchParams().get("thread")
   const { provider, emitter, receivers, id, messages } = thread ?? {}
 

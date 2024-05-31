@@ -1,6 +1,6 @@
 import { TGetLogout, TGetSession, TPostNewPassword, type IAuth, IRequestPhone } from "./types/types"
 
-import { wrapperGet, wrapperPost } from "../requestsWrapper"
+import { get, wrapperPost } from "../request"
 
 const route = "/auth"
 
@@ -27,8 +27,8 @@ export const serviceAuth: IAuth = {
 }
 
 export const postNewPassword: TPostNewPassword = (body) => wrapperPost({ url: `${route}/change-password`, body })
-export const getSession: TGetSession = () => wrapperGet({ url: `${route}/session` })
-export const getLogout: TGetLogout = () => wrapperGet({ url: `${route}/logout` })
+export const getSession: TGetSession = () => get({ url: `${route}/session` })
+export const getLogout: TGetLogout = () => get({ url: `${route}/logout` })
 
 export const serviceAuthErrors: Map<string, string> = new Map([
   ["unauthorized", "Пользователь не авторизован"],
@@ -39,13 +39,14 @@ export const serviceAuthErrors: Map<string, string> = new Map([
   ["password is not match", "Неверный пароль"],
   ["password is incorrect", "Неверный пароль"],
   ["default", "Какая-то ошибка у нас на сервере. Мы сейчас разбираемся"],
-  ["email is not valid", "Не валидный email"],
+  ["email is not valid", "Такой почты не существует"],
   ["password is not strong enough", "Пароль недостаточно сложный"],
   ["repeat is not strong enough", "Повтор недостаточно надёжный"],
   ["wrong sms code", "Неправильный смс-код"],
   ["throttlerexception: too many requests", "Слишком много запросов"],
   ["request entity too large", "Слишком большой, по объёму, запрос"],
   ["password too weak", "Пароль слишком слабый"],
+  ["must agree", "Нет согласия с Пользовательским соглашением"],
 ])
 
 export const functionAuthErrors = (messages: string | string[]): string => {

@@ -1,4 +1,5 @@
 import { EnumTypeProvider } from "@/types/enum"
+import { AxiosProgressEvent } from "axios"
 
 export type TTypeUploadFileImage = "image/png" | "image/jpeg" | "image/gif" | "image/bmp" | "image/tiff" | "image/svg+xml" | "image/webp"
 
@@ -37,4 +38,5 @@ export interface IProvider {
   type: EnumTypeProvider
   userId: number
   idSupplements: number
+  onUploadProgress?: (value: AxiosProgressEvent, name: FormDataEntryValue | null) => void
 }

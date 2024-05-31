@@ -19,7 +19,7 @@ import styles from "../styles/style.module.scss"
 export function ChatOfferPay() {
   const { on } = useToast()
   const idOfferPay = useSearchParams().get("offer-pay")
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { handleReplace } = usePush()
   const { refetchCountMessages } = useCountMessagesNotReading()
 

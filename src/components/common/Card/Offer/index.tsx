@@ -17,7 +17,7 @@ import { useAuth, useVisibleExchanges } from "@/store"
 import styles from "./style.module.scss"
 
 export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiator, consigner }) => {
-  const myUserId = useAuth(({ userId }) => userId)
+  const { id: myUserId } = useAuth(({ auth }) => auth) ?? {}
   const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
   const { isTablet } = useResize()
 

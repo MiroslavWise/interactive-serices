@@ -15,7 +15,7 @@ import { getBarterUserIdReceiver } from "@/services"
 import styles from "./styles/style.module.scss"
 
 export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data, refetch, isLoading } = useQuery({
     queryFn: () =>
       getBarterUserIdReceiver(userId!, {

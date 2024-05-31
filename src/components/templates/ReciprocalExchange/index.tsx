@@ -18,12 +18,13 @@ import { ItemProfile } from "./components/ItemProfile"
 import { Button, LoadingProfile } from "@/components/common"
 
 import {
-  useAuth,
   dispatchBallonOffer,
   useOffersCategories,
   useReciprocalExchange,
   dispatchReciprocalExchange,
   dispatchReciprocalExchangeCollapse,
+  useAuth,
+  dispatchRefresh,
 } from "@/store"
 import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
@@ -32,11 +33,10 @@ import { createAddress } from "@/helpers/address/create"
 import { serviceNotifications, postOffer, postBarter, getUserId } from "@/services"
 
 export default function ReciprocalExchange() {
-  const refreshAuth = useAuth(({ refresh }) => refresh)
   const [loading, setLoading] = useState(false)
   const offer = useReciprocalExchange(({ offer }) => offer)
   const categories = useOffersCategories(({ categories }) => categories)
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { socket } = useWebSocket()
   const { on, onBarters } = useToast()
   const methods = useForm<IFormValues>({
@@ -83,11 +83,15 @@ export default function ReciprocalExchange() {
     if (!loading) {
       setLoading(true)
 
+      const description = values?.description.trim() || ""
+      const description_new_offer = values?.description_new_offer.trim() || ""
+
       const dataNewEmptyOffer: IPostOffers = {
         categoryId: values.category,
         provider: EnumTypeProvider.offer,
-        description: values.description,
-        slug: transliterateAndReplace(values.description).slice(0, 254),
+        title: description.toLowerCase().slice(0, 144),
+        slug: transliterateAndReplace(description).slice(0, 144),
+        description: description,
         enabled: true,
         desired: true,
       }
@@ -95,8 +99,9 @@ export default function ReciprocalExchange() {
       const dataNewOffer: IPostOffers = {
         categoryId: values.categoryId!,
         provider: EnumTypeProvider.offer,
-        description: values.description_new_offer,
-        slug: transliterateAndReplace(values.description_new_offer).slice(0, 254),
+        title: description_new_offer.toLowerCase().slice(0, 144),
+        slug: transliterateAndReplace(description_new_offer).slice(0, 144),
+        description: description_new_offer,
         enabled: true,
         desired: true,
       }
@@ -119,19 +124,19 @@ export default function ReciprocalExchange() {
         })
       }
 
-      await Promise.all([
+      await Promise.resolve(
         values.select_new_proposal === ETypeOfNewCreated.interesting
           ? postOffer(dataNewEmptyOffer)
           : values.select_new_proposal === ETypeOfNewCreated.new
           ? postOffer(dataNewOffer)
           : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
-      ]).then((response: [IReturnData<IResponseCreate>]) => {
-        if (response?.[0]?.ok) {
+      ).then((response: IReturnData<IResponseCreate>) => {
+        if (response?.ok) {
           const dataBarter: IPostDataBarter = {
             provider: EnumTypeProvider.barter,
-            title: "",
-            initialId: response[0]?.res?.id!, //number
-            consignedId: offer?.id!, //number
+            title: `initial:${response?.res?.id}-consigned:${offer?.id}`,
+            initialId: response?.res?.id!,
+            consignedId: offer?.id!,
             status: EnumStatusBarter.INITIATED,
             enabled: true,
           }
@@ -162,7 +167,7 @@ export default function ReciprocalExchange() {
               })
               setError("root", { message: response?.error?.message })
               if (response?.error?.message?.toLowerCase() === "invalid access token") {
-                refreshAuth().then((responseAuth) => {
+                dispatchRefresh().then((responseAuth) => {
                   if (response.ok) {
                     onSubmit()
                   } else {
@@ -174,7 +179,7 @@ export default function ReciprocalExchange() {
             }
           })
         } else {
-          setError("root", { message: response?.[0]?.error?.message! })
+          setError("root", { message: response?.error?.message! as string })
           setLoading(false)
         }
       })

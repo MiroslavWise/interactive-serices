@@ -5,10 +5,9 @@ import { type ReactNode, useEffect } from "react"
 import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
-import { dispatchCookiesVisible, useAdvertisingBanner, useAuth, useCookies, useFetchingSession, useOffersCategories } from "@/store"
+import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies, useFetchingSession, useOffersCategories } from "@/store"
 
 export default ({ children }: { children: ReactNode }) => {
-  const refresh = useAuth(({ refresh }) => refresh)
   const categories = useOffersCategories(({ categories }) => categories)
   const getCategories = useOffersCategories(({ getCategories }) => getCategories)
   const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
@@ -28,7 +27,7 @@ export default ({ children }: { children: ReactNode }) => {
   }, [isUse])
 
   useEffect(() => {
-    refresh()
+    dispatchRefresh()
     let vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty("--vh", `${vh}px`)
     document.documentElement.style.height = window.innerHeight.toString() + "px"

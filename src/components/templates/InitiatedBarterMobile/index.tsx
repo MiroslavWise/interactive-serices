@@ -13,7 +13,7 @@ import { dispatchInitiatedBarter, useAuth, useInitiatedBarter } from "@/store"
 import styles from "./style.module.scss"
 
 export function InitiatedBarterMobile() {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useInitiatedBarter(({ visible }) => visible)
 
   const { data, isLoading } = useQuery({

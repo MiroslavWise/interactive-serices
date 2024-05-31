@@ -14,7 +14,7 @@ import { dispatchAddEmail, dispatchCheckTheMail, useAddEmail, useAuth } from "@/
 import styles from "./style.module.scss"
 
 export const AddEmail = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const [visiblePass, setVisiblePass] = useState({
     password: false,

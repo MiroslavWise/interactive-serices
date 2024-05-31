@@ -10,8 +10,8 @@ import { DeclensionQuantityFriends } from "@/lib/declension"
 import styles from "./style.module.scss"
 
 export const ButtonFriends = () => {
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
-  const userId = useAuth(({ userId }) => userId)
 
   const { data } = useQuery({
     queryFn: () => serviceFriends.get(),

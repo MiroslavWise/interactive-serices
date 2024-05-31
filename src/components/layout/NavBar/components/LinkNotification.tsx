@@ -17,14 +17,14 @@ export const LinkNotification = memo(() => {
   const [count, setCount] = useState<number | null>(null)
   const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
   const [active, setActive, ref] = useOutsideClickEvent(writingNotifications)
-  const userId = useAuth(({ userId }) => userId)
+  const { id } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, refetch } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
-    queryKey: ["notifications", { userId: userId }],
+    queryKey: ["notifications", { userId: id }],
     refetchOnMount: true,
     refetchOnReconnect: true,
-    enabled: !!userId,
+    enabled: !!id,
   })
 
   useEffect(() => {

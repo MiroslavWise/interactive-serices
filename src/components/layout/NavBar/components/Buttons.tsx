@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/common"
-import { useAuth, dispatchAuthModal, dispatchNewServicesBanner } from "@/store/hooks"
+import { dispatchAuthModal, dispatchNewServicesBanner, useAuth } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
 

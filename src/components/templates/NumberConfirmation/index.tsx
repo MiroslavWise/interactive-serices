@@ -16,7 +16,7 @@ import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAuth, useNumb
 import styles from "./style.module.scss"
 
 export const NumberConfirmation = () => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const number = useNumberConfirmation(({ number }) => number)
   const visible = useNumberConfirmation(({ visible }) => visible)

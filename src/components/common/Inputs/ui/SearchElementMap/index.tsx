@@ -5,6 +5,8 @@ import { useState } from "react"
 import type { TSearchElementMap } from "./types"
 import type { IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
+import IconMarkerPin from "@/components/icons/IconMarkerPin"
+
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { dispatchMapCoordinates } from "@/store"
@@ -62,11 +64,13 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
 
   return (
     <div className={styles.container} id="searchElementMap" ref={ref}>
-      <img data-geo src="/svg/geo-marker.svg" alt="geo" width={20} height={20} />
+      <div data-icon>
+        <IconMarkerPin />
+      </div>
       <input
         type="text"
         onFocus={onFocus}
-        placeholder="Выберите местоположение..."
+        placeholder="Выберите местоположение"
         className={styles.input}
         value={text}
         onChange={(event) => {
@@ -88,18 +92,6 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
         }}
         data-test="input-search-element-map"
       />
-      <button
-        data-circle
-        onClick={(event) => {
-          event.stopPropagation()
-          if (!loading) {
-            handleAddressLocation()
-          }
-        }}
-        data-test="button-search-element-map-handle-address-location"
-      >
-        <img data-loading-image={loading} src={loading ? "/svg/spinner.svg" : "/svg/mark.svg"} alt="mark" width={20} height={20} />
-      </button>
       <section data-active={activeIsList} data-test="section-search-element-map">
         {values?.length > 0 ? (
           <ul data-test="section-ul-search-element-map">
@@ -115,12 +107,7 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
               </a>
             ))}
           </ul>
-        ) : loading && !values?.length ? (
-          <ul data-loading>
-            <span />
-            <span />
-          </ul>
-        ) : text?.length > 0 ? (
+        ) : !loading && text?.length > 0 ? (
           <article>
             <h3>Адрес</h3>
             <p>По вашему запросу нет подходящих адресов</p>

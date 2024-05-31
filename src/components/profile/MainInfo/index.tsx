@@ -20,7 +20,7 @@ import { SOCIAL_MEDIA } from "./constants"
 import styles from "./styles/style.module.scss"
 
 export const MainInfo: TMainInfo = ({ user }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const geo: IAddressesResponse | null = useMemo(() => {
     return user?.addresses?.find((item) => item?.addressType === "main") || null

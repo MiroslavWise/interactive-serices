@@ -12,7 +12,6 @@ import type {
   TTypeSign,
 } from "../types/useVisibleAndTypeAuthModalState"
 import { IUserResponse } from "@/services/users/types"
-import { dayFormat } from "@/helpers"
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
 export const useModalAuth = create(
@@ -29,7 +28,7 @@ export const useModalAuth = create(
 )
 
 export const useTimerModalAuth = create(
-  persist<IUseTimerModalAuth>(() => ({}), { name: "timer-auth-create", storage: createJSONStorage(() => sessionStorage) }),
+  persist<IUseTimerModalAuth>(() => ({ time: undefined }), { name: "timer-auth-create", storage: createJSONStorage(() => sessionStorage) }),
 )
 export const useModalAuthEmailOrPhone = create(
   persist<IUseModalAuthEmailOrPhone>(() => ({ typeEmailOrPhone: "phone" }), {
@@ -94,10 +93,10 @@ export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionA
 }
 
 export const dispatchStartTimer = () => {
-  const newTimer = dayFormat(new Date(), "hh:mm:ss dd.MM.yyyy")!
+  const timeSecond = Date.now() / 1000
 
   useTimerModalAuth.setState((_) => ({
-    time: newTimer,
+    time: timeSecond,
   }))
 }
 

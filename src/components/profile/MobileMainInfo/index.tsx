@@ -16,7 +16,7 @@ import { dayFormat } from "@/helpers"
 import styles from "./styles.module.scss"
 
 export const MobileMainInfo: TMobileMainInfo = ({ user }) => {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const geo: IAddressesResponse | null = useMemo(() => {
     return user?.addresses?.find((item) => item?.addressType === "main") || null

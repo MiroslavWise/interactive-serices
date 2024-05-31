@@ -19,7 +19,7 @@ import styles from "./styles/style.module.scss"
 
 export function DroverFriends() {
   const { isTablet } = useResize()
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
   const [segment, setSegment] = useState<ISegmentValues<TTypeFriends>>(SEGMENT_FRIENDS[0])

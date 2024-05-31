@@ -13,7 +13,7 @@ import styles from "../styles/item.module.scss"
 export const ItemCategory = memo(function ItemCategory(
   props: IResponseOffersCategories & { refetch(): Promise<any>; categories: IResponseOffersCategories[] },
 ) {
-  const userId = useAuth(({ userId }) => userId)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, title, categories = [], refetch } = props ?? {}
   const [loading, setLoading] = useState(false)
 
