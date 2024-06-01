@@ -1,10 +1,9 @@
 "use client"
 
-import { Clusterer, Map } from "@pbe/react-yandex-maps"
+import { Map } from "@pbe/react-yandex-maps"
 import { useEffect, useCallback, useRef } from "react"
 
 import type { TTypeInstantsMap, TYandexMap } from "./types"
-import type { IResponseOffers } from "@/services/offers/types"
 
 import { Header } from "./Header"
 import { ListPlacemark } from "./ObjectsMap"

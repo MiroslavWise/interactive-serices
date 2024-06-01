@@ -10,6 +10,7 @@ import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconFilters } from "@/components/icons/IconFilters"
+import IconDoubleChevronsUp from "@/components/icons/IconDoubleChevronsUp"
 const FilterCategory = dynamic(() => import("./components/FilterCategory"))
 
 import { ServicesMobile } from "./components/Services"
@@ -52,31 +53,34 @@ export default function SearchCategory() {
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
+  const reversOpen = () => dispatchMobileSearchCategoryVisible(!visible)
+
   return (
     <div className={styles.container} data-visible={visible}>
+      <button
+        type="button"
+        data-is={visible}
+        title={visible ? "Закрыть" : "Открыть"}
+        aria-label={visible ? "Закрыть" : "Открыть"}
+        onClick={reversOpen}
+      >
+        <IconDoubleChevronsUp />
+      </button>
       {visibleFilter ? <FilterCategory /> : null}
       <header>
-        <button
-          data-close
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation()
-            dispatchMobileSearchCategoryVisible(!visible)
-          }}
-        >
-          <span />
-        </button>
-        <IconSearch />
-        <input
-          type="text"
-          onClick={(event) => {
-            event.stopPropagation()
-            dispatchMobileSearchCategoryVisible(true)
-          }}
-          value={input}
-          onChange={(event) => setInput(event.target.value || "")}
-          placeholder="Что Вы ищете"
-        />
+        <div data-search>
+          <input
+            type="text"
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchMobileSearchCategoryVisible(true)
+            }}
+            value={input}
+            onChange={(event) => setInput(event.target.value || "")}
+            placeholder="Что Вы ищете"
+          />
+          <IconSearch />
+        </div>
         <button
           type="button"
           onClick={(event) => {
