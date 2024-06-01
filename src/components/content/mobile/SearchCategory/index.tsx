@@ -64,7 +64,6 @@ export default function SearchCategory() {
     <div className={styles.container} data-visible={visible}>
       <button
         type="button"
-        data-is={visible}
         title={visible ? "Закрыть" : "Открыть"}
         aria-label={visible ? "Закрыть" : "Открыть"}
         onClick={reversOpen}
