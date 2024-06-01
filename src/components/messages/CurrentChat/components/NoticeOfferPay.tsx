@@ -3,20 +3,24 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import type { IUserOffer } from "@/services/offers/types"
 import type { IResponseThread } from "@/services/threads/types"
 
 import { LoadingThreadNotice } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { getIdOffer } from "@/services"
-import { IUserOffer } from "@/services/offers/types"
-import { dispatchBallonOffer, dispatchModal, EModalData, useAuth, useOffersCategories } from "@/store"
+import { getIdOffer, getOffersCategories } from "@/services"
+import { dispatchBallonOffer, dispatchModal, EModalData, useAuth } from "@/store"
 
 import styles from "./styles/notice-offer-pay.module.scss"
 
 export const NoticeOfferPay = ({ thread, user }: { thread: IResponseThread; user: IUserOffer }) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const { firstName } = user ?? {}
   const { data, isLoading } = useQuery({
     queryFn: () => getIdOffer(thread?.offerId!),

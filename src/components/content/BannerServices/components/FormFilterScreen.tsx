@@ -1,13 +1,21 @@
+import { useMemo } from "react"
+import { useForm } from "react-hook-form"
+import { useQuery } from "@tanstack/react-query"
+
+import { IValuesFormFilters } from "../types/types"
+
 import { Button, ImageCategory } from "@/components/common"
 
-import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen, useOffersCategories } from "@/store"
-import { useForm } from "react-hook-form"
-import { IValuesFormFilters } from "../types/types"
-import { useMemo } from "react"
+import { getOffersCategories } from "@/services"
+import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
 
 export const FormFilterScreen = () => {
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const mainCategories = useMemo(() => categories?.filter((item) => item?.provider === "main") || [], [categories])
 

@@ -1,24 +1,29 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
+
 import type { TBadgeServices } from "./types"
-import type { IResponseOffers } from "@/services/offers/types"
 
 import { IconCategory } from "@/lib/icon-set"
-import { dispatchBallonOffer, dispatchModal, EModalData, useOffersCategories } from "@/store"
+
+import { getOffersCategories } from "@/services"
 
 import styles from "./style.module.scss"
 
 export const BadgeServices: TBadgeServices = (props) => {
   const { categoryId, id, isClickable } = props ?? {}
-  const categories = useOffersCategories(({ categories }) => categories)
+
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const infoCategory = categories?.find((item) => item?.id === categoryId)
 
   function handle() {
     if (id && isClickable) {
       const { isClickable, ...offer } = props ?? {}
-      // dispatchModal(EModalData.BalloonOffer)
-      // dispatchBallonOffer({ offer: offer! as IResponseOffers })
     }
   }
 

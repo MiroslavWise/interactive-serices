@@ -23,18 +23,23 @@ import {
   useCollapseServices,
   useFiltersScreen,
   useFiltersServices,
-  useOffersCategories,
   useSearchFilters,
 } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { getOffersCategories } from "@/services"
+import { useQuery } from "@tanstack/react-query"
 
 function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
   const parentRef = useRef<HTMLUListElement>(null)
 
   function handleProvider(value: TServicesFilter) {

@@ -1,19 +1,25 @@
 "use client"
 
 import { forwardRef, useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { TListOffersBarter } from "./types"
 
 import { Button } from "../Forward"
 
-import { useOffersCategories, openCreateOffers, dispatchModal, EModalData } from "@/store"
+import { getOffersCategories } from "@/services"
+import { openCreateOffers, dispatchModal, EModalData } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const ListOffersBarter = forwardRef(function ListOffersBarter(props: TListOffersBarter) {
   const { items, active, onClick, ...rest } = props ?? {}
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const height = useMemo(() => {
     const length = items?.length || 70 + 32

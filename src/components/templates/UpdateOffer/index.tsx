@@ -15,8 +15,8 @@ import { Button, ImageCategory, NextImageMotion } from "@/components/common"
 import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
-import { fileUploadService, getGeocodeSearch, getUserIdOffers, patchOffer } from "@/services"
-import { dispatchUpdateOffer, useAuth, useOffersCategories, useUpdateOffer } from "@/store"
+import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
+import { fileUploadService, getGeocodeSearch, getOffersCategories, getUserIdOffers, patchOffer } from "@/services"
 
 export default function UpdateOffer() {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
@@ -28,7 +28,11 @@ export default function UpdateOffer() {
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const offer = useUpdateOffer(({ offer }) => offer)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const [inputCategory, setInputCategory] = useState("")
   const [focusGeo, setFocusGeo, refGeo] = useOutsideClickEvent()
   const [focus, setFocus, ref] = useOutsideClickEvent()

@@ -1,9 +1,11 @@
 import { memo, useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
 
-import { IResponseOffers } from "@/services/offers/types"
-import { useOffersCategories } from "@/store"
-import { IconCategory } from "@/lib/icon-set"
 import { EnumTypeProvider } from "@/types/enum"
+import { IResponseOffers } from "@/services/offers/types"
+
+import { IconCategory } from "@/lib/icon-set"
+import { getOffersCategories } from "@/services"
 
 interface IProps {
   offer: IResponseOffers
@@ -12,7 +14,11 @@ interface IProps {
 function HeaderTitle({ offer }: IProps) {
   const { provider, categoryId, title } = offer ?? {}
 
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const iconTitleCategory = useMemo(() => {
     if (!categoryId) return null

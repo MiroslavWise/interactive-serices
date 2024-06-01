@@ -1,20 +1,26 @@
 "use client"
 
 import { memo, useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { ServiceLoading } from "@/components/common"
 import CardBallon from "@/components/common/Card/CardBallon"
 // const CardBallon = dynamic(() => import("@/components/common/Card/CardBallon"), { ssr: false, loading: ServiceLoading })
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
+import { getOffersCategories } from "@/services"
+import { useBounds, useFiltersServices } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { useBounds, useFiltersServices, useOffersCategories } from "@/store"
 
 export const ServicesMobile = memo(({ input }: { input: string }) => {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const items = useMemo(() => {
     if (!itemsOffers.length) {

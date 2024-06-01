@@ -13,7 +13,7 @@ import { ProfileComponent } from "../components/ProfileComponent"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { usePush } from "@/helpers"
-import { getBarters } from "@/services"
+import { getBarters, getOffersCategories } from "@/services"
 import {
   dispatchAuthModal,
   dispatchBallonOffer,
@@ -23,12 +23,15 @@ import {
   useAuth,
   useBalloonOffer,
   useModal,
-  useOffersCategories,
 } from "@/store"
 
 export default function BalloonOffer() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const dataModal = useModal(({ data }) => data)
   const offer = useBalloonOffer(({ offer }) => offer)
   const { handlePush } = usePush()

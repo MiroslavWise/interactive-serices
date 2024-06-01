@@ -13,8 +13,8 @@ import { ImageCategory, NextImageMotion } from "../../Image"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { dayFormat, daysAgo } from "@/helpers"
-import { getUserId } from "@/services"
-import { dispatchInitiatedBarter, useAuth, useOffersCategories } from "@/store"
+import { dispatchInitiatedBarter, useAuth } from "@/store"
+import { getOffersCategories, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -26,7 +26,12 @@ const title: Map<EnumStatusBarter, string> = new Map([
 export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { created, status, threadId, id, updated } = barter ?? {}
-  const categories = useOffersCategories(({ categories }) => categories)
+
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const idUser = useMemo(() => {
     if (!barter) return null

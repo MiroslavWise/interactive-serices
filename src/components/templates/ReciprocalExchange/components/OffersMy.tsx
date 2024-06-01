@@ -10,14 +10,18 @@ import { EnumTypeProvider } from "@/types/enum"
 import { ImageCategory } from "@/components/common"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
-import { getUserIdOffers } from "@/services"
-import { useAuth, useOffersCategories } from "@/store"
+import { useAuth } from "@/store"
+import { getOffersCategories, getUserIdOffers } from "@/services"
 
 import styles from "../styles/offers-my.module.scss"
 
 export const OffersMy = memo(({ loading }: IProps) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const {
     register,
     setValue,

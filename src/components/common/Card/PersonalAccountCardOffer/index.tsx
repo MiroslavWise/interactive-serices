@@ -2,6 +2,7 @@
 
 import { useMemo } from "react"
 
+import { useQuery } from "@tanstack/react-query"
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
@@ -9,21 +10,18 @@ import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImag
 
 import { usePush } from "@/helpers"
 import { IconCategory } from "@/lib/icon-set"
-import {
-  dispatchBallonOffer,
-  dispatchDeleteOffer,
-  dispatchMapCoordinates,
-  dispatchModal,
-  dispatchUpdateOffer,
-  EModalData,
-  useOffersCategories,
-} from "@/store"
+import { getOffersCategories } from "@/services"
+import { dispatchBallonOffer, dispatchDeleteOffer, dispatchMapCoordinates, dispatchModal, dispatchUpdateOffer, EModalData } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) => {
   const { handlePush } = usePush()
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const category = useMemo(() => {
     return categories?.find((item) => offer?.categoryId === item?.id)

@@ -1,14 +1,16 @@
+import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo, useState } from "react"
 import { type Control, Controller } from "react-hook-form"
 
 import { ImageCategory } from "@/components/common"
+import { IconXClose } from "@/components/icons/IconXClose"
 
 import { useOutsideClickEvent } from "@/helpers"
-import { dispatchVisibleCreateNewCategory, useOffersCategories } from "@/store"
+import { getOffersCategories } from "@/services"
+import { TSchemaCreate } from "../utils/create.schema"
+import { dispatchVisibleCreateNewCategory } from "@/store"
 
 import styles from "../styles/list-category.module.scss"
-import { IconXClose } from "@/components/icons/IconXClose"
-import { TSchemaCreate } from "../utils/create.schema"
 
 interface IProps {
   control: Control<TSchemaCreate, any>
@@ -17,9 +19,13 @@ interface IProps {
 }
 
 function ControllerCategory({ control, visible, disabled }: IProps) {
-  const categories = useOffersCategories(({ categories }) => categories)
   const [open, setOpen, ref] = useOutsideClickEvent()
   const [value, setValue] = useState("")
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
 
   const trimValue = value.trim().toLowerCase()
 

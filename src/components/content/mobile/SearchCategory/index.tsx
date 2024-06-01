@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { useCallback, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { TServicesFilter } from "../../BannerServices/types/types"
@@ -10,6 +11,7 @@ import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconFilters } from "@/components/icons/IconFilters"
+import IconDoubleChevronsUp from "@/components/icons/IconCloseOrChevronsUp"
 const FilterCategory = dynamic(() => import("./components/FilterCategory"))
 
 import { ServicesMobile } from "./components/Services"
@@ -18,7 +20,6 @@ import { EnumTimesFilter, SERVICES, TIMES } from "../../BannerServices/constants
 import {
   useFiltersScreen,
   useFiltersServices,
-  useOffersCategories,
   useMobileSearchCategory,
   dispatchDataFilterScreen,
   dispatchFiltersServiceTime,
@@ -26,6 +27,7 @@ import {
   dispatchFiltersServiceProvider,
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
+import { getOffersCategories } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -34,7 +36,11 @@ export default function SearchCategory() {
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
   const visibleFilter = useFiltersScreen(({ visible }) => visible)
   const [input, setInput] = useState("")
 
@@ -52,31 +58,33 @@ export default function SearchCategory() {
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
+  const reversOpen = () => dispatchMobileSearchCategoryVisible(!visible)
+
   return (
     <div className={styles.container} data-visible={visible}>
+      <button
+        type="button"
+        title={visible ? "Закрыть" : "Открыть"}
+        aria-label={visible ? "Закрыть" : "Открыть"}
+        onClick={reversOpen}
+      >
+        <IconDoubleChevronsUp is={visible} />
+      </button>
       {visibleFilter ? <FilterCategory /> : null}
       <header>
-        <button
-          data-close
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation()
-            dispatchMobileSearchCategoryVisible(!visible)
-          }}
-        >
-          <span />
-        </button>
-        <IconSearch />
-        <input
-          type="text"
-          onClick={(event) => {
-            event.stopPropagation()
-            dispatchMobileSearchCategoryVisible(true)
-          }}
-          value={input}
-          onChange={(event) => setInput(event.target.value || "")}
-          placeholder="Что Вы ищете"
-        />
+        <div data-search>
+          <input
+            type="text"
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchMobileSearchCategoryVisible(true)
+            }}
+            value={input}
+            onChange={(event) => setInput(event.target.value || "")}
+            placeholder="Что Вы ищете"
+          />
+          <IconSearch />
+        </div>
         <button
           type="button"
           onClick={(event) => {
