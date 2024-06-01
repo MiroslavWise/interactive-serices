@@ -11,16 +11,8 @@ import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { getIdOffer, getProfileUserId, getTestimonials, patchBarter, serviceNotifications } from "@/services"
-import {
-  useAuth,
-  dispatchVisibleNotifications,
-  dispatchAddTestimonials,
-  useOffersCategories,
-  dispatchReasonBarters,
-  dispatchModal,
-  EModalData,
-} from "@/store"
+import { getIdOffer, getOffersCategories, getProfileUserId, getTestimonials, patchBarter, serviceNotifications } from "@/services"
+import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchReasonBarters, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -37,7 +29,11 @@ export const ItemNotification = (props: IResponseNotifications) => {
   const { created, provider, operation, data, id, read } = props ?? {}
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
 
   const idUser = useMemo(() => {
     if (provider === "barter") return data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId

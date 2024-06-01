@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { useCallback, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { TServicesFilter } from "../../BannerServices/types/types"
@@ -19,7 +20,6 @@ import { EnumTimesFilter, SERVICES, TIMES } from "../../BannerServices/constants
 import {
   useFiltersScreen,
   useFiltersServices,
-  useOffersCategories,
   useMobileSearchCategory,
   dispatchDataFilterScreen,
   dispatchFiltersServiceTime,
@@ -27,6 +27,7 @@ import {
   dispatchFiltersServiceProvider,
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
+import { getOffersCategories } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -35,7 +36,11 @@ export default function SearchCategory() {
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
   const visibleFilter = useFiltersScreen(({ visible }) => visible)
   const [input, setInput] = useState("")
 

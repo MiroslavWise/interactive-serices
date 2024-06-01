@@ -9,8 +9,8 @@ import type { IValuesCategories, IMainAndSubCategories } from "./types/types"
 import { Button } from "@/components/common"
 import { ItemCategory } from "./components/ItemCategory"
 
-import { getUserId, patchUser } from "@/services"
-import { dispatchChangeService, useAuth, useChangeService, useOffersCategories } from "@/store"
+import { getOffersCategories, getUserId, patchUser } from "@/services"
+import { dispatchChangeService, useAuth, useChangeService } from "@/store"
 
 import styles from "./styles/style.module.scss"
 import ItemCategorySearch from "./components/ItemCategorySearch"
@@ -19,7 +19,11 @@ export const ChangeService = () => {
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useChangeService(({ visible }) => visible)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
 
   const { register, watch, handleSubmit, setValue } = useForm<IValuesCategories>({
     defaultValues: {

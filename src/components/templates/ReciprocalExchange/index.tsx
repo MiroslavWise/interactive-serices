@@ -19,7 +19,6 @@ import { Button, LoadingProfile } from "@/components/common"
 
 import {
   dispatchBallonOffer,
-  useOffersCategories,
   useReciprocalExchange,
   dispatchReciprocalExchange,
   dispatchReciprocalExchangeCollapse,
@@ -30,12 +29,16 @@ import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { createAddress } from "@/helpers/address/create"
-import { serviceNotifications, postOffer, postBarter, getUserId } from "@/services"
+import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories } from "@/services"
 
 export default function ReciprocalExchange() {
   const [loading, setLoading] = useState(false)
   const offer = useReciprocalExchange(({ offer }) => offer)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { socket } = useWebSocket()
   const { on, onBarters } = useToast()

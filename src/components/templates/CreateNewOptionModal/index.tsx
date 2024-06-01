@@ -11,9 +11,8 @@ import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { ArticleOnboarding } from "@/components/templates"
 import { IconXClose } from "@/components/icons/IconXClose"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import ControllerCategory from "./components/ControllerCategory"
-import { Button, ImageStatic, WalletPay } from "@/components/common"
+import { Button, WalletPay } from "@/components/common"
 
 import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
@@ -31,7 +30,6 @@ import {
   EModalData,
   useModal,
   useNewServicesBannerMap,
-  useOffersCategories,
 } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import {
@@ -42,7 +40,15 @@ import {
   resolverOffer,
   resolverOfferMap,
 } from "./utils/create.schema"
-import { getUserIdOffers, patchOffer, postOffer, fileUploadService, serviceAddresses, getGeocodeSearch } from "@/services"
+import {
+  getUserIdOffers,
+  patchOffer,
+  postOffer,
+  fileUploadService,
+  serviceAddresses,
+  getGeocodeSearch,
+  getOffersCategories,
+} from "@/services"
 import {
   descriptionImages,
   headerTitle,
@@ -68,7 +74,11 @@ export default function CreateNewOptionModal() {
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const { refetch: refetchDataMap } = useMapOffers()
   const { on } = useToast()
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
 

@@ -7,13 +7,19 @@ import { useSwipeable } from "react-swipeable"
 import { ImageCategory } from "@/components/common"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
-import { useOffersCategories, useMobileFilterButton, dispatchVisibleFilterMobileButton } from "@/store/hooks"
+import { useMobileFilterButton, dispatchVisibleFilterMobileButton } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { useQuery } from "@tanstack/react-query"
+import { getOffersCategories } from "@/services"
 
 export const MobileFiltersMap = () => {
   const visible = useMobileFilterButton(({ visible }) => visible)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const [value, setValue] = useState("")
 
   const categoriesMain: IResponseOffersCategories[] = useMemo(() => {

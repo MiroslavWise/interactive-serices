@@ -3,15 +3,21 @@ import { useMemo, useState } from "react"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { Button, ImageCategory } from "@/components/common"
 
-import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen, useOffersCategories } from "@/store"
+import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
 
 import styles from "../styles/filter-category.module.scss"
+import { useQuery } from "@tanstack/react-query"
+import { getOffersCategories } from "@/services"
 
 export default function FilterCategory() {
   const visible = useFiltersScreen(({ visible }) => visible)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const [state, setState] = useState(activeFilters || [])
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const mainCategories = useMemo(() => categories?.filter((item) => item?.provider === "main") || [], [categories])
 

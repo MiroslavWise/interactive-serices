@@ -1,4 +1,5 @@
 import { memo, useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { IResponseOffers } from "@/services/offers/types"
 
@@ -6,14 +7,18 @@ import ItemImages from "./ItemImages"
 import { ImageCategory } from "@/components/common"
 import IconRepeat from "@/components/icons/IconRepeat"
 
-import { useOffersCategories } from "@/store"
+import { getOffersCategories } from "@/services"
 
 import styles from "../styles/proposal.module.scss"
 
 export const ItemDescriptions = memo(function ItemProposal({ offer }: { offer: IResponseOffers }) {
   const proposal = offer?.description
   const images = offer?.images || []
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
 
   const categoriesOffer = useMemo(() => {
     return categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || []

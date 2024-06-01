@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { useSwipeable } from "react-swipeable"
+import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import type { TPhotoPreviewModal } from "./types/types"
@@ -13,7 +14,8 @@ import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
 import { daysAgo, useResize } from "@/helpers"
-import { useAuth, usePhotoOffer, useOffersCategories, dispatchReciprocalExchange, dispatchProfilePublic } from "@/store"
+import { getOffersCategories } from "@/services"
+import { useAuth, usePhotoOffer, dispatchReciprocalExchange, dispatchProfilePublic } from "@/store"
 
 import styles from "./styles/layout.module.scss"
 
@@ -25,7 +27,11 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
   const author = usePhotoOffer(({ author }) => author)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const offer = usePhotoOffer(({ offer }) => offer)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
   const { isTablet } = useResize()
 
   const widthCarousel: number = useMemo(() => {

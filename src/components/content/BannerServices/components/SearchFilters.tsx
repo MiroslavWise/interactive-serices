@@ -1,20 +1,15 @@
 "use client"
 
-import { useCallback, useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
+import { useQuery } from "@tanstack/react-query"
+import { useCallback, useEffect, useMemo } from "react"
 
 import { ImageCategory } from "@/components/common"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconXClose } from "@/components/icons/IconXClose"
 
-import {
-  dispatchClearSearchFilters,
-  dispatchValueSearchFilters,
-  dispatchVisibleSearchFilters,
-  useAdvertisingBanner,
-  useOffersCategories,
-  useSearchFilters,
-} from "@/store"
+import { getOffersCategories } from "@/services"
+import { dispatchClearSearchFilters, dispatchValueSearchFilters, dispatchVisibleSearchFilters, useSearchFilters } from "@/store"
 
 import styles from "../styles/search-filters.module.scss"
 
@@ -22,7 +17,11 @@ export const SearchFilters = () => {
   const visible = useSearchFilters(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
   const history = useSearchFilters(({ history }) => history)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = data?.res || []
 
   const { register, setFocus, watch, setValue, handleSubmit } = useForm<IValues>({
     defaultValues: { input: value || "" },

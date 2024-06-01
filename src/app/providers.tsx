@@ -5,13 +5,9 @@ import { type ReactNode, useEffect } from "react"
 import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
-import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies, useFetchingSession, useOffersCategories } from "@/store"
+import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies, useFetchingSession } from "@/store"
 
 export default ({ children }: { children: ReactNode }) => {
-  const categories = useOffersCategories(({ categories }) => categories)
-  const getCategories = useOffersCategories(({ getCategories }) => getCategories)
-  const offersCategories = useFetchingSession(({ offersCategories }) => offersCategories)
-  const getFetchingOffersCategories = useFetchingSession(({ getFetchingOffersCategories }) => getFetchingOffersCategories)
   const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
   const isUse = useCookies(({ isUse }) => isUse)
   const { isMobile, isTablet } = useResize()
@@ -39,14 +35,6 @@ export default ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     document.documentElement.dataset.tablet = `${isTablet}`
   }, [isTablet])
-
-  useEffect(() => {
-    if (offersCategories === false) {
-      getCategories().then((value) => {
-        getFetchingOffersCategories(value)
-      })
-    }
-  }, [offersCategories, categories])
 
   return (
     <NextThemesProvider>

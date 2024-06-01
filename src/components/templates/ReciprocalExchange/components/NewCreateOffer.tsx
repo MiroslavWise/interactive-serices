@@ -2,6 +2,7 @@
 
 import { memo, useMemo, useState } from "react"
 import { useFormContext } from "react-hook-form"
+import { useQuery } from "@tanstack/react-query"
 
 import { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
@@ -12,8 +13,7 @@ import { CustomSelect } from "@/components/common/custom"
 
 import { queryClient } from "@/context"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
-import { getGeocodeSearch } from "@/services"
-import { useOffersCategories } from "@/store"
+import { getGeocodeSearch, getOffersCategories } from "@/services"
 
 import styles from "../styles/new-create-offer.module.scss"
 
@@ -29,7 +29,11 @@ export const NewCreateOffer = memo(({}: IProps) => {
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
 
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
 
   const list = useMemo(() => {
     if (!categories) return []

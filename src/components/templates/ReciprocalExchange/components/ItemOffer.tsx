@@ -1,13 +1,20 @@
+import { useQuery } from "@tanstack/react-query"
+
 import { type SyntheticEvent, memo } from "react"
 
 import { IconCategory } from "@/lib/icon-set"
-import { useOffersCategories, useReciprocalExchange } from "@/store"
+import { useReciprocalExchange } from "@/store"
+import { getOffersCategories } from "@/services"
 
 import styles from "../styles/offer.module.scss"
 
 export const ItemOffer = memo(function ItemOffer() {
   const offer = useReciprocalExchange(({ offer }) => offer)
-  const categories = useOffersCategories(({ categories }) => categories)
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.res || []
 
   const categoryOffer = categories?.find((item) => item?.id === offer?.categoryId)
 
