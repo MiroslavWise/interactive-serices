@@ -7,7 +7,7 @@ import { getLocationName } from "@/lib/location-name"
 export async function getAddressCoords({ mapTwo, mapOne }: { mapOne: number; mapTwo: number }) {
   const data: IPostAddress = {
     addressType: "",
-    enabled: false,
+    enabled: true,
   }
 
   const response = await getGeocodeSearchCoords(`${mapOne},${mapTwo}`)

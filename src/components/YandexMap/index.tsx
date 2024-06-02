@@ -16,8 +16,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 const COORD = [30.19, 59.57]
 
 const YandexMap: TYandexMap = ({}) => {
-  const auth = useAuth(({ auth }) => auth) ?? {}
-  const isAuth = useAuth(({ isAuth }) => isAuth) ?? {}
+  const isAuth = useAuth(({ isAuth }) => isAuth)
   const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
@@ -27,6 +26,13 @@ const YandexMap: TYandexMap = ({}) => {
   const { on } = useToast()
 
   function onContextMenu(e: any) {
+    console.log("onContextMenu: ", e)
+    // if (e?._sourceEvent?.originalEvent?.target) {
+    //   e.stopPropagation()
+    // }
+    // if (e.defaultPrevented) {
+    //   e.defaultPrevented()
+    // }
     if (!isAuth) {
       dispatchAuthModal({ visible: true, type: "SignIn" })
       on({ message: "Вы не можете создать услугу и беседу, пока не войдёте или не зарегистрируетесь на нашем сервисе" })
@@ -86,12 +92,15 @@ const YandexMap: TYandexMap = ({}) => {
       <Map
         instanceRef={instanceRef}
         onContextMenu={onContextMenu}
+        onDoubleClick={(e: any) => console.log("onDoubleClick: ", e)}
         onLoad={(event) => {
           event.ready().then(() => {
             if (!bounds?.length) {
               const bounds = instanceRef.current?.getBounds()
               dispatchBounds({ bounds })
             }
+
+            instanceRef.current?.events.add("dblclick", (events: any) => onContextMenu(events))
 
             instanceRef.current?.options.set({
               dblClickFloatZoom: true,
