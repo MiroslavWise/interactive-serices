@@ -4,12 +4,12 @@ import { persist, createJSONStorage } from "zustand/middleware"
 export const useAdvertisingBanner = create(
   persist<IStateUseAdvertisingBanner>(
     () => ({
-      visible: true,
+      visible: false,
     }),
     {
       name: "::advertising-banner::",
       storage: createJSONStorage(() => sessionStorage),
-      version: 1.0,
+      version: 1.1,
     },
   ),
 )
