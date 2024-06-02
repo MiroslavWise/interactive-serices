@@ -11,7 +11,7 @@ import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconFilters } from "@/components/icons/IconFilters"
-import IconDoubleChevronsUp from "@/components/icons/IconDoubleChevronsUp"
+import IconDoubleChevronsUp from "@/components/icons/IconCloseOrChevronsUp"
 const FilterCategory = dynamic(() => import("./components/FilterCategory"))
 
 import { ServicesMobile } from "./components/Services"
@@ -64,12 +64,11 @@ export default function SearchCategory() {
     <div className={styles.container} data-visible={visible}>
       <button
         type="button"
-        data-is={visible}
         title={visible ? "Закрыть" : "Открыть"}
         aria-label={visible ? "Закрыть" : "Открыть"}
         onClick={reversOpen}
       >
-        <IconDoubleChevronsUp />
+        <IconDoubleChevronsUp is={visible} />
       </button>
       {visibleFilter ? <FilterCategory /> : null}
       <header>
