@@ -1,6 +1,18 @@
 import { z } from "zod"
 
-const EnumKindLocation = z.enum(["country", "province", "area", "locality", "street", "house", "route", "metro", "district", "main"])
+const EnumKindLocation = z.enum([
+  "country",
+  "province",
+  "area",
+  "locality",
+  "street",
+  "house",
+  "route",
+  "metro",
+  "district",
+  "main",
+  "vegetation",
+])
 export type TKindLocation = z.infer<typeof EnumKindLocation>
 
 export const schemaFeatureMember = z.object({
@@ -15,7 +27,7 @@ export const schemaFeatureMember = z.object({
           formatted: z.string().optional(),
           Components: z.array(
             z.object({
-              kind: EnumKindLocation,
+              kind: EnumKindLocation.or(z.string()),
               name: z.string(),
             }),
           ),
@@ -72,7 +84,7 @@ export const schemaFeatureMember = z.object({
 })
 
 export const schemaPostAddress = z.object({
-  addressType: EnumKindLocation.readonly(),
+  addressType: EnumKindLocation.or(z.string()),
   country: z.string().optional(),
   region: z.string().optional(),
   district: z.string().optional(),

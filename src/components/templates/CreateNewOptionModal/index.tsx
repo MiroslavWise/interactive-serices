@@ -132,6 +132,8 @@ export default function CreateNewOptionModal() {
       : undefined,
   })
 
+  console.log("errors: ", errors)
+
   const onProgress = (files: File[], index: number): number => {
     const file = files[index]
     const name = file?.name
@@ -151,10 +153,10 @@ export default function CreateNewOptionModal() {
           Promise.all(
             files.map((item) =>
               fileUploadService(item!, {
-                type: typeAdd!,
-                userId: userId!,
-                idSupplements: id!,
-                onUploadProgress: onUploadProgress,
+                type: typeAdd!, //offers | discussion | alert
+                userId: userId!, // id юзера
+                idSupplements: id!, // offers_id
+                onUploadProgress: onUploadProgress, // прогресс загрузки
               }),
             ),
           ).then((responses) => {
