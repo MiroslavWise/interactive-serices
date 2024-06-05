@@ -10,7 +10,7 @@ export const schemaEmailSignIn = z.object({
   password: z
     .string()
     .min(1, { message: "Поле не может оставаться незаполненным" })
-    .min(6, { message: "Введите минимум 6 символов для пароля" })
+    // .min(6, { message: "Введите минимум 6 символов для пароля" })
     .default(""),
 })
 export const resolverEmailSignIn = zodResolver(schemaEmailSignIn)
