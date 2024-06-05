@@ -46,10 +46,13 @@ export const PersonalData = () => {
     trigger,
     control,
     clearErrors,
-    formState: { errors },
+    formState: { errors, disabled },
   } = useForm<TSchemaUpdateForm>({
     resolver: resolverUpdateForm,
   })
+
+  console.log("%c ---PersonalData disabled: ", "color: green; font-size: 8px", disabled)
+  console.log("%c ---PersonalData errors: ---", "color: red; font-size: 8px", errors)
 
   const { data, refetch } = useQuery({
     queryFn: () => getProfile(),
@@ -100,6 +103,12 @@ export const PersonalData = () => {
         valuesProfile.gender = values.gender
       }
 
+      if (Object.keys(valuesProfile).length === 1 && !file.string) {
+        setLoading(false)
+        dispatchModalClose()
+        return
+      }
+
       Promise.resolve(!!data?.ok ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)).then((responseOk) => {
         if (responseOk?.ok) {
           const idProfile = userId!
@@ -138,16 +147,6 @@ export const PersonalData = () => {
   }
 
   const onSubmit = handleSubmit(submit)
-
-  const disabledButton: boolean = useMemo(() => {
-    return (
-      watch("gender") === data?.res?.gender &&
-      watch("firstName") === data?.res?.firstName &&
-      watch("lastName") === data?.res?.lastName &&
-      watch("username") === data?.res?.username &&
-      !file.string
-    )
-  }, [watch("firstName"), watch("lastName"), watch("username"), data?.res, file.string, watch("gender")])
 
   return (
     <form onSubmit={onSubmit} data-test="form-personal-data">
@@ -248,7 +247,7 @@ export const PersonalData = () => {
           </fieldset>
         </div>
       </section>
-      <ButtonsFooter disabled={disabledButton} loading={loading} />
+      <ButtonsFooter loading={loading} />
     </form>
   )
 }
