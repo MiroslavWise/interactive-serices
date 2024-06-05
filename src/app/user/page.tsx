@@ -1,7 +1,7 @@
 "use client"
 
-// import { type Metadata } from "next"
-import { useEffect } from "react"
+import { type Metadata } from "next"
+import { useEffect, cache } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 
@@ -9,6 +9,16 @@ import { UserIdPage } from "@/components/profile"
 
 import { usePush } from "@/helpers"
 import { getUserId } from "@/services"
+
+const user = cache(getUserId)
+
+interface IPropsDataPage {
+  params: {
+    id: string
+  }
+}
+
+// export async function generateMetadata({ params: { id } }: IPropsDataPage) {}
 
 // export async function generateMetadata({ searchParams }: { searchParams: { id: string | number } }): Promise<Metadata> {
 //     if (searchParams?.id) {

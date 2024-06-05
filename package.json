@@ -32,7 +32,9 @@
     "react-swipeable": "7.0.1",
     "react-toastify": "10.0.5",
     "socket.io-client": "4.7.5",
-    "yandex-maps": "0.0.1",
+    "yandex-maps": "^0.0.1",
+    "ymap3-components": "^1.1.6",
+    "ymaps": "^0.2.1",
     "zod": "3.23.8",
     "zustand": "4.5.2"
   },
