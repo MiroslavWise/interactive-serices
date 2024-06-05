@@ -14,7 +14,7 @@ const stringMinThree = (message: string, messageMax: string, regex: RegExp) =>
     .min(2, { message })
     .max(32, { message: messageMax })
     .regex(regex, {
-      message: "Не верный формат поля",
+      message: "Не верный формат поля, допускаются только буквы и один дефис",
     })
 
 export const schemaUpdateForm = z.object({

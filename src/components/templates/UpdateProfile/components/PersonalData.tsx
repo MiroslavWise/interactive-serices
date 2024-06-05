@@ -51,8 +51,8 @@ export const PersonalData = () => {
     resolver: resolverUpdateForm,
   })
 
-  console.log("%c ---PersonalData disabled: ", "color: green; font-size: 8px", disabled)
-  console.log("%c ---PersonalData errors: ---", "color: red; font-size: 8px", errors)
+  console.log("%c ---PersonalData disabled: ", "color: green; font-size: 10px", disabled)
+  console.log("%c ---PersonalData errors: ---", "color: red; font-size: 10px", errors)
 
   const { data, refetch } = useQuery({
     queryFn: () => getProfile(),
@@ -162,7 +162,14 @@ export const PersonalData = () => {
                 <label htmlFor={field.name} title="Имя пользователя">
                   Имя
                 </label>
-                <input type="text" placeholder="Введите имя" {...field} data-error={!!error} data-test="input-personal-data-firstName" />
+                <input
+                  type="text"
+                  placeholder="Введите имя"
+                  {...field}
+                  onChange={(event) => field.onChange(event.target.value.replace(/[\-]{2,}/g, "-"))}
+                  data-error={!!error}
+                  data-test="input-personal-data-firstName"
+                />
                 {!!error ? <i>{error?.message}</i> : null}
               </fieldset>
             )}
@@ -176,7 +183,14 @@ export const PersonalData = () => {
                 <label htmlFor={field.name} title="Фамилия пользователя">
                   Фамилия
                 </label>
-                <input type="text" placeholder="Введите фамилию" {...field} data-error={!!error} data-test="input-personal-data-lastName" />
+                <input
+                  type="text"
+                  placeholder="Введите фамилию"
+                  {...field}
+                  onChange={(event) => field.onChange(event.target.value.replace(/[\-]{2,}/g, "-"))}
+                  data-error={!!error}
+                  data-test="input-personal-data-lastName"
+                />
                 {!!error ? <i>{error?.message}</i> : null}
               </fieldset>
             )}
