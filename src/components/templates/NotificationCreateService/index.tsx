@@ -5,7 +5,14 @@ import { useEffect } from "react"
 import { EnumTypeProvider } from "@/types/enum"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchModal, EModalData, openCreateOffers } from "@/store"
+import {
+  dispatchAddCountNotificationCreateService,
+  dispatchModal,
+  EModalData,
+  openCreateOffers,
+  useAuth,
+  useNotificationCreateService,
+} from "@/store"
 
 const DESCRIPTION = new Map([
   [1, "Мы знаем, что вы талантливы. Как насчет того, чтобы разместить свое предложение услуг на карте? Попробуйте!"],
@@ -34,33 +41,42 @@ const BUTTON_ON_CLICK = new Map([
   [3, () => openCreateOffers(EnumTypeProvider.discussion)],
 ])
 
-function CreateService() {
+function NotificationCreateService() {
   const { onBarters } = useToast()
+  const auth = useAuth(({ auth }) => auth)
+  const { id, counter } = auth ?? {}
+  const userCount = useNotificationCreateService((_) => _)
 
   useEffect(() => {
-    const rand = Math.random()
-    const randomUse = rand > 0.44 && rand < 0.51
-    const int = () => Math.floor(Math.random() * 3) + 1
-    const getInt = int()
+    if (id && typeof counter === "number") {
+      const currentCounter = counter ?? 0
+      const counterOld = userCount?.[id] ?? 0
 
-    if (randomUse) {
-      onBarters({
-        message: DESCRIPTION.get(getInt)!,
-        title: TITLE.get(getInt)!,
-        status: null,
-        button: {
-          label: BUTTON_LABEL.get(getInt)!,
-          onClick: () => {
-            dispatchModal(EModalData.CreateNewOptionModal)
-            BUTTON_ON_CLICK.get(getInt)!()
+      if (currentCounter % 5 === 0 && currentCounter !== counterOld) {
+        const int = () => Math.floor(Math.random() * 3) + 1
+        const getInt = int()
+
+        onBarters({
+          message: DESCRIPTION.get(getInt)!,
+          title: TITLE.get(getInt)!,
+          status: null,
+          button: {
+            label: BUTTON_LABEL.get(getInt)!,
+            onClick: () => {
+              dispatchModal(EModalData.CreateNewOptionModal)
+              BUTTON_ON_CLICK.get(getInt)!()
+            },
           },
-        },
+        })
+      }
+      setTimeout(() => {
+        dispatchAddCountNotificationCreateService({ userId: id, count: currentCounter! })
       })
     }
-  }, [])
+  }, [id, counter, userCount])
 
   return null
 }
 
-CreateService.displayName = "CreateService"
-export default CreateService
+NotificationCreateService.displayName = "NotificationCreateService"
+export default NotificationCreateService
