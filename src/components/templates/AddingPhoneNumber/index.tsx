@@ -7,7 +7,7 @@ import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { postPhone } from "@/services/phones"
-import { serviceAuthErrors } from "@/services"
+import { functionAuthErrors, serviceAuthErrors } from "@/services"
 import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, dispatchStartTimerNumberConfirmation, useAddingPhoneNumber } from "@/store"
 
 import styles from "./style.module.scss"
@@ -43,9 +43,7 @@ export const AddingPhoneNumber = () => {
           })
         } else {
           setError("phone", {
-            message: serviceAuthErrors.has(response?.error?.message)
-              ? serviceAuthErrors.get(response?.error?.message)
-              : response?.error?.message!,
+            message: functionAuthErrors(response?.error?.message) || response?.error?.message!,
           })
         }
         requestAnimationFrame(() => {

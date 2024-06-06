@@ -47,6 +47,7 @@ export const serviceAuthErrors: Map<string, string> = new Map([
   ["request entity too large", "Слишком большой, по объёму, запрос"],
   ["password too weak", "Пароль слишком слабый"],
   ["must agree", "Нет согласия с Пользовательским соглашением"],
+  ["phone already exists", "Данный номер уже зарегистрирован"],
 ])
 
 export const functionAuthErrors = (messages: string | string[]): string => {
