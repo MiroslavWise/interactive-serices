@@ -16,6 +16,7 @@ import { useAuth, dispatchBallonOffer, dispatchModal, EModalData } from "@/store
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread, getOffersCategories } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
+import Link from "next/link"
 
 export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEnemy }: { idBarter: number; user: IUserOffer }) {
   const threadId = useSearchParams().get("thread")
@@ -184,14 +185,13 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
               </div>
               <time>{daysAgo(res?.created)}</time>
             </div>
-            {/* {geo ? <GeoTagging size={16} fontSize={12} location={geo?.additional} /> : null} */}
           </div>
         )}
         {[EnumStatusBarter.INITIATED, EnumStatusBarter.COMPLETED].includes(status!) ? (
           <p>
             {initiator?.userId === userId ? (
               <>
-                Вы предлагаете{" "}
+                Вы предлагаете&nbsp;
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
@@ -200,8 +200,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
-                </span>{" "}
-                взамен на{" "}
+                </span>
+                &nbsp;взамен на&nbsp;
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
@@ -215,7 +215,10 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
               </>
             ) : consigner?.userId === userId ? (
               <>
-                <span>{dataInitiatorProfile?.res?.firstName}</span> предлагает вам{" "}
+                <Link href={{ pathname: "/user", query: { id: dataInitiatorProfile?.res?.id } }}>
+                  {dataInitiatorProfile?.res?.firstName}
+                </Link>
+                &nbsp;предлагает вам&nbsp;
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
@@ -224,8 +227,8 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
-                </span>{" "}
-                взамен на{" "}
+                </span>
+                &nbsp;взамен на&nbsp;
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
