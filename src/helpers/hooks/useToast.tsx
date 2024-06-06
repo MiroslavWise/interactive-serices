@@ -11,6 +11,7 @@ import { ButtonCircleGradient, ButtonClose, Button, ButtonLink, NextImageMotion 
 import { useResize } from "./use-resize.hook"
 
 interface IValue {
+  title?: string
   message?: string
   userId?: number
   id?: number
@@ -60,7 +61,7 @@ export const useToast = () => {
     })
   }
 
-  function onBarters({ message, title, status, threadId, threadIdBarter }: IPropsBarter) {
+  function onBarters({ message, title, status, threadId, threadIdBarter, button }: IPropsBarter) {
     const Message = (
       <div className="message-notifications-toast barter-toast">
         <ButtonClose position={{}} onClick={() => {}} />
@@ -81,6 +82,9 @@ export const useToast = () => {
             label="Перейти в чат"
             href={{ pathname: "/messages", query: { ...threadIdBarter } }}
           />
+        ) : null}
+        {status === null && !!button ? (
+          <Button type="button" typeButton="fill-primary" label={button.label} onClick={button.onClick} />
         ) : null}
       </div>
     )
@@ -183,10 +187,14 @@ interface IPropsMessage {
 interface IPropsBarter {
   message: string
   title: string
-  status: EnumStatusBarter | "accepted"
+  status: EnumStatusBarter | "accepted" | null
   threadId?: number
   threadIdBarter?: {
     [key: string]: string | number
+  }
+  button?: {
+    onClick: DispatchWithoutAction
+    label: string
   }
 }
 
