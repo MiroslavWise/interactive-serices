@@ -39,7 +39,7 @@ function CreateService() {
 
   useEffect(() => {
     const rand = Math.random()
-    const randomUse = rand > 0.46 && rand < 5.1
+    const randomUse = rand > 0.44 && rand < 0.51
     const int = () => Math.floor(Math.random() * 3) + 1
     const getInt = int()
 
