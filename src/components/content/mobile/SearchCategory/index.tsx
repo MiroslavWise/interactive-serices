@@ -62,12 +62,7 @@ export default function SearchCategory() {
 
   return (
     <div className={styles.container} data-visible={visible}>
-      <button
-        type="button"
-        title={visible ? "Закрыть" : "Открыть"}
-        aria-label={visible ? "Закрыть" : "Открыть"}
-        onClick={reversOpen}
-      >
+      <button type="button" title={visible ? "Закрыть" : "Открыть"} aria-label={visible ? "Закрыть" : "Открыть"} onClick={reversOpen}>
         <IconDoubleChevronsUp is={visible} />
       </button>
       {visibleFilter ? <FilterCategory /> : null}
