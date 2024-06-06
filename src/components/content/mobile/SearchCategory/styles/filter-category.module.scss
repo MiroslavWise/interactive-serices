@@ -6,10 +6,11 @@ $height-footer: 4.625rem;
   opacity: 0;
   visibility: hidden;
   background-color: var(--BG-second);
-  top: 2.23rem;
+  top: 1rem;
   left: 0;
   right: 0;
   bottom: var(--height-mobile-footer-nav);
+  height: calc(100% - 1.625rem - 1rem - var(--height-mobile-footer-nav));
   display: flex;
   flex-direction: column;
 
