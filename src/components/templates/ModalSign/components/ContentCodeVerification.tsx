@@ -99,7 +99,6 @@ export const ContentCodeVerification = ({}) => {
                   maxLength={6}
                   type="number"
                   inputMode="numeric"
-                  pattern="[0-9]*"
                   {...field}
                   onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ""))}
                 />
