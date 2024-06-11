@@ -11,6 +11,7 @@ import { TSchemaCreate } from "../utils/create.schema"
 import { dispatchVisibleCreateNewCategory } from "@/store"
 
 import styles from "../styles/list-category.module.scss"
+import { IconChevron } from "@/components/icons/IconChevron"
 
 interface IProps {
   control: Control<TSchemaCreate, any>
@@ -61,6 +62,16 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
             onChange={(event) => setValue(event.target.value)}
             disabled={disabled || !!field.value}
           />
+          <button
+            data-collapse={open}
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              setOpen((prev) => !prev)
+            }}
+          >
+            <IconChevron />
+          </button>
           {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div data-current={!!field.value}>
             <div data-icon>{field.value ? <ImageCategory id={field.value!} /> : null}</div>
