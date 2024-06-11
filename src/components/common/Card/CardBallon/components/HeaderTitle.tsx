@@ -1,10 +1,11 @@
-import { memo, useMemo } from "react"
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
-import { IconCategory } from "@/lib/icon-set"
+import { ImageCategory } from "@/components/common/Image"
+
 import { getOffersCategories } from "@/services"
 
 interface IProps {
@@ -22,13 +23,7 @@ function HeaderTitle({ offer }: IProps) {
 
   const iconTitleCategory = useMemo(() => {
     if (!categoryId) return null
-
-    let img = "/svg/category/default.svg"
     let title = ""
-
-    if (categoryId) {
-      img = IconCategory(categoryId!)!
-    }
 
     if (categories && categoryId) {
       for (const category of categories) {
@@ -39,7 +34,7 @@ function HeaderTitle({ offer }: IProps) {
       }
     }
 
-    return { img, title }
+    return { title }
   }, [categoryId, categories, provider])
 
   return (
@@ -47,21 +42,7 @@ function HeaderTitle({ offer }: IProps) {
       {provider === EnumTypeProvider.offer && iconTitleCategory ? (
         <>
           <div data-img>
-            <img
-              src={iconTitleCategory.img}
-              alt={`${categoryId!}`}
-              width={18}
-              height={18}
-              onError={(error: any) => {
-                if (error?.target) {
-                  try {
-                    error.target.src = `/svg/category/default.svg`
-                  } catch (e) {
-                    console.log("catch e: ", e)
-                  }
-                }
-              }}
-            />
+            <ImageCategory id={categoryId!} />
           </div>
           <h3>{iconTitleCategory.title}</h3>
         </>
@@ -84,4 +65,4 @@ function HeaderTitle({ offer }: IProps) {
   )
 }
 
-export default memo(HeaderTitle)
+export default HeaderTitle

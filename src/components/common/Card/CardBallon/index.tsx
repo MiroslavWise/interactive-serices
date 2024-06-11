@@ -17,7 +17,6 @@ import {
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
-
 interface IProps {
   offer: IResponseOffers
 }
