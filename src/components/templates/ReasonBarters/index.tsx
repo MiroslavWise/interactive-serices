@@ -1,15 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
-import type { TTypeReason } from "@/services/barters/types"
+import { ETypeReason } from "@/services/barters/types"
 
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { MAX_LENGTH_TEXT_OTHER, resolverReasonBarters, TReasonBarters } from "./utils/schema"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_REASON } from "./constants/constants"
 import { dispatchReasonBarters, useAuth, useReasonBarters } from "@/store"
@@ -23,14 +24,13 @@ export const ReasonBarters = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useReasonBarters(({ visible }) => visible)
   const barterId = useReasonBarters(({ barterId }) => barterId)
-  const notificationId = useReasonBarters(({ notificationId }) => notificationId)
-  const {
-    setValue,
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<IValuesForm>({})
+  const { setValue, register, handleSubmit, watch, control } = useForm<TReasonBarters>({
+    defaultValues: {
+      type: ETypeReason["found-specialist"],
+      text: "",
+    },
+    resolver: resolverReasonBarters,
+  })
 
   const { refetch } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -44,21 +44,16 @@ export const ReasonBarters = () => {
     enabled: false,
   })
 
-  function handleSend({ type, text }: IValuesForm) {
+  const onSubmit = handleSubmit(({ type, text }) => {
     if (!loading) {
       setLoading(true)
       let textReason = text
 
-      if (type !== "other") {
+      if (type !== ETypeReason.other) {
         textReason = MENU_REASON.find((item) => item?.value === type)?.label!
       }
 
-      // reason: textReason
-
-      Promise.all([
-        // serviceNotifications.patch({ enabled: true, operation: "completion-no", read: true }, notificationId!),
-        patchBarter({ enabled: true, status: EnumStatusBarter.DESTROYED, title: textReason }, barterId!),
-      ]).then(() => {
+      Promise.all([patchBarter({ enabled: true, status: EnumStatusBarter.DESTROYED, title: textReason }, barterId!)]).then(() => {
         refetch()
         refetchBarter()
         requestAnimationFrame(() => {
@@ -72,9 +67,7 @@ export const ReasonBarters = () => {
         })
       })
     }
-  }
-
-  const onSubmit = handleSubmit(handleSend)
+  })
 
   function handleClose() {
     dispatchReasonBarters({ visible: false, notificationId: undefined, barterId: undefined })
@@ -88,32 +81,47 @@ export const ReasonBarters = () => {
         <form onSubmit={onSubmit}>
           <div data-content>
             <p>Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей</p>
-            <ul {...register("type", { required: true })}>
-              {MENU_REASON.map((item) => (
-                <fieldset
-                  key={`::key::reason::menu::${item.value}::`}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    setValue("type", item.value!)
-                  }}
-                >
-                  <div data-check={watch("type") === item.value} />
-                  <label>{item.label}</label>
-                </fieldset>
-              ))}
-              {watch("type") === "other" ? (
-                <div data-text-area>
-                  <textarea
-                    {...register("text", { required: watch("type") === "other", maxLength: 240 })}
-                    maxLength={240}
-                    placeholder="Опишите причину своими словами..."
-                  />
-                  <sup data-more={watch("text")?.length > 210}>
-                    <span>{watch("text")?.length || 0}</span>/240
-                  </sup>
-                </div>
-              ) : null}
-            </ul>
+            <Controller
+              name="type"
+              control={control}
+              render={({ field }) => (
+                <ul {...field}>
+                  {MENU_REASON.map((item) => (
+                    <fieldset
+                      key={`::key::reason::menu::${item.value}::`}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        field.onChange(item.value as ETypeReason)
+                      }}
+                    >
+                      <div data-check={field.value === item.value} />
+                      <label>{item.label}</label>
+                    </fieldset>
+                  ))}
+                  {field.value === ETypeReason.other ? (
+                    <Controller
+                      name="text"
+                      control={control}
+                      render={({ field, fieldState }) => (
+                        <div data-text-area>
+                          <textarea
+                            {...register("text", { required: watch("type") === ETypeReason.other, maxLength: MAX_LENGTH_TEXT_OTHER })}
+                            maxLength={MAX_LENGTH_TEXT_OTHER}
+                            onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
+                            placeholder="Опишите причину своими словами..."
+                            data-error={!!fieldState.error}
+                          />
+                          <sup data-more={field.value.length > MAX_LENGTH_TEXT_OTHER - 30} data-error={!!fieldState.error}>
+                            {fieldState.error?.message ? fieldState.error.message : null}&nbsp;
+                            <span>{field.value.length || 0}</span>/{MAX_LENGTH_TEXT_OTHER}
+                          </sup>
+                        </div>
+                      )}
+                    />
+                  ) : null}
+                </ul>
+              )}
+            />
           </div>
           <footer>
             <Button
@@ -131,6 +139,6 @@ export const ReasonBarters = () => {
 }
 
 interface IValuesForm {
-  type: TTypeReason
+  type: ETypeReason
   text: string
 }
