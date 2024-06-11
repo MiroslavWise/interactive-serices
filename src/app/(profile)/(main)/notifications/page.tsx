@@ -3,14 +3,18 @@
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
 import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
 import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
-import { NAVIGATION_STATUSES, type TTypeWaiting } from "@/components/templates/NotificationsMobile/constants/navigation"
-import { EnumStatusBarter } from "@/types/enum"
+import {
+  DESCRIPTION_NOTIFICATIONS_EMPTY,
+  NAVIGATION_STATUSES,
+  type TTypeWaiting,
+} from "@/components/templates/NotificationsMobile/constants/navigation"
 
 export default function Notifications() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -63,40 +67,6 @@ export default function Notifications() {
     }
   }, [dataNotifications?.res, userId])
 
-  // const user = 19592 //я
-  // const allNotifications = dataNotifications?.res!
-  // //@ts-ignore
-  // const barter: IBarterResponse
-
-  // async function patchBarters(values: IPatchDataBarter) {
-  //     if (["destroyed", "completed"].includes(values.status!)) {
-  //         if (user === barter?.initiator?.userId) {
-  //             const notificationsSurvey = allNotifications?.find(
-  //                 (item) => item.userId === barter?.consigner?.userId && item.operation === "completion-survey" && item?.data?.id === barter?.id,
-  //             )!
-
-  //             await serviceNotifications.patch(
-  //                 { enabled: false, operation: values?.status === "completed" ? "completion-yes" : "completion-no" },
-  //                 notificationsSurvey?.id,
-  //             )
-  //             //await создать обоим уведомление с operation:completion-recall activator:user
-  //             //отправить обоим сокет
-  //         }
-  //         if (user === barter?.consigner?.userId) {
-  //             const notificationsSurvey = allNotifications?.find(
-  //                 (item) => item.userId === barter?.initiator?.userId && item.operation === "completion-survey" && item?.data?.id === barter?.id,
-  //             )!
-
-  //             await serviceNotifications.patch(
-  //                 { enabled: false, operation: values?.status === "completed" ? "completion-yes" : "completion-no" },
-  //                 notificationsSurvey?.id,
-  //             )
-  //             //await создать обоим уведомление с operation:completion-recall activator:user
-  //             //отправить обоим сокет
-  //         }
-  //     }
-  // }
-
   return (
     <>
       <header>
@@ -133,10 +103,7 @@ export default function Notifications() {
       ) : (
         <article>
           <h2>У вас пока нет уведомлений</h2>
-          <p>
-            Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое. Вы будете
-            проинформированы обо всем важном.
-          </p>
+          <p>{DESCRIPTION_NOTIFICATIONS_EMPTY[status]}</p>
         </article>
       )}
     </>
