@@ -14,6 +14,8 @@ import {
   useCreateNewCategory,
   dispatchVisibleCreateNewCategory,
   useOnboarding,
+  dispatchOpenPreCloseCreateService,
+  useAddCreateModal,
 } from "@/store"
 
 import styles from "./style.module.scss"
@@ -22,6 +24,7 @@ function Modal() {
   const data = useModal(({ data }) => data)
   const visible = useModal(({ visible }) => visible)
   const ref = useRef<HTMLDivElement>(null)
+  const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const visibleOnboarding = useOnboarding(({ visible }) => visible)
   const visibleCreateCategory = useCreateNewCategory(({ visible }) => visible)
 
@@ -34,11 +37,14 @@ function Modal() {
       return
     } else if (visibleOnboarding && EModalData.CreateNewOptionModal) {
       return
+    } else if (EModalData.CreateNewOptionModal || EModalData.CreateNewOptionModalMap) {
+      dispatchOpenPreCloseCreateService(typeAdd!)
+      return
     } else {
       dispatchModalClose()
       return
     }
-  }, [data, visibleCreateCategory, visibleOnboarding])
+  }, [data, visibleCreateCategory, visibleOnboarding, typeAdd])
 
   useEffect(() => {
     if (ref.current && data) {
