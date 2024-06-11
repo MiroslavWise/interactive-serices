@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { memo, useState, useMemo, useEffect } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
@@ -16,11 +17,9 @@ import { useAuth, dispatchBallonOffer, dispatchModal, EModalData } from "@/store
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread, getOffersCategories } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
-import Link from "next/link"
 
 export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEnemy }: { idBarter: number; user: IUserOffer }) {
   const threadId = useSearchParams().get("thread")
-  const { firstName } = userEnemy ?? {}
   const user = useAuth(({ user }) => user)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data: c } = useQuery({

@@ -88,11 +88,24 @@ export const NewCreateOffer = memo(({}: IProps) => {
         <label>Описание предложения</label>
         <div data-text-area>
           <textarea
-            {...register("description_new_offer", { required: watch("select_new_proposal") === ETypeOfNewCreated.new, minLength: 5 })}
+            {...register("description_new_offer", {
+              required: watch("select_new_proposal") === ETypeOfNewCreated.new,
+              minLength: 3,
+              maxLength: 512,
+            })}
             placeholder="Описание предложения..."
             maxLength={512}
           />
           <sup>{watch("description_new_offer")?.length || 0}/512</sup>
+          {!!errors.description_new_offer ? (
+            errors.description_new_offer.type === "minLength" ? (
+              <i>Не менее 3-х символов в описании</i>
+            ) : errors.description_new_offer.type === "maxLength" ? (
+              <i>Не более 512 символов</i>
+            ) : (
+              <i>{errors.description_new_offer.message}</i>
+            )
+          ) : null}
         </div>
       </fieldset>
       <fieldset data-address>
