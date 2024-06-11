@@ -10,7 +10,16 @@ export const ComplaintButton = (props: { user: IUserResponse }) => {
   function handle() {
     if (user) {
       dispatchComplaintModalUser({
-        user: user,
+        user: {
+          about: user?.profile?.about ?? "",
+          birthdate: null,
+          firstName: user?.profile?.firstName ?? "",
+          lastName: user?.profile?.lastName ?? "",
+          image: user?.profile?.image!,
+          username: user?.profile?.username,
+          id: user?.id!,
+          gender: user?.profile?.gender!,
+        },
       })
       dispatchModal(EModalData.ComplaintModal)
       return

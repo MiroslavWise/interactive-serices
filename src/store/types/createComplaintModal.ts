@@ -1,14 +1,12 @@
-import type { Dispatch } from "react"
-import type { IUserResponse } from "@/services/users/types"
-import { IResponseOffers } from "@/services/offers/types"
+import { IResponseOffers, IUserOffer } from "@/services/offers/types"
 
 export interface IStateComplaintModal {
-  user?: IUserResponse
+  user?: IUserOffer
   offer?: IResponseOffers
 }
 
 export interface IAction {
-  user?: IUserResponse
+  user?: IUserOffer
   offer?: IResponseOffers
 }
 

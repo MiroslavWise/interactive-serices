@@ -20,6 +20,7 @@ export default function ComplaintModal() {
 
   const { onBarters } = useToast()
   const user = useComplaintModal(({ user }) => user)
+  const { id, image, username = "---" } = user ?? {}
 
   const { register, handleSubmit, watch, reset, setValue } = useForm<IValuesForm>({
     defaultValues: {},
@@ -49,7 +50,7 @@ export default function ComplaintModal() {
           setLoading(false)
           onBarters({
             title: "Жалоба отправлена",
-            message: `Мы получили вашу жалобу на @${user?.profile?.username!} и скоро страница пользователя будет проверена модераторами.`,
+            message: `Мы получили вашу жалобу на @${username!} и скоро страница пользователя будет проверена модераторами.`,
             status: EnumStatusBarter.INITIATED,
           })
         })
@@ -65,8 +66,8 @@ export default function ComplaintModal() {
       <form onSubmit={onSubmit}>
         <div data-content>
           <p>
-            Данная жалоба на <span>@{user?.profile?.username!}</span> будет проверена модераторами, и если будут найдены нарушения,
-            пользователь получит бан.
+            Данная жалоба на <span>@{username}</span> будет проверена модераторами, и если будут найдены нарушения, пользователь получит
+            бан.
           </p>
           <ul {...register("type", { required: true })}>
             {MENU_COMPLAINT.map((item) => (
