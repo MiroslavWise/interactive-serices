@@ -1,25 +1,22 @@
 import { ReactNode } from "react"
-import dynamic from "next/dynamic"
-
-import { Load } from "@/components/common"
 
 import NewServicesBanner from "../NewServicesBanner"
-const CreateNewOptionModal = dynamic(() => import("../CreateNewOptionModal"), { ssr: false, loading: Load })
-const CompletionTransaction = dynamic(() => import("../CompletionTransaction"), { ssr: false, loading: Load })
-const ComplaintModal = dynamic(() => import("../ComplaintModal"), { ssr: false, loading: Load })
-const UpdateProfile = dynamic(() => import("../UpdateProfile"), { ssr: false, loading: Load })
-const ModalSign = dynamic(() => import("../ModalSign"), { ssr: false, loading: Load })
-const BalloonAlert = dynamic(() => import("../Balloon/Alert"), { ssr: false, loading: Load })
-const BalloonDiscussion = dynamic(() => import("../Balloon/Discussion"), { ssr: false, loading: Load })
-const BalloonOffer = dynamic(() => import("../Balloon/Offer"), { ssr: false, loading: Load })
-const ReciprocalExchange = dynamic(() => import("../ReciprocalExchange"), { ssr: false, loading: Load })
-const OutAccount = dynamic(() => import("../OutAccount"), { ssr: false, loading: Load })
-const DeleteOffer = dynamic(() => import("../DeleteOffer"), { ssr: false, loading: Load })
-const DeleteUser = dynamic(() => import("../DeleteUser"), { ssr: false, loading: Load })
-const UpdateOffer = dynamic(() => import("../UpdateOffer"), { ssr: false, loading: Load })
-const ChangePassword = dynamic(() => import("../ChangePassword"), { ssr: false, loading: Load })
-const ActiveServicesFrom = dynamic(() => import("../ActiveServicesFrom"), { ssr: false, loading: Load })
-const SuccessNewOptional = dynamic(() => import("../SuccessNewOptional"), { ssr: false, loading: Load })
+import CreateNewOptionModal from "../CreateNewOptionModal"
+import CompletionTransaction from "../CompletionTransaction"
+import ComplaintModal from "../ComplaintModal"
+import UpdateProfile from "../UpdateProfile"
+import ModalSign from "../ModalSign"
+import BalloonAlert from "../Balloon/Alert"
+import BalloonDiscussion from "../Balloon/Discussion"
+import BalloonOffer from "../Balloon/Offer"
+import ReciprocalExchange from "../ReciprocalExchange"
+import OutAccount from "../OutAccount"
+import DeleteOffer from "../DeleteOffer"
+import DeleteUser from "../DeleteUser"
+import UpdateOffer from "../UpdateOffer"
+import ChangePassword from "../ChangePassword"
+import ActiveServicesFrom from "../ActiveServicesFrom"
+import SuccessNewOptional from "../SuccessNewOptional"
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
