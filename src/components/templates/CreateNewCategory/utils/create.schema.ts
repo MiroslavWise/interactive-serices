@@ -6,7 +6,7 @@ export const LIMIT_TITLE_CREATE_OFFER_CATEGORY = 70
 const title = z
   .string()
   .trim()
-  .min(1, { message: "Поле, обязательно для заполнения" })
+  .min(1, { message: "Поле не может оставаться незаполненным" })
   .max(LIMIT_TITLE_CREATE_OFFER_CATEGORY, { message: `Не более ${LIMIT_TITLE_CREATE_OFFER_CATEGORY} символов` })
   .default("")
 
