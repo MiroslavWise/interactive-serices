@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
@@ -17,6 +17,7 @@ export const MobileChangeAbout = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useMobileChangeAbout(({ visible }) => visible)
   const [loading, setLoading] = useState(false)
+  const ref = useRef<HTMLTextAreaElement>(null)
 
   const { data, refetch } = useQuery({
     queryFn: () => getProfile(),
@@ -26,7 +27,7 @@ export const MobileChangeAbout = () => {
 
   const about = data?.res?.about || ""
 
-  const { control, watch, handleSubmit, setValue, formState } = useForm<TAboutSchema>({
+  const { control, watch, handleSubmit, setValue, register } = useForm<TAboutSchema>({
     resolver: resolverAboutSchema,
     defaultValues: {
       about: about ?? "",
@@ -38,6 +39,15 @@ export const MobileChangeAbout = () => {
       setValue("about", about)
     }
   }, [about])
+
+  useEffect(() => {
+    if (watch("about")) {
+      if (ref.current) {
+        ref.current.style.height = "auto"
+        ref.current.style.height = ref.current.scrollHeight + "px"
+      }
+    }
+  }, [watch("about")])
 
   const onSubmit = handleSubmit((values) => {
     if (!loading) {
@@ -74,7 +84,7 @@ export const MobileChangeAbout = () => {
             control={control}
             render={({ field }) => (
               <div data-text-area-from>
-                <textarea {...field} placeholder="Нажмите сюда, чтобы редактировать информацию о себе" />
+                <textarea {...field} placeholder="Нажмите сюда, чтобы редактировать информацию о себе" ref={ref} />
                 <sup data-error={field.value.length >= LIMIT_LENGTH_ABOUT}>
                   <span>{field.value.length >= LIMIT_LENGTH_ABOUT ? "Достигнут лимит символов" : ""}</span>
                   <span>
