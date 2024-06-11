@@ -208,6 +208,7 @@
 
   & > section {
     width: 100%;
+    overflow: hidden;
 
     p {
       color: var(--text-primary);
