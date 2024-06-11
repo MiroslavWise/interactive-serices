@@ -13,7 +13,7 @@ import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData, useFiltersServices } from "@/store"
 
 export const ListPlacemark = memo(function ListPlacemark() {
-  const { itemsOffers, isLoading } = useMapOffers()
+  const { itemsOffers } = useMapOffers()
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
 
   const marks: IPlacemarkCurrent[] = useMemo(() => {

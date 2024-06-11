@@ -65,7 +65,7 @@ export const useToast = () => {
     const Message = (
       <div className="message-notifications-toast barter-toast">
         <ButtonClose position={{}} onClick={() => {}} />
-        <h4>{title}</h4>
+        {!!title && <h4>{title}</h4>}
         <p>{message}</p>
         {status === "accepted" && threadId ? (
           <ButtonLink
@@ -92,7 +92,7 @@ export const useToast = () => {
     return toast(Message, {
       toastId: Math.random(),
       position: isTablet ? "bottom-center" : "bottom-left",
-      autoClose: 7 * 1_000,
+      autoClose: 8.5 * 1_000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
@@ -186,7 +186,7 @@ interface IPropsMessage {
 
 interface IPropsBarter {
   message: string
-  title: string
+  title?: string
   status: EnumStatusBarter | "accepted" | null
   threadId?: number
   threadIdBarter?: {

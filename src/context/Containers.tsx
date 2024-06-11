@@ -46,7 +46,7 @@ const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNew
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
 const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
 const HeaderBanner = dynamic(() => import("@/components/templates/HeaderBanner"), { ssr: false })
-const NotificationCreateService = dynamic(() => import("@/components/templates/NotificationCreateService"), { ssr: false })
+const NotificationCreateService = dynamic(() => import("@/components/content/NotificationCreateService"), { ssr: false })
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
