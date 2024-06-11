@@ -9,9 +9,9 @@ import { Header } from "./Header"
 import { ListPlacemark } from "./ObjectsMap"
 
 import { useAddress } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { getAddressCoords } from "@/helpers/get-address"
 import { dispatchAuthModal, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth, useBounds, useMapCoordinates } from "@/store"
-import { useToast } from "@/helpers/hooks/useToast"
 
 const COORD = [30.19, 59.57]
 
@@ -25,14 +25,10 @@ const YandexMap: TYandexMap = ({}) => {
   const dispatchBounds = useBounds(({ dispatchBounds }) => dispatchBounds)
   const { on } = useToast()
 
+  console.log("bounds: ", bounds)
+
   function onContextMenu(e: any) {
     console.log("onContextMenu: ", e)
-    // if (e?._sourceEvent?.originalEvent?.target) {
-    //   e.stopPropagation()
-    // }
-    // if (e.defaultPrevented) {
-    //   e.defaultPrevented()
-    // }
     if (!isAuth) {
       dispatchAuthModal({ visible: true, type: "SignIn" })
       on({ message: "Вы не можете создать услугу и беседу, пока не войдёте или не зарегистрируетесь на нашем сервисе" })
