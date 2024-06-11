@@ -10,6 +10,7 @@ import { queryClient } from "@/context"
 import { Button } from "@/components/common"
 
 import { getUser, serviceAuth } from "@/services"
+import { useReplacePathName } from "../hooks/replace-path-name"
 import { dispatchAuthModal, dispatchAuthToken, dispatchOnboarding, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -19,6 +20,7 @@ export const ContentCodeVerification = ({}) => {
   const phone = useModalAuth(({ phone = "" }) => phone)
   const prevType = useModalAuth(({ prevType }) => prevType)
   const idUser = useModalAuth(({ idUser }) => idUser)
+  const { onReplace } = useReplacePathName()
 
   const { control, handleSubmit, setError } = useForm<TSchemaCodeVerification>({
     resolver: resolverCodeVerification,
@@ -55,6 +57,7 @@ export const ContentCodeVerification = ({}) => {
                 visible: false,
                 type: null,
               })
+              onReplace()
             }
           } else {
             console.log("%c ---ERROR CONFIRM CODE---", "color: #f00", response?.error)

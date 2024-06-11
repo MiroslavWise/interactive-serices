@@ -1,7 +1,7 @@
 "use client"
 
 import HeaderAuth from "./components/Header"
-import { ContentSignIn } from "./components/ContentSignIn"
+import ContentSignIn from "./components/ContentSignIn"
 import { ContentSignUp } from "./components/ContentSignUp"
 import { ContentCurrentUser } from "./components/ContentCurrentUser"
 import { ContentCreatePassword } from "./components/ContentCreatePassword"
