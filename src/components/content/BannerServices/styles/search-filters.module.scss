@@ -252,6 +252,7 @@
             align-items: center;
             flex-direction: column;
             gap: 0.375rem;
+            cursor: pointer;
 
             & > [data-icon] {
               width: 2.75rem;
