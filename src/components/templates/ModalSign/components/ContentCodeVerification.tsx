@@ -98,6 +98,7 @@ export const ContentCodeVerification = ({}) => {
                   inputMode="numeric"
                   pattern="[0-9]*"
                   {...field}
+                  onChange={(e) => field.onChange(e.target.value.replace(/\d+/g, ""))}
                 />
                 {!!error ? <i>{error?.message}</i> : null}
               </div>
