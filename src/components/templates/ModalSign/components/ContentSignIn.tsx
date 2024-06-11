@@ -2,12 +2,13 @@ import { LinksSocial } from "./LinksSocial"
 import { SignInEmail } from "./SignInEmail"
 import { SignInPhone } from "./SignInPhone"
 import { Segments } from "@/components/common"
+
 import { VALUES_EMAIL_PHONE } from "../constants/segments"
-import { dispatchAuthModal, dispatchIModalAuthEmailOrPhone, useModalAuthEmailOrPhone } from "@/store/hooks"
+import { dispatchAuthModal, dispatchIModalAuthEmailOrPhone, useModalAuthEmailOrPhone } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
-export const ContentSignIn = ({}) => {
+function ContentSignIn() {
   const typeEmailOrPhone = useModalAuthEmailOrPhone(({ typeEmailOrPhone }) => typeEmailOrPhone)
 
   return (
@@ -47,3 +48,6 @@ export const ContentSignIn = ({}) => {
     </div>
   )
 }
+
+ContentSignIn.displayName = "ContentSignIn"
+export default ContentSignIn
