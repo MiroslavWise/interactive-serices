@@ -87,7 +87,7 @@ function CreateNewCategory() {
                     data-error={!!fieldState.error}
                   />
                   <sup data-error={!!fieldState.error}>
-                    {field.value.length}/{LIMIT_TITLE_CREATE_OFFER_CATEGORY}
+                    {!!fieldState.error ? fieldState.error.message : null} {field.value.length}/{LIMIT_TITLE_CREATE_OFFER_CATEGORY}
                   </sup>
                 </span>
               </article>
