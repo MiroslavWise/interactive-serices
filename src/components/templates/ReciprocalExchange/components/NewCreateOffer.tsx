@@ -1,7 +1,7 @@
 "use client"
 
 import { memo, useMemo, useState } from "react"
-import { useFormContext } from "react-hook-form"
+import { Controller, useFormContext } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
 import { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
@@ -16,38 +16,20 @@ import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { getGeocodeSearch, getOffersCategories } from "@/services"
 
 import styles from "../styles/new-create-offer.module.scss"
+import ControllerCategory from "./ControllerCategory"
 
 export const NewCreateOffer = memo(({}: IProps) => {
   const {
     register,
     setValue,
     watch,
+    control,
     formState: { errors },
   } = useFormContext<IFormValues>()
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
-
-  const { data: c } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = c?.res || []
-
-  const list = useMemo(() => {
-    if (!categories) return []
-
-    return (
-      categories.map(
-        (item) =>
-          ({
-            label: item.title,
-            value: item.id,
-          } as ISelectList),
-      ) || []
-    )
-  }, [categories])
 
   async function onChangeAddress() {
     if (watch("address") && watch("address")!?.length > 2 && isFocus) {
@@ -71,19 +53,7 @@ export const NewCreateOffer = memo(({}: IProps) => {
 
   return (
     <div className={styles.container}>
-      <fieldset>
-        <label>Предложение</label>
-        <CustomSelect
-          placeholder="Выберите категории"
-          value={watch("categoryId") || null}
-          list={list}
-          setValue={(value) => {
-            if (value) {
-              setValue("categoryId", value as number)
-            }
-          }}
-        />
-      </fieldset>
+      <ControllerCategory control={control} />
       <fieldset>
         <label>Описание предложения</label>
         <div data-text-area>

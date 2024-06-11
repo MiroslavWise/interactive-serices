@@ -2,24 +2,22 @@ import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo, useState } from "react"
 import { type Control, Controller } from "react-hook-form"
 
+import { IFormValues } from "../types/types"
+
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { useOutsideClickEvent } from "@/helpers"
 import { getOffersCategories } from "@/services"
-import { TSchemaCreate } from "../utils/create.schema"
-import { dispatchVisibleCreateNewCategory } from "@/store"
 
 import styles from "../styles/list-category.module.scss"
 
 interface IProps {
-  control: Control<TSchemaCreate, any>
-  visible: boolean
-  disabled: boolean
+  control: Control<IFormValues, any>
 }
 
-function ControllerCategory({ control, visible, disabled }: IProps) {
+function ControllerCategory({ control }: IProps) {
   const [open, setOpen, ref] = useOutsideClickEvent()
   const [value, setValue] = useState("")
   const { data: c } = useQuery({
@@ -41,6 +39,7 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
     <Controller
       name="categoryId"
       control={control}
+      rules={{ required: true }}
       render={({ field, fieldState: { error } }) => (
         <fieldset
           id="fieldset-create-option-modal-offer"
@@ -60,7 +59,7 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
             placeholder={!!field.value ? "" : "Выберите категорию"}
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            disabled={disabled || !!field.value}
+            disabled={!!field.value}
           />
           <button
             data-collapse={open}
@@ -106,20 +105,6 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
               ))}
             </ul>
           </div>
-          {!visible ? (
-            <button
-              type="button"
-              title="Предложить категорию"
-              aria-label="Предложить категорию"
-              data-span-new-category
-              onClick={(event) => {
-                event.stopPropagation()
-                dispatchVisibleCreateNewCategory(true)
-              }}
-            >
-              <span>Предложить категорию</span>
-            </button>
-          ) : null}
         </fieldset>
       )}
     />
