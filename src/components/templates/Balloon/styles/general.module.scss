@@ -16,6 +16,7 @@
     padding: 1.25rem;
     border-bottom: 1px solid var(--grey-stroke-light);
     height: var(--height-standard-header-modal);
+    overflow: hidden;
 
     & > h3 {
       color: var(--text-primary);
@@ -62,6 +63,7 @@
 
       & > article {
         padding-inline: 0;
+        overflow: hidden;
 
         & > * {
           padding-inline: 1.25rem;
