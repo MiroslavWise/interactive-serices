@@ -1,37 +1,37 @@
-import type { TTypeReason } from "@/services/barters/types"
+import { ETypeReason } from "@/services/barters/types"
 
 export const MENU_REASON: IMenuReason[] = [
-    {
-        value: "found-specialist",
-        label: "Уже нашёл(а) специалиста на другом сайте",
-    },
-    {
-        value: "found-through-friend",
-        label: "Уже нашёл(а) специалиста через знакомых",
-    },
-    {
-        value: "circumstances",
-        label: "Изменились обстоятельства",
-    },
-    {
-        value: "specialists",
-        label: "Не подошли специалисты",
-    },
-    {
-        value: "company-service",
-        label: "Не устроил сервис компании",
-    },
-    {
-        value: "spam",
-        label: "Это спам",
-    },
-    {
-        value: "other",
-        label: "Другое",
-    },
+  {
+    value: ETypeReason["found-specialist"],
+    label: "Уже нашёл(а) специалиста на другом сайте",
+  },
+  {
+    value: ETypeReason["found-through-friend"],
+    label: "Уже нашёл(а) специалиста через знакомых",
+  },
+  {
+    value: ETypeReason.circumstances,
+    label: "Изменились обстоятельства",
+  },
+  {
+    value: ETypeReason.specialists,
+    label: "Не подошли специалисты",
+  },
+  {
+    value: ETypeReason["company-service"],
+    label: "Не устроил сервис компании",
+  },
+  {
+    value: ETypeReason.spam,
+    label: "Это спам",
+  },
+  {
+    value: ETypeReason.other,
+    label: "Другое",
+  },
 ]
 
 interface IMenuReason {
-    value: TTypeReason
-    label: string
+  value: ETypeReason
+  label: string
 }

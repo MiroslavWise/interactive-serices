@@ -78,14 +78,15 @@ export type IPatchDataBarter = Partial<IPostDataBarter> & {
   reason?: string
 }
 
-export type TTypeReason =
-  | "found-specialist"
-  | "found-through-friend"
-  | "circumstances"
-  | "specialists"
-  | "company-service"
-  | "spam"
-  | "other"
+export enum ETypeReason {
+  "found-specialist" = "found-specialist",
+  "found-through-friend" = "found-through-friend",
+  "circumstances" = "circumstances",
+  "specialists" = "specialists",
+  "company-service" = "company-service",
+  "spam" = "spam",
+  "other" = "other",
+}
 
 export interface IBartersService {
   get(values?: IQueries): IPromiseReturn<IBarterResponse[]>
