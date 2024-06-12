@@ -85,12 +85,12 @@ export const MobileChangeAbout = () => {
             render={({ field }) => (
               <div data-text-area-from>
                 <textarea {...field} placeholder="Нажмите сюда, чтобы редактировать информацию о себе" ref={ref} />
-                <sup data-error={field.value.length >= LIMIT_LENGTH_ABOUT}>
+                <span data-error={field.value.length >= LIMIT_LENGTH_ABOUT}>
                   <span>{field.value.length >= LIMIT_LENGTH_ABOUT ? "Достигнут лимит символов" : ""}</span>
                   <span>
                     {field.value.length || 0}/{LIMIT_LENGTH_ABOUT}
                   </span>
-                </sup>
+                </span>
               </div>
             )}
           />

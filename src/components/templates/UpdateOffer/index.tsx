@@ -283,7 +283,7 @@ export default function UpdateOffer() {
           <label>Текущее описание</label>
           <div data-text-area>
             <textarea {...register("description", { required: true })} data-error={!!errors?.description} />
-            <sup>{watch("description")?.length || 0}/400</sup>
+            <span>{watch("description")?.length || 0}/400</span>
           </div>
         </fieldset>
         <fieldset>

@@ -87,9 +87,9 @@ export default function ComplaintModal() {
                   maxLength={240}
                   placeholder="Опишите причину своими словами..."
                 />
-                <sup data-more={watch("text")?.length > 240}>
+                <span data-more={watch("text")?.length > 240}>
                   <span>{watch("text")?.length || 0}</span>/240
-                </sup>
+                </span>
               </div>
             ) : null}
           </ul>

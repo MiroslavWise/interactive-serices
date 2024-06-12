@@ -116,7 +116,7 @@ export const ReasonBarters = () => {
                       placeholder="Опишите причину своими словами..."
                       data-error={!!fieldState.error}
                     />
-                    <sup
+                    <span
                       className={cx(
                         "absolute right-[0.875rem] bottom-1 top-auto h-min",
                         f.value.length > MAX_LENGTH_TEXT_OTHER - 30 && "color-[var(--text-error)]",
@@ -125,7 +125,7 @@ export const ReasonBarters = () => {
                     >
                       {fieldState.error?.message ? fieldState.error.message : null}&nbsp;
                       <span>{f.value.length || 0}</span>/{MAX_LENGTH_TEXT_OTHER}
-                    </sup>
+                    </span>
                   </div>
                 )}
               />

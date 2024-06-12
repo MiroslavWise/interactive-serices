@@ -66,7 +66,7 @@ export const NewCreateOffer = memo(({}: IProps) => {
             placeholder="Описание предложения..."
             maxLength={512}
           />
-          <sup>{watch("description_new_offer")?.length || 0}/512</sup>
+          <span>{watch("description_new_offer")?.length || 0}/512</span>
           {!!errors.description_new_offer ? (
             errors.description_new_offer.type === "minLength" ? (
               <i>Не менее 3-х символов в описании</i>

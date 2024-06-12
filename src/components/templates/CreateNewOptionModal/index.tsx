@@ -475,9 +475,9 @@ export default function CreateNewOptionModal() {
                     placeholder={placeholderDescription(typeAdd!)}
                     data-error={!!error}
                   />
-                  <sup data-error={field.value?.length + 20 >= LIMIT_DESCRIPTION}>
+                  <span data-error={field.value?.length + 20 >= LIMIT_DESCRIPTION}>
                     {field.value?.length || 0}/{LIMIT_DESCRIPTION}
-                  </sup>
+                  </span>
                 </div>
                 {!!error ? <i>{error.message}</i> : null}
               </fieldset>
