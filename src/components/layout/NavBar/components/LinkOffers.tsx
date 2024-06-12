@@ -1,4 +1,3 @@
-import { memo } from "react"
 import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
@@ -10,7 +9,7 @@ import { useAuth } from "@/store"
 import { getBarterUserIdReceiver } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
 
-export const LinkOffers = memo(function LinkOffers() {
+export function LinkOffers() {
   const pathname = usePathname()
   const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data } = useQuery({
@@ -36,4 +35,4 @@ export const LinkOffers = memo(function LinkOffers() {
       ) : null}
     </LinkProgress>
   )
-})
+}

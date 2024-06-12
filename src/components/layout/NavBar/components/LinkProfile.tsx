@@ -1,11 +1,10 @@
-import { memo } from "react"
 import { usePathname } from "next/navigation"
 
 import LinkProgress from "@/components/common/LinkProgress"
 
 import { MENU_ICONS } from "../constants/menu-icons"
 
-export const LinkProfile = memo(function LinkProfile() {
+export function LinkProfile() {
   const pathname = usePathname()
 
   return (
@@ -14,4 +13,4 @@ export const LinkProfile = memo(function LinkProfile() {
       <span>Профиль</span>
     </LinkProgress>
   )
-})
+}

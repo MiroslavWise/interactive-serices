@@ -1,4 +1,3 @@
-import { memo } from "react"
 import { usePathname } from "next/navigation"
 
 import LinkProgress from "@/components/common/LinkProgress"
@@ -6,7 +5,7 @@ import LinkProgress from "@/components/common/LinkProgress"
 import { MENU_ICONS } from "../constants/menu-icons"
 import { useCountMessagesNotReading } from "@/helpers"
 
-export const LinkMessages = memo(function LinkOffers() {
+export function LinkMessages() {
   const { count } = useCountMessagesNotReading()
   const pathname = usePathname()
 
@@ -21,4 +20,4 @@ export const LinkMessages = memo(function LinkOffers() {
       ) : null}
     </LinkProgress>
   )
-})
+}

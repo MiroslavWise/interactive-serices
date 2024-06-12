@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 import type { IResponseNotifications } from "@/services/notifications/types"
 
@@ -12,7 +12,7 @@ import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
 
-export const LinkNotification = memo(() => {
+export function LinkNotification() {
   const pathname = usePathname()
   const [count, setCount] = useState<number | null>(null)
   const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
@@ -118,4 +118,4 @@ export const LinkNotification = memo(() => {
       </section>
     </a>
   )
-})
+}
