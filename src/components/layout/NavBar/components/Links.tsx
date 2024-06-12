@@ -19,11 +19,11 @@ export const Links = () => {
 
   return isAuth ? (
     <ul className={styles.linksWrapper}>
-      <LinkMap />
-      <LinkProfile />
-      <LinkOffers />
-      <LinkMessages />
-      <LinkNotification />
+      <LinkMap pathname={pathname} />
+      <LinkProfile pathname={pathname} />
+      <LinkOffers pathname={pathname} />
+      <LinkMessages pathname={pathname} />
+      <LinkNotification pathname={pathname} />
     </ul>
   ) : null
 }

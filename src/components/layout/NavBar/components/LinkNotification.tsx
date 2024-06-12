@@ -1,6 +1,5 @@
-import { usePathname } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import type { IResponseNotifications } from "@/services/notifications/types"
 
@@ -12,8 +11,7 @@ import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
 
-export function LinkNotification() {
-  const pathname = usePathname()
+export const LinkNotification = ({ pathname }: { pathname: string }) => {
   const [count, setCount] = useState<number | null>(null)
   const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
   const [active, setActive, ref] = useOutsideClickEvent(writingNotifications)
