@@ -155,7 +155,12 @@ export default function BalloonOffer() {
               disabled={!!userId && userId === offer?.userId}
             />
             {userId && userId !== offer?.userId ? (
-              <Link data-circle href={{ pathname: "/messages", query: { user: offer?.userId } }} onClick={dispatchModalClose}>
+              <Link
+                className="relative w-11 h-11 p-[1.375rem]"
+                data-circle
+                href={{ pathname: "/messages", query: { user: offer?.userId } }}
+                onClick={dispatchModalClose}
+              >
                 <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
               </Link>
             ) : null}

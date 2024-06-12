@@ -16,7 +16,6 @@
     "prod": "next lint --no-cache && npm run t:minify && next build && npx serve@latest out -p 3000"
   },
   "dependencies": {
-    "@2gis/mapgl": "^1.47.1",
     "@hookform/resolvers": "3.4.2",
     "@pbe/react-yandex-maps": "1.2.5",
     "@tanstack/react-query": "5.29.2",
@@ -35,7 +34,6 @@
     "react-toastify": "10.0.5",
     "socket.io-client": "4.7.5",
     "yandex-maps": "^0.0.1",
-    "ymap3-components": "^1.1.6",
     "ymaps": "^0.2.1",
     "zod": "3.23.8",
     "zustand": "4.5.2"
