@@ -90,7 +90,7 @@ function NotificationCreateService() {
             },
           })
         } else {
-          if (currentCounter % 3 === 0 && currentCounter % 2 !== 0) {
+          if (currentCounter % 3 === 0 && currentCounter % 2 !== 0 && currentCounter % 9 !== 0) {
             const MESSAGE = "Хотите лучше узнать как работает Sheira? Мы расскажем вам в слайдах!"
             const LABEL = "Показать инструкцию"
 
@@ -99,7 +99,7 @@ function NotificationCreateService() {
               status: null,
               button: {
                 label: LABEL,
-                onClick: () => {},
+                onClick: handleOpen,
               },
             })
           }
@@ -113,7 +113,7 @@ function NotificationCreateService() {
               status: null,
               button: {
                 label: LABEL,
-                onClick: handleOpen,
+                onClick: () => {},
               },
             })
           }
