@@ -29,6 +29,7 @@ function PreCloseCreateService() {
   function close() {
     dispatchModalClose()
     closeCreateOffers()
+    dispatchClosePreCloseCreateService()
   }
 
   return (

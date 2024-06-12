@@ -37,7 +37,7 @@ function Modal() {
       return
     } else if (visibleOnboarding && EModalData.CreateNewOptionModal) {
       return
-    } else if (EModalData.CreateNewOptionModal || EModalData.CreateNewOptionModalMap) {
+    } else if (data === EModalData.CreateNewOptionModal || data === EModalData.CreateNewOptionModalMap) {
       dispatchOpenPreCloseCreateService(typeAdd!)
       return
     } else {
