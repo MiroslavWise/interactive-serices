@@ -123,8 +123,6 @@ const YandexMap: TYandexMap = ({}) => {
               const zoom = (events.originalEvent?.target?._zoom as number) || 13
               const newB = boundsExpansion(bounds, zoom)
 
-              console.log("events.originalEvent: ", events.originalEvent)
-
               dispatchBounds(newB)
             })
           })
