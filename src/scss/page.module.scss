@@ -12,16 +12,6 @@
 }
 
 .profileLayout {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  background: transparent;
-  padding: calc(var(--height-header-nav-bar) + 1.5rem) 0 1.25rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  z-index: 4;
-
   .container {
     height: 100%;
     display: grid;
@@ -58,13 +48,6 @@
 [data-header-is-banner="true"] {
   .profileLayout {
     padding: calc(var(--height-header-nav-bar) + 1.5rem + var(--height--banner--promotional)) 0 1.25rem;
-  }
-}
-
-@media screen and (max-width: 760px) {
-  .profileLayout {
-    position: relative;
-    padding: 0;
   }
 }
 

@@ -161,31 +161,6 @@
       margin-top: auto;
 
       & > [data-geo] {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 0.25rem;
-
-        & > [data-img-g],
-        & > button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: transparent;
-          border: none;
-          outline: none;
-        }
-
-        & > [data-img-g] {
-          width: 1rem;
-          height: 1rem;
-
-          & > img {
-            height: 1rem;
-            width: 1rem;
-          }
-        }
-
         & > span {
           color: var(--text-secondary);
           font-size: 0.875rem;
@@ -199,17 +174,6 @@
           line-clamp: 3;
           text-overflow: ellipsis;
           overflow: hidden;
-        }
-
-        & > button {
-          width: 1.25rem;
-          height: 1.25rem;
-          margin-left: auto;
-
-          & > img {
-            width: 1.25rem;
-            height: 1.25rem;
-          }
         }
       }
 

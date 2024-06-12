@@ -156,12 +156,18 @@ export default function BalloonOffer() {
             />
             {userId && userId !== offer?.userId ? (
               <Link
-                className="relative w-11 h-11 p-[1.375rem]"
+                className="relative w-11 h-11 p-[1.375rem] rounded-[1.375rem] bg-[var(--btn-second-default)]"
                 data-circle
                 href={{ pathname: "/messages", query: { user: offer?.userId } }}
                 onClick={dispatchModalClose}
               >
-                <img src="/svg/message-dots-circle-primary.svg" alt="chat" width={20} height={20} />
+                <img
+                  className="absolute top-1/2 left-1/2 w-6 h-6 -translate-y-1/2 -translate-x-1/2"
+                  src="/svg/message-dots-circle-primary.svg"
+                  alt="chat"
+                  width={20}
+                  height={20}
+                />
               </Link>
             ) : null}
           </div>
