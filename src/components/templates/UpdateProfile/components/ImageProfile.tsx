@@ -60,9 +60,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
           file: null,
           string: "",
         })
-        requestAnimationFrame(() => {
-          setLoading(false)
-        })
+        setLoading(false)
       }
 
       setLoading(false)

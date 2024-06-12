@@ -118,7 +118,7 @@ export const PersonalData = () => {
                 const dataPatch: IPostProfileData = { imageId: response?.res?.id }
                 serviceProfile.patch(dataPatch).then(() => {
                   refetch()
-                  requestAnimationFrame(dispatchModalClose)
+                  dispatchModalClose()
                 })
               } else {
                 if (response?.error?.message?.toLowerCase()?.includes("request entity too large") || response?.error?.code === 413) {
@@ -128,7 +128,7 @@ export const PersonalData = () => {
             })
           } else {
             refetch()
-            requestAnimationFrame(dispatchModalClose)
+            dispatchModalClose()
           }
         } else {
           setLoading(false)

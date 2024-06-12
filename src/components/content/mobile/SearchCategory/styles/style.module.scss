@@ -83,6 +83,31 @@ $top-height-open: 1.625rem;
         transform: translateY(-50%);
         pointer-events: none;
       }
+
+      & > [data-clear-input] {
+        height: 2.25rem;
+        width: 2.25rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0.875rem;
+        padding: 0.625rem;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        outline: none;
+        border: none;
+
+        &[data-clear-input="true"] {
+          display: flex;
+        }
+
+        & > svg {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
     }
 
     & > [data-close] {
@@ -124,32 +149,6 @@ $top-height-open: 1.625rem;
         width: 1.25rem;
         height: 1.25rem;
         z-index: 2;
-      }
-    }
-
-    & > [data-clear-input] {
-      height: 2.25rem;
-      width: 2.25rem;
-      position: absolute;
-      top: calc(2.25rem + 1.5rem);
-      transform: translateY(-50%);
-      right: calc(1.25rem + 3rem + 0.625rem + 0.375rem);
-      padding: 0.625rem;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background-color: transparent;
-      outline: none;
-      border: none;
-      border-radius: 1.25rem;
-
-      &[data-clear-input="true"] {
-        display: flex;
-      }
-
-      & > svg {
-        width: 1rem;
-        height: 1rem;
       }
     }
   }

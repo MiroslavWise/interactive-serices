@@ -91,9 +91,7 @@ export function ChatOfferPay() {
       }
       if (idCreate) {
         refetchCountMessages()
-        requestAnimationFrame(() => {
-          handleReplace(`/messages?thread=${idCreate}`)
-        })
+        handleReplace(`/messages?thread=${idCreate}`)
         return
       }
     }

@@ -20,7 +20,7 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
 
   useEffect(() => {
     if (expand && currentComments.length > 0) {
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         if (refList.current) {
           const top = refList.current.scrollHeight
           refList.current.scroll({ top: top + 100, behavior: "smooth" })

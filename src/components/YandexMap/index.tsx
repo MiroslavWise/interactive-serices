@@ -11,7 +11,15 @@ import { ListPlacemark } from "./ObjectsMap"
 import { useAddress } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getAddressCoords } from "@/helpers/get-address"
-import { dispatchAuthModal, dispatchMapCoordinates, dispatchNewServicesBannerMap, useAuth, useBounds, useMapCoordinates } from "@/store"
+import {
+  dispatchAuthModal,
+  dispatchBounds,
+  dispatchMapCoordinates,
+  dispatchNewServicesBannerMap,
+  useAuth,
+  useBounds,
+  useMapCoordinates,
+} from "@/store"
 
 const COORD = [30.19, 59.57]
 
@@ -22,10 +30,7 @@ const YandexMap: TYandexMap = ({}) => {
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const instanceRef: TTypeInstantsMap = useRef()
   const bounds = useBounds(({ bounds }) => bounds)
-  const dispatchBounds = useBounds(({ dispatchBounds }) => dispatchBounds)
   const { on } = useToast()
-
-  console.log("bounds: ", bounds)
 
   function onContextMenu(e: any) {
     console.log("onContextMenu: ", e)
@@ -82,6 +87,16 @@ const YandexMap: TYandexMap = ({}) => {
     }
   }, [coordinates, handleAddressLocation])
 
+  function boundsExpansion(bounds: number[][] | undefined, zoom?: number) {
+    if (!bounds) return undefined
+
+    const [start, end] = bounds
+
+    const newStart = start.map((_) => _ - 0.2 * (10 / (zoom || 1)))
+    const newEnd = end.map((_) => _ + 0.2 * (10 / (zoom || 1)))
+
+    return [newStart, newEnd]
+  }
   return (
     <>
       <Header handleAddressLocation={handleAddressLocation} />
@@ -93,7 +108,9 @@ const YandexMap: TYandexMap = ({}) => {
           event.ready().then(() => {
             if (!bounds?.length) {
               const bounds = instanceRef.current?.getBounds()
-              dispatchBounds({ bounds })
+              const newB = boundsExpansion(bounds)
+
+              dispatchBounds(newB)
             }
 
             instanceRef.current?.events.add("dblclick", (events: any) => onContextMenu(events))
@@ -103,7 +120,12 @@ const YandexMap: TYandexMap = ({}) => {
             })
             instanceRef.current?.events.add("actionend", (events: any) => {
               const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
-              dispatchBounds({ bounds })
+              const zoom = (events.originalEvent?.target?._zoom as number) || 13
+              const newB = boundsExpansion(bounds, zoom)
+
+              console.log("events.originalEvent: ", events.originalEvent)
+
+              dispatchBounds(newB)
             })
           })
         }}

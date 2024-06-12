@@ -18,7 +18,7 @@ export const NEW_CREATE_BADGES: INewCreateBadge[] = [
   },
   {
     imageSrc: <IconDiscussionBalloon />,
-    label: "Обсуждение",
+    label: "Дискуссия",
     value: EnumTypeProvider.discussion,
   },
 ]

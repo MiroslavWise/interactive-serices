@@ -62,7 +62,13 @@ export default function SearchCategory() {
 
   return (
     <div className={styles.container} data-visible={visible}>
-      <button type="button" title={visible ? "Закрыть" : "Открыть"} aria-label={visible ? "Закрыть" : "Открыть"} onClick={reversOpen}>
+      <button
+        type="button"
+        title={visible ? "Закрыть" : "Открыть"}
+        aria-label={visible ? "Закрыть" : "Открыть"}
+        aria-labelledby={visible ? "Закрыть" : "Открыть"}
+        onClick={reversOpen}
+      >
         <IconDoubleChevronsUp />
       </button>
       {visibleFilter ? <FilterCategory /> : null}
@@ -79,19 +85,19 @@ export default function SearchCategory() {
             placeholder="Что Вы ищете"
           />
           <IconSearch />
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              setInput("")
+            }}
+            title="Очистить поле ввода"
+            aria-label="Очистить поле ввода"
+            data-clear-input={!!input?.trim()}
+          >
+            <IconXClose />
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation()
-            setInput("")
-          }}
-          title="Очистить поле ввода"
-          aria-label="Очистить поле ввода"
-          data-clear-input={!!input?.trim()}
-        >
-          <IconXClose />
-        </button>
         <button
           type="button"
           data-filter

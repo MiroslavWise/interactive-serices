@@ -4,6 +4,9 @@ import { EnumTypeProvider } from "@/types/enum"
 
 import { Button } from "@/components/common"
 import IconMark from "@/components/icons/IconMark"
+import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
+import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
 import { closeCreateOffers, dispatchClosePreCloseCreateService, dispatchModalClose, usePreCloseCreateService } from "@/store"
@@ -16,10 +19,10 @@ const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.discussion, "Дискусии"],
 ])
 
-const ICON: Map<EnumTypeProvider, string> = new Map([
-  [EnumTypeProvider.offer, "/svg/category/default.svg"],
-  [EnumTypeProvider.alert, "/svg/category/SOS-default.svg"],
-  [EnumTypeProvider.discussion, "/svg/category/discussion-default.svg"],
+const ICON = new Map([
+  [EnumTypeProvider.offer, IconOfferBalloon],
+  [EnumTypeProvider.alert, IconAlertBalloon],
+  [EnumTypeProvider.discussion, IconDiscussionBalloon],
 ])
 
 function PreCloseCreateService() {
@@ -37,7 +40,7 @@ function PreCloseCreateService() {
       <section>
         <article>
           <div data-icon>
-            <div data-img>{ICON.has(type!) ? <img src={ICON.get(type!)!} alt={type! || ""} /> : null}</div>
+            <div data-img>{ICON.has(type!) ? ICON.get(type!)!() : null}</div>
             <div data-mark>
               <IconMark />
             </div>

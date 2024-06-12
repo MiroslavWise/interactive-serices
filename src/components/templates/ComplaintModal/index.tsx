@@ -44,15 +44,13 @@ export default function ComplaintModal() {
 
       serviceComplains.post(valuesData).then((response) => {
         console.log("%c response: serviceComplains: ", "color: green", response)
-        requestAnimationFrame(() => {
-          reset()
-          handleClose()
-          setLoading(false)
-          onBarters({
-            title: "Жалоба отправлена",
-            message: `Мы получили вашу жалобу на @${username!} и скоро страница пользователя будет проверена модераторами.`,
-            status: EnumStatusBarter.INITIATED,
-          })
+        reset()
+        handleClose()
+        setLoading(false)
+        onBarters({
+          title: "Жалоба отправлена",
+          message: `Мы получили вашу жалобу на @${username!} и скоро страница пользователя будет проверена модераторами.`,
+          status: EnumStatusBarter.INITIATED,
         })
       })
     }

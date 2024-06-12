@@ -54,9 +54,7 @@ function ChangePassword() {
             setError("root", { message: messageError })
           }
         }
-        requestAnimationFrame(() => {
-          setLoading(false)
-        })
+        setLoading(false)
       })
     }
   })

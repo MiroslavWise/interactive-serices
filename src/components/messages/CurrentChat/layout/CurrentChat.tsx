@@ -132,9 +132,7 @@ export const CurrentChat = () => {
       const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
 
       Promise.all(notReading.map((item) => postReadMessage(item))).then((responses) => {
-        requestAnimationFrame(() => {
-          refetchCountMessages()
-        })
+        refetchCountMessages()
       })
     }
   }, [userId, dataMessages?.res])

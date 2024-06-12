@@ -101,15 +101,11 @@ export default function BalloonOffer() {
         visible: true,
         type: "SignIn",
       })
-      requestAnimationFrame(() => {
-        dispatchModalClose()
-      })
+      dispatchModalClose()
       return
     } else if (!!userId && userId !== offer?.userId) {
       handlePush(`/messages?offer-pay=${offer?.id}:${offer?.userId}`)
-      requestAnimationFrame(() => {
-        dispatchModalClose()
-      })
+      dispatchModalClose()
       return
     }
   }

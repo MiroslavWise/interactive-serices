@@ -41,9 +41,7 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
   function handleDeleteChat() {
     patchThread({ enabled: false }, Number(idThread)).then((response) => {
       refetchCountMessages().finally(() => {
-        requestAnimationFrame(() => {
-          handleReplace("/messages")
-        })
+        handleReplace("/messages")
       })
     })
   }

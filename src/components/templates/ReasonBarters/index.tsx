@@ -56,15 +56,13 @@ export const ReasonBarters = () => {
       Promise.all([patchBarter({ enabled: true, status: EnumStatusBarter.DESTROYED, title: textReason }, barterId!)]).then(() => {
         refetch()
         refetchBarter()
-        requestAnimationFrame(() => {
-          onBarters({
-            title: "Спасибо за обратную связь",
-            message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
-            status: EnumStatusBarter.INITIATED,
-          })
-          handleClose()
-          setLoading(false)
+        onBarters({
+          title: "Спасибо за обратную связь",
+          message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
+          status: EnumStatusBarter.INITIATED,
         })
+        handleClose()
+        setLoading(false)
       })
     }
   })

@@ -38,17 +38,13 @@ export const AddingPhoneNumber = () => {
         if (response.ok) {
           dispatchStartTimerNumberConfirmation()
           dispatchNumberConfirmation(true, phone)
-          requestAnimationFrame(() => {
-            close()
-          })
+          close()
         } else {
           setError("phone", {
             message: functionAuthErrors(response?.error?.message) || response?.error?.message!,
           })
         }
-        requestAnimationFrame(() => {
-          setLoading(false)
-        })
+        setLoading(false)
       })
     }
   })

@@ -18,11 +18,9 @@ export const ButtonNeedHelp = ({ idUser, close }: { idUser: number; close: Dispa
       } else if (!!userId) {
         handlePush(`/messages?user=${idUser}`)
       }
-      requestAnimationFrame(() => {
-        if (close) {
-          close()
-        }
-      })
+      if (close) {
+        close()
+      }
     }
   }
 

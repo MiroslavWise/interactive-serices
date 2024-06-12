@@ -61,9 +61,7 @@ export const PopupShared = ({
             onClick={(event) => {
               event.stopPropagation()
               setState(false)
-              requestAnimationFrame(() => {
-                setVisible(true)
-              })
+              setVisible(true)
             }}
           >
             <div data-icon>

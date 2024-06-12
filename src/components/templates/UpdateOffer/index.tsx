@@ -174,13 +174,9 @@ export default function UpdateOffer() {
       patchOffer(body, offer?.id!).then((response) => {
         if (response.ok) {
           refetch()
-          requestAnimationFrame(() => {
-            close()
-            setLoading(false)
-          })
-        } else {
-          setLoading(false)
+          close()
         }
+        setLoading(false)
       })
     }
   })

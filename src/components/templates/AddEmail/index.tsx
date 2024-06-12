@@ -29,7 +29,6 @@ export const AddEmail = () => {
   const {
     register,
     watch,
-    setError,
     formState: { errors },
     handleSubmit,
   } = useForm<IValues>()
@@ -40,9 +39,7 @@ export const AddEmail = () => {
       patchEmailPasswordUser({ ...values }, userId!).then((response) => {
         if (response.ok) {
           close()
-          requestAnimationFrame(() => {
-            dispatchCheckTheMail(true, values.email)
-          })
+          dispatchCheckTheMail(true, values.email)
         } else {
         }
         setLoading(false)

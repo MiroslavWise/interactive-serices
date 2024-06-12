@@ -15,7 +15,7 @@ import { getGeocodeSearch } from "@/services"
 
 import styles from "./style.module.scss"
 
-export default function MapSearch() {
+function MapSearch() {
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
   const debouncedValue = useDebounce(onValueFunc, 300)
@@ -23,7 +23,10 @@ export default function MapSearch() {
   const visible = useSearchMobile(({ visible }) => visible)
 
   async function onValueFunc() {
-    const value = text?.trim()?.toLowerCase()?.replaceAll("  ", " ")
+    const value = text
+      ?.trim()
+      ?.toLowerCase()
+      ?.replaceAll(/\s{2,}/g, " ")
     const slug = value?.replaceAll(" ", "-")
 
     if (value.length > 2) {
@@ -68,6 +71,7 @@ export default function MapSearch() {
         <input
           type="text"
           placeholder="Выберите местоположение"
+          value={text}
           onFocus={(event) => {
             event.stopPropagation()
             dispatchVisibleSearchMobile(true)
@@ -75,7 +79,7 @@ export default function MapSearch() {
           onChange={(event) => {
             setLoading(true)
             event.stopPropagation()
-            setText(event.target.value)
+            setText(event.target.value.replace(/\s{2,}/g, " "))
             debouncedValue()
           }}
           onKeyDown={(event) => {
@@ -128,3 +132,6 @@ export default function MapSearch() {
     </>
   )
 }
+
+MapSearch.displayName = "MapSearch"
+export default MapSearch
