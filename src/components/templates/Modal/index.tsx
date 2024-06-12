@@ -19,6 +19,7 @@ import {
 } from "@/store"
 
 import styles from "./style.module.scss"
+import { cx } from "@/lib/cx"
 
 function Modal() {
   const data = useModal(({ data }) => data)
@@ -81,7 +82,11 @@ function Modal() {
 
   return (
     <div
-      className={styles.wrapperModal}
+      className={cx(
+        styles.wrapperModal,
+        "fixed inset-0 w-full h-full -z-10 opacity-0 invisible bg-[#05010d80] p-0 md:p-10 flex flex-col items-center",
+        visible && "z-[1000] !visible opacity-100",
+      )}
       data-visible={visible}
       ref={ref}
       data-enum={data}
