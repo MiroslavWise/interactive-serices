@@ -96,30 +96,40 @@ export const ReasonBarters = () => {
                       <label>{item.label}</label>
                     </fieldset>
                   ))}
-                  {field.value === ETypeReason.other ? (
-                    <Controller
-                      name="text"
-                      control={control}
-                      render={({ field, fieldState }) => (
-                        <div data-text-area>
-                          <textarea
-                            {...register("text", { required: watch("type") === ETypeReason.other, maxLength: MAX_LENGTH_TEXT_OTHER })}
-                            maxLength={MAX_LENGTH_TEXT_OTHER}
-                            onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
-                            placeholder="Опишите причину своими словами..."
-                            data-error={!!fieldState.error}
-                          />
-                          <sup data-more={field.value.length > MAX_LENGTH_TEXT_OTHER - 30} data-error={!!fieldState.error}>
-                            {fieldState.error?.message ? fieldState.error.message : null}&nbsp;
-                            <span>{field.value.length || 0}</span>/{MAX_LENGTH_TEXT_OTHER}
-                          </sup>
-                        </div>
-                      )}
-                    />
-                  ) : null}
                 </ul>
               )}
             />
+            {watch("type") === ETypeReason.other ? (
+              <Controller
+                name="text"
+                control={control}
+                rules={{
+                  required: watch("type") === ETypeReason.other,
+                  maxLength: MAX_LENGTH_TEXT_OTHER,
+                }}
+                render={({ field: f, fieldState }) => (
+                  <div data-text-area className="relative -mt-3">
+                    <textarea
+                      {...f}
+                      maxLength={MAX_LENGTH_TEXT_OTHER}
+                      onChange={(event) => f.onChange(event.target.value.replace(/\s{2,}/g, " "))}
+                      placeholder="Опишите причину своими словами..."
+                      data-error={!!fieldState.error}
+                    />
+                    <sup
+                      className={cx(
+                        "absolute right-[0.875rem] bottom-1 top-auto h-min",
+                        f.value.length > MAX_LENGTH_TEXT_OTHER - 30 && "color-[var(--text-error)]",
+                      )}
+                      data-more={f.value.length > MAX_LENGTH_TEXT_OTHER - 30}
+                    >
+                      {fieldState.error?.message ? fieldState.error.message : null}&nbsp;
+                      <span>{f.value.length || 0}</span>/{MAX_LENGTH_TEXT_OTHER}
+                    </sup>
+                  </div>
+                )}
+              />
+            ) : null}
           </div>
           <footer>
             <Button
