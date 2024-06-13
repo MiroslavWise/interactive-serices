@@ -11,6 +11,7 @@ module.exports = {
       "text-button": "var(--text-button)",
       "text-error": "var(--text-error)",
       "element-white": "var(--element-white)",
+      "text-tab": "var(--text-tab)",
     },
     extend: {
       spacing: {
