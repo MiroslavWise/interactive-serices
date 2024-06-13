@@ -21,7 +21,7 @@ import SuccessNewOptional from "../SuccessNewOptional"
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
 
-import styleNewServiceBanner from "@/components/templates/NewServicesBanner/styles/style.module.scss"
+import { CN_SECTION } from "@/components/templates/NewServicesBanner/style"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
 import stylesCompletionTransaction from "@/components/templates/CompletionTransaction/styles/style.module.scss"
 import stylesComplaintModal from "@/components/templates/ComplaintModal/styles/style.module.scss"
@@ -62,8 +62,8 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.SuccessNewOptional, <SuccessNewOptional key="::key::modal::successNewOptional" />], //Успешное создание оффера, дискуссии или алерта
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
-  [EModalData.NewServicesBanner, styleNewServiceBanner.container],
-  [EModalData.NewServicesBannerMap, styleNewServiceBanner.container],
+  [EModalData.NewServicesBanner, CN_SECTION],
+  [EModalData.NewServicesBannerMap, CN_SECTION],
   [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container],
   [EModalData.CreateNewOptionModalMap, styleCreateNewOptionModal.container],
   [EModalData.CompletionTransaction, stylesCompletionTransaction.container],

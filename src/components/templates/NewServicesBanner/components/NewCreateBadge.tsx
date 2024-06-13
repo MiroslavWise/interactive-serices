@@ -7,9 +7,7 @@ import { mapIconCreateOffer } from "@/utils"
 
 import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData, useModal } from "@/store"
 
-import styles from "./styles/styles.module.scss"
-
-export const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
+const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)
   const state = useModal(({ data }) => data)
@@ -33,14 +31,20 @@ export const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
 
   return (
     <li
-      className={styles.containerLiNew}
+      className={`group text-text-primary hover:!text-text-button flex flex-row items-center justify-center gap-4 h-14 w-full rounded-[1.75rem] max-w-full md:max-w-[22.5rem] bg-BG-second cursor-pointer z-[2] border-[1px] border-solid border-grey-stroke-light hover:border-element-accent-1 hover:bg-element-accent-1 focus:border-element-accent-1 focus:bg-element-accent-1) ${
+        visible && type === value && "bg-element-accent-1"
+      } ${visible && type !== value && "cursor-default"}
+      [&>svg]:w-8 [&>svg]:h-8
+      ${[EnumTypeProvider.offer, EnumTypeProvider.discussion].includes(value)}
+        `}
       onClick={handleType}
-      data-onboarding={visible && type === value}
       id={`li-${value}-create`}
-      data-not={visible && type !== value}
     >
       {mapIconCreateOffer.has(value) ? mapIconCreateOffer.get(value) : null}
-      <p>{label}</p>
+      <p className="text-current text-base font-medium">{label}</p>
     </li>
   )
 }
+
+NewCreateBadge.displayName = "NewCreateBadge"
+export default NewCreateBadge

@@ -100,7 +100,7 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
                 />
               </div>
               <span>{geoData?.additional}</span>
-              <Link className="relative w-5 h-5 p-[0.625rem] ml-auto" href={{ pathname: "/" }} onClick={handleToMap}>
+              <Link className="relative w-5 h-5 p-0.625 ml-auto" href={{ pathname: "/" }} onClick={handleToMap}>
                 <img
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5"
                   src="/svg/arrow-right-accent.svg"
