@@ -17,7 +17,7 @@ function ModalSign() {
   const type = useModalAuth(({ type }) => type)
 
   return (
-    <ul>
+    <ul className="auth-ul p-0 pb-10 w-full gap-8 h-full overflow-hidden overflow-y-auto flex flex-col items-center z-[2] max-md:relative max-md:gap-[1.875rem]">
       <HeaderAuth />
       {type === "SignIn" ? (
         <ContentSignIn />

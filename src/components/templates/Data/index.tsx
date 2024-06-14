@@ -21,6 +21,7 @@ import SuccessNewOptional from "../SuccessNewOptional"
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
 
+import { CN_CONTAINER_MODAL_SIGN } from "../ModalSign/style"
 import { CN_SECTION } from "@/components/templates/NewServicesBanner/style"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
 import stylesCompletionTransaction from "@/components/templates/CompletionTransaction/styles/style.module.scss"
@@ -69,7 +70,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.CompletionTransaction, stylesCompletionTransaction.container],
   [EModalData.ComplaintModal, stylesComplaintModal.container],
   [EModalData.UpdateProfile, stylesUpdateProfile.container],
-  [EModalData.ModalSign, "section-auth"],
+  [EModalData.ModalSign, CN_CONTAINER_MODAL_SIGN],
   [EModalData.BalloonAlert, stringBalloonAlert],
   [EModalData.BalloonDiscussion, stringBalloonDiscussion],
   [EModalData.BalloonOffer, stringBalloonOffer],

@@ -1,10 +1,6 @@
-"use client"
-
-import { memo, useMemo } from "react"
+import { useMemo } from "react"
 
 import { IResponseOffers } from "@/services/offers/types"
-
-import styles from "../styles/geo-data.module.scss"
 
 function GeoData({ offer }: { offer: IResponseOffers }) {
   const geo = useMemo(() => {
@@ -26,14 +22,20 @@ function GeoData({ offer }: { offer: IResponseOffers }) {
   }, [offer?.addresses])
 
   return geo ? (
-    <footer className={styles.container}>
-      <div data-geo>
-        <img src="/svg/geo-marker.svg" alt="geo" width={16} height={16} />
+    <footer className="w-full flex flex-row items-start gap-1">
+      <div className=" relative w-4 h-4 p-2">
+        <img
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4"
+          src="/svg/geo-marker.svg"
+          alt="geo"
+          width={16}
+          height={16}
+        />
       </div>
-      <span>{geo}</span>
+      <span className=" text-text-secondary text-[0.8125rem] leading-4 font-normal">{geo}</span>
     </footer>
   ) : null
 }
 
 GeoData.displayName = "GeoData"
-export default memo(GeoData)
+export default GeoData

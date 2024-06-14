@@ -1,5 +1,3 @@
-"use client"
-
 import { EnumTypeProvider } from "@/types/enum"
 import type { TNewCreateBadge } from "../types/types"
 

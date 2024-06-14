@@ -9,6 +9,7 @@ import { NextImageMotion } from "@/components/common"
 import { dispatchPhotoCarousel } from "@/store"
 
 import styles from "../styles/images.module.scss"
+import { cx } from "@/lib/cx"
 
 function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boolean }) {
   const refImages = useRef<HTMLDivElement>(null)
@@ -34,8 +35,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
   return (
     <div
       data-images-offer
-      className={styles.container}
-      data-not-button={images?.length < 4}
+      className={cx(styles.container, "group", "w-full h-[5.625rem] min-[5.625rem] relative overflow-hidden !px-0")}
       onTouchMove={(event) => {
         event.stopPropagation()
         event.preventDefault()
@@ -52,7 +52,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
         }
       }}
     >
-      <div data-images ref={refImages}>
+      <div data-images className="h-[5.625rem] min-h-[5.625rem] w-full flex flex-row gap-2 overflow-hidden px-5" ref={refImages}>
         {images.map((item) => (
           <NextImageMotion
             key={`::${item.id}::photo::offer::`}
@@ -78,22 +78,28 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
         ))}
       </div>
       <button
-        data-left
+        className={cx(
+          "max-md:hidden opacity-0 absolute left-1 top-1/2 -translate-y-1/2 border-none bg-BG-second w-8 h-8 rounded-2xl flex items-center justify-center p-0.375 group-hover:opacity-100",
+          images?.length < 4 && "!hidden",
+        )}
         onClick={(event) => {
           event.stopPropagation()
           to(true)
         }}
       >
-        <img src="/svg/chevron-left.svg" alt="left" width={20} height={20} />
+        <img className="w-5 h-5" src="/svg/chevron-left.svg" alt="left" width={20} height={20} />
       </button>
       <button
-        data-right
+        className={cx(
+          "max-md:hidden opacity-0 absolute right-1 top-1/2 -translate-y-1/2 border-none bg-BG-second w-8 h-8 rounded-2xl flex items-center justify-center p-0.375 group-hover:opacity-100",
+          images?.length < 4 && "!hidden",
+        )}
         onClick={(event) => {
           event.stopPropagation()
           to(false)
         }}
       >
-        <img src="/svg/chevron-right.svg" alt="left" width={20} height={20} />
+        <img className="w-5 h-5" src="/svg/chevron-right.svg" alt="left" width={20} height={20} />
       </button>
     </div>
   )
