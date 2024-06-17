@@ -58,6 +58,14 @@
         }
       }
 
+      & > h4 {
+        color: var(--text-tab);
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.5rem;
+      }
+
       i,
       & > p {
         font-style: normal;
@@ -158,6 +166,13 @@
 
       & > button {
         max-width: min-content;
+        height: 2.25rem;
+        border-radius: 1.125rem;
+
+        & > span {
+          font-size: 0.875rem;
+          line-height: 1.25rem;
+        }
       }
     }
 

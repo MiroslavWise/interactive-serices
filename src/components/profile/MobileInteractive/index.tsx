@@ -36,9 +36,19 @@ export const MobileInteractive = ({ user }: { user: IUserResponse }) => {
   }, [])
 
   function handle() {
+    const { profile } = user ?? {}
     if (user) {
       dispatchComplaintModalUser({
-        user: user,
+        user: {
+          about: profile?.about ?? "",
+          birthdate: null,
+          firstName: profile?.firstName,
+          gender: profile?.gender! ?? null,
+          id: user?.id,
+          lastName: profile?.lastName,
+          username: profile?.username,
+          image: profile?.image,
+        },
       })
       dispatchModal(EModalData.ComplaintModal)
       return

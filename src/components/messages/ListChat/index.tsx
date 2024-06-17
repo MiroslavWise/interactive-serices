@@ -47,12 +47,16 @@ export const ListChat = () => {
   }, [socket, userId])
 
   return (
-    <section className={isTablet ? styles.containerMobile : styles.container}>
+    <section
+      className={
+        isTablet ? "w-full h-full z-[3]" : "w-full h-full rounded-[1.25rem] bg-[var(--BG-second)] z-[1] overflow-hidden flex flex-col"
+      }
+    >
       {!isTablet ? (
         <>
-          <header>
-            <div data-total-number>
-              <h4>Сообщения</h4>
+          <header className="p-3 sticky top-0 w-full flex flex-row justify-center items-center gap-4 bg-[var(--BG-second)] z-[2] border-b border-[var(--grey-stroke)]">
+            <div data-total-number className="inline-flex items-center w-min gap-2">
+              <h4 className="text-base font-semibold not-italic color text-[var(--text-primary)]">Сообщения</h4>
             </div>
           </header>
           <SearchBlock {...{ search, setSearch }} />

@@ -34,16 +34,12 @@ function DeleteOffer() {
           if (response.ok) {
             refetch()
           }
-          requestAnimationFrame(() => {
-            setLoading(false)
-            close()
-          })
-        })
-      } else {
-        requestAnimationFrame(() => {
           setLoading(false)
           close()
         })
+      } else {
+        setLoading(false)
+        close()
       }
     }
   }

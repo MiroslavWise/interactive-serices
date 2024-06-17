@@ -40,9 +40,7 @@ export const ItemListFriend: TItemListFriend = ({ user, type }) => {
         setTimeout(() => {
           refresh([type]).then((response) => {
             console.log("%c ---response: ---", "color: #0f0", response)
-            requestAnimationFrame(() => {
-              setLoading(false)
-            })
+            setLoading(false)
           })
         }, 850)
       })

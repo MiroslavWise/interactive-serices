@@ -95,7 +95,7 @@
     height: calc(100%);
     border-radius: 2rem;
     background-color: var(--BG-second);
-    padding: 2.5rem 1rem;
+    padding: 2.5rem 3.125rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,12 +104,10 @@
 
     & > h2,
     & > p {
-      max-width: 22.5rem;
       width: 100%;
       text-align: center;
       font-style: normal;
       line-height: 150%;
-      letter-spacing: -0.03125rem;
     }
 
     & > h2 {

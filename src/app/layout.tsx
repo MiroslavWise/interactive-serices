@@ -7,10 +7,11 @@ import { Inter } from "next/font/google"
 const Providers = dynamic(() => import("./providers"), { ssr: false })
 const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
 
-import env from "@/config/environment"
 import { cx } from "@/lib/cx"
+import env from "@/config/environment"
 
 import "@/scss/init.scss"
+import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
 
 const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })

@@ -172,18 +172,6 @@
         color: var(--text-disabled);
       }
     }
-
-    & > sup {
-      position: absolute;
-      right: 0.875rem;
-      bottom: 0.25rem;
-
-      color: var(--text-primary);
-      font-size: 0.75rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 150%;
-    }
   }
 
   [data-my-offers] {

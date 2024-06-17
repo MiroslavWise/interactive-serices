@@ -24,6 +24,7 @@ export const useAuth = create(
           user: state.user,
         }
       },
+      version: 0.1,
     },
   ),
 )
@@ -116,6 +117,7 @@ const objUseAuth = z.object({
   refreshToken: z.string(),
   scope: z.string(),
   tokenType: z.string().default("Bearer"),
+  counter: z.number(),
 })
 
 export type TAuth = z.infer<typeof objUseAuth>

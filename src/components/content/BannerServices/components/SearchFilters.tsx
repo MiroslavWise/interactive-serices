@@ -9,7 +9,13 @@ import { IconSearch } from "@/components/icons/IconSearch"
 import { IconXClose } from "@/components/icons/IconXClose"
 
 import { getOffersCategories } from "@/services"
-import { dispatchClearSearchFilters, dispatchValueSearchFilters, dispatchVisibleSearchFilters, useSearchFilters } from "@/store"
+import {
+  dispatchClearSearchFilters,
+  dispatchDataFilterScreen,
+  dispatchValueSearchFilters,
+  dispatchVisibleSearchFilters,
+  useSearchFilters,
+} from "@/store"
 
 import styles from "../styles/search-filters.module.scss"
 
@@ -201,16 +207,6 @@ export const SearchFilters = () => {
                   </div>
                 </div>
               ) : null}
-              <section data-grid>
-                {firstSix.map((item) => (
-                  <a key={`::item::grid::first::six::${item.id}::`}>
-                    <div data-icon>
-                      <ImageCategory id={item.id} />
-                    </div>
-                    <p>{item.title}</p>
-                  </a>
-                ))}
-              </section>
             </div>
           )}
         </ul>

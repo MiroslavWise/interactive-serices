@@ -57,10 +57,8 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
 
         serviceComments.post(data).then((response) => {
           reset()
-          requestAnimationFrame(() => {
-            refetchComments().then(() => {
-              setLoading(false)
-            })
+          refetchComments().then(() => {
+            setLoading(false)
           })
         })
       } else {

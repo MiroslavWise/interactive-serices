@@ -11,7 +11,7 @@ import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconFilters } from "@/components/icons/IconFilters"
-import IconDoubleChevronsUp from "@/components/icons/IconCloseOrChevronsUp"
+import IconDoubleChevronsUp from "@/components/icons/IconDoubleChevronsUp"
 const FilterCategory = dynamic(() => import("./components/FilterCategory"))
 
 import { ServicesMobile } from "./components/Services"
@@ -66,9 +66,10 @@ export default function SearchCategory() {
         type="button"
         title={visible ? "Закрыть" : "Открыть"}
         aria-label={visible ? "Закрыть" : "Открыть"}
+        aria-labelledby={visible ? "Закрыть" : "Открыть"}
         onClick={reversOpen}
       >
-        <IconDoubleChevronsUp is={visible} />
+        <IconDoubleChevronsUp />
       </button>
       {visibleFilter ? <FilterCategory /> : null}
       <header>
@@ -84,19 +85,19 @@ export default function SearchCategory() {
             placeholder="Что Вы ищете"
           />
           <IconSearch />
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              setInput("")
+            }}
+            title="Очистить поле ввода"
+            aria-label="Очистить поле ввода"
+            data-clear-input={!!input?.trim()}
+          >
+            <IconXClose />
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation()
-            setInput("")
-          }}
-          title="Очистить поле ввода"
-          aria-label="Очистить поле ввода"
-          data-clear-input={!!input?.trim()}
-        >
-          <IconXClose />
-        </button>
         <button
           type="button"
           data-filter

@@ -10,7 +10,7 @@ import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
-export const LinkMap = memo(function LinkMap() {
+export const LinkMap = () => {
   const pathname = usePathname()
   const [count, setCount] = useState<number | null>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -48,4 +48,4 @@ export const LinkMap = memo(function LinkMap() {
       ) : null}
     </Link>
   )
-})
+}

@@ -1,17 +1,13 @@
-import { memo } from "react"
-import { usePathname } from "next/navigation"
-
-import LinkProgress from "@/components/common/LinkProgress"
+import Link from "next/link"
 
 import { MENU_ICONS } from "../constants/menu-icons"
 import { useCountMessagesNotReading } from "@/helpers"
 
-export const LinkMessages = memo(function LinkOffers() {
+export const LinkMessages = ({ pathname }: { pathname: string }) => {
   const { count } = useCountMessagesNotReading()
-  const pathname = usePathname()
 
   return (
-    <LinkProgress key="::messages::link::" data-active={pathname?.includes("/messages")} href="/messages">
+    <Link key="::messages::link::" data-active={pathname?.includes("/messages")} href="/messages">
       {MENU_ICONS.message}
       <span>Сообщения</span>
       {count ? (
@@ -19,6 +15,6 @@ export const LinkMessages = memo(function LinkOffers() {
           <span>{count > 9 ? "9+" : count || 0}</span>
         </div>
       ) : null}
-    </LinkProgress>
+    </Link>
   )
-})
+}

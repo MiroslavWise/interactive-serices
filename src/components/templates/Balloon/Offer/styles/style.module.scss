@@ -38,22 +38,6 @@
         height: 2.75rem;
         border-radius: 1.375rem;
       }
-
-      & > [data-circle] {
-        width: 2.75rem;
-        height: 2.75rem;
-        padding: 0.625rem;
-        border-radius: 1.375rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--btn-second-default);
-
-        & > img {
-          width: 1.5rem;
-          height: 1.5rem;
-        }
-      }
     }
   }
 

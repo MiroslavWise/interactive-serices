@@ -9,10 +9,11 @@ import { Segments } from "@/components/common/Segments"
 import { useProviderProfileOffer, dispatchProvider } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { useResize } from "@/helpers"
 
-const TABS: ISegmentValues<EnumTypeProvider>[] = [
+const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
   {
-    label: "Мои предложения",
+    label: isMobile ? "Предложения" : "Мои предложения",
     value: EnumTypeProvider.offer,
   },
   {
@@ -27,13 +28,13 @@ const TABS: ISegmentValues<EnumTypeProvider>[] = [
 
 export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {
   const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
-
+  const { isMobile } = useResize()
   return (
     <div className={styles.containerTagAndButton}>
       <Segments
         type="primary"
-        VALUES={TABS}
-        active={TABS.find((_) => _.value === stateProvider)!}
+        VALUES={TABS(isMobile)}
+        active={TABS(isMobile).find((_) => _.value === stateProvider)!}
         setActive={({ value }) => {
           dispatchProvider(value)
         }}

@@ -1,30 +1,28 @@
 import { ReactNode } from "react"
-import dynamic from "next/dynamic"
-
-import { Load } from "@/components/common"
 
 import NewServicesBanner from "../NewServicesBanner"
-const CreateNewOptionModal = dynamic(() => import("../CreateNewOptionModal"), { ssr: false, loading: Load })
-const CompletionTransaction = dynamic(() => import("../CompletionTransaction"), { ssr: false, loading: Load })
-const ComplaintModal = dynamic(() => import("../ComplaintModal"), { ssr: false, loading: Load })
-const UpdateProfile = dynamic(() => import("../UpdateProfile"), { ssr: false, loading: Load })
-const ModalSign = dynamic(() => import("../ModalSign"), { ssr: false, loading: Load })
-const BalloonAlert = dynamic(() => import("../Balloon/Alert"), { ssr: false, loading: Load })
-const BalloonDiscussion = dynamic(() => import("../Balloon/Discussion"), { ssr: false, loading: Load })
-const BalloonOffer = dynamic(() => import("../Balloon/Offer"), { ssr: false, loading: Load })
-const ReciprocalExchange = dynamic(() => import("../ReciprocalExchange"), { ssr: false, loading: Load })
-const OutAccount = dynamic(() => import("../OutAccount"), { ssr: false, loading: Load })
-const DeleteOffer = dynamic(() => import("../DeleteOffer"), { ssr: false, loading: Load })
-const DeleteUser = dynamic(() => import("../DeleteUser"), { ssr: false, loading: Load })
-const UpdateOffer = dynamic(() => import("../UpdateOffer"), { ssr: false, loading: Load })
-const ChangePassword = dynamic(() => import("../ChangePassword"), { ssr: false, loading: Load })
-const ActiveServicesFrom = dynamic(() => import("../ActiveServicesFrom"), { ssr: false, loading: Load })
-const SuccessNewOptional = dynamic(() => import("../SuccessNewOptional"), { ssr: false, loading: Load })
+import CreateNewOptionModal from "../CreateNewOptionModal"
+import CompletionTransaction from "../CompletionTransaction"
+import ComplaintModal from "../ComplaintModal"
+import UpdateProfile from "../UpdateProfile"
+import ModalSign from "../ModalSign"
+import BalloonAlert from "../Balloon/Alert"
+import BalloonDiscussion from "../Balloon/Discussion"
+import BalloonOffer from "../Balloon/Offer"
+import ReciprocalExchange from "../ReciprocalExchange"
+import OutAccount from "../OutAccount"
+import DeleteOffer from "../DeleteOffer"
+import DeleteUser from "../DeleteUser"
+import UpdateOffer from "../UpdateOffer"
+import ChangePassword from "../ChangePassword"
+import ActiveServicesFrom from "../ActiveServicesFrom"
+import SuccessNewOptional from "../SuccessNewOptional"
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
 
-import styleNewServiceBanner from "@/components/templates/NewServicesBanner/styles/style.module.scss"
+import { CN_CONTAINER_MODAL_SIGN } from "../ModalSign/style"
+import { CN_SECTION } from "@/components/templates/NewServicesBanner/style"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
 import stylesCompletionTransaction from "@/components/templates/CompletionTransaction/styles/style.module.scss"
 import stylesComplaintModal from "@/components/templates/ComplaintModal/styles/style.module.scss"
@@ -65,14 +63,14 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.SuccessNewOptional, <SuccessNewOptional key="::key::modal::successNewOptional" />], //Успешное создание оффера, дискуссии или алерта
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
-  [EModalData.NewServicesBanner, styleNewServiceBanner.container],
-  [EModalData.NewServicesBannerMap, styleNewServiceBanner.container],
+  [EModalData.NewServicesBanner, CN_SECTION],
+  [EModalData.NewServicesBannerMap, CN_SECTION],
   [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container],
   [EModalData.CreateNewOptionModalMap, styleCreateNewOptionModal.container],
   [EModalData.CompletionTransaction, stylesCompletionTransaction.container],
   [EModalData.ComplaintModal, stylesComplaintModal.container],
   [EModalData.UpdateProfile, stylesUpdateProfile.container],
-  [EModalData.ModalSign, "section-auth"],
+  [EModalData.ModalSign, CN_CONTAINER_MODAL_SIGN],
   [EModalData.BalloonAlert, stringBalloonAlert],
   [EModalData.BalloonDiscussion, stringBalloonDiscussion],
   [EModalData.BalloonOffer, stringBalloonOffer],

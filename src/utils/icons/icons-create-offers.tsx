@@ -7,7 +7,11 @@ import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 export const mapIconCreateOffer = new Map([
   [
     EnumTypeProvider.alert,
-    <div data-alert key={`::item::key::alert::svg::`}>
+    <div
+      className="w-8 h-8 rounded-2xl bg-text-error flex items-center justify-center p-0.375 group-hover:bg-text-button"
+      data-alert
+      key={`::item::key::alert::svg::`}
+    >
       <IconAlertBalloon />
     </div>,
   ],

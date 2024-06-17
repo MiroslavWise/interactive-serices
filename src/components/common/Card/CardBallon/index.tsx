@@ -17,7 +17,7 @@ import {
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
-
+import { cx } from "@/lib/cx"
 interface IProps {
   offer: IResponseOffers
 }
@@ -49,7 +49,7 @@ function CardBallon({ offer }: IProps) {
 
   return (
     <article
-      className={styles.container}
+      className={cx(styles.container, "w-full rounded-2xl border-solid border-[1px] p-4 flex flex-col gap-3 cursor-pointer")}
       data-provider={provider}
       onClick={(event) => {
         event.stopPropagation()
@@ -58,8 +58,8 @@ function CardBallon({ offer }: IProps) {
     >
       <HeaderTimeDots offer={offer} />
       <HeaderTitle offer={offer} />
-      <section>
-        <p>{description}</p>
+      <section className="overflow-hidden w-full">
+        <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
       </section>
       {images?.length ? <ItemImages images={images} /> : null}
       <GeoData offer={offer} />

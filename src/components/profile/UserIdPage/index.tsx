@@ -18,7 +18,7 @@ export const UserIdPage = ({ id, user }: { id: string; user: IUserResponse; ok: 
       <MobileInteractive user={user} />
     </ul>
   ) : (
-    <section className={styles.container}>
+    <section className="h-full w-full grid justify-center items-center grid-cols-[calc(33.33%_-_0.75rem)_calc(66.66%_-_0.75rem)] gap-6 max-w-[74.625rem] z-[2]">
       <MainInfo user={user!} />
       <StatisticAndFeedback id={id} />
     </section>

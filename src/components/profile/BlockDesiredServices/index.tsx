@@ -3,10 +3,9 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { Button } from "@/components/common"
+import { Button, ImageCategory } from "@/components/common"
 
 import { getUserId } from "@/services"
-import { IconCategory } from "@/lib/icon-set"
 import { dispatchActiveServicesFrom, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
@@ -41,21 +40,7 @@ export const BlockDesiredServices = () => {
             {desiredServices.map((item) => (
               <div key={`::key::service::desired::${item.id}::`} data-item>
                 <div data-img>
-                  <img
-                    src={IconCategory(item.id)}
-                    alt="category"
-                    width={16}
-                    height={16}
-                    onError={(error: any) => {
-                      if (error?.target) {
-                        try {
-                          error.target.src = IconCategory(item.id)
-                        } catch (e) {
-                          console.log("catch e: ", e)
-                        }
-                      }
-                    }}
-                  />
+                  <ImageCategory id={item.id!} />
                 </div>
                 <p>{item.title}</p>
               </div>

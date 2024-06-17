@@ -1,11 +1,12 @@
 import { useForm, Controller } from "react-hook-form"
-import { type ReactNode, memo, useState } from "react"
+import { DispatchWithoutAction, type ReactNode, memo, useState } from "react"
 
 import { resolverEmailSignIn, TSchemaEmailSignIn } from "../utils/email-sign-in.schema"
 
 import { Button } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
+import { useReplacePathName } from "../hooks/replace-path-name"
 import { functionAuthErrors, serviceAuthErrors } from "@/services"
 import { dispatchAuthModal, dispatchLoginTokenData } from "@/store"
 
@@ -15,6 +16,7 @@ export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: {
   const [loading, setLoading] = useState(false)
   const [isPass, setIsPass] = useState(false)
   const { on } = useToast()
+  const { onReplace } = useReplacePathName()
 
   const {
     handleSubmit,
@@ -61,6 +63,7 @@ export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: {
           }
           if (response.ok) {
             dispatchAuthModal({ visible: false })
+            onReplace()
           }
         })
         .finally(() => setLoading(false))

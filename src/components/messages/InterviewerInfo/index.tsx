@@ -25,10 +25,8 @@ export const InterviewerInfoCurrent = memo(function () {
     const data: IPatchThreads = { enabled: false }
     patchThread(data, Number(idThread)).then((response) => {
       refetchCountMessages().finally(() => {
-        requestAnimationFrame(() => {
-          console.log("%c --- response delete ---", "color: #f0f", response)
-          handleReplace("/messages")
-        })
+        console.log("%c --- response delete ---", "color: #f0f", response)
+        handleReplace("/messages")
       })
     })
   }

@@ -132,7 +132,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
               </label>
               <p data-terms data-error={!!fieldState.error}>
                 Даю согласие на обработку персональных данных в соответствии с&nbsp;
-                <Link href={{ pathname: "/terms-policy" }} target="_blank" rel="license" referrerPolicy="no-referrer">
+                <Link href={{ pathname: "/legal/privacy-policy/" }} target="_blank" rel="license" referrerPolicy="no-referrer">
                   Политикой конфиденциальности
                 </Link>
               </p>

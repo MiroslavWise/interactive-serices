@@ -11,7 +11,7 @@ import { IconXClose } from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
 import { serviceNotifications } from "@/services"
-import { type TTypeWaiting, NAVIGATION_STATUSES } from "./constants/navigation"
+import { type TTypeWaiting, DESCRIPTION_NOTIFICATIONS_EMPTY, NAVIGATION_STATUSES } from "./constants/navigation"
 import { useVisibleNotifications, dispatchVisibleNotifications, useAuth } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -128,10 +128,7 @@ export function NotificationsMobile() {
         ) : (
           <article>
             <h3>У вас пока нет уведомлений</h3>
-            <p>
-              Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое. Вы
-              будете проинформированы обо всем важном.
-            </p>
+            <p>{DESCRIPTION_NOTIFICATIONS_EMPTY[status]}</p>
           </article>
         )}
       </section>

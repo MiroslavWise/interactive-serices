@@ -11,6 +11,7 @@ import { functionAuthErrors, RegistrationService, serviceAuthErrors } from "@/se
 import { dispatchAuthModal, dispatchAuthModalInformationCreateAccount, useModalAuth, useModalAuthEmailOrPhone, useUTM } from "@/store"
 
 import styles from "../styles/form.module.scss"
+import DifficultyPassword from "./DifficultyPassword"
 
 export const ContentCreatePassword = () => {
   const { handleReplace } = usePush()
@@ -184,6 +185,7 @@ export const ContentCreatePassword = () => {
                 />
               </div>
               {error ? <i>{error?.message}</i> : null}
+              <DifficultyPassword value={field.value.trim()} />
             </div>
           )}
         />

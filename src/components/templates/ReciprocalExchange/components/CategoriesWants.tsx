@@ -56,7 +56,7 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
               placeholder="Описание предложения..."
               maxLength={512}
             />
-            <sup>{watch("description")?.length || 0}/512</sup>
+            <span>{watch("description")?.length || 0}/512</span>
           </div>
           {errors.description ? <i>{errors?.description?.message}</i> : null}
         </fieldset>

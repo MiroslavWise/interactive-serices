@@ -1,6 +1,11 @@
-build-run: compose
+pull:
+	git checkout develop
+	git pull
 
-compose:
-	docker compose up
-
-.PHONY: build run
+git:
+	npm run t:minify
+	git add .
+	git status
+	git commit -m "$(c)"
+	git status
+	git push

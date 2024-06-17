@@ -43,7 +43,7 @@
         }
 
         & > time {
-          color: var(--opacity-white-hard-8);
+          color: var(--grey-separator);
           font-size: 0.75rem;
           font-style: normal;
           font-weight: 400;
@@ -54,17 +54,22 @@
 
       & > [data-geo] {
         p {
-          color: var(--opacity-white-hard-8);
+          color: var(--grey-separator);
         }
       }
     }
 
     & > p {
-      color: var(--supporting-white);
+      color: var(--supporting-white) !important;
       font-size: 1rem;
       font-style: normal;
       font-weight: 400;
       line-height: 1.25rem;
+
+      & > a {
+        cursor: pointer;
+        color: var(--supporting-white) !important;
+      }
 
       & > span {
         text-decoration: underline;
@@ -88,7 +93,7 @@
 
   &[data-type="executed"] {
     background-color: var(--background);
-    border-bottom: 1px solid var(--gray-300);
+    border-bottom: 1px solid var(--grey-separator);
     border-radius: 1.25rem 1.25rem 0 0;
     gap: 0.75rem;
 
@@ -160,7 +165,7 @@
           }
 
           & > a {
-            color: var(--gray-900);
+            color: var(--supporting-white) !important;
             font-size: 0.875rem;
             font-style: normal;
             font-weight: 400;

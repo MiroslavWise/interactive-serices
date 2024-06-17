@@ -97,15 +97,13 @@ export default function CompletionTransaction() {
           refetchTestimonials()
           refetchThread()
           refetchNotifications()
-          requestAnimationFrame(async () => {
-            onBarters({
-              title: "Спасибо за обратную связь",
-              message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
-              status: EnumStatusBarter.INITIATED,
-            })
-            setIsFirst(false)
-            setLoading(false)
+          onBarters({
+            title: "Спасибо за обратную связь",
+            message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
+            status: EnumStatusBarter.INITIATED,
           })
+          setIsFirst(false)
+          setLoading(false)
         }
       })
     }

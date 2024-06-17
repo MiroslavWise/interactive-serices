@@ -14,7 +14,11 @@ import {
   useCreateNewCategory,
   dispatchVisibleCreateNewCategory,
   useOnboarding,
+  dispatchOpenPreCloseCreateService,
+  useAddCreateModal,
 } from "@/store"
+
+import { cx } from "@/lib/cx"
 
 import styles from "./style.module.scss"
 
@@ -22,6 +26,7 @@ function Modal() {
   const data = useModal(({ data }) => data)
   const visible = useModal(({ visible }) => visible)
   const ref = useRef<HTMLDivElement>(null)
+  const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const visibleOnboarding = useOnboarding(({ visible }) => visible)
   const visibleCreateCategory = useCreateNewCategory(({ visible }) => visible)
 
@@ -34,11 +39,14 @@ function Modal() {
       return
     } else if (visibleOnboarding && EModalData.CreateNewOptionModal) {
       return
+    } else if (data === EModalData.CreateNewOptionModal || data === EModalData.CreateNewOptionModalMap) {
+      dispatchOpenPreCloseCreateService(typeAdd!)
+      return
     } else {
       dispatchModalClose()
       return
     }
-  }, [data, visibleCreateCategory, visibleOnboarding])
+  }, [data, visibleCreateCategory, visibleOnboarding, typeAdd])
 
   useEffect(() => {
     if (ref.current && data) {
@@ -75,8 +83,11 @@ function Modal() {
 
   return (
     <div
-      className={styles.wrapperModal}
-      data-visible={visible}
+      className={cx(
+        styles.wrapperModal,
+        "fixed transition-opacity inset-0 w-full h-full -z-10 opacity-0 invisible bg-translucent md:p-10 flex flex-col items-center max-md:p-0 max-md:!pt-0 max-md:justify-end",
+        visible && "!z-[1000] !visible !opacity-100",
+      )}
       ref={ref}
       data-enum={data}
       onClick={(event) => {
@@ -86,13 +97,21 @@ function Modal() {
     >
       <section
         data-test={`modal-section-${data}`}
-        className={STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : ""}
+        className={cx(
+          "bg-BG-second rounded-t-3xl rounded-b-none max-md:overflow-hidden max-md:min-h-20 md:rounded-[2rem] w-full relative",
+          STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : "",
+        )}
         id={ID_MODAL.has(data!) ? ID_MODAL.get(data!) : ""}
         onClick={(event) => {
           event.stopPropagation()
         }}
       >
-        {visible ? <ButtonClose onClick={close} /> : null}
+        {visible ? (
+          <ButtonClose
+            onClick={close}
+            className="!top-0 !right-0 md:!-right-1 !translate-x-0 md:!translate-x-full max-md:bg-transparent max-md:!border-none"
+          />
+        ) : null}
         {data ? (DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null) : null}
       </section>
     </div>

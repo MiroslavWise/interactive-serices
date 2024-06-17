@@ -60,7 +60,7 @@ function TableRows() {
 
   const { data, isLoading } = useQuery({
     queryFn: () => getOffersCategories({ query: query }),
-    queryKey: ["offers-categories", query],
+    queryKey: ["categories", query],
   })
 
   const list = data?.res || []

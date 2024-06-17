@@ -5,7 +5,7 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import type { IResponseOffers } from "@/services/offers/types"
 
-import { Button } from "@/components/common"
+import { Button, ImageCategory } from "@/components/common"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { usePush } from "@/helpers"
@@ -14,6 +14,7 @@ import { getOffersCategories } from "@/services"
 import { dispatchBallonOffer, dispatchDeleteOffer, dispatchMapCoordinates, dispatchModal, dispatchUpdateOffer, EModalData } from "@/store"
 
 import styles from "./style.module.scss"
+import Link from "next/link"
 
 export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) => {
   const { handlePush } = usePush()
@@ -28,9 +29,9 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
   }, [categories, offer])
 
   const categoriesInExchange = useMemo(() => {
-    const items = offer.categories?.map((item) => categories?.find((item_) => item_?.id === item!)!)
+    if (!categories.length) return []
 
-    return items
+    return offer.categories?.map((item) => categories?.find((item_) => item_?.id === item!)!)
   }, [categories, offer.categories])
 
   const images = useMemo(() => {
@@ -59,21 +60,7 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
     <div className={styles.container}>
       <div data-header>
         <div data-img>
-          <img
-            src={IconCategory(category?.id!)}
-            alt={`${category?.id!}`}
-            width={16}
-            height={16}
-            onError={(error: any) => {
-              if (error?.target) {
-                try {
-                  error.target.src = `/svg/category/default.svg`
-                } catch (e) {
-                  console.log("catch e: ", e)
-                }
-              }
-            }}
-          />
+          <ImageCategory id={category?.id!} />
         </div>
         <h3>{category?.title}</h3>
       </div>
@@ -92,21 +79,7 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
               {categoriesInExchange.map((item) => (
                 <li key={`::item::exchange::${item?.id!}::`}>
                   <div data-img>
-                    <img
-                      src={IconCategory(item?.id!)}
-                      alt={`${item?.id!}`}
-                      width={16}
-                      height={16}
-                      onError={(error: any) => {
-                        if (error?.target) {
-                          try {
-                            error.target.src = `/svg/category/default.svg`
-                          } catch (e) {
-                            console.log("catch e: ", e)
-                          }
-                        }
-                      }}
-                    />
+                    <ImageCategory id={item?.id!} />
                   </div>
                   <span>{item?.title}</span>
                 </li>
@@ -116,14 +89,26 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
         ) : null}
         <div data-footer>
           {geoData ? (
-            <div data-geo>
-              <div data-img-g>
-                <img src="/svg/geo-marker.svg" alt="geo" width={16} height={16} />
+            <div data-geo className="flex flex-row items-start gap-1">
+              <div className="relative w-4 h-4 p-2">
+                <img
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4"
+                  src="/svg/geo-marker.svg"
+                  alt="geo"
+                  width={16}
+                  height={16}
+                />
               </div>
               <span>{geoData?.additional}</span>
-              <button onClick={handleToMap}>
-                <img src="/svg/arrow-right-accent.svg" alt="+" width={20} height={20} />
-              </button>
+              <Link className="relative w-5 h-5 p-0.625 ml-auto" href={{ pathname: "/" }} onClick={handleToMap}>
+                <img
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5"
+                  src="/svg/arrow-right-accent.svg"
+                  alt="+"
+                  width={20}
+                  height={20}
+                />
+              </Link>
             </div>
           ) : null}
           <div data-buttons>

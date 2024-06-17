@@ -10,6 +10,7 @@ import IconAlertCircle from "@/components/icons/IconAlertCircle"
 import { ITEMS_LINK } from "@/components/common/maps/CopyLinks"
 
 import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
 // import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
 
 export const PopupShared = ({
@@ -27,10 +28,10 @@ export const PopupShared = ({
 
   function handle() {
     if (user) {
-      // dispatchComplaintModalUser({
-      //   user: user,
-      // })
-      // dispatchModal(EModalData.ComplaintModal)
+      dispatchComplaintModalUser({
+        user: user,
+      })
+      dispatchModal(EModalData.ComplaintModal)
       return
     }
   }
@@ -60,9 +61,7 @@ export const PopupShared = ({
             onClick={(event) => {
               event.stopPropagation()
               setState(false)
-              requestAnimationFrame(() => {
-                setVisible(true)
-              })
+              setVisible(true)
             }}
           >
             <div data-icon>

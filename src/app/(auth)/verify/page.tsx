@@ -32,10 +32,9 @@ export default function PageVerify() {
               .then(({ ok, res }) => {
                 if (ok) {
                   dispatchAuthToken({ user: res!, auth: response?.res! })
-                  requestAnimationFrame(() => {
-                    dispatchOnboarding("open")
-                    handlePush("/")
-                  })
+
+                  dispatchOnboarding("open")
+                  handlePush("/")
                 } else {
                   on({
                     message: "Ваш аккаунт не прошёл верификацию.",

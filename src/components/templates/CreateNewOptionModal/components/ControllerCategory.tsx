@@ -4,6 +4,7 @@ import { type Control, Controller } from "react-hook-form"
 
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
+import { IconChevron } from "@/components/icons/IconChevron"
 
 import { useOutsideClickEvent } from "@/helpers"
 import { getOffersCategories } from "@/services"
@@ -61,6 +62,16 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
             onChange={(event) => setValue(event.target.value)}
             disabled={disabled || !!field.value}
           />
+          <button
+            data-collapse={open}
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              setOpen((prev) => !prev)
+            }}
+          >
+            <IconChevron />
+          </button>
           {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div data-current={!!field.value}>
             <div data-icon>{field.value ? <ImageCategory id={field.value!} /> : null}</div>

@@ -4,9 +4,13 @@ import { Button } from "@/components/common"
 import { dispatchAuthModal, dispatchNewServicesBanner, useAuth } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
+import { usePathname } from "next/navigation"
 
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
+  const pathname = usePathname()
+
+  if (pathname.includes("/legal/")) return null
 
   return typeof isAuth === "undefined" ? (
     <div className={styles.buttons} data-loading>

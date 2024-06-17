@@ -20,6 +20,7 @@
 
     & > [data-header] {
       padding-inline: 1rem;
+      overflow: hidden;
       & > h4 {
         color: var(--text-primary);
         font-size: 1rem;
@@ -30,6 +31,7 @@
     }
 
     & > p {
+      overflow: hidden;
       color: var(--text-primary);
       font-size: 0.875rem;
       font-style: normal;

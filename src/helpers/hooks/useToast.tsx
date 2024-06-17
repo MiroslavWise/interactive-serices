@@ -11,6 +11,7 @@ import { ButtonCircleGradient, ButtonClose, Button, ButtonLink, NextImageMotion 
 import { useResize } from "./use-resize.hook"
 
 interface IValue {
+  title?: string
   message?: string
   userId?: number
   id?: number
@@ -60,11 +61,11 @@ export const useToast = () => {
     })
   }
 
-  function onBarters({ message, title, status, threadId, threadIdBarter }: IPropsBarter) {
+  function onBarters({ message, title, status, threadId, threadIdBarter, button }: IPropsBarter) {
     const Message = (
       <div className="message-notifications-toast barter-toast">
         <ButtonClose position={{}} onClick={() => {}} />
-        <h4>{title}</h4>
+        {!!title && <h4>{title}</h4>}
         <p>{message}</p>
         {status === "accepted" && threadId ? (
           <ButtonLink
@@ -82,13 +83,16 @@ export const useToast = () => {
             href={{ pathname: "/messages", query: { ...threadIdBarter } }}
           />
         ) : null}
+        {status === null && !!button ? (
+          <Button type="button" typeButton="fill-primary" label={button.label} onClick={button.onClick} />
+        ) : null}
       </div>
     )
 
     return toast(Message, {
       toastId: Math.random(),
       position: isTablet ? "bottom-center" : "bottom-left",
-      autoClose: 7 * 1_000,
+      autoClose: 8.5 * 1_000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
@@ -182,11 +186,15 @@ interface IPropsMessage {
 
 interface IPropsBarter {
   message: string
-  title: string
-  status: EnumStatusBarter | "accepted"
+  title?: string
+  status: EnumStatusBarter | "accepted" | null
   threadId?: number
   threadIdBarter?: {
     [key: string]: string | number
+  }
+  button?: {
+    onClick: DispatchWithoutAction
+    label: string
   }
 }
 

@@ -46,15 +46,11 @@ export const NumberConfirmation = () => {
         if (response.ok) {
           refetch()
           on({ message: "Номер телефона успешно добавлен" })
-          requestAnimationFrame(() => {
-            close()
-          })
+          close()
         } else {
           setError("code", { message: functionAuthErrors(response?.error?.message) })
         }
-        requestAnimationFrame(() => {
-          setLoading(false)
-        })
+        setLoading(false)
       })
     }
   })
@@ -65,9 +61,8 @@ export const NumberConfirmation = () => {
 
   function handleNew() {
     dispatchNumberConfirmation(false, undefined)
-    requestAnimationFrame(() => {
-      dispatchAddingPhoneNumber(true)
-    })
+
+    dispatchAddingPhoneNumber(true)
   }
 
   return (

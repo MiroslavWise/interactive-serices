@@ -58,9 +58,10 @@
           border-radius: 0;
           border: none !important;
           outline: none !important;
+          resize: none;
         }
 
-        & > sup {
+        & > span {
           width: 100%;
           display: flex;
           flex-direction: row;

@@ -174,13 +174,9 @@ export default function UpdateOffer() {
       patchOffer(body, offer?.id!).then((response) => {
         if (response.ok) {
           refetch()
-          requestAnimationFrame(() => {
-            close()
-            setLoading(false)
-          })
-        } else {
-          setLoading(false)
+          close()
         }
+        setLoading(false)
       })
     }
   })
@@ -287,7 +283,7 @@ export default function UpdateOffer() {
           <label>Текущее описание</label>
           <div data-text-area>
             <textarea {...register("description", { required: true })} data-error={!!errors?.description} />
-            <sup>{watch("description")?.length || 0}/400</sup>
+            <span>{watch("description")?.length || 0}/400</span>
           </div>
         </fieldset>
         <fieldset>
