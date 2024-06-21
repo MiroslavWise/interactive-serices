@@ -29,7 +29,6 @@ export default function () {
             .then((response) => {
               if (response.ok) {
                 if (response?.res?.provider === EnumTypeProvider.offer) {
-                  dispatchModal(EModalData.BalloonOffer)
                   dispatchBallonOffer({ offer: response?.res! })
                 } else if (response?.res?.provider === EnumTypeProvider.discussion) {
                   dispatchModal(EModalData.BalloonDiscussion)

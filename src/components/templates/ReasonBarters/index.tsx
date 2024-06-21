@@ -24,13 +24,20 @@ export const ReasonBarters = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useReasonBarters(({ visible }) => visible)
   const barterId = useReasonBarters(({ barterId }) => barterId)
-  const { setValue, register, handleSubmit, watch, control } = useForm<TReasonBarters>({
+  const {
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm<TReasonBarters>({
     defaultValues: {
       type: ETypeReason["found-specialist"],
       text: "",
     },
     resolver: resolverReasonBarters,
   })
+
+  console.log("errors: ", errors)
 
   const { refetch } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -137,7 +144,7 @@ export const ReasonBarters = () => {
               typeButton="fill-primary"
               label="Отправить"
               loading={loading}
-              disabled={!watch("type") || (watch("type") === "other" && !watch("text"))}
+              disabled={watch("type") === "other" && !watch("text")}
             />
           </footer>
         </form>

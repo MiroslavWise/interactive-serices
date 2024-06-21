@@ -151,7 +151,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: initiator! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title}
@@ -168,7 +167,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: consigner! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title}
@@ -195,7 +193,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: initiator! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
@@ -205,7 +202,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: consigner! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}
@@ -222,7 +218,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: initiator! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
@@ -232,7 +227,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: consigner! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}

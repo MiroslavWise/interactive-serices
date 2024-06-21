@@ -5,6 +5,7 @@ import type { IResponseDataRegistration } from "@/services/auth/types/registrati
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 import { IResponsePhones } from "../phones/types"
 import { TRole } from "../roles/types"
+import { EnumStatusBarter } from "@/types/enum"
 
 export interface IPostDataUser {
   email: string
@@ -34,6 +35,11 @@ export interface IUserResponse {
   profile: IGetProfileIdResponse
   addresses: IAddressesResponse[]
   roles: TRole[]
+  barters: {
+    id: number
+    created: string
+    status: EnumStatusBarter
+  }[]
 }
 
 export interface IServiceUser {

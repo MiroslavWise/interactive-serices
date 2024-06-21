@@ -203,7 +203,7 @@ export default function ReciprocalExchange() {
   return (
     <>
       <header>
-        <h3>Отклик</h3>
+        <h3>Что вы можете предложить?</h3>
       </header>
       <ul>
         <FormProvider {...methods}>

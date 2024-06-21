@@ -50,7 +50,9 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
                 setVisible(false)
               }}
             >
-              <div className="relative w-5 h-5 p-0.625 [&>svg]:absolute [&>svg]:w-5 [&>svg]:h-5 [&>svg]:indent-0">{item.icon}</div>
+              <div className="relative w-5 h-5 p-0.625 [&>svg]:absolute [&>svg]:w-5 [&>svg]:h-5 [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2">
+                {item.icon}
+              </div>
               <span className="text-text-primary text-sm font-normal whitespace-nowrap">{item.label}</span>
             </a>
           ))}

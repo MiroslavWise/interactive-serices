@@ -86,7 +86,6 @@ export const ListPlacemark = memo(function ListPlacemark() {
         event.stopPropagation()
         if (item?.offer?.provider === EnumTypeProvider.offer) {
           dispatchBallonOffer({ offer: item?.offer! })
-          dispatchModal(EModalData.BalloonOffer)
           return
         } else if (item?.offer?.provider === EnumTypeProvider.discussion) {
           dispatchBallonDiscussion({ offer: item?.offer! })

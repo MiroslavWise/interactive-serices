@@ -36,7 +36,6 @@ function CardBallon({ offer }: IProps) {
 
     if (provider === EnumTypeProvider.offer) {
       dispatchBallonOffer({ offer: offer })
-      dispatchModal(EModalData.BalloonOffer)
     } else if (provider === EnumTypeProvider.discussion) {
       dispatchBallonDiscussion({ offer: offer })
       dispatchModal(EModalData.BalloonDiscussion)

@@ -6,7 +6,7 @@ export default function (): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/legal/ads-agreement/", "/legal/privacy-policy/", "/legal/terms/", "/user?id=*", "/registration"],
+        allow: ["/", "/legal/ads-agreement/", "/legal/privacy-policy/", "/legal/terms/", "/user?id=*", "/customer/*", "/registration"],
       },
     ],
     sitemap: `${env.server.host}/sitemap.xml`,

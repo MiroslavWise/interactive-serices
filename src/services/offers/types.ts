@@ -3,6 +3,7 @@ import type { IImageData } from "@/store/types/useAuthState"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumTypeProvider } from "@/types/enum"
 import { TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
+import { IResponseOffersCategories } from "../offers-categories/types"
 
 export interface IResponseCreate {
   id: number
@@ -46,6 +47,7 @@ export interface IResponseOffers {
   id: number
   parentId?: number
   categoryId?: number
+  category: IResponseOffersCategories
   provider: EnumTypeProvider
   title: string
   slug: string

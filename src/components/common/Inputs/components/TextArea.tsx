@@ -10,9 +10,9 @@ export const TextArea = forwardRef(function TextArea(props: TTypeTextArea, ref?:
   return (
     <div className={cx(props.className, styles.labelContainer, props?.sup)} data-div-text-area>
       <textarea {...props} ref={ref} />
-      <sup>
+      <span>
         {props.value?.toString().length || 0}/{props.maxLength || 240}
-      </sup>
+      </span>
     </div>
   )
 })

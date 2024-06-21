@@ -176,9 +176,9 @@ export default function CompletionTransaction() {
                 placeholder="Напишите здесь свой отзыв..."
                 maxLength={1024}
               />
-              <sup>
+              <span>
                 <span>{watch("message")?.length || 0}</span>/240
-              </sup>
+              </span>
             </div>
           </fieldset>
           <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />

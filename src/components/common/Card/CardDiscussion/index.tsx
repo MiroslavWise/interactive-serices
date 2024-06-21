@@ -20,7 +20,7 @@ export function CardDiscussion(props: IResponseOffers) {
     : provider === EnumTypeProvider.alert
     ? "SOS-сообщение"
     : provider === EnumTypeProvider.discussion
-    ? "Дискуссия"
+    ? "Обсуждение"
     : "Заголовок"
 
   function handleOpenMore() {
@@ -33,7 +33,6 @@ export function CardDiscussion(props: IResponseOffers) {
       dispatchModal(EModalData.BalloonAlert)
     } else if (provider === EnumTypeProvider.offer) {
       dispatchBallonOffer({ offer: props })
-      dispatchModal(EModalData.BalloonOffer)
     }
   }
 

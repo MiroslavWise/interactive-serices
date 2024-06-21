@@ -61,7 +61,7 @@ function BannerServices() {
       <header />
       <ul ref={parentRef} data-test="ul-banner-services">
         <section data-test="ul-section-banner-services">
-          <div data-filters-services>
+          <div data-filters-services className="gap-4">
             {SERVICES.map((item) => (
               <a
                 key={`::key::item::provider::${item.value}::`}

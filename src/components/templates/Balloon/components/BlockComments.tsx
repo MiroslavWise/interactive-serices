@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { Dispatch, memo, SetStateAction, useEffect, useMemo, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 
 import { IResponseOffers } from "@/services/offers/types"
 import { ICommentsResponse } from "@/services/comments/types"

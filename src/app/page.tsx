@@ -37,8 +37,6 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
 import { useAuth } from "@/store"
 import { useResize } from "@/helpers"
 
-import styles from "@/scss/page.module.scss"
-
 export default function Home() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
 
@@ -46,7 +44,7 @@ export default function Home() {
 
   return (
     <YMapsProvider>
-      <main className={styles.main}>
+      <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
         <YandexMap />
         {isAuth && <BannerSign />}
         {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}

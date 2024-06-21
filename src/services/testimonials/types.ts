@@ -1,5 +1,6 @@
 import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn } from "../types/general"
+import { IUserOffer } from "../offers/types"
 
 export type TStatusFeedback = "published" | "blocked" | "edited"
 export type TNumberRating = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | number
@@ -20,6 +21,7 @@ export type TPatchTestimonials = Partial<IPostTestimonials>
 export interface IResponseTestimonials {
   id: number
   userId: number
+  user: IUserOffer
   targetId: number
   provider: EnumTypeProvider
   barterId?: number

@@ -13,30 +13,13 @@ import { ProfileComponent } from "../components/ProfileComponent"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { usePush } from "@/helpers"
-import { getBarters, getOffersCategories } from "@/services"
-import {
-  dispatchAuthModal,
-  dispatchBallonOffer,
-  dispatchModalClose,
-  dispatchReciprocalExchange,
-  EModalData,
-  useAuth,
-  useBalloonOffer,
-  useModal,
-} from "@/store"
+import { getBarters } from "@/services"
+import { dispatchAuthModal, dispatchBallonOffer, dispatchModalClose, dispatchReciprocalExchange, useAuth, useBalloonOffer } from "@/store"
 
 export default function BalloonOffer() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { data: c } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = c?.res || []
-  const dataModal = useModal(({ data }) => data)
   const offer = useBalloonOffer(({ offer }) => offer)
   const { handlePush } = usePush()
-
-  const categoryCurrent = categories?.find((item) => item?.id === offer?.categoryId)
 
   const { data: dataExecutedBarter, isLoading: isLoadingExecutedBarter } = useQuery({
     queryFn: () =>
@@ -48,7 +31,7 @@ export default function BalloonOffer() {
     queryKey: ["barters", { userId: userId, status: EnumStatusBarter.EXECUTED }],
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!userId && dataModal === EModalData.BalloonOffer && userId !== offer?.userId,
+    enabled: !!userId && !!offer && userId !== offer?.userId,
   })
   const { data: dataInitiatedBarter, isLoading: isLoadingInitiatedBarter } = useQuery({
     queryFn: () =>
@@ -60,7 +43,7 @@ export default function BalloonOffer() {
     queryKey: ["barters", { userId: userId, status: EnumStatusBarter.INITIATED }],
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!userId && dataModal === EModalData.BalloonOffer && userId !== offer?.userId,
+    enabled: !!userId && !!offer && userId !== offer?.userId,
   })
   //--
 
@@ -118,7 +101,7 @@ export default function BalloonOffer() {
     <>
       <header data-color={EnumTypeProvider.offer}>
         <div data-category-img>{offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}</div>
-        <h3>{categoryCurrent?.title}</h3>
+        <h3>{offer?.category?.title}</h3>
       </header>
       <div data-container>
         <div data-container-children>

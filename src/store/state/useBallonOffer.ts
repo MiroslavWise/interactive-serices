@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
 import type { IDispatchBallonOffer, IStateBallonOffer } from "../types/createBallonOffer"
+import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
 export const useBalloonOffer = create(
   persist<IStateBallonOffer>((set, get) => ({}), {
@@ -23,10 +24,20 @@ export const useBalloonAlert = create(
   }),
 )
 
-export const dispatchBallonOffer = (values: IDispatchBallonOffer) =>
-  useBalloonOffer.setState((_) => ({
-    ...values,
-  }))
+export const dispatchBallonOffer = (values: IDispatchBallonOffer) => {
+  if (!!values.offer) {
+    dispatchModal(EModalData.BalloonOffer)
+    useBalloonOffer.setState(
+      (_) => ({
+        offer: values.offer,
+      }),
+      true,
+    )
+  } else {
+    dispatchModalClose()
+    useBalloonOffer.setState((_) => ({ offer: undefined }), true)
+  }
+}
 export const dispatchBallonDiscussion = (values: IDispatchBallonOffer) =>
   useBalloonDiscussion.setState((_) => ({
     ...values,

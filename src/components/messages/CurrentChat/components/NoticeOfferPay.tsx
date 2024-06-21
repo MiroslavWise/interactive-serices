@@ -39,7 +39,6 @@ export const NoticeOfferPay = ({ thread, user }: { thread: IResponseThread; user
   function handleDetailOffer() {
     if (!!resOffer) {
       dispatchBallonOffer({ offer: resOffer })
-      dispatchModal(EModalData.BalloonOffer)
     }
   }
 

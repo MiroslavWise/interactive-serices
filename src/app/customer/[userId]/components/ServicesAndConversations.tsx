@@ -1,0 +1,85 @@
+import Link from "next/link"
+import ItemsServices from "./ItemsServices"
+import { Suspense } from "react"
+
+export enum EProviderLinkCustomer {
+  "offer" = "offer",
+  "discussion" = "discussion",
+  "alert" = "alert",
+}
+
+interface ILink {
+  label: string
+  provider: EProviderLinkCustomer
+}
+
+const LINKS: ILink[] = [
+  {
+    label: "Предложения",
+    provider: EProviderLinkCustomer.offer,
+  },
+  {
+    label: "Обсуждения",
+    provider: EProviderLinkCustomer.discussion,
+  },
+  {
+    label: "SOS",
+    provider: EProviderLinkCustomer.alert,
+  },
+]
+
+const LinkService = ({ label, provider, active }: ILink & { active: boolean }) => (
+  <Link
+    prefetch={false}
+    href={{ query: { provider: provider } }}
+    className={`w-full h-full rounded-[1.125rem] flex flex-row items-center justify-center ${
+      active && "!bg-element-accent-2"
+    } hover:bg-grey-field`}
+  >
+    <span className={`text-text-secondary text-center text-sm font-medium ${active && "!text-text-tab"}`}>{label}</span>
+  </Link>
+)
+
+function ServicesAndConversations({ id, provider }: { id: number | string; provider: EProviderLinkCustomer }) {
+  const pr = provider
+    ? Object.values(EProviderLinkCustomer).includes(provider!)
+      ? provider
+      : EProviderLinkCustomer.offer
+    : EProviderLinkCustomer.offer
+
+  return (
+    <div className="w-full flex flex-col gap-0.625">
+      <section className="w-full grid grid-cols-3 gap-1 h-11 rounded-[1.375rem] bg-BG-second p-1 min-h-11">
+        {LINKS.map((_) => (
+          <LinkService key={`::key::link::customer::${_.provider}::`} provider={_.provider} label={_.label} active={_.provider === pr} />
+        ))}
+      </section>
+      <Suspense
+        fallback={
+          <section className="w-full h-full flex flex-col gap-0.625">
+            <ul className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+              {[1, 2].map((_) => (
+                <article key={`::card::offers::key::${_}::`} className="w-full bg-BG-second rounded-2xl flex flex-col gap-4 p-4">
+                  <div className="w-full flex flex-col gap-3">
+                    <span className="h-4 max-w-[7.5rem] w-full rounded-lg bg-grey-field" />
+                    <span className="h-6 max-w-[10.625rem] w-full rounded-xl bg-grey-field" />
+                  </div>
+                  <div className="w-full h-auto aspect-[21.3125/13.75] md:aspect-[18.4375/13.75] rounded-2xl bg-grey-field" />
+                  <div className="w-full grid items-center grid-cols-[2.25rem_1fr] gap-0.625">
+                    <span className="bg-grey-field w-9 h-9 rounded-[0.625rem]" />
+                    <span className="bg-grey-field w-full h-4 rounded-lg" />
+                  </div>
+                </article>
+              ))}
+            </ul>
+          </section>
+        }
+      >
+        <ItemsServices id={id} provider={pr} />
+      </Suspense>
+    </div>
+  )
+}
+
+ServicesAndConversations.displayName = "ServicesAndConversations"
+export default ServicesAndConversations

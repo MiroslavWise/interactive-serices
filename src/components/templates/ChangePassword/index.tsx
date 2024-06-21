@@ -103,9 +103,6 @@ function ChangePassword() {
               </fieldset>
             )}
           />
-          <span>
-            <sup>*</sup> Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру, и не менее 6 символов
-          </span>
           <Controller
             name="password"
             rules={{ required: true }}

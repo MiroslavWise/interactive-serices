@@ -9,24 +9,20 @@ import { Button, ImageCategory } from "@/components/common"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { usePush } from "@/helpers"
-import { IconCategory } from "@/lib/icon-set"
 import { getOffersCategories } from "@/services"
-import { dispatchBallonOffer, dispatchDeleteOffer, dispatchMapCoordinates, dispatchModal, dispatchUpdateOffer, EModalData } from "@/store"
+import { dispatchBallonOffer, dispatchDeleteOffer, dispatchMapCoordinates, dispatchUpdateOffer } from "@/store"
 
 import styles from "./style.module.scss"
 import Link from "next/link"
 
 export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) => {
   const { handlePush } = usePush()
+  const { category } = offer ?? {}
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
   const categories = data?.res || []
-
-  const category = useMemo(() => {
-    return categories?.find((item) => offer?.categoryId === item?.id)
-  }, [categories, offer])
 
   const categoriesInExchange = useMemo(() => {
     if (!categories.length) return []
@@ -50,7 +46,6 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
         zoom: 17,
         coordinates: geoData?.coordinates?.split(" ")?.map(Number),
       })
-      dispatchModal(EModalData.BalloonOffer)
       dispatchBallonOffer({ offer: offer })
       handlePush("/")
     }
