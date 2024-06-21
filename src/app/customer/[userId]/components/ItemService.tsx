@@ -21,7 +21,7 @@ function ItemService({ offer }: IProps) {
 
   const firstAddress = addresses[0]
 
-  const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.district}, `, "") ?? ""
+  const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
 
   const { firstName, lastName, image } = user ?? {}
 
