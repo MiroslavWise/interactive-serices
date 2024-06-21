@@ -70,6 +70,8 @@ export interface IQueriesOffers {
   order?: TOrder
   user?: number
   provider?: EnumTypeProvider
+  limit?: number
+  page?: number
 }
 
 export interface IServiceOffers {

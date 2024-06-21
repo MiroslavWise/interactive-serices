@@ -24,7 +24,7 @@ export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Met
 
   return {
     title: `${profile?.firstName || ""} ${profile?.lastName || ""}`,
-    description: profile?.about || "Нет описания",
+    description: profile?.about || `Пользователь ${profile?.username}`,
     openGraph: {
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
