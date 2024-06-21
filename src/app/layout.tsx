@@ -14,6 +14,8 @@ import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
 
+//проверка пуша
+
 const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
 export function generateViewport(): Viewport {
