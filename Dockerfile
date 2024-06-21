@@ -4,7 +4,7 @@ FROM node:20-alpine AS base
 # Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat git
 
 ARG NEXT_PUBLIC_URL
 ARG NEXT_PUBLIC_AUTO_VERIFICATION
@@ -29,6 +29,9 @@ RUN \
 
 # Rebuild the source code only when needed
 FROM base AS builder
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat git
+
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -37,7 +40,7 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-
+RUN git config --global --add safe.directory .
 RUN \
   if [ -f package-lock.json ]; then npm install -g npm@10.8.1 && npm run build; \
   else echo "Lockfile not found." && exit 1; \
