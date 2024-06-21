@@ -14,28 +14,28 @@ import { cx } from "@/lib/cx"
 function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boolean }) {
   const refImages = useRef<HTMLDivElement>(null)
 
-  function to(value: boolean) {
-    if (refImages.current) {
-      if (value) {
-        refImages.current.scrollBy({
-          top: 0,
-          left: -75,
-          behavior: "smooth",
-        })
-      } else {
-        refImages.current.scrollBy({
-          top: 0,
-          left: +75,
-          behavior: "smooth",
-        })
-      }
-    }
-  }
+  // function to(value: boolean) {
+  //   if (refImages.current) {
+  //     if (value) {
+  //       refImages.current.scrollBy({
+  //         top: 0,
+  //         left: -75,
+  //         behavior: "smooth",
+  //       })
+  //     } else {
+  //       refImages.current.scrollBy({
+  //         top: 0,
+  //         left: +75,
+  //         behavior: "smooth",
+  //       })
+  //     }
+  //   }
+  // }
 
   return (
     <div
       data-images-offer
-      className={cx(styles.container, "group", "w-full h-[5.625rem] min-[5.625rem] relative overflow-hidden !px-0")}
+      className={cx(styles.container, "scroll-no", "group", "w-full h-[5.625rem] min-[5.625rem] relative overflow-hidden !px-0")}
       onTouchMove={(event) => {
         event.stopPropagation()
         event.preventDefault()
@@ -77,7 +77,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
           />
         ))}
       </div>
-      <button
+      {/* <button
         className={cx(
           "max-md:hidden opacity-0 absolute left-1 top-1/2 -translate-y-1/2 border-none bg-BG-second w-8 h-8 rounded-2xl flex items-center justify-center p-0.375 group-hover:opacity-100",
           images?.length < 4 && "!hidden",
@@ -100,7 +100,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
         }}
       >
         <img className="w-5 h-5" src="/svg/chevron-right.svg" alt="left" width={20} height={20} />
-      </button>
+      </button> */}
     </div>
   )
 }

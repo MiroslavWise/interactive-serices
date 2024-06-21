@@ -291,3 +291,33 @@ h6 {
     visibility: visible;
   }
 }
+
+.scroll-no {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    display: none !important;
+    height: 0px;
+    width: 0px;
+  }
+
+  & > * {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-thumb {
+      display: none !important;
+      width: 0px;
+    }
+  }
+}
+
+.not-y-scroll {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: contain;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

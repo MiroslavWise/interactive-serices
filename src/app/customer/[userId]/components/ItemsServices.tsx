@@ -10,7 +10,7 @@ import { getUserIdOffers } from "@/services"
 const getCacheOffers = cache(getUserIdOffers)
 
 async function ItemsServices({ id, provider }: { id: number | string; provider: EProviderLinkCustomer }) {
-  const { res } = await getCacheOffers(id, { provider: provider as unknown as EnumTypeProvider })
+  const { res } = await getCacheOffers(id, { provider: provider as unknown as EnumTypeProvider, order: "DESC" })
 
   const items = res || []
 
