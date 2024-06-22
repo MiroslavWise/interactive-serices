@@ -1,24 +1,24 @@
-import { cache } from "react"
+//import { cache } from "react"
 import { MetadataRoute } from "next"
 
 import env from "@/config/environment"
-import { getOffers } from "@/services"
+//import { getOffers } from "@/services"
 
-const getCacheOffers = cache(getOffers)
+//const getCacheOffers = cache(getOffers)
 
-export default async function (): Promise<MetadataRoute.Sitemap> {
-  const { res } = await getCacheOffers({ order: "DESC", limit: 50 })
+export default function (): MetadataRoute.Sitemap {
+//  const { res } = await getCacheOffers({ order: "DESC", limit: 50 })
 
-  const items = res || []
+//  const items = res || []
 
-  const customers = Array.from(new Set(items.map((_) => _.userId)))
+//  const customers = Array.from(new Set(items.map((_) => _.userId)))
 
-  const customersMap: MetadataRoute.Sitemap = customers.map((item) => ({
-    url: `${env.server.host}/customer/${item}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.9,
-  }))
+//  const customersMap: MetadataRoute.Sitemap = customers.map((item) => ({
+//    url: `${env.server.host}/customer/${item}`,
+//    lastModified: new Date(),
+//    changeFrequency: "monthly",
+//    priority: 0.9,
+//  }))
 
   return [
     {
@@ -51,6 +51,6 @@ export default async function (): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.75,
     },
-    ...customersMap,
+    //...customersMap,
   ]
 }
