@@ -29,7 +29,12 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          build-args: NEXT_PUBLIC_URL:${{ secrets.NEXT_PUBLIC_URL }}, NEXT_PUBLIC_WEB_SOCKET: ${{ secrets.NEXT_PUBLIC_WEB_SOCKET}}, NEXT_PUBLIC_AUTO_VERIFICATION: ${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }}, NEXT_PUBLIC_DOMAIN: ${{ secrets.NEXT_PUBLIC_DOMAIN }}, NEXT_PUBLIC_API_KEY_YANDEX: ${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
+          build-args: |
+            NEXT_PUBLIC_URL = ${{ secrets.NEXT_PUBLIC_URL }}
+            NEXT_PUBLIC_WEB_SOCKET = ${{ secrets.NEXT_PUBLIC_WEB_SOCKET}}
+            NEXT_PUBLIC_AUTO_VERIFICATION = ${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }} 
+            NEXT_PUBLIC_DOMAIN = ${{ secrets.NEXT_PUBLIC_DOMAIN }}
+            NEXT_PUBLIC_API_KEY_YANDEX = ${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
           tags: ${{ secrets.DOCKER_HUB_REPO }}:latest 
       - name: Declare variables
         shell: bash
