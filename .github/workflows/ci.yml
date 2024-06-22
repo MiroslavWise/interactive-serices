@@ -3,6 +3,7 @@ run-name: ${{ github.actor }} is starting GitHub Actions 🚀
 on:
   push:
     branches:
+      - 'not-static'
       - 'develop'
       - 'hotfix/*'
       - 'feature/*'
@@ -15,12 +16,25 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_REPO }}:latest 
       - name: Declare variables
         shell: bash
         run: |
           echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
- 
+          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"        
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -33,13 +47,8 @@ jobs:
             echo "Sha: ${{ env.sha_short }}"
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cd /home/sheira/sheira-frontend
-            git branch
-            git stash
-            git checkout ${{ env.branch }}
-            git pull
-            npm install
-            npm run build
-            docker exec -it sheira-nginx rm -rf /var/www/frontend/*
-            docker cp out/. sheira-nginx:/var/www/frontend
+            cd /home/sheira/sheira-core/
+            docker stop sheira-frontend && docker rm sheira-frontend && docker rmi $(docker images | grep 'sheira/frontend')
+            docker pull sheira/frontend 
+            docker-compose up -d --no-deps sheira-frontend && docker restart sheira-nginx
             ls -la
