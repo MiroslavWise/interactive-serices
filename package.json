@@ -13,7 +13,8 @@
     "start-dev": "next build && next start -p 3000",
     "export": "next build && npx serve@latest out -p 3000",
     "t:minify": "npx tailwindcss -o ./src/app/build.css --minify",
-    "prod": "next lint --no-cache && npm run t:minify && next build && next start"
+    "prod": "next lint --no-cache && npm run t:minify && next build && next start",
+    "prod:server": "next lint --no-cache && npm run t:minify && next build && node .next/standalone/server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "3.4.2",
