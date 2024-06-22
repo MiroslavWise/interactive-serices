@@ -32,6 +32,12 @@ jobs:
         #     NEXT_PUBLIC_DOMAIN: "dev.sheira.ru"
         #     NEXT_PUBLIC_API_KEY_YANDEX: ${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
         with:
+          build-args: |
+            NEXT_PUBLIC_URL="https://dev.sheira.ru"
+            NEXT_PUBLIC_WEB_SOCKET="wss://dev.sheira.ru"
+            NEXT_PUBLIC_AUTO_VERIFICATION=${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }} 
+            NEXT_PUBLIC_DOMAIN="dev.sheira.ru"
+            NEXT_PUBLIC_API_KEY_YANDEX=${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
           secrets: |
             NEXT_PUBLIC_URL="https://dev.sheira.ru"
             NEXT_PUBLIC_WEB_SOCKET="wss://dev.sheira.ru"
