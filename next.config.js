@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
+  output: "standalone",
   trailingSlash: true,
   swcMinify: true,
   env: {
