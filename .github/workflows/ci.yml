@@ -25,13 +25,19 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Build and push
         uses: docker/build-push-action@v3
-        env:
-            NEXT_PUBLIC_URL: "https://dev.sheira.ru"
-            NEXT_PUBLIC_WEB_SOCKET: "wss://dev.sheira.ru"
-            NEXT_PUBLIC_AUTO_VERIFICATION: ${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }} 
-            NEXT_PUBLIC_DOMAIN: "dev.sheira.ru"
-            NEXT_PUBLIC_API_KEY_YANDEX: ${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
+        # env:
+        #     NEXT_PUBLIC_URL: "https://dev.sheira.ru"
+        #     NEXT_PUBLIC_WEB_SOCKET: "wss://dev.sheira.ru"
+        #     NEXT_PUBLIC_AUTO_VERIFICATION: ${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }} 
+        #     NEXT_PUBLIC_DOMAIN: "dev.sheira.ru"
+        #     NEXT_PUBLIC_API_KEY_YANDEX: ${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
         with:
+          secrets: |
+            NEXT_PUBLIC_URL="https://dev.sheira.ru"
+            NEXT_PUBLIC_WEB_SOCKET="wss://dev.sheira.ru"
+            NEXT_PUBLIC_AUTO_VERIFICATION=${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }} 
+            NEXT_PUBLIC_DOMAIN="dev.sheira.ru"
+            NEXT_PUBLIC_API_KEY_YANDEX=${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
           context: .
           file: ./Dockerfile
           push: true
