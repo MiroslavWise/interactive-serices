@@ -195,7 +195,7 @@ export default function CompletionTransaction() {
           <ButtonLink
             typeButton="fill-primary"
             label="Вернуться в профиль"
-            href={{ pathname: "/user", query: { id: profile?.userId! } }}
+            href={{ pathname: `/customer/${profile?.userId!}` }}
             onClick={(event) => {
               event.stopPropagation()
               dispatchModalClose()

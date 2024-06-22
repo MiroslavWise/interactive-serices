@@ -163,7 +163,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
           <p>
             Расскажите, обмен с пользователем{" "}
             <Link
-              href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+              href={{ pathname: `/customer/${dataProfile?.res?.userId!}` }}
               onClick={(event) => {
                 event.stopPropagation()
                 dispatchVisibleNotifications(false)
@@ -183,7 +183,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <p>
               Пользователь{" "}
               <Link
-                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                href={{ pathname: `/customer/${dataProfile?.res?.userId!}` }}
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)
@@ -204,7 +204,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <p>
               Пользователь{" "}
               <Link
-                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                href={{ pathname: `/customer/${dataProfile?.res?.userId!}` }}
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)
@@ -230,7 +230,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <p>
               Вы предложили обмен{" "}
               <Link
-                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                href={{ pathname: `/customer/${dataProfile?.res?.userId!}` }}
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)
@@ -245,7 +245,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
             return (
               <p>
                 <Link
-                  href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                  href={{ pathname: `/customer/${dataProfile?.res?.userId!}` }}
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchVisibleNotifications(false)

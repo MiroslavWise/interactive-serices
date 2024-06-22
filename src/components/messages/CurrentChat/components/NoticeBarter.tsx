@@ -210,9 +210,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
               </>
             ) : consigner?.userId === userId ? (
               <>
-                <Link href={{ pathname: "/user", query: { id: dataInitiatorProfile?.res?.id } }}>
-                  {dataInitiatorProfile?.res?.firstName}
-                </Link>
+                <Link href={{ pathname: `/customer/${dataInitiatorProfile?.res?.id}` }}>{dataInitiatorProfile?.res?.firstName}</Link>
                 &nbsp;предлагает вам&nbsp;
                 <span
                   onClick={(event) => {

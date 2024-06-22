@@ -47,7 +47,7 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
 
   if (is)
     return (
-      <div className="flex flex-row items-center gap-0.375 justify-center">
+      <div className="flex flex-row items-center gap-0.375 justify-start md:justify-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" viewBox="0 0 7 7" fill="none" className="w-[7px] h-[7px] -mb-0.125">
           <circle cx="3.5" cy="3.5" r="3.5" fill="#109F5C" />
         </svg>

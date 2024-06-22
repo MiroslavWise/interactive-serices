@@ -316,8 +316,11 @@ h6 {
 .not-y-scroll {
   overflow-x: scroll;
   scroll-behavior: smooth;
-  overscroll-behavior-y: none;
   overscroll-behavior-x: contain;
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  @media screen and (max-width: 768px) {
+    overscroll-behavior-y: none;
+  }
 }

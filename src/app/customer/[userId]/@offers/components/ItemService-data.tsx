@@ -2,7 +2,7 @@ import Link from "next/link"
 
 import { type IResponseOffers } from "@/services/offers/types"
 
-import ItemTitle from "./ItemTitle"
+import ItemTitle from "../../components/ItemTitle"
 import ButtonShare from "./ButtonShare"
 import ItemServiceImages from "./ItemServiceImages"
 import { NextImageMotion } from "@/components/common"
@@ -16,7 +16,7 @@ interface IProps {
   offer: IResponseOffers
 }
 
-function ItemService({ offer }: IProps) {
+function ItemServiceData({ offer }: IProps) {
   const { created, addresses, user, description, images } = offer ?? {}
 
   const firstAddress = addresses[0]
@@ -26,7 +26,7 @@ function ItemService({ offer }: IProps) {
   const { firstName, lastName, image } = user ?? {}
 
   return (
-    <li className="relative w-full px-4 pt-3 pb-4 bg-BG-second rounded-2xl flex flex-col gap-4">
+    <>
       <article className="w-full flex flex-col gap-3">
         <section className="w-full flex flex-row items-center justify-between gap-1">
           <time className="text-text-secondary text-start text-xs font-normal" dateTime={created as string}>
@@ -43,7 +43,7 @@ function ItemService({ offer }: IProps) {
           <IconMapWhite />
         </div>
         <p
-          className="text-text-primary text-sm text-nowrap whitespace-nowrap text-end font-normal line-clamp-1 text-ellipsis overflow-hidden w-[inherit]"
+          className="text-text-primary text-sm text-nowrap whitespace-nowrap text-start font-normal line-clamp-1 text-ellipsis overflow-hidden w-[inherit]"
           title={additional}
           aria-label={additional}
           aria-labelledby={additional}
@@ -71,9 +71,9 @@ function ItemService({ offer }: IProps) {
           </p>
         </div>
       </article>
-    </li>
+    </>
   )
 }
 
-ItemService.displayName = "ItemService"
-export default ItemService
+ItemServiceData.displayName = "ItemServiceData"
+export default ItemServiceData

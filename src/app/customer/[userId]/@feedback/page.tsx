@@ -6,6 +6,7 @@ import ItemFeedBack from "./components/ItemFeedBack"
 import IconFeedBackAccent from "@/components/icons/IconFeedBackAccent"
 
 import { getTestimonials } from "@/services"
+import { cx } from "@/lib/cx"
 
 const get = cache(getTestimonials)
 
@@ -19,7 +20,12 @@ export default async ({ params }: IParamsCustomer) => {
   const items = res || []
 
   return (
-    <aside className="w-full h-full rounded-[2rem] bg-BG-second flex flex-col justify-start pt-5 px-5 max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)]">
+    <aside
+      className={cx(
+        "w-full h-full rounded-[2rem] bg-BG-second flex flex-col justify-start pt-5 px-5 max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)]",
+        "max-md:fixed max-md:hidden",
+      )}
+    >
       <header className="w-full flex flex-col items-center gap-0.625 pb-0.625">
         <h3 className="text-text-primary text-base text-center font-semibold">Отзывы</h3>
       </header>

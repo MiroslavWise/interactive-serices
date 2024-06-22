@@ -101,7 +101,7 @@ async function Accomplishments({ id }: { id: number | string }) {
   )
 
   return (
-    <article className="w-full rounded-2xl grid grid-cols-3 gap-2 p-0.625 bg-BG-second">
+    <article className="w-full rounded-2xl grid grid-cols-3 gap-2 p-3 md:p-0.625 bg-BG-second">
       {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ id, title, count }) => (
         <Item key={`::key::item::accomplishments::${id}`} id={id} title={title} count={count} />
       ))}

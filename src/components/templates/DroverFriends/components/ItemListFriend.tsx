@@ -7,7 +7,7 @@ import type { TItemListFriend } from "../types/types"
 import { NextImageMotion } from "@/components/common"
 import { ButtonCircleGradient } from "@/components/common"
 
-import { useProfilePublic } from "@/store"
+import { dispatchProfilePublic } from "@/store"
 import { serviceFriends } from "@/services"
 import { usePush, useResize } from "@/helpers"
 import { useReloadFriends } from "../hooks/useReloadFriends"
@@ -16,7 +16,6 @@ export const ItemListFriend: TItemListFriend = ({ user, type }) => {
   const { image, firstName, lastName, username, id } = user ?? {}
   const [loading, setLoading] = useState(false)
   const { refresh } = useReloadFriends({ enabled: false, type: type })
-  const dispatchProfilePublic = useProfilePublic(({ dispatchProfilePublic }) => dispatchProfilePublic)
   const { handlePush } = usePush()
   const { isTablet } = useResize()
 

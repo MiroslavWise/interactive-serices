@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -10,7 +11,6 @@ import { NextImageMotion } from "@/components/common/Image"
 
 import { getTestimonials } from "@/services"
 import { dispatchProfilePublic } from "@/store"
-import Link from "next/link"
 
 function ItemProfile({ user }: { user: IUserOffer }) {
   const { id, firstName, lastName, image } = user ?? {}
@@ -37,10 +37,6 @@ function ItemProfile({ user }: { user: IUserOffer }) {
 
   const name = `${firstName || " "} ${lastName || " "}`
 
-  function handleProfile() {
-    dispatchProfilePublic({ visible: true, idUser: id })
-  }
-
   return (
     <section className="mt-1 w-full pt-0.625 border-t-[1px] border-t-grey-stroke-light border-solid">
       <div className="flex flex-row items-center justify-between w-full gap-0.625">
@@ -48,7 +44,7 @@ function ItemProfile({ user }: { user: IUserOffer }) {
           className="flex flex-row items-center gap-0.625"
           onClick={(event) => {
             event.stopPropagation()
-            // handleProfile()
+            dispatchProfilePublic({ visible: true, idUser: id })
           }}
           href={{ pathname: `/customer/${id}` }}
         >

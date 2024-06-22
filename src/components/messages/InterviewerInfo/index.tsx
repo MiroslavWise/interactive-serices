@@ -47,7 +47,7 @@ export const InterviewerInfoCurrent = memo(function () {
         </header>
       </div>
       <div className={styles.buttons}>
-        <ButtonLink typeButton="fill-primary" label="Посмотреть профиль" href={{ pathname: "/user", query: { id: userData!?.id! } }} />
+        <ButtonLink typeButton="fill-primary" label="Посмотреть профиль" href={{ pathname: `/customer/${userData!?.id!}` }} />
         <Button type="button" typeButton="regular-primary" label="Удалить чат" onClick={handleDeleteChat} />
       </div>
     </section>

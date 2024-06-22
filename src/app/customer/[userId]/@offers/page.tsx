@@ -1,16 +1,27 @@
 import { cache } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { EProviderLinkCustomer } from "./ServicesAndConversations"
+import { type IParamsCustomer } from "../layout"
+import { EProviderLinkCustomer } from "../components/LinkService"
 
-import ItemService from "./ItemService"
+import ItemServiceData from "./components/ItemService-data"
+import WrapperItemService from "./components/WrapperItemService"
 
 import { getUserIdOffers } from "@/services"
 
 const getCacheOffers = cache(getUserIdOffers)
 
-async function ItemsServices({ id, provider }: { id: number | string; provider: EProviderLinkCustomer }) {
-  const { res } = await getCacheOffers(id, { provider: provider as unknown as EnumTypeProvider, order: "DESC" })
+export default async ({ params, searchParams }: IParamsCustomer) => {
+  const provider = searchParams?.provider || EProviderLinkCustomer.offer
+  const id = params?.userId
+
+  const pr = provider
+    ? Object.values(EProviderLinkCustomer).includes(provider!)
+      ? provider
+      : EProviderLinkCustomer.offer
+    : EProviderLinkCustomer.offer
+
+  const { res } = await getCacheOffers(id, { provider: pr as unknown as EnumTypeProvider, order: "DESC" })
 
   const items = res || []
 
@@ -30,7 +41,9 @@ async function ItemsServices({ id, provider }: { id: number | string; provider: 
           </p>
           <ul className="w-full grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
             {items.map((offer) => (
-              <ItemService key={`::key::item::service::${offer.id}::`} offer={offer} />
+              <WrapperItemService key={`::key::item::service::${offer.id}::`} offer={offer}>
+                <ItemServiceData offer={offer} />
+              </WrapperItemService>
             ))}
           </ul>
         </>
@@ -46,6 +59,3 @@ async function ItemsServices({ id, provider }: { id: number | string; provider: 
     </section>
   )
 }
-
-ItemsServices.displayName = "ItemsServices"
-export default ItemsServices
