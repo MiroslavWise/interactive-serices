@@ -147,8 +147,10 @@ export default function CreateNewOptionModal() {
   }
 
   useEffect(() => {
-    function onUnLoad() {
+    function onUnLoad(event: any) {
       dispatchOpenPreCloseCreateService(typeAdd!)
+      event.preventDefault()
+      event.returnValue = ""
 
       return `Прерывание`
     }
