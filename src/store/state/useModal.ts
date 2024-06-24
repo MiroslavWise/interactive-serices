@@ -5,19 +5,27 @@ export const useModal = create<IStateUseModal>(() => ({
   data: null,
 }))
 
-export const dispatchModal = (data: EModalData) =>
-  useModal.setState((_) => ({
-    ..._,
-    visible: true,
-    data: data,
-  }))
+export const dispatchModal = (data: EModalData) => {
+  console.log("dispatchModal: ", data)
+  useModal.setState(
+    (_) => ({
+      visible: true,
+      data: data,
+    }),
+    true,
+  )
+}
 
-export const dispatchModalClose = () =>
-  useModal.setState((_) => ({
-    ..._,
-    visible: false,
-    data: null,
-  }))
+export const dispatchModalClose = () => {
+  console.log(" --- dispatchModalClose --- ")
+  useModal.setState(
+    (_) => ({
+      visible: false,
+      data: null,
+    }),
+    true,
+  )
+}
 
 export enum EModalData {
   NewServicesBanner = "new-services-banner",

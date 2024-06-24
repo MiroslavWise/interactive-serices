@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ImageCategory } from "@/components/common"
 
@@ -14,7 +14,7 @@ import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { usePush } from "@/helpers"
 import { getBarters } from "@/services"
-import { dispatchAuthModal, dispatchBallonOffer, dispatchModalClose, dispatchReciprocalExchange, useAuth, useBalloonOffer } from "@/store"
+import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth, useBalloonOffer } from "@/store"
 
 export default function BalloonOffer() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -84,7 +84,6 @@ export default function BalloonOffer() {
         visible: true,
         type: "SignIn",
       })
-      dispatchModalClose()
       return
     } else if (!!userId && userId !== offer?.userId) {
       handlePush(`/messages?offer-pay=${offer?.id}:${offer?.userId}`)
@@ -92,10 +91,6 @@ export default function BalloonOffer() {
       return
     }
   }
-
-  useEffect(() => {
-    return () => dispatchBallonOffer({ offer: undefined })
-  }, [])
 
   return (
     <>
@@ -121,12 +116,15 @@ export default function BalloonOffer() {
             </div>
           ) : null}
           <GeoData offer={offer as unknown as IResponseOffers} />
-          <div data-buttons>
+          <div data-buttons className="w-full flex flex-row items-center gap-0.625 [&>button]:h-11 [&>button]:rounded-[1.375rem]">
             <Button
               type="button"
               typeButton="fill-primary"
               label="Откликнуться"
-              onClick={handle}
+              onClick={(event) => {
+                event.stopPropagation()
+                handle()
+              }}
               loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
               disabled={(!!userId && userId === offer?.userId) || !!disabledReply}
             />
