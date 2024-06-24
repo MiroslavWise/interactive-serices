@@ -15,18 +15,17 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
   const provider = searchParams?.provider || EProviderLinkCustomer.offer
   const id = params?.userId
 
-  const pr = provider
+  const pr = (provider
     ? Object.values(EProviderLinkCustomer).includes(provider!)
       ? provider
       : EProviderLinkCustomer.offer
-    : EProviderLinkCustomer.offer
+    : EProviderLinkCustomer.offer) as unknown as EnumTypeProvider
 
-  const { res } = await getCacheOffers(id, { order: "DESC" })
+  const { res } = await getCacheOffers(id, { provider: pr, order: "DESC" })
 
   const items = res || []
-  const filter = items.filter((_) => _.provider === (pr as unknown as EnumTypeProvider))
 
-  const length = filter.length
+  const length = items.length
 
   return (
     <section className={`w-full h-full flex flex-col gap-0.625 ${!length && "items-center justify-center"}`}>
@@ -41,7 +40,7 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
               : "предложения"}
           </p>
           <ul className="w-full grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
-            {filter.map((offer) => (
+            {items.map((offer) => (
               <WrapperItemService key={`::key::item::service::${offer.id}::`} offer={offer}>
                 <ItemServiceData offer={offer} />
               </WrapperItemService>
