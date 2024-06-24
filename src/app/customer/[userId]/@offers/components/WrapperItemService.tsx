@@ -2,8 +2,10 @@
 
 import { ReactNode } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
-import { dispatchBallonOffer } from "@/store"
+
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
 
 interface IProps {
   offer: IResponseOffers
@@ -12,7 +14,15 @@ interface IProps {
 
 function WrapperItemService({ offer, children }: IProps) {
   function handle() {
-    dispatchBallonOffer({ offer })
+    if (offer.provider === EnumTypeProvider.offer) {
+      dispatchBallonOffer({ offer })
+    }
+    if (offer.provider === EnumTypeProvider.discussion) {
+      dispatchBallonDiscussion({ offer })
+    }
+    if (offer.provider === EnumTypeProvider.alert) {
+      dispatchBallonAlert({ offer })
+    }
   }
 
   return (

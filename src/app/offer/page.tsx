@@ -31,10 +31,8 @@ export default function () {
                 if (response?.res?.provider === EnumTypeProvider.offer) {
                   dispatchBallonOffer({ offer: response?.res! })
                 } else if (response?.res?.provider === EnumTypeProvider.discussion) {
-                  dispatchModal(EModalData.BalloonDiscussion)
                   dispatchBallonDiscussion({ offer: response?.res! })
                 } else if (response?.res?.provider === EnumTypeProvider.alert) {
-                  dispatchModal(EModalData.BalloonAlert)
                   dispatchBallonAlert({ offer: response?.res! })
                 }
                 handlePush("/")

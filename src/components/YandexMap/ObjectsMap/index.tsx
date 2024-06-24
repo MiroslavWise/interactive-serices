@@ -89,11 +89,9 @@ export const ListPlacemark = memo(function ListPlacemark() {
           return
         } else if (item?.offer?.provider === EnumTypeProvider.discussion) {
           dispatchBallonDiscussion({ offer: item?.offer! })
-          dispatchModal(EModalData.BalloonDiscussion)
           return
         } else if (item?.offer?.provider === EnumTypeProvider.alert) {
           dispatchBallonAlert({ offer: item?.offer! })
-          dispatchModal(EModalData.BalloonAlert)
         }
       }}
     />
