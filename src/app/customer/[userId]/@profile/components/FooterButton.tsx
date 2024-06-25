@@ -20,7 +20,6 @@ function FooterButton({ user }: { user: IUserResponse }) {
         gender: user?.profile?.gender!,
       },
     })
-    dispatchModal(EModalData.ComplaintModal)
   }
 
   return (

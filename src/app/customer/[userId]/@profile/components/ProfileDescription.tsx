@@ -5,9 +5,8 @@ import { type IUserResponse } from "@/services/users/types"
 import { dispatchOpenCustomerAbout } from "@/store"
 
 function ProfileDescription({ user }: { user: IUserResponse }) {
-  const {
-    profile: { about },
-  } = user ?? {}
+  const { profile } = user ?? {}
+  const { about } = profile ?? {}
 
   return (
     <a
