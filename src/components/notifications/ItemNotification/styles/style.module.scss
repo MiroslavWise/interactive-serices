@@ -13,26 +13,8 @@
   transition: var(--transition);
   transition-property: border-color;
 
-  & > [data-avatar] {
-    position: relative;
-    height: 2.5rem;
-    width: 2.5rem;
-    border-radius: 0.625rem;
-  }
-
   &[data-active="true"] {
     border-color: var(--text-accent);
-  }
-
-  &[data-type="barter"] {
-    & > [data-avatar] {
-      background: var(--background-input);
-      & > img {
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 0.625rem;
-      }
-    }
   }
 
   &[data-type="information"] {
