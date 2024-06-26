@@ -1,9 +1,9 @@
 import { Metadata } from "next"
 import { type ReactNode, cache } from "react"
 
-import { getOffersCategories } from "@/services"
+import { getOffersCategoriesPROD } from "@/services"
 
-const get = cache(getOffersCategories)
+const get = cache(getOffersCategoriesPROD)
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { res } = await get()

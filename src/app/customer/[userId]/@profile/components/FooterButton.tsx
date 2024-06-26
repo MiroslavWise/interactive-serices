@@ -4,20 +4,25 @@ import { type IUserResponse } from "@/services/users/types"
 
 import { Button } from "@/components/common"
 
-import { dispatchComplaintModalUser, dispatchModal, EModalData } from "@/store"
+import { dispatchComplaintModalUser } from "@/store"
+import env from "@/config/environment"
+import { useEffect } from "react"
+import { getOffersCategoriesPROD } from "@/services"
 
 function FooterButton({ user }: { user: IUserResponse }) {
+  const { profile, id } = user ?? {}
+
   function onComplaint() {
     dispatchComplaintModalUser({
       user: {
-        about: user?.profile?.about ?? "",
+        about: profile?.about ?? "",
         birthdate: null,
-        firstName: user?.profile?.firstName ?? "",
-        lastName: user?.profile?.lastName ?? "",
-        image: user?.profile?.image!,
-        username: user?.profile?.username,
-        id: user?.id!,
-        gender: user?.profile?.gender!,
+        firstName: profile?.firstName ?? "",
+        lastName: profile?.lastName ?? "",
+        image: profile?.image!,
+        username: profile?.username,
+        id: id!,
+        gender: profile?.gender!,
       },
     })
   }
@@ -29,6 +34,16 @@ function FooterButton({ user }: { user: IUserResponse }) {
         typeButton="regular-primary"
         label="Поделиться"
         className="bg-btn-second-default !h-9 py-0.375 px-4 [&>span]:text-sm !rounded-[1.125rem]"
+        onClick={(event) => {
+          if (!!window.navigator.share!) {
+            const url = `${env.server.host}/customer/${user?.id}`
+            navigator.share({
+              title: `${profile?.firstName || "*Имя"} ${profile?.lastName || "*Фамилия"}`,
+              text: profile?.about || "",
+              url: url,
+            })
+          }
+        }}
       />
       <button
         className="aspect-square w-9 h-9 p-2 flex items-center justify-center border-none outline-none bg-btn-second-default rounded-[1.125rem]"
