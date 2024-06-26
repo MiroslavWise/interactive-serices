@@ -13,12 +13,13 @@ import { ListMessages } from "../components/ListMessages"
 import { NextImageMotion, LoadingInput } from "@/components/common"
 
 import { useWebSocket } from "@/context"
+import { NoticeBarter } from "../components/NoticeBarter"
 import { getMessages, getThreadId, postReadMessage } from "@/services"
 import { useCountMessagesNotReading, usePush, useResize } from "@/helpers"
 import { useAuth, usePopupMenuChat, useUserIdMessage, dispatchDataUser } from "@/store"
 
 import styles from "../styles/style.module.scss"
-import { NoticeBarter } from "../components/NoticeBarter"
+import { EnumProviderThreads } from "@/types/enum"
 
 export const CurrentChat = () => {
   const { isTablet } = useResize()
@@ -141,7 +142,7 @@ export const CurrentChat = () => {
   const barter = useMemo(() => {
     if (!data?.res || !data?.res?.barterId) return null
 
-    return data?.res?.barterId
+    return data?.res?.provider === EnumProviderThreads.BARTER ? data?.res?.barterId : null
   }, [data])
 
   if (isTablet)

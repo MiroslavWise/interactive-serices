@@ -12,8 +12,8 @@ import type { IBarterResponse } from "@/services/barters/types"
 import { Button, LoadingThreadNotice, NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
+import { useAuth, dispatchBallonOffer } from "@/store"
 import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
-import { useAuth, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread, getOffersCategories } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
