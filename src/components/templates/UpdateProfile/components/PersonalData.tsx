@@ -26,7 +26,7 @@ const GENDER: { label: string; value: TGenderForm }[] = [
 ]
 
 export const PersonalData = () => {
-  const { id: userId } = useAuth(({ user }) => user) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const [errorFile, setErrorFile] = useState<null | string>(null)
   const { out } = useOut()
