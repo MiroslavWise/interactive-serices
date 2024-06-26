@@ -6,11 +6,11 @@ import { getUserId } from "@/services"
 import { dispatchAddEmail, dispatchAddingPhoneNumber, dispatchChangePassword, dispatchModal, EModalData, useAuth } from "@/store"
 
 export const LoginDetails = () => {
-  const user = useAuth(({ user }) => user)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data } = useQuery({
-    queryFn: () => getUserId(user?.id!),
-    queryKey: ["user", { userId: user?.id! }],
-    enabled: !!user,
+    queryFn: () => getUserId(userId!),
+    queryKey: ["user", { userId: userId! }],
+    enabled: !!userId,
   })
 
   const email = data?.res?.email
@@ -77,7 +77,7 @@ export const LoginDetails = () => {
         ) : null}
       </section>
       <div data-delete-account>
-        <span>На Sheira c {format(user?.created || new Date(), "do MMMM yyyy", { locale: ru })}</span>
+        <span>На Sheira c {format(data?.res?.created || new Date(), "do MMMM yyyy", { locale: ru })}</span>
         <a
           onClick={() => {
             dispatchModal(EModalData.DeleteUser)

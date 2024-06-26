@@ -46,7 +46,7 @@ export default function Home() {
     <YMapsProvider>
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
         <YandexMap />
-        {isAuth && <BannerSign />}
+        {isAuth && !isTablet && <BannerSign />}
         {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
         {isAuth && isTablet && <BannerStartCreate />}
         {isTablet ? (

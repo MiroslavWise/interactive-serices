@@ -3,21 +3,15 @@
 import { ButtonNavigation } from "./components/ButtonNavigation"
 import LeftAsideProfile from "@/components/profile/LeftAsideProfile"
 
-import { useResize } from "@/helpers"
-import { dispatchCollapsePersonalScreen, useAdvertisingBanner, useAuth, useCollapsePersonalScreen } from "@/store"
+import { dispatchCollapsePersonalScreen, useAdvertisingBanner, useCollapsePersonalScreen } from "@/store"
 
 import styles from "./styles/button-collapse.module.scss"
 
 function BannerSign() {
-  const { isTablet } = useResize()
-  const isAuth = useAuth(({ isAuth }) => isAuth)
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
   const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
-  if (typeof isAuth === "undefined") return null
-  if (isTablet) return null
-
-  return isAuth ? (
+  return (
     <>
       <LeftAsideProfile isCollapsed={visible} isBanner={visibleAdvertisingBanner} />
       <button
@@ -34,7 +28,7 @@ function BannerSign() {
       </button>
       <ButtonNavigation />
     </>
-  ) : null
+  )
 }
 
 BannerSign.displayName = "BannerSign"

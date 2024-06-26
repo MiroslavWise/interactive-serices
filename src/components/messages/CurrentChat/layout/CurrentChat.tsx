@@ -18,6 +18,7 @@ import { useCountMessagesNotReading, usePush, useResize } from "@/helpers"
 import { useAuth, usePopupMenuChat, useUserIdMessage, dispatchDataUser } from "@/store"
 
 import styles from "../styles/style.module.scss"
+import { NoticeBarter } from "../components/NoticeBarter"
 
 export const CurrentChat = () => {
   const { isTablet } = useResize()
@@ -137,6 +138,12 @@ export const CurrentChat = () => {
     }
   }, [userId, dataMessages?.res])
 
+  const barter = useMemo(() => {
+    if (!data?.res || !data?.res?.barterId) return null
+
+    return data?.res?.barterId
+  }, [data])
+
   if (isTablet)
     return (
       <div className={styles.wrapper}>
@@ -162,6 +169,7 @@ export const CurrentChat = () => {
 
   return (
     <div className={styles.wrapper}>
+      {barter ? <NoticeBarter idBarter={barter} user={user!} /> : null}
       <ListMessages thread={data?.res!} messages={stateMessages} user={user! || userDataIdMassage!} isLoading={isLoading} />
       {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(user?.id)} refetch={refetch} />}
     </div>
