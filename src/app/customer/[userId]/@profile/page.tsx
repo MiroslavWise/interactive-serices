@@ -1,4 +1,4 @@
-import { cache } from "react"
+import { cache, Suspense } from "react"
 
 import { type IParamsCustomer } from "../layout"
 
@@ -13,6 +13,7 @@ import { formatOfMMMM } from "@/helpers"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import ProfileDescription from "./components/ProfileDescription"
 import { cx } from "@/lib/cx"
+import PlaqueFriends from "./components/PlaqueFriends"
 
 const get = cache(getUserId)
 
@@ -58,8 +59,18 @@ export default async ({ params }: IParamsCustomer) => {
         </section>
         <FriendsButtons user={res} />
       </article>
-      <article className="w-full flex flex-col gap-3">
+      <article className="w-full flex flex-col gap-3 justify-start">
         <ProfileDescription user={res!} />
+        <Suspense
+          fallback={
+            <article className="loading-screen w-full rounded-[0.625rem] p-4 border-[1px] border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_3.125rem] gap-0.625 [&>span]:h-5 [&>span]:w-full [&>span]:rounded-xl">
+              <span />
+              <span />
+            </article>
+          }
+        >
+          <PlaqueFriends id={id} />
+        </Suspense>
       </article>
       <footer className="mt-auto w-full flex flex-col gap-3 items-center pb-4 max-md:hidden">
         <div className="w-full pb-4 grid grid-cols-[minmax(0,1fr)_2.25rem] gap-0.625 border-b-[1px] border-solid border-grey-stroke-light">
