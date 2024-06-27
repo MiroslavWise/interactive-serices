@@ -21,6 +21,8 @@ interface IQueries {
   filter?: Exclude<TTypeFriends, "list">
 }
 
+export type TGetFriends = (values: { query: IQueries }) => IPromiseReturn<IFriendsResponse[]>
+export type TGetFriendId = (id: string | number) => IPromiseReturn<IFriendsResponse[]>
 export interface IFriendsService {
   get(values?: IQueries): IPromiseReturn<IFriendsResponse[]>
   getId(id: number | string): IPromiseReturn<IFriendsResponse[]>

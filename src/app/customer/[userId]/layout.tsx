@@ -5,6 +5,8 @@ import WrapperPseudoModalAboutProfile from "./components/WrapperPseudoModalAbout
 import ContentPseudoModalAboutProfile from "./components/ContentPseudoModalAboutProfile"
 
 import { cx } from "@/lib/cx"
+import WrapperMobileMenu from "./components/WrapperMobileMenu"
+import ContentMobileMenu from "./components/ContentMobileMenu"
 
 export interface IParamsCustomer {
   params: {
@@ -45,5 +47,8 @@ export default ({ profile, children, feedback, params: { userId }, links, offers
     <WrapperPseudoModalAboutProfile>
       <ContentPseudoModalAboutProfile userId={userId} />
     </WrapperPseudoModalAboutProfile>
+    <WrapperMobileMenu>
+      <ContentMobileMenu userId={userId} />
+    </WrapperMobileMenu>
   </>
 )

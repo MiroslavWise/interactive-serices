@@ -36,7 +36,7 @@ export interface IUserOffer {
   about: string | null
   birthdate: Date | string | null
   firstName: string
-  gender: TGenderForm
+  gender: TGenderForm | null
   id: number
   lastName: string
   username: string

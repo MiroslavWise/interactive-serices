@@ -30,6 +30,7 @@ module.exports = {
       transparent: "transparent",
       "grey-field": "var(--grey-field)",
       "element-grey-light": "var(--element-grey-light)",
+      "element-grey": "var(--element-grey)",
       "grey-separator": "var(--grey-separator)",
       "element-error": "var(--element-error)",
       "text-accent": "var(--text-accent)",
@@ -46,6 +47,7 @@ module.exports = {
       },
       boxShadow: {
         "social-link": "0px 11px 20px 0px rgba(100, 104, 115, 0.1)",
+        "menu-absolute": "0px 10px 16px 0px rgba(31, 31, 41, 0.1)",
       },
     },
   },

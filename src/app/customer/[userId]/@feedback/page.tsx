@@ -7,6 +7,7 @@ import IconFeedBackAccent from "@/components/icons/IconFeedBackAccent"
 
 import { getTestimonials } from "@/services"
 import { cx } from "@/lib/cx"
+import ButtonSort from "./components/ButtonSort"
 
 const get = cache(getTestimonials)
 
@@ -30,8 +31,9 @@ export default async ({ params }: IParamsCustomer) => {
         <h3 className="text-text-primary text-base text-center font-semibold">Отзывы</h3>
       </header>
       {items.length ? (
-        <article className="w-full py-0.625 flex items-center gap-5 border-t-[1px] border-b-[1px] border-solid border-grey-stroke-light">
+        <article className="w-full py-0.625 flex items-center justify-between gap-5 border-t-[1px] border-b-[1px] border-solid border-grey-stroke-light">
           <p className="text-text-primary text-sm font-medium">{items.length || 0} отзывов</p>
+          <ButtonSort />
         </article>
       ) : null}
       <section className="w-full h-fit flex flex-col flex-nowrap overflow-x-hidden overflow-y-scroll">
