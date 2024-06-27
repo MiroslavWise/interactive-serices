@@ -79,7 +79,7 @@ function ListMessages() {
             </div>
             <article className="w-full flex flex-col items-start justify-center">
               <h4 className="text-text-primary text-sm text-left font-medium">
-                {user?.firstName || "*Имя"} {user?.lastName || "*Фамилия"}
+                {user?.firstName || "Имя"} {user?.lastName || "Фамилия"}
               </h4>
               <p className="text-text-secondary text-sm text-left line-clamp-1 text-ellipsis font-normal">{message || "Нет сообщений"}</p>
             </article>

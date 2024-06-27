@@ -67,7 +67,7 @@ function ItemServiceData({ offer }: IProps) {
             {!!image ? <NextImageMotion src={image?.attributes?.url} alt="avatar" width={100} height={100} /> : <IconEmptyProfile />}
           </div>
           <p className="text-text-primary text-sm font-normal">
-            {firstName || "*Имя"} {lastName || "*Фамилия"}
+            {firstName || "Имя"} {lastName || "Фамилия"}
           </p>
         </div>
       </article>

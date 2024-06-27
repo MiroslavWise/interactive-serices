@@ -18,8 +18,8 @@ function ButtonComplaintMenuMobile({ user }: { user: IUserResponse }) {
     const data: IUserOffer = {
       about: about || null,
       birthdate: birthdate || null,
-      firstName: firstName || "*Имя",
-      lastName: lastName || "*Фамилия",
+      firstName: firstName || "Имя",
+      lastName: lastName || "Фамилия",
       gender: gender || null,
       id: id,
       username: username || "",

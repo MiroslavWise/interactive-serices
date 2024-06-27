@@ -135,6 +135,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
                 user: user?.id,
               },
             }}
+            typeButton="regular-primary"
           />
           <button
             type="button"

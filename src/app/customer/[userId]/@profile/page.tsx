@@ -52,7 +52,7 @@ export default async ({ params }: IParamsCustomer) => {
           </div>
           <section className={cx("w-full", "flex flex-col items-start md:items-center gap-1")}>
             <h3 className="text-text-primary text-xl font-semibold text-left md:text-center">
-              {firstName || "*Имя"} {lastName || "*Фамилия"}
+              {firstName || "Имя"} {lastName || "Фамилия"}
             </h3>
             <OnlineStatus user={res} />
           </section>

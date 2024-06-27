@@ -39,7 +39,7 @@ export const HeaderBlock: THeaderBlock = () => {
       </div>
       <section data-test="block-profile-aside-section-info">
         <h4 data-test="block-profile-aside-section-info-h4">
-          {firstName || "*Имя"} {lastName || "*Фамилия"}
+          {firstName || "Имя"} {lastName || "Фамилия"}
         </h4>
         {data?.res?.created ? (
           <time dateTime={`${data?.res?.created!}`} data-test="block-profile-aside-section-info-time">

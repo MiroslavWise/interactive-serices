@@ -38,7 +38,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
           if (!!window.navigator.share!) {
             const url = `${env.server.host}/customer/${user?.id}`
             navigator.share({
-              title: `${profile?.firstName || "*Имя"} ${profile?.lastName || "*Фамилия"}`,
+              title: `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`,
               text: profile?.about || "",
               url: url,
             })
