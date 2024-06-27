@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 import { IResponseOffers } from "@/services/offers/types"
 import { ICommentsResponse } from "@/services/comments/types"
@@ -11,32 +11,20 @@ import { FormAppendComment } from "./FormAppendComment"
 
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
-import { serviceComments, serviceOffersThreads } from "@/services"
+import { serviceComments } from "@/services"
 
 import styles from "../styles/block-comments.module.scss"
 
 export function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { socket } = useWebSocket() ?? {}
+  const { threadId } = offer ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
-  const { data: dataOffersThreads } = useQuery({
-    queryFn: () =>
-      serviceOffersThreads.get({
-        offer: offer.id!,
-      }),
-    queryKey: ["offers-threads", { id: offer.id }],
-    enabled: !!offer.id,
-  })
-
-  const currentOffersThreads = useMemo(() => {
-    return dataOffersThreads?.res?.find((item) => item?.offerId === offer.id) || null
-  }, [dataOffersThreads?.res, offer.id])
-
   const { data: dataComments, refetch: refetchComments } = useQuery({
-    queryFn: () => serviceComments.get({ offer: currentOffersThreads?.id! }),
-    queryKey: ["comments", { offerThreads: currentOffersThreads?.id }],
-    enabled: !!currentOffersThreads?.id!,
+    queryFn: () => serviceComments.get({ offer: threadId! }),
+    queryKey: ["comments", { offerThreads: threadId! }],
+    enabled: !!threadId!,
   })
   useEffect(() => {
     if (dataComments?.res && dataComments?.res?.length > 0) {
@@ -47,7 +35,7 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
   }, [dataComments?.res])
 
   useEffect(() => {
-    if (socket && currentOffersThreads) {
+    if (socket && threadId) {
       const commentResponse = (event: any) => {
         console.log("commentResponse: ", event)
         if (event.user_id !== userId) {
@@ -56,14 +44,14 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
       }
 
       if (userId && socket) {
-        socket?.on(`commentResponse-${currentOffersThreads.id}`, commentResponse)
+        socket?.on(`commentResponse-${threadId}`, commentResponse)
       }
 
       return () => {
-        socket?.off(`commentResponse-${currentOffersThreads.id}`, commentResponse)
+        socket?.off(`commentResponse-${threadId}`, commentResponse)
       }
     }
-  }, [socket, currentOffersThreads, userId])
+  }, [socket, threadId, userId])
 
   return (
     <div className={styles.container} data-text="container-commentaries">
@@ -71,14 +59,10 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
         currentComments={currentComments}
         expand={expandComment}
         setExpand={setExpandComment}
-        currentOffersThreadId={currentOffersThreads?.id!}
+        currentOffersThreadId={threadId!}
       />
       {!!userId ? (
-        <FormAppendComment
-          idOffersThread={currentOffersThreads?.id!}
-          refetchComments={refetchComments}
-          setCurrentComments={setCurrentComments}
-        />
+        <FormAppendComment idOffersThread={threadId!} refetchComments={refetchComments} setCurrentComments={setCurrentComments} />
       ) : null}
     </div>
   )

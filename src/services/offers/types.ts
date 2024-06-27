@@ -63,6 +63,7 @@ export interface IResponseOffers {
   user: IUserOffer
   updated: Date | string
   created: Date | string
+  threadId: number | null
 }
 
 export interface IQueriesOffers {
