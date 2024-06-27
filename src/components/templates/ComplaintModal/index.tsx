@@ -20,7 +20,9 @@ export default function ComplaintModal() {
 
   const { onBarters } = useToast()
   const user = useComplaintModal(({ user }) => user)
-  const { id, image, username = "---" } = user ?? {}
+  const offer = useComplaintModal(({ offer }) => offer)
+  const { user: userOffer } = offer ?? {}
+  const { username = "---" } = user ?? {}
 
   const { register, handleSubmit, watch, reset, setValue } = useForm<IValuesForm>({
     defaultValues: {},
@@ -36,8 +38,10 @@ export default function ComplaintModal() {
       setLoading(true)
 
       const valuesData: IPostComplains = {
-        receiverId: user?.id!,
-        message: values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!,
+        receiverId: !!user ? user?.id! : userOffer?.id!,
+        message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!} : ${
+          !!user ? `user:${user?.username}` : `offer:${offer?.title}`
+        }`,
         enabled: true,
         provider: EnumTypeProvider.profile,
       }
@@ -49,7 +53,7 @@ export default function ComplaintModal() {
         setLoading(false)
         onBarters({
           title: "Жалоба отправлена",
-          message: `Мы получили вашу жалобу на @${username!} и скоро страница пользователя будет проверена модераторами.`,
+          message: `Мы получили вашу жалобу и скоро страница пользователя будет проверена модераторами.`,
           status: EnumStatusBarter.INITIATED,
         })
       })
@@ -60,13 +64,18 @@ export default function ComplaintModal() {
 
   return (
     <>
-      <h2>Пожаловаться на пользователя</h2>
+      <h2>{!!user ? "Пожаловаться на пользователя" : !!offer ? "Пожаловаться на публикацию" : null}</h2>
       <form onSubmit={onSubmit}>
         <div data-content>
-          <p>
-            Данная жалоба на <span>@{username}</span> будет проверена модераторами, и если будут найдены нарушения, пользователь получит
-            бан.
-          </p>
+          {!!user ? (
+            <p>
+              Данная жалоба на <span>@{username}</span> будет проверена модераторами, и если будут найдены нарушения, пользователь получит
+              бан.
+            </p>
+          ) : !!offer ? (
+            <p>Жалоба будет проверена модераторами, и если будут найдены нарушения, публикация будет заблокирована.</p>
+          ) : null}
+
           <ul {...register("type", { required: true })}>
             {MENU_COMPLAINT.map((item) => (
               <fieldset
