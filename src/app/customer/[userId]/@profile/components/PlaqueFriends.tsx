@@ -48,7 +48,7 @@ async function PlaqueFriends({ id }: { id: number | string }) {
             </Link>
           ))}
         </div>
-        <ButtonFriends />
+        {items.length ? <ButtonFriends /> : null}
       </article>
     </section>
   )

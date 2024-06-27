@@ -47,7 +47,7 @@ async function BlockMobileFriendsAndFeedback({ id }: { id: string | number }) {
             </div>
             <p className="text-text-primary text-sm font-medium">{average}</p>
           </div>
-          <ButtonFeedbackMobile />
+          {length ? <ButtonFeedbackMobile /> : null}
         </article>
       </section>
     </article>

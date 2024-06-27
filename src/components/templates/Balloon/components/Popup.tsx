@@ -68,10 +68,10 @@ export const PopupShared = ({
             <span>Поделиться</span>
           </a>
           <a onClick={handle}>
-            <div data-icon>
+            <div data-icon className="[&>svg>path]:!fill-text-error ">
               <IconAlertCircle />
             </div>
-            <span>Пожаловаться</span>
+            <span className="!text-text-error">Пожаловаться</span>
           </a>
         </>
       ) : (
