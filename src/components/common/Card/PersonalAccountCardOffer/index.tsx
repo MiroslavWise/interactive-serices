@@ -1,22 +1,20 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
-
 import { useQuery } from "@tanstack/react-query"
+
 import type { IResponseOffers } from "@/services/offers/types"
 
 import { Button, ImageCategory } from "@/components/common"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
-import { usePush } from "@/helpers"
 import { getOffersCategories } from "@/services"
 import { dispatchBallonOffer, dispatchDeleteOffer, dispatchMapCoordinates, dispatchUpdateOffer } from "@/store"
 
 import styles from "./style.module.scss"
-import Link from "next/link"
 
 export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) => {
-  const { handlePush } = usePush()
   const { category } = offer ?? {}
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
@@ -47,7 +45,6 @@ export const PersonalAccountCardOffer = ({ offer }: { offer: IResponseOffers }) 
         coordinates: geoData?.coordinates?.split(" ")?.map(Number),
       })
       dispatchBallonOffer({ offer: offer })
-      handlePush("/")
     }
   }
 

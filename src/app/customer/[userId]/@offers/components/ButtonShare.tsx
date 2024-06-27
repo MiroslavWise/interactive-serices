@@ -14,7 +14,13 @@ import { cx } from "@/lib/cx"
 import env from "@/config/environment"
 import { useOutsideClickEvent } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchComplaintModalOffer } from "@/store"
+import {
+  dispatchBallonAlert,
+  dispatchBallonDiscussion,
+  dispatchBallonOffer,
+  dispatchComplaintModalOffer,
+  dispatchMapCoordinates,
+} from "@/store"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -23,6 +29,8 @@ const TITLE_SHARE = "Поделиться"
 function ButtonShare({ offer }: { offer: IResponseOffers }) {
   const [open, setOpen, ref] = useOutsideClickEvent(close)
   const { onSimpleMessage } = useToast()
+
+  const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
 
   function close() {}
 
@@ -69,6 +77,12 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
             }
             if (offer.provider === EnumTypeProvider.alert) {
               dispatchBallonAlert({ offer })
+            }
+            if (geoData) {
+              dispatchMapCoordinates({
+                zoom: 17,
+                coordinates: geoData?.coordinates?.split(" ")?.map(Number),
+              })
             }
           }}
         >
