@@ -75,6 +75,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
       <head>
+        <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
         <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
         <noscript>
           <div>
