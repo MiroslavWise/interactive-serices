@@ -16,7 +16,7 @@ function SearchInput() {
         type="text"
         value={search}
         onChange={(event) => dispatchSearch(event.target.value)}
-        className="w-full h-12 rounded-3xl pr-0.875 pl-[calc(0.875_+_1.25rem_+_0.5rem)]"
+        className="w-full h-12 !rounded-3xl !pr-0.875 !pl-[calc(0.875rem_+_1.25rem_+_0.5rem)]"
         placeholder="Поиск"
       />
     </div>
