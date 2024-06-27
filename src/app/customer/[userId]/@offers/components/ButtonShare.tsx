@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
@@ -14,6 +13,7 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
 import { useOutsideClickEvent } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchComplaintModalOffer } from "@/store"
 
 const TITLE_TO_MAP = "Показать на карте"
@@ -22,6 +22,7 @@ const TITLE_SHARE = "Поделиться"
 
 function ButtonShare({ offer }: { offer: IResponseOffers }) {
   const [open, setOpen, ref] = useOutsideClickEvent(close)
+  const { onSimpleMessage } = useToast()
 
   function close() {}
 
@@ -81,13 +82,16 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           aria-label={TITLE_SHARE}
           aria-labelledby={TITLE_SHARE}
           onClick={(event) => {
+            const url = `${env.server.host}/offers/${offer.provider}/${offer.id}`
             if (!!window.navigator.share!) {
-              const url = `${env.server.host}/offers/${offer.provider}/${offer.id}`
               navigator.share({
                 title: offer.title!,
                 text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
                 url: url,
               })
+            } else {
+              navigator.clipboard.writeText(url)
+              onSimpleMessage("Ссылка скопирована")
             }
             event.stopPropagation()
           }}
