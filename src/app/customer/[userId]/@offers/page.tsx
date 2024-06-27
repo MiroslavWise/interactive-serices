@@ -50,7 +50,7 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
       ) : (
         <p className="text-text-primary text-sm font-normal whitespace-nowrap">
           {provider === EProviderLinkCustomer.discussion
-            ? "Нет предложений"
+            ? "Нет обсуждений"
             : provider === EProviderLinkCustomer.alert
             ? "Нет SOS-сообщений"
             : "Нет предложений"}
