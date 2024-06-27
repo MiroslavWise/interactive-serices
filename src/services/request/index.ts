@@ -297,6 +297,8 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
   return instance
     .get(url, { headers: head, params: params })
     .then(({ data, status }) => {
+      // console.log("url get: ", url)
+      // console.log("data get: ", data)
       if (status >= 200 && status < 300) {
         return {
           ok: true,
@@ -314,6 +316,8 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
       }
     })
     .catch((error) => {
+      // console.log("url get: ", url)
+      // console.log("error get: ", error)
       if (error instanceof AxiosError) {
         const e = error?.response?.data?.error
         return {

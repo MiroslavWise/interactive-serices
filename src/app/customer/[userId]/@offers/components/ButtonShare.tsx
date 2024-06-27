@@ -21,6 +21,7 @@ import {
   dispatchComplaintModalOffer,
   dispatchMapCoordinates,
 } from "@/store"
+import IconArrowRight from "@/components/icons/IconArrowRight"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -134,6 +135,27 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
         </a>
       </section>
     </article>
+  )
+}
+
+export const LinkToMap = ({ offer }: { offer: IResponseOffers }) => {
+  const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
+
+  return (
+    <Link
+      href={{ pathname: "/" }}
+      onClick={() => {
+        if (geoData) {
+          dispatchMapCoordinates({
+            zoom: 17,
+            coordinates: geoData?.coordinates?.split(" ")?.map(Number),
+          })
+        }
+      }}
+      className="w-5 h-5 p-0.625 cursor-pointer relative [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
+    >
+      <IconArrowRight />
+    </Link>
   )
 }
 

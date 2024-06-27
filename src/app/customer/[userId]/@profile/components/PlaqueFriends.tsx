@@ -6,9 +6,9 @@ import ButtonFriends from "./ButtonFriends"
 import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
-import { serviceFriends } from "@/services"
+import { getFiendId } from "@/services"
 
-const get = cache(serviceFriends.getId)
+const get = cache(getFiendId)
 
 async function PlaqueFriends({ id }: { id: number | string }) {
   const { res } = await get(id)

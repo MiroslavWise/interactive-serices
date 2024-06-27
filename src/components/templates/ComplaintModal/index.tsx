@@ -12,7 +12,7 @@ import { Button } from "@/components/common"
 import { serviceComplains } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import { dispatchComplaintModalUser, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
+import { dispatchComplaintModalOffer, dispatchComplaintModalUser, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
 
 export default function ComplaintModal() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -31,6 +31,7 @@ export default function ComplaintModal() {
   function handleClose() {
     dispatchModalClose()
     dispatchComplaintModalUser({ user: undefined })
+    dispatchComplaintModalOffer({ offer: undefined })
   }
 
   function submit(values: IValuesForm) {

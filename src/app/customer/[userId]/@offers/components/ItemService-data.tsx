@@ -3,7 +3,7 @@ import Link from "next/link"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemTitle from "../../components/ItemTitle"
-import ButtonShare from "./ButtonShare"
+import ButtonShare, { LinkToMap } from "./ButtonShare"
 import ItemServiceImages from "./ItemServiceImages"
 import { NextImageMotion } from "@/components/common"
 import IconMapWhite from "@/components/icons/IconMapWhite"
@@ -50,12 +50,7 @@ function ItemServiceData({ offer }: IProps) {
         >
           {additional}
         </p>
-        <Link
-          href={{ pathname: "/" }}
-          className="w-5 h-5 p-0.625 cursor-pointer relative [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
-        >
-          <IconArrowRight />
-        </Link>
+        <LinkToMap offer={offer} />
       </article>
       <article className="w-full flex flex-row items-center justify-between gap-4 pt-0.625 border-t-[1px] border-solid border-grey-stroke-light">
         <div className="w-full grid grid-cols-[1.5rem_minmax(0,1fr)] gap-0.625 items-center">
