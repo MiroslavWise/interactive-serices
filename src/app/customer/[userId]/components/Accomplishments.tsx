@@ -69,7 +69,7 @@ const ICON: Record<TKeyItem, ReactNode> = {
   ),
 }
 
-const badges = ({ barters, rating, feedback }: { barters: number; rating: number; feedback: number }): IPropsItem[] => [
+const badges = ({ barters, rating, feedback }: { barters: number; rating: string; feedback: number }): IPropsItem[] => [
   {
     id: "barters",
     title: "Обмены",
@@ -97,8 +97,8 @@ async function Accomplishments({ id }: { id: number | string }) {
   const lengthAllBarters = itemsAllBarters.length
   const lengthTestimonials = itemsTestimonials.length
   const averageRating = Number(
-    Number(itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1)).toFixed(1),
-  )
+    itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1),
+  ).toFixed(1)
 
   return (
     <article className="w-full rounded-2xl grid grid-cols-3 gap-2 p-3 md:p-0.625 bg-BG-second">
@@ -117,7 +117,7 @@ type TKeyItem = "barters" | "rating" | "feedback"
 interface IPropsItem {
   id: TKeyItem
   title: string
-  count: number
+  count: number | string
 }
 
 const Item = ({ title, count, id }: IPropsItem) => (

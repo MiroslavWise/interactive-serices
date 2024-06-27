@@ -27,6 +27,7 @@ module.exports = {
       "opacity-white-hard": "var(--opacity-white-hard)",
       "supporting-white": "var(--supporting-white)",
       translucent: "rgba(5, 1, 13, 0.50)",
+      "translucent-0.8": "rgba(16, 24, 40, 0.80)",
       transparent: "transparent",
       "grey-field": "var(--grey-field)",
       "element-grey-light": "var(--element-grey-light)",

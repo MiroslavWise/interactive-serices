@@ -31,8 +31,8 @@ export default async ({ params }: IParamsCustomer) => {
   const { image, firstName, lastName } = profile ?? {}
 
   return (
-    <aside className="w-full h-fit md:h-full rounded-2xl md:rounded-[2rem] bg-BG-second flex flex-col md:justify-between md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] md:overflow-x-hidden md:overflow-y-auto gap-4 md:gap-6 max-md:p-4 md:px-5 md:pt-5">
-      <article className="w-full flex flex-col gap-4 items-center">
+    <aside className="w-full h-fit md:h-full rounded-2xl md:rounded-[2rem] bg-BG-second flex flex-col md:justify-between md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] md:overflow-y-auto gap-4 md:gap-6 max-md:p-4 md:px-5 md:pt-5">
+      <article className="w-full flex flex-col gap-4 items-center overflow-x-hidden">
         <section
           className={cx("relative w-full", "grid grid-cols-[5rem_minmax(0,1fr)] gap-4", "md:flex md:flex-col md:items-center md:gap-3")}
         >
@@ -62,7 +62,7 @@ export default async ({ params }: IParamsCustomer) => {
         </section>
         <FriendsButtons user={res} />
       </article>
-      <article className="w-full flex flex-col gap-3 justify-start max-md:hidden">
+      <article className="w-full flex flex-col gap-3 justify-start max-md:hidden overflow-x-hidden">
         <ProfileDescription user={res!} />
         <Suspense
           fallback={

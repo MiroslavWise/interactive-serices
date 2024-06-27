@@ -4,13 +4,14 @@ import { type IUserResponse } from "@/services/users/types"
 
 import { Button } from "@/components/common"
 
-import { dispatchComplaintModalUser } from "@/store"
+import { cx } from "@/lib/cx"
 import env from "@/config/environment"
-import { useEffect } from "react"
-import { getOffersCategoriesPROD } from "@/services"
+import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchComplaintModalUser } from "@/store"
 
 function FooterButton({ user }: { user: IUserResponse }) {
   const { profile, id } = user ?? {}
+  const { onSimpleMessage } = useToast()
 
   function onComplaint() {
     dispatchComplaintModalUser({
@@ -34,20 +35,26 @@ function FooterButton({ user }: { user: IUserResponse }) {
         typeButton="regular-primary"
         label="Поделиться"
         className="bg-btn-second-default !h-9 py-0.375 px-4 [&>span]:text-sm !rounded-[1.125rem]"
-        onClick={(event) => {
+        onClick={() => {
+          const url = `${env.server.host}/customer/${user?.id}`
           if (!!window.navigator.share!) {
-            const url = `${env.server.host}/customer/${user?.id}`
             navigator.share({
               title: `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`,
               text: profile?.about || "",
               url: url,
             })
+          } else {
+            navigator.clipboard.writeText(url)
+            onSimpleMessage("Ссылка скопирована")
           }
         }}
       />
       <button
-        className="aspect-square w-9 h-9 p-2 flex items-center justify-center border-none outline-none bg-btn-second-default rounded-[1.125rem]"
+        className="aspect-square relative w-9 h-9 p-2 flex items-center justify-center border-none outline-none bg-btn-second-default rounded-[1.125rem] [&>article]:hover:!opacity-100 [&>article]:hover:!visible"
         onClick={onComplaint}
+        title="Пожаловаться"
+        aria-label="Пожаловаться"
+        aria-labelledby="Пожаловаться"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className="w-5 h-5">
           <g clip-path="url(#clip0_6305_23715)">
@@ -75,6 +82,9 @@ function FooterButton({ user }: { user: IUserResponse }) {
             </clipPath>
           </defs>
         </svg>
+        <article className={cx("absolute -top-1 -right-3 rounded-md bg-element-accent-2 py-1 px-2 -translate-y-full opacity-0 invisible")}>
+          <span className="text-text-tab text-xs text-center font-normal">Пожаловаться</span>
+        </article>
       </button>
     </>
   )
