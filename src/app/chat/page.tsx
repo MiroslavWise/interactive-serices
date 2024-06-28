@@ -1,6 +1,6 @@
 export default () => {
   return (
-    <section className="w-full full flex flex-col items-center justify-center bg-BG-second rounded-[2rem]">
+    <section className="w-full full flex flex-col items-center justify-center bg-BG-second rounded-[2rem] max-md:!hidden">
       <article className="flex flex-col items-center gap-4">
         <div className="w-[4.375rem] h-[4.375rem] rounded-full flex items-center justify-center p-[1.1875rem] bg-grey-field">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
