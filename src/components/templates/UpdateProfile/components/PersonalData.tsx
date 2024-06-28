@@ -110,7 +110,7 @@ export const PersonalData = () => {
         return
       }
 
-      Promise.resolve(!!data?.ok ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)).then((responseOk) => {
+      Promise.resolve(!!profile ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)).then((responseOk) => {
         if (responseOk?.ok) {
           const idProfile = userId!
           if (file.file) {
