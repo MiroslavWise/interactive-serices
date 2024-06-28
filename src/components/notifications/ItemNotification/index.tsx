@@ -482,8 +482,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
   function handleRecall() {
     serviceNotifications.patch({ enabled: true, read: true }, id!).then(() => refetch())
     dispatchAddTestimonials({
-      profile: profile!,
-      threadId: data?.threadId!,
+      user: resUser!,
       barterId: data?.id!,
       testimonials: dataTestimonials?.res!,
       notificationId: id!,

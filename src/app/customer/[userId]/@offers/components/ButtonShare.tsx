@@ -22,6 +22,7 @@ import {
   dispatchMapCoordinates,
 } from "@/store"
 import IconArrowRight from "@/components/icons/IconArrowRight"
+import IconMapWhite from "@/components/icons/IconMapWhite"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -139,22 +140,37 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
 }
 
 export const LinkToMap = ({ offer }: { offer: IResponseOffers }) => {
-  const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
+  const { addresses } = offer ?? {}
+  const firstAddress = addresses?.[0]
+  const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
 
   return (
     <Link
-      href={{ pathname: "/" }}
+      className="w-full cursor-pointer items-start place-items-start grid grid-cols-[1.5rem_minmax(0,1fr)_1.25rem] gap-2 mt-auto"
       onClick={() => {
-        if (geoData) {
+        if (firstAddress) {
           dispatchMapCoordinates({
             zoom: 17,
-            coordinates: geoData?.coordinates?.split(" ")?.map(Number),
+            coordinates: firstAddress?.coordinates?.split(" ")?.map(Number),
           })
         }
       }}
-      className="w-5 h-5 p-0.625 cursor-pointer relative [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
+      href={{ pathname: "/" }}
     >
-      <IconArrowRight />
+      <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-[0.9rem] [&>svg]:h-[0.9rem]">
+        <IconMapWhite />
+      </div>
+      <p
+        className="text-text-primary text-sm text-nowrap whitespace-nowrap text-start font-normal line-clamp-1 text-ellipsis overflow-hidden w-[inherit]"
+        title={additional}
+        aria-label={additional}
+        aria-labelledby={additional}
+      >
+        {additional}
+      </p>
+      <div className="w-5 h-5 p-0.625  relative [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5">
+        <IconArrowRight />
+      </div>
     </Link>
   )
 }

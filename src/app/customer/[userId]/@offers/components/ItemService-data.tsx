@@ -21,8 +21,6 @@ function ItemServiceData({ offer }: IProps) {
 
   const firstAddress = addresses[0]
 
-  const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
-
   const { firstName, lastName, image } = user ?? {}
 
   return (
@@ -38,20 +36,7 @@ function ItemServiceData({ offer }: IProps) {
         <p className="text-text-primary text-ellipsis text-sm font-normal line-clamp-4">{description}</p>
         <ItemServiceImages images={images} />
       </article>
-      <article className="w-full items-start place-items-start grid grid-cols-[1.5rem_minmax(0,1fr)_1.25rem] gap-2 mt-auto">
-        <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-[0.9rem] [&>svg]:h-[0.9rem]">
-          <IconMapWhite />
-        </div>
-        <p
-          className="text-text-primary text-sm text-nowrap whitespace-nowrap text-start font-normal line-clamp-1 text-ellipsis overflow-hidden w-[inherit]"
-          title={additional}
-          aria-label={additional}
-          aria-labelledby={additional}
-        >
-          {additional}
-        </p>
-        <LinkToMap offer={offer} />
-      </article>
+      <LinkToMap offer={offer} />
       <article className="w-full flex flex-row items-center justify-between gap-4 pt-0.625 border-t-[1px] border-solid border-grey-stroke-light">
         <div className="w-full grid grid-cols-[1.5rem_minmax(0,1fr)] gap-0.625 items-center">
           <div

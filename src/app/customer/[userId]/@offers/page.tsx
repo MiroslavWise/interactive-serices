@@ -48,7 +48,7 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
           </ul>
         </>
       ) : (
-        <p className="text-text-primary text-sm font-normal whitespace-nowrap">
+        <p className="text-text-primary text-sm font-normal whitespace-nowrap mt-10">
           {provider === EProviderLinkCustomer.discussion
             ? "Нет обсуждений"
             : provider === EProviderLinkCustomer.alert
