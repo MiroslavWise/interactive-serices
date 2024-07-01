@@ -38,7 +38,7 @@ export const HeaderExchangeOffers = () => {
 
   const images = useMemo(() => {
     if (dataUsers?.some((some) => !some?.isLoading) && !isLoading) {
-      return dataUsers?.map((item) => item?.data?.res?.profile?.image?.attributes?.url!)
+      return dataUsers?.map((item) => item?.data?.data?.profile?.image?.attributes?.url!)
     }
 
     return []

@@ -1,5 +1,3 @@
-import { cache } from "react"
-
 import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
@@ -7,12 +5,10 @@ import ButtonClosePseudoModalAboutProfile from "./ButtonClosePseudoModalAboutPro
 
 import { getUserId } from "@/services"
 
-const get = cache(getUserId)
-
 async function ContentPseudoModalAboutProfile({ userId }: { userId: string | number }) {
-  const { res } = await get(userId)
+  const { data } = await getUserId(userId)
 
-  const { profile } = res ?? {}
+  const { profile } = data ?? {}
   const { about = "", firstName = "Имя", lastName = "Фамилия", image } = profile ?? {}
 
   return (

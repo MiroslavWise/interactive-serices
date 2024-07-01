@@ -1,33 +1,31 @@
-import { cache, Suspense } from "react"
+import { Suspense } from "react"
 
 import { type IParamsCustomer } from "../layout"
 
 import FooterButton from "./components/FooterButton"
 import OnlineStatus from "./components/OnlineStatus"
 import { NextImageMotion } from "@/components/common"
+import PlaqueFriends from "./components/PlaqueFriends"
 import FriendsButtons from "./components/FriendsButtons"
+import ProfileDescription from "./components/ProfileDescription"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
+import { cx } from "@/lib/cx"
 import { getUserId } from "@/services"
 import { formatOfMMMM } from "@/helpers"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import ProfileDescription from "./components/ProfileDescription"
-import { cx } from "@/lib/cx"
-import PlaqueFriends from "./components/PlaqueFriends"
-
-const get = cache(getUserId)
 
 export default async ({ params }: IParamsCustomer) => {
   const id = params?.userId ?? null
 
-  const { res, ok } = await get(id!)
+  const { data } = await getUserId(id!)
 
-  if (!ok || !res)
+  if (!data)
     return (
       <aside className="w-full h-full rounded-2xl md:rounded-[2rem] bg-BG-second max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)]" />
     )
 
-  const { created, profile } = res ?? {}
+  const { created, profile } = data ?? {}
   const { image, firstName, lastName } = profile ?? {}
 
   return (
@@ -54,16 +52,16 @@ export default async ({ params }: IParamsCustomer) => {
             <h3 className="text-text-primary text-xl font-semibold text-left md:text-center">
               {firstName || "Имя"} {lastName || "Фамилия"}
             </h3>
-            <OnlineStatus user={res} />
+            <OnlineStatus user={data} />
           </section>
         </section>
-        <section className={`w-full md:hidden ${!res?.profile?.about && "hidden"}`}>
-          <ProfileDescription user={res!} />
+        <section className={`w-full md:hidden ${profile?.about && "hidden"}`}>
+          <ProfileDescription user={data!} />
         </section>
-        <FriendsButtons user={res} />
+        <FriendsButtons user={data} />
       </article>
       <article className="w-full flex flex-col gap-3 justify-start max-md:hidden overflow-x-hidden">
-        <ProfileDescription user={res!} />
+        <ProfileDescription user={data!} />
         <Suspense
           fallback={
             <article className="loading-screen w-full rounded-[0.625rem] p-4 border-[1px] border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_3.125rem] gap-0.625 [&>span]:h-5 [&>span]:w-full [&>span]:rounded-xl">
@@ -77,7 +75,7 @@ export default async ({ params }: IParamsCustomer) => {
       </article>
       <footer className="mt-auto w-full flex flex-col gap-3 items-center pb-4 max-md:hidden">
         <div className="w-full pb-4 grid grid-cols-[minmax(0,1fr)_2.25rem] gap-0.625 border-b-[1px] border-solid border-grey-stroke-light">
-          <FooterButton user={res} />
+          <FooterButton user={data} />
         </div>
         <time className="w-full text-text-disabled text-xs text-center font-normal" dateTime={created as unknown as string}>
           На Sheira c {formatOfMMMM(created)}

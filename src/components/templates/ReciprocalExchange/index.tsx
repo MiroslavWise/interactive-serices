@@ -68,7 +68,7 @@ export default function ReciprocalExchange() {
     enabled: false,
   })
 
-  const { res } = dataUser ?? {}
+  const { data: res } = dataUser ?? {}
   const { profile } = res ?? {}
 
   const onSubmit = handleSubmit(submit)

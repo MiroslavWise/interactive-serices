@@ -65,7 +65,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
         return `Вы предлагаете ${data?.initiator?.title?.toLowerCase()} взамен вы хотите ${data?.consigner?.title?.toLowerCase()}`
       } else {
         return `${
-          userData?.res?.profile?.firstName
+          userData?.data?.profile?.firstName
         } предлагает вам ${data?.consigner?.title?.toLowerCase()} взамен на ${data?.initiator?.title?.toLowerCase()}`
       }
     }

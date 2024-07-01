@@ -17,7 +17,7 @@ const LINKS: ILink[] = [
   },
 ]
 
-export default async ({ searchParams }: IParamsCustomer) => {
+export default ({ searchParams }: IParamsCustomer) => {
   const provider = searchParams?.provider
 
   const pr = provider

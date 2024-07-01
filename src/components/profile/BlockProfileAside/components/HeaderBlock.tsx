@@ -20,8 +20,8 @@ export const HeaderBlock: THeaderBlock = () => {
     enabled: !!userId,
   })
 
-  const { res } = data ?? {}
-  const { profile } = res ?? {}
+  const { data: res } = data ?? {}
+  const { profile, created } = res ?? {}
   const { image, firstName, lastName } = profile ?? {}
 
   return (
@@ -41,9 +41,9 @@ export const HeaderBlock: THeaderBlock = () => {
         <h4 data-test="block-profile-aside-section-info-h4">
           {firstName || "Имя"} {lastName || "Фамилия"}
         </h4>
-        {data?.res?.created ? (
-          <time dateTime={`${data?.res?.created!}`} data-test="block-profile-aside-section-info-time">
-            На Sheira с {format(data?.res?.created!, "do MMMM yyyy", { locale: ru })}
+        {created ? (
+          <time dateTime={`${created!}`} data-test="block-profile-aside-section-info-time">
+            На Sheira с {format(created!, "do MMMM yyyy", { locale: ru })}
           </time>
         ) : null}
       </section>

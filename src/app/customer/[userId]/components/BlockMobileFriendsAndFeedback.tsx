@@ -1,14 +1,10 @@
-import { cache } from "react"
-
 import PlaqueFriends from "../@profile/components/PlaqueFriends"
 
 import { getTestimonials } from "@/services"
 import ButtonFeedbackMobile from "./ButtonFeedbackMobile"
 
-const get = cache(getTestimonials)
-
 async function BlockMobileFriendsAndFeedback({ id }: { id: string | number }) {
-  const { res } = await get({ receiver: id!, order: "DESC" })
+  const { res } = await getTestimonials({ receiver: id!, order: "DESC" })
 
   const items = res || []
   const allRating = items.reduce((acc, cur) => acc + +cur.rating, 0)

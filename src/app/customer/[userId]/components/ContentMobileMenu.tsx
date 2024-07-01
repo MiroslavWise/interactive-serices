@@ -1,16 +1,12 @@
-import { cache } from "react"
-
 import ButtonCloseMenuMobile from "./ButtonCloseMenuMobile"
 import ButtonShareMenuMobile from "./ButtonShareMenuMobile"
-
-import { getUserId } from "@/services"
-import { cx } from "@/lib/cx"
 import ButtonComplaintMenuMobile from "./ButtonComplaintMenuMobile"
 
-const get = cache(getUserId)
+import { cx } from "@/lib/cx"
+import { getUserId } from "@/services"
 
 async function ContentMobileMenu({ userId }: { userId: number | string }) {
-  const { res } = await get(userId)
+  const { data } = await getUserId(userId)
 
   return (
     <section className="relative w-full bg-BG-second rounded-t-3xl flex flex-col pt-9 pb-5">
@@ -24,8 +20,8 @@ async function ContentMobileMenu({ userId }: { userId: number | string }) {
           "[&>button>div>svg]:absolute [&>button>div>svg]:top-1/2 [&>button>div>svg]:left-1/2 [&>button>div>svg]:-translate-x-1/2 [&>button>div>svg]:-translate-y-1/2 [&>button>div>svg]:h-5 [&>button>div>svg]:w-5",
         )}
       >
-        <ButtonShareMenuMobile user={res!} />
-        <ButtonComplaintMenuMobile user={res!} />
+        <ButtonShareMenuMobile user={data!} />
+        <ButtonComplaintMenuMobile user={data!} />
       </article>
     </section>
   )

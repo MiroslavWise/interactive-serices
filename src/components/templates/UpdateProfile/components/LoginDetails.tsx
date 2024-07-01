@@ -13,8 +13,8 @@ export const LoginDetails = () => {
     enabled: !!userId,
   })
 
-  const email = data?.res?.email
-  const phone = data?.res?.phones
+  const email = data?.data?.email
+  const phone = data?.data?.phones
 
   const number = phone && phone?.length > 0 ? phone[0]?.phone : null
 
@@ -77,7 +77,7 @@ export const LoginDetails = () => {
         ) : null}
       </section>
       <div data-delete-account>
-        <span>На Sheira c {format(data?.res?.created || new Date(), "do MMMM yyyy", { locale: ru })}</span>
+        <span>На Sheira c {format(data?.data?.created || new Date(), "do MMMM yyyy", { locale: ru })}</span>
         <a
           onClick={() => {
             dispatchModal(EModalData.DeleteUser)

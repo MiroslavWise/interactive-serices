@@ -35,7 +35,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
   return (
     <li className={styles.container}>
       <section className={styles.main}>
-        {isLoadUser ? <LoadingProfile /> : <BlockTitle {...dataUser?.res!} />}
+        {isLoadUser ? <LoadingProfile /> : <BlockTitle {...dataUser?.data!} />}
         <BlockBarter {...{ consigner, initiator }} />
       </section>
       <footer>

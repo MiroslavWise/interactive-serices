@@ -1,27 +1,25 @@
-import { cache, Suspense } from "react"
+import { Suspense } from "react"
 import { Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import { type IParamsCustomer } from "./layout"
 
 import Accomplishments from "./components/Accomplishments"
-
-import { getUserId } from "@/services"
 import BlockMobileFriendsAndFeedback from "./components/BlockMobileFriendsAndFeedback"
-import { cx } from "@/lib/cx"
 
-const get = cache(getUserId)
+import { cx } from "@/lib/cx"
+import { getUserId } from "@/services"
 
 export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Metadata> => {
   const id = params?.userId ?? null
 
   if (!id) return {}
 
-  const { res, ok } = await get(id)
+  const { data } = await getUserId(id)
 
-  if (!ok || !res) return {}
+  if (!data) return {}
 
-  const { profile } = res ?? {}
+  const { profile } = data ?? {}
 
   return {
     title: `${profile?.firstName || ""} ${profile?.lastName || ""}`,

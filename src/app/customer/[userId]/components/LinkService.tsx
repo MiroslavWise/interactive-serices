@@ -17,8 +17,8 @@ const LinkService = ({ label, provider, active }: ILink & { active: boolean }) =
     className={`w-full h-full rounded-[1.125rem] flex flex-row items-center justify-center ${
       active && "!bg-element-accent-2"
     } hover:bg-grey-field`}
-    replace={true}
-    prefetch={true}
+    replace
+    prefetch
   >
     <span className={`text-text-secondary text-center text-sm font-medium ${active && "!text-text-tab"}`}>{label}</span>
   </Link>

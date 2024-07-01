@@ -22,7 +22,7 @@ export const MContainerAboutProfile = () => {
     enabled: !!userId,
   })
 
-  const { res } = dataUser ?? {}
+  const { data: res } = dataUser ?? {}
   const { profile } = res ?? {}
   const { image, firstName, lastName, about } = profile ?? {}
 
@@ -37,12 +37,12 @@ export const MContainerAboutProfile = () => {
   }, [data?.res])
 
   const geoData = useMemo(() => {
-    return dataUser?.res && dataUser?.res?.addresses?.length > 0
-      ? dataUser?.res?.addresses?.find((item) => item.addressType === "main")
+    return dataUser?.data && dataUser?.data?.addresses?.length > 0
+      ? dataUser?.data?.addresses?.find((item) => item.addressType === "main")
       : null
   }, [dataUser])
 
-  const categories = (dataUser?.res?.categories || []).length
+  const categories = (dataUser?.data?.categories || []).length
 
   function addDesiredService() {
     dispatchActiveServicesFrom(true)
@@ -69,7 +69,7 @@ export const MContainerAboutProfile = () => {
               {firstName || "Имя"} {lastName || "Фамилия"}
             </h3>
             {geoData ? <p>{geoData?.additional}</p> : null}
-            <time dateTime={`${dataUser?.res?.created!}`}>На Sheira с {dayFormat(dataUser?.res?.created!, "dd.MM.yyyy")}</time>
+            <time dateTime={`${dataUser?.data?.created!}`}>На Sheira с {dayFormat(dataUser?.data?.created!, "dd.MM.yyyy")}</time>
           </article>
         </section>
         <section data-about>

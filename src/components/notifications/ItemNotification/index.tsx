@@ -67,7 +67,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     enabled: !!idUser,
   })
 
-  const { res: resUser } = dataUser ?? {}
+  const { data: resUser } = dataUser ?? {}
   const { profile } = resUser ?? {}
 
   const { refetch } = useQuery({

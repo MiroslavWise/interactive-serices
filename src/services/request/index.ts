@@ -1,10 +1,16 @@
 import axios, { AxiosError, RawAxiosRequestHeaders } from "axios"
 
-import type { IReturnData } from "../types/general"
+import type { IMetaData, IReturnData } from "../types/general"
 import type { MethodDelete, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
 
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
+
+export interface IResponse<T = any> {
+  data: T | null
+  error: any | null
+  meta?: IMetaData
+}
 
 export const instance = axios.create({
   baseURL: URL_API,
@@ -277,6 +283,47 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
     })
 }
 
+const fetchGet = async ({ url, query }: IGet): Promise<IResponse> => {
+  const endpoint = new URL(`${URL_API}${url}`)
+  if (query && typeof query === "object") {
+    for (const [key, value] of query) {
+      endpoint.searchParams.set(key, String(value))
+    }
+  }
+
+  const head: HeadersInit = {
+    "Content-Type": "application/json",
+  }
+
+  const fullTokenString = authToken()
+
+  if (fullTokenString) {
+    head.Authorization = fullTokenString
+  }
+
+  const dataRequestInit: RequestInit = {
+    method: "GET",
+    headers: head,
+  }
+
+  try {
+    const response = await fetch(endpoint, { ...dataRequestInit })
+
+    const { data, error, meta } = (await response.json()) as IResponse
+
+    return {
+      data: data,
+      error: error,
+      meta: meta,
+    }
+  } catch (e) {
+    return {
+      data: null,
+      error: e,
+    }
+  }
+}
+
 const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
   let params = {}
   if (query && typeof query === "object") {
@@ -333,4 +380,4 @@ const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
     })
 }
 
-export { get, post, patch, postForm }
+export { get, post, patch, postForm, fetchGet }

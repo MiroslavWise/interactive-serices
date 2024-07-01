@@ -1,5 +1,3 @@
-import { cache } from "react"
-
 import { EnumTypeProvider } from "@/types/enum"
 import { type IParamsCustomer } from "../layout"
 import { EProviderLinkCustomer } from "../components/LinkService"
@@ -8,8 +6,6 @@ import ItemServiceData from "./components/ItemService-data"
 import WrapperItemService from "./components/WrapperItemService"
 
 import { getUserIdOffers } from "@/services"
-
-const getCacheOffers = cache(getUserIdOffers)
 
 export default async ({ params, searchParams }: IParamsCustomer) => {
   const provider = searchParams?.provider || EProviderLinkCustomer.offer
@@ -21,7 +17,7 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
       : EProviderLinkCustomer.offer
     : EProviderLinkCustomer.offer) as unknown as EnumTypeProvider
 
-  const { res } = await getCacheOffers(id, { provider: pr, order: "DESC" })
+  const { res } = await getUserIdOffers(id, { provider: pr, order: "DESC" })
 
   const items = res || []
 

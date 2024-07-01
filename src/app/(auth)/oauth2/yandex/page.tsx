@@ -30,14 +30,12 @@ export default function CallbackYandex() {
               queryFn: () => getUserId(response.res?.id!),
               queryKey: ["user", { userId: response.res?.id }],
             })
-            .then(({ ok, res }) => {
-              if (ok) {
-                if (res) {
-                  if (!res?.profile?.username) {
-                    dispatchOnboarding("open")
-                  }
+            .then(({ data }) => {
+              if (!!data) {
+                if (!data?.profile?.username) {
+                  dispatchOnboarding("open")
                 }
-                dispatchAuthToken({ auth: response.res!, user: res! })
+                dispatchAuthToken({ auth: response.res!, user: data! })
                 handlePush("/")
                 on({
                   message: "Авторизация через сервис Yandex прошла успешно",

@@ -51,7 +51,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
   })
 
   const categoriesBarter = useMemo(() => {
-    if (!barter || !dataUserMe?.res) return null
+    if (!barter || !dataUserMe?.data) return null
 
     const start: ISmallDataOfferBarter = barter?.initiator?.userId === userId ? barter?.consigner : barter?.initiator
     const end: ISmallDataOfferBarter = barter?.initiator?.userId === userId ? barter?.initiator : barter?.consigner
@@ -86,11 +86,11 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       ) : (
         <Link data-profile href={{ pathname: `/customer/${idUser}` }}>
           <div data-avatar>
-            <NextImageMotion src={dataUser?.res?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
+            <NextImageMotion src={dataUser?.data?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
           </div>
           <div data-inform>
             <span>
-              {dataUser?.res?.profile?.firstName || " "} {dataUser?.res?.profile?.lastName || " "}&nbsp;
+              {dataUser?.data?.profile?.firstName || " "} {dataUser?.data?.profile?.lastName || " "}&nbsp;
               <IconVerifiedTick />
             </span>
           </div>
@@ -118,7 +118,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
             </div>
             <span>{titleCategory(categoriesBarter?.end?.categoryId)}</span>
             <div data-avatar>
-              <NextImageMotion src={dataUserMe?.res?.profile?.image?.attributes?.url!} alt="avatar" width={24} height={24} />
+              <NextImageMotion src={dataUserMe?.data?.profile?.image?.attributes?.url!} alt="avatar" width={24} height={24} />
             </div>
           </article>
         </section>

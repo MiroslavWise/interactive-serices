@@ -60,14 +60,13 @@ export const PersonalData = () => {
     enabled: !!userId,
   })
 
-  const { res } = data ?? {}
+  const { data: res } = data ?? {}
   const { profile } = res ?? {}
 
   const image = profile?.image?.attributes?.url
 
   useEffect(() => {
     if (!!profile) {
-      const { res: resProfile } = data ?? {}
       setValue("firstName", profile?.firstName!)
       setValue("lastName", profile?.lastName!)
       setValue("username", profile?.username!)
