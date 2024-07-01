@@ -27,7 +27,7 @@ export default async ({ searchParams }: IParamsCustomer) => {
     : EProviderLinkCustomer.offer
 
   return (
-    <section className="w-full grid grid-cols-3 gap-1 h-11 rounded-[1.375rem] bg-BG-second p-1 min-h-11">
+    <section className="w-full grid grid-cols-3 h-11 rounded-[1.375rem] bg-BG-second p-1 min-h-11">
       {LINKS.map((_) => (
         <LinkService key={`::key::link::customer::${_.provider}::`} provider={_.provider} label={_.label} active={_.provider === pr} />
       ))}
