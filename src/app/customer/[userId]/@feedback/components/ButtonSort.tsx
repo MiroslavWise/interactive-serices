@@ -5,7 +5,7 @@ import IconCheckAccent from "@/components/icons/IconCheckAccent"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
-import { type TFilterSort, useContextSortCustomer } from "./WrapperContextSort"
+import { dispatchFilterSortFeedbackCustomer, type TFilterSort, useFilterSortFeedbackCustomer } from "@/store"
 import { memo } from "react"
 
 interface IMenu {
@@ -32,11 +32,11 @@ const MENU_ARRAY = Object.values(MENU)
 
 function ButtonSort() {
   const [open, setOpen, ref] = useOutsideClickEvent()
-  const { filter, dispatch } = useContextSortCustomer() ?? {}
+  const sort = useFilterSortFeedbackCustomer(({ sort }) => sort)
 
   return (
     <article className="relative z-50 h-5 grid grid-cols-[minmax(0,1fr)_1.25rem] items-center gap-2" ref={ref}>
-      <p className="text-text-primary text-sm font-normal">{MENU[filter].label}</p>
+      <p className="text-text-primary text-sm font-normal">{MENU[sort].label}</p>
       <button
         onClick={(event) => {
           event.stopPropagation()
@@ -63,7 +63,7 @@ function ButtonSort() {
             className="w-full py-2 px-0.375 grid grid-cols-[minmax(0,1fr)_1rem] gap-0.625 items-center rounded-md bg-BG-second hover:bg-grey-field cursor-pointer "
             onClick={(event) => {
               event.stopPropagation()
-              dispatch(_.value)
+              dispatchFilterSortFeedbackCustomer(_.value)
               setOpen(false)
             }}
           >
@@ -72,7 +72,7 @@ function ButtonSort() {
               className={cx(
                 "w-4 h-4 p-2 relative hidden",
                 "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-4 [&>svg]:h4",
-                filter === _.value && "!flex",
+                sort === _.value && "!flex",
               )}
             >
               <IconCheckAccent />

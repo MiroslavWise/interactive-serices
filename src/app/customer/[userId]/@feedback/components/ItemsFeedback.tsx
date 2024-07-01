@@ -7,10 +7,10 @@ import ItemFeedBack from "./ItemFeedBack"
 import IconFeedBackAccent from "@/components/icons/IconFeedBackAccent"
 
 import { getTestimonials } from "@/services"
-import { useContextSortCustomer } from "./WrapperContextSort"
+import { useFilterSortFeedbackCustomer } from "@/store"
 
 function ItemsFeedback({ id }: { id: string | number }) {
-  const { filter } = useContextSortCustomer() ?? {}
+  const sort = useFilterSortFeedbackCustomer(({ sort }) => sort)
 
   const { data, isLoading } = useQuery({
     queryFn: () => getTestimonials({ receiver: id, order: "DESC" }),
@@ -22,20 +22,20 @@ function ItemsFeedback({ id }: { id: string | number }) {
   const length = items.length
 
   const filters = useMemo(() => {
-    if (filter === "default") return items
+    if (sort === "default") return items
 
     return items.sort((a, b) => {
-      if (filter === "first-negative") {
+      if (sort === "first-negative") {
         return +a.rating - +b.rating
       } else {
         return +b.rating - +a.rating
       }
     })
-  }, [filter, items])
+  }, [sort, items])
 
   if (isLoading)
     return (
-      <section className="w-full flex flex-col gap-4">
+      <section className="w-full flex flex-col gap-4 max-md:px-5">
         {[1, 2, 3].map((_) => (
           <div key={`::key::load::feedback::${_}::`} className="w-full flex flex-col gap-4">
             <div className="w-full h-1px bg-grey-field" />
@@ -53,7 +53,7 @@ function ItemsFeedback({ id }: { id: string | number }) {
     )
 
   return (
-    <section className="w-full h-fit flex flex-col flex-nowrap overflow-x-hidden overflow-y-scroll">
+    <section className="w-full h-fit flex flex-col flex-nowrap overflow-x-hidden overflow-y-scroll max-md:px-5">
       {length === 0 ? (
         <section className="w-full flex flex-col items-center my-auto gap-0.625">
           <div className="w-14 h-14 bg-grey-field rounded-[1.75rem] p-4 flex items-center justify-center [&>svg]:w-6 [&>svg]:h-6">

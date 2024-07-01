@@ -16,7 +16,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
   const { image, firstName, lastName } = user ?? {}
 
   return (
-    <div className="py-4 flex flex-col gap-3 border-b-[1px] border-solid border-grey-stroke-light">
+    <div className="py-4 flex flex-col gap-3 border-b-[1px] border-solid border-grey-stroke-light last:!border-none">
       <article className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
         <Link
           className={`w-full relative flex items-center cursor-pointer justify-center aspect-square overflow-hidden rounded-[0.625rem] [&>img]:w-full [&>img]:h-full ${
