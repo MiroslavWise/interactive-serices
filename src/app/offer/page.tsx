@@ -27,13 +27,13 @@ export default function () {
               queryKey: ["offers", { offerId: id }],
             })
             .then((response) => {
-              if (response.ok) {
-                if (response?.res?.provider === EnumTypeProvider.offer) {
-                  dispatchBallonOffer({ offer: response?.res! })
-                } else if (response?.res?.provider === EnumTypeProvider.discussion) {
-                  dispatchBallonDiscussion({ offer: response?.res! })
-                } else if (response?.res?.provider === EnumTypeProvider.alert) {
-                  dispatchBallonAlert({ offer: response?.res! })
+              if (!!response.data) {
+                if (response?.data?.provider === EnumTypeProvider.offer) {
+                  dispatchBallonOffer({ offer: response?.data! })
+                } else if (response?.data?.provider === EnumTypeProvider.discussion) {
+                  dispatchBallonDiscussion({ offer: response?.data! })
+                } else if (response?.data?.provider === EnumTypeProvider.alert) {
+                  dispatchBallonAlert({ offer: response?.data! })
                 }
                 handlePush("/")
               } else {

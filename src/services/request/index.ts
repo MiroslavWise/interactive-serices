@@ -286,7 +286,8 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
 const fetchGet = async ({ url, query }: IGet): Promise<IResponse> => {
   const endpoint = new URL(`${URL_API}${url}`)
   if (query && typeof query === "object") {
-    for (const [key, value] of query) {
+    console.log("query:", query)
+    for (const [key, value] of Object.entries(query)) {
       endpoint.searchParams.set(key, String(value))
     }
   }

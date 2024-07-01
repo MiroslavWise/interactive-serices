@@ -116,7 +116,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     if (provider === "offer-pay") {
       return {
-        offer: categories?.find((item) => item?.id === dataOffer?.res?.categoryId),
+        offer: categories?.find((item) => item?.id === dataOffer?.data?.categoryId),
       }
     }
 

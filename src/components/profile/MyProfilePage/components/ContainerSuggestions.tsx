@@ -38,13 +38,13 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
   const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
-  const { data: dataOffersAll, isLoading: isLoadingAll } = useQuery({
+  const { data: dataOffersAll } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { order: "DESC" }),
     queryKey: ["offers", { userId: userId }],
     enabled: !!userId,
   })
 
-  const length = dataOffersAll?.res?.length || 0
+  const length = dataOffersAll?.data?.length || 0
 
   const { data, isLoading } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: stateProvider, order: "DESC" }),
@@ -88,20 +88,20 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
     <ul
       className={styles.containerSuggestions}
       data-loading={isLoading}
-      data-length={data?.res?.length === 0}
+      data-length={data?.data?.length === 0}
       data-test="profile-container-suggestions"
     >
       {isLoading ? (
         [1, 2, 3, 4].map((item) => <LoadingMyOffer key={`::item::my::offer::loading::${item}::`} />)
-      ) : data?.res && Array.isArray(data?.res) && [EnumTypeProvider.offer].includes(stateProvider) && data?.res?.length > 0 ? (
-        data?.res
+      ) : data?.data && Array.isArray(data?.data) && [EnumTypeProvider.offer].includes(stateProvider) && data?.data?.length > 0 ? (
+        data?.data
           ?.filter((item) => item?.addresses?.length > 0)
           .map((item, index) => <PersonalAccountCardOffer key={`${item.id}+${index}-${stateProvider}`} offer={item!} />)
-      ) : data?.res &&
-        Array.isArray(data?.res) &&
+      ) : data?.data &&
+        Array.isArray(data?.data) &&
         [EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(stateProvider) &&
-        data?.res?.length > 0 ? (
-        data?.res.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
+        data?.data?.length > 0 ? (
+        data?.data.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
       ) : (
         <article data-empty-null={length === 0}>
           <h3>

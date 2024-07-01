@@ -17,9 +17,9 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
       : EProviderLinkCustomer.offer
     : EProviderLinkCustomer.offer) as unknown as EnumTypeProvider
 
-  const { res } = await getUserIdOffers(id, { provider: pr, order: "DESC" })
+  const { data } = await getUserIdOffers(id, { provider: pr, order: "DESC" })
 
-  const items = res || []
+  const items = data || []
 
   const length = items.length
 

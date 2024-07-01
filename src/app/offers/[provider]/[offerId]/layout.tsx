@@ -18,7 +18,7 @@ export interface IParamsRouteOffers {
 export async function generateMetadata({ params }: IParamsRouteOffers): Promise<Metadata> {
   const offerId = params?.offerId
 
-  const { res: offer } = await getCacheOfferId(offerId)
+  const { data: offer } = await getCacheOfferId(offerId)
 
   const obj: Metadata = {}
 

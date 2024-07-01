@@ -18,7 +18,7 @@ function ItemOffer({ idOffer }: IProps) {
     enabled: !!idOffer,
   })
 
-  const { res: offer } = data ?? {}
+  const { data: offer } = data ?? {}
 
   return (
     <div className="w-full grid items-center grid-cols-[1rem_minmax(0,1fr)] gap-0.625">

@@ -28,7 +28,7 @@ export const NoticeOfferPay = ({ thread, user }: { thread: IResponseThread; user
     enabled: !!thread?.offerId,
   })
 
-  const { res: resOffer } = data ?? {}
+  const { data: resOffer } = data ?? {}
 
   const category = useMemo(() => {
     if (!categories || !resOffer) return null

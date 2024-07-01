@@ -4,6 +4,7 @@ import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumTypeProvider } from "@/types/enum"
 import { TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 import { IResponseOffersCategories } from "../offers-categories/types"
+import { IResponse } from "../request"
 
 export interface IResponseCreate {
   id: number
@@ -79,7 +80,7 @@ export interface IServiceOffers {
   post(value: IPostOffers): IPromiseReturn<IResponseCreate>
   get(value?: IQueriesOffers): IPromiseReturn<IResponseOffers[]>
   patch(value: IPatchOffers, id: number | string): IPromiseReturn<IResponseCreate>
-  getId(id: number | string): IPromiseReturn<IResponseOffers>
+  getId(id: number | string): Promise<IResponse<IResponseOffers>>
   delete(id: number | string): IPromiseReturn<IResponseCreate>
-  getUserId(id: number | string, value?: IQueriesOffers): IPromiseReturn<IResponseOffers[]>
+  getUserId(id: number | string, value?: IQueriesOffers): Promise<IResponse<IResponseOffers[]>>
 }
