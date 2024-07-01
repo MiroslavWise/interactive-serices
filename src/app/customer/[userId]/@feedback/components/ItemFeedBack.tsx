@@ -9,6 +9,7 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { formatOfMMM } from "@/helpers"
 import { EnumTypeProvider } from "@/types/enum"
+import DescriptionItemFeedback from "./DescriptionItemFeedback"
 
 async function ItemFeedBack(props: IResponseTestimonials) {
   const { rating, id, message, created, targetId, user, provider } = props ?? {}
@@ -60,7 +61,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
             {formatOfMMM(created).replace(".", "")}
           </time>
         </div>
-        <p className="text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">{message}</p>
+        <DescriptionItemFeedback message={message} />
       </article>
     </div>
   )
