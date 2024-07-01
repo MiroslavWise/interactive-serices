@@ -16,8 +16,8 @@ function ItemProfile({ user }: { user: IUserOffer }) {
   const { id, firstName, lastName, image } = user ?? {}
 
   const { data: dataTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ receiver: id! }),
-    queryKey: ["testimonials", { receiver: id }],
+    queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
+    queryKey: ["testimonials", { receiver: id, order: "DESC" }],
     enabled: !!id,
   })
 

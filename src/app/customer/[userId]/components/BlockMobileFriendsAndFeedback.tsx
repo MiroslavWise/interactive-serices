@@ -8,7 +8,7 @@ import ButtonFeedbackMobile from "./ButtonFeedbackMobile"
 const get = cache(getTestimonials)
 
 async function BlockMobileFriendsAndFeedback({ id }: { id: string | number }) {
-  const { res } = await get({ receiver: id! })
+  const { res } = await get({ receiver: id!, order: "DESC" })
 
   const items = res || []
   const allRating = items.reduce((acc, cur) => acc + +cur.rating, 0)

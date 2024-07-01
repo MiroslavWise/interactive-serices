@@ -129,8 +129,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
         target: offerId!,
         provider: EnumTypeProvider.offer,
         barter: data?.id!,
+        order: "DESC",
       }),
-    queryKey: ["testimonials", { barterId: data?.id, targetId: offerId, provider: EnumTypeProvider.offer }],
+    queryKey: ["testimonials", { barterId: data?.id, targetId: offerId, provider: EnumTypeProvider.offer, order: "DESC" }],
     enabled:
       ["executed", "destroyed", "completed"]?.includes(data?.status!) &&
       !!offerId &&

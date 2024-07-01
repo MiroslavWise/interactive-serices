@@ -9,9 +9,9 @@ import { CardReview } from "@/components/common/Card"
 export const ContainerReviews = memo(function ContainerReviews(props: IUserResponse) {
   const { id } = props ?? {}
 
-  const { data: dataTestimonials, isLoading: isLoadingTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ receiver: id! }),
-    queryKey: ["testimonials", { receiver: id }],
+  const { data: dataTestimonials } = useQuery({
+    queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
+    queryKey: ["testimonials", { receiver: id, order: "DESC" }],
     enabled: !!id,
   })
 

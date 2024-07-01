@@ -43,8 +43,8 @@ export default function CompletionTransaction() {
   })
 
   const { refetch: refetchTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ receiver: user?.id! }),
-    queryKey: ["testimonials", { receiver: user?.id! }],
+    queryFn: () => getTestimonials({ receiver: user?.id!, order: "DESC" }),
+    queryKey: ["testimonials", { receiver: user?.id!, order: "DESC" }],
     enabled: false,
   })
 

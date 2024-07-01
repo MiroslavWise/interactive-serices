@@ -1,9 +1,9 @@
 import { EnumTypeProvider } from "@/types/enum"
-import type { IPromiseReturn } from "../types/general"
-import { IUserOffer } from "../offers/types"
+import type { IPromiseReturn, TOrder } from "../types/general"
+import { IResponseOffers, IUserOffer } from "../offers/types"
 
 export type TStatusFeedback = "published" | "blocked" | "edited"
-export type TNumberRating = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | number
+export type TNumberRating = 1 | 2 | 3 | 4 | 5 | number
 
 export interface IPostTestimonials {
   receiverId: number
@@ -23,9 +23,10 @@ export interface IResponseTestimonials {
   userId: number
   user: IUserOffer
   targetId: number
-  provider: EnumTypeProvider
+  offer?: IResponseOffers //id category provider title slug description categories addresses images user
+  provider: EnumTypeProvider //offer
   barterId?: number
-  rating: TNumberRating //1-10
+  rating: TNumberRating //1-5
   message: string
   status: TStatusFeedback
   enabled: boolean
@@ -44,6 +45,7 @@ interface IQueries {
   provider?: EnumTypeProvider
   user?: number | string
   target?: number
+  order: TOrder
   status?: TStatusFeedback
   barter?: number
   offer?: number

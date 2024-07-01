@@ -60,7 +60,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
             {formatOfMMM(created).replace(".", "")}
           </time>
         </div>
-        <p className="text-text-primary text-sm font-normal">{message}</p>
+        <p className="text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">{message}</p>
       </article>
     </div>
   )

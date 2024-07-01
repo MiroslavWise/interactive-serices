@@ -1,20 +1,19 @@
 "use client"
 
 import IconChevronDown from "@/components/icons/IconChevronDown"
+import IconCheckAccent from "@/components/icons/IconCheckAccent"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
-import { useState } from "react"
-import IconCheckAccent from "@/components/icons/IconCheckAccent"
-
-type TMenu = "default" | "first-positive" | "first-negative"
+import { type TFilterSort, useContextSortCustomer } from "./WrapperContextSort"
+import { memo } from "react"
 
 interface IMenu {
-  value: TMenu
+  value: TFilterSort
   label: string
 }
 
-const MENU: Record<TMenu, IMenu> = {
+const MENU: Record<TFilterSort, IMenu> = {
   default: {
     label: "По умолчанию",
     value: "default",
@@ -33,11 +32,11 @@ const MENU_ARRAY = Object.values(MENU)
 
 function ButtonSort() {
   const [open, setOpen, ref] = useOutsideClickEvent()
-  const [active, setActive] = useState<TMenu>("default")
+  const { filter, dispatch } = useContextSortCustomer() ?? {}
 
   return (
     <article className="relative z-50 h-5 grid grid-cols-[minmax(0,1fr)_1.25rem] items-center gap-2" ref={ref}>
-      <p className="text-text-primary text-sm font-normal">{MENU[active].label}</p>
+      <p className="text-text-primary text-sm font-normal">{MENU[filter].label}</p>
       <button
         onClick={(event) => {
           event.stopPropagation()
@@ -64,7 +63,7 @@ function ButtonSort() {
             className="w-full py-2 px-0.375 grid grid-cols-[minmax(0,1fr)_1rem] gap-0.625 items-center rounded-md bg-BG-second hover:bg-grey-field cursor-pointer "
             onClick={(event) => {
               event.stopPropagation()
-              setActive(_.value)
+              dispatch(_.value)
               setOpen(false)
             }}
           >
@@ -73,7 +72,7 @@ function ButtonSort() {
               className={cx(
                 "w-4 h-4 p-2 relative hidden",
                 "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-4 [&>svg]:h4",
-                active === _.value && "!flex",
+                filter === _.value && "!flex",
               )}
             >
               <IconCheckAccent />
@@ -86,4 +85,4 @@ function ButtonSort() {
 }
 
 ButtonSort.displayName = "ButtonSort"
-export default ButtonSort
+export default memo(ButtonSort)

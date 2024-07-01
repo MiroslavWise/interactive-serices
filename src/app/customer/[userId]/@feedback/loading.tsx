@@ -2,7 +2,7 @@ export default () => (
   <div className="loading-screen w-full h-full bg-BG-second pt-5 px-5 flex flex-col justify-start rounded-[2rem] overflow-hidden overflow-y-auto gap-5 items-center">
     <span className="w-full max-w-40 h-6 rounded-xl" />
     <span className="w-full h-5 rounded-[0.625rem]" />
-    <article className="w-full flex flex-col gap-4">
+    <section className="w-full flex flex-col gap-4">
       {[1, 2, 3].map((_) => (
         <div key={`::key::load::feedback::${_}::`} className="w-full flex flex-col gap-4">
           <div className="w-full h-1px bg-grey-field" />
@@ -16,6 +16,6 @@ export default () => (
           <span className="w-full rounded-2xl h-[6.875rem]" />
         </div>
       ))}
-    </article>
+    </section>
   </div>
 )

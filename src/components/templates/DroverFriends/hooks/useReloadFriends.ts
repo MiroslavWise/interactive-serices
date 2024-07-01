@@ -1,11 +1,11 @@
 import { useMemo } from "react"
 import { useQueries } from "@tanstack/react-query"
 
-import type { IEnabledHook } from "../types/types"
+import { type IEnabledHook } from "../types/types"
+import { type TTypeFriends } from "@/store/types/createDroverFriends"
 
 import { useAuth } from "@/store"
-import { serviceFriends } from "@/services/friends"
-import { TTypeFriends } from "@/store/types/createDroverFriends"
+import { getFriends } from "@/services/friends"
 
 export const useReloadFriends = ({ enabled, type }: IEnabledHook) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -19,8 +19,8 @@ export const useReloadFriends = ({ enabled, type }: IEnabledHook) => {
   ] = useQueries({
     queries: list.map((item) => ({
       queryFn: () =>
-        serviceFriends.get(["request", "response"].includes(item!) ? { filter: item as Exclude<TTypeFriends, "list"> } : undefined),
-      queryKey: ["friends", `user=${userId}`, `filter=${item}`],
+        getFriends(["request", "response"].includes(item!) ? { query: { filter: item as Exclude<TTypeFriends, "list"> } } : {}),
+      queryKey: ["friends", { userId: userId, filter: item }],
       enabled: !!enabled,
     })),
   })

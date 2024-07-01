@@ -89,7 +89,7 @@ const badges = ({ barters, rating, feedback }: { barters: number; rating: string
 
 async function Accomplishments({ id }: { id: number | string }) {
   const { res } = await get(id)
-  const { res: dataTestimonials } = await testimonials({ receiver: id! })
+  const { res: dataTestimonials } = await testimonials({ receiver: id!, order: "DESC" })
 
   const itemsAllBarters = res?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
   const itemsTestimonials = dataTestimonials || []

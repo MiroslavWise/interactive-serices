@@ -29,8 +29,8 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
         enabled: !!id,
       },
       {
-        queryFn: () => getTestimonials({ receiver: id! }),
-        queryKey: ["testimonials", { receiver: id }],
+        queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
+        queryKey: ["testimonials", { receiver: id, order: "DESC" }],
         enabled: !!id,
       },
     ],
