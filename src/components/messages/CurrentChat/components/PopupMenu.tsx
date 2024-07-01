@@ -26,7 +26,7 @@ export const PopupMenu: TPopupMenu = memo(function $PopupMenu({ dataUser }) {
 
   function handleClickMenu(value: TTypeActionMenu) {
     const handleObject: Record<TTypeActionMenu, DispatchWithoutAction> = {
-      onProfile: () => handlePush(`/user?id=${dataUser?.id!}`),
+      onProfile: () => handlePush(`/customer/${dataUser?.id!}`),
       openBarter: () => {},
       deleteChat: () => {
         handleDeleteChat()
