@@ -12,6 +12,7 @@ import env from "@/config/environment"
 import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
+import 'react-international-phone/style.css'
 
 const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
 

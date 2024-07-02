@@ -21,12 +21,12 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
 
   useEffect(() => {
     setLoading(true)
-    const onlineUsers = (event: any) => {
+    const onlineUsers = (event: IOnlineSocket) => {
       console.log("onlineUsers: ", event)
 
-      const users = (event?.users as (number | string)[]) || []
+      const users = event?.users || []
 
-      if (users.includes(id)) {
+      if (users.some((_) => _?.id === id)) {
         setIs(true)
       }
     }
