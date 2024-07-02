@@ -29,9 +29,9 @@ export default function PageVerify() {
                 queryFn: () => getUserId(response.res?.id!),
                 queryKey: ["user", { userId: response.res?.id }],
               })
-              .then(({ ok, res }) => {
-                if (ok) {
-                  dispatchAuthToken({ user: res!, auth: response?.res! })
+              .then(({ data }) => {
+                if (!!data) {
+                  dispatchAuthToken({ user: data!, auth: response?.res! })
 
                   dispatchOnboarding("open")
                   handlePush("/")

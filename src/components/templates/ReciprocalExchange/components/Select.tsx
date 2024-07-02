@@ -37,14 +37,14 @@ export const ChooseAnOffer = memo(({ loading, firstName, categoriesWants = [] }:
       array.push(ETypeOfNewCreated.interesting)
     }
 
-    const offersMy = dataOffersMy?.res || []
+    const offersMy = dataOffersMy?.data || []
 
     if (offersMy.length > 0) {
       array.push(ETypeOfNewCreated.their)
     }
 
     return array
-  }, [categoriesWants, dataOffersMy?.res])
+  }, [categoriesWants, dataOffersMy?.data])
 
   useEffect(() => {
     if (!loading && !isLoading) {

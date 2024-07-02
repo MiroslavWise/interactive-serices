@@ -4,50 +4,8 @@
   display: flex;
   flex-direction: column;
 
-  & > header {
-    width: 100%;
-    height: 4.875rem;
-    padding: 1.5rem 0.75rem 1.25rem;
-    z-index: 2;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--grey-separator);
-
-    & > h3 {
-      color: var(--text-primary);
-      font-size: 2rem;
-      font-weight: 600;
-      text-align: center;
-      font-style: normal;
-      letter-spacing: -0.3px;
-    }
-  }
-
   & > ul {
-    width: 100%;
-    height: calc(100% - 4.875rem);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 2;
-
     & > form {
-      width: 100%;
-      max-width: 26.25rem;
-      height: 100%;
-      overflow: hidden;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
-      padding: 1.25rem;
-      gap: 2.5rem;
-
       & > section {
         width: 100%;
         display: flex;
@@ -97,13 +55,6 @@
       }
 
       & > footer {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 0.625rem;
-        margin-top: auto;
-
         & > [data-button-forward] {
           margin-top: auto;
           height: 2.75rem;
@@ -331,19 +282,6 @@
     border-radius: 0 !important;
     height: 100%;
     max-width: 100%;
-
-    & > header {
-      height: 4.125rem;
-      padding: 1rem calc(0.75rem + 2.25rem + 0.5rem);
-      border-radius: 0 !important;
-      & > h3 {
-        font-size: 1.25rem;
-      }
-    }
-
-    & > ul {
-      height: calc(100% - 4.125rem);
-    }
   }
 }
 

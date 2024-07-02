@@ -48,6 +48,9 @@ export async function refresh() {
   const auth = useAuth.getState().auth
   const user = useAuth.getState().user
 
+  console.log("refresh: auth: ", auth)
+  console.log("refresh: user: ", user)
+
   if (!auth) return { ok: false }
 
   const expires = auth?.expires
@@ -55,6 +58,9 @@ export async function refresh() {
   const email = user?.email
 
   const boolean = isTokenExpired(expires ? Number(expires) : undefined)
+
+  console.log("refresh: expires", expires)
+  console.log("refresh: Date.now()", Date.now())
 
   try {
     const body = { email, refreshToken }

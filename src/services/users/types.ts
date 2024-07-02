@@ -5,6 +5,8 @@ import type { IResponseDataRegistration } from "@/services/auth/types/registrati
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 import { IResponsePhones } from "../phones/types"
 import { TRole } from "../roles/types"
+import { EnumStatusBarter } from "@/types/enum"
+import { IResponse } from "../request"
 
 export interface IPostDataUser {
   email: string
@@ -34,11 +36,16 @@ export interface IUserResponse {
   profile: IGetProfileIdResponse
   addresses: IAddressesResponse[]
   roles: TRole[]
+  barters: {
+    id: number
+    created: string
+    status: EnumStatusBarter
+  }[]
 }
 
 export interface IServiceUser {
   get(): IPromiseReturn<IUserResponse>
-  getId(id: string | number): IPromiseReturn<IUserResponse>
+  getId(id: string | number): Promise<IResponse<IUserResponse>>
   getEmail(value: string): IPromiseReturn<IUserResponse>
   post(value: IPostDataUser, urlSearchParams?: string): IPromiseReturn<IResponseDataRegistration>
   patch(value: IPatchDataUser, id: number | string): IPromiseReturn<IUserResponse>

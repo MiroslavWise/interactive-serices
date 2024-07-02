@@ -10,13 +10,9 @@ const schemaReasonBarters = z
     type: z.nativeEnum(ETypeReason).default(ETypeReason["found-specialist"]),
     text: z.string().optional().default(""),
   })
-  .refine(({ type, text }) => type === ETypeReason.other && text.trim().length > 0, {
+  .refine(({ type, text }) => (type === ETypeReason.other ? text.trim().length > 0 : true), {
     path: ["text"],
     message: "Не оставляйте это поле пустым",
-  })
-  .refine(({ type, text }) => type === ETypeReason.other && text.trim().length < MAX_LENGTH_TEXT_OTHER - 1, {
-    path: ["text"],
-    message: "Достигнут лимит символов",
   })
 
 export const resolverReasonBarters = zodResolver(schemaReasonBarters)

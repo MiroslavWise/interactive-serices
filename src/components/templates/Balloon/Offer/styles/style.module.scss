@@ -23,20 +23,9 @@
     }
 
     & > [data-buttons] {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0.625rem;
-
       & > [data-type-button="regular-primary"] {
         max-width: min-content;
         padding-inline: 1.5rem;
-      }
-
-      & > button {
-        height: 2.75rem;
-        border-radius: 1.375rem;
       }
     }
   }

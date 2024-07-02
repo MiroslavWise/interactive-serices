@@ -22,7 +22,6 @@ function CreateNewCategory() {
     defaultValues: {
       title: "",
       enabled: true,
-      tags: true,
     },
     reValidateMode: "onChange",
     resolver: resolverCreateOfferCategory,
@@ -36,8 +35,7 @@ function CreateNewCategory() {
       const body: TCreateOfferCategory = {
         title: title,
         enabled: true,
-        tags: true,
-        provider: "main",
+        provider: "user",
       }
 
       postOfferCategory({ body }).then((response) => {
@@ -86,9 +84,9 @@ function CreateNewCategory() {
                     maxLength={75}
                     data-error={!!fieldState.error}
                   />
-                  <sup data-error={!!fieldState.error}>
+                  <span data-error={!!fieldState.error}>
                     {!!fieldState.error ? fieldState.error.message : null} {field.value.length}/{LIMIT_TITLE_CREATE_OFFER_CATEGORY}
-                  </sup>
+                  </span>
                 </span>
               </article>
             )}

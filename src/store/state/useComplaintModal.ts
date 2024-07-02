@@ -2,18 +2,31 @@ import { create } from "zustand"
 
 import type { TUseComplaintModal, IAction } from "../types/createComplaintModal"
 
-export const useComplaintModal = create<TUseComplaintModal>((set, get) => ({
-  visibleComplaint: false,
-}))
+import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
+import { IResponseOffers } from "@/services/offers/types"
 
-export const dispatchComplaintModalUser = (values: IAction) =>
+export const useComplaintModal = create<TUseComplaintModal>(() => ({}))
+
+export const dispatchComplaintModalUser = (values: IAction) => {
   useComplaintModal.setState((_) => ({
     user: values?.user,
     offer: undefined,
   }))
+  if (!!values?.user) {
+    dispatchModal(EModalData.ComplaintModal)
+  } else {
+    dispatchModalClose()
+  }
+}
 
-export const dispatchComplaintModalOffer = (values: IAction) =>
+export const dispatchComplaintModalOffer = ({ offer }: { offer?: IResponseOffers }) => {
   useComplaintModal.setState((_) => ({
-    offer: values?.offer,
+    offer: offer,
     user: undefined,
   }))
+  if (!!offer) {
+    dispatchModal(EModalData.ComplaintModal)
+  } else {
+    dispatchModalClose()
+  }
+}

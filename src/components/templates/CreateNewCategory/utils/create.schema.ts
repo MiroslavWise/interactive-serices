@@ -22,7 +22,7 @@ export const schema = z.object({
   bannerId: z.number().optional(),
   orderBy: z.number().optional(),
   enabled: z.boolean().default(true),
-  tags: z.boolean().default(true),
+  tags: z.array(z.string()).default([]).optional(),
 })
 
 export type TCreateOfferCategory = z.infer<typeof schema>

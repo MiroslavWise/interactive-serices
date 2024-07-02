@@ -19,8 +19,8 @@ export const ContainerServices = memo(function ContainerServices(props: IUserRes
   })
 
   const list = useMemo(() => {
-    return data?.res || []
-  }, [data?.res])
+    return data?.data || []
+  }, [data?.data])
 
   return (
     <ul data-items>

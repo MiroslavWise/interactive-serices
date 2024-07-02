@@ -13,7 +13,7 @@ export const SERVICES: ISegmentValues<TServicesFilter>[] = [
   },
   {
     value: EnumTypeProvider.discussion,
-    label: "Дискуссии",
+    label: "Обсуждения",
   },
   {
     value: EnumTypeProvider.alert,

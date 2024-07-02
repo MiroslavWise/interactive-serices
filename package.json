@@ -13,14 +13,14 @@
     "start-dev": "next build && next start -p 3000",
     "export": "next build && npx serve@latest out -p 3000",
     "t:minify": "npx tailwindcss -o ./src/app/build.css --minify",
-    "prod": "next lint --no-cache && npm run t:minify && next build && npx serve@latest out -p 3000"
+    "prod": "next lint --no-cache && npm run t:minify && next build && next start",
+    "prod:server": "next lint --no-cache && npm run t:minify && next build && node .next/standalone/server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "3.4.2",
     "@pbe/react-yandex-maps": "1.2.5",
     "@tanstack/react-query": "5.29.2",
     "axios": "^1.7.2",
-    "cssnano": "^7.0.2",
     "date-fns": "3.6.0",
     "next": "14.2.2",
     "next-themes": "0.3.0",
@@ -28,8 +28,7 @@
     "react-dom": "18.3.1",
     "react-dropzone": "14.2.3",
     "react-hook-form": "7.51.5",
-    "react-qr-code": "2.0.12",
-    "react-responsive-masonry": "2.2.0",
+    "react-international-phone": "^4.3.0",
     "react-swipeable": "7.0.1",
     "react-toastify": "10.0.5",
     "socket.io-client": "4.7.5",
@@ -39,13 +38,13 @@
     "zustand": "4.5.2"
   },
   "devDependencies": {
-    "@cerner/duplicate-package-checker-webpack-plugin": "^2.6.0",
     "@types/node": "20.3.2",
     "@types/react": "18.2.79",
     "@types/react-dom": "18.2.25",
     "@types/yandex-maps": "2.1.35",
     "@yandex/ymaps3-types": "^0.0.15",
     "autoprefixer": "^10.4.19",
+    "cssnano": "^7.0.2",
     "eslint": "8.43.0",
     "eslint-config-next": "^13.5.2",
     "eslint-plugin-react-hooks": "^4.6.0",

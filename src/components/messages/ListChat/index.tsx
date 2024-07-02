@@ -9,8 +9,6 @@ import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { getMillisecond, useCountMessagesNotReading, useResize } from "@/helpers"
 
-import styles from "./styles/style.module.scss"
-
 export const ListChat = () => {
   const { isTablet } = useResize()
   const [search, setSearch] = useState("")

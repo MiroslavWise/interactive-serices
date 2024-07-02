@@ -7,10 +7,10 @@ import { IPatchThreads } from "@/services/threads/types"
 
 import { Button, NextImageMotion, ButtonLink } from "@/components/common"
 
-import { patchThread } from "@/services"
 import { useUserIdMessage } from "@/store"
 import { usePush } from "@/helpers/hooks/usePush"
-import { dayFormat, useCountMessagesNotReading } from "@/helpers"
+import { useCountMessagesNotReading } from "@/helpers"
+import { deleteThread, patchThread } from "@/services"
 
 import styles from "./styles/style.module.scss"
 import stylesHeader from "@/components/profile/BlockProfileAside/styles/header.module.scss"
@@ -23,9 +23,9 @@ export const InterviewerInfoCurrent = memo(function () {
 
   function handleDeleteChat() {
     const data: IPatchThreads = { enabled: false }
-    patchThread(data, Number(idThread)).then((response) => {
+    deleteThread(Number(idThread)).then((response) => {
       refetchCountMessages().finally(() => {
-        console.log("%c --- response delete ---", "color: #f0f", response)
+        console.log("%c --- response delete ---", "color: #f00", response)
         handleReplace("/messages")
       })
     })
@@ -43,12 +43,11 @@ export const InterviewerInfoCurrent = memo(function () {
             <h4>
               {userData?.firstName || ""} {userData?.lastName}
             </h4>
-            {/* {userData?.created! ? <p>На Sheira с {dayFormat(userData?.profile?.created!, "dd.MM.yyyy")}</p> : null} */}
           </section>
         </header>
       </div>
       <div className={styles.buttons}>
-        <ButtonLink typeButton="fill-primary" label="Посмотреть профиль" href={{ pathname: "/user", query: { id: userData!?.id! } }} />
+        <ButtonLink typeButton="fill-primary" label="Посмотреть профиль" href={{ pathname: `/customer/${userData!?.id!}` }} />
         <Button type="button" typeButton="regular-primary" label="Удалить чат" onClick={handleDeleteChat} />
       </div>
     </section>

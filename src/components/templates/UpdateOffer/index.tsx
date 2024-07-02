@@ -4,10 +4,10 @@ import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
-import type { IValues } from "./types"
+import { type IValues } from "./types"
 import { EnumTypeProvider } from "@/types/enum"
-import type { IPatchOffers } from "@/services/offers/types"
-import type { IFeatureMember, IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
+import { type IPatchOffers } from "@/services/offers/types"
+import { type IFeatureMember, type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { UploadPhoto } from "@/components/common/custom"
 import { Button, ImageCategory, NextImageMotion } from "@/components/common"

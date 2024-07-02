@@ -7,7 +7,7 @@ import { BadgesColors } from "./BadgesColors"
 import { Button, NextImageMotion } from "@/components/common"
 
 import { dayFormat } from "@/helpers"
-import { getProfile, getUserId, serviceFriends } from "@/services"
+import { getUserId, getFriends } from "@/services"
 import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile, EModalData, useAuth, useDroverFriends } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
@@ -22,15 +22,13 @@ export const MContainerAboutProfile = () => {
     enabled: !!userId,
   })
 
-  const { data: dataProfile } = useQuery({
-    queryFn: () => getProfile(),
-    queryKey: ["profile", userId!],
-    enabled: !!userId,
-  })
+  const { data: res } = dataUser ?? {}
+  const { profile } = res ?? {}
+  const { image, firstName, lastName, about } = profile ?? {}
 
   const { data } = useQuery({
-    queryFn: () => serviceFriends.get(),
-    queryKey: ["friends", `user=${userId}`, `filter=list`],
+    queryFn: () => getFriends({}),
+    queryKey: ["friends", { userId: userId, filter: "list" }],
     enabled: !!userId,
   })
 
@@ -39,12 +37,12 @@ export const MContainerAboutProfile = () => {
   }, [data?.res])
 
   const geoData = useMemo(() => {
-    return dataUser?.res && dataUser?.res?.addresses?.length > 0
-      ? dataUser?.res?.addresses?.find((item) => item.addressType === "main")
+    return dataUser?.data && dataUser?.data?.addresses?.length > 0
+      ? dataUser?.data?.addresses?.find((item) => item.addressType === "main")
       : null
   }, [dataUser])
 
-  const categories = (dataUser?.res?.categories || []).length
+  const categories = (dataUser?.data?.categories || []).length
 
   function addDesiredService() {
     dispatchActiveServicesFrom(true)
@@ -62,22 +60,20 @@ export const MContainerAboutProfile = () => {
     <div className={styles.container}>
       <div data-block-profile>
         <section data-profile>
-          <div data-img={!!dataProfile?.res?.image?.attributes?.url!}>
-            <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={80} height={80} />
-            {!!dataProfile?.res?.image?.attributes?.url ? (
-              <img data-absolute src="/svg/verified-tick.svg" alt="tick" width={32} height={32} />
-            ) : null}
+          <div data-img={!!image?.attributes?.url!}>
+            <NextImageMotion src={image?.attributes?.url!} alt="avatar" width={80} height={80} />
+            {!!image?.attributes?.url ? <img data-absolute src="/svg/verified-tick.svg" alt="tick" width={32} height={32} /> : null}
           </div>
           <article>
             <h3>
-              {dataProfile?.res?.firstName || "Имя"} {dataProfile?.res?.lastName || "Фамилия"}
+              {firstName || "Имя"} {lastName || "Фамилия"}
             </h3>
             {geoData ? <p>{geoData?.additional}</p> : null}
-            <time dateTime={`${dataUser?.res?.created!}`}>На Sheira с {dayFormat(dataUser?.res?.created!, "dd.MM.yyyy")}</time>
+            <time dateTime={`${dataUser?.data?.created!}`}>На Sheira с {dayFormat(dataUser?.data?.created!, "dd.MM.yyyy")}</time>
           </article>
         </section>
         <section data-about>
-          <p>{dataProfile?.res?.about || "Обо мне..."}</p>
+          <p>{about || "Обо мне..."}</p>
         </section>
         <section data-buttons>
           <Button

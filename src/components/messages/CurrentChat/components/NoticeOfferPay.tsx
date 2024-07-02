@@ -28,7 +28,7 @@ export const NoticeOfferPay = ({ thread, user }: { thread: IResponseThread; user
     enabled: !!thread?.offerId,
   })
 
-  const { res: resOffer } = data ?? {}
+  const { data: resOffer } = data ?? {}
 
   const category = useMemo(() => {
     if (!categories || !resOffer) return null
@@ -39,7 +39,6 @@ export const NoticeOfferPay = ({ thread, user }: { thread: IResponseThread; user
   function handleDetailOffer() {
     if (!!resOffer) {
       dispatchBallonOffer({ offer: resOffer })
-      dispatchModal(EModalData.BalloonOffer)
     }
   }
 

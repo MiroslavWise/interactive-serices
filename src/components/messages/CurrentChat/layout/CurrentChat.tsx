@@ -13,11 +13,13 @@ import { ListMessages } from "../components/ListMessages"
 import { NextImageMotion, LoadingInput } from "@/components/common"
 
 import { useWebSocket } from "@/context"
+import { NoticeBarter } from "../components/NoticeBarter"
 import { getMessages, getThreadId, postReadMessage } from "@/services"
 import { useCountMessagesNotReading, usePush, useResize } from "@/helpers"
 import { useAuth, usePopupMenuChat, useUserIdMessage, dispatchDataUser } from "@/store"
 
 import styles from "../styles/style.module.scss"
+import { EnumProviderThreads } from "@/types/enum"
 
 export const CurrentChat = () => {
   const { isTablet } = useResize()

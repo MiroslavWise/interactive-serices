@@ -12,7 +12,7 @@ import { ButtonsFooter } from "./ButtonsFooter"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchModalClose, useAuth } from "@/store"
 import { useOut, useOutsideClickEvent } from "@/helpers"
-import { fileUploadService, getProfile, serviceAuthErrors, serviceProfile } from "@/services"
+import { fileUploadService, getUserId, serviceAuthErrors, serviceProfile } from "@/services"
 
 const GENDER: { label: string; value: TGenderForm }[] = [
   {
@@ -26,7 +26,7 @@ const GENDER: { label: string; value: TGenderForm }[] = [
 ]
 
 export const PersonalData = () => {
-  const { id: userId } = useAuth(({ user }) => user) ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const [errorFile, setErrorFile] = useState<null | string>(null)
   const { out } = useOut()
@@ -55,24 +55,24 @@ export const PersonalData = () => {
   console.log("%c ---PersonalData errors: ---", "color: red; font-size: 10px", errors)
 
   const { data, refetch } = useQuery({
-    queryFn: () => getProfile(),
-    queryKey: ["profile", userId!],
+    queryFn: () => getUserId(userId!),
+    queryKey: ["user", { userId: userId }],
     enabled: !!userId,
   })
 
-  const image = data?.res?.image?.attributes?.url
+  const { data: res } = data ?? {}
+  const { profile } = res ?? {}
+
+  const image = profile?.image?.attributes?.url
 
   useEffect(() => {
-    if (data?.ok) {
-      if (!!data?.res) {
-        const { res: resProfile } = data ?? {}
-        setValue("firstName", resProfile?.firstName!)
-        setValue("lastName", resProfile?.lastName!)
-        setValue("username", resProfile?.username!)
-        setValue("gender", resProfile?.gender!)
-      }
+    if (!!profile) {
+      setValue("firstName", profile?.firstName!)
+      setValue("lastName", profile?.lastName!)
+      setValue("username", profile?.username!)
+      setValue("gender", profile?.gender!)
     }
-  }, [data?.res])
+  }, [profile])
 
   async function UpdatePhotoProfile(id: number) {
     return fileUploadService(file.file!, {
@@ -90,16 +90,16 @@ export const PersonalData = () => {
         enabled: true,
       }
 
-      if (values.firstName !== data?.res?.firstName) {
+      if (values.firstName !== profile?.firstName) {
         valuesProfile.firstName = values.firstName
       }
-      if (values.lastName !== data?.res?.lastName) {
+      if (values.lastName !== profile?.lastName) {
         valuesProfile.lastName = values.lastName
       }
-      if (values.username !== data?.res?.username) {
+      if (values.username !== profile?.username) {
         valuesProfile.username = values.username?.replace("@", "")
       }
-      if (values.gender !== data?.res?.gender && ["f", "m"].includes(values.gender!)) {
+      if (values.gender !== profile?.gender && ["f", "m"].includes(values.gender!)) {
         valuesProfile.gender = values.gender
       }
 
@@ -109,7 +109,7 @@ export const PersonalData = () => {
         return
       }
 
-      Promise.resolve(!!data?.ok ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)).then((responseOk) => {
+      Promise.resolve(!!profile ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)).then((responseOk) => {
         if (responseOk?.ok) {
           const idProfile = userId!
           if (file.file) {

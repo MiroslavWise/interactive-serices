@@ -17,7 +17,7 @@ const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
     value: EnumTypeProvider.offer,
   },
   {
-    label: "Дискуссии",
+    label: "Обсуждения",
     value: EnumTypeProvider.discussion,
   },
   {

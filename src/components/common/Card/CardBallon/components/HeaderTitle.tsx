@@ -1,12 +1,8 @@
-import { useMemo } from "react"
-import { useQuery } from "@tanstack/react-query"
-
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
 import { ImageCategory } from "@/components/common/Image"
 
-import { getOffersCategories } from "@/services"
 import { cx } from "@/lib/cx"
 
 interface IProps {
@@ -14,29 +10,7 @@ interface IProps {
 }
 
 function HeaderTitle({ offer }: IProps) {
-  const { provider, categoryId, title } = offer ?? {}
-
-  const { data } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = data?.res || []
-
-  const iconTitleCategory = useMemo(() => {
-    if (!categoryId) return null
-    let title = ""
-
-    if (categories && categoryId) {
-      for (const category of categories) {
-        if (category.id === categoryId) {
-          title = category.title
-          break
-        }
-      }
-    }
-
-    return { title }
-  }, [categoryId, categories, provider])
+  const { provider, categoryId, title, category } = offer ?? {}
 
   return (
     <header data-provider={provider} className="w-full flex flex-row items-start gap-3 overflow-hidden">
@@ -47,7 +21,7 @@ function HeaderTitle({ offer }: IProps) {
           provider === EnumTypeProvider.alert && "rounded-[0.8125rem] bg-element-error",
         )}
       >
-        {provider === EnumTypeProvider.offer && iconTitleCategory ? (
+        {provider === EnumTypeProvider.offer ? (
           <ImageCategory id={categoryId!} />
         ) : provider === EnumTypeProvider.alert ? (
           <img className="w-4 h-4" src="/svg/SOS.svg" alt="SOS" width={18} height={18} />
@@ -56,8 +30,8 @@ function HeaderTitle({ offer }: IProps) {
         ) : null}
       </div>
       <h3 className="text-text-primary text-base font-semibold">
-        {provider === EnumTypeProvider.offer && iconTitleCategory
-          ? iconTitleCategory.title
+        {provider === EnumTypeProvider.offer
+          ? category?.title
           : provider === EnumTypeProvider.alert
           ? title
             ? title

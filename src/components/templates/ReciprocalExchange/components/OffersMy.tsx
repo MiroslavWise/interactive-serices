@@ -38,10 +38,10 @@ export const OffersMy = memo(({ loading }: IProps) => {
   })
 
   const offersMy = useMemo(() => {
-    if (!data?.res) return []
+    if (!data?.data) return []
 
-    return data?.res?.filter((item) => item?.addresses?.length > 0) || []
-  }, [data?.res])
+    return data?.data?.filter((item) => item?.addresses?.length > 0) || []
+  }, [data?.data])
 
   const categoryMyOffer = useCallback((id: number) => categories?.find((item) => item?.id === id!), [categories])
 

@@ -10,6 +10,16 @@
   }
 }
 
+.containerListMobile {
+  width: 100%;
+  height: calc(100% - var(--height-mobile-footer-nav));
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding-top: var(--height-mobile-header) !important;
+  z-index: 10;
+}
+
 [data-tablet="true"] {
   .blockSearch {
     position: fixed;

@@ -26,7 +26,7 @@ export const CardReview: TCardReview = (props) => {
       <div className={styles.content}>
         <header>
           <div className={styles.userDate}>
-            <Link href={{ pathname: "/user", query: { id: userId } }}>@{data?.res?.username}</Link>
+            <Link href={{ pathname: `/customer/${userId}` }}>@{data?.res?.username}</Link>
             <time>{dayFormat(updated, "dd.MM.yyyy")}</time>
           </div>
           <Rate rate={rating} />

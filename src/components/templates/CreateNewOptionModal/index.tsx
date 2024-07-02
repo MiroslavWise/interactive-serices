@@ -30,6 +30,7 @@ import {
   EModalData,
   useModal,
   useNewServicesBannerMap,
+  dispatchOpenPreCloseCreateService,
 } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import {
@@ -145,6 +146,19 @@ export default function CreateNewOptionModal() {
     return 0
   }
 
+  useEffect(() => {
+    function onUnLoad(event: any) {
+      dispatchOpenPreCloseCreateService(typeAdd!)
+      event.preventDefault()
+      event.returnValue = ""
+
+      return `Прерывание`
+    }
+    window.addEventListener("beforeunload", onUnLoad)
+
+    return () => window.removeEventListener("beforeunload", onUnLoad)
+  }, [typeAdd])
+
   function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
       if (response.ok) {
@@ -213,8 +227,8 @@ export default function CreateNewOptionModal() {
           data.title = "SOS-сообщение"
           data.slug = transliterateAndReplace("SOS-сообщение").slice(0, 254)
         } else if (EnumTypeProvider.discussion === typeAdd) {
-          data.title = "Дискуссия"
-          data.slug = transliterateAndReplace("Дискуссия").slice(0, 254)
+          data.title = "Обсуждение"
+          data.slug = transliterateAndReplace("Обсуждение").slice(0, 254)
         }
       }
     }
