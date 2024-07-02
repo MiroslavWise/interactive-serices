@@ -1,7 +1,7 @@
 export default () => (
   <section className="w-full h-full flex flex-col gap-0.625">
     <ul className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
-      {[1, 2, 3].map((_) => (
+      {[1, 2].map((_) => (
         <article key={`::card::offers::key::${_}::`} className="w-full bg-BG-second rounded-2xl flex flex-col gap-4 p-4">
           <div className="w-full flex flex-col gap-3">
             <span className="h-4 max-w-[7.5rem] w-full rounded-lg bg-grey-field" />

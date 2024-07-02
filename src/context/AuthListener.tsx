@@ -50,7 +50,6 @@ function Listener() {
   }
 
   useEffect(() => {
-
     const chatResponse = (event: IChatResponse) => {
       console.log("%c chatResponse event: ", "color: #d0d", event)
       if (Number(threadId) !== event.threadId && userId !== event?.emitterId) {

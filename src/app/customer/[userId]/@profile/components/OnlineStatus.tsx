@@ -16,7 +16,7 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
   const [loading, setLoading] = useState(false)
   const [is, setIs] = useState(false)
   const { socket } = useWebSocket()
-  const { email, updated, profile } = user ?? {}
+  const { updated, profile, id } = user ?? {}
   const { gender } = profile ?? {}
 
   useEffect(() => {
@@ -24,14 +24,14 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
     const onlineUsers = (event: any) => {
       console.log("onlineUsers: ", event)
 
-      const users = (event?.users as string[]) || []
+      const users = (event?.users as (number | string)[]) || []
 
-      if (users.includes(email)) {
+      if (users.includes(id)) {
         setIs(true)
       }
     }
 
-    if (!!socket && !!email) {
+    if (!!socket) {
       socket.on(`online`, onlineUsers)
       setTimeout(() => {
         setLoading(false)
@@ -41,7 +41,7 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
         socket.off(`online`, onlineUsers)
       }
     }
-  }, [socket, email, user.id])
+  }, [socket, id])
 
   if (loading) return <div className="w-full h-4" />
 
