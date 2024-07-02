@@ -81,7 +81,7 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
                 className={cx(
                   "w-full h-12 rounded-3xl border-none relative z-40",
                   "[&>input]:!w-full [&>input]:!h-full [&>input]:!rounded-3xl [&>input]:!text-text-primary [&>input]:!pl-[calc(0.875rem_+_1.625rem_+_0.5rem_+_1rem_+_0.5rem)]",
-                  "[&>div]:absolute [&>div]:top-1/2 [&>div]:-translate-y-1/2 [&>div]:left-0.875 [&>div]:bg-transparent",
+                  "[&>div]:absolute [&>div]:top-1/2 [&>div]:-translate-y-1/2 [&>div]:!z-50 [&>div]:left-0.875 [&>div]:bg-transparent",
                   "[&>div>button]:!bg-transparent [&>div>button]:!border-none [&>div>button>div]:!flex [&>div>button>div]:!flex-row [&>div>button>div]:items-center [&>div>button>div]:gap-2",
                   "[&>div>ul]:!bg-BG-second [&>div>ul]:!p-1 [&>div>ul>li]:!bg-BG-second  hover:[&>div>ul>li]:!bg-grey-field focus:[&>div>ul>li]:!bg-grey-field [&>div>ul]:!rounded-xl [&>div>ul]:!shadow-menu-absolute",
                   "[&>div>ul>li>span]:!text-text-primary [&>div>ul>li>span]:!font-normal [&>div>ul>li>span]:!text-sm",
