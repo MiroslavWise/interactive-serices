@@ -29,15 +29,15 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
         enabled: !!id,
       },
       {
-        queryFn: () => getTestimonials({ receiver: id! }),
-        queryKey: ["testimonials", { receiver: id }],
+        queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
+        queryKey: ["testimonials", { receiver: id, order: "DESC" }],
         enabled: !!id,
       },
     ],
   })
 
   const countProperties = useMemo(() => {
-    const offers = dataQueries?.[0]?.data?.res
+    const offers = dataQueries?.[0]?.data?.data
     const barters = dataQueries?.[1]?.data?.res
     const testimonials = dataQueries?.[2]?.data?.res
 

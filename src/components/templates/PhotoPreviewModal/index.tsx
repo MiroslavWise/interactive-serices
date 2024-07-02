@@ -101,7 +101,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
               <div data-title>
                 <Link
                   data-author
-                  href={isTablet ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
+                  href={isTablet ? { pathname: `/customer/${author?.idUser!}` } : {}}
                   onClick={(event) => {
                     event.stopPropagation()
                     if (!isTablet) {
@@ -183,7 +183,7 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
             </div>
             <footer>
               <Link
-                href={isTablet ? { pathname: "/user", query: { id: author?.idUser! } } : {}}
+                href={isTablet ? { pathname: `/customer/${author?.idUser!}` } : {}}
                 onClick={(event) => {
                   event.stopPropagation()
                   if (!isTablet) {

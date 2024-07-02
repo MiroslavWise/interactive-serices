@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
+import { LIMIT_LENGTH_ABOUT, MIN_LENGTH_ABOUT, resolverAboutSchema, TAboutSchema } from "./utils/about.schema"
+
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getProfile, patchProfile } from "@/services"
-import { LIMIT_LENGTH_ABOUT, MIN_LENGTH_ABOUT, resolverAboutSchema, TAboutSchema } from "./utils/about.schema"
 import { useAuth, dispatchMobileChangeAbout, useMobileChangeAbout } from "@/store"
 
 import styles from "./styles/style.module.scss"

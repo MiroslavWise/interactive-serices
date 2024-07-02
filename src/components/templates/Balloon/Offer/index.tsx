@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Button, ImageCategory } from "@/components/common"
 
@@ -13,30 +13,13 @@ import { ProfileComponent } from "../components/ProfileComponent"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { usePush } from "@/helpers"
-import { getBarters, getOffersCategories } from "@/services"
-import {
-  dispatchAuthModal,
-  dispatchBallonOffer,
-  dispatchModalClose,
-  dispatchReciprocalExchange,
-  EModalData,
-  useAuth,
-  useBalloonOffer,
-  useModal,
-} from "@/store"
+import { getBarters } from "@/services"
+import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth, useBalloonOffer } from "@/store"
 
 export default function BalloonOffer() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { data: c } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = c?.res || []
-  const dataModal = useModal(({ data }) => data)
   const offer = useBalloonOffer(({ offer }) => offer)
   const { handlePush } = usePush()
-
-  const categoryCurrent = categories?.find((item) => item?.id === offer?.categoryId)
 
   const { data: dataExecutedBarter, isLoading: isLoadingExecutedBarter } = useQuery({
     queryFn: () =>
@@ -48,7 +31,7 @@ export default function BalloonOffer() {
     queryKey: ["barters", { userId: userId, status: EnumStatusBarter.EXECUTED }],
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!userId && dataModal === EModalData.BalloonOffer && userId !== offer?.userId,
+    enabled: !!userId && !!offer && userId !== offer?.userId,
   })
   const { data: dataInitiatedBarter, isLoading: isLoadingInitiatedBarter } = useQuery({
     queryFn: () =>
@@ -60,7 +43,7 @@ export default function BalloonOffer() {
     queryKey: ["barters", { userId: userId, status: EnumStatusBarter.INITIATED }],
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!userId && dataModal === EModalData.BalloonOffer && userId !== offer?.userId,
+    enabled: !!userId && !!offer && userId !== offer?.userId,
   })
   //--
 
@@ -101,7 +84,6 @@ export default function BalloonOffer() {
         visible: true,
         type: "SignIn",
       })
-      dispatchModalClose()
       return
     } else if (!!userId && userId !== offer?.userId) {
       handlePush(`/messages?offer-pay=${offer?.id}:${offer?.userId}`)
@@ -110,15 +92,11 @@ export default function BalloonOffer() {
     }
   }
 
-  useEffect(() => {
-    return () => dispatchBallonOffer({ offer: undefined })
-  }, [])
-
   return (
     <>
       <header data-color={EnumTypeProvider.offer}>
         <div data-category-img>{offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}</div>
-        <h3>{categoryCurrent?.title}</h3>
+        <h3>{offer?.category?.title}</h3>
       </header>
       <div data-container>
         <div data-container-children>
@@ -138,12 +116,15 @@ export default function BalloonOffer() {
             </div>
           ) : null}
           <GeoData offer={offer as unknown as IResponseOffers} />
-          <div data-buttons>
+          <div data-buttons className="w-full flex flex-row items-center gap-0.625 [&>button]:h-11 [&>button]:rounded-[1.375rem]">
             <Button
               type="button"
               typeButton="fill-primary"
               label="Откликнуться"
-              onClick={handle}
+              onClick={(event) => {
+                event.stopPropagation()
+                handle()
+              }}
               loading={isLoadingExecutedBarter || isLoadingInitiatedBarter}
               disabled={(!!userId && userId === offer?.userId) || !!disabledReply}
             />

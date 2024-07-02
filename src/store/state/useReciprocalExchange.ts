@@ -1,26 +1,31 @@
 import { create } from "zustand"
 
 import type { IActionReciprocalExchange, IStateReciprocalExchange } from "../types/createReciprocalExchange"
+
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
-export const useReciprocalExchange = create<IStateReciprocalExchange>((set, get) => ({
+export const useReciprocalExchange = create<IStateReciprocalExchange>(() => ({
   isCollapse: false,
 }))
 
 export const dispatchReciprocalExchange = (values: IActionReciprocalExchange) => {
   const { visible, ...rest } = values ?? {}
 
+  console.log("dispatchReciprocalExchange values: ", values)
+
   if (visible) {
     dispatchModal(EModalData.ReciprocalExchange)
+    console.log("dispatchReciprocalExchange visible: ", visible)
   } else {
     dispatchModalClose()
+    console.log("dispatchReciprocalExchange visible: ", visible)
   }
-  useReciprocalExchange.setState((_) => {
-    return {
-      ..._,
+  useReciprocalExchange.setState(
+    (_) => ({
       ...rest,
-    }
-  })
+    }),
+    true,
+  )
 }
 
 export const dispatchReciprocalExchangeCollapse = (value: boolean) =>

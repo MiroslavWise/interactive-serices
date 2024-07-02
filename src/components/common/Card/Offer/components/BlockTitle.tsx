@@ -23,8 +23,7 @@ export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
       <Link
         className={styles.avatar}
         href={{
-          pathname: "/user",
-          query: { id: userId },
+          pathname: `/customer/${userId}`,
         }}
       >
         <NextImageMotion src={profile?.image?.attributes?.url!} alt="avatar" width={60} height={60} className={styles.photo} />

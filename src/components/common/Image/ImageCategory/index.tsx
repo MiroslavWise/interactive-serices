@@ -1,3 +1,5 @@
+"use client"
+
 import { IconCategory } from "@/lib/icon-set"
 
 export function ImageCategory({ id }: { id: number | string }) {

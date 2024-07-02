@@ -47,11 +47,11 @@ export const PublicProfile = () => {
           }}
         />
         <BlockDots id={idUser!} />
-        <ul data-opacity={!!data?.res} id="profile-public-id">
-          <InfoContainerProfile {...data?.res!} />
-          <ItemsBadges {...data?.res!} />
+        <ul data-opacity={!!data?.data} id="profile-public-id">
+          <InfoContainerProfile {...data?.data!} />
+          <ItemsBadges {...data?.data!} />
           <ItemSegments {...{ activeSegment, setActiveSegment }} />
-          <Content {...data?.res!} type={activeSegment.value} />
+          <Content {...data?.data!} type={activeSegment.value} />
         </ul>
       </section>
     </div>

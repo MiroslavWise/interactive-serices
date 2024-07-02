@@ -25,7 +25,7 @@ export interface IGetProfileIdResponse {
   birthdate: Date
   about: string
   enabled: boolean
-  gender?: TGenderForm
+  gender?: TGenderForm | null
   created: Date
   updated: Date
   image: IImageData

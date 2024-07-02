@@ -6,17 +6,17 @@ import { IBarterResponse, ISmallDataOfferBarter } from "@/services/barters/types
 
 import { ButtonLink } from "../../Forward"
 import { LoadingProfile } from "../../Loading"
-import { IconGeo } from "@/components/icons/IconGeo"
 import { BadgeStatus } from "./components/BadgeStatus"
 import { IconRevers } from "@/components/icons/IconRevers"
 import { ImageCategory, NextImageMotion } from "../../Image"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-import { dayFormat, daysAgo } from "@/helpers"
+import { dayFormat } from "@/helpers"
 import { dispatchInitiatedBarter, useAuth } from "@/store"
 import { getOffersCategories, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import Link from "next/link"
 
 const title: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.EXECUTED, "Начало обмена"],
@@ -50,20 +50,8 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
     enabled: !!userId,
   })
 
-  const geo = dataUser?.res?.addresses?.length ? dataUser?.res?.addresses[0] : null
-
-  const address = useMemo(() => {
-    if (!geo) return null
-
-    const city = geo?.city
-    const street = geo?.street
-    const house = geo?.house
-
-    return [city, street, house]?.filter(Boolean)?.join(", ")
-  }, [geo])
-
   const categoriesBarter = useMemo(() => {
-    if (!barter || !dataUserMe?.res) return null
+    if (!barter || !dataUserMe?.data) return null
 
     const start: ISmallDataOfferBarter = barter?.initiator?.userId === userId ? barter?.consigner : barter?.initiator
     const end: ISmallDataOfferBarter = barter?.initiator?.userId === userId ? barter?.initiator : barter?.consigner
@@ -96,32 +84,21 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       {isLoadingUser ? (
         <LoadingProfile />
       ) : (
-        <section data-profile>
+        <Link data-profile href={{ pathname: `/customer/${idUser}` }}>
           <div data-avatar>
-            <NextImageMotion src={dataUser?.res?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
+            <NextImageMotion src={dataUser?.data?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
           </div>
           <div data-inform>
             <span>
-              {dataUser?.res?.profile?.firstName || " "} {dataUser?.res?.profile?.lastName || " "}&nbsp;
+              {dataUser?.data?.profile?.firstName || " "} {dataUser?.data?.profile?.lastName || " "}&nbsp;
               <IconVerifiedTick />
             </span>
-            {[EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!) && address ? (
-              <time>{address}</time>
-            ) : status === EnumStatusBarter.INITIATED ? (
-              <a>{daysAgo(String(created))}</a>
-            ) : null}
           </div>
-        </section>
+        </Link>
       )}
       {status === EnumStatusBarter.INITIATED ? (
         <section data-initiated>
           <p>{barter?.initiator?.title || ""}</p>
-          {!!address ? (
-            <div data-geo>
-              <IconGeo />
-              <span>{address}</span>
-            </div>
-          ) : null}
         </section>
       ) : null}
       {categoriesBarter ? (
@@ -141,7 +118,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
             </div>
             <span>{titleCategory(categoriesBarter?.end?.categoryId)}</span>
             <div data-avatar>
-              <NextImageMotion src={dataUserMe?.res?.profile?.image?.attributes?.url!} alt="avatar" width={24} height={24} />
+              <NextImageMotion src={dataUserMe?.data?.profile?.image?.attributes?.url!} alt="avatar" width={24} height={24} />
             </div>
           </article>
         </section>

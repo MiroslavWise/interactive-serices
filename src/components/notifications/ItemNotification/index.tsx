@@ -5,16 +5,25 @@ import { type ReactNode, useMemo, useState } from "react"
 import { IResponseThreads } from "@/services/threads/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import type { IResponseNotifications } from "@/services/notifications/types"
-import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/types"
+import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/type"
 
 import { ButtonsDots } from "./components/ButtonsDots"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
-import { getIdOffer, getOffersCategories, getProfileUserId, getTestimonials, patchBarter, serviceNotifications } from "@/services"
+import {
+  getIdOffer,
+  getOffersCategories,
+  getProfileUserId,
+  getTestimonials,
+  getUserId,
+  patchBarter,
+  serviceNotifications,
+} from "@/services"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchReasonBarters, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -52,11 +61,14 @@ export const ItemNotification = (props: IResponseNotifications) => {
     return null
   }, [provider, data, userId])
 
-  const { data: dataProfile } = useQuery({
-    queryFn: () => getProfileUserId(idUser!),
+  const { data: dataUser } = useQuery({
+    queryFn: () => getUserId(idUser!),
     queryKey: ["profile", idUser!],
     enabled: !!idUser,
   })
+
+  const { data: resUser } = dataUser ?? {}
+  const { profile } = resUser ?? {}
 
   const { refetch } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -104,7 +116,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
     if (provider === "offer-pay") {
       return {
-        offer: categories?.find((item) => item?.id === dataOffer?.res?.categoryId),
+        offer: categories?.find((item) => item?.id === dataOffer?.data?.categoryId),
       }
     }
 
@@ -117,8 +129,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
         target: offerId!,
         provider: EnumTypeProvider.offer,
         barter: data?.id!,
+        order: "DESC",
       }),
-    queryKey: ["testimonials", { barterId: data?.id, targetId: offerId, provider: EnumTypeProvider.offer }],
+    queryKey: ["testimonials", { barterId: data?.id, targetId: offerId, provider: EnumTypeProvider.offer, order: "DESC" }],
     enabled:
       ["executed", "destroyed", "completed"]?.includes(data?.status!) &&
       !!offerId &&
@@ -163,13 +176,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
           <p>
             Расскажите, обмен с пользователем{" "}
             <Link
-              href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+              href={{ pathname: `/customer/${idUser}` }}
               onClick={(event) => {
                 event.stopPropagation()
                 dispatchVisibleNotifications(false)
               }}
             >
-              {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+              {profile?.firstName} {profile?.lastName}
             </Link>{" "}
             состоялся? Обмен будет считаться завершенным, когда одна из сторон подтвердит завершение
           </p>
@@ -183,13 +196,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <p>
               Пользователь{" "}
               <Link
-                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                href={{ pathname: `/customer/${idUser}` }}
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)
                 }}
               >
-                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                {profile?.firstName} {profile?.lastName}
               </Link>{" "}
               подтвердил, что обмен состоялся. Здорово! Вы можете рассказать как все прошло в отзывах.
             </p>
@@ -204,13 +217,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <p>
               Пользователь{" "}
               <Link
-                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                href={{ pathname: `/customer/${idUser}` }}
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)
                 }}
               >
-                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                {profile?.firstName} {profile?.lastName}
               </Link>{" "}
               подтвердил, что обмен не состоялся. Вы можете рассказать как все прошло в отзывах.
             </p>
@@ -220,7 +233,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       if (operation === "accepted") {
         return (
           <p>
-            Пользователь {dataProfile?.res?.firstName} {dataProfile?.res?.lastName} принял ваш запрос на обмен
+            Пользователь {profile?.firstName} {profile?.lastName} принял ваш запрос на обмен
           </p>
         )
       }
@@ -230,13 +243,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <p>
               Вы предложили обмен{" "}
               <Link
-                href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                href={{ pathname: `/customer/${idUser}` }}
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)
                 }}
               >
-                {dataProfile?.res?.firstName} {dataProfile?.res?.lastName}
+                {profile?.firstName} {profile?.lastName}
               </Link>
             </p>
           )
@@ -245,16 +258,16 @@ export const ItemNotification = (props: IResponseNotifications) => {
             return (
               <p>
                 <Link
-                  href={{ pathname: "/user", query: { id: dataProfile?.res?.userId! } }}
+                  href={{ pathname: `/customer/${idUser}` }}
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchVisibleNotifications(false)
                   }}
                 >
-                  {dataProfile?.res?.firstName}
+                  {profile?.firstName}
                 </Link>{" "}
                 предлагает вам <a>{categoryOfferName?.initiator?.title!}</a> взамен на <a>{categoryOfferName?.consigner?.title!}</a>:«
-                {data?.initiator?.title!}».
+                {data?.initiator?.description!}».
               </p>
             )
           }
@@ -262,7 +275,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
       }
     }
     if (provider === "offer-pay") {
-      const { image, firstName, lastName } = dataProfile?.res ?? {}
+      const { firstName } = profile ?? {}
       // const dataThread = data as unknown as IResponseThreads
       const { title } = categoryOfferName?.offer ?? {}
       if (operation === "create") {
@@ -275,7 +288,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
 
     return null
-  }, [data, provider, userId, dataProfile, categoryOfferName])
+  }, [data, provider, userId, profile, categoryOfferName])
 
   const buttons: ReactNode | null = useMemo(() => {
     if (provider === "offer-pay") {
@@ -426,7 +439,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
 
     return null
-  }, [data, provider, userId, dataProfile, operation, loading, isFeedback, categoryOfferName])
+  }, [data, provider, userId, profile, operation, loading, isFeedback, categoryOfferName])
 
   function reading() {
     if (!read) {
@@ -470,8 +483,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
   function handleRecall() {
     serviceNotifications.patch({ enabled: true, read: true }, id!).then(() => refetch())
     dispatchAddTestimonials({
-      profile: dataProfile?.res!,
-      threadId: data?.threadId!,
+      user: resUser!,
       barterId: data?.id!,
       testimonials: dataTestimonials?.res!,
       notificationId: id!,
@@ -482,11 +494,30 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
   return (
     <li className={styles.container} data-type={type} data-active={!read}>
-      <div data-avatar>
+      <div
+        data-avatar
+        className={`relative h-10 w-10 overflow-hidden rounded-[0.625rem] p-5 ${type === "barter" && "bg-grey-stroke-light"}`}
+      >
         {["barter", "personal"].includes(currentType!) ? (
-          <NextImageMotion src={dataProfile?.res?.image?.attributes?.url!} alt="avatar" width={44} height={44} />
+          profile?.image?.attributes?.url! ? (
+            <NextImageMotion
+              className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              src={profile?.image?.attributes?.url!}
+              alt="avatar"
+              width={44}
+              height={44}
+            />
+          ) : (
+            <IconEmptyProfile className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+          )
         ) : ["information", "warning", "error"].includes(type) ? (
-          <img src={IMG_TYPE?.[currentType]!} alt="type" width={24} height={24} />
+          <img
+            className="absolute w-6 h-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            src={IMG_TYPE?.[currentType]!}
+            alt="type"
+            width={24}
+            height={24}
+          />
         ) : null}
       </div>
       <section>

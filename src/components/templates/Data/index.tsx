@@ -22,6 +22,7 @@ import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
 
 import { CN_CONTAINER_MODAL_SIGN } from "../ModalSign/style"
+import { CN_SUCCESS_NEW_OPTIONAL } from "../SuccessNewOptional/style"
 import { CN_SECTION } from "@/components/templates/NewServicesBanner/style"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
 import stylesCompletionTransaction from "@/components/templates/CompletionTransaction/styles/style.module.scss"
@@ -35,7 +36,6 @@ import stylesOutAccount from "@/components/templates/OutAccount/style.module.scs
 import stylesUpdateOffer from "@/components/templates/UpdateOffer/style.module.scss"
 import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
 import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
-import stylesSuccessNewOptional from "@/components/templates/SuccessNewOptional/styles.module.scss"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -81,7 +81,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.UpdateOffer, stylesUpdateOffer.container],
   [EModalData.ChangePassword, stylesChangePassword.container],
   [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container],
-  [EModalData.SuccessNewOptional, stylesSuccessNewOptional.container],
+  [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

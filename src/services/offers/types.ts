@@ -3,6 +3,8 @@ import type { IImageData } from "@/store/types/useAuthState"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumTypeProvider } from "@/types/enum"
 import { TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
+import { IResponseOffersCategories } from "../offers-categories/types"
+import { IResponse } from "../request"
 
 export interface IResponseCreate {
   id: number
@@ -35,7 +37,7 @@ export interface IUserOffer {
   about: string | null
   birthdate: Date | string | null
   firstName: string
-  gender: TGenderForm
+  gender: TGenderForm | null
   id: number
   lastName: string
   username: string
@@ -46,6 +48,7 @@ export interface IResponseOffers {
   id: number
   parentId?: number
   categoryId?: number
+  category: IResponseOffersCategories
   provider: EnumTypeProvider
   title: string
   slug: string
@@ -61,6 +64,7 @@ export interface IResponseOffers {
   user: IUserOffer
   updated: Date | string
   created: Date | string
+  threadId: number | null
 }
 
 export interface IQueriesOffers {
@@ -68,13 +72,15 @@ export interface IQueriesOffers {
   order?: TOrder
   user?: number
   provider?: EnumTypeProvider
+  limit?: number
+  page?: number
 }
 
 export interface IServiceOffers {
   post(value: IPostOffers): IPromiseReturn<IResponseCreate>
   get(value?: IQueriesOffers): IPromiseReturn<IResponseOffers[]>
   patch(value: IPatchOffers, id: number | string): IPromiseReturn<IResponseCreate>
-  getId(id: number | string): IPromiseReturn<IResponseOffers>
+  getId(id: number | string): Promise<IResponse<IResponseOffers>>
   delete(id: number | string): IPromiseReturn<IResponseCreate>
-  getUserId(id: number | string, value?: IQueriesOffers): IPromiseReturn<IResponseOffers[]>
+  getUserId(id: number | string, value?: IQueriesOffers): Promise<IResponse<IResponseOffers[]>>
 }

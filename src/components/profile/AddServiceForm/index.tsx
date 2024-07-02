@@ -39,10 +39,10 @@ export const ChangeService = () => {
   })
 
   useEffect(() => {
-    if (data?.res && Array.isArray(data?.res?.categories)) {
+    if (data?.data && Array.isArray(data?.data?.categories)) {
       setValue(
         "categories",
-        data?.res?.categories?.map((item) => item?.id!),
+        data?.data?.categories?.map((item) => item?.id!),
       )
     }
   }, [data])
@@ -86,7 +86,7 @@ export const ChangeService = () => {
   function submit(values: IValuesCategories) {
     if (!loading) {
       setLoading(true)
-      if (JSON.stringify(watch("categories")?.sort()) === JSON.stringify(data?.res?.categories?.map((item) => item.id)?.sort())) {
+      if (JSON.stringify(watch("categories")?.sort()) === JSON.stringify(data?.data?.categories?.map((item) => item.id)?.sort())) {
         setLoading(false)
         dispatchChangeService({ visible: false })
       } else {

@@ -6,23 +6,14 @@ import type { TDots } from "../types/types"
 import { useCloseAllModal } from "@/helpers/hooks/useCloseAllModal"
 
 export const BlockDots: TDots = ({ id }) => {
-    const close = useCloseAllModal()
+  const close = useCloseAllModal()
 
-    return (
-        <div data-block-dots>
-            <Link
-                href={{
-                    pathname: `/user`,
-                    query: {
-                        id: id,
-                    },
-                }}
-                replace={false}
-                onClick={close}
-            >
-                <Image src="/svg/maximize.svg" alt="max" width={28} height={28} unoptimized />
-            </Link>
-            <Image src="/svg/dots-vertical-gray.svg" alt="max" width={28} height={28} unoptimized />
-        </div>
-    )
+  return (
+    <div data-block-dots>
+      <Link href={{ pathname: `/customer/${id}` }} onClick={close}>
+        <Image src="/svg/maximize.svg" alt="max" width={28} height={28} unoptimized />
+      </Link>
+      <Image src="/svg/dots-vertical-gray.svg" alt="max" width={28} height={28} unoptimized />
+    </div>
+  )
 }

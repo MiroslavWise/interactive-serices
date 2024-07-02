@@ -20,10 +20,10 @@ export const BlockDesiredServices = () => {
   })
 
   const desiredServices = useMemo(() => {
-    if (!data?.res) return []
+    if (!data?.data) return []
 
-    return data?.res?.categories
-  }, [data?.res])
+    return data?.data?.categories
+  }, [data?.data])
 
   function addDesiredService() {
     dispatchActiveServicesFrom(true)

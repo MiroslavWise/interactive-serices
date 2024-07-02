@@ -1,8 +1,7 @@
-import { Viewport } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
-import { type Metadata } from "next"
 import { Inter } from "next/font/google"
+import { type Viewport, type Metadata } from "next"
 
 const Providers = dynamic(() => import("./providers"), { ssr: false })
 const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
@@ -13,6 +12,7 @@ import env from "@/config/environment"
 import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
+import 'react-international-phone/style.css'
 
 const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
@@ -26,48 +26,57 @@ export function generateViewport(): Viewport {
   }
 }
 
-export const metadata: Metadata = {
-  title: {
-    default: "Sheira",
-    template: "%s | Sheira",
-  },
-  description:
-    "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
-  keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
-  appleWebApp: {
-    title: "Sheira",
-    statusBarStyle: "default",
-  },
-  category: "people, services",
-  openGraph: {
-    type: "website",
-    locale: "ru",
-    url: env.server.host!,
-    siteName: "Sheira",
-    images: "/icons/icon.png",
-  },
-  twitter: {
-    images: "/icons/icon.png",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    "max-image-preview": "large",
-    googleBot: {
+export function generateMetadata(): Metadata {
+  const meta: Metadata = {
+    title: {
+      default: "Sheira",
+      template: "%s | Sheira",
+    },
+    authors: {
+      url: "https://sheira.ru",
+      name: "ООО Sheira",
+    },
+    description:
+      "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
+    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
+    appleWebApp: {
+      title: "Sheira",
+      statusBarStyle: "default",
+    },
+    category: "people, services",
+    openGraph: {
+      type: "website",
+      locale: "ru",
+      url: env.server.host!,
+      siteName: "Sheira",
+      images: "/icons/icon.png",
+    },
+    twitter: {
+      images: "/icons/icon.png",
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-image-preview": "standard",
+      "max-image-preview": "large",
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "standard",
+      },
     },
-  },
-  icons: {
-    icon: "/icons/icon.png",
-  },
+    icons: {
+      icon: "/icons/icon.png",
+    },
+  }
+
+  return meta
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
       <head>
+        <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
         <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
         <noscript>
           <div>

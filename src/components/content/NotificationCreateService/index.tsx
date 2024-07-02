@@ -129,7 +129,6 @@ function NotificationCreateService() {
                 onClick: async () => {
                   const { offer } = await firstOffer()
                   if (offer) {
-                    dispatchModal(EModalData.BalloonOffer)
                     dispatchBallonOffer({ offer: offer })
                   }
                 },

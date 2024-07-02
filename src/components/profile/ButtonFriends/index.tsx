@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { serviceFriends } from "@/services"
+import { getFriends } from "@/services"
 import { useAuth, useDroverFriends } from "@/store"
 import { DeclensionQuantityFriends } from "@/lib/declension"
 
@@ -14,8 +14,8 @@ export const ButtonFriends = () => {
   const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
 
   const { data } = useQuery({
-    queryFn: () => serviceFriends.get(),
-    queryKey: ["friends", `user=${userId}`, `filter=list`],
+    queryFn: () => getFriends({}),
+    queryKey: ["friends", { userId: userId, filter: "list" }],
     enabled: !!userId,
   })
 

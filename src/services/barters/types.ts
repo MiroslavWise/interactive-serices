@@ -2,6 +2,7 @@ import { IUserOffer } from "../offers/types"
 import type { IPromiseReturn } from "@/services/types/general"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { IResponseOffersCategories } from "../offers-categories/types"
 
 export interface ISmallThread {
   id: number
@@ -14,6 +15,7 @@ export interface ISmallThread {
 export interface ISmallDataOfferBarter {
   id: number
   parentId?: number
+  category?: IResponseOffersCategories
   provider: EnumTypeProvider.barter
   title: string
   slug: string

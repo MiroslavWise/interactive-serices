@@ -50,10 +50,6 @@ function Listener() {
   }
 
   useEffect(() => {
-    const onlineUsers = (event: any) => {
-      console.log("onlineUsers: ", event)
-    }
-
     const chatResponse = (event: IChatResponse) => {
       console.log("%c chatResponse event: ", "color: #d0d", event)
       if (Number(threadId) !== event.threadId && userId !== event?.emitterId) {
@@ -71,13 +67,11 @@ function Listener() {
       socket?.on(`chatResponse-${userId}`, chatResponse)
       socket?.on(`barterResponse-${userId}`, barterResponse)
       socket?.on(`threadResponse-${userId}`, threadResponse)
-      socket?.on(`online`, onlineUsers)
 
       return () => {
         socket?.off(`chatResponse-${userId}`, chatResponse)
         socket?.off(`barterResponse-${userId}`, barterResponse)
         socket?.off(`threadResponse-${userId}`, threadResponse)
-        socket?.off(`online`, onlineUsers)
       }
     }
   }, [socket, userId])

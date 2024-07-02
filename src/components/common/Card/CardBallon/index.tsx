@@ -36,13 +36,10 @@ function CardBallon({ offer }: IProps) {
 
     if (provider === EnumTypeProvider.offer) {
       dispatchBallonOffer({ offer: offer })
-      dispatchModal(EModalData.BalloonOffer)
     } else if (provider === EnumTypeProvider.discussion) {
       dispatchBallonDiscussion({ offer: offer })
-      dispatchModal(EModalData.BalloonDiscussion)
     } else if (provider === EnumTypeProvider.alert) {
       dispatchBallonAlert({ offer: offer })
-      dispatchModal(EModalData.BalloonAlert)
     }
     dispatchMobileSearchCategoryVisible(false)
   }

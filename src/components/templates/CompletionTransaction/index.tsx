@@ -10,8 +10,9 @@ import type { IValuesForm } from "./types/types"
 import { Button, ButtonLink } from "@/components/common"
 
 import { useToast } from "@/helpers/hooks/useToast"
-import { serviceNotifications, getTestimonials, getBarterId, getThreadId, postTestimonial } from "@/services"
+import { serviceNotifications, getTestimonials, getBarterId, postTestimonial } from "@/services"
 import { useAuth, useAddTestimonials, useModal, EModalData, dispatchModalClose, dispatchAddTestimonials } from "@/store"
+import { useCountMessagesNotReading } from "@/helpers"
 
 export default function CompletionTransaction() {
   const [isFirst, setIsFirst] = useState(true)
@@ -24,21 +25,15 @@ export default function CompletionTransaction() {
   })
   const { onBarters } = useToast()
   const dataModal = useModal(({ data }) => data)
-  const profile = useAddTestimonials(({ profile }) => profile)
+  const user = useAddTestimonials(({ user }) => user) /// проверить
   const barterId = useAddTestimonials(({ barterId }) => barterId)
-  const threadId = useAddTestimonials(({ threadId }) => threadId)
+  const { refetchCountMessages } = useCountMessagesNotReading(false)
   const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
 
   const { data, refetch: refetchBarters } = useQuery({
     queryFn: () => getBarterId(barterId!),
     queryKey: ["barters", { id: barterId }],
     enabled: !!barterId,
-  })
-
-  const { refetch: refetchThread } = useQuery({
-    queryFn: () => getThreadId(Number(threadId)),
-    queryKey: ["threads", { userId: userId, threadId: threadId }],
-    enabled: false,
   })
 
   const { refetch: refetchNotifications } = useQuery({
@@ -48,8 +43,8 @@ export default function CompletionTransaction() {
   })
 
   const { refetch: refetchTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ receiver: profile?.userId! }),
-    queryKey: ["testimonials", { receiver: profile?.userId }],
+    queryFn: () => getTestimonials({ receiver: user?.id!, order: "DESC" }),
+    queryKey: ["testimonials", { receiver: user?.id!, order: "DESC" }],
     enabled: false,
   })
 
@@ -74,7 +69,7 @@ export default function CompletionTransaction() {
           message: values.message,
           status: "published",
           enabled: true,
-          receiverId: profile?.userId!,
+          receiverId: user?.id!,
         }),
         !!notificationId
           ? serviceNotifications.patch(
@@ -95,8 +90,8 @@ export default function CompletionTransaction() {
         if (responses?.some((item) => item!?.ok)) {
           refetchBarters()
           refetchTestimonials()
-          refetchThread()
           refetchNotifications()
+          refetchCountMessages()
           onBarters({
             title: "Спасибо за обратную связь",
             message: "Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей.",
@@ -115,8 +110,7 @@ export default function CompletionTransaction() {
     return () =>
       dispatchAddTestimonials({
         barterId: undefined,
-        profile: undefined,
-        threadId: undefined,
+        user: undefined,
         testimonials: undefined,
         notificationId: undefined,
       })
@@ -132,7 +126,7 @@ export default function CompletionTransaction() {
         <form onSubmit={onSubmit}>
           <header>
             <h3>
-              Добавьте отзыв <span>@{profile?.username}</span>
+              Добавьте отзыв <span>@{user?.profile?.username}</span>
             </h3>
             <div data-rating>
               <p>Оцените качество услуг:</p>
@@ -176,9 +170,9 @@ export default function CompletionTransaction() {
                 placeholder="Напишите здесь свой отзыв..."
                 maxLength={1024}
               />
-              <sup>
+              <span>
                 <span>{watch("message")?.length || 0}</span>/240
-              </sup>
+              </span>
             </div>
           </fieldset>
           <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />
@@ -195,7 +189,7 @@ export default function CompletionTransaction() {
           <ButtonLink
             typeButton="fill-primary"
             label="Вернуться в профиль"
-            href={{ pathname: "/user", query: { id: profile?.userId! } }}
+            href={{ pathname: `/customer/${user?.id!}` }}
             onClick={(event) => {
               event.stopPropagation()
               dispatchModalClose()

@@ -4,7 +4,6 @@ import Image from "next/image"
 import type { TInfoContainerProfile } from "../types/types"
 
 import { ImageStatic, NextImageMotion, GeoTagging } from "@/components/common"
-import { AddFriend } from "@/components/profile/MainInfo/components/AddFriend"
 
 import { useAuth } from "@/store"
 
@@ -38,30 +37,9 @@ export const InfoContainerProfile: TInfoContainerProfile = (props) => {
         </div>
         {userId !== profile?.userId && !!userId ? (
           <section data-buttons>
-            <AddFriend user={props!} />
             <Link href={userId ? { pathname: "/messages", query: { user: id } } : {}} data-circle-gradient>
               <img src="/svg/message-dots-circle-primary.svg" alt="message-dots-circle" width={20} height={20} />
             </Link>
-            {/* <button
-                            data-circle-gradient
-                            onClick={() => {
-                                if (Number(userId) === Number(id) || !userId) {
-                                    return
-                                }
-                                if (userId) {
-                                    // dispatchVisibleBarter({
-                                    //     isVisible: true,
-                                    //     dataProfile: {
-                                    //         photo: profile?.image?.attributes?.url,
-                                    //         fullName: `${profile?.firstName || ""} ${profile?.lastName || ""}`,
-                                    //         idUser: id!,
-                                    //     },
-                                    // })
-                                }
-                            }}
-                        >
-                            <img src="/svg/repeat-01.svg" alt="repeat::1" width={20} height={20} />
-                        </button> */}
           </section>
         ) : null}
       </div>

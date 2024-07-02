@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useAuth } from "@/store"
 import { getThreads } from "@/services"
 
-export const useCountMessagesNotReading = () => {
+export const useCountMessagesNotReading = (value?: boolean) => {
   const { id } = useAuth(({ auth }) => auth) ?? {}
 
   const {
@@ -21,7 +21,7 @@ export const useCountMessagesNotReading = () => {
       }),
     queryKey: ["threads", { user: id }],
     refetchOnMount: true,
-    enabled: !!id,
+    enabled: !!id && (typeof value === "boolean" ? value : true),
   })
 
   const count = useMemo(() => {

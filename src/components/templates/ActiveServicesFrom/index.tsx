@@ -16,7 +16,7 @@ function ActiveServicesFrom() {
     enabled: !!userId && data === EModalData.ActiveServicesFrom,
   })
 
-  const categories = dataUser?.res?.categories || []
+  const categories = dataUser?.data?.categories || []
 
   return (
     <>

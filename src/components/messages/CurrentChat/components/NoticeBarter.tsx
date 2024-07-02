@@ -12,8 +12,8 @@ import type { IBarterResponse } from "@/services/barters/types"
 import { Button, LoadingThreadNotice, NextImageMotion } from "@/components/common"
 
 import { useWebSocket } from "@/context"
+import { useAuth, dispatchBallonOffer } from "@/store"
 import { daysAgo, useCountMessagesNotReading, usePush } from "@/helpers"
-import { useAuth, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
 import { serviceProfile, getBarterUserIdReceiver, getBarterId, patchBarter, patchThread, getOffersCategories } from "@/services"
 
 import styles from "./styles/notice-barter.module.scss"
@@ -151,7 +151,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: initiator! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title}
@@ -168,7 +167,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: consigner! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title}
@@ -195,7 +193,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: initiator! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
@@ -205,7 +202,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: consigner! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}
@@ -214,15 +210,12 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
               </>
             ) : consigner?.userId === userId ? (
               <>
-                <Link href={{ pathname: "/user", query: { id: dataInitiatorProfile?.res?.id } }}>
-                  {dataInitiatorProfile?.res?.firstName}
-                </Link>
+                <Link href={{ pathname: `/customer/${dataInitiatorProfile?.res?.id}` }}>{dataInitiatorProfile?.res?.firstName}</Link>
                 &nbsp;предлагает вам&nbsp;
                 <span
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: initiator! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.initiator?.title?.toLowerCase()}
@@ -232,7 +225,6 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                   onClick={(event) => {
                     event.stopPropagation()
                     dispatchBallonOffer({ offer: consigner! })
-                    dispatchModal(EModalData.BalloonOffer)
                   }}
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}
