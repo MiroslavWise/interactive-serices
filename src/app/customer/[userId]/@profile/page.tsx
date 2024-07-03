@@ -57,7 +57,7 @@ export default async ({ params }: IParamsCustomer) => {
             <OnlineStatus user={data} />
           </section>
         </section>
-        <section className={`w-full md:hidden ${profile?.about && "hidden"}`}>
+        <section className={`w-full md:hidden ${!profile?.about && "hidden"}`}>
           <ProfileDescription user={data!} />
         </section>
         <FriendsButtons user={data} />

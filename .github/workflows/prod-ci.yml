@@ -1,13 +1,9 @@
-name: Core CI/CD
+name: Production CI/CD
 run-name: ${{ github.actor }} is starting GitHub Actions 🚀
 on:
   push:
     branches:
-      - 'not-static'
-      - 'develop'
-      - 'hotfix/*'
-      - 'feature/*'
-      - '!master'
+      - 'master'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,15 +23,15 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           build-args: |
-            NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }}
-            NEXT_PUBLIC_WEB_SOCKET=${{ secrets.NEXT_PUBLIC_WEB_SOCKET }} 
-            NEXT_PUBLIC_AUTO_VERIFICATION=${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }} 
-            NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }} 
-            NEXT_PUBLIC_API_KEY_YANDEX=${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
+            NEXT_PUBLIC_URL=${{ secrets.PRODUCTION_NEXT_PUBLIC_URL }}
+            NEXT_PUBLIC_WEB_SOCKET=${{ secrets.PRODUCTION_NEXT_PUBLIC_WEB_SOCKET }} 
+            NEXT_PUBLIC_AUTO_VERIFICATION=${{ secrets.PRODUCTION_NEXT_PUBLIC_AUTO_VERIFICATION }} 
+            NEXT_PUBLIC_DOMAIN=${{ secrets.PRODUCTION_NEXT_PUBLIC_DOMAIN }} 
+            NEXT_PUBLIC_API_KEY_YANDEX=${{ secrets.PRODUCTION_NEXT_PUBLIC_API_KEY_YANDEX }}
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_REPO }}:develop 
+          tags: ${{ secrets.DOCKER_HUB_REPO }}:production 
       - name: Declare variables
         shell: bash
         run: |
@@ -44,10 +40,10 @@ jobs:
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
+          host: ${{ secrets.PRODUCTION_SSH_HOST }}
+          username: ${{ secrets.PRODUCTION_SSH_USERNAME }}
+          password: ${{ secrets.PRODUCTION_SSH_PASSWORD }}
+          port: ${{ secrets.PRODUCTION_SSH_PORT }}
           script: |
             echo "Branch: ${{ env.branch }}"
             echo "Sha: ${{ env.sha_short }}"
@@ -55,6 +51,6 @@ jobs:
             source ~/.nvm/nvm.sh
             cd /home/sheira/sheira-core/
             docker stop sheira-frontend && docker rm sheira-frontend && docker rmi $(docker images | grep 'sheira/frontend')
-            docker pull sheira/frontend:develop 
+            docker pull sheira/frontend:production 
             docker-compose up -d --no-deps sheira-frontend && docker restart sheira-nginx
             ls -la
