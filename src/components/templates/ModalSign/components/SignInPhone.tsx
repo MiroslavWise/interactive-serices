@@ -55,9 +55,6 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
     }
   })
 
-  console.log("watch: phone", watch("phone"))
-  console.log("watch: phone replaceAll", watch("phone")?.replaceAll(/[^\d]/g, ""))
-
   return (
     <form onSubmit={submit}>
       <section className={styles.section}>
