@@ -37,6 +37,12 @@ export const PersonalData = () => {
   }>({ file: null, string: "" })
   const [focusGender, setFocusGender, ref] = useOutsideClickEvent()
 
+  const { data, refetch } = useQuery({
+    queryFn: () => getUserId(userId!),
+    queryKey: ["user", { userId: userId }],
+    enabled: !!userId,
+  })
+
   const {
     register,
     watch,
@@ -48,17 +54,11 @@ export const PersonalData = () => {
     clearErrors,
     formState: { errors, disabled },
   } = useForm<TSchemaUpdateForm>({
+    defaultValues: {},
     resolver: resolverUpdateForm,
   })
 
-  console.log("%c ---PersonalData disabled: ", "color: green; font-size: 10px", disabled)
   console.log("%c ---PersonalData errors: ---", "color: red; font-size: 10px", errors)
-
-  const { data, refetch } = useQuery({
-    queryFn: () => getUserId(userId!),
-    queryKey: ["user", { userId: userId }],
-    enabled: !!userId,
-  })
 
   const { data: res } = data ?? {}
   const { profile } = res ?? {}
@@ -219,46 +219,52 @@ export const PersonalData = () => {
               </fieldset>
             )}
           />
-          <fieldset data-test="fieldset-personal-data-gender">
-            <label htmlFor="gender" {...register("gender")} title="Пол пользователя">
-              Пол
-            </label>
-            <div data-input ref={ref} style={{ zIndex: 20 }}>
-              <input
-                type="text"
-                placeholder="Выберите пол"
-                readOnly
-                onClick={(event) => {
-                  event.stopPropagation()
-                  setFocusGender(true)
-                }}
-                data-error={!!errors?.gender}
-                value={GENDER.find((item) => item.value === watch("gender"))?.label || ""}
-                data-test="input-personal-data-gender"
-              />
-              {focusGender ? (
-                <div data-ul data-test="input-personal-data-gender-div-ul">
-                  <ul data-test="input-personal-data-gender-list-ul">
-                    {GENDER.map((item) => (
-                      <li
-                        key={`::key::gender::${item.value}::`}
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          setFocusGender(false)
-                          setValue("gender", item.value)
-                          clearErrors("gender")
-                        }}
-                        data-test="input-personal-data-gender-list-li"
-                      >
-                        <span>{item.label}</span>
-                      </li>
-                    ))}
-                  </ul>
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <fieldset data-test="fieldset-personal-data-gender">
+                <label htmlFor={field.name} {...field} title="Пол пользователя">
+                  Пол
+                </label>
+                <div data-input ref={ref} style={{ zIndex: 20 }}>
+                  <input
+                    type="text"
+                    placeholder="Выберите пол"
+                    readOnly
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      setFocusGender(true)
+                    }}
+                    data-error={!!error}
+                    value={GENDER.find((item) => item.value === watch("gender"))?.label || ""}
+                    data-test="input-personal-data-gender"
+                  />
+                  {focusGender ? (
+                    <div data-ul data-test="input-personal-data-gender-div-ul">
+                      <ul data-test="input-personal-data-gender-list-ul">
+                        {GENDER.map((item) => (
+                          <li
+                            key={`::key::gender::${item.value}::`}
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              setFocusGender(false)
+                              field.onChange(item.value)
+                              clearErrors("gender")
+                            }}
+                            data-test="input-personal-data-gender-list-li"
+                          >
+                            <span>{item.label}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-            {!!errors?.gender ? <i>{errors?.gender?.message}</i> : null}
-          </fieldset>
+                {!!error ? <i>{error?.message}</i> : null}
+              </fieldset>
+            )}
+          />
         </div>
       </section>
       <ButtonsFooter loading={loading} />
