@@ -1,17 +1,16 @@
 import Link from "next/link"
 import { Controller, useForm } from "react-hook-form"
 import { type ReactNode, memo, useState } from "react"
-import { PhoneInput, defaultCountries, parseCountry } from "react-international-phone"
 
 import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.schema"
 
 import { Button } from "@/components/common"
+import InputCountry from "@/components/common/Forward/InputCountry"
 
 import { functionAuthErrors, serviceAuth } from "@/services/auth"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useUTM } from "@/store"
 
 import styles from "../styles/form.module.scss"
-import { cx } from "@/lib/cx"
 
 export const SignUpPhone = memo(function SignUpPhone({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
@@ -81,11 +80,6 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
     }
   }
 
-  const countries = defaultCountries.filter((country) => {
-    const { iso2 } = parseCountry(country)
-    return ["ru", "by", "in"].includes(iso2)
-  })
-
   return (
     <form onSubmit={handleSubmit(onRegister)}>
       <section className={styles.section}>
@@ -98,21 +92,11 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
               <label htmlFor={field.name} title="Телефон">
                 Телефон
               </label>
-              <PhoneInput
-                defaultCountry="ru"
-                countries={countries}
-                placeholder="+7 999 000-00-00"
-                value={field.value}
-                onChange={(event) => field.onChange(event)}
-                className={cx(
-                  "w-full h-12 rounded-3xl border-none relative z-40",
-                  "[&>input]:!w-full [&>input]:!h-full [&>input]:!rounded-3xl [&>input]:!text-text-primary [&>input]:!pl-[calc(0.875rem_+_1.625rem_+_0.5rem_+_1rem_+_0.5rem)]",
-                  "[&>div]:absolute [&>div]:top-1/2 [&>div]:-translate-y-1/2 [&>div]:left-0.875 [&>div]:bg-transparent",
-                  "[&>div>button]:!bg-transparent [&>div>button]:!border-none [&>div>button>div]:!flex [&>div>button>div]:!flex-row [&>div>button>div]:items-center [&>div>button>div]:gap-2",
-                  "[&>div>ul]:!bg-BG-second [&>div>ul]:!p-1 [&>div>ul>li]:!bg-BG-second  hover:[&>div>ul>li]:!bg-grey-field focus:[&>div>ul>li]:!bg-grey-field [&>div>ul]:!rounded-xl [&>div>ul]:!shadow-menu-absolute",
-                  "[&>div>ul>li>span]:!text-text-primary [&>div>ul>li>span]:!font-normal [&>div>ul>li>span]:!text-sm",
-                  "[&>div>ul>li]:!py-3 [&>div>ul>li]:!px-2 [&>div>ul>li]:!flex [&>div>ul>li]:!flex-row [&>div>ul>li]:!items-center [&>div>ul>li]:!rounded-lg",
-                )}
+              <InputCountry
+                {...field}
+                replaceValue={() => {
+                  field.onChange("")
+                }}
               />
               {!!error ? <i>{error?.message}</i> : null}
             </div>

@@ -19,6 +19,7 @@
   "dependencies": {
     "@hookform/resolvers": "3.4.2",
     "@pbe/react-yandex-maps": "1.2.5",
+    "@react-input/mask": "^1.2.5",
     "@tanstack/react-query": "5.29.2",
     "axios": "^1.7.2",
     "date-fns": "3.6.0",
@@ -28,7 +29,6 @@
     "react-dom": "18.3.1",
     "react-dropzone": "14.2.3",
     "react-hook-form": "7.51.5",
-    "react-international-phone": "^4.3.0",
     "react-swipeable": "7.0.1",
     "react-toastify": "10.0.5",
     "socket.io-client": "4.7.5",

@@ -139,7 +139,6 @@ input[type="text"] {
   font-style: normal;
   font-weight: 400;
   line-height: 1.25rem;
-  letter-spacing: -0.03125rem;
   border-radius: 1.5rem;
   border: 1px solid;
   border-color: var(--grey-stroke);
@@ -148,7 +147,8 @@ input[type="text"] {
   overflow: hidden;
 
   transition: var(--transition);
-  transition: border-color;
+  transition-property: border-color;
+  caret-color: var(--element-accent-1);
 
   &:focus,
   &:hover {

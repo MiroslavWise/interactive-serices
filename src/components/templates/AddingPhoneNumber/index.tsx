@@ -1,27 +1,26 @@
 "use client"
 
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { postPhone } from "@/services/phones"
-import { functionAuthErrors, serviceAuthErrors } from "@/services"
+import { functionAuthErrors } from "@/services"
 import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, dispatchStartTimerNumberConfirmation, useAddingPhoneNumber } from "@/store"
 
 import styles from "./style.module.scss"
+import InputCountry from "@/components/common/Forward/InputCountry"
 
 export const AddingPhoneNumber = () => {
   const [loading, setLoading] = useState(false)
   const visible = useAddingPhoneNumber(({ visible }) => visible)
 
   const {
-    register,
+    control,
     watch,
     setError,
-    setFocus,
-    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm<{ phone: string }>({ defaultValues: { phone: "" } })
@@ -62,30 +61,22 @@ export const AddingPhoneNumber = () => {
         </header>
         <form onSubmit={onSubmit}>
           <p>Введите номер телефона, который хотите добавить</p>
-          <fieldset>
-            <label>Номер телефона</label>
-            <div
-              data-phone-div
-              data-error={!!errors?.phone?.message}
-              onClick={(event) => {
-                event.stopPropagation()
-                setFocus("phone")
-              }}
-            >
-              {!!watch("phone") && !["8", "+", 8].includes(`${watch("phone")}`[0]) ? <span>+</span> : null}
-              <input
-                data-input-phone
-                placeholder="+7 999 000-00-00"
-                type="tel"
-                inputMode="numeric"
-                data-error={!!errors.phone}
-                {...register("phone", { required: true })}
-                maxLength={16}
-                onChange={(event) => setValue("phone", event.target.value?.replaceAll("+", "")?.replaceAll(/[^\d]/g, ""))}
-              />
-            </div>
-            {!!errors?.phone?.message ? <i>{errors?.phone?.message}</i> : null}
-          </fieldset>
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <fieldset>
+                <label>Номер телефона</label>
+                <InputCountry
+                  {...field}
+                  replaceValue={() => {
+                    field.onChange("")
+                  }}
+                />
+                {!!errors?.phone?.message ? <i>{errors?.phone?.message}</i> : null}
+              </fieldset>
+            )}
+          />
           <Button type="submit" typeButton="fill-primary" label="Добавить" disabled={watch("phone")?.length < 9} loading={loading} />
         </form>
       </section>
