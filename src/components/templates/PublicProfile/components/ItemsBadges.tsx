@@ -39,7 +39,7 @@ export const ItemsBadges: TItemsBadges = ({ id }) => {
   const countProperties = useMemo(() => {
     const offers = dataQueries?.[0]?.data?.data
     const barters = dataQueries?.[1]?.data?.res
-    const testimonials = dataQueries?.[2]?.data?.res
+    const testimonials = dataQueries?.[2]?.data?.data
 
     const rating = () => {
       let quantity = 0

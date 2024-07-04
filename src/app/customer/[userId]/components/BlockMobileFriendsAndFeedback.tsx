@@ -1,12 +1,13 @@
 import PlaqueFriends from "../@profile/components/PlaqueFriends"
 
-import { getTestimonials } from "@/services"
 import ButtonFeedbackMobile from "./ButtonFeedbackMobile"
 
-async function BlockMobileFriendsAndFeedback({ id }: { id: string | number }) {
-  const { res } = await getTestimonials({ receiver: id!, order: "DESC" })
+import { getTestimonials } from "@/services"
 
-  const items = res || []
+async function BlockMobileFriendsAndFeedback({ id }: { id: string | number }) {
+  const { data } = await getTestimonials({ receiver: id!, order: "DESC" })
+
+  const items = data || []
   const allRating = items.reduce((acc, cur) => acc + +cur.rating, 0)
   const length = items.length
   const average = (allRating / (length || 1)).toFixed(1)

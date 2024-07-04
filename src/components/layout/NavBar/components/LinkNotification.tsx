@@ -10,6 +10,7 @@ import { useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
+import Link from "next/link"
 
 export const LinkNotification = ({ pathname }: { pathname: string }) => {
   const [count, setCount] = useState<number | null>(null)
@@ -76,9 +77,13 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
           <span>{count > 9 ? "9+" : count}</span>
         </div>
       ) : null}
-      <section data-active={active} onClick={(event) => event.stopPropagation()}>
+      <section
+        data-active={active}
+        onClick={(event) => event.stopPropagation()}
+        className="absolute opacity-0 invisible top-[calc(100%_+_0.25rem)] w-[29.5rem] left-0 rounded-[2rem] bg-BG-second overflow-hidden flex flex-col shadow-menu-absolute transition-all"
+      >
         {data?.res?.length ? (
-          <ul>
+          <ul className="w-full max-h-[calc(41.875rem_-_2.5rem)] h-min overflow-x-hidden overflow-y-auto p-6 flex flex-col gap-2.5">
             {state.new.length > 0 ? (
               <>
                 <p>Новые уведомления</p>
@@ -97,21 +102,23 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
             ) : null}
           </ul>
         ) : (
-          <article>
+          <article className="w-full py-2.5 px-[3.125rem] flex flex-col items-center gap-4">
             <h3>У вас пока нет уведомлений</h3>
             <p>Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое.</p>
           </article>
         )}
-        <footer>
-          <LinkProgress
-            href="/notifications"
+        <footer className="w-full h-10 flex items-center justify-center px-0 pt-[0.5625rem] pb-[0.6875rem] border-t border-solid border-grey-stroke-light">
+          <Link
+            href={{ pathname: "/notifications" }}
             onClick={(event) => {
               event.stopPropagation()
               setActive(false)
             }}
+            prefetch
+            className="text-text-accent text-center text-sm font-medium"
           >
             Посмотреть все
-          </LinkProgress>
+          </Link>
         </footer>
       </section>
     </a>

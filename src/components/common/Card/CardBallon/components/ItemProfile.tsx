@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -10,7 +9,6 @@ import IconRating from "@/components/icons/IconRating"
 import { NextImageMotion } from "@/components/common/Image"
 
 import { getTestimonials } from "@/services"
-import { dispatchProfilePublic } from "@/store"
 
 function ItemProfile({ user }: { user: IUserOffer }) {
   const { id, firstName, lastName, image } = user ?? {}
@@ -22,18 +20,18 @@ function ItemProfile({ user }: { user: IUserOffer }) {
   })
 
   const rating = useMemo(() => {
-    if (!dataTestimonials?.res || dataTestimonials?.res?.length === 0) return null
+    if (!dataTestimonials?.data || dataTestimonials?.data?.length === 0) return null
 
     let sum = 0
     let count = 0
 
-    for (const item of dataTestimonials?.res) {
+    for (const item of dataTestimonials?.data) {
       sum += item.rating
       count = count + 1
     }
 
     return Number(sum / count)
-  }, [dataTestimonials])
+  }, [dataTestimonials?.data])
 
   const name = `${firstName || "Имя"} ${lastName || "Фамилия"}`
 

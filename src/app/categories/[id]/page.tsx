@@ -1,11 +1,7 @@
-import { cache } from "react"
-
 import { getOffersCategoriesPROD } from "@/services"
 
-const get = cache(getOffersCategoriesPROD)
-
 export async function generateStaticParams() {
-  const { res } = await get()
+  const { res } = await getOffersCategoriesPROD()
   const items = res || []
 
   return items.map((_) => ({
@@ -15,7 +11,7 @@ export async function generateStaticParams() {
 
 export default async ({ params }: { params: { id: string } }) => {
   const { id } = params ?? {}
-  const { res } = await get()
+  const { res } = await getOffersCategoriesPROD()
   const items = res || []
   const find = items.find((_) => String(_.id) === id)
 

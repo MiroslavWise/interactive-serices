@@ -18,7 +18,7 @@ function ItemsFeedback({ id }: { id: string | number }) {
     enabled: !!id,
   })
 
-  const items = data?.res || []
+  const items = data?.data || []
   const length = items.length
 
   const filters = useMemo(() => {
