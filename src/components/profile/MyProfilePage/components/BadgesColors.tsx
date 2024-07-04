@@ -14,7 +14,7 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
     enabled: !!userId,
   })
 
-  const countBarters = dataBarters?.res?.length || 0
+  const countBarters = dataBarters?.data?.length || 0
 
   const { data: dataTestimonials } = useQuery({
     queryFn: () => getTestimonials({ receiver: userId!, order: "DESC" }),

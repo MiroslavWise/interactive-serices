@@ -28,8 +28,8 @@ export const SentenceCards: TSentenceCards = ({ value }) => {
     <ul className={styles.containerCards}>
       {isLoading ? (
         [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)
-      ) : data?.res && Array.isArray(data?.res) && data?.res?.length > 0 ? (
-        data?.res?.map((item) => <CardBarter key={`::history::page::${item.status}::${item.id}::`} barter={item} />)
+      ) : data?.data && Array.isArray(data?.data) && data?.data?.length > 0 ? (
+        data?.data?.map((item) => <CardBarter key={`::history::page::${item.status}::${item.id}::`} barter={item} />)
       ) : (
         <p>
           {value.value === "executed"

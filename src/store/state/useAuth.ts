@@ -93,7 +93,7 @@ export const dispatchRefresh = async () => {
   })
 }
 
-export const dispatchAuthToken = ({ auth, user }: { auth: TAuth; user: IUserResponse }) =>
+export const dispatchAuthToken = ({ auth, user }: { auth: TAuth; user: IUserResponse | null }) =>
   useAuth.setState((_) => ({ user, auth, isAuth: true }), true)
 
 export const dispatchClearAuth = async () => {

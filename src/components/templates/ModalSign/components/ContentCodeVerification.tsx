@@ -43,23 +43,15 @@ export const ContentCodeVerification = ({}) => {
         })
         .then(async (response) => {
           if (response.ok) {
-            if (response?.res) {
-              const { data } = await queryClient.fetchQuery({
-                queryFn: () => getUser(),
-                queryKey: ["user", { userId: response.res?.id }],
-              })
-              if (!!data) {
-                dispatchAuthToken({ auth: response?.res!, user: data! })
-                if (!data?.profile?.username) {
-                  dispatchOnboarding("open")
-                }
-              }
-              dispatchAuthModal({
-                visible: false,
-                type: null,
-              })
-              onReplace()
-            }
+            dispatchAuthToken({
+              auth: response?.res!,
+              user: null,
+            })
+            dispatchAuthModal({
+              visible: false,
+              type: null,
+            })
+            onReplace()
           } else {
             console.log("%c ---ERROR CONFIRM CODE---", "color: #f00", response?.error)
             setError("code", { message: "Не верный код" })
