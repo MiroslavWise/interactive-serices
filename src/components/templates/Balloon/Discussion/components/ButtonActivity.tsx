@@ -5,6 +5,7 @@ import { type IResponseOffers } from "@/services/offers/types"
 import IconActivity from "@/components/icons/IconActivity"
 
 import env from "@/config/environment"
+import { encrypted } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
 
 const LABEL = "Поделиться"
@@ -18,7 +19,8 @@ export const ButtonActivity = ({ offer }: { offer: IResponseOffers }) => {
         type="button"
         data-activity
         onClick={(event) => {
-          const url = `${env.server.host}/offers/${offer.provider}/${offer.id}`
+          const hash = encrypted(offer.id)
+          const url = `${env.server.host}/offer/${hash}`
           if (!!window.navigator.share!) {
             navigator.share({
               title: offer.title!,

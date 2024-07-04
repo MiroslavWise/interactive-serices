@@ -31,4 +31,5 @@ function RedirectOffer({ offer }: { offer: IResponseOffers }) {
   return null
 }
 
+RedirectOffer.displayName = "RedirectOffer"
 export default RedirectOffer

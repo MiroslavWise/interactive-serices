@@ -1,15 +1,16 @@
 import { redirect } from "next/navigation"
 
-import { type IParamsRouteOffers } from "./layout"
-
 import RedirectOffer from "./components/RedirectOffer"
 
 import { getIdOffer } from "@/services"
+import { decryptedOffer } from "@/helpers/cript"
 
-export default async ({ params }: IParamsRouteOffers) => {
-  const { offerId } = params ?? {}
+export default async ({ params }: { params: { hash: string } }) => {
+  const { hash } = params ?? {}
 
-  const { data: offer } = await getIdOffer(offerId)
+  const id = decryptedOffer(hash)
+
+  const { data: offer } = await getIdOffer(id)
 
   if (offer) {
     return <RedirectOffer offer={offer} />
