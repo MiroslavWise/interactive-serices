@@ -1,9 +1,7 @@
 import Link from "next/link"
 
-import styles from "../styles/components.module.scss"
-
 export const Logo = () => (
-  <Link href={"/"} className={styles.logo}>
-    <img src="/logo/wordmark.svg" alt="logo" width={117} height={30} />
+  <Link href={"/"} className="cursor-pointer w-[7.3125rem] h-[1.875rem]" prefetch>
+    <img src="/logo/wordmark.svg" className="w-[7.3125rem] h-[1.875rem]" alt="logo" width={117} height={30} />
   </Link>
 )

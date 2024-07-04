@@ -32,27 +32,28 @@ export const useAuth = create(
 export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSignIn) => {
   return login({ email, password }).then((response) => {
     if (response.ok) {
-      useAuth.setState((_) => ({
-        ..._,
-        auth: response.res,
-        isAuth: true,
-      }))
+      useAuth.setState(
+        (_) => ({
+          ..._,
+          auth: response.res,
+          isAuth: true,
+        }),
+        true,
+      )
 
-      setTimeout(() => {
-        queryClient
-          .fetchQuery({
-            queryFn: () => getUser(),
-            queryKey: ["user", { userId: response?.res?.id }],
-          })
-          .then(({ res, ok }) => {
-            if (ok) {
-              useAuth.setState((_) => ({
-                ..._,
-                user: res,
-              }))
-            }
-          })
-      })
+      queryClient
+        .fetchQuery({
+          queryFn: () => getUser(),
+          queryKey: ["user", { userId: response?.res?.id! }],
+        })
+        .then(({ data }) => {
+          if (!!data) {
+            useAuth.setState((_) => ({
+              ..._,
+              user: data,
+            }))
+          }
+        })
 
       return response
     } else {
@@ -67,7 +68,6 @@ export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSi
 }
 
 export const dispatchRefresh = async () => {
-
   return refresh().then((response) => {
     const { ok, res } = response
     if (ok) {

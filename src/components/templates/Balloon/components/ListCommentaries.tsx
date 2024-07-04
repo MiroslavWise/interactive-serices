@@ -38,7 +38,11 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
   const length = dataComments?.meta?.total || 0
 
   return (
-    <div data-list ref={refList} data-test="balloon-list-commentaries">
+    <div
+      className="overflow-x-hidden overflow-y-visible h-fit w-full flex flex-col gap-0.625 pb-0.625 [&>div]:px-5"
+      ref={refList}
+      data-test="balloon-list-commentaries"
+    >
       {!expand && firstComment ? (
         <ItemComment key={`::key::comment::item::${firstComment.id}::first::`} {...firstComment} />
       ) : isLoading ? (
@@ -47,13 +51,13 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
       {!expand && length > 1 ? (
         <button
           type="button"
-          data-button-expand
+          className="w-full flex flex-row items-center bg-transparent border-none outline-none px-5"
           onClick={(event) => {
             event.stopPropagation()
             setExpand(true)
           }}
         >
-          <span>Показать все комментарии</span>
+          <span className="text-text-primary text-left text-sm font-medium">Показать все комментарии</span>
         </button>
       ) : null}
       {expand ? currentComments.map((item) => <ItemComment key={`::key::comment::item::${item.id}::`} {...item} />) : null}

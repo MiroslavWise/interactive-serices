@@ -2,6 +2,7 @@ import type { IImageData } from "@/store/types/useAuthState"
 import type { IPromiseReturn } from "../types/general"
 import { EnumProviderThreads } from "@/types/enum"
 import type { IUserOffer } from "../offers/types"
+import { IResponse } from "../request"
 
 export interface IPostThreads {
   title: "completed" | string
@@ -68,9 +69,9 @@ interface IQueryParams {
 
 export interface IServiceThreads {
   post(value: IPostThreads): IPromiseReturn<IResponseCreate>
-  get(value?: IQueryParams): IPromiseReturn<IResponseThreads[]>
+  get(value?: IQueryParams): Promise<IResponse<IResponseThreads[]>>
   patch(value: IPatchThreads, id: number | string): IPromiseReturn<IResponseCreate>
-  getId(id: number | string): IPromiseReturn<IResponseThread>
+  getId(id: number | string): Promise<IResponse<IResponseThread>>
   delete(id: number | string): IPromiseReturn<IResponseCreate>
-  getUserId(userId: number | string): IPromiseReturn<IResponseThreads[]>
+  getUserId(userId: number | string): Promise<IResponse<IResponseThreads[]>>
 }

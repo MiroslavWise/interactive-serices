@@ -5,7 +5,12 @@ import { type ReactNode, useEffect } from "react"
 import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
-import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies, useFetchingSession } from "@/store"
+import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies } from "@/store"
+import dynamic from "next/dynamic"
+
+const YMapsProvider = dynamic(() => import("@/context/YMapsProvider"), {
+  ssr: false,
+})
 
 export default ({ children }: { children: ReactNode }) => {
   const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
@@ -37,13 +42,15 @@ export default ({ children }: { children: ReactNode }) => {
   }, [isTablet])
 
   return (
-    <NextThemesProvider>
-      <QueryClientProviderContext>
-        <WebSocketProvider>
-          {children}
-          <Containers />
-        </WebSocketProvider>
-      </QueryClientProviderContext>
-    </NextThemesProvider>
+    <YMapsProvider>
+      <NextThemesProvider>
+        <QueryClientProviderContext>
+          <WebSocketProvider>
+            {children}
+            <Containers />
+          </WebSocketProvider>
+        </QueryClientProviderContext>
+      </NextThemesProvider>
+    </YMapsProvider>
   )
 }

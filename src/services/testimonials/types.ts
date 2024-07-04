@@ -1,6 +1,7 @@
 import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn, TOrder } from "../types/general"
 import { IResponseOffers, IUserOffer } from "../offers/types"
+import { IResponse } from ".."
 
 export type TStatusFeedback = "published" | "blocked" | "edited"
 export type TNumberRating = 1 | 2 | 3 | 4 | 5 | number
@@ -35,10 +36,10 @@ export interface IResponseTestimonials {
 }
 
 export interface IServiceTestimonials {
-  get(value?: IQueries): IPromiseReturn<IResponseTestimonials[]>
+  get(value?: IQueries): Promise<IResponse<IResponseTestimonials[]>>
   post(value: IPostTestimonials): IPromiseReturn<IResponseTestimonials>
   patch(value: TPatchTestimonials, id: number | string): IPromiseReturn<IResponseTestimonials>
-  getId(id: number | string): IPromiseReturn<IResponseTestimonials>
+  getId(id: number | string): Promise<IResponse<IResponseTestimonials>>
 }
 
 interface IQueries {

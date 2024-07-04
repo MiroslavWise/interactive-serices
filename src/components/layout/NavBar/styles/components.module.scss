@@ -17,15 +17,6 @@
   }
 }
 
-.logo {
-  cursor: pointer;
-
-  & > img {
-    width: 7.3125rem;
-    height: 1.875rem;
-  }
-}
-
 [data-tablet="true"] {
   .logo {
     margin-left: -2rem;

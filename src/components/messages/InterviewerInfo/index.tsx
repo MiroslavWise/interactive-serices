@@ -22,7 +22,6 @@ export const InterviewerInfoCurrent = memo(function () {
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   function handleDeleteChat() {
-    const data: IPatchThreads = { enabled: false }
     deleteThread(Number(idThread)).then((response) => {
       refetchCountMessages().finally(() => {
         console.log("%c --- response delete ---", "color: #f00", response)

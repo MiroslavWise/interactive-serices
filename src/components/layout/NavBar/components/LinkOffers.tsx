@@ -22,7 +22,7 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
   })
 
   return (
-    <Link key="::offers::link::" data-active={pathname?.includes("/offers")} href="/offers">
+    <Link key="::offers::link::" data-active={pathname?.includes("/offers")} href="/offers" prefetch>
       {MENU_ICONS.offers}
       <span>Предложения обменов</span>
       {data?.res?.length ? (

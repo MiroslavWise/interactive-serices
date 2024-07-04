@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react"
+import { memo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import type { IUserResponse } from "@/services/users/types"
@@ -15,7 +15,7 @@ export const ContainerReviews = memo(function ContainerReviews(props: IUserRespo
     enabled: !!id,
   })
 
-  const list = useMemo(() => dataTestimonials?.res || [], [dataTestimonials?.res])
+  const list = dataTestimonials?.data || []
 
   return (
     <ul data-items>

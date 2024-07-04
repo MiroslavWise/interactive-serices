@@ -23,17 +23,17 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
   })
 
   const countTestimonials = useMemo(() => {
-    const length = dataTestimonials?.res?.length || 0
+    const length = dataTestimonials?.data?.length || 0
     let sum = 0
 
-    dataTestimonials?.res?.forEach((item) => {
+    dataTestimonials?.data?.forEach((item) => {
       if (item) {
         sum += item?.rating
       }
     })
 
     return sum / length || 0
-  }, [dataTestimonials?.res])
+  }, [dataTestimonials?.data])
 
   return (
     <div className={styles.container} data-badges-color>

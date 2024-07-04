@@ -8,7 +8,7 @@ export const useCountMessagesNotReading = (value?: boolean) => {
   const { id } = useAuth(({ auth }) => auth) ?? {}
 
   const {
-    data,
+    data: dataThread,
     refetch: refetchCountMessages,
     isLoading,
   } = useQuery({
@@ -24,11 +24,13 @@ export const useCountMessagesNotReading = (value?: boolean) => {
     enabled: !!id && (typeof value === "boolean" ? value : true),
   })
 
+  const { data } = dataThread ?? {}
+
   const count = useMemo(() => {
-    if (data?.res && Array.isArray(data?.res) && id) {
+    if (data && Array.isArray(data) && id) {
       const array: any[] = []
 
-      for (const item of data?.res) {
+      for (const item of data) {
         if (item?.messages?.length > 0) {
           if (item?.messages[0]?.emitterId !== id) {
             if (!item?.messages[0]?.readIds?.includes(id)) {
@@ -41,7 +43,7 @@ export const useCountMessagesNotReading = (value?: boolean) => {
       return array?.length || 0
     }
     return null
-  }, [data?.res, id])
+  }, [data, id])
 
   return { count, refetchCountMessages, data, isLoading }
 }

@@ -13,7 +13,7 @@ function TotalAndFilterFeedback({ id }: { id: number | string }) {
     enabled: !!id,
   })
 
-  const items = data?.res || []
+  const items = data?.data || []
   const length = items.length
 
   if (isLoading) return <span className="w-full h-5 rounded-[0.625rem]" />

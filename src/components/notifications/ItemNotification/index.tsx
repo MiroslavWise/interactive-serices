@@ -141,11 +141,11 @@ export const ItemNotification = (props: IResponseNotifications) => {
 
   const isFeedback = useMemo(() => {
     if (provider === "barter") {
-      return dataTestimonials?.res?.some((item) => item?.userId === userId && item?.barterId === data?.id)
+      return dataTestimonials?.data?.some((item) => item?.userId === userId && item?.barterId === data?.id)
     } else {
       return undefined
     }
-  }, [userId, data?.id, dataTestimonials?.res, provider])
+  }, [userId, data?.id, dataTestimonials?.data, provider])
 
   const type: TTypeIconNotification = useMemo(() => {
     switch (provider) {
@@ -485,7 +485,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
     dispatchAddTestimonials({
       user: resUser!,
       barterId: data?.id!,
-      testimonials: dataTestimonials?.res!,
+      testimonials: dataTestimonials?.data!,
       notificationId: id!,
     })
     dispatchModal(EModalData.CompletionTransaction)

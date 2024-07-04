@@ -13,8 +13,6 @@ import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { serviceComments } from "@/services"
 
-import styles from "../styles/block-comments.module.scss"
-
 export function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { socket } = useWebSocket() ?? {}
   const { threadId } = offer ?? {}
@@ -54,7 +52,7 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
   }, [socket, threadId, userId])
 
   return (
-    <div className={styles.container} data-text="container-commentaries">
+    <div className="w-full flex flex-col gap-0 !px-0" data-text="container-commentaries">
       <ListCommentaries
         currentComments={currentComments}
         expand={expandComment}

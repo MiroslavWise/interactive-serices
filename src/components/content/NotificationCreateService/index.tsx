@@ -27,23 +27,23 @@ function NotificationCreateService() {
   const bounds = useBounds(({ bounds }) => bounds)
 
   async function firstOffer() {
-    const { res, ok } = await queryClient.fetchQuery({
+    const { data } = await queryClient.fetchQuery({
       queryFn: () => getOffers({ order: "DESC", provider: EnumTypeProvider.offer }),
       queryKey: ["offers", { provider: EnumTypeProvider.offer }],
     })
 
-    if (ok && !!res) {
+    if (!!data) {
       if (!bounds) {
         return {
-          offer: res[0],
+          offer: data[0],
         }
       }
 
-      let firstAdd = res[0].addresses[0].coordinates.split(" ").map(Number)
-      let offer = res[0]
+      let firstAdd = data[0].addresses[0].coordinates.split(" ").map(Number)
+      let offer = data[0]
       const b = [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]
 
-      for (const item of res) {
+      for (const item of data) {
         const distanceOld = Math.abs(Math.abs(firstAdd[0]) - Math.abs(b[0])) + Math.abs(Math.abs(firstAdd[1]) - Math.abs(b[1]))
         const distanceNew =
           Math.abs(Math.abs(offer.addresses[0].coordinates.split(" ").map(Number)[0]) - Math.abs(b[0])) +

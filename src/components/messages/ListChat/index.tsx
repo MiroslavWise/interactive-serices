@@ -17,7 +17,7 @@ export const ListChat = () => {
 
   const { data, refetchCountMessages } = useCountMessagesNotReading()
 
-  const itemsProvider = useMemo(() => data?.res || [], [data?.res])
+  const itemsProvider = data || []
 
   const items = useMemo(() => {
     const ITEMS = itemsProvider
