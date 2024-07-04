@@ -1,19 +1,19 @@
 import { MetadataRoute } from "next"
 
-// import { getOffersCategoriesPROD } from "@/services"
+import { getOffersCategoriesPROD } from "@/services"
 
 import env from "@/config/environment"
 
 export default async function (): Promise<MetadataRoute.Sitemap> {
-  // const { res } = await getOffersCategoriesPROD()
-  // const items = res || []
+  const { res } = await getOffersCategoriesPROD()
+  const items = res || []
 
-  // const categories: MetadataRoute.Sitemap = items.map((_) => ({
-  //   url: `${env.server.host}/categories/${_.id}`,
-  //   lastModified: new Date(),
-  //   changeFrequency: "monthly",
-  //   priority: 0.95,
-  // }))
+  const categories: MetadataRoute.Sitemap = items.map((_) => ({
+    url: `${env.server.host}/categories/${_.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.95,
+  }))
 
   return [
     {
@@ -46,6 +46,6 @@ export default async function (): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.75,
     },
-    // ...categories,
+    ...categories,
   ]
 }

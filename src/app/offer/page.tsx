@@ -7,7 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { usePush } from "@/helpers"
 import { queryClient } from "@/context"
 import { getIdOffer } from "@/services"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
 
 export default function () {
   const { handlePush } = usePush()
