@@ -9,10 +9,10 @@ import { getOffers, getOffersCategories } from "@/services"
 import { useFiltersScreen, useFiltersServices, useSearchFilters } from "@/store"
 
 export const useMapOffers = () => {
-  const providers = useFiltersServices(({ providers }) => providers)
-  const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
-  const objProvider = providers === "all" ? {} : { provider: providers }
   const idTitleCategory = useSearchFilters(({ id }) => id)
+  const providers = useFiltersServices(({ providers }) => providers)
+  const objProvider = providers === "all" ? {} : { provider: providers }
+  const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
 
   const { data: c } = useQuery({
     queryFn: () => getOffersCategories(),
@@ -32,7 +32,11 @@ export const useMapOffers = () => {
 
   const obj = activeCategories.length && ["all", EnumTypeProvider.offer].includes(providers) ? { category: activeCategories.join(",") } : {}
 
-  const { data, isLoading, refetch } = useQuery({
+  const {
+    data: dataOffers,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryFn: () => getOffers({ order: "DESC", ...obj, ...objProvider }),
     queryKey: [
       "offers",
@@ -44,7 +48,7 @@ export const useMapOffers = () => {
   })
 
   return {
-    itemsOffers: data?.res?.filter((item) => (idTitleCategory ? item?.categoryId === idTitleCategory : true)) || [],
+    itemsOffers: dataOffers?.data?.filter((item) => (idTitleCategory ? item?.categoryId === idTitleCategory : true)) || [],
     isLoading,
     refetch,
   }

@@ -44,9 +44,9 @@ export interface IUserResponse {
 }
 
 export interface IServiceUser {
-  get(): IPromiseReturn<IUserResponse>
+  get(): Promise<IResponse<IUserResponse>>
   getId(id: string | number): Promise<IResponse<IUserResponse>>
-  getEmail(value: string): IPromiseReturn<IUserResponse>
+  getEmail(value: string): Promise<IResponse<IUserResponse>>
   post(value: IPostDataUser, urlSearchParams?: string): IPromiseReturn<IResponseDataRegistration>
   patch(value: IPatchDataUser, id: number | string): IPromiseReturn<IUserResponse>
   delete(id: number | string): IPromiseReturn<IUserResponse>

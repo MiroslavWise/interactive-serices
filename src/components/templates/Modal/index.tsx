@@ -31,6 +31,9 @@ function Modal() {
   const visibleCreateCategory = useCreateNewCategory(({ visible }) => visible)
 
   const close = useCallback(() => {
+    // if (data && [EModalData.BalloonAlert, EModalData.BalloonOffer, EModalData.BalloonDiscussion].includes(data)) {
+    //   return
+    // }
     if (data && [EModalData.ChangePassword, EModalData.DeleteUser].includes(data)) {
       dispatchModal(EModalData.UpdateProfile)
       return
@@ -64,6 +67,9 @@ function Modal() {
     if (visible) {
       const keyDown = (e: KeyboardEvent) => {
         if (e.code == "Escape" || e.keyCode === 27) {
+          if (data && [EModalData.BalloonAlert, EModalData.BalloonOffer, EModalData.BalloonDiscussion].includes(data)) {
+            return
+          }
           close()
         }
       }

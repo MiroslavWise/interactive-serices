@@ -31,7 +31,7 @@ export const CurrentChat = () => {
   const [stateMessages, setStateMessages] = useState<(IResponseMessage & { temporary?: boolean })[]>([])
   const { refetchCountMessages } = useCountMessagesNotReading()
 
-  const { data } = useQuery({
+  const { data: dataThreadId } = useQuery({
     queryFn: () => getThreadId(idThread!),
     queryKey: ["threads", { userId: userId, threadId: idThread }],
     refetchOnMount: false,
@@ -51,29 +51,29 @@ export const CurrentChat = () => {
   })
 
   useEffect(() => {
-    if (data?.res?.enabled === false && data?.ok) {
+    if (dataThreadId?.data?.enabled === false && !!dataThreadId?.data) {
       handleReplace("/messages")
     }
-  }, [data, handleReplace])
+  }, [dataThreadId?.data, handleReplace])
 
   useEffect(() => {
-    if (userId && data?.res) {
+    if (userId && dataThreadId?.data) {
       const replaceOut = () => {
-        return Number(data?.res?.emitter?.id!) === Number(userId) || !!data?.res?.receivers?.some((_) => _.id === userId!)
+        return Number(dataThreadId?.data?.emitter?.id!) === Number(userId) || !!dataThreadId?.data?.receivers?.some((_) => _.id === userId!)
       }
       if (!replaceOut()) {
         handleReplace("/messages")
       }
     }
-  }, [userId, data?.res, handleReplace])
+  }, [userId, dataThreadId?.data, handleReplace])
 
   const user = useMemo(() => {
-    if (data?.res) {
-      return Number(data?.res?.emitter?.id) === Number(userId) ? data?.res?.receivers[0] : data?.res?.emitter
+    if (dataThreadId?.data) {
+      return Number(dataThreadId?.data?.emitter?.id) === Number(userId) ? dataThreadId?.data?.receivers[0] : dataThreadId?.data?.emitter
     }
 
     return null
-  }, [data?.res, userId])
+  }, [dataThreadId?.data, userId])
 
   const userDataIdMassage = useUserIdMessage(({ userData }) => userData)
 
@@ -155,7 +155,7 @@ export const CurrentChat = () => {
           </button>
         </header>
         <section>
-          <ListMessages messages={stateMessages} thread={data?.res!} user={user! || userDataIdMassage!} isLoading={isLoading} />
+          <ListMessages messages={stateMessages} thread={dataThreadId?.data!} user={user! || userDataIdMassage!} isLoading={isLoading} />
         </section>
         {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(user?.id)} refetch={refetch} />}
         <PopupMenu dataUser={user} />
@@ -164,7 +164,7 @@ export const CurrentChat = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ListMessages thread={data?.res!} messages={stateMessages} user={user! || userDataIdMassage!} isLoading={isLoading} />
+      <ListMessages thread={dataThreadId?.data!} messages={stateMessages} user={user! || userDataIdMassage!} isLoading={isLoading} />
       {isLoading ? <LoadingInput /> : <TextAreaSend setStateMessages={setStateMessages} idUser={Number(user?.id)} refetch={refetch} />}
     </div>
   )

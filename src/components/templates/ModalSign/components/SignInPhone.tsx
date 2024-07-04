@@ -23,7 +23,6 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
   const {
     handleSubmit,
     setError,
-    watch,
     control,
     formState: { errors },
   } = useForm<TSchemaPhoneSignIn>({ defaultValues: { phone: "" }, resolver: resolverPhoneSigIn })

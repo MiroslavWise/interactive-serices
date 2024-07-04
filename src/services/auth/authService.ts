@@ -1,9 +1,9 @@
+import { AxiosError } from "axios"
 import { type IReturnData } from "../types/general"
 import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/email-sign-in.schema"
 
 import { instance } from "../request"
 import { isTokenExpired, useAuth, type TAuth } from "@/store"
-import { AxiosError } from "axios"
 
 const url = "/auth"
 
@@ -48,9 +48,6 @@ export async function refresh() {
   const auth = useAuth.getState().auth
   const user = useAuth.getState().user
 
-  console.log("refresh: auth: ", auth)
-  console.log("refresh: user: ", user)
-
   if (!auth) return { ok: false }
 
   const expires = auth?.expires
@@ -58,9 +55,6 @@ export async function refresh() {
   const email = user?.email
 
   const boolean = isTokenExpired(expires ? Number(expires) : undefined)
-
-  console.log("refresh: expires", expires)
-  console.log("refresh: Date.now()", Date.now())
 
   try {
     const body = { email, refreshToken }

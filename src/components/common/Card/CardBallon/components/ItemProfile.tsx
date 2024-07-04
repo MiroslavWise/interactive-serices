@@ -35,24 +35,17 @@ function ItemProfile({ user }: { user: IUserOffer }) {
     return Number(sum / count)
   }, [dataTestimonials])
 
-  const name = `${firstName || " "} ${lastName || " "}`
+  const name = `${firstName || "Имя"} ${lastName || "Фамилия"}`
 
   return (
     <section className="mt-1 w-full pt-0.625 border-t-[1px] border-t-grey-stroke-light border-solid">
       <div className="flex flex-row items-center justify-between w-full gap-0.625">
-        <Link
-          className="flex flex-row items-center gap-0.625"
-          onClick={(event) => {
-            event.stopPropagation()
-            dispatchProfilePublic({ visible: true, idUser: id })
-          }}
-          href={{ pathname: `/customer/${id}` }}
-        >
+        <article className="flex flex-row items-center gap-0.625">
           <div className="relative h-6 w-6 rounded-md bg-BG-second overflow-hidden [&>img]:absolute [&>img]:inset-0 [&>img]:h-full [&>img]:w-full">
             <NextImageMotion src={image?.attributes?.url!} alt="avatar" width={24} height={24} />
           </div>
           <p className="text-text-primary text-sm font-normal line-clamp-1 whitespace-nowrap">{name}</p>
-        </Link>
+        </article>
         {rating ? (
           <div className="flex flex-row items-center">
             <div className="w-4 h-4 p-[0.1875rem] flex items-center justify-center [&>svg]:w-0.625 [&>svg]:h-0.625">

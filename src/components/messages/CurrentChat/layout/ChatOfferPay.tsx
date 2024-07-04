@@ -42,11 +42,11 @@ export function ChatOfferPay() {
 
   async function createChat() {
     async function getDataThread() {
-      const { res } = await getThreads({
+      const { data } = await getThreads({
         user: userId,
         provider: EnumProviderThreads.OFFER_PAY,
       })
-      return res?.find(
+      return data?.find(
         (item) => item?.provider?.includes(EnumProviderThreads.OFFER_PAY) && Number(item?.offerId) === Number(offerNumber?.id),
       )
     }

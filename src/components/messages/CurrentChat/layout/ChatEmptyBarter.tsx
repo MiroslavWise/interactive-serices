@@ -35,11 +35,11 @@ export const ChatEmptyBarter = () => {
 
   async function createChat() {
     async function getDataThread() {
-      const { res } = await getThreads({
+      const { data } = await getThreads({
         user: userId,
         provider: EnumProviderThreads.BARTER,
       })
-      return res?.find((item) => item?.provider?.includes(EnumProviderThreads.BARTER) && item?.barterId === Number(barterNumber?.id))
+      return data?.find((item) => item?.provider?.includes(EnumProviderThreads.BARTER) && item?.barterId === Number(barterNumber?.id))
     }
 
     async function createThread(emitterId: number, receiverId: number) {

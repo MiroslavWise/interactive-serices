@@ -1,6 +1,6 @@
 "use client"
 
-import { IResponseOffers, IUserOffer } from "@/services/offers/types"
+import { IResponseOffers } from "@/services/offers/types"
 
 import { NextImageMotion } from "@/components/common"
 import SharedPopupButton from "./SharedPopup"

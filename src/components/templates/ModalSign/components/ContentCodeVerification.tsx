@@ -44,14 +44,15 @@ export const ContentCodeVerification = ({}) => {
         .then(async (response) => {
           if (response.ok) {
             if (response?.res) {
-              const { res } = await queryClient.fetchQuery({
+              const { data } = await queryClient.fetchQuery({
                 queryFn: () => getUser(),
                 queryKey: ["user", { userId: response.res?.id }],
               })
-
-              dispatchAuthToken({ auth: response?.res!, user: res! })
-              if (!res?.profile?.username) {
-                dispatchOnboarding("open")
+              if (!!data) {
+                dispatchAuthToken({ auth: response?.res!, user: data! })
+                if (!data?.profile?.username) {
+                  dispatchOnboarding("open")
+                }
               }
               dispatchAuthModal({
                 visible: false,

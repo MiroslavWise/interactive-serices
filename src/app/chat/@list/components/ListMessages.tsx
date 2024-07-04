@@ -16,13 +16,12 @@ import { NextImageMotion } from "@/components/common"
 function ListMessages() {
   const params = useParams()
   const { id } = (params as { id?: string | number }) ?? {}
-  console.log("ListMessages id: ", id)
   const userId = useAuth(({ auth }) => auth?.id)
   const { search, navigate } = useChatContext()
 
   const { data } = useCountMessagesNotReading()
 
-  const items = data?.res || []
+  const items = data || []
 
   const filters = useMemo(() => {
     const ITEMS = items

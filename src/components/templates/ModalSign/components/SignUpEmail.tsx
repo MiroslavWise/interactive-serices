@@ -35,13 +35,12 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
     if (!loading) {
       setLoading(true)
       getUserEmail(values.email!).then((response) => {
+        const { data, error } = response
         console.log("response getEmailUser: ", response)
-        if (response.ok) {
-          if (response.res) {
-            dispatchAuthModalCurrentUser({ user: response?.res })
-          }
+        if (!!data) {
+          dispatchAuthModalCurrentUser({ user: data })
         } else {
-          if (response?.error?.message === "user not found") {
+          if (error?.message === "user not found") {
             dispatchAuthModalCreatePassword({
               email: values.email,
               agree: !!values.agree,

@@ -25,11 +25,11 @@ export const ChatEmpty = () => {
 
   async function createChat() {
     async function getDataThread(emitterId: number, receiverId: number) {
-      const { res } = await getThreads({
+      const { data } = await getThreads({
         user: emitterId,
         provider: EnumProviderThreads.PERSONAL,
       })
-      return res?.find(
+      return data?.find(
         (item) =>
           ((item?.receivers?.find((_) => _.id === receiverId) && item?.emitter?.id! === emitterId) ||
             (item?.receivers?.find((_) => _.id === emitterId) && item?.emitter?.id! === receiverId)) &&

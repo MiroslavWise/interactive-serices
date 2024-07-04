@@ -1,23 +1,28 @@
 "use client"
 
 import { cx } from "@/lib/cx"
-import { useChatContext, type TNavigateChat } from "./ContextChats"
+import { useChatContext } from "./ContextChats"
+import { EnumProviderThreads } from "@/types/enum"
 
 const NAV_MENU: {
-  value: TNavigateChat
+  value: EnumProviderThreads | "all"
   label: string
 }[] = [
   {
     value: "all",
-    label: "Все сообщения",
+    label: "Все",
   },
   {
-    value: "personal",
-    label: "Личные",
-  },
-  {
-    value: "barter",
+    value: EnumProviderThreads.BARTER,
     label: "Обмены",
+  },
+  {
+    value: EnumProviderThreads.OFFER_PAY,
+    label: "Покупки",
+  },
+  {
+    value: EnumProviderThreads.PERSONAL,
+    label: "Личные",
   },
 ]
 

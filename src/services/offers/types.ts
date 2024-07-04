@@ -78,7 +78,7 @@ export interface IQueriesOffers {
 
 export interface IServiceOffers {
   post(value: IPostOffers): IPromiseReturn<IResponseCreate>
-  get(value?: IQueriesOffers): IPromiseReturn<IResponseOffers[]>
+  get(value?: IQueriesOffers): Promise<IResponse<IResponseOffers[]>>
   patch(value: IPatchOffers, id: number | string): IPromiseReturn<IResponseCreate>
   getId(id: number | string): Promise<IResponse<IResponseOffers>>
   delete(id: number | string): IPromiseReturn<IResponseCreate>

@@ -1,13 +1,16 @@
 "use client"
 
+import { type IResponseOffers } from "@/services/offers/types"
+
 import IconActivity from "@/components/icons/IconActivity"
 
-import { useOutsideClickEvent } from "@/helpers"
-import { IResponseOffers } from "@/services/offers/types"
-import { ITEMS_LINK } from "@/components/common/maps/CopyLinks"
+import env from "@/config/environment"
+import { useToast } from "@/helpers/hooks/useToast"
+
+const LABEL = "Поделиться"
 
 export const ButtonActivity = ({ offer }: { offer: IResponseOffers }) => {
-  const [visible, setVisible, ref] = useOutsideClickEvent()
+  const { onSimpleMessage } = useToast()
 
   return (
     <>
@@ -15,21 +18,24 @@ export const ButtonActivity = ({ offer }: { offer: IResponseOffers }) => {
         type="button"
         data-activity
         onClick={(event) => {
+          const url = `${env.server.host}/offers/${offer.provider}/${offer.id}`
+          if (!!window.navigator.share!) {
+            navigator.share({
+              title: offer.title!,
+              text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
+              url: url,
+            })
+          } else {
+            navigator.clipboard.writeText(url)
+            onSimpleMessage("Ссылка скопирована")
+          }
           event.stopPropagation()
-          setVisible((prev) => !prev)
         }}
-        ref={ref}
+        title={LABEL}
+        aria-label={LABEL}
+        aria-labelledby={LABEL}
       >
         <IconActivity />
-        <article data-shared={visible}>
-          <h3>Поделиться</h3>
-          {ITEMS_LINK({ offer }).map((item) => (
-            <a key={`::key::copy::${item.label}::`} onClick={item.linkCopy}>
-              <div data-icon>{item.icon}</div>
-              <span>{item.label}</span>
-            </a>
-          ))}
-        </article>
       </button>
     </>
   )

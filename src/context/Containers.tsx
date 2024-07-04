@@ -34,7 +34,7 @@ import {
   useNumberConfirmation,
   useCreateNewCategory,
   useChangeService,
-  useAdvertisingBanner,
+  // useAdvertisingBanner,
   useAuth,
 } from "@/store"
 import { useResize } from "@/helpers"
@@ -45,7 +45,7 @@ const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"),
 const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
 const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
-const HeaderBanner = dynamic(() => import("@/components/templates/HeaderBanner"), { ssr: false })
+// const HeaderBanner = dynamic(() => import("@/components/templates/HeaderBanner"), { ssr: false })
 const PreCloseCreateService = dynamic(() => import("@/components/templates/PreCloseCreateService"), { ssr: false })
 const NotificationCreateService = dynamic(() => import("@/components/content/NotificationCreateService"), { ssr: false })
 
@@ -62,14 +62,14 @@ export const Containers = () => {
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
   const visibleCreateNewCategory = useCreateNewCategory(({ visible }) => visible)
   const visibleChangeService = useChangeService(({ visible }) => visible)
-  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
+  // const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   const { isTablet } = useResize()
 
   return (
     <>
       <Modal />
-      {visibleAdvertisingBanner && <HeaderBanner />}
+      {/* {visibleAdvertisingBanner && <HeaderBanner />} */}
       <PhotoCarousel />
       <WelcomeModal />
       {isAuth === false && (
