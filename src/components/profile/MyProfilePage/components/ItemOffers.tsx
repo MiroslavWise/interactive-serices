@@ -46,7 +46,7 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
   }
 
   return (
-    <li className="w-full h-auto p-4 bg-BG-second rounded-2xl flex flex-col gap-3 overflow-hidden" onClick={handle}>
+    <li className="w-full p-4 bg-BG-second rounded-2xl flex flex-col gap-3 overflow-hidden" onClick={handle}>
       <ItemTitle offer={offer} />
       <article className="w-full flex flex-col gap-4 h-full">
         <section className="w-full flex flex-col gap-3 h-full">
@@ -92,6 +92,9 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
             <button
               type="button"
               className="relative w-9 bg-grey-field p-[1.125rem]"
+              title="Удалить"
+              aria-label="Удалить"
+              aria-labelledby="Удалить"
               onClick={(event) => {
                 event.stopPropagation()
                 dispatchDeleteOffer({ visible: true, idOffer: id!, provider })
