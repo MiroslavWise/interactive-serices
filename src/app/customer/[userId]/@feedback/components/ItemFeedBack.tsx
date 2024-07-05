@@ -4,12 +4,12 @@ import { type IResponseTestimonials } from "@/services/testimonials/types"
 
 import ItemOffer from "./ItemOffer"
 import { NextImageMotion } from "@/components/common"
+import DescriptionItemFeedback from "./DescriptionItemFeedback"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { formatOfMMM } from "@/helpers"
 import { EnumTypeProvider } from "@/types/enum"
-import DescriptionItemFeedback from "./DescriptionItemFeedback"
 
 async function ItemFeedBack(props: IResponseTestimonials) {
   const { rating, id, message, created, targetId, user, provider } = props ?? {}

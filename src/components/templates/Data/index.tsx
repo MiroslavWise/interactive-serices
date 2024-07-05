@@ -36,6 +36,7 @@ import stylesOutAccount from "@/components/templates/OutAccount/style.module.scs
 import stylesUpdateOffer from "@/components/templates/UpdateOffer/style.module.scss"
 import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
 import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
+import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -61,6 +62,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.DeleteUser, <DeleteUser key="::key::modal::delete-user" />], //Удаление оффера
   [EModalData.ActiveServicesFrom, <ActiveServicesFrom key="::key::modal::active-services-from" />], //Желаемые услуги
   [EModalData.SuccessNewOptional, <SuccessNewOptional key="::key::modal::successNewOptional" />], //Успешное создание оффера, дискуссии или алерта
+  [EModalData.UpdateDiscussionAndAlert, <UpdateDiscussionAndAlert key="::key::Update::Discussion::And::Alert" />], //Обновление беседы и алерта
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION],
@@ -82,6 +84,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.ChangePassword, stylesChangePassword.container],
   [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container],
   [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL],
+  [EModalData.UpdateDiscussionAndAlert, CN_UPDATE_DISCUSSION_AND_ALERT],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

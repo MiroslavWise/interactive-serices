@@ -6,7 +6,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { usePush } from "@/helpers"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchMapCoordinates } from "@/store"
 
 function RedirectOffer({ offer }: { offer: IResponseOffers }) {
   const { handlePush } = usePush()
@@ -24,6 +24,14 @@ function RedirectOffer({ offer }: { offer: IResponseOffers }) {
       if (offer.provider === EnumTypeProvider.alert) {
         dispatchBallonAlert({ offer: offer })
         handlePush("/")
+      }
+
+      const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
+      if (geoData) {
+        dispatchMapCoordinates({
+          zoom: 17,
+          coordinates: geoData?.coordinates?.split(" ")?.map(Number),
+        })
       }
     }
   }, [offer])

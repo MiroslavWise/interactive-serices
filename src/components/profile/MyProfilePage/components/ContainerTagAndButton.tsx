@@ -6,10 +6,10 @@ import type { ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 
+import { useResize } from "@/helpers"
 import { useProviderProfileOffer, dispatchProvider } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { useResize } from "@/helpers"
 
 const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
   {
@@ -30,7 +30,7 @@ export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {
   const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
   const { isMobile } = useResize()
   return (
-    <div className={styles.containerTagAndButton}>
+    <div className="w-full h-11">
       <Segments
         type="primary"
         VALUES={TABS(isMobile)}

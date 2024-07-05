@@ -481,7 +481,7 @@ export default function CreateNewOptionModal() {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <fieldset id="fieldset-create-option-modal-title" data-test="fieldset-create-new-option-description">
-                <label htmlFor="title">{description(typeAdd!)}</label>
+                <label htmlFor={field.name}>{description(typeAdd!)}</label>
                 <div data-text-area data-focus={visible && step === 3}>
                   <textarea
                     disabled={visible && step !== 3}

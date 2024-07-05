@@ -10,20 +10,27 @@ import { Button } from "@/components/common"
 import { getUserIdOffers, patchOffer } from "@/services"
 import { useDeleteOffer, dispatchDeleteOffer, useAuth } from "@/store"
 
+const title: Map<EnumTypeProvider, string> = new Map([
+  [EnumTypeProvider.offer, "предложение"],
+  [EnumTypeProvider.discussion, "обсуждение"],
+  [EnumTypeProvider.alert, "SOS-сообщение"],
+])
+
 function DeleteOffer() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const idOffer = useDeleteOffer(({ idOffer }) => idOffer)
+  const provider = useDeleteOffer(({ provider }) => provider)
 
   const [loading, setLoading] = useState(false)
 
   const { refetch } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
-    queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
+    queryFn: () => getUserIdOffers(userId!, { provider: provider!, order: "DESC" }),
+    queryKey: ["offers", { userId: userId, provider: provider! }],
     enabled: false,
   })
 
   function close() {
-    dispatchDeleteOffer({ visible: false, idOffer: null })
+    dispatchDeleteOffer({ visible: false, idOffer: null, provider: null })
   }
 
   function deleteOffer() {
@@ -34,8 +41,10 @@ function DeleteOffer() {
           if (response.ok) {
             refetch()
           }
-          setLoading(false)
-          close()
+          setTimeout(() => {
+            setLoading(false)
+            close()
+          })
         })
       } else {
         setLoading(false)
@@ -50,7 +59,7 @@ function DeleteOffer() {
         <div data-img>
           <img src="/svg/trash-accent.svg" alt="trash" width={20} height={20} />
         </div>
-        <h2>Вы хотите удалить предложение?</h2>
+        <h2>Вы хотите удалить {title.has(provider!) ? title.get(provider!) : null}?</h2>
       </article>
       <footer>
         <Button type="button" typeButton="fill-primary" label="Да, удалить" onClick={deleteOffer} loading={loading} />

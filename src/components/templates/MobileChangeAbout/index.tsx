@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 import { LIMIT_LENGTH_ABOUT, MIN_LENGTH_ABOUT, resolverAboutSchema, TAboutSchema } from "./utils/about.schema"
@@ -9,7 +9,7 @@ import { LIMIT_LENGTH_ABOUT, MIN_LENGTH_ABOUT, resolverAboutSchema, TAboutSchema
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { getProfile, patchProfile } from "@/services"
+import { getUserId, patchProfile } from "@/services"
 import { useAuth, dispatchMobileChangeAbout, useMobileChangeAbout } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -21,14 +21,15 @@ export const MobileChangeAbout = () => {
   const ref = useRef<HTMLTextAreaElement>(null)
 
   const { data, refetch } = useQuery({
-    queryFn: () => getProfile(),
-    queryKey: ["profile", userId!],
+    queryFn: () => getUserId(userId!),
+    queryKey: ["user", { userId: userId! }],
     enabled: !!userId && visible,
   })
 
-  const about = data?.res?.about || ""
+  const isProfile = !!data?.data?.profile
+  const about = data?.data?.profile?.about || ""
 
-  const { control, watch, handleSubmit, setValue, register } = useForm<TAboutSchema>({
+  const { control, watch, handleSubmit, setValue } = useForm<TAboutSchema>({
     resolver: resolverAboutSchema,
     defaultValues: {
       about: about ?? "",
@@ -73,18 +74,18 @@ export const MobileChangeAbout = () => {
   }
 
   return (
-    <div className={cx(styles.wrapper, "wrapper-fixed")} data-visible={visible}>
-      <section data-section-modal>
+    <div className={cx(styles.wrapper, "wrapper-fixed", "bg-translucent p-0", visible && "!z-[2001] !opacity-100 !visible")}>
+      <section data-section-modal className="relative h-full w-full bg-BG-second">
         <ButtonClose onClick={handleClose} />
-        <header>
-          <h3>Обо мне</h3>
+        <header className="flex items-center justify-center w-full p-5 pb-4 z-[1] h-[var(--height-standard-header-modal)] border-b border-solid border-grey-separator">
+          <h3 className="text-text-primary text-center text-2xl font-semibold">Обо мне</h3>
         </header>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="w-full h-[calc(100%_-_var(--height-standard-header-modal))] p-5 flex flex-col gap-5">
           <Controller
             name="about"
             control={control}
             render={({ field }) => (
-              <div data-text-area-from>
+              <div data-text-area-from className="w-full relative flex flex-col gap-2.5">
                 <textarea {...field} placeholder="Нажмите сюда, чтобы редактировать информацию о себе" ref={ref} />
                 <span data-error={field.value.length >= LIMIT_LENGTH_ABOUT}>
                   <span>{field.value.length >= LIMIT_LENGTH_ABOUT ? "Достигнут лимит символов" : ""}</span>
@@ -95,8 +96,16 @@ export const MobileChangeAbout = () => {
               </div>
             )}
           />
-          <div data-buttons>
-            <Button type="submit" typeButton="fill-primary" label="Сохранить" disabled={watch("about").length <= MIN_LENGTH_ABOUT} />
+          <div className="mt-auto w-full flex flex-row items-center gap-3">
+            <Button
+              type="submit"
+              typeButton="fill-primary"
+              label="Сохранить"
+              disabled={watch("about").length <= MIN_LENGTH_ABOUT || !isProfile}
+              title={isProfile ? "Сохранить описание" : "Создайте профиль"}
+              aria-label={isProfile ? "Сохранить описание" : "Создайте профиль"}
+              aria-labelledby={isProfile ? "Сохранить описание" : "Создайте профиль"}
+            />
             <Button type="button" typeButton="regular-primary" label="Отменить" onClick={handleClose} />
           </div>
         </form>

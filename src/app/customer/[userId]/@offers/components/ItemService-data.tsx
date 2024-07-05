@@ -1,13 +1,9 @@
-import Link from "next/link"
-
 import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemTitle from "../../components/ItemTitle"
-import ButtonShare, { LinkToMap } from "./ButtonShare"
 import ItemServiceImages from "./ItemServiceImages"
 import { NextImageMotion } from "@/components/common"
-import IconMapWhite from "@/components/icons/IconMapWhite"
-import IconArrowRight from "@/components/icons/IconArrowRight"
+import ButtonShare, { LinkToMap } from "./ButtonShare"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { fromNow } from "@/helpers"
@@ -17,9 +13,7 @@ interface IProps {
 }
 
 function ItemServiceData({ offer }: IProps) {
-  const { created, addresses, user, description, images } = offer ?? {}
-
-  const firstAddress = addresses[0]
+  const { created, user, description, images } = offer ?? {}
 
   const { firstName, lastName, image } = user ?? {}
 
