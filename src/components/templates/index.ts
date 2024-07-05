@@ -1,7 +1,6 @@
 export * from "./WelcomeModal"
 export * from "./NewServicesBanner"
 export * from "./AboutSheiraPopup"
-export * from "./PublicProfile"
 export * from "./NotificationsMobile"
 export * from "./DroverFriends"
 export * from "./PhotoPreviewModal"

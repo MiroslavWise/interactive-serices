@@ -3,13 +3,5 @@
     transition-property: background;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-
-    &[data-active="false"] {
-      &:hover {
-        p {
-          color: var(--text-primary);
-        }
-      }
-    }
   }
 }
