@@ -40,6 +40,7 @@ import { useResize } from "@/helpers"
 
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
+const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
 const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
@@ -76,6 +77,7 @@ export const Containers = () => {
       )}
       <ToastContainer limit={3} />
       <CookiesToast />
+      <PublicProfile />
       {isTablet && <MobileFiltersMap />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
       {visibleHasBalloon && <HasClustererBalloons />}
