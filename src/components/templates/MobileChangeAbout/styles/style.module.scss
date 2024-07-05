@@ -1,57 +1,11 @@
 .wrapper {
-  background: rgba(5, 1, 13, 0.6);
-  padding: 0;
-
   & > section {
-    transform: translateY(2rem);
-    position: relative;
-    height: 100%;
-    width: 100%;
-    background-color: var(--BG-second);
-
-    transition: var(--transition);
-    transition-property: transform;
-
     & > [data-close] {
       z-index: 1000;
     }
 
-    & > header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding: 1.25rem 1.25rem 1rem 1.25rem;
-      z-index: 1;
-      height: 4.25rem;
-      border-bottom: 1px solid var(--grey-separator);
-
-      & > h3 {
-        color: var(--text-primary);
-        text-align: center;
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 2rem;
-        letter-spacing: -0.03125rem;
-      }
-    }
-
     & > form {
-      width: 100%;
-      height: calc(100% - 4.25rem);
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-
       & > [data-text-area-from] {
-        width: 100%;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 0.625rem;
-
         & > textarea {
           width: 100%;
           min-height: calc(3rem);
@@ -93,13 +47,6 @@
         align-items: center;
         gap: 0.75rem;
       }
-    }
-  }
-
-  &[data-visible="true"] {
-    z-index: 2001;
-    & > section {
-      transform: translateY(0);
     }
   }
 }
