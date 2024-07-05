@@ -14,6 +14,7 @@ import {
   dispatchBallonOffer,
   dispatchDeleteOffer,
   dispatchMapCoordinates,
+  dispatchUpdateDiscussionAndAlert,
   dispatchUpdateOffer,
 } from "@/store"
 import { Button } from "@/components/common"
@@ -37,7 +38,11 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
   }
 
   function handleUpdate() {
-    dispatchUpdateOffer(true, offer)
+    if (provider === EnumTypeProvider.offer) {
+      dispatchUpdateOffer(true, offer)
+    } else if ([EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(provider)) {
+      dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
+    }
   }
 
   return (
