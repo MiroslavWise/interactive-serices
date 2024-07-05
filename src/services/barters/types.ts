@@ -3,6 +3,7 @@ import type { IPromiseReturn } from "@/services/types/general"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { IResponseOffersCategories } from "../offers-categories/types"
+import { IResponse } from "../request"
 
 export interface ISmallThread {
   id: number
@@ -91,7 +92,7 @@ export enum ETypeReason {
 }
 
 export interface IBartersService {
-  get(values?: IQueries): IPromiseReturn<IBarterResponse[]>
+  get(values?: IQueries): Promise<IResponse<IBarterResponse[]>>
   getId(id: string | number): IPromiseReturn<IBarterResponse>
   getUserId(id: string | number, values?: IQueries): IPromiseReturn<IBarterResponse[]>
   getReceiverId(id: string | number, values?: IQueries): IPromiseReturn<IBarterResponse[]>

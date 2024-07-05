@@ -7,6 +7,7 @@ import IconAlertCircle from "@/components/icons/IconAlertCircle"
 
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
+import { encryptedOffer } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchComplaintModalUser } from "@/store"
 
@@ -39,7 +40,8 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         aria-label={LABEL_SHARE}
         aria-labelledby={LABEL_SHARE}
         onClick={(event) => {
-          const url = `${env.server.host}/offers/${provider}/${id}`
+          const hash = encryptedOffer(id)
+          const url = `${env.server.host}/offer/${hash}`
           if (!!window.navigator.share!) {
             navigator.share({
               title: title!,

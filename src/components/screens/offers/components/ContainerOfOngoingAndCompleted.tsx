@@ -34,10 +34,10 @@ export const ContainerOfOngoingAndCompleted = () => {
   })
 
   const count = useMemo(() => {
-    if (!data?.res) return null
+    if (!data?.data) return null
 
-    return data?.res?.length || 0
-  }, [data?.res])
+    return data?.data?.length || 0
+  }, [data?.data])
 
   return (
     <section className={styles.container}>
@@ -46,7 +46,7 @@ export const ContainerOfOngoingAndCompleted = () => {
       {isLoading ? (
         [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)
       ) : count ? (
-        data?.res?.map((item) => <CardBarter key={`::key::item::barter::`} barter={item} />)
+        data?.data?.map((item) => <CardBarter key={`::key::item::barter::`} barter={item} />)
       ) : (
         <p>{emptyDescription.has(active.value) ? emptyDescription.get(active.value) : null}</p>
       )}

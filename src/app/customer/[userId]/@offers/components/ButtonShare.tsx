@@ -23,6 +23,7 @@ import {
 } from "@/store"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 import IconMapWhite from "@/components/icons/IconMapWhite"
+import { encryptedOffer } from "@/helpers/cript"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -98,7 +99,8 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           aria-label={TITLE_SHARE}
           aria-labelledby={TITLE_SHARE}
           onClick={(event) => {
-            const url = `${env.server.host}/offers/${offer.provider}/${offer.id}`
+            const hash = encryptedOffer(offer.id)
+            const url = `${env.server.host}/offer/${hash}`
             if (!!window.navigator.share!) {
               navigator.share({
                 title: offer.title!,
