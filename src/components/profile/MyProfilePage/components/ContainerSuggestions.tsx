@@ -6,13 +6,13 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumTypeProvider } from "@/types/enum"
 import type { TContainerSuggestions } from "./types/types"
 
-import { CardDiscussion } from "@/components/common/Card"
-import { Button, LoadingMyOffer, PersonalAccountCardOffer } from "@/components/common"
+import { Button, LoadingMyOffer } from "@/components/common"
 
 import { getUserIdOffers } from "@/services"
 import { dispatchModal, dispatchOnboardingStart, EModalData, openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import ItemOffers from "./ItemOffers"
 
 const titleEmpty: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "У вас нет опубликованных предложений на карте."],
@@ -93,15 +93,8 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
     >
       {isLoading ? (
         [1, 2, 3, 4].map((item) => <LoadingMyOffer key={`::item::my::offer::loading::${item}::`} />)
-      ) : data?.data && Array.isArray(data?.data) && [EnumTypeProvider.offer].includes(stateProvider) && data?.data?.length > 0 ? (
-        data?.data
-          ?.filter((item) => item?.addresses?.length > 0)
-          .map((item, index) => <PersonalAccountCardOffer key={`${item.id}+${index}-${stateProvider}`} offer={item!} />)
-      ) : data?.data &&
-        Array.isArray(data?.data) &&
-        [EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(stateProvider) &&
-        data?.data?.length > 0 ? (
-        data?.data.map((item) => <CardDiscussion key={`${item.id}-${item.provider}`} {...item} />)
+      ) : data?.data && Array.isArray(data?.data) && data?.data?.length > 0 ? (
+        data.data.map((item, index) => <ItemOffers key={`${item.id}+${index}-${stateProvider}`} offer={item!} />)
       ) : (
         <article data-empty-null={length === 0}>
           <h3>

@@ -5,6 +5,7 @@ import { type IUserResponse } from "@/services/users/types"
 import IconShare from "@/components/icons/IconShare"
 
 import env from "@/config/environment"
+import { encryptedUser } from "@/helpers/cript"
 import { dispatchCloseMenuMobileOnUser } from "@/store"
 
 const LABEL = "Поделиться"
@@ -14,7 +15,9 @@ function ButtonShareMenuMobile({ user }: { user: IUserResponse }) {
 
   function handle() {
     if (!!window.navigator.share!) {
-      const url = `${env.server.host}/customer/${id}`
+      const hashUser = encryptedUser(id)
+      const linkUser = `/user/${hashUser}`
+      const url = `${env.server.host}${linkUser}`
       navigator.share({
         title: `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`,
         text: profile?.about || "",

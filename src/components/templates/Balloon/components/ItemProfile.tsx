@@ -1,9 +1,11 @@
 "use client"
 
-import { IResponseOffers } from "@/services/offers/types"
+import Link from "next/link"
 
-import { NextImageMotion } from "@/components/common"
+import { type IResponseOffers } from "@/services/offers/types"
+
 import SharedPopupButton from "./SharedPopup"
+import { NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 
@@ -11,13 +13,13 @@ import styles from "../styles/profile.module.scss"
 
 export const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
   const { created, user } = offer ?? {}
-  const { image, firstName, lastName } = user ?? {}
+  const { image, firstName, lastName, id: userId } = user ?? {}
 
   return (
     <div className={styles.container}>
-      <div data-img>
+      <Link data-img href={{ pathname: `/customer/${userId}` }}>
         <NextImageMotion src={image?.attributes?.url!} alt="avatar" width={44} height={44} />
-      </div>
+      </Link>
       <div data-info>
         <div data-name>
           <h4>
