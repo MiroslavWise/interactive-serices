@@ -25,7 +25,7 @@ export default ({ id }: { id: string | number }) => {
   const thread = dataThread?.data!
 
   return (
-    <div className="w-full md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end">
+    <div className="w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end">
       <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
       <ListMessages thread={thread} />
       <FooterFormCreateMessage thread={thread} />
