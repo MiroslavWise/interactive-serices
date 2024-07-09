@@ -15,7 +15,7 @@ import { useAuth } from "@/store"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-function HeaderChatId({ thread }: { thread: IResponseThread }) {
+function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
@@ -25,8 +25,27 @@ function HeaderChatId({ thread }: { thread: IResponseThread }) {
 
   const { firstName, lastName } = user ?? {}
 
+  if (isLoadingThread)
+    return (
+      <header className="loading-screen absolute top-0 left-0 right-0 w-full py-[0.9375rem] px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-4 bg-BG-second border-b border-solid border-grey-stroke md:h-[4.25rem]">
+        <Link
+          href={{ pathname: "/chat" }}
+          className="w-5 h-5 p-2.5 relative cursor-pointer *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
+        >
+          <IconArrowLeft />
+        </Link>
+        <article className="w-full grid grid-cols-[2.25rem_minmax(0,1fr)] gap-2.5">
+          <span className="w-9 h-9 rounded-full" />
+          <div className="w-full flex flex-col gap-1 *:h-4 *:rounded-lg">
+            <span className="max-w-[15.875rem]" />
+            <span className="max-w-[9.375rem]" />
+          </div>
+        </article>
+      </header>
+    )
+
   return (
-    <header className="absolute top-0 left-0 right-0 w-full py-[0.9375rem] px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)_4.5rem] items-center gap-4 bg-BG-second border-b border-solid border-grey-stroke">
+    <header className="absolute top-0 left-0 right-0 w-full py-[0.9375rem] px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)_4.5rem] items-center gap-4 bg-BG-second border-b border-solid border-grey-stroke md:h-[4.25rem]">
       <Link
         href={{ pathname: "/chat" }}
         className="w-5 h-5 p-2.5 relative cursor-pointer *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"

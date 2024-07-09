@@ -84,10 +84,10 @@ export const CurrentChat = () => {
   }, [user])
 
   useEffect(() => {
-    if (dataMessages?.res && Array.isArray(dataMessages?.res)) {
-      setStateMessages(dataMessages?.res!)
+    if (dataMessages?.data && Array.isArray(dataMessages?.data)) {
+      setStateMessages(dataMessages?.data!)
     }
-  }, [dataMessages?.res])
+  }, [dataMessages?.data])
 
   useEffect(
     () => () => {
@@ -129,15 +129,15 @@ export const CurrentChat = () => {
   }, [socket, refetch, idThread, userId])
 
   useEffect(() => {
-    if (dataMessages?.res && userId && Array.isArray(dataMessages?.res)) {
-      const notMyMessages = dataMessages?.res?.filter((item) => item.receiverIds.includes(userId))
+    if (dataMessages?.data && userId && Array.isArray(dataMessages?.data)) {
+      const notMyMessages = dataMessages?.data?.filter((item) => item.receiverIds.includes(userId))
       const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
 
       Promise.all(notReading.map((item) => postReadMessage(item))).then((responses) => {
         refetchCountMessages()
       })
     }
-  }, [userId, dataMessages?.res])
+  }, [userId, dataMessages?.data])
 
   if (isTablet)
     return (

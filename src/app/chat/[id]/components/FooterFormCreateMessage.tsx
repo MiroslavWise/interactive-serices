@@ -44,7 +44,14 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
       enabled: true,
       created: new Date(),
     }
-    setTimeout(reset)
+    setTimeout(() => {
+      reset()
+      if (textRef.current) {
+        textRef.current.style.height = "auto"
+        textRef.current.style.height = textRef.current.scrollHeight + "px"
+        textRef.current.style.borderRadius = `1.25rem`
+      }
+    })
 
     postMessage(body).then((response) => {
       console.log("response messages: ", response)
@@ -60,7 +67,7 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
         name="text"
         control={control}
         render={({ field }) => (
-          <div className="w-full relative">
+          <div className="w-full relative flex">
             <textarea
               value={field.value}
               onChange={field.onChange}
@@ -68,7 +75,9 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
                 "w-full min-h-10 h-10 max-h-40 md:max-h-13.75rem py-2.5 pl-4 pr-[2.875rem] resize-none",
                 "text-text-primary font-normal text-base md:text-sm",
                 "rounded-[1.25rem] border border-solid border-grey-stroke",
+                "placeholder:text-text-secondary",
               )}
+              placeholder="Написать сообщение..."
               ref={textRef}
             />
             <div className="absolute right-4 bottom-2.5"></div>

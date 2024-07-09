@@ -1,6 +1,7 @@
 import { IImageData } from "@/store/types/useAuthState"
 import type { IPromiseReturn } from "../types/general"
 import { IUserOffer } from "../offers/types"
+import { IResponse } from "../request"
 
 export interface IRequestPostMessages {
   threadId: number
@@ -39,7 +40,7 @@ export interface IResponseMessage extends IResponseMessageProps {
 export interface IMessages {
   post(value: IRequestPostMessages): IPromiseReturn<IResponseCreate>
   postRead(id: number): IPromiseReturn<IResponseCreate>
-  get(value: Record<string, any>): IPromiseReturn<IResponseMessage[]>
+  get(value: Record<string, any>): Promise<IResponse<IResponseMessage[]>>
   patch(value: IRequestPatchMessages, id: number | string): IPromiseReturn<IResponseCreate>
   getId(id: number | string): IPromiseReturn<IResponseMessage>
   getUserId(id: number | string): IPromiseReturn<IResponseMessage[]>

@@ -14,7 +14,7 @@ function ListMessages() {
 
   const { search, navigate } = useChatContext()
 
-  const { data } = useCountMessagesNotReading()
+  const { data, isLoading } = useCountMessagesNotReading()
 
   const items = data || []
 
@@ -35,8 +35,27 @@ function ListMessages() {
     return filters.filter((_) => _.provider === navigate)
   }, [navigate, filters])
 
+  if (isLoading)
+    return (
+      <ul className="w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col loading-screen" key={`screen-load`}>
+        {[123, 123442125, 341123, 123, 412341, 512341, 1345, 12341, 21323, 656784, 125, 1372, 341, 234].map((item) => (
+          <li
+            key={`::key::${item}::${item}::l::message::`}
+            className="p-2.5 w-full items-center grid grid-cols-[3.25rem_minmax(0,1fr)] gap-2.5"
+          >
+            <span className="w-[3.25rem] h-[3.25rem] rounded-full" />
+            <article className="w-full flex flex-col gap-2 *:w-full *:h-4 *:rounded-lg">
+              <span />
+              <span className="max-w-[70%]" />
+              <span />
+            </article>
+          </li>
+        ))}
+      </ul>
+    )
+
   return (
-    <ul className="w-full p-0.625 overflow-x-hidden overflow-y-scroll flex flex-col gap-0.125">
+    <ul className="w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col gap-0.5" key={`screen-chats`}>
       {filterNavigate.map((item) => (
         <ItemMessageChat key={`::key::item::chat::${item.id}::`} item={item} />
       ))}

@@ -18,7 +18,7 @@ export interface IPropsChatId {
 export default ({ params: { id } }: IPropsChatId) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
-  const { data: dataThread } = useQuery({
+  const { data: dataThread, isLoading: isLoadingThread } = useQuery({
     queryFn: () => getThreadId(id!),
     queryKey: ["threads", { userId: userId, threadId: id }],
     refetchOnMount: false,
@@ -32,8 +32,8 @@ export default ({ params: { id } }: IPropsChatId) => {
 
   return (
     <div className="w-full md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end">
-      <HeaderChatId thread={thread} />
-      <ListMessages />
+      <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
+      <ListMessages thread={thread} />
       <FooterFormCreateMessage thread={thread} />
     </div>
   )
