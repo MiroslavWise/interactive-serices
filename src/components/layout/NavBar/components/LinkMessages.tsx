@@ -7,7 +7,7 @@ export const LinkMessages = ({ pathname }: { pathname: string }) => {
   const { count } = useCountMessagesNotReading()
 
   return (
-    <Link key="::messages::link::" data-active={pathname?.includes("/messages")} href="/messages" prefetch>
+    <Link key="::messages::link::" data-active={pathname?.includes("/chat")} href="/chat" prefetch>
       {MENU_ICONS.message}
       <span>Сообщения</span>
       {count ? (

@@ -52,7 +52,7 @@ export const CurrentChat = () => {
 
   useEffect(() => {
     if (dataThreadId?.data?.enabled === false && !!dataThreadId?.data) {
-      handleReplace("/messages")
+      handleReplace("/chat")
     }
   }, [dataThreadId?.data, handleReplace])
 
@@ -62,7 +62,7 @@ export const CurrentChat = () => {
         return Number(dataThreadId?.data?.emitter?.id!) === Number(userId) || !!dataThreadId?.data?.receivers?.some((_) => _.id === userId!)
       }
       if (!replaceOut()) {
-        handleReplace("/messages")
+        handleReplace("/caht")
       }
     }
   }, [userId, dataThreadId?.data, handleReplace])

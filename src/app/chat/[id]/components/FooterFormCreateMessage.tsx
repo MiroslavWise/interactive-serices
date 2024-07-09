@@ -1,17 +1,27 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 import { type IRequestPostMessages } from "@/services/messages/types"
 import { type IResponseThread } from "@/services/threads/types"
 
 import { cx } from "@/lib/cx"
-import { postMessage } from "@/services"
+import { useAuth } from "@/store"
+import { getMessages, postMessage } from "@/services"
 import { resolver, type TTypeSchema } from "../utils/schema"
 
 function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const [loading, setLoading] = useState(false)
+
+  const { refetch } = useQuery({
+    queryFn: () => getMessages({ thread: thread?.id! }),
+    queryKey: ["messages", { threadId: thread?.id! }],
+    enabled: false,
+  })
 
   const { handleSubmit, watch, control, reset } = useForm<TTypeSchema>({
     resolver: resolver,
@@ -34,34 +44,41 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
     }
   }, [watch("text")])
 
+  const receiver = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
+
   const onSubmit = handleSubmit((values) => {
     const body: IRequestPostMessages = {
       threadId: thread?.id!,
       message: values.text.trim(),
       parentId: null,
-      emitterId: 1,
-      receiverIds: [],
+      emitterId: userId!,
+      receiverIds: [receiver],
       enabled: true,
       created: new Date(),
     }
-    setTimeout(() => {
-      reset()
-      if (textRef.current) {
-        textRef.current.style.height = "auto"
-        textRef.current.style.height = textRef.current.scrollHeight + "px"
-        textRef.current.style.borderRadius = `1.25rem`
-      }
-    })
 
-    postMessage(body).then((response) => {
-      console.log("response messages: ", response)
-    })
+    if (!loading) {
+      setLoading(true)
+      setTimeout(() => {
+        if (textRef.current) {
+          reset()
+          textRef.current.style.height = "2.5rem"
+          textRef.current.style.borderRadius = `1.25rem`
+        }
+      })
+
+      postMessage(body).then((response) => {
+        console.log("response messages: ", response)
+        refetch()
+        setLoading(false)
+      })
+    }
   })
 
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full grid grid-cols-[minmax(0,1fr)_2rem] bg-BG-second border-t border-solid border-grey-stroke pt-3 pb-5 px-5 items-end justify-end gap-2.5"
+      className="w-full grid grid-cols-[minmax(0,1fr)_2rem] bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end justify-end gap-2.5"
     >
       <Controller
         name="text"
@@ -84,7 +101,7 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
           </div>
         )}
       />
-      <button type="submit" className="w-8 h-10 px-4 py-5 relative">
+      <button type="submit" className="w-8 h-10 px-4 py-5 relative border-none outline-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -93,7 +110,7 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
           fill="none"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8"
         >
-          <g opacity={!!watch("text").trim() ? "1" : "0.5"}>
+          <g opacity={!!watch("text").trim() || !loading ? "1" : "0.5"}>
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"

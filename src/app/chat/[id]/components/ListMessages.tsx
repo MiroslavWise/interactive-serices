@@ -1,12 +1,24 @@
+import { useEffect, useRef } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { type IResponseThread } from "@/services/threads/types"
 
-import { getMessages } from "@/services"
 import ItemMessage from "./ItemMessage"
 
+import { useAuth } from "@/store"
+import { useWebSocket } from "@/context"
+import { getMessages, postReadMessage } from "@/services"
+
 function ListMessages({ thread }: { thread: IResponseThread }) {
-  const { data: dataMessages, isLoading } = useQuery({
+  const ferUl = useRef<HTMLUListElement>(null)
+  const { socket } = useWebSocket() ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+
+  const {
+    data: dataMessages,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryFn: () => getMessages({ thread: thread?.id! }),
     queryKey: ["messages", { threadId: thread?.id! }],
     refetchOnMount: true,
@@ -14,6 +26,47 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
   })
 
   const items = dataMessages?.data || []
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (items?.length > 0) {
+        if (ferUl.current) {
+          const top = ferUl.current.scrollHeight
+          ferUl.current.scroll({
+            top: top + 270,
+            behavior: "smooth",
+          })
+        }
+      }
+    })
+  }, [items])
+
+  useEffect(() => {
+    if (items && userId && Array.isArray(items)) {
+      if (items.length) {
+        const notMyMessages = items?.filter((item) => item.receiverIds.includes(userId))
+        const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
+
+        Promise.all(notReading.map((item) => postReadMessage(item)))
+      }
+    }
+  }, [userId, items])
+
+  useEffect(() => {
+    function chatResponse(event: any) {
+      if (event?.threadId === Number(thread?.id)) {
+        if (event?.receiverIds?.includes(userId)) {
+          refetch()
+        }
+      }
+    }
+
+    socket?.on(`chatResponse-${userId}`, chatResponse)
+
+    return () => {
+      socket?.off(`chatResponse-${userId}`, chatResponse)
+    }
+  }, [socket, thread?.id, userId])
 
   if (isLoading || !thread)
     return (
@@ -39,8 +92,8 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
     )
 
   return (
-    <section className="pt-[4.25rem] w-full h-full flex flex-col items-center">
-      <ul className="w-full h-full max-w-[50rem] overflow-y-auto flex flex-col gap-1 md:pt-[4.25rem]">
+    <section className="pt-[4.25rem] w-full h-full flex flex-col items-center ">
+      <ul className="w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-14 md:pt-20 md:pb-1 scroll-no px-5" ref={ferUl}>
         {items.map((message) => (
           <ItemMessage key={`::key::message::${message?.id!}::`} message={message} />
         ))}

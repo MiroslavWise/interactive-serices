@@ -1,5 +1,3 @@
-"use client"
-
-import { type IPropsChatId } from "../page"
-import P from "./page"
-export default (props: IPropsChatId) => <P {...props} />
+import { IPropsChatId } from "../page"
+import Page from "./components/Page"
+export default ({ params: { id } }: IPropsChatId) => <Page id={id} />

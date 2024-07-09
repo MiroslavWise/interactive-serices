@@ -1,7 +1,7 @@
 "use client"
 
 import { useInsertionEffect } from "react"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { IPostThreads } from "@/services/threads/types"
@@ -20,7 +20,7 @@ export const ChatEmpty = () => {
   const { on } = useToast()
   const idUser = useSearchParams().get("user")
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { handleReplace } = usePush()
+  const router = useRouter()
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   async function createChat() {
@@ -54,18 +54,23 @@ export const ChatEmpty = () => {
     }
 
     if (!idUser) {
-      return handleReplace("/messages")
+      router.prefetch("/chat")
+      router.push("/chat")
+      return
     }
     const idUserReceiver: number = Number(idUser)
     let thread = await getDataThread(idUserReceiver, userId!)
     if (thread) {
-      return handleReplace(`/messages?thread=${thread?.id}`)
+      router.prefetch(`/chat/${thread?.id}`)
+      router.push(`/chat/${thread?.id}`)
+      return
     }
     if (!thread) {
       const idCreate = await createThread(Number(userId), idUserReceiver)
 
       if (!idCreate) {
-        handleReplace("/messages")
+        router.prefetch(`/chat`)
+        router.push(`/chat`)
         on(
           {
             message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -75,14 +80,16 @@ export const ChatEmpty = () => {
         return
       }
       refetchCountMessages().finally(() => {
-        handleReplace(`/messages?thread=${idCreate}`)
+        router.prefetch(`/chat/${idCreate}`)
+        router.push(`/chat/${idCreate}`)
       })
     }
   }
 
   useInsertionEffect(() => {
     if (!idUser) {
-      handleReplace("/messages")
+      router.prefetch(`/chat`)
+      router.push(`/chat`)
     } else {
       if (userId) {
         createChat()

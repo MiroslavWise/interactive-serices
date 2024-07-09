@@ -125,7 +125,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
         Promise.all([refetchBarters(), refetchCountMessages()]).then(() => {
           setTimeout(() => {
             setLoading(false)
-            handleReplace("/messages")
+            handleReplace("/chat")
           })
         })
       })

@@ -1,6 +1,6 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useInsertionEffect, useMemo } from "react"
 
 import { IPostThreads } from "@/services/threads/types"
@@ -18,9 +18,9 @@ import styles from "../styles/style.module.scss"
 
 export function ChatOfferPay() {
   const { on } = useToast()
+  const router = useRouter()
   const idOfferPay = useSearchParams().get("offer-pay")
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { handleReplace } = usePush()
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   const offerNumber = useMemo(() => {
@@ -36,7 +36,8 @@ export function ChatOfferPay() {
 
   useEffect(() => {
     if (offerNumber === undefined) {
-      handleReplace("/messages")
+      router.prefetch(`/chat`)
+      router.push(`/chat`)
     }
   }, [offerNumber])
 
@@ -74,13 +75,16 @@ export function ChatOfferPay() {
 
     let thread = await getDataThread()
     if (thread) {
-      return handleReplace(`/messages?thread=${thread?.id}`)
+      router.prefetch(`/chat/${thread?.id}`)
+      router.push(`/chat${thread?.id}`)
+      return
     }
     if (!thread) {
       const idCreate = await createThread(Number(userId), offerNumber?.idUser!)
 
       if (!idCreate) {
-        handleReplace("/messages")
+        router.prefetch(`/chat`)
+        router.push(`/chat`)
         on(
           {
             message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -91,7 +95,8 @@ export function ChatOfferPay() {
       }
       if (idCreate) {
         refetchCountMessages()
-        handleReplace(`/messages?thread=${idCreate}`)
+        router.prefetch(`/chat/${idCreate}`)
+        router.push(`/chat/${idCreate}`)
         return
       }
     }
@@ -99,7 +104,8 @@ export function ChatOfferPay() {
 
   useInsertionEffect(() => {
     if (offerNumber === undefined) {
-      handleReplace("/messages")
+      router.prefetch(`/chat`)
+      router.push(`/chat`)
     } else {
       if (userId) {
         createChat()

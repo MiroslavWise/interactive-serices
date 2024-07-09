@@ -12,7 +12,7 @@ function ListMessages() {
   const params = useParams()
   const { id } = (params as { id?: string | number }) ?? {}
 
-  const { search, navigate } = useChatContext()
+  const { navigate } = useChatContext()
 
   const { data, isLoading } = useCountMessagesNotReading()
 

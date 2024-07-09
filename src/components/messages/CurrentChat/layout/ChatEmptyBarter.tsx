@@ -1,6 +1,6 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useInsertionEffect, useMemo } from "react"
 
 import { EnumProviderThreads } from "@/types/enum"
@@ -21,7 +21,7 @@ export const ChatEmptyBarter = () => {
   const { on } = useToast()
   const idBarter = useSearchParams().get("barter-id")
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { handleReplace } = usePush()
+  const route = useRouter()
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   const barterNumber = useMemo(() => {
@@ -73,13 +73,16 @@ export const ChatEmptyBarter = () => {
 
     let thread = await getDataThread()
     if (thread) {
-      return handleReplace(`/messages?thread=${thread?.id}`)
+      route.prefetch(`/chat/${thread?.id}`)
+      route.push(`/chat/${thread?.id}`)
+      return
     }
     if (!thread) {
       const idCreate = await createThread(Number(userId), barterNumber?.idUser!)
 
       if (!idCreate) {
-        handleReplace("/messages")
+        route.prefetch(`/chat`)
+        route.push(`/chat`)
         on(
           {
             message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -89,14 +92,16 @@ export const ChatEmptyBarter = () => {
         return
       }
       refetchCountMessages().finally(() => {
-        handleReplace(`/messages?thread=${idCreate}`)
+        route.prefetch(`/chat/${idCreate}`)
+        route.push(`/chat/${idCreate}`)
       })
     }
   }
 
   useInsertionEffect(() => {
     if (!barterNumber) {
-      handleReplace("/messages")
+      route.prefetch(`/chat`)
+      route.push(`/chat`)
     } else {
       if (userId) {
         createChat()

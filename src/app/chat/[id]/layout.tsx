@@ -1,7 +1,7 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 export default ({ children, profile }: { children: ReactNode; profile: ReactNode }) => (
-  <main className="w-full md:grid md:grid-cols-[minmax(0,1fr)_21.25rem] md:gap-6">
+  <main className="w-full md:grid md:grid-cols-[minmax(0,1fr)_21.25rem] md:gap-6 max-md:h-full">
     {children}
     {profile}
   </main>

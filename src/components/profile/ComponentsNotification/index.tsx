@@ -52,7 +52,7 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     if (provider === "barter" && !!userId) {
       handleCancel()
       if (data?.threadId) {
-        handlePush(`/messages?thread=${data?.threadId}`)
+        handlePush(`/chat/${data?.threadId}`)
       } else {
         handlePush(`/messages?barter-id=${data?.id}-${getUser}`)
       }

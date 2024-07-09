@@ -25,7 +25,7 @@ export const InterviewerInfoCurrent = memo(function () {
     deleteThread(Number(idThread)).then((response) => {
       refetchCountMessages().finally(() => {
         console.log("%c --- response delete ---", "color: #f00", response)
-        handleReplace("/messages")
+        handleReplace("/chat")
       })
     })
   }

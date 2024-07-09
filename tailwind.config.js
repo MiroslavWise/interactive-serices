@@ -37,6 +37,7 @@ module.exports = {
       "text-accent": "var(--text-accent)",
       "more-red": "var(--more-red)",
       "grey-stroke": "var(--grey-stroke)",
+      "BG-chat": "var(--BG-chat)",
     },
     extend: {
       spacing: {

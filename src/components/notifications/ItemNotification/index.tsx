@@ -294,14 +294,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
     if (provider === "offer-pay") {
       if (operation === "create") {
         const dataThread = data as unknown as IResponseThreads
-        const chat = { thread: dataThread?.id }
 
         return (
           <ButtonLink
             type="button"
             typeButton="fill-primary"
             label="Перейти в чат"
-            href={{ pathname: `/messages`, query: chat }}
+            href={{ pathname: `/chat/${dataThread?.id}` }}
             onClick={(event) => {
               event.stopPropagation()
               dispatchVisibleNotifications(false)

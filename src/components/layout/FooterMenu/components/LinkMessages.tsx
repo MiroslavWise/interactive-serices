@@ -16,11 +16,11 @@ export const LinkMessages = memo(function LinkMessages() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const { count } = useCountMessagesNotReading()
 
-  const isActive = pathname?.includes(ITEMS_LINK_FOOTER.messages)
+  const isActive = pathname?.includes(ITEMS_LINK_FOOTER.chat)
 
   return (
     <Link
-      href={isAuth ? { pathname: ITEMS_LINK_FOOTER.messages } : {}}
+      href={isAuth ? { pathname: ITEMS_LINK_FOOTER.chat } : {}}
       data-active={isActive}
       className={styles.link}
       onClick={(event) => {

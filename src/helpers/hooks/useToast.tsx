@@ -44,7 +44,7 @@ export const useToast = () => {
           <p>{message}</p>
         </section>
         <div data-footer>
-          <Link href={{ pathname: "/messages", query: { thread: threadId } }}>Перейти в чат</Link>
+          <Link href={{ pathname: `/chat/${threadId}` }}>Перейти в чат</Link>
         </div>
       </div>
     )
@@ -72,7 +72,7 @@ export const useToast = () => {
             type="button"
             typeButton="fill-primary"
             label="Перейти в чат"
-            href={{ pathname: "/messages", query: { thread: threadId } }}
+            href={{ pathname: `/chat/${threadId}` }}
           />
         ) : null}
         {status === EnumStatusBarter.INITIATED && threadIdBarter ? (

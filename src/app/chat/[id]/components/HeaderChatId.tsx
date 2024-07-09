@@ -45,14 +45,14 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
     )
 
   return (
-    <header className="absolute top-0 left-0 right-0 w-full py-[0.9375rem] px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)_4.5rem] items-center gap-4 bg-BG-second border-b border-solid border-grey-stroke md:h-[4.25rem]">
+    <header className="absolute z-50 top-0 left-0 right-0 w-full py-1.5 md:py-[0.9375rem] px-1.5 md:px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)_4.5rem] grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-1 md:gap-4 bg-BG-second border-b border-solid border-grey-stroke md:h-[4.25rem] h-[3.25]">
       <Link
         href={{ pathname: "/chat" }}
-        className="w-5 h-5 p-2.5 relative cursor-pointer *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
+        className="w-10 md:w-5 h-10 md:h-5 p-5 md:p-2.5 relative cursor-pointer *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
       >
         <IconArrowLeft />
       </Link>
-      <article className="w-full items-center gap-3 grid grid-cols-[2.25rem_minmax(0,1fr)]">
+      <article className="w-full items-center gap-2.5 md:gap-3 grid grid-cols-[2.25rem_minmax(0,1fr)]">
         <div className="w-9 h-9 overflow-hidden rounded-full relative">
           {user && user?.image ? (
             <NextImageMotion
@@ -81,14 +81,14 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
       <div
         className={cx(
           "pl-1 flex flex-row items-center gap-5 flex-nowrap",
-          "*:w-5 *:h-5 *:relative *:p-2.5 *:border-none *:outline-none *:bg-transparent",
+          "*:w-10 md:*:w-5 *:h-10 md:*:h-5 *:relative *:p-5 md:*:p-2.5 *:border-none *:outline-none *:bg-transparent",
           "[&>button>svg]:absolute [&>button>svg]:top-1/2 [&>button>svg]:left-1/2 [&>button>svg]:-translate-x-1/2 [&>button>svg]:-translate-y-1/2 [&>button>svg]:w-5 [&>button>svg]:h-5",
         )}
       >
         <button type="button" className="[&>svg>path]:fill-text-primary">
           <IconDotsHorizontal />
         </button>
-        <button type="button">
+        <button type="button" className="max-md:hidden">
           <IconArrowRight />
         </button>
       </div>
