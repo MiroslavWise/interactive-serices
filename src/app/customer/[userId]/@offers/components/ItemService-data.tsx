@@ -22,7 +22,7 @@ function ItemServiceData({ offer }: IProps) {
       <article className="w-full flex flex-col gap-3">
         <section className="w-full flex flex-row items-center justify-between gap-1">
           <time className="text-text-secondary text-start text-xs font-normal" dateTime={created as string}>
-            {fromNow(created)}
+            {fromNow(created || new Date())}
           </time>
           <ButtonShare offer={offer} />
         </section>

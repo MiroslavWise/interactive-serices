@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { cache } from "react"
 
 import ButtonFriends from "./ButtonFriends"
 
@@ -8,14 +7,12 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { getFiendId } from "@/services"
 
-const get = cache(getFiendId)
-
 async function PlaqueFriends({ id }: { id: number | string }) {
-  const { res } = await get(id)
+  const { res } = await getFiendId(id)
 
   const items = res || []
   const length = items.length
-  const threeFriends = items?.filter((_) => !!_.image).slice(2)
+  const threeFriends = items?.filter((_) => !!_.image).slice(0, 2)
 
   return (
     <section className="w-full md:border-y-[1px] border-solid border-grey-stroke-light py-2 flex flex-row items-center justify-between gap-2">

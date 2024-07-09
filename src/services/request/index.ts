@@ -58,13 +58,12 @@ async function returnWrapper<P extends any>(endpoint: URL, requestInit: RequestI
   }
 }
 
-export const wrapperPost: MethodPost<any, any> = async ({ url, body, cache }) => {
+export const wrapperPost: MethodPost<any, any> = async ({ url, body }) => {
   const endpoint = new URL(`${URL_API}${url}`)
 
   const requestInit: RequestInit = {
     method: "POST",
     headers: header(),
-    cache: cache || "default",
   }
 
   if (body) {

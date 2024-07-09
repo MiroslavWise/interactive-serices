@@ -19,6 +19,8 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
   const { updated, profile, id } = user ?? {}
   const { gender } = profile ?? {}
 
+  console.log("socket: ", socket)
+
   useEffect(() => {
     setLoading(true)
     const onlineUsers = (event: IOnlineSocket) => {
@@ -33,14 +35,14 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
 
     if (!!socket) {
       socket.on(`online`, onlineUsers)
-      setTimeout(() => {
-        setLoading(false)
-      })
 
       return () => {
         socket.off(`online`, onlineUsers)
       }
     }
+    setTimeout(() => {
+      setLoading(false)
+    }, 150)
   }, [socket, id])
 
   if (loading) return <div className="w-full h-4" />
@@ -57,7 +59,7 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
 
   return (
     <time className="text-[0.8125rem] leading-4 font-normal text-text-secondary text-center">
-      {BE_GENDER.has(gender!) ? BE_GENDER.get(gender!) : "был(а)"} {fromNow(updated)}
+      {BE_GENDER.has(gender!) ? BE_GENDER.get(gender!) : "был(а)"} {fromNow(updated || new Date())}
     </time>
   )
 }

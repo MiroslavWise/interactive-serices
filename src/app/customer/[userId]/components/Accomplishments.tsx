@@ -4,7 +4,7 @@ import { EnumStatusBarter } from "@/types/enum"
 
 import { getTestimonials, getUserId } from "@/services"
 
-const ICON: Record<TKeyItem, ReactNode> = {
+export const ICON: Record<TKeyItem, ReactNode> = {
   barters: (
     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
       <g clip-path="url(#clip0_6418_49539)">
@@ -66,7 +66,7 @@ const ICON: Record<TKeyItem, ReactNode> = {
   ),
 }
 
-const badges = ({ barters, rating, feedback }: { barters: number; rating: string; feedback: number }): IPropsItem[] => [
+export const badges = ({ barters, rating, feedback }: { barters: number; rating: string; feedback: number }): IPropsItem[] => [
   {
     id: "barters",
     title: "Обмены",
