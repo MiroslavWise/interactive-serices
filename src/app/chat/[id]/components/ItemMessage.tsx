@@ -41,7 +41,7 @@ function ItemMessage({ message }: { message: IResponseMessage }) {
       className={cx(
         "w-full flex flex-row",
         userId === message.emitterId ? "justify-end *:bg-BG-chat" : "justify-start *:bg-grey-field",
-        "*:max-w-[23.375rem]",
+        "md:*:max-w-[23.375rem] max-w-[86%]",
       )}
     >
       <article className="py-2 px-3 rounded-2xl">

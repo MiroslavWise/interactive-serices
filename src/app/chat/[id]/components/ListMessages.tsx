@@ -92,8 +92,11 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
     )
 
   return (
-    <section className="pt-[4.25rem] w-full h-full flex flex-col items-center ">
-      <ul className="w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-14 md:pt-20 md:pb-1 scroll-no px-5" ref={ferUl}>
+    <section className="w-full h-full flex flex-col items-center ">
+      <ul
+        className="w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-[3.75rem] md:pt-20 md:pb-1 scroll-no px-3 md:px-5"
+        ref={ferUl}
+      >
         {items.map((message) => (
           <ItemMessage key={`::key::message::${message?.id!}::`} message={message} />
         ))}
