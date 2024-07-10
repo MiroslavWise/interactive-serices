@@ -108,7 +108,10 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
           items.map((message) => <ItemMessage key={`::key::message::${message?.id!}::`} message={message} />)
         ) : !items.length && thread?.provider === EnumProviderThreads.PERSONAL ? (
           <article className="w-full mt-auto mb-auto flex items-center justify-center">
-            <div className="h-11 py-3 px-5 rounded-[1.375rem] flex items-center justify-center bg-BG-linear-purple">
+            <div
+              className="h-11 py-3 px-5 rounded-[1.375rem] flex items-center justify-center"
+              style={{ background: "linear-gradient(95deg, #B3D2FF -26.18%, #D8BAFF 130.54%)" }}
+            >
               <span className="text-text-button text-sm text-center font-normal">Нет сообщений</span>
             </div>
           </article>
