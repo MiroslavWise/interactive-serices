@@ -43,7 +43,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
     enabled: false,
   })
 
-  const { data, isLoading } = useQuery({
+  const { data: dataBarter, isLoading } = useQuery({
     queryFn: () => getBarterId(idBarter),
     queryKey: ["barters", { id: idBarter }],
     enabled: !!idBarter,
@@ -51,7 +51,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
     refetchOnReconnect: true,
   })
 
-  const { res, ok } = data ?? {}
+  const { data } = dataBarter ?? {}
   const { status, consigner, initiator } = stateBarter ?? {}
 
   const [{ data: dataInitiatorProfile }, { data: dataConsignerProfile }] = useQueries({
@@ -59,21 +59,21 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
       {
         queryFn: () => serviceProfile.getUserId(initiator?.userId!),
         queryKey: ["profile", initiator?.userId!],
-        enabled: ok && [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!),
+        enabled: !!data && [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!),
       },
       {
         queryFn: () => serviceProfile.getUserId(consigner?.userId!),
         queryKey: ["profile", consigner?.userId!],
-        enabled: ok && [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!),
+        enabled: !!data && [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!),
       },
     ],
   })
 
   useEffect(() => {
-    if (!!res) {
-      setStateBarter(res)
+    if (!!data) {
+      setStateBarter(data)
     }
-  }, [res])
+  }, [data])
 
   const infoOffers = useMemo(() => {
     if (!categories.length || !consigner || !initiator) {
@@ -134,7 +134,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
 
   return isLoading ? (
     <LoadingThreadNotice />
-  ) : data?.ok ? (
+  ) : !!dataBarter?.data ? (
     <section className={styles.wrapper} data-type={status}>
       <article>
         {status === EnumStatusBarter.EXECUTED ? (
@@ -180,7 +180,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
               <div data-img>
                 <img src="/svg/clock-fast-forward.svg" alt="clock" width={16} height={16} />
               </div>
-              <time>{daysAgo(res?.created)}</time>
+              <time>{daysAgo(data?.created)}</time>
             </div>
           </div>
         )}
@@ -206,7 +206,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}
                 </span>
-                : «{data?.res?.consigner?.title}».
+                : «{dataBarter?.data?.consigner?.title}».
               </>
             ) : consigner?.userId === userId ? (
               <>
@@ -229,7 +229,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
                 >
                   {infoOffers?.consigner?.title?.toLowerCase()}
                 </span>
-                : «{data?.res?.initiator?.title}».
+                : «{dataBarter?.data?.initiator?.title}».
               </>
             ) : null}
           </p>
@@ -237,7 +237,7 @@ export const NoticeBarter = memo(function NoticeBarter({ idBarter, user: userEne
       </article>
       {status !== EnumStatusBarter.EXECUTED ? (
         <footer>
-          {status === EnumStatusBarter.INITIATED && res?.consigner?.userId === userId ? (
+          {status === EnumStatusBarter.INITIATED && data?.consigner?.userId === userId ? (
             <>
               <Button
                 type="button"

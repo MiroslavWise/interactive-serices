@@ -1,22 +1,38 @@
 import Link from "next/link"
+import { useQuery } from "@tanstack/react-query"
 
+import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
 import IconBlock from "@/components/icons/IconBlock"
 import IconProfile from "@/components/icons/IconProfile"
 import IconComplaint from "@/components/icons/IconComplaint"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import IconDefaultOffer from "@/components/icons/IconDefaultOffer"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
+import { getBarterId } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
-import { dispatchComplaintModalUser, dispatchOpenDeleteChat, useAuth } from "@/store"
+import { dispatchBallonOffer, dispatchComplaintModalUser, dispatchOpenDeleteChat, useAuth } from "@/store"
 
 function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
   const [open, set, ref] = useOutsideClickEvent()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
+
+  const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
+
+  const { data: dataBarter } = useQuery({
+    queryFn: () => getBarterId(barterId!),
+    queryKey: ["barters", { id: barterId! }],
+    enabled: !!barterId,
+  })
+
+  const { data } = dataBarter ?? {}
+
+  const offer = user?.id === data?.consigner?.userId ? data?.consigner : user?.id === data?.initiator?.userId ? data?.initiator : null
 
   function onComplaint() {
     dispatchComplaintModalUser({
@@ -60,6 +76,19 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
           </div>
           <span>Перейти в профиль</span>
         </Link>
+        {!!data ? (
+          <a
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchBallonOffer({ offer: offer! })
+            }}
+          >
+            <div>
+              <IconDefaultOffer />
+            </div>
+            <span className="line-clamp-1 text-ellipsis">{offer?.category?.title || "Предложение"}</span>
+          </a>
+        ) : null}
         <a>
           <div>
             <IconBlock />

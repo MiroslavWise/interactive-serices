@@ -14,16 +14,26 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
+import { getBarterId } from "@/services"
+import { useQuery } from "@tanstack/react-query"
+import { EnumProviderThreads } from "@/types/enum"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
 
   const message = thread?.messages?.length ? thread?.messages?.[0]?.message : null
-  const messageType = typeMessage({ provider: thread?.provider, last: message })
-
   const { firstName, lastName } = user ?? {}
+
+  const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
+  const { data: dataBarter } = useQuery({
+    queryFn: () => getBarterId(barterId!),
+    queryKey: ["barters", { id: barterId! }],
+    enabled: !!barterId,
+  })
+  const { data } = dataBarter ?? {}
+  const offer = user?.id === data?.consigner?.userId ? data?.consigner : user?.id === data?.initiator?.userId ? data?.initiator : null
+  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! })
 
   if (isLoadingThread)
     return (
