@@ -108,12 +108,6 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
             <span className="line-clamp-1 text-ellipsis">{dataO?.category?.title || "Предложение"}</span>
           </a>
         ) : null}
-        {/* <a>
-          <div>
-            <IconBlock />
-          </div>
-          <span className="!text-text-error">Заблокировать</span>
-        </a> */}
         <a
           onClick={(event) => {
             event.stopPropagation()

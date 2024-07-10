@@ -18,6 +18,7 @@ import ChangePassword from "../ChangePassword"
 import ActiveServicesFrom from "../ActiveServicesFrom"
 import SuccessNewOptional from "../SuccessNewOptional"
 import DeleteChat from "../DeleteChat"
+import CancelExchange, { CN_CANCEL_EXCHANGE } from "../CancelExchange"
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
@@ -65,6 +66,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.SuccessNewOptional, <SuccessNewOptional key="::key::modal::successNewOptional" />], //Успешное создание оффера, дискуссии или алерта
   [EModalData.UpdateDiscussionAndAlert, <UpdateDiscussionAndAlert key="::key::Update::Discussion::And::Alert" />], //Обновление беседы и алерта
   [EModalData.DeleteChat, <DeleteChat key="::key::DeleteChat" />], //Обновление чата
+  [EModalData.CancelExchange, <CancelExchange key="::key::CancelExchange" />], // Оклонение обмена
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION],
@@ -88,6 +90,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container],
   [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL],
   [EModalData.UpdateDiscussionAndAlert, CN_UPDATE_DISCUSSION_AND_ALERT],
+  [EModalData.CancelExchange, CN_CANCEL_EXCHANGE],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

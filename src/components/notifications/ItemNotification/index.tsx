@@ -24,6 +24,7 @@ import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatc
 
 import styles from "./styles/style.module.scss"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import ButtonsToComplete from "./components/Button"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -352,33 +353,7 @@ export const ItemNotification = (props: IResponseNotifications) => {
         return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
       }
       if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
-        return (
-          <>
-            <Button
-              type="button"
-              typeButton="fill-primary"
-              label="Да"
-              onClick={(event) => {
-                event.stopPropagation()
-                handleCompletion(true)
-              }}
-              loading={loading}
-              data-yes-or-not
-            />
-            <Button
-              type="button"
-              typeButton="regular-primary"
-              label="Нет"
-              onClick={(event) => {
-                event.stopPropagation()
-                handleCompletion(false)
-                reading()
-              }}
-              loading={loading}
-              data-yes-or-not
-            />
-          </>
-        )
+        return <ButtonsToComplete refetch={refetch} notification={props} />
       }
       if (operation === "accepted") {
         if (data?.userId !== userId) {
@@ -457,26 +432,6 @@ export const ItemNotification = (props: IResponseNotifications) => {
       refetch()
       setLoading(false)
     })
-  }
-
-  function handleCompletion(value: boolean) {
-    if (!loading) {
-      if (value) {
-        setLoading(true)
-        Promise.all([patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!)]).then(() => {
-          refetch().then(() => {
-            setLoading(false)
-          })
-        })
-      } else {
-        dispatchReasonBarters({
-          visible: true,
-          notificationId: id!,
-          barterId: data?.id!,
-        })
-        dispatchVisibleNotifications(false)
-      }
-    }
   }
 
   function handleRecall() {

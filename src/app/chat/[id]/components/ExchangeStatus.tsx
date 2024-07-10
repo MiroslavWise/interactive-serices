@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumProviderThreads, EnumStatusBarter } from "@/types/enum"
@@ -8,11 +9,10 @@ import { Button, NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
-import { getBarterId, patchBarter } from "@/services"
-import { useState } from "react"
-import { userInterlocutor } from "@/helpers/user-interlocutor"
 import { useWebSocket } from "@/context"
+import { getBarterId, patchBarter } from "@/services"
+import { dispatchOpenCancelExchange, useAuth } from "@/store"
+import { userInterlocutor } from "@/helpers/user-interlocutor"
 
 function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoading: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -22,11 +22,13 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
   const {
     data: dataBarter,
     isLoading: isLoadingBarter,
+    isFetching: isFetchingBarter,
     refetch: refetchBarters,
   } = useQuery({
     queryFn: () => getBarterId(barterId!),
     queryKey: ["barters", { id: barterId! }],
     enabled: !!barterId,
+    refetchOnMount: true,
   })
   const { data: dataB } = dataBarter ?? {}
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
@@ -72,24 +74,35 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
       </div>
     )
 
-  const { initiator, consigner, status } = dataB ?? {}
+  const { initiator, consigner, status, id } = dataB ?? {}
 
   if (thread?.provider === EnumProviderThreads.BARTER)
     return (
       <div
         className={cx(
           "mb-auto w-full md:grid flex flex-col gap-2.5 py-2.5 md:py-3 px-3 md:px-5 shadow-box-down bg-BG-second",
-          EnumStatusBarter.EXECUTED === status ? "md:grid-cols-[minmax(0,1fr)]" : "md:grid-cols-[minmax(0,1fr)_9.375rem]",
+          [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED, EnumStatusBarter.DESTROYED].includes(status!)
+            ? "md:grid-cols-[minmax(0,1fr)]"
+            : "md:grid-cols-[minmax(0,1fr)_9.375rem]",
         )}
       >
         <div className="w-full flex flex-col gap-2.5 md:gap-2">
-          <p className="text-text-secondary text-sm text-left line-clamp-1 text-ellipsis">
+          <p
+            className={cx(
+              "text-sm text-left line-clamp-1 text-ellipsis",
+              EnumStatusBarter.DESTROYED ? "text-text-error" : "text-text-secondary",
+            )}
+          >
             {[EnumStatusBarter.INITIATED, EnumStatusBarter.COMPLETED].includes(status!)
               ? initiator?.userId === userId
                 ? `Вы предлагаете`
                 : `${consigner?.user?.firstName || "Имя"} предлагает`
               : EnumStatusBarter.EXECUTED === status
               ? `В процессе`
+              : EnumStatusBarter.COMPLETED
+              ? `Обмен завершён`
+              : EnumStatusBarter.DESTROYED
+              ? `Обмен не состоялся`
               : null}
           </p>
           <div className="w-full flex flex-col gap-1 *:w-full *:gap-[0.4375rem] *:items-center">
@@ -144,13 +157,27 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
         <div
           className={cx(
             "w-full flex flex-row md:flex-col justify-end *:h-9 *:rounded-[1.125rem] gap-2",
-            EnumStatusBarter.EXECUTED === status ? "hidden" : "",
+            [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED, EnumStatusBarter.DESTROYED].includes(status!) ? "hidden" : "",
           )}
         >
           {[EnumStatusBarter.INITIATED].includes(status!) && consigner?.userId === userId ? (
             <>
-              <Button type="button" typeButton="fill-primary" label="Принять" loading={loading} onClick={handleAccept} />
-              <Button type="button" typeButton="regular-primary" label="Отказаться" loading={loading} />
+              <Button
+                type="button"
+                typeButton="fill-primary"
+                label="Принять"
+                loading={isFetchingBarter || loading}
+                onClick={handleAccept}
+              />
+              <Button
+                type="button"
+                typeButton="regular-primary"
+                label="Отказаться"
+                loading={isFetchingBarter || loading}
+                onClick={() => {
+                  dispatchOpenCancelExchange({ barterId: barterId!, threadId: thread?.id! })
+                }}
+              />
             </>
           ) : null}
         </div>
