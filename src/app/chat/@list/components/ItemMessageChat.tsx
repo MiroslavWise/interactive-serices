@@ -17,14 +17,14 @@ import { useMemo } from "react"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const params = useParams()
-  const userId = useAuth(({ auth }) => auth?.id)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id } = (params as { id?: string | number }) ?? {}
   const { provider } = item ?? {}
 
-  const message = item?.messages?.length ? item?.messages?.[0]?.message : null
+  const message = item?.messages?.length ? item?.messages?.[0] : null
   const user = userInterlocutor({ m: item.emitter, r: item.receivers, userId: userId! })
 
-  const messageType = typeMessage({ provider: provider, last: message })
+  const messageType = typeMessage({ provider: provider, last: message?.message! })
   const lastTime = timeNowOrBeforeChatHours(item?.messages?.length > 0 ? item?.messages?.[0]?.created! : item?.created)
 
   const reading = useMemo(() => {
@@ -56,6 +56,16 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
     }
     return null
   }, [item, userId])
+
+  const notRead = message?.emitterId !== userId && !message?.readIds?.includes(userId!)
+  const c = (
+    <div className={cx("w-full grid items-center gap-2.5", notRead ? "grid-cols-[minmax(0,1fr)_1.1875rem]" : "grid-cols-[minmax(0,1fr)]")}>
+      <p className="text-text-secondary font-normal text-sm text-left line-clamp-1 text-ellipsis">{message?.message || "Нет сообщений"}</p>
+      <div className={cx("", notRead ? "flex" : "hidden opacity-0 invisible")}>
+        <span>1</span>
+      </div>
+    </div>
+  )
 
   return (
     <Link
@@ -91,7 +101,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
           </div>
         </div>
         <p className="text-text-primary font-normal text-sm text-left line-clamp-1 text-ellipsis">{messageType}</p>
-        <p className="text-text-secondary font-normal text-sm text-left line-clamp-1 text-ellipsis">{message || "Нет сообщений"}</p>
+        {c}
       </article>
     </Link>
   )
