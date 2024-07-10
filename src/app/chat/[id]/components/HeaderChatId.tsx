@@ -46,7 +46,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
 
   if (isLoadingThread)
     return (
-      <header className="loading-screen absolute top-0 left-0 right-0 w-full p-1.5 md:py-[0.9375rem] md:px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-1 md:gap-4 bg-BG-second border-b border-solid border-grey-stroke md:h-[4.25rem]">
+      <header className="loading-screen fixed md:absolute top-0 left-0 right-0 w-full p-1.5 md:py-[0.9375rem] md:px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-1 md:gap-4 bg-BG-second border-b border-solid border-grey-stroke md:h-[4.25rem]">
         <Link
           href={{ pathname: "/chat" }}
           className="w-10 md:w-5 h-10 md:h-5 p-5 md:p-2.5 relative cursor-pointer *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
