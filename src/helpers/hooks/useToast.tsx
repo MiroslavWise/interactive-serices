@@ -68,19 +68,14 @@ export const useToast = () => {
         {!!title && <h4>{title}</h4>}
         <p>{message}</p>
         {status === "accepted" && threadId ? (
-          <ButtonLink
-            type="button"
-            typeButton="fill-primary"
-            label="Перейти в чат"
-            href={{ pathname: `/chat/${threadId}` }}
-          />
+          <ButtonLink type="button" typeButton="fill-primary" label="Перейти в чат" href={{ pathname: `/chat/${threadId}` }} />
         ) : null}
         {status === EnumStatusBarter.INITIATED && threadIdBarter ? (
           <ButtonLink
             type="button"
             typeButton="fill-primary"
             label="Перейти в чат"
-            href={{ pathname: "/messages", query: { ...threadIdBarter } }}
+            href={{ pathname: "/chat", query: { ...threadIdBarter } }}
           />
         ) : null}
         {status === null && !!button ? (

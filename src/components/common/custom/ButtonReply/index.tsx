@@ -69,7 +69,7 @@ export const ButtonReplyPrimary: TProps = ({ profile, offer, isBalloon }) => {
               }
               if (userId !== offer?.userId) {
                 if (!!userId) {
-                  handlePush(`/messages?user=${offer?.userId!}`)
+                  handlePush(`/chat?user=${offer?.userId!}`)
                 } else if (!userId) {
                   setVisible(true)
                 }

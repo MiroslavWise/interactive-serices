@@ -228,7 +228,7 @@ export default function ReciprocalExchange() {
               />
               <Link
                 href={{
-                  pathname: "/messages",
+                  pathname: "/chat",
                   query: {
                     user: offer?.userId,
                   },

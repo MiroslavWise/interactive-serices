@@ -73,7 +73,7 @@ export const ItemListFriend: TItemListFriend = ({ user, type }) => {
           icon="/svg/message-dots-circle-primary.svg"
           size={20}
           handleClick={() => {
-            handlePush(`/messages?user=${id}`)
+            handlePush(`/chat?user=${id}`)
           }}
         />
         <ButtonCircleGradient type="primary" icon="/svg/x-close-primary.svg" size={20} loading={loading} handleClick={deleteFriends} />

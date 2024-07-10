@@ -1,26 +1,21 @@
 "use client"
 
 import { useInsertionEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 import { EnumProviderThreads } from "@/types/enum"
-import { IPostThreads } from "@/services/threads/types"
-
-import { LoadingThreadsPage } from "@/components/common"
+import { type IPostThreads } from "@/services/threads/types"
 
 import { useAuth } from "@/store"
-import { useToast } from "@/helpers/hooks/useToast"
 import { getThreads, postThread } from "@/services"
+import { useToast } from "@/helpers/hooks/useToast"
+import { useCountMessagesNotReading } from "@/helpers"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { useCountMessagesNotReading, usePush } from "@/helpers"
 
-import styles from "../styles/style.module.scss"
-
-export const ChatEmpty = () => {
+function CreateUser({ idUser }: { idUser: string }) {
   const { on } = useToast()
-  const idUser = useSearchParams().get("user")
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const router = useRouter()
+  const { prefetch, push } = useRouter()
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   async function createChat() {
@@ -54,23 +49,23 @@ export const ChatEmpty = () => {
     }
 
     if (!idUser) {
-      router.prefetch("/chat")
-      router.push("/chat")
+      prefetch("/chat")
+      push("/chat")
       return
     }
     const idUserReceiver: number = Number(idUser)
     let thread = await getDataThread(idUserReceiver, userId!)
     if (thread) {
-      router.prefetch(`/chat/${thread?.id}`)
-      router.push(`/chat/${thread?.id}`)
+      prefetch(`/chat/${thread?.id}`)
+      push(`/chat/${thread?.id}`)
       return
     }
     if (!thread) {
       const idCreate = await createThread(Number(userId), idUserReceiver)
 
       if (!idCreate) {
-        router.prefetch(`/chat`)
-        router.push(`/chat`)
+        prefetch(`/chat`)
+        push(`/chat`)
         on(
           {
             message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -80,16 +75,16 @@ export const ChatEmpty = () => {
         return
       }
       refetchCountMessages().finally(() => {
-        router.prefetch(`/chat/${idCreate}`)
-        router.push(`/chat/${idCreate}`)
+        prefetch(`/chat/${idCreate}`)
+        push(`/chat/${idCreate}`)
       })
     }
   }
 
   useInsertionEffect(() => {
     if (!idUser) {
-      router.prefetch(`/chat`)
-      router.push(`/chat`)
+      prefetch(`/chat`)
+      push(`/chat`)
     } else {
       if (userId) {
         createChat()
@@ -97,9 +92,8 @@ export const ChatEmpty = () => {
     }
   }, [idUser, userId])
 
-  return (
-    <section className={styles.wrapperLoading}>
-      <LoadingThreadsPage />
-    </section>
-  )
+  return <div></div>
 }
+
+CreateUser.displayName = "CreateUser"
+export default CreateUser

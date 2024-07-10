@@ -50,7 +50,10 @@ function ListMessages() {
     )
 
   return (
-    <ul className="w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col gap-0.5" key={`screen-chats`}>
+    <ul
+      className="w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col gap-0.5 max-md:pb-[var(--height-mobile-footer-nav)]"
+      key={`screen-chats`}
+    >
       {filterNavigate.map((item) => (
         <ItemMessageChat key={`::key::item::chat::${item.id}::`} item={item} />
       ))}

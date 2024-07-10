@@ -1,45 +1,32 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useInsertionEffect, useMemo } from "react"
-
-import { IPostThreads } from "@/services/threads/types"
-
-import { EnumProviderThreads } from "@/types/enum"
-import { LoadingThreadsPage } from "@/components/common"
+import { useRouter } from "next/navigation"
 
 import { useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
+import { useCountMessagesNotReading } from "@/helpers"
+import { useInsertionEffect, useMemo } from "react"
 import { getThreads, postThread } from "@/services"
+import { EnumProviderThreads } from "@/types/enum"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { useCountMessagesNotReading, usePush } from "@/helpers"
+import { IPostThreads } from "@/services/threads/types"
 
-import styles from "../styles/style.module.scss"
-
-export function ChatOfferPay() {
+function CreateOfferPay({ offerPay }: { offerPay: string }) {
   const { on } = useToast()
-  const router = useRouter()
-  const idOfferPay = useSearchParams().get("offer-pay")
+  const { push, prefetch } = useRouter()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   const offerNumber = useMemo(() => {
-    if (!idOfferPay || !idOfferPay?.includes(":")) return undefined
+    if (!offerPay || !offerPay?.includes(":")) return undefined
 
-    const split = idOfferPay?.split(":")
+    const split = offerPay?.split(":")
 
     return {
       id: Number(split[0]),
       idUser: Number(split[1]),
     }
-  }, [idOfferPay])
-
-  useEffect(() => {
-    if (offerNumber === undefined) {
-      router.prefetch(`/chat`)
-      router.push(`/chat`)
-    }
-  }, [offerNumber])
+  }, [offerPay])
 
   async function createChat() {
     async function getDataThread() {
@@ -75,16 +62,16 @@ export function ChatOfferPay() {
 
     let thread = await getDataThread()
     if (thread) {
-      router.prefetch(`/chat/${thread?.id}`)
-      router.push(`/chat${thread?.id}`)
+      prefetch(`/chat/${thread?.id}`)
+      push(`/chat${thread?.id}`)
       return
     }
     if (!thread) {
       const idCreate = await createThread(Number(userId), offerNumber?.idUser!)
 
       if (!idCreate) {
-        router.prefetch(`/chat`)
-        router.push(`/chat`)
+        prefetch(`/chat`)
+        push(`/chat`)
         on(
           {
             message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -95,8 +82,8 @@ export function ChatOfferPay() {
       }
       if (idCreate) {
         refetchCountMessages()
-        router.prefetch(`/chat/${idCreate}`)
-        router.push(`/chat/${idCreate}`)
+        prefetch(`/chat/${idCreate}`)
+        push(`/chat/${idCreate}`)
         return
       }
     }
@@ -104,8 +91,8 @@ export function ChatOfferPay() {
 
   useInsertionEffect(() => {
     if (offerNumber === undefined) {
-      router.prefetch(`/chat`)
-      router.push(`/chat`)
+      prefetch(`/chat`)
+      push(`/chat`)
     } else {
       if (userId) {
         createChat()
@@ -113,9 +100,8 @@ export function ChatOfferPay() {
     }
   }, [offerNumber, userId])
 
-  return (
-    <section className={styles.wrapperLoading}>
-      <LoadingThreadsPage />
-    </section>
-  )
+  return <div></div>
 }
+
+CreateOfferPay.displayName = "CreateOfferPay"
+export default CreateOfferPay

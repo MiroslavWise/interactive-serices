@@ -4,8 +4,6 @@ import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 
 const names = new Map([
-  ["/messages", "Сообщения"],
-  ["/messages/", "Сообщения"],
   ["/chat/", "Сообщения"],
   ["/chat", "Сообщения"],
   ["/chat/", "Сообщения"],

@@ -130,7 +130,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
           <ButtonLink
             label="Написать"
             href={{
-              pathname: "/messages",
+              pathname: "/chat",
               query: {
                 user: user?.id,
               },
@@ -157,7 +157,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
           />
           <Link
             href={{
-              pathname: "/messages",
+              pathname: "/chat",
               query: {
                 user: user?.id,
               },
@@ -173,7 +173,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
           <Button label="Добавить в друзья" type="button" typeButton="fill-primary" loading={loading} onClick={handleOnFriends} />
           <Link
             href={{
-              pathname: "/messages",
+              pathname: "/chat",
               query: {
                 user: user?.id,
               },
