@@ -17,6 +17,7 @@ import UpdateOffer from "../UpdateOffer"
 import ChangePassword from "../ChangePassword"
 import ActiveServicesFrom from "../ActiveServicesFrom"
 import SuccessNewOptional from "../SuccessNewOptional"
+import DeleteChat from "../DeleteChat"
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
@@ -63,6 +64,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.ActiveServicesFrom, <ActiveServicesFrom key="::key::modal::active-services-from" />], //Желаемые услуги
   [EModalData.SuccessNewOptional, <SuccessNewOptional key="::key::modal::successNewOptional" />], //Успешное создание оффера, дискуссии или алерта
   [EModalData.UpdateDiscussionAndAlert, <UpdateDiscussionAndAlert key="::key::Update::Discussion::And::Alert" />], //Обновление беседы и алерта
+  [EModalData.DeleteChat, <DeleteChat key="::key::DeleteChat" />], //Обновление чата
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION],
@@ -80,6 +82,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.OutAccount, stylesOutAccount.container],
   [EModalData.DeleteOffer, stylesOutAccount.container],
   [EModalData.DeleteUser, stylesOutAccount.container],
+  [EModalData.DeleteChat, stylesOutAccount.container],
   [EModalData.UpdateOffer, stylesUpdateOffer.container],
   [EModalData.ChangePassword, stylesChangePassword.container],
   [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container],

@@ -48,6 +48,7 @@ export enum EModalData {
   ActiveServicesFrom = "active-services-from",
   SuccessNewOptional = "success-new-optional",
   UpdateDiscussionAndAlert = "update-discussion-and-alert",
+  DeleteChat = "delete-chat",
 }
 
 interface IStateUseModal {

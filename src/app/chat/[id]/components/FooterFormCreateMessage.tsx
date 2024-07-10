@@ -94,6 +94,11 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
                 "rounded-[1.25rem] border border-solid border-grey-stroke",
                 "placeholder:text-text-secondary outline-none",
               )}
+              onKeyDown={(event) => {
+                if (event.keyCode === 13 || event.code === "Enter") {
+                  onSubmit()
+                }
+              }}
               placeholder="Написать сообщение..."
               ref={textRef}
             />

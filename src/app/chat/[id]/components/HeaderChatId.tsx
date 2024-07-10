@@ -4,11 +4,11 @@ import Link from "next/link"
 
 import { type IResponseThread } from "@/services/threads/types"
 
+import AbsoluteMenu from "./AbsoluteMenu"
 import { NextImageMotion } from "@/components/common"
 import IconArrowLeft from "@/components/icons/IconArrowLeft"
 import IconArrowRight from "@/components/icons/IconArrowRight--"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
@@ -85,9 +85,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
           "[&>button>svg]:absolute [&>button>svg]:top-1/2 [&>button>svg]:left-1/2 [&>button>svg]:-translate-x-1/2 [&>button>svg]:-translate-y-1/2 [&>button>svg]:w-5 [&>button>svg]:h-5",
         )}
       >
-        <button type="button" className="[&>svg>path]:fill-text-primary">
-          <IconDotsHorizontal />
-        </button>
+        <AbsoluteMenu thread={thread} />
         <button type="button" className="max-md:hidden">
           <IconArrowRight />
         </button>
