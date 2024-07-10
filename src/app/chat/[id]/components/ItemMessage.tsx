@@ -1,9 +1,10 @@
+import { useMemo } from "react"
+
 import { type IResponseMessage } from "@/services/messages/types"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
-import { useMemo } from "react"
 
 function ItemMessage({ message }: { message: IResponseMessage }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}

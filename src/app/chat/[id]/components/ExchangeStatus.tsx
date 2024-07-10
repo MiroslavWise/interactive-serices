@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumProviderThreads, EnumStatusBarter } from "@/types/enum"
@@ -53,6 +53,8 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
           refetchBarters().then(() => {
             setLoading(false)
           })
+        } else {
+          setLoading(false)
         }
       })
     }
@@ -190,4 +192,4 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
   return null
 }
 
-export default ExchangeStatus
+export default memo(ExchangeStatus)

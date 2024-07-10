@@ -67,7 +67,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
           notRead ? "flex" : "hidden opacity-0 invisible",
         )}
       >
-        <span className="text-text-button text-[0.625rem] text-center font-bold absolute top-1/2 left-1/2 translate-x-1/2 translate-y-1/2">
+        <span className="text-text-button text-[0.625rem] text-center font-bold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           1
         </span>
       </div>

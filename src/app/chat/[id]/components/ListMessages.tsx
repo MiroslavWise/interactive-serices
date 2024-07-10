@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from "react"
+import { memo, RefObject, useEffect, useRef } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { type IResponseThread } from "@/services/threads/types"
@@ -122,4 +122,4 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
 }
 
 ListMessages.displayName = "ListMessages"
-export default ListMessages
+export default memo(ListMessages)
