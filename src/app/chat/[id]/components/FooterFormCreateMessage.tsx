@@ -9,6 +9,7 @@ import { type IResponseThread } from "@/services/threads/types"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
+import { useWebSocket } from "@/context"
 import { getMessages, postMessage } from "@/services"
 import { resolver, type TTypeSchema } from "../utils/schema"
 
@@ -25,6 +26,7 @@ function FooterFormCreateMessage({
   const refForm = useRef<HTMLFormElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
+  const { socket } = useWebSocket()
 
   const { refetch } = useQuery({
     queryFn: () => getMessages({ thread: thread?.id! }),
@@ -77,6 +79,32 @@ function FooterFormCreateMessage({
 
     if (!loading) {
       setLoading(true)
+
+      if (socket?.connected) {
+        socket?.emit(
+          "chat",
+          {
+            receiverIds: [receiver],
+            message: values.text.trim() || "",
+            threadId: Number(thread?.id!),
+            created: new Date(),
+            parentId: undefined,
+          },
+          (response: any) => {
+            console.log("message response :", response)
+          },
+        )
+        requestAnimationFrame(() => {
+          setLoading(false)
+        })
+      } else {
+        postMessage(body).then((response) => {
+          console.log("response messages: ", response)
+          refetch()
+          setLoading(false)
+        })
+      }
+
       setTimeout(() => {
         if (textRef.current) {
           reset()
@@ -84,18 +112,12 @@ function FooterFormCreateMessage({
           textRef.current.style.borderRadius = `1.25rem`
         }
       })
-
-      postMessage(body).then((response) => {
-        console.log("response messages: ", response)
-        refetch()
-        setLoading(false)
-      })
     }
   })
 
   if (isLoadingThread)
     return (
-      <div className="loading-screen w-full mt-auto p-5 grid grid-cols-[minmax(0,1fr)_2.25rem] *:w-full *:h-9 *:rounded-[1.125rem] fixed md:absolute bottom-0 left-0 right-0">
+      <div className="loading-screen w-full mt-auto p-5 grid grid-cols-[minmax(0,1fr)_2.25rem] gap-2.5 *:w-full *:h-9 *:rounded-[1.125rem] fixed md:absolute bottom-0 left-0 right-0">
         <span />
         <span />
       </div>
@@ -135,10 +157,7 @@ function FooterFormCreateMessage({
       />
       <button
         type="submit"
-        className={cx(
-          "w-8 h-10 px-4 py-5 relative border-none outline-none",
-          !!watch("text").trim() || !loading ? "opacity-100" : "opacity-50",
-        )}
+        className={cx("w-8 h-10 px-4 py-5 relative border-none outline-none", !!watch("text").trim() ? "opacity-100" : "opacity-50")}
         disabled={!watch("text").trim() || loading}
       >
         <svg

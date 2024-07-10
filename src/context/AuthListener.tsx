@@ -45,12 +45,12 @@ function Listener() {
 
   function threadResponse(event: IThreadResponse) {
     console.log("%c threadResponse", "color: green; font-size: 1rem;", event)
-    refetchCountMessages()
   }
 
   useEffect(() => {
     const chatResponse = (event: IChatResponse) => {
       console.log("%c chatResponse event: ", "color: #d0d", event)
+      refetchCountMessages()
       if (Number(threadId) !== event.threadId && userId !== event?.emitterId) {
         onMessage({
           id: event.id,

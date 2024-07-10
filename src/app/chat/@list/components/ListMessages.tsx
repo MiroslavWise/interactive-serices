@@ -1,19 +1,14 @@
 "use client"
 
 import { useMemo } from "react"
-import { useParams } from "next/navigation"
 
-import { useChatContext } from "./ContextChats"
 import ItemMessageChat from "./ItemMessageChat"
 
+import { useSelectChat } from "@/store"
 import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
 
 function ListMessages() {
-  const params = useParams()
-  const { id } = (params as { id?: string | number }) ?? {}
-
-  const { navigate } = useChatContext()
-
+  const select = useSelectChat(({ select }) => select)
   const { data, isLoading } = useCountMessagesNotReading()
 
   const items = data || []
@@ -30,10 +25,10 @@ function ListMessages() {
   }, [items])
 
   const filterNavigate = useMemo(() => {
-    if (navigate === "all") return filters
+    if (select === "all") return filters
 
-    return filters.filter((_) => _.provider === navigate)
-  }, [navigate, filters])
+    return filters.filter((_) => _.provider === select)
+  }, [select, filters])
 
   if (isLoading)
     return (

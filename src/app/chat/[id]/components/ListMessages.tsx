@@ -57,10 +57,9 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
 
   useEffect(() => {
     function chatResponse(event: any) {
-      if (event?.threadId === Number(thread?.id)) {
-        if (event?.receiverIds?.includes(userId)) {
-          refetch()
-        }
+      if (Number(event?.threadId) === Number(thread?.id)) {
+        refetch()
+        console.log("chatResponse: -------------")
       }
     }
 

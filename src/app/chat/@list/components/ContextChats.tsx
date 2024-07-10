@@ -1,20 +1,15 @@
 "use client"
 
-import { EnumProviderThreads } from "@/types/enum"
 import { type ReactNode, createContext, useContext, useState, Dispatch } from "react"
 
 const ContextChat = createContext<IContextChat>({
   search: "",
   dispatchSearch: () => {},
-  navigate: "all",
-  dispatchNavigate: () => {},
 })
 
 function WrapperContext({ children }: { children: ReactNode }) {
   const [search, setSearch] = useState("")
-  const [navigate, setNavigate] = useState<EnumProviderThreads | "all">("all")
 
-  const dispatchNavigate = (value: EnumProviderThreads | "all") => setNavigate(value)
   const dispatchSearch = (value: string) => setSearch(value)
 
   return (
@@ -22,8 +17,6 @@ function WrapperContext({ children }: { children: ReactNode }) {
       value={{
         search,
         dispatchSearch,
-        navigate,
-        dispatchNavigate,
       }}
     >
       {children}
@@ -47,7 +40,4 @@ export default WrapperContext
 interface IContextChat {
   search: string
   dispatchSearch: Dispatch<string>
-
-  navigate: EnumProviderThreads | "all"
-  dispatchNavigate: Dispatch<EnumProviderThreads | "all">
 }
