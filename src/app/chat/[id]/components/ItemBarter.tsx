@@ -28,6 +28,7 @@ function ItemBarter({ thread }: { thread: IResponseThread }) {
   const { data: dataO } = dataOffer ?? {}
 
   if (![EnumProviderThreads.BARTER, EnumProviderThreads.OFFER_PAY].includes(thread?.provider!)) return null
+  if (thread?.provider === EnumProviderThreads.PERSONAL) return null
 
   if (isLoadingBarter || isLoadingOffer)
     return (

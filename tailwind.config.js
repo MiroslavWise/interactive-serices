@@ -39,6 +39,7 @@ module.exports = {
       "grey-stroke": "var(--grey-stroke)",
       "BG-chat": "var(--BG-chat)",
       "BG-time": "var(--BG-time)",
+      "BG-linear-purple": "linear-gradient(95deg, #B3D2FF -26.18%, #D8BAFF 130.54%)",
     },
     extend: {
       spacing: {

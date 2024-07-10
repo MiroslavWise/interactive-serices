@@ -9,6 +9,8 @@ import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { getMessages, postReadMessage } from "@/services"
 import ItemBarter from "./ItemBarter"
+import { EnumProviderThreads } from "@/types/enum"
+import { cx } from "@/lib/cx"
 
 function ListMessages({ thread }: { thread: IResponseThread }) {
   const ferUl = useRef<HTMLUListElement>(null)
@@ -95,13 +97,22 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
   return (
     <section className="w-full h-full flex flex-col items-center ">
       <ul
-        className="w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-[3.75rem] md:pt-20 pb-2.5 md:pb-5 scroll-no px-3 md:px-5"
+        className={cx(
+          "w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-[3.75rem] md:pt-20 pb-2.5 md:pb-5 scroll-no px-3 md:px-5",
+          "first:[&>li]:mt-auto",
+        )}
         ref={ferUl}
       >
         <ItemBarter thread={thread} />
-        {items.map((message) => (
-          <ItemMessage key={`::key::message::${message?.id!}::`} message={message} />
-        ))}
+        {!!items.length ? (
+          items.map((message) => <ItemMessage key={`::key::message::${message?.id!}::`} message={message} />)
+        ) : !items.length && thread?.provider === EnumProviderThreads.PERSONAL ? (
+          <article className="w-full mt-auto mb-auto flex items-center justify-center">
+            <div className="h-11 py-3 px-5 rounded-[1.375rem] flex items-center justify-center bg-BG-linear-purple">
+              <span className="text-text-button text-sm text-center font-normal">Нет сообщений</span>
+            </div>
+          </article>
+        ) : null}
       </ul>
     </section>
   )

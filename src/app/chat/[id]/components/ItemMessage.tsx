@@ -37,7 +37,7 @@ function ItemMessage({ message }: { message: IResponseMessage }) {
   }, [message, userId])
 
   return (
-    <div
+    <li
       className={cx(
         "w-full flex flex-row",
         userId === message.emitterId ? "justify-end *:bg-BG-chat" : "justify-start *:bg-grey-field",
@@ -53,7 +53,7 @@ function ItemMessage({ message }: { message: IResponseMessage }) {
           </span>
         </p>
       </article>
-    </div>
+    </li>
   )
 }
 
