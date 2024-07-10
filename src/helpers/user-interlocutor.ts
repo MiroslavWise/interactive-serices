@@ -27,6 +27,8 @@ function typeMessage({
   if (provider === EnumProviderThreads.PERSONAL) return "Личные"
   if (provider === EnumProviderThreads.BARTER && !!offer)
     return `${objProvider[EnumProviderThreads.BARTER]} ${offer?.category?.title || "Предложение"}`
+  if (provider === EnumProviderThreads.OFFER_PAY && !!offer)
+    return `${objProvider[EnumProviderThreads.OFFER_PAY]} ${offer?.category?.title || "Предложение"}`
   return `${objProvider[provider] || ""} ${last || ""}`
 }
 

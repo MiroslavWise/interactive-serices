@@ -1,7 +1,9 @@
 "use client"
 
 import Link from "next/link"
+import { useQuery } from "@tanstack/react-query"
 
+import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
 import AbsoluteMenu from "./AbsoluteMenu"
@@ -9,14 +11,12 @@ import { NextImageMotion } from "@/components/common"
 import IconArrowLeft from "@/components/icons/IconArrowLeft"
 import IconArrowRight from "@/components/icons/IconArrowRight--"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
+import { getBarterId, getIdOffer } from "@/services"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import { getBarterId } from "@/services"
-import { useQuery } from "@tanstack/react-query"
-import { EnumProviderThreads } from "@/types/enum"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -31,9 +31,18 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
     queryKey: ["barters", { id: barterId! }],
     enabled: !!barterId,
   })
-  const { data } = dataBarter ?? {}
-  const offer = user?.id === data?.consigner?.userId ? data?.consigner : user?.id === data?.initiator?.userId ? data?.initiator : null
-  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! })
+
+  const offerId = thread?.provider === EnumProviderThreads.OFFER_PAY ? thread?.offerId : null
+  const { data: dataOffer } = useQuery({
+    queryFn: () => getIdOffer(thread?.offerId!),
+    queryKey: ["offers", { offerId: thread?.offerId! }],
+    enabled: !!offerId,
+  })
+
+  const { data: dataB } = dataBarter ?? {}
+  const { data: dataO } = dataOffer ?? {}
+  const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
+  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! || dataO })
 
   if (isLoadingThread)
     return (

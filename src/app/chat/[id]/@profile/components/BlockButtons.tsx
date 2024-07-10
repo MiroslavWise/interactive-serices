@@ -33,33 +33,7 @@ function BlockButtons({ user }: { user: IUserResponse }) {
     <div className={cx("w-full py-2.5 flex flex-col")}>
       <article className="w-full flex flex-row items-center justify-between py-2 border-y border-solid border-grey-stroke-light">
         <p className="text-text-primary text-sm py-1.5 text-left font-medium">{length} друзей</p>
-        <div className="flex flex-row items-center flex-nowrap pr-0.375 justify-end">
-          {threeFriends.map((_, index) => (
-            <Link
-              key={`::key::user::friends::img::${_.id}::`}
-              href={{ pathname: `/customer/${_.id}` }}
-              className={"w-7 h-7 rounded-[0.875rem] relative p-0.875 bg-BG-second !-mr-0.375"}
-              title={`${_?.firstName} ${_.lastName}`}
-              aria-label={`${_?.firstName} ${_.lastName}`}
-              aria-labelledby={`${_?.firstName} ${_.lastName}`}
-              style={{
-                zIndex: 10 + index,
-              }}
-            >
-              {!!_.image ? (
-                <NextImageMotion
-                  className="w-6 h-6 rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  src={_.image?.attributes?.url}
-                  alt="avatar"
-                  width={40}
-                  height={40}
-                />
-              ) : (
-                <IconEmptyProfile className="w-5 h-5 rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              )}
-            </Link>
-          ))}
-        </div>
+        <div className="flex flex-row items-center flex-nowrap pr-0.375 justify-end"></div>
       </article>
       <article className="w-full flex flex-row items-center justify-between py-2 border-b border-solid border-grey-stroke-light">
         <p className="text-text-primary text-sm py-1.5 text-left font-medium">

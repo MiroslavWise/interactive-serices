@@ -12,7 +12,7 @@ import IconDefaultOffer from "@/components/icons/IconDefaultOffer"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import { getBarterId } from "@/services"
+import { getBarterId, getIdOffer } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
 import { dispatchBallonOffer, dispatchComplaintModalUser, dispatchOpenDeleteChat, useAuth } from "@/store"
@@ -23,16 +23,23 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
 
   const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
+  const offerId = thread?.provider === EnumProviderThreads.OFFER_PAY ? thread?.offerId : null
 
   const { data: dataBarter } = useQuery({
     queryFn: () => getBarterId(barterId!),
     queryKey: ["barters", { id: barterId! }],
     enabled: !!barterId,
   })
+  const { data: dataOffer } = useQuery({
+    queryFn: () => getIdOffer(thread?.offerId!),
+    queryKey: ["offers", { offerId: thread?.offerId! }],
+    enabled: !!offerId,
+  })
 
-  const { data } = dataBarter ?? {}
+  const { data: dataB } = dataBarter ?? {}
+  const { data: dataO } = dataOffer ?? {}
 
-  const offer = user?.id === data?.consigner?.userId ? data?.consigner : user?.id === data?.initiator?.userId ? data?.initiator : null
+  const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
 
   function onComplaint() {
     dispatchComplaintModalUser({
@@ -76,7 +83,7 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
           </div>
           <span>Перейти в профиль</span>
         </Link>
-        {!!data ? (
+        {!!dataB ? (
           <a
             onClick={(event) => {
               event.stopPropagation()
@@ -87,6 +94,18 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
               <IconDefaultOffer />
             </div>
             <span className="line-clamp-1 text-ellipsis">{offer?.category?.title || "Предложение"}</span>
+          </a>
+        ) : !!dataO ? (
+          <a
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchBallonOffer({ offer: dataO! })
+            }}
+          >
+            <div>
+              <IconDefaultOffer />
+            </div>
+            <span className="line-clamp-1 text-ellipsis">{dataO?.category?.title || "Предложение"}</span>
           </a>
         ) : null}
         <a>
