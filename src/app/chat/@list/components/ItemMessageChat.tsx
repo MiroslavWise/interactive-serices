@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useMemo } from "react"
 import { useParams } from "next/navigation"
 
 import { type IResponseThreads } from "@/services/threads/types"
@@ -13,7 +14,6 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
-import { useMemo } from "react"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const params = useParams()
@@ -57,12 +57,19 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
     return null
   }, [item, userId])
 
-  const notRead = message?.emitterId !== userId && !message?.readIds?.includes(userId!)
+  const notRead = !!message && message?.emitterId !== userId && !message?.readIds?.includes(userId!)
   const c = (
     <div className={cx("w-full grid items-center gap-2.5", notRead ? "grid-cols-[minmax(0,1fr)_1.1875rem]" : "grid-cols-[minmax(0,1fr)]")}>
       <p className="text-text-secondary font-normal text-sm text-left line-clamp-1 text-ellipsis">{message?.message || "Нет сообщений"}</p>
-      <div className={cx("", notRead ? "flex" : "hidden opacity-0 invisible")}>
-        <span>1</span>
+      <div
+        className={cx(
+          "w-[1.1875rem] h-[1.1875rem] rounded-full bg-element-accent-1 relative p-[0.59375rem]",
+          notRead ? "flex" : "hidden opacity-0 invisible",
+        )}
+      >
+        <span className="text-text-button text-[0.625rem] text-center font-bold absolute top-1/2 left-1/2 translate-x-1/2 translate-y-1/2">
+          1
+        </span>
       </div>
     </div>
   )
