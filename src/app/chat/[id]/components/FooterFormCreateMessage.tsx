@@ -12,7 +12,7 @@ import { useAuth } from "@/store"
 import { getMessages, postMessage } from "@/services"
 import { resolver, type TTypeSchema } from "../utils/schema"
 
-function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
+function FooterFormCreateMessage({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
@@ -74,6 +74,14 @@ function FooterFormCreateMessage({ thread }: { thread: IResponseThread }) {
       })
     }
   })
+
+  if (isLoadingThread)
+    return (
+      <div className="loading-screen w-full mt-auto p-5 grid grid-cols-[minmax(0,1fr)_2.25rem] *:w-full *:h-9 *:rounded-[1.125rem]">
+        <span />
+        <span />
+      </div>
+    )
 
   return (
     <form

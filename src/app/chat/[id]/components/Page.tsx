@@ -28,7 +28,7 @@ export default ({ id }: { id: string | number }) => {
     <div className="w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-screen md:h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end">
       <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
       <ListMessages thread={thread} />
-      <FooterFormCreateMessage thread={thread} />
+      <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} />
     </div>
   )
 }

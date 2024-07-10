@@ -37,7 +37,6 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
           const top = ferUl.current.scrollHeight
           ferUl.current.scroll({
             top: top + 270,
-            behavior: "smooth",
           })
         }
       }
