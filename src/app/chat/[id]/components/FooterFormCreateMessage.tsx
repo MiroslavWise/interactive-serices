@@ -127,7 +127,7 @@ function FooterFormCreateMessage({
     <form
       ref={refForm}
       onSubmit={onSubmit}
-      className="w-full fixed md:absolute bottom-0 right-0 left-0 grid grid-cols-[minmax(0,1fr)_2rem] bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end justify-end gap-2.5"
+      className="w-full fixed md:absolute bottom-0 right-0 left-0 grid grid-cols-[minmax(0,1fr)_2rem] md:grid-cols-[minmax(0,calc(50rem_-_2.625rem_-_2.5rem))_2rem] justify-center bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end gap-2.5"
     >
       <Controller
         name="text"

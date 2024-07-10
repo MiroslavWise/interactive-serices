@@ -14,12 +14,13 @@ import { getUserId, serviceNotifications } from "@/services"
 import { useAuth, dispatchVisibleNotifications } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { useRouter } from "next/navigation"
 
 export const ComponentsNotification: TComponentsNotification = (props) => {
   const { isTablet } = useResize()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data, created, operation, provider, id } = props ?? {}
-  const { handlePush } = usePush()
+  const { push } = useRouter()
 
   const getUser = useMemo(() => {
     if (!userId || !data) return null
@@ -52,9 +53,9 @@ export const ComponentsNotification: TComponentsNotification = (props) => {
     if (provider === "barter" && !!userId) {
       handleCancel()
       if (data?.threadId) {
-        handlePush(`/chat/${data?.threadId}`)
+        push(`/chat/${data?.threadId}`)
       } else {
-        handlePush(`/messages?barter-id=${data?.id}-${getUser}`)
+        push(`/chat?barter-id=${data?.id}-${getUser}`)
       }
     }
   }

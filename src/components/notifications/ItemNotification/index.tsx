@@ -357,14 +357,23 @@ export const ItemNotification = (props: IResponseNotifications) => {
       }
       if (operation === "accepted") {
         if (data?.userId !== userId) {
-          const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
-
           return (
             <ButtonLink
               type="button"
               typeButton="fill-primary"
               label="Перейти в чат"
-              href={{ pathname: `/messages`, query: chat }}
+              href={
+                !!data?.threadId
+                  ? {
+                      pathname: `/chat/${data?.threadId}`,
+                    }
+                  : {
+                      pathname: `/chat`,
+                      query: {
+                        "barter-id": `${data?.id}-${idUser}`,
+                      },
+                    }
+              }
               onClick={(event) => {
                 event.stopPropagation()
                 dispatchVisibleNotifications(false)
@@ -378,13 +387,23 @@ export const ItemNotification = (props: IResponseNotifications) => {
       if (operation === "create") {
         if (data?.status === EnumStatusBarter.INITIATED) {
           if (userId === data?.consigner?.userId) {
-            const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
             return (
               <ButtonLink
                 type="button"
                 typeButton="fill-primary"
                 label="Перейти в чат"
-                href={{ pathname: `/messages`, query: chat }}
+                href={
+                  !!data?.threadId
+                    ? {
+                        pathname: `/chat/${data?.threadId}`,
+                      }
+                    : {
+                        pathname: `/chat`,
+                        query: {
+                          "barter-id": `${data?.id}-${idUser}`,
+                        },
+                      }
+                }
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)

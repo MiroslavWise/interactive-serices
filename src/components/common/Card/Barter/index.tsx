@@ -127,10 +127,18 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
         <ButtonLink
           typeButton="fill-primary"
           label="Ответить"
-          href={{
-            pathname: "/messages",
-            query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` },
-          }}
+          href={
+            !!threadId
+              ? {
+                  pathname: `/chat/${threadId}`,
+                }
+              : {
+                  pathname: `/chat`,
+                  query: {
+                    "barter-id": `${id}-${idUser}`,
+                  },
+                }
+          }
           onClick={(event) => {
             event.stopPropagation()
             dispatchInitiatedBarter(false)
@@ -140,10 +148,18 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
         <ButtonLink
           typeButton="regular-primary"
           label="Написать"
-          href={{
-            pathname: "/messages",
-            query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` },
-          }}
+          href={
+            !!threadId
+              ? {
+                  pathname: `/chat/${threadId}`,
+                }
+              : {
+                  pathname: `/chat`,
+                  query: {
+                    "barter-id": `${id}-${idUser}`,
+                  },
+                }
+          }
           onClick={(event) => {
             event.stopPropagation()
             dispatchInitiatedBarter(false)
