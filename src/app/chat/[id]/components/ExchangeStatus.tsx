@@ -90,18 +90,18 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
           <p
             className={cx(
               "text-sm text-left line-clamp-1 text-ellipsis",
-              EnumStatusBarter.DESTROYED ? "text-text-error" : "text-text-secondary",
+              EnumStatusBarter.DESTROYED === status ? "text-text-error" : "text-text-secondary",
             )}
           >
-            {[EnumStatusBarter.INITIATED, EnumStatusBarter.COMPLETED].includes(status!)
+            {[EnumStatusBarter.INITIATED].includes(status!)
               ? initiator?.userId === userId
                 ? `Вы предлагаете`
                 : `${consigner?.user?.firstName || "Имя"} предлагает`
               : EnumStatusBarter.EXECUTED === status
               ? `В процессе`
-              : EnumStatusBarter.COMPLETED
+              : EnumStatusBarter.COMPLETED === status
               ? `Обмен завершён`
-              : EnumStatusBarter.DESTROYED
+              : EnumStatusBarter.DESTROYED === status
               ? `Обмен не состоялся`
               : null}
           </p>
@@ -157,10 +157,13 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
         <div
           className={cx(
             "w-full flex flex-row md:flex-col justify-end *:h-9 *:rounded-[1.125rem] gap-2",
-            [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED, EnumStatusBarter.DESTROYED].includes(status!) ? "hidden" : "",
+            [EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED, EnumStatusBarter.DESTROYED].includes(status!) ||
+              (EnumStatusBarter.INITIATED === status! && consigner?.userId !== userId)
+              ? "hidden"
+              : "",
           )}
         >
-          {[EnumStatusBarter.INITIATED].includes(status!) && consigner?.userId === userId ? (
+          {EnumStatusBarter.INITIATED === status! && consigner?.userId === userId ? (
             <>
               <Button
                 type="button"

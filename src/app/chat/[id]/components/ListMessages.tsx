@@ -98,7 +98,7 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
       <ExchangeStatus thread={thread} isLoading={isLoading} />
       <ul
         className={cx(
-          "w-full h-full md:max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pb-[4.75rem] md:pb-[5.75rem] scroll-no px-3 md:px-5 pt-3 md:pt-5",
+          "w-full md:h-full md:max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pb-[4.75rem] md:pb-[5.75rem] scroll-no px-3 md:px-5 pt-3 md:pt-5",
           "first:[&>li]:mt-auto",
         )}
         ref={ferUl}
