@@ -18,7 +18,7 @@ function Listener() {
   const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ user }) => user) ?? {}
   const { onMessage } = useToast()
-  const { refetchCountMessages } = useCountMessagesNotReading()
+  const { refetchCountMessages } = useCountMessagesNotReading(false)
   const threadId = useSearchParams().get("thread")
 
   const { refetch: refetchNotifications } = useQuery({
@@ -45,7 +45,6 @@ function Listener() {
 
   function threadResponse(event: IThreadResponse) {
     console.log("%c threadResponse", "color: green; font-size: 1rem;", event)
-    refetchNotifications()
     refetchCountMessages()
   }
 
@@ -60,7 +59,6 @@ function Listener() {
           message: `${event.message}`,
           photo: event.emitter?.profile?.image?.attributes?.url! || "",
         })
-        refetchCountMessages()
       }
     }
     if (socket && userId) {

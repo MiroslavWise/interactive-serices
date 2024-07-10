@@ -1,8 +1,8 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
+import { RefObject, useEffect, useRef, useState } from "react"
 
 import { type IRequestPostMessages } from "@/services/messages/types"
 import { type IResponseThread } from "@/services/threads/types"
@@ -12,8 +12,17 @@ import { useAuth } from "@/store"
 import { getMessages, postMessage } from "@/services"
 import { resolver, type TTypeSchema } from "../utils/schema"
 
-function FooterFormCreateMessage({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
+function FooterFormCreateMessage({
+  thread,
+  isLoadingThread,
+  ferUl,
+}: {
+  thread: IResponseThread
+  isLoadingThread: boolean
+  ferUl: RefObject<HTMLUListElement>
+}) {
   const textRef = useRef<HTMLTextAreaElement>(null)
+  const refForm = useRef<HTMLFormElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
 
@@ -31,16 +40,25 @@ function FooterFormCreateMessage({ thread, isLoadingThread }: { thread: IRespons
   })
 
   useEffect(() => {
-    if (watch("text")) {
-      if (textRef.current) {
-        textRef.current.style.height = "auto"
-        textRef.current.style.height = textRef.current.scrollHeight + "px"
+    if (textRef.current) {
+      if (!watch("text").trim()) {
+        textRef.current.style.borderRadius = `1.25rem`
+        textRef.current.style.height = "2.5rem"
+      } else {
         if (textRef.current.scrollHeight > 40) {
+          textRef.current.style.height = "auto"
+          textRef.current.style.height = textRef.current.scrollHeight + "px"
           textRef.current.style.borderRadius = `1rem`
         } else {
           textRef.current.style.borderRadius = `1.25rem`
+          textRef.current.style.height = "2.5rem"
         }
       }
+    }
+    if (ferUl.current && refForm.current && textRef.current) {
+      const heightForm = refForm.current.offsetHeight
+      const widthWindow = window.document.documentElement.clientWidth
+      ferUl.current.style.paddingBottom = +heightForm + (widthWindow < 769 ? 12 : 20) + "px"
     }
   }, [watch("text")])
 
@@ -77,7 +95,7 @@ function FooterFormCreateMessage({ thread, isLoadingThread }: { thread: IRespons
 
   if (isLoadingThread)
     return (
-      <div className="loading-screen w-full mt-auto p-5 grid grid-cols-[minmax(0,1fr)_2.25rem] *:w-full *:h-9 *:rounded-[1.125rem]">
+      <div className="loading-screen w-full mt-auto p-5 grid grid-cols-[minmax(0,1fr)_2.25rem] *:w-full *:h-9 *:rounded-[1.125rem] fixed md:absolute bottom-0 left-0 right-0">
         <span />
         <span />
       </div>
@@ -85,8 +103,9 @@ function FooterFormCreateMessage({ thread, isLoadingThread }: { thread: IRespons
 
   return (
     <form
+      ref={refForm}
       onSubmit={onSubmit}
-      className="w-full grid grid-cols-[minmax(0,1fr)_2rem] bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end justify-end gap-2.5"
+      className="w-full fixed md:absolute bottom-0 right-0 left-0 grid grid-cols-[minmax(0,1fr)_2rem] bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end justify-end gap-2.5"
     >
       <Controller
         name="text"
@@ -114,7 +133,14 @@ function FooterFormCreateMessage({ thread, isLoadingThread }: { thread: IRespons
           </div>
         )}
       />
-      <button type="submit" className="w-8 h-10 px-4 py-5 relative border-none outline-none">
+      <button
+        type="submit"
+        className={cx(
+          "w-8 h-10 px-4 py-5 relative border-none outline-none",
+          !!watch("text").trim() || !loading ? "opacity-100" : "opacity-50",
+        )}
+        disabled={!watch("text").trim() || loading}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -123,7 +149,7 @@ function FooterFormCreateMessage({ thread, isLoadingThread }: { thread: IRespons
           fill="none"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8"
         >
-          <g opacity={!!watch("text").trim() || !loading ? "1" : "0.5"}>
+          <g>
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"

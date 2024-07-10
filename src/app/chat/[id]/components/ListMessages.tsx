@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { RefObject, useEffect, useRef } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { type IResponseThread } from "@/services/threads/types"
@@ -11,9 +11,9 @@ import { getMessages, postReadMessage } from "@/services"
 import ItemBarter from "./ItemBarter"
 import { EnumProviderThreads } from "@/types/enum"
 import { cx } from "@/lib/cx"
+import ExchangeStatus from "./ExchangeStatus"
 
-function ListMessages({ thread }: { thread: IResponseThread }) {
-  const ferUl = useRef<HTMLUListElement>(null)
+function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefObject<HTMLUListElement> }) {
   const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
@@ -37,6 +37,7 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
           const top = ferUl.current.scrollHeight
           ferUl.current.scroll({
             top: top + 270,
+            behavior: "instant",
           })
         }
       }
@@ -94,10 +95,11 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
     )
 
   return (
-    <section className="w-full h-full flex flex-col items-center ">
+    <section className="w-full h-full flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem]">
+      <ExchangeStatus thread={thread} />
       <ul
         className={cx(
-          "w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-[3.75rem] md:pt-20 pb-2.5 md:pb-5 scroll-no px-3 md:px-5",
+          "w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pb-[4.75rem] md:pb-[5.75rem] scroll-no px-3 md:px-5 pt-3 md:pt-5",
           "first:[&>li]:mt-auto",
         )}
         ref={ferUl}

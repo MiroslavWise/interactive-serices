@@ -19,8 +19,6 @@ function OnlineStatus({ user }: { user: IUserResponse }) {
   const { updated, profile, id } = user ?? {}
   const { gender } = profile ?? {}
 
-  console.log("socket: ", socket)
-
   useEffect(() => {
     setLoading(true)
     const onlineUsers = (event: IOnlineSocket) => {

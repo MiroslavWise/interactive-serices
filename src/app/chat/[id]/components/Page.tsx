@@ -1,5 +1,6 @@
 "use client"
 
+import { useRef } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import HeaderChatId from "./HeaderChatId"
@@ -11,6 +12,7 @@ import { getThreadId } from "@/services"
 
 export default ({ id }: { id: string | number }) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const ferUl = useRef<HTMLUListElement>(null)
 
   const { data: dataThread, isLoading: isLoadingThread } = useQuery({
     queryFn: () => getThreadId(id!),
@@ -27,8 +29,8 @@ export default ({ id }: { id: string | number }) => {
   return (
     <div className="w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-screen md:h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end">
       <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
-      <ListMessages thread={thread} />
-      <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} />
+      <ListMessages thread={thread} ferUl={ferUl} />
+      <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} ferUl={ferUl} />
     </div>
   )
 }
