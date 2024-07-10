@@ -8,6 +8,7 @@ import ItemMessage from "./ItemMessage"
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { getMessages, postReadMessage } from "@/services"
+import ItemBarter from "./ItemBarter"
 
 function ListMessages({ thread }: { thread: IResponseThread }) {
   const ferUl = useRef<HTMLUListElement>(null)
@@ -94,9 +95,10 @@ function ListMessages({ thread }: { thread: IResponseThread }) {
   return (
     <section className="w-full h-full flex flex-col items-center ">
       <ul
-        className="w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-[3.75rem] md:pt-20 md:pb-1 scroll-no px-3 md:px-5"
+        className="w-full h-full max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pt-[3.75rem] md:pt-20 pb-2.5 md:pb-5 scroll-no px-3 md:px-5"
         ref={ferUl}
       >
+        <ItemBarter thread={thread} />
         {items.map((message) => (
           <ItemMessage key={`::key::message::${message?.id!}::`} message={message} />
         ))}

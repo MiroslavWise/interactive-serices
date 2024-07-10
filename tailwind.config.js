@@ -38,6 +38,7 @@ module.exports = {
       "more-red": "var(--more-red)",
       "grey-stroke": "var(--grey-stroke)",
       "BG-chat": "var(--BG-chat)",
+      "BG-time": "var(--BG-time)",
     },
     extend: {
       spacing: {

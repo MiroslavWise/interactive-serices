@@ -6,5 +6,5 @@ export const dayFormat = (date?: Date | string, format?: string) => (!!date ? li
 export const getMillisecond = (date?: Date | string) => getTime(date!)
 
 export const formatOfMMM = (date: Date | string) => format(date, "dd MMM 'в' HH:mm", { locale: ru })
-export const formatOfMMMM = (date: Date | string) => format(date, "dd MMMM yyyy", { locale: ru })
+export const formatOfMMMM = (date: Date | string, formatD?: string) => format(date, formatD ? formatD : "dd MMMM yyyy", { locale: ru })
 export const fromNow = (date: Date | string) => formatDistanceToNow(date, { locale: ru })

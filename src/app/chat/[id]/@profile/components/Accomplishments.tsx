@@ -46,10 +46,10 @@ function Accomplishments({ user }: { user: IUserResponse }) {
       {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ title, count, id }) => (
         <div key={`::key::item::${id}::`} className="w-full flex flex-col gap-0.5 bg-grey-field rounded-[0.625rem] py-1.5 px-3">
           <article className="w-full flex flex-row gap-1 items-center [&>svg]:w-3 [&>svg]:h-3">
-            <p className="text-text-primary text-sm font-normal">{title}</p>
+            <p className="text-text-primary text-xs font-normal">{title}</p>
             {ICON[id]}
           </article>
-          <h3 className="text-text-primary text-start text-lg font-semibold">{count}</h3>
+          <h3 className="text-text-primary text-start text-sm font-semibold">{count}</h3>
         </div>
       ))}
     </div>

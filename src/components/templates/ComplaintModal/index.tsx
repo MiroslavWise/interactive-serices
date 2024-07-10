@@ -65,7 +65,7 @@ export default function ComplaintModal() {
 
   return (
     <>
-      <h2>{!!user ? "Пожаловаться на пользователя" : !!offer ? "Пожаловаться на публикацию" : null}</h2>
+      <h2>{!!offer ? "Пожаловаться на публикацию" : !!user ? "Пожаловаться на пользователя" : null}</h2>
       <form onSubmit={onSubmit}>
         <div data-content>
           {!!user ? (
