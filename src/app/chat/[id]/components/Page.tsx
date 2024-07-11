@@ -1,11 +1,15 @@
 "use client"
 
 import { useRef } from "react"
+import dynamic from "next/dynamic"
 import { useQuery } from "@tanstack/react-query"
 
-import HeaderChatId from "./HeaderChatId"
-import ListMessages from "./ListMessages"
-import FooterFormCreateMessage from "./FooterFormCreateMessage"
+import LoadingList from "./LoadingList"
+import LoadingHeader from "../../components/LoadingHeader"
+import LoadingFooter from "../../components/LoadingFooter"
+const ListMessages = dynamic(() => import("./ListMessages"), { loading: LoadingList })
+const HeaderChatId = dynamic(() => import("./HeaderChatId"), { loading: LoadingHeader })
+const FooterFormCreateMessage = dynamic(() => import("./FooterFormCreateMessage"), { loading: LoadingFooter })
 
 import { useAuth } from "@/store"
 import { getThreadId } from "@/services"

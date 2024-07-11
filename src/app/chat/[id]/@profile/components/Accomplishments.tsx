@@ -28,7 +28,7 @@ function Accomplishments({ user }: { user: IUserResponse }) {
 
   if (isLoading)
     return (
-      <article className="w-full grid grid-cols-3 gap-2 loading-screen py-2.5">
+      <article className="loading-screen w-full grid grid-cols-3 gap-2 py-2.5">
         {[1234, 341234, 234512].map((item) => (
           <div
             key={`::key::load::${item}::`}
