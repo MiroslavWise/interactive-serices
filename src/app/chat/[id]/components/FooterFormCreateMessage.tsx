@@ -226,7 +226,7 @@ function FooterFormCreateMessage({
               placeholder="Написать сообщение..."
               ref={textRef}
             />
-            <div className="absolute right-4 bottom-2.5 w-5 h-5 bg-transparent border-none outline-none cursor-pointer z-40">
+            <div className="absolute right-4 bottom-2.5 w-5 h-5 bg-transparent border-none outline-none cursor-pointer z-40 overflow-hidden">
               <input
                 type="file"
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 max-w-6 h-6 opacity-0 cursor-pointer z-30"
