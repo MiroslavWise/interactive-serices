@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { useSearchParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 
 import { EnumStatusBarter } from "@/types/enum"
 import { IGetProfileIdResponse } from "@/services/profile/types"
@@ -19,7 +19,8 @@ function Listener() {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
   const { onMessage } = useToast()
   const { refetchCountMessages } = useCountMessagesNotReading(false)
-  const threadId = useSearchParams().get("thread")
+  const params = useParams()
+  const { id: threadId } = params ?? {}
 
   const { refetch: refetchNotifications } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),

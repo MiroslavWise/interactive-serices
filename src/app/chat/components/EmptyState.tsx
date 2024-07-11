@@ -33,7 +33,7 @@ function EmptyState() {
     ) {
       return EnumProviderThreads.PERSONAL
     }
-  }, [data])
+  }, [data, select])
 
   return (
     <article className="flex flex-col items-center gap-4">
@@ -178,7 +178,6 @@ function EmptyState() {
           </>
         ) : (
           <>
-            <h2 className="text-text-primary text-center text-lg font-semibold whitespace-nowrap">Сообщения</h2>
             <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap">Выберите, кому хотели бы написать</p>
           </>
         )}

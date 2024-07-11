@@ -44,10 +44,6 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
       }
     })
   }, [items])
-
-  const firstNotRead = items.findIndex((_) => !_.readIds.length && _.emitterId !== userId)
-  console.log("firstNotRead: ", firstNotRead)
-
   useEffect(() => {
     if (items && userId && Array.isArray(items)) {
       if (items.length) {
@@ -67,6 +63,8 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
   }, [socket, thread?.id, userId])
 
   if (isLoading || !thread) return <LoadingList />
+
+  const firstNotRead = items.findIndex((_) => !_.readIds.length && _.emitterId !== userId)
 
   return (
     <section className="w-full h-screen flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">
