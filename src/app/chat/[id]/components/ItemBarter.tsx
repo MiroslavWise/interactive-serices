@@ -44,7 +44,7 @@ function ItemBarter({ thread }: { thread: IResponseThread }) {
         : `Вы предлагаете заплатить за услугу «${dataO?.category?.title}». Договоритесь о цене и условиях покупки в чате.`
 
     return (
-      <div className="w-full flex flex-col items-center gap-3 mt-auto max-md:sticky max-md:top-0">
+      <div className="w-full flex flex-col items-center gap-3 mt-auto">
         <article className="w-fit min-w-16 px-3 h-[1.6875rem] rounded-[0.84375rem] py-1 flex items-center justify-center bg-BG-time">
           <time className="text-text-button text-[0.8125rem] font-normal">{formatOfMMMM(thread?.created || new Date(), "dd MMMM")}</time>
         </article>
@@ -68,7 +68,7 @@ function ItemBarter({ thread }: { thread: IResponseThread }) {
         : null
 
     return (
-      <div className="w-full flex flex-col items-center gap-3 mt-auto max-md:sticky max-md:top-0">
+      <div className="w-full flex flex-col items-center gap-3 mt-auto">
         <article className="w-fit min-w-16 px-3 h-[1.6875rem] rounded-[0.84375rem] py-1 flex items-center justify-center bg-BG-time">
           <time className="text-text-button text-[0.8125rem] font-normal">{formatOfMMMM(dataB?.created || new Date(), "dd MMMM")}</time>
         </article>
