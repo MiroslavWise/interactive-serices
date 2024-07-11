@@ -11,12 +11,13 @@ import Accomplishments from "./Accomplishments"
 import { ButtonLink } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
+import { useAuth, useCollapseChat } from "@/store"
 import { getThreadId, getUserId } from "@/services"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
 
 export default ({ id }: { id: string | number }) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const collapse = useCollapseChat(({ collapse }) => collapse)
 
   const { data: dataThread, isLoading: isLoadingThread } = useQuery({
     queryFn: () => getThreadId(id!),
@@ -41,7 +42,7 @@ export default ({ id }: { id: string | number }) => {
   if (isLoadingThread || isLoadingUser) return <Loading />
 
   return (
-    <section className="w-full h-full rounded-[2rem] bg-BG-second max-md:hidden px-5 flex flex-col">
+    <section className={cx("w-full h-full rounded-[2rem] bg-BG-second max-md:hidden px-5 flex flex-col", collapse && "hidden")}>
       <ProfileData user={userData?.data!} />
       <Accomplishments user={userData?.data!} />
       <p className="w-full py-2.5 text-sm font-normal text-text-primary line-clamp-5">{userData?.data?.profile?.about ?? ""}</p>

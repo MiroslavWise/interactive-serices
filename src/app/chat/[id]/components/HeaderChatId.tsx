@@ -8,8 +8,8 @@ import { type IResponseThread } from "@/services/threads/types"
 
 import AbsoluteMenu from "./AbsoluteMenu"
 import { NextImageMotion } from "@/components/common"
+import LoadingHeader from "../../components/LoadingHeader"
 import IconArrowLeft from "@/components/icons/IconArrowLeft"
-import IconArrowRight from "@/components/icons/IconArrowRight--"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
@@ -17,7 +17,7 @@ import { cx } from "@/lib/cx"
 import { useAuth, useOnline } from "@/store"
 import { getBarterId, getIdOffer } from "@/services"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
-import LoadingHeader from "../../components/LoadingHeader"
+import ButtonCollapse from "./ButtonCollapse"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -58,7 +58,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
         <IconArrowLeft />
       </Link>
       <article className="w-full items-center gap-2.5 md:gap-3 grid grid-cols-[2.25rem_minmax(0,1fr)]">
-        <div className="w-9 h-9 overflow-hidden rounded-full relative">
+        <Link href={{ pathname: `/customer/${user?.id}` }} prefetch className="w-9 h-9 overflow-hidden rounded-full relative">
           {user && user?.image ? (
             <NextImageMotion
               src={user?.image?.attributes?.url}
@@ -70,12 +70,16 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
           ) : (
             <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 z-10" />
           )}
-        </div>
+        </Link>
         <div className="w-full flex flex-col gap-0.5">
           <div className="flex flex-row items-center justify-start gap-1">
-            <h3 className="text-text-primary text-sm text-left font-medium text-ellipsis line-clamp-1">
+            <Link
+              href={{ pathname: `/customer/${user?.id}` }}
+              prefetch={false}
+              className="text-text-primary text-sm text-left font-medium text-ellipsis line-clamp-1"
+            >
               {firstName || "Имя"} {lastName || "Фамилия"}
-            </h3>
+            </Link>
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem] *:z-30">
               <IconVerifiedTick />
             </div>
@@ -94,9 +98,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
         )}
       >
         <AbsoluteMenu thread={thread} />
-        <button type="button" className="max-md:hidden">
-          <IconArrowRight />
-        </button>
+        <ButtonCollapse />
       </div>
     </header>
   )

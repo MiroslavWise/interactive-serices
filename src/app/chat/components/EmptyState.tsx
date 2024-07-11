@@ -178,7 +178,8 @@ function EmptyState() {
           </>
         ) : (
           <>
-            <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap">Выберите, кому хотели бы написать</p>
+            <h2 className="text-text-primary text-center text-lg font-semibold whitespace-nowrap">Пока нет диалогов</h2>
+            <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap">Написать кому‑нибудь можно в его профиле</p>
           </>
         )}
       </div>

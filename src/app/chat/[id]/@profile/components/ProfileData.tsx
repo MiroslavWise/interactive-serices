@@ -11,7 +11,7 @@ function ProfileData({ user }: { user: IUserResponse }) {
 
   return (
     <article className="w-full flex flex-col gap-3 items-center pt-5 pb-2.5">
-      <div className={`w-20 h-20 rounded-2xl relative p-10 ${!image && "bg-grey-stroke-light !rounded-[0.625rem]"}`}>
+      <section className={`w-20 h-20 rounded-2xl relative p-10 ${!image && "bg-grey-stroke-light !rounded-[0.625rem]"}`}>
         {!!image ? (
           <NextImageMotion
             className="rounded-2xl overflow-hidden w-20 h-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -26,9 +26,9 @@ function ProfileData({ user }: { user: IUserResponse }) {
         <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 [&>svg]:w-5 [&>svg]:h-5">
           <IconVerifiedTick />
         </div>
-      </div>
+      </section>
       <div className="w-full flex flex-col gap-1 items-center">
-        <h3>
+        <h3 className="text-center text-xl font-semibold text-text-primary">
           {firstName || "Имя"} {lastName || "Фамилия"}
         </h3>
         <OnlineStatus user={user} />
