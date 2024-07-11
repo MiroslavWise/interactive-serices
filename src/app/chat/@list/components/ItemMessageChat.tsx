@@ -15,6 +15,9 @@ import { formatOfMMMM } from "@/helpers"
 import { useAuth, useOnline } from "@/store"
 import { onNumberOfPhotos } from "@/helpers/number-of-photos"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
+import { EnumProviderThreads } from "@/types/enum"
+import { getBarterId, getIdOffer } from "@/services"
+import { useQuery } from "@tanstack/react-query"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const params = useParams()
@@ -23,11 +26,27 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const { id } = (params as { id?: string | number }) ?? {}
   const { provider } = item ?? {}
 
-  const message = item?.messages?.length ? item?.messages?.[0] : null
+  const barterId = item?.provider === EnumProviderThreads.BARTER ? item?.barterId : null
+  const offerId = item?.provider === EnumProviderThreads.OFFER_PAY ? item?.offerId : null
+  const { data: dataBarter } = useQuery({
+    queryFn: () => getBarterId(barterId!),
+    queryKey: ["barters", { id: barterId! }],
+    enabled: !!barterId,
+  })
+  const { data: dataOffer } = useQuery({
+    queryFn: () => getIdOffer(offerId!),
+    queryKey: ["offers", { offerId: offerId! }],
+    enabled: !!offerId,
+  })
   const user = userInterlocutor({ m: item.emitter, r: item.receivers, userId: userId! })
+  const { data: dataB } = dataBarter ?? {}
+  const { data: dataO } = dataOffer ?? {}
+  const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
+
+  const message = item?.messages?.length ? item?.messages?.[0] : null
   const isOnline = users.some((_) => _.id === user?.id!)
 
-  const messageType = typeMessage({ provider: provider, last: message?.message! })
+  const messageType = typeMessage({ provider: provider, last: message?.message!, offer: offer! || dataO })
   const time = item?.messages?.length > 0 ? item?.messages?.[0]?.created! : item?.created
   const lastTime =
     formatOfMMMM(time, "dd:MM:yy") === formatOfMMMM(new Date(), "dd:MM:yy") ? formatOfMMMM(time, "HH:mm") : formatOfMMMM(time, "dd MMMM")
@@ -158,7 +177,14 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
           </h4>
           <div className="flex flex-nowrap flex-row items-center gap-0.5">
             {reading}
-            <time className="text-text-secondary text-[0.8125rem] font-normal whitespace-nowrap">{lastTime}</time>
+            <time
+              className="text-text-secondary text-[0.8125rem] font-normal whitespace-nowrap"
+              style={{
+                wordWrap: "break-word",
+              }}
+            >
+              {lastTime}
+            </time>
           </div>
         </div>
         <p className="text-text-primary font-normal text-sm text-left line-clamp-1 text-ellipsis">{messageType}</p>
