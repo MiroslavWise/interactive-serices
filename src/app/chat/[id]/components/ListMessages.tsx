@@ -74,7 +74,7 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
   if (isLoading || !thread) return <LoadingList />
 
   return (
-    <section className="w-full h-full flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem]">
+    <section className="w-full h-screen flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">
       <ExchangeStatus thread={thread} isLoading={isLoading} />
       <ul
         className={cx(
