@@ -5,7 +5,7 @@ import { type IResponse } from "../request"
 
 export interface IRequestPostMessages {
   threadId: number
-  message: string
+  message?: string
   parentId?: number | undefined | null
   emitterId: number
   receiverIds: number[]
@@ -28,7 +28,7 @@ export interface IResponseMessageProps {
   emitter: IUserOffer
   emitterId: number
   receiverIds: number[]
-  images: IImageData[] | string[]
+  images: IImageData[]
   readIds: number[]
 }
 

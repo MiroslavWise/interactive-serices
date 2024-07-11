@@ -32,7 +32,6 @@ function FooterFormCreateMessage({
   const refForm = useRef<HTMLFormElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
-  const { socket } = useWebSocket()
 
   const [filesState, setFiles] = useState<{ file: File[]; string: string[] }>({
     file: [],
@@ -127,14 +126,19 @@ function FooterFormCreateMessage({
   const receiver = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
 
   const onSubmit = handleSubmit(async (values) => {
+    const message = values.text.trim()
+
     const body: IRequestPostMessages = {
       threadId: Number(thread?.id!),
-      message: values.text.trim(),
       parentId: null,
       emitterId: userId!,
       receiverIds: [receiver],
       enabled: true,
       created: new Date(),
+    }
+
+    if (message) {
+      body.message = message
     }
 
     if (!loading) {
@@ -156,26 +160,11 @@ function FooterFormCreateMessage({
         body.images = imgIds
       }
 
-      if (socket?.connected) {
-        socket?.emit(
-          "chat",
-          {
-            ...body,
-          },
-          (response: any) => {
-            console.log("message response :", response)
-          },
-        )
-        requestAnimationFrame(() => {
-          setLoading(false)
-        })
-      } else {
-        postMessage(body).then((response) => {
-          console.log("response messages: ", response)
-          refetch()
-          setLoading(false)
-        })
-      }
+      postMessage(body).then((response) => {
+        console.log("response messages: ", response)
+        refetch()
+        setLoading(false)
+      })
 
       setTimeout(() => {
         if (textRef.current) {
@@ -200,7 +189,7 @@ function FooterFormCreateMessage({
     <form
       ref={refForm}
       onSubmit={onSubmit}
-      className="w-full fixed md:absolute bottom-0 right-0 left-0 grid grid-cols-[minmax(0,1fr)_2rem] md:grid-cols-[minmax(0,calc(50rem_-_2.625rem_-_2.5rem))_2rem] justify-center bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end gap-2.5"
+      className="w-full fixed md:absolute bottom-0 right-0 left-0 grid grid-cols-[minmax(0,1fr)_2rem] md:grid-cols-[minmax(0,calc(50rem_-_2.625rem_-_2.5rem))_2rem] justify-center bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end gap-2.5 z-50"
     >
       <SendingPhotos dispatchDelete={dispatchDelete} files={filesState} />
       <Controller
