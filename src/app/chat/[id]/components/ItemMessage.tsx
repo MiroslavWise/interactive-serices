@@ -76,7 +76,7 @@ function ItemMessage({ message }: { message: IResponseMessage }) {
     >
       <ItemImages images={images}>{readingForPhoto}</ItemImages>
       <article className={cx("py-2 px-3 rounded-2xl overflow-hidden md:max-w-[23.375rem] max-w-[86%]", message.message ? "" : "!hidden")}>
-        <p className="text-text-primary text-sm font-normal flex flex-wrap flex-row">
+        <p className="text-text-primary text-sm font-normal flex flex-wrap flex-row break-words">
           {message.message}
           <span className="flex flex-row gap-0.5 flex-nowrap pl-2 items-end ml-auto">
             <time className="text-text-secondary text-xs text-right font-normal">{lastTime}</time>
