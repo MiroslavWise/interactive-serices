@@ -60,9 +60,49 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
   }, [item, userId])
 
   const notRead = !!message && message?.emitterId !== userId && !message?.readIds?.includes(userId!)
+
+  const images = message?.images || []
+
   const c = (
-    <div className={cx("w-full grid items-center gap-2.5", notRead ? "grid-cols-[minmax(0,1fr)_1.1875rem]" : "grid-cols-[minmax(0,1fr)]")}>
-      <p className="text-text-secondary font-normal text-sm text-left line-clamp-1 text-ellipsis">{message?.message || "Нет сообщений"}</p>
+    <div
+      className={cx(
+        "w-full grid items-center",
+        images.length
+          ? notRead
+            ? images.length === 1
+              ? `grid-cols-[1rem_minmax(0,1fr)_1.1875rem] gap-1.5`
+              : `grid-cols-[2.125rem_minmax(0,1fr)_1.1875rem] gap-1.5`
+            : images.length === 1
+            ? `grid-cols-[1rem_minmax(0,1fr)] gap-1.5`
+            : `grid-cols-[2.125rem_minmax(0,1fr)] gap-1.5`
+          : notRead
+          ? "grid-cols-[minmax(0,1fr)_1.1875rem] gap-2.5"
+          : "grid-cols-[minmax(0,1fr)] gap-2.5",
+      )}
+    >
+      <div className={cx(images.length === 0 ? "hidden" : "flex flex-row flex-nowrap gap-0.5")}>
+        {images
+          .filter((_, i) => i < 2)
+          .map((item) => (
+            <div
+              key={`key::img::list::${item.id}::`}
+              className={cx(
+                "relative w-4 h-4 rounded-[0.0625rem] p-2 overflow-hidden",
+                "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4",
+              )}
+            >
+              <NextImageMotion src={item.attributes.url!} alt="offer-image" width={20} height={20} />
+            </div>
+          ))}
+      </div>
+      <p
+        className={cx(
+          " font-normal text-sm text-left line-clamp-1 text-ellipsis",
+          images.length && !message?.message ? "text-text-accent" : "text-text-secondary",
+        )}
+      >
+        {message?.message ? message?.message : !!images.length ? `${images.length} фотографий` : "Нет сообщений"}
+      </p>
       <div
         className={cx(
           "w-[1.1875rem] h-[1.1875rem] rounded-full bg-element-accent-1 relative p-[0.59375rem]",
