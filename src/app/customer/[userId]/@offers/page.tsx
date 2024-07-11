@@ -53,7 +53,7 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
 
 export function nameTitle(length: number, provider: EProviderLinkCustomer | EnumTypeProvider) {
   var num = length % 10
-  if (length > 10 && length < 20) {
+  if (length >= 10 && length <= 20) {
     if (EProviderLinkCustomer.discussion === provider) {
       return "обсуждений"
     }

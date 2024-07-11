@@ -60,8 +60,8 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
   }, [item, userId])
 
   const notRead = !!message && message?.emitterId !== userId && !message?.readIds?.includes(userId!)
-
   const images = message?.images || []
+  const namePhotos = onNumberOfPhotos(images.length)
 
   const c = (
     <div
@@ -101,7 +101,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
           images.length && !message?.message ? "text-text-accent" : "text-text-secondary",
         )}
       >
-        {message?.message ? message?.message : !!images.length ? `${images.length} фотографий` : "Нет сообщений"}
+        {message?.message ? message?.message : !!images.length ? namePhotos : "Нет сообщений"}
       </p>
       <div
         className={cx(

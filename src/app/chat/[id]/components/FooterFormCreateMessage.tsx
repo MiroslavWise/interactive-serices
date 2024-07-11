@@ -118,8 +118,7 @@ function FooterFormCreateMessage({
     }
     if (ferUl.current && refForm.current && textRef.current) {
       const heightForm = refForm.current.offsetHeight
-      const widthWindow = window.document.documentElement.clientWidth
-      ferUl.current.style.paddingBottom = +heightForm + (widthWindow < 769 ? 12 : 20) + "px"
+      ferUl.current.style.paddingBottom = +heightForm + "px"
     }
   }, [watch("text")])
 
