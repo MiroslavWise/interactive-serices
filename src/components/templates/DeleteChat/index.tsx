@@ -26,6 +26,8 @@ function DeleteChat() {
           refetchCountMessages()
           console.log("%c --- response delete ---", "color: #f00", response)
           push("/chat")
+          setLoading(false)
+          dispatchCloseDeleteChat()
         })
       }
     }

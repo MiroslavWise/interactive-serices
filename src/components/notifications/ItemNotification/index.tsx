@@ -12,19 +12,21 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import {
+  deleteThread,
+  getBarterId,
   getIdOffer,
   getOffersCategories,
-  getProfileUserId,
   getTestimonials,
   getUserId,
   patchBarter,
   serviceNotifications,
 } from "@/services"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchReasonBarters, dispatchModal, EModalData } from "@/store"
+import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/style.module.scss"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import ButtonsToComplete from "./components/Button"
+import { useWebSocket } from "@/context"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -38,6 +40,7 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
 export const ItemNotification = (props: IResponseNotifications) => {
   const { created, provider, operation, data, id, read } = props ?? {}
   const [loading, setLoading] = useState(false)
+  const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data: c } = useQuery({
     queryFn: () => getOffersCategories(),
@@ -442,15 +445,31 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
   }
 
-  function onCanceledAndDelete() {
-    Promise.all([
-      serviceNotifications.patch({ enabled: false, read: true }, id),
-      patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, data?.id),
-    ]).then((responses) => {
-      console.log("---responses--- ", responses)
-      refetch()
-      setLoading(false)
-    })
+  async function onCanceledAndDelete() {
+    if (!loading) {
+      setLoading(true)
+      const { data: dataBarter } = await getBarterId(data?.id!)
+      if (dataBarter?.threadId) {
+        deleteThread(dataBarter?.threadId!).then(() => {
+          socket!?.emit("barter", {
+            receiverIds: [dataBarter?.consigner?.userId, dataBarter?.initiator?.userId],
+            message: "Удалён чат",
+            barterId: dataBarter?.id!,
+            emitterId: userId!,
+            status: "delete",
+            threadId: dataBarter?.threadId!,
+            created: new Date(),
+          })
+        })
+      }
+      Promise.all([
+        serviceNotifications.patch({ enabled: false, read: true }, id),
+        patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, data?.id),
+      ]).then((responses) => {
+        refetch()
+        setLoading(false)
+      })
+    }
   }
 
   function handleRecall() {

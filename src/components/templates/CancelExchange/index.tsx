@@ -41,9 +41,11 @@ function CancelExchange() {
       prefetch("/chat")
       Promise.all([patchBarter({ status: EnumStatusBarter.CANCELED, enabled: false }, barterId!), deleteThread(threadId!)]).then(() => {
         Promise.all([refetchCountMessages(), refetch(), refetchThread()])
+        requestAnimationFrame(() => {
+          push("/chat")
+        })
         setTimeout(() => {
           dispatchCloseCancelExchange()
-          push("/chat")
         })
       })
     }

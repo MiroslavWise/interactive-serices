@@ -34,7 +34,7 @@ function Listener() {
   })
 
   function barterResponse(event: IBarterResponse) {
-    console.log("%c barterResponse", "color: blue; font-size: 1.5rem;", event)
+    console.log("%c barterResponse", "color: blue; font-size: 2rem;", event)
     refetchNotifications()
     refetchBarters()
   }

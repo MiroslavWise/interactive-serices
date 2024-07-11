@@ -1,25 +1,29 @@
-import { memo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
+import { memo, useEffect, useState } from "react"
 
 import { EnumProviderThreads, EnumStatusBarter } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
 import IconReAccent from "@/components/icons/IconReAccent"
+import LoadingExchangeStatus from "./LoadingExchangeStatus"
 import { Button, NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
-import { getBarterId, patchBarter } from "@/services"
 import { dispatchOpenCancelExchange, useAuth } from "@/store"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
-import LoadingExchangeStatus from "./LoadingExchangeStatus"
+import { deleteThread, getBarterId, patchBarter } from "@/services"
+import { useCountMessagesNotReading } from "@/helpers"
 
 function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoading: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
   const { socket } = useWebSocket()
+  const { refetchCountMessages } = useCountMessagesNotReading(false)
+  const { push } = useRouter()
   const {
     data: dataBarter,
     isLoading: isLoadingBarter,
@@ -60,6 +64,29 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
       })
     }
   }
+
+  useEffect(() => {
+    function barterResponse(event: any) {
+      console.log("barterResponse-----", event)
+      if (event?.barterId === barterId && event?.threadId === thread?.id && event?.status === "delete") {
+        setLoading(true)
+        Promise.all([deleteThread(thread?.id), patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, barterId!)]).then(() => {
+          setLoading(false)
+          refetchCountMessages()
+          setTimeout(() => {
+            push("/chat")
+          })
+        })
+      }
+    }
+
+    if (socket?.connected && thread && barterId) {
+      socket?.on(`barterResponse-${userId}`, barterResponse)
+      return () => {
+        socket?.off(`barterResponse-${userId}`, barterResponse)
+      }
+    }
+  }, [barterId, thread, userId, socket])
 
   if (thread?.provider === EnumProviderThreads.PERSONAL) return null
   if (isLoadingBarter || isLoading) return <LoadingExchangeStatus />
