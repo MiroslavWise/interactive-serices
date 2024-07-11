@@ -72,7 +72,7 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
       <ul
         className={cx(
           "w-full md:h-full md:max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pb-[4.75rem] md:pb-[5.75rem] scroll-no px-3 md:px-5 pt-3 md:pt-5",
-          "first:[&>li]:mt-auto",
+          "first:[&>li]:mt-auto last:*:mb-3 md:last:*:mb-5",
         )}
         ref={ferUl}
       >
