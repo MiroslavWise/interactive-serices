@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import FriendB from "./FriendB"
 import Loading from "../loading"
+import AboutData from "./AboutData"
 import ProfileData from "./ProfileData"
 import BlockButtons from "./BlockButtons"
 import MenuCustomer from "./MenuCustomer"
@@ -45,7 +46,7 @@ export default ({ id }: { id: string | number }) => {
     <section className={cx("w-full h-full rounded-[2rem] bg-BG-second max-md:hidden px-5 flex flex-col", collapse && "hidden")}>
       <ProfileData user={userData?.data!} />
       <Accomplishments user={userData?.data!} />
-      <p className="w-full py-2.5 text-sm font-normal text-text-primary line-clamp-5">{userData?.data?.profile?.about ?? ""}</p>
+      <AboutData about={userData?.data?.profile?.about!} />
       <BlockButtons user={userData?.data!} />
       <footer
         className={cx(

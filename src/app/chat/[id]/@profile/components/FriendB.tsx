@@ -55,7 +55,7 @@ function FriendB({ user }: { user: IUserResponse }) {
     setIsResponse(!!dataResponse?.res?.some((item) => item?.id === user?.id!))
   }, [dataResponse, user?.id])
 
-  const isLoadingAll = isLoadingRequest || isLoadingResponse || isFetching
+  const isLoadingAll = isLoadingRequest || isLoadingResponse || isFetching || isLoadingRequest || isLoadingResponse || isFetching
 
   if (isLoadingAll)
     return (
@@ -92,13 +92,19 @@ function FriendB({ user }: { user: IUserResponse }) {
     }
   }
 
-  //text-disabled
+  const disable = isRequest || isResponse || loading
 
   return (
     <button
       type="button"
-      className="[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-5 [&>svg]:w-5"
+      className={cx(
+        "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-5 [&>svg]:w-5",
+        disable && "!cursor-no-drop",
+      )}
       onClick={handleOnFriends}
+      title={isFriends ? "Друг" : "Добавить в друзья"}
+      aria-label={isFriends ? "Друг" : "Добавить в друзья"}
+      aria-labelledby={isFriends ? "Друг" : "Добавить в друзья"}
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
         {isFriends ? (
