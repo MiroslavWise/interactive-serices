@@ -245,7 +245,7 @@ function FooterFormCreateMessage({
       />
       <button
         type="submit"
-        className={cx("w-8 h-10 px-4 py-5 relative border-none outline-none", disabled ? "opacity-100" : "opacity-50")}
+        className={cx("w-8 h-10 px-4 py-5 relative border-none outline-none", !disabled ? "opacity-100" : "opacity-50")}
         disabled={disabled}
       >
         <svg

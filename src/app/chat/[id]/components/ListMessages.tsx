@@ -1,4 +1,4 @@
-import { memo, RefObject, useEffect } from "react"
+import { memo, RefObject, useEffect, Fragment } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumProviderThreads } from "@/types/enum"
@@ -45,27 +45,22 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
     })
   }, [items])
 
+  const firstNotRead = items.findIndex((_) => !_.readIds.length && _.emitterId !== userId)
+  console.log("firstNotRead: ", firstNotRead)
+
   useEffect(() => {
     if (items && userId && Array.isArray(items)) {
       if (items.length) {
         const notMyMessages = items?.filter((item) => item.receiverIds.includes(userId))
         const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
-
         Promise.all(notReading.map((item) => postReadMessage(item)))
       }
     }
   }, [userId, items])
 
   useEffect(() => {
-    function chatResponse(event: any) {
-      if (Number(event?.threadId) === Number(thread?.id)) {
-        refetch()
-        console.log("chatResponse: -------------")
-      }
-    }
-
+    const chatResponse = (event: any) => (Number(event?.threadId) === Number(thread?.id) ? refetch() : null)
     socket?.on(`chatResponse-${userId}`, chatResponse)
-
     return () => {
       socket?.off(`chatResponse-${userId}`, chatResponse)
     }
@@ -85,7 +80,16 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
       >
         <ItemBarter thread={thread} />
         {!!items.length ? (
-          items.map((message) => <ItemMessage key={`::key::message::${message?.id!}::`} message={message} />)
+          items.map((message, index) => (
+            <Fragment key={`::key::message::${message?.id!}::`}>
+              <li className={cx(index === firstNotRead ? "w-full flex flex-row items-center py-2.5 gap-5" : "!hidden")}>
+                <div className="w-full h-[1px] bg-grey-stroke" />
+                <span className="whitespace-nowrap text-text-secondary text-sm text-center font-normal w-min">Непрочитанные сообщения</span>
+                <div className="w-full h-[1px] bg-grey-stroke" />
+              </li>
+              <ItemMessage message={message} />
+            </Fragment>
+          ))
         ) : !items.length && thread?.provider === EnumProviderThreads.PERSONAL ? (
           <article className="w-full mt-auto mb-auto flex items-center justify-center">
             <div
