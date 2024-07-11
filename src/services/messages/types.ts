@@ -1,7 +1,7 @@
-import { IImageData } from "@/store/types/useAuthState"
-import type { IPromiseReturn } from "../types/general"
-import { IUserOffer } from "../offers/types"
-import { IResponse } from "../request"
+import { type IImageData } from "@/store/types/useAuthState"
+import { type IPromiseReturn } from "../types/general"
+import { type IUserOffer } from "../offers/types"
+import { type IResponse } from "../request"
 
 export interface IRequestPostMessages {
   threadId: number
@@ -11,6 +11,7 @@ export interface IRequestPostMessages {
   receiverIds: number[]
   enabled?: boolean
   created: Date | string
+  images?: number[]
 }
 
 export interface IResponseCreate {

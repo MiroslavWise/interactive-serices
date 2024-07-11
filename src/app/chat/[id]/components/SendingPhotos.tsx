@@ -1,0 +1,55 @@
+"use client"
+
+import { type Dispatch, memo } from "react"
+
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
+
+import { cx } from "@/lib/cx"
+import { ImageStatic } from "@/components/common"
+
+interface IProps {
+  files: {
+    file: File[]
+    string: string[]
+  }
+
+  dispatchDelete: Dispatch<number>
+}
+
+function SendingPhotos({ dispatchDelete, files }: IProps) {
+  const strings = files.string
+
+  return (
+    <section
+      className={cx(
+        "absolute flex flex-row flex-nowrap gap-2 -top-[1px] -translate-y-full right-0 w-full py-2.5 px-3 md:px-5 bg-BG-second border-t border-solid border-grey-stroke overflow-x-scroll justify-end",
+        strings.length ? "!opacity-100 !visible !z-50" : "!opacity-0 !invisible !-z-10",
+      )}
+    >
+      {strings.map((item, index) => (
+        <article
+          key={`::key::photos::${item}::`}
+          className={cx(
+            "w-[6.875rem] h-[6.875rem] p-[3.4375rem] rounded-2xl relative bg-text-error z-20 overflow-hidden",
+            "[&>img]:absolute [&>img]:top-1/2 [&>img]:left-1/2 [&>img]:-translate-x-1/2 [&>img]:-translate-y-1/2 [&>img]:w-[6.875rem] [&>img]:h-[6.875rem]",
+          )}
+        >
+          <button
+            type="button"
+            onClick={(event) => {
+              dispatchDelete(index)
+              event.stopPropagation()
+            }}
+            className="absolute bg-BG-second w-8 h-8 rounded-full p-2 flex items-center justify-center top-1.5 right-1.5 z-30 *:w-4 *:h-4 [&>svg>path]:fill-text-primary"
+          >
+            <IconTrashBlack />
+          </button>
+          <ImageStatic src={item} alt="offer-image" width={200} height={200} />
+        </article>
+      ))}
+    </section>
+  )
+}
+
+SendingPhotos.displayName = "SendingPhotos"
+export default memo(SendingPhotos)

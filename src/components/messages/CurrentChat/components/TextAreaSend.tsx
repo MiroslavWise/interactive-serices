@@ -10,7 +10,6 @@ import { IUserOffer } from "@/services/offers/types"
 import type { IRequestPostMessages } from "@/services/messages/types"
 import { resolverChatSend, TSchemaChatSend } from "../utils/chat-send.schema"
 
-import { FilesUpload } from "./FilesUpload"
 import IconClipper from "@/components/icons/IconClipper"
 
 import { useAuth } from "@/store"
@@ -247,7 +246,6 @@ const TextAreaSend: TTextAreaSend = ({ idUser, refetch, setStateMessages }) => {
           />
         )}
       />
-      <FilesUpload {...{ strings: strings, deleteFile }} />
     </form>
   )
 }

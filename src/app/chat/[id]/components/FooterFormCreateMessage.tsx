@@ -2,16 +2,22 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
-import { RefObject, useEffect, useRef, useState } from "react"
+import { ChangeEvent, RefObject, useEffect, useRef, useState } from "react"
 
-import { type IRequestPostMessages } from "@/services/messages/types"
+import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
+import { type IRequestPostMessages } from "@/services/messages/types"
+
+import SendingPhotos from "./SendingPhotos"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
-import { getMessages, postMessage } from "@/services"
 import { resolver, type TTypeSchema } from "../utils/schema"
+import { fileUploadService, getMessages, postMessage } from "@/services"
+
+const MAX_FILE_SIZE = 9.9 * 1024 * 1024
+const sleep = () => new Promise((r) => setTimeout(r, 50))
 
 function FooterFormCreateMessage({
   thread,
@@ -27,6 +33,60 @@ function FooterFormCreateMessage({
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const { socket } = useWebSocket()
+
+  const [filesState, setFiles] = useState<{ file: File[]; string: string[] }>({
+    file: [],
+    string: [],
+  })
+  function dispatchDelete(index: number) {
+    if (!loading) {
+      setFiles((item) => ({
+        file: item.file.filter((_, i) => i !== index),
+        string: item.string.filter((_, i) => i !== index),
+      }))
+    }
+  }
+  async function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
+    const files = event.target.files
+
+    let filesReady = {
+      file: [...filesState.file] as File[],
+      string: [...filesState.string] as string[],
+    }
+
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+
+        if (file) {
+          if (file.size < MAX_FILE_SIZE) {
+            const is = filesState.file.some((_) => _.size === file.size && _.name === file.name)
+
+            if (is) {
+              continue
+            }
+
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = function (f) {
+              filesReady = {
+                ...filesReady,
+                file: [...filesReady.file, file],
+                string: [...filesReady.string, f!.target!.result as string],
+              }
+            }
+          }
+        }
+      }
+    }
+
+    await sleep()
+
+    return Promise.resolve({
+      file: filesReady.file.splice(0, 9),
+      string: filesReady.string.splice(0, 9),
+    })
+  }
 
   const { refetch } = useQuery({
     queryFn: () => getMessages({ thread: thread?.id! }),
@@ -66,9 +126,9 @@ function FooterFormCreateMessage({
 
   const receiver = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
 
-  const onSubmit = handleSubmit((values) => {
+  const onSubmit = handleSubmit(async (values) => {
     const body: IRequestPostMessages = {
-      threadId: thread?.id!,
+      threadId: Number(thread?.id!),
       message: values.text.trim(),
       parentId: null,
       emitterId: userId!,
@@ -79,16 +139,28 @@ function FooterFormCreateMessage({
 
     if (!loading) {
       setLoading(true)
+      const files = filesState.file
+      const response = await Promise.all(
+        files.map((item) =>
+          fileUploadService(item, {
+            type: EnumTypeProvider.threads,
+            userId: userId!,
+            idSupplements: Number(thread?.id!),
+          }),
+        ),
+      )
+
+      const imgIds = response.filter((item) => !!item.res?.id).map((item) => item.res?.id!)
+
+      if (imgIds.length) {
+        body.images = imgIds
+      }
 
       if (socket?.connected) {
         socket?.emit(
           "chat",
           {
-            receiverIds: [receiver],
-            message: values.text.trim() || "",
-            threadId: Number(thread?.id!),
-            created: new Date(),
-            parentId: undefined,
+            ...body,
           },
           (response: any) => {
             console.log("message response :", response)
@@ -107,6 +179,7 @@ function FooterFormCreateMessage({
 
       setTimeout(() => {
         if (textRef.current) {
+          setFiles({ file: [], string: [] })
           reset()
           textRef.current.style.height = "2.5rem"
           textRef.current.style.borderRadius = `1.25rem`
@@ -129,6 +202,7 @@ function FooterFormCreateMessage({
       onSubmit={onSubmit}
       className="w-full fixed md:absolute bottom-0 right-0 left-0 grid grid-cols-[minmax(0,1fr)_2rem] md:grid-cols-[minmax(0,calc(50rem_-_2.625rem_-_2.5rem))_2rem] justify-center bg-BG-second border-t border-solid border-grey-stroke p-3 md:pt-3 md:pb-5 md:px-5 items-end gap-2.5"
     >
+      <SendingPhotos dispatchDelete={dispatchDelete} files={filesState} />
       <Controller
         name="text"
         control={control}
@@ -151,7 +225,36 @@ function FooterFormCreateMessage({
               placeholder="Написать сообщение..."
               ref={textRef}
             />
-            <div className="absolute right-4 bottom-2.5"></div>
+            <div className="absolute right-4 bottom-2.5 w-5 h-5 bg-transparent border-none outline-none cursor-pointer z-40">
+              <input
+                type="file"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 opacity-0 cursor-pointer z-30"
+                accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg"
+                multiple
+                onChange={async (event) => {
+                  const dataValues = await handleImageChange(event)
+                  console.log("dataValues: ", dataValues)
+                  setFiles(dataValues)
+                  event.target.value = ""
+                }}
+              />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                className="w-5 h-5 pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+              >
+                <path
+                  d="M17.8666 9.2081L10.2082 16.8664C9.27005 17.8046 7.99757 18.3317 6.67075 18.3317C5.34393 18.3317 4.07145 17.8046 3.13325 16.8664C2.19505 15.9282 1.66797 14.6558 1.66797 13.3289C1.66797 12.0021 2.19505 10.7296 3.13325 9.79144L10.7916 2.1331C11.4171 1.50763 12.2654 1.15625 13.1499 1.15625C14.0345 1.15625 14.8828 1.50763 15.5082 2.1331C16.1337 2.75857 16.4851 3.60689 16.4851 4.49144C16.4851 5.37598 16.1337 6.2243 15.5082 6.84977L7.84158 14.5081C7.52885 14.8208 7.10469 14.9965 6.66242 14.9965C6.22014 14.9965 5.79598 14.8208 5.48325 14.5081C5.17051 14.1954 4.99482 13.7712 4.99482 13.3289C4.99482 12.8867 5.17051 12.4625 5.48325 12.1498L12.5582 5.0831"
+                  stroke="var(--element-grey-light)"
+                  className="stroke-element-grey-light"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
           </div>
         )}
       />

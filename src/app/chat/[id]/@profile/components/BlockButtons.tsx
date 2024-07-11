@@ -1,11 +1,9 @@
-import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IUserResponse } from "@/services/users/types"
 
-import { ImageCategory, NextImageMotion } from "@/components/common"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getFiendId, getUserIdOffers } from "@/services"
@@ -27,7 +25,6 @@ function BlockButtons({ user }: { user: IUserResponse }) {
   const itemsOffers = dataOffers?.data || []
   const items = dataFriends?.res || []
   const length = items.length
-  const threeFriends = items?.filter((_) => !!_.image).slice(0, 2)
 
   return (
     <div className={cx("w-full py-2.5 flex flex-col")}>
@@ -41,12 +38,15 @@ function BlockButtons({ user }: { user: IUserResponse }) {
         </p>
         <div className="flex flex-row items-center flex-nowrap pr-0.375 justify-end">
           {itemsOffers.slice(0, 6).map((item, index) => (
-            <article
+            <a
               key={`::key::item::pre::offer::${item.id}::`}
               className="w-8 h-8 rounded-full bg-BG-second !-mr-0.375 flex items-center justify-center p-0.5"
               style={{
                 zIndex: 10 + index,
               }}
+              title={item.title}
+              aria-label={item.title}
+              aria-labelledby={item.title}
             >
               <section
                 className={cx(
@@ -56,7 +56,7 @@ function BlockButtons({ user }: { user: IUserResponse }) {
               >
                 <ImageCategory id={item.categoryId!} />
               </section>
-            </article>
+            </a>
           ))}
         </div>
       </article>

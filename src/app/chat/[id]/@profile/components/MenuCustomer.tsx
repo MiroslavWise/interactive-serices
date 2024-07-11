@@ -41,7 +41,7 @@ function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }
       <article
         className={cx(
           "absolute -right-[2.125rem] rounded-xl bg-BG-second shadow-menu-absolute p-3 w-44 flex flex-col gap-0.5 -top-2.5 -translate-y-full",
-          "*:w-full hover:*:bg-grey-field *:py-2 *:px-1.5 *:gap-2.5 *:grid *:grid-cols-[1.25rem_minmax(0,1fr)] [&>a>span]:items-center [&>a>span]:text-sm [&>a>span]:font-normal [&>a>span]:text-text-error",
+          "*:w-full *:rounded-md hover:*:bg-grey-field *:py-2 *:px-1.5 *:gap-2.5 *:grid *:grid-cols-[1.25rem_minmax(0,1fr)] [&>a>span]:items-center [&>a>span]:text-sm [&>a>span]:font-normal [&>a>span]:text-text-error",
           open ? "!opacity-100 !visible !z-50" : "!opacity-0 !invisible -z-10",
         )}
       >
