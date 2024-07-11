@@ -7,6 +7,7 @@ import ItemMessageChat from "./ItemMessageChat"
 import { useSelectChat } from "@/store"
 import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
 import LoadingItem from "./LoadingItem"
+import { cx } from "@/lib/cx"
 
 function ListMessages() {
   const select = useSelectChat(({ select }) => select)
@@ -42,7 +43,10 @@ function ListMessages() {
 
   return (
     <ul
-      className="w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col gap-0.5 max-md:pb-[var(--height-mobile-footer-nav)]"
+      className={cx(
+        "w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col gap-0.5",
+        "max-md:pb-[var(--height-mobile-footer-nav)] max-md:max-h-[calc(100vh_-_var(--height-mobile-header))_-_6.125rem]",
+      )}
       key={`screen-chats`}
     >
       {filterNavigate.map((item) => (
