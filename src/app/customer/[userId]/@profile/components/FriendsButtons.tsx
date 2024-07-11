@@ -27,7 +27,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
   const [
     { data: dataRequest, isFetching: isLoadingRequest },
     { data: dataResponse, isFetching: isLoadingResponse },
-    { data: dataUserFriends, refetch, isFetching },
+    { data: dataUserFriends, isFetching },
   ] = useQueries({
     queries: [
       {

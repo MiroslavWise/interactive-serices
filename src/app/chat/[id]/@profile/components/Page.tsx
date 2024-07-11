@@ -2,12 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query"
 
+import FriendB from "./FriendB"
 import Loading from "../loading"
 import ProfileData from "./ProfileData"
 import BlockButtons from "./BlockButtons"
+import MenuCustomer from "./MenuCustomer"
 import Accomplishments from "./Accomplishments"
 import { ButtonLink } from "@/components/common"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
@@ -48,7 +49,7 @@ export default ({ id }: { id: string | number }) => {
       <footer
         className={cx(
           "w-full pb-5 grid grid-cols-[minmax(0,1fr)_2.25rem_2.25rem] pt-2.5 mt-auto gap-2.5",
-          "*:h-9 *:rounded-[1.125rem]",
+          "*:h-9 *:rounded-[1.125rem] *:p-[1.125rem]",
           "[&>button]:bg-btn-second-default hover:[&>button]:bg-btn-second-hover [&>button]:w-9 [&>button]:relative",
         )}
       >
@@ -58,14 +59,10 @@ export default ({ id }: { id: string | number }) => {
           }}
           typeButton="fill-primary"
           label="Посмотреть профиль"
+          prefetch
         />
-        <button></button>
-        <button
-          type="button"
-          className="[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-5 [&>svg]:w-5 "
-        >
-          <IconDotsHorizontal />
-        </button>
+        <FriendB user={userData?.data!} />
+        <MenuCustomer user={userData?.data!} id={id} />
       </footer>
     </section>
   )
