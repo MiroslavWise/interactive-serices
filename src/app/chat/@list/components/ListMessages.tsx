@@ -2,12 +2,12 @@
 
 import { useMemo } from "react"
 
+import LoadingItem from "./LoadingItem"
 import ItemMessageChat from "./ItemMessageChat"
 
+import { cx } from "@/lib/cx"
 import { useSelectChat } from "@/store"
 import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
-import LoadingItem from "./LoadingItem"
-import { cx } from "@/lib/cx"
 
 function ListMessages() {
   const select = useSelectChat(({ select }) => select)
@@ -31,6 +31,14 @@ function ListMessages() {
 
     return filters.filter((_) => _.provider === select)
   }, [select, filters])
+
+  // const filtersSearch = useMemo(() => {
+  //   const trimLower = search.trim().toLowerCase()
+  //   if (!trimLower) return filterNavigate
+
+  //   return filterNavigate
+
+  // }, [filterNavigate, search])
 
   if (isLoading)
     return (

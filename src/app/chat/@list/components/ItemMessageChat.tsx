@@ -11,8 +11,9 @@ import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
+import { formatOfMMMM } from "@/helpers"
 import { useAuth, useOnline } from "@/store"
-import { timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
+import { onNumberOfPhotos } from "@/helpers/number-of-photos"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
@@ -27,7 +28,9 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const isOnline = users.some((_) => _.id === user?.id!)
 
   const messageType = typeMessage({ provider: provider, last: message?.message! })
-  const lastTime = timeNowOrBeforeChatHours(item?.messages?.length > 0 ? item?.messages?.[0]?.created! : item?.created)
+  const time = item?.messages?.length > 0 ? item?.messages?.[0]?.created! : item?.created
+  const lastTime =
+    formatOfMMMM(time, "dd:MM:yy") === formatOfMMMM(new Date(), "dd:MM:yy") ? formatOfMMMM(time, "HH:mm") : formatOfMMMM(time, "dd MMMM")
 
   const reading = useMemo(() => {
     if (!item?.messages || item?.messages?.length === 0) return null

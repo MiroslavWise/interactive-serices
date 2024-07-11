@@ -7,3 +7,5 @@ function onNumberOfPhotos(value: number): string | null {
   if (per === 1) return `${value} фотография`
   return `${value} фотографий`
 }
+
+export { onNumberOfPhotos }

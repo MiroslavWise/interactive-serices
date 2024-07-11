@@ -1,5 +1,5 @@
 import { ru } from "date-fns/locale"
-import { formatRelative, subDays, lightFormat, getTime, format, formatDistanceToNow } from "date-fns"
+import { formatRelative, subDays, lightFormat, getTime, format, formatDistanceToNow, getDate } from "date-fns"
 
 export const daysAgo = (date?: Date | string) => (!!date ? formatRelative(subDays(date, 0), new Date(), { locale: ru }) : "")
 export const dayFormat = (date?: Date | string, format?: string) => (!!date ? lightFormat(date, format ?? "HH:mm dd.MM.yyyy") : null)
