@@ -67,7 +67,7 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
   const firstNotRead = items.findIndex((_) => !_.readIds.length && _.emitterId !== userId)
 
   return (
-    <section className="w-full h-screen flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">
+    <section className="w-full h-full max-md:h-[calc(var(--vh)_*_100)] flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">
       <ExchangeStatus thread={thread} isLoading={isLoading} />
       <ul
         className={cx(
