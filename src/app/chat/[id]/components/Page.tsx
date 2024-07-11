@@ -35,7 +35,7 @@ export default ({ id }: { id: string | number }) => {
     <section
       className={cx(
         "w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-screen md:h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end",
-        "max-md:!max-h-[calc(var(--vh)_*_100)]",
+        "max-md:max-h-[100dvh] max-md:h-[100dvh]",
       )}
     >
       <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
