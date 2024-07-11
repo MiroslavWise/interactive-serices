@@ -12,7 +12,6 @@ import SendingPhotos from "./SendingPhotos"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
-import { useWebSocket } from "@/context"
 import { resolver, type TTypeSchema } from "../utils/schema"
 import { fileUploadService, getMessages, postMessage } from "@/services"
 
@@ -124,6 +123,8 @@ function FooterFormCreateMessage({
   }, [watch("text")])
 
   const receiver = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
+
+  const disabled = (!watch("text").trim() && !!filesState.file.length) || loading
 
   const onSubmit = handleSubmit(async (values) => {
     const message = values.text.trim()
@@ -250,7 +251,7 @@ function FooterFormCreateMessage({
       <button
         type="submit"
         className={cx("w-8 h-10 px-4 py-5 relative border-none outline-none", !!watch("text").trim() ? "opacity-100" : "opacity-50")}
-        disabled={!watch("text").trim() || loading}
+        disabled={disabled}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
