@@ -124,7 +124,7 @@ function FooterFormCreateMessage({
 
   const receiver = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
 
-  const disabled = (!watch("text").trim() && !!filesState.file.length) || loading
+  const disabled = (!watch("text").trim() && !filesState.file.length) || loading
 
   const onSubmit = handleSubmit(async (values) => {
     const message = values.text.trim()
