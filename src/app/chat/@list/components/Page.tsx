@@ -14,8 +14,8 @@ export default () => {
   return (
     <section
       className={cx(
-        "w-full h-full max-md:h-screen max-h-screen md:rounded-[2rem] bg-BG-second flex flex-col md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden",
-        "max-md:!pt-[var(--height-mobile-header)] max-md:!pb-[var(--height-mobile-footer-nav)]",
+        "w-full h-full max-h-screen md:rounded-[2rem] bg-BG-second flex flex-col md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden",
+        "max-md:h-[var(--vh)_*_100)] max-md:!pt-[var(--height-mobile-header)]",
         !!id && "max-md:!hidden",
       )}
     >

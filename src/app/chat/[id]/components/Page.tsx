@@ -13,6 +13,7 @@ const FooterFormCreateMessage = dynamic(() => import("./FooterFormCreateMessage"
 
 import { useAuth } from "@/store"
 import { getThreadId } from "@/services"
+import { cx } from "@/lib/cx"
 
 export default ({ id }: { id: string | number }) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -31,7 +32,12 @@ export default ({ id }: { id: string | number }) => {
   const thread = dataThread?.data!
 
   return (
-    <section className="w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-screen md:h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end max-md:!pb-[var(--height-mobile-footer-nav)]">
+    <section
+      className={cx(
+        "w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-screen md:h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end",
+        "max-md:!pb-[var(--height-mobile-footer-nav)]",
+      )}
+    >
       <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
       <ListMessages thread={thread} ferUl={ferUl} />
       <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} ferUl={ferUl} />
