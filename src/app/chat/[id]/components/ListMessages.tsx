@@ -67,11 +67,11 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
   const firstNotRead = items.findIndex((_) => !_.readIds.length && _.emitterId !== userId)
 
   return (
-    <section className="w-full h-screen flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">
+    <section className="w-full h-screen flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-y-auto">
       <ExchangeStatus thread={thread} isLoading={isLoading} />
       <ul
         className={cx(
-          "w-full md:h-full md:max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pb-[4.75rem] md:pb-[5.75rem] scroll-no px-3 md:px-5 pt-3 md:pt-5",
+          "w-full md:h-full md:max-w-[50rem] md:overflow-y-scroll flex flex-col gap-1 pb-[4.75rem] md:pb-[5.75rem] scroll-no px-3 md:px-5 pt-3 md:pt-5",
           "first:[&>li]:mt-auto",
         )}
         ref={ferUl}

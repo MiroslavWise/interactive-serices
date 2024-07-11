@@ -7,6 +7,7 @@ import { useAuth } from "@/store"
 import { formatOfMMMM } from "@/helpers"
 import { getBarterId, getIdOffer } from "@/services"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
+import LoadingBarter from "./LoadingBarter"
 
 function ItemBarter({ thread }: { thread: IResponseThread }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -32,16 +33,7 @@ function ItemBarter({ thread }: { thread: IResponseThread }) {
   if (![EnumProviderThreads.BARTER, EnumProviderThreads.OFFER_PAY].includes(thread?.provider!)) return null
   if (thread?.provider === EnumProviderThreads.PERSONAL) return null
 
-  if (isLoadingBarter || isLoadingOffer)
-    return (
-      <div className="w-full loading-screen flex flex-col gap-3 items-center mt-auto">
-        <span className="w-full max-w-[5.625rem] h-6 rounded-xl" />
-        <article className="w-full md:max-w-[25rem] flex flex-col items-center gap-1.5 rounded-2xl border border-solid border-grey-stroke-light p-3 *:w-full *:h-4 *:rounded-lg">
-          <span />
-          <span className="max-w-[80%]" />
-        </article>
-      </div>
-    )
+  if (isLoadingBarter || isLoadingOffer) return <LoadingBarter />
 
   if (thread?.provider === EnumProviderThreads.OFFER_PAY && !!dataO) {
     const text =
@@ -52,7 +44,7 @@ function ItemBarter({ thread }: { thread: IResponseThread }) {
         : `Вы предлагаете заплатить за услугу «${dataO?.category?.title}». Договоритесь о цене и условиях покупки в чате.`
 
     return (
-      <div className="w-full flex flex-col items-center gap-3 mt-auto">
+      <div className="w-full flex flex-col items-center gap-3 mt-auto max-md:sticky max-md:top-0">
         <article className="w-fit min-w-16 px-3 h-[1.6875rem] rounded-[0.84375rem] py-1 flex items-center justify-center bg-BG-time">
           <time className="text-text-button text-[0.8125rem] font-normal">{formatOfMMMM(thread?.created || new Date(), "dd MMMM")}</time>
         </article>
