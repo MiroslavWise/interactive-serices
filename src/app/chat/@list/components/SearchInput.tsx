@@ -2,9 +2,10 @@
 
 import { IconSearch } from "@/components/icons/IconSearch"
 
-import { useChatContext } from "./ContextChats"
 import { IconXClose } from "@/components/icons/IconXClose"
+
 import { cx } from "@/lib/cx"
+import { useChatContext } from "./ContextChats"
 
 function SearchInput() {
   const { search, dispatchSearch } = useChatContext()
@@ -27,6 +28,7 @@ function SearchInput() {
             ? "absolute z-10 cursor-pointer w-5 h-5 [&>svg]:w-5 [&>svg]:h-5 top-1/2 -translate-y-1/2 right-3.5 [&>svg>path]:stroke-element-grey-light"
             : "hidden",
         )}
+        onClick={() => dispatchSearch("")}
       >
         <IconXClose />
       </div>
