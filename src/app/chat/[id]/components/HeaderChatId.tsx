@@ -14,14 +14,14 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
+import { useAuth, useOnline } from "@/store"
 import { getBarterId, getIdOffer } from "@/services"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
-
+  const users = useOnline(({ users }) => users)
   const message = thread?.messages?.length ? thread?.messages?.[0]?.message : null
   const { firstName, lastName } = user ?? {}
 
@@ -43,6 +43,8 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
   const { data: dataO } = dataOffer ?? {}
   const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
   const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! || dataO })
+
+  const isOnline = users.some((_) => _.id === user?.id!)
 
   if (isLoadingThread)
     return (
@@ -92,6 +94,9 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
             </h3>
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem] *:z-30">
               <IconVerifiedTick />
+            </div>
+            <div className={cx("ml-1 flex-row justify-start items-center", isOnline ? "flex" : "hidden")}>
+              <span className="text-[0.8125rem] text-text-secondary font-normal">в сети</span>
             </div>
           </div>
           <p className="text-[0.8125rem] text-text-primary font-normal text-ellipsis line-clamp-1">{messageType || " "}</p>

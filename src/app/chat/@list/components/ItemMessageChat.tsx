@@ -11,18 +11,20 @@ import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
+import { useAuth, useOnline } from "@/store"
 import { timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const params = useParams()
+  const users = useOnline(({ users }) => users)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id } = (params as { id?: string | number }) ?? {}
   const { provider } = item ?? {}
 
   const message = item?.messages?.length ? item?.messages?.[0] : null
   const user = userInterlocutor({ m: item.emitter, r: item.receivers, userId: userId! })
+  const isOnline = users.some((_) => _.id === user?.id!)
 
   const messageType = typeMessage({ provider: provider, last: message?.message! })
   const lastTime = timeNowOrBeforeChatHours(item?.messages?.length > 0 ? item?.messages?.[0]?.created! : item?.created)
@@ -96,6 +98,15 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
           <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1.95rem] h-[1.95rem]" />
         )}
         <ChatIconProvider provider={provider} />
+        <div
+          className={cx(
+            isOnline
+              ? "absolute z-20 -bottom-1 right-1 w-[0.9375rem] h-[0.9375rem] rounded-full flex items-center justify-center bg-BG-second"
+              : "!hidden",
+          )}
+        >
+          <span className="w-[0.5625rem] h-[0.5625rem] rounded-full bg-more-green" />
+        </div>
       </div>
       <article className="w-full flex flex-col items-start justify-center pr-2.5">
         <div className="w-full flex flex-row flex-nowrap items-center justify-between gap-2 ">

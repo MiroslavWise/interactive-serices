@@ -1,11 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
 import { type IUserResponse } from "@/services/users/types"
-import { useWebSocket } from "@/context"
-import { TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
+
 import { fromNow } from "@/helpers"
+import { useOnline } from "@/store"
+import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 
 const BE_GENDER: Map<TGenderForm, string> = new Map([
   ["m", "был"],
@@ -13,37 +12,11 @@ const BE_GENDER: Map<TGenderForm, string> = new Map([
 ])
 
 function OnlineStatus({ user }: { user: IUserResponse }) {
-  const [loading, setLoading] = useState(false)
-  const [is, setIs] = useState(false)
-  const { socket } = useWebSocket()
   const { updated, profile, id } = user ?? {}
   const { gender } = profile ?? {}
+  const users = useOnline(({ users }) => users)
 
-  useEffect(() => {
-    setLoading(true)
-    const onlineUsers = (event: IOnlineSocket) => {
-      console.log("onlineUsers: ", event)
-
-      const users = event?.users || []
-
-      if (users.some((_) => _?.id === id)) {
-        setIs(true)
-      }
-    }
-
-    if (!!socket) {
-      socket.on(`online`, onlineUsers)
-
-      return () => {
-        socket.off(`online`, onlineUsers)
-      }
-    }
-    setTimeout(() => {
-      setLoading(false)
-    }, 150)
-  }, [socket, id])
-
-  if (loading) return <div className="w-full h-4" />
+  const is = users.some((_) => _.id === id)
 
   if (is)
     return (

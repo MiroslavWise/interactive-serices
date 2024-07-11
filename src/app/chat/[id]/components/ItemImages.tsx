@@ -5,6 +5,7 @@ import { type IImageData } from "@/store/types/useAuthState"
 import { cx } from "@/lib/cx"
 import { NextImageMotion } from "@/components/common"
 import { ReactNode } from "react"
+import { dispatchPhotoCarousel } from "@/store"
 
 interface IProps {
   images: IImageData[]
@@ -12,6 +13,18 @@ interface IProps {
 }
 
 function ItemImages({ images, children }: IProps) {
+  function onOpenView(id: number) {
+    const photos = images.map((item) => ({
+      url: item?.attributes?.url!,
+      id: item?.id,
+    }))
+    dispatchPhotoCarousel({
+      visible: true,
+      photos: photos,
+      idPhoto: id!,
+    })
+  }
+
   return (
     <article
       className={cx(
@@ -37,7 +50,7 @@ function ItemImages({ images, children }: IProps) {
       )}
     >
       {images.map((item) => (
-        <div key={`::item::image::${item.id}::`} className="w-full h-auto relative">
+        <div key={`::item::image::${item.id}::`} className="w-full h-auto relative cursor-pointer" onClick={() => onOpenView(item.id)}>
           <NextImageMotion
             src={item.attributes.url}
             alt="offer-image"
