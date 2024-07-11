@@ -25,7 +25,7 @@ export interface IResponseMessageProps {
   message: string
   parentId: number | null
   threadId: number
-  emitter: IUserOffer
+  emitter?: IUserOffer
   emitterId: number
   receiverIds: number[]
   images: IImageData[]

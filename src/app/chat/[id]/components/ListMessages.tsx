@@ -1,8 +1,9 @@
-import { memo, RefObject, useEffect, Fragment } from "react"
+import { memo, RefObject, useEffect, Fragment, Dispatch, SetStateAction } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
+import { type IResponseMessage } from "@/services/messages/types"
 
 import ItemBarter from "./ItemBarter"
 import ItemMessage from "./ItemMessage"
@@ -14,7 +15,14 @@ import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { getMessages, postReadMessage } from "@/services"
 
-function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefObject<HTMLUListElement> }) {
+interface IProps {
+  messages: IResponseMessage[]
+  setMessages: Dispatch<SetStateAction<IResponseMessage[]>>
+  thread: IResponseThread
+  ferUl: RefObject<HTMLUListElement>
+}
+
+function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
   const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
@@ -30,6 +38,12 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
   })
 
   const items = dataMessages?.data || []
+
+  useEffect(() => {
+    if (items.length) {
+      setMessages(items)
+    }
+  }, [items])
 
   useEffect(() => {
     setTimeout(() => {
@@ -77,8 +91,8 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
         ref={ferUl}
       >
         <ItemBarter thread={thread} />
-        {!!items.length ? (
-          items.map((message, index) => (
+        {!!messages.length ? (
+          messages.map((message, index) => (
             <Fragment key={`::key::message::${message?.id!}::`}>
               <li className={cx(index === firstNotRead ? "w-full flex flex-row items-center py-2.5 gap-5" : "!hidden")}>
                 <div className="w-full h-[1px] bg-grey-stroke" />
@@ -88,7 +102,7 @@ function ListMessages({ thread, ferUl }: { thread: IResponseThread; ferUl: RefOb
               <ItemMessage message={message} />
             </Fragment>
           ))
-        ) : !items.length && thread?.provider === EnumProviderThreads.PERSONAL ? (
+        ) : !messages.length && thread?.provider === EnumProviderThreads.PERSONAL ? (
           <article className="w-full mt-auto mb-auto flex items-center justify-center">
             <div
               className="h-11 py-3 px-5 rounded-[1.375rem] flex items-center justify-center"

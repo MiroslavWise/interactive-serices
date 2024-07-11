@@ -32,14 +32,6 @@ function ListMessages() {
     return filters.filter((_) => _.provider === select)
   }, [select, filters])
 
-  // const filtersSearch = useMemo(() => {
-  //   const trimLower = search.trim().toLowerCase()
-  //   if (!trimLower) return filterNavigate
-
-  //   return filterNavigate
-
-  // }, [filterNavigate, search])
-
   if (isLoading)
     return (
       <ul className="w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col loading-screen" key={`screen-load`}>

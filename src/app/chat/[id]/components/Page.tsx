@@ -1,8 +1,10 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import { useQuery } from "@tanstack/react-query"
+
+import { type IResponseMessage } from "@/services/messages/types"
 
 import LoadingList from "./LoadingList"
 import LoadingHeader from "../../components/LoadingHeader"
@@ -11,13 +13,14 @@ const ListMessages = dynamic(() => import("./ListMessages"), { loading: LoadingL
 const HeaderChatId = dynamic(() => import("./HeaderChatId"), { loading: LoadingHeader })
 const FooterFormCreateMessage = dynamic(() => import("./FooterFormCreateMessage"), { loading: LoadingFooter })
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { getThreadId } from "@/services"
-import { cx } from "@/lib/cx"
 
 export default ({ id }: { id: string | number }) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const ferUl = useRef<HTMLUListElement>(null)
+  const [messages, setMessages] = useState<IResponseMessage[]>([])
 
   const { data: dataThread, isLoading: isLoadingThread } = useQuery({
     queryFn: () => getThreadId(id!),
@@ -39,8 +42,8 @@ export default ({ id }: { id: string | number }) => {
       )}
     >
       <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
-      <ListMessages thread={thread} ferUl={ferUl} />
-      <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} ferUl={ferUl} />
+      <ListMessages thread={thread} ferUl={ferUl} setMessages={setMessages} messages={messages} />
+      <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} ferUl={ferUl} setMessages={setMessages} />
     </section>
   )
 }

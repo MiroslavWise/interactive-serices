@@ -2,12 +2,12 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
-import { ChangeEvent, RefObject, useEffect, useRef, useState } from "react"
+import { ChangeEvent, Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import LoadingFooter from "../../components/LoadingFooter"
 import { type IResponseThread } from "@/services/threads/types"
-import { type IRequestPostMessages } from "@/services/messages/types"
+import { type IResponseMessage, type IRequestPostMessages } from "@/services/messages/types"
 
 import SendingPhotos from "./SendingPhotos"
 
@@ -21,12 +21,14 @@ const sleep = () => new Promise((r) => setTimeout(r, 50))
 
 function FooterFormCreateMessage({
   thread,
-  isLoadingThread,
   ferUl,
+  setMessages,
+  isLoadingThread,
 }: {
   thread: IResponseThread
   isLoadingThread: boolean
   ferUl: RefObject<HTMLUListElement>
+  setMessages: Dispatch<SetStateAction<IResponseMessage[]>>
 }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const refForm = useRef<HTMLFormElement>(null)
@@ -143,6 +145,20 @@ function FooterFormCreateMessage({
     }
 
     if (!loading) {
+      setMessages((_) => [
+        ..._,
+        {
+          id: Math.random(),
+          message: message,
+          parentId: null,
+          threadId: Number(thread?.id!),
+          emitterId: userId!,
+          receiverIds: [],
+          images: [],
+          readIds: [],
+        },
+      ])
+
       setLoading(true)
       const files = filesState.file
       const response = await Promise.all(
