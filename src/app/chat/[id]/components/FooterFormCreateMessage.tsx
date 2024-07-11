@@ -154,6 +154,7 @@ function FooterFormCreateMessage({
           threadId: Number(thread?.id!),
           emitterId: userId!,
           receiverIds: [],
+          //TODO
           images: [],
           readIds: [],
         },

@@ -47,7 +47,7 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (items?.length > 0) {
+      if (messages?.length > 0) {
         if (ferUl.current) {
           const top = ferUl.current.scrollHeight
           ferUl.current.scroll({
@@ -57,7 +57,7 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
         }
       }
     })
-  }, [items])
+  }, [messages])
   useEffect(() => {
     if (items && userId && Array.isArray(items)) {
       if (items.length) {
