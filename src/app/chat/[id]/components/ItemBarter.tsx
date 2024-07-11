@@ -60,7 +60,9 @@ function ItemBarter({ thread }: { thread: IResponseThread }) {
       dataB?.initiator?.userId === userId
         ? `Вы предлагаете «${dataB?.initiator?.category?.title || "Предложение"}» взамен на «${
             dataB?.consigner?.category?.title || "Предложение"
-          }»`
+          }».\n
+        Также вместо обмена, вы можете предложить покупку услуги.
+          `
         : dataB?.consigner?.userId === userId
         ? `${dataB?.initiator?.user?.firstName || "Имя"} предлагает «${dataB?.initiator?.category?.title || "Предложение"}» взамен на «${
             dataB?.consigner?.category?.title || "Предложение"
