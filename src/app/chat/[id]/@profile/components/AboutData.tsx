@@ -16,8 +16,14 @@ function AboutData({ about }: { about: string }) {
   }
 
   return (
-    <p className={cx("w-full py-2.5 text-sm font-normal text-text-primary", state ? "line-clamp-4 text-ellipsis" : "line-clamp-none")}>
-      {about ?? ""}
+    <p
+      onClick={openClose}
+      className={cx(
+        "w-full my-2.5 text-sm font-normal text-text-primary",
+        state ? "line-clamp-6 text-ellipsis cursor-pointer" : "line-clamp-none",
+      )}
+    >
+      {about}
       {!state ? (
         <>
           <br />

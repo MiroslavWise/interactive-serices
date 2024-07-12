@@ -4,10 +4,11 @@ import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 import { ChangeEvent, Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react"
 
+import { type IMessages } from "./Page"
 import { EnumTypeProvider } from "@/types/enum"
 import LoadingFooter from "../../components/LoadingFooter"
 import { type IResponseThread } from "@/services/threads/types"
-import { type IResponseMessage, type IRequestPostMessages } from "@/services/messages/types"
+import { type IRequestPostMessages } from "@/services/messages/types"
 
 import SendingPhotos from "./SendingPhotos"
 
@@ -28,7 +29,7 @@ function FooterFormCreateMessage({
   thread: IResponseThread
   isLoadingThread: boolean
   ferUl: RefObject<HTMLUListElement>
-  setMessages: Dispatch<SetStateAction<IResponseMessage[]>>
+  setMessages: Dispatch<SetStateAction<IMessages[]>>
 }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const refForm = useRef<HTMLFormElement>(null)
@@ -154,9 +155,9 @@ function FooterFormCreateMessage({
           threadId: Number(thread?.id!),
           emitterId: userId!,
           receiverIds: [],
-          //TODO
           images: [],
           readIds: [],
+          imagesString: filesState.string,
         },
       ])
 

@@ -1,9 +1,9 @@
-import { memo, RefObject, useEffect, Fragment, Dispatch, SetStateAction } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { memo, type RefObject, useEffect, Fragment, type Dispatch, type SetStateAction } from "react"
 
+import { type IMessages } from "./Page"
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
-import { type IResponseMessage } from "@/services/messages/types"
 
 import ItemBarter from "./ItemBarter"
 import ItemMessage from "./ItemMessage"
@@ -16,8 +16,8 @@ import { useWebSocket } from "@/context"
 import { getMessages, postReadMessage } from "@/services"
 
 interface IProps {
-  messages: IResponseMessage[]
-  setMessages: Dispatch<SetStateAction<IResponseMessage[]>>
+  messages: IMessages[]
+  setMessages: Dispatch<SetStateAction<IMessages[]>>
   thread: IResponseThread
   ferUl: RefObject<HTMLUListElement>
 }
@@ -94,16 +94,18 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
         {!!messages.length ? (
           messages.map((message, index) => (
             <Fragment key={`::key::message::${message?.id!}::`}>
-              <li className={cx(index === firstNotRead ? "w-full flex flex-row items-center py-2.5 gap-5" : "!hidden")}>
+              <article
+                className={cx(index === firstNotRead ? "w-full flex flex-row items-center py-2.5 gap-5 mt-auto" : "!hidden mt-auto")}
+              >
                 <div className="w-full h-[1px] bg-grey-stroke" />
                 <span className="whitespace-nowrap text-text-secondary text-sm text-center font-normal w-min">Непрочитанные сообщения</span>
                 <div className="w-full h-[1px] bg-grey-stroke" />
-              </li>
+              </article>
               <ItemMessage message={message} />
             </Fragment>
           ))
         ) : !messages.length && thread?.provider === EnumProviderThreads.PERSONAL ? (
-          <article className="w-full mt-auto mb-auto flex items-center justify-center">
+          <article className="w-full !my-auto flex items-center justify-center">
             <div
               className="h-11 py-3 px-5 rounded-[1.375rem] flex items-center justify-center"
               style={{ background: "linear-gradient(95deg, #B3D2FF -26.18%, #D8BAFF 130.54%)" }}

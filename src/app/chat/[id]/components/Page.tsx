@@ -17,10 +17,14 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { getThreadId } from "@/services"
 
+export interface IMessages extends IResponseMessage {
+  imagesString?: string[]
+}
+
 export default ({ id }: { id: string | number }) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const ferUl = useRef<HTMLUListElement>(null)
-  const [messages, setMessages] = useState<IResponseMessage[]>([])
+  const [messages, setMessages] = useState<IMessages[]>([])
 
   const { data: dataThread, isLoading: isLoadingThread } = useQuery({
     queryFn: () => getThreadId(id!),

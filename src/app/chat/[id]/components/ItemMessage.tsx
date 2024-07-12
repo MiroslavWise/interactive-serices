@@ -1,13 +1,14 @@
 import { useMemo } from "react"
 
-import { type IResponseMessage } from "@/services/messages/types"
+import { type IMessages } from "./Page"
+
+import ItemImages from "./ItemImages"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { timeNowOrBeforeChatHours } from "@/lib/timeNowOrBefore"
-import ItemImages from "./ItemImages"
 
-function ItemMessage({ message }: { message: IResponseMessage }) {
+function ItemMessage({ message }: { message: IMessages }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const lastTime = timeNowOrBeforeChatHours(message?.created! || new Date())
@@ -69,12 +70,15 @@ function ItemMessage({ message }: { message: IResponseMessage }) {
   }, [message, userId, lastTime])
 
   const images = message?.images || []
+  const strings = message?.imagesString || []
 
   return (
     <li
       className={cx("w-full flex flex-col gap-1", userId === message.emitterId ? "items-end *:bg-BG-chat" : "items-start *:bg-grey-field")}
     >
-      <ItemImages images={images}>{readingForPhoto}</ItemImages>
+      <ItemImages images={images} strings={strings}>
+        {readingForPhoto}
+      </ItemImages>
       <article className={cx("py-2 px-3 rounded-2xl overflow-hidden md:max-w-[23.375rem] max-w-[86%]", message.message ? "" : "!hidden")}>
         <p className="text-text-primary text-sm font-normal flex flex-wrap flex-row break-words">
           {message.message}
