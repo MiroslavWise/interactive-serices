@@ -227,14 +227,14 @@ export default function UpdateOffer() {
         </fieldset>
         <fieldset>
           <label>Изменить предложение</label>
-          <div data-input {...register("category", { required: true })} ref={ref}>
+          <div data-input ref={ref}>
             <input
               type="text"
               value={inputCategory}
               onChange={(event) => setInputCategory(event.target.value || "")}
               data-error={!!errors.category}
-              readOnly={!!category}
-              disabled={!!category}
+              readOnly
+              disabled
               onFocus={(event) => {
                 event.stopPropagation()
                 setFocus(true)

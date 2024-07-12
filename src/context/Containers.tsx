@@ -75,7 +75,7 @@ export const Containers = () => {
           <AboutSheiraPopup />
         </>
       )}
-      <ToastContainer limit={3} />
+      <ToastContainer limit={1} />
       <CookiesToast />
       <PublicProfile />
       {isTablet && <MobileFiltersMap />}

@@ -1,7 +1,8 @@
 import { useState } from "react"
 
-import { serviceNotifications } from "@/services/notifications"
+import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
+import { serviceNotifications } from "@/services/notifications"
 
 export const ButtonsDots = (props: { id: number; refetch: () => Promise<any>; disabled?: boolean }) => {
   const { id, refetch, disabled } = props ?? {}
@@ -34,6 +35,7 @@ export const ButtonsDots = (props: { id: number; refetch: () => Promise<any>; di
         }}
         ref={ref}
         disabled={disabled}
+        className="absolute right-3 top-3 w-4 h-4 bg-transparent border-none outline-none"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="icon_16">
@@ -47,15 +49,22 @@ export const ButtonsDots = (props: { id: number; refetch: () => Promise<any>; di
           </g>
         </svg>
       </button>
-      <div data-popup={active}>
+      <div
+        className={cx(
+          "absolute -right-4 top-5 rounded-lg p-1 flex flex-col border border-solid border-grey-stroke-light bg-BG-first max-w-fit w-full h-fit overflow-hidden",
+          active ? " opacity-100 visible z-50" : " opacity-0 invisible -z-10",
+        )}
+      >
         <a
           onClick={(event) => {
             event.stopPropagation()
             handleDelete()
           }}
+          className="w-full h-8 flex flex-row items-center gap-2.5 py-1.5 px-5"
         >
-          <span>Удалить</span>
+          <span className="text-text-primary text-sm font-normal">Удалить</span>
           <img
+            className="w-4 h-4"
             src={loading ? "/svg/spinner.svg" : "/svg/trash-black.svg"}
             data-loading-image={loading}
             alt="trash"
