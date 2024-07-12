@@ -63,10 +63,10 @@ const file = z.object({
   string: z.array(z.string()),
 })
 const addressFeature = schemaFeatureMember.refine((value) => !!value && typeof value === "object", {
-  message: "Поле не может оставаться незаполненным",
+  message: "Выберите существующий адрес",
 })
 const initAddress = schemaPostAddress.refine((value) => !!value && typeof value === "object", {
-  message: "Поле не может оставаться незаполненным",
+  message: "Выберите существующий адрес",
 })
 
 const base = z.object({
