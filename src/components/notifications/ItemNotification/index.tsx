@@ -188,7 +188,10 @@ export const ItemNotification = (props: IResponseNotifications) => {
             >
               {profile?.firstName} {profile?.lastName}
             </Link>{" "}
-            состоялся? Обмен будет считаться завершенным, когда одна из сторон подтвердит завершение
+            состоялся?
+            {!["completion-survey", "completion-no"].includes(operation!)
+              ? " Обмен будет считаться завершенным, когда одна из сторон подтвердит завершение"
+              : null}
           </p>
         )
       }
