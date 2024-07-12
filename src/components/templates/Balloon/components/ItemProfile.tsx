@@ -8,8 +8,8 @@ import SharedPopupButton from "./SharedPopup"
 import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
-import { daysAgo, useResize } from "@/helpers"
 import { cx } from "@/lib/cx"
+import { daysAgo, useResize } from "@/helpers"
 import { dispatchPublicProfile } from "@/store"
 
 import styles from "../styles/profile.module.scss"
