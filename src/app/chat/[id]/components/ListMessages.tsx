@@ -94,13 +94,17 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
         {!!messages.length ? (
           messages.map((message, index) => (
             <Fragment key={`::key::message::${message?.id!}::`}>
-              <article
-                className={cx(index === firstNotRead ? "w-full flex flex-row items-center py-2.5 gap-5 mt-auto" : "!hidden mt-auto")}
-              >
-                <div className="w-full h-[1px] bg-grey-stroke" />
-                <span className="whitespace-nowrap text-text-secondary text-sm text-center font-normal w-min">Непрочитанные сообщения</span>
-                <div className="w-full h-[1px] bg-grey-stroke" />
-              </article>
+              {index === firstNotRead ? (
+                <article
+                  className={cx(index === firstNotRead ? "w-full flex flex-row items-center py-2.5 gap-5 mt-auto" : "!hidden mt-auto")}
+                >
+                  <div className="w-full h-[1px] bg-grey-stroke" />
+                  <span className="whitespace-nowrap text-text-secondary text-sm text-center font-normal w-min">
+                    Непрочитанные сообщения
+                  </span>
+                  <div className="w-full h-[1px] bg-grey-stroke" />
+                </article>
+              ) : null}
               <ItemMessage message={message} />
             </Fragment>
           ))
