@@ -163,6 +163,14 @@ function FooterFormCreateMessage({
 
       setLoading(true)
       const files = filesState.file
+      setTimeout(() => {
+        if (textRef.current) {
+          textRef.current.style.height = "2.5rem"
+          textRef.current.style.borderRadius = `1.25rem`
+        }
+        reset()
+        setFiles({ file: [], string: [] })
+      })
       const response = await Promise.all(
         files.map((item) =>
           fileUploadService(item, {
@@ -183,15 +191,6 @@ function FooterFormCreateMessage({
         console.log("response messages: ", response)
         refetch()
         setLoading(false)
-      })
-
-      setTimeout(() => {
-        if (textRef.current) {
-          setFiles({ file: [], string: [] })
-          reset()
-          textRef.current.style.height = "2.5rem"
-          textRef.current.style.borderRadius = `1.25rem`
-        }
       })
     }
   })
