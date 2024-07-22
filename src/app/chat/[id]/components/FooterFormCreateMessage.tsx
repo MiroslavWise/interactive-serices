@@ -181,7 +181,7 @@ function FooterFormCreateMessage({
         ),
       )
 
-      const imgIds = response.filter((item) => !!item.res?.id).map((item) => item.res?.id!)
+      const imgIds = response.filter((item) => !!item.data?.id).map((item) => item.data?.id!)
 
       if (imgIds.length) {
         body.images = imgIds

@@ -22,3 +22,7 @@ export enum EnumProviderThreads {
   GROUPS = "groups",
   OFFER_PAY = "offer-pay",
 }
+
+export enum EStatusAuth {
+  NOT_AUTHORIZATION = "Not Authorization",
+}

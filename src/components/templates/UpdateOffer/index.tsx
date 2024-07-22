@@ -130,10 +130,10 @@ export default function UpdateOffer() {
       }
 
       if (values.address !== offer?.addresses[0]?.id && values.address) {
-        const { res } = await createAddress(values.address! as IFeatureMember, userId!)
-        console.log("body responses: ", res)
-        if (res?.id) {
-          body.addresses = [res?.id!]
+        const { data } = await createAddress(values.address! as IFeatureMember, userId!)
+        console.log("body responses: ", data)
+        if (data?.id) {
+          body.addresses = [data?.id!]
         }
       }
 
@@ -150,9 +150,9 @@ export default function UpdateOffer() {
           ),
         ])
 
-        if (responses?.some((item) => item.ok)) {
+        if (responses?.some((item) => !!item.data)) {
           responses
-            ?.map((item) => item?.res)
+            ?.map((item) => item?.data)
             ?.forEach((item) => {
               if (!!item?.id) {
                 photos.push(item?.id!)

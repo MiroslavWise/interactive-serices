@@ -1,22 +1,22 @@
-import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import type { IFeatureMember } from "@/services/addresses/types/geocodeSearch"
+import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { type IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
-import { serviceAddresses } from "@/services"
+import { getHashAddress, postAddress } from "@/services"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
 
 export async function createAddress(item: IFeatureMember, userId: number) {
   const additional = item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
   const hash = generateShortHash(`${userId}=${additional!}`)
-  const response = await serviceAddresses.getHash(hash!)
-  if (response.ok) {
+  const response = await getHashAddress(hash!)
+  if (!!response.data) {
     return response
   }
   const coordinates = item?.GeoObject?.Point?.pos
   const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
   const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
 
-  const value: IPostAddress = {
+  const data: IPostAddress = {
     addressType: item!?.GeoObject!?.metaDataProperty!?.GeocoderMetaData!?.kind!,
     enabled: true,
   }
@@ -26,17 +26,17 @@ export async function createAddress(item: IFeatureMember, userId: number) {
   const city = getLocationName(item, "locality")
   const region = getLocationName(item, "province")
   const district = getLocationName(item, "area")
-  if (longitude) value.longitude = longitude
-  if (latitude) value.latitude = latitude
-  if (country) value.country = country
-  if (street) value.street = street
-  if (house) value.house = house
-  if (city) value.city = city
-  if (region) value.region = region
-  if (district) value.district = district
-  if (coordinates) value.coordinates = coordinates
-  if (additional) value.additional = additional
-  if (hash) value.hash = hash
+  if (longitude) data.longitude = longitude
+  if (latitude) data.latitude = latitude
+  if (country) data.country = country
+  if (street) data.street = street
+  if (house) data.house = house
+  if (city) data.city = city
+  if (region) data.region = region
+  if (district) data.district = district
+  if (coordinates) data.coordinates = coordinates
+  if (additional) data.additional = additional
+  if (hash) data.hash = hash
 
-  return serviceAddresses.post(value)
+  return postAddress(data)
 }

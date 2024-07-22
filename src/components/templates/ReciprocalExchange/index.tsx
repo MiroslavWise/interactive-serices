@@ -29,7 +29,7 @@ import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { createAddress } from "@/helpers/address/create"
-import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories } from "@/services"
+import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories, IResponse } from "@/services"
 
 export default function ReciprocalExchange() {
   const [loading, setLoading] = useState(false)
@@ -111,8 +111,8 @@ export default function ReciprocalExchange() {
 
       if (values.select_new_proposal === ETypeOfNewCreated.new && !!values.addressFeature && !!values.check) {
         const response = await createAddress(values.addressFeature, userId!)
-        if (response.ok) {
-          dataNewOffer.addresses = [response.res?.id!]
+        if (!!response.data) {
+          dataNewOffer.addresses = [response.data?.id!]
         }
       }
 
@@ -132,13 +132,13 @@ export default function ReciprocalExchange() {
           ? postOffer(dataNewEmptyOffer)
           : values.select_new_proposal === ETypeOfNewCreated.new
           ? postOffer(dataNewOffer)
-          : Promise.resolve({ ok: true, res: { id: values?.my_offer! } }),
-      ).then((response: IReturnData<IResponseCreate>) => {
-        if (response?.ok) {
+          : Promise.resolve({ data: { id: values?.my_offer! }, error: null }),
+      ).then((response: IResponse<IResponseCreate>) => {
+        if (!!response?.data) {
           const dataBarter: IPostDataBarter = {
             provider: EnumTypeProvider.barter,
-            title: `initial:${response?.res?.id}-consigned:${offer?.id}`,
-            initialId: response?.res?.id!,
+            title: `initial:${response?.data?.id}-consigned:${offer?.id}`,
+            initialId: response?.data?.id!,
             consignedId: offer?.id!,
             status: EnumStatusBarter.INITIATED,
             enabled: true,

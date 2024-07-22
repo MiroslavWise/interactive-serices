@@ -1,3 +1,4 @@
+import { IResponse } from "@/services/request"
 import type { IReturnData } from "@/services/types/general"
 
 export interface IAddressesResponse {
@@ -45,8 +46,8 @@ export type IPatchAddress = Partial<IPostAddress>
 export interface IServiceAddresses {
   route: string
   get(value: Record<string, string | number>): Promise<IReturnData<IAddressesResponse[]>>
-  getHash(value: string): Promise<IReturnData<IAddressesResponse>>
+  getHash(value: string): Promise<IResponse<IAddressesResponse>>
   getId(id: string | number): Promise<IReturnData<IAddressesResponse>>
-  post(value: IPostAddress): Promise<IReturnData<{ id: number }>>
+  post(value: IPostAddress): Promise<IResponse<IAddressesResponse>>
   patch(value: IPatchAddress, id: number | string): Promise<IReturnData<IAddressesResponse>>
 }
