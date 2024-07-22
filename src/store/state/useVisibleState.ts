@@ -1,7 +1,6 @@
 import { create } from "zustand"
 
 import type { IUseWelcomeModal } from "../types/useWelcomeModal"
-import type { IUsePopupMenuChat } from "../types/usePopupMenuChat"
 import type { IUseVisibleExchanges } from "../types/useVisibleExchanges"
 
 export const useVisibleExchangesState = create<IUseVisibleExchanges>((set, get) => ({
@@ -37,15 +36,5 @@ export const useWelcomeModalState = create<IUseWelcomeModal>((set, get) => ({
   },
   setVisible(value) {
     set({ isVisible: value })
-  },
-}))
-
-export const usePopupMenuChatState = create<IUsePopupMenuChat>((set, get) => ({
-  isVisible: false,
-
-  setIsVisible(value) {
-    set({
-      isVisible: typeof value === "undefined" ? !get().isVisible : value,
-    })
   },
 }))

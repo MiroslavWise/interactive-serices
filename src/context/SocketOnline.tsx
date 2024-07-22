@@ -2,6 +2,8 @@
 
 import { useEffect, type ReactNode } from "react"
 
+import { type IOnlineSocket } from "@/types/type"
+
 import { dispatchOnlineUsers } from "@/store"
 import { useWebSocket } from "./WebSocketProvider"
 

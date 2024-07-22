@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation"
 const names = new Map([
   ["/chat/", "Сообщения"],
   ["/chat", "Сообщения"],
-  ["/chat/", "Сообщения"],
-  ["/chat", "Сообщения"],
   ["/offers", "Обмены"],
   ["/offers/", "Обмены"],
   ["/profile/", "Профиль"],
@@ -18,8 +16,6 @@ const names = new Map([
 export const useRouteNames = () => {
   const pathname = usePathname()
   const [state, setState] = useState<string | null>(null)
-
-  // console.log("useRouteNames pathname", pathname)
 
   useEffect(() => {
     if (names.has(pathname)) {

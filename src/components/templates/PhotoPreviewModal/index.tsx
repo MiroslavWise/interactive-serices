@@ -15,7 +15,7 @@ import { cx } from "@/lib/cx"
 import { IconCategory } from "@/lib/icon-set"
 import { daysAgo, useResize } from "@/helpers"
 import { getOffersCategories } from "@/services"
-import { useAuth, usePhotoOffer, dispatchReciprocalExchange, dispatchProfilePublic } from "@/store"
+import { useAuth, usePhotoOffer, dispatchReciprocalExchange } from "@/store"
 
 import styles from "./styles/layout.module.scss"
 
@@ -105,10 +105,10 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                   onClick={(event) => {
                     event.stopPropagation()
                     if (!isTablet) {
-                      dispatchProfilePublic({
-                        visible: true,
-                        idUser: author?.idUser!,
-                      })
+                      // dispatchProfilePublic({
+                      //   visible: true,
+                      //   idUser: author?.idUser!,
+                      // })
                     }
                   }}
                 >
@@ -187,10 +187,10 @@ export const PhotoPreviewModal: TPhotoPreviewModal = ({}) => {
                 onClick={(event) => {
                   event.stopPropagation()
                   if (!isTablet) {
-                    dispatchProfilePublic({
-                      visible: true,
-                      idUser: author?.idUser!,
-                    })
+                    // dispatchProfilePublic({
+                    //   visible: true,
+                    //   idUser: author?.idUser!,
+                    // })
                   }
                 }}
               >

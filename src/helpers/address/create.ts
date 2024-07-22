@@ -1,17 +1,17 @@
 import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { type IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
-import { getHashAddress, postAddress } from "@/services"
 import { generateShortHash } from "@/lib/hash"
 import { getLocationName } from "@/lib/location-name"
+import { getHashAddress, postAddress } from "@/services"
 
-export async function createAddress(item: IFeatureMember, userId: number) {
+async function createAddress(item: IFeatureMember, userId: number) {
   const additional = item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
   const hash = generateShortHash(`${userId}=${additional!}`)
   const response = await getHashAddress(hash!)
-  if (!!response.data) {
-    return response
-  }
+
+  if (!!response.data) return response
+
   const coordinates = item?.GeoObject?.Point?.pos
   const longitude = item?.GeoObject?.Point?.pos?.split(" ")[0]
   const latitude = item?.GeoObject?.Point?.pos?.split(" ")[1]
@@ -40,3 +40,5 @@ export async function createAddress(item: IFeatureMember, userId: number) {
 
   return postAddress(data)
 }
+
+export { createAddress }

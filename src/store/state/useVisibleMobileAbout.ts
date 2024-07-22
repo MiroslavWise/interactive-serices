@@ -1,20 +1,24 @@
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
-import { IUseVisibleMobileAbout } from "../types/createVisibleMobileAbout"
+
+import { type IUseVisibleMobileAbout } from "../types/createVisibleMobileAbout"
 
 export const useVisibleMobileAbout = create(
-    persist<IUseVisibleMobileAbout>(
-        (set, get) => ({
-            visible: true,
-        }),
-        {
-            name: "mobile-about",
-            storage: createJSONStorage(() => localStorage),
-        },
-    ),
+  persist<IUseVisibleMobileAbout>(
+    () => ({
+      visible: true,
+    }),
+    {
+      name: "mobile-about",
+      storage: createJSONStorage(() => localStorage),
+    },
+  ),
 )
 
 export const dispatchVisibleMobileAbout = (value: boolean) =>
-    useVisibleMobileAbout.setState(() => ({
-        visible: value,
-    }))
+  useVisibleMobileAbout.setState(
+    () => ({
+      visible: value,
+    }),
+    true,
+  )

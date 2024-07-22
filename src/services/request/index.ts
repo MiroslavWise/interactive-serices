@@ -1,17 +1,19 @@
-import axios, { AxiosError, RawAxiosRequestHeaders } from "axios"
+import axios, { AxiosError, type RawAxiosRequestHeaders } from "axios"
 
+import { EStatusAuth } from "@/types/enum"
 import type { IMetaData, IReturnData } from "../types/general"
 import type { MethodDelete, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
 
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
-import { EStatusAuth } from "@/types/enum"
 
-export interface IResponse<T = any> {
+interface I<T = any> {
   data: T | null
   error: any | null
   meta?: IMetaData
 }
+
+export type IResponse<T = any> = Readonly<I<T>>
 
 export const instance = axios.create({
   baseURL: URL_API,

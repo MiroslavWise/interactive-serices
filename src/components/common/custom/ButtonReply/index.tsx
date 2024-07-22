@@ -7,7 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { Button, ButtonCircleGradient, ButtonClose } from "@/components/common"
 
 import { usePush } from "@/helpers"
-import { useAuth, dispatchAuthModal, dispatchProfilePublic, dispatchReciprocalExchange } from "@/store"
+import { useAuth, dispatchAuthModal, dispatchReciprocalExchange } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -38,7 +38,6 @@ export const ButtonReplyPrimary: TProps = ({ profile, offer, isBalloon }) => {
     if (userId !== offer?.userId) {
       if (!!userId) {
         handleBarter()
-        dispatchProfilePublic({ visible: false })
       } else if (!userId) {
         setVisible(true)
       }

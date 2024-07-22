@@ -7,7 +7,6 @@ import type { TItemListFriend } from "../types/types"
 import { NextImageMotion } from "@/components/common"
 import { ButtonCircleGradient } from "@/components/common"
 
-import { dispatchProfilePublic } from "@/store"
 import { serviceFriends } from "@/services"
 import { usePush, useResize } from "@/helpers"
 import { useReloadFriends } from "../hooks/useReloadFriends"
@@ -50,7 +49,7 @@ export const ItemListFriend: TItemListFriend = ({ user, type }) => {
     if (isTablet) {
       handlePush(`/user?id=${id}`)
     } else {
-      dispatchProfilePublic({ visible: true, idUser: id! })
+      // dispatchProfilePublic({ visible: true, idUser: id! })
     }
   }
 
