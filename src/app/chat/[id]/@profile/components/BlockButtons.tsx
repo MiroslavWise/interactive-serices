@@ -23,7 +23,7 @@ function BlockButtons({ user }: { user: IUserResponse }) {
   })
 
   const itemsOffers = dataOffers?.data || []
-  const items = dataFriends?.res || []
+  const items = dataFriends?.data || []
   const length = items.length
 
   return (

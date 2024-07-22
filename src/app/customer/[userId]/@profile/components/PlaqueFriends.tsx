@@ -8,9 +8,9 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { getFiendId } from "@/services"
 
 async function PlaqueFriends({ id }: { id: number | string }) {
-  const { res } = await getFiendId(id)
+  const { data } = await getFiendId(id)
 
-  const items = res || []
+  const items = data || []
   const length = items.length
   const threeFriends = items?.filter((_) => !!_.image).slice(0, 2)
 
@@ -45,7 +45,7 @@ async function PlaqueFriends({ id }: { id: number | string }) {
             </Link>
           ))}
         </div>
-        {items.length ? <ButtonFriends /> : null}
+        {items.length ? <ButtonFriends id={id as number} /> : null}
       </article>
     </section>
   )

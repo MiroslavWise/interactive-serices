@@ -46,7 +46,7 @@ function FriendB({ user }: { user: IUserResponse }) {
   })
 
   useEffect(() => {
-    setIsFriends(!!dataUserFriends?.res?.some((item) => item?.id === userId!))
+    setIsFriends(!!dataUserFriends?.data?.some((item) => item?.id === userId!))
   }, [dataUserFriends, userId])
   useEffect(() => {
     setIsRequest(!!dataRequest?.res?.some((item) => item?.id === user?.id!))

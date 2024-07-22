@@ -6,3 +6,12 @@ export const DeclensionQuantityFriends = (length: number) =>
     : [2, 3, 4].includes(length)
     ? `У вас ${length} друга`
     : `У вас нет друзей`
+
+export const DeclensionAllQuantityFriends = (length: number) =>
+  length >= 5 && length <= 20
+    ? `${length} друзей`
+    : [5, 6, 7, 8, 9, 0].includes(length % 10)
+    ? `${length} друзей`
+    : [2, 3, 4].includes(length)
+    ? `${length} друга`
+    : `Нет друзей`

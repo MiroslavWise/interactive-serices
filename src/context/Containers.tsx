@@ -37,6 +37,7 @@ import {
   useAuth,
 } from "@/store"
 import { useResize } from "@/helpers"
+import Friends from "@/components/templates/Friends"
 
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
@@ -75,9 +76,10 @@ export const Containers = () => {
           <AboutSheiraPopup />
         </>
       )}
-      <ToastContainer limit={1} />
+      <Friends />
       <CookiesToast />
       <PublicProfile />
+      <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
       {visiblePhotoOffer && <PhotoPreviewModal />}
       {visibleHasBalloon && <HasClustererBalloons />}
