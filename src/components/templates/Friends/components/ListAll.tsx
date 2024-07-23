@@ -15,11 +15,13 @@ import { useAuth, useFriends } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { getFiendId, getFriends, serviceFriends } from "@/services"
+import { encryptedUser } from "@/helpers/cript"
+import env from "@/config/environment"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const id = useFriends(({ id }) => id)
-  const { on } = useToast()
+  const { on, onSimpleMessage } = useToast()
 
   const { data, isLoading } = useQuery({
     queryFn: () => getFiendId(id!),
@@ -59,14 +61,6 @@ function ListAll({ state }: { state: TFriends }) {
     if (state === "all") return items
     return items.filter((item) => myFriendsIds.includes(item.id))
   }, [state, items, myFriendsIds])
-
-  // const disabledOnFriendsResponse = useCallback(
-  //   (id: number) => {
-  //     if (!dataResponse?.data) return true
-  //     return dataResponse?.data?.some((item) => item.id === id)
-  //   },
-  //   [dataResponse?.data],
-  // )
 
   const disabledOnFriendsRequest = useCallback(
     (id: number) => {
@@ -145,8 +139,33 @@ function ListAll({ state }: { state: TFriends }) {
               </svg>
             </div>
             <h3 className="text-text-primary text-center text-lg font-semibold">Нет друзей</h3>
+            <p className="text-text-primary text-sm text-center font-normal">Вы можете пригласить своих знакомых и добавить их в друзья</p>
           </article>
-          <Button type="button" typeButton="fill-primary" label="Пригласить друзей в Sheira" className="max-w-min px-5 py-2.5" />
+          <Button
+            type="button"
+            typeButton="fill-primary"
+            label="Пригласить друзей в Sheira"
+            className="max-w-min px-5 py-2.5"
+            onClick={() => {
+              const hashUser = encryptedUser(id!)
+              const linkUser = `/user/${hashUser}`
+              const url = `${env.server.host}${linkUser}`
+              if (!!window.navigator.share!) {
+                navigator.share({
+                  title: `Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям`,
+                  text: `Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям`,
+                  url: url,
+                })
+              } else {
+                navigator.clipboard.writeText(`
+                  Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям
+                  
+                  ${url}
+                `)
+                onSimpleMessage("Ссылка скопирована")
+              }
+            }}
+          />
         </div>
       </article>
     )

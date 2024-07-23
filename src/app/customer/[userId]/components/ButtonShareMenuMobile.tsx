@@ -6,23 +6,28 @@ import IconShare from "@/components/icons/IconShare"
 
 import env from "@/config/environment"
 import { encryptedUser } from "@/helpers/cript"
+import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchCloseMenuMobileOnUser } from "@/store"
 
 const LABEL = "Поделиться"
 
 function ButtonShareMenuMobile({ user }: { user: IUserResponse }) {
   const { id, profile } = user ?? {}
+  const { onSimpleMessage } = useToast()
 
   function handle() {
+    const hashUser = encryptedUser(id)
+    const linkUser = `/user/${hashUser}`
+    const url = `${env.server.host}${linkUser}`
     if (!!window.navigator.share!) {
-      const hashUser = encryptedUser(id)
-      const linkUser = `/user/${hashUser}`
-      const url = `${env.server.host}${linkUser}`
       navigator.share({
         title: `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`,
         text: profile?.about || "",
         url: url,
       })
+    } else {
+      navigator.clipboard.writeText(url)
+      onSimpleMessage("Ссылка скопирована")
     }
     dispatchCloseMenuMobileOnUser()
   }
