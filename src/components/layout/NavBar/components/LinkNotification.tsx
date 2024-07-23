@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { IResponseNotifications } from "@/services/notifications/types"
 
-import LinkProgress from "@/components/common/LinkProgress"
 import { ItemNotification } from "@/components/notifications"
 
 import { useAuth } from "@/store"

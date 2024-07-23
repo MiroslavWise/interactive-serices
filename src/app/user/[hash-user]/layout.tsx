@@ -6,16 +6,9 @@ import { decryptedUser } from "@/helpers/cript"
 
 export const generateMetadata = async ({ params }: { params: { "hash-user": string } }): Promise<Metadata> => {
   const { "hash-user": hash } = params ?? {}
-
-  console.log("hash meta: ", hash)
-
   if (!hash) return {}
-
   const id = decryptedUser(hash)
-  console.log("hash meta:  decrypted ", id)
-
   const { data } = await getUserId(id)
-
   if (!data) return {}
 
   const { profile } = data ?? {}

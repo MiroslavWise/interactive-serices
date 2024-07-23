@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+
 import { ButtonClose } from "@/components/common"
 import { LargePhoto } from "./components/LargePhoto"
 import { FooterPhotos } from "./components/FooterPhotos"
@@ -9,8 +10,6 @@ import { ButtonPrevNext } from "./components/ButtonPrevNext"
 import { cx } from "@/lib/cx"
 import { useResize } from "@/helpers"
 import { useVisiblePhotosCarousel, dispatchPhotoCarousel, setPrevPhotoCarousel, setNextPhotoCarousel } from "@/store"
-
-import styles from "./styles/style.module.scss"
 
 type TKeyDown = "ArrowRight" | "ArrowLeft" | any
 
@@ -25,12 +24,10 @@ function PhotoCarousel() {
     if (type === "ArrowLeft") {
       setPrevPhotoCarousel()
       return
-    }
-    if (type === "ArrowRight") {
+    } else if (type === "ArrowRight") {
       setNextPhotoCarousel()
       return
-    }
-    if (event.code == "Escape" || event.keyCode === 27) {
+    } else if (event.code == "Escape" || event.keyCode === 27) {
       dispatchPhotoCarousel({ visible: false })
     }
   }
@@ -48,7 +45,7 @@ function PhotoCarousel() {
   }, [isVisible])
 
   return (
-    <div className={cx(styles.wrapper, "wrapper-fixed")} data-visible={isVisible}>
+    <div className={cx("wrapper-fixed bg-translucent", isVisible ? "!opacity-100 !z-[2000] !visible" : "opacity-0 -z-10 invisible")}>
       {isVisible ? (
         <>
           <ButtonClose

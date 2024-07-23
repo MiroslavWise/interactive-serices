@@ -26,13 +26,12 @@ export const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
       <Link
         data-img
         className="w-10 h-10 rounded-[0.625rem] !p-5 bg-BG-first relative overflow-hidden block"
-        // href={isTablet ? {} : { pathname: `/customer/${userId}` }}
-        // onClick={() => {
-        //   if (!isTablet) {
-        //     dispatchPublicProfile(userId!)
-        //   }
-        // }}
-        href={{ pathname: `/customer/${userId}` }}
+        href={isTablet ? {} : { pathname: `/customer/${userId}` }}
+        onClick={() => {
+          if (!isTablet) {
+            dispatchPublicProfile(userId!)
+          }
+        }}
         target="_blank"
         title={`Перейти к пользователю ${name}`}
         aria-label={`Перейти к пользователю ${name}`}
