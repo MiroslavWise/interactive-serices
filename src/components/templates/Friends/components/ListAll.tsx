@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useMemo } from "react"
+import { useCallback, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { type TFriends } from "../constants/segments"
@@ -7,15 +7,19 @@ import { type TFriends } from "../constants/segments"
 import IconAccentChat from "@/components/icons/IconAccentChat"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import RatingAndFeedbackComponent from "./RatingAndFeedbackComponent"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { useAuth, useFriends } from "@/store"
-import { getFiendId, getFriends } from "@/services"
+import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
+import { getFiendId, getFriends, serviceFriends } from "@/services"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const id = useFriends(({ id }) => id)
+  const { on } = useToast()
 
   const { data, isLoading } = useQuery({
     queryFn: () => getFiendId(id!),
@@ -27,6 +31,23 @@ function ListAll({ state }: { state: TFriends }) {
     queryFn: () => getFriends({}),
     queryKey: ["friends", { userId: userId, filter: "list" }],
     enabled: !!userId,
+    refetchOnMount: true,
+  })
+  const { data: dataRequest, isLoading: isLoadingRequest } = useQuery({
+    queryFn: () => getFriends({ query: { filter: "request", order: "DESC" } }),
+    queryKey: ["friends", { userId: userId, filter: "request" }],
+    enabled: !!userId && !!id,
+    refetchOnMount: true,
+  })
+  const {
+    data: dataResponse,
+    isLoading: isLoadingResponse,
+    refetch: refetchResponse,
+  } = useQuery({
+    queryFn: () => getFriends({ query: { filter: "response", order: "DESC" } }),
+    queryKey: ["friends", { userId: userId, filter: "response" }],
+    enabled: !!userId && !!id,
+    refetchOnMount: true,
   })
 
   const items = data?.data || []
@@ -39,7 +60,40 @@ function ListAll({ state }: { state: TFriends }) {
     return items.filter((item) => myFriendsIds.includes(item.id))
   }, [state, items, myFriendsIds])
 
-  if (isLoading || isLoadingMyFriends)
+  // const disabledOnFriendsResponse = useCallback(
+  //   (id: number) => {
+  //     if (!dataResponse?.data) return true
+  //     return dataResponse?.data?.some((item) => item.id === id)
+  //   },
+  //   [dataResponse?.data],
+  // )
+
+  const disabledOnFriendsRequest = useCallback(
+    (id: number) => {
+      if (!dataRequest?.data) return true
+      return dataRequest?.data?.some((item) => item.id === id)
+    },
+    [dataRequest?.data],
+  )
+
+  function onHandleAdd(id: number) {
+    const disabled = disabledOnFriendsRequest(id)
+
+    if (!disabled) {
+      serviceFriends.post({ id: id }).then((response) => {
+        if (response.ok) {
+          if (dataResponse?.data?.some((item) => item?.id === userId)) {
+            on({ message: "Вы приняли заявку в друзья" }, "success")
+            refetchResponse()
+          } else {
+            on({ message: `Заявка на добавление в друзья отправлена` }, "default")
+          }
+        }
+      })
+    }
+  }
+
+  if (isLoading || isLoadingMyFriends || isLoadingRequest || isLoadingResponse)
     return (
       <article className="loading-screen w-full px-5 flex flex-col gap-6 items-start pt-6">
         <span className="max-w-52 w-full h-5 rounded-[0.625rem]" />
@@ -130,12 +184,15 @@ function ListAll({ state }: { state: TFriends }) {
               <Link
                 prefetch={false}
                 href={{ pathname: `/customer/${item.id}` }}
-                className="w-full text-base text-left font-medium line-clamp-1 text-ellipsis cursor-pointer"
+                className="w-full text-base text-left font-medium line-clamp-1 flex flex-row flex-nowrap gap-1 text-ellipsis cursor-pointer items-center"
                 target="_blank"
               >
                 {item?.firstName || "Имя"} {item.lastName || "Фамилия"}
+                <span className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem]">
+                  <IconVerifiedTick />
+                </span>
               </Link>
-              <p className="text-[0.8125rem] text-text-secondary font-medium">27 отзывов</p>
+              <RatingAndFeedbackComponent id={item.id} />
             </div>
             <div className="w-full grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5">
               {userId !== item.id && !!userId ? (
@@ -152,7 +209,13 @@ function ListAll({ state }: { state: TFriends }) {
                     prefetch={false}
                   />
                 ) : (
-                  <Button type="button" typeButton="fill-primary" label="Добавить в друзья" />
+                  <Button
+                    type="button"
+                    typeButton="fill-primary"
+                    label="Добавить в друзья"
+                    onClick={() => onHandleAdd(item.id)}
+                    disabled={disabledOnFriendsRequest(item.id)}
+                  />
                 )
               ) : (
                 <span />
