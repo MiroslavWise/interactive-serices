@@ -1,15 +1,17 @@
 import Link from "next/link"
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { type TFriends } from "../constants/segments"
 
-import { Button, ButtonLink, NextImageMotion } from "@/components/common"
+import IconAccentChat from "@/components/icons/IconAccentChat"
+import IconCheckFriend from "@/components/icons/IconCheckFriend"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { useAuth, useFriends } from "@/store"
 import { getFiendId, getFriends } from "@/services"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
-import { useMemo } from "react"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -136,19 +138,46 @@ function ListAll({ state }: { state: TFriends }) {
               <p className="text-[0.8125rem] text-text-secondary font-medium">27 отзывов</p>
             </div>
             <div className="w-full grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5">
-              {myFriendsIds.includes(item.id) ? (
-                <ButtonLink
-                  typeButton="fill-primary"
-                  href={{
-                    pathname: "/chat",
-                    query: {
-                      user: item.id,
-                    },
-                  }}
-                  label="Написать"
-                />
+              {userId !== item.id && !!userId ? (
+                myFriendsIds.includes(item.id) ? (
+                  <ButtonLink
+                    typeButton="fill-primary"
+                    href={{
+                      pathname: "/chat",
+                      query: {
+                        user: item.id,
+                      },
+                    }}
+                    label="Написать"
+                    prefetch={false}
+                  />
+                ) : (
+                  <Button type="button" typeButton="fill-primary" label="Добавить в друзья" />
+                )
               ) : (
-                <Button type="button" typeButton="fill-primary" label="Добавить в друзья" />
+                <span />
+              )}
+              {userId !== item.id && !!userId ? (
+                myFriendsIds.includes(item.id) ? (
+                  <div className="bg-grey-field relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5">
+                    <IconCheckFriend />
+                  </div>
+                ) : (
+                  <Link
+                    href={{
+                      pathname: "/chat",
+                      query: {
+                        user: item.id,
+                      },
+                    }}
+                    prefetch={false}
+                    className="bg-grey-field relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
+                  >
+                    <IconAccentChat />
+                  </Link>
+                )
+              ) : (
+                <span />
               )}
             </div>
           </li>
