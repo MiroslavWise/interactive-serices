@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
+import { Controller, useForm } from "react-hook-form"
 
 import { EnumStatusBarter } from "@/types/enum"
 import { ETypeReason } from "@/services/barters/types"
@@ -10,11 +10,11 @@ import { ETypeReason } from "@/services/barters/types"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { MAX_LENGTH_TEXT_OTHER, resolverReasonBarters, TReasonBarters } from "./utils/schema"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_REASON } from "./constants/constants"
 import { dispatchReasonBarters, useAuth, useReasonBarters } from "@/store"
 import { getBarterId, patchBarter, serviceNotifications } from "@/services"
+import { MAX_LENGTH_TEXT_OTHER, resolverReasonBarters, TReasonBarters } from "./utils/schema"
 
 import styles from "./styles/style.module.scss"
 

@@ -26,6 +26,7 @@ module.exports = {
       "btn-main-hover": "var(--btn-main-hover)",
       "opacity-white-hard": "var(--opacity-white-hard)",
       "supporting-white": "var(--supporting-white)",
+      "link-color": "var(--link-color)",
       translucent: "rgba(5, 1, 13, 0.50)",
       "translucent-0.8": "rgba(16, 24, 40, 0.80)",
       transparent: "transparent",
@@ -37,6 +38,10 @@ module.exports = {
       "text-accent": "var(--text-accent)",
       "more-red": "var(--more-red)",
       "grey-stroke": "var(--grey-stroke)",
+      "BG-chat": "var(--BG-chat)",
+      "BG-time": "var(--BG-time)",
+      "BG-linear-purple": "linear-gradient(95deg, #B3D2FF -26.18%, #D8BAFF 130.54%)",
+      "BG-time-photo": "rgba(16, 24, 40, 0.70)",
     },
     extend: {
       spacing: {
@@ -50,6 +55,7 @@ module.exports = {
       boxShadow: {
         "social-link": "0px 11px 20px 0px rgba(100, 104, 115, 0.1)",
         "menu-absolute": "0px 10px 16px 0px rgba(31, 31, 41, 0.1)",
+        "box-down": "0px 4px 10px 0px rgba(0, 0, 0, 0.24)",
       },
     },
   },

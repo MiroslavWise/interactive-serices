@@ -1,10 +1,10 @@
-import type { IPromiseReturn, TOrder } from "../types/general"
-import type { IImageData } from "@/store/types/useAuthState"
-import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { type IPromiseReturn, type TOrder } from "../types/general"
+import { type IImageData } from "@/store/types/useAuthState"
+import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumTypeProvider } from "@/types/enum"
-import { TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
-import { IResponseOffersCategories } from "../offers-categories/types"
-import { IResponse } from "../request"
+import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
+import { type IResponseOffersCategories } from "../offers-categories/types"
+import { type IResponse } from "../request"
 
 export interface IResponseCreate {
   id: number
@@ -77,7 +77,7 @@ export interface IQueriesOffers {
 }
 
 export interface IServiceOffers {
-  post(value: IPostOffers): IPromiseReturn<IResponseCreate>
+  post(value: IPostOffers): Promise<IResponse<IResponseCreate>>
   get(value?: IQueriesOffers): Promise<IResponse<IResponseOffers[]>>
   patch(value: IPatchOffers, id: number | string): IPromiseReturn<IResponseCreate>
   getId(id: number | string): Promise<IResponse<IResponseOffers>>

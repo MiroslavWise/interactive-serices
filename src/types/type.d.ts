@@ -1,6 +1,8 @@
+import { type IMetaData } from "@/services/types/general"
+
 declare module "ymaps"
 
-declare interface IOnlineSocket {
+export interface IOnlineSocket {
   clients: string[]
   connections: number
   rooms: string[]

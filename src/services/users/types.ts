@@ -47,12 +47,12 @@ export interface IServiceUser {
   get(): Promise<IResponse<IUserResponse>>
   getId(id: string | number): Promise<IResponse<IUserResponse>>
   getEmail(value: string): Promise<IResponse<IUserResponse>>
-  post(value: IPostDataUser, urlSearchParams?: string): IPromiseReturn<IResponseDataRegistration>
-  patch(value: IPatchDataUser, id: number | string): IPromiseReturn<IUserResponse>
+  post(value: IPostDataUser, urlSearchParams?: string): Promise<IResponse<IResponseDataRegistration>>
+  patch(value: IPatchDataUser, id: number | string): Promise<IResponse<IUserResponse>>
   delete(id: number | string): IPromiseReturn<IUserResponse>
 }
 
 export type TPatchEmailPasswordUser = (
   values: { email: string; password: string; repeat: string },
   id: number | string,
-) => IPromiseReturn<IUserResponse>
+) => Promise<IResponse<IUserResponse>>

@@ -1,5 +1,6 @@
 "use client"
 
+import { AxiosProgressEvent } from "axios"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
@@ -41,15 +42,7 @@ import {
   resolverOffer,
   resolverOfferMap,
 } from "./utils/create.schema"
-import {
-  getUserIdOffers,
-  patchOffer,
-  postOffer,
-  fileUploadService,
-  serviceAddresses,
-  getGeocodeSearch,
-  getOffersCategories,
-} from "@/services"
+import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
 import {
   descriptionImages,
   headerTitle,
@@ -58,7 +51,6 @@ import {
   description,
   titlePlaceholderContent,
 } from "./constants/titles"
-import { AxiosProgressEvent } from "axios"
 import CurrentImage from "./components/CurrentImage"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
@@ -161,9 +153,9 @@ export default function CreateNewOptionModal() {
 
   function create(data: IPostOffers, files: File[]) {
     postOffer(data).then((response) => {
-      if (response.ok) {
-        if (response.res) {
-          const id = response.res?.id
+      if (!!response.data) {
+        if (!!response.data) {
+          const id = response.data?.id
           Promise.all(
             files.map((item) =>
               fileUploadService(item!, {
@@ -175,7 +167,7 @@ export default function CreateNewOptionModal() {
             ),
           ).then((responses) => {
             if (responses?.length) {
-              const ids = [...responses?.filter((item) => item.ok)?.map((item) => item.res?.id!)]
+              const ids = [...responses?.filter((item) => !!item.data)?.map((item) => item.data?.id!)]
               patchOffer(
                 {
                   images: ids,
@@ -254,11 +246,11 @@ export default function CreateNewOptionModal() {
           ? createAddressPost(initMapAddress)
           : createAddress(values?.addressFeature!, userId!),
       ).then((response) => {
-        if (response.ok) {
+        if (!!response.data) {
           create(
             {
               ...data,
-              addresses: [response.res?.id!],
+              addresses: [response.data?.id!],
             },
             values.file.file,
           )
@@ -284,7 +276,7 @@ export default function CreateNewOptionModal() {
   }
 
   async function createAddressPost(values: IPostAddress) {
-    return serviceAddresses.post(values)
+    return postAddress(values)
   }
 
   const exactAddresses = useMemo(() => {

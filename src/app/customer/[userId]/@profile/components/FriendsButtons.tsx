@@ -27,7 +27,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
   const [
     { data: dataRequest, isFetching: isLoadingRequest },
     { data: dataResponse, isFetching: isLoadingResponse },
-    { data: dataUserFriends, refetch, isFetching },
+    { data: dataUserFriends, isFetching },
   ] = useQueries({
     queries: [
       {
@@ -52,13 +52,13 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
   })
 
   useEffect(() => {
-    setIsFriends(!!dataUserFriends?.res?.some((item) => item?.id === userId!))
+    setIsFriends(!!dataUserFriends?.data?.some((item) => item?.id === userId!))
   }, [dataUserFriends, userId])
   useEffect(() => {
-    setIsRequest(!!dataRequest?.res?.some((item) => item?.id === user?.id!))
+    setIsRequest(!!dataRequest?.data?.some((item) => item?.id === user?.id!))
   }, [dataRequest, user?.id])
   useEffect(() => {
-    setIsResponse(!!dataResponse?.res?.some((item) => item?.id === user?.id!))
+    setIsResponse(!!dataResponse?.data?.some((item) => item?.id === user?.id!))
   }, [dataResponse, user?.id])
 
   const isLoadingAll = isLoadingRequest || isLoadingResponse || isFetching
@@ -130,7 +130,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
           <ButtonLink
             label="Написать"
             href={{
-              pathname: "/messages",
+              pathname: "/chat",
               query: {
                 user: user?.id,
               },
@@ -157,7 +157,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
           />
           <Link
             href={{
-              pathname: "/messages",
+              pathname: "/chat",
               query: {
                 user: user?.id,
               },
@@ -173,7 +173,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
           <Button label="Добавить в друзья" type="button" typeButton="fill-primary" loading={loading} onClick={handleOnFriends} />
           <Link
             href={{
-              pathname: "/messages",
+              pathname: "/chat",
               query: {
                 user: user?.id,
               },

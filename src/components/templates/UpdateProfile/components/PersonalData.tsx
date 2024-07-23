@@ -110,12 +110,12 @@ export const PersonalData = () => {
       }
 
       Promise.resolve(!!profile ? serviceProfile.patch(valuesProfile) : serviceProfile.post(valuesProfile!)).then((responseOk) => {
-        if (responseOk?.ok) {
+        if (!!responseOk?.data) {
           const idProfile = userId!
           if (file.file) {
             UpdatePhotoProfile(idProfile).then((response) => {
-              if (response?.ok) {
-                const dataPatch: IPostProfileData = { imageId: response?.res?.id }
+              if (response?.data) {
+                const dataPatch: IPostProfileData = { imageId: response?.data?.id }
                 serviceProfile.patch(dataPatch).then(() => {
                   refetch()
                   dispatchModalClose()

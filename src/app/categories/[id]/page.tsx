@@ -1,13 +1,13 @@
 import { getOffersCategoriesPROD } from "@/services"
 
-export async function generateStaticParams() {
-  const { res } = await getOffersCategoriesPROD()
-  const items = res || []
+// export async function generateStaticParams() {
+//   const { res } = await getOffersCategoriesPROD()
+//   const items = res || []
 
-  return items.map((_) => ({
-    id: String(_.id),
-  }))
-}
+//   return items.map((_) => ({
+//     id: String(_.id),
+//   }))
+// }
 
 export default async ({ params }: { params: { id: string } }) => {
   const { id } = params ?? {}

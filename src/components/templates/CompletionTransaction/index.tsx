@@ -30,7 +30,7 @@ export default function CompletionTransaction() {
   const { refetchCountMessages } = useCountMessagesNotReading(false)
   const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
 
-  const { data, refetch: refetchBarters } = useQuery({
+  const { data: dataBarter, refetch: refetchBarters } = useQuery({
     queryFn: () => getBarterId(barterId!),
     queryKey: ["barters", { id: barterId }],
     enabled: !!barterId,
@@ -58,7 +58,7 @@ export default function CompletionTransaction() {
     if (!loading) {
       setLoading(true)
 
-      const idOffer = data?.res?.initiator?.userId === userId ? data?.res?.consignedId : data?.res?.initialId
+      const idOffer = dataBarter?.data?.initiator?.userId === userId ? dataBarter?.data?.consignedId : dataBarter?.data?.initialId
 
       Promise.all([
         postTestimonial({
@@ -75,9 +75,9 @@ export default function CompletionTransaction() {
           ? serviceNotifications.patch(
               {
                 operation:
-                  data?.res?.status === "completed"
+                  dataBarter?.data?.status === "completed"
                     ? "feedback-received"
-                    : data?.res?.status?.includes("destroyed")
+                    : dataBarter?.data?.status?.includes("destroyed")
                     ? "feedback-received-no"
                     : "feedback-received",
                 enabled: true,

@@ -10,6 +10,7 @@ import { AuthListener } from "./AuthListener"
 
 import { useAuth } from "@/store"
 import env from "@/config/environment"
+import SocketOnlineGlobal from "./SocketOnline"
 
 interface IContextSocket {
   socket: Socket | undefined
@@ -72,7 +73,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CreateContextWebSocket.Provider value={{ socket: socketState! }}>
-      {children}
+      <SocketOnlineGlobal>{children}</SocketOnlineGlobal>
       <AuthListener />
     </CreateContextWebSocket.Provider>
   )

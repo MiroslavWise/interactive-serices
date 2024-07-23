@@ -28,7 +28,7 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
       {length ? (
         <>
           <p className="text-text-secondary text-[0.8125rem] leading-[1.125rem] font-normal">
-            {length}&nbsp;{name(length, provider)}
+            {length}&nbsp;{nameTitle(length, provider)}
           </p>
           <ul className="w-full grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
             {items.map((offer) => (
@@ -51,9 +51,9 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
   )
 }
 
-function name(length: number, provider: EProviderLinkCustomer) {
+export function nameTitle(length: number, provider: EProviderLinkCustomer | EnumTypeProvider) {
   var num = length % 10
-  if (length > 10 && length < 20) {
+  if (length >= 10 && length <= 20) {
     if (EProviderLinkCustomer.discussion === provider) {
       return "обсуждений"
     }

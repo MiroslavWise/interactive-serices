@@ -24,8 +24,8 @@ export const ButtonFriends = () => {
   }
 
   const friends = useMemo(() => {
-    return data?.res?.length || 0
-  }, [data?.res])
+    return data?.data?.length || 0
+  }, [data?.data])
 
   return (
     <button className={styles.button} onClick={handleOpen} data-test="aside-profile-button-friends">

@@ -1,11 +1,17 @@
 import { create } from "zustand"
 
-import type { IUseVisibleAbout } from "../types/createVisibleAbout"
-
 export const useVisibleAbout = create<IUseVisibleAbout>((set, get) => ({
-    visible: false,
-
-    dispatchVisibleAbout(value) {
-        set({ visible: value })
-    },
+  visible: false,
 }))
+
+export const dispatchVisibleAbout = (value: boolean) =>
+  useVisibleAbout.setState(
+    () => ({
+      visible: value,
+    }),
+    true,
+  )
+
+interface IUseVisibleAbout {
+  visible: boolean
+}

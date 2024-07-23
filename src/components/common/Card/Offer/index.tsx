@@ -42,10 +42,18 @@ export const CardOffer: TCardOffer = ({ id, threadId, timestamp, status, initiat
         <time dateTime={timestamp as unknown as string}>{dayFormat(timestamp!, "dd.MM.yyyy")}</time>
         {!["completed", "destroyed"]?.includes(status) ? (
           <Link
-            href={{
-              pathname: "/messages",
-              query: !!threadId ? { thread: threadId } : { "barter-id": `${id}-${idUser}` },
-            }}
+            href={
+              !!threadId
+                ? {
+                    pathname: `/chat/${threadId}`,
+                  }
+                : {
+                    pathname: `/chat`,
+                    query: {
+                      "barter-id": `${id}-${idUser}`,
+                    },
+                  }
+            }
             onClick={(event) => {
               event.stopPropagation()
               if (isTablet) {

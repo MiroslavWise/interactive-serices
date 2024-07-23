@@ -5,10 +5,10 @@ import { postUser, wrapperPost } from "@/services"
 export const RegistrationService: IRegistrationService = {
   async registration({ email, password, repeat, agree, marketing }, urlSearchParams) {
     return postUser({ email, password, repeat, agree, marketing }, urlSearchParams).then((response) => {
-      if (response.ok) {
+      if (!!response.data) {
         return {
-          ok: response.ok,
-          res: response?.res,
+          ok: !!response.data,
+          res: response?.data,
           meta: response?.meta,
         }
       }

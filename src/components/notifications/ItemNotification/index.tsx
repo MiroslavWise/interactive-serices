@@ -2,28 +2,32 @@ import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { type ReactNode, useMemo, useState } from "react"
 
-import { IResponseThreads } from "@/services/threads/types"
+import { type IResponseThreads } from "@/services/threads/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
-import type { IResponseNotifications } from "@/services/notifications/types"
-import type { TTypeIconCurrentNotification, TTypeIconNotification } from "./types/type"
+import { type IResponseNotifications } from "@/services/notifications/types"
+import { type TTypeIconCurrentNotification, type TTypeIconNotification } from "./types/type"
 
+import ButtonsToComplete from "./components/Button"
 import { ButtonsDots } from "./components/ButtonsDots"
+import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import {
+  deleteThread,
+  getBarterId,
   getIdOffer,
   getOffersCategories,
-  getProfileUserId,
   getTestimonials,
   getUserId,
   patchBarter,
   serviceNotifications,
 } from "@/services"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchReasonBarters, dispatchModal, EModalData } from "@/store"
+import { cx } from "@/lib/cx"
+import { useWebSocket } from "@/context"
+import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -37,6 +41,7 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
 export const ItemNotification = (props: IResponseNotifications) => {
   const { created, provider, operation, data, id, read } = props ?? {}
   const [loading, setLoading] = useState(false)
+  const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { data: c } = useQuery({
     queryFn: () => getOffersCategories(),
@@ -45,7 +50,6 @@ export const ItemNotification = (props: IResponseNotifications) => {
   const categories = c?.res || []
 
   const idUser = useMemo(() => {
-    if (provider === "barter") return data?.consigner?.userId === userId ? data?.initiator?.userId : data?.consigner?.userId
     if (provider === "offer-pay") {
       const dataTh = data as unknown as IResponseThreads & { emitterId: number; receiverIds: number[] }
       if (dataTh?.emitterId! === userId) {
@@ -184,7 +188,10 @@ export const ItemNotification = (props: IResponseNotifications) => {
             >
               {profile?.firstName} {profile?.lastName}
             </Link>{" "}
-            состоялся? Обмен будет считаться завершенным, когда одна из сторон подтвердит завершение
+            состоялся?
+            {!["completion-survey", "completion-no"].includes(operation!)
+              ? " Обмен будет считаться завершенным, когда одна из сторон подтвердит завершение"
+              : null}
           </p>
         )
       }
@@ -229,6 +236,17 @@ export const ItemNotification = (props: IResponseNotifications) => {
             </p>
           )
         }
+      }
+      if (operation === "canceled") {
+        return (
+          <p>
+            К сожалению,{" "}
+            <span className="font-medium">
+              {data?.consigner?.user?.firstName || "Имя"} {data?.consigner?.user?.lastName || "Фамилия"}
+            </span>{" "}
+            отклонил(а) ваш запрос на обмен «{data?.consigner?.category?.title || "Предложение"}». Давайте попробуем что-то другое!
+          </p>
+        )
       }
       if (operation === "accepted") {
         return (
@@ -294,14 +312,13 @@ export const ItemNotification = (props: IResponseNotifications) => {
     if (provider === "offer-pay") {
       if (operation === "create") {
         const dataThread = data as unknown as IResponseThreads
-        const chat = { thread: dataThread?.id }
 
         return (
           <ButtonLink
             type="button"
             typeButton="fill-primary"
             label="Перейти в чат"
-            href={{ pathname: `/messages`, query: chat }}
+            href={{ pathname: `/chat/${dataThread?.id}` }}
             onClick={(event) => {
               event.stopPropagation()
               dispatchVisibleNotifications(false)
@@ -314,6 +331,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
 
     if (provider === "barter") {
+      if (operation === "canceled") {
+        return <ButtonLink href={{ pathname: "/" }} label="Перейти на карту" />
+      }
       if (operation === "completion-yes") {
         return (
           <span data-operation={operation}>
@@ -353,44 +373,27 @@ export const ItemNotification = (props: IResponseNotifications) => {
         return <Button type="button" typeButton="fill-primary" label="Написать отзыв" onClick={handleRecall} />
       }
       if (["completion-survey"].includes(operation!) && ["completed", "executed", "destroyed"].includes(data?.status!)) {
-        return (
-          <>
-            <Button
-              type="button"
-              typeButton="fill-primary"
-              label="Да"
-              onClick={(event) => {
-                event.stopPropagation()
-                handleCompletion(true)
-              }}
-              loading={loading}
-              data-yes-or-not
-            />
-            <Button
-              type="button"
-              typeButton="regular-primary"
-              label="Нет"
-              onClick={(event) => {
-                event.stopPropagation()
-                handleCompletion(false)
-                reading()
-              }}
-              loading={loading}
-              data-yes-or-not
-            />
-          </>
-        )
+        return <ButtonsToComplete refetch={refetch} notification={props} />
       }
       if (operation === "accepted") {
         if (data?.userId !== userId) {
-          const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
-
           return (
             <ButtonLink
               type="button"
               typeButton="fill-primary"
               label="Перейти в чат"
-              href={{ pathname: `/messages`, query: chat }}
+              href={
+                !!data?.threadId
+                  ? {
+                      pathname: `/chat/${data?.threadId}`,
+                    }
+                  : {
+                      pathname: `/chat`,
+                      query: {
+                        "barter-id": `${data?.id}-${idUser}`,
+                      },
+                    }
+              }
               onClick={(event) => {
                 event.stopPropagation()
                 dispatchVisibleNotifications(false)
@@ -404,13 +407,23 @@ export const ItemNotification = (props: IResponseNotifications) => {
       if (operation === "create") {
         if (data?.status === EnumStatusBarter.INITIATED) {
           if (userId === data?.consigner?.userId) {
-            const chat = data?.threadId ? { thread: data?.threadId } : { "barter-id": `${data?.id!}-${idUser}` }
             return (
               <ButtonLink
                 type="button"
                 typeButton="fill-primary"
                 label="Перейти в чат"
-                href={{ pathname: `/messages`, query: chat }}
+                href={
+                  !!data?.threadId
+                    ? {
+                        pathname: `/chat/${data?.threadId}`,
+                      }
+                    : {
+                        pathname: `/chat`,
+                        query: {
+                          "barter-id": `${data?.id}-${idUser}`,
+                        },
+                      }
+                }
                 onClick={(event) => {
                   event.stopPropagation()
                   dispatchVisibleNotifications(false)
@@ -449,34 +462,30 @@ export const ItemNotification = (props: IResponseNotifications) => {
     }
   }
 
-  function onCanceledAndDelete() {
-    Promise.all([
-      serviceNotifications.patch({ enabled: false, read: true }, id),
-      patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, data?.id),
-    ]).then((responses) => {
-      console.log("---responses--- ", responses)
-      refetch()
-      setLoading(false)
-    })
-  }
-
-  function handleCompletion(value: boolean) {
+  async function onCanceledAndDelete() {
     if (!loading) {
-      if (value) {
-        setLoading(true)
-        Promise.all([patchBarter({ enabled: true, status: EnumStatusBarter.COMPLETED }, data?.id!)]).then(() => {
-          refetch().then(() => {
-            setLoading(false)
+      setLoading(true)
+      const { data: dataBarter } = await getBarterId(data?.id!)
+      if (dataBarter?.threadId) {
+        deleteThread(dataBarter?.threadId!).then(() => {
+          socket!?.emit("barter", {
+            receiverIds: [dataBarter?.consigner?.userId, dataBarter?.initiator?.userId],
+            message: "Удалён чат",
+            barterId: dataBarter?.id!,
+            emitterId: userId!,
+            status: "delete",
+            threadId: dataBarter?.threadId!,
+            created: new Date(),
           })
         })
-      } else {
-        dispatchReasonBarters({
-          visible: true,
-          notificationId: id!,
-          barterId: data?.id!,
-        })
-        dispatchVisibleNotifications(false)
       }
+      Promise.all([
+        serviceNotifications.patch({ enabled: false, read: true }, id),
+        patchBarter({ enabled: false, status: EnumStatusBarter.CANCELED }, data?.id),
+      ]).then((responses) => {
+        refetch()
+        setLoading(false)
+      })
     }
   }
 
@@ -492,45 +501,83 @@ export const ItemNotification = (props: IResponseNotifications) => {
     dispatchVisibleNotifications(false)
   }
 
+  const afterUser = useMemo(() => {
+    if (provider === "offer-pay") {
+      return profile?.image?.attributes?.url ? (
+        <NextImageMotion
+          className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          src={profile?.image?.attributes?.url}
+          alt="avatar"
+          width={44}
+          height={44}
+        />
+      ) : (
+        <IconEmptyProfile className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      )
+    }
+    if (["barter", "personal"].includes(currentType!)) {
+      const image =
+        data?.initiator?.userId === userId
+          ? data?.consigner?.user?.image?.attributes?.url
+          : data?.consigner?.userId === userId
+          ? data?.initiator?.user?.image?.attributes?.url
+          : null
+      return image ? (
+        <NextImageMotion
+          className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          src={image}
+          alt="avatar"
+          width={44}
+          height={44}
+        />
+      ) : (
+        <IconEmptyProfile className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      )
+    }
+    if (["information", "warning", "error"].includes(type)) {
+      return (
+        <img
+          className="absolute w-6 h-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          src={IMG_TYPE?.[currentType]!}
+          alt="type"
+          width={24}
+          height={24}
+        />
+      )
+    }
+    return null
+  }, [userId, currentType, type, profile?.image])
+
   return (
-    <li className={styles.container} data-type={type} data-active={!read}>
+    <li
+      className={cx(
+        styles.container,
+        "w-full relative p-3 rounded-2xl border border-grey-stroke-light border-solid gap-3 grid grid-cols-[2.5rem_minmax(0,1fr)] bg-BG-second hover:border-text-accent",
+      )}
+      data-type={type}
+      data-active={!read}
+    >
       <div
         data-avatar
         className={`relative h-10 w-10 overflow-hidden rounded-[0.625rem] p-5 ${type === "barter" && "bg-grey-stroke-light"}`}
       >
-        {["barter", "personal"].includes(currentType!) ? (
-          profile?.image?.attributes?.url! ? (
-            <NextImageMotion
-              className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              src={profile?.image?.attributes?.url!}
-              alt="avatar"
-              width={44}
-              height={44}
-            />
-          ) : (
-            <IconEmptyProfile className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-          )
-        ) : ["information", "warning", "error"].includes(type) ? (
-          <img
-            className="absolute w-6 h-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            src={IMG_TYPE?.[currentType]!}
-            alt="type"
-            width={24}
-            height={24}
-          />
-        ) : null}
+        {afterUser}
       </div>
-      <section>
-        <article>
+      <section className="w-full pr-[1.625rem] flex flex-col gap-1">
+        <article className="w-full flex flex-col gap-[0.0625rem]">
           {text}
-          <time dateTime={created}>{daysAgo(created!)}</time>
+          <time dateTime={created} className="text-text-secondary text-xs text-left font-normal">
+            {daysAgo(created!)}
+          </time>
           <ButtonsDots
             id={id}
             refetch={refetch}
             disabled={["completion-recall", "completion-recall-no", "completion-survey"].includes(operation!)}
           />
         </article>
-        <div data-buttons>{buttons}</div>
+        <div data-buttons className="w-fit flex flex-row items-center gap-2">
+          {buttons}
+        </div>
       </section>
     </li>
   )

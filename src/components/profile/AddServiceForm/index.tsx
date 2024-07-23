@@ -91,7 +91,7 @@ export const ChangeService = () => {
         dispatchChangeService({ visible: false })
       } else {
         patchUser({ categories: values.categories || [] }, userId!).then((response) => {
-          if (response.ok) {
+          if (!!response.data) {
             refetch()
             setLoading(false)
             dispatchChangeService({ visible: false })

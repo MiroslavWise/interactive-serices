@@ -1,16 +1,19 @@
-import axios, { AxiosError, RawAxiosRequestHeaders } from "axios"
+import axios, { AxiosError, type RawAxiosRequestHeaders } from "axios"
 
+import { EStatusAuth } from "@/types/enum"
 import type { IMetaData, IReturnData } from "../types/general"
 import type { MethodDelete, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
 
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
 
-export interface IResponse<T = any> {
+interface I<T = any> {
   data: T | null
   error: any | null
   meta?: IMetaData
 }
+
+export type IResponse<T = any> = Readonly<I<T>>
 
 export const instance = axios.create({
   baseURL: URL_API,
@@ -58,13 +61,12 @@ async function returnWrapper<P extends any>(endpoint: URL, requestInit: RequestI
   }
 }
 
-export const wrapperPost: MethodPost<any, any> = async ({ url, body, cache }) => {
+export const wrapperPost: MethodPost<any, any> = async ({ url, body }) => {
   const endpoint = new URL(`${URL_API}${url}`)
 
   const requestInit: RequestInit = {
     method: "POST",
     headers: header(),
-    cache: cache || "default",
   }
 
   if (body) {
@@ -106,8 +108,8 @@ const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
 
   if (!fullTokenString) {
     return {
-      ok: false,
-      error: "Not Authorization",
+      data: null,
+      error: EStatusAuth.NOT_AUTHORIZATION,
     }
   }
 
@@ -131,16 +133,14 @@ const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
     .then(({ data, status }) => {
       if (status >= 200 && status < 300) {
         return {
-          ok: true,
           meta: data?.meta || null,
-          res: data?.data || null,
+          data: data?.data || null,
           error: data?.error || null,
         }
       } else {
         return {
-          ok: false,
           meta: data?.meta || null,
-          res: data?.data || null,
+          data: data?.data || null,
           error: data?.error || null,
         }
       }
@@ -149,13 +149,13 @@ const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
       if (error instanceof AxiosError) {
         const e = error?.response?.data?.error
         return {
-          ok: false,
+          data: null,
           error: e,
         }
       }
 
       return {
-        ok: false,
+        data: null,
         error: error,
       }
     })
@@ -168,7 +168,7 @@ interface IGet {
 
 interface IPatch extends IPost {}
 
-const patch = async ({ url, body }: IPatch): Promise<IReturnData<any>> => {
+const patch = async ({ url, body }: IPatch): Promise<IResponse<any>> => {
   const head: RawAxiosRequestHeaders = {
     "Content-Type": "application/json",
   }
@@ -196,16 +196,14 @@ const patch = async ({ url, body }: IPatch): Promise<IReturnData<any>> => {
     .then(({ data, status }) => {
       if (status >= 200 && status < 300) {
         return {
-          ok: true,
           meta: data?.meta || null,
-          res: data?.data || null,
+          data: data?.data || null,
           error: data?.error || null,
         }
       } else {
         return {
-          ok: false,
           meta: data?.meta || null,
-          res: data?.data || null,
+          data: data?.data || null,
           error: data?.error || null,
         }
       }
@@ -214,13 +212,13 @@ const patch = async ({ url, body }: IPatch): Promise<IReturnData<any>> => {
       if (error instanceof AxiosError) {
         const e = error?.response?.data?.error
         return {
-          ok: false,
+          data: null,
           error: e,
         }
       }
 
       return {
-        ok: false,
+        data: null,
         error: error,
       }
     })
@@ -231,7 +229,7 @@ interface IPost {
   body: object | any
 }
 
-const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
+const post = async ({ url, body }: IPost): Promise<IResponse<any>> => {
   const head: RawAxiosRequestHeaders = {
     "Content-Type": "application/json",
   }
@@ -253,16 +251,14 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
     .then(({ data, status }) => {
       if (status >= 200 && status < 300) {
         return {
-          ok: true,
           meta: data?.meta || null,
-          res: data?.data || null,
+          data: data?.data || null,
           error: data?.error || null,
         }
       } else {
         return {
-          ok: false,
           meta: data?.meta || null,
-          res: data?.data || null,
+          data: data?.data || null,
           error: data?.error || null,
         }
       }
@@ -271,13 +267,13 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
       if (error instanceof AxiosError) {
         const e = error?.response?.data?.error
         return {
-          ok: false,
+          data: null,
           error: e,
         }
       }
 
       return {
-        ok: false,
+        data: null,
         error: error,
       }
     })
@@ -286,7 +282,6 @@ const post = async ({ url, body }: IPost): Promise<IReturnData<any>> => {
 const fetchGet = async ({ url, query }: IGet): Promise<IResponse> => {
   const endpoint = new URL(`${URL_API}${url}`)
   if (query && typeof query === "object") {
-    console.log("query:", query)
     for (const [key, value] of Object.entries(query)) {
       endpoint.searchParams.set(key, String(value))
     }

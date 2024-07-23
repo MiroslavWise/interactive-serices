@@ -57,7 +57,7 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
             setExpand(true)
           }}
         >
-          <span className="text-text-primary text-left text-sm font-medium">Показать все комментарии</span>
+          <span className="text-text-accent text-left text-sm font-medium">Показать все комментарии</span>
         </button>
       ) : null}
       {expand ? currentComments.map((item) => <ItemComment key={`::key::comment::item::${item.id}::`} {...item} />) : null}

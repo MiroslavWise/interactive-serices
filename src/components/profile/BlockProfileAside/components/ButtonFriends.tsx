@@ -24,8 +24,8 @@ export const ButtonFriends = () => {
   }
 
   const friends = useMemo(() => {
-    return data?.res?.length || 0
-  }, [data?.res])
+    return data?.data?.length || 0
+  }, [data?.data])
 
   return (
     <div className={styles.container} onClick={handleOpen}>

@@ -1,3 +1,10 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
-export default ({ children }: { children: ReactNode; profile: ReactNode }) => children
+import ClientLayout from "./components/ClientLayout"
+
+export default ({ children, profile }: { children: ReactNode; profile: ReactNode }) => (
+  <ClientLayout>
+    {children}
+    {profile}
+  </ClientLayout>
+)

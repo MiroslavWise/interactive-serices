@@ -1,59 +1,36 @@
 "use client"
 
-import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
-
-import type { TTypeSegment } from "./types/types"
-import type { ISegmentValues } from "@/components/common/Segments/types"
-
-import { Content } from "./components/Content"
-import { BlockDots } from "./components/BlockDots"
-import { ButtonClose } from "@/components/common"
-import { ItemsBadges } from "./components/ItemsBadges"
-import { ItemSegments } from "./components/ItemSegments"
-import { InfoContainerProfile } from "./components/InfoContainerProfile"
+import { IconXClose } from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
-import { getUserId } from "@/services"
-import { VALUES } from "./constants/SEGMENTS"
-import { dispatchProfilePublic, useProfilePublic } from "@/store"
+import { usePublicProfile, dispatchPublicProfile } from "@/store"
 
-import styles from "./styles/style.module.scss"
+function PublicProfile() {
+  const visible = usePublicProfile(({ visible }) => visible)
+  const id = usePublicProfile(({ id }) => id)
 
-export const PublicProfile = () => {
-  const isLeft = useProfilePublic(({ isLeft }) => isLeft)
-  const idUser = useProfilePublic(({ idUser }) => idUser)
-  const visibleProfilePublic = useProfilePublic(({ visibleProfilePublic }) => visibleProfilePublic)
-  const [activeSegment, setActiveSegment] = useState<ISegmentValues<TTypeSegment>>(VALUES[0])
-
-  const { data } = useQuery({
-    queryFn: () => getUserId(idUser!),
-    queryKey: ["user", { userId: idUser }],
-    enabled: visibleProfilePublic && !!idUser,
-  })
-
-  function handleClose() {
-    dispatchProfilePublic({ visible: false })
-  }
-
-  return visibleProfilePublic ? (
-    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visibleProfilePublic} data-left={isLeft}>
-      <section>
-        <ButtonClose
-          onClick={handleClose}
-          position={{
-            top: 12,
-            left: 12,
+  return (
+    <div
+      className={cx(
+        "wrapper-fixed max-md:hidden bg-translucent",
+        "flex flex-row justify-end",
+        visible && "!z-[1001] !opacity-100 !visible",
+      )}
+    >
+      <section className="bg-BG-first rounded-l-3xl w-full relative max-w-[35.625rem]">
+        <button
+          type="button"
+          className="absolute top-6 -left-2.5 -translate-x-full w-12 h-12 p-3.5 flex items-center justify-center rounded-3xl bg-BG-second"
+          onClick={() => {
+            dispatchPublicProfile(null)
           }}
-        />
-        <BlockDots id={idUser!} />
-        <ul data-opacity={!!data?.data} id="profile-public-id">
-          <InfoContainerProfile {...data?.data!} />
-          <ItemsBadges {...data?.data!} />
-          <ItemSegments {...{ activeSegment, setActiveSegment }} />
-          <Content {...data?.data!} type={activeSegment.value} />
-        </ul>
+        >
+          <IconXClose />
+        </button>
       </section>
     </div>
-  ) : null
+  )
 }
+
+PublicProfile.displayName = "PublicProfile"
+export default PublicProfile

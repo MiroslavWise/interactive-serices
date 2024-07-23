@@ -1,17 +1,17 @@
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 import type { IProps } from "./types"
 
 import { Button, ButtonClose } from "@/components/common"
 
-import { usePush } from "@/helpers"
 import { dispatchAuthModal, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const ButtonCanHelp = ({ id, idUser }: IProps) => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { handlePush } = usePush()
+  const { push } = useRouter()
   const [visible, setVisible] = useState(false)
 
   function handle() {
@@ -22,7 +22,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
       if (!userId) {
         dispatchAuthModal({ visible: true, type: "SignIn" })
       } else if (!!userId) {
-        handlePush(`/messages?user=${idUser}`)
+        push(`/chat?user=${idUser}`)
       }
     }
   }

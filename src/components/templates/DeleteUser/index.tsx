@@ -21,7 +21,7 @@ function DeleteUser() {
     if (!loading) {
       setLoading(true)
       patchUser({ enabled: false }, userId!).then((response) => {
-        if (response.ok) {
+        if (!!response.data) {
           out()
           dispatchModalClose()
         }

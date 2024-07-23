@@ -1,21 +1,39 @@
 "use client"
 
-import { IResponseOffers } from "@/services/offers/types"
+import { usePathname } from "next/navigation"
+
+import { EnumTypeProvider } from "@/types/enum"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
 
+import {
+  dispatchBallonAlert,
+  dispatchBallonDiscussion,
+  dispatchBallonOffer,
+  dispatchComplaintModalUser,
+  dispatchMapCoordinates,
+} from "@/store"
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
 import { encryptedOffer } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchComplaintModalUser } from "@/store"
+import IconMap from "@/components/icons/IconMap"
 
+const LABEL_MAP = "Показать на карте"
 const LABEL_SHARE = "Поделиться"
+const LABEL_COMPLAIN = "Пожаловаться"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
-  const { user, provider, id, addresses, title } = offer ?? {}
+  const { user, id, addresses, title } = offer ?? {}
   const { onSimpleMessage } = useToast()
+  const pathname = usePathname()
+
+  const isMap = pathname !== "/"
+  const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
+
+  console.log("isMap: ", isMap)
 
   function handle() {
     if (user) {
@@ -35,6 +53,39 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         "*:w-full *:py-2 *:px-0.375 *:flex *:flex-row *:items-center *:justify-start *:gap-0.625 *:rounded-[0.375rem] hover:*:bg-grey-field",
       )}
     >
+      <a
+        title={LABEL_MAP}
+        aria-label={LABEL_MAP}
+        aria-labelledby={LABEL_MAP}
+        className={isMap ? "" : "!hidden"}
+        onClick={() => {
+          if (offer.provider === EnumTypeProvider.offer) {
+            dispatchBallonOffer({ offer })
+          }
+          if (offer.provider === EnumTypeProvider.discussion) {
+            dispatchBallonDiscussion({ offer })
+          }
+          if (offer.provider === EnumTypeProvider.alert) {
+            dispatchBallonAlert({ offer })
+          }
+          if (geoData) {
+            dispatchMapCoordinates({
+              zoom: 17,
+              coordinates: geoData?.coordinates?.split(" ")?.map(Number),
+            })
+          }
+        }}
+      >
+        <div
+          className={cx(
+            "w-5 h-5 flex items-center justify-center relative p-0.625",
+            "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5",
+          )}
+        >
+          <IconMap />
+        </div>
+        <span className="text-text-primary text-sm font-normal text-left">{LABEL_MAP}</span>
+      </a>
       <a
         title={LABEL_SHARE}
         aria-label={LABEL_SHARE}
@@ -65,7 +116,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         </div>
         <span className="text-text-primary text-sm font-normal text-left">Поделиться</span>
       </a>
-      <a onClick={handle}>
+      <a onClick={handle} title={LABEL_COMPLAIN} aria-label={LABEL_COMPLAIN} aria-labelledby={LABEL_COMPLAIN}>
         <div
           className={cx(
             "w-5 h-5 flex items-center justify-center relative p-0.625",
@@ -74,7 +125,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         >
           <IconAlertCircle />
         </div>
-        <span className="text-text-error text-sm font-normal text-left">Пожаловаться</span>
+        <span className="text-text-error text-sm font-normal text-left">{LABEL_COMPLAIN}</span>
       </a>
     </article>
   )

@@ -40,7 +40,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       })
       return
     } else if (!!userId && userId !== offer?.userId) {
-      handlePush(`/messages?offer-pay=${offer?.id}:${offer?.userId}`)
+      handlePush(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
       dispatchModalClose()
       return
     }
@@ -114,7 +114,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
           <Link
             className="relative w-11 p-[1.375rem] bg-[var(--btn-second-default)]"
             data-circle
-            href={{ pathname: "/messages", query: { user: offer?.userId } }}
+            href={{ pathname: "/chat", query: { user: offer?.userId } }}
             onClick={dispatchModalClose}
           >
             <svg

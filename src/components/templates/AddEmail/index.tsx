@@ -37,7 +37,7 @@ export const AddEmail = () => {
     if (!loading) {
       setLoading(true)
       patchEmailPasswordUser({ ...values }, userId!).then((response) => {
-        if (response.ok) {
+        if (!!response.data) {
           close()
           dispatchCheckTheMail(true, values.email)
         } else {

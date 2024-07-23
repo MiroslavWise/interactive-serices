@@ -93,7 +93,7 @@ export enum ETypeReason {
 
 export interface IBartersService {
   get(values?: IQueries): Promise<IResponse<IBarterResponse[]>>
-  getId(id: string | number): IPromiseReturn<IBarterResponse>
+  getId(id: string | number): Promise<IResponse<IBarterResponse>>
   getUserId(id: string | number, values?: IQueries): IPromiseReturn<IBarterResponse[]>
   getReceiverId(id: string | number, values?: IQueries): IPromiseReturn<IBarterResponse[]>
   post(value: IPostDataBarter): IPromiseReturn<IBarterResponse>

@@ -4,30 +4,31 @@ import Link from "next/link"
 
 import { Button } from "@/components/common"
 
+import { cx } from "@/lib/cx"
 import { dispatchCookies, useCookies } from "@/store"
-
-import styles from "./style.module.scss"
 
 export default function CookiesToast() {
   const visible = useCookies(({ visible }) => visible)
 
-  function handle() {
-    dispatchCookies()
-  }
-
   return (
-    <article className={styles.container} data-active={visible}>
-      <p>
-        Мы используем&nbsp;<Link href="/terms-rules">cookies</Link>&nbsp;для улучшения работы сайта. Оставаясь с нами, вы соглашаетесь на использование&nbsp;
+    <article
+      className={cx(
+        "fixed left-5 bottom-5 -z-10 opacity-0 invisible p-4 bg-element-accent-2 rounded-2xl shadow-menu-absolute w-full md:max-w-[22.5rem] flex flex-col gap-4 max-md:right-5 max-md:max-w-[calc(100%_-_2.5rem)] max-md:bottom-[calc(1.25rem_+_var(--height-mobile-footer-nav))]",
+        visible && "!z-[1000] !opacity-100 !visible",
+      )}
+    >
+      <p className="text-text-tab text-justify text-sm font-light [&>a]:font-medium [&>a]:text-link-color *:no-underline">
+        Мы используем&nbsp;<Link href="/terms-rules">cookies</Link>&nbsp;для улучшения работы сайта. Оставаясь с нами, вы соглашаетесь на
+        использование&nbsp;
         <Link
           href={{
-            pathname: "/terms-rules"
+            pathname: "/terms-rules",
           }}
         >
           файлов cookie
         </Link>
       </p>
-      <Button label="Хорошо" onClick={handle} />
+      <Button label="Хорошо" onClick={dispatchCookies} className="md:max-w-[10.625rem] h-9 rounded-[1.125rem]" />
     </article>
   )
 }

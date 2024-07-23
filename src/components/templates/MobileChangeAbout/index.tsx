@@ -57,7 +57,7 @@ export const MobileChangeAbout = () => {
       if (newValueAbout !== about) {
         setLoading(true)
         patchProfile({ about: values.about, enabled: true }).then((response) => {
-          if (response.ok) {
+          if (!!response.data) {
             refetch()
           }
           setLoading(false)

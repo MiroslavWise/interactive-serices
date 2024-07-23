@@ -1,15 +1,17 @@
-import { IImageData } from "@/store/types/useAuthState"
-import type { IPromiseReturn } from "../types/general"
-import { IUserOffer } from "../offers/types"
+import { type IImageData } from "@/store/types/useAuthState"
+import { type IPromiseReturn } from "../types/general"
+import { type IUserOffer } from "../offers/types"
+import { type IResponse } from "../request"
 
 export interface IRequestPostMessages {
   threadId: number
-  message: string
+  message?: string
   parentId?: number | undefined | null
   emitterId: number
   receiverIds: number[]
   enabled?: boolean
   created: Date | string
+  images?: number[]
 }
 
 export interface IResponseCreate {
@@ -23,10 +25,10 @@ export interface IResponseMessageProps {
   message: string
   parentId: number | null
   threadId: number
-  emitter: IUserOffer
+  emitter?: IUserOffer
   emitterId: number
   receiverIds: number[]
-  images: IImageData[] | string[]
+  images: IImageData[]
   readIds: number[]
 }
 
@@ -39,7 +41,7 @@ export interface IResponseMessage extends IResponseMessageProps {
 export interface IMessages {
   post(value: IRequestPostMessages): IPromiseReturn<IResponseCreate>
   postRead(id: number): IPromiseReturn<IResponseCreate>
-  get(value: Record<string, any>): IPromiseReturn<IResponseMessage[]>
+  get(value: Record<string, any>): Promise<IResponse<IResponseMessage[]>>
   patch(value: IRequestPatchMessages, id: number | string): IPromiseReturn<IResponseCreate>
   getId(id: number | string): IPromiseReturn<IResponseMessage>
   getUserId(id: number | string): IPromiseReturn<IResponseMessage[]>

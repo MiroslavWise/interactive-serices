@@ -22,7 +22,7 @@ export const ItemCategory = memo(function ItemCategory(
       setLoading(true)
       const filter = categories.filter((item) => item.id !== id)
       patchUser({ categories: filter.map((item) => item.id) }, userId!).then((response) => {
-        if (response.ok) {
+        if (!!response.data) {
           refetch().then(() => setLoading(false))
         } else {
           setLoading(false)

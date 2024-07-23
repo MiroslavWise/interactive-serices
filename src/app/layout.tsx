@@ -15,14 +15,12 @@ import "react-toastify/dist/ReactToastify.css"
 
 const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
-export function generateViewport(): Viewport {
-  return {
-    width: "device-width",
-    initialScale: 1,
-    userScalable: false,
-    maximumScale: 1,
-    minimumScale: 1,
-  }
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  userScalable: false,
+  maximumScale: 1,
+  minimumScale: 1,
 }
 
 export function generateMetadata(): Metadata {

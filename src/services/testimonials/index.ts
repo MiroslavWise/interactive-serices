@@ -1,6 +1,6 @@
 import type { IServiceTestimonials } from "./types"
 
-import { wrapperPost, get, wrapperPatch, fetchGet } from "../request"
+import { wrapperPost, wrapperPatch, fetchGet } from "../request"
 
 const url = "/testimonials"
 

@@ -2,13 +2,11 @@
 
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { useSearchParams } from "next/navigation"
 
 import { EnumStatusBarter } from "@/types/enum"
 import { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { useWebSocket } from "./WebSocketProvider"
-import { useToast } from "@/helpers/hooks/useToast"
 
 import { useAuth } from "@/store"
 import { useCountMessagesNotReading } from "@/helpers"
@@ -17,9 +15,7 @@ import { getBarterUserIdReceiver, serviceNotifications } from "@/services"
 function Listener() {
   const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ user }) => user) ?? {}
-  const { onMessage } = useToast()
-  const { refetchCountMessages } = useCountMessagesNotReading()
-  const threadId = useSearchParams().get("thread")
+  const { refetchCountMessages } = useCountMessagesNotReading(false)
 
   const { refetch: refetchNotifications } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
@@ -38,40 +34,23 @@ function Listener() {
   })
 
   function barterResponse(event: IBarterResponse) {
-    console.log("%c barterResponse", "color: blue; font-size: 1.5rem;", event)
+    console.log("%c barterResponse", "color: blue; font-size: 2rem;", event)
     refetchNotifications()
     refetchBarters()
-  }
-
-  function threadResponse(event: IThreadResponse) {
-    console.log("%c threadResponse", "color: green; font-size: 1rem;", event)
-    refetchNotifications()
-    refetchCountMessages()
   }
 
   useEffect(() => {
     const chatResponse = (event: IChatResponse) => {
       console.log("%c chatResponse event: ", "color: #d0d", event)
-      if (Number(threadId) !== event.threadId && userId !== event?.emitterId) {
-        onMessage({
-          id: event.id,
-          threadId: event.threadId,
-          name: `${event.emitter?.profile?.firstName || ""} ${event.emitter?.profile?.lastName || ""}`,
-          message: `${event.message}`,
-          photo: event.emitter?.profile?.image?.attributes?.url! || "",
-        })
-        refetchCountMessages()
-      }
+      refetchCountMessages()
     }
     if (socket && userId) {
       socket?.on(`chatResponse-${userId}`, chatResponse)
       socket?.on(`barterResponse-${userId}`, barterResponse)
-      socket?.on(`threadResponse-${userId}`, threadResponse)
 
       return () => {
         socket?.off(`chatResponse-${userId}`, chatResponse)
         socket?.off(`barterResponse-${userId}`, barterResponse)
-        socket?.off(`threadResponse-${userId}`, threadResponse)
       }
     }
   }, [socket, userId])
