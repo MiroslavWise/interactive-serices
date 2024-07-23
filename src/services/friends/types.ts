@@ -22,7 +22,7 @@ interface IQueries {
   filter?: Exclude<TTypeFriends, "list">
 }
 
-export type TGetFriends = (values: { query?: IQueries }) => IPromiseReturn<IFriendsResponse[]>
+export type TGetFriends = (values: { query?: IQueries }) => Promise<IResponse<IFriendsResponse[]>>
 export type TGetFriendId = (id: string | number) => Promise<IResponse<IFriendsResponse[]>>
 export interface IFriendsService {
   get(values?: IQueries): IPromiseReturn<IFriendsResponse[]>

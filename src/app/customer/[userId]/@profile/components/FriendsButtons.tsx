@@ -55,10 +55,10 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
     setIsFriends(!!dataUserFriends?.data?.some((item) => item?.id === userId!))
   }, [dataUserFriends, userId])
   useEffect(() => {
-    setIsRequest(!!dataRequest?.res?.some((item) => item?.id === user?.id!))
+    setIsRequest(!!dataRequest?.data?.some((item) => item?.id === user?.id!))
   }, [dataRequest, user?.id])
   useEffect(() => {
-    setIsResponse(!!dataResponse?.res?.some((item) => item?.id === user?.id!))
+    setIsResponse(!!dataResponse?.data?.some((item) => item?.id === user?.id!))
   }, [dataResponse, user?.id])
 
   const isLoadingAll = isLoadingRequest || isLoadingResponse || isFetching

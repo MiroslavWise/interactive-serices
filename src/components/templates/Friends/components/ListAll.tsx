@@ -1,16 +1,18 @@
+import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 
 import { type TFriends } from "../constants/segments"
 
-import { Button, NextImageMotion } from "@/components/common"
-
-import { useFriends } from "@/store"
-import { getFiendId } from "@/services"
-import { DeclensionAllQuantityFriends } from "@/lib/declension"
+import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
-import Link from "next/link"
+
+import { useAuth, useFriends } from "@/store"
+import { getFiendId, getFriends } from "@/services"
+import { DeclensionAllQuantityFriends } from "@/lib/declension"
+import { useMemo } from "react"
 
 function ListAll({ state }: { state: TFriends }) {
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const id = useFriends(({ id }) => id)
 
   const { data, isLoading } = useQuery({
@@ -19,12 +21,23 @@ function ListAll({ state }: { state: TFriends }) {
     enabled: !!id,
   })
 
+  const { data: dataMyFriends, isLoading: isLoadingMyFriends } = useQuery({
+    queryFn: () => getFriends({}),
+    queryKey: ["friends", { userId: userId, filter: "list" }],
+    enabled: !!userId,
+  })
+
   const items = data?.data || []
   const length = items.length
-
+  const myFriendsIds = dataMyFriends?.data?.map((item) => item.id) || []
   const name = DeclensionAllQuantityFriends(length)
 
-  if (isLoading)
+  const filterFriends = useMemo(() => {
+    if (state === "all") return items
+    return items.filter((item) => myFriendsIds.includes(item.id))
+  }, [state, items, myFriendsIds])
+
+  if (isLoading || isLoadingMyFriends)
     return (
       <article className="loading-screen w-full px-5 flex flex-col gap-6 items-start pt-6">
         <span className="max-w-52 w-full h-5 rounded-[0.625rem]" />
@@ -86,7 +99,7 @@ function ListAll({ state }: { state: TFriends }) {
     <article className="w-full px-5 flex flex-col gap-6 pt-6">
       <p className="text-left text-text-primary text-sm font-medium">{name}</p>
       <ul className="w-full flex flex-col gap-6 overflow-y-auto">
-        {items.map((item) => (
+        {filterFriends.map((item) => (
           <li
             key={`:key:friend:${item.id}:`}
             className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_calc(10.1875rem_+_2.25rem_+_0.625rem)] gap-3"
@@ -101,7 +114,7 @@ function ListAll({ state }: { state: TFriends }) {
             >
               {!!item.image ? (
                 <NextImageMotion
-                  className="rounded-2xl overflow-hidden w-[3.125rem] h-[3.125rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  className="rounded-[0.625rem] overflow-hidden w-[3.125rem] h-[3.125rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                   src={item.image?.attributes?.url}
                   alt="avatar"
                   width={100}
@@ -122,7 +135,22 @@ function ListAll({ state }: { state: TFriends }) {
               </Link>
               <p className="text-[0.8125rem] text-text-secondary font-medium">27 отзывов</p>
             </div>
-            <div className="w-full grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5"></div>
+            <div className="w-full grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5">
+              {myFriendsIds.includes(item.id) ? (
+                <ButtonLink
+                  typeButton="fill-primary"
+                  href={{
+                    pathname: "/chat",
+                    query: {
+                      user: item.id,
+                    },
+                  }}
+                  label="Написать"
+                />
+              ) : (
+                <Button type="button" typeButton="fill-primary" label="Добавить в друзья" />
+              )}
+            </div>
           </li>
         ))}
       </ul>

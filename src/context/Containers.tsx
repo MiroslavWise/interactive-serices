@@ -4,7 +4,6 @@ import dynamic from "next/dynamic"
 
 import {
   Intro,
-  DroverFriends,
   WelcomeModal,
   AboutSheiraPopup,
   NotificationsMobile,
@@ -24,7 +23,6 @@ import {
 import {
   usePhotoOffer,
   useHasBalloons,
-  useDroverFriends,
   useVisibleNotifications,
   useReasonBarters,
   useAddingPhoneNumber,
@@ -54,7 +52,6 @@ export const Containers = () => {
   const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
-  const visibleFriends = useDroverFriends(({ visibleFriends }) => visibleFriends)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
@@ -91,7 +88,6 @@ export const Containers = () => {
           {visibleChangeService && <ChangeService />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
-          {visibleFriends && <DroverFriends />}
           {isTablet && <OptionProfileMobile />}
           {isTablet && <InitiatedBarterMobile />}
           {visibleCheckTheMail && <CheckTheMail />}

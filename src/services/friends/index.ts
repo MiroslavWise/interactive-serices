@@ -16,5 +16,5 @@ export const serviceFriends: IFriendsService = {
   delete: (id) => wrapperDelete({ url, id }),
 }
 
-export const getFriends: TGetFriends = ({ query }) => get({ url, query })
-export const getFiendId: TGetFriendId = (id) => fetchGet({ url: `${url}/${id}` })
+export const getFriends: TGetFriends = ({ query }) => fetchGet({ url, query })
+export const getFiendId: TGetFriendId = (id) => fetchGet({ url: `${url}/${id}`, query: { order: "DESC" } })

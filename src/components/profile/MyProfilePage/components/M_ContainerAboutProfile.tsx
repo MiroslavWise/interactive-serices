@@ -33,8 +33,8 @@ export const MContainerAboutProfile = () => {
   })
 
   const friends = useMemo(() => {
-    return data?.res?.length || 0
-  }, [data?.res])
+    return data?.data?.length || 0
+  }, [data?.data])
 
   const geoData = useMemo(() => {
     return dataUser?.data && dataUser?.data?.addresses?.length > 0
