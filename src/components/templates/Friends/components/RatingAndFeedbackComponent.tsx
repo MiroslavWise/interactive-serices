@@ -35,7 +35,7 @@ function RatingAndFeedbackComponent({ id }: { id: number }) {
 
   return (
     <div className="w-full flex flex-nowrap gap-1.5 items-center">
-      <article className="flex flex-row items-center flex-nowrap gap-[0.0625rem]">
+      <article className="flex flex-row items-center flex-nowrap gap-[0.0625rem] h-[1.125rem]">
         <div className="relative w-4 h-4 p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ function RatingAndFeedbackComponent({ id }: { id: number }) {
         </div>
         <span className="text-text-accent text-[0.8125rem] font-medium leading-[0.8125rem]">{rating}</span>
       </article>
-      <p className="text-[0.8125rem] text-text-secondary font-medium line-clamp-1 text-ellipsis">{name}</p>
+      <p className="text-[0.8125rem] text-text-secondary font-medium line-clamp-1 text-ellipsis leading-[0.8125rem]">{name}</p>
     </div>
   )
 }
