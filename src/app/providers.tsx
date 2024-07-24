@@ -28,17 +28,6 @@ export default ({ children }: { children: ReactNode }) => {
   }, [isUse])
 
   useEffect(() => {
-    try {
-      fetch(`http://localhost:3000/api/session`, {
-        method: "POST",
-        body: JSON.stringify({
-          url: window.location.href,
-        }),
-      })
-    } catch (e) {}
-  }, [])
-
-  useEffect(() => {
     dispatchRefresh()
     let vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty("--vh", `${vh}px`)
