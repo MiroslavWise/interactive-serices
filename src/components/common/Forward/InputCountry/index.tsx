@@ -51,7 +51,7 @@ const InputCountry = forwardRef(
         </button>
         <article
           className={cx(
-            "absolute -z-10 top-[calc(100%_+_0.25rem)] w-full left-0 bg-BG-second rounded-xl max-h-[14.25rem] box-down overflow-hidden",
+            "absolute -z-10 top-[calc(100%_+_0.25rem)] w-full left-0 bg-BG-second rounded-xl max-h-[14.25rem] shadow-box-down overflow-hidden",
             "opacity-0 invisible overflow-y-auto",
             open && "!opacity-100 !visible !z-50",
           )}
