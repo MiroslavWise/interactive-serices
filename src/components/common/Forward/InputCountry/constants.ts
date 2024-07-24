@@ -56,17 +56,17 @@ export interface IFlag {
   selectionStart: number
 }
 
-export const FLAGS: IFlag[] = [
-  {
+export const FLAGS_OBJ: Record<EnumCountry, IFlag> = {
+  [EnumCountry.az]: {
     img: FlagAZ,
     short: EnumCountry.az,
     name: "Азербайджан",
     code: "+994",
-    mask: "+___ (___) ___-__-__",
+    mask: "+994 (___) ___-__-__",
     placeholder: "+994 (999) 000-00-00",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.am]: {
     img: FlagAM,
     short: EnumCountry.am,
     name: "Армения",
@@ -75,7 +75,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+374 (99) 000-000",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.by]: {
     img: FlagBY,
     short: EnumCountry.by,
     name: "Беларусь",
@@ -84,7 +84,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+375 (29) 000-00-00",
     selectionStart: 4,
   },
-  {
+  [EnumCountry.de]: {
     img: FlagDE,
     short: EnumCountry.de,
     name: "Германия",
@@ -93,7 +93,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+374 (999) 000-0000",
     selectionStart: 2,
   },
-  {
+  [EnumCountry.ge]: {
     img: FlagGE,
     short: EnumCountry.ge,
     name: "Грузия",
@@ -102,7 +102,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+995 (999) 000-000",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.il]: {
     img: FlagIL,
     short: EnumCountry.il,
     name: "Израиль",
@@ -111,7 +111,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+972 (99) 000-0000",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.in]: {
     img: FlagIN,
     short: EnumCountry.in,
     name: "Индия",
@@ -120,7 +120,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+91 (9999) 000-0000",
     selectionStart: 2,
   },
-  {
+  [EnumCountry.es]: {
     img: FlagES,
     short: EnumCountry.es,
     name: "Испания",
@@ -129,7 +129,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+34 (999) 000-000",
     selectionStart: 2,
   },
-  {
+  [EnumCountry.kz]: {
     img: FlagKZ,
     short: EnumCountry.kz,
     name: "Казахстан",
@@ -138,7 +138,7 @@ export const FLAGS: IFlag[] = [
     placeholder: "+7 (999) 000-00-00",
     selectionStart: 2,
   },
-  {
+  [EnumCountry.ca]: {
     img: FlagCA,
     short: EnumCountry.ca,
     name: "Канада",
@@ -147,103 +147,103 @@ export const FLAGS: IFlag[] = [
     placeholder: "+1 (999) 000-0000",
     selectionStart: 1,
   },
-  {
+  [EnumCountry.kg]: {
     img: FlagKG,
     short: EnumCountry.kg,
     name: "Кыргызстан",
     code: "+996",
-    mask: "+___ (___) ___-___",
+    mask: "+996 (___) ___-___",
     placeholder: "+996 (999) 000-000",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.lt]: {
     img: FlagLT,
     short: EnumCountry.lt,
     name: "Литва",
     code: "+370",
-    mask: "+___ (__) ___-___",
+    mask: "+370 (__) ___-___",
     placeholder: "+370 (99) 000-000",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.lv]: {
     img: FlagLV,
     short: EnumCountry.lv,
     name: "Латвия",
     code: "+371",
-    mask: "+___ (__) ___-___",
+    mask: "+371 (__) ___-___",
     placeholder: "+371 (99) 000-000",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.ru]: {
     img: FlagRU,
     short: EnumCountry.ru,
     name: "Россия",
     code: "+7",
-    mask: "+_ (___) ___-__-__",
+    mask: "+7 (___) ___-__-__",
     placeholder: "+7 999 000-00-00",
     selectionStart: 2,
   },
-  {
+  [EnumCountry.rs]: {
     img: FlagRS,
     short: EnumCountry.rs,
     name: "Сербия",
     code: "+381",
-    mask: "+___ (__) ___-____",
+    mask: "+381 (__) ___-____",
     placeholder: "+381 (99) 000-0000",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.us]: {
     img: FlagUS,
     short: EnumCountry.us,
     name: "США",
     code: "+1",
-    mask: "+_ (___) ___-____",
+    mask: "+1 (___) ___-____",
     placeholder: "+1 (999) 000-0000",
     selectionStart: 1,
   },
-  {
+  [EnumCountry.th]: {
     img: FlagTH,
     short: EnumCountry.th,
     name: "Тайланд",
     code: "+66",
-    mask: "+__ (__) ___-____",
+    mask: "+66 (__) ___-____",
     placeholder: "+66 (99) 000-0000",
     selectionStart: 2,
   },
-  {
+  [EnumCountry.tr]: {
     img: FlagTR,
     short: EnumCountry.tr,
     name: "Турция",
     code: "+90",
-    mask: "+__ (___) ___-__-__",
+    mask: "+90 (___) ___-__-__",
     placeholder: "+90 (999) 000-00-00",
     selectionStart: 2,
   },
-  {
+  [EnumCountry.uz]: {
     img: FlagUZ,
     short: EnumCountry.uz,
     name: "Узбекистан",
     code: "+998",
-    mask: "+___ (__) ___-__-__",
+    mask: "+998 (__) ___-__-__",
     placeholder: "+998 (99) 000-00-00",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.fr]: {
     img: FlagFR,
     short: EnumCountry.fr,
     name: "Франция",
     code: "+33",
-    mask: "+__ (__) __ __ __ __",
+    mask: "+33 (__) __ __ __ __",
     placeholder: "+33 (99) 00 00 00 00",
     selectionStart: 3,
   },
-  {
+  [EnumCountry.ee]: {
     img: FlagEE,
     short: EnumCountry.ee,
     name: "Эстония",
     code: "+372",
-    mask: "+___ (__) ___-___",
+    mask: "+372 (__) ___-___",
     placeholder: "+372 (99) 000-000",
     selectionStart: 3,
   },
-]
+}

@@ -94,8 +94,8 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
               </label>
               <InputCountry
                 {...field}
-                replaceValue={() => {
-                  field.onChange("")
+                replaceValue={(value) => {
+                  field.onChange(value)
                 }}
               />
               {!!error ? <i>{error?.message}</i> : null}

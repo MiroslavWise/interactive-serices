@@ -65,8 +65,8 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
               <label htmlFor={field.name}>Телефон</label>
               <InputCountry
                 {...field}
-                replaceValue={() => {
-                  field.onChange("")
+                replaceValue={(value) => {
+                  field.onChange(value)
                 }}
               />
               {!!errors.phone && errors.phone.type === "on_register" ? (
