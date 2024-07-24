@@ -13,6 +13,11 @@ export default async ({ params }: { params: { hash: string } }) => {
   const { data: offer } = await getIdOffer(id)
 
   if (offer) {
+    fetch(`http://localhost:3000/api/offer/${id}`, {
+      method: "POST",
+      body: JSON.stringify(offer),
+    })
+
     return <RedirectOffer offer={offer} />
   } else {
     return redirect("/")

@@ -1,5 +1,6 @@
-import type { IUserOffer } from "../offers/types"
-import type { IPromiseReturn } from "@/services/types/general"
+import { type IResponse } from "../request"
+import { type IUserOffer } from "../offers/types"
+import { type IPromiseReturn } from "@/services/types/general"
 
 export type TTypeStatusComments = "published" | "create"
 
@@ -38,7 +39,7 @@ interface IQueries {
 }
 
 export interface ICommentsService {
-  get(values?: IQueries): IPromiseReturn<ICommentsResponse[]>
+  get(values?: IQueries): Promise<IResponse<ICommentsResponse[]>>
   getId(id: string | number): IPromiseReturn<ICommentsResponse>
   post(value: IPostDataComment): IPromiseReturn<ICommentsResponse>
   patch(value: IPatchDataComment, id: number | string): IPromiseReturn<ICommentsResponse>

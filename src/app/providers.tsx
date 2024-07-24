@@ -1,12 +1,12 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { type ReactNode, useEffect } from "react"
 
 import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
 import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies } from "@/store"
-import dynamic from "next/dynamic"
 
 const YMapsProvider = dynamic(() => import("@/context/YMapsProvider"), {
   ssr: false,
@@ -26,6 +26,17 @@ export default ({ children }: { children: ReactNode }) => {
       dispatchCookiesVisible(true)
     }
   }, [isUse])
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:3000/api/session`, {
+        method: "POST",
+        body: JSON.stringify({
+          url: window.location.href,
+        }),
+      })
+    } catch (e) {}
+  }, [])
 
   useEffect(() => {
     dispatchRefresh()

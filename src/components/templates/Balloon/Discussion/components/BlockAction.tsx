@@ -18,7 +18,7 @@ function BlockAction({ offer, setExpandComment }: IProps) {
   return (
     <div className={styles.container}>
       <ButtonLike offer={offer} />
-      <ButtonComments id={offer.id} setExpandComment={setExpandComment} />
+      <ButtonComments id={offer.threadId!} setExpandComment={setExpandComment} />
       <ButtonActivity offer={offer} />
     </div>
   )

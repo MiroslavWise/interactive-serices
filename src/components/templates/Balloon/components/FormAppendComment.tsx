@@ -1,13 +1,17 @@
 import { Controller, useForm } from "react-hook-form"
-import { Dispatch, memo, SetStateAction, useState } from "react"
+import { type Dispatch, memo, type SetStateAction, useState } from "react"
 
+import { type IUserOffer } from "@/services/offers/types"
 import { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
 
 import { useAuth } from "@/store"
 import { serviceComments } from "@/services"
 
-import styles from "../styles/form-append-comment.module.scss"
-import { IUserOffer } from "@/services/offers/types"
+interface IProps {
+  idOffersThread: number
+  refetchComments: () => Promise<any>
+  setCurrentComments: Dispatch<SetStateAction<ICommentsResponse[]>>
+}
 
 export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCurrentComments }: IProps) => {
   const [loading, setLoading] = useState(false)
@@ -68,42 +72,48 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
   })
 
   return (
-    <form onSubmit={onSubmit} className={styles.container}>
+    <form
+      onSubmit={onSubmit}
+      className="w-full p-5 pb-0 overflow-hidden bg-BG-second border-t border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_1.5rem] items-end gap-2.5 h-10"
+    >
       <Controller
         name="text"
         control={control}
         rules={{
           required: true,
-          minLength: 3,
-          maxLength: 240,
+          minLength: 1,
+          maxLength: 2192,
         }}
-        render={({ field, fieldState: { error }, formState }) => (
-          <input
-            {...field}
-            type="text"
-            placeholder="Ваш комментарий... (мин. 3 символа)"
-            autoComplete="off"
-            maxLength={240}
-            onKeyDown={(event) => {
-              if (event.keyCode === 13 || event.code === "Enter") {
-                onSubmit()
-              }
-            }}
-          />
+        render={({ field }) => (
+          <>
+            <textarea
+              {...field}
+              className="resize-none py-2.5 px-4 border border-solid border-grey-stroke rounded-2xl outline-none focus:border-element-accent-1 hover:border-element-accent-1"
+            />
+            <button type="submit" className="disabled:opacity-50 relative w-6 h-10 px-3 py-5" disabled={!field.value.trim()}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M7.07469 12L4.10383 4.82283C3.64338 3.71046 4.7998 2.61684 5.89333 3.13053L22.1221 10.754C22.3382 10.8268 22.5184 10.9514 22.6582 11.108C22.8951 11.3591 23.0036 11.6805 22.9999 12C23.0036 12.3195 22.8951 12.6409 22.6581 12.892C22.5184 13.0486 22.3382 13.1732 22.1221 13.246L5.89333 20.8695C4.7998 21.3832 3.64338 20.2895 4.10383 19.1772L7.07469 12ZM5.76777 19.1927L5.74897 19.2381L5.75237 19.2365L5.76777 19.1927Z"
+                  fill="var(--element-accent-1)"
+                  className="fill-element-accent-1"
+                />
+              </svg>
+            </button>
+          </>
         )}
       />
-      <button type="submit" disabled={watch("text").trim().length < 3 || loading}>
-        <img src="/svg/sent.svg" alt="sent" width={20} height={20} />
-      </button>
     </form>
   )
 })
-
-interface IProps {
-  idOffersThread: number
-  refetchComments: () => Promise<any>
-  setCurrentComments: Dispatch<SetStateAction<ICommentsResponse[]>>
-}
 
 interface IValues {
   text: string

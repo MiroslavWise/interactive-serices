@@ -25,12 +25,12 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
     enabled: !!threadId!,
   })
   useEffect(() => {
-    if (dataComments?.res && dataComments?.res?.length > 0) {
-      if (Array.isArray(dataComments?.res)) {
-        setCurrentComments(dataComments?.res)
+    if (dataComments?.data && dataComments?.data?.length > 0) {
+      if (Array.isArray(dataComments?.data)) {
+        setCurrentComments(dataComments?.data)
       }
     }
-  }, [dataComments?.res])
+  }, [dataComments?.data])
 
   useEffect(() => {
     if (socket && threadId) {
