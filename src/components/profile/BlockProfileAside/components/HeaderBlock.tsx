@@ -10,11 +10,14 @@ import { useAuth } from "@/store"
 import { getUserId } from "@/services"
 
 import styles from "../styles/header.module.scss"
+import { cx } from "@/lib/cx"
+import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 export const HeaderBlock: THeaderBlock = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: () => getUserId(userId!),
     queryKey: ["user", { userId: userId }],
     enabled: !!userId,
@@ -24,25 +27,46 @@ export const HeaderBlock: THeaderBlock = () => {
   const { profile, created } = res ?? {}
   const { image, firstName, lastName } = profile ?? {}
 
+  if (isLoading)
+    return (
+      <header className="loading-screen w-full flex flex-col items-center gap-3">
+        <span className="w-20 h-20 rounded-2xl" />
+        <span className="w-full max-w-[50%] h-4 rounded-lg" />
+        <span className="w-full h-9 rounded-[1.125rem]" />
+      </header>
+    )
+
   return (
-    <header className={styles.containerHeader} data-test="block-profile-aside-header">
-      <div className={styles.avatar} data-null-avatar={!!image?.attributes} data-test="block-profile-aside-avatar-div">
-        <NextImageMotion
-          className={styles.photo}
-          src={image?.attributes?.url!}
-          alt="avatar"
-          width={94}
-          height={94}
-          data-test="block-profile-aside-avatar-img"
-        />
-        {!!image?.attributes ? <img className={styles.verified} src="/svg/verified-tick.svg" alt="tick" width={32} height={32} /> : null}
+    <header className="w-full flex flex-col items-center gap-4" data-test="block-profile-aside-header">
+      <div
+        className={cx("w-20 h-20 relative p-10", image ? "rounded-2xl" : "bg-grey-stroke-light rounded-[0.625rem]")}
+        data-test="block-profile-aside-avatar-div"
+      >
+        {!!image ? (
+          <NextImageMotion
+            className="rounded-2xl overflow-hidden w-20 h-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            src={image?.attributes?.url}
+            alt="avatar"
+            width={100}
+            height={100}
+          />
+        ) : (
+          <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12" />
+        )}
+        <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 [&>svg]:w-5 [&>svg]:h-5">
+          <IconVerifiedTick />
+        </div>
       </div>
-      <section data-test="block-profile-aside-section-info">
-        <h4 data-test="block-profile-aside-section-info-h4">
+      <section data-test="block-profile-aside-section-info" className="flex flex-col items-center gap-1.5">
+        <h4 data-test="block-profile-aside-section-info-h4" className="text-text-primary text-center text-xl font-semibold">
           {firstName || "Имя"} {lastName || "Фамилия"}
         </h4>
         {created ? (
-          <time dateTime={`${created!}`} data-test="block-profile-aside-section-info-time">
+          <time
+            dateTime={`${created}`}
+            data-test="block-profile-aside-section-info-time"
+            className="text-text-disabled text-center text-xs font-normal"
+          >
             На Sheira с {format(created!, "do MMMM yyyy", { locale: ru })}
           </time>
         ) : null}

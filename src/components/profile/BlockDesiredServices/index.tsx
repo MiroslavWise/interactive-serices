@@ -9,6 +9,7 @@ import { getUserId } from "@/services"
 import { dispatchActiveServicesFrom, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
+import { cx } from "@/lib/cx"
 
 export const BlockDesiredServices = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -30,19 +31,29 @@ export const BlockDesiredServices = () => {
   }
 
   return (
-    <div className={styles.container} data-test="profile-block-desired-services">
-      <p>Желаемые услуги</p>
+    <div className={cx(styles.container, "w-full flex flex-col gap-2.5")} data-test="profile-block-desired-services">
+      <p className="text-text-primary text-sm font-medium">Желаемые услуги</p>
       {isLoading ? (
         <div />
       ) : desiredServices?.length > 0 ? (
         <>
-          <section>
+          <section className="w-full flex gap-1.5 flex-wrap">
             {desiredServices.map((item) => (
-              <div key={`::key::service::desired::${item.id}::`} data-item>
-                <div data-img>
+              <div
+                key={`::key::service::desired::${item.id}::`}
+                data-item
+                className="w-fit max-w-full py-1 pl-1 pr-1.5 grid grid-cols-[1.5rem_minmax(0,1fr)] items-center gap-1 border border-solid border-grey-stroke-light bg-BG-second h-8 rounded-2xl"
+              >
+                <div
+                  data-img
+                  className={cx(
+                    "w-6 h-6 rounded-xl bg-BG-icons p-3 relative",
+                    "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4",
+                  )}
+                >
                   <ImageCategory id={item.id!} />
                 </div>
-                <p>{item.title}</p>
+                <p className="text-text-primary text-sm text-left font-normal line-clamp-1 text-ellipsis whitespace-nowrap">{item.title}</p>
               </div>
             ))}
           </section>
@@ -55,7 +66,7 @@ export const BlockDesiredServices = () => {
           />
         </>
       ) : (
-        <article>
+        <article className="w-full flex flex-col gap-3 rounded-xl p-3 bg-more bg-more-blue-gradient">
           <p>Добавьте услуги, которые вам интересны и вы бы хотели их получить</p>
           <Button
             type="button"

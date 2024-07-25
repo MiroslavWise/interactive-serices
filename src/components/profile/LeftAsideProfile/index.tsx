@@ -19,7 +19,7 @@ function LeftAsideProfile({ isCollapsed = false, isBanner = false }: { isCollaps
       <ul className="w-full p-5 h-full overflow-y-auto flex flex-col gap-5">
         <BlockProfileAside />
         <ButtonFriends />
-        <BlockDesiredServices />
+        <BlockDesiredServices /> 
         <FooterAsideLeft />
       </ul>
     </aside>
