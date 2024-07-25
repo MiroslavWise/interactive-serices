@@ -99,7 +99,7 @@ export const ServicesMobile = memo(({ input }: { input: string }) => {
   }, [input, items, categories])
 
   return (
-    <ul>
+    <ul className={isLoading ? "*:bg-BG-first" : ""}>
       {isLoading
         ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
         : filterItems.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />)}
