@@ -6,9 +6,9 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemImages from "../Offer/components/ItemImages"
+import { ItemProfile } from "../components/ItemProfile"
 import { BlockComments } from "../components/BlockComments"
 import BlockAction from "../Discussion/components/BlockAction"
-import { ProfileComponent } from "../components/ProfileComponent"
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
@@ -29,7 +29,7 @@ export default function BalloonAlert() {
       </header>
       <div data-container className="w-full p-0 md:rounded-b-[2rem]">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
-          <ProfileComponent offer={offer as unknown as IResponseOffers} />
+          <ItemProfile offer={offer as unknown as IResponseOffers} />
           <article>
             <p>{description}</p>
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}

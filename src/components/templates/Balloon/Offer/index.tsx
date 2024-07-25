@@ -6,8 +6,8 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import Buttons from "./components/Buttons"
+import { ItemProfile } from "../components/ItemProfile"
 import { ItemDescriptions } from "./components/ItemDescriptions"
-import { ProfileComponent } from "../components/ProfileComponent"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { useBalloonOffer } from "@/store"
@@ -23,7 +23,7 @@ export default function BalloonOffer() {
       </header>
       <div data-container className="w-full p-0 md:rounded-b-[2rem]">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
-          <ProfileComponent offer={offer as unknown as IResponseOffers} />
+          <ItemProfile offer={offer as unknown as IResponseOffers} />
           <ItemDescriptions offer={offer as unknown as IResponseOffers} />
           <Buttons offer={offer as unknown as IResponseOffers}>
             <GeoData offer={offer as unknown as IResponseOffers} />

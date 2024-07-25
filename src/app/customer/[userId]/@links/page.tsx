@@ -2,7 +2,7 @@ import { type IParamsCustomer } from "../layout"
 
 import LinkService, { EProviderLinkCustomer, ILink } from "../components/LinkService"
 
-const LINKS: ILink[] = [
+export  const LINKS_PROVIDER_OFFERS: ILink[] = [
   {
     label: "Предложения",
     provider: EProviderLinkCustomer.offer,
@@ -28,7 +28,7 @@ export default ({ searchParams }: IParamsCustomer) => {
 
   return (
     <section className="w-full grid grid-cols-3 h-11 rounded-[1.375rem] bg-BG-second p-1 min-h-11">
-      {LINKS.map((_) => (
+      {LINKS_PROVIDER_OFFERS.map((_) => (
         <LinkService key={`::key::link::customer::${_.provider}::`} provider={_.provider} label={_.label} active={_.provider === pr} />
       ))}
     </section>
