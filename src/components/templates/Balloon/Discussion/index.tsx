@@ -6,9 +6,9 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import BlockAction from "./components/BlockAction"
-import { ItemProfile } from "../components/ItemProfile"
+import ItemProfile from "../components/ItemProfile"
 import ItemImages from "../Offer/components/ItemImages"
-import { BlockComments } from "../components/BlockComments"
+import BlockComments from "../components/BlockComments"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
@@ -21,7 +21,10 @@ function BalloonDiscussion() {
 
   return (
     <>
-      <header data-color={EnumTypeProvider.discussion}>
+      <header
+        className="w-full rounded-t-3xl md:rounded-t-[2rem] grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden"
+        data-color={EnumTypeProvider.discussion}
+      >
         <div data-img>
           <IconDiscussionBalloon />
         </div>

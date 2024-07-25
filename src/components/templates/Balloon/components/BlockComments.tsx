@@ -13,7 +13,14 @@ import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { serviceComments } from "@/services"
 
-export function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
+interface IProps {
+  offer: IResponseOffers
+  expandComment: boolean
+
+  setExpandComment: Dispatch<SetStateAction<boolean>>
+}
+
+function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { socket } = useWebSocket() ?? {}
   const { threadId } = offer ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -23,6 +30,7 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
     queryFn: () => serviceComments.get({ offer: threadId! }),
     queryKey: ["comments", { offerThreads: threadId! }],
     enabled: !!threadId!,
+    refetchOnMount: true,
   })
   useEffect(() => {
     if (dataComments?.data && dataComments?.data?.length > 0) {
@@ -59,16 +67,10 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
         setExpand={setExpandComment}
         currentOffersThreadId={threadId!}
       />
-      {!!userId ? (
-        <FormAppendComment idOffersThread={threadId!} refetchComments={refetchComments} setCurrentComments={setCurrentComments} />
-      ) : null}
+      {!!userId ? <FormAppendComment idOffersThread={threadId!} setCurrentComments={setCurrentComments} /> : null}
     </div>
   )
 }
 
-interface IProps {
-  offer: IResponseOffers
-  expandComment: boolean
-
-  setExpandComment: Dispatch<SetStateAction<boolean>>
-}
+BlockComments.displayName = "BlockComments"
+export default BlockComments

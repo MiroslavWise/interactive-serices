@@ -24,6 +24,8 @@ export const viewport: Viewport = {
 }
 
 export function generateMetadata(): Metadata {
+  const urlIcon = "/icons/icon.png"
+
   const meta: Metadata = {
     title: {
       default: "Sheira",
@@ -46,10 +48,10 @@ export function generateMetadata(): Metadata {
       locale: "ru",
       url: env.server.host!,
       siteName: "Sheira",
-      images: "/icons/icon.png",
+      images: urlIcon,
     },
     twitter: {
-      images: "/icons/icon.png",
+      images: urlIcon,
     },
     robots: {
       index: true,
@@ -62,7 +64,7 @@ export function generateMetadata(): Metadata {
       },
     },
     icons: {
-      icon: "/icons/icon.png",
+      icon: urlIcon,
     },
   }
 

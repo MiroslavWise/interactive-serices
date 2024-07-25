@@ -5,23 +5,26 @@ import { useState } from "react"
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
+import ItemProfile from "../components/ItemProfile"
+import BlockComments from "../components/BlockComments"
 import ItemImages from "../Offer/components/ItemImages"
-import { ItemProfile } from "../components/ItemProfile"
-import { BlockComments } from "../components/BlockComments"
 import BlockAction from "../Discussion/components/BlockAction"
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { useBalloonAlert } from "@/store"
 
-export default function BalloonAlert() {
+function BalloonAlert() {
   const offer = useBalloonAlert(({ offer }) => offer)
   const { title, description, images = [] } = offer ?? {}
   const [expandComment, setExpandComment] = useState(false)
 
   return (
     <>
-      <header data-color={EnumTypeProvider.alert}>
+      <header
+        className="w-full rounded-t-3xl md:rounded-t-[2rem] grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden"
+        data-color={EnumTypeProvider.alert}
+      >
         <div data-img>
           <IconAlertBalloon />
         </div>
@@ -42,3 +45,6 @@ export default function BalloonAlert() {
     </>
   )
 }
+
+BalloonAlert.displayName = "BalloonAlert"
+export default BalloonAlert

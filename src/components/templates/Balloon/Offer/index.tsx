@@ -6,18 +6,21 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import Buttons from "./components/Buttons"
-import { ItemProfile } from "../components/ItemProfile"
+import ItemProfile from "../components/ItemProfile"
 import { ItemDescriptions } from "./components/ItemDescriptions"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { useBalloonOffer } from "@/store"
 
-export default function BalloonOffer() {
+function BalloonOffer() {
   const offer = useBalloonOffer(({ offer }) => offer)
 
   return (
     <>
-      <header data-color={EnumTypeProvider.offer}>
+      <header
+        className="w-full rounded-t-3xl md:rounded-t-[2rem] grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden"
+        data-color={EnumTypeProvider.offer}
+      >
         <div data-category-img>{offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}</div>
         <h3>{offer?.category?.title}</h3>
       </header>
@@ -33,3 +36,6 @@ export default function BalloonOffer() {
     </>
   )
 }
+
+BalloonOffer.displayName = "BalloonOffer"
+export default BalloonOffer

@@ -12,7 +12,7 @@ import { daysAgo, useResize } from "@/helpers"
 import { dispatchPublicProfile } from "@/store"
 import { cx } from "@/lib/cx"
 
-export const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
+const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
   const { created, user } = offer ?? {}
   const { isTablet } = useResize()
   const { image, firstName, lastName, id: userId } = user ?? {}
@@ -75,3 +75,6 @@ export const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
     </div>
   )
 }
+
+ItemProfile.displayName = "ItemProfile"
+export default ItemProfile

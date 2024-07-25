@@ -1,21 +1,21 @@
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useMemo, type ReactNode } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
 
-import { usePush } from "@/helpers"
 import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 import { getBarters } from "@/services"
 import { EnumStatusBarter } from "@/types/enum"
-import { useQuery } from "@tanstack/react-query"
 
 function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactNode }) {
   const { id } = offer ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
-  const { handlePush } = usePush()
+  const { push, prefetch } = useRouter()
 
   function handle() {
     if (!userId) {
@@ -40,7 +40,8 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       })
       return
     } else if (!!userId && userId !== offer?.userId) {
-      handlePush(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
+      prefetch(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
+      push(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
       dispatchModalClose()
       return
     }
@@ -91,7 +92,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
         </div>
       ) : null}
       {children}
-      <div data-buttons className="w-full flex flex-row items-center gap-0.625 *:h-11 *:rounded-[1.375rem]">
+      <div data-buttons className="w-full flex flex-row items-center gap-0.625 *:md:h-11 *:md:rounded-[1.375rem]">
         <Button
           type="button"
           typeButton="fill-primary"
@@ -112,7 +113,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
         />
         {userId && userId !== offer?.userId ? (
           <Link
-            className="relative w-11 p-[1.375rem] bg-[var(--btn-second-default)]"
+            className="relative w-9 p-[1.125rem] rounded-[1.125rem] md:w-11 md:p-[1.375rem] bg-[var(--btn-second-default)]"
             data-circle
             href={{ pathname: "/chat", query: { user: offer?.userId } }}
             onClick={dispatchModalClose}

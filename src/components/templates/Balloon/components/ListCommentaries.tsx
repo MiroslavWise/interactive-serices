@@ -30,10 +30,10 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
   }, [currentComments, expand])
 
   const firstComment = useMemo(() => {
-    if (!dataComments?.data || dataComments?.data?.length === 0) return null
+    if (!currentComments || currentComments?.length === 0) return null
 
-    return dataComments?.data[0]
-  }, [dataComments?.data])
+    return currentComments[0]
+  }, [currentComments])
 
   const length = dataComments?.meta?.total || 0
 

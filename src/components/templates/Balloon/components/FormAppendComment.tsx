@@ -9,11 +9,11 @@ import { serviceComments } from "@/services"
 
 interface IProps {
   idOffersThread: number
-  refetchComments: () => Promise<any>
+
   setCurrentComments: Dispatch<SetStateAction<ICommentsResponse[]>>
 }
 
-export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCurrentComments }: IProps) => {
+export const FormAppendComment = memo(({ idOffersThread, setCurrentComments }: IProps) => {
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = useAuth(({ user }) => user)
@@ -79,9 +79,7 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
         ])
         reset()
         serviceComments.post(data).then((response) => {
-          refetchComments().then(() => {
-            setLoading(false)
-          })
+          setLoading(false)
         })
       } else {
         setLoading(false)

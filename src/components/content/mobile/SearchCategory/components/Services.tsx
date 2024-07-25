@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query"
 
 import { ServiceLoading } from "@/components/common"
 import CardBallon from "@/components/common/Card/CardBallon"
-// const CardBallon = dynamic(() => import("@/components/common/Card/CardBallon"), { ssr: false, loading: ServiceLoading })
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 import { getOffersCategories } from "@/services"

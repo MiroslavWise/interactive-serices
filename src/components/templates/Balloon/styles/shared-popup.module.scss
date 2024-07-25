@@ -1,19 +1,4 @@
 .container {
-  & > article {
-    @media screen and (max-width: 760px) {
-      position: fixed;
-      top: auto;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      padding: 1.25rem;
-      padding-top: 2.25rem;
-      transform: none;
-      border-radius: 1.5rem 1.5rem 0rem 0rem;
-      width: 100%;
-    }
-  }
-
   @media screen and (max-width: 768px) {
     &[data-active="true"] {
       &::after {
