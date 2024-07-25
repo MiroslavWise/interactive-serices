@@ -6,12 +6,11 @@ import { Controller, useForm } from "react-hook-form"
 import { resolverCodeVerification, TSchemaCodeVerification } from "../utils/code-verification.schema"
 
 import { TimerData } from "./TimerData"
-import { queryClient } from "@/context"
 import { Button } from "@/components/common"
 
-import { getUser, serviceAuth } from "@/services"
+import { serviceAuth } from "@/services"
 import { useReplacePathName } from "../hooks/replace-path-name"
-import { dispatchAuthModal, dispatchAuthToken, dispatchOnboarding, useModalAuth } from "@/store"
+import { dispatchAuthModal, dispatchAuthToken, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 

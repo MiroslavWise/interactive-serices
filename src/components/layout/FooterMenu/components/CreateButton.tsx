@@ -1,5 +1,3 @@
-import { memo } from "react"
-
 import IconPlus from "@/components/icons/IconPlus"
 
 import { useSign } from "../hooks/useSign"
@@ -25,8 +23,9 @@ export const CreateButton = () => {
           }
         }
       }}
-      title="Создать"
+      title="Создать предложение, дискуссию или SOS-сообщение"
       aria-label="Создать предложение, дискуссию или SOS-сообщение"
+      aria-labelledby="Создать предложение, дискуссию или SOS-сообщение"
       data-test="link-footer-menu-mobile-create"
     >
       <div className={styles.itemsIconLabel}>

@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { IResponseOffers } from "@/services/offers/types"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemImages from "../Offer/components/ItemImages"
 import { BlockComments } from "../components/BlockComments"
@@ -12,16 +12,12 @@ import { ProfileComponent } from "../components/ProfileComponent"
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
-import { dispatchBallonAlert, useBalloonAlert } from "@/store"
+import { useBalloonAlert } from "@/store"
 
 export default function BalloonAlert() {
   const offer = useBalloonAlert(({ offer }) => offer)
   const { title, description, images = [] } = offer ?? {}
   const [expandComment, setExpandComment] = useState(false)
-
-  useEffect(() => {
-    return () => dispatchBallonAlert({ offer: undefined })
-  }, [])
 
   return (
     <>
@@ -31,8 +27,8 @@ export default function BalloonAlert() {
         </div>
         <h3 style={{ color: "var(--text-primary)" }}>{title ? title : "SOS-cообщение"}</h3>
       </header>
-      <div data-container>
-        <div data-container-children>
+      <div data-container className="w-full p-0 md:rounded-b-[2rem]">
+        <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
           <ProfileComponent offer={offer as unknown as IResponseOffers} />
           <article>
             <p>{description}</p>

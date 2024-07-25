@@ -270,16 +270,6 @@
   }
 }
 
-.services {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  height: fit-content;
-  gap: 0.625rem;
-}
-
 [data-tablet="true"] {
   .container {
     & > ul {

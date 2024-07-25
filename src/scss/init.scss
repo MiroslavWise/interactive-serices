@@ -1,7 +1,3 @@
-// @tailwind base;
-// @tailwind components;
-// @tailwind utilities;
-
 @import "./globals.scss";
 @import "./root-variables-distances.scss";
 @import "./root.scss";
@@ -11,16 +7,10 @@
 @import "./toast.scss";
 @import "./auth-modal.scss";
 @import "./loading.scss";
-//yandex--------------------------------------------------
-
 @import "./yandex/yandex-balloon.scss";
 @import "./yandex/alert-balloon.scss";
 @import "./yandex/discussion-balloon.scss";
 @import "./yandex/offer-balloon.scss";
 @import "./yandex/y.scss";
-
-//----------------------------------------------------------
-
-@import "./messages.scss";
 @import "./data-div.scss";
 @import "./profile.scss";

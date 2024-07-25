@@ -1,6 +1,4 @@
 import Link from "next/link"
-import { memo } from "react"
-import { usePathname } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
@@ -13,8 +11,7 @@ import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
-export const LinkOffers = memo(function LinkOffers() {
-  const pathname = usePathname()
+export const LinkOffers = ({ pathname }: { pathname: string }) => {
   const handleAuthModal = useSign()
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const { id } = useAuth(({ auth }) => auth) ?? {}
@@ -57,4 +54,4 @@ export const LinkOffers = memo(function LinkOffers() {
       ) : null}
     </Link>
   )
-})
+}

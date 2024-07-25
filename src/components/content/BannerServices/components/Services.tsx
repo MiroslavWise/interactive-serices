@@ -2,17 +2,12 @@
 
 import { memo, Suspense, useMemo } from "react"
 
-import type { TServicesFC } from "../types/types"
-
 import { ServiceLoading } from "@/components/common"
 import CardBallon from "@/components/common/Card/CardBallon"
 
-import { cx } from "@/lib/cx"
 import { EnumTimesFilter } from "../constants"
 import { useBounds, useFiltersServices } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-
-import styles from "../styles/style.module.scss"
 
 export const ServicesComponent = memo(function () {
   const { itemsOffers, isLoading } = useMapOffers()
@@ -74,12 +69,21 @@ export const ServicesComponent = memo(function () {
     return []
   }, [itemsOffers, bounds, timesFilter])
 
+  if (isLoading)
+    return (
+      <ul className="load relative w-full flex flex-col items-start h-fit gap-2.5 *:bg-BG-first">
+        {[1, 2, 3].map((item) => (
+          <ServiceLoading key={`::item::loading::offers::${item}`} />
+        ))}
+      </ul>
+    )
+
   return (
-    <ul className={cx(styles.services)} data-test="ul-services-component">
+    <ul className="relative w-full flex flex-col items-start h-fit gap-2.5" data-test="ul-services-component">
       <Suspense fallback={false}>
-        {isLoading
-          ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-          : items.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />)}
+        {items.map((item) => (
+          <CardBallon key={`::offer::general::${item.id}::`} offer={item} />
+        ))}
       </Suspense>
     </ul>
   )

@@ -1,6 +1,4 @@
 import Link from "next/link"
-import { memo } from "react"
-import { usePathname } from "next/navigation"
 
 import { useAuth } from "@/store/hooks"
 import { useSign } from "../hooks/useSign"
@@ -10,8 +8,7 @@ import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
-export const LinkMessages = memo(function LinkMessages() {
-  const pathname = usePathname()
+export const LinkMessages = ({ pathname }: { pathname: string }) => {
   const handleAuthModal = useSign()
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const { count } = useCountMessagesNotReading()
@@ -43,4 +40,4 @@ export const LinkMessages = memo(function LinkMessages() {
       ) : null}
     </Link>
   )
-})
+}

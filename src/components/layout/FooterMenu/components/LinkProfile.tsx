@@ -1,6 +1,4 @@
 import Link from "next/link"
-import { memo } from "react"
-import { usePathname } from "next/navigation"
 
 import { useAuth } from "@/store/hooks"
 import { useSign } from "../hooks/useSign"
@@ -9,8 +7,7 @@ import { ITEMS_LINK_FOOTER } from "../constants"
 
 import styles from "../styles/link.module.scss"
 
-export const LinkProfile = memo(function LinkProfile() {
-  const pathname = usePathname()
+export const LinkProfile = ({ pathname }: { pathname: string }) => {
   const handleAuthModal = useSign()
   const isAuth = useAuth(({ isAuth }) => isAuth)
 
@@ -36,4 +33,4 @@ export const LinkProfile = memo(function LinkProfile() {
       </div>
     </Link>
   )
-})
+}

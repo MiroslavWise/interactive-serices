@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { IResponseOffers } from "@/services/offers/types"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import BlockAction from "./components/BlockAction"
 import ItemImages from "../Offer/components/ItemImages"
@@ -12,16 +12,12 @@ import { ProfileComponent } from "../components/ProfileComponent"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
-import { dispatchBallonDiscussion, useBalloonDiscussion } from "@/store"
+import { useBalloonDiscussion } from "@/store"
 
 function BalloonDiscussion() {
   const offer = useBalloonDiscussion(({ offer }) => offer)
   const { description, title, images = [] } = offer ?? {}
   const [expandComment, setExpandComment] = useState(false)
-
-  useEffect(() => {
-    return () => dispatchBallonDiscussion({ offer: undefined })
-  }, [])
 
   return (
     <>
@@ -31,8 +27,8 @@ function BalloonDiscussion() {
         </div>
         <h3> {title ? title : "Обсуждение"}</h3>
       </header>
-      <div data-container>
-        <div data-container-children>
+      <div data-container className="w-full p-0 md:rounded-b-[2rem]">
+        <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
           <ProfileComponent offer={offer as unknown as IResponseOffers} />
           <article>
             <p>{description}</p>

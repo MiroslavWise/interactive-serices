@@ -2,9 +2,8 @@ import { Logo } from "./components/Logo"
 import { useParams, usePathname } from "next/navigation"
 import { NotificationBell } from "./components/NotificationBell"
 
+import { cx } from "@/lib/cx"
 import { useMobileSearchCategory, useSearchMobile } from "@/store"
-
-import styles from "./styles/styles.module.scss"
 
 export default function MobileHeader() {
   const visibleSearchMobile = useSearchMobile(({ visible }) => visible)
@@ -18,7 +17,14 @@ export default function MobileHeader() {
     visibleSearchCategory || visibleSearchMobile || pathname.includes("/customer/") || (pathname.includes("/chat") && !!id)
 
   return (
-    <header className={styles.header} data-test="header-mobile" data-not={isNotHeader}>
+    <header
+      className={cx(
+        "w-full top-0 left-0 right-0 h-[var(--height-mobile-header)] fixed z-[71] bg-BG-second items-center justify-between px-5 py-2.5 flex md:hidden",
+        isNotHeader && "!-translate-y-full",
+      )}
+      data-test="header-mobile"
+      data-not={isNotHeader}
+    >
       <Logo />
       <NotificationBell />
     </header>

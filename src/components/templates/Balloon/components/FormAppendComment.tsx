@@ -1,5 +1,5 @@
 import { Controller, useForm } from "react-hook-form"
-import { type Dispatch, memo, type SetStateAction, useState } from "react"
+import { type Dispatch, memo, type SetStateAction, useEffect, useRef, useState } from "react"
 
 import { type IUserOffer } from "@/services/offers/types"
 import { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
@@ -17,6 +17,8 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = useAuth(({ user }) => user)
+  const { profile } = user ?? {}
+  const textRef = useRef<HTMLTextAreaElement>(null)
 
   const { watch, handleSubmit, reset, control } = useForm<IValues>({
     defaultValues: {
@@ -24,15 +26,33 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
     },
   })
 
+  useEffect(() => {
+    if (textRef.current) {
+      if (!watch("text").trim()) {
+        textRef.current.style.borderRadius = `1.25rem`
+        textRef.current.style.height = "2.5rem"
+      } else {
+        if (textRef.current.scrollHeight > 40) {
+          textRef.current.style.height = "auto"
+          textRef.current.style.height = textRef.current.scrollHeight + "px"
+          textRef.current.style.borderRadius = `1rem`
+        } else {
+          textRef.current.style.borderRadius = `1.25rem`
+          textRef.current.style.height = "2.5rem"
+        }
+      }
+    }
+  }, [watch("text")])
+
   const userData: IUserOffer = {
-    about: user?.profile?.about ?? "",
-    birthdate: user?.profile?.birthdate ?? "",
-    firstName: user?.profile?.firstName ?? "",
-    lastName: user?.profile?.lastName ?? "",
-    gender: user?.profile?.gender!,
+    about: profile?.about ?? "",
+    birthdate: profile?.birthdate ?? "",
+    firstName: profile?.firstName ?? "",
+    lastName: profile?.lastName ?? "",
+    gender: profile?.gender!,
     id: user?.id!,
-    username: user?.profile?.username ?? "",
-    image: user?.profile?.image,
+    username: profile?.username ?? "",
+    image: profile?.image,
   }
 
   const onSubmit = handleSubmit(function (values) {
@@ -45,7 +65,6 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
           status: "published",
           enabled: true,
         }
-
         setCurrentComments((prev) => [
           ...prev,
           {
@@ -58,9 +77,8 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
             user: userData!,
           },
         ])
-
+        reset()
         serviceComments.post(data).then((response) => {
-          reset()
           refetchComments().then(() => {
             setLoading(false)
           })
@@ -74,7 +92,7 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full p-5 pb-0 overflow-hidden bg-BG-second border-t border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_1.5rem] items-end gap-2.5 h-10"
+      className="w-full p-5 pb-0 overflow-hidden bg-BG-second border-t border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_1.5rem] items-end gap-2.5"
     >
       <Controller
         name="text"
@@ -88,7 +106,9 @@ export const FormAppendComment = memo(({ idOffersThread, refetchComments, setCur
           <>
             <textarea
               {...field}
-              className="resize-none py-2.5 px-4 border border-solid border-grey-stroke rounded-2xl outline-none focus:border-element-accent-1 hover:border-element-accent-1"
+              className="resize-none py-2.5 px-4 border border-solid border-grey-stroke rounded-[1.25rem] outline-none focus:border-element-accent-1 hover:border-element-accent-1 min-h-10 h-10 max-h-40 md:max-h-[13.75rem] text-text-primary text-sm font-normal placeholder:text-text-disabled"
+              ref={textRef}
+              placeholder="Ваш комментарий..."
             />
             <button type="submit" className="disabled:opacity-50 relative w-6 h-10 px-3 py-5" disabled={!field.value.trim()}>
               <svg
