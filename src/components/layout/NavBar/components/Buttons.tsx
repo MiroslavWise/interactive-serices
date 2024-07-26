@@ -1,10 +1,12 @@
 "use client"
 
+import { usePathname } from "next/navigation"
+
 import { Button } from "@/components/common"
 import { dispatchAuthModal, dispatchNewServicesBanner, useAuth } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
-import { usePathname } from "next/navigation"
+import { dispatchDownloadApplication } from "@/store"
 
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -33,16 +35,25 @@ export const Buttons = () => {
       ) : (
         <>
           <Button
-            label="Войти"
-            typeButton="fill-primary"
-            className={styles.widthButton}
-            onClick={() => dispatchAuthModal({ visible: true, type: "SignIn" })}
+            type="button"
+            typeButton="regular-primary"
+            label="Скачать приложение"
+            className="w-min"
+            onClick={() => dispatchDownloadApplication(true)}
           />
           <Button
+            type="button"
             label="Зарегистрироваться"
             typeButton="regular-primary"
             className={styles.widthButton}
             onClick={() => dispatchAuthModal({ visible: true, type: "SignUp" })}
+          />
+          <Button
+            type="button"
+            label="Войти"
+            typeButton="fill-primary"
+            className={styles.widthButton}
+            onClick={() => dispatchAuthModal({ visible: true, type: "SignIn" })}
           />
         </>
       )}

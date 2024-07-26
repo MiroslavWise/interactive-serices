@@ -4,7 +4,7 @@ import { type Dispatch, memo, type SetStateAction, useEffect, useRef, useState }
 import { type IUserOffer } from "@/services/offers/types"
 import { type ICommentsResponse, type IPostDataComment } from "@/services/comments/types"
 
-import { useAuth } from "@/store"
+import { dispatchAuthModal, useAuth } from "@/store"
 import { postComment } from "@/services"
 
 interface IProps {
@@ -86,6 +86,26 @@ export const FormAppendComment = memo(({ idOffersThread, setCurrentComments }: I
       }
     }
   })
+
+  if (!userId)
+    return (
+      <footer className="w-full p-5 pb-0 bg-BG-second overflow-hidden border-t border-solid border-grey-stroke-light">
+        <p className="w-full text-center text-sm font-medium">
+          <span
+            className="text-text-accent cursor-pointer"
+            onClick={() => {
+              dispatchAuthModal({
+                visible: true,
+                type: "SignUp",
+              })
+            }}
+          >
+            Войдите в аккаунт
+          </span>
+          , чтобы оставить комментарий
+        </p>
+      </footer>
+    )
 
   return (
     <form
