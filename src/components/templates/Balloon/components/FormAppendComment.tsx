@@ -2,10 +2,10 @@ import { Controller, useForm } from "react-hook-form"
 import { type Dispatch, memo, type SetStateAction, useEffect, useRef, useState } from "react"
 
 import { type IUserOffer } from "@/services/offers/types"
-import { ICommentsResponse, IPostDataComment } from "@/services/comments/types"
+import { type ICommentsResponse, type IPostDataComment } from "@/services/comments/types"
 
 import { useAuth } from "@/store"
-import { serviceComments } from "@/services"
+import { postComment } from "@/services"
 
 interface IProps {
   idOffersThread: number
@@ -78,7 +78,7 @@ export const FormAppendComment = memo(({ idOffersThread, setCurrentComments }: I
           },
         ])
         reset()
-        serviceComments.post(data).then((response) => {
+        postComment(data).then(() => {
           setLoading(false)
         })
       } else {

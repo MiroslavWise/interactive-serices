@@ -11,7 +11,7 @@ import { FormAppendComment } from "./FormAppendComment"
 
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
-import { serviceComments } from "@/services"
+import { getComments } from "@/services"
 
 interface IProps {
   offer: IResponseOffers
@@ -27,7 +27,7 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
   const { data: dataComments, refetch: refetchComments } = useQuery({
-    queryFn: () => serviceComments.get({ offer: threadId! }),
+    queryFn: () => getComments({ offer: threadId! }),
     queryKey: ["comments", { offerThreads: threadId! }],
     enabled: !!threadId!,
     refetchOnMount: true,

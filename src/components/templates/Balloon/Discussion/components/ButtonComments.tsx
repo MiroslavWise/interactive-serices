@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import IconComment from "@/components/icons/IconComment"
 
-import { serviceComments } from "@/services"
+import { getComments } from "@/services"
 
 interface IProps {
   id: number
@@ -13,7 +13,7 @@ interface IProps {
 
 export const ButtonComments = ({ id, setExpandComment }: IProps) => {
   const { data: dataComments } = useQuery({
-    queryFn: () => serviceComments.get({ offer: id! }),
+    queryFn: () => getComments({ offer: id! }),
     queryKey: ["comments", { offerThreads: id! }],
     enabled: !!id,
   })

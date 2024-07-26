@@ -1,6 +1,4 @@
-import Link from "next/link"
 import type { ButtonHTMLAttributes, DetailedHTMLProps, InputHTMLAttributes, ReactNode } from "react"
-import React from "react"
 
 interface IInputData {
   label?: string
@@ -19,7 +17,5 @@ interface IButton {
 }
 
 export type TTypeInput = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & IInputData
-
 export type TTypeButton = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & IButton
-
 export type TTypeButtonLink = IButton

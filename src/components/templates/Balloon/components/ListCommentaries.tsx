@@ -4,15 +4,15 @@ import { Dispatch, memo, SetStateAction, useEffect, useMemo, useRef } from "reac
 import { ICommentsResponse } from "@/services/comments/types"
 
 import { ItemComment } from "./ItemComment"
-
-import { serviceComments } from "@/services"
 import { LoadingProfile } from "@/components/common"
+
+import { getComments } from "@/services"
 
 export function ListCommentaries({ expand, currentComments = [], setExpand, currentOffersThreadId }: IProps) {
   const refList = useRef<HTMLDivElement>(null)
 
   const { data: dataComments, isLoading } = useQuery({
-    queryFn: () => serviceComments.get({ offer: currentOffersThreadId }),
+    queryFn: () => getComments({ offer: currentOffersThreadId }),
     queryKey: ["comments", { offerThreads: currentOffersThreadId }],
     enabled: !!currentOffersThreadId,
     refetchOnMount: true,
