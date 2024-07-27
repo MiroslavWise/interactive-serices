@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import type { IProps } from "./types"
+import { EnumSign } from "@/types/enum"
 
 import { Button, ButtonClose } from "@/components/common"
 
@@ -20,7 +21,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
       return
     } else if (userId !== idUser) {
       if (!userId) {
-        dispatchAuthModal({ visible: true, type: "SignIn" })
+        dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
       } else if (!!userId) {
         push(`/chat?user=${idUser}`)
       }
@@ -60,7 +61,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
                 setVisible(false)
                 dispatchAuthModal({
                   visible: true,
-                  type: "SignIn",
+                  type: EnumSign.SignIn,
                 })
               }}
             />
@@ -73,7 +74,7 @@ export const ButtonCanHelp = ({ id, idUser }: IProps) => {
                 setVisible(false)
                 dispatchAuthModal({
                   visible: true,
-                  type: "SignUp",
+                  type: EnumSign.SignUp,
                 })
               }}
             />

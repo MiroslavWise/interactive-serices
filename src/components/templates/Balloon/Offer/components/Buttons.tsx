@@ -3,13 +3,14 @@ import { useRouter } from "next/navigation"
 import { useMemo, type ReactNode } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumSign } from "@/types/enum"
+import { EnumStatusBarter } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
 
-import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 import { getBarters } from "@/services"
-import { EnumStatusBarter } from "@/types/enum"
+import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 
 function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactNode }) {
   const { id } = offer ?? {}
@@ -21,7 +22,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
     if (!userId) {
       return dispatchAuthModal({
         visible: true,
-        type: "SignIn",
+        type: EnumSign.SignIn,
       })
     } else if (!!userId && userId !== offer?.userId) {
       return dispatchReciprocalExchange({
@@ -36,7 +37,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
     if (!userId) {
       dispatchAuthModal({
         visible: true,
-        type: "SignIn",
+        type: EnumSign.SignIn,
       })
       return
     } else if (!!userId && userId !== offer?.userId) {

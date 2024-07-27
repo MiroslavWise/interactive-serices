@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
+import { EnumSign } from "@/types/enum"
 import { TValidateSchemaPassword, resolverPassword } from "../utils/password.schema"
 
 import { Button } from "@/components/common"
@@ -43,7 +44,7 @@ export const ContentCreatePassword = () => {
   async function onEnter(values: TValidateSchemaPassword) {
     if (!loading) {
       setLoading(true)
-      if (type === "ResetPassword" && !!codeReset) {
+      if (type === EnumSign.ResetPassword && !!codeReset) {
         useForgotPasswordHelper
           .resetPassword({
             token: codeReset,
@@ -56,13 +57,13 @@ export const ContentCreatePassword = () => {
               on({
                 message: "Пароль успешно изменён. Вы можете войти на аккаунт!",
               })
-              dispatchAuthModal({ type: "SignIn" })
+              dispatchAuthModal({ type: EnumSign.SignIn, visible: true })
             } else {
               const errorMessage = response?.error?.message
               if (response?.error.code === 400) {
                 setError("password", { message: functionAuthErrors(errorMessage) })
                 return
-              } else if ([401 || 403].includes(response?.error?.code!)) {
+              } else if ([401 || 403].includes(response?.error?.code! as number)) {
                 on({ message: "Время восстановления пароля истекло" }, "warning")
                 handleReplace("/")
                 return

@@ -2,6 +2,8 @@
 
 import Image from "next/image"
 
+import { EnumSign } from "@/types/enum"
+
 import { Button } from "@/components/common"
 
 import { dispatchAuthModal, dispatchVisibleAbout } from "@/store"
@@ -25,7 +27,7 @@ export const BannerIsNoAuth = () => {
               onClick={() => {
                 dispatchAuthModal({
                   visible: true,
-                  type: "SignIn",
+                  type: EnumSign.SignIn,
                 })
               }}
             />
@@ -36,7 +38,7 @@ export const BannerIsNoAuth = () => {
               onClick={() => {
                 dispatchAuthModal({
                   visible: true,
-                  type: "SignUp",
+                  type: EnumSign.SignUp,
                 })
               }}
             />

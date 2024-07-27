@@ -1,6 +1,7 @@
 import { Controller, useForm } from "react-hook-form"
 import { DispatchWithoutAction, type ReactNode, useState } from "react"
 
+import { EnumSign } from "@/types/enum"
 import { resolverPhoneSigIn, TSchemaPhoneSignIn } from "../utils/phone-sign-in.schema"
 
 import { Button } from "@/components/common"
@@ -27,7 +28,7 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
     formState: { errors },
   } = useForm<TSchemaPhoneSignIn>({ defaultValues: { phone: "" }, resolver: resolverPhoneSigIn })
 
-  const onRegister = () => dispatchAuthModal({ type: "SignUp" })
+  const onRegister = () => dispatchAuthModal({ type: EnumSign.SignUp })
 
   const submit = handleSubmit(function (values) {
     if (!loading) {
@@ -38,7 +39,7 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
         if (response?.ok) {
           if (response.ok) {
             dispatchStartTimer()
-            dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id!, prevType: "SignIn" })
+            dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id!, prevType: EnumSign.SignIn })
           }
         } else {
           const errorMessage = response?.error?.message

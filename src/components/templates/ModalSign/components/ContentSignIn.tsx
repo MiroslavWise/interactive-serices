@@ -1,3 +1,5 @@
+import { EnumSign } from "@/types/enum"
+
 import { LinksSocial } from "./LinksSocial"
 import { SignInEmail } from "./SignInEmail"
 import { SignInPhone } from "./SignInPhone"
@@ -25,8 +27,13 @@ function ContentSignIn() {
       {typeEmailOrPhone === "email" ? (
         <SignInEmail
           itemForgot={
-            <div className={styles.RememberChange}>
-              <a onClick={() => dispatchAuthModal({ type: "ForgotPassword" })}>Забыли пароль?</a>
+            <div className="flex flex-col items-start justify-start w-full z-[3]">
+              <a
+                className="text-text-accent text-center text-sm font-medium cursor-pointer"
+                onClick={() => dispatchAuthModal({ type: EnumSign.ForgotPassword })}
+              >
+                Забыли пароль?
+              </a>
             </div>
           }
         >
@@ -40,7 +47,7 @@ function ContentSignIn() {
       <article data-column>
         <p>
           Нет аккаунта?&nbsp;
-          <a data-a-on-register-type onClick={() => dispatchAuthModal({ type: "SignUp" })}>
+          <a data-a-on-register-type onClick={() => dispatchAuthModal({ type: EnumSign.SignUp })}>
             Зарегистрироваться
           </a>
         </p>

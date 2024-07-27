@@ -2,6 +2,8 @@
 
 import { usePathname } from "next/navigation"
 
+import { EnumSign } from "@/types/enum"
+
 import { Button } from "@/components/common"
 import { dispatchAuthModal, dispatchNewServicesBanner, useAuth } from "@/store/hooks"
 
@@ -46,14 +48,14 @@ export const Buttons = () => {
             label="Зарегистрироваться"
             typeButton="regular-primary"
             className={styles.widthButton}
-            onClick={() => dispatchAuthModal({ visible: true, type: "SignUp" })}
+            onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })}
           />
           <Button
             type="button"
             label="Войти"
             typeButton="fill-primary"
             className={styles.widthButton}
-            onClick={() => dispatchAuthModal({ visible: true, type: "SignIn" })}
+            onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })}
           />
         </>
       )}

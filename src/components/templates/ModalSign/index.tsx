@@ -1,5 +1,7 @@
 "use client"
 
+import { EnumSign } from "@/types/enum"
+
 import HeaderAuth from "./components/Header"
 import ContentSignIn from "./components/ContentSignIn"
 import { ContentSignUp } from "./components/ContentSignUp"
@@ -19,23 +21,23 @@ function ModalSign() {
   return (
     <ul className="auth-ul p-0 pb-10 w-full gap-8 h-full overflow-hidden overflow-y-auto flex flex-col items-center z-[2] max-md:relative max-md:gap-[1.875rem]">
       <HeaderAuth />
-      {type === "SignIn" ? (
+      {type === EnumSign.SignIn ? (
         <ContentSignIn />
-      ) : type === "SignUp" ? (
+      ) : type === EnumSign.SignUp ? (
         <ContentSignUp />
-      ) : type === "CodeVerification" ? (
+      ) : type === EnumSign.CodeVerification ? (
         <ContentCodeVerification />
-      ) : type === "ForgotPassword" ? (
+      ) : type === EnumSign.ForgotPassword ? (
         <ContentForgotPassword />
-      ) : ["ResetPassword", "CreatePassword"].includes(type!) ? (
+      ) : [EnumSign.ResetPassword, EnumSign.CreatePassword].includes(type!) ? (
         <ContentCreatePassword />
-      ) : type === "ExistingAccount" ? (
+      ) : type === EnumSign.ExistingAccount ? (
         <ContentExistingAccount />
-      ) : type === "InformationEmailReset" ? (
+      ) : type === EnumSign.InformationEmailReset ? (
         <ContentInformationEmailReset />
-      ) : type === "InformationCreateAccount" ? (
+      ) : type === EnumSign.InformationCreateAccount ? (
         <ContentInformationCreateAccount />
-      ) : type === "CurrentUser" ? (
+      ) : type === EnumSign.CurrentUser ? (
         <ContentCurrentUser />
       ) : null}
     </ul>

@@ -2,12 +2,14 @@ import Link from "next/link"
 import { Controller, useForm } from "react-hook-form"
 import { type ReactNode, memo, useState } from "react"
 
+import { EnumSign } from "@/types/enum"
 import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.schema"
 
 import { Button } from "@/components/common"
 import InputCountry from "@/components/common/Forward/InputCountry"
 
-import { functionAuthErrors, serviceAuth } from "@/services/auth"
+import { cx } from "@/lib/cx"
+import { functionAuthErrors, serviceAuth } from "@/services"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useUTM } from "@/store"
 
 import styles from "../styles/form.module.scss"
@@ -21,16 +23,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
   const utm_campaign = useUTM(({ utm_campaign }) => utm_campaign)
   const utm_content = useUTM(({ utm_content }) => utm_content)
 
-  const {
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setFocus,
-    setError,
-    clearErrors,
-    control,
-    setValue,
-  } = useForm<TSchemaPhoneSignUp>({
+  const { handleSubmit, watch, setError, control, setValue } = useForm<TSchemaPhoneSignUp>({
     defaultValues: {
       phone: phone,
     },
@@ -70,7 +63,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
           console.log("response: ", response)
           if (response.ok) {
             dispatchStartTimer()
-            dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id!, prevType: "SignUp" })
+            dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id!, prevType: EnumSign.SignUp })
           } else {
             const errorMessage = response?.error?.message
             setError("phone", { message: functionAuthErrors(errorMessage) })
@@ -103,21 +96,47 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
           )}
         />
       </section>
-      <div className={styles.RememberChange}>
+      <div className={cx("flex flex-col items-start justify-start w-full z-[3]", "*:flex *:flex-row *:gap-2")}>
         <Controller
           name="agree"
           control={control}
           render={({ field, fieldState }) => (
-            <div className={styles.checkRemember}>
-              <label className={styles.checkbox} data-check={!!field.value}>
-                <input type="checkbox" onClick={() => setValue(field.name, !field.value)} />
-                <span className={styles.checkmark}>
-                  <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
+            <div>
+              <label className={cx("h-5 w-5 mt-3 relative")}>
+                <input
+                  type="checkbox"
+                  onClick={() => setValue(field.name, !field.value)}
+                  className={cx("absolute opacity-0 inset-0 cursor-pointer z-[100]")}
+                />
+                <span
+                  className={cx(
+                    "relative flex items-center justify-center w-4 h-4 border border-solid bg-BG-second cursor-pointer rounded-[0.25rem] transition-all",
+                    !!field.value ? "border-text-accent bg-text-accent" : "border-text-accent",
+                  )}
+                >
+                  <img
+                    src="/svg/check-white.svg"
+                    alt="check"
+                    width={16}
+                    height={16}
+                    className={cx("w-3 h-3 transition-all", !!field.value ? "opacity-100" : "opacity-0")}
+                  />
                 </span>
               </label>
-              <p data-terms data-error={!!fieldState.error}>
+              <p
+                className={cx(
+                  "text-text-primary text-sm font-medium text-left my-3",
+                  !!fieldState.error ? "text-text-error *:text-text-error" : "text-text-primary",
+                )}
+              >
                 Даю согласие на обработку персональных данных в соответствии с&nbsp;
-                <Link href={{ pathname: "/legal/privacy-policy/" }} target="_blank" rel="license" referrerPolicy="no-referrer">
+                <Link
+                  href={{ pathname: "/legal/privacy-policy/" }}
+                  target="_blank"
+                  rel="license"
+                  referrerPolicy="no-referrer"
+                  className="text-text-accent cursor-pointer"
+                >
                   Политикой конфиденциальности
                 </Link>
               </p>
@@ -128,16 +147,36 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
           name="marketing"
           control={control}
           render={({ field, fieldState }) => (
-            <div className={styles.checkRemember}>
-              <label className={styles.checkbox} data-check={!!field.value}>
-                <input type="checkbox" onClick={() => setValue(field.name, !field.value)} />
-                <span className={styles.checkmark}>
-                  <img src="/svg/check-white.svg" alt="check" width={16} height={16} data-visible={!!field.value} />
+            <div>
+              <label className={cx("h-5 w-5 mt-3 relative")}>
+                <input
+                  type="checkbox"
+                  onClick={() => setValue(field.name, !field.value)}
+                  className={cx("absolute opacity-0 inset-0 cursor-pointer z-[100]")}
+                />
+                <span
+                  className={cx(
+                    "relative flex items-center justify-center w-4 h-4 border border-solid bg-BG-second cursor-pointer rounded-[0.25rem] transition-all",
+                    !!field.value ? "border-text-accent bg-text-accent" : "border-text-accent",
+                  )}
+                >
+                  <img
+                    src="/svg/check-white.svg"
+                    alt="check"
+                    width={16}
+                    height={16}
+                    className={cx("w-3 h-3 transition-all", !!field.value ? "opacity-100" : "opacity-0")}
+                  />
                 </span>
               </label>
-              <p data-terms data-error={!!fieldState.error}>
+              <p
+                className={cx(
+                  "text-text-primary text-sm font-medium text-left my-3",
+                  !!fieldState.error ? "text-text-error *:text-text-error" : "text-text-primary",
+                )}
+              >
                 Даю согласие на&nbsp;
-                <Link href={{ pathname: "/legal/ads-agreement" }} target="_blank">
+                <Link href={{ pathname: "/legal/ads-agreement" }} target="_blank" className="text-text-accent cursor-pointer">
                   маркетинговые коммуникации
                 </Link>
               </p>

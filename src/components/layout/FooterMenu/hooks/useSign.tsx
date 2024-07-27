@@ -1,4 +1,6 @@
-import { dispatchAuthModal, useAuth } from "@/store/hooks"
+import { EnumSign } from "@/types/enum"
+
+import { dispatchAuthModal, useAuth } from "@/store"
 
 export const useSign = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -7,7 +9,7 @@ export const useSign = () => {
     if (!isAuth && typeof isAuth !== "undefined") {
       dispatchAuthModal({
         visible: true,
-        type: "SignUp",
+        type: EnumSign.SignUp,
       })
     }
   }

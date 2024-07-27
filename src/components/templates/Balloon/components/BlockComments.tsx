@@ -67,7 +67,7 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
         setExpand={setExpandComment}
         currentOffersThreadId={threadId!}
       />
-      {!!userId ? <FormAppendComment idOffersThread={threadId!} setCurrentComments={setCurrentComments} /> : null}
+      <FormAppendComment idOffersThread={threadId!} setCurrentComments={setCurrentComments} />
     </div>
   )
 }

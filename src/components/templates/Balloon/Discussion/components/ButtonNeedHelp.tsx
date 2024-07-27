@@ -1,6 +1,8 @@
 import { useRouter } from "next/navigation"
 import { type DispatchWithoutAction } from "react"
 
+import { EnumSign } from "@/types/enum"
+
 import { dispatchAuthModal, useAuth } from "@/store"
 
 import styles from "../styles/button-need-help.module.scss"
@@ -14,7 +16,7 @@ export const ButtonNeedHelp = ({ idUser, close }: { idUser: number; close: Dispa
       return
     } else if (userId !== idUser) {
       if (!userId) {
-        dispatchAuthModal({ visible: true, type: "SignIn" })
+        dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
       } else if (!!userId) {
         push(`/chat?user=${idUser}`)
       }

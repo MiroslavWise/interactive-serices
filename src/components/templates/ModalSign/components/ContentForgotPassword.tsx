@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 
+import { EnumSign } from "@/types/enum"
 import type { TContentForgotPassword } from "../types/types"
 import { resolverForgotPassword, TSchemaForgotPassword } from "../utils/forgot-password.schema"
 
@@ -30,7 +31,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
         .then((response) => {
           if (response.ok && !!response?.res) {
             dispatchAuthModal({
-              type: "InformationEmailReset",
+              type: EnumSign.InformationEmailReset,
               email: values.email,
             })
           } else {
@@ -70,7 +71,7 @@ export const ContentForgotPassword: TContentForgotPassword = () => {
       <article data-column>
         <p>
           Уже есть аккаунт?&nbsp;
-          <a onClick={() => dispatchAuthModal({ type: "SignIn" })} data-test="forgot-password-enter">
+          <a onClick={() => dispatchAuthModal({ type: EnumSign.SignIn })} data-test="forgot-password-enter">
             Войти
           </a>
         </p>

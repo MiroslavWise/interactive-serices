@@ -1,11 +1,12 @@
 import { Controller, useForm } from "react-hook-form"
 import { type Dispatch, memo, type SetStateAction, useEffect, useRef, useState } from "react"
 
+import { EnumSign } from "@/types/enum"
 import { type IUserOffer } from "@/services/offers/types"
 import { type ICommentsResponse, type IPostDataComment } from "@/services/comments/types"
 
-import { dispatchAuthModal, useAuth } from "@/store"
 import { postComment } from "@/services"
+import { dispatchAuthModal, useAuth } from "@/store"
 
 interface IProps {
   idOffersThread: number
@@ -55,8 +56,8 @@ export const FormAppendComment = memo(({ idOffersThread, setCurrentComments }: I
     image: profile?.image,
   }
 
-  const onSubmit = handleSubmit(function (values) {
-    if (!loading) {
+  const onSubmit = handleSubmit((values) => {
+    if (!loading && !!userId) {
       setLoading(true)
       if (!!values?.text?.trim()) {
         const data: IPostDataComment = {
@@ -96,7 +97,7 @@ export const FormAppendComment = memo(({ idOffersThread, setCurrentComments }: I
             onClick={() => {
               dispatchAuthModal({
                 visible: true,
-                type: "SignUp",
+                type: EnumSign.SignUp,
               })
             }}
           >

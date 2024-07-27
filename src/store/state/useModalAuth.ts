@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
+import { EnumSign } from "@/types/enum"
 import type {
   IUseVisibleAndTypeAuthModalState,
   IAction,
@@ -9,7 +10,6 @@ import type {
   IUseModalAuthEmailOrPhone,
   TTypeEmailOrNumber,
   IActionAuthModalVerification,
-  TTypeSign,
 } from "../types/useVisibleAndTypeAuthModalState"
 import { IUserResponse } from "@/services/users/types"
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
@@ -61,14 +61,14 @@ export const dispatchAuthModal = ({ visible, type, email }: IAction) => {
 export const dispatchAuthModalResetPassword = (value: string) => {
   dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
-    type: "ResetPassword",
+    type: EnumSign.ResetPassword,
     codeReset: value,
   }))
 }
 export const dispatchAuthModalInformationCreateAccount = (value: string) => {
   dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
-    type: "InformationCreateAccount",
+    type: EnumSign.InformationCreateAccount,
     email: value,
   }))
 }
@@ -76,7 +76,7 @@ export const dispatchAuthModalInformationCreateAccount = (value: string) => {
 export const dispatchAuthModalCreatePassword = ({ email, phone, agree, marketing }: IActionCreatePassword) => {
   dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
-    type: "CreatePassword",
+    type: EnumSign.CreatePassword,
     email: email,
     phone: phone,
     agree,
@@ -88,7 +88,7 @@ export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionA
   dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
     verification: { confirmationCode, id },
-    type: "CodeVerification",
+    type: EnumSign.CodeVerification,
   }))
 }
 
@@ -109,7 +109,7 @@ export const dispatchAuthModalCurrentUser = ({ user }: { user?: IUserResponse })
     dispatchModalClose()
   }
   useModalAuth.setState((_) => ({
-    type: !!user ? "CurrentUser" : null,
+    type: !!user ? EnumSign.CurrentUser : null,
     user: user,
   }))
 }
@@ -121,13 +121,13 @@ export const dispatchAuthModalCodeVerification = ({
 }: {
   phone: string
   idUser: number | string
-  prevType: TTypeSign
+  prevType: EnumSign | null
 }) => {
   dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
     phone: phone,
     idUser: idUser,
-    type: "CodeVerification",
+    type: EnumSign.CodeVerification,
     prevType: prevType,
   }))
 }
