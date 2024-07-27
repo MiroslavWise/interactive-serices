@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
+import IconMap from "@/components/icons/IconMap"
 import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
 
@@ -17,16 +18,14 @@ import {
 } from "@/store"
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
-import { encryptedOffer } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
-import IconMap from "@/components/icons/IconMap"
 
 const LABEL_MAP = "Показать на карте"
 const LABEL_SHARE = "Поделиться"
 const LABEL_COMPLAIN = "Пожаловаться"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
-  const { user, id, addresses, title } = offer ?? {}
+  const { user, id, addresses, title, slug } = offer ?? {}
   const { onSimpleMessage } = useToast()
   const pathname = usePathname()
 
@@ -91,8 +90,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         aria-label={LABEL_SHARE}
         aria-labelledby={LABEL_SHARE}
         onClick={(event) => {
-          const hash = encryptedOffer(id)
-          const url = `${env.server.host}/offer/${hash}`
+          const url = `${env.server.host}/offer/${id}/${String(slug).replaceAll("/", "-")}`
           if (!!window.navigator.share!) {
             navigator.share({
               title: title!,

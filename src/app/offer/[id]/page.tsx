@@ -3,12 +3,10 @@ import { redirect } from "next/navigation"
 import RedirectOffer from "./components/RedirectOffer"
 
 import { getIdOffer } from "@/services"
-import { decryptedOffer } from "@/helpers/cript"
 
-export default async ({ params }: { params: { hash: string } }) => {
-  const { hash } = params ?? {}
-
-  const id = decryptedOffer(hash)
+export default async ({ params }: { params: { id: string } }) => {
+  const { id } = params ?? {}
+  if (!id) return redirect("/")
 
   const { data: offer } = await getIdOffer(id)
 

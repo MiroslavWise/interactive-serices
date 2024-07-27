@@ -5,13 +5,11 @@ import { MobileOfferSegment } from "@/components/common/Card/MobileOfferSegment"
 import { OFFERS_CARD } from "./constants"
 import { useVisibleExchanges } from "@/store"
 
-import styles from "./styles/style.module.scss"
-
 export const MobileSegments: TMobileSegments = () => {
   const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
 
   return (
-    <ul className={styles.containerOffersCardMobile}>
+    <ul className="w-full inline-flex gap-4 !z-[3]">
       {OFFERS_CARD.map((item) => (
         <MobileOfferSegment
           key={`${item.value}_card_offer`}

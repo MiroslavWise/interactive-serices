@@ -2,12 +2,10 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
 import { getUserId } from "@/services"
-import { decryptedUser } from "@/helpers/cript"
 
-export const generateMetadata = async ({ params }: { params: { "hash-user": string } }): Promise<Metadata> => {
-  const { "hash-user": hash } = params ?? {}
-  if (!hash) return {}
-  const id = decryptedUser(hash)
+export const generateMetadata = async ({ params }: { params: { id: string | number } }): Promise<Metadata> => {
+  const { id } = params ?? {}
+  if (!id) return {}
   const { data } = await getUserId(id)
   if (!data) return {}
 

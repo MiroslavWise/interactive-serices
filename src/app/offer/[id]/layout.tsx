@@ -5,13 +5,10 @@ import { EnumTypeProvider } from "@/types/enum"
 
 import env from "@/config/environment"
 import { getIdOffer } from "@/services"
-import { decryptedOffer } from "@/helpers/cript"
 
-export async function generateMetadata({ params }: { params: { hash: string } }): Promise<Metadata> {
-  const hash = params?.hash
-
-  const id = decryptedOffer(hash)
-
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const { id } = params ?? {}
+  if (!id) return {}
   const { data: offer } = await getIdOffer(id)
 
   const obj: Metadata = {}
@@ -28,7 +25,7 @@ export async function generateMetadata({ params }: { params: { hash: string } })
       obj.openGraph = {
         type: "website",
         locale: "ru",
-        url: `${env.server.host}/offer/${hash}`,
+        url: `${env.server.host}/offer/${id}/${String(offer.slug).replaceAll("/", "-")}`,
         images: offer.images[0]?.attributes?.url!,
       }
       obj.twitter = {

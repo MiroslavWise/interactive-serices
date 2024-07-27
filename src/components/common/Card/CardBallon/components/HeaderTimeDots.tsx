@@ -10,7 +10,6 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
-import { encryptedOffer } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchComplaintModalOffer } from "@/store"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
@@ -56,8 +55,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             aria-label={TITLE_SHARE}
             aria-labelledby={TITLE_SHARE}
             onClick={(event) => {
-              const hash = encryptedOffer(offer.id)
-              const url = `${env.server.host}/offer/${hash}`
+              const url = `${env.server.host}/offer/${offer.id}/${String(offer.slug).replaceAll("/", "-")}`
               if (!!window.navigator.share!) {
                 navigator.share({
                   title: offer.title!,

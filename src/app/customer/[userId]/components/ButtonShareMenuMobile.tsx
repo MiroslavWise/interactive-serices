@@ -5,7 +5,6 @@ import { type IUserResponse } from "@/services/users/types"
 import IconShare from "@/components/icons/IconShare"
 
 import env from "@/config/environment"
-import { encryptedUser } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchCloseMenuMobileOnUser } from "@/store"
 
@@ -16,8 +15,7 @@ function ButtonShareMenuMobile({ user }: { user: IUserResponse }) {
   const { onSimpleMessage } = useToast()
 
   function handle() {
-    const hashUser = encryptedUser(id)
-    const linkUser = `/user/${hashUser}`
+    const linkUser = `/user/${id}/${String(profile?.username || "").replaceAll("/", "_") || "пользователь"}`
     const url = `${env.server.host}${linkUser}`
     if (!!window.navigator.share!) {
       navigator.share({

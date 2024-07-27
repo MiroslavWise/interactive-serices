@@ -98,7 +98,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
               </label>
               <p
                 className={cx(
-                  "text-text-primary text-sm font-medium text-left my-3",
+                  "text-text-primary text-sm font-medium !text-left my-3",
                   !!fieldState.error ? "text-text-error *:text-text-error" : "text-text-primary",
                 )}
               >
@@ -144,7 +144,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
               </label>
               <p
                 className={cx(
-                  "text-text-primary text-sm font-medium text-left my-3",
+                  "text-text-primary text-sm font-medium !text-left my-3",
                   !!fieldState.error ? "text-text-error *:text-text-error" : "text-text-primary",
                 )}
               >

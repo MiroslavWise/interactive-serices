@@ -9,6 +9,7 @@ import type { TContainerOffersNow } from "./types/types"
 import { LoadingBarters } from "@/components/common"
 import { CardOffer } from "@/components/common/Card/Offer"
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { getBarterUserIdReceiver } from "@/services"
 
@@ -32,8 +33,8 @@ export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
   }, [data])
 
   return (
-    <section className={styles.containerOffersNow}>
-      <ul>
+    <section className={cx(styles.containerOffersNow, "w-full h-full z-[3]")}>
+      <ul className="w-full grid gap-4 grid-cols-2 pb-5 overflow-y-auto z-[3] max-md:h-full max-md:flex max-md:flex-col max-md:gap-3 max-md:overflow-y-visible">
         {isLoading
           ? [1, 2, 3].map((_) => <LoadingBarters key={`::item::load${_}::`} />)
           : Array.isArray(data?.res) &&

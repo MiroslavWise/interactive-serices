@@ -6,7 +6,6 @@ import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
-import { encryptedUser } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchComplaintModalUser } from "@/store"
 
@@ -37,8 +36,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
         label="Поделиться"
         className="bg-btn-second-default !h-9 py-0.375 px-4 [&>span]:text-sm !rounded-[1.125rem]"
         onClick={() => {
-          const hashUser = encryptedUser(id)
-          const linkUser = `/user/${hashUser}`
+          const linkUser = `/user/${id}/${String(profile?.username || "").replaceAll("/", "_") || "пользователь"}`
           const url = `${env.server.host}${linkUser}`
           if (!!window.navigator.share!) {
             navigator.share({

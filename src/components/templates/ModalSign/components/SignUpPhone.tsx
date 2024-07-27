@@ -125,7 +125,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
               </label>
               <p
                 className={cx(
-                  "text-text-primary text-sm font-medium text-left my-3",
+                  "text-text-primary text-sm font-medium !text-left my-3",
                   !!fieldState.error ? "text-text-error *:text-text-error" : "text-text-primary",
                 )}
               >
@@ -171,7 +171,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
               </label>
               <p
                 className={cx(
-                  "text-text-primary text-sm font-medium text-left my-3",
+                  "text-text-primary text-sm font-medium !text-left my-3",
                   !!fieldState.error ? "text-text-error *:text-text-error" : "text-text-primary",
                 )}
               >
