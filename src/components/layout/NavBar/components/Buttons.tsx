@@ -38,13 +38,6 @@ export const Buttons = () => {
         <>
           <Button
             type="button"
-            typeButton="regular-primary"
-            label="Скачать приложение"
-            className="w-min"
-            onClick={() => dispatchDownloadApplication(true)}
-          />
-          <Button
-            type="button"
             label="Зарегистрироваться"
             typeButton="regular-primary"
             className={styles.widthButton}
