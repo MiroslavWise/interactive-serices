@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 
+import { EnumSign } from "@/types/enum"
 import { type IUserResponse } from "@/services/users/types"
 
 import ButtonMenuMobile from "./ButtonMenuMobile"
@@ -13,7 +14,7 @@ import IconCheckAccent from "@/components/icons/IconCheckAccent"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
+import { dispatchAuthModal, useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getFiendId, getFriends, serviceFriends } from "@/services"
 
@@ -64,6 +65,13 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
   const isLoadingAll = isLoadingRequest || isLoadingResponse || isFetching
 
   function handleOnFriends() {
+    if (!userId) {
+      dispatchAuthModal({
+        visible: true,
+        type: EnumSign.SignIn,
+      })
+      return
+    }
     if (user?.id! !== userId! && userId) {
       if (!loading) {
         setLoading(true)

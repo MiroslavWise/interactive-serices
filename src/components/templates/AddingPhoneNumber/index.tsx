@@ -76,8 +76,8 @@ export const AddingPhoneNumber = () => {
                 <label className="text-text-primary text-sm font-medium">Номер телефона</label>
                 <InputCountry
                   {...field}
-                  replaceValue={() => {
-                    field.onChange("")
+                  replaceValue={(value) => {
+                    field.onChange(value)
                   }}
                 />
                 {!!errors?.phone?.message ? <i className="font-medium not-italic text-xs text-left">{errors?.phone?.message}</i> : null}

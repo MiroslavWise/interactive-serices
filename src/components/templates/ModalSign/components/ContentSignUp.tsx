@@ -1,5 +1,6 @@
 "use client"
 
+import { EnumSign } from "@/types/enum"
 import type { TContentSignUp } from "../types/types"
 
 import { LinksSocial } from "./LinksSocial"
@@ -38,7 +39,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
       <article data-column>
         <p>
           Уже есть аккаунт?&nbsp;
-          <a data-a-on-sign-in-type onClick={() => dispatchAuthModal({ type: "SignIn" })}>
+          <a data-a-on-sign-in-type onClick={() => dispatchAuthModal({ type: EnumSign.SignIn })}>
             Войти
           </a>
         </p>

@@ -1,9 +1,7 @@
 import type { IServiceComplains } from "./types"
 
-import { wrapperPost } from ".."
+import { post } from ".."
 
 const url = "/complains"
 
-export const serviceComplains: IServiceComplains = {
-  post: (body) => wrapperPost({ url, body }),
-}
+export const postComplain: IServiceComplains["post"] = (body) => post({ url, body })

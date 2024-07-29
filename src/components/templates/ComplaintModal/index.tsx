@@ -3,13 +3,13 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
-import type { IValuesForm } from "./types/types"
-import type { IPostComplains } from "@/services/complains/types"
+import { type IValuesForm } from "./types/types"
+import { type IPostComplains } from "@/services/complains/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { Button } from "@/components/common"
 
-import { serviceComplains } from "@/services"
+import { postComplain } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
 import { dispatchComplaintModalOffer, dispatchComplaintModalUser, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
@@ -47,7 +47,7 @@ export default function ComplaintModal() {
         provider: EnumTypeProvider.profile,
       }
 
-      serviceComplains.post(valuesData).then((response) => {
+      postComplain(valuesData).then((response) => {
         console.log("%c response: serviceComplains: ", "color: green", response)
         reset()
         handleClose()

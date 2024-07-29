@@ -8,12 +8,13 @@ import type { IValuesCategories, IMainAndSubCategories } from "./types/types"
 
 import { Button } from "@/components/common"
 import { ItemCategory } from "./components/ItemCategory"
+import ItemCategorySearch from "./components/ItemCategorySearch"
 
+import { cx } from "@/lib/cx"
 import { getOffersCategories, getUserId, patchUser } from "@/services"
 import { dispatchChangeService, useAuth, useChangeService } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import ItemCategorySearch from "./components/ItemCategorySearch"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)
@@ -105,9 +106,23 @@ export const ChangeService = () => {
   }
 
   return (
-    <div className={styles.wrapper} data-active={visible} data-blur-modal>
-      <section data-test="section-change-service">
-        <header data-test="header-change-service">
+    <div
+      className={cx(
+        styles.wrapper,
+        "fixed inset-0 flex-col items-center p-0 md:p-[1.875rem]",
+        visible ? "z-[1002] visible opacity-100 flex" : "-z-10 opacity-0 invisible hidden",
+      )}
+      data-active={visible}
+      data-blur-modal
+    >
+      <section
+        data-test="section-change-service"
+        className="w-full md:max-w-[41.875rem] overflow-hidden relative z-10 h-full rounded-none md:rounded-[2rem] bg-BG-second flex flex-col"
+      >
+        <header
+          data-test="header-change-service"
+          className="pt-5 md:pt-6 pr-0 pb-4 md:pb-5 pl-5 md:pl-6 w-full md:rounded-t-[2rem] h-[4.25rem] md:h-[4.75rem] flex flex-row items-center justify-start gap-2"
+        >
           <a
             onClick={(event) => {
               event.stopPropagation()
@@ -117,10 +132,14 @@ export const ChangeService = () => {
           >
             <img src="/svg/arrow-left.svg" alt="<=" width={24} height={24} />
           </a>
-          <h2>Добавить услуги</h2>
+          <h2 className="text-text-primary text-center text-2xl font-semibold">Добавить услуги</h2>
         </header>
-        <ul>
-          <form className={styles.form} onSubmit={onSubmit} data-test="form-change-service">
+        <ul className=" overflow-x-hidden overflow-y-auto h-[calc(100%_-_4.25rem)] md:h-[calc(100%_-_4.75rem)]">
+          <form
+            className={cx(styles.form, "w-full h-full flex flex-col gap-6 overflow-x-hidden overflow-y-auto p-5")}
+            onSubmit={onSubmit}
+            data-test="form-change-service"
+          >
             <span>
               Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.
             </span>

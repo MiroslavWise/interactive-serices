@@ -24,7 +24,34 @@ export const viewport: Viewport = {
 }
 
 export function generateMetadata(): Metadata {
+  const urlIcon = "/icons/icon.png"
+  const APPLE_URL =
+    "https://apps.apple.com/ru/app/sheira-%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8-%D0%B8-%D0%BE%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F/id6504366029"
+  const APPLE_ID = "6504366029"
+  const APPLE_NAME = "Sheira: услуги и обсуждения"
+
   const meta: Metadata = {
+    appLinks: {
+      ios: {
+        url: APPLE_URL,
+        app_store_id: APPLE_ID,
+        app_name: APPLE_NAME,
+      },
+      ipad: {
+        url: APPLE_URL,
+        app_store_id: APPLE_ID,
+        app_name: APPLE_NAME,
+      },
+      iphone: {
+        url: APPLE_URL,
+        app_store_id: APPLE_ID,
+        app_name: APPLE_NAME,
+      },
+    },
+    itunes: {
+      appId: APPLE_ID,
+      appArgument: APPLE_URL,
+    },
     title: {
       default: "Sheira",
       template: "%s | Sheira",
@@ -46,10 +73,10 @@ export function generateMetadata(): Metadata {
       locale: "ru",
       url: env.server.host!,
       siteName: "Sheira",
-      images: "/icons/icon.png",
+      images: urlIcon,
     },
     twitter: {
-      images: "/icons/icon.png",
+      images: urlIcon,
     },
     robots: {
       index: true,
@@ -62,7 +89,7 @@ export function generateMetadata(): Metadata {
       },
     },
     icons: {
-      icon: "/icons/icon.png",
+      icon: urlIcon,
     },
   }
 

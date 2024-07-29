@@ -1,24 +1,11 @@
-import type { IUserResponse } from "@/services/users/types"
 import { z } from "zod"
 
-export type TTypeSign =
-  | "SignIn"
-  | "SignUp"
-  | "SelectVerification"
-  | "ForgotPassword"
-  | "ResetPassword"
-  | "CodeVerification"
-  | "CreatePassword"
-  | "ExistingAccount"
-  | "InformationEmailReset"
-  | "InformationCreateAccount"
-  | "CurrentUser"
-  | "NumberConfirmation"
-  | null
+import { EnumSign } from "@/types/enum"
+import { type IUserResponse } from "@/services/users/types"
 
 export interface IAction {
   visible?: boolean
-  type?: TTypeSign
+  type?: EnumSign | null
   email?: string
 }
 
@@ -29,8 +16,8 @@ export interface IActionCreatePassword {
   marketing: boolean
 }
 export interface IUseVisibleAndTypeAuthModalState {
-  type: TTypeSign
-  prevType: TTypeSign
+  type: EnumSign | null
+  prevType: EnumSign | null
   email?: string
   agree?: boolean
   marketing?: boolean

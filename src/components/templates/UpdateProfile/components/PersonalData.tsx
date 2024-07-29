@@ -43,8 +43,10 @@ export const PersonalData = () => {
     enabled: !!userId,
   })
 
+  const { data: res } = data ?? {}
+  const { profile } = res ?? {}
+
   const {
-    register,
     watch,
     setValue,
     setError,
@@ -52,16 +54,15 @@ export const PersonalData = () => {
     trigger,
     control,
     clearErrors,
-    formState: { errors, disabled },
+    formState: { errors },
   } = useForm<TSchemaUpdateForm>({
-    defaultValues: {},
+    defaultValues: {
+      username: profile?.username ?? "",
+      firstName: profile?.firstName ?? "",
+      lastName: profile?.lastName ?? "",
+    },
     resolver: resolverUpdateForm,
   })
-
-  console.log("%c ---PersonalData errors: ---", "color: red; font-size: 10px", errors)
-
-  const { data: res } = data ?? {}
-  const { profile } = res ?? {}
 
   const image = profile?.image?.attributes?.url
 
@@ -209,7 +210,7 @@ export const PersonalData = () => {
                   placeholder="Придумайте ник"
                   {...field}
                   onChange={(event) => {
-                    field.onChange(event)
+                    field.onChange(event.target.value.replaceAll("/", ""))
                     trigger(field.name)
                   }}
                   data-error={!!error}

@@ -3,17 +3,19 @@
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
+import { EnumSign } from "@/types/enum"
+
 import { resolverCodeVerification, TSchemaCodeVerification } from "../utils/code-verification.schema"
 
 import { TimerData } from "./TimerData"
-import { queryClient } from "@/context"
 import { Button } from "@/components/common"
 
-import { getUser, serviceAuth } from "@/services"
+import { serviceAuth } from "@/services"
 import { useReplacePathName } from "../hooks/replace-path-name"
-import { dispatchAuthModal, dispatchAuthToken, dispatchOnboarding, useModalAuth } from "@/store"
+import { dispatchAuthModal, dispatchAuthToken, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
+import { cx } from "@/lib/cx"
 
 export const ContentCodeVerification = ({}) => {
   const [loading, setLoading] = useState(false)
@@ -29,7 +31,7 @@ export const ContentCodeVerification = ({}) => {
   function handleChange() {
     dispatchAuthModal({
       visible: true,
-      type: prevType || "SignUp",
+      type: prevType || EnumSign.SignUp,
     })
   }
 
@@ -62,7 +64,7 @@ export const ContentCodeVerification = ({}) => {
   }
 
   return (
-    <div className={styles.content}>
+    <div className={cx(styles.content, "flex flex-col items-center gap-[1.875rem] md:max-w-[23.125rem] w-full max-md:px-5")}>
       <article data-column>
         <p>Отправили проверочный код на номер</p>
         <b>

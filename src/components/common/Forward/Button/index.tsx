@@ -1,16 +1,16 @@
 "use client"
 
 import Link from "next/link"
-import { LegacyRef, forwardRef } from "react"
+import { type LegacyRef, forwardRef } from "react"
 
-import type { TTypeButton, TTypeButtonLink } from "../types/types"
-
-import { cx } from "@/lib/cx"
+import { type TTypeButton, type TTypeButtonLink } from "../types/types"
 
 import IconSpinner from "@/components/icons/IconSpinner"
 
+import { cx } from "@/lib/cx"
+
 export const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HTMLButtonElement>) {
-  const { loading, label, suffixIcon, prefixIcon, typeButton, className, title, ...rest } = props ?? {}
+  const { loading, label, suffixIcon, prefixIcon, typeButton = "fill-primary", className, title, ...rest } = props ?? {}
 
   return (
     <button

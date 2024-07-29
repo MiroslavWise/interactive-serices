@@ -1,10 +1,12 @@
+import Link from "next/link"
 import { useMemo } from "react"
 
-import { IResponseOffers } from "@/services/offers/types"
+import { type IResponseOffers } from "@/services/offers/types"
+
 import IconMapWhite from "@/components/icons/IconMapWhite"
-import Link from "next/link"
-import { dispatchMapCoordinates } from "@/store"
 import IconArrowRight from "@/components/icons/IconArrowRight"
+
+import { dispatchMapCoordinates } from "@/store"
 
 function GeoData({ offer }: { offer: IResponseOffers }) {
   const geo = useMemo(() => {

@@ -7,6 +7,21 @@ export enum EnumTypeProvider {
   threads = "threads",
 }
 
+export enum EnumSign {
+  SignIn = "sign-in",
+  SignUp = "sign-up",
+  SelectVerification = "select-verification",
+  ForgotPassword = "forgot-password",
+  ResetPassword = "reset-password",
+  CodeVerification = "code-verification",
+  CreatePassword = "create-password",
+  ExistingAccount = "existing-account",
+  InformationEmailReset = "information-email-reset",
+  InformationCreateAccount = "information-create-account",
+  CurrentUser = "current-user",
+  NumberConfirmation = "number-confirmation",
+}
+
 export enum EnumStatusBarter {
   INITIATED = "initiated",
   EXECUTED = "executed",

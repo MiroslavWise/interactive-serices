@@ -1,11 +1,7 @@
-import type { ICommentsService } from "./types"
-import { get, wrapperPost, wrapperPatch } from "../request"
+import { type ICommentsService } from "./types"
+import { wrapperPost, fetchGet } from "../request"
 
 const url = "/comments"
 
-export const serviceComments: ICommentsService = {
-  get: (query) => get({ url, query }),
-  getId: (id) => get({ url: `${url}/${id}` }),
-  post: (body) => wrapperPost({ url, body }),
-  patch: (body, id) => wrapperPatch({ url, body, id }),
-}
+export const getComments: ICommentsService["get"] = (query) => fetchGet({ url, query })
+export const postComment: ICommentsService["post"] = (body) => wrapperPost({ url, body })

@@ -6,10 +6,9 @@ import { EnumStatusBarter } from "@/types/enum"
 import { NextImageMotion } from "@/components/common"
 import { IconChevron } from "@/components/icons/IconChevron"
 
-import { getBarterUserIdReceiver, getUserId } from "@/services"
+import { cx } from "@/lib/cx"
 import { dispatchInitiatedBarter, useAuth } from "@/store"
-
-import styles from "../styles/header-exchange-offers.module.scss"
+import { getBarterUserIdReceiver, getUserId } from "@/services"
 
 export const HeaderExchangeOffers = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -47,43 +46,51 @@ export const HeaderExchangeOffers = () => {
   const length = data?.res?.length || 0
 
   return (
-    <section className={styles.container}>
-      <div data-header>
-        <h3>Предложения обменов</h3>
+    <section className="w-full p-4 rounded-2xl bg-BG-second flex flex-col gap-2.5">
+      <div className="flex items-center justify-between gap-1">
+        <h3 className="text-text-primary text-lg font-semibold">Предложения обменов</h3>
         <a
           onClick={(event) => {
             event.stopPropagation()
             dispatchInitiatedBarter(true)
           }}
+          className="flex items-center justify-end gap-2 cursor-pointer [&>svg]:w-4 [&>svg]:h-4"
         >
-          <span>Все ({length})</span>
+          <span className="text-text-accent text-sm font-medium">Все ({length})</span>
           {length ? null : <IconChevron />}
         </a>
       </div>
       {length ? (
-        <div data-availability>
-          <p>
-            У вас{" "}
+        <div className="w-full flex flex-col gap-[0.3175rem]">
+          <p className="text-text-primary text-sm font-normal">
+            У вас&nbsp;
             <a
               onClick={(event) => {
                 event.stopPropagation()
                 dispatchInitiatedBarter(true)
               }}
+              className="text-text-accent cursor-pointer"
             >
               {length} новых
-            </a>{" "}
-            предложения
+            </a>
+            &nbsp;предложения
           </p>
-          <div data-avatars>
+          <div className="w-full flex items-center justify-start">
             {images.map((item, index) => (
-              <div data-avatar={index !== 0} key={`::key::${item}::`}>
-                <NextImageMotion src={item!} alt="avatar" width={28} height={28} />
+              <div
+                key={`::key::${item}::`}
+                className={cx(
+                  "w-8 h-8 p-0.5 rounded-full bg-BG-second flex items-center justify-center relative",
+                  index !== 0 && "-ml-1.5",
+                )}
+              >
+                <NextImageMotion className="w-7 h-7 rounded-full" src={item!} alt="avatar" width={28} height={28} />
               </div>
             ))}
           </div>
         </div>
       ) : (
-        <p>У вас нет новых предложений по обмену</p>
+        <p className="text-text-primary text-sm font-normal">У вас нет новых предложений по обмену</p>
       )}
     </section>
   )

@@ -1,10 +1,15 @@
 "use client"
 
+import { usePathname } from "next/navigation"
+
+import { EnumSign } from "@/types/enum"
+
 import { Button } from "@/components/common"
+
+import { cx } from "@/lib/cx"
 import { dispatchAuthModal, dispatchNewServicesBanner, useAuth } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
-import { usePathname } from "next/navigation"
 
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -13,7 +18,7 @@ export const Buttons = () => {
   if (pathname.includes("/legal/")) return null
 
   return typeof isAuth === "undefined" ? (
-    <div className={styles.buttons} data-loading>
+    <div className={cx("loading-screen relative flex flex-row", styles.buttons)}>
       <span />
       <span />
     </div>
@@ -33,16 +38,18 @@ export const Buttons = () => {
       ) : (
         <>
           <Button
-            label="Войти"
-            typeButton="fill-primary"
-            className={styles.widthButton}
-            onClick={() => dispatchAuthModal({ visible: true, type: "SignIn" })}
-          />
-          <Button
+            type="button"
             label="Зарегистрироваться"
             typeButton="regular-primary"
             className={styles.widthButton}
-            onClick={() => dispatchAuthModal({ visible: true, type: "SignUp" })}
+            onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })}
+          />
+          <Button
+            type="button"
+            label="Войти"
+            typeButton="fill-primary"
+            className={styles.widthButton}
+            onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })}
           />
         </>
       )}

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
+import IconMap from "@/components/icons/IconMap"
 import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
 
@@ -17,16 +18,14 @@ import {
 } from "@/store"
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
-import { encryptedOffer } from "@/helpers/cript"
 import { useToast } from "@/helpers/hooks/useToast"
-import IconMap from "@/components/icons/IconMap"
 
 const LABEL_MAP = "Показать на карте"
 const LABEL_SHARE = "Поделиться"
 const LABEL_COMPLAIN = "Пожаловаться"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
-  const { user, id, addresses, title } = offer ?? {}
+  const { user, id, addresses, title, slug } = offer ?? {}
   const { onSimpleMessage } = useToast()
   const pathname = usePathname()
 
@@ -48,7 +47,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
     <article
       data-active={visible}
       className={cx(
-        "absolute top-5 right-0 w-[13.5rem] h-auto p-3 flex flex-col gap-0.125 shadow-menu-absolute rounded-xl bg-BG-second translate-y-4 -z-10 opacity-0 invisible transition-all",
+        "fixed md:absolute top-auto md:top-5 max-md:left-0 max-md:bottom-0 right-0 w-full md:w-[13.5rem] h-auto p-5 md:p-3 max-md:pt-9 flex flex-col gap-0.125 shadow-menu-absolute rounded-t-3xl md:rounded-xl bg-BG-second translate-y-4 -z-10 opacity-0 invisible md:transition-all",
         visible && "!z-10 !translate-y-0 !opacity-100 !visible",
         "*:w-full *:py-2 *:px-0.375 *:flex *:flex-row *:items-center *:justify-start *:gap-0.625 *:rounded-[0.375rem] hover:*:bg-grey-field",
       )}
@@ -91,8 +90,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         aria-label={LABEL_SHARE}
         aria-labelledby={LABEL_SHARE}
         onClick={(event) => {
-          const hash = encryptedOffer(id)
-          const url = `${env.server.host}/offer/${hash}`
+          const url = `${env.server.host}/offer/${id}/${String(slug).replaceAll("/", "-")}`
           if (!!window.navigator.share!) {
             navigator.share({
               title: title!,

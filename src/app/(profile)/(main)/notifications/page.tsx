@@ -8,6 +8,7 @@ import type { IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { serviceNotifications } from "@/services"
 import {
@@ -15,6 +16,8 @@ import {
   NAVIGATION_STATUSES,
   type TTypeWaiting,
 } from "@/components/templates/NotificationsMobile/constants/navigation"
+
+import styles from "./layout.module.scss"
 
 export default function Notifications() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -69,9 +72,9 @@ export default function Notifications() {
 
   return (
     <>
-      <header>
-        <h4>Уведомления</h4>
-        <nav>
+      <header className="w-full flex items-center justify-between gap-3">
+        <h4 className="w-full text-text-primary text-xl font-semibold">Уведомления</h4>
+        <nav className="w-fit h-[1.875rem] inline-flex items-center justify-end flex-nowrap gap-[1.125rem]">
           {NAVIGATION_STATUSES.map((item) => (
             <a
               key={`::${item.value}::key::nav::`}
@@ -82,6 +85,11 @@ export default function Notifications() {
                   setStatus(item.value)
                 }
               }}
+              className={cx(
+                styles.a,
+                "relative text-center text-sm font-medium whitespace-nowrap cursor-pointer",
+                status === item.value ? "text-text-accent" : "text-text-secondary",
+              )}
             >
               {item.label}
             </a>
@@ -89,21 +97,21 @@ export default function Notifications() {
         </nav>
       </header>
       {!!stateNotifications?.length && status === "all" ? (
-        <ul>
+        <ul className="flex flex-col gap-2.5 p-6 rounded-[2rem] bg-BG-second mb-6">
           {stateNotifications?.map((item) => (
             <ItemNotification key={`::notification::all:${item.id}::`} {...item} />
           ))}
         </ul>
       ) : !!waitingNotifications?.length && status === "waiting" ? (
-        <ul>
+        <ul className="flex flex-col gap-2.5 p-6 rounded-[2rem] bg-BG-second mb-6">
           {waitingNotifications?.map((item) => (
             <ItemNotification key={`::notification::waiting::${item.id}::`} {...item} />
           ))}
         </ul>
       ) : (
-        <article>
-          <h2>У вас пока нет уведомлений</h2>
-          <p>{DESCRIPTION_NOTIFICATIONS_EMPTY[status]}</p>
+        <article className="w-full h-full rounded-[2rem] bg-BG-second py-10 px-[3.125rem] flex flex-col items-center gap-4 mr-6 *:w-full *:text-center">
+          <h2 className="text-text-primary font-semibold">У вас пока нет уведомлений</h2>
+          <p className="text-text-secondary font-medium">{DESCRIPTION_NOTIFICATIONS_EMPTY[status]}</p>
         </article>
       )}
     </>

@@ -28,7 +28,13 @@ export default function CookiesToast() {
           файлов cookie
         </Link>
       </p>
-      <Button label="Хорошо" onClick={dispatchCookies} className="md:max-w-[10.625rem] h-9 rounded-[1.125rem]" />
+      <Button
+        type="button"
+        label="Хорошо"
+        typeButton="fill-primary"
+        onClick={dispatchCookies}
+        className="md:max-w-[10.625rem] h-9 rounded-[1.125rem]"
+      />
     </article>
   )
 }

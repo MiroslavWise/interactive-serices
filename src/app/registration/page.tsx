@@ -3,6 +3,8 @@
 import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
+import { EnumSign } from "@/types/enum"
+
 import { usePush } from "@/helpers"
 import { dispatchUTMData, dispatchAuthModal, type IStateUTM } from "@/store"
 
@@ -36,7 +38,7 @@ export default () => {
       if (Object.values(data).length) {
         dispatchUTMData(data)
       }
-      dispatchAuthModal({ visible: true, type: "SignUp" })
+      dispatchAuthModal({ visible: true, type: EnumSign.SignUp })
       handlePush("/")
     })
   }, [])

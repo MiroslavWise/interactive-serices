@@ -1,4 +1,4 @@
-import type { IPromiseReturn } from "../types/general"
+import { type IResponse } from "../request"
 
 export type TProviderLikes = "offer" | "user"
 
@@ -14,8 +14,6 @@ export interface IResponseLikes {
   userId: number
 }
 
-export interface ILikesService {
-  post(value: IPostDataLikes): IPromiseReturn<number>
-  get(): IPromiseReturn<IResponseLikes[]>
-  getTargetId(provider: TProviderLikes, id: number): IPromiseReturn<number>
-}
+export type TGetLikes = () => Promise<IResponse<IResponseLikes[]>>
+export type TPostLike = (values: IPostDataLikes) => Promise<IResponse<number>>
+export type TGetLikeTargetId = (provider: TProviderLikes, id: number) => Promise<IResponse<number>>

@@ -35,6 +35,7 @@ export const NotificationBell = () => {
         event.stopPropagation()
         dispatchVisibleNotifications(true)
       }}
+      className="relative z-10 w-6 h-6 bg-transparent border-none outline-none flex items-center justify-center"
       data-test="button-header-mobile-notification"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -46,8 +47,8 @@ export const NotificationBell = () => {
         />
       </svg>
       {count ? (
-        <div data-count>
-          <span>{count > 9 ? "9+" : count}</span>
+        <div className="absolute -right-2 -top-2 z-20 h-[1.1875rem] min-w-[1.1875rem] pl-1.5 pr-[0.4375rem] pt-1 pb-[0.3125rem] bg-element-accent-1 flex items-center justify-center rounded-[0.59375rem]">
+          <span className="text-text-button text-center text-[0.625rem] leading-[0.625rem] font-bold">{count > 9 ? "9+" : count}</span>
         </div>
       ) : null}
     </button>

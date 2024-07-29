@@ -13,6 +13,7 @@ module.exports = {
       "BG-second": "var(--BG-second)",
       "BG-first": "var(--BG-first)",
       "BG-icons": "var(--BG-icons)",
+      "BG-filter": "var(--BG-filter)",
       "text-button": "var(--text-button)",
       "text-error": "var(--text-error)",
       "text-attention": "var(--text-attention)",
@@ -42,6 +43,7 @@ module.exports = {
       "BG-time": "var(--BG-time)",
       "BG-linear-purple": "linear-gradient(95deg, #B3D2FF -26.18%, #D8BAFF 130.54%)",
       "BG-time-photo": "rgba(16, 24, 40, 0.70)",
+      "more-blue-gradient": "var(--more-blue-gradient)",
     },
     extend: {
       spacing: {

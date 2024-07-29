@@ -11,15 +11,15 @@ import RatingAndFeedbackComponent from "./RatingAndFeedbackComponent"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
+import env from "@/config/environment"
 import { useAuth, useFriends } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { getFiendId, getFriends, serviceFriends } from "@/services"
-import { encryptedUser } from "@/helpers/cript"
-import env from "@/config/environment"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const { profile } = useAuth(({ user }) => user) ?? {}
   const id = useFriends(({ id }) => id)
   const { on, onSimpleMessage } = useToast()
 
@@ -147,8 +147,7 @@ function ListAll({ state }: { state: TFriends }) {
             label="Пригласить друзей в Sheira"
             className="max-w-min px-5 py-2.5"
             onClick={() => {
-              const hashUser = encryptedUser(id!)
-              const linkUser = `/user/${hashUser}`
+              const linkUser = `/user/${id}/${String(profile?.username || "").replaceAll("/", "") || "пользователь"}`
               const url = `${env.server.host}${linkUser}`
               if (!!window.navigator.share!) {
                 navigator.share({

@@ -1,22 +1,18 @@
 "use client"
 
 import { memo, useMemo, useState } from "react"
-import { Controller, useFormContext } from "react-hook-form"
-import { useQuery } from "@tanstack/react-query"
+import { useFormContext } from "react-hook-form"
 
-import { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
+import { ETypeOfNewCreated, type IFormValues } from "../types/types"
+import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import { ETypeOfNewCreated, IFormValues } from "../types/types"
-import { ISelectList } from "@/components/common/custom/Select/types"
-
-import { CustomSelect } from "@/components/common/custom"
+import ControllerCategory from "./ControllerCategory"
 
 import { queryClient } from "@/context"
+import { getGeocodeSearch } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
-import { getGeocodeSearch, getOffersCategories } from "@/services"
 
 import styles from "../styles/new-create-offer.module.scss"
-import ControllerCategory from "./ControllerCategory"
 
 export const NewCreateOffer = memo(({}: IProps) => {
   const {

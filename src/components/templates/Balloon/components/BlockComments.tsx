@@ -3,45 +3,53 @@
 import { useQuery } from "@tanstack/react-query"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
-import { IResponseOffers } from "@/services/offers/types"
-import { ICommentsResponse } from "@/services/comments/types"
+import { type IResponseOffers } from "@/services/offers/types"
+import { type ICommentsResponse } from "@/services/comments/types"
 
-import { ListCommentaries } from "./ListCommentaries"
-import { FormAppendComment } from "./FormAppendComment"
+import ListCommentaries from "./ListCommentaries"
+import FormAppendComment from "./FormAppendComment"
 
-import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
-import { serviceComments } from "@/services"
+import { getComments } from "@/services"
 
-export function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
+interface IProps {
+  offer: IResponseOffers
+  expandComment: boolean
+
+  setExpandComment: Dispatch<SetStateAction<boolean>>
+}
+
+function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { socket } = useWebSocket() ?? {}
   const { threadId } = offer ?? {}
-  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
-  const { data: dataComments, refetch: refetchComments } = useQuery({
-    queryFn: () => serviceComments.get({ offer: threadId! }),
+  const {
+    data: dataComments,
+    refetch: refetchComments,
+    isLoading,
+  } = useQuery({
+    queryFn: () => getComments({ offer: threadId! }),
     queryKey: ["comments", { offerThreads: threadId! }],
     enabled: !!threadId!,
+    refetchOnMount: true,
   })
   useEffect(() => {
-    if (dataComments?.res && dataComments?.res?.length > 0) {
-      if (Array.isArray(dataComments?.res)) {
-        setCurrentComments(dataComments?.res)
+    if (dataComments?.data && dataComments?.data?.length > 0) {
+      if (Array.isArray(dataComments?.data)) {
+        setCurrentComments(dataComments?.data)
       }
     }
-  }, [dataComments?.res])
+  }, [dataComments?.data])
 
   useEffect(() => {
     if (socket && threadId) {
       const commentResponse = (event: any) => {
         console.log("commentResponse: ", event)
-        if (event.user_id !== userId) {
-          refetchComments()
-        }
+        refetchComments()
       }
 
-      if (userId && socket) {
+      if (socket) {
         socket?.on(`commentResponse-${threadId}`, commentResponse)
       }
 
@@ -49,7 +57,9 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
         socket?.off(`commentResponse-${threadId}`, commentResponse)
       }
     }
-  }, [socket, threadId, userId])
+  }, [socket, threadId])
+
+  const total = dataComments?.meta?.total || 0
 
   return (
     <div className="w-full flex flex-col gap-0 !px-0" data-text="container-commentaries">
@@ -58,17 +68,13 @@ export function BlockComments({ offer, expandComment, setExpandComment }: IProps
         expand={expandComment}
         setExpand={setExpandComment}
         currentOffersThreadId={threadId!}
+        isLoading={isLoading}
+        total={total}
       />
-      {!!userId ? (
-        <FormAppendComment idOffersThread={threadId!} refetchComments={refetchComments} setCurrentComments={setCurrentComments} />
-      ) : null}
+      <FormAppendComment idOffersThread={threadId!} setCurrentComments={setCurrentComments} />
     </div>
   )
 }
 
-interface IProps {
-  offer: IResponseOffers
-  expandComment: boolean
-
-  setExpandComment: Dispatch<SetStateAction<boolean>>
-}
+BlockComments.displayName = "BlockComments"
+export default BlockComments

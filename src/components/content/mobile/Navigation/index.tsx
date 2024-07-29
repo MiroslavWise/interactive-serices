@@ -6,6 +6,7 @@ import IconPlus from "@/components/icons/IconPlus"
 import { IconMinus } from "@/components/icons/IconMinus"
 import { IconNavigate } from "@/components/icons/IconNavigate"
 
+import { cx } from "@/lib/cx"
 import { useAddress } from "@/helpers"
 import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useMapCoordinates, useVisibleMobileAbout } from "@/store"
 
@@ -61,8 +62,14 @@ export default function Navigation() {
   }, [coordinatesAddresses])
 
   return (
-    <div className={styles.container} data-transform={visible}>
-      <section>
+    <div
+      className={cx(
+        styles.container,
+        "fixed z-[15] right-5 bottom-[calc(var(--height-mobile-footer-nav)_+_7.5rem)] flex flex-col gap-[5.75rem] w-12 translate-y-0",
+      )}
+      data-transform={visible}
+    >
+      <section className="w-full flex flex-col rounded-[0.625rem] bg-BG-second overflow-hidden">
         <button onClick={(event) => handleZoom(event, "+")} disabled={zoom >= 20} data-plus>
           <div data-icon>
             <IconPlus />

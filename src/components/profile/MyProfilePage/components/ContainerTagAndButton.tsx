@@ -9,8 +9,6 @@ import { Segments } from "@/components/common/Segments"
 import { useResize } from "@/helpers"
 import { useProviderProfileOffer, dispatchProvider } from "@/store"
 
-import styles from "./styles/style.module.scss"
-
 const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
   {
     label: isMobile ? "Предложения" : "Мои предложения",

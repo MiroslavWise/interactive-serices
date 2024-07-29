@@ -44,6 +44,8 @@ function CardBallon({ offer }: IProps) {
     dispatchMobileSearchCategoryVisible(false)
   }
 
+  //
+
   return (
     <article
       className={cx(styles.container, "w-full rounded-2xl border-solid border-[1px] p-4 flex flex-col gap-3 cursor-pointer")}

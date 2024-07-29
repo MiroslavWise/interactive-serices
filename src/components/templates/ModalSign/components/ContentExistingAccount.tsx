@@ -1,6 +1,8 @@
+import { EnumSign } from "@/types/enum"
+
 import { Button } from "@/components/common"
 
-import { dispatchAuthModal } from "@/store/hooks"
+import { dispatchAuthModal } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -15,10 +17,10 @@ export const ContentExistingAccount = () => {
           type="button"
           typeButton="fill-primary"
           label="Войти"
-          onClick={() => dispatchAuthModal({ type: "SignIn" })}
+          onClick={() => dispatchAuthModal({ type: EnumSign.SignIn })}
           data-test="existing-account-button-enter"
         />
-        <a onClick={() => dispatchAuthModal({ type: "SignUp" })} data-test="existing-account-continue-link">
+        <a onClick={() => dispatchAuthModal({ type: EnumSign.SignUp })} data-test="existing-account-continue-link">
           Продолжить регистрацию
         </a>
       </form>

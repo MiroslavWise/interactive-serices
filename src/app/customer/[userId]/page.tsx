@@ -46,8 +46,8 @@ export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Met
 
 export default async ({ params }: IParamsCustomer) => {
   const id = params?.userId ?? null
-
-  if (!id) return redirect("/")
+  const { data } = await getUserId(id)
+  if (!id || !data) return redirect("/")
 
   return (
     <>

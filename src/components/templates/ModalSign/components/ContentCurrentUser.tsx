@@ -1,6 +1,8 @@
+import { EnumSign } from "@/types/enum"
+
 import { Button, GeoTagging, NextImageMotion } from "@/components/common"
 
-import { dispatchAuthModal, useModalAuth } from "@/store/hooks"
+import { dispatchAuthModal, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -30,13 +32,18 @@ export const ContentCurrentUser = () => {
           </section>
         </div>
       ) : null}
-      <Button type="button" typeButton="fill-primary" label="Войти" onClick={() => dispatchAuthModal({ type: "SignIn" })} />
+      <Button
+        type="button"
+        typeButton="fill-primary"
+        label="Войти"
+        onClick={() => dispatchAuthModal({ type: EnumSign.SignIn, visible: true })}
+      />
       <article data-column style={{ marginTop: "-1.25rem" }}>
         <p>
           Не помните пароль?&nbsp;
           <a
             onClick={() => {
-              dispatchAuthModal({ type: "ForgotPassword", email: user?.email! })
+              dispatchAuthModal({ type: EnumSign.ForgotPassword, email: user?.email!, visible: true })
             }}
             data-test="current-user-restore-link"
           >

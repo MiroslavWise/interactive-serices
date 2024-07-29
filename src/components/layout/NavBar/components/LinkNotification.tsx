@@ -1,16 +1,15 @@
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import type { IResponseNotifications } from "@/services/notifications/types"
+import { type IResponseNotifications } from "@/services/notifications/types"
 
-import LinkProgress from "@/components/common/LinkProgress"
 import { ItemNotification } from "@/components/notifications"
 
 import { useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
-import Link from "next/link"
 
 export const LinkNotification = ({ pathname }: { pathname: string }) => {
   const [count, setCount] = useState<number | null>(null)

@@ -9,8 +9,6 @@ import { useAuth } from "@/store"
 import { getBarters } from "@/services"
 import { SEGMENTS } from "../constants/segments"
 
-import styles from "../styles/ongoing-and-completed.module.scss"
-
 const emptyDescription: Map<EnumStatusBarter, string> = new Map([
   [
     EnumStatusBarter.EXECUTED,
@@ -40,15 +38,17 @@ export const ContainerOfOngoingAndCompleted = () => {
   }, [data?.data])
 
   return (
-    <section className={styles.container}>
+    <section className="w-full flex flex-col gap-2.5">
       <Segments VALUES={SEGMENTS} active={active} setActive={setActive} isBorder />
-      {count ? <span data-count>{count} обмена</span> : null}
+      {count ? <span className="text-text-secondary text-sm font-medium">{count} обмена</span> : null}
       {isLoading ? (
         [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)
       ) : count ? (
         data?.data?.map((item) => <CardBarter key={`::key::item::barter::`} barter={item} />)
       ) : (
-        <p>{emptyDescription.has(active.value) ? emptyDescription.get(active.value) : null}</p>
+        <p className="text-text-primary text-sm font-normal">
+          {emptyDescription.has(active.value) ? emptyDescription.get(active.value) : null}
+        </p>
       )}
     </section>
   )

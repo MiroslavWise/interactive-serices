@@ -4,6 +4,7 @@ import IconPlus from "@/components/icons/IconPlus"
 import { IconMinus } from "@/components/icons/IconMinus"
 import { IconNavigate } from "@/components/icons/IconNavigate"
 
+import { cx } from "@/lib/cx"
 import { useAddress } from "@/helpers"
 import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useCollapsePersonalScreen, useMapCoordinates } from "@/store"
 
@@ -58,20 +59,26 @@ export const ButtonNavigation = memo(() => {
   }, [coordinatesAddresses])
 
   return (
-    <div className={styles.buttonNavigation} data-collapse={visible}>
-      <section>
+    <div className={cx(styles.buttonNavigation, "fixed left-0 bottom-6 flex flex-col gap-2.5 z-[60] w-10")} data-collapse={visible}>
+      <section
+        className={cx(
+          "w-10 flex flex-col rounded-[0.625rem] bg-BG-second overflow-hidden",
+          "*:w-full *:border-none *:outline-none *:bg-transparent *:px-2.5 *:pt-2 *:pb-2.5 hover:*:opacity-90",
+        )}
+      >
         <button onClick={(event) => handleZoom(event, "+")} disabled={zoom >= 20}>
-          <div data-icon>
+          <div className="w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
             <IconPlus />
           </div>
         </button>
         <button onClick={(event) => handleZoom(event, "-")} disabled={zoom <= 10}>
-          <div data-icon>
+          <div className="w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
             <IconMinus />
           </div>
         </button>
       </section>
       <button
+        className="w-full aspect-square h-auto rounded-[0.625rem] bg-BG-second border-none outline-none flex items-center justify-center p-2.5"
         data-navigate
         onClick={(event) => {
           event.stopPropagation()

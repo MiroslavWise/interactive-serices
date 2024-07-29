@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form"
-import { DispatchWithoutAction, type ReactNode, memo, useState } from "react"
+import { type ReactNode, memo, useState } from "react"
 
 import { resolverEmailSignIn, TSchemaEmailSignIn } from "../utils/email-sign-in.schema"
 

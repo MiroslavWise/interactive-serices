@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useMemo } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import IconComment from "@/components/icons/IconComment"
 
-import { serviceComments, serviceOffersThreads } from "@/services"
+import { getComments } from "@/services"
 
 interface IProps {
   id: number
@@ -12,27 +12,13 @@ interface IProps {
 }
 
 export const ButtonComments = ({ id, setExpandComment }: IProps) => {
-  const { data: dataOffersThreads } = useQuery({
-    queryFn: () =>
-      serviceOffersThreads.get({
-        offer: id!,
-      }),
-    queryKey: ["offers-threads", { id: id }],
-    enabled: !!id!,
-  })
-
-  const currentOffersThreads = useMemo(
-    () => dataOffersThreads?.res?.find((item) => item?.offerId === id) || null,
-    [dataOffersThreads?.res, id],
-  )
-
   const { data: dataComments } = useQuery({
-    queryFn: () => serviceComments.get({ offer: currentOffersThreads?.id! }),
-    queryKey: ["comments", { offerThreads: currentOffersThreads?.id }],
-    enabled: !!currentOffersThreads?.id!,
+    queryFn: () => getComments({ offer: id! }),
+    queryKey: ["comments", { offerThreads: id! }],
+    enabled: !!id,
   })
 
-  const length = dataComments?.res?.length || 0
+  const length = dataComments?.data?.length || 0
 
   function handleOnExpand() {
     setExpandComment(true)

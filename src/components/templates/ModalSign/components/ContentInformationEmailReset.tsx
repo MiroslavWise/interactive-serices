@@ -1,3 +1,5 @@
+import { EnumSign } from "@/types/enum"
+
 import { Button } from "@/components/common"
 
 import { useModalAuth, dispatchAuthModal } from "@/store/hooks"
@@ -23,7 +25,7 @@ export const ContentInformationEmailReset = () => {
           Вспомнили?&nbsp;
           <a
             onClick={() => {
-              dispatchAuthModal({ type: "SignIn" })
+              dispatchAuthModal({ type: EnumSign.SignIn })
             }}
           >
             Войти

@@ -7,7 +7,9 @@ import { IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "@/components/icons/IconMap"
 import IconShare from "@/components/icons/IconShare"
+import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconComplaint from "@/components/icons/IconComplaint"
+import IconArrowRight from "@/components/icons/IconArrowRight"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
@@ -21,9 +23,6 @@ import {
   dispatchComplaintModalOffer,
   dispatchMapCoordinates,
 } from "@/store"
-import IconArrowRight from "@/components/icons/IconArrowRight"
-import IconMapWhite from "@/components/icons/IconMapWhite"
-import { encryptedOffer } from "@/helpers/cript"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -99,8 +98,7 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           aria-label={TITLE_SHARE}
           aria-labelledby={TITLE_SHARE}
           onClick={(event) => {
-            const hash = encryptedOffer(offer.id)
-            const url = `${env.server.host}/offer/${hash}`
+            const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
             if (!!window.navigator.share!) {
               navigator.share({
                 title: offer.title!,

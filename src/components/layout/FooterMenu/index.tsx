@@ -9,7 +9,7 @@ import { LinkProfile } from "./components/LinkProfile"
 import { CreateButton } from "./components/CreateButton"
 import { LinkMessages } from "./components/LinkMessages"
 
-import styles from "./styles/style.module.scss"
+import { cx } from "@/lib/cx"
 
 export default function FooterMenu({}) {
   const pathname = usePathname()
@@ -22,13 +22,19 @@ export default function FooterMenu({}) {
   )
 
   return (
-    <footer className={styles.container} data-not-active={notActive} data-test="footer-menu-mobile">
-      <nav>
-        <LinkMap />
-        <LinkOffers />
+    <footer
+      className={cx(
+        "fixed bottom-0 left-0 right-0 w-full h-[var(--height-mobile-footer-nav)] bg-BG-second md:hidden inline-flex z-[99] md:-z-50 py-1 border-t border-solid border-grey-stroke-light",
+        notActive && "!opacity-0 !invisible !-bottom-28",
+      )}
+      data-test="footer-menu-mobile"
+    >
+      <nav className="w-full py-0 px-0.5 flex items-center justify-between gap-1">
+        <LinkMap pathname={pathname} />
+        <LinkOffers pathname={pathname} />
         <CreateButton />
-        <LinkMessages />
-        <LinkProfile />
+        <LinkMessages pathname={pathname} />
+        <LinkProfile pathname={pathname} />
       </nav>
     </footer>
   )

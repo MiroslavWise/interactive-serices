@@ -3,6 +3,7 @@
 import { Map } from "@pbe/react-yandex-maps"
 import { useEffect, useCallback, useRef } from "react"
 
+import { EnumSign } from "@/types/enum"
 import type { TTypeInstantsMap, TYandexMap } from "./types"
 
 import { Header } from "./Header"
@@ -35,7 +36,7 @@ const YandexMap: TYandexMap = ({}) => {
   function onContextMenu(e: any) {
     console.log("onContextMenu: ", e)
     if (!isAuth) {
-      dispatchAuthModal({ visible: true, type: "SignIn" })
+      dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
       on({ message: "Вы не можете создать услугу и беседу, пока не войдёте или не зарегистрируетесь на нашем сервисе" })
       return
     }

@@ -7,7 +7,6 @@ import {
   WelcomeModal,
   AboutSheiraPopup,
   NotificationsMobile,
-  PhotoPreviewModal,
   HasClustererBalloons,
   MobileFiltersMap,
   Onboarding,
@@ -21,7 +20,6 @@ import {
 } from "@/components/templates"
 
 import {
-  usePhotoOffer,
   useHasBalloons,
   useVisibleNotifications,
   useReasonBarters,
@@ -31,25 +29,24 @@ import {
   useNumberConfirmation,
   useCreateNewCategory,
   useChangeService,
-  // useAdvertisingBanner,
   useAuth,
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
 
-const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
-const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
+const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
+const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
 const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
+const DownloadApplication = dynamic(() => import("@/components/templates/DownloadApplication"), { ssr: false })
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
-const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
 const PreCloseCreateService = dynamic(() => import("@/components/templates/PreCloseCreateService"), { ssr: false })
+const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
 const NotificationCreateService = dynamic(() => import("@/components/content/NotificationCreateService"), { ssr: false })
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
-  const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
@@ -76,9 +73,9 @@ export const Containers = () => {
       <Friends />
       <CookiesToast />
       <PublicProfile />
+      <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
-      {visiblePhotoOffer && <PhotoPreviewModal />}
       {visibleHasBalloon && <HasClustererBalloons />}
       {isAuth && (
         <>
