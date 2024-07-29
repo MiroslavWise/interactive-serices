@@ -88,27 +88,3 @@ export const useWebSocket = () => {
 
   return context
 }
-
-interface IChatResponse {
-  created: Date
-  emitterId: number
-  id: number
-  images: any[]
-  message: string
-  parentId: number
-  receiverIds: number[]
-  threadId: number
-  updated: Date
-  emitter: {
-    profile: IGetProfileIdResponse
-  }
-}
-interface IBarterResponse {
-  barterId: number
-  created: Date
-  message: string
-  receiverIds: number[]
-  emitterId: number
-  status: EnumStatusBarter | "accepted"
-  threadId: number
-}
