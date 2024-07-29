@@ -1,22 +1,21 @@
-import { useQuery } from "@tanstack/react-query"
-import { Dispatch, memo, SetStateAction, useEffect, useMemo, useRef } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react"
 
 import { ICommentsResponse } from "@/services/comments/types"
 
 import { ItemComment } from "./ItemComment"
 import { LoadingProfile } from "@/components/common"
 
-import { getComments } from "@/services"
+interface IProps {
+  expand: boolean
+  currentOffersThreadId: number
+  isLoading: boolean
+  total: number
+  currentComments: ICommentsResponse[]
+  setExpand: Dispatch<SetStateAction<boolean>>
+}
 
-export function ListCommentaries({ expand, currentComments = [], setExpand, currentOffersThreadId }: IProps) {
+function ListCommentaries({ expand, currentComments = [], isLoading, setExpand, total }: IProps) {
   const refList = useRef<HTMLDivElement>(null)
-
-  const { data: dataComments, isLoading } = useQuery({
-    queryFn: () => getComments({ offer: currentOffersThreadId }),
-    queryKey: ["comments", { offerThreads: currentOffersThreadId }],
-    enabled: !!currentOffersThreadId,
-    refetchOnMount: true,
-  })
 
   useEffect(() => {
     if (expand && currentComments.length > 0) {
@@ -27,15 +26,13 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
         }
       })
     }
-  }, [currentComments, expand])
+  }, [currentComments.length, expand])
 
   const firstComment = useMemo(() => {
     if (!currentComments || currentComments?.length === 0) return null
 
     return currentComments[0]
   }, [currentComments])
-
-  const length = dataComments?.meta?.total || 0
 
   return (
     <div
@@ -48,7 +45,7 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
       ) : isLoading ? (
         <LoadingProfile />
       ) : null}
-      {!expand && length > 1 ? (
+      {!expand && total > 1 ? (
         <button
           type="button"
           className="w-full flex flex-row items-center bg-transparent border-none outline-none px-5"
@@ -65,9 +62,5 @@ export function ListCommentaries({ expand, currentComments = [], setExpand, curr
   )
 }
 
-interface IProps {
-  currentOffersThreadId: number
-  currentComments: ICommentsResponse[]
-  expand: boolean
-  setExpand: Dispatch<SetStateAction<boolean>>
-}
+ListCommentaries.displayName = "ListCommentaries"
+export default ListCommentaries

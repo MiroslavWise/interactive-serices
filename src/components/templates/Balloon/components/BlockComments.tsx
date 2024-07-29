@@ -3,11 +3,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
-import { IResponseOffers } from "@/services/offers/types"
-import { ICommentsResponse } from "@/services/comments/types"
+import { type IResponseOffers } from "@/services/offers/types"
+import { type ICommentsResponse } from "@/services/comments/types"
 
-import { ListCommentaries } from "./ListCommentaries"
-import { FormAppendComment } from "./FormAppendComment"
+import ListCommentaries from "./ListCommentaries"
+import FormAppendComment from "./FormAppendComment"
 
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
@@ -26,7 +26,11 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
-  const { data: dataComments, refetch: refetchComments } = useQuery({
+  const {
+    data: dataComments,
+    refetch: refetchComments,
+    isLoading,
+  } = useQuery({
     queryFn: () => getComments({ offer: threadId! }),
     queryKey: ["comments", { offerThreads: threadId! }],
     enabled: !!threadId!,
@@ -44,9 +48,7 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
     if (socket && threadId) {
       const commentResponse = (event: any) => {
         console.log("commentResponse: ", event)
-        if (event.user_id !== userId) {
-          refetchComments()
-        }
+        refetchComments()
       }
 
       if (userId && socket) {
@@ -59,6 +61,8 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
     }
   }, [socket, threadId, userId])
 
+  const total = dataComments?.meta?.total || 0
+
   return (
     <div className="w-full flex flex-col gap-0 !px-0" data-text="container-commentaries">
       <ListCommentaries
@@ -66,6 +70,8 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
         expand={expandComment}
         setExpand={setExpandComment}
         currentOffersThreadId={threadId!}
+        isLoading={isLoading}
+        total={total}
       />
       <FormAppendComment idOffersThread={threadId!} setCurrentComments={setCurrentComments} />
     </div>

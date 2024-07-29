@@ -1,5 +1,5 @@
 import { Controller, useForm } from "react-hook-form"
-import { type Dispatch, memo, type SetStateAction, useEffect, useRef, useState } from "react"
+import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from "react"
 
 import { EnumSign } from "@/types/enum"
 import { type IUserOffer } from "@/services/offers/types"
@@ -14,7 +14,7 @@ interface IProps {
   setCurrentComments: Dispatch<SetStateAction<ICommentsResponse[]>>
 }
 
-export const FormAppendComment = memo(({ idOffersThread, setCurrentComments }: IProps) => {
+function FormAppendComment({ idOffersThread, setCurrentComments }: IProps) {
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = useAuth(({ user }) => user)
@@ -152,7 +152,10 @@ export const FormAppendComment = memo(({ idOffersThread, setCurrentComments }: I
       />
     </form>
   )
-})
+}
+
+FormAppendComment.displayName = "FormAppendComment"
+export default FormAppendComment
 
 interface IValues {
   text: string
