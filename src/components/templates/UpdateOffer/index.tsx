@@ -28,14 +28,8 @@ export default function UpdateOffer() {
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const offer = useUpdateOffer(({ offer }) => offer)
-  const { data: c } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = c?.res || []
   const [inputCategory, setInputCategory] = useState("")
   const [focusGeo, setFocusGeo, refGeo] = useOutsideClickEvent()
-  const [focus, setFocus, ref] = useOutsideClickEvent()
 
   const { refetch } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
@@ -66,32 +60,9 @@ export default function UpdateOffer() {
   } = useForm<IValues>({
     defaultValues: {
       description: offer?.description!,
-      category: offer?.categoryId!,
       address: geo?.id,
     },
   })
-
-  const category = useMemo(() => {
-    if (!categories?.length || !watch("category")) {
-      return null
-    }
-    return categories?.find((item) => item.id === watch("category"))
-  }, [categories, watch("category")])
-
-  function deleteCategory() {
-    setValue("category", null)
-  }
-
-  const listCategories = useMemo(() => {
-    return (
-      categories
-        ?.filter((item) => item?.title?.toLowerCase()!?.includes(inputCategory?.toLowerCase()))
-        ?.map((item) => ({
-          label: item.title,
-          value: item.id,
-        })) || []
-    )
-  }, [categories, inputCategory])
 
   async function onChangeAddress() {
     if (inputGeo?.trim()?.length > 2) {
@@ -123,10 +94,6 @@ export default function UpdateOffer() {
 
       if (offer?.description !== values.description && !!values.description) {
         body.description = values.description
-      }
-
-      if (offer?.categoryId !== values.category && !!values.category) {
-        body.categoryId = values.category! as number
       }
 
       if (values.address !== offer?.addresses[0]?.id && values.address) {
@@ -227,56 +194,14 @@ export default function UpdateOffer() {
         </fieldset>
         <fieldset>
           <label>Изменить предложение</label>
-          <div data-input ref={ref}>
-            <input
-              type="text"
-              value={inputCategory}
-              onChange={(event) => setInputCategory(event.target.value || "")}
-              data-error={!!errors.category}
-              readOnly
-              disabled
-              onFocus={(event) => {
-                event.stopPropagation()
-                setFocus(true)
-              }}
-            />
-            {category ? (
-              <div data-category>
-                <div data-icon>
-                  <ImageCategory id={category.id!} />
-                </div>
-                <span>{category.title}</span>
-                <button
-                  type="button"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    deleteCategory()
-                  }}
-                >
-                  <img src="/svg/x-close.svg" alt="x" width={16} height={16} />
-                </button>
+          <div data-input>
+            <input type="text" readOnly disabled />
+            <div data-category>
+              <div data-icon>
+                <ImageCategory id={offer?.categoryId!} />
               </div>
-            ) : null}
-            {focus && !watch("category") ? (
-              <div data-list>
-                <ul>
-                  {listCategories.map((item) => (
-                    <li
-                      key={`::key::${item.value}::category::`}
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        setValue("category", item.value)
-                      }}
-                    >
-                      <div data-icon>
-                        <ImageCategory id={item.value!} />
-                      </div>
-                      <span>{item.label}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+              <span>{offer?.category?.title || "Категория"}</span>
+            </div>
           </div>
         </fieldset>
         <fieldset>
