@@ -62,6 +62,7 @@ export const ButtonLike = ({ offer }: IProps) => {
           provider: "offer",
         })
         .then(async (response) => {
+          setLoading(false)
           setCount((_) => (myLike ? _ - 1 : _ + 1))
           setMyLike((_) => !_)
         })
