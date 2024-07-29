@@ -9,7 +9,6 @@ import { type ICommentsResponse } from "@/services/comments/types"
 import ListCommentaries from "./ListCommentaries"
 import FormAppendComment from "./FormAppendComment"
 
-import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { getComments } from "@/services"
 
@@ -23,7 +22,6 @@ interface IProps {
 function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
   const { socket } = useWebSocket() ?? {}
   const { threadId } = offer ?? {}
-  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [currentComments, setCurrentComments] = useState<ICommentsResponse[]>([])
 
   const {
@@ -51,7 +49,7 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
         refetchComments()
       }
 
-      if (userId && socket) {
+      if (socket) {
         socket?.on(`commentResponse-${threadId}`, commentResponse)
       }
 
@@ -59,7 +57,7 @@ function BlockComments({ offer, expandComment, setExpandComment }: IProps) {
         socket?.off(`commentResponse-${threadId}`, commentResponse)
       }
     }
-  }, [socket, threadId, userId])
+  }, [socket, threadId])
 
   const total = dataComments?.meta?.total || 0
 

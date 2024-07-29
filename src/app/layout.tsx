@@ -37,6 +37,11 @@ export function generateMetadata(): Metadata {
         app_store_id: APPLE_ID,
         app_name: APPLE_NAME,
       },
+      ipad: {
+        url: APPLE_URL,
+        app_store_id: APPLE_ID,
+        app_name: APPLE_NAME,
+      },
       iphone: {
         url: APPLE_URL,
         app_store_id: APPLE_ID,

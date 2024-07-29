@@ -10,6 +10,7 @@ import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 import { getOffersCategories } from "@/services"
 import { useBounds, useFiltersServices } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
+import { cx } from "@/lib/cx"
 
 export const ServicesMobile = memo(({ input }: { input: string }) => {
   const { itemsOffers, isLoading } = useMapOffers()
@@ -98,7 +99,12 @@ export const ServicesMobile = memo(({ input }: { input: string }) => {
   }, [input, items, categories])
 
   return (
-    <ul className={isLoading ? "*:bg-BG-first" : ""}>
+    <ul
+      className={cx(
+        "w-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)]",
+        isLoading ? "*:bg-BG-first" : "",
+      )}
+    >
       {isLoading
         ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
         : filterItems.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />)}
