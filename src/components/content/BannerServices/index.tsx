@@ -1,9 +1,10 @@
 "use client"
 
 import { useCallback, useRef } from "react"
+import { useQuery } from "@tanstack/react-query"
 
-import { TServicesFilter } from "./types/types"
 import { EnumTypeProvider } from "@/types/enum"
+import { type TServicesFilter } from "./types/types"
 
 import { ImageCategory } from "@/components/common"
 import { ServicesComponent } from "./components/Services"
@@ -25,10 +26,10 @@ import {
   useFiltersServices,
   useSearchFilters,
 } from "@/store"
+import { cx } from "@/lib/cx"
+import { getOffersCategories } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import { getOffersCategories } from "@/services"
-import { useQuery } from "@tanstack/react-query"
 
 function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
@@ -57,10 +58,17 @@ function BannerServices() {
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
   return (
-    <div className={styles.container} data-collapse={visible} data-test="banner-services">
-      <header />
-      <ul ref={parentRef} data-test="ul-banner-services">
-        <section data-test="ul-section-banner-services">
+    <div
+      className={cx(
+        styles.container,
+        "max-md:hidden fixed right-0 top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)] max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-[2rem]",
+        visible ? "translate-x-[var(--width-right-services)]" : "-translate-x-6",
+      )}
+      data-test="banner-services"
+    >
+      <header className="w-full h-[4.875rem] sticky top-0" />
+      <ul ref={parentRef} data-test="ul-banner-services" className="relative w-full h-[calc(100%_-_4.875rem)] overflow-y-auto">
+        <section data-test="ul-section-banner-services" className="w-full flex flex-col gap-[1.125rem] py-2.5 px-5">
           <div data-filters-services className="gap-4">
             {SERVICES.map((item) => (
               <a
@@ -113,7 +121,7 @@ function BannerServices() {
             </div>
           ) : null}
         </section>
-        <div data-container data-test="ul-section-container-banner-services">
+        <div data-test="ul-section-container-banner-services" className="flex flex-col items-start gap-4 pt-1.5 px-5 pb-5">
           <ServicesComponent />
         </div>
       </ul>

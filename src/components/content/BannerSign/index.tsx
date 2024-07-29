@@ -3,6 +3,7 @@
 import { ButtonNavigation } from "./components/ButtonNavigation"
 import LeftAsideProfile from "@/components/profile/LeftAsideProfile"
 
+import { cx } from "@/lib/cx"
 import { dispatchCollapsePersonalScreen, useAdvertisingBanner, useCollapsePersonalScreen } from "@/store"
 
 import styles from "./styles/button-collapse.module.scss"
@@ -16,15 +17,23 @@ function BannerSign() {
       <LeftAsideProfile isCollapsed={visible} isBanner={visibleAdvertisingBanner} />
       <button
         data-collapse={visible}
-        className={styles.button}
+        className={cx(
+          styles.button,
+          "fixed left-0 w-8 h-8 rounded-full border-none outline-none z-[60] p-2.5 flex items-center justify-center bg-BG-second",
+        )}
         type="button"
         onClick={(event) => {
           event.stopPropagation()
           dispatchCollapsePersonalScreen()
         }}
-        data-is-banner={visibleAdvertisingBanner}
       >
-        <img src="/svg/chevron-right-accent.svg" alt="right" width={12} height={12} />
+        <img
+          className={cx("w-3 h-3", visible ? "rotate-0" : " rotate-180")}
+          src="/svg/chevron-right-accent.svg"
+          alt="right"
+          width={12}
+          height={12}
+        />
       </button>
       <ButtonNavigation />
     </>
