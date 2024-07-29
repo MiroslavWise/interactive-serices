@@ -7,7 +7,6 @@ import {
   WelcomeModal,
   AboutSheiraPopup,
   NotificationsMobile,
-  PhotoPreviewModal,
   HasClustererBalloons,
   MobileFiltersMap,
   Onboarding,
@@ -21,7 +20,6 @@ import {
 } from "@/components/templates"
 
 import {
-  usePhotoOffer,
   useHasBalloons,
   useVisibleNotifications,
   useReasonBarters,
@@ -31,7 +29,6 @@ import {
   useNumberConfirmation,
   useCreateNewCategory,
   useChangeService,
-  // useAdvertisingBanner,
   useAuth,
 } from "@/store"
 import { useResize } from "@/helpers"
@@ -50,7 +47,6 @@ const NotificationCreateService = dynamic(() => import("@/components/content/Not
 
 export const Containers = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
-  const visiblePhotoOffer = usePhotoOffer(({ visible }) => visible)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
@@ -80,7 +76,6 @@ export const Containers = () => {
       <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
-      {visiblePhotoOffer && <PhotoPreviewModal />}
       {visibleHasBalloon && <HasClustererBalloons />}
       {isAuth && (
         <>

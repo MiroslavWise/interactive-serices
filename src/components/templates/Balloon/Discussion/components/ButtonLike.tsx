@@ -18,6 +18,7 @@ export const ButtonLike = ({ offer }: IProps) => {
   const [myLike, setMyLike] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id } = offer ?? {}
+  const getId = () => getLikeTargetId("offer", id!)
 
   const {
     data: dataLikesMy,
@@ -31,7 +32,7 @@ export const ButtonLike = ({ offer }: IProps) => {
   })
 
   const { data, isLoading, isPending } = useQuery({
-    queryFn: () => getLikeTargetId("offer", id!),
+    queryFn: getId,
     queryKey: ["likes", `provider=offer`, `id=${id}`],
     enabled: !!id,
     refetchOnMount: true,

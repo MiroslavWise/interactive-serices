@@ -1,5 +1,5 @@
+import { type IResponse } from "../request"
 import { EnumTypeProvider } from "@/types/enum"
-import type { IPromiseReturn } from "../types/general"
 
 export interface IPostComplains {
   receiverId: number
@@ -19,5 +19,5 @@ export interface IResponseComplains {
 }
 
 export interface IServiceComplains {
-  post(values: IPostComplains): IPromiseReturn<{ id: number }>
+  post(values: IPostComplains): Promise<IResponse<{ id: number }>>
 }
