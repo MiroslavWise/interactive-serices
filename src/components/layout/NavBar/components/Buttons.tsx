@@ -5,10 +5,11 @@ import { usePathname } from "next/navigation"
 import { EnumSign } from "@/types/enum"
 
 import { Button } from "@/components/common"
+
+import { cx } from "@/lib/cx"
 import { dispatchAuthModal, dispatchNewServicesBanner, useAuth } from "@/store/hooks"
 
 import styles from "../styles/components.module.scss"
-import { dispatchDownloadApplication } from "@/store"
 
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -17,7 +18,7 @@ export const Buttons = () => {
   if (pathname.includes("/legal/")) return null
 
   return typeof isAuth === "undefined" ? (
-    <div className={styles.buttons} data-loading>
+    <div className={cx("loading-screen relative flex flex-row", styles.buttons)}>
       <span />
       <span />
     </div>

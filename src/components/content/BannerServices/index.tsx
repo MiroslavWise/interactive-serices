@@ -69,7 +69,7 @@ function BannerServices() {
       <header className="w-full h-[4.875rem] sticky top-0" />
       <ul ref={parentRef} data-test="ul-banner-services" className="relative w-full h-[calc(100%_-_4.875rem)] overflow-y-auto">
         <section data-test="ul-section-banner-services" className="w-full flex flex-col gap-[1.125rem] py-2.5 px-5">
-          <div data-filters-services className="gap-4">
+          <div data-filters-services className="gap-4 w-full flex flex-row items-start justify-start">
             {SERVICES.map((item) => (
               <a
                 key={`::key::item::provider::${item.value}::`}
@@ -79,12 +79,16 @@ function BannerServices() {
                   handleProvider(item.value)
                 }}
                 data-test={`services-a-banner-services-${item.value}`}
+                className={cx(
+                  "relative cursor-pointer",
+                  providers === item.value ? "[&>span]:text-text-accent" : "[&>span]:text-text-secondary",
+                )}
               >
-                <span>{item.label}</span>
+                <span className="text-center text-sm font-medium">{item.label}</span>
               </a>
             ))}
           </div>
-          <div data-filters-times>
+          <div data-filters-times className="w-full flex flex-row items-start gap-1">
             {TIMES.map((item) => (
               <a
                 key={`::key::item::time::${item.value}::`}
@@ -94,13 +98,17 @@ function BannerServices() {
                   handleTimeFilter(item.value)
                 }}
                 data-test={`times-a-banner-services-${item.value}`}
+                className={cx(
+                  "h-[1.8125rem] px-2 pt-1.5 pb-[0.4375rem] flex items-center rounded-lg  cursor-pointer",
+                  timesFilter === item.value ? "bg-BG-filter [&>span]:text-text-button" : "bg-grey-field [&>span]:text-text-secondary",
+                )}
               >
-                <span>{item.label}</span>
+                <span className="text-[0.8125rem] font-normal leading-4">{item.label}</span>
               </a>
             ))}
           </div>
           {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
-            <div data-filters-category data-test="filters-category-banner-services">
+            <div data-filters-category data-test="filters-category-banner-services" className="w-full flex flex-row items-start">
               {activeFilters.map((item) => (
                 <a key={`::key::item::filter::category::${item}::`} data-test={`a-filters-category-banner-service-${item}`}>
                   <div data-icon>

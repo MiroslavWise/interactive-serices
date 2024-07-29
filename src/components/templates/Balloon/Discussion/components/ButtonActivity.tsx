@@ -17,8 +17,9 @@ export const ButtonActivity = ({ offer }: { offer: IResponseOffers }) => {
       <button
         type="button"
         data-activity
+        className="relative z-[2]"
         onClick={(event) => {
-          const url = `${env.server.host}/offer/${offer.id}/${String(offer.slug).replaceAll("/", "-")}`
+          const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
           if (!!window.navigator.share!) {
             navigator.share({
               title: offer.title!,

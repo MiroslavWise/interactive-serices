@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { ITEMS_LINK_FOOTER } from "../constants"
@@ -28,12 +29,13 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
   })
 
   const isActive = pathname.includes(ITEMS_LINK_FOOTER.offers)
+  const count = data?.res?.length || 0
 
   return (
     <Link
       href={isAuth ? { pathname: ITEMS_LINK_FOOTER.offers } : {}}
       data-active={isActive}
-      className={styles.link}
+      className={cx(styles.link, "h-full flex-[1] flex-shrink-0 flex pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative")}
       onClick={(event) => {
         event.stopPropagation()
         if (!isAuth) {
@@ -43,15 +45,30 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
       }}
       data-test="link-footer-menu-mobile-offers"
     >
-      <div className={styles.itemsIconLabel}>
-        <article>{MENU_ICONS.offers}</article>
-        <p>Обмен</p>
+      <section className="h-full flex flex-col items-center gap-[0.1875rem]">
+        <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
+          {MENU_ICONS.offers}
+        </article>
+        <p
+          className={cx(
+            "mt-auto justify-end text-center text-[0.6875rem] leading-[1.125rem] font-medium",
+            isActive ? "text-text-accent" : "text-text-secondary",
+          )}
+        >
+          Обмен
+        </p>
+      </section>
+
+      <div
+        className={cx(
+          "absolute top-[0.35rem] left-[calc(50%_+_0.125rem)] h-[1.1375rem] min-w-[1.1375rem] w-min justify-center items-center px-[0.4rem] bg-element-accent-1 rounded-[0.56875rem]",
+          count ? "inline-flex opacity-100" : "opacity-0 hidden",
+        )}
+      >
+        <span className="text-text-button text-center text-[0.575rem] leading-[0.575rem] font-semibold">
+          {Number(count) > 9 ? "9+" : count || 0}
+        </span>
       </div>
-      {data?.res?.length ? (
-        <div data-count>
-          <span>{data?.res?.length > 9 ? "9+" : data?.res?.length || 0}</span>
-        </div>
-      ) : null}
     </Link>
   )
 }

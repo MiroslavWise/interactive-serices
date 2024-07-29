@@ -13,6 +13,7 @@ module.exports = {
       "BG-second": "var(--BG-second)",
       "BG-first": "var(--BG-first)",
       "BG-icons": "var(--BG-icons)",
+      "BG-filter": "var(--BG-filter)",
       "text-button": "var(--text-button)",
       "text-error": "var(--text-error)",
       "text-attention": "var(--text-attention)",

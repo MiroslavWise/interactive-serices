@@ -1,79 +1,16 @@
 .link {
-  height: 100%;
-  flex: 1;
-  flex-shrink: 0;
-  display: flex;
-  padding-block: 0.25rem 0.1875rem;
-  padding-inline: 0.0625rem;
-  flex-direction: column;
-  text-decoration: none !important;
-  position: relative;
-
-  .itemsIconLabel {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.1875rem;
-
+  & > section {
     & > article {
-      position: relative;
-      width: 1.5rem;
-      height: 1.5rem;
-      padding: 0.75rem;
-
       & > svg {
-        position: absolute;
-        inset: 0;
-        height: 1.5rem;
-        width: 1.5rem;
         & > path {
           fill: var(--element-grey);
-
-          transition: var(--transition);
-          transition-property: fill;
         }
-      }
-    }
-
-    p {
-      text-decoration: none !important;
-      margin-top: auto;
-      justify-self: flex-end;
-      color: var(--text-secondary);
-      text-align: center;
-      font-size: 0.6875rem;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 1.125rem;
-      letter-spacing: -0.3px;
-
-      transition: var(--transition);
-      transition-property: color;
-    }
-  }
-
-  .centerPoligon {
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3125rem;
-    background: var(--BG-filter);
-
-    & > svg {
-      height: 0.875rem;
-      width: 0.875rem;
-      & > path {
-        fill: var(--text-button);
       }
     }
   }
 
   &[data-active="true"] {
-    .itemsIconLabel {
+    & > section {
       & > article {
         & > svg {
           & > path {
@@ -81,33 +18,6 @@
           }
         }
       }
-      & > p {
-        color: var(--text-accent);
-      }
-    }
-  }
-
-  & > [data-count] {
-    position: absolute;
-    top: 0.35rem;
-    left: calc(50% + 0.125rem);
-    height: 1.1375rem;
-    min-width: 1.1375rem;
-    width: min-content;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding-inline: 0.4rem;
-    background: var(--element-accent-1);
-    border-radius: 0.56875rem;
-
-    & > span {
-      color: var(--text-button);
-      text-align: center;
-      font-size: 0.575rem;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 0.575rem;
     }
   }
 }

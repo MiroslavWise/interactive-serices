@@ -55,7 +55,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             aria-label={TITLE_SHARE}
             aria-labelledby={TITLE_SHARE}
             onClick={(event) => {
-              const url = `${env.server.host}/offer/${offer.id}/${String(offer.slug).replaceAll("/", "-")}`
+              const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
               if (!!window.navigator.share!) {
                 navigator.share({
                   title: offer.title!,

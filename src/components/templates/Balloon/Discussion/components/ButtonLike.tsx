@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { IResponseOffers } from "@/services/offers/types"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import IconLike from "@/components/icons/IconLike"
 
@@ -77,7 +77,7 @@ export const ButtonLike = ({ offer }: IProps) => {
       }}
     >
       <IconLike is={myLike} />
-      <span>{count}</span>
+      <span className={myLike ? "!text-text-accent" : "text-text-secondary"}>{count}</span>
     </button>
   )
 }
