@@ -1,4 +1,4 @@
-import type { IImageData } from "@/store/types/useAuthState"
+import { type IImageData } from "@/types/type"
 import type { IPromiseReturn } from "../types/general"
 import { EnumProviderThreads } from "@/types/enum"
 import type { IUserOffer } from "../offers/types"
@@ -14,9 +14,9 @@ export interface IPostThreads {
   enabled?: boolean
 }
 
-export type IPatchThreads = Partial<IPostThreads>
+type IPatchThreads = Partial<IPostThreads>
 
-export interface IThreadsMessages {
+interface IThreadsMessages {
   id: number
   created: Date
   message: string
@@ -40,7 +40,7 @@ export interface IResponseThreads {
   updated: Date
 }
 
-export interface IResponseCreate {
+interface IResponseCreate {
   id: number
 }
 

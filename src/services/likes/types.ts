@@ -1,13 +1,13 @@
 import { type IResponse } from "../request"
 
-export type TProviderLikes = "offer" | "user"
+type TProviderLikes = "offer" | "user"
 
-export interface IPostDataLikes {
+interface IPostDataLikes {
   id: number
   provider: TProviderLikes
 }
 
-export interface IResponseLikes {
+interface IResponseLikes {
   created: Date
   id: number
   provider: TProviderLikes

@@ -18,12 +18,6 @@ export interface IReturnData<T> {
   meta?: IMetaData | null
 }
 
-export interface IResponseGeneral<P> {
-  data: P
-  error: any | null
-  meta: IMetaData
-}
-
 export type IPromiseReturn<P> = Promise<IReturnData<P>>
 
 export type TProviderOffer =

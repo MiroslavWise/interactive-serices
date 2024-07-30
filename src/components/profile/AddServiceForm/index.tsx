@@ -15,6 +15,7 @@ import { getOffersCategories, getUserId, patchUser } from "@/services"
 import { dispatchChangeService, useAuth, useChangeService } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { IconXClose } from "@/components/icons/IconXClose"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)
@@ -134,16 +135,19 @@ export const ChangeService = () => {
           </a>
           <h2 className="text-text-primary text-center text-2xl font-semibold">Добавить услуги</h2>
         </header>
-        <ul className=" overflow-x-hidden overflow-y-auto h-[calc(100%_-_4.25rem)] md:h-[calc(100%_-_4.75rem)]">
+        <ul className="overflow-x-hidden overflow-y-auto h-[calc(100%_-_4.25rem)] md:h-[calc(100%_-_4.75rem)]">
           <form
             className={cx(styles.form, "w-full h-full flex flex-col gap-6 overflow-x-hidden overflow-y-auto p-5")}
             onSubmit={onSubmit}
             data-test="form-change-service"
           >
-            <span>
+            <span className="text-text-secondary text-sm font-normal pl-9">
               Чтобы увидеть все услуги, раскройте категорию. Вы можете выбрать не более {5 - (watch("categories")?.length || 0)} услуг.
             </span>
-            <div data-search>
+            <div
+              data-search
+              className="w-[calc(100%_-_2.25rem)] h-[3.25rem] relative overflow-hidden rounded-[1.625rem] border border-solid border-grey-separator ml-9 p-[1.625rem]"
+            >
               <input
                 {...register("search-categories")}
                 placeholder="Найти услугу"
@@ -165,10 +169,19 @@ export const ChangeService = () => {
                 }}
               />
             </div>
-            <div data-categories-selected={selectedCategories.length > 0} data-test="categories-selected-change-service">
+            <div
+              data-test="categories-selected-change-service"
+              className={cx(
+                "ml-9 w-[calc(100%_-_2.25rem)] flex-wrap gap-2 transition-all",
+                selectedCategories.length > 0 ? "flex opacity-100 visible" : "hidden opacity-0 invisible",
+              )}
+            >
               {selectedCategories.map((item) => (
-                <a key={`::selected::item::${item.id}::`}>
-                  <span>{item.title}</span>
+                <a
+                  key={`::selected::item::${item.id}::`}
+                  className="py-[0.4375rem] px-3 h-8 grid grid-cols-[minmax(0,1fr)_1rem] items-center gap-1 rounded-lg bg-element-grey hover:opacity-90"
+                >
+                  <span className="text-text-button text-sm font-normal text-ellipsis line-clamp-1 max-w-full">{item.title}</span>
                   <button
                     type="button"
                     onClick={(event) => {
@@ -179,21 +192,25 @@ export const ChangeService = () => {
                       )
                     }}
                     data-test="button-selected-current-change-service-on-delete"
+                    className={cx(
+                      "bg-transparent w-4 h-4 p-2 relative border-none outline-none",
+                      "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 [&>svg>path]:stroke-text-button",
+                    )}
                   >
-                    <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} />
+                    <IconXClose />
                   </button>
                 </a>
               ))}
             </div>
-            <section {...register("categories")} data-is-filter={isFilter}>
+            <section {...register("categories")} data-is-filter={isFilter} className="w-full flex flex-col gap-3">
               {isFilter ? (
                 filter.length ? (
                   filter.map((item) => (
                     <ItemCategorySearch key={`::item::filter::map::${item.id}::`} item={item} setValue={setValue} idsActive={idsActive} />
                   ))
                 ) : (
-                  <article>
-                    <p>Результатов не найдено</p>
+                  <article className={isFilter ? "w-full flex items-center flex-col gap-3 px-5" : ""}>
+                    <p className="text-text-primary text-base font-normal">Результатов не найдено</p>
                   </article>
                 )
               ) : (
@@ -202,8 +219,15 @@ export const ChangeService = () => {
                 ))
               )}
             </section>
-            <footer>
-              <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} data-test="button-change-service-submit" />
+            <footer className="w-full mt-auto flex flex-row items-center justify-start gap-5">
+              <Button
+                type="submit"
+                typeButton="fill-primary"
+                label="Добавить"
+                loading={loading}
+                data-test="button-change-service-submit"
+                className="h-11 rounded-[1.375rem] md:max-w-[12.5rem]"
+              />
             </footer>
           </form>
         </ul>

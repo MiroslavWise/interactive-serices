@@ -10,7 +10,7 @@ const title = z
   .max(LIMIT_TITLE_CREATE_OFFER_CATEGORY, { message: `Не более ${LIMIT_TITLE_CREATE_OFFER_CATEGORY} символов` })
   .default("")
 
-export const schema = z.object({
+const schema = z.object({
   parentId: z.number().optional(),
   provider: z.string().optional(),
   title: title,

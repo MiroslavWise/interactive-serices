@@ -13,6 +13,7 @@ import { dispatchMapCoordinates } from "@/store"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 import styles from "./style.module.scss"
+import { cx } from "@/lib/cx"
 
 export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) => {
   const [text, setText] = useState("")
@@ -63,8 +64,8 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
   }
 
   return (
-    <div className={styles.container} id="searchElementMap" ref={ref}>
-      <div data-icon>
+    <div className={cx(styles.container, "relative flex items-center w-full h-12 rounded-3xl z-[120]")} id="searchElementMap" ref={ref}>
+      <div className="absolute top-1/2 -translate-y-1/2 w-5 h-5 *:w-5 *:h-5">
         <IconMarkerPin />
       </div>
       <input
@@ -92,9 +93,15 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
         }}
         data-test="input-search-element-map"
       />
-      <section data-active={activeIsList} data-test="section-search-element-map">
+      <section
+        data-test="section-search-element-map"
+        className={cx(
+          "absolute z-20 top-[calc(100%_+_0.25rem)] left-0 right-0 w-full max-h-[12.375rem] rounded-xl bg-BG-second overflow-hidden",
+          activeIsList ? " opacity-100 visible" : "opacity-0 invisible",
+        )}
+      >
         {values?.length > 0 ? (
-          <ul data-test="section-ul-search-element-map">
+          <ul data-test="section-ul-search-element-map" className="w-full h-full overflow-x-hidden overflow-y-auto flex flex-col p-1">
             {values?.map((item) => (
               <a
                 key={`::key::map::address::${item?.GeoObject?.uri}::`}
@@ -108,9 +115,9 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
             ))}
           </ul>
         ) : !loading && text?.length > 0 ? (
-          <article>
-            <h3>Адрес</h3>
-            <p>По вашему запросу нет подходящих адресов</p>
+          <article className="w-full h-min p-4 flex flex-col items-center gap-2 *:text-text-primary *:text-center">
+            <h3 className="text-xl font-semibold">Адрес</h3>
+            <p className="text-base font-normal">По вашему запросу нет подходящих адресов</p>
           </article>
         ) : null}
       </section>

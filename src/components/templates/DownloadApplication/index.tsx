@@ -30,7 +30,14 @@ function DownloadApplication() {
         >
           <IconXClose />
         </button>
-        <article className={cx("w-full h-full overflow-hidden rounded-[2rem] flex flex-col gap-[3.875rem] relative", styles.article)}>
+        <article
+          className={cx(
+            "w-full h-full overflow-hidden rounded-[2rem] flex flex-col gap-[3.875rem] relative",
+            styles.article,
+            "after:transition-all after:duration-500 before:transition-all before:duration-500",
+            visible ? "after:scale-100 before:scale-100" : "after:scale-50 before:scale-50",
+          )}
+        >
           <section className="w-full px-10 pt-6 relative z-10 pr-[3.0625rem] flex flex-row items-start justify-between">
             <article
               className={cx(

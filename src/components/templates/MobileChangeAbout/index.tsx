@@ -12,8 +12,6 @@ import { cx } from "@/lib/cx"
 import { getUserId, patchProfile } from "@/services"
 import { useAuth, dispatchMobileChangeAbout, useMobileChangeAbout } from "@/store"
 
-import styles from "./styles/style.module.scss"
-
 export const MobileChangeAbout = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const visible = useMobileChangeAbout(({ visible }) => visible)
@@ -74,9 +72,9 @@ export const MobileChangeAbout = () => {
   }
 
   return (
-    <div className={cx(styles.wrapper, "wrapper-fixed", "bg-translucent p-0", visible && "!z-[2001] !opacity-100 !visible")}>
+    <div className={cx("wrapper-fixed", "bg-translucent p-0", visible && "!z-[2001] !opacity-100 !visible")}>
       <section data-section-modal className="relative h-full w-full bg-BG-second">
-        <ButtonClose onClick={handleClose} />
+        <ButtonClose onClick={handleClose} className="z-50" />
         <header className="flex items-center justify-center w-full p-5 pb-4 z-[1] h-[var(--height-standard-header-modal)] border-b border-solid border-grey-separator">
           <h3 className="text-text-primary text-center text-2xl font-semibold">Обо мне</h3>
         </header>
@@ -86,8 +84,20 @@ export const MobileChangeAbout = () => {
             control={control}
             render={({ field }) => (
               <div data-text-area-from className="w-full relative flex flex-col gap-2.5">
-                <textarea {...field} placeholder="Нажмите сюда, чтобы редактировать информацию о себе" ref={ref} />
-                <span data-error={field.value.length >= LIMIT_LENGTH_ABOUT}>
+                <textarea
+                  {...field}
+                  placeholder="Нажмите сюда, чтобы редактировать информацию о себе"
+                  ref={ref}
+                  className="w-full min-h-12 rounded-none !border-none !outline-none resize-none"
+                />
+                <span
+                  data-error={field.value.length >= LIMIT_LENGTH_ABOUT}
+                  className={cx(
+                    "w-full flex row items-center justify-between",
+                    "*:text-xs font-normal",
+                    field.value.length >= LIMIT_LENGTH_ABOUT ? "*:text-text-error" : "text-text-primary",
+                  )}
+                >
                   <span>{field.value.length >= LIMIT_LENGTH_ABOUT ? "Достигнут лимит символов" : ""}</span>
                   <span>
                     {field.value.length || 0}/{LIMIT_LENGTH_ABOUT}

@@ -3,7 +3,7 @@ import { UseFormSetValue } from "react-hook-form"
 
 import type { IMainAndSubCategories, IValuesCategories } from "../types/types"
 
-import { IconCategory } from "@/lib/icon-set"
+import { ImageCategory } from "@/components/common"
 
 export const IconCheck = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -18,8 +18,12 @@ export const ItemCategory = memo(function ItemCategory(
   const [expand, setExpand] = useState(false)
 
   return (
-    <a data-expand={expand} data-test={`main-expand-change-service-${main?.id}`}>
-      <div data-main data-disabled={idsActive?.length >= 5 && !idsActive?.includes(main?.id)}>
+    <a data-expand={expand} data-test={`main-expand-change-service-${main?.id}`} className="relative w-full flex flex-col items-end gap-3">
+      <div
+        data-main
+        className="w-full h-[3.6875rem] flex flex-row items-center gap-5"
+        data-disabled={idsActive?.length >= 5 && !idsActive?.includes(main?.id)}
+      >
         <button
           type="button"
           data-check={idsActive?.includes(main?.id)}
@@ -48,21 +52,7 @@ export const ItemCategory = memo(function ItemCategory(
           }}
         >
           <div data-img>
-            <img
-              src={IconCategory(main.id!)}
-              alt="cat"
-              height={16}
-              width={16}
-              onError={(error: any) => {
-                if (error?.target) {
-                  try {
-                    error.target.src = `/svg/category/default.svg`
-                  } catch (e) {
-                    console.log("catch e: ", e)
-                  }
-                }
-              }}
-            />
+            <ImageCategory id={main.id!} />
           </div>
           <p>{main.title}</p>
           <img data-img-expand src="/svg/chevron-down-gray.svg" alt="down" width={24} height={24} />
@@ -94,21 +84,7 @@ export const ItemCategory = memo(function ItemCategory(
             <div data-check>{idsActive.includes(item?.id!) ? <IconCheck /> : null}</div>
             <span>
               <div data-img>
-                <img
-                  src={IconCategory(item.id!)}
-                  alt="cat"
-                  height={16}
-                  width={16}
-                  onError={(error: any) => {
-                    if (error?.target) {
-                      try {
-                        error.target.src = `/svg/category/default.svg`
-                      } catch (e) {
-                        console.log("catch e: ", e)
-                      }
-                    }
-                  }}
-                />
+                <ImageCategory id={item.id!} />
               </div>
               <p>{item.title}</p>
             </span>

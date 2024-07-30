@@ -1,26 +1,4 @@
 .container {
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: 3rem;
-  align-items: center;
-  border-radius: 1.5rem;
-  z-index: 120;
-
-  & > [data-icon] {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1.25rem;
-
-    & > svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-  }
-
   & > input {
     height: 3rem;
     width: 100%;
@@ -41,34 +19,9 @@
   }
 
   & > section {
-    position: absolute;
-    z-index: 20;
-    top: calc(100% + 0.25rem);
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-height: 12.375rem;
-    border-radius: 0.75rem;
-    background-color: var(--BG-second);
     box-shadow: 0px 10px 16px 0px rgba(31, 31, 41, 0.1);
-    overflow: hidden;
-    transform: translateY(-2rem);
-
-    opacity: 0;
-    visibility: hidden;
-
-    transition: var(--transition);
-    transition-property: opacity, visibility, transform;
 
     & > ul {
-      height: 100%;
-      max-height: inherit;
-      overflow: hidden;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      padding: 0.25rem;
-
       & > a {
         width: 100%;
         padding: 0.5rem;
@@ -96,65 +49,6 @@
           background-color: var(--grey-field);
         }
       }
-
-      &[data-loading="true"] {
-        gap: 0.25rem;
-
-        & > span {
-          width: 100%;
-          height: 2.375rem;
-          border-radius: 0.5rem;
-          position: relative;
-          overflow: hidden;
-          background-color: var(--grey-field);
-
-          &::before {
-            content: "";
-            display: block;
-            position: absolute;
-            left: -150px;
-            top: 0;
-            height: 100%;
-            width: 150px;
-            background: linear-gradient(to right, transparent 0%, #e8e8e8 50%, transparent 100%);
-            animation: load 0.4s linear infinite;
-          }
-        }
-      }
-    }
-
-    & > article {
-      width: 100%;
-      height: min-content;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-
-      & > h3 {
-        color: var(--text-primary);
-        text-align: center;
-        font-size: 1.25rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 1.875rem;
-      }
-
-      & > p {
-        color: var(--text-primary);
-        text-align: center;
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1.5rem;
-      }
-    }
-
-    &[data-active="true"] {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
     }
   }
 }
@@ -164,14 +58,5 @@
     [data-loading-image="true"] {
       filter: invert(1);
     }
-  }
-}
-
-@keyframes load {
-  from {
-    left: -150px;
-  }
-  to {
-    left: 100%;
   }
 }

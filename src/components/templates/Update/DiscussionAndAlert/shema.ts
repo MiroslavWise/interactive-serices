@@ -2,7 +2,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export const LIMIT_DESCRIPTION = 512
-export const LIMIT_TITLE = 144
+const LIMIT_TITLE = 144
 
 const regexContent = /[^a-z0-9а-яёй\s]/i
 

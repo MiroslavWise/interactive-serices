@@ -1,7 +1,7 @@
 import type { IBarterResponse } from "../barters/types"
 import type { IPromiseReturn, TOrder } from "../types/general"
 
-export type TTypeOperation =
+type TTypeOperation =
   | "create"
   | "completion-survey"
   | "completion-yes"
@@ -13,15 +13,15 @@ export type TTypeOperation =
   | "feedback-received-no"
   | "canceled"
 
-export type TTypeProviderNotifications = "barter" | "offer-pay"
+type TTypeProviderNotifications = "barter" | "offer-pay"
 
-export interface IPostNotification {
+interface IPostNotification {
   read: boolean
   enabled: boolean
   operation?: TTypeOperation
 }
 
-export type TPatchNotification = Partial<IPostNotification>
+type TPatchNotification = Partial<IPostNotification>
 
 export interface IResponseNotifications {
   id: number

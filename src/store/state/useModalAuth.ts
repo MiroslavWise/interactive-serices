@@ -84,13 +84,13 @@ export const dispatchAuthModalCreatePassword = ({ email, phone, agree, marketing
   }))
 }
 
-export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionAuthModalVerification) => {
-  dispatchModal(EModalData.ModalSign)
-  useModalAuth.setState((_) => ({
-    verification: { confirmationCode, id },
-    type: EnumSign.CodeVerification,
-  }))
-}
+// export const dispatchAuthModalVerification = ({ confirmationCode, id }: IActionAuthModalVerification) => {
+//   dispatchModal(EModalData.ModalSign)
+//   useModalAuth.setState((_) => ({
+//     verification: { confirmationCode, id },
+//     type: EnumSign.CodeVerification,
+//   }))
+// }
 
 export const dispatchStartTimer = () => {
   const timeSecond = Date.now() / 1000
@@ -100,7 +100,7 @@ export const dispatchStartTimer = () => {
   }))
 }
 
-export const dispatchIntervalTimer = () => useTimerModalAuth.setState((_) => ({}), true)
+// export const dispatchIntervalTimer = () => useTimerModalAuth.setState((_) => ({}), true)
 
 export const dispatchAuthModalCurrentUser = ({ user }: { user?: IUserResponse }) => {
   if (!!user) {

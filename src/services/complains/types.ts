@@ -8,7 +8,7 @@ export interface IPostComplains {
   provider: EnumTypeProvider //profile
 }
 
-export interface IResponseComplains {
+interface IResponseComplains {
   id: number
   message: string
   provider: EnumTypeProvider

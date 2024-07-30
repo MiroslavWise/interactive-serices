@@ -1,4 +1,4 @@
-import { type IImageData } from "@/store/types/useAuthState"
+import { type IImageData } from "@/types/type"
 import { type IPromiseReturn } from "../types/general"
 import { type IUserOffer } from "../offers/types"
 import { type IResponse } from "../request"
@@ -14,13 +14,13 @@ export interface IRequestPostMessages {
   images?: number[]
 }
 
-export interface IResponseCreate {
+interface IResponseCreate {
   id: number
 }
 
-export type IRequestPatchMessages = Partial<IRequestPostMessages>
+type IRequestPatchMessages = Partial<IRequestPostMessages>
 
-export interface IResponseMessageProps {
+interface IResponseMessageProps {
   id: number
   message: string
   parentId: number | null

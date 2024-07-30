@@ -1,6 +1,6 @@
 import { IResponseOffers, IUserOffer } from "@/services/offers/types"
 
-export interface IStateComplaintModal {
+interface IStateComplaintModal {
   user?: IUserOffer
   offer?: IResponseOffers
 }
@@ -10,6 +10,4 @@ export interface IAction {
   offer?: IResponseOffers
 }
 
-export interface IActionComplaintModal {}
-
-export type TUseComplaintModal = IStateComplaintModal & IActionComplaintModal
+export type TUseComplaintModal = IStateComplaintModal

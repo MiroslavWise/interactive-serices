@@ -1,8 +1,8 @@
-import type { IReturnData } from "@/services/types/general"
-import type { IResponseLoginNot2fa } from "./authService"
+import { type IReturnData } from "@/services/types/general"
+import { type IResponseLoginNot2fa } from "./authService"
 import { IAgree } from "./typeAgree"
 
-export interface IDataRegistration extends IAgree {
+interface IDataRegistration extends IAgree {
   email: string
   password: string
   repeat: string

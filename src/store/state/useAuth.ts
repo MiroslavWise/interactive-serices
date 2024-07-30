@@ -8,7 +8,7 @@ import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/
 import { queryClient } from "@/context"
 import { getLogout, getUser, login, refresh } from "@/services"
 
-export const NAME_STORAGE_USE_AUTH = "::---sheira-auth---::"
+const NAME_STORAGE_USE_AUTH = "::---sheira-auth---::"
 export const useAuth = create(
   persist<IStateUseAuth>(
     () => ({

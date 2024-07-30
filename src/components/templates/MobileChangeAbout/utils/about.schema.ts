@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 export const LIMIT_LENGTH_ABOUT = 512
 export const MIN_LENGTH_ABOUT = 1
 
-export const aboutSchema = z.object({
+const aboutSchema = z.object({
   about: z
     .string()
     .trim()

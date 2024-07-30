@@ -1,22 +1,7 @@
 import { EnumTypeProvider } from "@/types/enum"
 import { AxiosProgressEvent } from "axios"
 
-export type TTypeUploadFileImage = "image/png" | "image/jpeg" | "image/gif" | "image/bmp" | "image/tiff" | "image/svg+xml" | "image/webp"
-
-export interface IUploadFile {
-  name: string
-  caption: string
-  ext: string
-  alt: string
-  hash: string
-  height: number
-  width: number
-  provider: string
-  size: number
-  thumb: string
-  type: string
-  file: File
-}
+type TTypeUploadFileImage = "image/png" | "image/jpeg" | "image/gif" | "image/bmp" | "image/tiff" | "image/svg+xml" | "image/webp"
 
 export interface IResponseUploadFile {
   id: number

@@ -46,7 +46,7 @@ export enum EnumCountry {
   ee = "ee",
 }
 
-export interface IFlag {
+interface IFlag {
   img: () => JSX.Element
   short: EnumCountry
   name: string

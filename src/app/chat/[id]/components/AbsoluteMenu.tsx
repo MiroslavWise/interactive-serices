@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
-import IconBlock from "@/components/icons/IconBlock"
 import IconProfile from "@/components/icons/IconProfile"
 import IconComplaint from "@/components/icons/IconComplaint"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"

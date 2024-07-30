@@ -43,4 +43,4 @@ function randomNotifications() {
   }
 }
 
-export { DESCRIPTION, TITLE, BUTTON_LABEL, BUTTON_ON_CLICK, randomNotifications }
+export { randomNotifications }

@@ -1,21 +1,13 @@
 import type { IPromiseReturn } from "@/services/types/general"
 import type { TTypeFriends } from "@/store/types/createDroverFriends"
-import { IUserOffer } from "../offers/types"
-import { IResponse } from "../request"
+import { type IUserOffer } from "../offers/types"
+import { type IResponse } from "../request"
 
-export interface IPostDataFriends {
+interface IPostDataFriends {
   id: number
 }
 
-export type TPatchDataFriends = Partial<IPostDataFriends>
-
-export interface IFriendsResponse extends IUserOffer {}
-
-export interface IFriendResponseId {
-  created: Date
-  email: string
-  id: number
-}
+interface IFriendsResponse extends IUserOffer {}
 
 interface IQueries {
   order?: "ASC" | "DESC"
