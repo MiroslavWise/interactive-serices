@@ -1,6 +1,8 @@
 import Link from "next/link"
 import QRCode from "react-qr-code"
 
+import { ImageStatic } from "@/components/common"
+import BadgesImMobile from "./components/BadgesImMobile"
 import { IconXClose } from "@/components/icons/IconXClose"
 import IconAppleApps from "@/components/icons/IconAppleApps"
 
@@ -9,7 +11,6 @@ import { URL_APPLE_APP } from "@/config/environment"
 import { dispatchDownloadApplication, useDownloadApplication } from "@/store"
 
 import styles from "./styles.module.scss"
-import { ImageStatic } from "@/components/common"
 
 function DownloadApplication() {
   const visible = useDownloadApplication(({ visible }) => visible)
@@ -56,6 +57,7 @@ function DownloadApplication() {
                 width={292}
                 className="absolute rounded-[1.467rem] w-[8.36638rem] h-[18.22925rem] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
               />
+              <BadgesImMobile />
             </article>
           </section>
           <section className="w-full grid grid-cols-2 items-start gap-20 px-10 pb-[6.875rem] relative z-10">
