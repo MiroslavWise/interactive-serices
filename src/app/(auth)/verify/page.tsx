@@ -4,10 +4,10 @@ import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
-import { getUserId, RegistrationService } from "@/services"
-import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 import { queryClient } from "@/context"
+import { useToast } from "@/helpers/hooks/useToast"
+import { getUserId, RegistrationService } from "@/services"
+import { dispatchAuthToken, dispatchClearAuth, dispatchOnboarding } from "@/store"
 
 export const dynamicParams = true
 
@@ -18,37 +18,39 @@ export default function PageVerify() {
 
   useEffect(() => {
     if (verifyToken) {
-      RegistrationService.verification({ code: verifyToken! }).then((response) => {
-        if (response.ok) {
-          on({
-            message: "Ваш аккаунт успешно прошёл верификацию",
-          })
-          if (response.res) {
-            queryClient
-              .fetchQuery({
-                queryFn: () => getUserId(response.res?.id!),
-                queryKey: ["user", { userId: response.res?.id }],
-              })
-              .then(({ data }) => {
-                if (!!data) {
-                  dispatchAuthToken({ user: data!, auth: response?.res! })
+      dispatchClearAuth().then(() => {
+        RegistrationService.verification({ code: verifyToken! }).then((response) => {
+          if (response.ok) {
+            on({
+              message: "Ваш аккаунт успешно прошёл верификацию",
+            })
+            if (response.res) {
+              queryClient
+                .fetchQuery({
+                  queryFn: () => getUserId(response.res?.id!),
+                  queryKey: ["user", { userId: response.res?.id }],
+                })
+                .then(({ data }) => {
+                  if (!!data) {
+                    dispatchAuthToken({ user: data!, auth: response?.res! })
 
-                  dispatchOnboarding("open")
-                  handlePush("/")
-                } else {
-                  on({
-                    message: "Ваш аккаунт не прошёл верификацию.",
-                  })
-                  handlePush("/")
-                }
-              })
+                    dispatchOnboarding("open")
+                    handlePush("/")
+                  } else {
+                    on({
+                      message: "Ваш аккаунт не прошёл верификацию.",
+                    })
+                    handlePush("/")
+                  }
+                })
+            }
+          } else {
+            on({
+              message: "Ваш аккаунт не прошёл верификацию.",
+            })
+            handlePush("/")
           }
-        } else {
-          on({
-            message: "Ваш аккаунт не прошёл верификацию.",
-          })
-          handlePush("/")
-        }
+        })
       })
     }
   }, [verifyToken])

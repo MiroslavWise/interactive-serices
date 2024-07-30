@@ -6,10 +6,7 @@ import { EnumSign } from "@/types/enum"
 
 import { Button } from "@/components/common"
 
-import { cx } from "@/lib/cx"
-import { dispatchAuthModal, dispatchNewServicesBanner, useAuth } from "@/store/hooks"
-
-import styles from "../styles/components.module.scss"
+import { dispatchAuthModal, dispatchDownloadApplication, dispatchNewServicesBanner, useAuth } from "@/store"
 
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -18,37 +15,53 @@ export const Buttons = () => {
   if (pathname.includes("/legal/")) return null
 
   return typeof isAuth === "undefined" ? (
-    <div className={cx("loading-screen relative flex flex-row", styles.buttons)}>
+    <div className="loading-screen relative flex flex-row gap-3">
       <span />
       <span />
     </div>
   ) : (
-    <div className={styles.buttons}>
+    <div className="relative flex flex-row gap-3">
       {isAuth ? (
-        <Button
-          label="Создать"
-          typeButton="fill-primary"
-          className={styles.widthButton}
-          suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
-          style={{ width: "100%" }}
-          onClick={dispatchNewServicesBanner}
-          data-test="nav-bar-button-create"
-          id="nav-bar-button-create"
-        />
+        <>
+          <Button
+            type="button"
+            label="Скачать приложение"
+            typeButton="regular-primary"
+            className="px-4 w-min"
+            onClick={() => dispatchDownloadApplication(true)}
+          />
+          <Button
+            label="Создать"
+            typeButton="fill-primary"
+            className="min-w-[8.875rem]"
+            suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
+            style={{ width: "100%" }}
+            onClick={dispatchNewServicesBanner}
+            data-test="nav-bar-button-create"
+            id="nav-bar-button-create"
+          />
+        </>
       ) : (
         <>
           <Button
             type="button"
+            label="Скачать приложение"
+            typeButton="regular-primary"
+            className="px-4 w-min"
+            onClick={() => dispatchDownloadApplication(true)}
+          />
+          <Button
+            type="button"
             label="Зарегистрироваться"
             typeButton="regular-primary"
-            className={styles.widthButton}
+            className="min-w-[8.875rem]"
             onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })}
           />
           <Button
             type="button"
             label="Войти"
             typeButton="fill-primary"
-            className={styles.widthButton}
+            className="min-w-[8.875rem]"
             onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })}
           />
         </>

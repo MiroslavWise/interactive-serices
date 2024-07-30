@@ -1,0 +1,29 @@
+.article {
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    height: auto;
+  }
+
+  &::after {
+    transform: translate(-50%, -50%);
+    top: 83%;
+    left: 48%;
+    width: 33.09763rem;
+    background-color: #e836e1;
+    filter: blur(150px);
+    z-index: 1;
+  }
+
+  &::before {
+    width: 29.70625rem;
+    background-color: #8f36e8;
+    filter: blur(75px);
+    top: -0.75rem;
+    right: -4.275rem;
+    z-index: 1;
+  }
+}
