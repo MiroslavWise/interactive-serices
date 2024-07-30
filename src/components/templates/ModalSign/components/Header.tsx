@@ -17,8 +17,10 @@ function HeaderAuth() {
           ? "Восстановление пароля"
           : [EnumSign.CreatePassword, EnumSign.ResetPassword].includes(type!)
           ? "Пароль"
-          : [EnumSign.CodeVerification, EnumSign.InformationCreateAccount].includes(type!)
-          ? `Подтверждение ${!!email ? "почты" : !!phone ? "номера" : ""}`
+          : type === EnumSign.CodeVerification
+          ? "Подтверждение номера"
+          : type === EnumSign.InformationCreateAccount
+          ? "Подтверждение почты"
           : [EnumSign.CurrentUser, EnumSign.ExistingAccount].includes(type!)
           ? "Аккаунт уже существует"
           : type === EnumSign.NumberConfirmation
