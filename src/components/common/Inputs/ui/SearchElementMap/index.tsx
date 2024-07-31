@@ -15,7 +15,7 @@ import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import styles from "./style.module.scss"
 import { cx } from "@/lib/cx"
 
-export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) => {
+export const SearchElementMap: TSearchElementMap = () => {
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
   const [activeIsList, setIsActiveList, ref] = useOutsideClickEvent()
@@ -65,14 +65,14 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
 
   return (
     <div className={cx(styles.container, "relative flex items-center w-full h-12 rounded-3xl z-[120]")} id="searchElementMap" ref={ref}>
-      <div className="absolute top-1/2 -translate-y-1/2 w-5 h-5 *:w-5 *:h-5">
+      <div className="absolute top-1/2 left-4 -translate-y-1/2 w-5 h-5 *:w-5 *:h-5">
         <IconMarkerPin />
       </div>
       <input
         type="text"
         onFocus={onFocus}
         placeholder="Выберите местоположение"
-        className={styles.input}
+        className="h-12 w-full rounded-3xl text-text-primary outline-none border-none font-normal text-sm text-left placeholder:text-text-disabled py-3.5 pr-3.5 !pl-[2.625rem]"
         value={text}
         onChange={(event) => {
           setText(event.target.value)
@@ -109,8 +109,9 @@ export const SearchElementMap: TSearchElementMap = ({ handleAddressLocation }) =
                   event.stopPropagation()
                   handleAddress(item)
                 }}
+                className="w-full p-2 pb-2.5 h-min flex items-center justify-start rounded-lg bg-transparent hover:bg-grey-field cursor-pointer"
               >
-                <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                <span className="text-text-primary text-sm font-normal">{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
               </a>
             ))}
           </ul>

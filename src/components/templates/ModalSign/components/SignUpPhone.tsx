@@ -82,9 +82,7 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
           rules={{ required: true }}
           render={({ field, fieldState: { error } }) => (
             <div data-label-input data-test="sign-up-phone">
-              <label htmlFor={field.name} title="Телефон">
-                Телефон
-              </label>
+              <label htmlFor={field.name}>Телефон</label>
               <InputCountry
                 {...field}
                 replaceValue={(value) => {

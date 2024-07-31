@@ -1,55 +1,6 @@
 .container {
-  & > input {
-    height: 3rem;
-    width: 100%;
-    border-radius: 1.5rem;
-    color: var(--text-primary);
-    background-color: var(--BG-second);
-    padding-inline: calc(1rem + 1.25rem + 0.375rem) 0.875rem !important;
-    padding-block: calc(0.25rem + 0.625rem);
-    outline: none !important;
-    border: none !important;
-    font-weight: 400;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-
-    &::placeholder {
-      color: var(--text-disabled);
-    }
-  }
-
   & > section {
     box-shadow: 0px 10px 16px 0px rgba(31, 31, 41, 0.1);
-
-    & > ul {
-      & > a {
-        width: 100%;
-        padding: 0.5rem;
-        padding-bottom: 0.625rem;
-        height: min-content;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        border-radius: 0.5rem;
-        background-color: transparent;
-        cursor: pointer;
-
-        transition: var(--transition);
-        transition-property: background-color;
-
-        & > span {
-          color: var(--text-primary);
-          font-size: 0.875rem;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 1.25rem;
-        }
-
-        &:hover {
-          background-color: var(--grey-field);
-        }
-      }
-    }
   }
 }
 
