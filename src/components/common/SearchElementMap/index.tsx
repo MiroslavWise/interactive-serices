@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 
-import type { TSearchElementMap } from "./types"
-import type { IFeatureMember } from "@/services/addresses/types/geocodeSearch"
+import { type IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
 import IconMarkerPin from "@/components/icons/IconMarkerPin"
 
@@ -15,7 +14,7 @@ import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import styles from "./style.module.scss"
 import { cx } from "@/lib/cx"
 
-export const SearchElementMap: TSearchElementMap = () => {
+export const SearchElementMap = () => {
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
   const [activeIsList, setIsActiveList, ref] = useOutsideClickEvent()

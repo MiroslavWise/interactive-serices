@@ -8,14 +8,11 @@ import { FooterPhotos } from "./components/FooterPhotos"
 import { ButtonPrevNext } from "./components/ButtonPrevNext"
 
 import { cx } from "@/lib/cx"
-import { useResize } from "@/helpers"
 import { useVisiblePhotosCarousel, dispatchPhotoCarousel, setPrevPhotoCarousel, setNextPhotoCarousel } from "@/store"
 
 type TKeyDown = "ArrowRight" | "ArrowLeft" | any
 
 function PhotoCarousel() {
-  const { isTablet } = useResize()
-
   const isVisible = useVisiblePhotosCarousel(({ isVisible }) => isVisible)
 
   function keyDown(event: any) {
@@ -46,19 +43,15 @@ function PhotoCarousel() {
 
   return (
     <div className={cx("wrapper-fixed bg-translucent", isVisible ? "!opacity-100 !z-[2000] !visible" : "opacity-0 -z-10 invisible")}>
-      {isVisible ? (
-        <>
-          <ButtonClose
-            onClick={() => {
-              dispatchPhotoCarousel({ visible: false })
-            }}
-            position={{ right: 20, top: 20 }}
-          />
-          {!isTablet ? <ButtonPrevNext /> : null}
-          {isVisible ? <LargePhoto /> : null}
-          {isVisible ? <FooterPhotos /> : null}
-        </>
-      ) : null}
+      <ButtonClose
+        onClick={() => {
+          dispatchPhotoCarousel({ visible: false })
+        }}
+        className="!right-5 !top-5"
+      />
+      <ButtonPrevNext />
+      <LargePhoto />
+      <FooterPhotos />
     </div>
   )
 }

@@ -6,10 +6,16 @@ import { cx } from "@/lib/cx"
 
 export function FooterPhotos() {
   const photos = useVisiblePhotosCarousel(({ photos }) => photos)
+  const isVisible = useVisiblePhotosCarousel(({ isVisible }) => isVisible)
   const currentPhoto = useVisiblePhotosCarousel(({ currentPhoto }) => currentPhoto)
 
   return (
-    <ul className="absolute bottom-[10%] left-0 right-0 top-[80%] w-full inline-flex gap-2.5 justify-center items-center">
+    <ul
+      className={cx(
+        "absolute bottom-[10%] left-0 right-0 top-[80%] w-full inline-flex gap-2.5 justify-center items-center transition-all duration-200",
+        isVisible ? "translate-y-0" : "max-md:translate-y-full",
+      )}
+    >
       {photos?.map((item) => (
         <li
           className={cx(
