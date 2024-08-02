@@ -89,7 +89,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
           <ul className="w-full max-h-[calc(41.875rem_-_2.5rem)] h-min overflow-x-hidden overflow-y-auto p-6 flex flex-col gap-2.5">
             {state.new.length > 0 ? (
               <>
-                <p>Новые уведомления</p>
+                <p className="text-text-primary text-base text-left font-medium">Новые уведомления</p>
                 {state.new?.map((item) => (
                   <ItemNotification key={`::item::notification::popup::`} {...item} />
                 ))}

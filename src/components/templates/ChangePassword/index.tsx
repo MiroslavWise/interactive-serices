@@ -74,12 +74,12 @@ function ChangePassword() {
 
   return (
     <>
-      <header>
-        <h3>Изменение пароля</h3>
+      <header className="w-full h-[4.25rem] md:h-[4.75rem] p-5 md:py-6 px-5 max-md:pb-4 flex items-center justify-center border-b border-solid border-grey-separator">
+        <h3 className="text-text-primary text-center text-2xl font-semibold">Изменение пароля</h3>
       </header>
-      <form onSubmit={onSubmit} data-test="form-change-password">
-        <p>Введите ваш текущий пароль для подтверждения аккаунта.</p>
-        <article>
+      <form onSubmit={onSubmit} data-test="form-change-password" className="py-10 px-5 md:px-[3.75rem] flex flex-col gap-10">
+        <p className="text-text-primary text-sm font-normal">Введите ваш текущий пароль для подтверждения аккаунта.</p>
+        <article className="w-full flex flex-col gap-5">
           <Controller
             name="oldPassword"
             rules={{ required: true }}
