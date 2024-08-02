@@ -1,66 +1,35 @@
 .wrapper {
-    position: fixed;
-    inset: 0;
-    opacity: 0;
-    visibility: hidden;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 80px;
-    background: rgba(0, 0, 0, 0.62);
-    backdrop-filter: blur(2.5px);
-    z-index: 1500;
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(2.5px);
+  z-index: 1500;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    &[data-visible="true"] {
-        opacity: 1;
-        visibility: visible;
-        display: flex;
+  &[data-visible="true"] {
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+  }
+
+  & > section {
+    max-width: 584px;
+
+    & > ul {
+      -webkit-overflow-scrolling: touch;
+
+      & > li {
+        list-style-type: circle;
+      }
     }
-
-    & > section {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        max-width: 584px;
-        border-radius: 32px;
-        background: var(--background);
-
-        & > ul {
-            width: 100%;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            height: calc(100%);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-
-            & > h2 {
-                color: var(--gray-900);
-                text-align: start;
-                font-size: 30px;
-                font-style: normal;
-                font-weight: 600;
-            }
-
-            & > li,
-            & > p {
-                width: 100%;
-                color: var(--gray-500);
-                text-align: start;
-                font-size: 18px;
-                font-style: normal;
-                font-weight: 500;
-            }
-
-            & > li {
-                list-style-type: circle;
-            }
-        }
-    }
+  }
 }
