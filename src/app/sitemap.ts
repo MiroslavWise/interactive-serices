@@ -23,6 +23,12 @@ export default async function (): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: `${env.server.host}/app-store`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.99,
+    },
+    {
       url: `${env.server.host}/legal/ads-agreement/`,
       lastModified: new Date(),
       changeFrequency: "monthly",
