@@ -10,9 +10,7 @@ export const agree = z.boolean().default(false)
  */
 export const marketing = z.boolean().default(false)
 
-export const objectAgree = z.object({
+const objectAgree = z.object({
   agree: agree,
   marketing: marketing,
 })
-
-export type TTypeAgree = z.infer<typeof objectAgree>

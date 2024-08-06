@@ -14,7 +14,7 @@ export const useAdvertisingBanner = create(
   ),
 )
 
-export const dispatchCloseAdvertisingBanner = () => useAdvertisingBanner.setState((_) => ({ visible: false }))
+// export const dispatchCloseAdvertisingBanner = () => useAdvertisingBanner.setState((_) => ({ visible: false }))
 
 interface IStateUseAdvertisingBanner {
   visible: boolean

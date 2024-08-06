@@ -1,5 +1,5 @@
 import { EnumTypeProvider } from "@/types/enum"
-import type { INewCreateBadge } from "./types/types"
+import { type INewCreateBadge } from "./types/types"
 
 export const NEW_CREATE_BADGES: INewCreateBadge[] = [
   {
@@ -15,4 +15,3 @@ export const NEW_CREATE_BADGES: INewCreateBadge[] = [
     value: EnumTypeProvider.discussion,
   },
 ]
-export const NEW_CREATE_BADGES_ALERT_OR_DISCUSSION = NEW_CREATE_BADGES

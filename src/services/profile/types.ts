@@ -1,4 +1,4 @@
-import { type IImageData } from "@/store/types/useAuthState"
+import { type IImageData } from "@/types/type"
 import { type IPromiseReturn } from "@/services/types/general"
 import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 import { type IResponse } from "../request"
@@ -32,7 +32,7 @@ export interface IGetProfileIdResponse {
   image: IImageData
 }
 
-export interface IProfileResponse {
+interface IProfileResponse {
   id: number
 }
 

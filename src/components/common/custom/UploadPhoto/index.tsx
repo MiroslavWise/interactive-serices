@@ -1,15 +1,21 @@
 "use client"
 
 import Image from "next/image"
-import { type ChangeEvent } from "react"
-
-import type { TUploadPhoto } from "./types"
+import { type Dispatch, type ChangeEvent } from "react"
 
 import { ImageStatic } from "@/components/common"
 
-import styles from "./style.module.scss"
+interface IUploadPhoto {
+  files: File
+  index: number
+  selected: string
 
-export const UploadPhoto: TUploadPhoto = ({ index, selected, setFiles, setSelectedImage, deleteFile }) => {
+  setFiles: Dispatch<File>
+  setSelectedImage: Dispatch<string>
+  deleteFile: Dispatch<number>
+}
+
+export const UploadPhoto = ({ index, selected, setFiles, setSelectedImage, deleteFile }: IUploadPhoto) => {
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files
 
@@ -32,13 +38,29 @@ export const UploadPhoto: TUploadPhoto = ({ index, selected, setFiles, setSelect
   }
 
   return (
-    <div className={styles.container} data-upload>
+    <div
+      className="relative flex items-center justify-center w-full md:max-w-[9.5rem] overflow-hidden rounded-2xl border-2 border-dashed border-grey-field bg-BG-first cursor-pointer z-20 max-md:h-auto max-md:aspect-[152/196]"
+      data-upload
+    >
       {selected ? (
-        <ImageStatic src={selected} height={900} width={300} alt="offer" className={styles.photo} onClick={() => deletePhoto(index)} />
+        <ImageStatic
+          src={selected}
+          height={900}
+          width={300}
+          alt="offer"
+          className="absolute inset-0 z-30 h-full w-full"
+          onClick={() => deletePhoto(index)}
+        />
       ) : (
         <Image src="/svg/plus-gray.svg" alt="plus-gray" height={60} width={60} unoptimized />
       )}
-      <input type="file" accept="video/*, image/*" onChange={handleImageChange} multiple />
+      <input
+        type="file"
+        accept="video/*, image/*"
+        onChange={handleImageChange}
+        multiple
+        className="absolute inset-0 cursor-pointer opacity-0 z-20"
+      />
     </div>
   )
 }

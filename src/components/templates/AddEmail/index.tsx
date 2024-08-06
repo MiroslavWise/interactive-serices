@@ -3,15 +3,11 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
-import { IValues } from "./types"
-
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { patchEmailPasswordUser } from "@/services"
 import { dispatchAddEmail, dispatchCheckTheMail, useAddEmail, useAuth } from "@/store"
-
-import styles from "./style.module.scss"
 
 export const AddEmail = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -53,28 +49,34 @@ export const AddEmail = () => {
     watch("password") !== watch("repeat")
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
-      <section data-section-modal>
+    <div
+      className={cx(
+        "wrapper-fixed",
+        "flex flex-col items-center bg-translucent p-0 md:pt-[5.625rem] md:px-5 md:pb-5",
+        visible ? "!z-[2000] !visible !opacity-100" : "-z-10 opacity-0 invisible",
+      )}
+    >
+      <section data-section-modal className="relative w-full md:max-w-[30.625rem] max-md:h-full md:rounded-[2rem] bg-BG-second">
         <ButtonClose onClick={close} />
-        <header>
-          <h3>Электронная почта</h3>
+        <header className="w-full h-[4.25rem] md:h-[4.75rem] p-5 md:py-6 px-5 max-md:pb-4 flex items-center justify-center border-b border-solid border-grey-separator">
+          <h3 className="text-text-primary text-center text-2xl font-semibold">Электронная почта</h3>
         </header>
-        <form onSubmit={onSubmit}>
-          <p>Введите электронную почту, которую хотите добавить и придумайте пароль</p>
-          <article>
-            <fieldset>
-              <label>Электронная почта</label>
+        <form onSubmit={onSubmit} className="px-5 md:px-[3.75rem] py-10 w-full flex flex-col gap-10">
+          <p className="text-text-primary text-sm font-normal">Введите электронную почту, которую хотите добавить и придумайте пароль</p>
+          <article className="w-full flex flex-col gap-5">
+            <fieldset className="w-full flex flex-col gap-2">
+              <label className="text-text-primary text-sm font-medium">Электронная почта</label>
               <input
                 type="email"
                 {...register("email", { required: true })}
                 placeholder="email_address@mail.com"
                 data-error={!!errors?.email?.message}
               />
-              {errors.email?.message ? <i>{errors?.email?.message}</i> : null}
+              {errors.email?.message ? <i className="text-text-error text-xs font-medium -mt-1">{errors?.email?.message}</i> : null}
             </fieldset>
-            <fieldset>
-              <label>Пароль</label>
-              <div data-input>
+            <fieldset className="w-full flex flex-col gap-2">
+              <label className="text-text-primary text-sm font-medium">Пароль</label>
+              <div className="w-full h-12 relative">
                 <input
                   type={visiblePass.password ? "text" : "password"}
                   placeholder="Введите пароль"
@@ -92,13 +94,14 @@ export const AddEmail = () => {
                   alt="eye"
                   width={20}
                   height={20}
+                  className="absolute top-1/2 right-3.5 -translate-y-1/2 w-5 h-5"
                 />
               </div>
-              {errors.password ? <i>{errors.password.message}</i> : null}
+              {errors.password ? <i className="text-text-error text-xs font-medium -mt-1">{errors.password.message}</i> : null}
             </fieldset>
-            <fieldset>
-              <label>Повторите пароль</label>
-              <div data-input>
+            <fieldset className="w-full flex flex-col gap-2">
+              <label className="text-text-primary text-sm font-medium">Повторите пароль</label>
+              <div className="w-full h-12 relative">
                 <input
                   type={visiblePass.repeat ? "text" : "password"}
                   placeholder="Введите пароль ещё раз"
@@ -116,9 +119,10 @@ export const AddEmail = () => {
                   alt="eye"
                   width={20}
                   height={20}
+                  className="absolute top-1/2 right-3.5 -translate-y-1/2 w-5 h-5"
                 />
               </div>
-              {errors.repeat ? <i>{errors.repeat.message}</i> : null}
+              {errors.repeat ? <i className="text-text-error text-xs font-medium -mt-1">{errors.repeat.message}</i> : null}
             </fieldset>
           </article>
           <Button type="submit" typeButton="fill-primary" label="Добавить" loading={loading} disabled={disabled} />
@@ -126,4 +130,10 @@ export const AddEmail = () => {
       </section>
     </div>
   )
+}
+
+interface IValues {
+  email: string
+  password: string
+  repeat: string
 }

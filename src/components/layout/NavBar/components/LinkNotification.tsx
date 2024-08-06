@@ -10,6 +10,7 @@ import { useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
+import { cx } from "@/lib/cx"
 
 export const LinkNotification = ({ pathname }: { pathname: string }) => {
   const [count, setCount] = useState<number | null>(null)
@@ -79,13 +80,16 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
       <section
         data-active={active}
         onClick={(event) => event.stopPropagation()}
-        className="absolute opacity-0 invisible top-[calc(100%_+_0.25rem)] w-[29.5rem] left-0 rounded-[2rem] bg-BG-second overflow-hidden flex flex-col shadow-menu-absolute transition-all"
+        className={cx(
+          "absolute top-[calc(100%_+_0.25rem)] w-[29.5rem] left-0 rounded-[2rem] bg-BG-second overflow-hidden flex flex-col shadow-menu-absolute transition-all",
+          active ? "translate-y-0 opacity-100 visible" : "-translate-y-8 invisible opacity-0",
+        )}
       >
         {data?.res?.length ? (
           <ul className="w-full max-h-[calc(41.875rem_-_2.5rem)] h-min overflow-x-hidden overflow-y-auto p-6 flex flex-col gap-2.5">
             {state.new.length > 0 ? (
               <>
-                <p>Новые уведомления</p>
+                <p className="text-text-primary text-base text-left font-medium">Новые уведомления</p>
                 {state.new?.map((item) => (
                   <ItemNotification key={`::item::notification::popup::`} {...item} />
                 ))}
@@ -93,7 +97,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
             ) : null}
             {state.old.length > 0 ? (
               <>
-                <p>Просмотренные</p>
+                <p className="text-text-primary text-base text-left font-medium">Просмотренные</p>
                 {state.old?.map((item) => (
                   <ItemNotification key={`::item::notification::popup::`} {...item} />
                 ))}
@@ -102,8 +106,10 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
           </ul>
         ) : (
           <article className="w-full py-2.5 px-[3.125rem] flex flex-col items-center gap-4">
-            <h3>У вас пока нет уведомлений</h3>
-            <p>Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое.</p>
+            <h3 className="text-text-primary text-center text-xl font-semibold">У вас пока нет уведомлений</h3>
+            <p className="text-text-secondary text-center text-base font-medium">
+              Здесь будут появляться уведомления о новых дискуссия и SOS-сообщениях, отзывах, статусах предложений и многое другое.
+            </p>
           </article>
         )}
         <footer className="w-full h-10 flex items-center justify-center px-0 pt-[0.5625rem] pb-[0.6875rem] border-t border-solid border-grey-stroke-light">

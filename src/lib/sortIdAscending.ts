@@ -1,6 +1,6 @@
 import { EnumProviderThreads } from "@/types/enum"
 
-export function sortIdAscending(id1: number, id2: number): string | null {
+function sortIdAscending(id1: number, id2: number): string | null {
   if (!id1 || !id2) {
     return null
   }

@@ -22,7 +22,7 @@ export function debounce<T extends (...args: any[]) => any>(fn: T, ms: number) {
   return debounced
 }
 
-export function rafThrottle<T extends (...args: any[]) => any>(fn: T) {
+function rafThrottle<T extends (...args: any[]) => any>(fn: T) {
   let rafId: number | null = null
 
   function throttled(...args: Parameters<T>) {

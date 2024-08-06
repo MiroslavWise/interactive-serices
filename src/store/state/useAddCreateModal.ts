@@ -16,7 +16,7 @@ export const closeCreateOffers = () =>
     addressInit: undefined,
   }))
 
-export const dispatchAddressOffers = (value?: IPostAddress) =>
-  useAddCreateModal.setState(() => ({
-    addressInit: value,
-  }))
+// export const dispatchAddressOffers = (value?: IPostAddress) =>
+//   useAddCreateModal.setState(() => ({
+//     addressInit: value,
+//   }))

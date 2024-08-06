@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 const regex = /[^\d]/g
 
-export const schemaPhoneSignIn = z.object({
+const schemaPhoneSignIn = z.object({
   phone: z.string().trim().min(10, { message: "Номер телефона состоит из 10-12 цифр" }).default(""),
 })
 export const resolverPhoneSigIn = zodResolver(schemaPhoneSignIn)

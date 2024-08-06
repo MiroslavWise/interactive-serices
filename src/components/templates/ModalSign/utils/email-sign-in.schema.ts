@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-export const schemaEmailSignIn = z.object({
+const schemaEmailSignIn = z.object({
   email: z
     .string()
     .min(1, { message: "Поле не может оставаться незаполненным" })

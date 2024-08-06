@@ -10,7 +10,6 @@ export enum EnumTypeProvider {
 export enum EnumSign {
   SignIn = "sign-in",
   SignUp = "sign-up",
-  SelectVerification = "select-verification",
   ForgotPassword = "forgot-password",
   ResetPassword = "reset-password",
   CodeVerification = "code-verification",
@@ -28,7 +27,6 @@ export enum EnumStatusBarter {
   COMPLETED = "completed",
   DESTROYED = "destroyed",
   CANCELED = "canceled",
-  PRE_COMPLETION = "pre-completion",
 }
 
 export enum EnumProviderThreads {

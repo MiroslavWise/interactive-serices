@@ -2,7 +2,7 @@ import { type IResponse } from "../request"
 import { type IUserOffer } from "../offers/types"
 import { type IPromiseReturn } from "@/services/types/general"
 
-export type TTypeStatusComments = "published" | "create"
+type TTypeStatusComments = "published" | "create"
 
 export interface ICommentsResponse {
   id: number
@@ -27,7 +27,7 @@ export interface IPostDataComment {
   enabled: boolean
 }
 
-export type IPatchDataComment = Partial<IPostDataComment>
+type IPatchDataComment = Partial<IPostDataComment>
 
 interface IQueries {
   user?: number

@@ -63,7 +63,7 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
     let thread = await getDataThread()
     if (thread) {
       prefetch(`/chat/${thread?.id}`)
-      push(`/chat${thread?.id}`)
+      push(`/chat/${thread?.id}`)
       return
     }
     if (!thread) {

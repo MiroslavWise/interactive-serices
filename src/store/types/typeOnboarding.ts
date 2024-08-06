@@ -15,8 +15,4 @@ export interface IValuesInterface {
   isFiles?: boolean
 }
 
-export interface IOnboardingContinue {
-  type: EnumTypeProvider | null
-}
-
 export type TActionOnboarding = "next" | "prev" | "open" | "continue" | "close" | "pre-close"

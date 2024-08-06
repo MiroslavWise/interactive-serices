@@ -9,7 +9,7 @@ import { EModalData } from "@/store"
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
 export const LIMIT_DESCRIPTION = 512
-export const LIMIT_TITLE = 144
+const LIMIT_TITLE = 144
 
 const title = z
   .string()
@@ -89,10 +89,10 @@ const schemaCreate = base.extend({
   initAddress: initAddress,
 })
 
-export type TSchemaAlertAndDiscussion = z.infer<typeof schemaAlertAndDiscussion>
-export type TSchemaAlertAndDiscussionMap = z.infer<typeof schemaAlertAndDiscussionMap>
-export type TSchemaOffer = z.infer<typeof schemaOffer>
-export type TSchemaOfferMap = z.infer<typeof schemaOfferMap>
+// type TSchemaAlertAndDiscussion = z.infer<typeof schemaAlertAndDiscussion>
+// export type TSchemaAlertAndDiscussionMap = z.infer<typeof schemaAlertAndDiscussionMap>
+// export type TSchemaOffer = z.infer<typeof schemaOffer>
+// export type TSchemaOfferMap = z.infer<typeof schemaOfferMap>
 
 export const resolverAlertAndDiscussion = zodResolver(schemaAlertAndDiscussion)
 export const resolverAlertAndDiscussionMap = zodResolver(schemaAlertAndDiscussionMap)

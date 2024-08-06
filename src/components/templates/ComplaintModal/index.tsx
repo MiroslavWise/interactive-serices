@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 import { type IValuesForm } from "./types/types"
@@ -12,7 +12,15 @@ import { Button } from "@/components/common"
 import { postComplain } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import { dispatchComplaintModalOffer, dispatchComplaintModalUser, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
+import {
+  dispatchCleanComplaintModal,
+  dispatchComplaintModalOffer,
+  dispatchComplaintModalUser,
+  dispatchModalClose,
+  useAuth,
+  useComplaintModal,
+} from "@/store"
+import { cx } from "@/lib/cx"
 
 export default function ComplaintModal() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -63,21 +71,27 @@ export default function ComplaintModal() {
 
   const onSubmit = handleSubmit(submit)
 
+  useEffect(() => {
+    return () => {
+      dispatchCleanComplaintModal()
+    }
+  }, [])
+
   return (
     <>
-      <h2>{!!offer ? "Пожаловаться на публикацию" : !!user ? "Пожаловаться на пользователя" : null}</h2>
-      <form onSubmit={onSubmit}>
-        <div data-content>
-          {!!user ? (
-            <p>
-              Данная жалоба на <span>@{username}</span> будет проверена модераторами, и если будут найдены нарушения, пользователь получит
-              бан.
-            </p>
-          ) : !!offer ? (
-            <p>Жалоба будет проверена модераторами, и если будут найдены нарушения, публикация будет заблокирована.</p>
-          ) : null}
-
-          <ul {...register("type", { required: true })}>
+      <h2 className="w-full text-text-primary text-2xl font-semibold">
+        {!!offer ? "Пожаловаться на публикацию" : !!user ? "Пожаловаться на пользователя" : null}
+      </h2>
+      <form onSubmit={onSubmit} className="w-full h-full flex flex-col gap-[1.875rem] max-md:overflow-y-auto max-md:pb-5">
+        <div data-content className="w-full flex flex-col gap-6">
+          <p className="text-text-secondary text-sm font-normal [&>span]:text-text-accent">
+            {!!user
+              ? `Данная жалоба на @${username} будет проверена модераторами, и если будут найдены нарушения, пользователь получит бан.`
+              : !!offer
+              ? `Жалоба будет проверена модераторами, и если будут найдены нарушения, публикация будет заблокирована.`
+              : null}
+          </p>
+          <ul {...register("type", { required: true })} className="w-full flex flex-col gap-2.5">
             {MENU_COMPLAINT.map((item) => (
               <fieldset
                 key={`::key::reason::menu::${item.value}::`}
@@ -85,9 +99,16 @@ export default function ComplaintModal() {
                   event.stopPropagation()
                   setValue("type", item.value!)
                 }}
+                className="w-full flex flex-start gap-3 cursor-pointer items-center"
               >
-                <div data-check={watch("type") === item.value} />
-                <label>{item.label}</label>
+                <div
+                  data-check={watch("type") === item.value}
+                  className={cx(
+                    "w-4 h-4 aspect-square rounded-full border border-solid border-element-accent-1 p-2",
+                    watch("type") === item.value ? "bg-element-accent-1" : "bg-transparent",
+                  )}
+                />
+                <label className="text-text-primary text-base font-normal">{item.label}</label>
               </fieldset>
             ))}
             {watch("type") === "other" ? (
@@ -105,7 +126,7 @@ export default function ComplaintModal() {
           </ul>
         </div>
         <div {...register("subject")} />
-        <footer>
+        <footer className="w-full">
           <Button
             type="submit"
             typeButton="fill-primary"

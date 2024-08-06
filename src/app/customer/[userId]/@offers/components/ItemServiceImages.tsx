@@ -1,4 +1,4 @@
-import { type IImageData } from "@/store/types/useAuthState"
+import { type IImageData } from "@/types/type"
 
 import ItemServiceImagesClient from "./ItemServiceImages-client"
 

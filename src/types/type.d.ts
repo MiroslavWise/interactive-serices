@@ -10,3 +10,20 @@ export interface IOnlineSocket {
     id: number
   }[]
 }
+
+export interface IImageData {
+  id: number
+  attributes: {
+    alt: string
+    caption: string
+    ext: string
+    hash: string
+    height: number
+    mime: string
+    name: string
+    provider: string
+    size: number
+    url: string
+    width: number
+  }
+}

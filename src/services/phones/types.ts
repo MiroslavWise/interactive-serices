@@ -1,6 +1,6 @@
 import { IPromiseReturn } from "../types/general"
 
-export interface IRequestPhone {
+interface IRequestPhone {
   phone: string
   orderBy?: number
   description?: string
@@ -19,5 +19,5 @@ interface IRequestVerifyPhone {
 }
 
 export type TPostPhone = (values: IRequestPhone) => IPromiseReturn<IResponsePhones>
-export type TGetPhones = () => IPromiseReturn<IResponsePhones[]>
+// export type TGetPhones = () => IPromiseReturn<IResponsePhones[]>
 export type TPostVerifyPhone = (values: IRequestVerifyPhone) => IPromiseReturn<any>

@@ -1,17 +1,9 @@
-import { IUserOffer } from "../offers/types"
-import type { IPromiseReturn } from "@/services/types/general"
+import { type IUserOffer } from "../offers/types"
+import { type IPromiseReturn } from "@/services/types/general"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
-import type { IAddressesResponse } from "../addresses/types/serviceAddresses"
-import { IResponseOffersCategories } from "../offers-categories/types"
-import { IResponse } from "../request"
-
-export interface ISmallThread {
-  id: number
-  title: string
-  parentId: number | null
-  emitterId: number
-  provider: EnumTypeProvider
-}
+import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { type IResponseOffersCategories } from "../offers-categories/types"
+import { type IResponse } from "../request"
 
 export interface ISmallDataOfferBarter {
   id: number

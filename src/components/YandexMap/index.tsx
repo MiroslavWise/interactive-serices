@@ -24,7 +24,7 @@ import {
 
 const COORD = [30.19, 59.57]
 
-const YandexMap: TYandexMap = ({}) => {
+function YandexMap() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
@@ -100,7 +100,7 @@ const YandexMap: TYandexMap = ({}) => {
   }
   return (
     <>
-      <Header handleAddressLocation={handleAddressLocation} />
+      <Header />
       <Map
         instanceRef={instanceRef}
         onContextMenu={onContextMenu}

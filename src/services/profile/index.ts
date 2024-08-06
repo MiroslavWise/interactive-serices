@@ -14,4 +14,4 @@ export const serviceProfile: IServiceProfile = {
 
 export const patchProfile: IServiceProfile["patch"] = (body) => patch({ url, body })
 export const getProfile: IServiceProfile["get"] = () => get({ url })
-export const getProfileUserId: IServiceProfile["getUserId"] = (id) => get({ url: `${url}/users/${id}` })
+// export const getProfileUserId: IServiceProfile["getUserId"] = (id) => get({ url: `${url}/users/${id}` })

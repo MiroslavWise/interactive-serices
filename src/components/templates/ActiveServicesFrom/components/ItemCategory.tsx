@@ -4,11 +4,11 @@ import { memo, useState } from "react"
 
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
+import { ImageCategory } from "@/components/common"
+import { IconXClose } from "@/components/icons/IconXClose"
+
 import { useAuth } from "@/store"
 import { patchUser } from "@/services"
-import { IconCategory } from "@/lib/icon-set"
-
-import styles from "../styles/item.module.scss"
 
 export const ItemCategory = memo(function ItemCategory(
   props: IResponseOffersCategories & { refetch(): Promise<any>; categories: IResponseOffersCategories[] },
@@ -32,30 +32,26 @@ export const ItemCategory = memo(function ItemCategory(
   }
 
   return (
-    <li className={styles.container} data-test="li-modal-active-services-from">
-      <header>
-        <div data-img>
-          <img
-            src={IconCategory(id)}
-            alt={`${id!}`}
-            width={18}
-            height={18}
-            onError={(error: any) => {
-              if (error?.target) {
-                try {
-                  error.target.src = `/svg/category/default.svg`
-                } catch (e) {
-                  console.log("catch e: ", e)
-                }
-              }
-            }}
-          />
+    <li
+      className="rounded-xl p-3 w-full h-[7.125rem] flex flex-col gap-3 justify-between items-start"
+      data-test="li-modal-active-services-from"
+      style={{
+        background: "var(--more-blue-gradient)",
+      }}
+    >
+      <header className="w-full flex flex-row items-start justify-between">
+        <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
+          <ImageCategory id={id} />
         </div>
-        <button onClick={deleteCategory} data-test="li-button-modal-active-services-from-on-delete">
-          <img src="/svg/x-close.svg" alt={"x"} width={16} height={16} />
+        <button
+          onClick={deleteCategory}
+          data-test="li-button-modal-active-services-from-on-delete"
+          className="bg-transparent border-none outline-none w-4 h-4 p-2 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 *:opacity-60 [&>svg>path]:stroke-text-button"
+        >
+          <IconXClose />
         </button>
       </header>
-      <p>{title}</p>
+      <p className="text-text-button text-sm font-normal line-clamp-3 text-ellipsis">{title}</p>
     </li>
   )
 })

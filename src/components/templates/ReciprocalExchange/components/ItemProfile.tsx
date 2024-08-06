@@ -18,7 +18,7 @@ export const ItemProfile = ({ profile, geo }: { profile: IGetProfileIdResponse; 
           </h4>
           <img src="/svg/verified-tick.svg" alt="verified" width={16} height={16} />
         </div>
-        {geo && <GeoTagging location={geo?.additional!} size={14} fontSize={12} />}
+        {geo && <GeoTagging location={geo?.additional!} fontSize={12} />}
       </div>
     </div>
   )

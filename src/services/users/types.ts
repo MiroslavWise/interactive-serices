@@ -8,7 +8,7 @@ import { TRole } from "../roles/types"
 import { EnumStatusBarter } from "@/types/enum"
 import { IResponse } from "../request"
 
-export interface IPostDataUser {
+interface IPostDataUser {
   email: string
   password: string
   repeat: string
@@ -16,7 +16,7 @@ export interface IPostDataUser {
   marketing: boolean
 }
 
-export interface IPatchDataUser extends Partial<IPostDataUser> {
+interface IPatchDataUser extends Partial<IPostDataUser> {
   enabled?: boolean
   verified?: boolean
   auth_confirmation_token?: string

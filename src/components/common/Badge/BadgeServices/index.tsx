@@ -1,52 +1,32 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
+import { type ISmallDataOfferBarter } from "@/services/barters/types"
 
-import type { TBadgeServices } from "./types"
+import { ImageCategory } from "../../Image"
 
-import { IconCategory } from "@/lib/icon-set"
+interface IBadgeServices extends ISmallDataOfferBarter {
+  isClickable?: boolean
+}
 
-import { getOffersCategories } from "@/services"
-
-import styles from "./style.module.scss"
-
-export const BadgeServices: TBadgeServices = (props) => {
-  const { categoryId, id, isClickable } = props ?? {}
-
-  const { data } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = data?.res || []
-
-  const infoCategory = categories?.find((item) => item?.id === categoryId)
+export const BadgeServices = (props: IBadgeServices) => {
+  const { categoryId, category, id, isClickable } = props ?? {}
 
   function handle() {
     if (id && isClickable) {
-      const { isClickable, ...offer } = props ?? {}
     }
   }
 
   return (
-    <li className={styles.container} onClick={handle}>
-      <div data-img>
-        <img
-          src={IconCategory(categoryId!)}
-          alt="cat"
-          height={16}
-          width={16}
-          onError={(error: any) => {
-            if (error?.target) {
-              try {
-                error.target.src = `/svg/category/default.svg`
-              } catch (e) {
-                console.log("catch e: ", e)
-              }
-            }
-          }}
-        />
+    <li
+      className="grid grid-cols-[1.5rem_minmax(0,1fr)] items-center gap-1 w-min max-w-full py-1 pl-1 pr-1.5 rounded-2xl h-8 bg-grey-field border border-solid border-grey-stroke-light cursor-pointer"
+      onClick={handle}
+    >
+      <div className="relative w-6 h-6 rounded-full bg-BG-icons overflow-hidden p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:aspect-square *:w-4 *:h-4">
+        <ImageCategory id={categoryId!} />
       </div>
-      <p>{infoCategory?.title! || "---{}---"}</p>
+      <p className="text-text-primary text-ellipsis text-[0.8125rem] leading-4 line-clamp-1 whitespace-nowrap">
+        {category?.title! || "---{}---"}
+      </p>
     </li>
   )
 }

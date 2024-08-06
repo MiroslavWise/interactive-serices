@@ -1,6 +1,6 @@
 import { useRef } from "react"
 
-import { type IImageData } from "@/store/types/useAuthState"
+import { type IImageData } from "@/types/type"
 
 import { NextImageMotion } from "@/components/common"
 

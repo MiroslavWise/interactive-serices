@@ -5,11 +5,11 @@ import { useQuery } from "@tanstack/react-query"
 
 import { Button, ImageCategory } from "@/components/common"
 
+import { cx } from "@/lib/cx"
 import { getUserId } from "@/services"
 import { dispatchActiveServicesFrom, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
-import { cx } from "@/lib/cx"
 
 export const BlockDesiredServices = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -66,7 +66,7 @@ export const BlockDesiredServices = () => {
           />
         </>
       ) : (
-        <article className="w-full flex flex-col gap-3 rounded-xl p-3 bg-more bg-more-blue-gradient">
+        <article className="w-full flex flex-col gap-3 rounded-xl p-3 bg-more bg-element-accent-1">
           <p>Добавьте услуги, которые вам интересны и вы бы хотели их получить</p>
           <Button
             type="button"

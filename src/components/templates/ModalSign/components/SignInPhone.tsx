@@ -8,7 +8,7 @@ import { Button } from "@/components/common"
 import InputCountry from "@/components/common/Forward/InputCountry"
 
 import { functionAuthErrors, serviceAuth } from "@/services"
-import { dispatchAuthModal, dispatchAuthModalCodeVerification, dispatchStartTimer } from "@/store"
+import { dispatchAuthModal, dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
@@ -20,13 +20,14 @@ const messageRegister = ({ cb }: { cb: DispatchWithoutAction }) => (
 
 export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; itemForgot: ReactNode }) => {
   const [loading, setLoading] = useState(false)
+  const phone = useModalAuth(({ phone }) => phone)
 
   const {
     handleSubmit,
     setError,
     control,
     formState: { errors },
-  } = useForm<TSchemaPhoneSignIn>({ defaultValues: { phone: "" }, resolver: resolverPhoneSigIn })
+  } = useForm<TSchemaPhoneSignIn>({ defaultValues: { phone: phone }, resolver: resolverPhoneSigIn })
 
   const onRegister = () => dispatchAuthModal({ type: EnumSign.SignUp })
 

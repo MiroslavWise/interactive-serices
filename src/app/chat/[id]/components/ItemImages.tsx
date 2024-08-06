@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react"
 
-import { type IImageData } from "@/store/types/useAuthState"
+import { type IImageData } from "@/types/type"
 
 import { ImageStatic, NextImageMotion } from "@/components/common"
 

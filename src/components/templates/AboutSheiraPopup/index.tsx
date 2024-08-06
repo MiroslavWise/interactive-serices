@@ -2,6 +2,7 @@
 
 import { ButtonClose } from "@/components/common/Buttons"
 
+import { cx } from "@/lib/cx"
 import { dispatchVisibleAbout, useVisibleAbout } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -10,9 +11,14 @@ export const AboutSheiraPopup = () => {
   const visible = useVisibleAbout(({ visible }) => visible)
   return (
     <div data-visible={visible} className={styles.wrapper}>
-      <section>
-        <ul>
-          <h2>Аккаунт и профиль:</h2>
+      <section className="relative h-full w-full md:rounded-[2rem] bg-BG-second max-w-[36.5rem]">
+        <ul
+          className={cx(
+            "w-full overflow-y-auto h-full flex flex-col p-10 items-start gap-4",
+            "*:w-full *:text-text-primary *:text-start *:text-lg *:font-medium",
+          )}
+        >
+          <h2 className="text-text-primary text-start text-3xl font-semibold">Аккаунт и профиль:</h2>
           <li>
             Зарегистрируйтесь на платформе &quot;Шейра&quot; и завершите профиль, предоставив достоверные данные, включая имя, адрес и номер
             телефона.

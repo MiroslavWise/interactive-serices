@@ -1,0 +1,13 @@
+.container {
+  & > section {
+    box-shadow: 0px 10px 16px 0px rgba(31, 31, 41, 0.1);
+  }
+}
+
+[data-theme="light"] {
+  .container {
+    [data-loading-image="true"] {
+      filter: invert(1);
+    }
+  }
+}

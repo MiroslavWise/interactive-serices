@@ -41,7 +41,7 @@ export interface IPostAddress {
   latitude?: string //широта (не может быть больше 90)
 }
 
-export type IPatchAddress = Partial<IPostAddress>
+type IPatchAddress = Partial<IPostAddress>
 
 export interface IServiceAddresses {
   route: string

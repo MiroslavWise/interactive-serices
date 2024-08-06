@@ -1,12 +1,12 @@
 import { EnumTypeProvider } from "@/types/enum"
-import type { IPromiseReturn, TOrder } from "../types/general"
-import { IResponseOffers, IUserOffer } from "../offers/types"
-import { IResponse } from ".."
+import { type IPromiseReturn, type TOrder } from "../types/general"
+import { type IResponseOffers, type IUserOffer } from "../offers/types"
+import { type IResponse } from ".."
 
-export type TStatusFeedback = "published" | "blocked" | "edited"
-export type TNumberRating = 1 | 2 | 3 | 4 | 5 | number
+type TStatusFeedback = "published" | "blocked" | "edited"
+type TNumberRating = 1 | 2 | 3 | 4 | 5 | number
 
-export interface IPostTestimonials {
+interface IPostTestimonials {
   receiverId: number
   targetId: number
   provider: EnumTypeProvider
@@ -17,7 +17,7 @@ export interface IPostTestimonials {
   enabled: boolean
 }
 
-export type TPatchTestimonials = Partial<IPostTestimonials>
+type TPatchTestimonials = Partial<IPostTestimonials>
 
 export interface IResponseTestimonials {
   id: number

@@ -1,5 +1,5 @@
 import { type IPromiseReturn, type TOrder } from "../types/general"
-import { type IImageData } from "@/store/types/useAuthState"
+import { type IImageData } from "@/types/type"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumTypeProvider } from "@/types/enum"
 import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
@@ -67,7 +67,7 @@ export interface IResponseOffers {
   threadId: number | null
 }
 
-export interface IQueriesOffers {
+interface IQueriesOffers {
   category?: string
   order?: TOrder
   user?: number

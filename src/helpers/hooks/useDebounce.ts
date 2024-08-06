@@ -25,7 +25,7 @@ export function useDebounce<Fn extends (...args: any[]) => any>(fn: Fn, ms: numb
   return debouncedFn
 }
 
-export function useEvent<T extends Function>(fn: T) {
+function useEvent<T extends Function>(fn: T) {
   const fnRef = useRef(fn)
 
   useLayoutEffect(() => {

@@ -1,24 +1,10 @@
-import type { IResponseUploadFile } from "@/services/file-upload/types"
-import type { IResponseGeneral, IReturnData } from "@/services/types/general"
+import { type IResponseUploadFile } from "@/services/file-upload/types"
+import { type IReturnData } from "@/services/types/general"
 import { type AxiosProgressEvent } from "axios"
 import { type IResponse } from "."
 
-export type IPromiseReturn<P> = Promise<IReturnData<P>>
-export type TReturnData<P> = (values: IResponseGeneral<P>) => IReturnData<P>
+type IPromiseReturn<P> = Promise<IReturnData<P>>
 export type TReturnError = (values: unknown) => IReturnData<any>
-
-export type MethodGet<P extends Record<string, any>> = (values: {
-  url: string
-  query?: Record<string | number, any>
-  cache?: RequestCache
-}) => IPromiseReturn<P>
-
-export type MethodGetId<P extends Record<string, any>> = (values: {
-  url: string
-  id: string | number
-  query?: Record<string, any>
-  cache?: RequestCache
-}) => IPromiseReturn<P>
 
 export type MethodPost<T extends Record<string, any>, P extends Record<string, any>> = (values: {
   url: string
@@ -40,7 +26,3 @@ export type MethodUploadFile = (values: {
   file: FormData
   onUploadProgress?: (value: AxiosProgressEvent, name: FormDataEntryValue | null) => void
 }) => Promise<IResponse<IResponseUploadFile>>
-
-export interface IWrapperFetch {
-  stringRequest: (value: string) => string
-}

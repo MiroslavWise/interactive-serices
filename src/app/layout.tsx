@@ -7,7 +7,7 @@ const Providers = dynamic(() => import("./providers"), { ssr: false })
 const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
+import env, { URL_APPLE_APP } from "@/config/environment"
 
 import "@/scss/init.scss"
 import "./build.css"
@@ -24,33 +24,31 @@ export const viewport: Viewport = {
 }
 
 export function generateMetadata(): Metadata {
-  const urlIcon = "/icons/icon.png"
-  const APPLE_URL =
-    "https://apps.apple.com/ru/app/sheira-%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8-%D0%B8-%D0%BE%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F/id6504366029"
+  const urlIcon = `${env.server.host}/icons/icon.png`
   const APPLE_ID = "6504366029"
   const APPLE_NAME = "Sheira: услуги и обсуждения"
 
   const meta: Metadata = {
     appLinks: {
       ios: {
-        url: APPLE_URL,
+        url: URL_APPLE_APP,
         app_store_id: APPLE_ID,
         app_name: APPLE_NAME,
       },
       ipad: {
-        url: APPLE_URL,
+        url: URL_APPLE_APP,
         app_store_id: APPLE_ID,
         app_name: APPLE_NAME,
       },
       iphone: {
-        url: APPLE_URL,
+        url: URL_APPLE_APP,
         app_store_id: APPLE_ID,
         app_name: APPLE_NAME,
       },
     },
     itunes: {
       appId: APPLE_ID,
-      appArgument: APPLE_URL,
+      appArgument: URL_APPLE_APP,
     },
     title: {
       default: "Sheira",
@@ -101,6 +99,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="ru">
       <head>
         <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
+        <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categries`} />
         <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
         <noscript>
           <div>

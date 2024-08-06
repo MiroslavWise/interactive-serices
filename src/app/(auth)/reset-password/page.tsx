@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 
-import { dispatchAuthModalResetPassword } from "@/store/hooks"
+import { dispatchAuthModalResetPassword, dispatchClearAuth } from "@/store/hooks"
 
 export default function PageResetPassword() {
   const { push } = useRouter()
@@ -11,8 +11,10 @@ export default function PageResetPassword() {
 
   useEffect(() => {
     if (passwordResetToken) {
-      dispatchAuthModalResetPassword(passwordResetToken!)
-      push("/")
+      dispatchClearAuth().then(() => {
+        dispatchAuthModalResetPassword(passwordResetToken!)
+        push("/")
+      })
     }
   }, [passwordResetToken])
 

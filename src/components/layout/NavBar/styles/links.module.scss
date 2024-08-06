@@ -81,51 +81,6 @@
       }
     }
 
-    &[data-notification] {
-      & > section {
-        transform: translateY(-2rem);
-        & > ul {
-          & > p {
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 1.5rem;
-            letter-spacing: -0.01125rem;
-          }
-        }
-
-        & > article {
-          & > h3 {
-            width: 100%;
-            color: var(--text-primary);
-            text-align: center;
-            font-size: 1.25rem;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 1.875rem;
-            letter-spacing: -0.01125rem;
-          }
-
-          & > p {
-            color: var(--text-secondary);
-            text-align: center;
-            font-size: 1rem;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 1.5rem;
-            letter-spacing: -0.01125rem;
-          }
-        }
-
-        &[data-active="true"] {
-          opacity: 1;
-          visibility: visible;
-          transform: translateY(0);
-        }
-      }
-    }
-
     @media screen and (max-width: 1236px) {
       & > span {
         display: none;
