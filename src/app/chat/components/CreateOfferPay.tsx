@@ -1,15 +1,15 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { useEffect, useMemo } from "react"
 
 import { useAuth } from "@/store"
-import { useToast } from "@/helpers/hooks/useToast"
-import { useCountMessagesNotReading } from "@/helpers"
-import { useInsertionEffect, useMemo } from "react"
-import { getThreads, postThread } from "@/services"
 import { EnumProviderThreads } from "@/types/enum"
-import { providerIsAscending } from "@/lib/sortIdAscending"
+import { useToast } from "@/helpers/hooks/useToast"
+import { postThread } from "@/services"
+import { useCountMessagesNotReading } from "@/helpers"
 import { IPostThreads } from "@/services/threads/types"
+import { providerIsAscending } from "@/lib/sortIdAscending"
 
 function CreateOfferPay({ offerPay }: { offerPay: string }) {
   const { on } = useToast()
@@ -29,16 +29,6 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
   }, [offerPay])
 
   async function createChat() {
-    async function getDataThread() {
-      const { data } = await getThreads({
-        user: userId,
-        provider: EnumProviderThreads.OFFER_PAY,
-      })
-      return data?.find(
-        (item) => item?.provider?.includes(EnumProviderThreads.OFFER_PAY) && Number(item?.offerId) === Number(offerNumber?.id),
-      )
-    }
-
     async function createThread(emitterId: number, receiverId: number) {
       const provider = providerIsAscending({
         type: EnumProviderThreads.OFFER_PAY,
@@ -59,37 +49,28 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
 
       return res?.id
     }
+    const idCreate = await createThread(Number(userId), offerNumber?.idUser!)
 
-    let thread = await getDataThread()
-    if (thread) {
-      prefetch(`/chat/${thread?.id}`)
-      push(`/chat/${thread?.id}`)
+    if (!idCreate) {
+      prefetch(`/chat`)
+      push(`/chat`)
+      on(
+        {
+          message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+        },
+        "warning",
+      )
       return
     }
-    if (!thread) {
-      const idCreate = await createThread(Number(userId), offerNumber?.idUser!)
-
-      if (!idCreate) {
-        prefetch(`/chat`)
-        push(`/chat`)
-        on(
-          {
-            message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
-          },
-          "warning",
-        )
-        return
-      }
-      if (idCreate) {
-        refetchCountMessages()
-        prefetch(`/chat/${idCreate}`)
-        push(`/chat/${idCreate}`)
-        return
-      }
+    if (idCreate) {
+      refetchCountMessages()
+      prefetch(`/chat/${idCreate}`)
+      push(`/chat/${idCreate}`)
+      return
     }
   }
 
-  useInsertionEffect(() => {
+  useEffect(() => {
     if (offerNumber === undefined) {
       prefetch(`/chat`)
       push(`/chat`)

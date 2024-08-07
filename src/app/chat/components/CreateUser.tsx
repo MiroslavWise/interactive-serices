@@ -1,6 +1,6 @@
 "use client"
 
-import { useInsertionEffect } from "react"
+import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 
 import { EnumProviderThreads } from "@/types/enum"
@@ -19,19 +19,6 @@ function CreateUser({ idUser }: { idUser: string }) {
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   async function createChat() {
-    async function getDataThread(emitterId: number, receiverId: number) {
-      const { data } = await getThreads({
-        user: emitterId,
-        provider: EnumProviderThreads.PERSONAL,
-      })
-      return data?.find(
-        (item) =>
-          ((item?.receivers?.find((_) => _.id === receiverId) && item?.emitter?.id! === emitterId) ||
-            (item?.receivers?.find((_) => _.id === emitterId) && item?.emitter?.id! === receiverId)) &&
-          item?.provider?.includes(EnumProviderThreads.PERSONAL),
-      )
-    }
-
     async function createThread(emitterId: number, receiverId: number) {
       const provider = providerIsAscending({
         type: EnumProviderThreads.PERSONAL,
@@ -54,39 +41,32 @@ function CreateUser({ idUser }: { idUser: string }) {
       return
     }
     const idUserReceiver: number = Number(idUser)
-    let thread = await getDataThread(idUserReceiver, userId!)
-    if (thread) {
-      prefetch(`/chat/${thread?.id}`)
-      push(`/chat/${thread?.id}`)
+
+    const idCreate = await createThread(Number(userId), idUserReceiver)
+
+    if (!idCreate) {
+      prefetch(`/chat`)
+      push(`/chat`)
+      on(
+        {
+          message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+        },
+        "warning",
+      )
       return
     }
-    if (!thread) {
-      const idCreate = await createThread(Number(userId), idUserReceiver)
-
-      if (!idCreate) {
-        prefetch(`/chat`)
-        push(`/chat`)
-        on(
-          {
-            message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
-          },
-          "warning",
-        )
-        return
-      }
-      refetchCountMessages().finally(() => {
-        prefetch(`/chat/${idCreate}`)
-        push(`/chat/${idCreate}`)
-      })
-    }
+    refetchCountMessages().finally(() => {
+      prefetch(`/chat/${idCreate}`)
+      push(`/chat/${idCreate}`)
+    })
   }
 
-  useInsertionEffect(() => {
+  useEffect(() => {
     if (!idUser) {
       prefetch(`/chat`)
       push(`/chat`)
     } else {
-      if (userId) {
+      if (userId && idUser) {
         createChat()
       }
     }

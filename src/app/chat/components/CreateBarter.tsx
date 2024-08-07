@@ -29,14 +29,6 @@ function CreateBarter({ idBarter }: { idBarter: string }) {
   }, [idBarter])
 
   async function createChat() {
-    async function getDataThread() {
-      const { data } = await getThreads({
-        user: userId,
-        provider: EnumProviderThreads.BARTER,
-      })
-      return data?.find((item) => item?.provider?.includes(EnumProviderThreads.BARTER) && item?.barterId === Number(barterNumber?.id))
-    }
-
     async function createThread(emitterId: number, receiverId: number) {
       const provider = providerIsAscending({
         type: EnumProviderThreads.BARTER,
@@ -66,31 +58,23 @@ function CreateBarter({ idBarter }: { idBarter: string }) {
       return res?.id
     }
 
-    let thread = await getDataThread()
-    if (thread) {
-      prefetch(`/chat/${thread?.id}`)
-      push(`/chat/${thread?.id}`)
+    const idCreate = await createThread(Number(userId), barterNumber?.idUser!)
+
+    if (!idCreate) {
+      prefetch(`/chat`)
+      push(`/chat`)
+      on(
+        {
+          message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
+        },
+        "warning",
+      )
       return
     }
-    if (!thread) {
-      const idCreate = await createThread(Number(userId), barterNumber?.idUser!)
-
-      if (!idCreate) {
-        prefetch(`/chat`)
-        push(`/chat`)
-        on(
-          {
-            message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
-          },
-          "warning",
-        )
-        return
-      }
-      refetchCountMessages().finally(() => {
-        prefetch(`/chat/${idCreate}`)
-        push(`/chat/${idCreate}`)
-      })
-    }
+    refetchCountMessages().finally(() => {
+      prefetch(`/chat/${idCreate}`)
+      push(`/chat/${idCreate}`)
+    })
   }
 
   useInsertionEffect(() => {
