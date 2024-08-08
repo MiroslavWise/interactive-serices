@@ -22,7 +22,7 @@ import {
   useMapCoordinates,
 } from "@/store"
 
-const COORD = [30.19, 59.57]
+const COORD = [37.417698, 55.725864]
 
 function YandexMap() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -136,7 +136,7 @@ function YandexMap() {
         }}
         options={{
           maxZoom: 20,
-          minZoom: 10,
+          minZoom: 13,
           yandexMapDisablePoiInteractivity: true,
         }}
         width={"100%"}
