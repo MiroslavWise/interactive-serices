@@ -29,26 +29,26 @@ export function generateMetadata(): Metadata {
   const APPLE_NAME = "Sheira: услуги и обсуждения"
 
   const meta: Metadata = {
-    appLinks: {
-      ios: {
-        url: URL_APPLE_APP,
-        app_store_id: APPLE_ID,
-        app_name: APPLE_NAME,
-      },
-      ipad: {
-        url: URL_APPLE_APP,
-        app_store_id: APPLE_ID,
-        app_name: APPLE_NAME,
-      },
-      iphone: {
-        url: URL_APPLE_APP,
-        app_store_id: APPLE_ID,
-        app_name: APPLE_NAME,
-      },
-    },
+    // appLinks: {
+    //   ios: {
+    //     url: URL_APPLE_APP,
+    //     app_store_id: APPLE_ID,
+    //     app_name: APPLE_NAME,
+    //   },
+    //   ipad: {
+    //     url: URL_APPLE_APP,
+    //     app_store_id: APPLE_ID,
+    //     app_name: APPLE_NAME,
+    //   },
+    //   iphone: {
+    //     url: URL_APPLE_APP,
+    //     app_store_id: APPLE_ID,
+    //     app_name: APPLE_NAME,
+    //   },
+    // },
     itunes: {
       appId: APPLE_ID,
-      appArgument: URL_APPLE_APP,
+      // appArgument: URL_APPLE_APP,
     },
     title: {
       default: "Sheira",
