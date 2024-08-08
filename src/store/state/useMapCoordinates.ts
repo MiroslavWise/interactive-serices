@@ -7,7 +7,7 @@ export const useMapCoordinates = create(
   persist<IUseMapCoordinates>(
     (set, get) => ({
       coordinates: undefined,
-      zoom: 14,
+      zoom: 13,
     }),
     {
       name: "coordinates",
