@@ -8,6 +8,4 @@ export interface IDispatchMapCoordinates {
 export interface IUseMapCoordinates {
   coordinates: number[] | undefined
   zoom: number
-
-  dispatchMapCoordinates: Dispatch<IDispatchMapCoordinates>
 }

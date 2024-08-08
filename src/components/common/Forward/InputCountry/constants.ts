@@ -116,8 +116,8 @@ export const FLAGS_OBJ: Record<EnumCountry, IFlag> = {
     short: EnumCountry.in,
     name: "Индия",
     code: "+91",
-    mask: "+91 (____) ___-____",
-    placeholder: "+91 (9999) 000-0000",
+    mask: "+91 (___) ___-____",
+    placeholder: "+91 (999) 000-0000",
     selectionStart: 2,
   },
   [EnumCountry.es]: {

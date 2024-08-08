@@ -62,7 +62,8 @@ export function generateMetadata(): Metadata {
       "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
     keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
     appleWebApp: {
-      title: "Sheira",
+      capable: true,
+      title: APPLE_NAME,
       statusBarStyle: "default",
     },
     category: "people, services",
