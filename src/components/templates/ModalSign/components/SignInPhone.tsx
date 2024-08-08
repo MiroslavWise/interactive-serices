@@ -37,6 +37,8 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
       const phoneReplace = values.phone?.replaceAll(/[^\d]/g, "")
 
       serviceAuth.phone({ phone: phoneReplace }).then((response) => {
+        console.log(" serviceAuth phone: ", response)
+        setLoading(false)
         if (response?.ok) {
           if (response.ok) {
             dispatchStartTimer()
@@ -46,12 +48,25 @@ export const SignInPhone = ({ children, itemForgot }: { children: ReactNode; ite
           const errorMessage = response?.error?.message
           if (errorMessage === "must agree") {
             setError("phone", { type: "on_register" })
+            return
+          }
+          if (["BadRequestException", "Bad Request"].includes(response?.error?.name)) {
+            const errorMessage: string = String(
+              Array.isArray(response?.error?.message) ? response?.error?.message[0] : response?.error?.message,
+            )
+            if (errorMessage.includes("phone must be longer than or equal")) {
+              setError("phone", {
+                message: `Длина номера телефона должна быть - ${errorMessage
+                  .replace("phone must be longer than or equal to ", "")
+                  .replace(" characters", "")} символов`,
+              })
+            }
+            return
           } else {
             setError("phone", { message: functionAuthErrors(errorMessage) })
+            return
           }
         }
-        console.log(" serviceAuth phone: ", response)
-        setLoading(false)
       })
     }
   })

@@ -61,14 +61,28 @@ export const SignUpPhone = memo(function SignUpPhone({ children }: { children: R
         })
         .then((response) => {
           console.log("response: ", response)
+          setLoading(false)
           if (response.ok) {
             dispatchStartTimer()
             dispatchAuthModalCodeVerification({ phone: phoneReplace, idUser: response?.res?.id!, prevType: EnumSign.SignUp })
           } else {
-            const errorMessage = response?.error?.message
-            setError("phone", { message: functionAuthErrors(errorMessage) })
+            console.log("response: error: ", response)
+            if (["BadRequestException", "Bad Request"].includes(response?.error?.name)) {
+              const errorMessage: string = String(
+                Array.isArray(response?.error?.message) ? response?.error?.message[0] : response?.error?.message,
+              )
+              if (errorMessage.includes("phone must be longer than or equal")) {
+                setError("phone", {
+                  message: `Длина номера телефона должна быть - ${errorMessage
+                    .replace("phone must be longer than or equal to ", "")
+                    .replace(" characters", "")} символов`,
+                })
+              }
+            } else {
+              const errorMessage = response?.error?.message
+              setError("phone", { message: functionAuthErrors(errorMessage) })
+            }
           }
-          setLoading(false)
         })
     }
   }
