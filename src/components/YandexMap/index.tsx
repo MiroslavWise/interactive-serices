@@ -22,7 +22,7 @@ import {
   useMapCoordinates,
 } from "@/store"
 
-const COORD = [37.417698, 55.725864]
+const COORD = [37.427698, 55.725864]
 
 function YandexMap() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
