@@ -480,6 +480,7 @@ export default function CreateNewOptionModal() {
                     {...field}
                     placeholder={placeholderDescription(typeAdd!)}
                     data-error={!!error}
+                    maxLength={LIMIT_DESCRIPTION + 2}
                   />
                   <span data-error={field.value?.length + 20 >= LIMIT_DESCRIPTION}>
                     {field.value?.length || 0}/{LIMIT_DESCRIPTION}
