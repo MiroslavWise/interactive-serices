@@ -136,7 +136,7 @@ function YandexMap() {
         }}
         options={{
           maxZoom: 20,
-          minZoom: 13,
+          minZoom: 10,
           yandexMapDisablePoiInteractivity: true,
         }}
         width={"100%"}
