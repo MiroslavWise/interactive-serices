@@ -410,6 +410,7 @@ export default function CreateNewOptionModal() {
                     type="button"
                     onClick={(event) => {
                       event.stopPropagation()
+                      field.onChange("")
                       blurAddress()
                     }}
                   >
