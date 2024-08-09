@@ -14,7 +14,7 @@ import { getUserId } from "@/services"
 import { dayFormat, useResize } from "@/helpers"
 import { useAuth, useVisibleExchanges } from "@/store"
 
-export const CardOffer: TCardOffer = ({ id, threadId, created, timestamp, status, initiator, consigner }) => {
+export const CardOffer: TCardOffer = ({ id, threadId, created, status, initiator, consigner }) => {
   const { id: myUserId } = useAuth(({ auth }) => auth) ?? {}
   const dispatchExchanges = useVisibleExchanges(({ dispatchExchanges }) => dispatchExchanges)
   const { isTablet } = useResize()
