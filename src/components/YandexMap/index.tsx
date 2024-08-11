@@ -1,6 +1,6 @@
 "use client"
 
-import { Map } from "@pbe/react-yandex-maps"
+import { Clusterer, Map } from "@pbe/react-yandex-maps"
 import { useEffect, useCallback, useRef } from "react"
 
 import { EnumSign } from "@/types/enum"
@@ -15,12 +15,14 @@ import { getAddressCoords } from "@/helpers/get-address"
 import {
   dispatchAuthModal,
   dispatchBounds,
+  dispatchHasBalloon,
   dispatchMapCoordinates,
   dispatchNewServicesBannerMap,
   useAuth,
   useBounds,
   useMapCoordinates,
 } from "@/store"
+import { IResponseOffers } from "@/services/offers/types"
 
 const COORD = [37.427698, 55.725864]
 
@@ -142,7 +144,7 @@ function YandexMap() {
         width={"100%"}
         height={"100%"}
       >
-        {/* <Clusterer
+        <Clusterer
           options={{
             iconLayout: "cluster#pieChart",
             iconContentLayout: "cluster#pieChart",
@@ -177,9 +179,9 @@ function YandexMap() {
               offers: ids?.map((item) => item.offer),
             })
           }}
-        > */}
+        >
         <ListPlacemark />
-        {/* </Clusterer> */}
+        </Clusterer>
       </Map>
     </>
   )
