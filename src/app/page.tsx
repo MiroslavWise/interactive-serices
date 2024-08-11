@@ -36,14 +36,6 @@ export default function Home() {
 
   const { isTablet } = useResize()
 
-  useEffect(() => {
-    //@ts-ignore
-    const increment = new Increment()
-    console.log("increment: ", increment())
-    console.log("increment: ", increment())
-    console.log("increment: ", increment() + increment())
-  }, [])
-
   return (
     <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
       <YandexMap />
