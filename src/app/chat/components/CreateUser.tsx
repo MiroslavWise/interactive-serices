@@ -7,7 +7,7 @@ import { EnumProviderThreads } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
 
 import { useAuth } from "@/store"
-import { getThreads, postThread } from "@/services"
+import { postThread } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useCountMessagesNotReading } from "@/helpers"
 import { providerIsAscending } from "@/lib/sortIdAscending"

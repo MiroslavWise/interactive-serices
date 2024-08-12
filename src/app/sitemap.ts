@@ -3,10 +3,11 @@ import { MetadataRoute } from "next"
 import { getOffersCategoriesPROD } from "@/services"
 
 import env from "@/config/environment"
+import { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 export default async function (): Promise<MetadataRoute.Sitemap> {
-  const { res } = await getOffersCategoriesPROD()
-  const items = res || []
+  const { data } = await getOffersCategoriesPROD()
+  const items = (data as IResponseOffersCategories[]) || []
 
   const categories: MetadataRoute.Sitemap = items.map((_) => ({
     url: `${env.server.host}/categories/${_.id}`,

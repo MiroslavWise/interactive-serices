@@ -10,7 +10,7 @@ import { TYPE_ICON } from "./constants"
 import { IconCategory } from "@/lib/icon-set"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchModal, EModalData, useFiltersServices } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, useFiltersServices } from "@/store"
 
 export const ListPlacemark = memo(function ListPlacemark() {
   const { itemsOffers } = useMapOffers()
