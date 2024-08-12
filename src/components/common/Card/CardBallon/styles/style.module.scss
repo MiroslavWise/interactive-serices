@@ -12,16 +12,6 @@
     background-color: var(--BG-second);
   }
 
-  & > [data-time-dots] {
-    & > [data-dots-and-button] {
-      & > article {
-        transition-duration: 450ms;
-        transition-property: opacity, visibility;
-        transition-timing-function: ease;
-      }
-    }
-  }
-
   & > [data-images-offer] {
     width: calc(100% + 2rem);
     margin-left: -1rem;
