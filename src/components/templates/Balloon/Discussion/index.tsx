@@ -25,7 +25,7 @@ function BalloonDiscussion() {
         className="w-full rounded-t-3xl md:rounded-t-[2rem] grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden"
         data-color={EnumTypeProvider.discussion}
       >
-        <div data-img>
+        <div className="w-6 h-6 relative p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *h-6">
           <IconDiscussionBalloon />
         </div>
         <h3> {title ? title : "Обсуждение"}</h3>

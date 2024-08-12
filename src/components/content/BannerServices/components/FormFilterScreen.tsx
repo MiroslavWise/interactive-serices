@@ -52,7 +52,7 @@ export const FormFilterScreen = () => {
 
   return (
     <form onSubmit={onSubmit} onReset={() => reset()} data-test="form-filter-screen">
-      <section {...register("actives")} className="h-full">
+      <section {...register("actives")} className="!h-full">
         {mainCategories.map((item) => (
           <a
             key={`::item::category::filter::${item.id}::`}

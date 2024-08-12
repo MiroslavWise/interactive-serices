@@ -36,13 +36,13 @@ export const HasClustererBalloons = () => {
     <div
       className={cx(
         "wrapper-fixed",
-        "bg-translucent flex flex-col items-start py-0 pr-10",
+        "bg-translucent flex flex-col items-start py-0 md:pr-10 max-md:pt-8",
         visibleHasBalloon ? "!z-[209] !visible !opacity-100" : "-z-10 opacity-0 invisible",
       )}
     >
       <section
         data-section-modal
-        className="relative md:max-w-[27.735rem] w-full h-full rounded-tl-3xl md:rounded-l-[2rem] flex flex-col max-md:justify-end max-md:p-0 max-md:pt-8 bg-BG-second"
+        className="relative md:max-w-[27.735rem] w-full h-full rounded-t-3xl md:rounded-r-[2rem] flex flex-col max-md:justify-end max-md:p-0 bg-BG-second overflow-hidden"
       >
         <ButtonClose onClick={close} className="!right-0 !translate-x-0" />
         <header className="w-full h-[4.25rem] md:h-[4.75rem] px-5 md:px-0 md:pt-6 pb-4 md:pb-5 border-b border-solid border-grey-stroke-light flex items-center justify-center">

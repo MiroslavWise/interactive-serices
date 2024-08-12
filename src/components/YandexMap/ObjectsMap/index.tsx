@@ -68,12 +68,7 @@ export const ListPlacemark = memo(function ListPlacemark() {
       key={`${item.offer.id}-${item.offer.provider}-list`}
       geometry={item?.coordinates[0]}
       modules={["geoObject.addon.balloon"]}
-      properties={{
-        id: item.offer?.id!,
-        offer: item?.offer,
-        idUser: item?.offer?.userId,
-        item: item?.coordinates[0],
-      }}
+      properties={{ ...item?.offer }}
       options={{
         iconLayout: "default#image",
         iconImageHref: TYPE_ICON[item?.offer?.provider!!] || IconCategory(item?.offer?.categoryId!),
