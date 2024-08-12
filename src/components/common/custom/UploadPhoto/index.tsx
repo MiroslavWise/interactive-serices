@@ -4,6 +4,7 @@ import Image from "next/image"
 import { type Dispatch, type ChangeEvent } from "react"
 
 import { ImageStatic } from "@/components/common"
+import { cx } from "@/lib/cx"
 
 interface IUploadPhoto {
   files: File
@@ -39,7 +40,10 @@ export const UploadPhoto = ({ index, selected, setFiles, setSelectedImage, delet
 
   return (
     <div
-      className="relative flex items-center justify-center w-full md:max-w-[9.5rem] overflow-hidden rounded-2xl border-2 border-dashed border-grey-field bg-BG-first cursor-pointer z-20 max-md:h-auto max-md:aspect-[152/196]"
+      className={cx(
+        "relative flex items-center justify-center w-full md:max-w-[9.5rem] overflow-hidden rounded-2xl bg-BG-first cursor-pointer z-20 max-md:h-auto max-md:aspect-[152/196]",
+        !!selected ? "" : "border-2 border-dashed border-grey-field",
+      )}
       data-upload
     >
       {selected ? (
