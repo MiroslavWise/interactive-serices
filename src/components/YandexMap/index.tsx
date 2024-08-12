@@ -6,7 +6,7 @@ import { useEffect, useCallback, useRef } from "react"
 import { EnumSign } from "@/types/enum"
 import type { TTypeInstantsMap, TYandexMap } from "./types"
 
-import { Header } from "./Header"
+import HeaderMap from "./Header"
 import { ListPlacemark } from "./ObjectsMap"
 
 import { useAddress } from "@/helpers"
@@ -102,7 +102,7 @@ function YandexMap() {
   }
   return (
     <>
-      <Header />
+      <HeaderMap />
       <Map
         instanceRef={instanceRef}
         onContextMenu={onContextMenu}
