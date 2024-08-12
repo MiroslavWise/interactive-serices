@@ -180,7 +180,7 @@ function YandexMap() {
             })
           }}
         >
-        <ListPlacemark />
+          <ListPlacemark />
         </Clusterer>
       </Map>
     </>
