@@ -154,13 +154,11 @@ function YandexMap() {
             iconPieChartCoreRadius: 8,
           }}
           onClick={async (event: any) => {
-            console.log(":event:", event)
             const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
             let ids: IResponseOffers[] = []
             if (event?.originalEvent?.currentTarget?._objects) {
               for (const item of Object.values(event?.originalEvent?.currentTarget?._objects) as any[]) {
                 if (!!item?.cluster) {
-                  console.log("item: ", item)
                   const value = item?.geoObject?.properties?._data as IResponseOffers
                   const geometry = item?.geoObject?.geometry?._coordinates as [number, number]
                   if (!!value) {
