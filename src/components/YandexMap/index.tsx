@@ -154,29 +154,30 @@ function YandexMap() {
             iconPieChartCoreRadius: 8,
           }}
           onClick={async (event: any) => {
+            console.log(":event:", event)
             const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
-            let ids: { id: number; offer: IResponseOffers }[] = []
+            let ids: IResponseOffers[] = []
             if (event?.originalEvent?.currentTarget?._objects) {
-              const maps = Object.values(event?.originalEvent?.currentTarget?._objects as object)
-                .filter((value) => !!value?.cluster)
-                ?.map((value) => value?.geoObject?.properties?._data)
-                ?.filter(
-                  (item) =>
-                    (item?.item[0] >= coord[0][0] || item?.item[0] <= coord[1][0]) &&
-                    (item?.item[1] >= coord[0][1] || item?.item[1] <= coord[1][1]),
-                )
-
-              for (let i = 0; i < maps.length; i++) {
-                ids.push({
-                  id: maps[i]?.id,
-                  offer: maps[i]?.offer,
-                })
+              for (const item of Object.values(event?.originalEvent?.currentTarget?._objects) as any[]) {
+                if (!!item?.cluster) {
+                  console.log("item: ", item)
+                  const value = item?.geoObject?.properties?._data as IResponseOffers
+                  const geometry = item?.geoObject?.geometry?._coordinates as [number, number]
+                  if (!!value) {
+                    if (
+                      (geometry[0] >= coord[0][0] || geometry[0] <= coord[1][0]) &&
+                      (geometry[1] >= coord[0][1] || geometry[1] <= coord[1][1])
+                    ) {
+                      ids.push(value)
+                    }
+                  }
+                }
               }
             }
 
             dispatchHasBalloon({
               visibleHasBalloon: true,
-              offers: ids?.map((item) => item.offer),
+              offers: ids,
             })
           }}
         >
