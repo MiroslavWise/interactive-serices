@@ -6,31 +6,6 @@
   border-radius: 2rem;
   background-color: var(--BG-second);
 
-  & > header {
-    height: 4.75rem;
-    padding-block: 1.5rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--grey-separator);
-
-    & > h3 {
-      color: var(--text-primary);
-      text-align: center;
-      font-size: 1.5rem;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 2rem;
-      letter-spacing: -0.03125rem;
-    }
-  }
-
-  & > article {
-    width: 100%;
-    padding: 1.25rem 1.5rem;
-    height: calc(1.25rem + 2.75rem + 1.25rem);
-  }
-
   & > form {
     height: 100%;
     width: 100%;
@@ -226,11 +201,6 @@
   @media screen and (max-width: 768px) {
     max-width: 100%;
     border-radius: 0 !important;
-
-    & > header {
-      height: 4.25rem;
-      padding-block: 1.25rem 1rem;
-    }
 
     & > form {
       max-height: calc(100% - 4.25rem - calc(1.25rem + 2.75rem + 1.25rem));

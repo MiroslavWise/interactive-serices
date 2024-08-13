@@ -19,14 +19,7 @@ export const FormFilterScreen = () => {
 
   const mainCategories = useMemo(() => categories?.filter((item) => item?.provider === "main") || [], [categories])
 
-  const {
-    register,
-    watch,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-  } = useForm<IValuesFormFilters>({
+  const { register, watch, handleSubmit, reset, setValue } = useForm<IValuesFormFilters>({
     defaultValues: { actives: activeFilters },
   })
 
@@ -65,7 +58,7 @@ export const FormFilterScreen = () => {
             <div data-icon>
               <ImageCategory id={item.id} />
             </div>
-            <p>{item.title}</p>
+            <p className="line-clamp-2 text-ellipsis">{item.title}</p>
           </a>
         ))}
       </section>
