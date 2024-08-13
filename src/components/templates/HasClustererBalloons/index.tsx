@@ -42,7 +42,7 @@ export const HasClustererBalloons = () => {
     >
       <section
         data-section-modal
-        className="relative md:max-w-[27.735rem] w-full h-full rounded-t-3xl md:rounded-r-[2rem] flex flex-col max-md:justify-end max-md:p-0 bg-BG-second overflow-hidden"
+        className="relative md:max-w-[27.735rem] w-full h-full max-md:rounded-t-3xl md:rounded-r-[2rem] flex flex-col max-md:justify-end max-md:p-0 bg-BG-second overflow-hidden"
       >
         <ButtonClose onClick={close} className="!right-0 !translate-x-0" />
         <header className="w-full h-[4.25rem] md:h-[4.75rem] px-5 md:px-0 md:pt-6 pb-4 md:pb-5 border-b border-solid border-grey-stroke-light flex items-center justify-center">
