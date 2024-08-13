@@ -14,7 +14,7 @@ import { closeCreateOffers, dispatchClosePreCloseCreateService, dispatchModalClo
 const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Предложения"],
   [EnumTypeProvider.alert, "SOS-сообщения"],
-  [EnumTypeProvider.discussion, "Дискусии"],
+  [EnumTypeProvider.discussion, "Обсуждения"],
 ])
 
 const ICON = new Map([

@@ -22,9 +22,9 @@ export const CreateButton = () => {
           }
         }
       }}
-      title="Создать предложение, дискуссию или SOS-сообщение"
-      aria-label="Создать предложение, дискуссию или SOS-сообщение"
-      aria-labelledby="Создать предложение, дискуссию или SOS-сообщение"
+      title="Создать предложение, обсуждение или SOS-сообщение"
+      aria-label="Создать предложение, обсуждение или SOS-сообщение"
+      aria-labelledby="Создать предложение, обсуждение или SOS-сообщение"
       data-test="link-footer-menu-mobile-create"
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">

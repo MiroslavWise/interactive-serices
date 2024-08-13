@@ -49,7 +49,7 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
   const functionAndTitle = useMemo(() => {
     const title: Map<Partial<EnumTypeProvider>, string> = new Map([
       [EnumTypeProvider.offer, "Создать предложение"],
-      [EnumTypeProvider.discussion, "Создать дискуссию"],
+      [EnumTypeProvider.discussion, "Создать обсуждение"],
       [EnumTypeProvider.alert, "Создать SOS"],
     ])
 
