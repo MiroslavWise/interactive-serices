@@ -1,8 +1,8 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
+import { Controller, useForm } from "react-hook-form"
 
 import { type IValues } from "./types"
 import { EnumTypeProvider } from "@/types/enum"
@@ -10,7 +10,8 @@ import { type IPatchOffers } from "@/services/offers/types"
 import { type IFeatureMember, type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { UploadPhoto } from "@/components/common/custom"
-import { Button, ImageCategory, NextImageMotion } from "@/components/common"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { Button, ImageCategory, NextImageMotion, WalletPay } from "@/components/common"
 
 import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
@@ -28,7 +29,6 @@ export default function UpdateOffer() {
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const debouncedValue = useDebounce(onChangeAddress, 200)
   const offer = useUpdateOffer(({ offer }) => offer)
-  const [inputCategory, setInputCategory] = useState("")
   const [focusGeo, setFocusGeo, refGeo] = useOutsideClickEvent()
 
   const { refetch } = useQuery({
@@ -57,9 +57,10 @@ export default function UpdateOffer() {
     formState: { errors },
     handleSubmit,
     setValue,
+    control,
   } = useForm<IValues>({
     defaultValues: {
-      description: offer?.description!,
+      description: offer?.description! || "",
       address: geo?.id,
     },
   })
@@ -150,12 +151,17 @@ export default function UpdateOffer() {
 
   return (
     <>
-      <header>
-        <h3>Обновить предложение</h3>
+      <header className="h-[var(--height-standard-header-modal)] flex items-center justify-center border-b border-solid border-grey-separator p-5 pb-4 md:pb-5 md:pt-6">
+        <h3 className="text-text-primary text-center text-2xl font-semibold">Редактирование</h3>
       </header>
-      <form onSubmit={onSubmit}>
-        <fieldset>
-          <label {...register("address", { required: true })}>Изменить адрес</label>
+      <form
+        onSubmit={onSubmit}
+        className="w-full overflow-x-hidden overflow-y-auto h-[calc(100%_-_var(--height-standard-header-modal))] flex flex-col gap-5 p-5 px-[4.375rem] md:pb-[1.625rem]"
+      >
+        <fieldset className="w-full flex flex-col gap-2">
+          <label {...register("address", { required: true })} className="text-text-primary text-sm font-normal text-left">
+            Ваш адрес
+          </label>
           <div data-input ref={refGeo}>
             <input
               type="text"
@@ -192,8 +198,8 @@ export default function UpdateOffer() {
             ) : null}
           </div>
         </fieldset>
-        <fieldset>
-          <label>Изменить предложение</label>
+        <fieldset className="w-full flex flex-col gap-2">
+          <label className="text-text-primary text-sm font-normal text-left">Предложить категорию</label>
           <div data-input>
             <input type="text" readOnly disabled />
             <div data-category>
@@ -204,21 +210,38 @@ export default function UpdateOffer() {
             </div>
           </div>
         </fieldset>
-        <fieldset>
-          <label>Текущее описание</label>
-          <div data-text-area>
-            <textarea {...register("description", { required: true })} data-error={!!errors?.description} />
-            <span>{watch("description")?.length || 0}/400</span>
-          </div>
-        </fieldset>
-        <fieldset>
-          <label>Загруженные фото</label>
-          <div data-photos>
+        <Controller
+          name="description"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field }) => (
+            <fieldset className="w-full flex flex-col gap-2">
+              <label className="text-text-primary text-sm font-normal text-left">Описание предложения</label>
+              <div data-text-area className="rounded-2xl">
+                <textarea {...field} data-error={!!errors?.description} className="p-3.5 pb-6" />
+                <span>{field.value.length || 0}/400</span>
+              </div>
+            </fieldset>
+          )}
+        />
+        <fieldset className="w-full flex flex-col gap-1">
+          <label className="text-text-primary text-sm font-normal text-left">Фото и видео</label>
+          <p className="text-text-disabled text-sm font-normal text-left">
+            Добавьте фотографии и видео, это помогает выделить предложение среди других
+          </p>
+          <div data-photos className="pt-3 w-full grid grid-cols-3 max-md:grid-cols-2 gap-4 z-10">
             {photos.map((item) => (
-              <div data-photo key={`${item.id}-photo-state`} data-delete={deleteIdPhotos.includes(item.id!)}>
+              <div
+                data-photo
+                className="!border-none !outline-none"
+                key={`${item.id}-photo-state`}
+                data-delete={deleteIdPhotos.includes(item.id!)}
+              >
                 <NextImageMotion src={item.attributes.url} alt="offer-image" width={400} height={400} data-image />
                 <div
-                  data-trash
+                  className="absolute top-1.5 right-1.5 h-8 w-8 rounded-full bg-BG-second shadow-menu-absolute flex items-center justify-center *:w-4 *:h-4 [&>svg>path]:fill-text-primary cursor-pointer"
                   onClick={() => {
                     setDeleteIdPhotos((prev) => {
                       if (prev.includes(item.id)) {
@@ -229,7 +252,7 @@ export default function UpdateOffer() {
                     })
                   }}
                 >
-                  <img src="/svg/trash-black.svg" alt="trash" width={16} height={16} />
+                  <IconTrashBlack />
                 </div>
               </div>
             ))}
@@ -257,7 +280,8 @@ export default function UpdateOffer() {
             ) : null}
           </div>
         </fieldset>
-        <Button type="submit" typeButton="fill-primary" label="Обновить" loading={loading} />
+        <WalletPay />
+        <Button type="submit" typeButton="fill-primary" label="Сохранить" loading={loading} />
       </form>
     </>
   )
