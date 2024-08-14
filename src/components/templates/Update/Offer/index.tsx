@@ -178,8 +178,11 @@ export default function UpdateOffer() {
               }}
             />
             {focusGeo && exactAddresses ? (
-              <div data-list>
-                <ul>
+              <div
+                data-list
+                className="absolute top-[calc(100%_+_0.25rem)] w-full z-50 overflow-hidden rounded-xl bg-BG-second overflow-y-auto"
+              >
+                <ul className="h-full flex flex-col p-3">
                   {exactAddresses.map((item) => (
                     <li
                       key={`::key::${item.GeoObject.uri}::category::`}
@@ -200,13 +203,18 @@ export default function UpdateOffer() {
         </fieldset>
         <fieldset className="w-full flex flex-col gap-2">
           <label className="text-text-primary text-sm font-normal text-left">Предложить категорию</label>
-          <div data-input>
+          <div data-input className="relative w-full h-12">
             <input type="text" readOnly disabled />
-            <div data-category>
-              <div data-icon>
+            <div
+              data-category
+              className="absolute top-1/2 -translate-y-1/2 h-8 left-3.5 rounded-2xl flex flex-row items-center gap-1 p-1 pr-1.5 border border-solid border-grey-stroke-light bg-grey-field z-20"
+            >
+              <div className="w-6 h-6 bg-BG-icons p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                 <ImageCategory id={offer?.categoryId!} />
               </div>
-              <span>{offer?.category?.title || "Категория"}</span>
+              <span className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">
+                {offer?.category?.title || "Категория"}
+              </span>
             </div>
           </div>
         </fieldset>

@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-import type { IPropsImageStatic } from "./types"
+import { type IPropsImageStatic } from "./types"
 
 type TImage = typeof Image.defaultProps & IPropsImageStatic
 

@@ -2,7 +2,7 @@
 
 import NextImage from "next/image"
 
-import type { IProps } from "./types"
+import { type IProps } from "./types"
 
 import { ImageStatic } from "../ImageStatic"
 
