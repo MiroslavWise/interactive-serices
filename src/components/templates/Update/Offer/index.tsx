@@ -289,7 +289,13 @@ export default function UpdateOffer() {
           </div>
         </fieldset>
         <WalletPay />
-        <Button type="submit" typeButton="fill-primary" label="Сохранить" loading={loading} />
+        <Button
+          type="submit"
+          typeButton="fill-primary"
+          label="Сохранить"
+          loading={loading}
+          disabled={!watch("description").trim().length}
+        />
       </form>
     </>
   )

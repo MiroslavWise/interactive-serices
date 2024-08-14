@@ -22,7 +22,7 @@ const onHeaderTitle = (value: EnumTypeProvider) =>
 
 const onPre = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert
-    ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
+    ? "Видите, что что-то произошло, или вам нужна помощь? Просто дайте знать остальным"
     : value === EnumTypeProvider.discussion
     ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
     : null
