@@ -12,10 +12,10 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
+import { useCountMessagesNotReading } from "@/helpers"
 import { dispatchOpenCancelExchange, useAuth } from "@/store"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
 import { deleteThread, getBarterId, patchBarter } from "@/services"
-import { useCountMessagesNotReading } from "@/helpers"
 
 function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoading: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
