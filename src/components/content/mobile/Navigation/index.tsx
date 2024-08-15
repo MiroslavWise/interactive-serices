@@ -70,13 +70,23 @@ export default function Navigation() {
       data-transform={visible}
     >
       <section className="w-full flex flex-col rounded-[0.625rem] bg-BG-second overflow-hidden">
-        <button onClick={(event) => handleZoom(event, "+")} disabled={zoom >= 20} data-plus>
-          <div data-icon>
+        <button
+          onClick={(event) => handleZoom(event, "+")}
+          disabled={zoom >= 20}
+          data-plus
+          className="w-full bg-transparent p-3.5 flex flex-col items-center justify-center pb-3 disabled:bg-btn-second-default disabled:cursor-no-drop hover:opacity-90"
+        >
+          <div className="w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
             <IconPlus />
           </div>
         </button>
-        <button onClick={(event) => handleZoom(event, "-")} disabled={zoom <= 10} data-minus>
-          <div data-icon>
+        <button
+          onClick={(event) => handleZoom(event, "-")}
+          disabled={zoom <= 10}
+          data-minus
+          className="w-full bg-transparent p-3.5 flex flex-col items-center justify-center pt-3 disabled:bg-btn-second-default disabled:cursor-no-drop hover:opacity-90"
+        >
+          <div className="w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
             <IconMinus />
           </div>
         </button>
@@ -86,6 +96,7 @@ export default function Navigation() {
           event.stopPropagation()
           handleAddressLocation()
         }}
+        className="aspect-square w-12 h-12 flex items-center justify-center p-3.5 bg-BG-second *:w-5 *:h-5"
       >
         <IconNavigate />
       </button>

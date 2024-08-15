@@ -14,6 +14,7 @@ import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 
 import styles from "./style.module.scss"
+import { cx } from "@/lib/cx"
 
 function MapSearch() {
   const [text, setText] = useState("")
@@ -64,8 +65,8 @@ function MapSearch() {
 
   return (
     <>
-      <div className={styles.container} data-visible={visible}>
-        <div data-icon-geo>
+      <div className={cx(styles.container, "fixed left-5 right-5 h-12", visible ? "translate-y-2.5 z-[100]" : "translate-y-0 z-20")}>
+        <div className="absolute top-1/2 -translate-y-1/2 left-4 w-5 h-5 pointer-events-none *:w-5 *:h-5">
           <IconGeo />
         </div>
         <input
@@ -94,21 +95,28 @@ function MapSearch() {
           }}
         />
       </div>
-      <div className={styles.wrapper} data-visible={visible}>
-        <header>
+      <div
+        className={cx(
+          styles.wrapper,
+          "fixed inset-0 w-full bg-BG-second",
+          visible ? "z-[92] opacity-100 visible" : "-z-10 opacity-0 invisible",
+        )}
+      >
+        <header className="w-full h-[var(--height-mobile-header)] flex flex-row items-center justify-center relative py-2.5 px-5">
           <button
             onClick={(event) => {
               event.stopPropagation()
               dispatchVisibleSearchMobile(false)
             }}
+            className="w-5 h-5 border-none flex items-center justify-center bg-transparent absolute top-1/2 -translate-y-1/2 left-5 z-20 *:w-5 *:h-5 *:rotate-180 [&>svg>path]:fill-text-primary"
           >
             <IconChevron />
           </button>
-          <h3>Местоположение</h3>
+          <h3 className="text-text-primary text-center text-xl font-semibold">Местоположение</h3>
         </header>
-        <section>
+        <section className="w-full px-5">
           {values?.length ? (
-            <ul>
+            <ul className="w-full overflow-x-hidden overflow-y-auto relative z-20 flex flex-col p-1 rounded-xl">
               {values?.map((item) => (
                 <li
                   key={`::key::map::address::${item?.GeoObject?.uri}::`}
@@ -116,15 +124,16 @@ function MapSearch() {
                     event.stopPropagation()
                     handleAddress(item)
                   }}
+                  className="w-full p-2 pb-2.5 rounded-lg bg-BG-second cursor-pointer hover:bg-grey-field focus:bg-grey-field"
                 >
-                  <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                  <span className="text-text-primary text-sm font-normal">{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
                 </li>
               ))}
             </ul>
           ) : text?.length > 0 && !loading ? (
-            <article>
-              <h3>Адрес</h3>
-              <p>По вашему запросу нет подходящих адресов</p>
+            <article className="w-full h-min p-4 flex flex-col items-center gap-2">
+              <h3 className="text-text-primary text-center text-xl font-semibold">Адрес</h3>
+              <p className="text-text-secondary text-center text-base font-normal">По вашему запросу нет подходящих адресов</p>
             </article>
           ) : null}
         </section>
