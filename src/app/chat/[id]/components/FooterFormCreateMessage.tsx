@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
-import { ChangeEvent, Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react"
+import { ChangeEvent, Dispatch, memo, RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 
 import { type IMessages } from "./Page"
 import { EnumTypeProvider } from "@/types/enum"
@@ -35,60 +35,67 @@ function FooterFormCreateMessage({
   const refForm = useRef<HTMLFormElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
-
   const [filesState, setFiles] = useState<{ file: File[]; string: string[] }>({
     file: [],
     string: [],
   })
-  function dispatchDelete(index: number) {
-    if (!loading) {
-      setFiles((item) => ({
-        file: item.file.filter((_, i) => i !== index),
-        string: item.string.filter((_, i) => i !== index),
-      }))
-    }
-  }
-  async function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
-    const files = event.target.files
 
-    let filesReady = {
-      file: [...filesState.file] as File[],
-      string: [...filesState.string] as string[],
-    }
+  const dispatchDelete = useCallback(
+    (index: number) => {
+      if (!loading) {
+        setFiles((item) => ({
+          file: item.file.filter((_, i) => i !== index),
+          string: item.string.filter((_, i) => i !== index),
+        }))
+      }
+    },
+    [loading],
+  )
 
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
+  const handleImageChange = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files
 
-        if (file) {
-          if (file.size < MAX_FILE_SIZE) {
-            const is = filesState.file.some((_) => _.size === file.size && _.name === file.name)
+      let filesReady = {
+        file: [...filesState.file] as File[],
+        string: [...filesState.string] as string[],
+      }
 
-            if (is) {
-              continue
-            }
+      if (files) {
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i]
 
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = function (f) {
-              filesReady = {
-                ...filesReady,
-                file: [...filesReady.file, file],
-                string: [...filesReady.string, f!.target!.result as string],
+          if (file) {
+            if (file.size < MAX_FILE_SIZE) {
+              const is = filesState.file.some((_) => _.size === file.size && _.name === file.name)
+
+              if (is) {
+                continue
+              }
+
+              const reader = new FileReader()
+              reader.readAsDataURL(file)
+              reader.onload = function (f) {
+                filesReady = {
+                  ...filesReady,
+                  file: [...filesReady.file, file],
+                  string: [...filesReady.string, f!.target!.result as string],
+                }
               }
             }
           }
         }
       }
-    }
 
-    await sleep()
+      await sleep()
 
-    return Promise.resolve({
-      file: filesReady.file.splice(0, 9),
-      string: filesReady.string.splice(0, 9),
-    })
-  }
+      return Promise.resolve({
+        file: filesReady.file.splice(0, 9),
+        string: filesReady.string.splice(0, 9),
+      })
+    },
+    [filesState],
+  )
 
   const { refetch } = useQuery({
     queryFn: () => getMessages({ thread: thread?.id! }),
@@ -125,7 +132,7 @@ function FooterFormCreateMessage({
     }
   }, [watch("text")])
 
-  const receiver = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
+  const receiverID = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
 
   const disabled = (!watch("text").trim() && !filesState.file.length) || loading
 
@@ -136,7 +143,7 @@ function FooterFormCreateMessage({
       threadId: Number(thread?.id!),
       parentId: null,
       emitterId: userId!,
-      receiverIds: [receiver],
+      receiverIds: [receiverID],
       enabled: true,
       created: new Date(),
     }
@@ -288,4 +295,4 @@ function FooterFormCreateMessage({
 }
 
 FooterFormCreateMessage.displayName = "FooterFormCreateMessage"
-export default FooterFormCreateMessage
+export default memo(FooterFormCreateMessage)
