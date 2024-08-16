@@ -8,8 +8,6 @@ import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImag
 
 import styles from "./styles/style.module.scss"
 import {
-  EModalData,
-  dispatchModal,
   dispatchBallonAlert,
   dispatchBallonOffer,
   dispatchMapCoordinates,
