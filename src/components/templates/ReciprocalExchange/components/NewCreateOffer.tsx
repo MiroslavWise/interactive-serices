@@ -56,16 +56,17 @@ export const NewCreateOffer = memo(({}: IProps) => {
           <textarea
             {...register("description_new_offer", {
               required: watch("select_new_proposal") === ETypeOfNewCreated.new,
-              minLength: 3,
+              minLength: 1,
               maxLength: 512,
             })}
             placeholder="Описание предложения..."
+            minLength={1}
             maxLength={512}
           />
           <span>{watch("description_new_offer")?.length || 0}/512</span>
           {!!errors.description_new_offer ? (
             errors.description_new_offer.type === "minLength" ? (
-              <i>Не менее 3-х символов в описании</i>
+              <i>Это поле не может оставаться пустым</i>
             ) : errors.description_new_offer.type === "maxLength" ? (
               <i>Не более 512 символов</i>
             ) : (
