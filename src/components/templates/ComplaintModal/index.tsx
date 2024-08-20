@@ -22,16 +22,18 @@ export default function ComplaintModal() {
   const { onBarters } = useToast()
   const user = useComplaintModal(({ user }) => user)
   const offer = useComplaintModal(({ offer }) => offer)
-  const { user: userOffer } = offer ?? {}
   const { username = "---" } = user ?? {}
+
+  console.log("useComplaintModal: user", user)
+  console.log("useComplaintModal: offer", offer)
 
   const { register, handleSubmit, watch, reset, setValue } = useForm<IValuesForm>({
     defaultValues: {},
   })
 
   function handleClose() {
-    dispatchModalClose()
     dispatchCleanComplaintModal()
+    dispatchModalClose()
   }
 
   function submit(values: IValuesForm) {
@@ -39,10 +41,10 @@ export default function ComplaintModal() {
       setLoading(true)
 
       const valuesData: IPostComplains = {
-        receiverId: !!user ? user?.id! : userOffer?.id!,
+        receiverId: !!user ? user?.id! : offer?.id!,
         message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!}`,
         enabled: true,
-        provider: !!user ? EnumTypeProvider.profile : !!offer ? EnumTypeProvider.offer : EnumTypeProvider.profile,
+        provider: !!offer ? offer.provider : EnumTypeProvider.profile,
       }
 
       postComplain(valuesData).then((response) => {

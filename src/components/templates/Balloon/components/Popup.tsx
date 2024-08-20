@@ -13,6 +13,7 @@ import {
   dispatchBallonAlert,
   dispatchBallonDiscussion,
   dispatchBallonOffer,
+  dispatchComplaintModalOffer,
   dispatchComplaintModalUser,
   dispatchMapCoordinates,
 } from "@/store"
@@ -32,12 +33,10 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
   const isMap = pathname !== "/"
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
 
-  console.log("isMap: ", isMap)
-
   function handle() {
     if (user) {
-      dispatchComplaintModalUser({
-        user: user,
+      dispatchComplaintModalOffer({
+        offer: offer,
       })
       return
     }
