@@ -40,9 +40,7 @@ export default function ComplaintModal() {
 
       const valuesData: IPostComplains = {
         receiverId: !!user ? user?.id! : userOffer?.id!,
-        message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!} : ${
-          !!user ? `user:${user?.username}` : `offer:${offer?.title}`
-        }`,
+        message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!}`,
         enabled: true,
         provider: !!user ? EnumTypeProvider.profile : !!offer ? EnumTypeProvider.offer : EnumTypeProvider.profile,
       }

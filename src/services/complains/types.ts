@@ -5,7 +5,7 @@ export interface IPostComplains {
   receiverId: number
   message: string
   enabled: boolean
-  provider: EnumTypeProvider //profile
+  provider: EnumTypeProvider //profile || offer
 }
 
 interface IResponseComplains {
@@ -21,3 +21,13 @@ interface IResponseComplains {
 export interface IServiceComplains {
   post(values: IPostComplains): Promise<IResponse<{ id: number }>>
 }
+
+interface IQuery {
+  order: "ASC" | "DESC"
+  page?: number //1
+  limit?: number //1000
+  receiver?: number
+  user?: number
+}
+
+export type TGetComplains = (values: { query: IQuery }) => Promise<IResponse<IResponseComplains[]>>
