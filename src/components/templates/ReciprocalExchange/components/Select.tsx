@@ -59,7 +59,7 @@ export const ChooseAnOffer = memo(({ loading, firstName, categoriesWants = [] }:
   return (
     <div className={styles.container}>
       <h3>Выбрать предложение</h3>
-      <section {...register("select_new_proposal", { required: true })}>
+      <section>
         {valuesIncoming.length === 1 ? (
           <div data-select={true}>
             <NewCreateOffer />
