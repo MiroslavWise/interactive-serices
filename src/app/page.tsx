@@ -28,14 +28,48 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
   ssr: false,
 })
 
-import { useAuth } from "@/store"
+import { dispatchUTMData, IStateUTM, useAuth } from "@/store"
 import { useResize } from "@/helpers"
 import { useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 
 export default function Home() {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const searchParams = useSearchParams()
+  const { replace } = useRouter()
 
+  const isAuth = useAuth(({ isAuth }) => isAuth)
   const { isTablet } = useResize()
+
+  const utm_source = searchParams.get("utm_source")
+  const utm_medium = searchParams.get("utm_medium")
+  const utm_campaign = searchParams.get("utm_campaign")
+  const utm_content = searchParams.get("utm_content")
+
+  useEffect(() => {
+    if (utm_source || utm_medium || utm_campaign || utm_content) {
+      setTimeout(() => {
+        const data: IStateUTM = {}
+
+        if (utm_source) {
+          data.utm_source = utm_source
+        }
+        if (utm_medium) {
+          data.utm_medium = utm_medium
+        }
+        if (utm_campaign) {
+          data.utm_campaign = utm_campaign
+        }
+        if (utm_content) {
+          data.utm_content = utm_content
+        }
+
+        if (Object.values(data).length) {
+          dispatchUTMData(data)
+          replace("/")
+        }
+      })
+    }
+  }, [])
 
   return (
     <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
