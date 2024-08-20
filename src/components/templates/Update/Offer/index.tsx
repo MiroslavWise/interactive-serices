@@ -223,14 +223,25 @@ export default function UpdateOffer() {
           control={control}
           rules={{
             required: true,
+            minLength: 3,
+            maxLength: 512,
           }}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <fieldset className="w-full flex flex-col gap-2">
               <label className="text-text-primary text-sm font-normal text-left">Описание предложения</label>
               <div data-text-area className="rounded-2xl">
-                <textarea {...field} data-error={!!errors?.description} className="p-3.5 pb-6" />
-                <span>{field.value.length || 0}/400</span>
+                <textarea {...field} data-error={!!error} className="p-3.5 pb-6" />
+                <span>{field.value.length || 0}/512</span>
               </div>
+              {!!error ? (
+                error.type === "required" ? (
+                  <i>Обязательное поле</i>
+                ) : error.type === "minLength" ? (
+                  <i>Не менее 3-х символов в описании</i>
+                ) : error.type === "maxLength" ? (
+                  <i>Не более 512 символов</i>
+                ) : null
+              ) : null}
             </fieldset>
           )}
         />
