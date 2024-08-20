@@ -9,18 +9,11 @@ import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { Button } from "@/components/common"
 
+import { cx } from "@/lib/cx"
 import { postComplain } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import {
-  dispatchCleanComplaintModal,
-  dispatchComplaintModalOffer,
-  dispatchComplaintModalUser,
-  dispatchModalClose,
-  useAuth,
-  useComplaintModal,
-} from "@/store"
-import { cx } from "@/lib/cx"
+import { dispatchCleanComplaintModal, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
 
 export default function ComplaintModal() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -29,17 +22,18 @@ export default function ComplaintModal() {
   const { onBarters } = useToast()
   const user = useComplaintModal(({ user }) => user)
   const offer = useComplaintModal(({ offer }) => offer)
-  const { user: userOffer } = offer ?? {}
   const { username = "---" } = user ?? {}
+
+  console.log("useComplaintModal: user", user)
+  console.log("useComplaintModal: offer", offer)
 
   const { register, handleSubmit, watch, reset, setValue } = useForm<IValuesForm>({
     defaultValues: {},
   })
 
   function handleClose() {
+    dispatchCleanComplaintModal()
     dispatchModalClose()
-    dispatchComplaintModalUser({ user: undefined })
-    dispatchComplaintModalOffer({ offer: undefined })
   }
 
   function submit(values: IValuesForm) {
@@ -47,12 +41,10 @@ export default function ComplaintModal() {
       setLoading(true)
 
       const valuesData: IPostComplains = {
-        receiverId: !!user ? user?.id! : userOffer?.id!,
-        message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!} : ${
-          !!user ? `user:${user?.username}` : `offer:${offer?.title}`
-        }`,
+        receiverId: !!user ? user?.id! : offer?.id!,
+        message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!}`,
         enabled: true,
-        provider: EnumTypeProvider.profile,
+        provider: !!offer ? offer.provider : EnumTypeProvider.profile,
       }
 
       postComplain(valuesData).then((response) => {

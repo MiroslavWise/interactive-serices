@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-enum ETitleRole {
+export enum ETitleRole {
   SuperAdmin = "superadmin",
   User = "user",
   Admin = "admin",

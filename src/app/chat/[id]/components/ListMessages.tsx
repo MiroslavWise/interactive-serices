@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { memo, type RefObject, useEffect, Fragment, type Dispatch, type SetStateAction } from "react"
+import { memo, type RefObject, useEffect, Fragment, type Dispatch, type SetStateAction, useMemo } from "react"
 
 import { type IMessages } from "./Page"
 import { EnumProviderThreads } from "@/types/enum"
@@ -76,9 +76,9 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
     }
   }, [socket, thread?.id, userId])
 
-  if (isLoading || !thread) return <LoadingList />
+  const firstNotRead = useMemo(() => items.findIndex((_) => !_.readIds.length && _.emitterId !== userId), [items.length, userId])
 
-  const firstNotRead = items.findIndex((_) => !_.readIds.length && _.emitterId !== userId)
+  if (isLoading || !thread) return <LoadingList />
 
   return (
     <section className="w-full h-full max-md:h-[calc(var(--vh)_*_100)] flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">

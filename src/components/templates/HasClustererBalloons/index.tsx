@@ -2,15 +2,23 @@
 
 import { useEffect } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { ButtonClose } from "@/components/common"
 import CardBallon from "@/components/common/Card/CardBallon"
 
 import { cx } from "@/lib/cx"
-import { dispatchHasBalloon, useHasBalloons } from "@/store"
+import { SERVICES } from "@/components/content/BannerServices/constants"
+import { dispatchHasBalloon, useFiltersServices, useHasBalloons } from "@/store"
+
+const onTitle = (value: EnumTypeProvider | "all") => SERVICES.find((_) => _.value === value)!.label!
 
 export const HasClustererBalloons = () => {
   const offers = useHasBalloons(({ offers }) => offers)
+  const providers = useFiltersServices(({ providers }) => providers)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
+
+  const title = onTitle(providers || "all")
 
   const close = () => dispatchHasBalloon({ visibleHasBalloon: false })
 
@@ -42,11 +50,11 @@ export const HasClustererBalloons = () => {
     >
       <section
         data-section-modal
-        className="relative md:max-w-[27.735rem] w-full h-full rounded-t-3xl md:rounded-r-[2rem] flex flex-col max-md:justify-end max-md:p-0 bg-BG-second overflow-hidden"
+        className="relative md:max-w-[27.735rem] w-full h-full max-md:rounded-t-3xl md:rounded-r-[2rem] flex flex-col max-md:justify-end max-md:p-0 bg-BG-second overflow-hidden"
       >
         <ButtonClose onClick={close} className="!right-0 !translate-x-0" />
         <header className="w-full h-[4.25rem] md:h-[4.75rem] px-5 md:px-0 md:pt-6 pb-4 md:pb-5 border-b border-solid border-grey-stroke-light flex items-center justify-center">
-          <h3 className="text-text-primary text-center text-2xl font-semibold">Сервисы</h3>
+          <h3 className="text-text-primary text-center text-2xl font-semibold">{title}</h3>
         </header>
         <div data-container className="h-full w-full overflow-hidden md:rounded-l-[2rem]">
           <ul className="w-full h-full p-3 md:p-4 flex flex-col gap-3 md:gap-4 overflow-x-hidden overflow-y-auto">

@@ -1,3 +1,5 @@
+import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -7,10 +9,8 @@ import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getUserIdOffers, patchOffer } from "@/services"
-import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
 import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
-import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
 
 export const CN_UPDATE_DISCUSSION_AND_ALERT = "w-full md: max-w-[37.25rem] max-md:!rounded-none"
 
@@ -18,14 +18,14 @@ const onDescription = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert ? "Опишите проблему" : value === EnumTypeProvider.discussion ? "Ваш комментарий" : null
 
 const onHeaderTitle = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert ? "Название SOS-сообщения" : value === EnumTypeProvider.discussion ? "Название обсуждения" : null
+  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : null
 
-const onPre = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert
-    ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
-    : value === EnumTypeProvider.discussion
-    ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
-    : null
+// const onPre = (value: EnumTypeProvider) =>
+//   value === EnumTypeProvider.alert
+//     ? "Видите, что что-то произошло, или вам нужна помощь? Просто дайте знать остальным"
+//     : value === EnumTypeProvider.discussion
+//     ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
+//     : null
 
 function UpdateDiscussionAndAlert() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -84,7 +84,7 @@ function UpdateDiscussionAndAlert() {
     }
   })
 
-  const pre = onPre(provider!)
+  // const pre = onPre(provider!)
   const labelTitle = onHeaderTitle(provider!)
   const labelDescription = onDescription(provider!)
 
@@ -102,7 +102,6 @@ function UpdateDiscussionAndAlert() {
         )}
         onSubmit={onSubmit}
       >
-        <p className="text-text-primary text-sm text-left font-normal">{pre}</p>
         <Controller
           name="address"
           control={control}

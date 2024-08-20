@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 
 import { type IMessages } from "./Page"
 
@@ -93,4 +93,4 @@ function ItemMessage({ message }: { message: IMessages }) {
 }
 
 ItemMessage.displayName = "ItemMessage"
-export default ItemMessage
+export default memo(ItemMessage)

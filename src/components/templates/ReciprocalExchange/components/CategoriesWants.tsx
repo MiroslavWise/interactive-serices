@@ -52,13 +52,26 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
         <fieldset>
           <div data-text-area>
             <textarea
-              {...register("description", { required: watch("select_new_proposal") === ETypeOfNewCreated.interesting, minLength: 1 })}
+              {...register("description", {
+                required: watch("select_new_proposal") === ETypeOfNewCreated.interesting,
+                minLength: 1,
+                maxLength: 512,
+              })}
               placeholder="Описание предложения..."
               maxLength={512}
+              minLength={1}
             />
             <span>{watch("description")?.length || 0}/512</span>
           </div>
-          {errors.description ? <i>{errors?.description?.message}</i> : null}
+          {!!errors.description ? (
+            errors.description.type === "minLength" ? (
+              <i>Это поле не может оставаться пустым</i>
+            ) : errors.description.type === "maxLength" ? (
+              <i>Не более 512 символов</i>
+            ) : (
+              <i>{errors.description.message}</i>
+            )
+          ) : null}
         </fieldset>
       ) : null}
     </div>

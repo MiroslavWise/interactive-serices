@@ -3,9 +3,7 @@ import { create } from "zustand"
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 import { IResponseOffers, IUserOffer } from "@/services/offers/types"
 
-export const useComplaintModal = create<IStateComplaintModal>(() => ({
-  type: null,
-}))
+export const useComplaintModal = create<IStateComplaintModal>(() => ({}))
 
 export const dispatchComplaintModalUser = ({ user }: { user?: IUserOffer }) => {
   if (!!user) {
@@ -54,5 +52,4 @@ interface IAction {
 interface IStateComplaintModal {
   user?: IUserOffer
   offer?: IResponseOffers
-  type: "offer" | "user" | null
 }

@@ -20,6 +20,7 @@
     "knip": "knip"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.22",
     "@hookform/resolvers": "3.9.0",
     "@pbe/react-yandex-maps": "1.2.5",
     "@react-input/mask": "^1.2.5",

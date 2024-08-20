@@ -2,10 +2,11 @@ import Link from "next/link"
 import { type Metadata } from "next"
 
 import { getOffersCategoriesPROD } from "@/services"
+import { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { res } = await getOffersCategoriesPROD()
-  const items = res || []
+  const { data } = await getOffersCategoriesPROD()
+  const items = (data as IResponseOffersCategories[]) || []
 
   if (items.length === 0) {
     return {}
@@ -35,9 +36,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async () => {
-  const { res } = await getOffersCategoriesPROD()
+  const { data } = await getOffersCategoriesPROD()
 
-  const items = res || []
+  const items = (data as IResponseOffersCategories[]) || []
 
   return (
     <div className="w-full h-full flex flex-col gap-6">

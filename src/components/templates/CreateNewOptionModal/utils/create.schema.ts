@@ -89,11 +89,6 @@ const schemaCreate = base.extend({
   initAddress: initAddress,
 })
 
-// type TSchemaAlertAndDiscussion = z.infer<typeof schemaAlertAndDiscussion>
-// export type TSchemaAlertAndDiscussionMap = z.infer<typeof schemaAlertAndDiscussionMap>
-// export type TSchemaOffer = z.infer<typeof schemaOffer>
-// export type TSchemaOfferMap = z.infer<typeof schemaOfferMap>
-
 export const resolverAlertAndDiscussion = zodResolver(schemaAlertAndDiscussion)
 export const resolverAlertAndDiscussionMap = zodResolver(schemaAlertAndDiscussionMap)
 export const resolverOffer = zodResolver(schemaOffer)

@@ -1,0 +1,69 @@
+import { useState } from "react"
+
+import { EnumTypeProvider } from "@/types/enum"
+import { type IResponseComplains } from "@/services/complains/types"
+
+import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+
+import { formatOfMMM } from "@/helpers"
+import { getIdOffer } from "@/services"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
+
+const titleMap: Map<EnumTypeProvider, string> = new Map([
+  [EnumTypeProvider.profile, "Жалоба на пользователя"],
+  [EnumTypeProvider.offer, "Жалоба на предложение"],
+  [EnumTypeProvider.discussion, "Жалоба на обсуждение"],
+  [EnumTypeProvider.alert, "Жалоба на SOS-сообщение"],
+])
+
+const onTitle = (value: EnumTypeProvider) => (titleMap.has(value) ? titleMap.get(value) : null)
+
+function ItemComplain(props: IResponseComplains) {
+  const { provider, created, message, receiverId } = props ?? {}
+  const [loading, setLoading] = useState(false)
+
+  async function handle() {
+    if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(provider)) {
+      if (!loading) {
+        setLoading(true)
+        const { data } = await getIdOffer(receiverId!)
+        if (!!data) {
+          if (data.provider === EnumTypeProvider.offer) {
+            dispatchBallonOffer({ offer: data })
+          }
+          if (data.provider === EnumTypeProvider.discussion) {
+            dispatchBallonDiscussion({ offer: data })
+          }
+          if (data.provider === EnumTypeProvider.alert) {
+            dispatchBallonAlert({ offer: data })
+          }
+        }
+        setLoading(false)
+      }
+    }
+  }
+
+  return (
+    <li
+      className="w-full rounded-2xl border border-solid border-grey-stroke-light p-3 flex flex-col gap-3 bg-BG-second cursor-pointer h-min overflow-hidden"
+      onClick={handle}
+    >
+      <div className="w-full flex flex-row items-center justify-between gap-3">
+        <time className="text-text-secondary text-xs font-normal">{formatOfMMM(created)}</time>
+        <button
+          type="button"
+          className="relative w-4 h-4 p-2 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+        >
+          <IconDotsHorizontal />
+        </button>
+      </div>
+      <h3 className="text-text-primary text-base font-semibold">{onTitle(provider)}</h3>
+      <p className="text-text-primary text-sm font-normal">
+        Причина: <span className="text-text-secondary">{message}</span>
+      </p>
+    </li>
+  )
+}
+
+ItemComplain.displayName = "ItemComplain"
+export default ItemComplain

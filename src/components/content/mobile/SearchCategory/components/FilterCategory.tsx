@@ -8,6 +8,7 @@ import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen 
 import styles from "../styles/filter-category.module.scss"
 import { useQuery } from "@tanstack/react-query"
 import { getOffersCategories } from "@/services"
+import { cx } from "@/lib/cx"
 
 export default function FilterCategory() {
   const visible = useFiltersScreen(({ visible }) => visible)
@@ -35,21 +36,28 @@ export default function FilterCategory() {
   }
 
   return (
-    <div className={styles.wrapper} data-visible={visible}>
-      <header>
-        <h3>Выбрать категории услуг</h3>
+    <div
+      className={cx(
+        styles.wrapper,
+        "absolute bg-BG-second top-4 left-0 right-0 flex flex-col",
+        visible ? "z-[92] opacity-100 visible" : "-z-10 opacity-0 invisible",
+      )}
+    >
+      <header className="w-full px-5 flex flex-row justify-between items-center gap-2.5 pb-2.5">
+        <h3 className="text-text-primary text-xl font-semibold">Выбрать категории услуг</h3>
         <button
           type="button"
           onClick={(event) => {
             event.stopPropagation()
             dispatchActiveFilterScreen(false)
           }}
+          className="w-12 h-12 p-6 relative rounded-full border border-solid border-grey-stroke-light bg-BG-second *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
         >
           <IconXClose />
         </button>
       </header>
-      <section>
-        <div data-grid>
+      <section className="w-full overflow-x-hidden overflow-y-auto pt-2.5 pb-5">
+        <div data-grid className="w-full px-5 h-fit grid gap-3 grid-cols-2">
           {mainCategories.map((item) => (
             <a
               key={`::item::category::filter::${item.id}::`}
@@ -58,16 +66,17 @@ export default function FilterCategory() {
                 event.stopPropagation()
                 handleCategory(item.id)
               }}
+              className="flex flex-col items-start justify-between h-24 w-full p-3 rounded-xl border border-grey-stroke-light bg-BG-second cursor-pointer"
             >
-              <div data-icon>
+              <div className="relative w-6 h-6 bg-transparent p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
                 <ImageCategory id={item.id} />
               </div>
-              <p>{item.title}</p>
+              <p className="text-text-primary text-sm font-normal line-clamp-2 text-ellipsis">{item.title}</p>
             </a>
           ))}
         </div>
       </section>
-      <footer>
+      <footer className="w-full px-5 pt-2.5 pb-5 flex flex-row gap-3 *:h-11 *:rounded-[1.375rem]">
         <Button
           type="button"
           typeButton="fill-primary"

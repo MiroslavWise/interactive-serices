@@ -13,6 +13,13 @@ export const dispatchReciprocalExchange = (values: IActionReciprocalExchange) =>
 
   console.log("dispatchReciprocalExchange values: ", values)
 
+  useReciprocalExchange.setState(
+    (_) => ({
+      ...rest,
+    }),
+    true,
+  )
+
   if (visible) {
     dispatchModal(EModalData.ReciprocalExchange)
     console.log("dispatchReciprocalExchange visible: ", visible)
@@ -20,12 +27,6 @@ export const dispatchReciprocalExchange = (values: IActionReciprocalExchange) =>
     dispatchModalClose()
     console.log("dispatchReciprocalExchange visible: ", visible)
   }
-  useReciprocalExchange.setState(
-    (_) => ({
-      ...rest,
-    }),
-    true,
-  )
 }
 
 export const dispatchReciprocalExchangeCollapse = (value: boolean) =>

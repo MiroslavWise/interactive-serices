@@ -1,62 +1,62 @@
 .container {
-    width: 100%;
+  width: 100%;
+  border-radius: 0.625rem;
+  border: 1px solid;
+  border-color: var(--grey-stroke-light);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: flex-start;
+
+  & > [data-img] {
+    background-color: var(--BG-second);
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 0.625rem;
-    border: 1px solid;
-    border-color: var(--grey-stroke-light);
-    padding: 0.5rem;
+    & > img {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 0.625rem;
+    }
+  }
+
+  & > [data-info] {
+    width: fit-content;
     display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
+    flex-direction: column;
     align-items: flex-start;
 
-    & > [data-img] {
-        background-color: var(--BG-second);
-        width: 2.75rem;
-        height: 2.75rem;
-        border-radius: 0.625rem;
-        & > img {
-            width: 2.75rem;
-            height: 2.75rem;
-            border-radius: 0.625rem;
-        }
+    & > [data-names] {
+      width: fit-content;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.25rem;
+
+      & > h4 {
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.5rem;
+        letter-spacing: -0.01125rem;
+      }
+
+      & > img {
+        height: 1rem;
+        width: 1rem;
+      }
     }
 
-    & > [data-info] {
-        width: fit-content;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-
-        & > [data-names] {
-            width: fit-content;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.25rem;
-
-            & > h4 {
-                color: var(--text-primary);
-                font-size: 1rem;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 1.5rem;
-                letter-spacing: -0.01125rem;
-            }
-
-            & > img {
-                height: 1rem;
-                width: 1rem;
-            }
-        }
-
-        & > [data-geo] {
-            img {
-                display: none;
-            }
-            & > p {
-                color: var(--text-secondary);
-                max-width: auto;
-            }
-        }
+    & > [data-geo] {
+      img {
+        display: none;
+      }
+      & > p {
+        color: var(--text-secondary);
+        max-width: auto;
+      }
     }
+  }
 }

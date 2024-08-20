@@ -1,6 +1,6 @@
 import { SearchElementMap } from "@/components/common/SearchElementMap"
 
-export const Header = () => {
+function HeaderMap() {
   return (
     <div
       id="headerRef"
@@ -11,3 +11,6 @@ export const Header = () => {
     </div>
   )
 }
+
+HeaderMap.displayName = "HeaderMap"
+export default HeaderMap

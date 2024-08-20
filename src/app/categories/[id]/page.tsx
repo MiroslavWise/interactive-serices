@@ -1,4 +1,5 @@
 import { getOffersCategoriesPROD } from "@/services"
+import { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 // export async function generateStaticParams() {
 //   const { res } = await getOffersCategoriesPROD()
@@ -11,8 +12,8 @@ import { getOffersCategoriesPROD } from "@/services"
 
 export default async ({ params }: { params: { id: string } }) => {
   const { id } = params ?? {}
-  const { res } = await getOffersCategoriesPROD()
-  const items = res || []
+  const { data } = await getOffersCategoriesPROD()
+  const items = (data as IResponseOffersCategories[]) || []
   const find = items.find((_) => String(_.id) === id)
 
   return (

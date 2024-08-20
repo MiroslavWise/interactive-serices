@@ -14,7 +14,7 @@ import { dispatchCloseDeleteChat, useDeleteChat } from "@/store"
 function DeleteChat() {
   const [loading, setLoading] = useState(false)
   const id = useDeleteChat(({ id }) => id)
-  const { push, prefetch } = useRouter()
+  const { push, prefetch, replace } = useRouter()
   const { refetchCountMessages } = useCountMessagesNotReading(false)
 
   function deleteChat() {
@@ -25,7 +25,7 @@ function DeleteChat() {
         deleteThread(Number(id)).then((response) => {
           refetchCountMessages()
           console.log("%c --- response delete ---", "color: #f00", response)
-          push("/chat")
+          replace("/chat")
           setLoading(false)
           dispatchCloseDeleteChat()
         })

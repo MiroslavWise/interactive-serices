@@ -13,6 +13,7 @@ import {
   dispatchBallonAlert,
   dispatchBallonDiscussion,
   dispatchBallonOffer,
+  dispatchComplaintModalOffer,
   dispatchComplaintModalUser,
   dispatchMapCoordinates,
 } from "@/store"
@@ -32,12 +33,10 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
   const isMap = pathname !== "/"
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
 
-  console.log("isMap: ", isMap)
-
   function handle() {
     if (user) {
-      dispatchComplaintModalUser({
-        user: user,
+      dispatchComplaintModalOffer({
+        offer: offer,
       })
       return
     }
@@ -47,8 +46,8 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
     <article
       data-active={visible}
       className={cx(
-        "fixed md:absolute top-auto md:top-5 max-md:left-0 max-md:bottom-0 right-0 w-full md:w-[13.5rem] h-auto p-5 md:p-3 max-md:pt-9 flex flex-col gap-0.125 shadow-menu-absolute rounded-t-3xl md:rounded-xl bg-BG-second translate-y-4 -z-10 opacity-0 invisible md:transition-all",
-        visible && "!z-10 !translate-y-0 !opacity-100 !visible",
+        "fixed md:absolute top-auto md:top-5 max-md:left-0 max-md:bottom-0 right-0 w-full md:w-[13.5rem] h-auto p-5 md:p-3 max-md:pt-9 flex flex-col gap-0.125 shadow-box-down rounded-t-3xl md:rounded-xl bg-BG-second",
+        visible ? "!z-10 !opacity-100 !visible" : "-z-10 opacity-0 invisible",
         "*:w-full *:py-2 *:px-0.375 *:flex *:flex-row *:items-center *:justify-start *:gap-0.625 *:rounded-[0.375rem] hover:*:bg-grey-field",
       )}
     >
