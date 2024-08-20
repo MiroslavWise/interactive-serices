@@ -441,7 +441,7 @@ export default function CreateNewOptionModal() {
                     ) : null}
                   </ul>
                 </div>
-                {!!error || !!errors.addressFeature ? <i>Поле не может оставаться незаполненным</i> : null}
+                {!!error || !!errors.addressFeature ? <i>Выберите существующий адрес</i> : null}
               </fieldset>
             )}
           />
