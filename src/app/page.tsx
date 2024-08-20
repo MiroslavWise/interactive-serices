@@ -30,6 +30,7 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
 
 import { useAuth } from "@/store"
 import { useResize } from "@/helpers"
+import { useEffect } from "react"
 
 export default function Home() {
   const isAuth = useAuth(({ isAuth }) => isAuth)

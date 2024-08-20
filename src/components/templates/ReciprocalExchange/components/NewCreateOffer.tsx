@@ -1,7 +1,7 @@
 "use client"
 
 import { memo, useMemo, useState } from "react"
-import { useFormContext } from "react-hook-form"
+import { useFormContext, Controller } from "react-hook-form"
 
 import { ETypeOfNewCreated, type IFormValues } from "../types/types"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
@@ -13,6 +13,7 @@ import { getGeocodeSearch } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 import styles from "../styles/new-create-offer.module.scss"
+import IconChevronDown from "@/components/icons/IconChevronDown"
 
 export const NewCreateOffer = memo(({}: IProps) => {
   const {
@@ -47,34 +48,38 @@ export const NewCreateOffer = memo(({}: IProps) => {
     return valuesAddresses?.response?.GeoObjectCollection?.featureMember || null
   }, [valuesAddresses])
 
+  console.log("errors: ", errors)
+
   return (
     <div className={styles.container}>
       <ControllerCategory control={control} />
-      <fieldset>
-        <label>Описание предложения</label>
-        <div data-text-area>
-          <textarea
-            {...register("description_new_offer", {
-              required: watch("select_new_proposal") === ETypeOfNewCreated.new,
-              minLength: 1,
-              maxLength: 512,
-            })}
-            placeholder="Описание предложения..."
-            minLength={1}
-            maxLength={512}
-          />
-          <span>{watch("description_new_offer")?.length || 0}/512</span>
-          {!!errors.description_new_offer ? (
-            errors.description_new_offer.type === "minLength" ? (
-              <i>Это поле не может оставаться пустым</i>
-            ) : errors.description_new_offer.type === "maxLength" ? (
-              <i>Не более 512 символов</i>
-            ) : (
-              <i>{errors.description_new_offer.message}</i>
-            )
-          ) : null}
-        </div>
-      </fieldset>
+      <Controller
+        name="description_new_offer"
+        control={control}
+        rules={{
+          required: watch("select_new_proposal") === ETypeOfNewCreated.new,
+          minLength: 1,
+          maxLength: 512,
+        }}
+        render={({ field, fieldState: { error } }) => (
+          <fieldset>
+            <label htmlFor={field.name}>Описание предложения</label>
+            <div data-text-area>
+              <textarea {...field} placeholder="Описание предложения..." minLength={1} maxLength={512} />
+              <span>{field.value?.length || 0}/512</span>
+            </div>
+            {!!error ? (
+              ["required", "minLength"].includes(error.type) ? (
+                <i>Это поле не может оставаться пустым</i>
+              ) : error.type === "maxLength" ? (
+                <i>Не более 512 символов</i>
+              ) : (
+                <i>{error.message}</i>
+              )
+            ) : null}
+          </fieldset>
+        )}
+      />
       <fieldset data-address>
         <label>Ваш адрес</label>
         <div
@@ -95,19 +100,14 @@ export const NewCreateOffer = memo(({}: IProps) => {
             placeholder={"Введите адрес"}
             autoComplete="off"
           />
-          <div data-select-icon>
-            <img
-              src={loadingAddresses ? "/svg/loading-02.svg" : "/svg/chevron-down.svg"}
-              alt="chevron"
-              width={20}
-              height={20}
-              data-chevron
-              data-loading={loadingAddresses}
-              onClick={(event) => {
-                event.stopPropagation()
-                setIsFocus(false)
-              }}
-            />
+          <div
+            className="absolute top-1/2 -translate-y-1/2 right-3.5 cursor-pointer w-5 h-5 *:w-5 *:h-5"
+            onClick={(event) => {
+              event.stopPropagation()
+              setIsFocus((_) => !_)
+            }}
+          >
+            <IconChevronDown />
           </div>
           <ul data-active={isFocus}>
             {Array.isArray(exactAddresses) ? (

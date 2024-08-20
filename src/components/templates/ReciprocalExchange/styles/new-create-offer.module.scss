@@ -131,19 +131,5 @@
         }
       }
     }
-
-    & > [data-select-icon] {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 0.875rem;
-      cursor: pointer;
-      width: 1.25rem;
-      height: 1.25rem;
-
-      & > [data-loading="true"] {
-        animation: rotate linear 10s infinite;
-      }
-    }
   }
 }
