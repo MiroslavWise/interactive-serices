@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
-export const useUTM = create(persist<IStateUTM>(() => ({}), { name: "::sheira-utm::", storage: createJSONStorage(() => sessionStorage) }))
+export const useUTM = create(persist<IStateUTM>(() => ({}), { name: "::sheira-utm::", storage: createJSONStorage(() => localStorage) }))
 
 export const dispatchUTMData = (values: IStateUTM) =>
   useUTM.setState(
