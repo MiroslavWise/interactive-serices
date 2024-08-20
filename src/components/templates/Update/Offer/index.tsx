@@ -142,8 +142,8 @@ export default function UpdateOffer() {
       patchOffer(body, offer?.id!).then((response) => {
         if (response.ok) {
           refetch()
-          close()
         }
+        close()
         setLoading(false)
       })
     }
@@ -230,7 +230,13 @@ export default function UpdateOffer() {
             <fieldset className="w-full flex flex-col gap-2">
               <label className="text-text-primary text-sm font-normal text-left">Описание предложения</label>
               <div data-text-area className="rounded-2xl">
-                <textarea {...field} data-error={!!error} className="p-3.5 pb-6" onChange={(event) => field.onChange(event.target.value)} />
+                <textarea
+                  {...field}
+                  data-error={!!error}
+                  maxLength={512}
+                  className="p-3.5 pb-6"
+                  onChange={(event) => field.onChange(event.target.value)}
+                />
                 <span>{field.value.length || 0}/512</span>
               </div>
               {!!error ? (
