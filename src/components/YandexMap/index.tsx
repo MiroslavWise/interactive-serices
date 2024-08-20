@@ -152,6 +152,9 @@ function YandexMap() {
             iconPieChartStrokeWidth: 2,
             clusterDisableClickZoom: true,
             iconPieChartCoreRadius: 8,
+            data: {
+              
+            }
           }}
           onClick={async (event: any) => {
             const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
@@ -188,3 +191,7 @@ function YandexMap() {
 
 YandexMap.displayName = "YandexMap"
 export default YandexMap
+
+
+//Обсуждение дома
+//Давайте обсудим, как у вас дела?)

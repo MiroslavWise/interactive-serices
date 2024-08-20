@@ -7,7 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import type { IPlacemarkCurrent } from "./types"
 
 import { TYPE_ICON } from "./constants"
-import { IconCategory } from "@/lib/icon-set"
+import { IconCategoryPNG } from "@/lib/icon-set"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, useFiltersServices } from "@/store"
@@ -71,7 +71,7 @@ export const ListPlacemark = memo(function ListPlacemark() {
       properties={{ ...item?.offer }}
       options={{
         iconLayout: "default#image",
-        iconImageHref: TYPE_ICON[item?.offer?.provider!!] || IconCategory(item?.offer?.categoryId!),
+        iconImageHref: TYPE_ICON[item?.offer?.provider!!] || IconCategoryPNG(item?.offer?.categoryId!),
         iconImageSize: [18.92 * 2, 18.92 * 2],
         zIndex: 45,
         zIndexActive: 50,

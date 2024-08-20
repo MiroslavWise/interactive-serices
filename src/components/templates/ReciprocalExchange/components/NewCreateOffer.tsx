@@ -7,13 +7,13 @@ import { ETypeOfNewCreated, type IFormValues } from "../types/types"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import ControllerCategory from "./ControllerCategory"
+import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 import styles from "../styles/new-create-offer.module.scss"
-import IconChevronDown from "@/components/icons/IconChevronDown"
 
 export const NewCreateOffer = memo(({}: IProps) => {
   const {
@@ -48,8 +48,6 @@ export const NewCreateOffer = memo(({}: IProps) => {
     return valuesAddresses?.response?.GeoObjectCollection?.featureMember || null
   }, [valuesAddresses])
 
-  console.log("errors: ", errors)
-
   return (
     <div className={styles.container}>
       <ControllerCategory control={control} />
@@ -65,16 +63,23 @@ export const NewCreateOffer = memo(({}: IProps) => {
           <fieldset>
             <label htmlFor={field.name}>Описание предложения</label>
             <div data-text-area>
-              <textarea {...field} placeholder="Описание предложения..." minLength={1} maxLength={512} />
+              <textarea
+                value={field.value}
+                placeholder="Описание предложения..."
+                minLength={1}
+                maxLength={512}
+                onChange={(event) => setValue("description_new_offer", event.target.value)}
+                data-error={!!error}
+              />
               <span>{field.value?.length || 0}/512</span>
             </div>
-            {!!error ? (
-              ["required", "minLength"].includes(error.type) ? (
+            {!!errors?.description_new_offer ? (
+              ["required", "minLength"].includes(errors?.description_new_offer?.type) ? (
                 <i>Это поле не может оставаться пустым</i>
-              ) : error.type === "maxLength" ? (
+              ) : errors?.description_new_offer?.type === "maxLength" ? (
                 <i>Не более 512 символов</i>
               ) : (
-                <i>{error.message}</i>
+                <i>{errors?.description_new_offer?.message}</i>
               )
             ) : null}
           </fieldset>

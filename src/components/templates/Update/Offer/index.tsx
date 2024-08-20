@@ -230,7 +230,7 @@ export default function UpdateOffer() {
             <fieldset className="w-full flex flex-col gap-2">
               <label className="text-text-primary text-sm font-normal text-left">Описание предложения</label>
               <div data-text-area className="rounded-2xl">
-                <textarea {...field} data-error={!!error} className="p-3.5 pb-6" />
+                <textarea {...field} data-error={!!error} className="p-3.5 pb-6" onChange={(event) => field.onChange(event.target.value)} />
                 <span>{field.value.length || 0}/512</span>
               </div>
               {!!error ? (
