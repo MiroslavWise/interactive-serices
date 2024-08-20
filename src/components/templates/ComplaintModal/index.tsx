@@ -9,18 +9,11 @@ import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import { Button } from "@/components/common"
 
+import { cx } from "@/lib/cx"
 import { postComplain } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import {
-  dispatchCleanComplaintModal,
-  dispatchComplaintModalOffer,
-  dispatchComplaintModalUser,
-  dispatchModalClose,
-  useAuth,
-  useComplaintModal,
-} from "@/store"
-import { cx } from "@/lib/cx"
+import { dispatchCleanComplaintModal, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
 
 export default function ComplaintModal() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -38,8 +31,7 @@ export default function ComplaintModal() {
 
   function handleClose() {
     dispatchModalClose()
-    dispatchComplaintModalUser({ user: undefined })
-    dispatchComplaintModalOffer({ offer: undefined })
+    dispatchCleanComplaintModal()
   }
 
   function submit(values: IValuesForm) {
@@ -52,7 +44,7 @@ export default function ComplaintModal() {
           !!user ? `user:${user?.username}` : `offer:${offer?.title}`
         }`,
         enabled: true,
-        provider: EnumTypeProvider.profile,
+        provider: !!user ? EnumTypeProvider.profile : !!offer ? EnumTypeProvider.offer : EnumTypeProvider.profile,
       }
 
       postComplain(valuesData).then((response) => {
