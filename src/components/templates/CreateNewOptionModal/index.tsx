@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import type { IPostOffers } from "@/services/offers/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
@@ -208,6 +208,10 @@ export default function CreateNewOptionModal() {
       slug: transliterateAndReplace(description).slice(0, 254),
       enabled: true,
       desired: true,
+    }
+
+    if (values.help) {
+      data.urgent = EnumHelper.HELP_KURSK
     }
 
     if ([EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)) {

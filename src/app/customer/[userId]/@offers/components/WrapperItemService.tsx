@@ -26,7 +26,7 @@ function WrapperItemService({ offer, children }: IProps) {
   }
 
   return (
-    <li onClick={handle} className="relative w-full px-4 pt-3 pb-4 bg-BG-second rounded-2xl flex flex-col gap-4 cursor-pointer">
+    <li onClick={handle} className="relative w-full bg-BG-second rounded-2xl flex flex-col cursor-pointer overflow-hidden">
       {children}
     </li>
   )

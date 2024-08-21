@@ -1,6 +1,6 @@
 import { type IUserOffer } from "../offers/types"
 import { type IPromiseReturn } from "@/services/types/general"
-import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { type IResponseOffersCategories } from "../offers-categories/types"
 import { type IResponse } from "../request"
@@ -23,6 +23,7 @@ export interface ISmallDataOfferBarter {
   addresses: IAddressesResponse[]
   categories: number[]
   user: IUserOffer
+  urgent?: EnumHelper
 }
 
 export interface IBarterResponse {

@@ -23,7 +23,7 @@ interface IProps {
 }
 
 function CardBallon({ offer }: IProps) {
-  const { provider, description, userId, images, addresses, user } = offer ?? {}
+  const { provider, description, userId, images, addresses, user, urgent } = offer ?? {}
 
   function handleClick() {
     const [address] = addresses
@@ -55,7 +55,12 @@ function CardBallon({ offer }: IProps) {
         handleClick()
       }}
     >
-      <header className="[background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)] w-full py-1.5 px-2.5 flex flex-row gap-2 items-center justify-center rounded-t-2xl">
+      <header
+        className={cx(
+          "[background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)] w-full py-1.5 px-2.5 flex-row gap-2 items-center justify-center rounded-t-2xl",
+          !!urgent ? "flex" : "hidden",
+        )}
+      >
         <div className="w-4 h-4 relative">
           <IconHelp />
         </div>

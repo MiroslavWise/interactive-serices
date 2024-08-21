@@ -29,6 +29,7 @@ export interface IPostOffers {
   enabled: boolean
   desired: boolean
   images?: number[]
+  urgent?: EnumHelper
 }
 
 export type IPatchOffers = Partial<IPostOffers> & { categories?: number[] }

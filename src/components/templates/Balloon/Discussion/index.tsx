@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
+import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import BlockAction from "./components/BlockAction"
@@ -18,16 +18,16 @@ import { useBalloonDiscussion } from "@/store"
 
 function BalloonDiscussion() {
   const offer = useBalloonDiscussion(({ offer }) => offer)
-  const { description, title, images = [] } = offer ?? {}
+  const { description, title, images = [], urgent } = offer ?? {}
   const [expandComment, setExpandComment] = useState(false)
 
   return (
     <>
-      <ComponentHelper urgent={EnumHelper.HELP_KURSK} />
+      <ComponentHelper urgent={!!urgent} />
       <header
         className={cx(
           "w-full grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden",
-          !true ? "h-[var(--height-standard-header-modal)]" : "rounded-t-3xl md:rounded-t-[2rem] !h-auto py-4",
+          !!urgent ? "h-[var(--height-standard-header-modal)]" : "rounded-t-3xl md:rounded-t-[2rem] !h-auto py-4",
         )}
         data-color={EnumTypeProvider.discussion}
       >

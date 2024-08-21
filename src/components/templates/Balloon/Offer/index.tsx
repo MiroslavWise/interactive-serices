@@ -19,11 +19,11 @@ function BalloonOffer() {
 
   return (
     <>
-      <ComponentHelper urgent={EnumHelper.HELP_KURSK} />
+      <ComponentHelper urgent={!!offer?.urgent} />
       <header
         className={cx(
           "w-full grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden",
-          !true ? "h-[var(--height-standard-header-modal)]" : "rounded-t-3xl md:rounded-t-[2rem] !h-auto py-4",
+          !!offer?.urgent ? "h-[var(--height-standard-header-modal)]" : "rounded-t-3xl md:rounded-t-[2rem] !h-auto py-4",
         )}
         data-color={EnumTypeProvider.offer}
       >
