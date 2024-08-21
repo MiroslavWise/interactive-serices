@@ -27,7 +27,7 @@ function BalloonDiscussion() {
       <header
         className={cx(
           "w-full grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden",
-          !!urgent ? "h-[var(--height-standard-header-modal)]" : "rounded-t-3xl md:rounded-t-[2rem] !h-auto py-4",
+          !!urgent ? "!h-auto py-4" : "rounded-t-3xl md:rounded-t-[2rem] h-[var(--height-standard-header-modal)]",
         )}
         data-color={EnumTypeProvider.discussion}
       >
