@@ -6,7 +6,7 @@ import ItemProfile from "./components/ItemProfile"
 import HeaderTimeDots from "./components/HeaderTimeDots"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
-import styles from "./styles/style.module.scss"
+import { cx } from "@/lib/cx"
 import {
   dispatchBallonAlert,
   dispatchBallonOffer,
@@ -15,7 +15,9 @@ import {
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
-import { cx } from "@/lib/cx"
+
+import styles from "./styles/style.module.scss"
+import IconHelp from "@/components/icons/IconHelp"
 interface IProps {
   offer: IResponseOffers
 }
@@ -46,21 +48,29 @@ function CardBallon({ offer }: IProps) {
 
   return (
     <article
-      className={cx(styles.container, "w-full rounded-2xl border-solid border-[1px] p-4 flex flex-col gap-3 cursor-pointer")}
+      className={cx(styles.container, "w-full rounded-2xl border-solid border cursor-pointer flex flex-col")}
       data-provider={provider}
       onClick={(event) => {
         event.stopPropagation()
         handleClick()
       }}
     >
-      <HeaderTimeDots offer={offer} />
-      <HeaderTitle offer={offer} />
-      <section className="overflow-hidden w-full">
-        <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
+      <header className="[background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)] w-full py-1.5 px-2.5 flex flex-row gap-2 items-center justify-center rounded-t-2xl">
+        <div className="w-4 h-4 relative">
+          <IconHelp />
+        </div>
+        <span className="text-text-button text-xs font-medium">Помощь Курску</span>
+      </header>
+      <section className="w-full p-4 flex flex-col gap-3">
+        <HeaderTimeDots offer={offer} />
+        <HeaderTitle offer={offer} />
+        <section className="overflow-hidden w-full">
+          <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
+        </section>
+        {images?.length ? <ItemImages images={images} /> : null}
+        <GeoData offer={offer} />
+        <ItemProfile user={user} />
       </section>
-      {images?.length ? <ItemImages images={images} /> : null}
-      <GeoData offer={offer} />
-      <ItemProfile user={user} />
     </article>
   )
 }

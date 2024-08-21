@@ -7,6 +7,10 @@ export enum EnumTypeProvider {
   threads = "threads",
 }
 
+export enum EnumHelper {
+  HELP_KURSK = "help-kursk",
+}
+
 export enum EnumSign {
   SignIn = "sign-in",
   SignUp = "sign-up",

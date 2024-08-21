@@ -52,6 +52,7 @@ import {
   titlePlaceholderContent,
 } from "./constants/titles"
 import CurrentImage from "./components/CurrentImage"
+import ControlHelp from "./components/ControlHelp"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
@@ -111,7 +112,7 @@ export default function CreateNewOptionModal() {
         file: [],
         string: [],
       },
-
+      help: false,
       type: typeAdd!,
     },
     resolver: [EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)
@@ -491,6 +492,7 @@ export default function CreateNewOptionModal() {
               </fieldset>
             )}
           />
+          <ControlHelp control={control} />
           {visible && step === 3 && <ArticleOnboarding />}
           <Controller
             name="file"
@@ -536,7 +538,7 @@ export default function CreateNewOptionModal() {
             )}
           />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
-          {typeAdd === "offer" ? <WalletPay /> : null}
+          {typeAdd === "offer" && !watch("help") ? <WalletPay /> : null}
           <div data-footer>
             <Button
               type="submit"

@@ -1,7 +1,7 @@
 import { type IPromiseReturn, type TOrder } from "../types/general"
 import { type IImageData } from "@/types/type"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 import { type IResponseOffersCategories } from "../offers-categories/types"
 import { type IResponse } from "../request"
@@ -65,6 +65,7 @@ export interface IResponseOffers {
   updated: Date | string
   created: Date | string
   threadId: number | null
+  urgent: EnumHelper | null
 }
 
 interface IQueriesOffers {
