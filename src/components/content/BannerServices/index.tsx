@@ -30,11 +30,11 @@ import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import TimesFilter from "./components/TimesFilter"
 
 function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
-  const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
@@ -88,25 +88,7 @@ function BannerServices() {
               </a>
             ))}
           </div>
-          <div data-filters-times className="w-full flex flex-row items-start gap-1">
-            {TIMES.map((item) => (
-              <a
-                key={`::key::item::time::${item.value}::`}
-                data-active={timesFilter === item.value}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleTimeFilter(item.value)
-                }}
-                data-test={`times-a-banner-services-${item.value}`}
-                className={cx(
-                  "h-[1.8125rem] px-2 pt-1.5 pb-[0.4375rem] flex items-center rounded-lg  cursor-pointer",
-                  timesFilter === item.value ? "bg-BG-filter [&>span]:text-text-button" : "bg-grey-field [&>span]:text-text-secondary",
-                )}
-              >
-                <span className="text-[0.8125rem] font-normal leading-4">{item.label}</span>
-              </a>
-            ))}
-          </div>
+          <TimesFilter />
           {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
             <div data-filters-category data-test="filters-category-banner-services" className="w-full flex flex-row items-start">
               {activeFilters.map((item) => (

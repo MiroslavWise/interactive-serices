@@ -1,6 +1,6 @@
 import { ISegmentValues } from "@/components/common/Segments/types"
 import type { TServicesFilter } from "../types/types"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 
 export const SERVICES: ISegmentValues<TServicesFilter>[] = [
   {
@@ -28,6 +28,15 @@ export enum EnumTimesFilter {
   "MONTH" = "month",
 }
 
+export const OBJ_TIME: Record<EnumTimesFilter, string> = {
+  [EnumTimesFilter.ALL]: "Всё время",
+  [EnumTimesFilter.DAYS]: "Сутки",
+  [EnumTimesFilter.WEEK]: "Неделя",
+  [EnumTimesFilter.MONTH]: "Месяц",
+}
+
+export const MAP_TIME = Object.entries(OBJ_TIME) as [EnumTimesFilter, string][]
+
 export const TIMES: { label: string; value: EnumTimesFilter }[] = [
   {
     label: "Всё время",
@@ -46,3 +55,9 @@ export const TIMES: { label: string; value: EnumTimesFilter }[] = [
     value: EnumTimesFilter.MONTH,
   },
 ]
+
+const OBJ_URGENT: Record<EnumHelper, string> = {
+  [EnumHelper.HELP_KURSK]: "Помощь Курску",
+}
+
+export const MAP_URGENT = Object.entries(OBJ_URGENT) as [EnumHelper, string][]

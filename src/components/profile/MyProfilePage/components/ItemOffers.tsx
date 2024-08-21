@@ -60,7 +60,7 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
         </div>
         <span className="text-text-button text-xs font-medium">Помощь Курску</span>
       </article>
-      <section className="w-full p-4 flex flex-col gap-3">
+      <section className="w-full p-4 flex flex-col gap-3 h-full">
         <ItemTitle offer={offer} />
         <article className="w-full flex flex-col gap-4 h-full">
           <section className="w-full flex flex-col gap-3 h-full">

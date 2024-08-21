@@ -12,7 +12,7 @@
     background-color: var(--BG-second);
   }
 
-  & > [data-images-offer] {
+  [data-images-offer] {
     width: calc(100% + 2rem);
     margin-left: -1rem;
     height: 4.875rem;

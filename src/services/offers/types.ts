@@ -69,13 +69,14 @@ export interface IResponseOffers {
   urgent: EnumHelper | null
 }
 
-interface IQueriesOffers {
+export interface IQueriesOffers {
   category?: string
   order?: TOrder
   user?: number
   provider?: EnumTypeProvider
   limit?: number
   page?: number
+  urgent?: EnumHelper
 }
 
 export interface IServiceOffers {

@@ -43,6 +43,7 @@ module.exports = {
       "BG-time": "var(--BG-time)",
       "BG-linear-purple": "linear-gradient(95deg, #B3D2FF -26.18%, #D8BAFF 130.54%)",
       "BG-time-photo": "rgba(16, 24, 40, 0.70)",
+      "BG-filter-red": "var(--filter-red)",
       "more-blue-gradient": "var(--more-blue-gradient)",
     },
     extend: {
