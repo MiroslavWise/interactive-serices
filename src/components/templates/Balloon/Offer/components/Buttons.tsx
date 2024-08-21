@@ -3,17 +3,17 @@ import { useRouter } from "next/navigation"
 import { useMemo, useState, type ReactNode } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { EnumProviderThreads, EnumSign } from "@/types/enum"
 import { EnumStatusBarter } from "@/types/enum"
+import { IPostThreads } from "@/services/threads/types"
+import { EnumProviderThreads, EnumSign } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { Button, ButtonLink } from "@/components/common"
 
-import { getBarters, postThread } from "@/services"
-import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 import { cx } from "@/lib/cx"
+import { getBarters, postThread } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { IPostThreads } from "@/services/threads/types"
+import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 
 function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactNode }) {
   const { id, urgent } = offer ?? {}
@@ -102,10 +102,8 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       }
       const { res } = await postThread(data_)
       push(`/chat/${res?.id}`)
-      setTimeout(() => {
-        dispatchModalClose()
-        setLoadingChat(false)
-      }, 350)
+      dispatchModalClose()
+      setLoadingChat(false)
     }
   }
 
