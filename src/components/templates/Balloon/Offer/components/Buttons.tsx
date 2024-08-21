@@ -1,23 +1,25 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useMemo, type ReactNode } from "react"
+import { useMemo, useState, type ReactNode } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { EnumSign } from "@/types/enum"
+import { EnumProviderThreads, EnumSign } from "@/types/enum"
 import { EnumStatusBarter } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { Button, ButtonLink } from "@/components/common"
 
-import { getBarters } from "@/services"
+import { getBarters, postThread } from "@/services"
 import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 import { cx } from "@/lib/cx"
+import { providerIsAscending } from "@/lib/sortIdAscending"
+import { IPostThreads } from "@/services/threads/types"
 
 function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactNode }) {
   const { id, urgent } = offer ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-
   const { push, prefetch } = useRouter()
+  const [loadingChat, setLoadingChat] = useState(false)
 
   function handle() {
     if (!userId) {
@@ -84,6 +86,29 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
     if (findInitiated) return "Вы уже отправили данному пользователю свое предложение"
   }, [isLoadingExecutedBarter, isLoadingInitiatedBarter, dataExecutedBarter?.data, dataInitiatedBarter?.data, id])
 
+  async function openUserChat() {
+    if (!loadingChat) {
+      setLoadingChat(true)
+      const provider = providerIsAscending({
+        type: EnumProviderThreads.PERSONAL,
+        ids: [userId!, offer.userId],
+      })!
+
+      const data_: IPostThreads = {
+        title: provider,
+        receiverIds: [offer.userId],
+        provider: EnumProviderThreads.PERSONAL,
+        enabled: true,
+      }
+      const { res } = await postThread(data_)
+      push(`/chat/${res?.id}`)
+      setTimeout(() => {
+        dispatchModalClose()
+        setLoadingChat(false)
+      }, 350)
+    }
+  }
+
   return (
     <>
       {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
@@ -96,11 +121,18 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       {children}
       {!!urgent ? (
         <div className="w-full px-5">
-          <ButtonLink
-            className={cx("w-full h-11", (!userId || userId === offer.userId) && "opacity-50 cursor-no-drop")}
+          <Button
+            type="button"
+            className={cx("w-full h-11", (!userId || userId === offer.userId) && "!opacity-50 !cursor-no-drop")}
             typeButton="fill-primary"
-            href={!userId || userId === offer.userId ? { pathname: "/chat", query: { user: offer?.userId } } : {}}
             label="Написать сообщение"
+            loading={loadingChat}
+            onClick={(event) => {
+              event.stopPropagation()
+              if (!!userId && userId !== offer.userId) {
+                openUserChat()
+              }
+            }}
           />
         </div>
       ) : (
