@@ -31,6 +31,7 @@ import { getOffersCategories } from "@/services"
 
 import styles from "./styles/style.module.scss"
 import { cx } from "@/lib/cx"
+import TimesFilter from "../../BannerServices/components/TimesFilter"
 
 export default function SearchCategory() {
   const visible = useMobileSearchCategory(({ visible }) => visible)
@@ -153,24 +154,7 @@ export default function SearchCategory() {
               </a>
             ))}
           </div>
-          <div className="gap-1">
-            {TIMES.map((item) => (
-              <a
-                key={`::key::item::time::${item.value}::`}
-                data-active={timesFilter === item.value}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleTimeFilter(item.value)
-                }}
-                className={cx(
-                  "h-[1.8125rem] flex items-center rounded-lg cursor-pointer px-2 pt-1.5 pb-[0.4375rem]",
-                  timesFilter === item.value ? "bg-BG-filter [&>span]:text-text-button" : "bg-grey-field [&>span]:text-text-secondary",
-                )}
-              >
-                <span className="text-[0.8125rem] leading-4 font-normal">{item.label}</span>
-              </a>
-            ))}
-          </div>
+          <TimesFilter />
           {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
             <div data-filters-category className="flex-wrap gap-1">
               {activeFilters.map((item) => (
