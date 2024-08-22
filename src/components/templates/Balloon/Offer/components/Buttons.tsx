@@ -90,14 +90,15 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
     if (!loadingChat) {
       setLoadingChat(true)
       const provider = providerIsAscending({
-        type: EnumProviderThreads.PERSONAL,
-        ids: [userId!, offer.userId],
+        type: EnumProviderThreads.HELP,
+        ids: [userId!, offer.userId, offer.id!],
       })!
 
       const data_: IPostThreads = {
         title: provider,
         receiverIds: [offer.userId],
-        provider: EnumProviderThreads.PERSONAL,
+        provider: EnumProviderThreads.HELP,
+        offerId: offer.id!,
         enabled: true,
       }
       const { res } = await postThread(data_)

@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation"
 import { EnumProviderThreads } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
 
+import LoadingChat from "./LoadingChat"
+
 import { useAuth } from "@/store"
 import { postThread } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -72,7 +74,7 @@ function CreateUser({ idUser }: { idUser: string }) {
     }
   }, [idUser, userId])
 
-  return <div></div>
+  return <LoadingChat />
 }
 
 CreateUser.displayName = "CreateUser"

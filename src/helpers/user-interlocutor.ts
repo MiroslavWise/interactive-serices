@@ -13,6 +13,7 @@ const objProvider: Record<EnumProviderThreads, string> = {
   [EnumProviderThreads.OFFER_PAY]: "Покупка:",
   [EnumProviderThreads.BARTER]: "Обмен:",
   [EnumProviderThreads.GROUPS]: "",
+  [EnumProviderThreads.HELP]: "Помощь",
 }
 
 function typeMessage({

@@ -27,6 +27,9 @@ export function providerIsAscending(values: IValuesProviderIdAscending): string 
   if (type === EnumProviderThreads.PERSONAL) {
     return `${EnumProviderThreads.PERSONAL}:${sortIdAscending(id1, id2)}`
   }
+  if (type === EnumProviderThreads.HELP) {
+    return `${EnumProviderThreads.HELP}:${barterId}:${sortIdAscending(id1, id2)}`
+  }
 
   return null
 }

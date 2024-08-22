@@ -1,10 +1,12 @@
 "use client"
 
-import { cx } from "@/lib/cx"
+import { useMemo } from "react"
+
 import { EnumProviderThreads } from "@/types/enum"
+
+import { cx } from "@/lib/cx"
 import { useCountMessagesNotReading } from "@/helpers"
 import { dispatchSelectChat, useAuth, useSelectChat } from "@/store"
-import { useMemo } from "react"
 
 const NAV_MENU: {
   value: EnumProviderThreads | "all"
@@ -40,6 +42,7 @@ function NavigationSelectChat() {
       [EnumProviderThreads.OFFER_PAY]: 0,
       [EnumProviderThreads.PERSONAL]: 0,
       [EnumProviderThreads.GROUPS]: 0,
+      [EnumProviderThreads.HELP]: 0,
       all: 0,
     }
 

@@ -38,6 +38,7 @@ export enum EnumProviderThreads {
   BARTER = "barter",
   GROUPS = "groups",
   OFFER_PAY = "offer-pay",
+  HELP = "help",
 }
 
 export enum EStatusAuth {
