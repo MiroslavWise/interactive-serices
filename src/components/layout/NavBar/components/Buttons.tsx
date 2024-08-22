@@ -26,6 +26,7 @@ export const Buttons = () => {
     <div className="relative flex flex-row gap-3">
       {isAuth ? (
         <>
+          {/* <Button type="button" label="Создать офферы" typeButton="white" onClick={() => createMoreAddress(userId!)} /> */}
           <Button
             type="button"
             label="Скачать приложение"
