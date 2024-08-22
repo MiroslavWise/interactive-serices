@@ -70,7 +70,10 @@ function MapSearch() {
         className={cx(
           styles.container,
           "fixed left-5 right-5 h-12",
-          visible ? "translate-y-2.5 z-[100]" : "translate-y-0 z-20",
+          visible ? (
+visibleBanner ? "-translate-y-[3.375rem] z-[100]":
+"translate-y-2.5 z-[100]"
+) : "translate-y-0 z-20",
           visibleBanner
             ? "top-[calc(var(--height-mobile-header)_+_0.925rem_+_4rem)]"
             : "top-[calc(var(--height-mobile-header)_+_0.925rem)]",
