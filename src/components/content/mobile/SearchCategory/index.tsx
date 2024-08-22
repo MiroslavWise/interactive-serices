@@ -36,7 +36,6 @@ import TimesFilter from "../../BannerServices/components/TimesFilter"
 export default function SearchCategory() {
   const visible = useMobileSearchCategory(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
-  const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),

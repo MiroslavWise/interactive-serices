@@ -6,21 +6,22 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumTypeProvider } from "@/types/enum"
 import { type TServicesFilter } from "./types/types"
 
+import TimesFilter from "./components/TimesFilter"
 import { ImageCategory } from "@/components/common"
 import { ServicesComponent } from "./components/Services"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconFilters } from "@/components/icons/IconFilters"
 
-import { EnumTimesFilter, SERVICES, TIMES } from "./constants"
+import { SERVICES } from "./constants"
 import {
   dispatchActiveFilterScreen,
   dispatchCollapseServices,
   dispatchDataFilterScreen,
   dispatchFiltersServiceProvider,
-  dispatchFiltersServiceTime,
   dispatchValueSearchFilters,
   dispatchVisibleSearchFilters,
+  useBanner,
   useCollapseServices,
   useFiltersScreen,
   useFiltersServices,
@@ -30,12 +31,12 @@ import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import TimesFilter from "./components/TimesFilter"
 
 function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
+  const visibleBanner = useBanner(({ visible }) => visible)
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
@@ -45,10 +46,6 @@ function BannerServices() {
 
   function handleProvider(value: TServicesFilter) {
     dispatchFiltersServiceProvider(value)
-  }
-
-  function handleTimeFilter(value: EnumTimesFilter) {
-    dispatchFiltersServiceTime(value)
   }
 
   function deleteCategories(id: number) {
@@ -61,8 +58,11 @@ function BannerServices() {
     <div
       className={cx(
         styles.container,
-        "max-md:hidden fixed right-0 top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)] max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-[2rem]",
+        "max-md:hidden fixed right-0 max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-[2rem]",
         visible ? "translate-x-[var(--width-right-services)]" : "-translate-x-6",
+        visibleBanner
+          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_2.75rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_2.75rem)]"
+          : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
       )}
       data-test="banner-services"
     >
@@ -125,9 +125,20 @@ export default BannerServices
 export const SearchAndFilters = () => {
   const visible = useCollapseServices(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
+  const visibleBanner = useBanner(({ visible }) => visible)
 
   return (
-    <div className={styles.containerSearchAndFilters} data-collapse={visible} data-test="search-and-filters">
+    <div
+      className={cx(
+        styles.containerSearchAndFilters,
+        "fixed flex flex-row items-center gap-2.5 right-0",
+        visibleBanner
+          ? "top-[calc(var(--height-header-nav-bar)_+_2.75rem_+_2.75rem)]"
+          : "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
+      )}
+      data-collapse={visible}
+      data-test="search-and-filters"
+    >
       <div data-search>
         <span data-icon-search>
           <IconSearch />
@@ -173,11 +184,18 @@ export const SearchAndFilters = () => {
 
 export const ButtonCollapseServices = () => {
   const visible = useCollapseServices(({ visible }) => visible)
+  const visibleBanner = useBanner(({ visible }) => visible)
 
   return (
     <button
       data-collapse={visible}
-      className={styles.buttonCollapse}
+      className={cx(
+        styles.buttonCollapse,
+        "fixed right-0 w-8 h-8 rounded-full p-2.5 flex items-center justify-center bg-BG-second",
+        visibleBanner
+          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem_+_2.75rem)]"
+          : "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem)]",
+      )}
       type="button"
       onClick={(event) => {
         event.stopPropagation()

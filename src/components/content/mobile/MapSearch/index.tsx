@@ -7,14 +7,14 @@ import { IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 import { IconGeo } from "@/components/icons/IconGeo"
 import { IconChevron } from "@/components/icons/IconChevron"
 
-import { dispatchMapCoordinates, dispatchVisibleSearchMobile, useSearchMobile } from "@/store"
+import { dispatchMapCoordinates, dispatchVisibleSearchMobile, useBanner, useSearchMobile } from "@/store"
 
+import { cx } from "@/lib/cx"
 import { useDebounce } from "@/helpers"
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 
 import styles from "./style.module.scss"
-import { cx } from "@/lib/cx"
 
 function MapSearch() {
   const [text, setText] = useState("")
@@ -22,6 +22,7 @@ function MapSearch() {
   const debouncedValue = useDebounce(onValueFunc, 300)
   const [values, setValues] = useState<IFeatureMember[]>([])
   const visible = useSearchMobile(({ visible }) => visible)
+  const visibleBanner = useBanner(({ visible }) => visible)
 
   async function onValueFunc() {
     const value = text
@@ -65,7 +66,16 @@ function MapSearch() {
 
   return (
     <>
-      <div className={cx(styles.container, "fixed left-5 right-5 h-12", visible ? "translate-y-2.5 z-[100]" : "translate-y-0 z-20")}>
+      <div
+        className={cx(
+          styles.container,
+          "fixed left-5 right-5 h-12",
+          visible ? "translate-y-2.5 z-[100]" : "translate-y-0 z-20",
+          visibleBanner
+            ? "top-[calc(var(--height-mobile-header)_+_0.925rem_+_4rem)]"
+            : "top-[calc(var(--height-mobile-header)_+_0.925rem)]",
+        )}
+      >
         <div className="absolute top-1/2 -translate-y-1/2 left-4 w-5 h-5 pointer-events-none *:w-5 *:h-5">
           <IconGeo />
         </div>

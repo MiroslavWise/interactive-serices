@@ -8,7 +8,6 @@
 }
 
 .container {
-  top: calc(var(--height-mobile-header) + 0.925rem);
   width: calc(100% - 2.5rem);
 
   & > input {
