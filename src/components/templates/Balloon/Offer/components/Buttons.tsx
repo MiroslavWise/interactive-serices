@@ -79,10 +79,10 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
 
   const disabledReply = useMemo(() => {
     if (isLoadingExecutedBarter || isLoadingInitiatedBarter) return false
-    const findExecuted = dataExecutedBarter?.data?.some((some) => some.initiator.id === id || some.consigner.id === id)
+    const findExecuted = dataExecutedBarter?.data?.some((some) => some?.initiator?.id === id || some?.consigner?.id === id)
     if (findExecuted)
       return "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
-    const findInitiated = dataInitiatedBarter?.data?.some((some) => some.initiator.id === id || some.consigner.id === id)
+    const findInitiated = dataInitiatedBarter?.data?.some((some) => some?.initiator?.id === id || some?.consigner?.id === id)
     if (findInitiated) return "Вы уже отправили данному пользователю свое предложение"
   }, [isLoadingExecutedBarter, isLoadingInitiatedBarter, dataExecutedBarter?.data, dataInitiatedBarter?.data, id])
 
