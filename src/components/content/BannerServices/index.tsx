@@ -1,13 +1,12 @@
 "use client"
 
-import { useCallback, useRef } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useRef } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type TServicesFilter } from "./types/types"
 
 import TimesFilter from "./components/TimesFilter"
-import { ImageCategory } from "@/components/common"
+import ActiveFilters from "./components/ActiveFilters"
 import { ServicesComponent } from "./components/Services"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconXClose } from "@/components/icons/IconXClose"
@@ -17,7 +16,6 @@ import { SERVICES } from "./constants"
 import {
   dispatchActiveFilterScreen,
   dispatchCollapseServices,
-  dispatchDataFilterScreen,
   dispatchFiltersServiceProvider,
   dispatchValueSearchFilters,
   dispatchVisibleSearchFilters,
@@ -28,7 +26,6 @@ import {
   useSearchFilters,
 } from "@/store"
 import { cx } from "@/lib/cx"
-import { getOffersCategories } from "@/services"
 
 import styles from "./styles/style.module.scss"
 
@@ -37,22 +34,11 @@ function BannerServices() {
   const providers = useFiltersServices(({ providers }) => providers)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const visibleBanner = useBanner(({ visible }) => visible)
-  const { data } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = data?.res || []
   const parentRef = useRef<HTMLUListElement>(null)
 
   function handleProvider(value: TServicesFilter) {
     dispatchFiltersServiceProvider(value)
   }
-
-  function deleteCategories(id: number) {
-    dispatchDataFilterScreen(activeFilters?.filter((item) => item !== id))
-  }
-
-  const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
   return (
     <div
@@ -90,25 +76,7 @@ function BannerServices() {
           </div>
           <TimesFilter />
           {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
-            <div data-filters-category data-test="filters-category-banner-services" className="w-full flex flex-row items-start">
-              {activeFilters.map((item) => (
-                <a key={`::key::item::filter::category::${item}::`} data-test={`a-filters-category-banner-service-${item}`}>
-                  <div data-icon>
-                    <ImageCategory id={item} />
-                  </div>
-                  <span>{itemCategory(item) ? itemCategory(item)?.title : null}</span>
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      deleteCategories(item)
-                    }}
-                  >
-                    <IconXClose />
-                  </button>
-                </a>
-              ))}
-            </div>
+            <ActiveFilters activeFilters={activeFilters} />
           ) : null}
         </section>
         <div data-test="ul-section-container-banner-services" className="flex flex-col items-start gap-4 pt-1.5 px-5 pb-5">

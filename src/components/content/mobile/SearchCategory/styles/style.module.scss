@@ -12,12 +12,6 @@ $top-height-open: 1.625rem;
 
   & > section {
     & > article {
-      & > [data-filters-category] {
-        & > a {
-          background: var(--more-blue-gradient);
-        }
-      }
-
       & > [data-filters-services] {
         & > a {
           &::after {
