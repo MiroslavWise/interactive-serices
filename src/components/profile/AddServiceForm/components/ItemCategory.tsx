@@ -84,7 +84,7 @@ export const ItemCategory = memo(function ItemCategory(
             <div data-check>{idsActive.includes(item?.id!) ? <IconCheck /> : null}</div>
             <span>
               <div data-img>
-                <ImageCategory id={item.id!} />
+                <ImageCategory id={item?.id!} slug={item?.slug} provider={item?.provider} />
               </div>
               <p>{item.title}</p>
             </span>
