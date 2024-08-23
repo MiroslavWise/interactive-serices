@@ -13,7 +13,6 @@ $height-footer: 4.625rem;
     & > [data-grid] {
       & > a {
         &[data-active="true"] {
-          background: var(--more-blue-gradient);
           border-width: 0px;
 
           & > p {

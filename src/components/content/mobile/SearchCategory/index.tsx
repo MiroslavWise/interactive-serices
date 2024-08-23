@@ -1,38 +1,32 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useCallback, useRef, useState } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useRef, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { TServicesFilter } from "../../BannerServices/types/types"
 
-import { ImageCategory } from "@/components/common"
+import ActiveFilters from "./components/ActiveFilters"
+import { ServicesMobile } from "./components/Services"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconFilters } from "@/components/icons/IconFilters"
+import TimesFilter from "../../BannerServices/components/TimesFilter"
 import IconDoubleChevronsUp from "@/components/icons/IconDoubleChevronsUp"
 const FilterCategory = dynamic(() => import("./components/FilterCategory"))
-
-import { ServicesMobile } from "./components/Services"
-import { EnumTimesFilter, SERVICES, TIMES } from "../../BannerServices/constants"
 
 import {
   useFiltersScreen,
   useFiltersServices,
   useMobileSearchCategory,
-  dispatchDataFilterScreen,
-  dispatchFiltersServiceTime,
   dispatchActiveFilterScreen,
   dispatchFiltersServiceProvider,
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
-import { getOffersCategories } from "@/services"
+import { cx } from "@/lib/cx"
+import { SERVICES } from "../../BannerServices/constants"
 
 import styles from "./styles/style.module.scss"
-import { cx } from "@/lib/cx"
-import TimesFilter from "../../BannerServices/components/TimesFilter"
-import ActiveFilters from "./components/ActiveFilters"
 
 export default function SearchCategory() {
   const visible = useMobileSearchCategory(({ visible }) => visible)

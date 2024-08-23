@@ -35,7 +35,10 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
     [categories, trimValue],
   )
 
-  const currentCategory = useCallback((id: number | string) => categories.find((_) => Number(_.id) === Number(id)), [categories])
+  const currentCategory = useCallback(
+    (id: number | string) => (!!id ? categories.find((_) => Number(_.id) === Number(id)) : null),
+    [categories],
+  )
 
   return (
     <Controller
@@ -89,6 +92,9 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
               onClick={(event) => {
                 event.stopPropagation()
                 field.onChange(null)
+                if (currentCategory(field.value!)?.provider === "kursk" || currentCategory(field.value!)?.slug === "kursk") {
+                  setValueForm("help", false)
+                }
               }}
             >
               <IconXClose />
