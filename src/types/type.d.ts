@@ -1,4 +1,6 @@
 declare module "ymaps"
+declare module "react-dynamic-virtual-scroll"
+
 import { type IMetaData } from "@/services/types/general"
 
 export interface IOnlineSocket {

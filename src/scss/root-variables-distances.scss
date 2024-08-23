@@ -4,14 +4,16 @@
   --height-header-nav-bar: 4.875rem;
 
   //mobile
-  --height-mobile-header: 3.125rem; 
+  --height-mobile-header: 3.125rem;
   --height-mobile-footer-nav: 3.375rem;
 
   //
   --height-standard-header-modal: 4.75rem;
+  --height-banner: 2.75rem;
 
   @media screen and (max-width: 768px) {
     --height-standard-header-modal: 4.25rem;
+    --height-banner: 4rem;
   }
 }
 

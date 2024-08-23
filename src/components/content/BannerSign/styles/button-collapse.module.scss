@@ -9,12 +9,7 @@ $width-left-aside-profile: var(--width-left-aside-profile);
 }
 
 .button {
-  top: calc(var(--height-header-nav-bar) + 1.5rem + 1.75rem);
   transform: translateX(calc(1.5rem + $width-left-aside-profile + 0.625rem));
-
-  &[data-is-banner="true"] {
-    top: calc(var(--height-header-nav-bar) + 1.5rem + 1.75rem + 2.75rem);
-  }
 
   &[data-collapse="true"] {
     transform: translateX(0.625rem);

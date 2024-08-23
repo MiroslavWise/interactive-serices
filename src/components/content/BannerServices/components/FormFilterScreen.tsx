@@ -6,9 +6,10 @@ import { IValuesFormFilters } from "../types/types"
 
 import { Button, ImageCategory } from "@/components/common"
 
+import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
-import { cx } from "@/lib/cx"
+import IconHelp from "@/components/icons/IconHelp"
 
 export const FormFilterScreen = () => {
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
@@ -64,10 +65,19 @@ export const FormFilterScreen = () => {
                   field.value.some((some) => some === item.id)
                     ? "border-none bg-gradient-to-r from-[#8b89f5] to-[#625ff9]"
                     : "border bg-BG-second",
+                  item?.slug === "kursk" &&
+                    `border border-[var(--border-red)] [background:var(--linear-red-help-opacity)] hover:border-[var(--border-red-contrast)]`,
+                  field.value.some((some) => some === item.id) &&
+                    item?.slug === "kursk" &&
+                    `border-none [background:var(--more-red-gradient)]`,
                 )}
               >
                 <div className="w-6 h-6 p-3 bg-transparent relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
-                  <ImageCategory id={item.id} />
+                  {item?.slug === "kursk" && field.value.some((some) => some === item.id) ? (
+                    <IconHelp />
+                  ) : (
+                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                  )}
                 </div>
                 <p
                   className={cx(

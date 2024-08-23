@@ -1,18 +1,17 @@
 "use client"
 
-import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { memo, type RefObject, useMemo } from "react"
 
+import VirtualList from "./VirtualList"
 import { ServiceLoading } from "@/components/common"
-import CardBallon from "@/components/common/Card/CardBallon"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 import { getOffersCategories } from "@/services"
 import { useBounds, useFiltersServices } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { cx } from "@/lib/cx"
 
-export const ServicesMobile = memo(({ input }: { input: string }) => {
+export const ServicesMobile = memo(({ input, parentRef }: { input: string; parentRef: RefObject<HTMLUListElement> }) => {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
@@ -78,10 +77,10 @@ export const ServicesMobile = memo(({ input }: { input: string }) => {
   }, [itemsOffers, bounds, timesFilter])
 
   const filterItems = useMemo(() => {
-    if (!input.trim()) {
+    const search = input.toLowerCase().trim()
+    if (!search) {
       return items
     } else {
-      const search = input.toLowerCase().trim()
       return items.filter((item) => {
         const categoriesFilter = categories.filter((_) => _.title.toLowerCase().includes(search))
         if (categoriesFilter.some((_) => _.id === item.categoryId)) {
@@ -90,7 +89,7 @@ export const ServicesMobile = memo(({ input }: { input: string }) => {
         if (item?.title && item?.title?.toLowerCase()?.includes(search)) {
           return true
         }
-        if (item?.content && item?.content?.toLowerCase()?.includes(search)) {
+        if (item?.description && item?.description?.toLowerCase()?.includes(search)) {
           return true
         }
         return false
@@ -98,16 +97,14 @@ export const ServicesMobile = memo(({ input }: { input: string }) => {
     }
   }, [input, items, categories])
 
-  return (
-    <ul
-      className={cx(
-        "w-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)]",
-        isLoading ? "*:bg-BG-first" : "",
-      )}
-    >
-      {isLoading
-        ? [1, 2, 3].map((item) => <ServiceLoading key={`::item::loading::offers::${item}`} />)
-        : filterItems.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />)}
-    </ul>
-  )
+  if (isLoading)
+    return (
+      <ul className="w-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)] *:bg-BG-first">
+        {[1, 2, 3].map((item) => (
+          <ServiceLoading key={`::item::loading::offers::${item}`} />
+        ))}
+      </ul>
+    )
+
+  return <VirtualList parentRef={parentRef} list={items} />
 })

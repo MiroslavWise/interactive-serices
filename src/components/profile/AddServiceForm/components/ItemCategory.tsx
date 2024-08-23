@@ -52,7 +52,7 @@ export const ItemCategory = memo(function ItemCategory(
           }}
         >
           <div data-img>
-            <ImageCategory id={main.id!} />
+            <ImageCategory id={main.id!} slug={main?.slug} provider={main?.provider} />
           </div>
           <p>{main.title}</p>
           <img data-img-expand src="/svg/chevron-down-gray.svg" alt="down" width={24} height={24} />

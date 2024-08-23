@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo, useState } from "react"
-import { type Control, Controller } from "react-hook-form"
+import { type Control, Controller, UseFormSetValue } from "react-hook-form"
 
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
@@ -17,9 +17,10 @@ interface IProps {
   control: Control<TSchemaCreate, any>
   visible: boolean
   disabled: boolean
+  setValue: UseFormSetValue<TSchemaCreate>
 }
 
-function ControllerCategory({ control, visible, disabled }: IProps) {
+function ControllerCategory({ control, visible, disabled, setValue: setValueForm }: IProps) {
   const [open, setOpen, ref] = useOutsideClickEvent()
   const [value, setValue] = useState("")
   const { data: c } = useQuery({
@@ -27,7 +28,6 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
     queryKey: ["categories"],
   })
   const categories = c?.res || []
-
   const trimValue = value.trim().toLowerCase()
 
   const list = useMemo(
@@ -74,7 +74,15 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
           </button>
           {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div data-current={!!field.value}>
-            <div data-icon>{field.value ? <ImageCategory id={field.value!} /> : null}</div>
+            <div data-icon>
+              {field.value ? (
+                <ImageCategory
+                  id={field.value!}
+                  slug={currentCategory(field.value!)?.slug}
+                  provider={currentCategory(field.value!)?.provider}
+                />
+              ) : null}
+            </div>
             <span>{currentCategory(field.value!)?.title || null}</span>
             <button
               type="button"
@@ -94,12 +102,15 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
                   onClick={(event) => {
                     event.stopPropagation()
                     field.onChange(item.id)
+                    if (item?.provider === "kursk" || item?.slug === "kursk") {
+                      setValueForm("help", true)
+                    }
                     setValue("")
                     setOpen(false)
                   }}
                 >
                   <div data-icon>
-                    <ImageCategory id={item.id} />
+                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                   </div>
                   <span>{item.title}</span>
                 </li>

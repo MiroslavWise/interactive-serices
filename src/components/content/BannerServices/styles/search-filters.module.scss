@@ -15,7 +15,6 @@
 
   & > form {
     position: absolute;
-    top: calc(var(--height-header-nav-bar) + 1.5rem);
     right: 1.5rem;
     background-color: var(--BG-second);
     border-radius: 2rem;
@@ -284,19 +283,9 @@
     }
   }
 
-  &[data-is-banner="true"] {
-    & > form {
-      top: calc(var(--height-header-nav-bar) + 1.5rem + 2.75rem);
-    }
-  }
-
   &[data-visible="true"] {
     opacity: 1;
     visibility: visible;
-
-    & > form {
-      height: calc(100% - var(--height-header-nav-bar) - 3rem);
-    }
   }
 }
 

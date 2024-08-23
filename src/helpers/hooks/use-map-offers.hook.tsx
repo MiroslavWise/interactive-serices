@@ -4,15 +4,30 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
+import { type IQueriesOffers } from "@/services/offers/types"
 
 import { getOffers, getOffersCategories } from "@/services"
-import { useFiltersScreen, useFiltersServices, useSearchFilters } from "@/store"
+import { useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
 
 export const useMapOffers = () => {
   const idTitleCategory = useSearchFilters(({ id }) => id)
   const providers = useFiltersServices(({ providers }) => providers)
-  const objProvider = providers === "all" ? {} : { provider: providers }
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
+  const urgent = useUrgentFilter(({ urgent }) => urgent)
+
+  const objProvider = useMemo(() => {
+    const obj: IQueriesOffers = {}
+
+    if (providers !== "all") {
+      obj.provider = providers
+    }
+
+    if (!!urgent) {
+      obj.urgent = urgent
+    }
+
+    return obj
+  }, [providers, urgent])
 
   const { data: c } = useQuery({
     queryFn: () => getOffersCategories(),

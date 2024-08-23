@@ -41,7 +41,7 @@ export const ItemDescriptions = memo(function ItemProposal({ offer }: { offer: I
                 className="h-9 rounded-[1.125rem] px-2 py-0.375 flex flex-row items-center gap-1 bg-BG-icons border-[1px] border-solid border-grey-stroke-light"
               >
                 <div className="w-6 h-6 p-1 [&>img]:w-4 [&>img]:h-4">
-                  <ImageCategory id={item.id!} />
+                  <ImageCategory id={item.id!} slug={item?.slug} provider={item?.provider} />
                 </div>
                 <span className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">{item.title || ""}</span>
               </a>

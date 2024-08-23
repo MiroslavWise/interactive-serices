@@ -3,12 +3,15 @@
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo } from "react"
 
-import { useAuth } from "@/store"
+import LoadingChat from "./LoadingChat"
+
 import { EnumProviderThreads } from "@/types/enum"
-import { useToast } from "@/helpers/hooks/useToast"
+import { type IPostThreads } from "@/services/threads/types"
+
+import { useAuth } from "@/store"
 import { postThread } from "@/services"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useCountMessagesNotReading } from "@/helpers"
-import { IPostThreads } from "@/services/threads/types"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 
 function CreateOfferPay({ offerPay }: { offerPay: string }) {
@@ -81,7 +84,7 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
     }
   }, [offerNumber, userId])
 
-  return <div></div>
+  return <LoadingChat />
 }
 
 CreateOfferPay.displayName = "CreateOfferPay"

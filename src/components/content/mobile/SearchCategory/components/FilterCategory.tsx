@@ -1,14 +1,15 @@
 import { useMemo, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { IconXClose } from "@/components/icons/IconXClose"
 import { Button, ImageCategory } from "@/components/common"
 
+import { cx } from "@/lib/cx"
+import { getOffersCategories } from "@/services"
 import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
 
 import styles from "../styles/filter-category.module.scss"
-import { useQuery } from "@tanstack/react-query"
-import { getOffersCategories } from "@/services"
-import { cx } from "@/lib/cx"
+import IconHelp from "@/components/icons/IconHelp"
 
 export default function FilterCategory() {
   const visible = useFiltersScreen(({ visible }) => visible)
@@ -66,10 +67,19 @@ export default function FilterCategory() {
                 event.stopPropagation()
                 handleCategory(item.id)
               }}
-              className="flex flex-col items-start justify-between h-24 w-full p-3 rounded-xl border border-grey-stroke-light bg-BG-second cursor-pointer"
+              className={cx(
+                "flex flex-col items-start justify-between h-24 w-full p-3 rounded-xl border border-grey-stroke-light bg-BG-second cursor-pointer",
+                item?.slug === "kursk" &&
+                  `border border-[var(--border-red)] [background:var(--linear-red-help-opacity)] hover:border-[var(--border-red-contrast)]`,
+                state.some((some) => some === item.id) && item?.slug === "kursk" && `border-none [background:var(--more-red-gradient)]`,
+              )}
             >
               <div className="relative w-6 h-6 bg-transparent p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
-                <ImageCategory id={item.id} />
+                {item?.slug === "kursk" && state.some((some) => some === item.id) ? (
+                  <IconHelp />
+                ) : (
+                  <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                )}
               </div>
               <p className="text-text-primary text-sm font-normal line-clamp-2 text-ellipsis">{item.title}</p>
             </a>

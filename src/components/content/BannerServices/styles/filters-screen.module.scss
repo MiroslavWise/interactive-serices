@@ -3,8 +3,6 @@
 }
 
 .container {
-  top: calc(var(--height-header-nav-bar) + 1.5rem);
-
   transition-duration: 700ms;
   transition-property: opacity, visibility, height;
   transition-timing-function: ease;
@@ -13,12 +11,6 @@
 
   & > header {
     padding: 1.94rem calc(1.25rem + 3rem + 0.625rem) calc(0.625rem + 0.44rem) 1.25rem;
-  }
-}
-
-[data-header-is-banner="true"] {
-  .container {
-    top: calc(var(--height-header-nav-bar) + var(--height--banner--promotional) + 1.5rem);
   }
 }
 

@@ -1,15 +1,15 @@
 "use client"
 
-import { memo, Suspense, useMemo } from "react"
+import { memo, RefObject, useMemo } from "react"
 
+import VirtualList from "./VirtualList"
 import { ServiceLoading } from "@/components/common"
-import CardBallon from "@/components/common/Card/CardBallon"
 
 import { EnumTimesFilter } from "../constants"
 import { useBounds, useFiltersServices } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 
-export const ServicesComponent = memo(function () {
+export const ServicesComponent = memo(function ({ parentRef }: { parentRef: RefObject<HTMLUListElement> }) {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
@@ -78,13 +78,5 @@ export const ServicesComponent = memo(function () {
       </ul>
     )
 
-  return (
-    <ul className="relative w-full flex flex-col items-start h-fit gap-2.5" data-test="ul-services-component">
-      <Suspense fallback={false}>
-        {items.map((item) => (
-          <CardBallon key={`::offer::general::${item.id}::`} offer={item} />
-        ))}
-      </Suspense>
-    </ul>
-  )
+  return <VirtualList list={items} parentRef={parentRef} />
 })

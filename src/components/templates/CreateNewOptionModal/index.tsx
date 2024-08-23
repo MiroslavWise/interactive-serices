@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import type { IPostOffers } from "@/services/offers/types"
 import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
@@ -52,6 +52,7 @@ import {
   titlePlaceholderContent,
 } from "./constants/titles"
 import CurrentImage from "./components/CurrentImage"
+import ControlHelp from "./components/ControlHelp"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
@@ -111,7 +112,7 @@ export default function CreateNewOptionModal() {
         file: [],
         string: [],
       },
-
+      help: false,
       type: typeAdd!,
     },
     resolver: [EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)
@@ -209,6 +210,10 @@ export default function CreateNewOptionModal() {
       desired: true,
     }
 
+    if (values.help) {
+      data.urgent = EnumHelper.HELP_KURSK
+    }
+
     if ([EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)) {
       const title = values.title.trim().replaceAll(regexMoreSpace, " ")
       if (!!title) {
@@ -226,10 +231,10 @@ export default function CreateNewOptionModal() {
     }
     if (typeAdd === EnumTypeProvider.offer && values?.categoryId) {
       const title = categories.find((_) => _.id === values.categoryId)?.title
+      data.slug = transliterateAndReplace(title || description.slice(0, 144)).slice(0, 254)
 
       if (title) {
         data.title = title.slice(0, 143)
-        data.slug = transliterateAndReplace(title).slice(0, 254)
       } else {
         data.title = description.slice(0, 144)
       }
@@ -466,7 +471,7 @@ export default function CreateNewOptionModal() {
           ) : null}
           {visible && step === 2 && <ArticleOnboarding />}
           {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} />
+            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
           ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
           <Controller
@@ -491,6 +496,7 @@ export default function CreateNewOptionModal() {
               </fieldset>
             )}
           />
+          <ControlHelp control={control} />
           {visible && step === 3 && <ArticleOnboarding />}
           <Controller
             name="file"
@@ -536,7 +542,7 @@ export default function CreateNewOptionModal() {
             )}
           />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
-          {typeAdd === "offer" ? <WalletPay /> : null}
+          {typeAdd === "offer" && !watch("help") ? <WalletPay /> : null}
           <div data-footer>
             <Button
               type="submit"

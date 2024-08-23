@@ -1,9 +1,15 @@
-import { dispatchIntro } from "@/store/hooks"
+import { cx } from "@/lib/cx"
+import { useBanner, dispatchIntro } from "@/store"
 
 export function BannerAboutDesktop() {
+  const visible = useBanner(({ visible }) => visible)
+
   return (
     <div
-      className="fixed left-6 top-[calc(var(--height-header-nav-bar)_+_1.5rem)] rounded-[2rem] p-6 max-w-[21.375rem] bg-element-accent-1 w-full flex flex-col gap-4 cursor-pointer"
+      className={cx(
+        "fixed left-6 rounded-[2rem] p-6 max-w-[21.375rem] bg-element-accent-1 w-full flex flex-col gap-4 cursor-pointer",
+        visible ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_2.75rem)]" : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
+      )}
       onClick={() => dispatchIntro(true)}
     >
       <h3 className="text-text-button text-2xl font-semibold">Шейра - кто мы и чем можем быть полезны?</h3>

@@ -79,7 +79,7 @@ export const MobileFiltersMap = () => {
                 "w-min h-[2.375rem] flex flex-row items-center gap-2.5 border border-solid border-grey-field bg-BG-second cursor-pointer transition-all",
               )}
             >
-              <ImageCategory id={item.id} />
+              <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
               <p className="text-text-primary text-sm text-left font-medium">{item.title}</p>
             </li>
           ))}

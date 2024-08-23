@@ -28,6 +28,7 @@ import { useWebSocket } from "@/context"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { IBarterResponse } from "@/services/barters/types"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -61,6 +62,11 @@ export const ItemNotification = (props: IResponseNotifications) => {
       } else if (dataTh?.receivers?.some((_) => _?.id === userId)) {
         return dataTh?.emitter?.id
       }
+    }
+    if (provider === "barter") {
+      const dataBr = data as unknown as IBarterResponse
+      if (dataBr?.consigner?.userId === userId) return dataBr?.initiator?.userId
+      if (dataBr?.initiator?.userId === userId) return dataBr?.consigner?.userId
     }
     return null
   }, [provider, data, userId])
@@ -381,18 +387,20 @@ export const ItemNotification = (props: IResponseNotifications) => {
             <ButtonLink
               type="button"
               typeButton="fill-primary"
-              label="Перейти в чат"
+              label={!!data?.id || !!data?.threadId ? "Перейти в чат" : "Предложение удалено"}
               href={
                 !!data?.threadId
                   ? {
                       pathname: `/chat/${data?.threadId}`,
                     }
-                  : {
+                  : !!data?.id
+                  ? {
                       pathname: `/chat`,
                       query: {
                         "barter-id": `${data?.id}-${idUser}`,
                       },
                     }
+                  : {}
               }
               onClick={(event) => {
                 event.stopPropagation()
@@ -411,18 +419,20 @@ export const ItemNotification = (props: IResponseNotifications) => {
               <ButtonLink
                 type="button"
                 typeButton="fill-primary"
-                label="Перейти в чат"
+                label={!!data?.threadId || !!data?.id ? "Перейти в чат" : "Предложение удалено"}
                 href={
                   !!data?.threadId
                     ? {
                         pathname: `/chat/${data?.threadId}`,
                       }
-                    : {
+                    : !!data?.id
+                    ? {
                         pathname: `/chat`,
                         query: {
                           "barter-id": `${data?.id}-${idUser}`,
                         },
                       }
+                    : {}
                 }
                 onClick={(event) => {
                   event.stopPropagation()

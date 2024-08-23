@@ -2,15 +2,23 @@
 
 import { IconCategory } from "@/lib/icon-set"
 
-export function ImageCategory({ id }: { id: number | string }) {
+interface IProps {
+  id: number | string
+  slug?: string
+  provider?: string
+}
+
+export function ImageCategory({ id, slug, provider }: IProps) {
   if (!id) return null
+
+  const src = slug === "kursk" ? "/png/category/kursk.png" : provider === "kursk" ? "/png/category/kursk.png" : IconCategory(id!)!
 
   return (
     <img
       alt={`${id!}::`}
       width={16}
       height={16}
-      src={IconCategory(id!)}
+      src={src}
       onError={(error: any) => {
         if (error?.target) {
           try {

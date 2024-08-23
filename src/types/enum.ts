@@ -7,6 +7,10 @@ export enum EnumTypeProvider {
   threads = "threads",
 }
 
+export enum EnumHelper {
+  HELP_KURSK = "help-kursk",
+}
+
 export enum EnumSign {
   SignIn = "sign-in",
   SignUp = "sign-up",
@@ -34,6 +38,7 @@ export enum EnumProviderThreads {
   BARTER = "barter",
   GROUPS = "groups",
   OFFER_PAY = "offer-pay",
+  HELP = "help",
 }
 
 export enum EStatusAuth {

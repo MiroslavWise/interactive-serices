@@ -7,8 +7,6 @@
   flex-direction: column;
 
   & > header {
-    height: var(--height-standard-header-modal);
-
     & > h3 {
       color: var(--text-primary);
       font-size: 1.25rem;
@@ -57,14 +55,9 @@
     max-height: calc(100% - 1rem);
 
     & > header {
-      height: 4.25rem;
       & > h3 {
         padding-right: calc(2.75rem + 0.625rem);
       }
-    }
-
-    [data-container] {
-      height: calc(100% - 4.25rem);
     }
   }
 }

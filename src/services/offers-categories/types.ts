@@ -4,7 +4,7 @@ import { TCreateOfferCategory } from "@/components/templates/CreateNewCategory/u
 
 export interface IResponseOffersCategories {
   id: number
-  provider: EnumTypeProvider | "main"
+  provider: EnumTypeProvider | "main" | "kursk"
   title: string
   slug: string
   description: string | null

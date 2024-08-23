@@ -9,20 +9,16 @@ import { IconSearch } from "@/components/icons/IconSearch"
 import { IconXClose } from "@/components/icons/IconXClose"
 
 import { getOffersCategories } from "@/services"
-import {
-  dispatchClearSearchFilters,
-  dispatchDataFilterScreen,
-  dispatchValueSearchFilters,
-  dispatchVisibleSearchFilters,
-  useSearchFilters,
-} from "@/store"
+import { dispatchClearSearchFilters, dispatchValueSearchFilters, dispatchVisibleSearchFilters, useBanner, useSearchFilters } from "@/store"
 
 import styles from "../styles/search-filters.module.scss"
+import { cx } from "@/lib/cx"
 
 export const SearchFilters = () => {
   const visible = useSearchFilters(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
   const history = useSearchFilters(({ history }) => history)
+  const visibleBanner = useBanner(({ visible }) => visible)
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
@@ -57,12 +53,6 @@ export const SearchFilters = () => {
       return splitHistory?.some((some) => item?.title?.toLowerCase()?.includes(some))
     })
   }, [categories, history])
-
-  const firstSix = useMemo(() => {
-    if (!categories.length) return []
-
-    return categories?.filter((item) => item?.provider === "main")?.slice(0, 6)
-  }, [categories])
 
   useEffect(() => {
     if (visible) {
@@ -141,7 +131,20 @@ export const SearchFilters = () => {
 
   return (
     <div className={styles.wrapper} data-visible={visible}>
-      <form onSubmit={onSubmit} data-test="form-search-filters">
+      <form
+        onSubmit={onSubmit}
+        data-test="form-search-filters"
+        className={cx(
+          visibleBanner
+            ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))]"
+            : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
+          visible
+            ? visibleBanner
+              ? "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
+              : "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]"
+            : "h-[5.5rem]",
+        )}
+      >
         <header>
           <div data-icon-search>
             <IconSearch />
@@ -171,7 +174,7 @@ export const SearchFilters = () => {
                 }}
               >
                 <div data-icon>
-                  <ImageCategory id={item.id} />
+                  <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                 </div>
                 <span>{titleInput(item.title)}</span>
               </li>
@@ -199,7 +202,7 @@ export const SearchFilters = () => {
                         }}
                       >
                         <div data-icon>
-                          <ImageCategory id={item.id} />
+                          <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                         </div>
                         <span>{titleHistory(item.title)}</span>
                       </a>

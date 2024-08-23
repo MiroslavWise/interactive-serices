@@ -2,7 +2,6 @@ $width-left-aside-profile: var(--width-left-aside-profile);
 
 .asideLeft {
   max-width: $width-left-aside-profile;
-  height: calc(100vh - var(--height-header-nav-bar) - 3rem);
 
   &::-webkit-scrollbar,
   &::-webkit-scrollbar-thumb {
@@ -14,11 +13,6 @@ $width-left-aside-profile: var(--width-left-aside-profile);
     &::-webkit-scrollbar-thumb {
       display: none;
     }
-  }
-
-  &[data-is-banner="true"] {
-    top: calc(var(--height-header-nav-bar) + 1.5rem + 2.75rem);
-    height: calc(100vh - var(--height-header-nav-bar) - 3rem - 2.75rem);
   }
 
   transition-duration: 700ms;

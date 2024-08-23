@@ -210,7 +210,7 @@ export default function UpdateOffer() {
               className="absolute top-1/2 -translate-y-1/2 h-8 left-3.5 rounded-2xl flex flex-row items-center gap-1 p-1 pr-1.5 border border-solid border-grey-stroke-light bg-grey-field z-20"
             >
               <div className="w-6 h-6 bg-BG-icons p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                <ImageCategory id={offer?.categoryId!} />
+                <ImageCategory id={offer?.categoryId!} slug={offer?.category?.slug} provider={offer?.category?.provider} />
               </div>
               <span className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">
                 {offer?.category?.title || "Категория"}

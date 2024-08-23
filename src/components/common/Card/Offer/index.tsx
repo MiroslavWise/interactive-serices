@@ -47,12 +47,14 @@ export const CardOffer: TCardOffer = ({ id, threadId, created, status, initiator
                 ? {
                     pathname: `/chat/${threadId}`,
                   }
-                : {
+                : id
+                ? {
                     pathname: `/chat`,
                     query: {
                       "barter-id": `${id}-${idUser}`,
                     },
                   }
+                : {}
             }
             onClick={(event) => {
               event.stopPropagation()
@@ -60,7 +62,9 @@ export const CardOffer: TCardOffer = ({ id, threadId, created, status, initiator
                 dispatchExchanges({ visible: false })
               }
             }}
-            className=" relative h-7 w-7 p-3.5 rounded-full bg-element-white border border-solid border-grey-stroke-light"
+            className={`relative h-7 w-7 p-3.5 rounded-full bg-element-white border border-solid border-grey-stroke-light ${
+              !!threadId || !!id ? "cursor-no-drop" : "cursor-pointer"
+            }`}
           >
             <img
               src="/svg/message-dots-circle-primary.svg"

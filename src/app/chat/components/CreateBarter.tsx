@@ -7,11 +7,13 @@ import { EnumProviderThreads } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
 import { type IPatchDataBarter } from "@/services/barters/types"
 
+import LoadingChat from "./LoadingChat"
+
 import { useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
+import { patchBarter, postThread } from "@/services"
 import { useCountMessagesNotReading } from "@/helpers"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { getThreads, patchBarter, postThread } from "@/services"
 
 function CreateBarter({ idBarter }: { idBarter: string }) {
   const { on } = useToast()
@@ -88,7 +90,7 @@ function CreateBarter({ idBarter }: { idBarter: string }) {
     }
   }, [barterNumber, userId])
 
-  return <div></div>
+  return <LoadingChat />
 }
 
 CreateBarter.displayName = "CreateBarter"
