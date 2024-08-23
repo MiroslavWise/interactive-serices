@@ -16,7 +16,7 @@ function VirtualList({ parentRef, list }: IProps) {
   const virtualizer = useVirtualizer({
     count,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 250,
+    estimateSize: () => 270,
     enabled: true,
   })
 
