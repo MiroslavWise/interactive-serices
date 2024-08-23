@@ -28,7 +28,6 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
     queryKey: ["categories"],
   })
   const categories = c?.res || []
-
   const trimValue = value.trim().toLowerCase()
 
   const list = useMemo(
@@ -75,7 +74,15 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
           </button>
           {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div data-current={!!field.value}>
-            <div data-icon>{field.value ? <ImageCategory id={field.value!} /> : null}</div>
+            <div data-icon>
+              {field.value ? (
+                <ImageCategory
+                  id={field.value!}
+                  slug={currentCategory(field.value!)?.slug}
+                  provider={currentCategory(field.value!)?.provider}
+                />
+              ) : null}
+            </div>
             <span>{currentCategory(field.value!)?.title || null}</span>
             <button
               type="button"
@@ -103,7 +110,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                   }}
                 >
                   <div data-icon>
-                    <ImageCategory id={item.id} />
+                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                   </div>
                   <span>{item.title}</span>
                 </li>
