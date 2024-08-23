@@ -41,7 +41,7 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
               }}
             >
               <div data-img>
-                <ImageCategory id={item.id!} />
+                <ImageCategory id={item.id!} slug={item?.slug} provider={item?.provider} />
               </div>
               <span>{item.title}</span>
               {watch("category") === item.id ? <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} /> : null}

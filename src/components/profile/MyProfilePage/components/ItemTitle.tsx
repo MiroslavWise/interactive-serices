@@ -39,7 +39,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
     <section className="w-full gap-2.5 grid grid-cols-[1.5rem_minmax(0,1fr)_1.5rem]">
       <div className="relative w-6 h-6 p-3 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-6 [&>svg]:w-6 [&>img]:absolute [&>img]:top-1/2 [&>img]:left-1/2 [&>img]:-translate-x-1/2 [&>img]:-translate-y-1/2 [&>img]:h-6 [&>img]:w-6">
         {provider === EnumTypeProvider.offer ? (
-          <ImageCategory id={categoryId!} />
+          <ImageCategory id={categoryId!} slug={category?.slug} provider={category?.provider} />
         ) : provider === EnumTypeProvider.discussion ? (
           <IconDiscussionBalloon />
         ) : provider === EnumTypeProvider.alert ? (

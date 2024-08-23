@@ -23,7 +23,7 @@ export default function NavBarProfile() {
       <nav
         className={cx(
           "fixed w-full left-0 right-0 h-[var(--height-header-nav-bar)] py-0 px-[3.25rem] hidden md:flex items-center justify-between z-[70] bg-[var(--BG-second)]",
-          pathname === "/" && visibleBanner ? "top-16 md:top-11" : "top-0",
+          pathname === "/" && visibleBanner ? "top-[var(--height-banner)]" : "top-0",
         )}
       >
         <Logo />

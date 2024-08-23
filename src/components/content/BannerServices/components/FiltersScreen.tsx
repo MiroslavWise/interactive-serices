@@ -20,12 +20,14 @@ export const FiltersScreen = () => {
     <div
       className={cx(
         styles.container,
-        visibleBanner ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_2.75rem)]" : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
+        visibleBanner
+          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))]"
+          : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
         "fixed overflow-hidden max-w-[var(--width-right-services)] w-full bg-BG-second right-5 rounded-[2rem]",
         visible
           ? `opacity-100 visible ${
               visibleBanner
-                ? "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_2.75rem)]"
+                ? "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
                 : "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]"
             }`
           : "opacity-0 invisible h-[4.5rem]",

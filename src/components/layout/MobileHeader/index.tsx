@@ -22,7 +22,7 @@ export default function MobileHeader() {
       className={cx(
         "w-full left-0 right-0 h-[var(--height-mobile-header)] fixed z-[71] bg-BG-second items-center justify-between px-5 py-2.5 flex md:hidden",
         pathname === "/" && visibleBanner
-          ? `top-16 ${isNotHeader ? "!-translate-y-[calc(100%_+_4rem)]" : ""}`
+          ? `top-16 ${isNotHeader ? "!-translate-y-[calc(100%_+_var(--height-banner))]" : ""}`
           : `top-0 ${isNotHeader ? "!-translate-y-full" : ""}`,
       )}
       data-test="header-mobile"

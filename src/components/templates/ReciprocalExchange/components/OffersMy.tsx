@@ -66,7 +66,7 @@ export const OffersMy = memo(({ loading }: IProps) => {
             >
               <div data-category>
                 <div data-img>
-                  <ImageCategory id={item.id!} />
+                  <ImageCategory id={item.id!} slug={item?.slug} provider={item?.provider} />
                 </div>
                 <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
               </div>

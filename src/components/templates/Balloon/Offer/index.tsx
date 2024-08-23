@@ -28,7 +28,9 @@ function BalloonOffer() {
         data-color={EnumTypeProvider.offer}
       >
         <div className="w-6 h-6 relative p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *h-6">
-          {offer?.categoryId ? <ImageCategory id={offer?.categoryId!} /> : null}
+          {offer?.categoryId ? (
+            <ImageCategory id={offer?.categoryId!} slug={offer?.category?.slug} provider={offer?.category?.provider} />
+          ) : null}
         </div>
         <h3>{offer?.category?.title}</h3>
       </header>

@@ -22,7 +22,7 @@ function HeaderTitle({ offer }: IProps) {
         )}
       >
         {provider === EnumTypeProvider.offer ? (
-          <ImageCategory id={categoryId!} />
+          <ImageCategory id={categoryId!} slug={category?.slug} provider={category?.provider} />
         ) : provider === EnumTypeProvider.alert ? (
           <img className="w-4 h-4" src="/svg/SOS.svg" alt="SOS" width={18} height={18} />
         ) : provider === EnumTypeProvider.discussion ? (

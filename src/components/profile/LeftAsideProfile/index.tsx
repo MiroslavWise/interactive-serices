@@ -16,7 +16,7 @@ function LeftAsideProfile({ isCollapsed = false, isBanner = false }: { isCollaps
         "max-md:!hidden fixed left-0 bottom-6 w-full rounded-[2rem] translate-x-6 flex flex-col justify-between items-center gap-5 bg-BG-second z-[2]",
         isCollapsed && "!-translate-x-[17.5rem]",
         visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_2.75rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_2.75rem)]"
+          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
           : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
       )}
       data-test="left-aside-profile"

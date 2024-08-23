@@ -136,11 +136,11 @@ export const SearchFilters = () => {
         data-test="form-search-filters"
         className={cx(
           visibleBanner
-            ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_2.75rem)]"
+            ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))]"
             : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
           visible
             ? visibleBanner
-              ? "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_2.75rem)]"
+              ? "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
               : "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]"
             : "h-[5.5rem]",
         )}
@@ -174,7 +174,7 @@ export const SearchFilters = () => {
                 }}
               >
                 <div data-icon>
-                  <ImageCategory id={item.id} />
+                  <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                 </div>
                 <span>{titleInput(item.title)}</span>
               </li>
@@ -202,7 +202,7 @@ export const SearchFilters = () => {
                         }}
                       >
                         <div data-icon>
-                          <ImageCategory id={item.id} />
+                          <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                         </div>
                         <span>{titleHistory(item.title)}</span>
                       </a>

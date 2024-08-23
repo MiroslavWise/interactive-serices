@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useCallback, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -37,6 +37,7 @@ export default function SearchCategory() {
   const visible = useMobileSearchCategory(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
+  const parentRef = useRef<HTMLUListElement>(null)
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
@@ -133,7 +134,7 @@ export default function SearchCategory() {
           <IconFilters />
         </button>
       </header>
-      <section className="w-full h-[calc(100%_-_6rem)] overflow-x-hidden overflow-y-auto">
+      <section className="w-full h-[calc(100%_-_6rem)] overflow-x-hidden overflow-y-auto" ref={parentRef}>
         <article className={cx("w-full flex flex-col gap-[1.125rem] py-2.5 px-5", "*:flex *:w-full *:flex-row *:items-start")}>
           <div data-filters-services className="justify-start gap-4">
             {SERVICES.map((item) => (
@@ -158,7 +159,7 @@ export default function SearchCategory() {
             <div data-filters-category className="flex-wrap gap-1">
               {activeFilters.map((item) => (
                 <a key={`::key::item::filter::category::${item}::`} className="flex flex-row items-center gap-1 p-1 pr-1.5 h-8 rounded-2xl">
-                  <div className="w-6 h-6 p-3 rounded-full bg-BG-icons *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                  <div className="relative w-6 h-6 p-3 rounded-full bg-BG-icons *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                     <ImageCategory id={item} />
                   </div>
                   <span className="text-text-button text-xs text-ellipsis line-clamp-1 whitespace-nowrap font-medium">
@@ -179,7 +180,7 @@ export default function SearchCategory() {
             </div>
           ) : null}
         </article>
-        <ServicesMobile input={input} />
+        <ServicesMobile input={input} parentRef={parentRef} />
       </section>
     </div>
   )

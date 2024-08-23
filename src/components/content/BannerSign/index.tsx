@@ -22,7 +22,7 @@ function BannerSign() {
           styles.button,
           "fixed left-0 w-8 h-8 rounded-full border-none outline-none z-[60] p-2.5 flex items-center justify-center bg-BG-second",
           visibleBanner
-            ? "top-[calc(var(--height-header-nav-bar)_+_2.75rem_+_2.75rem)]"
+            ? "top-[calc(var(--height-header-nav-bar)_+_2.75rem_+_var(--height-banner))]"
             : "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
         )}
         type="button"

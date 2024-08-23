@@ -61,7 +61,7 @@ function BannerServices() {
         "max-md:hidden fixed right-0 max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-[2rem]",
         visible ? "translate-x-[var(--width-right-services)]" : "-translate-x-6",
         visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_2.75rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_2.75rem)]"
+          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
           : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
       )}
       data-test="banner-services"
@@ -112,7 +112,7 @@ function BannerServices() {
           ) : null}
         </section>
         <div data-test="ul-section-container-banner-services" className="flex flex-col items-start gap-4 pt-1.5 px-5 pb-5">
-          <ServicesComponent />
+          <ServicesComponent parentRef={parentRef} />
         </div>
       </ul>
     </div>
@@ -133,7 +133,7 @@ export const SearchAndFilters = () => {
         styles.containerSearchAndFilters,
         "fixed flex flex-row items-center gap-2.5 right-0",
         visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_2.75rem_+_2.75rem)]"
+          ? "top-[calc(var(--height-header-nav-bar)_+_2.75rem_+_var(--height-banner))]"
           : "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
       )}
       data-collapse={visible}
@@ -193,7 +193,7 @@ export const ButtonCollapseServices = () => {
         styles.buttonCollapse,
         "fixed right-0 w-8 h-8 rounded-full p-2.5 flex items-center justify-center bg-BG-second",
         visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem_+_2.75rem)]"
+          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem_+_var(--height-banner))]"
           : "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem)]",
       )}
       type="button"

@@ -3,6 +3,7 @@ import type { IResponseOffers } from "@/services/offers/types"
 import GeoData from "./components/GeoData"
 import HeaderTitle from "./components/HeaderTitle"
 import ItemProfile from "./components/ItemProfile"
+import IconHelp from "@/components/icons/IconHelp"
 import HeaderTimeDots from "./components/HeaderTimeDots"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
@@ -17,13 +18,14 @@ import {
 import { EnumTypeProvider } from "@/types/enum"
 
 import styles from "./styles/style.module.scss"
-import IconHelp from "@/components/icons/IconHelp"
 interface IProps {
   offer: IResponseOffers
+  ref?: any
+  dataIndex?: number
 }
 
-function CardBallon({ offer }: IProps) {
-  const { provider, description, userId, images, addresses, user, urgent } = offer ?? {}
+function CardBallon({ offer, ref, dataIndex }: IProps) {
+  const { provider, description, images, addresses, user, urgent } = offer ?? {}
 
   function handleClick() {
     const [address] = addresses
@@ -54,6 +56,8 @@ function CardBallon({ offer }: IProps) {
         event.stopPropagation()
         handleClick()
       }}
+      data-index={dataIndex}
+      ref={ref}
     >
       <header
         className={cx(

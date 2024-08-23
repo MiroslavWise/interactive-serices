@@ -23,7 +23,7 @@ function HeaderBannerHelp() {
   return (
     <header
       className={cx(
-        "fixed h-16 md:h-11 top-0 z-[70] w-full left-0 right-0 flex-row md:items-center justify-start md:justify-center pl-4 md:px-1.5 py-3 md:py-2.5 [background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)]",
+        "fixed h-[var(--height-banner)] top-0 z-[70] w-full left-0 right-0 flex-row md:items-center justify-start md:justify-center pl-4 md:px-1.5 py-3 md:py-2.5 [background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)]",
         visible || visibleSearchCategory || visibleSearchMobile ? "flex" : "hidden",
       )}
     >

@@ -69,7 +69,7 @@ export default function FilterCategory() {
               className="flex flex-col items-start justify-between h-24 w-full p-3 rounded-xl border border-grey-stroke-light bg-BG-second cursor-pointer"
             >
               <div className="relative w-6 h-6 bg-transparent p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
-                <ImageCategory id={item.id} />
+                <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
               </div>
               <p className="text-text-primary text-sm font-normal line-clamp-2 text-ellipsis">{item.title}</p>
             </a>

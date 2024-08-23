@@ -67,7 +67,7 @@ export const FormFilterScreen = () => {
                 )}
               >
                 <div className="w-6 h-6 p-3 bg-transparent relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
-                  <ImageCategory id={item.id} />
+                  <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                 </div>
                 <p
                   className={cx(

@@ -98,7 +98,7 @@ function ControllerCategory({ control }: IProps) {
                   }}
                 >
                   <div data-icon>
-                    <ImageCategory id={item.id} />
+                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                   </div>
                   <span>{item.title}</span>
                 </li>
