@@ -471,7 +471,7 @@ export default function CreateNewOptionModal() {
           ) : null}
           {visible && step === 2 && <ArticleOnboarding />}
           {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} />
+            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
           ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
           <Controller

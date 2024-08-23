@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo, useState } from "react"
-import { type Control, Controller } from "react-hook-form"
+import { type Control, Controller, UseFormSetValue } from "react-hook-form"
 
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
@@ -17,9 +17,10 @@ interface IProps {
   control: Control<TSchemaCreate, any>
   visible: boolean
   disabled: boolean
+  setValue: UseFormSetValue<TSchemaCreate>
 }
 
-function ControllerCategory({ control, visible, disabled }: IProps) {
+function ControllerCategory({ control, visible, disabled, setValue: setValueForm }: IProps) {
   const [open, setOpen, ref] = useOutsideClickEvent()
   const [value, setValue] = useState("")
   const { data: c } = useQuery({
@@ -96,6 +97,9 @@ function ControllerCategory({ control, visible, disabled }: IProps) {
                     field.onChange(item.id)
                     setValue("")
                     setOpen(false)
+                    if (item?.provider === "kursk" || item?.slug === "kursk") {
+                      setValueForm("help", true)
+                    }
                   }}
                 >
                   <div data-icon>
