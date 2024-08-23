@@ -126,18 +126,20 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       {status === EnumStatusBarter.INITIATED ? (
         <ButtonLink
           typeButton="fill-primary"
-          label="Ответить"
+          label={threadId || id ? "Написать" : "Предложение удалено"}
           href={
             !!threadId
               ? {
                   pathname: `/chat/${threadId}`,
                 }
-              : {
+              : id
+              ? {
                   pathname: `/chat`,
                   query: {
                     "barter-id": `${id}-${idUser}`,
                   },
                 }
+              : {}
           }
           onClick={(event) => {
             event.stopPropagation()
@@ -147,18 +149,20 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       ) : status === EnumStatusBarter.EXECUTED ? (
         <ButtonLink
           typeButton="regular-primary"
-          label="Написать"
+          label={threadId || id ? "Написать" : "Предложение удалено"}
           href={
             !!threadId
               ? {
                   pathname: `/chat/${threadId}`,
                 }
-              : {
+              : id
+              ? {
                   pathname: `/chat`,
                   query: {
                     "barter-id": `${id}-${idUser}`,
                   },
                 }
+              : {}
           }
           onClick={(event) => {
             event.stopPropagation()
