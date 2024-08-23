@@ -1,10 +1,12 @@
+import { memo, useCallback } from "react"
+import { useQuery } from "@tanstack/react-query"
+
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
+
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 import { dispatchDataFilterScreen } from "@/store"
-import { useQuery } from "@tanstack/react-query"
-import { memo, useCallback } from "react"
 
 function ActiveFilters({ activeFilters }: { activeFilters: number[] }) {
   const { data } = useQuery({
