@@ -3,6 +3,7 @@ import { UseFormSetValue } from "react-hook-form"
 import { IValuesCategories } from "../types/types"
 import { IResponseOffersCategories } from "@/services/offers-categories/types"
 
+import { ImageCategory } from "@/components/common"
 import { IconCheck } from "./ItemCategory"
 
 import { IconCategory } from "@/lib/icon-set"
@@ -39,21 +40,7 @@ function ItemCategorySearch({ setValue, idsActive, item }: IProps) {
       <div data-check>{idsActive.includes(item?.id!) ? <IconCheck /> : null}</div>
       <span>
         <div data-img>
-          <img
-            src={IconCategory(item.id!)}
-            alt="cat"
-            height={16}
-            width={16}
-            onError={(error: any) => {
-              if (error?.target) {
-                try {
-                  error.target.src = `/svg/category/default.svg`
-                } catch (e) {
-                  console.log("catch e: ", e)
-                }
-              }
-            }}
-          />
+          <ImageCategory id={item?.id!} slug={item?.slug} provider={item?.provider} />
         </div>
         <p>{item.title}</p>
       </span>
