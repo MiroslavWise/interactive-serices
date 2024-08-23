@@ -95,11 +95,11 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                   onClick={(event) => {
                     event.stopPropagation()
                     field.onChange(item.id)
-                    setValue("")
-                    setOpen(false)
                     if (item?.provider === "kursk" || item?.slug === "kursk") {
                       setValueForm("help", true)
                     }
+                    setValue("")
+                    setOpen(false)
                   }}
                 >
                   <div data-icon>
