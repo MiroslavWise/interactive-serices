@@ -162,7 +162,7 @@ export default function CompletionTransaction() {
           <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />
         </form>
       ) : (
-        <article className="w-full h-full flex flex-col justify-start md:justify-center gap-6 max-md:px-5 p-5">
+        <article className="w-full h-full flex flex-col justify-start md:justify-center gap-6 max-md:px-5 p-5 items-center">
           <div data-img className="w-[6.25rem] md:w-[8.125rem] h-[6.25rem] md:h-[8.125rem] flex items-center justify-center">
             <img
               src="/svg/fi_1271380.svg"
