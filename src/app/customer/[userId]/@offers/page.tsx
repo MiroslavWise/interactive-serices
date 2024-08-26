@@ -7,6 +7,10 @@ import WrapperItemService from "./components/WrapperItemService"
 
 import { getUserIdOffers } from "@/services"
 
+export const dynamic = "force-dynamic"
+export const dynamicParams = true
+export const fetchCache = "force-no-store"
+
 export default async ({ params, searchParams }: IParamsCustomer) => {
   const provider = searchParams?.provider || EProviderLinkCustomer.offer
   const id = params?.userId
