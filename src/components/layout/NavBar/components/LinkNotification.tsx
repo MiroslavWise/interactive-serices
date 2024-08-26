@@ -59,6 +59,10 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
     }
   }
 
+  function close() {
+    setActive(false)
+  }
+
   return (
     <a
       key={"::notifications::link::"}
@@ -91,7 +95,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
               <>
                 <p className="text-text-primary text-base text-left font-medium">Новые уведомления</p>
                 {state.new?.map((item) => (
-                  <ItemNotification key={`::item::notification::popup::`} {...item} />
+                  <ItemNotification key={`::item::notification::popup::`} {...item} close={close} />
                 ))}
               </>
             ) : null}
@@ -99,7 +103,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
               <>
                 <p className="text-text-primary text-base text-left font-medium">Просмотренные</p>
                 {state.old?.map((item) => (
-                  <ItemNotification key={`::item::notification::popup::`} {...item} />
+                  <ItemNotification key={`::item::notification::popup::`} {...item} close={close} />
                 ))}
               </>
             ) : null}

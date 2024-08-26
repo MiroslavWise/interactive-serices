@@ -9,4 +9,6 @@ export const useVisibleNotifications = create<TUseVisibleNotifications>((set, ge
   },
 }))
 
-export const dispatchVisibleNotifications = (value: boolean) => useVisibleNotifications.setState((_) => ({ visible: value }))
+export const dispatchVisibleNotifications = (value: boolean) => {
+  useVisibleNotifications.setState((_) => ({ visible: value }), true)
+}

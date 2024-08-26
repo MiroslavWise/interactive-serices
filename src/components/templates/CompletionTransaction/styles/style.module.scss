@@ -9,36 +9,7 @@
   height: 100%;
   background-color: var(--BG-second);
 
-  & > h5 {
-    position: absolute;
-    top: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--gray-500);
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 1.5rem;
-    letter-spacing: -0.02125rem;
-  }
-
   & > form {
-    & > header {
-      & > h3 {
-        color: var(--text-primary);
-        text-align: center;
-        font-size: 1.25rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 1.875rem;
-        letter-spacing: -0.02125rem;
-
-        & > span {
-          color: var(--primary-500);
-        }
-      }
-    }
-
     & > fieldset {
       width: 100%;
       display: flex;
