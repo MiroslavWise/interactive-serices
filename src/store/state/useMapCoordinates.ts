@@ -28,6 +28,10 @@ export const dispatchMapCoordinates = ({ coordinates, zoom }: IDispatchMapCoordi
   }, true)
 
 export const dispatchMapCoordinatesZoom = (zoom: number) =>
-  useMapCoordinates.setState((_) => ({
-    zoom: zoom,
-  }))
+  useMapCoordinates.setState(
+    (_) => ({
+      zoom: zoom,
+      coordinates: _.coordinates,
+    }),
+    true,
+  )

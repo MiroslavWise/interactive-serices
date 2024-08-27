@@ -6,14 +6,16 @@ import { Controller, useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
-import type { IPostOffers } from "@/services/offers/types"
-import type { IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import type { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
+import { type IPostOffers } from "@/services/offers/types"
+import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
+import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
+import ControlHelp from "./components/ControlHelp"
+import CurrentImage from "./components/CurrentImage"
+import { Button, WalletPay } from "@/components/common"
 import { ArticleOnboarding } from "@/components/templates"
 import { IconXClose } from "@/components/icons/IconXClose"
 import ControllerCategory from "./components/ControllerCategory"
-import { Button, WalletPay } from "@/components/common"
 
 import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
@@ -51,8 +53,6 @@ import {
   description,
   titlePlaceholderContent,
 } from "./constants/titles"
-import CurrentImage from "./components/CurrentImage"
-import ControlHelp from "./components/ControlHelp"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
@@ -374,7 +374,9 @@ export default function CreateNewOptionModal() {
         <h3 className="text-text-primary text-2xl font-semibold">{headerTitle(typeAdd!)}</h3>
       </header>
       <ul id="ul-create-option-modal" data-test="ul-create-new-option" className="w-full flex flex-col items-center gap-4 px-5">
-        <form onSubmit={onSubmit} data-test="from-create-new-option"
+        <form
+          onSubmit={onSubmit}
+          data-test="from-create-new-option"
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5"
         >
           <Controller

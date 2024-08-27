@@ -1,7 +1,7 @@
 "use client"
 
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
-import { useEffect, useCallback, useRef } from "react"
+import { useEffect, useCallback, useRef, useState } from "react"
 
 import { EnumSign } from "@/types/enum"
 import type { TTypeInstantsMap, TYandexMap } from "./types"
@@ -9,7 +9,7 @@ import type { TTypeInstantsMap, TYandexMap } from "./types"
 import HeaderMap from "./Header"
 import { ListPlacemark } from "./ObjectsMap"
 
-import { useAddress } from "@/helpers"
+import { useAddress, useDebounce } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getAddressCoords } from "@/helpers/get-address"
 import {
@@ -17,6 +17,7 @@ import {
   dispatchBounds,
   dispatchHasBalloon,
   dispatchMapCoordinates,
+  dispatchMapCoordinatesZoom,
   dispatchNewServicesBannerMap,
   useAuth,
   useBounds,
@@ -31,9 +32,16 @@ function YandexMap() {
   const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
+  const [stateZoom, setStateZoom] = useState(zoom)
   const instanceRef: TTypeInstantsMap = useRef()
   const bounds = useBounds(({ bounds }) => bounds)
   const { on } = useToast()
+  const debouncedCoordinates = useDebounce(onFunctionCoordinates, 25)
+  function onFunctionCoordinates() {
+    if (zoom !== stateZoom) {
+      dispatchMapCoordinatesZoom(stateZoom)
+    }
+  }
 
   function onContextMenu(e: any) {
     console.log("onContextMenu: ", e)
@@ -90,7 +98,7 @@ function YandexMap() {
     }
   }, [coordinates, handleAddressLocation])
 
-  function boundsExpansion(bounds: number[][] | undefined, zoom?: number) {
+  function boundsExpansion(bounds: number[][] | undefined) {
     if (!bounds) return undefined
 
     const [start, end] = bounds
@@ -115,16 +123,18 @@ function YandexMap() {
 
               dispatchBounds(newB)
             }
-
             instanceRef.current?.events.add("dblclick", (events: any) => onContextMenu(events))
-
             instanceRef.current?.options.set({
               dblClickFloatZoom: true,
             })
+            instanceRef.current?.events.add("wheel", (event: any) => {
+              const _zoom = (event.originalEvent?.target?._zoom as number) || zoom
+              setStateZoom(_zoom)
+              debouncedCoordinates()
+            })
             instanceRef.current?.events.add("actionend", (events: any) => {
               const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
-              const _zoom = (events.originalEvent?.target?._zoom as number) || zoom
-              const newB = boundsExpansion(bounds, _zoom)
+              const newB = boundsExpansion(bounds)
 
               dispatchBounds(newB)
             })
@@ -138,7 +148,7 @@ function YandexMap() {
         }}
         options={{
           maxZoom: 20,
-          minZoom: 10,
+          minZoom: 7,
           yandexMapDisablePoiInteractivity: true,
         }}
         width={"100%"}

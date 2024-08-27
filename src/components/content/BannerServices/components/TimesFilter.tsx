@@ -1,12 +1,12 @@
+import IconHelp from "@/components/icons/IconHelp"
+import { IconXClose } from "@/components/icons/IconXClose"
+import IconHelpColor from "@/components/icons/IconHelpColor"
 import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
-import IconHelp from "@/components/icons/IconHelp"
-import { IconXClose } from "@/components/icons/IconXClose"
-import IconHelpColor from "@/components/icons/IconHelpColor"
 import { EnumTimesFilter, MAP_TIME, MAP_URGENT, OBJ_TIME } from "../constants"
-import { dispatchFiltersServiceTime, dispatchUrgentFilter, useFiltersServices, useUrgentFilter } from "@/store"
+import { dispatchFiltersServiceTime, dispatchUrgentFilter, useFiltersServices, useUrgentFilter, dispatchMapCoordinatesZoom } from "@/store"
 
 function TimesFilter() {
   const [open, setOpen, ref] = useOutsideClickEvent()
@@ -94,7 +94,12 @@ function TimesFilter() {
               ? "[background:linear-gradient(90deg,_#f56b58_0%,_#fa4d81_100%)] grid-cols-[1rem_minmax(0,1fr)_1rem]"
               : "bg-BG-filter-red grid-cols-[1rem_minmax(0,1fr)]",
           )}
-          onClick={() => dispatchUrgentFilter(key)}
+          onClick={() => {
+            dispatchUrgentFilter(key)
+            if (urgent !== key) {
+              dispatchMapCoordinatesZoom(7)
+            }
+          }}
         >
           <div className="relative w-4 h-4">{urgent === key ? <IconHelp /> : <IconHelpColor />}</div>
           <span className={cx("text-[0.8125rem] leading-4 font-normal", urgent === key ? "text-text-button" : "text-text-primary")}>
