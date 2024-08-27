@@ -16,7 +16,7 @@ function ListMessages() {
   const items = data || []
 
   const filters = useMemo(() => {
-    const ITEMS = items
+    const ITEMS = items.filter((_) => !!_.messages.length)
     ITEMS.sort((prev, next) => {
       const prevNumber = prev.messages?.[0]?.created! ? getMillisecond(prev.messages?.[0]?.created!) : getMillisecond(prev?.created!)
       const nextNumber = next.messages?.[0]?.created! ? getMillisecond(next.messages?.[0]?.created!) : getMillisecond(next?.created!)

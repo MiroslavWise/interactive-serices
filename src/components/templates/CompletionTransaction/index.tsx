@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
-import type { IValuesForm } from "./types/types"
+import { type IValuesForm } from "./types/types"
 
 import { Button, ButtonLink } from "@/components/common"
 
@@ -99,7 +99,7 @@ export default function CompletionTransaction() {
 
   return (
     <>
-      <h5>Обзор</h5>
+      <h5 className="absolute top-6 left-1/2 -translate-x-1/2 text-text-secondary text-base">Обзор</h5>
       <div className="absolute top-3 right-3 w-8 h-8 border-none bg-transparent cursor-pointer flex items-center justify-center p-1 max-md:!hidden">
         <img src="/svg/dots-vertical-gray.svg" alt="..." width={16} height={16} className="w-6 h-6" />
       </div>
@@ -109,8 +109,8 @@ export default function CompletionTransaction() {
           className="w-full h-full pb-9 px-5 md:px-14 pt-[8.75rem] flex flex-col items-center justify-start overflow-hidden gap-10"
         >
           <header className="flex items-center flex-col gap-4">
-            <h3>
-              Добавьте отзыв <span>@{user?.profile?.username}</span>
+            <h3 className="text-text-primary font-semibold text-xl text-center">
+              Добавьте отзыв <span className="text-text-accent">@{user?.profile?.username}</span>
             </h3>
             <div data-rating className="w-full flex flex-col items-center">
               <p className="text-text-secondary text-center text-base font-medium">Оцените качество услуг:</p>
@@ -162,7 +162,7 @@ export default function CompletionTransaction() {
           <Button type="submit" typeButton="fill-primary" label="Отправить" loading={loading} />
         </form>
       ) : (
-        <article className="w-full h-full flex flex-col justify-start md:justify-center gap-6 max-md:px-5 p-5">
+        <article className="w-full h-full flex flex-col justify-start md:justify-center gap-6 max-md:px-5 p-5 items-center">
           <div data-img className="w-[6.25rem] md:w-[8.125rem] h-[6.25rem] md:h-[8.125rem] flex items-center justify-center">
             <img
               src="/svg/fi_1271380.svg"

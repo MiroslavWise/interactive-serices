@@ -4,3 +4,6 @@ export const IconXClose = () => (
     <path d="M5 5L15 15" stroke="var(--element-accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
 )
+
+IconXClose.displayName = "IconXClose"
+export default IconXClose

@@ -80,7 +80,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
       <button
         className={cx(
           "max-md:hidden opacity-0 absolute left-1 top-1/2 -translate-y-1/2 border-none bg-BG-second w-8 h-8 rounded-2xl flex items-center justify-center p-0.375 group-hover:opacity-100",
-          images?.length < 5 && "!hidden",
+          images?.length < 4 && "!hidden",
         )}
         onClick={(event) => {
           event.stopPropagation()
@@ -92,7 +92,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
       <button
         className={cx(
           "max-md:hidden opacity-0 absolute right-1 top-1/2 -translate-y-1/2 border-none bg-BG-second w-8 h-8 rounded-2xl flex items-center justify-center p-0.375 group-hover:opacity-100",
-          images?.length < 5 && "!hidden",
+          images?.length < 4 && "!hidden",
         )}
         onClick={(event) => {
           event.stopPropagation()

@@ -1,7 +1,7 @@
 "use client"
 
-import { FormFilterScreen } from "./FormFilterScreen"
-import { IconXClose } from "@/components/icons/IconXClose"
+import FormFilterScreen from "./FormFilterScreen"
+import IconXClose from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
 import { dispatchActiveFilterScreen, useBanner, useFiltersScreen } from "@/store"

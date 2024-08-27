@@ -1,7 +1,8 @@
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
-import { type ReactNode, useMemo, useState } from "react"
+import { type DispatchWithoutAction, type ReactNode, useMemo, useState } from "react"
 
+import { type IBarterResponse } from "@/services/barters/types"
 import { type IResponseThreads } from "@/services/threads/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IResponseNotifications } from "@/services/notifications/types"
@@ -28,7 +29,6 @@ import { useWebSocket } from "@/context"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { IBarterResponse } from "@/services/barters/types"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -39,8 +39,8 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   default: "/svg/notifications/default.svg",
 }
 
-export const ItemNotification = (props: IResponseNotifications) => {
-  const { created, provider, operation, data, id, read } = props ?? {}
+export const ItemNotification = (props: IResponseNotifications & { close?: DispatchWithoutAction }) => {
+  const { created, provider, operation, data, id, read, close } = props ?? {}
   const [loading, setLoading] = useState(false)
   const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -189,6 +189,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
               href={{ pathname: `/customer/${idUser}` }}
               onClick={(event) => {
                 event.stopPropagation()
+                if (close) {
+                  close()
+                }
                 dispatchVisibleNotifications(false)
               }}
             >
@@ -212,6 +215,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 href={{ pathname: `/customer/${idUser}` }}
                 onClick={(event) => {
                   event.stopPropagation()
+                  if (close) {
+                    close()
+                  }
                   dispatchVisibleNotifications(false)
                 }}
               >
@@ -233,6 +239,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 href={{ pathname: `/customer/${idUser}` }}
                 onClick={(event) => {
                   event.stopPropagation()
+                  if (close) {
+                    close()
+                  }
                   dispatchVisibleNotifications(false)
                 }}
               >
@@ -270,6 +279,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 href={{ pathname: `/customer/${idUser}` }}
                 onClick={(event) => {
                   event.stopPropagation()
+                  if (close) {
+                    close()
+                  }
                   dispatchVisibleNotifications(false)
                 }}
               >
@@ -285,6 +297,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
                   href={{ pathname: `/customer/${idUser}` }}
                   onClick={(event) => {
                     event.stopPropagation()
+                    if (close) {
+                      close()
+                    }
                     dispatchVisibleNotifications(false)
                   }}
                 >
@@ -327,6 +342,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
             href={{ pathname: `/chat/${dataThread?.id}` }}
             onClick={(event) => {
               event.stopPropagation()
+              if (close) {
+                close()
+              }
               dispatchVisibleNotifications(false)
               reading()
             }}
@@ -404,6 +422,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
               }
               onClick={(event) => {
                 event.stopPropagation()
+                if (close) {
+                  close()
+                }
                 dispatchVisibleNotifications(false)
                 reading()
               }}
@@ -436,6 +457,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
                 }
                 onClick={(event) => {
                   event.stopPropagation()
+                  if (close) {
+                    close()
+                  }
                   dispatchVisibleNotifications(false)
                   reading()
                 }}
@@ -508,6 +532,9 @@ export const ItemNotification = (props: IResponseNotifications) => {
       notificationId: id!,
     })
     dispatchModal(EModalData.CompletionTransaction)
+    if (close) {
+      close()
+    }
     dispatchVisibleNotifications(false)
   }
 

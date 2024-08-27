@@ -1,9 +1,9 @@
 export function cx(...classes: any[]): string {
   let str = ""
 
-  for (const item of classes) {
-    if (typeof item === "string") {
-      str += ` ${item}`
+  for (const _ of classes) {
+    if (typeof _ === "string") {
+      str += ` ${_}`
     } else {
       continue
     }
