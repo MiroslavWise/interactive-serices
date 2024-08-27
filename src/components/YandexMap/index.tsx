@@ -36,7 +36,7 @@ function YandexMap() {
   const instanceRef: TTypeInstantsMap = useRef()
   const bounds = useBounds(({ bounds }) => bounds)
   const { on } = useToast()
-  const debouncedCoordinates = useDebounce(onFunctionCoordinates, 25)
+  const debouncedCoordinates = useDebounce(onFunctionCoordinates, 1_000)
   function onFunctionCoordinates() {
     if (zoom !== stateZoom) {
       dispatchMapCoordinatesZoom(stateZoom)
@@ -127,16 +127,15 @@ function YandexMap() {
             instanceRef.current?.options.set({
               dblClickFloatZoom: true,
             })
-            instanceRef.current?.events.add("wheel", (event: any) => {
-              const _zoom = (event.originalEvent?.target?._zoom as number) || zoom
-              setStateZoom(_zoom)
-              debouncedCoordinates()
-            })
+
             instanceRef.current?.events.add("actionend", (events: any) => {
               const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
               const newB = boundsExpansion(bounds)
-
               dispatchBounds(newB)
+
+              const _zoom = (events.originalEvent?.target?._zoom as number) || zoom
+              setStateZoom(_zoom)
+              debouncedCoordinates()
             })
           })
         }}
