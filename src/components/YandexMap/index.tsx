@@ -123,8 +123,8 @@ function YandexMap() {
             })
             instanceRef.current?.events.add("actionend", (events: any) => {
               const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
-              const zoom = (events.originalEvent?.target?._zoom as number) || 13
-              const newB = boundsExpansion(bounds, zoom)
+              const _zoom = (events.originalEvent?.target?._zoom as number) || zoom
+              const newB = boundsExpansion(bounds, _zoom)
 
               dispatchBounds(newB)
             })
@@ -152,9 +152,7 @@ function YandexMap() {
             iconPieChartStrokeWidth: 2,
             clusterDisableClickZoom: true,
             iconPieChartCoreRadius: 8,
-            data: {
-              
-            }
+            data: {},
           }}
           onClick={async (event: any) => {
             const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
@@ -191,7 +189,6 @@ function YandexMap() {
 
 YandexMap.displayName = "YandexMap"
 export default YandexMap
-
 
 //Обсуждение дома
 //Давайте обсудим, как у вас дела?)

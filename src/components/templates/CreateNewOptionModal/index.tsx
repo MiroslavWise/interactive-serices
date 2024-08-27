@@ -370,13 +370,13 @@ export default function CreateNewOptionModal() {
 
   return (
     <>
-      {typeAdd ? (
-        <header>
-          <h3>{headerTitle(typeAdd)}</h3>
-        </header>
-      ) : null}
-      <ul id="ul-create-option-modal" data-test="ul-create-new-option">
-        <form onSubmit={onSubmit} data-test="from-create-new-option">
+      <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-[var(--height-standard-header-modal)]">
+        <h3 className="text-text-primary text-2xl font-semibold">{headerTitle(typeAdd!)}</h3>
+      </header>
+      <ul id="ul-create-option-modal" data-test="ul-create-new-option" className="w-full flex flex-col items-center gap-4 px-5">
+        <form onSubmit={onSubmit} data-test="from-create-new-option"
+          className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5"
+        >
           <Controller
             name="address"
             control={control}

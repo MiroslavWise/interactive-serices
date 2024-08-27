@@ -6,13 +6,13 @@ import { type IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 
 import IconMarkerPin from "@/components/icons/IconMarkerPin"
 
+import { cx } from "@/lib/cx"
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { dispatchMapCoordinates } from "@/store"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 import styles from "./style.module.scss"
-import { cx } from "@/lib/cx"
 
 export const SearchElementMap = () => {
   const [text, setText] = useState("")
@@ -57,6 +57,7 @@ export const SearchElementMap = () => {
       setText(value?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text)
       dispatchMapCoordinates({
         coordinates: coordinates,
+        zoom: 17,
       })
     }
     setIsActiveList(false)

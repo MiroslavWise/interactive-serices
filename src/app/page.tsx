@@ -1,5 +1,8 @@
 "use client"
 
+import { useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+
 import dynamic from "next/dynamic"
 
 import {
@@ -28,12 +31,10 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
   ssr: false,
 })
 
-import { dispatchUTMData, IStateUTM, useAuth } from "@/store"
 import { useResize } from "@/helpers"
-import { useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { dispatchUTMData, IStateUTM, useAuth } from "@/store"
 
-export default function Home() {
+export default () => {
   const searchParams = useSearchParams()
   const { replace } = useRouter()
 

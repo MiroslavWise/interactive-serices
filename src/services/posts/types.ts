@@ -1,0 +1,31 @@
+import { IImageData } from "@/types/type"
+import { IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { IUserOffer as IUserSmall } from "../offers/types"
+
+interface IPosts {
+  id: number
+  enabled: boolean
+  title: string //varChar - 256
+  slug: string //varChar - 256
+  userId: number
+  user: IUserSmall
+  addressId: number | null
+  address: IAddressesResponse | null
+  updated: string
+  created: string
+  archived: boolean //default - false
+  archivedTime: string //время, когда запись была отправлена в архив
+}
+
+interface INotes {
+  id: number
+  enabled: boolean
+  description: string
+  userId: number
+  user: IUserSmall
+  updated: string
+  created: string
+  images: IImageData[]
+  triggerId: number //id поста, к которому привязана данная задача
+  main: boolean //default - false, является ли эта запись главной (тогда её нельзя удалить)
+}

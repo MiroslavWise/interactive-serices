@@ -6,11 +6,11 @@ import { type IResponseNotifications } from "@/services/notifications/types"
 
 import { ItemNotification } from "@/components/notifications"
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
-import { cx } from "@/lib/cx"
 
 export const LinkNotification = ({ pathname }: { pathname: string }) => {
   const [count, setCount] = useState<number | null>(null)
