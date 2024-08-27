@@ -1,17 +1,17 @@
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
-import { IValuesFormFilters } from "../types/types"
+import { type IValuesFormFilters } from "../types/types"
 
+import IconHelp from "@/components/icons/IconHelp"
 import { Button, ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
-import IconHelp from "@/components/icons/IconHelp"
 
-export const FormFilterScreen = () => {
+function FormFilterScreen() {
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
@@ -99,3 +99,6 @@ export const FormFilterScreen = () => {
     </form>
   )
 }
+
+FormFilterScreen.displayName = "FormFilterScreen"
+export default memo(FormFilterScreen)

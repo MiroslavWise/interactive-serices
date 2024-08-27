@@ -9,3 +9,6 @@ export const IconSearch = () => (
     />
   </svg>
 )
+
+IconSearch.displayName = "IconSearch"
+export default IconSearch

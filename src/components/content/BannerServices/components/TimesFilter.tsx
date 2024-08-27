@@ -97,7 +97,7 @@ function TimesFilter() {
           onClick={() => {
             dispatchUrgentFilter(key)
             if (urgent !== key) {
-              dispatchMapCoordinatesZoom(7)
+              dispatchMapCoordinatesZoom(5)
             }
           }}
         >

@@ -2,19 +2,19 @@
 
 import { useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { useCallback, useEffect, useMemo } from "react"
+import { memo, useCallback, useEffect, useMemo } from "react"
 
 import { ImageCategory } from "@/components/common"
-import { IconSearch } from "@/components/icons/IconSearch"
-import { IconXClose } from "@/components/icons/IconXClose"
+import IconSearch from "@/components/icons/IconSearch"
+import IconXClose from "@/components/icons/IconXClose"
 
+import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 import { dispatchClearSearchFilters, dispatchValueSearchFilters, dispatchVisibleSearchFilters, useBanner, useSearchFilters } from "@/store"
 
 import styles from "../styles/search-filters.module.scss"
-import { cx } from "@/lib/cx"
 
-export const SearchFilters = () => {
+export const SearchFilters = memo(function () {
   const visible = useSearchFilters(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
   const history = useSearchFilters(({ history }) => history)
@@ -130,11 +130,12 @@ export const SearchFilters = () => {
   )
 
   return (
-    <div className={styles.wrapper} data-visible={visible}>
+    <div className={cx(styles.wrapper, "w-full h-full fixed inset-0 bg-translucent p-0")} data-visible={visible}>
       <form
         onSubmit={onSubmit}
         data-test="form-search-filters"
         className={cx(
+          "absolute right-6 bg-BG-second rounded-[2rem] w-full overflow-hidden flex flex-col",
           visibleBanner
             ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))]"
             : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
@@ -145,7 +146,7 @@ export const SearchFilters = () => {
             : "h-[5.5rem]",
         )}
       >
-        <header>
+        <header className="px-5 pt-5 pb-2 w-full items-center relative">
           <div data-icon-search>
             <IconSearch />
           </div>
@@ -163,7 +164,7 @@ export const SearchFilters = () => {
             <IconXClose />
           </button>
         </header>
-        <ul data-test="ul-search-filters">
+        <ul data-test="ul-search-filters" className="w-full p-2 flex flex-col overflow-y-auto overflow-x-hidden">
           {filterItems.length ? (
             filterItems.map((item) => (
               <li
@@ -172,27 +173,32 @@ export const SearchFilters = () => {
                   event.stopPropagation()
                   onValue(item.id, item.title)
                 }}
+                className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] py-2.5 px-3 items-start gap-2 rounded-lg cursor-pointer hover:bg-grey-field"
               >
-                <div data-icon>
+                <div className="relative w-5 h-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
                   <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                 </div>
-                <span>{titleInput(item.title)}</span>
+                <span className="text-text-secondary text-base font-normal">{titleInput(item.title)}</span>
               </li>
             ))
           ) : !!input ? (
-            <article>
-              <h3>Ничего не найдено</h3>
-              <p>Попробуйте изменить запрос или опишите его другими словами</p>
+            <article className="pt-16 pl-3 pr-0.5 flex flex-col items-center w-full gap-2.5">
+              <h3 className="text-text-primary text-center text-xl font-semibold">Ничего не найдено</h3>
+              <p className="text-text-primary text-center text-sm font-normal">
+                Попробуйте изменить запрос или опишите его другими словами
+              </p>
             </article>
           ) : (
-            <div data-block-history>
+            <div data-block-history className="w-full flex flex-coll gap-5">
               {!!filterItemsHistory.length ? (
-                <div data-history>
-                  <div data-titles>
-                    <h3>История</h3>
-                    <a onClick={dispatchClearSearchFilters}>Очистить</a>
+                <div data-history className="w-full flex flex-col gap-2.5">
+                  <div data-titles className="w-full px-3 flex items-center justify-between">
+                    <h3 className="text-text-primary text-xl font-semibold">История</h3>
+                    <a onClick={dispatchClearSearchFilters} className="text-text-accent text-sm font-medium cursor-pointer">
+                      Очистить
+                    </a>
                   </div>
-                  <div data-list>
+                  <div data-list className="w-full flex flex-col items-center overflow-y-auto">
                     {filterItemsHistory.map((item) => (
                       <a
                         key={`::key::item::li::categories::search::h::${item.id}::`}
@@ -200,11 +206,12 @@ export const SearchFilters = () => {
                           event.stopPropagation()
                           onValue(item.id, item.title)
                         }}
+                        className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] items-start py-2.5 px-3 gap-2 rounded-lg cursor-pointer hover:bg-grey-field"
                       >
-                        <div data-icon>
+                        <div className="relative w-5 h-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
                           <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                         </div>
-                        <span>{titleHistory(item.title)}</span>
+                        <span className="text-text-secondary text-base font-normal">{titleHistory(item.title)}</span>
                       </a>
                     ))}
                   </div>
@@ -216,7 +223,7 @@ export const SearchFilters = () => {
       </form>
     </div>
   )
-}
+})
 
 interface IValues {
   input: string

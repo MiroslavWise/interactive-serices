@@ -2,27 +2,21 @@
 
 import { useRef } from "react"
 
-import { EnumTypeProvider } from "@/types/enum"
-import { type TServicesFilter } from "./types/types"
-
 import TimesFilter from "./components/TimesFilter"
 import ActiveFilters from "./components/ActiveFilters"
+import ServiceFilters from "./components/ServiceFilters"
 import { ServicesComponent } from "./components/Services"
 import { IconSearch } from "@/components/icons/IconSearch"
 import { IconXClose } from "@/components/icons/IconXClose"
 import { IconFilters } from "@/components/icons/IconFilters"
 
-import { SERVICES } from "./constants"
 import {
   dispatchActiveFilterScreen,
   dispatchCollapseServices,
-  dispatchFiltersServiceProvider,
   dispatchValueSearchFilters,
   dispatchVisibleSearchFilters,
   useBanner,
   useCollapseServices,
-  useFiltersScreen,
-  useFiltersServices,
   useSearchFilters,
 } from "@/store"
 import { cx } from "@/lib/cx"
@@ -31,14 +25,8 @@ import styles from "./styles/style.module.scss"
 
 function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
-  const providers = useFiltersServices(({ providers }) => providers)
-  const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const visibleBanner = useBanner(({ visible }) => visible)
   const parentRef = useRef<HTMLUListElement>(null)
-
-  function handleProvider(value: TServicesFilter) {
-    dispatchFiltersServiceProvider(value)
-  }
 
   return (
     <div
@@ -55,29 +43,9 @@ function BannerServices() {
       <header className="w-full h-[4.875rem] sticky top-0" />
       <ul ref={parentRef} data-test="ul-banner-services" className="relative w-full h-[calc(100%_-_4.875rem)] overflow-y-auto">
         <section data-test="ul-section-banner-services" className="w-full flex flex-col gap-[1.125rem] py-2.5 px-5">
-          <div data-filters-services className="gap-4 w-full flex flex-row items-start justify-start">
-            {SERVICES.map((item) => (
-              <a
-                key={`::key::item::provider::${item.value}::`}
-                data-active={providers === item.value}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleProvider(item.value)
-                }}
-                data-test={`services-a-banner-services-${item.value}`}
-                className={cx(
-                  "relative cursor-pointer",
-                  providers === item.value ? "[&>span]:text-text-accent" : "[&>span]:text-text-secondary",
-                )}
-              >
-                <span className="text-center text-sm font-medium">{item.label}</span>
-              </a>
-            ))}
-          </div>
+          <ServiceFilters />
           <TimesFilter />
-          {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
-            <ActiveFilters activeFilters={activeFilters} />
-          ) : null}
+          <ActiveFilters />
         </section>
         <div data-test="ul-section-container-banner-services" className="flex flex-col items-start gap-4 pt-1.5 px-5 pb-5">
           <ServicesComponent parentRef={parentRef} />

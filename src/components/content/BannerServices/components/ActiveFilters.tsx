@@ -5,10 +5,13 @@ import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
+import { EnumTypeProvider } from "@/types/enum"
 import { getOffersCategories } from "@/services"
-import { dispatchDataFilterScreen } from "@/store"
+import { dispatchDataFilterScreen, useFiltersScreen, useFiltersServices } from "@/store"
 
-function ActiveFilters({ activeFilters }: { activeFilters: number[] }) {
+function ActiveFilters() {
+  const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
+  const providers = useFiltersServices(({ providers }) => providers)
   const { data } = useQuery({
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
@@ -19,6 +22,8 @@ function ActiveFilters({ activeFilters }: { activeFilters: number[] }) {
   }
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
+
+  if (activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers)) return null
 
   return (
     <div data-filters-category data-test="filters-category-banner-services" className="w-full flex flex-row items-start">
