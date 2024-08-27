@@ -36,7 +36,7 @@ function YandexMap() {
   const instanceRef: TTypeInstantsMap = useRef()
   const bounds = useBounds(({ bounds }) => bounds)
   const { on } = useToast()
-  const debouncedCoordinates = useDebounce(onFunctionCoordinates, 1_000)
+  const debouncedCoordinates = useDebounce(onFunctionCoordinates, 1)
   function onFunctionCoordinates() {
     if (zoom !== stateZoom) {
       dispatchMapCoordinatesZoom(stateZoom)
@@ -103,8 +103,8 @@ function YandexMap() {
 
     const [start, end] = bounds
 
-    const newStart = start.map((_) => _ - 0.2 * (10 / (zoom || 1)))
-    const newEnd = end.map((_) => _ + 0.2 * (10 / (zoom || 1)))
+    const newStart = start.map((_) => _ - 0.04 * (10 / (zoom || 1)))
+    const newEnd = end.map((_) => _ + 0.04 * (10 / (zoom || 1)))
 
     return [newStart, newEnd]
   }
@@ -130,12 +130,12 @@ function YandexMap() {
 
             instanceRef.current?.events.add("actionend", (events: any) => {
               const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
+              const _zoom = (events.originalEvent?.target?._zoom as number) || zoom
               const newB = boundsExpansion(bounds)
               dispatchBounds(newB)
-
-              const _zoom = (events.originalEvent?.target?._zoom as number) || zoom
-              setStateZoom(_zoom)
-              debouncedCoordinates()
+              if (_zoom !== zoom) {
+                dispatchMapCoordinatesZoom(_zoom)
+              }
             })
           })
         }}
