@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
+import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemProfile from "../components/ItemProfile"
@@ -10,7 +10,7 @@ import BlockComments from "../components/BlockComments"
 import ItemImages from "../Offer/components/ItemImages"
 import ComponentHelper from "../components/ComponentHelper"
 import BlockAction from "../Discussion/components/BlockAction"
-import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
+import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { cx } from "@/lib/cx"
@@ -32,7 +32,7 @@ function BalloonAlert() {
         data-color={EnumTypeProvider.alert}
       >
         <div className="w-6 h-6 relative p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *h-6">
-          <IconAlertBalloon />
+          <IconAlertCirlceRed />
         </div>
         <h3 style={{ color: "var(--text-primary)" }}>{title ? title : "SOS-cообщение"}</h3>
       </header>

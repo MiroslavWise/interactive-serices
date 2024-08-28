@@ -16,6 +16,7 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { resolver, type TTypeSchema } from "../utils/schema"
 import { fileUploadService, getMessages, postMessage } from "@/services"
+import { useDebounce } from "@/helpers"
 
 const MAX_FILE_SIZE = 9.9 * 1024 * 1024
 const sleep = () => new Promise((r) => setTimeout(r, 50))
@@ -39,6 +40,7 @@ function FooterFormCreateMessage({
     file: [],
     string: [],
   })
+  // const das = useDebounce( ,150)
 
   const dispatchDelete = useCallback(
     (index: number) => {
