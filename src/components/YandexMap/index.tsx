@@ -4,10 +4,11 @@ import { Clusterer, Map } from "@pbe/react-yandex-maps"
 import { useEffect, useCallback, useRef, useState } from "react"
 
 import { EnumSign } from "@/types/enum"
-import type { TTypeInstantsMap, TYandexMap } from "./types"
+import { type TTypeInstantsMap } from "./types"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import HeaderMap from "./Header"
-import { ListPlacemark } from "./ObjectsMap"
+import ListPlacemark from "./ObjectsMap"
 
 import { useAddress, useDebounce } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -23,7 +24,6 @@ import {
   useBounds,
   useMapCoordinates,
 } from "@/store"
-import { IResponseOffers } from "@/services/offers/types"
 
 const COORD = [37.427698, 55.725864]
 

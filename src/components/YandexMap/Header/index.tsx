@@ -11,7 +11,7 @@ function HeaderMap() {
       id="headerRef"
       className={cx(
         "[&>*]:max-md:hidden md:block fixed left-1/2 -translate-x-1/2 z-[2] max-w-[21.625rem] w-full min-w-40 max-md:hidden",
-        visible ? "top-[calc(6.3125rem_+_2.75rem)]" : "top-[6.3125rem]",
+        visible ? "top-[calc(6.3125rem_+_var(--height-banner))]" : "top-[6.3125rem]",
       )}
       data-test="div-search-map"
     >

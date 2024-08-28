@@ -235,7 +235,8 @@ export default function ReciprocalExchange() {
                 }}
                 onClick={(event) => {
                   event.stopPropagation()
-                  dispatchReciprocalExchangeCollapse(true)
+                  // dispatchReciprocalExchangeCollapse(true)
+                  dispatchReciprocalExchange({ visible: false })
                 }}
               >
                 <img src="/svg/message-dots-circle-primary.svg" alt="dots" width={24} height={24} />

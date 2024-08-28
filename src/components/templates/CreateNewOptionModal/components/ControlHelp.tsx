@@ -28,14 +28,14 @@ function ControlHelp({ control }: IProps) {
               "h-6 w-[2.625rem] rounded-xl cursor-pointer p-1 flex flex-row items-center transition-all",
               field.value ? "bg-text-accent justify-end" : "bg-grey-stroke justify-start",
             )}
-            onClick={(event) => field.onChange(!field.value)}
+            onClick={() => field.onChange(!field.value)}
           >
             <span className="rounded-full h-4 w-4 bg-text-button" />
           </button>
           <span
             className={cx(
               "py-1.5 px-2.5 grid grid-cols-[1rem_minmax(0,1fr)] gap-2 items-center h-8 rounded-2xl",
-              field.value ? "[background:linear-gradient(90deg,_#f56b58_0%,_#fa4d81_100%)]" : "!bg-grey-field",
+              field.value ? "[background:var(--more-red-gradient)]" : "!bg-grey-field",
             )}
           >
             <div className="relative w-4 h-4 p-2 *:absolute *:top-1/2 *:left-1/2 *:-translate-y-1/2 *:-translate-x-1/2 *:w-4 *:h-4">
