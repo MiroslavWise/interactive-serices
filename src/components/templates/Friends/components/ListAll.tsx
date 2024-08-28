@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query"
 
 import { type TFriends } from "../constants/segments"
 
+import NoFriends from "./NoFriends"
+import LoadingFriends from "./LoadingFriends"
 import IconAccentChat from "@/components/icons/IconAccentChat"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
@@ -11,13 +13,10 @@ import RatingAndFeedbackComponent from "./RatingAndFeedbackComponent"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
-import env from "@/config/environment"
 import { useAuth, useFriends } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { getFiendId, getFriends, serviceFriends } from "@/services"
-import NoFriends from "./NoFriends"
-import LoadingFriends from "./LoadingFriends"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -98,10 +97,7 @@ function ListAll({ state }: { state: TFriends }) {
       <p className="text-left text-text-primary text-sm font-medium">{name}</p>
       <ul className="w-full flex flex-col gap-6 overflow-y-auto">
         {filterFriends.map((item) => (
-          <li
-            key={`:key:friend:${item.id}:`}
-            className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_calc(10.1875rem_+_2.25rem_+_0.625rem)] gap-3"
-          >
+          <li key={`:key:friend:${item.id}:`} className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3">
             <Link
               prefetch={false}
               href={{ pathname: `/customer/${item.id}` }}
