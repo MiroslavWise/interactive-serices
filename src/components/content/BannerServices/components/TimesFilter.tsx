@@ -91,7 +91,7 @@ function TimesFilter() {
           className={cx(
             "grid py-2 px-2.5 gap-2 rounded-lg cursor-pointer",
             urgent === key
-              ? "[background:linear-gradient(90deg,_#f56b58_0%,_#fa4d81_100%)] grid-cols-[1rem_minmax(0,1fr)_1rem]"
+              ? "[background:var(--more-red-gradient)] grid-cols-[1rem_minmax(0,1fr)_1rem]"
               : "bg-BG-filter-red grid-cols-[1rem_minmax(0,1fr)]",
           )}
           onClick={() => {

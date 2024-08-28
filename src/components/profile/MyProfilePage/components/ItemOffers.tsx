@@ -51,7 +51,7 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
     <li className="w-full bg-BG-second rounded-2xl flex flex-col overflow-hidden" onClick={handle}>
       <article
         className={cx(
-          "w-full [background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)] flex-row items-center justify-center gap-2 py-1.5 px-2.5",
+          "w-full [background:var(--more-red-gradient)] flex-row items-center justify-center gap-2 py-1.5 px-2.5",
           !!urgent ? "flex" : "hidden",
         )}
       >

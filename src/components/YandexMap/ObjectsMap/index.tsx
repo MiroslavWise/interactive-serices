@@ -11,7 +11,7 @@ import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, useFiltersServices } from "@/store"
 
-export const ListPlacemark = memo(function ListPlacemark() {
+function ListPlacemark() {
   const { itemsOffers } = useMapOffers()
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
 
@@ -90,4 +90,7 @@ export const ListPlacemark = memo(function ListPlacemark() {
       }}
     />
   ))
-})
+}
+
+ListPlacemark.displayName = "ListPlacemark"
+export default memo(ListPlacemark)
