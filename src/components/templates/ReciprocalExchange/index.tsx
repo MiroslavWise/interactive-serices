@@ -196,7 +196,8 @@ export default function ReciprocalExchange() {
     !watch("select_new_proposal") ||
     (watch("select_new_proposal") === ETypeOfNewCreated.interesting && (!watch("description")?.trim() || !watch("category"))) ||
     (watch("select_new_proposal") === ETypeOfNewCreated.their && !watch("my_offer")) ||
-    ((watch("select_new_proposal") === ETypeOfNewCreated.new && (!watch("description_new_offer") || !watch("categoryId"))) || watch("check")
+    ((watch("select_new_proposal") === ETypeOfNewCreated.new && (!watch("description_new_offer")?.trim() || !watch("categoryId"))) ||
+    watch("check")
       ? !watch("addressFeature")
       : false)
 
