@@ -32,7 +32,7 @@ function BalloonOffer() {
             <ImageCategory id={offer?.categoryId!} slug={offer?.category?.slug} provider={offer?.category?.provider} />
           ) : null}
         </div>
-        <h3>{offer?.category?.title}</h3>
+        <h3 className="line-clamp-2 text-ellipsis">{offer?.category?.title}</h3>
       </header>
       <div data-container className="w-full p-0 md:rounded-b-[2rem]">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
