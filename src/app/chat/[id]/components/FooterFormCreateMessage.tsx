@@ -2,21 +2,21 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
-import { ChangeEvent, Dispatch, memo, RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react"
+import { type ChangeEvent, type Dispatch, memo, type RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 
 import { type IMessages } from "./Page"
 import { EnumTypeProvider } from "@/types/enum"
-import LoadingFooter from "../../components/LoadingFooter"
 import { type IResponseThread } from "@/services/threads/types"
 import { type IRequestPostMessages } from "@/services/messages/types"
 
 import SendingPhotos from "./SendingPhotos"
+import LoadingFooter from "../../components/LoadingFooter"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
-import { resolver, type TTypeSchema } from "../utils/schema"
-import { fileUploadService, getMessages, postMessage } from "@/services"
 import { useDebounce } from "@/helpers"
+import { resolver, type TTypeSchema } from "../utils/schema"
+import { deCrypted, dispatchMessageDraft, useAuth, useDraftChat } from "@/store"
+import { fileUploadService, getMessages, postMessage } from "@/services"
 
 const MAX_FILE_SIZE = 9.9 * 1024 * 1024
 const sleep = () => new Promise((r) => setTimeout(r, 50))
@@ -26,12 +26,15 @@ function FooterFormCreateMessage({
   ferUl,
   setMessages,
   isLoadingThread,
+  id,
 }: {
   thread: IResponseThread
   isLoadingThread: boolean
   ferUl: RefObject<HTMLUListElement>
   setMessages: Dispatch<SetStateAction<IMessages[]>>
+  id: number | string
 }) {
+  const message = useDraftChat((chats) => chats[id])
   const textRef = useRef<HTMLTextAreaElement>(null)
   const refForm = useRef<HTMLFormElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -40,7 +43,6 @@ function FooterFormCreateMessage({
     file: [],
     string: [],
   })
-  // const das = useDebounce( ,150)
 
   const dispatchDelete = useCallback(
     (index: number) => {
@@ -105,12 +107,18 @@ function FooterFormCreateMessage({
     enabled: false,
   })
 
-  const { handleSubmit, watch, control, reset } = useForm<TTypeSchema>({
+  const { handleSubmit, watch, control, resetField, setValue } = useForm<TTypeSchema>({
     resolver: resolver,
     defaultValues: {
-      text: "",
+      text: deCrypted(message) ?? "",
     },
   })
+
+  const updateMessageDraft = useDebounce(functionMessage, 15)
+
+  function functionMessage() {
+    dispatchMessageDraft(thread?.id, watch("text"))
+  }
 
   useEffect(() => {
     if (textRef.current) {
@@ -177,7 +185,9 @@ function FooterFormCreateMessage({
           textRef.current.style.height = "2.5rem"
           textRef.current.style.borderRadius = `1.25rem`
         }
-        reset()
+        resetField("text")
+        setValue("text", "")
+        dispatchMessageDraft(thread?.id, null)
         setFiles({ file: [], string: [] })
       })
       const response = await Promise.all(
@@ -220,7 +230,10 @@ function FooterFormCreateMessage({
           <div className="w-full relative flex">
             <textarea
               value={field.value}
-              onChange={field.onChange}
+              onChange={(event) => {
+                field.onChange(event)
+                updateMessageDraft()
+              }}
               className={cx(
                 "w-full min-h-10 h-10 max-h-40 md:max-h-[13.75rem] py-2.5 pl-4 pr-[2.875rem] resize-none",
                 "text-text-primary font-normal text-base md:text-sm",
@@ -232,6 +245,7 @@ function FooterFormCreateMessage({
                   onSubmit()
                 }
               }}
+              disabled={loading}
               placeholder="Написать сообщение..."
               ref={textRef}
             />

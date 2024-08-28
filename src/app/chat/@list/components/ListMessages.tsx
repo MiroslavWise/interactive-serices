@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 
 import LoadingItem from "./LoadingItem"
 import ItemMessageChat from "./ItemMessageChat"
@@ -57,4 +57,4 @@ function ListMessages() {
 }
 
 ListMessages.displayName = "ListMessages"
-export default ListMessages
+export default memo(ListMessages)

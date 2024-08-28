@@ -10,7 +10,15 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
 import { getUserId, getFriends } from "@/services"
-import { dispatchActiveServicesFrom, dispatchModal, dispatchOptionProfileMobile, EModalData, useAuth, useDroverFriends } from "@/store"
+import {
+  dispatchActiveServicesFrom,
+  dispatchModal,
+  dispatchMyFriends,
+  dispatchOptionProfileMobile,
+  EModalData,
+  useAuth,
+  useDroverFriends,
+} from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
@@ -58,10 +66,6 @@ export const MContainerAboutProfile = () => {
 
   function handleOpenOption() {
     dispatchOptionProfileMobile(true)
-  }
-
-  function handleOpen() {
-    dispatchFriends({ visible: true })
   }
 
   return (
@@ -154,7 +158,7 @@ export const MContainerAboutProfile = () => {
             <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
           </article>
         </button>
-        <button onClick={handleOpen} data-friends data-test="button-open-modal-friends">
+        <button onClick={dispatchMyFriends} data-friends data-test="button-open-modal-friends">
           <h4>Мои друзья</h4>
           <article>
             <h3>{friends}</h3>

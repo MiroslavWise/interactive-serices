@@ -3,7 +3,9 @@
 import Link from "next/link"
 import { useMemo } from "react"
 import { useParams } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
 
+import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThreads } from "@/services/threads/types"
 
 import ChatIconProvider from "./ChatIconProvider"
@@ -12,12 +14,10 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
 import { formatOfMMMM } from "@/helpers"
-import { useAuth, useOnline } from "@/store"
-import { onNumberOfPhotos } from "@/helpers/number-of-photos"
-import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
-import { EnumProviderThreads } from "@/types/enum"
 import { getBarterId, getIdOffer } from "@/services"
-import { useQuery } from "@tanstack/react-query"
+import { onNumberOfPhotos } from "@/helpers/number-of-photos"
+import { deCrypted, useAuth, useDraftChat, useOnline } from "@/store"
+import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const params = useParams()
@@ -25,6 +25,8 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id } = (params as { id?: string | number }) ?? {}
   const { provider } = item ?? {}
+  const cryptMessage = useDraftChat((chats) => chats[item.id])
+  const draftMessage = deCrypted(cryptMessage)
 
   const barterId = item?.provider === EnumProviderThreads.BARTER ? item?.barterId : null
   const offerId = item?.provider === EnumProviderThreads.OFFER_PAY ? item?.offerId : null
@@ -89,7 +91,9 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
     <div
       className={cx(
         "w-full grid items-center",
-        images.length
+        !!draftMessage
+          ? ""
+          : images.length
           ? notRead
             ? images.length === 1
               ? `grid-cols-[1rem_minmax(0,1fr)_1.1875rem] gap-1.5`
@@ -119,11 +123,12 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
       </div>
       <p
         className={cx(
-          " font-normal text-sm text-left line-clamp-1 text-ellipsis",
+          "font-normal text-sm text-left line-clamp-1 text-ellipsis",
           images.length && !message?.message ? "text-text-accent" : "text-text-secondary",
         )}
       >
-        {message?.message ? message?.message : !!images.length ? namePhotos : "Нет сообщений"}
+        <span className={draftMessage ? "text-text-error" : "hidden"}>Черновик: </span>
+        {draftMessage ? draftMessage : message?.message ? message?.message : !!images.length ? namePhotos : "Нет сообщений"}
       </p>
       <div
         className={cx(
@@ -187,8 +192,8 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
             </time>
           </div>
         </div>
-        <p className="text-text-primary font-normal text-sm text-left line-clamp-1 text-ellipsis">{messageType}</p>
-        {c}
+        <p className="text-text-primary font-normal text-sm text-left line-clamp-1 text-ellipsis whitespace-nowrap">{messageType}</p>
+        <p className="text-text-secondary">{c}</p>
       </article>
     </Link>
   )

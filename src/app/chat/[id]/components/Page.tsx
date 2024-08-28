@@ -47,7 +47,7 @@ export default ({ id }: { id: string | number }) => {
     >
       <HeaderChatId thread={thread} isLoadingThread={isLoadingThread} />
       <ListMessages thread={thread} ferUl={ferUl} setMessages={setMessages} messages={messages} />
-      <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} ferUl={ferUl} setMessages={setMessages} />
+      <FooterFormCreateMessage thread={thread} isLoadingThread={isLoadingThread} ferUl={ferUl} setMessages={setMessages} id={id} />
     </section>
   )
 }

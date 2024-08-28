@@ -4,7 +4,7 @@ import { type IResponse, postForm } from "../request"
 
 import { generateShortHash } from "@/lib/hash"
 
-function getFileDimensions(uploadFile: File): Promise<{ width: number; height: number }> {
+async function getFileDimensions(uploadFile: File): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
 

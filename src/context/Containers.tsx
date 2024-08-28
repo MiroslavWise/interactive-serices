@@ -33,6 +33,7 @@ import {
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
+import MyFriends from "@/components/templates/MyFriends"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
@@ -79,9 +80,10 @@ export const Containers = () => {
       {visibleHasBalloon && <HasClustererBalloons />}
       {isAuth && (
         <>
-          <NotificationCreateService />
+          <MyFriends />
           <Onboarding />
           <PreCloseCreateService />
+          <NotificationCreateService />
           {visibleChangeService && <ChangeService />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}

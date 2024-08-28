@@ -34,7 +34,7 @@ function BalloonDiscussion() {
         <div className="w-6 h-6 relative p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *h-6">
           <IconDiscussionBalloon />
         </div>
-        <h3> {title ? title : "Обсуждение"}</h3>
+        <h3 className="line-clamp-2 text-ellipsis">{title ? title : "Обсуждение"}</h3>
       </header>
       <div data-container className="w-full p-0 md:rounded-b-[2rem]">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">

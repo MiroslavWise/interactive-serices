@@ -81,11 +81,11 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
           <div
             data-current
             className={cx(
-              "absolute -translate-y-1/2 left-3.5 h-8 p-1 pr-1.5 grid grid-cols-[1.5rem_minmax(0,1fr)] items-center gap-1 border border-grey-stroke-light border-solid rounded-2xl bg-grey-field",
+              "absolute -translate-y-1/2 left-3.5 h-8 p-1 pr-1.5 grid grid-cols-[1.5rem_minmax(0,1fr)_1rem] items-center gap-1 border border-grey-stroke-light border-solid rounded-2xl bg-grey-field",
               !!field.value ? "z-[90] visible opacity-100" : "opacity-0 invisible -z-10",
             )}
           >
-            <div className="w-6 h-6 bg-BG-icons relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+            <div className="w-6 h-6 rounded-full bg-BG-icons relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
               {field.value ? (
                 <ImageCategory
                   id={field.value!}
