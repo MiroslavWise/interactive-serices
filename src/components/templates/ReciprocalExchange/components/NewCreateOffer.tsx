@@ -68,7 +68,7 @@ export const NewCreateOffer = memo(({}: IProps) => {
                 placeholder="Описание предложения..."
                 minLength={1}
                 maxLength={512}
-                onChange={(event) => setValue("description_new_offer", event.target.value)}
+                onChange={(event) => setValue("description_new_offer", event.target.value.replaceAll(/\s{2,}/g, " "))}
                 data-error={!!error}
               />
               <span>{field.value?.length || 0}/512</span>
