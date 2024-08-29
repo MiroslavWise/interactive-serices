@@ -17,6 +17,7 @@ import { useDebounce } from "@/helpers"
 import { resolver, type TTypeSchema } from "../utils/schema"
 import { deCrypted, dispatchMessageDraft, useAuth, useDraftChat } from "@/store"
 import { fileUploadService, getBarterId, getMessages, postMessage } from "@/services"
+import Link from "next/link"
 
 const MAX_FILE_SIZE = 9.9 * 1024 * 1024
 const sleep = () => new Promise((r) => setTimeout(r, 50))
@@ -41,7 +42,7 @@ function FooterFormCreateMessage({
 
   const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
 
-  const { data } = useQuery({
+  const { data, isLoading: isLoadingBarter } = useQuery({
     queryFn: () => getBarterId(barterId!),
     queryKey: ["barters", { id: barterId! }],
     enabled: !!barterId,
@@ -182,7 +183,7 @@ function FooterFormCreateMessage({
           parentId: null,
           threadId: Number(thread?.id!),
           emitterId: userId!,
-          receiverIds: [],
+          receiverIds: [receiverID],
           images: [],
           readIds: [],
           imagesString: filesState.string,
@@ -225,7 +226,26 @@ function FooterFormCreateMessage({
     }
   })
 
-  if (isLoadingThread) return <LoadingFooter />
+  if (isLoadingThread || isLoadingBarter) return <LoadingFooter />
+
+  if (disabledBarterCompleted)
+    return (
+      <div className="w-full fixed md:absolute py-3 md:py-4 px-2.5 bottom-0 left-0 right-0 bg-BG-second border-t border-solid border-grey-stroke z-50 h-16 md:h-[4.5rem] flex flex-col items-center gap-1 justify-center">
+        <p className="text-xs text-center text-text-secondary font-normal">Обмен завершён</p>
+        <Link
+          className="text-sm font-medium text-center text-text-accent"
+          href={{
+            pathname: "/chat",
+            query: {
+              user: receiverID,
+            },
+          }}
+          prefetch={false}
+        >
+          Продолжить в личном чате
+        </Link>
+      </div>
+    )
 
   return (
     <form
@@ -246,7 +266,7 @@ function FooterFormCreateMessage({
                 updateMessageDraft()
               }}
               className={cx(
-                "w-full min-h-10 h-10 max-h-40 md:max-h-[13.75rem] py-2.5 pl-4 pr-[2.875rem] resize-none",
+                "w-full min-h-10 h-10 max-h-40 md:max-h-[13.75rem] py-2.5 pl-4 pr-[2.875rem] resize-none disabled:cursor-no-drop",
                 "text-text-primary font-normal text-base md:text-sm",
                 "rounded-[1.25rem] border border-solid border-grey-stroke",
                 "placeholder:text-text-secondary outline-none",
@@ -265,7 +285,7 @@ function FooterFormCreateMessage({
             <div className="absolute right-4 bottom-2.5 w-5 h-5 bg-transparent border-none outline-none cursor-pointer z-40 overflow-hidden">
               <input
                 type="file"
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 max-w-6 h-6 opacity-0 cursor-pointer z-30"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 max-w-6 h-6 opacity-0 cursor-pointer z-30 disabled:cursor-no-drop"
                 accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg"
                 multiple
                 onChange={async (event) => {
@@ -274,6 +294,7 @@ function FooterFormCreateMessage({
                   setFiles(dataValues)
                   event.target.value = ""
                 }}
+                disabled={disabledBarterCompleted}
               />
               <svg
                 width="20"
@@ -298,7 +319,7 @@ function FooterFormCreateMessage({
       <button
         type="submit"
         className={cx(
-          "w-8 h-10 px-4 py-5 relative border-none outline-none",
+          "w-8 h-10 px-4 py-5 relative border-none outline-none disabled:cursor-no-drop",
           !disabled || disabledBarterCompleted ? "opacity-100" : "opacity-50",
         )}
         disabled={disabled || disabledBarterCompleted}
