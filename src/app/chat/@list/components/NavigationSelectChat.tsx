@@ -59,7 +59,7 @@ function NavigationSelectChat() {
   }, [items, userId])
 
   return (
-    <nav className="scroll-no overflow-x-auto w-full flex flex-row flex-nowrap gap-5 pb-0.375 ">
+    <nav className="scroll-no overflow-x-auto flex flex-row flex-nowrap gap-5 pb-0.375 px-5 -mx-5 w-[calc(100%_+_2.5rem)]">
       {NAV_MENU.map((_) => (
         <a
           key={`::key::nav::chat::${_.value}::`}
