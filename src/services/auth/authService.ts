@@ -52,7 +52,7 @@ export async function refresh() {
 
   const expires = auth?.expires
   const refreshToken = auth?.refreshToken
-  const email = user?.email
+  const email = auth?.email
 
   const boolean = isTokenExpired(expires ? Number(expires) : undefined)
 

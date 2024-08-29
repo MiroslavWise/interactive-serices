@@ -119,6 +119,7 @@ const objUseAuth = z.object({
   scope: z.string(),
   tokenType: z.string().default("Bearer"),
   counter: z.number(),
+  email: z.string(),
 })
 
 export type TAuth = z.infer<typeof objUseAuth>
