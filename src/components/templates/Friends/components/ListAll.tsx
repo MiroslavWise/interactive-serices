@@ -16,7 +16,7 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 import { useAuth, useFriends } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
-import { getFiendId, getFriends, serviceFriends } from "@/services"
+import { getFiendId, getFriends, postFriend } from "@/services"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -75,7 +75,7 @@ function ListAll({ state }: { state: TFriends }) {
     const disabled = disabledOnFriendsRequest(id)
 
     if (!disabled) {
-      serviceFriends.post({ id: id }).then((response) => {
+      postFriend({ id: id }).then((response) => {
         if (response.ok) {
           if (dataResponse?.data?.some((item) => item?.id === userId)) {
             on({ message: "Вы приняли заявку в друзья" }, "success")

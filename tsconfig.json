@@ -20,6 +20,7 @@
       }
     ],
     "paths": {
+      "@console": ["./src/lib/console.ts"],
       "@/*": ["./src/*"]
     }
   },

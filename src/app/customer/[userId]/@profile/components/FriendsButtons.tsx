@@ -14,9 +14,9 @@ import IconCheckAccent from "@/components/icons/IconCheckAccent"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 
 import { cx } from "@/lib/cx"
-import { dispatchAuthModal, useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
-import { getFiendId, getFriends, serviceFriends } from "@/services"
+import { dispatchAuthModal, useAuth } from "@/store"
+import { deleteFriend, getFiendId, getFriends, postFriend } from "@/services"
 
 function FriendsButtons({ user }: { user: IUserResponse }) {
   const [loading, setLoading] = useState(false)
@@ -75,7 +75,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
     if (user?.id! !== userId! && userId) {
       if (!loading) {
         setLoading(true)
-        serviceFriends.post({ id: Number(user?.id!) }).then((response) => {
+        postFriend({ id: Number(user?.id!) }).then((response) => {
           if (response?.ok) {
             if (isResponse) {
               setIsResponse(false)
@@ -92,7 +92,6 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
             }
           }
           setLoading(false)
-          console.log("serviceFriends: ", response)
         })
       }
     }
@@ -102,7 +101,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
     if (user?.id! !== userId! && userId) {
       if (!loading) {
         setLoading(true)
-        serviceFriends.delete(user?.id!).then((response) => {
+        deleteFriend(user?.id!).then((response) => {
           if (response?.ok) {
             if (isResponse) {
               setIsResponse(false)

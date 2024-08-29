@@ -2,7 +2,6 @@ import Link from "next/link"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 import IconXClose from "@/components/icons/IconXClose"
 import NoFriends from "../Friends/components/NoFriends"
 import IconAccentChat from "@/components/icons/IconAccentChat"
@@ -10,11 +9,12 @@ import IconCheckFriend from "@/components/icons/IconCheckFriend"
 import LoadingFriends from "../Friends/components/LoadingFriends"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
+import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 import RatingAndFeedbackComponent from "../Friends/components/RatingAndFeedbackComponent"
 
 import { cx } from "@/lib/cx"
+import { getFriends, postFriend } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
-import { getFriends, serviceFriends } from "@/services"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { dispatchMyFriends, useAuth, useMyFriends } from "@/store"
 
@@ -50,7 +50,7 @@ function MyFriends() {
   function onHandleAdd(id: number) {
     if (!loadingAdd) {
       setLoadingAdd(true)
-      serviceFriends.post({ id: id }).then((response) => {
+      postFriend({ id: id }).then((response) => {
         if (response.ok) {
           refetchResponse().then(() => setLoadingAdd(false))
           on({ message: "Вы приняли заявку в друзья" }, "success")

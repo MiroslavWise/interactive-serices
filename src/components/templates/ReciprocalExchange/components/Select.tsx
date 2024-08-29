@@ -5,7 +5,8 @@ import { useFormContext } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { ETypeOfNewCreated, IFormValues } from "../types/types"
+import { ETypeOfNewCreated, type IFormValues } from "../types/types"
+import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import { OffersMy } from "./OffersMy"
 import { NewCreateOffer } from "./NewCreateOffer"
@@ -14,7 +15,6 @@ import { CategoriesWants } from "./CategoriesWants"
 import { useAuth } from "@/store"
 import { getUserIdOffers } from "@/services"
 import { SELECT_NEW_PROPOSAL } from "../constants/select"
-import { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import styles from "../styles/choose-an-offer.module.scss"
 

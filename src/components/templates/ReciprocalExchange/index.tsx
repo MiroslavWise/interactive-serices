@@ -5,10 +5,9 @@ import { memo, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { FormProvider, useForm } from "react-hook-form"
 
-import type { IReturnData } from "@/services/types/general"
-import type { IPostDataBarter } from "@/services/barters/types"
+import { type IPostDataBarter } from "@/services/barters/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
-import type { IPostOffers, IResponseCreate } from "@/services/offers/types"
+import { type IPostOffers, type IResponseCreate } from "@/services/offers/types"
 
 import { ETypeOfNewCreated, IFormValues } from "./types/types"
 
@@ -21,7 +20,7 @@ import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { createAddress } from "@/helpers/address/create"
-import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories, IResponse } from "@/services"
+import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories, type IResponse } from "@/services"
 import { dispatchBallonOffer, useReciprocalExchange, dispatchReciprocalExchange, useAuth, dispatchRefresh } from "@/store"
 
 function ReciprocalExchange() {

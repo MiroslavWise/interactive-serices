@@ -3,11 +3,11 @@
 import { memo } from "react"
 import { useFormContext } from "react-hook-form"
 
-import { ETypeOfNewCreated, IFormValues } from "../types/types"
+import { ETypeOfNewCreated, type IFormValues } from "../types/types"
 
 import { ImageCategory } from "@/components/common"
 
-import { IResponseOffersCategories } from "@/services/offers-categories/types"
+import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import styles from "../styles/categories-wants.module.scss"
 
