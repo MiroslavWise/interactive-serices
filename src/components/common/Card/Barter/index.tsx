@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { useCallback, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -9,14 +10,15 @@ import { LoadingProfile } from "../../Loading"
 import { BadgeStatus } from "./components/BadgeStatus"
 import { IconRevers } from "@/components/icons/IconRevers"
 import { ImageCategory, NextImageMotion } from "../../Image"
+import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
+import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
 import { dispatchInitiatedBarter, useAuth } from "@/store"
 import { getOffersCategories, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import Link from "next/link"
 
 const title: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.EXECUTED, "Начало обмена"],
@@ -69,12 +71,18 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
   )
 
   return (
-    <article className={styles.container} data-status={status}>
+    <article
+      className={cx(
+        styles.container,
+        "w-full rounded-2xl border border-solid border-grey-stroke-light bg-BG-second flex flex-col gap-3 p-3",
+      )}
+      data-status={status}
+    >
       {[EnumStatusBarter.EXECUTED, EnumStatusBarter.COMPLETED].includes(status!) ? (
-        <header>
-          <span>
+        <header className="w-full flex items-center justify-between gap-1">
+          <span className="text-text-secondary text-[0.8125rem] left-4 font-normal">
             {title.has(status) ? title.get(status) : null}{" "}
-            <time dateTime={String(EnumStatusBarter.EXECUTED === status ? created : updated)}>
+            <time dateTime={String(EnumStatusBarter.EXECUTED === status ? created : updated)} className="text-text-primary">
               {dayFormat(EnumStatusBarter.EXECUTED === status ? created : updated, "dd.MM.yy")}
             </time>
           </span>
@@ -84,41 +92,68 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       {isLoadingUser ? (
         <LoadingProfile />
       ) : (
-        <Link data-profile href={{ pathname: `/customer/${idUser}` }}>
-          <div data-avatar>
-            <NextImageMotion src={dataUser?.data?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
+        <Link
+          data-profile
+          href={{ pathname: `/customer/${idUser}` }}
+          target="_blank"
+          className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3"
+        >
+          <div
+            data-avatar
+            className={cx(
+              "relative w-10 h-10 p-5 overflow-hidden rounded-[0.625rem]",
+              !!dataUser?.data?.profile?.image?.attributes?.url ? "bg-BG-first" : "bg-grey-stroke-light",
+            )}
+          >
+            {!!dataUser?.data?.profile?.image?.attributes?.url ? (
+              <NextImageMotion
+                src={dataUser?.data?.profile?.image?.attributes?.url!}
+                alt="avatar"
+                width={40}
+                height={40}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-[0.625rem] overflow-hidden z-10"
+              />
+            ) : (
+              <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6" />
+            )}
           </div>
-          <div data-inform>
-            <span>
-              {dataUser?.data?.profile?.firstName || " "} {dataUser?.data?.profile?.lastName || " "}&nbsp;
-              <IconVerifiedTick />
+          <div data-inform className="flex flex-col gap-0.5">
+            <span className="flex flex-nowrap text-text-primary text-sm font-medium">
+              {dataUser?.data?.profile?.firstName || "Имя"} {dataUser?.data?.profile?.lastName || "Фамилия"}&nbsp;
+              <div className="relative w-4 h-4 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                <IconVerifiedTick />
+              </div>
             </span>
           </div>
         </Link>
       )}
       {status === EnumStatusBarter.INITIATED ? (
-        <section data-initiated>
-          <p>{barter?.initiator?.title || ""}</p>
+        <section data-initiated className="w-full flex flex-col gap-2">
+          <p className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">{barter?.initiator?.title || ""}</p>
         </section>
       ) : null}
       {categoriesBarter ? (
-        <section data-categories>
+        <section data-categories className="w-full flex flex-wrap gap-1">
           <div data-first>
             <article>
-              <div data-icon>
+              <div className="relative bg-BG-icons rounded-full overflow-hidden p-3 w-6 h-6 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                 <ImageCategory id={categoriesBarter?.start?.categoryId} />
               </div>
-              <span>{titleCategory(categoriesBarter?.start?.categoryId)}</span>
+              <span className="text-text-primary text-sm text-ellipsis line-clamp-1 font-normal">
+                {titleCategory(categoriesBarter?.start?.categoryId)}
+              </span>
             </article>
             <IconRevers />
           </div>
           <article data-me>
-            <div data-icon>
+            <div className="relative bg-BG-icons rounded-full overflow-hidden p-3 w-6 h-6 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
               <ImageCategory id={categoriesBarter?.end?.categoryId} />
             </div>
-            <span>{titleCategory(categoriesBarter?.end?.categoryId)}</span>
+            <span className="text-text-primary text-sm text-ellipsis line-clamp-1 font-normal">
+              {titleCategory(categoriesBarter?.end?.categoryId)}
+            </span>
             <div data-avatar>
-              <NextImageMotion src={dataUserMe?.data?.profile?.image?.attributes?.url!} alt="avatar" width={24} height={24} />
+              <NextImageMotion src={dataUserMe?.data?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
             </div>
           </article>
         </section>

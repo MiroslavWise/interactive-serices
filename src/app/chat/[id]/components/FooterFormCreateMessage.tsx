@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form"
 import { type ChangeEvent, type Dispatch, memo, type RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 
 import { type IMessages } from "./Page"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumProviderThreads, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 import { type IRequestPostMessages } from "@/services/messages/types"
 
@@ -16,7 +16,7 @@ import { cx } from "@/lib/cx"
 import { useDebounce } from "@/helpers"
 import { resolver, type TTypeSchema } from "../utils/schema"
 import { deCrypted, dispatchMessageDraft, useAuth, useDraftChat } from "@/store"
-import { fileUploadService, getMessages, postMessage } from "@/services"
+import { fileUploadService, getBarterId, getMessages, postMessage } from "@/services"
 
 const MAX_FILE_SIZE = 9.9 * 1024 * 1024
 const sleep = () => new Promise((r) => setTimeout(r, 50))
@@ -38,6 +38,17 @@ function FooterFormCreateMessage({
   const textRef = useRef<HTMLTextAreaElement>(null)
   const refForm = useRef<HTMLFormElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+
+  const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
+
+  const { data } = useQuery({
+    queryFn: () => getBarterId(barterId!),
+    queryKey: ["barters", { id: barterId! }],
+    enabled: !!barterId,
+  })
+
+  const disabledBarterCompleted = data?.data?.status === EnumStatusBarter.COMPLETED
+
   const [loading, setLoading] = useState(false)
   const [filesState, setFiles] = useState<{ file: File[]; string: string[] }>({
     file: [],
@@ -245,8 +256,10 @@ function FooterFormCreateMessage({
                   onSubmit()
                 }
               }}
-              disabled={loading}
-              placeholder="Написать сообщение..."
+              disabled={loading || disabledBarterCompleted}
+              placeholder={
+                disabledBarterCompleted ? "Обмен завершён. Оставьте отзыв или продолжите общение в личном чате" : "Написать сообщение..."
+              }
               ref={textRef}
             />
             <div className="absolute right-4 bottom-2.5 w-5 h-5 bg-transparent border-none outline-none cursor-pointer z-40 overflow-hidden">
@@ -284,8 +297,11 @@ function FooterFormCreateMessage({
       />
       <button
         type="submit"
-        className={cx("w-8 h-10 px-4 py-5 relative border-none outline-none", !disabled ? "opacity-100" : "opacity-50")}
-        disabled={disabled}
+        className={cx(
+          "w-8 h-10 px-4 py-5 relative border-none outline-none",
+          !disabled || disabledBarterCompleted ? "opacity-100" : "opacity-50",
+        )}
+        disabled={disabled || disabledBarterCompleted}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

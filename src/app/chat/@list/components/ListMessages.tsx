@@ -45,7 +45,7 @@ function ListMessages() {
   return (
     <ul
       className={cx(
-        "w-full p-2.5 h-fit overflow-x-hidden overflow-y-scroll flex flex-col gap-0.5",
+        "w-full p-2.5 h-fit overflow-y-scroll flex flex-col gap-0.5",
         "max-md:pb-[var(--height-mobile-footer-nav)] max-md:max-h-[calc(100dvh_-_var(--height-mobile-header))_-_6.125rem]",
       )}
       key={`screen-chats`}

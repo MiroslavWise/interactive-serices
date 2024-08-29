@@ -17,6 +17,7 @@ export default () => {
         "w-full h-full max-h-screen md:rounded-[2rem] bg-BG-second flex flex-col md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden",
         "max-md:h-dvh max-md:!pt-[var(--height-mobile-header)]",
         !!id && "max-md:!hidden",
+        "bottom-internal-shadow",
       )}
     >
       <HeaderAndNavigation />

@@ -14,6 +14,7 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
 import { getMessages, postReadMessage } from "@/services"
+import ItemCompletedBarter from "./ItemCompletedBarter"
 
 interface IProps {
   messages: IMessages[]
@@ -96,7 +97,11 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
             <Fragment key={`::key::message::${message?.id!}::`}>
               {index === firstNotRead ? (
                 <article
-                  className={cx(index === firstNotRead ? "w-full flex flex-row items-center py-2.5 gap-5 mt-auto" : "!hidden mt-auto")}
+                  className={cx(
+                    index === firstNotRead
+                      ? `w-full flex flex-row items-center py-2.5 gap-5 ${index === 0 ? "" : "mt-auto"}`
+                      : "!hidden mt-auto",
+                  )}
                 >
                   <div className="w-full h-[1px] bg-grey-stroke" />
                   <span className="whitespace-nowrap text-text-secondary text-sm text-center font-normal w-min">
@@ -118,6 +123,7 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
             </div>
           </article>
         ) : null}
+        <ItemCompletedBarter thread={thread} />
       </ul>
     </section>
   )
