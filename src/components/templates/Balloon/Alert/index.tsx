@@ -40,7 +40,7 @@ function BalloonAlert() {
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
           <ItemProfile offer={offer as unknown as IResponseOffers} />
           <article>
-            <p>{description}</p>
+            <p className="whitespace-pre-wrap">{description}</p>
             {images?.length > 0 ? <ItemImages {...{ images }} /> : null}
           </article>
           <GeoData offer={offer as unknown as IResponseOffers} />

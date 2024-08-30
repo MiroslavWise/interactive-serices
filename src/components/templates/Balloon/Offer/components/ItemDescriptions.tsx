@@ -26,7 +26,7 @@ function ItemDescriptions({ offer }: { offer: IResponseOffers }) {
   return (
     <article className="h-fit w-full flex flex-col gap-3 relative overflow-x-hidden overflow-y-auto">
       <b className="text-text-primary text-base text-start font-medium">Предложение</b>
-      <p className="w-full text-text-primary text-sm font-normal -mt-0.375">{proposal}</p>
+      <p className="w-full text-text-primary text-sm font-normal -mt-0.375 whitespace-pre-wrap">{proposal}</p>
       {images?.length > 0 ? <ItemImages images={images} /> : null}
       {categoriesOffer?.length > 0 ? (
         <section className="flex flex-col -mt-0.125 gap-0">

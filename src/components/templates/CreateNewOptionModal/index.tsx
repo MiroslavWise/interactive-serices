@@ -489,6 +489,7 @@ export default function CreateNewOptionModal() {
                     placeholder={placeholderDescription(typeAdd!)}
                     data-error={!!error}
                     maxLength={LIMIT_DESCRIPTION + 2}
+                    className="whitespace-pre-wrap"
                   />
                   <span data-error={field.value?.length + 20 >= LIMIT_DESCRIPTION}>
                     {field.value?.length || 0}/{LIMIT_DESCRIPTION}
