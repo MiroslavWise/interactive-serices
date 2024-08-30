@@ -1,6 +1,5 @@
 export * from "./functions/regEx"
 export * from "./url"
-export * from "./functions/classNames"
 export * from "./functions/daysAgo"
 export * from "./auth/forgotPasswordHelper"
 export * from "./hooks/useOut"

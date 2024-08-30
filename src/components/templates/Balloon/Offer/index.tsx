@@ -2,13 +2,13 @@
 
 import { ImageCategory } from "@/components/common"
 
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
+import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import Buttons from "./components/Buttons"
 import ItemProfile from "../components/ItemProfile"
 import ComponentHelper from "../components/ComponentHelper"
-import { ItemDescriptions } from "./components/ItemDescriptions"
+import ItemDescriptions from "./components/ItemDescriptions"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
 
 import { cx } from "@/lib/cx"

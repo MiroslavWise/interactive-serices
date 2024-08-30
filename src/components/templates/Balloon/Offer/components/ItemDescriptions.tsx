@@ -1,16 +1,15 @@
 import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { IResponseOffers } from "@/services/offers/types"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemImages from "./ItemImages"
 import { ImageCategory } from "@/components/common"
 import IconRepeat from "@/components/icons/IconRepeat"
 
-import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 
-export const ItemDescriptions = memo(function ItemProposal({ offer }: { offer: IResponseOffers }) {
+function ItemDescriptions({ offer }: { offer: IResponseOffers }) {
   const proposal = offer?.description
   const images = offer?.images || []
   const { data: c } = useQuery({
@@ -19,9 +18,10 @@ export const ItemDescriptions = memo(function ItemProposal({ offer }: { offer: I
   })
   const categories = c?.res || []
 
-  const categoriesOffer = useMemo(() => {
-    return categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || []
-  }, [categories, offer?.categories])
+  const categoriesOffer = useMemo(
+    () => categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || [],
+    [categories, offer?.categories],
+  )
 
   return (
     <article className="h-fit w-full flex flex-col gap-3 relative overflow-x-hidden overflow-y-auto">
@@ -51,4 +51,7 @@ export const ItemDescriptions = memo(function ItemProposal({ offer }: { offer: I
       ) : null}
     </article>
   )
-})
+}
+
+ItemDescriptions.displayName = "ItemDescriptions"
+export default memo(ItemDescriptions)

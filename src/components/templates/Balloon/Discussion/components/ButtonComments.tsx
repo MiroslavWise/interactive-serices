@@ -7,7 +7,6 @@ import { getComments } from "@/services"
 
 interface IProps {
   id: number
-
   setExpandComment: Dispatch<SetStateAction<boolean>>
 }
 

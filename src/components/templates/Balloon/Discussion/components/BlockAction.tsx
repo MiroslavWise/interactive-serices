@@ -1,23 +1,22 @@
 import { useRouter } from "next/navigation"
-import { type Dispatch, memo, type SetStateAction, useState } from "react"
+import { type Dispatch, type SetStateAction, useState } from "react"
 
+import { type IPostThreads } from "@/services/threads/types"
 import { type IResponseOffers } from "@/services/offers/types"
+import { EnumProviderThreads, EnumSign, EnumTypeProvider } from "@/types/enum"
 
 import { ButtonLike } from "./ButtonLike"
 import { ButtonActivity } from "./ButtonActivity"
 import { ButtonComments } from "./ButtonComments"
 
 import { cx } from "@/lib/cx"
-import { EnumProviderThreads, EnumSign, EnumTypeProvider } from "@/types/enum"
-import { dispatchAuthModal, dispatchModalClose, useAuth } from "@/store"
-import IconSpinner from "@/components/icons/IconSpinner"
-import { IPostThreads } from "@/services/threads/types"
-import { providerIsAscending } from "@/lib/sortIdAscending"
 import { postThread } from "@/services"
+import IconSpinner from "@/components/icons/IconSpinner"
+import { providerIsAscending } from "@/lib/sortIdAscending"
+import { dispatchAuthModal, dispatchModalClose, useAuth } from "@/store"
 
 interface IProps {
   offer: IResponseOffers
-
   setExpandComment: Dispatch<SetStateAction<boolean>>
 }
 
@@ -102,4 +101,4 @@ function BlockAction({ offer, setExpandComment }: IProps) {
 }
 
 BlockAction.displayName = "BlockAction"
-export default memo(BlockAction)
+export default BlockAction

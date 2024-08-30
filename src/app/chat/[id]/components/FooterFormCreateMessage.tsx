@@ -266,16 +266,11 @@ function FooterFormCreateMessage({
                 updateMessageDraft()
               }}
               className={cx(
-                "w-full min-h-10 h-10 max-h-40 md:max-h-[13.75rem] py-2.5 pl-4 pr-[2.875rem] resize-none disabled:cursor-no-drop",
+                "w-full min-h-10 h-10 max-h-40 md:max-h-[13.75rem] py-2.5 pl-4 pr-[2.875rem] resize-none disabled:cursor-no-drop whitespace-pre-wrap",
                 "text-text-primary font-normal text-base md:text-sm",
                 "rounded-[1.25rem] border border-solid border-grey-stroke",
                 "placeholder:text-text-secondary outline-none",
               )}
-              onKeyDown={(event) => {
-                if (event.keyCode === 13 || event.code === "Enter") {
-                  onSubmit()
-                }
-              }}
               disabled={loading || disabledBarterCompleted}
               placeholder={
                 disabledBarterCompleted ? "Обмен завершён. Оставьте отзыв или продолжите общение в личном чате" : "Написать сообщение..."

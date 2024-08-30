@@ -29,6 +29,7 @@ function MyFriends() {
     queryFn: () => getFriends({}),
     queryKey: ["friends", { userId: userId, filter: "list" }],
     enabled: !!userId && visible,
+    select: (data) => data?.data,
   })
   const {
     data: dataResponse,
@@ -43,7 +44,7 @@ function MyFriends() {
   const is = isLoading || isFetching || isFetchingResponse
   const itemsResponse = dataResponse?.data || []
 
-  const items = data?.data || []
+  const items = data || []
   const length = items.length
   const lengthName = DeclensionAllQuantityFriends(length)
 

@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react"
+import { type Dispatch, type SetStateAction, useEffect, useMemo, useRef } from "react"
 
-import { ICommentsResponse } from "@/services/comments/types"
+import { type ICommentsResponse } from "@/services/comments/types"
 
 import { ItemComment } from "./ItemComment"
 import { LoadingProfile } from "@/components/common"

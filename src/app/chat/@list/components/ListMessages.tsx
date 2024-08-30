@@ -2,13 +2,14 @@
 
 import { memo, useMemo } from "react"
 
+import { EnumProviderThreads } from "@/types/enum"
+
 import LoadingItem from "./LoadingItem"
 import ItemMessageChat from "./ItemMessageChat"
 
 import { cx } from "@/lib/cx"
 import { useSelectChat } from "@/store"
 import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
-import { EnumProviderThreads } from "@/types/enum"
 
 function ListMessages() {
   const select = useSelectChat(({ select }) => select)
@@ -27,11 +28,7 @@ function ListMessages() {
     return ITEMS
   }, [items])
 
-  const filterNavigate = useMemo(() => {
-    if (select === "all") return filters
-
-    return filters.filter((_) => _.provider === select)
-  }, [select, filters])
+  const filterNavigate = useMemo(() => (select === "all" ? filters : filters.filter((_) => _.provider === select)), [select, filters])
 
   if (isLoading)
     return (
