@@ -50,8 +50,13 @@ function CardBallon({ offer, ref, dataIndex }: IProps) {
 
   return (
     <article
-      className={cx(styles.container, "w-full rounded-2xl border-solid border cursor-pointer flex flex-col")}
-      data-provider={provider}
+      className={cx(
+        styles.container,
+        "w-full rounded-2xl border-solid border cursor-pointer flex flex-col",
+        provider === EnumTypeProvider.offer && "bg-BG-second border-grey-stroke-light",
+        provider === EnumTypeProvider.alert && "bg-card-red border-card-border-red",
+        provider === EnumTypeProvider.discussion && "bg-card-blue border-card-border-blue",
+      )}
       onClick={(event) => {
         event.stopPropagation()
         handleClick()

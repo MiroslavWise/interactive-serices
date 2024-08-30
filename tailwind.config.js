@@ -45,6 +45,15 @@ module.exports = {
       "BG-time-photo": "rgba(16, 24, 40, 0.70)",
       "BG-filter-red": "var(--filter-red)",
       "more-blue-gradient": "var(--more-blue-gradient)",
+
+      //bg-card
+
+      "card-red": "var(--card-red)",
+      "card-border-red": "var(--card-border-red)",
+      "card-blue": "var(--card-blue)",
+      "card-border-blue": "var(--card-border-blue)",
+      "card-yellow": "var(--card-yellow)",
+      "card-border-yellow": "var(--card-border-yellow)",
     },
     extend: {
       spacing: {

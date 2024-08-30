@@ -1,17 +1,4 @@
 .container {
-  &[data-provider="alert"] {
-    border-color: var(--card-red);
-    background: var(--card-border-red);
-  }
-  &[data-provider="discussion"] {
-    border-color: var(--card-blue);
-    background: var(--card-border-blue);
-  }
-  &[data-provider="offer"] {
-    border-color: var(--grey-stroke-light);
-    background-color: var(--BG-second);
-  }
-
   [data-images-offer] {
     width: calc(100% + 2rem);
     margin-left: -1rem;
