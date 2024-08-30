@@ -35,7 +35,12 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
   return (
     <div
       data-images-offer
-      className={cx(styles.container, "scroll-no", "group", "w-full h-[5.625rem] min-[5.625rem] relative overflow-hidden !px-0")}
+      className={cx(
+        styles.container,
+        "scroll-no",
+        "group",
+        "w-[calc(100%_+_2rem)] h-[5.625rem] min-[5.625rem] relative overflow-hidden -mx-4",
+      )}
       onTouchMove={(event) => {
         event.stopPropagation()
         event.preventDefault()
@@ -52,7 +57,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
         }
       }}
     >
-      <div data-images className="h-[5.625rem] min-h-[5.625rem] w-full flex flex-row gap-2 overflow-hidden px-5" ref={refImages}>
+      <div data-images className="h-[5.625rem] min-h-[5.625rem] w-full flex flex-row gap-2 overflow-hidden px-4" ref={refImages}>
         {images.map((item) => (
           <NextImageMotion
             key={`::${item.id}::photo::offer::`}
@@ -60,6 +65,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
             width={80}
             alt={"offer-image"}
             height={90}
+            className="rounded-lg"
             onClick={(event) => {
               event.stopPropagation()
               const photos = images.map((item) => ({

@@ -5,6 +5,7 @@ export enum EnumTypeProvider {
   alert = "alert",
   barter = "barter",
   threads = "threads",
+  post = "post",
 }
 
 export enum EnumHelper {

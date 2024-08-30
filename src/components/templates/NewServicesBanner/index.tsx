@@ -39,6 +39,7 @@ function NewServicesBanner() {
         {visible && step === 1 && type === EnumTypeProvider.alert && <ArticleOnboarding />}
         <NewCreateBadge {...NEW_CREATE_BADGES[2]} />
         {visible && step === 1 && type === EnumTypeProvider.discussion && <ArticleOnboarding />}
+        <NewCreateBadge {...NEW_CREATE_BADGES[3]} />
       </ul>
     </>
   )

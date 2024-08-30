@@ -2,15 +2,14 @@ import { IImageData } from "@/types/type"
 import { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { IUserOffer as IUserSmall } from "../offers/types"
 
-interface IPosts {
+export interface IPosts {
   id: number
   enabled: boolean
   title: string //varChar - 256
   slug: string //varChar - 256
   userId: number
   user: IUserSmall
-  addressId: number | null
-  address: IAddressesResponse | null
+  addresses: IAddressesResponse[]
   updated: string
   created: string
   questionnaireId?: number //id опросника

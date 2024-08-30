@@ -1,6 +1,4 @@
-"use client"
-
-import { type IResponseOffers } from "@/services/offers/types"
+import { type IPosts } from "@/services/posts/types"
 
 import IconShare from "@/components/icons/IconShare"
 import IconComplaint from "@/components/icons/IconComplaint"
@@ -9,25 +7,26 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchComplaintModalOffer } from "@/store"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
 
-function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
+interface IProps {
+  post: IPosts
+}
+
+function ComponentDots({ post }: IProps) {
+  const { created, id, slug } = post ?? {}
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const { onSimpleMessage } = useToast()
 
   return (
     <div data-time-dots className="w-full h-auto flex items-center justify-between">
-      <time dateTime={String(offer.created)} className="w-full text-text-secondary text-start text-xs font-normal">
-        {daysAgo(offer.created)}
+      <time dateTime={created} className="w-full text-text-secondary text-start text-xs font-normal">
+        {daysAgo(created)}
       </time>
-      <div
-        data-dots-and-button
-        className="relative h-4 w-4 border-none outline-none bg-transparent flex items-center justify-center z-[91]"
-      >
+      <div className="relative h-4 w-4 border-none outline-none bg-transparent flex items-center justify-center z-[91]">
         <button
           className="absolute bg-transparent border-none outline-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 z-50 *:h-4 *:w-4 flex items-center justify-center"
           ref={ref}
@@ -54,13 +53,13 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             aria-label={TITLE_SHARE}
             aria-labelledby={TITLE_SHARE}
             onClick={(event) => {
-              const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
+              const url = `${env.server.host}/post/${id}/${slug ? String(slug).replaceAll("/", "-") : ""}`
               if (!!window.navigator.share!) {
-                navigator.share({
-                  title: offer.title!,
-                  text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
-                  url: url,
-                })
+                // navigator.share({
+                //   title: offer.title!,
+                //   text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
+                //   url: url,
+                // })
               } else {
                 navigator.clipboard.writeText(url)
                 onSimpleMessage("Ссылка скопирована")
@@ -81,7 +80,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
               console.log("onClick TITLE_COMPLAINT: ")
               event.stopPropagation()
               event.preventDefault()
-              dispatchComplaintModalOffer({ offer })
+              // dispatchComplaintModalOffer({ offer })
               setVisible(false)
             }}
           >
@@ -96,5 +95,5 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   )
 }
 
-HeaderTimeDots.displayName = "HeaderTimeDots"
-export default HeaderTimeDots
+ComponentDots.displayName = "ComponentDots"
+export default ComponentDots

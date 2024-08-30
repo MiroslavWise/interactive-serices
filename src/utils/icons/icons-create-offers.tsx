@@ -1,5 +1,6 @@
 import { EnumTypeProvider } from "@/types/enum"
 
+import IconPost from "@/components/icons/IconPost"
 import IconAlertBalloon from "@/components/icons/IconAlertBalloon"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
@@ -17,4 +18,5 @@ export const mapIconCreateOffer = new Map([
   ],
   [EnumTypeProvider.offer, <IconOfferBalloon key={`::item::key::offer::svg::`} />],
   [EnumTypeProvider.discussion, <IconDiscussionBalloon key={`::item::key::discussion::svg::`} />],
+  [EnumTypeProvider.post, <IconPost key={`::item::key::post::svg::`} />],
 ])
