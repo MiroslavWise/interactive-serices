@@ -125,7 +125,7 @@ function FormAppendComment({ idOffersThread, setCurrentComments }: IProps) {
           <>
             <textarea
               {...field}
-              className="resize-none py-2.5 px-4 border border-solid border-grey-stroke rounded-[1.25rem] outline-none focus:border-element-accent-1 hover:border-element-accent-1 min-h-10 h-10 max-h-40 md:max-h-[13.75rem] text-text-primary text-sm font-normal placeholder:text-text-disabled"
+              className="resize-none py-2.5 px-4 border border-solid border-grey-stroke rounded-[1.25rem] outline-none whitespace-pre-wrap focus:border-element-accent-1 hover:border-element-accent-1 min-h-10 h-10 max-h-40 md:max-h-[13.75rem] text-text-primary text-sm font-normal placeholder:text-text-disabled"
               ref={textRef}
               placeholder="Ваш комментарий..."
             />
