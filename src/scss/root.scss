@@ -62,7 +62,7 @@
   --btn-second-hover: #e8eaed;
 
   //bg-transparent
-  --transparent: rgba(5, 1, 13, 0.50);
+  --translucent: rgba(5, 1, 13, 0.50);
 }
 
 [data-theme="dark"] {
@@ -117,5 +117,5 @@
   --btn-second-hover: #4d5664;
 
     //bg-transparent
-    --transparent: rgba(1, 0, 2, 0.70);
+    --translucent: rgba(1, 0, 2, 0.70);
 }
