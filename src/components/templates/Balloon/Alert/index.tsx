@@ -36,7 +36,7 @@ function BalloonAlert() {
         </div>
         <h3 className="line-clamp-2 text-ellipsis text-text-primary">{title ? title : "SOS-cообщение"}</h3>
       </header>
-h3    <div data-container className="w-full p-0 md:rounded-b-[2rem]">
+      <div data-container className="w-full p-0 md:rounded-b-[2rem]">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
           <ItemProfile offer={offer as unknown as IResponseOffers} />
           <article>
