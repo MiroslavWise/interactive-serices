@@ -8,7 +8,7 @@ import { IPostThreads } from "@/services/threads/types"
 import { EnumProviderThreads, EnumSign } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
-import { Button, ButtonLink } from "@/components/common"
+import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getBarters, postThread } from "@/services"

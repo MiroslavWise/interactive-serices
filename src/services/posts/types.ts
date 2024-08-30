@@ -13,6 +13,8 @@ interface IPosts {
   address: IAddressesResponse | null
   updated: string
   created: string
+  questionnaireId?: number //id опросника
+  questionnaire: IQuestionnaire
   archived: boolean //default - false
   archivedTime: string //время, когда запись была отправлена в архив
 }
@@ -28,4 +30,25 @@ interface INotes {
   images: IImageData[]
   triggerId: number //id поста, к которому привязана данная задача
   main: boolean //default - false, является ли эта запись главной (тогда её нельзя удалить)
+}
+
+interface IQuestionnaire {
+  id: number
+  title: string
+  description: string
+  enabled: boolean
+  userId: number
+  user: IUserSmall
+  updated: string
+  created: string
+  questionsIds: number[]
+  questions: IQuestion[]
+  isOptionChange: boolean // Возможность изменить свой ответ
+  isManyVariants: boolean // при true - множественный выбор
+}
+
+interface IQuestion {
+  id: number
+  name: string
+  userAnswers: number[] // {{user_id}}[]
 }

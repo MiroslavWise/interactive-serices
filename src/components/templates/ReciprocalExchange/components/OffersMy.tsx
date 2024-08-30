@@ -4,7 +4,7 @@ import { memo, useCallback, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useFormContext } from "react-hook-form"
 
-import { IFormValues, ETypeOfNewCreated } from "../types/types"
+import { type IFormValues, ETypeOfNewCreated } from "../types/types"
 import { EnumTypeProvider } from "@/types/enum"
 
 import { ImageCategory } from "@/components/common"
@@ -22,12 +22,7 @@ export const OffersMy = memo(({ loading }: IProps) => {
     queryKey: ["categories"],
   })
   const categories = c?.res || []
-  const {
-    register,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useFormContext<IFormValues>()
+  const { register, setValue, watch } = useFormContext<IFormValues>()
 
   const { data } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),

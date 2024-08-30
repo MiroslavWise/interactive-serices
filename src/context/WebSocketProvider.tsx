@@ -3,9 +3,6 @@
 import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
 import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
 
-import { EnumStatusBarter } from "@/types/enum"
-import type { IGetProfileIdResponse } from "@/services/profile/types"
-
 import { AuthListener } from "./AuthListener"
 
 import { useAuth } from "@/store"

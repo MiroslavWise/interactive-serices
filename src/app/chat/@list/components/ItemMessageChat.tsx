@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 import { useParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
@@ -20,10 +20,9 @@ import { deCrypted, useAuth, useDraftChat, useOnline } from "@/store"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
-  const params = useParams()
+  const { id } = useParams() as { id?: string | number }
   const users = useOnline(({ users }) => users)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { id } = (params as { id?: string | number }) ?? {}
   const { provider } = item ?? {}
   const cryptMessage = useDraftChat((chats) => chats[item.id])
   const draftMessage = deCrypted(cryptMessage)
@@ -175,7 +174,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
           <span className="w-[0.5625rem] h-[0.5625rem] rounded-full bg-more-green" />
         </div>
       </div>
-      <article className="w-full flex flex-col items-start justify-center pr-2.5">
+      <article className="w-full flex flex-col items-start justify-center pr-2.5 overflow-hidden">
         <div className="w-full flex flex-row flex-nowrap items-center justify-between gap-2 ">
           <h4 className="text-text-primary font-medium text-ellipsis line-clamp-1 whitespace-nowrap">
             {user?.firstName || "Имя"} {user?.lastName || "Фамилия"}
@@ -200,4 +199,4 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
 }
 
 ItemMessageChat.displayName = "ItemMessageChat"
-export default ItemMessageChat
+export default memo(ItemMessageChat)

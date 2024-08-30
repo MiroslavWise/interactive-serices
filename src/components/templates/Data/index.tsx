@@ -39,6 +39,7 @@ import stylesUpdateOffer from "@/components/templates/Update/Offer/style.module.
 import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
 import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
+import CreatePost from "../CreatePost"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -67,6 +68,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.UpdateDiscussionAndAlert, <UpdateDiscussionAndAlert key="::key::Update::Discussion::And::Alert" />], //Обновление беседы и алерта
   [EModalData.DeleteChat, <DeleteChat key="::key::DeleteChat" />], //Обновление чата
   [EModalData.CancelExchange, <CancelExchange key="::key::CancelExchange" />], // Оклонение обмена
+  [EModalData.CREATE_POST, <CreatePost key="::key::CreatePost" />], //Создание поста
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION],

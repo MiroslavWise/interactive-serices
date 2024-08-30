@@ -606,11 +606,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
           <time dateTime={created} className="text-text-secondary text-xs text-left font-normal">
             {daysAgo(created!)}
           </time>
-          <ButtonsDots
-            id={id}
-            refetch={refetch}
-            disabled={["completion-recall", "completion-recall-no", "completion-survey"].includes(operation!)}
-          />
+          <ButtonsDots id={id} refetch={refetch} disabled={["completion-recall-no"].includes(operation!)} />
         </article>
         <div data-buttons className="w-fit flex flex-row items-center gap-2">
           {buttons}

@@ -1,5 +1,5 @@
-import type { IGetProfileIdResponse } from "@/services/profile/types"
-import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
+import { type IGetProfileIdResponse } from "@/services/profile/types"
+import { type IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import { GeoTagging, NextImageMotion } from "@/components/common"
 

@@ -1,17 +1,4 @@
 .container {
-  &[data-provider="alert"] {
-    border-color: rgba(239, 68, 36, 0.2);
-    background: rgba(239, 68, 36, 0.05);
-  }
-  &[data-provider="discussion"] {
-    border-color: rgba(16, 117, 238, 0.2);
-    background: rgba(16, 117, 238, 0.04);
-  }
-  &[data-provider="offer"] {
-    border-color: var(--grey-stroke-light);
-    background-color: var(--BG-second);
-  }
-
   [data-images-offer] {
     width: calc(100% + 2rem);
     margin-left: -1rem;

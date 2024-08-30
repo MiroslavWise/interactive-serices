@@ -5,10 +5,10 @@ import { useQueries } from "@tanstack/react-query"
 
 import { type IUserResponse } from "@/services/users/types"
 
+import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
-import { getFiendId, getFriends, serviceFriends } from "@/services"
-import { cx } from "@/lib/cx"
+import { getFiendId, getFriends, postFriend } from "@/services"
 
 function FriendB({ user }: { user: IUserResponse }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -68,7 +68,7 @@ function FriendB({ user }: { user: IUserResponse }) {
     if (user?.id! !== userId! && userId) {
       if (!loading && !isFriends && !isRequest && !isResponse) {
         setLoading(true)
-        serviceFriends.post({ id: Number(user?.id!) }).then((response) => {
+        postFriend({ id: Number(user?.id!) }).then((response) => {
           if (response?.ok) {
             if (isResponse) {
               setIsResponse(false)
@@ -86,7 +86,6 @@ function FriendB({ user }: { user: IUserResponse }) {
             }
           }
           setLoading(false)
-          console.log("serviceFriends: ", response)
         })
       }
     }

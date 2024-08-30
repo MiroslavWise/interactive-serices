@@ -6,6 +6,7 @@ import type { MethodDelete, MethodPatch, MethodPost, MethodUploadFile, TReturnEr
 
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
+import { clg } from "@/lib/console"
 
 interface I<T = any> {
   data: T | null
@@ -131,17 +132,18 @@ const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
       },
     })
     .then(({ data, status }) => {
+      clg("postForm", data)
       if (status >= 200 && status < 300) {
         return {
-          meta: data?.meta || null,
-          data: data?.data || null,
-          error: data?.error || null,
+          meta: data?.meta ?? null,
+          data: data?.data ?? null,
+          error: data?.error ?? null,
         }
       } else {
         return {
-          meta: data?.meta || null,
-          data: data?.data || null,
-          error: data?.error || null,
+          meta: data?.meta ?? null,
+          data: data?.data ?? null,
+          error: data?.error ?? null,
         }
       }
     })

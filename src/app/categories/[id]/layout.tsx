@@ -3,7 +3,7 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
 import { getOffersCategoriesPROD } from "@/services"
-import { IResponseOffersCategories } from "@/services/offers-categories/types"
+import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { data } = await getOffersCategoriesPROD()

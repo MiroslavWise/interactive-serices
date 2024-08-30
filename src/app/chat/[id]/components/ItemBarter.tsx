@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
+import LoadingBarter from "./LoadingBarter"
+
 import { useAuth } from "@/store"
 import { formatOfMMMM } from "@/helpers"
 import { getBarterId, getIdOffer } from "@/services"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
-import LoadingBarter from "./LoadingBarter"
 
 function ItemBarter({ thread }: { thread: IResponseThread }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -69,14 +70,38 @@ function ItemBarter({ thread }: { thread: IResponseThread }) {
           }»`
         : null
 
+    const textExecuted = dataB?.executed
+      ? dataB?.initiator?.userId === userId
+        ? `Ваше предложение обмена принято.`
+        : dataB?.consigner?.userId === userId
+        ? `Вы приняли предложение обмена.`
+        : null
+      : null
+
+    const timeCreate = formatOfMMMM(dataB?.created || new Date(), "HH:mm")
+    const timeExecuted = formatOfMMMM(dataB?.executed || new Date(), "HH:mm")
+
     return (
       <div className="w-full flex flex-col items-center gap-3 mt-auto mb-3 md:mb-5">
         <article className="w-fit min-w-16 px-3 h-[1.6875rem] rounded-[0.84375rem] py-1 flex items-center justify-center bg-BG-time">
           <time className="text-text-button text-[0.8125rem] font-normal">{formatOfMMMM(dataB?.created || new Date(), "dd MMMM")}</time>
         </article>
-        <article className="w-full md:max-w-[25rem] py-2 px-3 rounded-2xl border border-grey-separator border-solid">
-          <p className="text-center text-sm text-text-primary">{text}</p>
+        <article className="w-full md:max-w-[25rem] py-2 px-3 rounded-2xl border border-grey-separator border-solid flex flex-row flex-wrap gap-1 justify-center relative">
+          <p className="text-center text-sm text-text-primary">
+            {text}&nbsp;
+            <time className="text-text-secondary text-xs font-normal ml-auto opacity-0">{timeCreate}</time>
+            <time className="text-text-secondary text-xs font-normal absolute bottom-2 right-3">{timeCreate}</time>
+          </p>
         </article>
+        {!!textExecuted ? (
+          <article className="w-fit md:max-w-[25rem] py-2 px-3 rounded-2xl border border-grey-separator border-solid -mt-2 relative">
+            <p className="text-center text-sm text-text-primary">
+              {textExecuted}&nbsp;
+              <time className="text-text-secondary text-xs font-normal ml-auto opacity-0">{timeExecuted}</time>
+              <time className="text-text-secondary text-xs font-normal absolute bottom-2 right-3">{timeExecuted}</time>
+            </p>
+          </article>
+        ) : null}
       </div>
     )
   }

@@ -50,6 +50,7 @@ export enum EModalData {
   UpdateDiscussionAndAlert = "update-discussion-and-alert",
   DeleteChat = "delete-chat",
   CancelExchange = "cancel-exchange",
+  CREATE_POST = "create-post",
 }
 
 interface IStateUseModal {

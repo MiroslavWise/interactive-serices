@@ -1,20 +1,10 @@
-import type { IFriendsService, TGetFriendId, TGetFriends } from "./types"
+import { type IFriendsService, type TGetFriendId, type TGetFriends } from "./types"
 
-import { wrapperDelete, get, wrapperPost, fetchGet } from "../request"
+import { wrapperDelete, wrapperPost, fetchGet } from "../request"
 
 const url = "/friends"
 
-export const serviceFriends: IFriendsService = {
-  get(value) {
-    let query: typeof value = {}
-    if (value) query = { ...value }
-    query.order = "DESC"
-    return get({ url, query })
-  },
-  getId: (id) => get({ url: `${url}/${id}` }),
-  post: (body) => wrapperPost({ url, body }),
-  delete: (id) => wrapperDelete({ url, id }),
-}
-
+export const postFriend: IFriendsService["post"] = (body) => wrapperPost({ url, body })
 export const getFriends: TGetFriends = ({ query }) => fetchGet({ url, query })
 export const getFiendId: TGetFriendId = (id) => fetchGet({ url: `${url}/${id}`, query: { order: "DESC" } })
+export const deleteFriend: IFriendsService["delete"] = (id) => wrapperDelete({ url, id })

@@ -222,7 +222,7 @@ h6 {
   --opacity-white-hard: rgba(255, 255, 255, 0.2);
   --opacity-white-hard-1: rgba(255, 255, 255, 0.1);
   --opacity-white-hard-black-1: rgba(5, 5, 5, 0.1);
-  --opacity-white-hard-black-5: rgba(5, 5, 5, 0.5);
+  --opacity-white-hard-black-5: rgba(1, 0, 2, 0.7);
   --opacity-white-hard-8: rgba(255, 255, 255, 0.8);
   --stroke-1: #fff;
   --button-default-background: #fff;
@@ -324,5 +324,18 @@ h6 {
 
   @media screen and (max-width: 768px) {
     overscroll-behavior-y: none;
+  }
+}
+
+.bottom-internal-shadow {
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-shadow: inset 0 -20px 10px -10px var(--BG-second);
+    z-index: 60;
+    height: 1.5rem;
+    pointer-events: none;
   }
 }

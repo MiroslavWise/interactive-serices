@@ -1,6 +1,6 @@
 import { EnumProviderThreads } from "@/types/enum"
 import { type IUserOffer } from "@/services/offers/types"
-import { ISmallDataOfferBarter } from "@/services/barters/types"
+import { type ISmallDataOfferBarter } from "@/services/barters/types"
 
 function userInterlocutor({ m, r = [], userId }: { m: IUserOffer; r: IUserOffer[]; userId: number }) {
   if (m?.id === userId) return r[0]

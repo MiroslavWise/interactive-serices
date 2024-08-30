@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useRef } from "react"
+import { useRef } from "react"
 
 import { type IImageData } from "@/types/type"
 
@@ -106,4 +106,4 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
 }
 
 ItemImages.displayName = "ItemImages"
-export default memo(ItemImages)
+export default ItemImages

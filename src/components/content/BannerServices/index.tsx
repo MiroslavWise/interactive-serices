@@ -32,6 +32,7 @@ function BannerServices() {
     <div
       className={cx(
         styles.container,
+        "bottom-internal-shadow",
         "max-md:hidden fixed right-0 max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-[2rem]",
         visible ? "translate-x-[var(--width-right-services)]" : "-translate-x-6",
         visibleBanner

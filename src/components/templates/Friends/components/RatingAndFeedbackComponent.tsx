@@ -1,8 +1,8 @@
+import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { getTestimonials } from "@/services"
 import { DeclensionAllQuantityFeedback } from "@/lib/declension"
-import { useMemo } from "react"
 
 function RatingAndFeedbackComponent({ id }: { id: number }) {
   const { data, isLoading } = useQuery({
@@ -60,4 +60,4 @@ function RatingAndFeedbackComponent({ id }: { id: number }) {
 }
 
 RatingAndFeedbackComponent.displayName = "RatingAndFeedbackComponent"
-export default RatingAndFeedbackComponent
+export default memo(RatingAndFeedbackComponent)

@@ -1,5 +1,6 @@
 "use client"
 
+import {} from "./constants"
 import { IconCategory } from "@/lib/icon-set"
 
 interface IProps {

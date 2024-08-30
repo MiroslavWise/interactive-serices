@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form"
 
 import { EnumSign } from "@/types/enum"
 
-import { resolverCodeVerification, TSchemaCodeVerification } from "../utils/code-verification.schema"
+import { resolverCodeVerification, type TSchemaCodeVerification } from "../utils/code-verification.schema"
 
 import { TimerData } from "./TimerData"
 import { Button } from "@/components/common"
@@ -82,20 +82,18 @@ export const ContentCodeVerification = ({}) => {
                 value: true,
                 message: "Введите 6 символов",
               },
-              minLength: 6,
-              maxLength: 6,
             }}
             render={({ field, fieldState: { error } }) => (
               <div data-label-input data-test="code-verification">
                 <label htmlFor={field.name}>Код из СМС</label>
                 <input
+                  {...field}
                   data-error={!!error}
                   placeholder="Введите код из СМС-сообщения"
                   maxLength={6}
-                  type="number"
+                  type="text"
                   inputMode="numeric"
-                  {...field}
-                  onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ""))}
+                  onChange={(e) => field.onChange(e.target.value.replace(/\D/g, "").replaceAll(/\s{1,}/g, ""))}
                 />
                 {!!error ? <i>{error?.message}</i> : null}
               </div>

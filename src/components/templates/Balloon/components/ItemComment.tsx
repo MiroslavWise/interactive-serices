@@ -35,7 +35,7 @@ export const ItemComment = (props: ICommentsResponse) => {
           </div>
           &nbsp;<time className="text-text-disabled">{daysAgo(created!)}</time>
         </h5>
-        <p className="text-text-primary text-sm text-left">{message || ""}</p>
+        <p className="text-text-primary text-sm text-left whitespace-pre-wrap">{message || ""}</p>
         <article className="w-full pt-2.5 border-b border-solid border-grey-stroke-light" />
       </div>
     </div>

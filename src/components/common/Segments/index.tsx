@@ -1,6 +1,4 @@
-import type { TSegments } from "./types"
-
-import { borderClassNames } from "@/helpers"
+import { type TSegments } from "./types"
 
 import { cx } from "@/lib/cx"
 
@@ -30,7 +28,6 @@ export const Segments: TSegments = ({ VALUES, active, setActive, type, className
             styles.button,
             "w-full py-2 px-4 h-9 rounded-[1.125rem] flex items-center justify-center bg-transparent cursor-pointer hover:bg-grey-field group",
             active.value === item.value && "!bg-element-accent-2",
-            active.value !== item.value && styles[borderClassNames(VALUES.indexOf(active), index, VALUES.length)],
           )}
           data-test={`segments-${item.value}`}
         >

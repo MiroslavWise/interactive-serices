@@ -1,14 +1,6 @@
+import { type IResponseOffersCategories } from "@/services/offers-categories/types"
+
 import { getOffersCategoriesPROD } from "@/services"
-import { IResponseOffersCategories } from "@/services/offers-categories/types"
-
-// export async function generateStaticParams() {
-//   const { res } = await getOffersCategoriesPROD()
-//   const items = res || []
-
-//   return items.map((_) => ({
-//     id: String(_.id),
-//   }))
-// }
 
 export default async ({ params }: { params: { id: string } }) => {
   const { id } = params ?? {}

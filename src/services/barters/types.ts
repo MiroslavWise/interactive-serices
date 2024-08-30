@@ -45,6 +45,9 @@ export interface IBarterResponse {
   consigner: ISmallDataOfferBarter
   reason?: string
   reasonUserId?: number
+
+  executed?: string
+  completed?: string
 }
 
 export interface IPostDataBarter {

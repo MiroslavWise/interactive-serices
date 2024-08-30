@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo, useState } from "react"
 import { type Control, Controller } from "react-hook-form"
 
-import { IFormValues } from "../types/types"
+import { type IFormValues } from "../types/types"
 
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"

@@ -2,6 +2,8 @@
 
 import { memo, useMemo } from "react"
 
+import { EnumProviderThreads } from "@/types/enum"
+
 import LoadingItem from "./LoadingItem"
 import ItemMessageChat from "./ItemMessageChat"
 
@@ -16,7 +18,7 @@ function ListMessages() {
   const items = data || []
 
   const filters = useMemo(() => {
-    const ITEMS = items.filter((_) => !!_.messages.length)
+    const ITEMS = items.filter((_) => (_.provider === EnumProviderThreads.PERSONAL ? !!_.messages.length : true))
     ITEMS.sort((prev, next) => {
       const prevNumber = prev.messages?.[0]?.created! ? getMillisecond(prev.messages?.[0]?.created!) : getMillisecond(prev?.created!)
       const nextNumber = next.messages?.[0]?.created! ? getMillisecond(next.messages?.[0]?.created!) : getMillisecond(next?.created!)
@@ -26,11 +28,7 @@ function ListMessages() {
     return ITEMS
   }, [items])
 
-  const filterNavigate = useMemo(() => {
-    if (select === "all") return filters
-
-    return filters.filter((_) => _.provider === select)
-  }, [select, filters])
+  const filterNavigate = useMemo(() => (select === "all" ? filters : filters.filter((_) => _.provider === select)), [select, filters])
 
   if (isLoading)
     return (
@@ -44,8 +42,8 @@ function ListMessages() {
   return (
     <ul
       className={cx(
-        "w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col gap-0.5",
-        "max-md:pb-[var(--height-mobile-footer-nav)] max-md:max-h-[calc(100vh_-_var(--height-mobile-header))_-_6.125rem]",
+        "w-full p-2.5 h-fit overflow-y-scroll flex flex-col gap-0.5",
+        "max-md:pb-[var(--height-mobile-footer-nav)] max-md:max-h-[calc(100dvh_-_var(--height-mobile-header))_-_6.125rem]",
       )}
       key={`screen-chats`}
     >

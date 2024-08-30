@@ -1,14 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { memo, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { FormProvider, useForm } from "react-hook-form"
 
-import type { IReturnData } from "@/services/types/general"
-import type { IPostDataBarter } from "@/services/barters/types"
+import { type IPostDataBarter } from "@/services/barters/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
-import type { IPostOffers, IResponseCreate } from "@/services/offers/types"
+import { type IPostOffers, type IResponseCreate } from "@/services/offers/types"
 
 import { ETypeOfNewCreated, IFormValues } from "./types/types"
 
@@ -17,21 +16,14 @@ import { ChooseAnOffer } from "./components/Select"
 import { ItemProfile } from "./components/ItemProfile"
 import { Button, LoadingProfile } from "@/components/common"
 
-import {
-  dispatchBallonOffer,
-  useReciprocalExchange,
-  dispatchReciprocalExchange,
-  dispatchReciprocalExchangeCollapse,
-  useAuth,
-  dispatchRefresh,
-} from "@/store"
 import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { createAddress } from "@/helpers/address/create"
-import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories, IResponse } from "@/services"
+import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories, type IResponse } from "@/services"
+import { dispatchBallonOffer, useReciprocalExchange, dispatchReciprocalExchange, useAuth, dispatchRefresh } from "@/store"
 
-export default function ReciprocalExchange() {
+function ReciprocalExchange() {
   const [loading, setLoading] = useState(false)
   const offer = useReciprocalExchange(({ offer }) => offer)
   const { data: c } = useQuery({
@@ -192,13 +184,29 @@ export default function ReciprocalExchange() {
   const geo = offer?.addresses?.[0]
   const categoriesWants = categories?.filter((item) => offer?.categories?.includes(item?.id!)) || []
 
-  const disabled =
-    !watch("select_new_proposal") ||
-    (watch("select_new_proposal") === ETypeOfNewCreated.interesting && (!watch("description")?.trim() || !watch("category"))) ||
-    (watch("select_new_proposal") === ETypeOfNewCreated.their && !watch("my_offer")) ||
-    ((watch("select_new_proposal") === ETypeOfNewCreated.new && (!watch("description_new_offer") || !watch("categoryId"))) || watch("check")
-      ? !watch("addressFeature")
-      : false)
+  const disabled = useMemo(() => {
+    if (!watch("select_new_proposal")) return true
+    if (watch("select_new_proposal") === ETypeOfNewCreated.interesting) {
+      return !watch("description")?.trim() || !watch("category")
+    }
+    if (watch("select_new_proposal") === ETypeOfNewCreated.their) {
+      return !watch("my_offer")
+    }
+    if (watch("select_new_proposal") === ETypeOfNewCreated.new) {
+      return !watch("description_new_offer")?.trim() || !watch("categoryId") || (watch("check") && !watch("addressFeature"))
+    }
+
+    return false
+  }, [
+    watch("select_new_proposal"),
+    watch("description"),
+    watch("category"),
+    watch("description_new_offer"),
+    watch("categoryId"),
+    watch("check"),
+    watch("addressFeature"),
+    watch("my_offer"),
+  ])
 
   return (
     <>
@@ -248,3 +256,6 @@ export default function ReciprocalExchange() {
     </>
   )
 }
+
+ReciprocalExchange.displayName = "ReciprocalExchange"
+export default memo(ReciprocalExchange)

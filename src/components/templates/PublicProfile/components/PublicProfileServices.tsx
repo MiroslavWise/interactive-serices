@@ -5,13 +5,13 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { ServiceLoading } from "@/components/common"
+import ItemServiceData from "@/app/customer/[userId]/@offers/components/ItemService-data"
 
 import { cx } from "@/lib/cx"
 import { getUserIdOffers } from "@/services"
 import { nameTitle } from "@/app/customer/[userId]/@offers/page"
 import { LINKS_PROVIDER_OFFERS } from "@/app/customer/[userId]/@links/page"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, usePublicProfile } from "@/store"
-import ItemServiceData from "@/app/customer/[userId]/@offers/components/ItemService-data"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
 
 function PublicProfileServices() {
   const id = usePublicProfile(({ id }) => id)
@@ -38,6 +38,7 @@ function PublicProfileServices() {
     if (offer.provider === EnumTypeProvider.alert) {
       dispatchBallonAlert({ offer })
     }
+    dispatchPublicProfile(null)
   }
 
   return (
@@ -81,7 +82,9 @@ function PublicProfileServices() {
           {itemsOffers.map((item) => (
             <li
               key={`:key:${item.id}:${item.provider}:`}
-              onClick={() => handle(item)}
+              onClick={() => {
+                handle(item)
+              }}
               className="relative w-full px-4 pt-3 pb-4 bg-BG-second rounded-2xl flex flex-col gap-4 cursor-pointer"
             >
               <ItemServiceData offer={item} />
@@ -93,4 +96,5 @@ function PublicProfileServices() {
   )
 }
 
+PublicProfileServices.displayName = "PublicProfileServices"
 export default PublicProfileServices
