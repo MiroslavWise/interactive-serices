@@ -18,6 +18,8 @@ import ChangePassword from "../ChangePassword"
 import ActiveServicesFrom from "../ActiveServicesFrom"
 import SuccessNewOptional from "../SuccessNewOptional"
 import DeleteChat from "../DeleteChat"
+import CreatePost from "../CreatePost"
+import SuccessCreatePost from "../SuccessCreatePost"
 import CancelExchange, { CN_CANCEL_EXCHANGE } from "../CancelExchange"
 
 import { cx } from "@/lib/cx"
@@ -39,9 +41,11 @@ import stylesUpdateOffer from "@/components/templates/Update/Offer/style.module.
 import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
 import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
 import stylesCreatePost from "@/components/templates/CreatePost/style.module.scss"
+import stylesSuccessCreatePost from "@/components/templates/SuccessCreatePost/style.module.scss"
+import stylesBallonPost from "@/components/templates/BallonPost/style.module.scss"
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
-import CreatePost from "../CreatePost"
-import SuccessCreatePost from "../SuccessCreatePost"
+import CreateNewNote from "../CreateNewNote"
+import BallonPost from "../BallonPost"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -71,7 +75,9 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.DeleteChat, <DeleteChat key="::key::DeleteChat" />], //Обновление чата
   [EModalData.CancelExchange, <CancelExchange key="::key::CancelExchange" />], // Оклонение обмена
   [EModalData.CREATE_POST, <CreatePost key="::key::CreatePost" />], //Создание поста
-  [EModalData.SUCCESS_CREATE_POST, <SuccessCreatePost key="::key::SuccessCreatePost" />], //Создание поста
+  [EModalData.CREATE_NEW_NOTE, <CreateNewNote key="::key::CreateNewNote" />], //Создание записи
+  [EModalData.SUCCESS_CREATE_POST, <SuccessCreatePost key="::key::SuccessCreatePost" />], //Успех создания поста
+  [EModalData.BALLOON_POST, <BallonPost key="::key::BallonPost" />], //Балун поста
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION],
@@ -97,6 +103,9 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.UpdateDiscussionAndAlert, CN_UPDATE_DISCUSSION_AND_ALERT],
   [EModalData.CancelExchange, CN_CANCEL_EXCHANGE],
   [EModalData.CREATE_POST, stylesCreatePost.container],
+  [EModalData.SUCCESS_CREATE_POST, stylesSuccessCreatePost.container],
+  [EModalData.CREATE_NEW_NOTE, stylesCreatePost.container],
+  [EModalData.BALLOON_POST, stylesBallonPost.container],
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

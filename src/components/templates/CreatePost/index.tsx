@@ -11,7 +11,7 @@ import IconXClose from "@/components/icons/IconXClose"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
+import { dispatchModal, EModalData, useAuth } from "@/store"
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
@@ -21,6 +21,8 @@ import { IBodyPost } from "@/services/posts/types"
 import { postPosts } from "@/services/posts"
 import { clg } from "@console"
 import { createAddress } from "@/helpers/address/create"
+import { IBodyNote } from "@/services/notes/types"
+import { postNote } from "@/services/notes"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 function CreatePost() {
@@ -78,8 +80,23 @@ function CreatePost() {
         data.addresses = [addressId]
       }
       const response = await postPosts(data)
-      setLoading(false)
       clg("response post posts:", response.data)
+      if (!!response.data) {
+        const id = response.data!.id!
+        const dataNote: IBodyNote = {
+          main: true,
+          postId: id,
+        }
+        const description = values.description.trim()
+        if (!!description) {
+          dataNote.description = description
+        }
+        await postNote(dataNote)
+        setLoading(false)
+        dispatchModal(EModalData.SUCCESS_CREATE_POST)
+      } else {
+        setLoading(false)
+      }
     }
   })
 
@@ -305,6 +322,7 @@ function CreatePost() {
                       key={`${index}-image`}
                       item={item}
                       index={index}
+                      //@ts-ignore
                       field={field}
                       progress={!loading ? null : onProgress(field.value.file, index)}
                     />

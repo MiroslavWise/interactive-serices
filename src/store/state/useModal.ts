@@ -6,7 +6,6 @@ export const useModal = create<IStateUseModal>(() => ({
 }))
 
 export const dispatchModal = (data: EModalData) => {
-  console.log("dispatchModal: ", data)
   useModal.setState(
     (_) => ({
       visible: true,
@@ -17,7 +16,6 @@ export const dispatchModal = (data: EModalData) => {
 }
 
 export const dispatchModalClose = () => {
-  console.log(" --- dispatchModalClose --- ")
   useModal.setState(
     (_) => ({
       visible: false,
@@ -52,6 +50,8 @@ export enum EModalData {
   CancelExchange = "cancel-exchange",
   CREATE_POST = "create-post",
   SUCCESS_CREATE_POST = "success-create-post",
+  CREATE_NEW_NOTE = "create-new-note",
+  BALLOON_POST = "balloon-post",
 }
 
 interface IStateUseModal {

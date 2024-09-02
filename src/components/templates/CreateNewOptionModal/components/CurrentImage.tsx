@@ -6,11 +6,12 @@ import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { TSchemaCreate } from "../utils/create.schema"
 import { TSchemaCreatePost } from "../../CreatePost/utils/schema"
+import { TSchemaCreateNote } from "../../CreateNewNote/utils"
 
 interface IProps {
   item: string
   index: number
-  field: ControllerRenderProps<TSchemaCreate | TSchemaCreatePost, "file">
+  field: ControllerRenderProps<TSchemaCreate | TSchemaCreatePost | TSchemaCreateNote, "file">
 
   progress: number | null
 }
