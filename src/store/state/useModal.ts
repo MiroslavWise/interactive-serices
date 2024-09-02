@@ -51,6 +51,7 @@ export enum EModalData {
   DeleteChat = "delete-chat",
   CancelExchange = "cancel-exchange",
   CREATE_POST = "create-post",
+  SUCCESS_CREATE_POST = "success-create-post",
 }
 
 interface IStateUseModal {

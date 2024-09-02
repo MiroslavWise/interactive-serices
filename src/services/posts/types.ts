@@ -1,6 +1,13 @@
 import { IImageData } from "@/types/type"
 import { IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { IUserOffer as IUserSmall } from "../offers/types"
+import { IResponse } from "../request"
+
+export interface IBodyPost {
+  title: string
+  slug: string
+  addresses: number[]
+}
 
 export interface IPosts {
   id: number
@@ -15,7 +22,7 @@ export interface IPosts {
   questionnaireId?: number //id опросника
   questionnaire: IQuestionnaire
   archived: boolean //default - false
-  archivedTime: string //время, когда запись была отправлена в архив
+  archive: string //время, когда запись была отправлена в архив
 }
 
 interface INotes {
@@ -51,3 +58,5 @@ interface IQuestion {
   name: string
   userAnswers: number[] // {{user_id}}[]
 }
+
+export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>

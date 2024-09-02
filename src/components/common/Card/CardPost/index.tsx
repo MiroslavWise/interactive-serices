@@ -2,13 +2,14 @@ import { type IPosts } from "@/services/posts/types"
 import ComponentDots from "./components/ComponentDots"
 import IconPost from "@/components/icons/IconPost"
 import GeoData from "./components/GeoData"
+import ItemProfile from "../CardBallon/components/ItemProfile"
 
 interface IProps {
   post: IPosts
 }
 
 function CardPost({ post }: IProps) {
-  const { title } = post ?? {}
+  const { title, user } = post ?? {}
 
   return (
     <article className="w-full rounded-2xl border-solid border cursor-pointer flex flex-col gap-3 bg-card-yellow border-card-border-yellow p-4">
@@ -21,6 +22,7 @@ function CardPost({ post }: IProps) {
       </header>
       <p className="whitespace-pre-wrap text-text-primary text-sm font-normal">{title}</p>
       <GeoData post={post} />
+      <ItemProfile user={user} />
     </article>
   )
 }

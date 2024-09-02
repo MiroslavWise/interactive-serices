@@ -519,6 +519,7 @@ export default function CreateNewOptionModal() {
                       key={`${index}-image`}
                       item={item}
                       index={index}
+                      //@ts-ignore
                       field={field}
                       progress={!loading ? null : onProgress(field.value.file, index)}
                     />

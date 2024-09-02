@@ -5,11 +5,12 @@ import { ImageStatic } from "@/components/common"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { TSchemaCreate } from "../utils/create.schema"
+import { TSchemaCreatePost } from "../../CreatePost/utils/schema"
 
 interface IProps {
   item: string
   index: number
-  field: ControllerRenderProps<TSchemaCreate, "file">
+  field: ControllerRenderProps<TSchemaCreate | TSchemaCreatePost, "file">
 
   progress: number | null
 }
