@@ -91,8 +91,8 @@ function Modal() {
     <div
       className={cx(
         styles.wrapperModal,
-        "fixed transition-opacity inset-0 w-full h-full -z-10 opacity-0 invisible bg-translucent md:p-10 flex flex-col items-center max-md:p-0 max-md:!pt-0 max-md:justify-end",
-        visible && "!z-[1000] !visible !opacity-100",
+        "fixed transition-opacity inset-0 w-full h-full bg-translucent md:p-10 flex flex-col items-center max-md:p-0 max-md:!pt-0 max-md:justify-end",
+        visible ? "!z-[1000] !visible !opacity-100" : "-z-10 opacity-0 invisible",
       )}
       ref={ref}
       data-enum={data}

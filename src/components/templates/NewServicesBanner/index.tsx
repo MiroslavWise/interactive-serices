@@ -23,9 +23,9 @@ function NewServicesBanner() {
       <h3 className="text-[var(--text-primary)] text-lg md:text-2xl font-semibold text-center">Я хочу создать</h3>
       <ul className="h-full w-full flex flex-col gap-4 items-center overflow-y-auto md:overflow-hidden">
         {state === EModalData.NewServicesBannerMap && init ? (
-          <article className="w-full max-w-full md:max-w-[22.5rem] p-4 flex flex-col gap-0.375 items-start bg-[var(--grey-field)] rounded-2xl mb-1 md:mb-0.875">
-            <div className="flex flex-row items-center gap-0.625 w-full">
-              <div className="w-6 h-6 rounded-xl p-1 flex items-center justify-center [&>svg]:w-4 [&>svg]:h-4 bg-[var(--element-accent-2)]">
+          <article className="w-full max-w-full md:max-w-[22.5rem] p-4 flex flex-col gap-1.5 items-start bg-[var(--grey-field)] rounded-2xl mb-1 md:mb-3.5">
+            <div className="flex flex-row items-center gap-2.5 w-full">
+              <div className="w-6 h-6 rounded-xl p-1 flex items-center justify-center *:w-4 *:h-4 bg-[var(--element-accent-2)]">
                 <IconMapTransparent />
               </div>
               <h4 className="text-[var(--text-primary)] text-sm font-semibold">по адресу</h4>

@@ -1,17 +1,25 @@
 import { create } from "zustand"
 
 import { type IPosts } from "@/services/posts/types"
+import { type INotes } from "@/services/notes/types"
 
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
+import { clg } from "@console"
 
 export const useCreatePost = create<{ visible: boolean }>(() => ({ visible: false }))
-export const useCreateNewNote = create<IStateNote>(() => ({
-  data: null,
-}))
-export const useBalloonPost = create<IStateBalloonPost>(() => ({
-  data: null,
-}))
+export const useCreateNewNote = create<IStateNote>(() => ({ data: null }))
+export const useBalloonPost = create<IStateBalloonPost>(() => ({ data: null }))
+export const useDeleteNote = create<IStateUserDelete>(() => ({ data: null }))
 
+export const dispatchDeleteNote = (value?: INotes) => {
+  clg("dispatchDeleteNote: ", value, "warning")
+  useDeleteNote.setState(
+    (_) => ({
+      data: value || null,
+    }),
+    true,
+  )
+}
 
 export const dispatchCreatePost = (value: boolean) => {
   if (value) {
@@ -62,6 +70,6 @@ interface IStateNote {
   } | null
 }
 
-interface IStateUsePost {
-  post: IPosts | null
+interface IStateUserDelete {
+  data: INotes | null
 }

@@ -33,3 +33,4 @@ interface IQueries {
 export type TPostNote = (body: IBodyNote) => Promise<IResponse<INotes>>
 export type TPatchNote = (id: number, body: Partial<IBodyNote>) => Promise<IResponse<INotes>>
 export type TGetNotes = (query: IQueries) => Promise<IResponse<INotes[]>>
+export type TDeleteNote = (id: number) => Promise<any>

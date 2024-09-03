@@ -9,7 +9,7 @@ export const mapIconCreateOffer = new Map([
   [
     EnumTypeProvider.alert,
     <div
-      className="w-8 h-8 rounded-2xl bg-text-error flex items-center justify-center p-0.375 group-hover:bg-text-button"
+      className="w-8 h-8 rounded-2xl bg-text-error flex items-center justify-center p-1.5 group-hover:bg-text-button"
       data-alert
       key={`::item::key::alert::svg::`}
     >

@@ -5,6 +5,7 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
+import SharedDotsPost from "./Shared"
 
 interface IProps {
   post: IPosts
@@ -44,6 +45,7 @@ export function ComponentProfilePost({ post }: IProps) {
         </time>
         <span className="text-text-secondary font-normal text-[0.8125rem] leading-4 text-ellipsis line-clamp-1">{additional}</span>
       </article>
+      <SharedDotsPost post={post} />
     </div>
   )
 }

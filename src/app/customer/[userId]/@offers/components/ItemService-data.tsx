@@ -45,14 +45,18 @@ function ItemServiceData({ offer }: IProps) {
           <ItemServiceImages images={images} />
         </article>
         <LinkToMap offer={offer} />
-        <article className="w-full flex flex-row items-center justify-between gap-4 pt-2.5 border-t-[1px] border-solid border-grey-stroke-light">
+        <article className="w-full flex flex-row items-center justify-between gap-4 pt-2.5 border-t border-solid border-grey-stroke-light">
           <div className="w-full grid grid-cols-[1.5rem_minmax(0,1fr)] gap-2.5 items-center">
             <div
-              className={`relative w-6 h-6 p-3 rounded-md overflow-hidden [&>img]:absolute [&>img]:top-1/2 [&>img]:left-1/2 [&>img]:-translate-x-1/2 [&>img]:-translate-y-1/2 [&>img]:w-6 [&>img]:h-6 ${
-                !image && "bg-grey-stroke-light !p-1 [&>svg]:w-4 [&>svg]:h-4"
+              className={`relative w-6 h-6 p-3 rounded-md overflow-hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 ${
+                image ? "" : "bg-grey-stroke-light"
               }`}
             >
-              {!!image ? <NextImageMotion src={image?.attributes?.url} alt="avatar" width={100} height={100} /> : <IconEmptyProfile />}
+              {!!image ? (
+                <NextImageMotion src={image?.attributes?.url} alt="avatar" width={100} height={100} className="w-6 h-6" />
+              ) : (
+                <IconEmptyProfile className="w-4 h-4" />
+              )}
             </div>
             <p className="text-text-primary text-sm font-normal">
               {firstName || "Имя"} {lastName || "Фамилия"}

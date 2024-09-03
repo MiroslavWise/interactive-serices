@@ -21,8 +21,8 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
 
   return (
     <div data-time-dots className="w-full h-auto flex items-center justify-between">
-      <time dateTime={String(offer.created)} className="w-full text-text-secondary text-start text-xs font-normal">
-        {daysAgo(offer.created)}
+      <time dateTime={String(offer?.created)} className="w-full text-text-secondary text-start text-xs font-normal">
+        {daysAgo(offer?.created)}
       </time>
       <div
         data-dots-and-button
@@ -40,13 +40,13 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
         </button>
         <article
           className={cx(
-            "absolute top-[calc(100%_+_0.25rem)] right-0 rounded-xl p-3 bg-BG-second w-[13.5rem] flex flex-col gap-0.125 opacity-0 invisible z-[120] shadow-box-down",
-            "[&>*]:grid [&>*]:grid-cols-[1.25rem_minmax(0,1fr)] [&>*]:gap-0.625 [&>*]:items-center [&>*]:py-2 [&>*]:px-0.375 [&>*]:rounded-md",
+            "absolute top-[calc(100%_+_0.25rem)] right-0 rounded-xl p-3 bg-BG-second w-[13.5rem] flex flex-col gap-0.5 shadow-box-down",
+            "*:grid *:grid-cols-[1.25rem_minmax(0,1fr)] *:gap-2.5 *:items-center *:py-2 *:px-1.5 *:rounded-md",
             "[&>*>span]:text-text-primary [&>*>span]:text-sm [&>*>span]:font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
-            "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-0.625",
-            "hover:[&>*]:bg-grey-field",
+            "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-2.5",
+            "hover:*:bg-grey-field",
             "[&>*>div>svg]:w-5 [&>*>div>svg]:h-5 [&>*>div>svg]:absolute [&>*>div>svg]:top-1/2 [&>*>div>svg]:left-1/2 [&>*>div>svg]:-translate-x-1/2 [&>*>div>svg]:-translate-y-1/2",
-            visible && "!opacity-100 !visible",
+            visible ? "opacity-100 visible -z-10" : "opacity-0 invisible z-[120]",
           )}
         >
           <a

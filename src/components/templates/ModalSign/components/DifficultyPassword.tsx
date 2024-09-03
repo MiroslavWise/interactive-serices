@@ -115,7 +115,7 @@ function DifficultyPassword({ value = "" }: { value: string }) {
   }, [trim])
 
   return (
-    <article className="w-full flex flex-col gap-0.625">
+    <article className="w-full flex flex-col gap-2.5">
       <section className={cx("w-full flex flex-col gap-1", trim.length === 0 && "invisible hidden")}>
         <div
           ref={ref}

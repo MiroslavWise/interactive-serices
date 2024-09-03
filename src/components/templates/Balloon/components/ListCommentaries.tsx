@@ -36,7 +36,7 @@ function ListCommentaries({ expand, currentComments = [], isLoading, setExpand, 
 
   return (
     <div
-      className="overflow-x-hidden overflow-y-visible h-fit w-full flex flex-col gap-0.625 pb-0.625 [&>div]:px-5"
+      className="overflow-x-hidden overflow-y-visible h-fit w-full flex flex-col gap-2.5 pb-2.5 [&>div]:px-5"
       ref={refList}
       data-test="balloon-list-commentaries"
     >

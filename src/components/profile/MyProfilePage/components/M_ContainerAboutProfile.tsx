@@ -90,7 +90,7 @@ export const MContainerAboutProfile = () => {
                   width={100}
                   height={100}
                 />
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 [&>svg]:w-5 [&>svg]:h-5">
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 *:w-5 *:h-5">
                   <IconVerifiedTick />
                 </div>
               </>
@@ -143,7 +143,7 @@ export const MContainerAboutProfile = () => {
             type="button"
             onClick={handleOpenOption}
             data-test="button-open-option"
-            className="bg-grey-field relative p-[1.125rem] [&>svg>path]:fill-btn-main-default [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-4 [&>svg]:h-4"
+            className="bg-grey-field relative p-[1.125rem] [&>svg>path]:fill-btn-main-default *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
           >
             <IconDotsHorizontal />
           </button>

@@ -33,7 +33,7 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
 
   return (
     <li
-      className={`group text-text-primary hover:!text-text-button flex flex-row items-center justify-center gap-4 h-14 w-full rounded-[1.75rem] max-w-full md:max-w-[22.5rem] bg-BG-second cursor-pointer z-[2] border-[1px] border-solid border-grey-stroke-light hover:border-element-accent-1 hover:bg-element-accent-1 focus:border-element-accent-1 focus:bg-element-accent-1) ${
+      className={`group text-text-primary hover:!text-text-button flex flex-row items-center justify-center gap-4 h-14 w-full rounded-[1.75rem] max-w-full md:max-w-[22.5rem] bg-BG-second cursor-pointer z-[2] border border-solid border-grey-stroke-light hover:border-element-accent-1 hover:bg-element-accent-1 focus:border-element-accent-1 focus:bg-element-accent-1) ${
         visible && type === value && "bg-element-accent-1"
       } ${visible && type !== value && "cursor-default"}
       [&>svg]:w-8 [&>svg]:h-8

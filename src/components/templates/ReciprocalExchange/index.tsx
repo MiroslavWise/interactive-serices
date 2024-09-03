@@ -210,7 +210,7 @@ function ReciprocalExchange() {
 
   return (
     <>
-      <header className="w-full h-[4.125rem] md:h-[4.875rem] overflow-hidden py-4 px-14 md:px-3 md:pt-6 md:pb-5 max-md:rounded-none flex flex-row items-center justify-center border-b-[1px] border-solid border-grey-separator">
+      <header className="w-full h-[4.125rem] md:h-[4.875rem] overflow-hidden py-4 px-14 md:px-3 md:pt-6 md:pb-5 max-md:rounded-none flex flex-row items-center justify-center border-b border-solid border-grey-separator">
         <h3 className="max-md:text-xl text-[2rem] text-text-primary font-semibold text-center">Что вы можете предложить?</h3>
       </header>
       <ul className="w-full h-[calc(100%_-_4.125rem)] md:h-[calc(100%_-_4.875rem)] overflow-hidden flex flex-col items-center">
@@ -225,7 +225,7 @@ function ReciprocalExchange() {
             </section>
             <ChooseAnOffer loading={loading} firstName={profile?.firstName || " "} categoriesWants={categoriesWants} />
             {!!errors?.root ? <i data-error>{errors?.root?.message}</i> : null}
-            <footer className="w-full flex flex-row items-center gap-0.625 mt-auto">
+            <footer className="w-full flex flex-row items-center gap-2.5 mt-auto">
               <Button
                 type="submit"
                 typeButton="fill-primary"

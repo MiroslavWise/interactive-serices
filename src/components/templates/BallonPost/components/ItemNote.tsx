@@ -11,6 +11,7 @@ import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
 import { dispatchPhotoCarousel, useAuth } from "@/store"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
+import DeletePopup from "./DeletePopup"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { description, created, images = [], id } = note ?? {}
@@ -90,10 +91,11 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
 
   return (
     <li className="w-full flex flex-col p-4 gap-3 border border-solid border-element-grey-light rounded-2xl">
-      <div className="w-full flex flex-row items-center justify-start">
+      <div className="w-full flex flex-row items-center justify-between">
         <time dateTime={created} className="text-text-secondary text-xs font-normal">
           {daysAgo(created)}
         </time>
+        <DeletePopup note={note} />
       </div>
       <p className={cx("text-text-primary whitespace-pre-wrap text-sm font-normal", !!description ? "" : "hidden")}>{description}</p>
       <div

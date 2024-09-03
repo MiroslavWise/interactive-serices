@@ -57,7 +57,7 @@ export default async ({ params }: IParamsCustomer) => {
           <article
             className={cx(
               "w-full loading-screen flex md:hidden flex-col gap-4 p-4 bg-BG-second rounded-[0.625rem]",
-              "[&>section]:w-full [&>section]:grid [&>section]:grid-cols-[minmax(0,1fr)_3.125rem] [&>section]:gap-0.625",
+              "[&>section]:w-full [&>section]:grid [&>section]:grid-cols-[minmax(0,1fr)_3.125rem] [&>section]:gap-2.5",
               "[&>section>span]:h-6 [&>section>span]:w-full [&>section>span]:rounded-xl",
             )}
           >

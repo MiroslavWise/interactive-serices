@@ -62,7 +62,7 @@ function PublicProfileUser() {
               ) : (
                 <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12" />
               )}
-              <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 [&>svg]:w-5 [&>svg]:h-5">
+              <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 *:w-5 *:h-5">
                 <IconVerifiedTick />
               </div>
             </>
@@ -73,7 +73,7 @@ function PublicProfileUser() {
             <h4 className="text-text-primary text-xl font-semibold text-ellipsis line-clamp-1">
               {firstName || "Имя"} {lastName || "Фамилия"}
             </h4>
-            <div className="flex flex-row items-center gap-0.375 justify-start">
+            <div className="flex flex-row items-center gap-1.5 justify-start">
               {isOnline ? (
                 <>
                   <svg
@@ -82,7 +82,7 @@ function PublicProfileUser() {
                     height="7"
                     viewBox="0 0 7 7"
                     fill="none"
-                    className="w-[7px] h-[7px] -mb-0.125"
+                    className="w-[7px] h-[7px] -mb-0.5"
                   >
                     <circle cx="3.5" cy="3.5" r="3.5" fill="#109F5C" />
                   </svg>

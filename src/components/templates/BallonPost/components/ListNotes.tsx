@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query"
-import { Dispatch, DispatchWithoutAction, memo, SetStateAction, useMemo, useState } from "react"
+import { type Dispatch, type DispatchWithoutAction, memo, type SetStateAction, useMemo, useState } from "react"
 
 import { type INotes } from "@/services/notes/types"
 
+import ItemNote from "./ItemNote"
 import IconNote from "@/components/icons/IconNote"
+import IconCheck from "@/components/icons/IconCheck"
+import IconChevronDown from "@/components/icons/IconChevronDown"
 
+import { cx } from "@/lib/cx"
 import { getNotes } from "@/services/notes"
 import { useOutsideClickEvent } from "@/helpers"
-import { cx } from "@/lib/cx"
-import IconChevronDown from "@/components/icons/IconChevronDown"
-import IconCheck from "@/components/icons/IconCheck"
-import ItemNote from "./ItemNote"
+import FooterNewNote from "./FooterNewNote"
+import { useAuth, useBalloonPost } from "@/store"
 
 const TIME_SORT: {
   label: string
@@ -40,6 +42,7 @@ function ListNotes({ notes, handleToComments }: { notes: INotes[]; handleToComme
     <section className="w-full flex flex-col gap-5">
       <ListNotesHeader setNewState={setNewState} newState={newState} length={list.length} />
       <List notes={list} handleToComments={handleToComments} newState={newState} />
+      <FooterNewNote />
     </section>
   )
 }
@@ -129,8 +132,12 @@ const List = memo(function ({
 }) {
   const filter = useMemo(() => notes.sort((a, b) => (newState ? b.id - a.id : a.id - b.id)), [newState, notes])
 
+  const data = useBalloonPost(({ data }) => data)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const { userId: userIdPost } = data ?? {}
+
   return (
-    <ul className="w-full flex flex-col gap-2.5">
+    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && "pb-16")}>
       {filter.map((item) => (
         <ItemNote note={item} key={`:key:note:${item.id}:`} handleToComments={handleToComments} />
       ))}

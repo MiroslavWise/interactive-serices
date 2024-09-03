@@ -30,12 +30,14 @@ import {
   useCreateNewCategory,
   useChangeService,
   useAuth,
+  useDeleteNote,
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
 import MyFriends from "@/components/templates/MyFriends"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
+const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
 const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
@@ -57,6 +59,7 @@ export const Containers = () => {
   const visibleNumberConfirmation = useNumberConfirmation(({ visible }) => visible)
   const visibleCreateNewCategory = useCreateNewCategory(({ visible }) => visible)
   const visibleChangeService = useChangeService(({ visible }) => visible)
+  const visibleDeleteNote = useDeleteNote(({ data }) => !!data)
 
   const { isTablet } = useResize()
 
@@ -77,6 +80,7 @@ export const Containers = () => {
       <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
+      {visibleDeleteNote && <DeleteNote />}
       {visibleHasBalloon && <HasClustererBalloons />}
       {isAuth && (
         <>

@@ -37,11 +37,11 @@ function GeoData({ offer }: { offer: IResponseOffers }) {
       aria-label="Перейти к точке на карте"
       aria-labelledby="Перейти к точке на карте"
     >
-      <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-[0.9rem] [&>svg]:h-[0.9rem]">
+      <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[0.9rem] *:h-[0.9rem]">
         <IconMapWhite />
       </div>
-      <span className="text-text-secondary text-sm font-normal pt-0.125">{geo}</span>
-      <div className="w-5 h-5 p-0.625  relative [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5">
+      <span className="text-text-secondary text-sm font-normal pt-0.5">{geo}</span>
+      <div className="w-5 h-5 p-2.5  relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
         <IconArrowRight />
       </div>
     </Link>

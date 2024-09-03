@@ -30,7 +30,7 @@ export const ItemComment = (props: ICommentsResponse) => {
       <div className="w-full flex flex-col">
         <h5 className="flex flex-row items-center flex-nowrap text-text-primary font-normal text-xs text-left w-full whitespace-nowrap text-ellipsis line-clamp-1">
           {firstName || " "} {lastName || " "}&nbsp;
-          <div className="relative w-3 h-4 px-1.5 py-2 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-3 [&>svg]:h-3 [&>svg]:z-20">
+          <div className="relative w-3 h-4 px-1.5 py-2 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-3 *:h-3 *:z-20">
             <IconVerifiedTick />
           </div>
           &nbsp;<time className="text-text-disabled">{daysAgo(created!)}</time>

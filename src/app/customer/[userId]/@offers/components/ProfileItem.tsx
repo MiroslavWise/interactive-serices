@@ -37,14 +37,18 @@ function ProfileItem({ user }: IProps) {
   }, [dataTestimonials?.data])
 
   return (
-    <section className="w-full flex flex-row items-center justify-between gap-4 pt-2.5 border-t-[1px] border-solid border-grey-stroke-light mt-auto">
+    <section className="w-full flex flex-row items-center justify-between gap-4 pt-2.5 border-t border-solid border-grey-stroke-light mt-auto">
       <div className="w-full grid grid-cols-[1.5rem_minmax(0,1fr)] gap-2.5 items-center">
         <div
-          className={`relative w-6 h-6 p-3 rounded-md overflow-hidden [&>img]:absolute [&>img]:top-1/2 [&>img]:left-1/2 [&>img]:-translate-x-1/2 [&>img]:-translate-y-1/2 [&>img]:w-6 [&>img]:h-6 ${
-            !image && "bg-grey-stroke-light !p-1 [&>svg]:w-4 [&>svg]:h-4"
+          className={`relative w-6 h-6 p-3 rounded-md overflow-hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 ${
+            !image && "bg-grey-stroke-light"
           }`}
         >
-          {!!image ? <NextImageMotion src={image?.attributes?.url} alt="avatar" width={60} height={60} /> : <IconEmptyProfile />}
+          {!!image ? (
+            <NextImageMotion src={image?.attributes?.url} className="w-6 h-6" alt="avatar" width={60} height={60} />
+          ) : (
+            <IconEmptyProfile className="w-4 h-4" />
+          )}
         </div>
         <p className="text-text-primary text-sm font-normal">
           {firstName || "Имя"} {lastName || "Фамилия"}
@@ -52,7 +56,7 @@ function ProfileItem({ user }: IProps) {
       </div>
       {rating ? (
         <div className="flex flex-row items-center">
-          <div className="w-4 h-4 p-[0.1875rem] flex items-center justify-center [&>svg]:w-0.625 [&>svg]:h-0.625">
+          <div className="w-4 h-4 p-[0.1875rem] flex items-center justify-center *:w-2.5 *:h-2.5">
             <IconRating />
           </div>
           <span className="text-text-accent text-xs font-medium">{rating?.toFixed(1)}</span>

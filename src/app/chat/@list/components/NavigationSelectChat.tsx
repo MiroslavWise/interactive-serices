@@ -59,13 +59,13 @@ function NavigationSelectChat() {
   }, [items, userId])
 
   return (
-    <nav className="scroll-no overflow-x-auto flex flex-row flex-nowrap gap-5 pb-0.375 px-5 -mx-5 w-[calc(100%_+_2.5rem)]">
+    <nav className="scroll-no overflow-x-auto flex flex-row flex-nowrap gap-5 pb-1.5 px-5 -mx-5 w-[calc(100%_+_2.5rem)]">
       {NAV_MENU.map((_) => (
         <a
           key={`::key::nav::chat::${_.value}::`}
           className={cx(
             "relative cursor-pointer",
-            "before:content-[''] before:transition-all before:absolute before:top-[calc(100%_+_0.125rem)] before:left-0 before:w-full before:h-0.125 before:scale-x-0 before:opacity-0 before:bg-element-accent-1",
+            "before:content-[''] before:transition-all before:absolute before:top-[calc(100%_+_0.125rem)] before:left-0 before:w-full before:h-0.5 before:scale-x-0 before:opacity-0 before:bg-element-accent-1",
             select === _.value && "before:!opacity-100 before:!scale-x-100",
             "flex flex-row flex-nowrap items-center gap-1.5",
           )}

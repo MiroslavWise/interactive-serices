@@ -147,7 +147,7 @@ function MyFriends() {
                             },
                           }}
                           prefetch={false}
-                          className="bg-grey-field relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
+                          className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
                           onClick={dispatchMyFriends}
                         >
                           <IconAccentChat />
@@ -207,7 +207,7 @@ function MyFriends() {
                       prefetch={false}
                       onClick={dispatchMyFriends}
                     />
-                    <div className="bg-grey-field relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5">
+                    <div className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
                       <IconCheckFriend />
                     </div>
                   </div>

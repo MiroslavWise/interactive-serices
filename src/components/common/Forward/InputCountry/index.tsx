@@ -30,20 +30,20 @@ const InputCountry = forwardRef(
         />
         <button
           type="button"
-          className="absolute top-1/2 -translate-y-1/2 left-0.875 flex flex-row items-center gap-2"
+          className="absolute top-1/2 -translate-y-1/2 left-3.5 flex flex-row items-center gap-2"
           onClick={(event) => {
             event.stopPropagation()
             setOpen((_) => !_)
           }}
         >
-          <div className="relative w-[1.625rem] h-5 px-[0.8125rem] py-0.625 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-[1.625rem] [&>svg]:h-5">
+          <div className="relative w-[1.625rem] h-5 px-[0.8125rem] py-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.625rem] *:h-5">
             {current?.img()}
           </div>
           <section
             className={cx(
               "w-4 h-4 flex items-center justify-center",
-              "[&>svg]:w-4 [&>svg]:transition-all [&>svg]:h-4 [&>svg>path]:fill-element-grey-light",
-              open && "[&>svg]:rotate-180",
+              "*:w-4 *:transition-all *:h-4 [&>svg>path]:fill-element-grey-light",
+              open && "*:rotate-180",
             )}
           >
             <IconChevronDown />
@@ -60,7 +60,7 @@ const InputCountry = forwardRef(
             {Object.values(FLAGS_OBJ).map((item) => (
               <li
                 key={`::key::item::flag::${item.short}::`}
-                className="w-full grid grid-cols-[1.625rem_minmax(0,1fr)] gap-0.625 items-center py-3 px-2 bg-BG-second rounded-lg hover:bg-grey-field cursor-pointer"
+                className="w-full grid grid-cols-[1.625rem_minmax(0,1fr)] gap-2.5 items-center py-3 px-2 bg-BG-second rounded-lg hover:bg-grey-field cursor-pointer"
                 onClick={(event) => {
                   event.stopPropagation()
                   setState(item.short)
@@ -72,8 +72,8 @@ const InputCountry = forwardRef(
               >
                 <div
                   className={cx(
-                    "relative w-[1.625rem] h-5 px-[0.8125rem] py-0.625",
-                    "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-[1.625rem] [&>svg]:h-5",
+                    "relative w-[1.625rem] h-5 px-[0.8125rem] py-2.5",
+                    "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.625rem] *:h-5",
                   )}
                 >
                   {item.img()}

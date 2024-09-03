@@ -97,7 +97,7 @@ async function Accomplishments({ id }: { id: number | string }) {
   ).toFixed(1)
 
   return (
-    <article className="w-full rounded-2xl grid grid-cols-3 gap-2 p-3 md:p-0.625 bg-BG-second">
+    <article className="w-full rounded-2xl grid grid-cols-3 gap-2 p-3 md:p-2.5 bg-BG-second">
       {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ id, title, count }) => (
         <Item key={`::key::item::accomplishments::${id}`} id={id} title={title} count={count} />
       ))}
@@ -117,8 +117,8 @@ interface IPropsItem {
 }
 
 const Item = ({ title, count, id }: IPropsItem) => (
-  <a className="w-full bg-grey-field flex flex-col gap-0.125 py-2 px-4 rounded-[0.625rem]">
-    <article className="w-full flex flex-row gap-1 items-center [&>svg]:w-3 [&>svg]:h-3">
+  <a className="w-full bg-grey-field flex flex-col gap-0.5 py-2 px-4 rounded-[0.625rem]">
+    <article className="w-full flex flex-row gap-1 items-center *:w-3 *:h-3">
       <p className="text-text-primary text-sm font-normal">{title}</p>
       {ICON[id]}
     </article>

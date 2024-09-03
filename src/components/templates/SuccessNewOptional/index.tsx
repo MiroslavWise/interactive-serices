@@ -41,7 +41,7 @@ function SuccessNewOptional() {
         <div
           className={`w-[4.375rem] h-[4.375rem] rounded-[2.1875rem] aspect-square mb-[calc(2.5rem_-_1.125rem)] relative z-10 flex items-center justify-center bg-grey-field`}
         >
-          <div className={cx("w-8 h-8 [&>svg]:w-8 [&>svg]:h-8")}>
+          <div className={cx("w-8 h-8 *:w-8 *:h-8")}>
             {typeAdd === EnumTypeProvider.alert ? (
               <IconAlertCirlceRed />
             ) : typeAdd === EnumTypeProvider.discussion ? (
@@ -53,7 +53,7 @@ function SuccessNewOptional() {
           <div
             className={cx(
               "absolute left-1/2 -translate-x-1/2 rounded-xl top-[calc(100%_-_0.875rem)] w-6 h-6 flex items-center justify-center p-1 bg-more-field z-[5]",
-              "[&>svg]:w-4 [&>svg]:h-4",
+              "*:w-4 *:h-4",
               "before:content-[''] before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:bg-more-field",
               "after:content-[''] after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-more-field",
               "before:w-8 before:h-8 before:rounded-2xl before:opacity-30 before:-z-[2]",

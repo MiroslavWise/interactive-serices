@@ -34,7 +34,7 @@ export default async ({ params }: IParamsCustomer) => {
         <section
           className={cx("relative w-full", "grid grid-cols-[5rem_minmax(0,1fr)] gap-4", "md:flex md:flex-col md:items-center md:gap-3")}
         >
-          <div className={`w-20 h-20 rounded-2xl relative p-10 ${!image && "bg-grey-stroke-light !rounded-[0.625rem]"}`}>
+          <div className={`w-20 h-20 relative p-10 ${!!image ? "rounded-2xl" : "bg-grey-stroke-light rounded-[0.625rem]"}`}>
             {!!image ? (
               <NextImageMotion
                 className="rounded-2xl overflow-hidden w-20 h-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -46,7 +46,7 @@ export default async ({ params }: IParamsCustomer) => {
             ) : (
               <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12" />
             )}
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 [&>svg]:w-5 [&>svg]:h-5">
+            <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 *:w-5 *:h-5">
               <IconVerifiedTick />
             </div>
           </div>
@@ -66,7 +66,7 @@ export default async ({ params }: IParamsCustomer) => {
         <ProfileDescription user={data!} />
         <Suspense
           fallback={
-            <article className="loading-screen w-full rounded-[0.625rem] p-4 border-[1px] border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_3.125rem] gap-0.625 [&>span]:h-5 [&>span]:w-full [&>span]:rounded-xl">
+            <article className="loading-screen w-full rounded-[0.625rem] p-4 border border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_3.125rem] gap-2.5 *::h-5 *::w-full *::rounded-xl">
               <span />
               <span />
             </article>
@@ -76,7 +76,7 @@ export default async ({ params }: IParamsCustomer) => {
         </Suspense>
       </article>
       <footer className="mt-auto w-full flex flex-col gap-3 items-center pb-4 max-md:hidden">
-        <div className="w-full pb-4 grid grid-cols-[minmax(0,1fr)_2.25rem] gap-0.625 border-b-[1px] border-solid border-grey-stroke-light">
+        <div className="w-full pb-4 grid grid-cols-[minmax(0,1fr)_2.25rem] gap-2.5 border-b border-solid border-grey-stroke-light">
           <FooterButton user={data} />
         </div>
         <time className="w-full text-text-disabled text-xs text-center font-normal" dateTime={created as unknown as string}>

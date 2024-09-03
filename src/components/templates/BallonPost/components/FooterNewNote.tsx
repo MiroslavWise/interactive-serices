@@ -1,0 +1,23 @@
+import { Button } from "@/components/common"
+import { cx } from "@/lib/cx"
+import { dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
+
+function FooterNewNote() {
+  const data = useBalloonPost(({ data }) => data)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const { id, userId: userIdPost, title } = data ?? {}
+
+  return (
+    <footer
+      className={cx(
+        "fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-[2rem]",
+        userIdPost === userId ? "flex opacity-100 visible z-40" : "hidden opacity-0 -z-10 invisible",
+      )}
+    >
+      <Button type="button" typeButton="fill-primary" label="Добавить запись" onClick={() => dispatchOpenCreateNote(id!, title!)} />
+    </footer>
+  )
+}
+
+FooterNewNote.displayName = "FooterNewNote"
+export default FooterNewNote

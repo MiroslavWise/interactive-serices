@@ -16,7 +16,7 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
     <button
       {...rest}
       className={cx(
-        "relative border-none outline-none w-full rounded-[1.375rem] px-6 py-0.625 flex flex-row items-center justify-center cursor-pointer gap-2 touch-manipulation z-[2] h-11",
+        "relative border-none outline-none w-full rounded-[1.375rem] px-6 py-2.5 flex flex-row items-center justify-center cursor-pointer gap-2 touch-manipulation z-[2] h-11",
         "max-md:h-9 rounded-[1.125rem] [&>span]:text-sm",
         "[&>img]:w-6 [&>img]:h-6",
         "disabled:opacity-50 disabled:cursor-no-drop",
@@ -38,15 +38,18 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
     >
       {prefixIcon ? prefixIcon : null}
       <span
-        className={cx("opacity-100 text-sm text-center whitespace-nowrap font-medium selection:bg-transparent", loading && "!opacity-60")}
+        className={cx(
+          " text-sm text-center whitespace-nowrap font-medium selection:bg-transparent",
+          loading ? "!opacity-60" : "opacity-100",
+        )}
       >
         {label}
       </span>
       {suffixIcon ? suffixIcon : null}
       <div
         className={cx(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 invisible h-5 w-5 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:rounded-[0.625rem]",
-          loading && "!opacity-100 !visible",
+          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-5 w-5 *:h-5 *:w-5 *:rounded-[0.625rem]",
+          loading ? "opacity-100 visible" : "opacity-0 invisible",
         )}
       >
         <IconSpinner />
@@ -63,7 +66,7 @@ export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & ty
       {...rest!}
       href={href ? href : {}}
       className={cx(
-        "relative border-none outline-none w-full rounded-[1.375rem] px-6 py-0.625 flex flex-row items-center justify-center cursor-pointer gap-2 touch-manipulation z-[2] h-11",
+        "relative border-none outline-none w-full rounded-[1.375rem] px-6 py-2.5 flex flex-row items-center justify-center cursor-pointer gap-2 touch-manipulation z-[2] h-11",
         "max-md:h-9 rounded-[1.125rem] [&>span]:text-sm",
         "[&>img]:w-6 [&>img]:h-6",
         "disabled:opacity-50 disabled:cursor-no-drop",

@@ -81,7 +81,7 @@ const IconDownloadApp = () => (
     className={cx(
       styles.button,
       "w-6 h-6 rounded-md relative overflow-hidden",
-      "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-[1.1rem] [&>svg]:h-[1.11669rem] [&>svg]:z-10",
+      "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.1rem] *:h-[1.11669rem] *:z-10",
     )}
   >
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">

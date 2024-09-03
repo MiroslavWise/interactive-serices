@@ -13,7 +13,7 @@ export interface ICommentsResponse {
   message: string
   status: TTypeStatusComments
   enabled: boolean
-  created?: Date
+  created?: string
   updated?: Date
   user: IUserOffer
 }

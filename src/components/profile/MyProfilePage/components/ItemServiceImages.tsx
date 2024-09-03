@@ -22,7 +22,7 @@ function ItemServiceImages({ images = [] }: { images: IImageData[] }) {
         className={cx(
           "not-y-scroll",
           "w-full h-full px-4 flex flex-row gap-2 flex-nowrap",
-          "[&>img]:aspect-[4.375/4.875] [&>img]:w-[4.375rem] [&>img]:h-[4.875rem] [&>img]:rounded-lg [&>img]:cursor-pointer",
+          "*:aspect-[4.375/4.875] *:w-[4.375rem] *:h-[4.875rem] *:rounded-lg *:cursor-pointer",
         )}
         ref={refImages}
         onWheel={(event) => {

@@ -45,14 +45,14 @@ function PreCloseCreateService() {
           <div className="relative pb-4 flex flex-col w-[4.375rem]">
             <div
               className={cx(
-                "w-[4.375rem] h-[4.375rem] rounded-[2.1875rem] bg-grey-field flex items-center justify-center p-[1.1875rem] [&>svg]:w-8 [&>svg]:h-8",
+                "w-[4.375rem] h-[4.375rem] rounded-[2.1875rem] bg-grey-field flex items-center justify-center p-[1.1875rem] *:w-8 *:h-8",
                 type === EnumTypeProvider.alert && "[&>svg>g>path]:!fill-text-error",
                 type === EnumTypeProvider.offer && "[&>svg>g>path]:!fill-element-accent-1",
               )}
             >
               {ICON.has(type!) ? ICON.get(type!)!() : null}
             </div>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-8 bg-[#fea032] rounded-2xl p-[0.45rem] flex items-center justify-center [&>svg]:w-[1.1rem] [&>svg]:h-[1.1rem]">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-8 bg-[#fea032] rounded-2xl p-[0.45rem] flex items-center justify-center *:w-[1.1rem] *:h-[1.1rem]">
               <IconMark />
             </div>
           </div>

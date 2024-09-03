@@ -17,15 +17,19 @@ async function ItemFeedBack(props: IResponseTestimonials) {
   const { image, firstName, lastName } = user ?? {}
 
   return (
-    <div className="py-4 flex flex-col gap-3 border-b-[1px] border-solid border-grey-stroke-light last:!border-none">
+    <div className="py-4 flex flex-col gap-3 border-b border-solid border-grey-stroke-light last:!border-none">
       <article className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
         <Link
-          className={`w-full relative flex items-center cursor-pointer justify-center aspect-square overflow-hidden rounded-[0.625rem] [&>img]:w-full [&>img]:h-full ${
-            !image && "bg-grey-stroke-light !p-2 [&>svg]:w-6 [&>svg]:h-6"
+          className={`w-full relative flex items-center cursor-pointer justify-center aspect-square overflow-hidden rounded-[0.625rem]  ${
+            !image && "bg-grey-stroke-light !p-2"
           }`}
           href={{ pathname: `/customer/${user.id}` }}
         >
-          {!!image ? <NextImageMotion src={image?.attributes?.url} alt="avatar" width={40} height={40} /> : <IconEmptyProfile />}
+          {!!image ? (
+            <NextImageMotion src={image?.attributes?.url} alt="avatar" width={40} height={40} className="w-full h-full" />
+          ) : (
+            <IconEmptyProfile className="w-6 h-6" />
+          )}
         </Link>
         <div className="w-full flex flex-col gap-1 justify-between items-start">
           <div className="w-full flex flex-row items-center gap-1">
@@ -41,7 +45,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
       </article>
       <article className="w-full flex flex-col gap-1">
         <div className="w-full flex flex-row items-center gap-1">
-          <article className="flex flex-row items-center gap-0.125 flex-nowrap">
+          <article className="flex flex-row items-center gap-0.5 flex-nowrap">
             {[1, 2, 3, 4, 5].map((rate) => (
               <div key={`::key::rate::${rate}::${id}::`} className="p-0.039rem flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">

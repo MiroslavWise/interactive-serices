@@ -45,9 +45,9 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
     <article
       data-active={visible}
       className={cx(
-        "fixed md:absolute top-auto md:top-5 max-md:left-0 max-md:bottom-0 right-0 w-full md:w-[13.5rem] h-auto p-5 md:p-3 max-md:pt-9 flex flex-col gap-0.125 shadow-box-down rounded-t-3xl md:rounded-xl bg-BG-second",
+        "fixed md:absolute top-auto md:top-5 max-md:left-0 max-md:bottom-0 right-0 w-full md:w-[13.5rem] h-auto p-5 md:p-3 max-md:pt-9 flex flex-col gap-0.5 shadow-box-down rounded-t-3xl md:rounded-xl bg-BG-second",
         visible ? "!z-10 !opacity-100 !visible" : "-z-10 opacity-0 invisible",
-        "*:w-full *:py-2 *:px-0.375 *:flex *:flex-row *:items-center *:justify-start *:gap-0.625 *:rounded-[0.375rem] hover:*:bg-grey-field",
+        "*:w-full *:py-2 *:px-1.5 *:flex *:flex-row *:items-center *:justify-start *:gap-2.5 *:rounded-[0.375rem] hover:*:bg-grey-field",
       )}
     >
       <a
@@ -75,8 +75,8 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
       >
         <div
           className={cx(
-            "w-5 h-5 flex items-center justify-center relative p-0.625",
-            "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5",
+            "w-5 h-5 flex items-center justify-center relative p-2.5",
+            "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
           )}
         >
           <IconMap />
@@ -104,8 +104,8 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
       >
         <div
           className={cx(
-            "w-5 h-5 flex items-center justify-center relative p-0.625",
-            "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5",
+            "w-5 h-5 flex items-center justify-center relative p-2.5",
+            "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
           )}
         >
           <IconActivity />
@@ -115,8 +115,8 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
       <a onClick={handle} title={LABEL_COMPLAIN} aria-label={LABEL_COMPLAIN} aria-labelledby={LABEL_COMPLAIN}>
         <div
           className={cx(
-            "w-5 h-5 flex items-center justify-center relative p-0.625",
-            "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5",
+            "w-5 h-5 flex items-center justify-center relative p-2.5",
+            "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
           )}
         >
           <IconAlertCircle />

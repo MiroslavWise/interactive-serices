@@ -55,8 +55,8 @@ function ItemsFeedback({ id }: { id: string | number }) {
   return (
     <section className="w-full h-fit flex flex-col flex-nowrap overflow-x-hidden overflow-y-scroll max-md:px-5">
       {length === 0 ? (
-        <section className="w-full h-full flex flex-col items-center justify-center my-auto gap-0.625">
-          <div className="w-14 h-14 bg-grey-field rounded-[1.75rem] p-4 flex items-center justify-center [&>svg]:w-6 [&>svg]:h-6">
+        <section className="w-full h-full flex flex-col items-center justify-center my-auto gap-2.5">
+          <div className="w-14 h-14 bg-grey-field rounded-[1.75rem] p-4 flex items-center justify-center *:w-6 *:h-6">
             <IconFeedBackAccent />
           </div>
           <p className="text-text-primary text-sm font-normal">Нет отзывов</p>
