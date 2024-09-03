@@ -99,7 +99,10 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
       <div
         data-images
         className={cx("-mx-4 w-[calc(100%_+_2rem)] relative overflow-hidden", images.length ? "flex" : "hidden")}
-        ref={refImages}
+        onTouchMove={(event) => {
+          event.stopPropagation()
+          event.preventDefault()
+        }}
         onWheel={(event) => {
           event.stopPropagation()
           event.preventDefault()
@@ -112,13 +115,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           }
         }}
       >
-        <div
-          className="w-full flex flex-row gap-2 overflow-hidden overflow-x-scroll px-4"
-          style={{
-            overscrollBehaviorY: "none",
-            overscrollBehaviorX: "contain",
-          }}
-        >
+        <div className="w-full flex flex-row gap-2 overflow-hidden overflow-x-scroll px-4" ref={refImages}>
           {images.map((item) => (
             <NextImageMotion
               key={`::${item.id}::photo::post::`}

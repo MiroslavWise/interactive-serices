@@ -127,7 +127,7 @@ const List = memo(function ({
   handleToComments: DispatchWithoutAction
   newState: boolean
 }) {
-  const filter = useMemo(() => notes.sort((a, b) => (newState ? a.id - b.id : b.id - a.id)), [newState, notes])
+  const filter = useMemo(() => notes.sort((a, b) => (newState ? b.id - a.id : a.id - b.id)), [newState, notes])
 
   return (
     <ul className="w-full flex flex-col gap-2.5">
