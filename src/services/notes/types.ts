@@ -3,7 +3,7 @@ import { type IImageData } from "@/types/type"
 import { type IUserOffer as IUserSmall } from "../offers/types"
 import { type TOrder } from "../types/general"
 
-interface INotes {
+export interface INotes {
   id: number
   enabled: boolean
   description: string
@@ -27,6 +27,7 @@ interface IQueries {
   order: TOrder
   limit?: number
   user?: number
+  post?: number
 }
 
 export type TPostNote = (body: IBodyNote) => Promise<IResponse<INotes>>

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { type AxiosProgressEvent } from "axios"
+import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -11,8 +12,8 @@ import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
 import { fileUploadService } from "@/services"
-import { patchNote, postNote } from "@/services/notes"
-import { dispatchCloseCreateNote, dispatchCreatePost, useAuth, useCreateNewNote } from "@/store"
+import { getNotes, patchNote, postNote } from "@/services/notes"
+import { dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
 import {
   DEFAULT_VALUES,
   handleImageChange,
@@ -32,6 +33,12 @@ function CreateNewNote() {
   const { handleSubmit, control } = useForm<TSchemaCreateNote>({
     resolver: resolverCreateNote,
     defaultValues: DEFAULT_VALUES,
+  })
+
+  const { refetch: refetchNotes } = useQuery({
+    queryFn: () => getNotes({ order: "DESC", post: id }),
+    queryKey: ["note", { order: "DESC", post: id }],
+    enabled: !!id,
   })
 
   const onSubmit = handleSubmit(async (values) => {
@@ -66,10 +73,12 @@ function CreateNewNote() {
               images: ids,
             }
             await patchNote(idNote, data)
+            refetchNotes()
           }
           setLoading(false)
           dispatchCloseCreateNote()
         } else {
+          refetchNotes()
           setLoading(false)
           dispatchCloseCreateNote()
         }

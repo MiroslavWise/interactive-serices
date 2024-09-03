@@ -4,7 +4,7 @@ import { type IPosts } from "@/services/posts/types"
 
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
-export const usePost = create<{ visible: boolean }>(() => ({ visible: false }))
+export const useCreatePost = create<{ visible: boolean }>(() => ({ visible: false }))
 export const useCreateNewNote = create<IStateNote>(() => ({
   data: null,
 }))

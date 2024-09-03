@@ -50,8 +50,8 @@ export const ContainerSuggestions = () => {
   })
 
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
-    queryFn: () => getPostsFromUser({ userId: userId! }),
-    queryKey: ["posts", { userId: userId! }],
+    queryFn: () => getPostsFromUser({ userId: userId!, query: { order: "DESC" } }),
+    queryKey: ["posts", { userId: userId!, order: "DESC" }],
     enabled: !!userId && stateProvider === EnumTypeProvider.post,
   })
 

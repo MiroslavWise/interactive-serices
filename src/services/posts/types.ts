@@ -2,6 +2,7 @@ import { type IResponse } from "../request"
 import { type TOrder } from "../types/general"
 import { type IUserOffer as IUserSmall } from "../offers/types"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { INotes } from "../notes/types"
 
 export interface IBodyPost {
   title: string
@@ -23,6 +24,7 @@ export interface IPosts {
   questionnaire: IQuestionnaire
   archive: boolean //default - false
   archived: string //время, когда запись была отправлена в архив
+  notes: INotes[]
 }
 
 interface IQuestionnaire {
@@ -50,6 +52,7 @@ interface IQueries {
   order?: TOrder
   limit?: number
   page?: number
+  archive?: boolean
 }
 
 export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>

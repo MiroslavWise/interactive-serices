@@ -1,25 +1,23 @@
 import Link from "next/link"
-import { useQuery } from "@tanstack/react-query"
 
 import { type IPosts } from "@/services/posts/types"
 
 import { Button } from "@/components/common"
+import HeaderItemPost from "./HeaderItemPost"
 import IconNote from "@/components/icons/IconNote"
 import IconComment from "@/components/icons/IconComment"
 import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 
-import { getNotes } from "@/services/notes"
-import { dispatchMapCoordinates, dispatchOpenCreateNote } from "@/store"
-import HeaderItemPost from "./HeaderItemPost"
 import { cx } from "@/lib/cx"
+import { dispatchMapCoordinates, dispatchOpenCreateNote } from "@/store"
 
 interface IProps {
   post: IPosts
 }
 
 function ItemPost({ post }: IProps) {
-  const { id, title, archive, addresses, userId } = post ?? {}
+  const { id, title, archive, addresses, userId, notes } = post ?? {}
 
   const firstAddress = addresses.length ? addresses[0] : null
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
@@ -30,20 +28,14 @@ function ItemPost({ post }: IProps) {
     }
   }
 
-  const { data } = useQuery({
-    queryFn: () => getNotes({ order: "DESC", user: userId }),
-    queryKey: ["note", { postId: id!, order: "DESC", userId: userId }],
-    enabled: !!id,
-  })
-
-  const items = data?.data || []
-  const first = data?.data && data?.data.length > 0 ? data?.data?.find((item) => item.main) : null
+  const items = notes || []
+  const firstNote = notes[0] ?? {}
 
   return (
     <li className="w-full rounded-2xl bg-BG-second p-4 flex flex-col gap-3">
       <HeaderItemPost post={post} />
       <article className="w-full flex flex-col gap-3">
-        <p className="text-text-primary text-sm font-normal whitespace-pre-wrap">{first ? first.description : null}</p>
+        <p className="text-text-primary text-sm font-normal whitespace-pre-wrap">{firstNote ? firstNote.description : null}</p>
         <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem]">
           <div className="px-2.5 w-fit bg-grey-field py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:scale-90">

@@ -5,7 +5,7 @@ import { ImageStatic } from "@/components/common"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { TSchemaCreate } from "../utils/create.schema"
-import { TSchemaCreatePost } from "../../CreatePost/utils/schema"
+import { TSchemaCreatePost } from "../../CreatePost/schema"
 import { TSchemaCreateNote } from "../../CreateNewNote/utils"
 
 interface IProps {

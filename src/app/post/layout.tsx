@@ -12,7 +12,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   const { id } = params ?? {}
   if (!id) return {}
   const { data } = await getPostId(id)
-  // const {data: dataNotes} = await getNotes({order: "DESC"})
 
   const obj: Metadata = {}
 

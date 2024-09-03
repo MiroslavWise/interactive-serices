@@ -1,9 +1,12 @@
 "use client"
 
-import { ChangeEvent, useMemo, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { type AxiosProgressEvent } from "axios"
 import { Controller, useForm } from "react-hook-form"
+import { useMemo, useState } from "react"
 
+import { type IBodyNote } from "@/services/notes/types"
+import { type IBodyPost } from "@/services/posts/types"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { Button } from "@/components/common"
@@ -11,20 +14,17 @@ import IconXClose from "@/components/icons/IconXClose"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
-import { dispatchModal, EModalData, useAuth } from "@/store"
-import { queryClient } from "@/context"
-import { getGeocodeSearch } from "@/services"
-import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
-import { LIMIT_DESCRIPTION, resolverCreate, type TSchemaCreatePost } from "./utils/schema"
-import { useToast } from "@/helpers/hooks/useToast"
-import { IBodyPost } from "@/services/posts/types"
-import { postPosts } from "@/services/posts"
 import { clg } from "@console"
+import { queryClient } from "@/context"
+import { handleImageChange, onProgress, onUploadProgress } from "./utils"
+import { patchNote, postNote } from "@/services/notes"
+import { fileUploadService, getGeocodeSearch } from "@/services"
 import { createAddress } from "@/helpers/address/create"
-import { IBodyNote } from "@/services/notes/types"
-import { postNote } from "@/services/notes"
-
-const sleep = () => new Promise((r) => setTimeout(r, 50))
+import { dispatchModal, EModalData, useAuth } from "@/store"
+import { getPostsFromUser, postPosts } from "@/services/posts"
+import { LIMIT_DESCRIPTION, resolverCreate, type TSchemaCreatePost } from "./schema"
+import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
+import { EnumTypeProvider } from "@/types/enum"
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
   const debouncedValue = useDebounce(onChangeAddress, 200)
@@ -32,15 +32,13 @@ function CreatePost() {
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { on } = useToast()
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
 
-  function onUploadProgress(value: AxiosProgressEvent, name: FormDataEntryValue | null) {
-    setProgress((prev) => ({
-      ...prev,
-      [String(name)]: value,
-    }))
-  }
+  const { refetch: refetchProfile } = useQuery({
+    queryFn: () => getPostsFromUser({ userId: userId! }),
+    queryKey: ["posts", { userId: userId! }],
+    enabled: !!userId,
+  })
 
   const {
     handleSubmit,
@@ -91,7 +89,29 @@ function CreatePost() {
         if (!!description) {
           dataNote.description = description
         }
-        await postNote(dataNote)
+        const responseNote = await postNote(dataNote)
+        refetchProfile()
+        const idNote = responseNote?.data!?.id
+        const files = values.file.file
+        if (!!idNote && !!files.length) {
+          const responseIds = await Promise.all(
+            files.map((item) =>
+              fileUploadService(item!, {
+                type: EnumTypeProvider.NOTE,
+                userId: userId!,
+                idSupplements: idNote,
+                onUploadProgress: (value, name) => onUploadProgress(value, name, setProgress),
+              }),
+            ),
+          )
+          const ids = responseIds.filter((item) => !!item.data?.id).map((item) => item.data?.id!)
+          if (ids.length) {
+            const data: Partial<IBodyNote> = {
+              images: ids,
+            }
+            await patchNote(idNote, data)
+          }
+        }
         setLoading(false)
         dispatchModal(EModalData.SUCCESS_CREATE_POST)
       } else {
@@ -126,66 +146,6 @@ function CreatePost() {
   const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
   const focusAddress = () => setIsFocus(true)
   const blurAddress = () => setIsFocus(false)
-
-  const onProgress = (files: File[], index: number): number => {
-    const file = files[index]
-    const name = file?.name
-
-    if (Object.hasOwn(progress, name)) {
-      return (progress[name].loaded / (progress[name].total! || 1)) * 100
-    }
-
-    return 0
-  }
-
-  async function handleImageChange(
-    current: {
-      file: File[]
-      string: string[]
-    },
-    event: ChangeEvent<HTMLInputElement>,
-  ) {
-    const files = event.target.files
-
-    let filesReady = {
-      file: [...current.file] as File[],
-      string: [...current.string] as string[],
-    }
-
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-
-        if (file) {
-          if (file.size < 9.9 * 1024 * 1024) {
-            const is = current.file.some((_) => _.size === file.size && _.name === file.name)
-
-            if (is) {
-              on({ message: "Вы можете прикрепить одну копию одного изображения" })
-              continue
-            }
-
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = function (f) {
-              filesReady = {
-                ...filesReady,
-                file: [...filesReady.file, file],
-                string: [...filesReady.string, f!.target!.result as string],
-              }
-            }
-          }
-        }
-      }
-    }
-
-    await sleep()
-
-    return Promise.resolve({
-      file: filesReady.file.splice(0, 9),
-      string: filesReady.string.splice(0, 9),
-    })
-  }
 
   return (
     <>
@@ -324,7 +284,7 @@ function CreatePost() {
                       index={index}
                       //@ts-ignore
                       field={field}
-                      progress={!loading ? null : onProgress(field.value.file, index)}
+                      progress={!loading ? null : onProgress(field.value.file, index, progress)}
                     />
                   ))}
                   {field.value.string.length < 9 ? (
@@ -348,7 +308,7 @@ function CreatePost() {
             )}
           />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
-            <Button type="submit" typeButton="fill-primary" label="Создать пост" className="w-full h-11 py-2.5" />
+            <Button type="submit" typeButton="fill-primary" label="Создать пост" className="w-full h-11 py-2.5" loading={loading} />
           </footer>
         </form>
       </ul>
