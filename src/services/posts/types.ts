@@ -50,9 +50,10 @@ interface IQuestion {
 
 interface IQueries {
   order?: TOrder
+  user?: number
   limit?: number
   page?: number
-  archive?: boolean
+  archive?: 1 | 0
 }
 
 export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>

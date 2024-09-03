@@ -4,6 +4,7 @@ export const TYPE_ICON = {
   [EnumTypeProvider.offer]: "/map/droplet/offer.avif",
   [EnumTypeProvider.alert]: "/map/droplet/sos.avif",
   [EnumTypeProvider.discussion]: "/map/droplet/discussion.avif",
+  [EnumTypeProvider.post]: "/map/droplet/post.svg",
 } as Record<EnumTypeProvider, string>
 
 export const TYPE_ICON_URGENT = {

@@ -12,6 +12,7 @@ export const useBalloonPost = create<IStateBalloonPost>(() => ({
   data: null,
 }))
 
+
 export const dispatchCreatePost = (value: boolean) => {
   if (value) {
     dispatchModal(EModalData.CREATE_POST)
@@ -59,4 +60,8 @@ interface IStateNote {
     id: number
     title: string
   } | null
+}
+
+interface IStateUsePost {
+  post: IPosts | null
 }

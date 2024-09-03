@@ -11,9 +11,11 @@ interface IProps {
 }
 
 export function ComponentProfilePost({ post }: IProps) {
-  const { user, updated } = post ?? {}
+  const { user, updated, addresses } = post ?? {}
 
   const { image, firstName, lastName } = user ?? {}
+  const firstAddress = addresses[0] ?? {}
+  const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
 
   return (
     <div className="relative w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-2.5">
@@ -40,6 +42,7 @@ export function ComponentProfilePost({ post }: IProps) {
         <time dateTime={updated} className="text-text-secondary font-normal text-[0.8125rem] leading-4 -mt-0.5">
           обновлено: {daysAgo(updated || new Date())}
         </time>
+        <span className="text-text-secondary font-normal text-[0.8125rem] leading-4 text-ellipsis line-clamp-1">{additional}</span>
       </article>
     </div>
   )

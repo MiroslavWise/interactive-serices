@@ -11,8 +11,38 @@
     background-color: var(--card-yellow);
   }
 
+  [data-images] {
+    -ms-overflow-style: none;
+    overscroll-behavior-y: none;
+
+    & > div {
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      overscroll-behavior-y: none;
+      overscroll-behavior-x: contain;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      & > img {
+        aspect-ratio: 11.25/12.5;
+        height: 12.5rem;
+        width: 11.25rem;
+      }
+    }
+  }
+
   @media screen and (max-width: 768px) {
     max-width: 100%;
     max-height: calc(100% - 1rem);
+
+    [data-images] {
+      & > div {
+        & > img {
+          width: 17.5rem;
+          height: 19.375rem;
+          aspect-ratio: 17.5/19.375;
+        }
+      }
+    }
   }
 }

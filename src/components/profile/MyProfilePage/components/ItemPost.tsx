@@ -10,7 +10,7 @@ import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 
 import { cx } from "@/lib/cx"
-import { dispatchMapCoordinates, dispatchOpenCreateNote } from "@/store"
+import { dispatchMapCoordinates, dispatchOpenCreateNote, dispatchBallonPost } from "@/store"
 
 interface IProps {
   post: IPosts
@@ -31,8 +31,12 @@ function ItemPost({ post }: IProps) {
   const items = notes || []
   const firstNote = notes[0] ?? {}
 
+  function handle() {
+    dispatchBallonPost(post)
+  }
+
   return (
-    <li className="w-full rounded-2xl bg-BG-second p-4 flex flex-col gap-3">
+    <li className="w-full rounded-2xl bg-BG-second p-4 flex flex-col gap-3" onClick={handle}>
       <HeaderItemPost post={post} />
       <article className="w-full flex flex-col gap-3">
         <p className="text-text-primary text-sm font-normal whitespace-pre-wrap">{firstNote ? firstNote.description : null}</p>

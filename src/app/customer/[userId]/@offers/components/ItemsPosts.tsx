@@ -9,7 +9,7 @@ import ItemPost from "./ItemPost"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "../page"
-import { getPostsFromUser } from "@/services/posts"
+import { getPosts } from "@/services/posts"
 
 const NAV: { value: boolean; label: string }[] = [
   {
@@ -26,8 +26,8 @@ function ItemsPosts({ id }: { id: number }) {
   const [archive, setArchive] = useState(false)
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getPostsFromUser({ userId: id, query: { order: "DESC" } }),
-    queryKey: ["posts", { userId: id, order: "DESC" }],
+    queryFn: () => getPosts({ order: "DESC", archive: archive ? 1 : 0, user: id }),
+    queryKey: ["posts", { userId: id, order: "DESC", archive: archive }],
   })
   const items = data?.data || []
   const length = items.length
@@ -62,7 +62,9 @@ function ItemsPosts({ id }: { id: number }) {
           </ul>
         </>
       ) : (
-        <p className="text-text-primary text-sm font-normal whitespace-nowrap mt-10">Постов нет</p>
+        <p className="text-text-primary text-sm font-normal whitespace-nowrap mt-10">
+          {archive ? "Архивированных" : "Активных"} постов нет
+        </p>
       )}
     </section>
   )

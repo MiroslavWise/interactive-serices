@@ -1,15 +1,22 @@
+import { useState } from "react"
+
 import IconPost from "@/components/icons/IconPost"
 
 import ComponentProfilePost from "./components/Profile"
 import NavigationNoteAndComments from "./components/Navigation"
 
 import { useBalloonPost } from "@/store"
+import ListNotes from "./components/ListNotes"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
-  const { title, id } = data ?? {}
+  const { title, id, notes = [], addresses } = data ?? {}
 
-  const {} = {}
+  const [state, setState] = useState<"notes" | "comments">("notes")
+
+  function handleToComments() {
+    setState("comments")
+  }
 
   return (
     <>
@@ -19,10 +26,11 @@ function BallonPost() {
         </div>
         <h3 className="text-xl font-semibold text-text-primary">{title || "Пост"}</h3>
       </header>
-      <section className="w-full h-full flex flex-col md:rounded-b-[2rem] bg-BG-second">
+      <section className="w-full h-full flex flex-col md:rounded-b-[2rem] bg-BG-second overflow-hidden">
         <ul className="w-full px-5 overflow-y-auto flex flex-col gap-5 py-5">
           <ComponentProfilePost post={data!} />
-          <NavigationNoteAndComments />
+          <NavigationNoteAndComments post={data!} {...{ state, setState }} />
+          <ListNotes notes={notes ?? []} handleToComments={handleToComments} />
         </ul>
       </section>
     </>

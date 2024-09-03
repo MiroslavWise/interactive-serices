@@ -10,7 +10,7 @@ import IconComment from "@/components/icons/IconComment"
 import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 
-import { dispatchMapCoordinates } from "@/store"
+import { dispatchBallonPost, dispatchMapCoordinates } from "@/store"
 
 function ItemPost({ post }: { post: IPosts }) {
   const { title, notes, addresses, user } = post ?? {}
@@ -19,8 +19,12 @@ function ItemPost({ post }: { post: IPosts }) {
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
   const firstNote = notes[0] ?? {}
 
+  function handle() {
+    dispatchBallonPost(post)
+  }
+
   return (
-    <li className="w-full p-4 bg-BG-second flex flex-col gap-3 rounded-2xl">
+    <li className="w-full p-4 bg-BG-second flex flex-col gap-3 rounded-2xl cursor-pointer" onClick={handle}>
       <ItemHeaderPost post={post} />
       <div className="w-full grid grid-cols-[1.625rem_minmax(0,1fr)] gap-3 items-start">
         <div className="relative w-[1.625rem] h-[1.625rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2">

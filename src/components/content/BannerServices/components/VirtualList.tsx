@@ -1,20 +1,26 @@
 import { type RefObject } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 
+import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import CardBallon from "@/components/common/Card/CardBallon"
 
+import { useFiltersServices } from "@/store"
+
 interface IProps {
   parentRef: RefObject<HTMLUListElement>
   list: IResponseOffers[]
+  listPosts: IPosts[]
 }
 
-function VirtualList({ parentRef, list }: IProps) {
+function VirtualList({ parentRef, list, listPosts }: IProps) {
   const count = list.length
+  const countPost = listPosts.length
+  const providers = useFiltersServices(({ providers }) => providers)
 
   const virtualizer = useVirtualizer({
-    count,
+    count: count + countPost,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 270,
     enabled: true,

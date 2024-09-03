@@ -130,7 +130,7 @@ export default function SearchCategory() {
                   providers === item.value ? "[&>span]:text-text-accent" : "[&>span]:text-text-secondary",
                 )}
               >
-                <span className="text-center text-sm font-medium">{item.label.replace("Все сервисы", "Все")}</span>
+                <span className="text-center text-sm font-medium">{item.label}</span>
               </a>
             ))}
           </div>

@@ -10,7 +10,7 @@ function ServiceFilters() {
     dispatchFiltersServiceProvider(value)
   }
   return (
-    <div data-filters-services className="gap-4 w-full flex flex-row items-start justify-start">
+    <div data-filters-services className="gap-[1.125rem] w-full flex flex-row items-start justify-start overflow-x-auto flex-nowrap">
       {SERVICES.map((item) => (
         <a
           key={`::key::item::provider::${item.value}::`}

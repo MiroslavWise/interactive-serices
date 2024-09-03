@@ -10,7 +10,7 @@ import { type IResponseOffers } from "@/services/offers/types"
 import HeaderMap from "./Header"
 import ListPlacemark from "./ObjectsMap"
 
-import { useAddress, useDebounce } from "@/helpers"
+import { useAddress } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getAddressCoords } from "@/helpers/get-address"
 import {
@@ -24,6 +24,7 @@ import {
   useBounds,
   useMapCoordinates,
 } from "@/store"
+import ListPlacePosts from "./ObjectsMap/list-place-posts"
 
 const COORD = [37.427698, 55.725864]
 
@@ -32,16 +33,9 @@ function YandexMap() {
   const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
-  const [stateZoom, setStateZoom] = useState(zoom)
   const instanceRef: TTypeInstantsMap = useRef()
   const bounds = useBounds(({ bounds }) => bounds)
   const { on } = useToast()
-  const debouncedCoordinates = useDebounce(onFunctionCoordinates, 1)
-  function onFunctionCoordinates() {
-    if (zoom !== stateZoom) {
-      dispatchMapCoordinatesZoom(stateZoom)
-    }
-  }
 
   function onContextMenu(e: any) {
     console.log("onContextMenu: ", e)
@@ -190,6 +184,7 @@ function YandexMap() {
           }}
         >
           <ListPlacemark />
+          <ListPlacePosts />
         </Clusterer>
       </Map>
     </>
@@ -198,6 +193,3 @@ function YandexMap() {
 
 YandexMap.displayName = "YandexMap"
 export default YandexMap
-
-//Обсуждение дома
-//Давайте обсудим, как у вас дела?)

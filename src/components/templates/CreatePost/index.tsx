@@ -21,7 +21,7 @@ import { patchNote, postNote } from "@/services/notes"
 import { fileUploadService, getGeocodeSearch } from "@/services"
 import { createAddress } from "@/helpers/address/create"
 import { dispatchModal, EModalData, useAuth } from "@/store"
-import { getPostsFromUser, postPosts } from "@/services/posts"
+import { getPosts, postPosts } from "@/services/posts"
 import { LIMIT_DESCRIPTION, resolverCreate, type TSchemaCreatePost } from "./schema"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { EnumTypeProvider } from "@/types/enum"
@@ -35,8 +35,8 @@ function CreatePost() {
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
 
   const { refetch: refetchProfile } = useQuery({
-    queryFn: () => getPostsFromUser({ userId: userId! }),
-    queryKey: ["posts", { userId: userId! }],
+    queryFn: () => getPosts({ order: "DESC", archive: 0, user: userId! }),
+    queryKey: ["posts", { userId: userId!, order: "DESC", archive: false }],
     enabled: !!userId,
   })
 
