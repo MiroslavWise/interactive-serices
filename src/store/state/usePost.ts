@@ -12,7 +12,7 @@ export const useBalloonPost = create<IStateBalloonPost>(() => ({
   data: null,
 }))
 
-export const dispatchUsePost = (value: boolean) => {
+export const dispatchCreatePost = (value: boolean) => {
   if (value) {
     dispatchModal(EModalData.CREATE_POST)
   } else {
@@ -41,6 +41,13 @@ export const dispatchOpenCreateNote = (id: number, title: string) => {
     }),
     true,
   )
+}
+
+export const dispatchCloseCreateNote = () => {
+  dispatchModalClose()
+  useCreateNewNote.setState(() => ({
+    data: null,
+  }))
 }
 
 interface IStateBalloonPost {

@@ -12,7 +12,7 @@ import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 import { cx } from "@/lib/cx"
 import { fileUploadService } from "@/services"
 import { patchNote, postNote } from "@/services/notes"
-import { dispatchUsePost, useAuth, useCreateNewNote } from "@/store"
+import { dispatchCloseCreateNote, dispatchCreatePost, useAuth, useCreateNewNote } from "@/store"
 import {
   DEFAULT_VALUES,
   handleImageChange,
@@ -68,10 +68,10 @@ function CreateNewNote() {
             await patchNote(idNote, data)
           }
           setLoading(false)
-          dispatchUsePost(true)
+          dispatchCloseCreateNote()
         } else {
           setLoading(false)
-          dispatchUsePost(true)
+          dispatchCloseCreateNote()
         }
       }
     }

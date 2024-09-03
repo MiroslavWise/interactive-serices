@@ -3,7 +3,7 @@ import type { TNewCreateBadge } from "../types/types"
 
 import { mapIconCreateOffer } from "@/utils"
 
-import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData, useModal, dispatchUsePost } from "@/store"
+import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData, useModal, dispatchCreatePost } from "@/store"
 
 const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
   const type = useOnboarding(({ type }) => type)
@@ -12,7 +12,7 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
 
   function handleType() {
     if (value === EnumTypeProvider.post) {
-      dispatchUsePost(true)
+      dispatchCreatePost(true)
       return
     }
     if (visible && type === value) {

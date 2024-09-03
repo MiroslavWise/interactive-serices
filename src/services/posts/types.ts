@@ -1,6 +1,7 @@
-import { IAddressesResponse } from "../addresses/types/serviceAddresses"
-import { IUserOffer as IUserSmall } from "../offers/types"
-import { IResponse } from "../request"
+import { type IResponse } from "../request"
+import { type TOrder } from "../types/general"
+import { type IUserOffer as IUserSmall } from "../offers/types"
+import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 
 export interface IBodyPost {
   title: string
@@ -20,8 +21,8 @@ export interface IPosts {
   created: string
   questionnaireId?: number //id опросника
   questionnaire: IQuestionnaire
-  archived: boolean //default - false
-  archive: string //время, когда запись была отправлена в архив
+  archive: boolean //default - false
+  archived: string //время, когда запись была отправлена в архив
 }
 
 interface IQuestionnaire {
@@ -45,4 +46,13 @@ interface IQuestion {
   userAnswers: number[] // {{user_id}}[]
 }
 
+interface IQueries {
+  order?: TOrder
+  limit?: number
+  page?: number
+}
+
 export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>
+export type TGetPosts = ({}: IQueries) => Promise<IResponse<IPosts[]>>
+export type TGetPostsFromUser = ({}: { query?: IQueries } & { userId: number }) => Promise<IResponse<IPosts[]>>
+export type TGetPostId = (id: number | string) => Promise<IResponse<IPosts>>
