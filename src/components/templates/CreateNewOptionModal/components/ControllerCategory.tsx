@@ -7,6 +7,7 @@ import { IconXClose } from "@/components/icons/IconXClose"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { cx } from "@/lib/cx"
+import { clg } from "@console"
 import { useOutsideClickEvent } from "@/helpers"
 import { getOffersCategories } from "@/services"
 import { TSchemaCreate } from "../utils/create.schema"
@@ -28,6 +29,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
+  clg("open: ", open, "error")
   const categories = c?.data || []
   const trimValue = value.trim().toLowerCase()
 
@@ -131,12 +133,12 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
               {expand ? (
                 <>
-                  <article className="p-1.5 w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-1">
+                  <article className="p-1.5 w-full grid grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-1">
                     <button
-                      type="button"
                       className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary *:rotate-180"
                       onClick={(event) => {
                         event.stopPropagation()
+                        event.preventDefault()
                         onExpand(null)
                         setOpen(true)
                       }}
@@ -212,7 +214,6 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                     </div>
                     <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
                     <button
-                      type="button"
                       onClick={(event) => {
                         event.stopPropagation()
                         onExpand(itemMain.id)

@@ -34,7 +34,7 @@ function CardPost({ post, dataIndex, ref }: IProps) {
         <div className="relative w-[1.625rem] h-[1.625rem] p-[0.8125rem] *:absolute *:-translate-x-1/2 *:-translate-y-1/2 *:left-1/2 *:top-1/2 *:w-[1.625rem] *:h-[1.625rem]">
           <IconPost />
         </div>
-        <h3 className="text-base font-semibold text-text-primary">{title ?? "Заголовок поста"}</h3>
+        <h3 className="text-base font-semibold text-text-primary text-ellipsis line-clamp-2">{title ?? "Заголовок поста"}</h3>
       </header>
       <p className="whitespace-pre-wrap text-text-primary text-sm font-normal">{title}</p>
       <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem]">

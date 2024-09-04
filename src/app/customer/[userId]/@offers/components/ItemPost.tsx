@@ -30,13 +30,13 @@ function ItemPost({ post }: { post: IPosts }) {
         <div className="relative w-[1.625rem] h-[1.625rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2">
           <IconPost />
         </div>
-        <h3 className="text-text-primary text-ellipsis text-base font-semibold">{title || "Пост"}</h3>
+        <h3 className="text-text-primary text-ellipsis text-base font-semibold line-clamp-2">{title || "Пост"}</h3>
       </div>
       <article className="w-full flex flex-col gap-4 h-full">
         <p className="text-text-primary text-ellipsis text-sm line-clamp-4 whitespace-pre-wrap">
           {firstNote?.description || "Описание поста"}
         </p>
-        <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem]">
+        <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem] mt-auto">
           <div className="px-2.5 w-fit bg-grey-field py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:scale-90">
               <IconNote />

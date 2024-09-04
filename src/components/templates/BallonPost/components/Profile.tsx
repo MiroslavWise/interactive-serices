@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export function ComponentProfilePost({ post }: IProps) {
-  const { user, updated, addresses } = post ?? {}
+  const { user, updated, addresses, userId } = post ?? {}
 
   const { image, firstName, lastName } = user ?? {}
   const firstAddress = addresses[0] ?? {}
@@ -19,7 +19,7 @@ export function ComponentProfilePost({ post }: IProps) {
 
   return (
     <div className="relative w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-2.5">
-      <Avatar className="w-10 h-10 rounded-[0.625rem] p-5" image={image} />
+      <Avatar className="w-10 h-10 rounded-[0.625rem] p-5" image={image} userId={userId} />
       <article className="w-full flex flex-col items-start gap-1">
         <div className="flex flex-row flex-nowrap gap-1 items-center">
           <p className="text-sm text-text-primary font-medium">

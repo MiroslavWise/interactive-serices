@@ -181,7 +181,7 @@
     overflow: hidden;
 
     &[data-current] {
-      border: none;
+      border: none !important;
 
       & > article {
         opacity: 0;

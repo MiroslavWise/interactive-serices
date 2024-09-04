@@ -162,7 +162,7 @@ function CreateNewNote() {
               <fieldset className="!gap-4">
                 <label htmlFor={field.name}>Фото</label>
                 <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к записи фото, постер или афишу</p>
-                <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2">
+                <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2 [&>img]:!border-none">
                   {field.value.string.map((item, index) => (
                     <CurrentImage
                       key={`${index}-image`}
