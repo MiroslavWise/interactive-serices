@@ -11,12 +11,15 @@ import { cx } from "@/lib/cx"
 import { getNotes } from "@/services/notes"
 import { useAuth, useBalloonPost } from "@/store"
 
-function ListNotes({ notes, handleToComments }: { notes: INotes[]; handleToComments: DispatchWithoutAction }) {
+function ListNotes({ handleToComments }: { handleToComments: DispatchWithoutAction }) {
+  const post = useBalloonPost(({ data }) => data)
+  const { id } = post ?? {}
   const [newState, setNewState] = useState(true)
 
   const { data } = useQuery({
-    queryFn: () => getNotes({ order: "DESC" }),
-    queryKey: ["notes"],
+    queryFn: () => getNotes({ order: "DESC", post: id! }),
+    queryKey: ["notes", { postId: id }],
+    enabled: !!id,
   })
 
   const list = data?.data || []

@@ -41,7 +41,7 @@ function BallonPost() {
           <ComponentProfilePost post={data!} />
           <NavigationNoteAndComments post={data!} {...{ state, setState }} />
           {state === "notes" ? (
-            <ListNotes notes={notes ?? []} handleToComments={handleToComments} />
+            <ListNotes handleToComments={handleToComments} />
           ) : state === "comments" ? (
             <ListCommentsPost post={data!} />
           ) : null}
