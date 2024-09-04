@@ -22,10 +22,8 @@ export default function ComplaintModal() {
   const { onBarters } = useToast()
   const user = useComplaintModal(({ user }) => user)
   const offer = useComplaintModal(({ offer }) => offer)
+  const post = useComplaintModal(({ post }) => post)
   const { username = "---" } = user ?? {}
-
-  console.log("useComplaintModal: user", user)
-  console.log("useComplaintModal: offer", offer)
 
   const { register, handleSubmit, watch, reset, setValue } = useForm<IValuesForm>({
     defaultValues: {},
@@ -41,14 +39,13 @@ export default function ComplaintModal() {
       setLoading(true)
 
       const valuesData: IPostComplains = {
-        receiverId: !!user ? user?.id! : offer?.id!,
+        receiverId: !!user ? user?.id! : !!post ? post?.id! : offer?.id!,
         message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!}`,
         enabled: true,
-        provider: !!offer ? offer.provider : EnumTypeProvider.profile,
+        provider: !!offer ? offer.provider : !!post ? EnumTypeProvider.post : EnumTypeProvider.profile,
       }
 
       postComplain(valuesData).then((response) => {
-        console.log("%c response: serviceComplains: ", "color: green", response)
         reset()
         handleClose()
         setLoading(false)
@@ -72,14 +69,14 @@ export default function ComplaintModal() {
   return (
     <>
       <h2 className="w-full text-text-primary text-2xl font-semibold">
-        {!!offer ? "Пожаловаться на публикацию" : !!user ? "Пожаловаться на пользователя" : null}
+        {!!offer || !!post ? "Пожаловаться на публикацию" : !!user ? "Пожаловаться на пользователя" : null}
       </h2>
       <form onSubmit={onSubmit} className="w-full h-full flex flex-col gap-[1.875rem] max-md:overflow-y-auto max-md:pb-5">
         <div data-content className="w-full flex flex-col gap-6">
           <p className="text-text-secondary text-sm font-normal [&>span]:text-text-accent">
             {!!user
               ? `Данная жалоба на @${username} будет проверена модераторами, и если будут найдены нарушения, пользователь получит бан.`
-              : !!offer
+              : !!offer || !!post
               ? `Жалоба будет проверена модераторами, и если будут найдены нарушения, публикация будет заблокирована.`
               : null}
           </p>
