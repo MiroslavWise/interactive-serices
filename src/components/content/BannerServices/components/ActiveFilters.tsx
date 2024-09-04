@@ -16,7 +16,7 @@ function ActiveFilters() {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = data?.res || []
+  const categories = data?.data || []
   function deleteCategories(id: number) {
     dispatchDataFilterScreen(activeFilters?.filter((item) => item !== id))
   }

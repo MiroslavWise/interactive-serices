@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { useCallback, useMemo, useState } from "react"
+import { memo, useCallback, useMemo, useState } from "react"
 import { type Control, Controller, UseFormSetValue } from "react-hook-form"
 
 import { ImageCategory } from "@/components/common"
@@ -28,8 +28,23 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
   const trimValue = value.trim().toLowerCase()
+
+  const [expand, setExpand] = useState<number[]>([])
+
+  function onExpand(id: number) {
+    setExpand((_) => {
+      if (_.includes(id)) {
+        return _.filter((item) => item !== id)
+      } else {
+        return [..._, id]
+      }
+    })
+  }
+
+  const main = useMemo(() => categories.filter((item) => item.provider === "main"), [categories])
+  const sub = useCallback((slug: string) => categories.filter((item) => item.provider === slug), [categories])
 
   const list = useMemo(
     () => categories.filter((_) => (!trimValue ? true : _.title.toLowerCase().includes(trimValue))),
@@ -52,7 +67,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
           ref={ref}
           className={styles.container}
         >
-          <label htmlFor={field.name} title="Преложение">
+          <label htmlFor={field.name} title="Предложение">
             Предложение
           </label>
           <input
@@ -77,7 +92,6 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
           >
             <IconChevron />
           </button>
-          {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div
             data-current
             className={cx(
@@ -111,32 +125,25 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
               <IconXClose />
             </button>
           </div>
+          {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div
             data-list
             className={cx(
-              "absolute left-0 right-0 rounded-xl bg-BG-second overflow-hidden",
+              "absolute left-0 right-0 rounded-xl bg-BG-second overflow-hidden shadow-box-down",
               open ? "opacity-100 z-[90] visible" : "opacity-0 invisible -z-10",
             )}
           >
             <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
-              {list.map((item) => (
+              {main.map((itemMain) => (
                 <li
-                  key={`::key::category::item::${item.id}::`}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    field.onChange(item.id)
-                    if (item?.provider === "kursk" || item?.slug === "kursk") {
-                      setValueForm("help", true)
-                    }
-                    setValue("")
-                    setOpen(false)
-                  }}
-                  className="w-full p-1.5 grid grid-cols-[1.5rem_minmax(0,1fr)] items-center gap-2 cursor-pointer rounded-md hover:bg-grey-field"
+                  className="w-full p-1.5 grid items-center gap-2 bg-BG-second hover:bg-grey-field rounded-md"
+                  key={`key:item:main:${itemMain.id}:`}
                 >
-                  <div className="w-6 h-6 p-3 relative z-10 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                  <button type="button" className="w-5 h-5 p-2.5 cursor-pointer relative"></button>
+                  <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                    <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
                   </div>
-                  <span className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">{item.title}</span>
+                  <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
                 </li>
               ))}
             </ul>
@@ -161,5 +168,15 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
   )
 }
 
+// onClick={(event) => {
+//   event.stopPropagation()
+//   field.onChange(item.id)
+//   if (item?.provider === "kursk" || item?.slug === "kursk") {
+//     setValueForm("help", true)
+//   }
+//   setValue("")
+//   setOpen(false)
+// }}
+
 ControllerCategory.displayName = "ControllerCategory"
-export default ControllerCategory
+export default memo(ControllerCategory)

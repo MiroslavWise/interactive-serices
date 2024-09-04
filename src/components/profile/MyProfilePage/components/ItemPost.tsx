@@ -85,7 +85,16 @@ function ItemPost({ post }: IProps) {
       <footer
         className={cx("w-full grid-cols-[minmax(0,1fr)_2.25rem] gap-3 *:w-full *:h-9 *:rounded-[1.125rem]", archive ? "hidden" : "grid")}
       >
-        <Button type="button" typeButton="regular-primary" label="Добавить запись" onClick={onNewNote} disabled={!!archive} />
+        <Button
+          type="button"
+          typeButton="regular-primary"
+          label="Добавить запись"
+          onClick={(event) => {
+            event.stopPropagation()
+            onNewNote()
+          }}
+          disabled={!!archive}
+        />
         <button
           type="button"
           className="w-9 h-9 rounded-full relative p-[1.125rem] bg-grey-field disabled:opacity-50 disabled:cursor-no-drop"

@@ -72,7 +72,7 @@ export default function CreateNewOptionModal() {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
 

@@ -30,7 +30,7 @@ function ReciprocalExchange() {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { socket } = useWebSocket()
   const { on, onBarters } = useToast()

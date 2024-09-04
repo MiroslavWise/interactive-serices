@@ -6,11 +6,10 @@ import { EnumStatusBarter } from "@/types/enum"
 import { IBarterResponse, ISmallDataOfferBarter } from "@/services/barters/types"
 
 import { ButtonLink } from "../../Forward"
+import { ImageCategory } from "../../Image"
 import { LoadingProfile } from "../../Loading"
 import { BadgeStatus } from "./components/BadgeStatus"
 import { IconRevers } from "@/components/icons/IconRevers"
-import { ImageCategory, NextImageMotion } from "../../Image"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
@@ -34,7 +33,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = data?.res || []
+  const categories = data?.data || []
 
   const idUser = useMemo(() => {
     if (!barter) return null

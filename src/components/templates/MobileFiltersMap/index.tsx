@@ -20,7 +20,7 @@ export const MobileFiltersMap = () => {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
   const [value, setValue] = useState("")
 
   const categoriesMain: IResponseOffersCategories[] = useMemo(() => {

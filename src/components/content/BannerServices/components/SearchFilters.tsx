@@ -23,7 +23,7 @@ export const SearchFilters = memo(function () {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = data?.res || []
+  const categories = data?.data || []
 
   const { register, setFocus, watch, setValue, handleSubmit } = useForm<IValues>({
     defaultValues: { input: value || "" },

@@ -16,7 +16,7 @@ function ItemDescriptions({ offer }: { offer: IResponseOffers }) {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
 
   const categoriesOffer = useMemo(
     () => categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || [],

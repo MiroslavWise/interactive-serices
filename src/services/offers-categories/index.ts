@@ -1,10 +1,10 @@
 import type { IQueryOffersCategories, IResponseOffersCategories, IServiceOffersCategories, TPostOfferCategory } from "./types"
 
-import { get, wrapperPost } from "../request"
+import { fetchGet, get, wrapperPost } from "../request"
 
 const url = "/offers-categories"
 
-export const getOffersCategories: IServiceOffersCategories["get"] = (value) => get({ url, query: value?.query })
+export const getOffersCategories: IServiceOffersCategories["get"] = (value) => fetchGet({ url, query: value?.query })
 //TODO
 export const getOffersCategoriesPROD = async () => {
   try {

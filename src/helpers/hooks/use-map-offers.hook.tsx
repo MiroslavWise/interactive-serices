@@ -33,7 +33,7 @@ export const useMapOffers = () => {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
 
   const activeCategories = useMemo(() => {
     if (!categories || !categories?.length || !activeFilters.length) return []

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 
 import { type IPosts } from "@/services/posts/types"
 
-import { dispatchMapCoordinates } from "@/store"
+import { dispatchBallonPost, dispatchMapCoordinates } from "@/store"
 
 function RedirectOffer({ post }: { post: IPosts }) {
   const { push } = useRouter()
@@ -19,7 +19,7 @@ function RedirectOffer({ post }: { post: IPosts }) {
           coordinates: geoData?.coordinates?.split(" ")?.map(Number),
         })
       }
-      //добавить открытие
+      dispatchBallonPost(post)
       push("/")
     }
   }, [post])

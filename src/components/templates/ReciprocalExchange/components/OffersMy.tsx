@@ -21,7 +21,7 @@ export const OffersMy = memo(({ loading }: IProps) => {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
   const { register, setValue, watch } = useFormContext<IFormValues>()
 
   const { data } = useQuery({
