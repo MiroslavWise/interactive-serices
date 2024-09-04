@@ -1,21 +1,29 @@
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import { Button } from "@/components/common"
 import IconXClose from "@/components/icons/IconXClose"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { cx } from "@/lib/cx"
-import { deleteNote } from "@/services/notes"
+import { deleteNote, getNotes } from "@/services/notes"
 import { dispatchDeleteNote, useDeleteNote } from "@/store"
 
 function DeleteNote() {
   const data = useDeleteNote(({ data }) => data)
   const [loading, setLoading] = useState(false)
 
+  const { refetch: refetchNotes } = useQuery({
+    queryFn: () => getNotes({ order: "DESC", post: data?.postId! }),
+    queryKey: ["notes", { order: "DESC", postId: data?.postId! }],
+    enabled: false,
+  })
+
   async function ok() {
     if (!loading && !!data?.id) {
       setLoading(true)
       await deleteNote(data?.id)
+      await refetchNotes()
       setLoading(false)
       no()
     }
