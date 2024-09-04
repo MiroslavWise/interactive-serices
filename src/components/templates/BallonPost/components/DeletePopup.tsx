@@ -10,7 +10,8 @@ import { useOutsideClickEvent } from "@/helpers"
 function DeletePopup({ note }: { note: INotes }) {
   const [open, set, ref] = useOutsideClickEvent()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  if (!!note?.main && userId !== note.userId) return null
+  if (!!note?.main) return null
+  if (userId !== note.userId) return null
 
   return (
     <div className="w-4 h-4 relative flex" ref={ref}>
