@@ -1,11 +1,8 @@
-import Link from "next/link"
-
 import { type IResponseTestimonials } from "@/services/testimonials/types"
 
+import Avatar from "@avatar"
 import ItemOffer from "./ItemOffer"
-import { NextImageMotion } from "@/components/common"
 import DescriptionItemFeedback from "./DescriptionItemFeedback"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { formatOfMMM } from "@/helpers"
@@ -19,18 +16,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
   return (
     <div className="py-4 flex flex-col gap-3 border-b border-solid border-grey-stroke-light last:!border-none">
       <article className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
-        <Link
-          className={`w-full relative flex items-center cursor-pointer justify-center aspect-square overflow-hidden rounded-[0.625rem]  ${
-            !image && "bg-grey-stroke-light !p-2"
-          }`}
-          href={{ pathname: `/customer/${user.id}` }}
-        >
-          {!!image ? (
-            <NextImageMotion src={image?.attributes?.url} alt="avatar" width={40} height={40} className="w-full h-full" />
-          ) : (
-            <IconEmptyProfile className="w-6 h-6" />
-          )}
-        </Link>
+        <Avatar className="rounded-[0.625rem] aspect-square w-6 h-6 p-3" image={image} userId={user.id} />
         <div className="w-full flex flex-col gap-1 justify-between items-start">
           <div className="w-full flex flex-row items-center gap-1">
             <p className=" text-text-primary text-sm font-medium line-clamp-1 overflow-ellipsis">

@@ -1,16 +1,12 @@
 "use client"
 
-import Link from "next/link"
-
 import { type IResponseOffers } from "@/services/offers/types"
 
+import Avatar from "@avatar"
 import SharedPopupButton from "./SharedPopup"
-import { NextImageMotion } from "@/components/common"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { daysAgo, useResize } from "@/helpers"
 import { dispatchPublicProfile } from "@/store"
-import { cx } from "@/lib/cx"
 
 const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
   const { created, user } = offer ?? {}
@@ -21,39 +17,7 @@ const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
 
   return (
     <div className="relative w-full grid grid-cols-[2.5rem_minmax(0,1fr)] items-start gap-2.5 !px-5 *:!px-0">
-      <Link
-        className={cx("w-10 h-10 rounded-[0.625rem] !p-5 relative overflow-hidden block", !image ? "bg-grey-stroke-light" : "")}
-        href={
-          !isTablet
-            ? {}
-            : {
-                pathname: `/customer/${userId}`,
-                query: {
-                  provider: offer.provider,
-                },
-              }
-        }
-        onClick={() => {
-          if (!isTablet) {
-            dispatchPublicProfile(userId!)
-          }
-        }}
-        title={`Перейти к пользователю ${name}`}
-        aria-label={`Перейти к пользователю ${name}`}
-        aria-labelledby={`Перейти к пользователю ${name}`}
-      >
-        {!!image ? (
-          <NextImageMotion
-            className="overflow-hidden w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            src={image?.attributes?.url}
-            alt="avatar"
-            width={60}
-            height={60}
-          />
-        ) : (
-          <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6" />
-        )}
-      </Link>
+      <Avatar className="w-10 h-10 rounded-[0.625rem] p-5" image={image} userId={userId} />
       <div data-info className="w-full flex flex-col items-start gap-0.5">
         <div
           data-name

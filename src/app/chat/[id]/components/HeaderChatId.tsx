@@ -6,18 +6,17 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
+import Avatar from "@avatar"
 import AbsoluteMenu from "./AbsoluteMenu"
-import { NextImageMotion } from "@/components/common"
+import ButtonCollapse from "./ButtonCollapse"
 import LoadingHeader from "../../components/LoadingHeader"
 import IconArrowLeft from "@/components/icons/IconArrowLeft"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
 import { useAuth, useOnline } from "@/store"
 import { getBarterId, getIdOffer } from "@/services"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
-import ButtonCollapse from "./ButtonCollapse"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -58,19 +57,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
         <IconArrowLeft />
       </Link>
       <article className="w-full items-center gap-2.5 md:gap-3 grid grid-cols-[2.25rem_minmax(0,1fr)]">
-        <Link href={{ pathname: `/customer/${user?.id}` }} prefetch className="w-9 h-9 overflow-hidden rounded-full relative">
-          {user && user?.image ? (
-            <NextImageMotion
-              src={user?.image?.attributes?.url}
-              alt="avatar"
-              width={40}
-              height={40}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full overflow-hidden z-10"
-            />
-          ) : (
-            <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 z-10" />
-          )}
-        </Link>
+        <Avatar className="w-9 h-9 rounded-full" image={user?.image} userId={user?.id} />
         <div className="w-full flex flex-col gap-0.5">
           <div className="flex flex-row items-center justify-start gap-1">
             <Link

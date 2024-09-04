@@ -16,6 +16,7 @@ import { useCountMessagesNotReading } from "@/helpers"
 import { dispatchOpenCancelExchange, useAuth } from "@/store"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
 import { deleteThread, getBarterId, patchBarter } from "@/services"
+import Avatar from "@avatar"
 
 function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoading: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -124,19 +125,7 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
           </p>
           <div className="w-full flex flex-col gap-1 *:w-full *:gap-[0.4375rem] *:items-center">
             <article className="flex flex-row items-center flex-nowrap">
-              <div className="w-6 h-6 p-3 relative rounded-full overflow-hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2">
-                {!!initiator?.user?.image ? (
-                  <NextImageMotion
-                    className="overflow-hidden w-6 h-6"
-                    src={initiator?.user?.image?.attributes?.url}
-                    alt="avatar"
-                    width={20}
-                    height={20}
-                  />
-                ) : (
-                  <IconEmptyProfile className="w-4 h-4" />
-                )}
-              </div>
+              <Avatar className="w-6 h-6 p-3 rounded-full" image={initiator?.user?.image} />
               <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap w-min line-clamp-1 text-ellipsis">
                 {initiator?.category?.title}
               </p>
@@ -152,19 +141,7 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
               </div>
             </article>
             <article className="grid grid-cols-[1.5rem_minmax(0,1fr)]">
-              <div className="w-6 h-6 p-3 relative rounded-full overflow-hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2">
-                {!!consigner?.user?.image ? (
-                  <NextImageMotion
-                    className="overflow-hidden w-6 h-6"
-                    src={consigner?.user?.image?.attributes?.url}
-                    alt="avatar"
-                    width={20}
-                    height={20}
-                  />
-                ) : (
-                  <IconEmptyProfile className="w-4 h-4" />
-                )}
-              </div>
+              <Avatar className="w-6 h-6 p-3 rounded-full" image={consigner?.user?.image} />
               <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap w-min line-clamp-1 text-ellipsis">
                 {consigner?.category?.title}
               </p>

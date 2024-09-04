@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query"
 
 import { IUserOffer } from "@/services/offers/types"
 
+import Avatar from "@avatar"
 import IconRating from "@/components/icons/IconRating"
-import { NextImageMotion } from "@/components/common/Image"
 
 import { getTestimonials } from "@/services"
 
@@ -39,9 +39,7 @@ function ItemProfile({ user }: { user: IUserOffer }) {
     <section className="mt-1 w-full pt-2.5 border-t border-t-grey-stroke-light border-solid">
       <div className="flex flex-row items-center justify-between w-full gap-2.5">
         <article className="flex flex-row items-center gap-2.5">
-          <div className="relative h-6 w-6 rounded-md bg-BG-second overflow-hidden *:absolute *:inset-0 *:h-full *:w-full">
-            <NextImageMotion src={image?.attributes?.url!} alt="avatar" width={24} height={24} />
-          </div>
+          <Avatar className="h-6 w-6 rounded-md" image={image} />
           <p className="text-text-primary text-sm font-normal line-clamp-1 whitespace-nowrap">{name}</p>
         </article>
         {rating ? (

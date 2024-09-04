@@ -2,10 +2,9 @@ import { useQuery } from "@tanstack/react-query"
 
 import { type IPosts } from "@/services/posts/types"
 
+import Avatar from "@avatar"
 import FooterNewComment from "./FooterNewComment"
-import { NextImageMotion } from "@/components/common"
 import IconComment from "@/components/icons/IconComment"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
@@ -33,19 +32,7 @@ function ListCommentsPost({ post }: { post: IPosts }) {
           <ul className="w-full flex flex-col gap-2.5 pb-16 md:pb-20">
             {list.map((item) => (
               <li key={`key:comment:${item.id}:`} className="w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3">
-                <div className={cx("w-8 h-8 relative rounded-full overflow-hidden", !item?.user?.image && "bg-grey-stroke-light")}>
-                  {!!item?.user?.image ? (
-                    <NextImageMotion
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full w-8 h-8"
-                      src={item?.user?.image?.attributes?.url!}
-                      alt="avatar"
-                      width={40}
-                      height={40}
-                    />
-                  ) : (
-                    <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5" />
-                  )}
-                </div>
+                <Avatar className="w-8 h-8 p-4 rounded-full" image={item?.user?.image} />
                 <article className="w-full flex flex-col gap-0.5 pb-2.5 border-b border-solid border-grey-stroke-light">
                   <div className="flex flex-row items-center gap-2">
                     <p className="text-text-primary text-xs font-normal">

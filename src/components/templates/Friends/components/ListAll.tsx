@@ -4,14 +4,14 @@ import { useQuery } from "@tanstack/react-query"
 
 import { type TFriends } from "../constants/segments"
 
+import Avatar from "@avatar"
 import NoFriends from "./NoFriends"
 import LoadingFriends from "./LoadingFriends"
 import IconAccentChat from "@/components/icons/IconAccentChat"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import RatingAndFeedbackComponent from "./RatingAndFeedbackComponent"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import { Button, ButtonLink, NextImageMotion } from "@/components/common"
+import { Button, ButtonLink } from "@/components/common"
 
 import { useAuth, useFriends } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -98,26 +98,7 @@ function ListAll({ state }: { state: TFriends }) {
       <ul className="w-full flex flex-col gap-6 overflow-y-auto">
         {filterFriends.map((item) => (
           <li key={`:key:friend:${item.id}:`} className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3">
-            <Link
-              prefetch={false}
-              href={{ pathname: `/customer/${item.id}` }}
-              className={`w-full h-full aspect-square rounded-[0.625rem] relative ${
-                !item.image ? "bg-grey-stroke-light" : ""
-              } overflow-hidden cursor-pointer`}
-              target="_blank"
-            >
-              {!!item.image ? (
-                <NextImageMotion
-                  className="rounded-[0.625rem] overflow-hidden w-[3.125rem] h-[3.125rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  src={item.image?.attributes?.url}
-                  alt="avatar"
-                  width={100}
-                  height={100}
-                />
-              ) : (
-                <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-7 h-7" />
-              )}
-            </Link>
+            <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-[0.625rem]" image={item.image} userId={item.id} />
             <div className="w-full flex flex-col items-start justify-center gap-1">
               <Link
                 prefetch={false}

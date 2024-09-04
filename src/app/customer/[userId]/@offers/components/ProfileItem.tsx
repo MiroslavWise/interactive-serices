@@ -3,11 +3,10 @@ import { useQuery } from "@tanstack/react-query"
 
 import { type IUserOffer } from "@/services/offers/types"
 
-import { NextImageMotion } from "@/components/common"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import Avatar from "@avatar"
+import IconRating from "@/components/icons/IconRating"
 
 import { getTestimonials } from "@/services"
-import IconRating from "@/components/icons/IconRating"
 
 interface IProps {
   user: IUserOffer
@@ -39,17 +38,7 @@ function ProfileItem({ user }: IProps) {
   return (
     <section className="w-full flex flex-row items-center justify-between gap-4 pt-2.5 border-t border-solid border-grey-stroke-light mt-auto">
       <div className="w-full grid grid-cols-[1.5rem_minmax(0,1fr)] gap-2.5 items-center">
-        <div
-          className={`relative w-6 h-6 p-3 rounded-md overflow-hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 ${
-            !image && "bg-grey-stroke-light"
-          }`}
-        >
-          {!!image ? (
-            <NextImageMotion src={image?.attributes?.url} className="w-6 h-6" alt="avatar" width={60} height={60} />
-          ) : (
-            <IconEmptyProfile className="w-4 h-4" />
-          )}
-        </div>
+        <Avatar className="w-6 h-6 p-3 rounded-md" image={image} />
         <p className="text-text-primary text-sm font-normal">
           {firstName || "Имя"} {lastName || "Фамилия"}
         </p>
