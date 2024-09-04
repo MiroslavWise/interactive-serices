@@ -7,6 +7,7 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchComplaintModalPost } from "@/store"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 
 const TITLE_SHARE = "Поделиться"
@@ -80,7 +81,7 @@ function ComponentDots({ post }: IProps) {
               console.log("onClick TITLE_COMPLAINT: ")
               event.stopPropagation()
               event.preventDefault()
-              // dispatchComplaintModalOffer({ offer })
+              dispatchComplaintModalPost({ post })
               setVisible(false)
             }}
           >
