@@ -10,12 +10,23 @@ export const useCreatePost = create<{ visible: boolean }>(() => ({ visible: fals
 export const useCreateNewNote = create<IStateNote>(() => ({ data: null }))
 export const useBalloonPost = create<IStateBalloonPost>(() => ({ data: null }))
 export const useDeleteNote = create<IStateUserDelete>(() => ({ data: null }))
+export const useArchivePost = create<IStateArchivePost>(() => ({ data: null }))
+
+export const dispatchArchivePost = (value?: IPosts) => {
+  clg("dispatchArchivePost: ", value, "warning")
+  useArchivePost.setState(
+    (_) => ({
+      data: value ?? null,
+    }),
+    true,
+  )
+}
 
 export const dispatchDeleteNote = (value?: INotes) => {
   clg("dispatchDeleteNote: ", value, "warning")
   useDeleteNote.setState(
     (_) => ({
-      data: value || null,
+      data: value ?? null,
     }),
     true,
   )
@@ -72,4 +83,8 @@ interface IStateNote {
 
 interface IStateUserDelete {
   data: INotes | null
+}
+
+interface IStateArchivePost {
+  data: IPosts | null
 }

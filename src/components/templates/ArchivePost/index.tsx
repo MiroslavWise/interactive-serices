@@ -2,26 +2,30 @@ import { useState } from "react"
 
 import { Button } from "@/components/common"
 import IconXClose from "@/components/icons/IconXClose"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import IconArchive from "@/components/icons/IconArchive"
 
 import { cx } from "@/lib/cx"
-import { deleteNote } from "@/services/notes"
-import { dispatchDeleteNote, useDeleteNote } from "@/store"
+import { clg } from "@console"
+import { patchPost } from "@/services/posts"
+import { dispatchArchivePost, useArchivePost } from "@/store"
 
-function DeleteNote() {
-  const data = useDeleteNote(({ data }) => data)
+function ArchivePost() {
+  const data = useArchivePost(({ data }) => data)
   const [loading, setLoading] = useState(false)
+  const { archive, id } = data ?? {}
 
   async function ok() {
-    if (!loading && !!data?.id) {
+    if (!loading && !archive) {
       setLoading(true)
-      await deleteNote(data?.id)
+      const response = await patchPost(id!, { archive: true })
+      clg("response archive: ", response)
       setLoading(false)
-      no()
+      dispatchArchivePost()
     }
   }
+
   function no() {
-    dispatchDeleteNote()
+    dispatchArchivePost()
   }
 
   return (
@@ -40,18 +44,21 @@ function DeleteNote() {
         </button>
         <article className="flex flex-col items-center gap-5">
           <div className="relative h-11 w-11 bg-grey-field rounded-full *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-element-accent-1">
-            <IconTrashBlack />
+            <IconArchive />
           </div>
-          <h2 className="text-text-primary text-2xl font-semibold text-center">Вы хотите удалить запись?</h2>
+          <h2 className="text-text-primary text-2xl font-semibold text-center">Вы хотите перенести пост в архив?</h2>
+          <p className="-mt-1 text-text-primary text-sm font-normal text-center">
+            Пост будет перенесён в архив. Вы не сможете добавлять новые записи, а пользователи не смогут оставлять комментарии.
+          </p>
         </article>
         <footer className="w-full flex flex-col-reverse md:flex-row items-center gap-3">
-          <Button type="button" typeButton="regular-primary" label="Нет, оставить" onClick={no} loading={loading} disabled={loading} />
-          <Button type="button" typeButton="fill-primary" label="Да, удалить" onClick={ok} loading={loading} disabled={loading} />
+          <Button type="button" typeButton="regular-primary" label="Отменить" onClick={no} loading={loading} disabled={loading} />
+          <Button type="button" typeButton="fill-primary" label="Да, перенести" onClick={ok} loading={loading} disabled={loading} />
         </footer>
       </section>
     </div>
   )
 }
 
-DeleteNote.displayName = "DeleteNote"
-export default DeleteNote
+ArchivePost.displayName = "ArchivePost"
+export default ArchivePost

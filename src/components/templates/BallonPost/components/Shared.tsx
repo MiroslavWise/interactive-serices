@@ -6,13 +6,10 @@ import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import { clg } from "@console"
 import env from "@/config/environment"
-import { patchPost } from "@/services/posts"
 import { useOutsideClickEvent } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchComplaintModalPost, useAuth } from "@/store"
-import { useState } from "react"
+import { dispatchArchivePost, dispatchComplaintModalPost, useAuth } from "@/store"
 
 interface IProps {
   post: IPosts
@@ -28,18 +25,9 @@ function SharedDotsPost({ post }: IProps) {
   const [open, set, ref] = useOutsideClickEvent()
   const { onSimpleMessage } = useToast()
   const geoData = addresses[0] ?? {}
-  const [loadingArchive, setLoadingArchive] = useState(false)
 
-  async function handleArchive() {
-    if (!loadingArchive && !archive) {
-      setLoadingArchive(true)
-      const response = await patchPost(id, { archive: true })
-      clg("response archive: ", response)
-
-      if (response?.data) {
-      }
-      setLoadingArchive(false)
-    }
+  function handleArchive() {
+    dispatchArchivePost(post)
   }
 
   return (
@@ -111,7 +99,7 @@ function SharedDotsPost({ post }: IProps) {
               <span className="text-text-primary text-sm font-normal text-left">{TITLE_ARCHIVE}</span>
             </a>
           ) : null
-        ) : (
+        ) : userId ? (
           <a
             title={TITLE_COMPLAINT}
             aria-label={TITLE_COMPLAINT}
@@ -134,7 +122,7 @@ function SharedDotsPost({ post }: IProps) {
             </div>
             <span className="text-sm font-normal text-left !text-text-error">{TITLE_COMPLAINT}</span>
           </a>
-        )}
+        ) : null}
       </article>
     </div>
   )

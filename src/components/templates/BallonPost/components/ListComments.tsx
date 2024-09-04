@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { type IPosts } from "@/services/posts/types"
 
+import FooterNewComment from "./FooterNewComment"
 import { NextImageMotion } from "@/components/common"
 import IconComment from "@/components/icons/IconComment"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
@@ -29,7 +30,7 @@ function ListCommentsPost({ post }: { post: IPosts }) {
             </div>
             <span className="text-text-primary text-sm font-medium">{list.length} комментариев</span>
           </div>
-          <ul className="w-full flex flex-col gap-2.5">
+          <ul className="w-full flex flex-col gap-2.5 pb-16 md:pb-20">
             {list.map((item) => (
               <li key={`key:comment:${item.id}:`} className="w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3">
                 <div className={cx("w-8 h-8 relative rounded-full overflow-hidden", !item?.user?.image && "bg-grey-stroke-light")}>
@@ -62,6 +63,7 @@ function ListCommentsPost({ post }: { post: IPosts }) {
               </li>
             ))}
           </ul>
+          <FooterNewComment post={post} />
         </>
       ) : (
         <section className="flex flex-col gap-2.5 items-center justify-center my-auto">

@@ -31,10 +31,12 @@ import {
   useChangeService,
   useAuth,
   useDeleteNote,
+  useArchivePost,
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
 import MyFriends from "@/components/templates/MyFriends"
+import ArchivePost from "@/components/templates/ArchivePost"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
@@ -60,6 +62,7 @@ export const Containers = () => {
   const visibleCreateNewCategory = useCreateNewCategory(({ visible }) => visible)
   const visibleChangeService = useChangeService(({ visible }) => visible)
   const visibleDeleteNote = useDeleteNote(({ data }) => !!data)
+  const visibleArchivePost = useArchivePost(({ data }) => !!data)
 
   const { isTablet } = useResize()
 
@@ -80,7 +83,6 @@ export const Containers = () => {
       <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
-      {visibleDeleteNote && <DeleteNote />}
       {visibleHasBalloon && <HasClustererBalloons />}
       {isAuth && (
         <>
@@ -88,6 +90,8 @@ export const Containers = () => {
           <Onboarding />
           <PreCloseCreateService />
           <NotificationCreateService />
+          {visibleDeleteNote && <DeleteNote />}
+          {visibleArchivePost && <ArchivePost />}
           {visibleChangeService && <ChangeService />}
           {visibleNumberConfirmation && <NumberConfirmation />}
           {visibleAddEmail && <AddEmail />}
