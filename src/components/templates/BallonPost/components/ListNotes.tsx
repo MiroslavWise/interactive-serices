@@ -52,12 +52,12 @@ const List = memo(function ({
   const { userId: userIdPost } = data ?? {}
 
   return (
-    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && "pb-16", isLoading && "loading-screen")}>
+    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && "pb-16")}>
       {isLoading
         ? [1, 2, 3, 4].map((item) => (
             <article
               key={`:load:key:${item}:`}
-              className="w-full rounded-2xl border border-solid border-grey-stroke-light p-4 flex flex-col gap-4 bg-BG-second"
+              className="w-full rounded-2xl border border-solid border-grey-stroke-light p-4 flex flex-col gap-4 bg-BG-second loading-screen"
             >
               <section className="w-full flex flex-col gap-3">
                 <span className="w-full max-w-[33%] h-4 rounded-lg" />

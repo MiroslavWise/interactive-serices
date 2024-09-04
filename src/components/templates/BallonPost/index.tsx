@@ -36,7 +36,7 @@ function BallonPost() {
         </div>
       </header>
       <section className="w-full h-full flex flex-col md:rounded-b-[2rem] bg-BG-second overflow-hidden">
-        <ul className="w-full px-5 overflow-y-auto flex flex-col gap-5 py-5">
+        <ul className="w-full h-full px-5 overflow-y-auto flex flex-col gap-5 py-5">
           <ComponentProfilePost post={data!} />
           <NavigationNoteAndComments post={data!} {...{ state, setState }} />
           {state === "notes" ? (
