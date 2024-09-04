@@ -13,7 +13,7 @@ import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 import { cx } from "@/lib/cx"
 import { fileUploadService } from "@/services"
 import { getNotes, patchNote, postNote } from "@/services/notes"
-import { dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
+import { dispatchBallonPost, dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
 import {
   DEFAULT_VALUES,
   handleImageChange,
@@ -23,6 +23,8 @@ import {
   resolverCreateNote,
   type TSchemaCreateNote,
 } from "./utils"
+import { queryClient } from "@/context"
+import { getPostId } from "@/services/posts"
 
 function CreateNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -73,14 +75,34 @@ function CreateNewNote() {
               images: ids,
             }
             await patchNote(idNote, data)
-            refetchNotes()
           }
-          setLoading(false)
-          dispatchCloseCreateNote()
+          queryClient
+            .fetchQuery({
+              queryFn: () => getPostId(id),
+              queryKey: ["post", { id: id! }],
+            })
+            .then((response) => {
+              setLoading(false)
+              if (response.data) {
+                dispatchBallonPost(response.data)
+              } else {
+                dispatchCloseCreateNote()
+              }
+            })
         } else {
-          refetchNotes()
-          setLoading(false)
-          dispatchCloseCreateNote()
+          queryClient
+            .fetchQuery({
+              queryFn: () => getPostId(id),
+              queryKey: ["post", { id: id! }],
+            })
+            .then((response) => {
+              setLoading(false)
+              if (response.data) {
+                dispatchBallonPost(response.data)
+              } else {
+                dispatchCloseCreateNote()
+              }
+            })
         }
       }
     }

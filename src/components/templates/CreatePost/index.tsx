@@ -178,6 +178,7 @@ function CreatePost() {
                       debouncedValue()
                       setLoadingAddresses(true)
                     }}
+                    className="font-normal"
                     value={field.value}
                     type="text"
                     data-error={!!error}
@@ -234,6 +235,7 @@ function CreatePost() {
                   type="text"
                   placeholder="Например, спортивный турнир или рок-фестиваль"
                   data-error={!!error}
+                  className="font-normal"
                 />
                 {!!error ? <i>{error.message}</i> : null}
               </fieldset>
@@ -252,7 +254,7 @@ function CreatePost() {
                     data-error={!!error}
                     maxLength={LIMIT_DESCRIPTION + 2}
                     className={cx(
-                      "whitespace-pre-wrap w-full outline-none h-full border border-solid resize-none focus:!border-text-accent px-3.5 pt-3.5 pb-6 text-text-primary placeholder:text-text-disabled text-sm font-normal rounded-2xl",
+                      "whitespace-pre-wrap w-full font-normal outline-none h-full border border-solid resize-none focus:!border-text-accent px-3.5 pt-3.5 pb-6 text-text-primary placeholder:text-text-disabled text-sm rounded-2xl",
                       !!error ? "!border-text-error" : "!border-grey-stroke",
                     )}
                   />
