@@ -7,10 +7,12 @@ import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { EnumTimesFilter, MAP_TIME, MAP_URGENT, OBJ_TIME } from "../constants"
 import { dispatchFiltersServiceTime, dispatchUrgentFilter, useFiltersServices, useUrgentFilter, dispatchMapCoordinatesZoom } from "@/store"
+import { EnumTypeProvider } from "@/types/enum"
 
 function TimesFilter() {
   const [open, setOpen, ref] = useOutsideClickEvent()
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
+  const providers = useFiltersServices(({ providers }) => providers)
   const urgent = useUrgentFilter(({ urgent }) => urgent)
 
   function handleTimeFilter(value: EnumTimesFilter) {
@@ -85,36 +87,38 @@ function TimesFilter() {
           ))}
         </article>
       </button>
-      {MAP_URGENT.map(([key, label]) => (
-        <a
-          key={`:key:urgent:filter:${key}:`}
-          className={cx(
-            "grid py-2 px-2.5 gap-2 rounded-lg cursor-pointer",
-            urgent === key
-              ? "[background:var(--more-red-gradient)] grid-cols-[1rem_minmax(0,1fr)_1rem]"
-              : "bg-BG-filter-red grid-cols-[1rem_minmax(0,1fr)]",
-          )}
-          onClick={() => {
-            dispatchUrgentFilter(key)
-            if (urgent !== key) {
-              dispatchMapCoordinatesZoom(5)
-            }
-          }}
-        >
-          <div className="relative w-4 h-4">{urgent === key ? <IconHelp /> : <IconHelpColor />}</div>
-          <span className={cx("text-[0.8125rem] leading-4 font-normal", urgent === key ? "text-text-button" : "text-text-primary")}>
-            {label}
-          </span>
-          <div
-            className={cx(
-              "relative pointer-events-none w-4 h-4 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 [&>svg>path]:stroke-text-button",
-              urgent !== key && "!hidden",
-            )}
-          >
-            <IconXClose />
-          </div>
-        </a>
-      ))}
+      {["all", EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(providers)
+        ? MAP_URGENT.map(([key, label]) => (
+            <a
+              key={`:key:urgent:filter:${key}:`}
+              className={cx(
+                "grid py-2 px-2.5 gap-2 rounded-lg cursor-pointer",
+                urgent === key
+                  ? "[background:var(--more-red-gradient)] grid-cols-[1rem_minmax(0,1fr)_1rem]"
+                  : "bg-BG-filter-red grid-cols-[1rem_minmax(0,1fr)]",
+              )}
+              onClick={() => {
+                dispatchUrgentFilter(key)
+                if (urgent !== key) {
+                  dispatchMapCoordinatesZoom(5)
+                }
+              }}
+            >
+              <div className="relative w-4 h-4">{urgent === key ? <IconHelp /> : <IconHelpColor />}</div>
+              <span className={cx("text-[0.8125rem] leading-4 font-normal", urgent === key ? "text-text-button" : "text-text-primary")}>
+                {label}
+              </span>
+              <div
+                className={cx(
+                  "relative pointer-events-none w-4 h-4 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 [&>svg>path]:stroke-text-button",
+                  urgent !== key && "!hidden",
+                )}
+              >
+                <IconXClose />
+              </div>
+            </a>
+          ))
+        : null}
     </div>
   )
 }

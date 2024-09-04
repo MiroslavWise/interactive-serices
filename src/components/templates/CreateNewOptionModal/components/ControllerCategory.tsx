@@ -31,25 +31,20 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
   const categories = c?.data || []
   const trimValue = value.trim().toLowerCase()
 
-  const [expand, setExpand] = useState<number[]>([])
+  const [expand, setExpand] = useState<number | null>(null)
 
-  function onExpand(id: number) {
-    setExpand((_) => {
-      if (_.includes(id)) {
-        return _.filter((item) => item !== id)
-      } else {
-        return [..._, id]
-      }
-    })
+  function onExpand(id: number | null) {
+    setExpand(id)
   }
 
   const main = useMemo(() => categories.filter((item) => item.provider === "main"), [categories])
+  const mainSlug = main.find((item) => item.id === expand)
   const sub = useCallback((slug: string) => categories.filter((item) => item.provider === slug), [categories])
 
-  const list = useMemo(
-    () => categories.filter((_) => (!trimValue ? true : _.title.toLowerCase().includes(trimValue))),
-    [categories, trimValue],
-  )
+  // const list = useMemo(
+  //   () => categories.filter((_) => (!trimValue ? true : _.title.toLowerCase().includes(trimValue))),
+  //   [categories, trimValue],
+  // )
 
   const currentCategory = useCallback(
     (id: number | string) => (!!id ? categories.find((_) => Number(_.id) === Number(id)) : null),
@@ -134,18 +129,102 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             )}
           >
             <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
-              {main.map((itemMain) => (
-                <li
-                  className="w-full p-1.5 grid items-center gap-2 bg-BG-second hover:bg-grey-field rounded-md"
-                  key={`key:item:main:${itemMain.id}:`}
-                >
-                  <button type="button" className="w-5 h-5 p-2.5 cursor-pointer relative"></button>
-                  <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                    <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
-                  </div>
-                  <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
-                </li>
-              ))}
+              {expand ? (
+                <>
+                  <article className="p-1.5 w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-1">
+                    <button
+                      type="button"
+                      className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary *:rotate-180"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        onExpand(null)
+                        setOpen(true)
+                      }}
+                    >
+                      <IconChevron />
+                    </button>
+                    <span className="text-text-secondary text-xs font-normal">Все категории</span>
+                  </article>
+                  {sub(mainSlug?.slug!).map((item) => (
+                    <li
+                      className="w-full p-1.5 grid items-center gap-2 bg-BG-second hover:bg-grey-field rounded-md"
+                      key={`key:item:main:${item.id}:`}
+                    >
+                      <button
+                        type="button"
+                        className={cx(
+                          "w-5 h-5 p-2.5 cursor-pointer relative rounded-full transition-all duration-200",
+                          field.value === item.id ? "bg-element-accent-1" : "bg-grey-stroke",
+                        )}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          field.onChange(item.id)
+                          if (item?.slug === "kursk" || item?.provider === "kursk") {
+                            setValueForm("help", true)
+                          }
+                          setValue("")
+                        }}
+                      >
+                        <span
+                          className={cx(
+                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
+                            field.value === item.id ? "bg-text-button h-2.5 w-2.5" : "bg-BG-second w-4 h-4",
+                          )}
+                        />
+                      </button>
+                      <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                        <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                      </div>
+                      <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{item.title}</span>
+                    </li>
+                  ))}
+                </>
+              ) : (
+                main.map((itemMain) => (
+                  <li
+                    className="w-full p-1.5 grid items-center gap-2 bg-BG-second hover:bg-grey-field rounded-md"
+                    key={`key:item:main:${itemMain.id}:`}
+                  >
+                    <button
+                      type="button"
+                      className={cx(
+                        "w-5 h-5 p-2.5 cursor-pointer relative rounded-full transition-all duration-200",
+                        field.value === itemMain.id ? "bg-element-accent-1" : "bg-grey-stroke",
+                      )}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        field.onChange(itemMain.id)
+                        if (itemMain?.slug === "kursk") {
+                          setValueForm("help", true)
+                        }
+                        setValue("")
+                      }}
+                    >
+                      <span
+                        className={cx(
+                          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
+                          field.value === itemMain.id ? "bg-text-button h-2.5 w-2.5" : "bg-BG-second w-4 h-4",
+                        )}
+                      />
+                    </button>
+                    <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                      <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
+                    </div>
+                    <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        onExpand(itemMain.id)
+                        setOpen(true)
+                      }}
+                      className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary"
+                    >
+                      <IconChevron />
+                    </button>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
           {!visible ? (

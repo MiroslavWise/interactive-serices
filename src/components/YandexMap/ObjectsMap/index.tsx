@@ -69,7 +69,7 @@ function ListPlacemark() {
         key={`${item.offer.id}-${item.offer.provider}-list`}
         geometry={item?.coordinates[0]}
         modules={["geoObject.addon.balloon"]}
-        properties={{ ...item?.offer }}
+        properties={{ ...item?.offer, type: item?.offer?.provider }}
         options={{
           iconLayout: "default#image",
           iconImageHref: !!item?.offer?.urgent ? TYPE_ICON_URGENT[item?.offer?.provider!] : TYPE_ICON[item?.offer?.provider!],

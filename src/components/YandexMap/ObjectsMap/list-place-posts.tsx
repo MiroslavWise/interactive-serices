@@ -79,7 +79,7 @@ function ListPlacePosts() {
         key={`${item.post.id}-${item.post.slug}-list`}
         geometry={item?.coordinates[0]}
         modules={["geoObject.addon.balloon"]}
-        properties={{ ...item?.post }}
+        properties={{ ...item?.post, type: "post" }}
         options={{
           iconLayout: "default#image",
           iconImageHref: TYPE_ICON[EnumTypeProvider.post],
