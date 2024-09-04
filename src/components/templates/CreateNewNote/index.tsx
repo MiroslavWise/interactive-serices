@@ -42,7 +42,7 @@ function CreateNewNote() {
   })
 
   const onSubmit = handleSubmit(async (values) => {
-    if (!loading) {
+    if (!loading && !!id) {
       setLoading(true)
       const description = values.description.trim()
       const files = values.file.file
