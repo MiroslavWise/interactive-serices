@@ -18,11 +18,21 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   if (!!data) {
     obj.title = data.title
 
+    const note = data?.notes?.find((item) => item?.main)
+
+    if (note) {
+      obj.description = note?.description ?? undefined
+    }
+
     obj.openGraph = {
       type: "website",
       locale: "ru",
       url: `${env.server.host}/post/${id}/${String(data.slug).replaceAll("/", "-")}`,
-      // images: data.images ? data.images.map((_) => _.attributes.url) : undefined,
+      images: note?.images ? note?.images.map((_) => _.attributes.url) : undefined,
+    }
+
+    obj.twitter = {
+      images: note?.images ? note?.images.map((_) => _.attributes.url) : undefined,
     }
   }
 
