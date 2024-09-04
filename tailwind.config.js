@@ -58,7 +58,6 @@ module.exports = {
     extend: {
       spacing: {
         "2rem": "2rem",
-        "1px": "1px",
       },
       boxShadow: {
         "social-link": "0px 11px 20px 0px rgba(100, 104, 115, 0.1)",

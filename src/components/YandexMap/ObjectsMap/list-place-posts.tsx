@@ -17,6 +17,7 @@ interface IPlacemarkCurrent {
 
 function ListPlacePosts() {
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
+  const providers = useFiltersServices(({ providers }) => providers)
 
   const { data } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
@@ -28,7 +29,7 @@ function ListPlacePosts() {
   const marks: IPlacemarkCurrent[] = useMemo(() => {
     const array: IPlacemarkCurrent[] = []
 
-    if (items && Array.isArray(items)) {
+    if (items && Array.isArray(items) && ["all", EnumTypeProvider.post].includes(providers)) {
       items
         ?.filter((item) => Array.isArray(item?.addresses) && item?.addresses?.length)
         ?.forEach((item) => {
@@ -70,28 +71,31 @@ function ListPlacePosts() {
     }
 
     return array
-  }, [items, timesFilter])
+  }, [items, timesFilter, providers])
 
-  return marks.map((item) => (
-    <Placemark
-      key={`${item.post.id}-${item.post.slug}-list`}
-      geometry={item?.coordinates[0]}
-      modules={["geoObject.addon.balloon"]}
-      properties={{ ...item?.post }}
-      options={{
-        iconLayout: "default#image",
-        iconImageHref: TYPE_ICON[EnumTypeProvider.post],
-        iconImageSize: [18.92 * 2, 18.92 * 2.2],
-        zIndex: 45,
-        zIndexActive: 50,
-      }}
-      onClick={(event: any) => {
-        event.preventDefault()
-        event.stopPropagation()
-        dispatchBallonPost(item.post)
-      }}
-    />
-  ))
+  if (["all", EnumTypeProvider.post].includes(providers))
+    return marks.map((item) => (
+      <Placemark
+        key={`${item.post.id}-${item.post.slug}-list`}
+        geometry={item?.coordinates[0]}
+        modules={["geoObject.addon.balloon"]}
+        properties={{ ...item?.post }}
+        options={{
+          iconLayout: "default#image",
+          iconImageHref: TYPE_ICON[EnumTypeProvider.post],
+          iconImageSize: [18.92 * 2, 18.92 * 2.2],
+          zIndex: 45,
+          zIndexActive: 50,
+        }}
+        onClick={(event: any) => {
+          event.preventDefault()
+          event.stopPropagation()
+          dispatchBallonPost(item.post)
+        }}
+      />
+    ))
+
+  return null
 }
 
 ListPlacePosts.displayName = "ListPlacePosts"
