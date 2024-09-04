@@ -37,7 +37,7 @@ function CreateNewNote() {
 
   const { refetch: refetchNotes } = useQuery({
     queryFn: () => getNotes({ order: "DESC", post: id }),
-    queryKey: ["note", { order: "DESC", post: id }],
+    queryKey: ["note", { order: "DESC", postId: id }],
     enabled: !!id,
   })
 

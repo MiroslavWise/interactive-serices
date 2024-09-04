@@ -1,8 +1,7 @@
 import { useState } from "react"
 
-import IconPost from "@/components/icons/IconPost"
-
 import ListNotes from "./components/ListNotes"
+import IconPost from "@/components/icons/IconPost"
 import ComponentProfilePost from "./components/Profile"
 import ListCommentsPost from "./components/ListComments"
 import NavigationNoteAndComments from "./components/Navigation"
