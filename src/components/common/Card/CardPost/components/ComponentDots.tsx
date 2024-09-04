@@ -17,7 +17,7 @@ interface IProps {
 }
 
 function ComponentDots({ post }: IProps) {
-  const { created, id, slug } = post ?? {}
+  const { created, id, slug, addresses, title } = post ?? {}
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const { onSimpleMessage } = useToast()
 
@@ -55,11 +55,11 @@ function ComponentDots({ post }: IProps) {
             onClick={(event) => {
               const url = `${env.server.host}/post/${id}/${slug ? String(slug).replaceAll("/", "-") : ""}`
               if (!!window.navigator.share!) {
-                // navigator.share({
-                //   title: offer.title!,
-                //   text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
-                //   url: url,
-                // })
+                navigator.share({
+                  title: title!,
+                  text: addresses[0] ? addresses[0]?.additional! : title,
+                  url: url,
+                })
               } else {
                 navigator.clipboard.writeText(url)
                 onSimpleMessage("Ссылка скопирована")

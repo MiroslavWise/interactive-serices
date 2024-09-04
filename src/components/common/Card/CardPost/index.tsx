@@ -2,17 +2,21 @@ import { type IPosts } from "@/services/posts/types"
 
 import GeoData from "./components/GeoData"
 import IconPost from "@/components/icons/IconPost"
+import IconNote from "@/components/icons/IconNote"
 import ComponentDots from "./components/ComponentDots"
+import IconComment from "@/components/icons/IconComment"
 import ItemProfile from "../CardBallon/components/ItemProfile"
 
 import { dispatchBallonPost } from "@/store"
 
 interface IProps {
   post: IPosts
+  ref?: any
+  dataIndex?: number
 }
 
-function CardPost({ post }: IProps) {
-  const { title, user } = post ?? {}
+function CardPost({ post, dataIndex, ref }: IProps) {
+  const { title, user, notes = [] } = post ?? {}
 
   function handle() {
     dispatchBallonPost(post)
@@ -22,6 +26,8 @@ function CardPost({ post }: IProps) {
     <article
       className="w-full rounded-2xl border-solid border cursor-pointer flex flex-col gap-3 bg-card-yellow border-card-border-yellow p-4"
       onClick={handle}
+      data-index={dataIndex}
+      ref={ref}
     >
       <ComponentDots post={post} />
       <header className="w-full grid grid-cols-[1.625rem_minmax(0,1fr)] gap-3 items-start">
@@ -31,6 +37,20 @@ function CardPost({ post }: IProps) {
         <h3 className="text-base font-semibold text-text-primary">{title ?? "Заголовок поста"}</h3>
       </header>
       <p className="whitespace-pre-wrap text-text-primary text-sm font-normal">{title}</p>
+      <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem]">
+        <div className="px-2.5 w-fit bg-grey-field py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
+          <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:scale-90">
+            <IconNote />
+          </div>
+          <span className="text-text-primary text-xs font-medium whitespace-nowrap">{notes?.length || 0} записи</span>
+        </div>
+        <div className="px-2.5 w-fit bg-grey-field py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
+          <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
+            <IconComment />
+          </div>
+          <span className="text-text-secondary text-xs font-medium whitespace-nowrap">0</span>
+        </div>
+      </div>
       <GeoData post={post} />
       <ItemProfile user={user} />
     </article>

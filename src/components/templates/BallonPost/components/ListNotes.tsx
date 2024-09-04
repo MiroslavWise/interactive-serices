@@ -16,10 +16,11 @@ function ListNotes({ handleToComments }: { handleToComments: DispatchWithoutActi
   const { id } = post ?? {}
   const [newState, setNewState] = useState(true)
 
-  const { data } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryFn: () => getNotes({ order: "DESC", post: id! }),
-    queryKey: ["notes", { postId: id }],
+    queryKey: ["notes", { order: "DESC", postId: id }],
     enabled: !!id,
+    refetchOnMount: true,
   })
 
   const list = data?.data || []
@@ -27,7 +28,7 @@ function ListNotes({ handleToComments }: { handleToComments: DispatchWithoutActi
   return (
     <section className="w-full flex flex-col gap-5">
       <ListNotesHeader setNewState={setNewState} newState={newState} length={list.length} />
-      <List notes={list} handleToComments={handleToComments} newState={newState} />
+      <List notes={list} handleToComments={handleToComments} newState={newState} isLoading={isLoading || isFetching} />
       <FooterNewNote />
     </section>
   )
@@ -37,10 +38,12 @@ const List = memo(function ({
   newState,
   notes,
   handleToComments,
+  isLoading,
 }: {
   notes: INotes[]
   handleToComments: DispatchWithoutAction
   newState: boolean
+  isLoading: boolean
 }) {
   const filter = useMemo(() => notes.sort((a, b) => (newState ? b.id - a.id : a.id - b.id)), [newState, notes])
 
@@ -49,10 +52,29 @@ const List = memo(function ({
   const { userId: userIdPost } = data ?? {}
 
   return (
-    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && "pb-16")}>
-      {filter.map((item) => (
-        <ItemNote note={item} key={`:key:note:${item.id}:`} handleToComments={handleToComments} />
-      ))}
+    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && "pb-16", isLoading && "loading-screen")}>
+      {isLoading
+        ? [1, 2, 3, 4].map((item) => (
+            <article
+              key={`:load:key:${item}:`}
+              className="w-full rounded-2xl border border-solid border-grey-stroke-light p-4 flex flex-col gap-4 bg-BG-second"
+            >
+              <section className="w-full flex flex-col gap-3">
+                <span className="w-full max-w-[33%] h-4 rounded-lg" />
+                <div className="w-full flex flex-col gap-1">
+                  <span className="w-full h-4 rounded-lg" />
+                  <span className="w-full h-4 rounded-lg" />
+                  <span className="w-full h-4 rounded-lg" />
+                </div>
+                <span className="w-full rounded-2xl h-[8.125rem]" />
+              </section>
+              <footer className="flex flex-row items-center gap-3 *:h-[1.875rem] *:rounded-[0.9375rem]">
+                <span className="w-10" />
+                <span className="w-10" />
+              </footer>
+            </article>
+          ))
+        : filter.map((item) => <ItemNote note={item} key={`:key:note:${item.id}:`} handleToComments={handleToComments} />)}
     </ul>
   )
 })
