@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 
 import { Button } from "@/components/common"
@@ -10,6 +11,7 @@ import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 
 import { cx } from "@/lib/cx"
+import { nameTitle } from "@/lib/names"
 import { dispatchMapCoordinates, dispatchOpenCreateNote, dispatchBallonPost } from "@/store"
 
 interface IProps {
@@ -45,7 +47,9 @@ function ItemPost({ post }: IProps) {
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:scale-90">
               <IconNote />
             </div>
-            <span className="text-text-primary text-xs font-medium whitespace-nowrap">{items.length} записи</span>
+            <span className="text-text-primary text-xs font-medium whitespace-nowrap">
+              {items.length} {nameTitle(items.length, EnumTypeProvider.NOTE)}
+            </span>
           </div>
           <div className="px-2.5 w-fit bg-grey-field py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">

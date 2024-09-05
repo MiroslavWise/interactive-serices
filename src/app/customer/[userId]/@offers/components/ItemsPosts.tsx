@@ -8,8 +8,8 @@ import { EnumTypeProvider } from "@/types/enum"
 import ItemPost from "./ItemPost"
 
 import { cx } from "@/lib/cx"
-import { nameTitle } from "../page"
 import { getPosts } from "@/services/posts"
+import { nameTitle } from "@/lib/names"
 
 const NAV: { value: boolean; label: string }[] = [
   {

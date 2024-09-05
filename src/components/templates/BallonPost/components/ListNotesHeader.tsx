@@ -1,11 +1,14 @@
 import { type Dispatch, type SetStateAction } from "react"
 
-import IconNote from "@/components/icons/IconNote"
+import { EnumTypeProvider } from "@/types/enum"
 
-import { useOutsideClickEvent } from "@/helpers"
-import IconChevronDown from "@/components/icons/IconChevronDown"
-import { cx } from "@/lib/cx"
+import IconNote from "@/components/icons/IconNote"
 import IconCheck from "@/components/icons/IconCheck"
+import IconChevronDown from "@/components/icons/IconChevronDown"
+
+import { cx } from "@/lib/cx"
+import { nameTitle } from "@/lib/names"
+import { useOutsideClickEvent } from "@/helpers"
 
 const TIME_SORT: {
   label: string
@@ -40,7 +43,9 @@ function ListNotesHeader({
         <div className="relative w-5 h-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary">
           <IconNote />
         </div>
-        <span className="text-text-primary text-sm font-medium">{length} записи</span>
+        <span className="text-text-primary text-sm font-medium">
+          {length} {nameTitle(length, EnumTypeProvider.NOTE)}
+        </span>
       </div>
       <div className="relative" ref={ref}>
         <button

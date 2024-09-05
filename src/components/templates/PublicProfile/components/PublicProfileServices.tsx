@@ -8,8 +8,8 @@ import { ServiceLoading } from "@/components/common"
 import ItemServiceData from "@/app/customer/[userId]/@offers/components/ItemService-data"
 
 import { cx } from "@/lib/cx"
+import { nameTitle } from "@/lib/names"
 import { getUserIdOffers } from "@/services"
-import { nameTitle } from "@/app/customer/[userId]/@offers/page"
 import { LINKS_PROVIDER_OFFERS } from "@/app/customer/[userId]/@links/page"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
 

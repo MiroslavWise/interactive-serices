@@ -7,6 +7,7 @@ import ItemServiceData from "./components/ItemService-data"
 import WrapperItemService from "./components/WrapperItemService"
 
 import { getUserIdOffers } from "@/services"
+import { nameTitle } from "@/lib/names"
 
 export const dynamic = "force-dynamic"
 export const dynamicParams = true
@@ -56,54 +57,4 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
       )}
     </section>
   )
-}
-
-export function nameTitle(length: number, provider: EProviderLinkCustomer | EnumTypeProvider) {
-  var num = length % 10
-  if (length >= 10 && length <= 20) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждений"
-    }
-    if (EProviderLinkCustomer.post === provider) {
-      return "постов"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщений"
-    }
-    return "предложений"
-  }
-  if (num > 1 && num < 5) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждения"
-    }
-    if (EProviderLinkCustomer.post === provider) {
-      return "поста"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщения"
-    }
-    return "предложения"
-  }
-  if (num == 1) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждение"
-    }
-    if (EProviderLinkCustomer.post === provider) {
-      return "пост"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщение"
-    }
-    return "предложение"
-  }
-  if (EProviderLinkCustomer.discussion === provider) {
-    return "обсуждений"
-  }
-  if (EProviderLinkCustomer.post === provider) {
-    return "постов"
-  }
-  if (EProviderLinkCustomer.alert === provider) {
-    return "SOS-сообщений"
-  }
-  return "предложений"
 }

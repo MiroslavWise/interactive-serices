@@ -3,7 +3,7 @@ import { useMemo } from "react"
 
 import { type IResponseOffers } from "@/services/offers/types"
 
-import IconMapWhite from "@/components/icons/IconMapWhite"
+import { IconGeo } from "@/components/icons/IconGeo"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 
 import { dispatchMapCoordinates } from "@/store"
@@ -23,7 +23,7 @@ function GeoData({ offer }: { offer: IResponseOffers }) {
 
   return geo ? (
     <Link
-      className="w-full cursor-pointer grid grid-cols-[1.5rem_minmax(0,1fr)_1.25rem] items-start gap-2"
+      className="w-full cursor-pointer grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-2"
       onClick={() => {
         if (geoData) {
           dispatchMapCoordinates({
@@ -37,13 +37,10 @@ function GeoData({ offer }: { offer: IResponseOffers }) {
       aria-label="Перейти к точке на карте"
       aria-labelledby="Перейти к точке на карте"
     >
-      <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[0.9rem] *:h-[0.9rem]">
-        <IconMapWhite />
+      <div className="relative w-4 h-4 p-2 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+        <IconGeo />
       </div>
-      <span className="text-text-secondary text-sm font-normal pt-0.5">{geo}</span>
-      <div className="w-5 h-5 p-2.5  relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
-        <IconArrowRight />
-      </div>
+      <span className="text-text-secondary leading-4 text-[0.8125rem] font-normal">{geo}</span>
     </Link>
   ) : null
 }

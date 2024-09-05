@@ -6,8 +6,8 @@ import { type IUserResponse } from "@/services/users/types"
 import { ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { nameTitle } from "@/lib/names"
 import { getFiendId, getUserIdOffers } from "@/services"
-import { nameTitle } from "@/app/customer/[userId]/@offers/page"
 
 function BlockButtons({ user }: { user: IUserResponse }) {
   const { data: dataFriends } = useQuery({
