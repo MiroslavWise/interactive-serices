@@ -1,10 +1,13 @@
 "use client"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
+import { type IPosts } from "@/services/posts/types"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import { ButtonClose } from "@/components/common"
+import CardPost from "@/components/common/Card/CardPost"
 import CardBallon from "@/components/common/Card/CardBallon"
 
 import { cx } from "@/lib/cx"
@@ -13,8 +16,8 @@ import { dispatchHasBalloon, useFiltersServices, useHasBalloons } from "@/store"
 
 const onTitle = (value: EnumTypeProvider | "all") => SERVICES.find((_) => _.value === value)!.label!
 
-export const HasClustererBalloons = () => {
-  const offers = useHasBalloons(({ offers }) => offers)
+export const HasClustererBalloons = memo(() => {
+  const items = useHasBalloons(({ items }) => items)
   const providers = useFiltersServices(({ providers }) => providers)
   const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
 
@@ -40,6 +43,8 @@ export const HasClustererBalloons = () => {
     }
   }, [visibleHasBalloon])
 
+  const allItems = items as (IResponseOffers & { type: EnumTypeProvider })[] & (IPosts & { type: EnumTypeProvider })[]
+
   return (
     <div
       className={cx(
@@ -58,10 +63,15 @@ export const HasClustererBalloons = () => {
         </header>
         <div data-container className="h-full w-full overflow-hidden md:rounded-l-[2rem]">
           <ul className="w-full h-full p-3 md:p-4 flex flex-col gap-3 md:gap-4 overflow-x-hidden overflow-y-auto">
-            {offers && offers?.length > 0 ? offers.map((item) => <CardBallon key={`::offer::general::${item.id}::`} offer={item} />) : null}
+            {allItems.map((item) => {
+              if (item.type === EnumTypeProvider.post) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
+              if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
+                return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
+              return null
+            })}
           </ul>
         </div>
       </section>
     </div>
   )
-}
+})

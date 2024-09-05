@@ -179,7 +179,8 @@ function YandexMap() {
 
             dispatchHasBalloon({
               visibleHasBalloon: true,
-              offers: ids,
+              //@ts-ignore
+              items: ids,
             })
           }}
         >
