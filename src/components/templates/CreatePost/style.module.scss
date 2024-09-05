@@ -171,7 +171,6 @@
     width: 100%;
     height: auto;
     border-radius: 1rem;
-    border: 0.0625rem dashed var(--grey-stroke-light);
     background: var(--BG-second);
     aspect-ratio: 152/196;
     display: flex;
@@ -179,6 +178,12 @@
     align-items: center;
     position: relative;
     overflow: hidden;
+
+    &[data-image="new"] {
+      border-color: var(--grey-stroke-light);
+      border-width: 0.0625rem;
+      border-style: dashed;
+    }
 
     &[data-current] {
       border: none !important;

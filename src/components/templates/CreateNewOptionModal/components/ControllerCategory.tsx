@@ -61,8 +61,8 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
         <fieldset
           id="fieldset-create-option-modal-offer"
           data-test="fieldset-create-new-option-categoryId"
-          ref={ref}
           className={styles.container}
+          ref={ref}
         >
           <label htmlFor={field.name} title="Предложение">
             Предложение
@@ -83,6 +83,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             type="button"
             onClick={(event) => {
               event.stopPropagation()
+              clg("data-collapse: ", undefined, "error")
               setOpen((prev) => !prev)
             }}
             className="absolute w-8 h-8 bg-transparent p-1.5 right-2 flex items-center justify-center"
@@ -129,20 +130,21 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
               "absolute left-0 right-0 rounded-xl bg-BG-second overflow-hidden shadow-box-down",
               open ? "opacity-100 z-[90] visible" : "opacity-0 invisible -z-10",
             )}
+            onClick={(event) => event.stopPropagation()}
           >
             <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
               {expand ? (
                 <>
-                  <article className="p-1.5 w-full grid grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-1">
-                    <button
-                      className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary *:rotate-180"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        event.preventDefault()
-                        onExpand(null)
-                        setOpen(true)
-                      }}
-                    >
+                  <article
+                    className="p-1.5 w-full grid grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-1 cursor-pointer"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      event.preventDefault()
+                      onExpand(null)
+                      setOpen(true)
+                    }}
+                  >
+                    <button className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary *:rotate-180">
                       <IconChevron />
                     </button>
                     <span className="text-text-secondary text-xs font-normal">Все категории</span>
