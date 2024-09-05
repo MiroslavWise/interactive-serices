@@ -3,6 +3,7 @@ import { type Dispatch, type SetStateAction } from "react"
 import { type IPosts } from "@/services/posts/types"
 
 import { cx } from "@/lib/cx"
+import { useContextPostsComments } from "./ContextComments"
 
 type TType = "notes" | "comments"
 
@@ -32,10 +33,12 @@ const NAV = ({
 function NavigationNoteAndComments({ post, state, setState }: { post: IPosts; state: TType; setState: Dispatch<SetStateAction<TType>> }) {
   const { notes } = post ?? {}
   const lengthNotes = notes.length
+  const { list } = useContextPostsComments()
+  const lengthComments = list.length
 
   return (
     <nav className="w-full flex flex-row border-b border-solid border-grey-stroke gap-[1.125rem]">
-      {NAV({ countNotes: lengthNotes, countComment: 10 }).map((item) => (
+      {NAV({ countNotes: lengthNotes, countComment: lengthComments }).map((item) => (
         <a
           key={`:key:item:nav:post:${item.value}:`}
           className="flex flex-row items-start gap-1 cursor-pointer"

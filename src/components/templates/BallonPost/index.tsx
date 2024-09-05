@@ -8,10 +8,11 @@ import NavigationNoteAndComments from "./components/Navigation"
 
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
+import ContextComments from "./components/ContextComments"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
-  const { title, id, notes = [], addresses, archive } = data ?? {}
+  const { title, archive } = data ?? {}
 
   const [state, setState] = useState<"notes" | "comments">("notes")
 
@@ -38,12 +39,14 @@ function BallonPost() {
       <section className="w-full h-full flex flex-col md:rounded-b-[2rem] bg-BG-second overflow-hidden">
         <ul className="w-full h-full px-5 overflow-y-auto flex flex-col gap-5 py-5">
           <ComponentProfilePost post={data!} />
-          <NavigationNoteAndComments post={data!} {...{ state, setState }} />
-          {state === "notes" ? (
-            <ListNotes handleToComments={handleToComments} />
-          ) : state === "comments" ? (
-            <ListCommentsPost post={data!} />
-          ) : null}
+          <ContextComments>
+            <NavigationNoteAndComments post={data!} {...{ state, setState }} />
+            {state === "notes" ? (
+              <ListNotes handleToComments={handleToComments} />
+            ) : state === "comments" ? (
+              <ListCommentsPost post={data!} />
+            ) : null}
+          </ContextComments>
         </ul>
       </section>
     </>

@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query"
-
 import { type IPosts } from "@/services/posts/types"
 
 import Avatar from "@avatar"
@@ -9,18 +7,13 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
-import { getComments } from "@/services"
+import { useContextPostsComments } from "./ContextComments"
 
 function ListCommentsPost({ post }: { post: IPosts }) {
-  const { data, isLoading } = useQuery({
-    queryFn: () => getComments({}),
-    queryKey: ["comments", { provider: "post" }],
-  })
-
-  const list = data?.data ?? []
+  const { list, isLoading } = useContextPostsComments()
 
   return (
-    <section className={cx("w-full flex flex-col gap-5", isLoading && "items-center justify-center h-full")}>
+    <section className={cx("w-full flex flex-col gap-5 h-full", isLoading && "items-center justify-center")}>
       {list.length ? (
         <>
           <div className="w-full flex flex-row items-center justify-start gap-2">
@@ -50,7 +43,6 @@ function ListCommentsPost({ post }: { post: IPosts }) {
               </li>
             ))}
           </ul>
-          <FooterNewComment post={post} />
         </>
       ) : (
         <section className="flex flex-col gap-2.5 items-center justify-center my-auto">
@@ -58,6 +50,7 @@ function ListCommentsPost({ post }: { post: IPosts }) {
           <p className="text-text-secondary text-center text-sm font-normal">Напишите комментарий первым</p>
         </section>
       )}
+      <FooterNewComment post={post} />
     </section>
   )
 }

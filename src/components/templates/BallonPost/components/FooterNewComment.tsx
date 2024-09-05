@@ -7,12 +7,17 @@ import { type IPosts } from "@/services/posts/types"
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { dispatchAuthModal, useAuth } from "@/store"
+import { useContextPostsComments } from "./ContextComments"
 import { MAX_LENGTH_COMMENT, resolver, type TSchema } from "../utils/schema"
+import { IBodyPostComment, postPostsComment } from "@/services/posts-comments"
+import { IUserOffer } from "@/services/offers/types"
 
 function FooterNewComment({ post }: { post: IPosts }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const user = useAuth(({ user }) => user)
+  const { onUpdate } = useContextPostsComments()
 
   const { control, handleSubmit, resetField } = useForm<TSchema>({
     resolver: resolver,
@@ -24,7 +29,35 @@ function FooterNewComment({ post }: { post: IPosts }) {
   const onSubmit = handleSubmit(async (values) => {
     if (!loading) {
       setLoading(true)
-      // const response = await
+      const message = values.comment.trim()
+      const body: IBodyPostComment = {
+        postId: post.id,
+        message: message,
+        status: "published",
+        enabled: true,
+      }
+
+      const miniUser: IUserOffer = {
+        about: "",
+        id: userId!,
+        image: user?.profile?.image!,
+        firstName: user?.profile?.firstName ?? "Имя",
+        lastName: user?.profile?.lastName ?? "Фамилия",
+        username: user?.profile?.username ?? "username",
+        gender: user?.profile?.gender!,
+      }
+
+      onUpdate({
+        id: Math.random(),
+        userId: userId!,
+        postId: post.id,
+        message: message,
+        status: "create",
+        created: String(new Date()),
+        user: miniUser,
+      })
+      const response = await postPostsComment(body)
+      clg("response: postPostsComment", response, "warning")
       setLoading(false)
       resetField("comment")
       if (textRef.current) {
@@ -95,7 +128,6 @@ function FooterNewComment({ post }: { post: IPosts }) {
                     }
                   }
                 })
-                clg("event.target: ", event.target.style, "error")
                 field.onChange(value)
               }}
               maxLength={MAX_LENGTH_COMMENT}

@@ -2,7 +2,7 @@ import { type IResponse } from "../request"
 import { type IUserOffer } from "../offers/types"
 import { type IPromiseReturn } from "@/services/types/general"
 
-type TTypeStatusComments = "published" | "create"
+export type TTypeStatusComments = "published" | "create"
 
 export interface ICommentsResponse {
   id: number
