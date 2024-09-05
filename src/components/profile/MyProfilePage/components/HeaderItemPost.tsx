@@ -12,9 +12,9 @@ interface IProps {
 function HeaderItemPost({ post }: IProps) {
   const { archive, title } = post ?? {}
   return (
-    <header className="w-full">
+    <header className="w-full flex flex-col gap-3">
       <article className={cx("w-full", archive ? "flex flex-row items-center gap-5 justify-between" : "hidden")}>
-        <div className="py-1 px-3 h-6 rounded-xl w-fit bg-text-secondary">
+        <div className="py-1 px-3 h-6 rounded-xl w-fit bg-text-secondary flex items-center justify-center">
           <span className="text-text-button text-xs text-center">Завершено</span>
         </div>
         {archive && <HeaderItemDotsPost post={post} />}
