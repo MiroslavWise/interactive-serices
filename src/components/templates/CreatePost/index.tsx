@@ -148,7 +148,7 @@ function CreatePost() {
   const focusAddress = () => setIsFocus(true)
   const blurAddress = () => setIsFocus(false)
 
-  const disabled = !watch("title").trim() || !watch("address") || !(!!watch("description").trim() || !!watch("file").file.length)
+  const disabled = !watch("title").trim() || !watch("address") || !watch("description").trim()
 
   return (
     <>

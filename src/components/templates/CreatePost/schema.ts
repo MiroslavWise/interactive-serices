@@ -45,6 +45,8 @@ const title = z
 const description = z
   .string()
   .trim()
+  .min(1, { message: "Обязательное поле" })
+  .min(3, { message: "Не менее 3-х символов в описании" })
   .max(LIMIT_DESCRIPTION, { message: `Не более ${LIMIT_DESCRIPTION} символов` })
   .default("")
 
