@@ -45,8 +45,6 @@ const title = z
 const description = z
   .string()
   .trim()
-  .min(1, { message: "Обязательное поле" })
-  .min(3, { message: "Не менее 3-х символов в описании" })
   .max(LIMIT_DESCRIPTION, { message: `Не более ${LIMIT_DESCRIPTION} символов` })
   .default("")
 
@@ -55,13 +53,18 @@ const file = z.object({
   string: z.array(z.string()),
 })
 
-const schema = z.object({
-  title: title,
-  description: description,
-  address: address,
-  addressFeature: addressFeature,
-  file,
-})
+const schema = z
+  .object({
+    title: title,
+    description: description,
+    address: address,
+    addressFeature: addressFeature,
+    file,
+  })
+  .refine((data) => data.file.file.length > 0, {
+    path: ["description"],
+    message: "Обязательное поле",
+  })
 
 export const resolverCreate = zodResolver(schema)
 export type TSchemaCreatePost = z.infer<typeof schema>

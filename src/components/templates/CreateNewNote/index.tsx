@@ -102,7 +102,7 @@ function CreateNewNote() {
     }
   })
 
-  const disabled = !watch("file.file").length && !watch("description")
+  const disabled = !watch("file").file.length && !watch("description")
 
   return (
     <>

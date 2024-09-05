@@ -148,6 +148,8 @@ function CreatePost() {
   const focusAddress = () => setIsFocus(true)
   const blurAddress = () => setIsFocus(false)
 
+  const disabled = !watch("title").trim() || !watch("address") || !(!!watch("description").trim() || !!watch("file").file.length)
+
   return (
     <>
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-[var(--height-standard-header-modal)]">
@@ -311,7 +313,14 @@ function CreatePost() {
             )}
           />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
-            <Button type="submit" typeButton="fill-primary" label="Создать пост" className="w-full h-11 py-2.5" loading={loading} />
+            <Button
+              type="submit"
+              typeButton="fill-primary"
+              label="Создать пост"
+              className="w-full h-11 py-2.5"
+              loading={loading}
+              disabled={loading || disabled}
+            />
           </footer>
         </form>
       </ul>
