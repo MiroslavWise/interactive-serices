@@ -1,21 +1,35 @@
+import { useQuery } from "@tanstack/react-query"
+
 import { type IPosts } from "@/services/posts/types"
 
 import Avatar from "@avatar"
 import SharedDotsPost from "./Shared"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-import { daysAgo } from "@/helpers"
+import { getNotes } from "@/services/notes"
+import { daysAgo, getMillisecond } from "@/helpers"
+import { clg } from "@console"
 
 interface IProps {
   post: IPosts
 }
 
 export function ComponentProfilePost({ post }: IProps) {
-  const { user, updated, addresses, userId } = post ?? {}
+  const { user, updated, addresses, userId, id } = post ?? {}
+
+  const { data } = useQuery({
+    queryFn: () => getNotes({ order: "DESC", post: id! }),
+    queryKey: ["notes", { order: "DESC", postId: id }],
+    enabled: !!id,
+  })
 
   const { image, firstName, lastName } = user ?? {}
   const firstAddress = addresses[0] ?? {}
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
+
+  const notes = data?.data || []
+  const updatedNotes = notes.map((item) => item.updated || item.created).sort((a, b) => getMillisecond(b) - getMillisecond(a))
+  const up = updatedNotes[0] ?? updated
 
   return (
     <div className="relative w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-2.5">
@@ -29,8 +43,8 @@ export function ComponentProfilePost({ post }: IProps) {
             <IconVerifiedTick />
           </div>
         </div>
-        <time dateTime={updated} className="text-text-secondary font-normal text-[0.8125rem] leading-4 -mt-0.5">
-          обновлено: {daysAgo(updated || new Date())}
+        <time dateTime={up} className="text-text-secondary font-normal text-[0.8125rem] leading-4 -mt-0.5">
+          обновлено: {daysAgo(up || new Date())}
         </time>
         <span className="text-text-secondary font-normal text-[0.8125rem] leading-4 text-ellipsis line-clamp-1">{additional}</span>
       </article>
