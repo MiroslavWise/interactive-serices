@@ -1,6 +1,7 @@
 import { type IPosts } from "@/services/posts/types"
 
 import Avatar from "@avatar"
+import ItemCommentNote from "./ItemCommentNote"
 import FooterNewComment from "./FooterNewComment"
 import IconComment from "@/components/icons/IconComment"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
@@ -38,6 +39,7 @@ function ListCommentsPost({ post }: { post: IPosts }) {
                       {daysAgo(item.created)}
                     </time>
                   </div>
+                  <ItemCommentNote note={item?.note} />
                   <p className="text-text-primary text-sm font-normal whitespace-pre-wrap">{item.message}</p>
                 </article>
               </li>

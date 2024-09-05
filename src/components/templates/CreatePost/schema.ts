@@ -53,18 +53,13 @@ const file = z.object({
   string: z.array(z.string()),
 })
 
-const schema = z
-  .object({
-    title: title,
-    description: description,
-    address: address,
-    addressFeature: addressFeature,
-    file,
-  })
-  .refine((data) => data.file.file.length > 0, {
-    path: ["description"],
-    message: "Обязательное поле",
-  })
+const schema = z.object({
+  title: title,
+  description: description,
+  address: address,
+  addressFeature: addressFeature,
+  file,
+})
 
 export const resolverCreate = zodResolver(schema)
 export type TSchemaCreatePost = z.infer<typeof schema>

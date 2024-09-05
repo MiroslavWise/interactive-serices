@@ -3,25 +3,28 @@ import { type DispatchWithoutAction, useEffect, useRef, useState } from "react"
 
 import { type INotes } from "@/services/notes/types"
 
+import DeletePopup from "./DeletePopup"
 import IconLike from "@/components/icons/IconLike"
 import { NextImageMotion } from "@/components/common"
 import IconComment from "@/components/icons/IconComment"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
-import { dispatchPhotoCarousel, useAuth } from "@/store"
+import { useContextPostsComments } from "./ContextComments"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
-import DeletePopup from "./DeletePopup"
+import { dispatchPhotoCarousel, useAuth, useBalloonPost } from "@/store"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
+  const { archive } = useBalloonPost(({ data }) => data) ?? {}
   const { description, created, images = [], id } = note ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const getId = () => getLikeTargetId("post", id!)
   const [count, setCount] = useState(0)
   const [myLike, setMyLike] = useState(false)
   const [loading, setLoading] = useState(false)
-
   const refImages = useRef<HTMLDivElement>(null)
+
+  const { onWriteResponse } = useContextPostsComments()
 
   // function to(value: boolean) {
   //   if (refImages.current) {
@@ -154,8 +157,14 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
         </button>
         <button
           type="button"
-          onClick={handleToComments}
-          className="gap-1 flex flex-row items-center justify-start px-2.5 h-[1.875rem] rounded-[0.9375rem] bg-grey-field"
+          onClick={() => {
+            onWriteResponse(note)
+            handleToComments()
+          }}
+          className={cx(
+            "gap-1 px-2.5 h-[1.875rem] rounded-[0.9375rem] bg-grey-field",
+            archive ? "hidden" : "flex flex-row items-center justify-start",
+          )}
         >
           <div className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
             <IconComment />

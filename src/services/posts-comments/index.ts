@@ -1,4 +1,5 @@
 import { type TTypeStatusComments } from "../comments/types"
+import { INotes } from "../notes/types"
 import { IUserOffer } from "../offers/types"
 import { fetchGet, type IResponse, post } from "../request"
 
@@ -20,6 +21,7 @@ export interface IPostsComment {
   status: TTypeStatusComments
   created: string
   user: IUserOffer
+  note?: INotes
 }
 
 interface IQueries {

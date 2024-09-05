@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form"
 
 import { EnumSign } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
+import { type IUserOffer } from "@/services/offers/types"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
@@ -10,14 +11,14 @@ import { dispatchAuthModal, useAuth } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
 import { MAX_LENGTH_COMMENT, resolver, type TSchema } from "../utils/schema"
 import { IBodyPostComment, postPostsComment } from "@/services/posts-comments"
-import { IUserOffer } from "@/services/offers/types"
+import IconXClose from "@/components/icons/IconXClose"
 
 function FooterNewComment({ post }: { post: IPosts }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = useAuth(({ user }) => user)
-  const { onUpdate } = useContextPostsComments()
+  const { onUpdate, writeResponse, onWriteResponse } = useContextPostsComments()
 
   const { control, handleSubmit, resetField } = useForm<TSchema>({
     resolver: resolver,
@@ -35,6 +36,10 @@ function FooterNewComment({ post }: { post: IPosts }) {
         message: message,
         status: "published",
         enabled: true,
+      }
+
+      if (writeResponse) {
+        body.noteId = writeResponse.id
       }
 
       const miniUser: IUserOffer = {
@@ -55,11 +60,13 @@ function FooterNewComment({ post }: { post: IPosts }) {
         status: "create",
         created: String(new Date()),
         user: miniUser,
+        note: writeResponse ? writeResponse : undefined,
       })
+      resetField("comment")
+      onWriteResponse(null)
       const response = await postPostsComment(body)
       clg("response: postPostsComment", response, "warning")
       setLoading(false)
-      resetField("comment")
       if (textRef.current) {
         textRef.current.style.borderRadius = `1.25rem`
         textRef.current.style.height = "2.5rem"
@@ -95,20 +102,37 @@ function FooterNewComment({ post }: { post: IPosts }) {
       </footer>
     )
   }
-
+  //--card-svg-yellow
   return (
     <form
       className={cx(
-        "fixed md:absolute bottom-0 left-0 right-0 w-full max-md:py-3 p-5 border-t border-solid border-grey-stroke-light bg-BG-second md:rounded-b-[2rem] z-50",
-        "grid grid-cols-[minmax(0,1fr)_1.5rem] gap-2.5 items-end",
+        "fixed md:absolute bottom-0 left-0 right-0 w-full max-md:py-3 p-5 border-t border-solid border-grey-stroke-light bg-BG-second md:rounded-b-[2rem] z-50 flex flex-col gap-2.5",
+        !!writeResponse ? "pt-2.5" : "pt-5",
       )}
       onSubmit={onSubmit}
     >
+      <div
+        className={cx(
+          "w-full pl-2.5 border-l-2 border-solid border-[var(--card-svg-yellow)]",
+          !!writeResponse ? "grid grid-cols-[minmax(0,1fr)_1.25rem] gap-5" : "hidden",
+        )}
+      >
+        <p className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">
+          <span className="font-medium">Запись:</span> {writeResponse?.description ?? null}
+        </p>
+        <button
+          type="button"
+          className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
+          onClick={() => onWriteResponse(null)}
+        >
+          <IconXClose />
+        </button>
+      </div>
       <Controller
         control={control}
         name="comment"
         render={({ field, fieldState: { error } }) => (
-          <>
+          <div className="w-full grid grid-cols-[minmax(0,1fr)_1.5rem] gap-2.5 items-end">
             <textarea
               {...field}
               value={field.value}
@@ -155,7 +179,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
                 />
               </svg>
             </button>
-          </>
+          </div>
         )}
       />
     </form>

@@ -15,15 +15,10 @@ const file = z.object({
   file: z.array(z.instanceof(File)),
   string: z.array(z.string()),
 })
-const schemaNote = z
-  .object({
-    description: description,
-    file: file,
-  })
-  .refine((data) => data.file.file.length > 0, {
-    path: ["description"],
-    message: "Обязательное поле",
-  })
+const schemaNote = z.object({
+  description: description,
+  file: file,
+})
 
 export const resolverCreateNote = zodResolver(schemaNote)
 export type TSchemaCreateNote = z.infer<typeof schemaNote>
