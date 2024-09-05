@@ -32,21 +32,15 @@ function CreateNewNote() {
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
 
-  const { handleSubmit, control } = useForm<TSchemaCreateNote>({
+  const { handleSubmit, control, watch } = useForm<TSchemaCreateNote>({
     resolver: resolverCreateNote,
     defaultValues: DEFAULT_VALUES,
-  })
-
-  const { refetch: refetchNotes } = useQuery({
-    queryFn: () => getNotes({ order: "DESC", post: id }),
-    queryKey: ["notes", { order: "DESC", postId: id }],
-    enabled: false,
   })
 
   const onSubmit = handleSubmit(async (values) => {
     if (!loading && !!id) {
       setLoading(true)
-      const description = values.description.trim()
+      const description = values.description!?.trim()
       const files = values.file.file
       const data: IBodyNote = {
         postId: id!,
@@ -108,6 +102,8 @@ function CreateNewNote() {
     }
   })
 
+  const disabled = !watch("file.file").length && !watch("description")
+
   return (
     <>
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-[var(--height-standard-header-modal)]">
@@ -142,7 +138,7 @@ function CreateNewNote() {
                     )}
                   />
                   <span
-                    data-error={field.value?.length + 20 >= LIMIT_DESCRIPTION}
+                    data-error={field!.value!?.length + 20 >= LIMIT_DESCRIPTION}
                     className={cx(
                       "absolute bottom-1 right-3.5 text-right text-xs font-normal",
                       !!error ? "text-text-error" : "text-text-primary",
@@ -151,7 +147,7 @@ function CreateNewNote() {
                     {field.value?.length || 0}/{LIMIT_DESCRIPTION}
                   </span>
                 </div>
-                {!!error ? <i>{error.message}</i> : null}
+                {!!error && error?.type === "required" ? <i>Обязательное поле</i> : !!error ? <i>{error.message}</i> : null}
               </fieldset>
             )}
           />
@@ -199,7 +195,7 @@ function CreateNewNote() {
               label="Сохранить"
               className="w-full h-11 py-2.5"
               loading={loading}
-              disabled={loading}
+              disabled={loading || disabled}
             />
           </footer>
         </form>

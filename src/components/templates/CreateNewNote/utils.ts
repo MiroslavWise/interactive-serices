@@ -8,18 +8,22 @@ const sleep = () => new Promise((r) => setTimeout(r, 50))
 const description = z
   .string()
   .trim()
-  .min(1, { message: "Обязательное поле" })
-  .min(3, { message: "Не менее 3-х символов в описании" })
   .max(LIMIT_DESCRIPTION, { message: `Не более ${LIMIT_DESCRIPTION} символов` })
   .default("")
+  .optional()
 const file = z.object({
   file: z.array(z.instanceof(File)),
   string: z.array(z.string()),
 })
-const schemaNote = z.object({
-  description: description,
-  file: file,
-})
+const schemaNote = z
+  .object({
+    description: description,
+    file: file,
+  })
+  .refine((data) => data.file.file.length > 0, {
+    path: ["description"],
+    message: "Обязательное поле",
+  })
 
 export const resolverCreateNote = zodResolver(schemaNote)
 export type TSchemaCreateNote = z.infer<typeof schemaNote>
