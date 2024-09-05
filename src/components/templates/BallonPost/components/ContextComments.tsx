@@ -9,9 +9,11 @@ import { getPostsComments, type IPostsComment } from "@/services/posts-comments"
 const defaultDataContext: IContext = {
   list: [],
   isLoading: false,
-  onUpdate: () => {},
   writeResponse: null,
+  noteCurrent: null,
+  onUpdate: () => {},
   onWriteResponse: () => {},
+  onNoteCurrent: () => {},
 }
 
 const createContextComments = createContext<IContext>(defaultDataContext)
@@ -20,6 +22,7 @@ function ContextComments({ children }: { children: ReactNode }) {
   const post = useBalloonPost(({ data }) => data)
   const [list, setList] = useState<IPostsComment[]>([])
   const [writeResponse, setWriteResponse] = useState<INotes | null>(null)
+  const [noteCurrent, setNoteCurrent] = useState<number | null>(null)
 
   const { data, isLoading } = useQuery({
     queryFn: () => getPostsComments({ post: post?.id! }),
@@ -36,6 +39,10 @@ function ContextComments({ children }: { children: ReactNode }) {
     setWriteResponse(value)
   }
 
+  function onNoteCurrent(id: number | null) {
+    setNoteCurrent(id)
+  }
+
   useEffect(() => {
     if (data?.data) {
       setList(Array.isArray(data?.data) ? data?.data : [])
@@ -50,6 +57,8 @@ function ContextComments({ children }: { children: ReactNode }) {
         writeResponse,
         onUpdate,
         onWriteResponse,
+        noteCurrent,
+        onNoteCurrent,
       }}
     >
       {children}
@@ -65,7 +74,9 @@ export const useContextPostsComments = () => useContext(createContextComments)
 interface IContext {
   list: IPostsComment[]
   isLoading: boolean
-  onUpdate: Dispatch<IPostsComment>
   writeResponse: INotes | null
+  noteCurrent: number | null
+  onUpdate: Dispatch<IPostsComment>
+  onNoteCurrent: Dispatch<number | null>
   onWriteResponse: Dispatch<INotes | null>
 }

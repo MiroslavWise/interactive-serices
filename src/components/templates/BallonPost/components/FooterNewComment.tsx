@@ -12,6 +12,7 @@ import { useContextPostsComments } from "./ContextComments"
 import { MAX_LENGTH_COMMENT, resolver, type TSchema } from "../utils/schema"
 import { IBodyPostComment, postPostsComment } from "@/services/posts-comments"
 import IconXClose from "@/components/icons/IconXClose"
+import ItemFormAddNote from "./ItemFormAddNote"
 
 function FooterNewComment({ post }: { post: IPosts }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
@@ -111,23 +112,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
       )}
       onSubmit={onSubmit}
     >
-      <div
-        className={cx(
-          "w-full pl-2.5 border-l-2 border-solid border-[var(--card-svg-yellow)]",
-          !!writeResponse ? "grid grid-cols-[minmax(0,1fr)_1.25rem] gap-5" : "hidden",
-        )}
-      >
-        <p className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">
-          <span className="font-medium">Запись:</span> {writeResponse?.description ?? null}
-        </p>
-        <button
-          type="button"
-          className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
-          onClick={() => onWriteResponse(null)}
-        >
-          <IconXClose />
-        </button>
-      </div>
+      <ItemFormAddNote />
       <Controller
         control={control}
         name="comment"

@@ -23,8 +23,9 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
   const [myLike, setMyLike] = useState(false)
   const [loading, setLoading] = useState(false)
   const refImages = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLLIElement>(null)
 
-  const { onWriteResponse } = useContextPostsComments()
+  const { onWriteResponse, noteCurrent } = useContextPostsComments()
 
   // function to(value: boolean) {
   //   if (refImages.current) {
@@ -92,8 +93,24 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
     }
   }
 
+  useEffect(() => {
+    if (noteCurrent) {
+      if (noteCurrent === id) {
+        if (ref.current) {
+          ref.current.scrollIntoView({ block: "center", behavior: "smooth" })
+        }
+      }
+    }
+  }, [noteCurrent, id])
+
   return (
-    <li className="w-full flex flex-col p-4 gap-3 border border-solid border-element-grey-light rounded-2xl">
+    <li
+      className={cx(
+        "w-full flex flex-col p-4 gap-3 border border-solid  rounded-2xl",
+        noteCurrent === id ? "border-element-accent-1" : "border-element-grey-light",
+      )}
+      ref={ref}
+    >
       <div className="w-full flex flex-row items-center justify-between">
         <time dateTime={created} className="text-text-secondary text-xs font-normal">
           {daysAgo(created)}

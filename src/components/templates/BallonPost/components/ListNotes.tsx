@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { type DispatchWithoutAction, memo, useMemo, useState } from "react"
+import { type DispatchWithoutAction, memo, useEffect, useMemo, useState } from "react"
 
 import { type INotes } from "@/services/notes/types"
 
@@ -10,6 +10,7 @@ import ListNotesHeader from "./ListNotesHeader"
 import { cx } from "@/lib/cx"
 import { getNotes } from "@/services/notes"
 import { useAuth, useBalloonPost } from "@/store"
+import { useContextPostsComments } from "./ContextComments"
 
 function ListNotes({ handleToComments }: { handleToComments: DispatchWithoutAction }) {
   const post = useBalloonPost(({ data }) => data)
@@ -50,6 +51,10 @@ const List = memo(function ({
   const data = useBalloonPost(({ data }) => data)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { userId: userIdPost } = data ?? {}
+  const { onNoteCurrent } = useContextPostsComments()
+  useEffect(() => {
+    return () => onNoteCurrent(null)
+  }, [])
 
   return (
     <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && "pb-16")}>

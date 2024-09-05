@@ -20,6 +20,10 @@ function BallonPost() {
     setState("comments")
   }
 
+  function handleToNote(id: number) {
+    setState("notes")
+  }
+
   return (
     <>
       <header
@@ -44,7 +48,7 @@ function BallonPost() {
             {state === "notes" ? (
               <ListNotes handleToComments={handleToComments} />
             ) : state === "comments" ? (
-              <ListCommentsPost post={data!} />
+              <ListCommentsPost post={data!} handleToNote={handleToNote} />
             ) : null}
           </ContextComments>
         </ul>

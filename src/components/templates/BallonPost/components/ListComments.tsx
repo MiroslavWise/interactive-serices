@@ -1,3 +1,5 @@
+import { type Dispatch } from "react"
+
 import { type IPosts } from "@/services/posts/types"
 
 import Avatar from "@avatar"
@@ -10,7 +12,7 @@ import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
 import { useContextPostsComments } from "./ContextComments"
 
-function ListCommentsPost({ post }: { post: IPosts }) {
+function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: Dispatch<number> }) {
   const { list, isLoading } = useContextPostsComments()
 
   return (
@@ -39,7 +41,7 @@ function ListCommentsPost({ post }: { post: IPosts }) {
                       {daysAgo(item.created)}
                     </time>
                   </div>
-                  <ItemCommentNote note={item?.note} />
+                  <ItemCommentNote note={item?.note} handleToNote={handleToNote} />
                   <p className="text-text-primary text-sm font-normal whitespace-pre-wrap">{item.message}</p>
                 </article>
               </li>
