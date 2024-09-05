@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { Dispatch, type ReactNode, createContext, useContext, useEffect, useState } from "react"
 
-import { clg } from "@console"
 import { useBalloonPost } from "@/store"
 import { getPostsComments, type IPostsComment } from "@/services/posts-comments"
 
@@ -30,7 +29,6 @@ function ContextComments({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (data?.data) {
-      clg("ContextComments data: ", data?.data, "error")
       setList(Array.isArray(data?.data) ? data?.data : [])
     }
   }, [data?.data])

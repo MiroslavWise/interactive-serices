@@ -5,8 +5,8 @@ import { type IPosts } from "@/services/posts/types"
 
 import { Button } from "@/components/common"
 import HeaderItemPost from "./HeaderItemPost"
+import ItemCommentsPost from "./ItemCommentsPost"
 import IconNote from "@/components/icons/IconNote"
-import IconComment from "@/components/icons/IconComment"
 import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 
@@ -19,7 +19,7 @@ interface IProps {
 }
 
 function ItemPost({ post }: IProps) {
-  const { id, title, archive, addresses, userId, notes } = post ?? {}
+  const { id, title, archive, addresses, notes } = post ?? {}
 
   const firstAddress = addresses.length ? addresses[0] : null
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
@@ -40,11 +40,11 @@ function ItemPost({ post }: IProps) {
   return (
     <li className="w-full rounded-2xl bg-BG-second p-4 flex flex-col gap-3" onClick={handle}>
       <HeaderItemPost post={post} />
-      <article className="w-full flex flex-col gap-3">
+      <article className="w-full flex flex-col gap-3 h-full">
         <p className="text-text-primary text-sm font-normal whitespace-pre-wrap line-clamp-4 text-ellipsis">
           {firstNote?.description ?? null}
         </p>
-        <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem]">
+        <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem] mt-auto">
           <div className="px-2.5 w-fit bg-grey-field py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:scale-90">
               <IconNote />
@@ -53,12 +53,7 @@ function ItemPost({ post }: IProps) {
               {items.length} {nameTitle(items.length, EnumTypeProvider.NOTE)}
             </span>
           </div>
-          <div className="px-2.5 w-fit bg-grey-field py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
-            <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
-              <IconComment />
-            </div>
-            <span className="text-text-secondary text-xs font-medium whitespace-nowrap">0</span>
-          </div>
+          <ItemCommentsPost id={id} />
         </div>
       </article>
       <Link
@@ -71,7 +66,7 @@ function ItemPost({ post }: IProps) {
             })
           }
         }}
-        className="w-full cursor-pointer items-start place-items-start grid grid-cols-[1.5rem_minmax(0,1fr)_1.25rem] gap-2 mt-auto"
+        className="w-full cursor-pointer items-start place-items-start grid grid-cols-[1.5rem_minmax(0,1fr)_1.25rem] gap-2"
       >
         <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[0.9rem] *:h-[0.9rem]">
           <IconMapWhite />
