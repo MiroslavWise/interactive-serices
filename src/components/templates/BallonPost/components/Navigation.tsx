@@ -1,8 +1,10 @@
+import { useQuery } from "@tanstack/react-query"
 import { type Dispatch, type SetStateAction } from "react"
 
 import { type IPosts } from "@/services/posts/types"
 
 import { cx } from "@/lib/cx"
+import { getNotes } from "@/services/notes"
 import { useContextPostsComments } from "./ContextComments"
 
 type TType = "notes" | "comments"
@@ -31,7 +33,12 @@ const NAV = ({
 ]
 
 function NavigationNoteAndComments({ post, state, setState }: { post: IPosts; state: TType; setState: Dispatch<SetStateAction<TType>> }) {
-  const { notes } = post ?? {}
+  const { data } = useQuery({
+    queryFn: () => getNotes({ order: "DESC", post: post?.id! }),
+    queryKey: ["notes", { order: "DESC", postId: post?.id }],
+    enabled: !!post?.id,
+  })
+  const notes = data?.data || []
   const lengthNotes = notes.length
   const { list } = useContextPostsComments()
   const lengthComments = list.length
