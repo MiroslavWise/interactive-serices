@@ -55,12 +55,15 @@ const file = z.object({
   string: z.array(z.string()),
 })
 
+const help = z.boolean().default(false)
+
 const schema = z.object({
   title: title,
   description: description,
   address: address,
   addressFeature: addressFeature,
   file,
+  help,
 })
 
 export const resolverCreate = zodResolver(schema)

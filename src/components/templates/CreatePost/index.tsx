@@ -5,7 +5,7 @@ import { type AxiosProgressEvent } from "axios"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IBodyNote } from "@/services/notes/types"
 import { type IBodyPost } from "@/services/posts/types"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
@@ -25,6 +25,7 @@ import { fileUploadService, getGeocodeSearch } from "@/services"
 import { handleImageChange, onProgress, onUploadProgress } from "./utils"
 import { LIMIT_DESCRIPTION, resolverCreate, type TSchemaCreatePost } from "./schema"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
+import ControlHelp from "./components/ControlHelp"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -64,11 +65,16 @@ function CreatePost() {
   const onSubmit = handleSubmit(async (values) => {
     const title = values.title.trim().slice(0, 254)
     const slug = transliterateAndReplace(title)
+    const help = values.help
 
     const data: IBodyPost = {
       title,
       slug,
       addresses: [],
+    }
+
+    if (help) {
+      data.urgent = EnumHelper.HELP_KURSK
     }
 
     if (!loading) {
@@ -274,6 +280,7 @@ function CreatePost() {
               </fieldset>
             )}
           />
+          <ControlHelp control={control} />
           <Controller
             name="file"
             control={control}
