@@ -5,12 +5,11 @@ import GeoData from "./components/GeoData"
 import IconPost from "@/components/icons/IconPost"
 import IconNote from "@/components/icons/IconNote"
 import ComponentDots from "./components/ComponentDots"
-import IconComment from "@/components/icons/IconComment"
+import CommentsCount from "./components/CommentsCount"
 import ItemProfile from "../CardBallon/components/ItemProfile"
 
 import { nameTitle } from "@/lib/names"
 import { dispatchBallonPost } from "@/store"
-import CommentsCount from "./components/CommentsCount"
 
 interface IProps {
   post: IPosts
