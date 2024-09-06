@@ -5,14 +5,14 @@ import { EnumSign } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { type IUserOffer } from "@/services/offers/types"
 
+import ItemFormAddNote from "./ItemFormAddNote"
+
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { dispatchAuthModal, useAuth } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
 import { MAX_LENGTH_COMMENT, resolver, type TSchema } from "../utils/schema"
-import { IBodyPostComment, postPostsComment } from "@/services/posts-comments"
-import IconXClose from "@/components/icons/IconXClose"
-import ItemFormAddNote from "./ItemFormAddNote"
+import { type IBodyPostComment, postPostsComment } from "@/services/posts-comments"
 
 function FooterNewComment({ post }: { post: IPosts }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
@@ -57,6 +57,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
         id: Math.random(),
         userId: userId!,
         postId: post.id,
+        noteId: writeResponse?.id ?? undefined,
         message: message,
         status: "create",
         created: String(new Date()),

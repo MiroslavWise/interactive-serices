@@ -7,7 +7,7 @@ import IconArchive from "@/components/icons/IconArchive"
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { patchPost } from "@/services/posts"
-import { dispatchArchivePost, useArchivePost } from "@/store"
+import { dispatchArchivePost, dispatchBallonPostUpdate, useArchivePost } from "@/store"
 
 function ArchivePost() {
   const data = useArchivePost(({ data }) => data)
@@ -18,6 +18,9 @@ function ArchivePost() {
     if (!loading && !archive) {
       setLoading(true)
       const response = await patchPost(id!, { archive: true })
+      if (!!response?.data) {
+        dispatchBallonPostUpdate({ archive: true })
+      }
       clg("response archive: ", response)
       setLoading(false)
       dispatchArchivePost()

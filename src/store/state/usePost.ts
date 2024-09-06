@@ -40,6 +40,17 @@ export const dispatchCreatePost = (value: boolean) => {
   }
 }
 
+export function dispatchBallonPostUpdate(value: Partial<IPosts>) {
+  useBalloonPost.setState(
+    (_) => ({
+      data: {
+        ..._.data!,
+        ...value,
+      },
+    }),
+    true,
+  )
+}
 export function dispatchBallonPost(value: IPosts | null) {
   if (value) {
     useBalloonPost.setState((_) => ({ data: value }), true)
