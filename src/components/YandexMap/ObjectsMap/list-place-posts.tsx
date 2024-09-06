@@ -6,7 +6,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
-import { TYPE_ICON } from "./constants"
+import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
 import { getPosts } from "@/services/posts"
 import { dispatchBallonPost, useFiltersServices } from "@/store"
 
@@ -82,7 +82,7 @@ function ListPlacePosts() {
         properties={{ ...item?.post, type: "post" }}
         options={{
           iconLayout: "default#image",
-          iconImageHref: TYPE_ICON[EnumTypeProvider.post],
+          iconImageHref: item?.post?.urgent ? TYPE_ICON_URGENT[EnumTypeProvider.post] : TYPE_ICON[EnumTypeProvider.post],
           iconImageSize: [18.92 * 2, 18.92 * 2.2],
           zIndex: 45,
           zIndexActive: 50,

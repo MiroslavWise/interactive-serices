@@ -19,6 +19,7 @@ export interface IPosts {
   title: string //varChar - 256
   slug: string //varChar - 256
   userId: number
+  urgent?: EnumHelper
   user: IUserSmall
   addresses: IAddressesResponse[]
   updated: string
