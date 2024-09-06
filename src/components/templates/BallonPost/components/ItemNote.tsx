@@ -26,7 +26,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
   const refImages = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLLIElement>(null)
 
-  const { onWriteResponse, noteCurrent } = useContextPostsComments()
+  const { onWriteResponse, noteCurrent, countCommentNote } = useContextPostsComments()
 
   function to(value: boolean) {
     if (refImages.current) {
@@ -206,17 +206,17 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
         <button
           type="button"
           onClick={() => {
-            onWriteResponse(note)
+            if (!archive) {
+              onWriteResponse(note)
+            }
             handleToComments()
           }}
-          className={cx(
-            "gap-1 px-2.5 h-[1.875rem] rounded-[0.9375rem] bg-grey-field",
-            archive ? "hidden" : "flex flex-row items-center justify-start",
-          )}
+          className={cx("gap-1 px-2.5 h-[1.875rem] rounded-[0.9375rem] bg-grey-field", "flex flex-row items-center justify-start")}
         >
           <div className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
             <IconComment />
           </div>
+          <span className="text-text-secondary text-xs font-medium">{countCommentNote(id)}</span>
         </button>
       </div>
     </li>

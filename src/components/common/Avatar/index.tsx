@@ -36,7 +36,7 @@ function Avatar({ className, image, userId }: IProps) {
           }
         }}
         {...{
-          target: isTablet ? "_self" : "_blank",
+          target: isTablet ? "_blank" : undefined,
         }}
       >
         {!!image ? (

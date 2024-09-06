@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { Dispatch, type ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { Dispatch, type ReactNode, createContext, useCallback, useContext, useEffect, useState } from "react"
 
 import { type INotes } from "@/services/notes/types"
 
@@ -14,6 +14,7 @@ const defaultDataContext: IContext = {
   onUpdate: () => {},
   onWriteResponse: () => {},
   onNoteCurrent: () => {},
+  countCommentNote: () => 0,
 }
 
 const createContextComments = createContext<IContext>(defaultDataContext)
@@ -49,6 +50,8 @@ function ContextComments({ children }: { children: ReactNode }) {
     }
   }, [data?.data])
 
+  const countCommentNote = useCallback((id: number) => list.filter((_) => _?.noteId === id).length, [list])
+
   return (
     <createContextComments.Provider
       value={{
@@ -59,6 +62,7 @@ function ContextComments({ children }: { children: ReactNode }) {
         onWriteResponse,
         noteCurrent,
         onNoteCurrent,
+        countCommentNote,
       }}
     >
       {children}
@@ -79,4 +83,5 @@ interface IContext {
   onUpdate: Dispatch<IPostsComment>
   onNoteCurrent: Dispatch<number | null>
   onWriteResponse: Dispatch<INotes | null>
+  countCommentNote: (value: number) => number
 }
