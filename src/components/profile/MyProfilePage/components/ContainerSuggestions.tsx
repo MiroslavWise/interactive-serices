@@ -5,9 +5,9 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 
-import ItemPost from "./ItemPost"
 import ItemOffers from "./ItemOffers"
 import { Button } from "@/components/common"
+import ContainerPosts from "./ContainerPosts"
 import IconPost from "@/components/icons/IconPost"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
@@ -146,13 +146,16 @@ export const ContainerSuggestions = () => {
       </section>
     )
 
-  return (
-    <ul className={CN_UL} data-test="profile-container-suggestions">
-      {[EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider)
-        ? items.map((_) => <ItemOffers key={`::key::${_.id}::${_.provider}::`} offer={_!} />)
-        : stateProvider === EnumTypeProvider.post
-        ? itemsPost.map((item) => <ItemPost key={`:key:post:${item.id}:`} post={item} />)
-        : null}
-    </ul>
-  )
+  if ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider))
+    return (
+      <ul className={CN_UL} data-test="profile-container-suggestions">
+        {items.map((_) => (
+          <ItemOffers key={`::key::${_.id}::${_.provider}::`} offer={_!} />
+        ))}
+      </ul>
+    )
+
+  if (stateProvider === EnumTypeProvider.post) return <ContainerPosts posts={itemsPost} />
+
+  return null
 }
