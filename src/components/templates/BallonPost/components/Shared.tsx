@@ -44,7 +44,7 @@ function SharedDotsPost({ post }: IProps) {
       </button>
       <article
         className={cx(
-          "absolute top-full right-0 w-[13.5rem] shadow-box-down rounded-xl p-3 flex flex-col gap-0.5 bg-BG-second",
+          "absolute top-full right-0 w-[13.5rem] shadow-box-down rounded-xl p-3 flex flex-col gap-0.5 bg-BG-second *:cursor-pointer",
           open ? "opacity-100 visible z-50" : "-z-10 opacity-0 invisible",
         )}
       >

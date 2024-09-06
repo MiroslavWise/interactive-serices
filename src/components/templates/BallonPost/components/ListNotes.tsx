@@ -17,7 +17,7 @@ function ListNotes({ handleToComments }: { handleToComments: DispatchWithoutActi
   const { id } = post ?? {}
   const [newState, setNewState] = useState(true)
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: () => getNotes({ order: "DESC", post: id! }),
     queryKey: ["notes", { order: "DESC", postId: id }],
     enabled: !!id,
@@ -29,7 +29,7 @@ function ListNotes({ handleToComments }: { handleToComments: DispatchWithoutActi
   return (
     <section className="w-full flex flex-col gap-5">
       <ListNotesHeader setNewState={setNewState} newState={newState} length={list.length} />
-      <List notes={list} handleToComments={handleToComments} newState={newState} isLoading={isLoading || isFetching} />
+      <List notes={list} handleToComments={handleToComments} newState={newState} isLoading={isLoading} />
       <FooterNewNote />
     </section>
   )

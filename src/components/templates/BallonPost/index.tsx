@@ -4,11 +4,11 @@ import ListNotes from "./components/ListNotes"
 import IconPost from "@/components/icons/IconPost"
 import ComponentProfilePost from "./components/Profile"
 import ListCommentsPost from "./components/ListComments"
+import ContextComments from "./components/ContextComments"
 import NavigationNoteAndComments from "./components/Navigation"
 
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
-import ContextComments from "./components/ContextComments"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
