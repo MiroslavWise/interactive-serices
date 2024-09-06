@@ -377,7 +377,7 @@ export default function CreateNewOptionModal() {
         <form
           onSubmit={onSubmit}
           data-test="from-create-new-option"
-          className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5"
+          className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
           <Controller
             name="address"

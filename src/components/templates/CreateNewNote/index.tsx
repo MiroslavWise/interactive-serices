@@ -113,7 +113,7 @@ function CreateNewNote() {
         data-test="ul-create-new-note"
         className="w-full flex flex-col items-center gap-4 px-5 h-[calc(100%_-_var(--height-standard-header-modal))]"
       >
-        <form className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5" onSubmit={onSubmit}>
+        <form className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden" onSubmit={onSubmit}>
           <div className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 pb-1">
             <div className="w-5 h-5 p-2.5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
               <IconPost />
