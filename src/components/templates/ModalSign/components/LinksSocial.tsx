@@ -9,7 +9,7 @@ export function LinksSocial() {
     <article className="w-full flex flex-col items-center gap-5 max-md:max-w-full">
       <section className="w-full flex flex-col items-center gap-3 h-fit rounded-[2rem] bg-grey-field py-5 px-[1.875rem]">
         <span className="text-text-secondary text-center text-sm font-medium">Или продолжить через:</span>
-        <div className="w-full flex flex-row items-center justify-center gap-0.625">
+        <div className="w-full flex flex-row items-center justify-center gap-2.5">
           {ITEMS_SOCIAL_LINK.map(({ value, srcNotWorking, srcWorking, isWorkingLink, path }) => (
             <LinkItem key={value} src={isWorkingLink ? srcWorking : srcNotWorking} path={path} isActive={isWorkingLink} />
           ))}

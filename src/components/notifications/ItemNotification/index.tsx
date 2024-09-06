@@ -48,7 +48,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
 
   const idUser = useMemo(() => {
     if (provider === "offer-pay") {

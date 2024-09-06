@@ -63,7 +63,7 @@ function TableRows() {
     queryKey: ["categories", query],
   })
 
-  const list = data?.res || []
+  const list = data?.data || []
   const total = data?.meta?.total || 0
 
   const maxPage = Math.ceil(total / 15) | 1

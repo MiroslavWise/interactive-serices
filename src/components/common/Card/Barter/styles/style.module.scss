@@ -50,23 +50,6 @@
 
       &[data-me] {
         grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem;
-
-        & > [data-avatar] {
-          position: relative;
-          width: 1.5rem;
-          height: 1.5rem;
-          border-radius: 0.75rem;
-          padding: 0.75rem;
-          overflow: hidden;
-
-          & > img {
-            position: absolute;
-            inset: 0;
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 0.75rem;
-          }
-        }
       }
     }
 

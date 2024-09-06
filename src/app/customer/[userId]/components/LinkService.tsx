@@ -4,6 +4,7 @@ export enum EProviderLinkCustomer {
   "offer" = "offer",
   "discussion" = "discussion",
   "alert" = "alert",
+  post = "post",
 }
 
 export interface ILink {

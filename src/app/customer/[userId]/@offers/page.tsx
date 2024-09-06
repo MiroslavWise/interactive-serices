@@ -2,18 +2,24 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IParamsCustomer } from "../layout"
 import { EProviderLinkCustomer } from "../components/LinkService"
 
+import ItemsPosts from "./components/ItemsPosts"
 import ItemServiceData from "./components/ItemService-data"
 import WrapperItemService from "./components/WrapperItemService"
 
 import { getUserIdOffers } from "@/services"
+import { nameTitle } from "@/lib/names"
 
 export const dynamic = "force-dynamic"
 export const dynamicParams = true
 export const fetchCache = "force-no-store"
 
 export default async ({ params, searchParams }: IParamsCustomer) => {
-  const provider = searchParams?.provider || EProviderLinkCustomer.offer
+  const provider = (searchParams?.provider as EProviderLinkCustomer) || EProviderLinkCustomer.offer
   const id = params?.userId
+
+  if (provider === EProviderLinkCustomer.post) {
+    return <ItemsPosts id={Number(id)} />
+  }
 
   const pr = (provider
     ? Object.values(EProviderLinkCustomer).includes(provider!)
@@ -22,13 +28,11 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
     : EProviderLinkCustomer.offer) as unknown as EnumTypeProvider
 
   const { data } = await getUserIdOffers(id, { provider: pr, order: "DESC" })
-
   const items = data || []
-
   const length = items.length
 
   return (
-    <section className={`w-full h-full flex flex-col gap-0.625 ${!length && "items-center justify-center"}`}>
+    <section className={`w-full h-full flex flex-col gap-2.5 ${!length && "items-center justify-center"}`}>
       {length ? (
         <>
           <p className="text-text-secondary text-[0.8125rem] leading-[1.125rem] font-normal">
@@ -53,42 +57,4 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
       )}
     </section>
   )
-}
-
-export function nameTitle(length: number, provider: EProviderLinkCustomer | EnumTypeProvider) {
-  var num = length % 10
-  if (length >= 10 && length <= 20) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждений"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщений"
-    }
-    return "предложений"
-  }
-  if (num > 1 && num < 5) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждения"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщения"
-    }
-    return "предложения"
-  }
-  if (num == 1) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждение"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщение"
-    }
-    return "предложение"
-  }
-  if (EProviderLinkCustomer.discussion === provider) {
-    return "обсуждений"
-  }
-  if (EProviderLinkCustomer.alert === provider) {
-    return "SOS-сообщений"
-  }
-  return "предложений"
 }

@@ -5,11 +5,14 @@ import { ImageStatic } from "@/components/common"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { TSchemaCreate } from "../utils/create.schema"
+import { TSchemaCreatePost } from "../../CreatePost/schema"
+import { TSchemaCreateNote } from "../../CreateNewNote/utils"
+import { cx } from "@/lib/cx"
 
 interface IProps {
   item: string
   index: number
-  field: ControllerRenderProps<TSchemaCreate, "file">
+  field: ControllerRenderProps<TSchemaCreate | TSchemaCreatePost | TSchemaCreateNote, "file">
 
   progress: number | null
 }
@@ -35,7 +38,11 @@ function CurrentImage({ field, item, index, progress }: IProps) {
   }, [progress])
 
   return (
-    <div data-image data-current>
+    <div
+      data-image
+      data-current
+      className={cx("w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden")}
+    >
       <ImageStatic data-img src={item! as string} alt="offer" width={304} height={392} />
       <button
         type="button"

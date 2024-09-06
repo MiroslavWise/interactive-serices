@@ -29,10 +29,7 @@ function SendingPhotos({ dispatchDelete, files }: IProps) {
       {strings.map((item, index) => (
         <article
           key={`::key::photos::${item}::`}
-          className={cx(
-            "w-[6.875rem] h-[6.875rem] p-[3.4375rem] rounded-2xl relative bg-text-error z-20 overflow-hidden",
-            "[&>img]:absolute [&>img]:top-1/2 [&>img]:left-1/2 [&>img]:-translate-x-1/2 [&>img]:-translate-y-1/2 [&>img]:w-[6.875rem] [&>img]:h-[6.875rem]",
-          )}
+          className={cx("w-[6.875rem] h-[6.875rem] p-[3.4375rem] rounded-2xl relative bg-text-error z-20 overflow-hidden", "")}
         >
           <button
             type="button"
@@ -44,7 +41,13 @@ function SendingPhotos({ dispatchDelete, files }: IProps) {
           >
             <IconTrashBlack />
           </button>
-          <ImageStatic src={item} alt="offer-image" width={200} height={200} />
+          <ImageStatic
+            src={item}
+            alt="offer-image"
+            width={200}
+            height={200}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[6.875rem] h-[6.875rem]"
+          />
         </article>
       ))}
     </section>

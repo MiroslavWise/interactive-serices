@@ -1,3 +1,4 @@
+import { EnumTypeProvider } from "@/types/enum"
 import type { IResponseOffers } from "@/services/offers/types"
 
 import GeoData from "./components/GeoData"
@@ -15,7 +16,6 @@ import {
   dispatchBallonDiscussion,
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
-import { EnumTypeProvider } from "@/types/enum"
 
 import styles from "./styles/style.module.scss"
 interface IProps {

@@ -18,7 +18,7 @@ export const useMapOffers = () => {
   const objProvider = useMemo(() => {
     const obj: IQueriesOffers = {}
 
-    if (providers !== "all") {
+    if (providers !== "all" && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(providers)) {
       obj.provider = providers
     }
 
@@ -33,7 +33,7 @@ export const useMapOffers = () => {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
 
   const activeCategories = useMemo(() => {
     if (!categories || !categories?.length || !activeFilters.length) return []

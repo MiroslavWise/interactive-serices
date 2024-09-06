@@ -6,11 +6,10 @@ import { EnumStatusBarter } from "@/types/enum"
 import { IBarterResponse, ISmallDataOfferBarter } from "@/services/barters/types"
 
 import { ButtonLink } from "../../Forward"
+import { ImageCategory } from "../../Image"
 import { LoadingProfile } from "../../Loading"
 import { BadgeStatus } from "./components/BadgeStatus"
 import { IconRevers } from "@/components/icons/IconRevers"
-import { ImageCategory, NextImageMotion } from "../../Image"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
@@ -19,6 +18,7 @@ import { dispatchInitiatedBarter, useAuth } from "@/store"
 import { getOffersCategories, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
+import Avatar from "@avatar"
 
 const title: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.EXECUTED, "Начало обмена"],
@@ -33,7 +33,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = data?.res || []
+  const categories = data?.data || []
 
   const idUser = useMemo(() => {
     if (!barter) return null
@@ -98,25 +98,13 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
           target="_blank"
           className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3"
         >
-          <div
-            data-avatar
+          <Avatar
             className={cx(
-              "relative w-10 h-10 p-5 overflow-hidden rounded-[0.625rem]",
+              "w-10 h-10 p-5 rounded-[0.625rem]",
               !!dataUser?.data?.profile?.image?.attributes?.url ? "bg-BG-first" : "bg-grey-stroke-light",
             )}
-          >
-            {!!dataUser?.data?.profile?.image?.attributes?.url ? (
-              <NextImageMotion
-                src={dataUser?.data?.profile?.image?.attributes?.url!}
-                alt="avatar"
-                width={40}
-                height={40}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-[0.625rem] overflow-hidden z-10"
-              />
-            ) : (
-              <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6" />
-            )}
-          </div>
+            image={dataUser?.data?.profile?.image}
+          />
           <div data-inform className="flex flex-col gap-0.5">
             <span className="flex flex-nowrap text-text-primary text-sm font-medium">
               {dataUser?.data?.profile?.firstName || "Имя"} {dataUser?.data?.profile?.lastName || "Фамилия"}&nbsp;
@@ -152,9 +140,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
             <span className="text-text-primary text-sm text-ellipsis line-clamp-1 font-normal">
               {titleCategory(categoriesBarter?.end?.categoryId)}
             </span>
-            <div data-avatar>
-              <NextImageMotion src={dataUserMe?.data?.profile?.image?.attributes?.url!} alt="avatar" width={40} height={40} />
-            </div>
+            <Avatar className="h-6 w-6 rounded-full p-3" image={dataUserMe?.data?.profile?.image} userId={dataUserMe?.data?.id} />
           </article>
         </section>
       ) : null}

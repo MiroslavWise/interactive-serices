@@ -112,7 +112,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
     <>
       {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
         <div className="w-full px-5">
-          <article className="w-full p-4 rounded-2xl border-[1px] border-solid border-grey-stroke">
+          <article className="w-full p-4 rounded-2xl border border-solid border-grey-stroke">
             <span className="text-text-primary text-sm text-start font-normal">{disabledReply}</span>
           </article>
         </div>
@@ -135,7 +135,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
           />
         </div>
       ) : (
-        <div data-buttons className="w-full flex flex-row items-center gap-0.625 *:md:h-11 *:md:rounded-[1.375rem]">
+        <div data-buttons className="w-full flex flex-row items-center gap-2.5 *:md:h-11 *:md:rounded-[1.375rem]">
           <Button
             type="button"
             typeButton="fill-primary"

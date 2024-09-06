@@ -17,7 +17,7 @@ function FormFilterScreen() {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = data?.res || []
+  const categories = data?.data || []
 
   const mainCategories = useMemo(() => categories?.filter((item) => item?.provider === "main") || [], [categories])
 

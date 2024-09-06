@@ -12,7 +12,7 @@ export default ({ params }: IParamsCustomer) => {
 
   return (
     <Wrapper>
-      <header className="w-full flex flex-col items-start md:items-center gap-0.625 max-md:pt-5 max-md:px-5 pb-4 md:pb-0.625 max-md:relative max-md:border-b-[1px] max-md:border-solid max-md:border-grey-separator">
+      <header className="w-full flex flex-col items-start md:items-center gap-2.5 max-md:pt-5 max-md:px-5 pb-4 md:pb-2.5 max-md:relative max-md:border-b max-md:border-solid max-md:border-grey-separator">
         <h3 className="text-text-primary text-base text-center font-semibold">Отзывы</h3>
         <ButtonClose />
       </header>

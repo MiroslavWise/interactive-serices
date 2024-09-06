@@ -9,18 +9,6 @@
   gap: 0.5rem;
   align-items: flex-start;
 
-  & > [data-img] {
-    background-color: var(--BG-second);
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 0.625rem;
-    & > img {
-      width: 2.75rem;
-      height: 2.75rem;
-      border-radius: 0.625rem;
-    }
-  }
-
   & > [data-info] {
     width: fit-content;
     display: flex;

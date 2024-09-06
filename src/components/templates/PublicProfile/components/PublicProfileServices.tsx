@@ -8,8 +8,8 @@ import { ServiceLoading } from "@/components/common"
 import ItemServiceData from "@/app/customer/[userId]/@offers/components/ItemService-data"
 
 import { cx } from "@/lib/cx"
+import { nameTitle } from "@/lib/names"
 import { getUserIdOffers } from "@/services"
-import { nameTitle } from "@/app/customer/[userId]/@offers/page"
 import { LINKS_PROVIDER_OFFERS } from "@/app/customer/[userId]/@links/page"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
 
@@ -43,7 +43,7 @@ function PublicProfileServices() {
 
   return (
     <section className={cx("w-full flex flex-col gap-3")}>
-      <nav className="w-full p-1 h-11 rounded-[1.375rem] bg-BG-second *:h-9 grid grid-cols-3">
+      <nav className="w-full p-1 h-11 rounded-[1.375rem] bg-BG-second *:h-9 grid grid-cols-4">
         {LINKS_PROVIDER_OFFERS.map(({ provider, label }) => (
           <a
             key={`::key::pr::${provider}::`}

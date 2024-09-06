@@ -46,7 +46,7 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
     >
       <button
         type="button"
-        className="w-4 h-4 relative border-none outline-none [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-4 [&>svg]:h-4 z-30"
+        className="w-4 h-4 relative border-none outline-none *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 z-30"
         onClick={(event) => {
           event.stopPropagation()
           setOpen((prev) => !prev)
@@ -56,12 +56,12 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
       </button>
       <section
         className={cx(
-          "absolute min-w-[12.5rem] invisible opacity-0 top-[calc(100%_+_0.25rem)] right-0 bg-BG-second p-3 flex flex-col gap-0.125 rounded-xl shadow-[0px_4px_24px_0px_rgba(0,0,0,0.16)] z-30",
+          "absolute min-w-[12.5rem] invisible opacity-0 top-[calc(100%_+_0.25rem)] right-0 bg-BG-second p-3 flex flex-col gap-0.5 rounded-xl shadow-box-down z-30",
           open && "!opacity-100 !visible",
-          "[&>*]:grid [&>*]:grid-cols-[1.25rem_minmax(0,1fr)] [&>*]:gap-0.625 [&>*]:items-center [&>*]:py-2 [&>*]:px-0.375 [&>*]:rounded-md",
+          "*:grid *:grid-cols-[1.25rem_minmax(0,1fr)] *:gap-2.5 *:items-center *:py-2 *:px-1.5 *:rounded-md",
           "[&>*>span]:text-text-primary [&>*>span]:text-sm [&>*>span]:font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
-          "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-0.625",
-          "hover:[&>*]:bg-grey-field",
+          "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-2.5",
+          "hover:*:bg-grey-field",
           "[&>*>div>svg]:w-5 [&>*>div>svg]:h-5 [&>*>div>svg]:absolute [&>*>div>svg]:top-1/2 [&>*>div>svg]:left-1/2 [&>*>div>svg]:-translate-x-1/2 [&>*>div>svg]:-translate-y-1/2",
         )}
       >
@@ -157,7 +157,7 @@ export const LinkToMap = ({ offer }: { offer: IResponseOffers }) => {
       }}
       href={{ pathname: "/" }}
     >
-      <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-[0.9rem] [&>svg]:h-[0.9rem]">
+      <div className="relative w-6 h-6 p-3 rounded-xl bg-element-accent-1 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[0.9rem] *:h-[0.9rem]">
         <IconMapWhite />
       </div>
       <p
@@ -168,7 +168,7 @@ export const LinkToMap = ({ offer }: { offer: IResponseOffers }) => {
       >
         {additional}
       </p>
-      <div className="w-5 h-5 p-0.625  relative [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5">
+      <div className="w-5 h-5 p-2.5  relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
         <IconArrowRight />
       </div>
     </Link>

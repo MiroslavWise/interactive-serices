@@ -24,7 +24,7 @@ function ControllerCategory({ control }: IProps) {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
 
   const trimValue = value.trim().toLowerCase()
 

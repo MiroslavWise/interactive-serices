@@ -8,7 +8,7 @@ function ButtonFeedbackMobile() {
   return (
     <button
       type="button"
-      className="w-5 h-5 relative p-0.625 border-none outline-none bg-transparent [&>svg]:h-5 [&>svg]:w-5 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2"
+      className="w-5 h-5 relative p-2.5 border-none outline-none bg-transparent *:h-5 *:w-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2"
       onClick={() => {
         dispatchVisibleFeedbackMobileCustomer(true)
       }}

@@ -6,8 +6,8 @@ import { type IUserResponse } from "@/services/users/types"
 import { ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { nameTitle } from "@/lib/names"
 import { getFiendId, getUserIdOffers } from "@/services"
-import { nameTitle } from "@/app/customer/[userId]/@offers/page"
 
 function BlockButtons({ user }: { user: IUserResponse }) {
   const { data: dataFriends } = useQuery({
@@ -30,17 +30,17 @@ function BlockButtons({ user }: { user: IUserResponse }) {
     <div className={cx("w-full py-2.5 flex flex-col")}>
       <article className="w-full flex flex-row items-center justify-between py-2 border-y border-solid border-grey-stroke-light">
         <p className="text-text-primary text-sm py-1.5 text-left font-medium">{length} друзей</p>
-        <div className="flex flex-row items-center flex-nowrap pr-0.375 justify-end"></div>
+        <div className="flex flex-row items-center flex-nowrap pr-1.5 justify-end"></div>
       </article>
       <article className="w-full flex flex-row items-center justify-between py-2 border-b border-solid border-grey-stroke-light">
         <p className="text-text-primary text-sm py-1.5 text-left font-medium">
           {itemsOffers.length} {nameTitle(itemsOffers.length, EnumTypeProvider.offer)}
         </p>
-        <div className="flex flex-row items-center flex-nowrap pr-0.375 justify-end">
+        <div className="flex flex-row items-center flex-nowrap pr-1.5 justify-end">
           {itemsOffers.slice(0, 6).map((item, index) => (
             <a
               key={`::key::item::pre::offer::${item.id}::`}
-              className="w-8 h-8 rounded-full bg-BG-second !-mr-0.375 flex items-center justify-center p-0.5"
+              className="w-8 h-8 rounded-full bg-BG-second !-mr-1.5 flex items-center justify-center p-0.5"
               style={{
                 zIndex: 10 + index,
               }}

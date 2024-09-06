@@ -2,6 +2,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import Avatar from "@avatar"
 import IconXClose from "@/components/icons/IconXClose"
 import NoFriends from "../Friends/components/NoFriends"
 import IconAccentChat from "@/components/icons/IconAccentChat"
@@ -97,25 +98,7 @@ function MyFriends() {
                       key={`:key:my:friend:${item.id}:`}
                       className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3"
                     >
-                      <Link
-                        href={{ pathname: `/customer/${item.id}` }}
-                        className={`w-full h-full aspect-square rounded-[0.625rem] relative ${
-                          !item.image ? "bg-grey-stroke-light" : ""
-                        } overflow-hidden cursor-pointer`}
-                        target="_blank"
-                      >
-                        {!!item.image ? (
-                          <NextImageMotion
-                            className="rounded-[0.625rem] overflow-hidden w-[3.125rem] h-[3.125rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                            src={item.image?.attributes?.url}
-                            alt="avatar"
-                            width={100}
-                            height={100}
-                          />
-                        ) : (
-                          <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-7 h-7" />
-                        )}
-                      </Link>
+                      <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-[0.625rem]" image={item.image} userId={item.id} />
                       <div className="w-full flex flex-col items-start justify-center gap-1">
                         <Link
                           prefetch={false}
@@ -147,7 +130,7 @@ function MyFriends() {
                             },
                           }}
                           prefetch={false}
-                          className="bg-grey-field relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
+                          className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
                           onClick={dispatchMyFriends}
                         >
                           <IconAccentChat />
@@ -207,7 +190,7 @@ function MyFriends() {
                       prefetch={false}
                       onClick={dispatchMyFriends}
                     />
-                    <div className="bg-grey-field relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5">
+                    <div className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
                       <IconCheckFriend />
                     </div>
                   </div>

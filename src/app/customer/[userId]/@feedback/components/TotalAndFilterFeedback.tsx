@@ -22,7 +22,7 @@ function TotalAndFilterFeedback({ id }: { id: number | string }) {
   if (!length) return null
 
   return (
-    <article className="w-full py-5 md:py-0.625 flex items-center justify-between gap-5 md:border-t-[1px] border-b-[1px] border-solid border-grey-stroke-light max-md:mx-5 max-md:max-w-[calc(100%_-_2.5rem)]">
+    <article className="w-full py-5 md:py-2.5 flex items-center justify-between gap-5 md:border-t border-b border-solid border-grey-stroke-light max-md:mx-5 max-md:max-w-[calc(100%_-_2.5rem)]">
       <p className="text-text-primary text-sm font-medium">{name}</p>
       <ButtonSort />
     </article>

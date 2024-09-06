@@ -4,17 +4,19 @@ import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
-import type { TContainerSuggestions } from "./types/types"
 
 import ItemOffers from "./ItemOffers"
 import { Button } from "@/components/common"
+import ContainerPosts from "./ContainerPosts"
+import IconPost from "@/components/icons/IconPost"
+import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
+import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
+import { getPosts } from "@/services/posts"
 import { getUserIdOffers } from "@/services"
-import { dispatchModal, EModalData, openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
-import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
-import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
-import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
+import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
 
 const CN_UL = "w-full h-fit grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 overflow-y-visible z-10 pb-5 gap-2.5 md:gap-4"
 
@@ -31,38 +33,59 @@ const titleEmpty: Map<EnumTypeProvider, string> = new Map([
     EnumTypeProvider.alert,
     "Случилось что‑то важное и хотите предупредить других? Или у вас случилась проблема и нужна помощь? Давайте создадим SOS-сообщение",
   ],
+  [
+    EnumTypeProvider.post,
+    "У вас есть мероприятие, которое вы хотите анонсировать, обсудить, осветить в процессе и опубликовать к нему фотоотчет? Создайте пост — и добавляйте к нему новые записи.",
+  ],
 ])
 
-export const ContainerSuggestions: TContainerSuggestions = () => {
+export const ContainerSuggestions = () => {
   const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: stateProvider, order: "DESC" }),
     queryKey: ["offers", { userId: userId, provider: stateProvider }],
-    enabled: !!userId!,
+    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(stateProvider),
+  })
+
+  const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
+    queryFn: () => getPosts({ order: "DESC", user: userId! }),
+    queryKey: ["posts", { userId: userId!, order: "DESC" }],
+    enabled: !!userId && stateProvider === EnumTypeProvider.post,
   })
 
   const items = data?.data || []
   const length = items.length
+
+  const itemsPost = dataPosts?.data || []
+  const lengthPosts = itemsPost.length
 
   const functionAndTitle = useMemo(() => {
     const title: Map<Partial<EnumTypeProvider>, string> = new Map([
       [EnumTypeProvider.offer, "Создать предложение"],
       [EnumTypeProvider.discussion, "Создать обсуждение"],
       [EnumTypeProvider.alert, "Создать SOS"],
+      [EnumTypeProvider.post, "Создать пост"],
     ])
 
     return {
       title: title.get(stateProvider)!,
       func: () => {
-        openCreateOffers(stateProvider)
-        dispatchModal(EModalData.CreateNewOptionModal)
+        if (stateProvider == EnumTypeProvider.post) {
+          dispatchCreatePost(true)
+        } else {
+          openCreateOffers(stateProvider)
+          dispatchModal(EModalData.CreateNewOptionModal)
+        }
       },
     }
   }, [stateProvider])
 
-  if (isLoading)
+  if (
+    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider) && isLoading) ||
+    (stateProvider === EnumTypeProvider.post && isLoadingPosts)
+  )
     return (
       <ul className={cx(CN_UL, "loading-screen")}>
         {[1323, 2123, 32312, 5123123, 1234, 35512].map((_) => (
@@ -83,7 +106,10 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
       </ul>
     )
 
-  if (length === 0)
+  if (
+    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider) && length === 0) ||
+    (stateProvider === EnumTypeProvider.post && lengthPosts === 0)
+  )
     return (
       <section className="w-full h-full rounded-2xl bg-BG-second flex flex-col items-center py-5 md:pt-[4.375rem] px-5 md:mb-6">
         <article className="w-full md:max-w-[25rem] flex flex-col items-center gap-5 md:gap-6">
@@ -100,6 +126,8 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
                 <IconAlertCirlceRed />
               ) : stateProvider === EnumTypeProvider.offer ? (
                 <IconOfferBalloon />
+              ) : stateProvider === EnumTypeProvider.post ? (
+                <IconPost />
               ) : null}
             </div>
             <p className="text-text-primary text-sm font-normal text-center">
@@ -118,11 +146,16 @@ export const ContainerSuggestions: TContainerSuggestions = () => {
       </section>
     )
 
-  return (
-    <ul className={CN_UL} data-test="profile-container-suggestions">
-      {items.map((_) => (
-        <ItemOffers key={`::key::${_.id}::${_.provider}::`} offer={_!} />
-      ))}
-    </ul>
-  )
+  if ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider))
+    return (
+      <ul className={CN_UL} data-test="profile-container-suggestions">
+        {items.map((_) => (
+          <ItemOffers key={`::key::${_.id}::${_.provider}::`} offer={_!} />
+        ))}
+      </ul>
+    )
+
+  if (stateProvider === EnumTypeProvider.post) return <ContainerPosts posts={itemsPost} />
+
+  return null
 }

@@ -122,7 +122,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
     <div
       className={cx(
         user?.id === userId && "hidden",
-        "w-full grid grid-cols-[minmax(0,1fr)_2.25rem_2.25rem] md:grid-cols-[minmax(0,1fr)_2.25rem] gap-0.625 [&>*]:h-9 [&>*]:w-full [&>*]:rounded-[1.25rem]",
+        "w-full grid grid-cols-[minmax(0,1fr)_2.25rem_2.25rem] md:grid-cols-[minmax(0,1fr)_2.25rem] gap-2.5 *:h-9 *:w-full *:rounded-[1.25rem]",
         isLoadingAll && "loading-screen",
       )}
     >
@@ -146,7 +146,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
           />
           <button
             type="button"
-            className="bg-btn-second-default relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5 border-none outline-none"
+            className="bg-btn-second-default relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 border-none outline-none"
             onClick={handleDelete}
           >
             <IconCheckFriend />
@@ -160,7 +160,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
             typeButton="regular-primary"
             label="Запрос отправлен"
             prefixIcon={<IconCheckAccent />}
-            className="gap-0.375 [&>svg]:w-4 [&>svg]:h-4"
+            className="gap-1.5 *:w-4 *:h-4"
           />
           <Link
             href={{
@@ -169,7 +169,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
                 user: user?.id,
               },
             }}
-            className="bg-btn-second-default relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
+            className="bg-btn-second-default relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
           >
             <IconAccentChat />
           </Link>
@@ -185,7 +185,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
                 user: user?.id,
               },
             }}
-            className="bg-btn-second-default relative p-[1.125rem] [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-5 [&>svg]:h-5"
+            className="bg-btn-second-default relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
           >
             <IconAccentChat />
           </Link>

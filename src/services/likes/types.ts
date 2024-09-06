@@ -1,6 +1,6 @@
 import { type IResponse } from "../request"
 
-type TProviderLikes = "offer" | "user"
+type TProviderLikes = "offer" | "user" | "post"
 
 interface IPostDataLikes {
   id: number

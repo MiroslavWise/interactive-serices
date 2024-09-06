@@ -14,7 +14,7 @@ const ButtonCloseMenuMobile = () => (
     onClick={dispatchCloseMenuMobileOnUser}
     className={cx(
       "w-5 h-5 flex items-center justify-center bg-transparent border-none outline-none absolute top-4 right-5",
-      "[&>svg]:w-5 [&>svg]:h-5 [&>svg>path]:stroke-text-primary",
+      "*:w-5 *:h-5 [&>svg>path]:stroke-text-primary",
     )}
   >
     <IconXClose />

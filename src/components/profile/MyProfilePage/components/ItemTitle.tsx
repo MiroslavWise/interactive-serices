@@ -37,7 +37,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
 
   return (
     <section className="w-full gap-2.5 grid grid-cols-[1.5rem_minmax(0,1fr)_1.5rem]">
-      <div className="relative w-6 h-6 p-3 [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-6 [&>svg]:w-6 [&>img]:absolute [&>img]:top-1/2 [&>img]:left-1/2 [&>img]:-translate-x-1/2 [&>img]:-translate-y-1/2 [&>img]:h-6 [&>img]:w-6">
+      <div className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:h-6 *:w-6">
         {provider === EnumTypeProvider.offer ? (
           <ImageCategory id={categoryId!} slug={category?.slug} provider={category?.provider} />
         ) : provider === EnumTypeProvider.discussion ? (
@@ -60,18 +60,18 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             event.stopPropagation()
             setOpen((prev) => !prev)
           }}
-          className="w-6 h-6 relative p-3 bg-transparent border-none outline-none [&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:w-4 [&>svg]:h-4 z-30 [&>svg]:pointer-events-none"
+          className="w-6 h-6 relative p-3 bg-transparent border-none outline-none *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 z-30 *:pointer-events-none"
         >
           <IconDotsHorizontal />
         </button>
         <section
           className={cx(
-            "absolute min-w-[12.5rem] invisible opacity-0 top-full right-0 bg-BG-second p-3 flex flex-col gap-0.125 rounded-xl shadow-[0px_4px_24px_0px_rgba(0,0,0,0.16)] z-30",
+            "absolute min-w-[12.5rem] invisible opacity-0 top-full right-0 bg-BG-second p-3 flex flex-col gap-0.5 rounded-xl shadow-box-down z-30",
             open && "!opacity-100 !visible",
-            "[&>*]:grid [&>*]:grid-cols-[1.25rem_minmax(0,1fr)] [&>*]:gap-0.625 [&>*]:items-center [&>*]:py-2 [&>*]:px-0.375 [&>*]:rounded-md",
+            "*:grid *:grid-cols-[1.25rem_minmax(0,1fr)] *:gap-2.5 *:items-center *:py-2 *:px-1.5 *:rounded-md",
             "[&>*>span]:text-text-primary [&>*>span]:text-sm [&>*>span]:font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
-            "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-0.625",
-            "hover:[&>*]:bg-grey-field",
+            "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-2.5",
+            "hover:*:bg-grey-field *:cursor-pointer",
             "[&>*>div>svg]:w-5 [&>*>div>svg]:h-5 [&>*>div>svg]:absolute [&>*>div>svg]:top-1/2 [&>*>div>svg]:left-1/2 [&>*>div>svg]:-translate-x-1/2 [&>*>div>svg]:-translate-y-1/2",
           )}
         >

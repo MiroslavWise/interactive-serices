@@ -1,6 +1,7 @@
 import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn, TOrder } from "../types/general"
 import { TCreateOfferCategory } from "@/components/templates/CreateNewCategory/utils/create.schema"
+import { IResponse } from "../request"
 
 export interface IResponseOffersCategories {
   id: number
@@ -18,7 +19,7 @@ export interface IQueryOffersCategories {
 }
 
 export interface IServiceOffersCategories {
-  get(value?: { query: IQueryOffersCategories }): IPromiseReturn<IResponseOffersCategories[]>
+  get(value?: { query: IQueryOffersCategories }): Promise<IResponse<IResponseOffersCategories[]>>
 }
 
 export type TPostOfferCategory = (values: { body: TCreateOfferCategory }) => IPromiseReturn<IResponseOffersCategories>

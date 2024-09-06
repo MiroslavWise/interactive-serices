@@ -19,7 +19,7 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = data?.res || []
+  const categories = data?.data || []
 
   const items = useMemo(() => {
     if (!itemsOffers.length) {

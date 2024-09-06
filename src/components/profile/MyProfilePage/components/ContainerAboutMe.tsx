@@ -14,7 +14,7 @@ import styles from "./styles/about-me.module.scss"
 
 const Edit = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <g clip-path="url(#clip0_3046_69723)">
+    <g>
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
@@ -23,11 +23,6 @@ const Edit = () => (
         className="transition-all"
       />
     </g>
-    <defs>
-      <clipPath id="clip0_3046_69723">
-        <rect width="16" height="16" fill="white" />
-      </clipPath>
-    </defs>
   </svg>
 )
 

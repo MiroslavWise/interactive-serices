@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { useCallback, useMemo, useState } from "react"
+import { memo, useCallback, useMemo, useState } from "react"
 import { type Control, Controller, UseFormSetValue } from "react-hook-form"
 
 import { ImageCategory } from "@/components/common"
@@ -7,6 +7,7 @@ import { IconXClose } from "@/components/icons/IconXClose"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { cx } from "@/lib/cx"
+import { clg } from "@console"
 import { useOutsideClickEvent } from "@/helpers"
 import { getOffersCategories } from "@/services"
 import { TSchemaCreate } from "../utils/create.schema"
@@ -28,13 +29,24 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  clg("open: ", open, "error")
+  const categories = c?.data || []
   const trimValue = value.trim().toLowerCase()
 
-  const list = useMemo(
-    () => categories.filter((_) => (!trimValue ? true : _.title.toLowerCase().includes(trimValue))),
-    [categories, trimValue],
-  )
+  const [expand, setExpand] = useState<number | null>(null)
+
+  function onExpand(id: number | null) {
+    setExpand(id)
+  }
+
+  const main = useMemo(() => categories.filter((item) => item.provider === "main"), [categories])
+  const mainSlug = main.find((item) => item.id === expand)
+  const sub = useCallback((slug: string) => categories.filter((item) => item.provider === slug), [categories])
+
+  // const list = useMemo(
+  //   () => categories.filter((_) => (!trimValue ? true : _.title.toLowerCase().includes(trimValue))),
+  //   [categories, trimValue],
+  // )
 
   const currentCategory = useCallback(
     (id: number | string) => (!!id ? categories.find((_) => Number(_.id) === Number(id)) : null),
@@ -49,10 +61,10 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
         <fieldset
           id="fieldset-create-option-modal-offer"
           data-test="fieldset-create-new-option-categoryId"
-          ref={ref}
           className={styles.container}
+          ref={ref}
         >
-          <label htmlFor={field.name} title="Преложение">
+          <label htmlFor={field.name} title="Предложение">
             Предложение
           </label>
           <input
@@ -71,13 +83,13 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             type="button"
             onClick={(event) => {
               event.stopPropagation()
+              clg("data-collapse: ", undefined, "error")
               setOpen((prev) => !prev)
             }}
             className="absolute w-8 h-8 bg-transparent p-1.5 right-2 flex items-center justify-center"
           >
             <IconChevron />
           </button>
-          {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div
             data-current
             className={cx(
@@ -111,34 +123,111 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
               <IconXClose />
             </button>
           </div>
+          {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div
             data-list
             className={cx(
-              "absolute left-0 right-0 rounded-xl bg-BG-second overflow-hidden",
+              "absolute left-0 right-0 rounded-xl bg-BG-second overflow-hidden shadow-box-down",
               open ? "opacity-100 z-[90] visible" : "opacity-0 invisible -z-10",
             )}
+            onClick={(event) => event.stopPropagation()}
           >
             <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
-              {list.map((item) => (
-                <li
-                  key={`::key::category::item::${item.id}::`}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    field.onChange(item.id)
-                    if (item?.provider === "kursk" || item?.slug === "kursk") {
-                      setValueForm("help", true)
-                    }
-                    setValue("")
-                    setOpen(false)
-                  }}
-                  className="w-full p-1.5 grid grid-cols-[1.5rem_minmax(0,1fr)] items-center gap-2 cursor-pointer rounded-md hover:bg-grey-field"
-                >
-                  <div className="w-6 h-6 p-3 relative z-10 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
-                  </div>
-                  <span className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">{item.title}</span>
-                </li>
-              ))}
+              {expand ? (
+                <>
+                  <article
+                    className="p-1.5 w-full grid grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-1 cursor-pointer"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      event.preventDefault()
+                      onExpand(null)
+                      setOpen(true)
+                    }}
+                  >
+                    <button className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary *:rotate-180">
+                      <IconChevron />
+                    </button>
+                    <span className="text-text-secondary text-xs font-normal">Все категории</span>
+                  </article>
+                  {sub(mainSlug?.slug!).map((item) => (
+                    <li
+                      className="w-full p-1.5 grid items-center gap-2 bg-BG-second hover:bg-grey-field rounded-md"
+                      key={`key:item:main:${item.id}:`}
+                    >
+                      <button
+                        type="button"
+                        className={cx(
+                          "w-5 h-5 p-2.5 cursor-pointer relative rounded-full transition-all duration-200",
+                          field.value === item.id ? "bg-element-accent-1" : "bg-grey-stroke",
+                        )}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          field.onChange(item.id)
+                          if (item?.slug === "kursk" || item?.provider === "kursk") {
+                            setValueForm("help", true)
+                          }
+                          setValue("")
+                        }}
+                      >
+                        <span
+                          className={cx(
+                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
+                            field.value === item.id ? "bg-text-button h-2.5 w-2.5" : "bg-BG-second w-4 h-4",
+                          )}
+                        />
+                      </button>
+                      <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                        <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                      </div>
+                      <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{item.title}</span>
+                    </li>
+                  ))}
+                </>
+              ) : (
+                main.map((itemMain) => (
+                  <li
+                    className="w-full p-1.5 grid items-center gap-2 bg-BG-second hover:bg-grey-field rounded-md"
+                    key={`key:item:main:${itemMain.id}:`}
+                  >
+                    <button
+                      type="button"
+                      className={cx(
+                        "w-5 h-5 p-2.5 cursor-pointer relative rounded-full transition-all duration-200",
+                        field.value === itemMain.id ? "bg-element-accent-1" : "bg-grey-stroke",
+                      )}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        field.onChange(itemMain.id)
+                        if (itemMain?.slug === "kursk") {
+                          setValueForm("help", true)
+                        }
+                        setValue("")
+                      }}
+                    >
+                      <span
+                        className={cx(
+                          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
+                          field.value === itemMain.id ? "bg-text-button h-2.5 w-2.5" : "bg-BG-second w-4 h-4",
+                        )}
+                      />
+                    </button>
+                    <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                      <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
+                    </div>
+                    <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
+                    <button
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        onExpand(itemMain.id)
+                        setOpen(true)
+                      }}
+                      className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary"
+                    >
+                      <IconChevron />
+                    </button>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
           {!visible ? (
@@ -161,5 +250,15 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
   )
 }
 
+// onClick={(event) => {
+//   event.stopPropagation()
+//   field.onChange(item.id)
+//   if (item?.provider === "kursk" || item?.slug === "kursk") {
+//     setValueForm("help", true)
+//   }
+//   setValue("")
+//   setOpen(false)
+// }}
+
 ControllerCategory.displayName = "ControllerCategory"
-export default ControllerCategory
+export default memo(ControllerCategory)

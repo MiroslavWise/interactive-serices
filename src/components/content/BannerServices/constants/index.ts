@@ -1,11 +1,11 @@
-import { ISegmentValues } from "@/components/common/Segments/types"
-import type { TServicesFilter } from "../types/types"
+import { type TServicesFilter } from "../types/types"
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
+import { type ISegmentValues } from "@/components/common/Segments/types"
 
 export const SERVICES: ISegmentValues<TServicesFilter>[] = [
   {
     value: "all",
-    label: "Все сервисы",
+    label: "Всe",
   },
   {
     value: EnumTypeProvider.offer,
@@ -14,6 +14,10 @@ export const SERVICES: ISegmentValues<TServicesFilter>[] = [
   {
     value: EnumTypeProvider.discussion,
     label: "Обсуждения",
+  },
+  {
+    value: EnumTypeProvider.post,
+    label: "Посты",
   },
   {
     value: EnumTypeProvider.alert,

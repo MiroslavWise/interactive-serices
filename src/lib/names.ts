@@ -1,0 +1,64 @@
+import { EProviderLinkCustomer } from "@/app/customer/[userId]/components/LinkService"
+import { EnumTypeProvider } from "@/types/enum"
+
+export function nameTitle(length: number, provider: EProviderLinkCustomer | EnumTypeProvider) {
+  var num = length % 10
+  if (length >= 10 && length <= 20) {
+    if (EProviderLinkCustomer.discussion === provider) {
+      return "обсуждений"
+    }
+    if (EProviderLinkCustomer.post === provider) {
+      return "постов"
+    }
+    if (EnumTypeProvider.NOTE === provider) {
+      return "записей"
+    }
+    if (EProviderLinkCustomer.alert === provider) {
+      return "SOS-сообщений"
+    }
+    return "предложений"
+  }
+  if (num > 1 && num < 5) {
+    if (EProviderLinkCustomer.discussion === provider) {
+      return "обсуждения"
+    }
+    if (EProviderLinkCustomer.post === provider) {
+      return "поста"
+    }
+    if (EnumTypeProvider.NOTE === provider) {
+      return "записи"
+    }
+    if (EProviderLinkCustomer.alert === provider) {
+      return "SOS-сообщения"
+    }
+    return "предложения"
+  }
+  if (num == 1) {
+    if (EProviderLinkCustomer.discussion === provider) {
+      return "обсуждение"
+    }
+    if (EProviderLinkCustomer.post === provider) {
+      return "пост"
+    }
+    if (EnumTypeProvider.NOTE === provider) {
+      return "запись"
+    }
+    if (EProviderLinkCustomer.alert === provider) {
+      return "SOS-сообщение"
+    }
+    return "предложение"
+  }
+  if (EProviderLinkCustomer.discussion === provider) {
+    return "обсуждений"
+  }
+  if (EnumTypeProvider.NOTE === provider) {
+    return "записей"
+  }
+  if (EProviderLinkCustomer.post === provider) {
+    return "постов"
+  }
+  if (EProviderLinkCustomer.alert === provider) {
+    return "SOS-сообщений"
+  }
+  return "предложений"
+}

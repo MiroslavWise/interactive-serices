@@ -15,15 +15,15 @@ async function PlaqueFriends({ id }: { id: number | string }) {
   const threeFriends = items?.filter((_) => !!_.image).slice(0, 2)
 
   return (
-    <section className="w-full md:border-y-[1px] border-solid border-grey-stroke-light py-2 flex flex-row items-center justify-between gap-2">
+    <section className="w-full md:border-y border-solid border-grey-stroke-light py-2 flex flex-row items-center justify-between gap-2">
       <p className="text-text-primary text-sm font-medium">{length} друзей</p>
-      <article className="flex flex-row items-center gap-0.625">
-        <div className="flex flex-row items-center flex-nowrap pr-0.375">
+      <article className="flex flex-row items-center gap-2.5">
+        <div className="flex flex-row items-center flex-nowrap pr-1.5">
           {threeFriends.map((_, index) => (
             <Link
               key={`::key::user::friends::img::${_.id}::`}
               href={{ pathname: `/customer/${_.id}` }}
-              className={"w-7 h-7 rounded-[0.875rem] relative p-0.875 bg-BG-second !-mr-0.375"}
+              className={"w-7 h-7 rounded-[0.875rem] relative p-3.5 bg-BG-second !-mr-1.5"}
               title={`${_?.firstName} ${_.lastName}`}
               aria-label={`${_?.firstName} ${_.lastName}`}
               aria-labelledby={`${_?.firstName} ${_.lastName}`}

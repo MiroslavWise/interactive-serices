@@ -48,8 +48,8 @@ function FormAppendComment({ idOffersThread, setCurrentComments }: IProps) {
   const userData: IUserOffer = {
     about: profile?.about ?? "",
     birthdate: profile?.birthdate ?? "",
-    firstName: profile?.firstName ?? "",
-    lastName: profile?.lastName ?? "",
+    firstName: profile?.firstName ?? "Имя",
+    lastName: profile?.lastName ?? "Фамилия",
     gender: profile?.gender!,
     id: user?.id!,
     username: profile?.username ?? "",
@@ -74,7 +74,7 @@ function FormAppendComment({ idOffersThread, setCurrentComments }: IProps) {
             parentId: null,
             userId: userId!,
             status: "create",
-            created: new Date(),
+            created: String(new Date()),
             user: userData!,
           },
         ])

@@ -25,7 +25,7 @@ export const ChangeService = () => {
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
   })
-  const categories = c?.res || []
+  const categories = c?.data || []
 
   const { register, watch, handleSubmit, setValue } = useForm<IValuesCategories>({
     defaultValues: {

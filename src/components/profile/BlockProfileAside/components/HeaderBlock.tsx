@@ -53,7 +53,7 @@ export const HeaderBlock: THeaderBlock = () => {
         ) : (
           <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12" />
         )}
-        <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 [&>svg]:w-5 [&>svg]:h-5">
+        <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 *:w-5 *:h-5">
           <IconVerifiedTick />
         </div>
       </div>

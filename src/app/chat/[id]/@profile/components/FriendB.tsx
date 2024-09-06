@@ -97,7 +97,7 @@ function FriendB({ user }: { user: IUserResponse }) {
     <button
       type="button"
       className={cx(
-        "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-5 [&>svg]:w-5",
+        "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:h-5 *:w-5",
         disable && "!cursor-no-drop",
       )}
       onClick={handleOnFriends}

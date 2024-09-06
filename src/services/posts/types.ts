@@ -1,35 +1,34 @@
-import { IImageData } from "@/types/type"
-import { IAddressesResponse } from "../addresses/types/serviceAddresses"
-import { IUserOffer as IUserSmall } from "../offers/types"
+import { type IResponse } from "../request"
+import { type TOrder } from "../types/general"
+import { type IUserOffer as IUserSmall } from "../offers/types"
+import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { INotes } from "../notes/types"
+import { EnumHelper } from "@/types/enum"
 
-interface IPosts {
+export interface IBodyPost {
+  title: string
+  slug: string
+  addresses: number[]
+  archive?: boolean
+  urgent?: EnumHelper
+}
+
+export interface IPosts {
   id: number
   enabled: boolean
   title: string //varChar - 256
   slug: string //varChar - 256
   userId: number
+  urgent?: EnumHelper
   user: IUserSmall
-  addressId: number | null
-  address: IAddressesResponse | null
+  addresses: IAddressesResponse[]
   updated: string
   created: string
   questionnaireId?: number //id опросника
   questionnaire: IQuestionnaire
-  archived: boolean //default - false
-  archivedTime: string //время, когда запись была отправлена в архив
-}
-
-interface INotes {
-  id: number
-  enabled: boolean
-  description: string
-  userId: number
-  user: IUserSmall
-  updated: string
-  created: string
-  images: IImageData[]
-  triggerId: number //id поста, к которому привязана данная задача
-  main: boolean //default - false, является ли эта запись главной (тогда её нельзя удалить)
+  archive: boolean //default - false
+  archived: string //время, когда запись была отправлена в архив
+  notes: INotes[]
 }
 
 interface IQuestionnaire {
@@ -52,3 +51,17 @@ interface IQuestion {
   name: string
   userAnswers: number[] // {{user_id}}[]
 }
+
+interface IQueries {
+  order?: TOrder
+  user?: number
+  limit?: number
+  page?: number
+  archive?: 1 | 0
+}
+
+export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>
+export type TPatchPost = (id: number, body: Partial<IBodyPost>) => Promise<IResponse<IPosts>>
+export type TGetPosts = ({}: IQueries) => Promise<IResponse<IPosts[]>>
+export type TGetPostsFromUser = ({}: { query?: IQueries } & { userId: number }) => Promise<IResponse<IPosts[]>>
+export type TGetPostId = (id: number | string) => Promise<IResponse<IPosts>>

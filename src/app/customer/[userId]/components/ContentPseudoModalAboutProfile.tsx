@@ -17,15 +17,15 @@ async function ContentPseudoModalAboutProfile({ userId }: { userId: string | num
       <article className="w-full flex flex-col items-center gap-3">
         <div
           className={`w-20 h-20 rounded-2xl relative [&>img]:w-full [&>img]:h-full ${
-            !image && "bg-grey-stroke-light !p-2 [&>svg]:w-12 [&>svg]:h-12 !rounded-[0.625rem]"
+            !image && "bg-grey-stroke-light !p-2  !rounded-[0.625rem]"
           }`}
         >
           {!!image ? (
             <NextImageMotion className="rounded-2xl overflow-hidden" src={image?.attributes?.url} alt="avatar" width={100} height={100} />
           ) : (
-            <IconEmptyProfile />
+            <IconEmptyProfile className="w-12 h-12" />
           )}
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 [&>svg]:w-5 [&>svg]:h-5">
+          <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 *:w-5 *:h-5">
             <IconVerifiedTick />
           </div>
         </div>

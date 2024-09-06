@@ -13,14 +13,14 @@ async function BlockMobileFriendsAndFeedback({ id }: { id: string | number }) {
   const average = (allRating / (length || 1)).toFixed(1)
 
   return (
-    <article className="w-full flex md:hidden flex-col py-1 px-3 bg-BG-second rounded-2xl max-md:-mt-0.875">
+    <article className="w-full flex md:hidden flex-col py-1 px-3 bg-BG-second rounded-2xl max-md:-mt-3.5">
       <PlaqueFriends id={id} />
-      <section className="w-full py-2 flex flex-row items-center justify-between gap-2 border-t-[1px] border-solid border-grey-stroke-light">
+      <section className="w-full py-2 flex flex-row items-center justify-between gap-2 border-t border-solid border-grey-stroke-light">
         <p className="text-text-primary text-sm font-medium">{length} отзывов</p>
         {length ? (
-          <article className="flex flex-row items-center gap-0.625">
+          <article className="flex flex-row items-center gap-2.5">
             <div className="flex flex-row items-center gap-1">
-              <div className="w-3 h-3 relative p-0.375">
+              <div className="w-3 h-3 relative p-1.5">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="12"

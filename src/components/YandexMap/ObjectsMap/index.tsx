@@ -14,6 +14,7 @@ import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, use
 function ListPlacemark() {
   const { itemsOffers } = useMapOffers()
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
+  const providers = useFiltersServices(({ providers }) => providers)
 
   const marks: IPlacemarkCurrent[] = useMemo(() => {
     const array: IPlacemarkCurrent[] = []
@@ -60,36 +61,39 @@ function ListPlacemark() {
     }
 
     return array
-  }, [itemsOffers, timesFilter])
+  }, [itemsOffers, timesFilter, providers])
 
-  return marks.map((item) => (
-    <Placemark
-      key={`${item.offer.id}-${item.offer.provider}-list`}
-      geometry={item?.coordinates[0]}
-      modules={["geoObject.addon.balloon"]}
-      properties={{ ...item?.offer }}
-      options={{
-        iconLayout: "default#image",
-        iconImageHref: !!item?.offer?.urgent ? TYPE_ICON_URGENT[item?.offer?.provider!] : TYPE_ICON[item?.offer?.provider!],
-        iconImageSize: [18.92 * 2, 18.92 * 2.2],
-        zIndex: 45,
-        zIndexActive: 50,
-      }}
-      onClick={(event: any) => {
-        event.preventDefault()
-        event.stopPropagation()
-        if (item?.offer?.provider === EnumTypeProvider.offer) {
-          dispatchBallonOffer({ offer: item?.offer! })
-          return
-        } else if (item?.offer?.provider === EnumTypeProvider.discussion) {
-          dispatchBallonDiscussion({ offer: item?.offer! })
-          return
-        } else if (item?.offer?.provider === EnumTypeProvider.alert) {
-          dispatchBallonAlert({ offer: item?.offer! })
-        }
-      }}
-    />
-  ))
+  if (["all", EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(providers))
+    return marks.map((item) => (
+      <Placemark
+        key={`${item.offer.id}-${item.offer.provider}-list`}
+        geometry={item?.coordinates[0]}
+        modules={["geoObject.addon.balloon"]}
+        properties={{ ...item?.offer, type: item?.offer?.provider }}
+        options={{
+          iconLayout: "default#image",
+          iconImageHref: !!item?.offer?.urgent ? TYPE_ICON_URGENT[item?.offer?.provider!] : TYPE_ICON[item?.offer?.provider!],
+          iconImageSize: [18.92 * 2, 18.92 * 2.2],
+          zIndex: 45,
+          zIndexActive: 50,
+        }}
+        onClick={(event: any) => {
+          event.preventDefault()
+          event.stopPropagation()
+          if (item?.offer?.provider === EnumTypeProvider.offer) {
+            dispatchBallonOffer({ offer: item?.offer! })
+            return
+          } else if (item?.offer?.provider === EnumTypeProvider.discussion) {
+            dispatchBallonDiscussion({ offer: item?.offer! })
+            return
+          } else if (item?.offer?.provider === EnumTypeProvider.alert) {
+            dispatchBallonAlert({ offer: item?.offer! })
+          }
+        }}
+      />
+    ))
+
+  return null
 }
 
 ListPlacemark.displayName = "ListPlacemark"

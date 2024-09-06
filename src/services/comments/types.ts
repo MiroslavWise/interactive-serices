@@ -2,7 +2,7 @@ import { type IResponse } from "../request"
 import { type IUserOffer } from "../offers/types"
 import { type IPromiseReturn } from "@/services/types/general"
 
-type TTypeStatusComments = "published" | "create"
+export type TTypeStatusComments = "published" | "create"
 
 export interface ICommentsResponse {
   id: number
@@ -13,7 +13,7 @@ export interface ICommentsResponse {
   message: string
   status: TTypeStatusComments
   enabled: boolean
-  created?: Date
+  created?: string
   updated?: Date
   user: IUserOffer
 }

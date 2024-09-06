@@ -6,7 +6,7 @@ function HeaderAuth() {
   const type = useModalAuth(({ type }) => type)
 
   return (
-    <header className="w-full h-[4.75rem] bg-BG-second rounded-t-[2rem] rounded-b-none border-b-[1px] border-solid border-grey-separator pt-6 py-0 pb-5 flex flex-row items-center justify-center sticky max-md:top-0 max-md:z-[100] max-md:!rounded-none">
+    <header className="w-full h-[4.75rem] bg-BG-second rounded-t-[2rem] rounded-b-none border-b border-solid border-grey-separator pt-6 py-0 pb-5 flex flex-row items-center justify-center sticky max-md:top-0 max-md:z-[100] max-md:!rounded-none">
       <h3 className="text-text-primary text-center text-2xl font-semibold">
         {type === EnumSign.SignIn
           ? "Вход"

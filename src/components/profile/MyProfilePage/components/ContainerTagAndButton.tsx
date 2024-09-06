@@ -1,8 +1,7 @@
 "use client"
 
 import { EnumTypeProvider } from "@/types/enum"
-import type { TContainerTagAndButton } from "./types/types"
-import type { ISegmentValues } from "@/components/common/Segments/types"
+import { type ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 
@@ -19,16 +18,20 @@ const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
     value: EnumTypeProvider.discussion,
   },
   {
+    label: "Посты",
+    value: EnumTypeProvider.post,
+  },
+  {
     label: "SOS",
     value: EnumTypeProvider.alert,
   },
 ]
 
-export const ContainerTagAndButton: TContainerTagAndButton = ({}) => {
+export const ContainerTagAndButton = () => {
   const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
   const { isMobile } = useResize()
   return (
-    <div className="w-full h-11">
+    <div className="w-full h-11 max-md:[&>article>li]:px-2.5">
       <Segments
         type="primary"
         VALUES={TABS(isMobile)}

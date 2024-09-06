@@ -11,7 +11,7 @@ function ButtonClose() {
       type="button"
       className={cx(
         "md:hidden flex absolute items-center justify-center bg-transparent border-none outline-none w-11 h-11 top-0 right-0 p-3",
-        "[&>svg]:w-5 [&>svg]:h-5",
+        "*:w-5 *:h-5",
       )}
       onClick={() => dispatchVisibleFeedbackMobileCustomer(false)}
     >

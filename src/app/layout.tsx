@@ -24,7 +24,7 @@ export const viewport: Viewport = {
 }
 
 export function generateMetadata(): Metadata {
-  const urlIcon = `${env.server.host}/icons/icon.png`
+  const urlIcon = `/icons/icon.png`
   const APPLE_ID = "6504366029"
   const APPLE_NAME = "Sheira: услуги и обсуждения"
 
@@ -56,7 +56,7 @@ export function generateMetadata(): Metadata {
     },
     authors: {
       url: "https://sheira.ru",
-      name: "ООО Sheira",
+      name: "Sheira",
     },
     description:
       "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
@@ -102,6 +102,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
         <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categries`} />
         <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
+        {!env!?.server!?.host.includes("dev") && <Script src="https://s.sdelka.biz/20431827.js" />}
         <noscript>
           <div>
             <img

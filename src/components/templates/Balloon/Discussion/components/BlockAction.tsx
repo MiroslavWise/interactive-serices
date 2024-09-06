@@ -88,7 +88,7 @@ function BlockAction({ offer, setExpandComment }: IProps) {
       >
         <div
           className={cx(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 invisible h-5 w-5 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:rounded-[0.625rem]",
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 invisible h-5 w-5 *:h-5 *:w-5 *:rounded-[0.625rem]",
             loadingChat ? "!opacity-100 !visible" : "invisible opacity-0 hidden",
           )}
         >
