@@ -13,6 +13,7 @@ import { daysAgo } from "@/helpers"
 import { useContextPostsComments } from "./ContextComments"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
 import { dispatchPhotoCarousel, useAuth, useBalloonPost } from "@/store"
+import IconChevronDown from "@/components/icons/IconChevronDown"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive } = useBalloonPost(({ data }) => data) ?? {}
@@ -27,23 +28,23 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
 
   const { onWriteResponse, noteCurrent } = useContextPostsComments()
 
-  // function to(value: boolean) {
-  //   if (refImages.current) {
-  //     if (value) {
-  //       refImages.current.scrollBy({
-  //         top: 0,
-  //         left: -75,
-  //         behavior: "smooth",
-  //       })
-  //     } else {
-  //       refImages.current.scrollBy({
-  //         top: 0,
-  //         left: +75,
-  //         behavior: "smooth",
-  //       })
-  //     }
-  //   }
-  // }
+  function to(value: boolean) {
+    if (refImages.current) {
+      if (value) {
+        refImages.current.scrollBy({
+          top: 0,
+          left: -75,
+          behavior: "smooth",
+        })
+      } else {
+        refImages.current.scrollBy({
+          top: 0,
+          left: +75,
+          behavior: "smooth",
+        })
+      }
+    }
+  }
 
   const {
     data: dataLikesMy,
@@ -120,7 +121,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
       <p className={cx("text-text-primary whitespace-pre-wrap text-sm font-normal", !!description ? "" : "hidden")}>{description}</p>
       <div
         data-images
-        className={cx("-mx-4 w-[calc(100%_+_2rem)] relative overflow-hidden", images.length ? "flex" : "hidden")}
+        className={cx("-mx-4 w-[calc(100%_+_2rem)] relative overflow-hidden group", images.length ? "flex" : "hidden")}
         onTouchMove={(event) => {
           event.stopPropagation()
           event.preventDefault()
@@ -137,6 +138,36 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           }
         }}
       >
+        <>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              to(true)
+            }}
+            className={cx(
+              "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 left-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:rotate-90",
+              "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center",
+              images.length < 4 && "!hidden",
+            )}
+          >
+            <IconChevronDown />
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              to(false)
+            }}
+            className={cx(
+              "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 right-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:-rotate-90",
+              "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center ",
+              images.length < 4 && "!hidden",
+            )}
+          >
+            <IconChevronDown />
+          </button>
+        </>
         <div className="w-full flex flex-row gap-2 overflow-hidden overflow-x-scroll px-4" ref={refImages}>
           {images.map((item) => (
             <NextImageMotion

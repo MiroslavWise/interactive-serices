@@ -72,7 +72,7 @@ function ItemPost({ post }: IProps) {
           <IconMapWhite />
         </div>
         <p
-          className="text-text-primary text-sm text-nowrap whitespace-nowrap text-start font-normal line-clamp-1 text-ellipsis overflow-hidden w-[inherit]"
+          className="text-text-primary text-sm text-nowrap whitespace-nowrap text-start font-normal line-clamp-2 text-ellipsis overflow-hidden w-[inherit]"
           title={additional}
           aria-label={additional}
           aria-labelledby={additional}
