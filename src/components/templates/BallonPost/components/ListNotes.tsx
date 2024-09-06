@@ -50,14 +50,14 @@ const List = memo(function ({
 
   const data = useBalloonPost(({ data }) => data)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { userId: userIdPost } = data ?? {}
+  const { userId: userIdPost, archive } = data ?? {}
   const { onNoteCurrent } = useContextPostsComments()
   useEffect(() => {
     return () => onNoteCurrent(null)
   }, [])
 
   return (
-    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && "pb-16")}>
+    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && !archive && "pb-16")}>
       {isLoading
         ? [1, 2, 3, 4].map((item) => (
             <article

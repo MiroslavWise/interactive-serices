@@ -135,9 +135,7 @@ export default function SearchCategory() {
             ))}
           </div>
           <TimesFilter />
-          {activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers) ? (
-            <ActiveFilters activeFilters={activeFilters} />
-          ) : null}
+          {activeFilters.length ? <ActiveFilters activeFilters={activeFilters} /> : null}
         </article>
         <ServicesMobile input={input} parentRef={parentRef} />
       </section>

@@ -41,6 +41,10 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
   const main = useMemo(() => categories.filter((item) => item.provider === "main"), [categories])
   const mainSlug = main.find((item) => item.id === expand)
   const sub = useCallback((slug: string) => (slug ? categories.filter((item) => item.provider === slug) : []), [categories])
+  const searchList = useMemo(
+    () => (trimValue ? categories.filter((item) => item.title.toLowerCase().includes(trimValue)) : []),
+    [trimValue],
+  )
 
   // const list = useMemo(
   //   () => categories.filter((_) => (!trimValue ? true : _.title.toLowerCase().includes(trimValue))),
@@ -135,6 +139,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                 className={cx(
                   "p-1.5 w-full items-center gap-1 cursor-pointer z-50",
                   expand ? "grid grid-cols-[1.25rem_minmax(0,1fr)]" : "hidden",
+                  searchList.length > 0 && "hidden",
                 )}
                 onClick={(event) => {
                   event.stopPropagation()
@@ -148,9 +153,12 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                 </a>
                 <span className="text-text-secondary text-xs font-normal">Все категории</span>
               </article>
-              {sub(mainSlug?.slug!).map((item) => (
+              {(searchList.length > 0 ? searchList : sub(mainSlug?.slug!)).map((item) => (
                 <li
-                  className={cx("w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md", expand ? "grid items-center" : "hidden")}
+                  className={cx(
+                    "w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md",
+                    searchList.length > 0 || expand ? "grid items-center" : "hidden",
+                  )}
                   key={`key:item:main:${item.id}:`}
                 >
                   <button
@@ -183,7 +191,10 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
               ))}
               {main.map((itemMain) => (
                 <li
-                  className={cx("w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md", expand ? "hidden" : "grid items-center")}
+                  className={cx(
+                    "w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md",
+                    searchList.length > 0 || expand ? "hidden" : "grid items-center",
+                  )}
                   key={`key:item:main:${itemMain.id}:`}
                 >
                   <a
