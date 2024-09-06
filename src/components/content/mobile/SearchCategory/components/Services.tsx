@@ -10,16 +10,77 @@ import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 import { getOffersCategories } from "@/services"
 import { useBounds, useFiltersServices } from "@/store"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
+import { EnumTypeProvider } from "@/types/enum"
+import { getPosts } from "@/services/posts"
 
 export const ServicesMobile = memo(({ input, parentRef }: { input: string; parentRef: RefObject<HTMLUListElement> }) => {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
+  const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
+
   const { data } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
+    queryFn: () => getPosts({ order: "DESC" }),
+    queryKey: ["posts", { order: "DESC" }],
+    enabled: providers === "all" || providers === EnumTypeProvider.post,
   })
-  const categories = data?.data || []
+
+  const itemsPost = data?.data || []
+
+  const itemsFilterPosts = useMemo(() => {
+    if (!itemsPost.length) {
+      return []
+    }
+    if (bounds && itemsPost) {
+      const minCoords = bounds[0]
+      const maxCoors = bounds[1]
+
+      const dataAllItems =
+        itemsPost?.filter((item) => {
+          if (!item?.addresses?.length) {
+            return false
+          }
+          const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
+          if (!coordinates) {
+            return false
+          }
+
+          if (
+            coordinates[0] < maxCoors[0] &&
+            coordinates[0] > minCoords[0] &&
+            coordinates[1] < maxCoors[1] &&
+            coordinates[1] > minCoords[1]
+          ) {
+            return true
+          }
+
+          return false
+        }) || []
+
+      if (timesFilter === EnumTimesFilter.ALL) {
+        return dataAllItems || []
+      } else {
+        const day = 86_400_000
+        const week = day * 7
+        const month = day * 31
+
+        const objTime = {
+          [EnumTimesFilter.DAYS]: day,
+          [EnumTimesFilter.WEEK]: week,
+          [EnumTimesFilter.MONTH]: month,
+        }
+
+        return dataAllItems.filter((item) => {
+          const time = new Date(item.created).valueOf()
+          const now = new Date().valueOf()
+
+          return time + objTime[timesFilter] - now > 0
+        })
+      }
+    }
+
+    return []
+  }, [itemsPost, bounds, timesFilter])
 
   const items = useMemo(() => {
     if (!itemsOffers.length) {
@@ -76,26 +137,26 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
     return []
   }, [itemsOffers, bounds, timesFilter])
 
-  const filterItems = useMemo(() => {
-    const search = input.toLowerCase().trim()
-    if (!search) {
-      return items
-    } else {
-      return items.filter((item) => {
-        const categoriesFilter = categories.filter((_) => _.title.toLowerCase().includes(search))
-        if (categoriesFilter.some((_) => _.id === item.categoryId)) {
-          return true
-        }
-        if (item?.title && item?.title?.toLowerCase()?.includes(search)) {
-          return true
-        }
-        if (item?.description && item?.description?.toLowerCase()?.includes(search)) {
-          return true
-        }
-        return false
-      })
-    }
-  }, [input, items, categories])
+  // const filterItems = useMemo(() => {
+  //   const search = input.toLowerCase().trim()
+  //   if (!search) {
+  //     return items
+  //   } else {
+  //     return items.filter((item) => {
+  //       const categoriesFilter = categories.filter((_) => _.title.toLowerCase().includes(search))
+  //       if (categoriesFilter.some((_) => _.id === item.categoryId)) {
+  //         return true
+  //       }
+  //       if (item?.title && item?.title?.toLowerCase()?.includes(search)) {
+  //         return true
+  //       }
+  //       if (item?.description && item?.description?.toLowerCase()?.includes(search)) {
+  //         return true
+  //       }
+  //       return false
+  //     })
+  //   }
+  // }, [input, items, categories])
 
   if (isLoading)
     return (
@@ -106,5 +167,5 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
       </ul>
     )
 
-  return <VirtualList parentRef={parentRef} list={items} />
+  return <VirtualList parentRef={parentRef} list={items} listPosts={itemsFilterPosts} />
 })
