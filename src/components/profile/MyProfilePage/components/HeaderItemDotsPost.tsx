@@ -58,7 +58,7 @@ function HeaderItemDotsPost({ post }: IProps) {
             }
             event.stopPropagation()
           }}
-          className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field"
+          className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
         >
           <div
             className={cx(
@@ -77,7 +77,7 @@ function HeaderItemDotsPost({ post }: IProps) {
             title={TITLE_ARCHIVE}
             aria-label={TITLE_ARCHIVE}
             aria-labelledby={TITLE_ARCHIVE}
-            className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field"
+            className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
             onClick={(event) => {
               event.stopPropagation()
               dispatchArchivePost(post)
