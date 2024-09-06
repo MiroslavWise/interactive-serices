@@ -142,7 +142,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
               maxLength={MAX_LENGTH_COMMENT}
               placeholder="Ваш комментарий..."
               className={cx(
-                "whitespace-pre-wrap py-2.5 px-4 h-10 w-full border border-solid border-grey-stroke focus:border-text-accent resize-none rounded-[2.5rem] outline-none text-text-primary text-sm font-normal placeholder:text-text-disabled",
+                "whitespace-pre-wrap py-2.5 px-4 h-10 w-full border border-solid border-grey-stroke focus:border-text-accent resize-none rounded-[2.5rem] outline-none text-text-primary text-sm font-normal placeholder:text-text-disabled max-h-40 md:max-h-[13.75rem]",
                 !!error && "border-text-error text-text-error",
               )}
             />

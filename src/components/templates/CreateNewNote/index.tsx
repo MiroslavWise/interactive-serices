@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { type AxiosProgressEvent } from "axios"
-import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -11,8 +10,10 @@ import IconPost from "@/components/icons/IconPost"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
+import { queryClient } from "@/context"
+import { getPostId } from "@/services/posts"
 import { fileUploadService } from "@/services"
-import { getNotes, patchNote, postNote } from "@/services/notes"
+import { patchNote, postNote } from "@/services/notes"
 import { dispatchBallonPost, dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
 import {
   DEFAULT_VALUES,
@@ -23,8 +24,6 @@ import {
   resolverCreateNote,
   type TSchemaCreateNote,
 } from "./utils"
-import { queryClient } from "@/context"
-import { getPostId } from "@/services/posts"
 
 function CreateNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
