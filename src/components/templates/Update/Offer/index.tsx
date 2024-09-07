@@ -67,7 +67,7 @@ export default function UpdateOffer() {
 
   async function onChangeAddress() {
     if (inputGeo?.trim()?.length > 2) {
-      const slug = inputGeo?.replaceAll(" ", "-")
+      const slug = inputGeo?.replaceAll(" ", "-")?.toLowerCase()
       const response = await queryClient.fetchQuery({
         queryFn: () => getGeocodeSearch(inputGeo),
         queryKey: ["addresses", { string: slug }],

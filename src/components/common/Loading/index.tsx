@@ -15,16 +15,22 @@ export function LoadingProfile() {
 
 export function LoadingBarters() {
   return (
-    <div className={cx(styles.containerBarter, "loading-screen")}>
+    <div
+      className={cx(
+        styles.containerBarter,
+        "p-3 gap-2.5 rounded-2xl bg-BG-second border border-solid border-x-grey-stroke-light flex flex-col w-full",
+        "loading-screen",
+      )}
+    >
       <LoadingProfile />
-      <div data-content>
-        <span data-category />
-        <span data-repeat />
-        <span data-category />
+      <div data-content className="w-full flex flex-row items-center">
+        <span data-category className="h-8 rounded-2xl" />
+        <span data-repeat className="w-8 h-8" />
+        <span data-category className="h-8 rounded-2xl" />
       </div>
-      <div data-footer>
-        <span data-time />
-        <span data-circle />
+      <div data-footer className="w-full flex flex-row items-center justify-between">
+        <span data-time className="w-16" />
+        <span data-circle className="w-10 h-10 p-5 rounded-full" />
       </div>
     </div>
   )

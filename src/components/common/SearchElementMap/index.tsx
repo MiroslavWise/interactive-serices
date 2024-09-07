@@ -17,9 +17,9 @@ import styles from "./style.module.scss"
 export const SearchElementMap = () => {
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
-  const [activeIsList, setIsActiveList, ref] = useOutsideClickEvent()
-  const debouncedValue = useDebounce(onValueFunc, 300)
+  const debouncedValue = useDebounce(onValueFunc, 750)
   const [values, setValues] = useState<IFeatureMember[]>([])
+  const [activeIsList, setIsActiveList, ref] = useOutsideClickEvent()
 
   function onFocus() {
     setIsActiveList(true)

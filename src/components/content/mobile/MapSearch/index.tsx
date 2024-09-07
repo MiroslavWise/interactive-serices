@@ -19,7 +19,7 @@ import styles from "./style.module.scss"
 function MapSearch() {
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
-  const debouncedValue = useDebounce(onValueFunc, 300)
+  const debouncedValue = useDebounce(onValueFunc, 750)
   const [values, setValues] = useState<IFeatureMember[]>([])
   const visible = useSearchMobile(({ visible }) => visible)
   const visibleBanner = useBanner(({ visible }) => visible)
