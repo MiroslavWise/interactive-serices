@@ -4,6 +4,8 @@ import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
 import env from "@/config/environment"
 import { getPostId } from "@/services/posts"
+import { clg } from "@console"
+import { getNotes } from "@/services/notes"
 
 export const dynamicParams = true
 export const dynamic = "force-dynamic"
@@ -12,7 +14,8 @@ export const fetchCache = "force-no-store"
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { id } = params ?? {}
   if (!id) return {}
-  const { data } = await getPostId(id)
+
+  const [{ data }, { data: dataNote }] = await Promise.all([getPostId(id), getNotes({ post: Number(id!), main: true, order: "DESC" })])
 
   const obj: Metadata = {}
 
@@ -21,15 +24,24 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
     obj.keywords = data.title.split(" ").map((_) => _.replace(/\w/g, ""))
 
-    const note = data?.notes?.find((item) => item?.main)
+    const note = (dataNote && dataNote[0]) ?? null
 
     if (note) {
       obj.description = note?.description ?? undefined
     }
 
+    const user = data?.user
+
+    if (user) {
+      obj.authors = {
+        name: `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`,
+        url: `${env.server.host}/user/${user?.id}/${user?.username}`,
+      }
+    }
+
     const images: OpenGraph["images"] = []
 
-    if (note?.images.length) {
+    if (!!note?.images.length) {
       for (const image of note.images) {
         images.push({
           url: image.attributes.url,

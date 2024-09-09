@@ -14,9 +14,11 @@ export default async ({ params }: { params: { id: string } }) => {
 
   const { data } = await getPostId(id)
 
-  if (data) {
-    return <RedirectOffer post={data} />
-  } else {
-    return redirect("/")
-  }
+  return null
+
+  // if (data) {
+  //   return <RedirectOffer post={data} />
+  // } else {
+  //   return redirect("/")
+  // }
 }
