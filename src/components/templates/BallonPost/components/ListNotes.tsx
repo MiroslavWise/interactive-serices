@@ -57,7 +57,7 @@ const List = memo(function ({
   }, [])
 
   return (
-    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && !archive && "pb-16")}>
+    <ul className={cx("w-full flex flex-col gap-2.5", userIdPost === userId && !archive && "pb-16", !!archive && "pb-14")}>
       {isLoading
         ? [1, 2, 3, 4].map((item) => (
             <article

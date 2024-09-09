@@ -7,6 +7,14 @@ function FooterNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, userId: userIdPost, title, archive } = data ?? {}
 
+  if (archive) {
+    return (
+      <footer className="fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-[2rem] flex opacity-100 visible z-40 items-center justify-center border-t border-solid border-grey-stroke-light">
+        <span className="text-text-secondary text-sm font-normal">Пост в архиве</span>
+      </footer>
+    )
+  }
+
   return (
     <footer
       className={cx(
