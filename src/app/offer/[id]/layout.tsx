@@ -1,5 +1,6 @@
 import { type Metadata } from "next"
 import { type ReactNode } from "react"
+import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
 import { EnumTypeProvider } from "@/types/enum"
 
@@ -25,16 +26,37 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     }
     obj.description = offer.description
 
-    if (offer?.images?.length) {
-      obj.openGraph = {
-        type: "website",
-        locale: "ru",
-        url: `${env.server.host}/offer/${id}/${String(offer.slug).replaceAll("/", "-")}`,
-        images: offer.images ? offer.images.map((_) => _.attributes.url) : undefined,
-      }
-      obj.twitter = {
-        images: offer.images ? offer.images.map((_) => _.attributes.url) : undefined,
-      }
+    const images: OpenGraph["images"] = []
+
+    for (const image of offer.images) {
+      images.push({
+        url: image.attributes.url,
+        secureUrl: image.attributes.url,
+        alt: image.attributes.alt,
+        width: 256,
+        height: 256,
+      })
+    }
+
+    const metadataBase = new URL(`${env.server.host}/post/${id}/${String(offer.slug)}`)
+    obj.metadataBase = metadataBase
+
+    obj.openGraph = {
+      type: "website",
+      locale: "ru",
+      url: `${env.server.host}/offer/${id}/${String(offer.slug).replaceAll("/", "-")}`,
+      images: images,
+    }
+    obj.twitter = {
+      images: images,
+    }
+    obj.robots = {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
     }
   }
 
