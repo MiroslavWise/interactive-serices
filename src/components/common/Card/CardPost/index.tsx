@@ -41,7 +41,12 @@ function CardPost({ post, dataIndex, ref }: IProps) {
         </div>
         <span className="text-text-button text-xs font-medium">Помощь Курску</span>
       </header>
-      <section className="flex flex-col gap-3 p-4 w-full border-l border-r border-b border-solid border-card-border-yellow">
+      <section
+        className={cx(
+          "flex flex-col gap-3 p-4 w-full border-solid border-card-border-yellow",
+          !!urgent ? "border-l border-r border-b rounded-b-2xl" : "border rounded-2xl",
+        )}
+      >
         <ComponentDots post={post} />
         <header className="w-full grid grid-cols-[1.625rem_minmax(0,1fr)] gap-3 items-start">
           <div className="relative w-[1.625rem] h-[1.625rem] p-[0.8125rem] *:absolute *:-translate-x-1/2 *:-translate-y-1/2 *:left-1/2 *:top-1/2 *:w-[1.625rem] *:h-[1.625rem]">

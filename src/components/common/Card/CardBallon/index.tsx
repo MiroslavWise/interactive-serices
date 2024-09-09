@@ -77,7 +77,8 @@ function CardBallon({ offer, ref, dataIndex }: IProps) {
       </header>
       <section
         className={cx(
-          "w-full p-4 flex flex-col gap-3 border-r border-l border-b border-solid",
+          "w-full p-4 flex flex-col gap-3  border-solid",
+          !!urgent ? "border-r border-l border-b rounded-b-2xl" : "border rounded-2xl",
           provider === EnumTypeProvider.offer && "border-grey-stroke-light",
           provider === EnumTypeProvider.alert && "border-card-border-red",
           provider === EnumTypeProvider.discussion && "border-card-border-blue",
