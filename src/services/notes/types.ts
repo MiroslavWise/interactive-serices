@@ -28,6 +28,7 @@ interface IQueries {
   limit?: number
   user?: number
   post?: number
+  main?: boolean
 }
 
 export type TPostNote = (body: IBodyNote) => Promise<IResponse<INotes>>
