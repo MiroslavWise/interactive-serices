@@ -25,10 +25,12 @@ import {
   serviceNotifications,
 } from "@/services"
 import { cx } from "@/lib/cx"
-import { useWebSocket } from "@/context"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData } from "@/store"
+import { queryClient, useWebSocket } from "@/context"
+import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData, dispatchBallonPost } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import Avatar from "@avatar"
+import { getPostId } from "@/services/posts"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -40,7 +42,7 @@ const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
 }
 
 export const ItemNotification = (props: IResponseNotifications & { close?: DispatchWithoutAction }) => {
-  const { created, provider, operation, data, id, read, close } = props ?? {}
+  const { created, provider, operation, data, id, read, close, user: userNotification } = props ?? {}
   const [loading, setLoading] = useState(false)
   const { socket } = useWebSocket() ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -584,6 +586,58 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
     }
     return null
   }, [userId, currentType, type, profile?.image])
+
+  async function handleToPost() {
+    if (!loading) {
+      setLoading(true)
+      const { data: dataPost } = await queryClient.fetchQuery({
+        queryFn: () => getPostId(data!?.post_id!),
+        queryKey: ["post", { id: data!?.post_id!! }],
+      })
+      if (dataPost) {
+        dispatchBallonPost(dataPost)
+        if (close) close()
+      } else {
+        if (close) close()
+      }
+      setLoading(false)
+    }
+  }
+
+  if (provider === "comment" && !!data?.post_id)
+    return (
+      <li
+        className={cx(
+          styles.container,
+          "w-full relative p-3 rounded-2xl border border-grey-stroke-light border-solid gap-3 grid grid-cols-[2.5rem_minmax(0,1fr)] bg-BG-second hover:border-text-accent",
+        )}
+        data-active={!read}
+      >
+        <Avatar className="h-10 w-10 rounded-[0.625rem] p-5" image={userNotification?.image} />
+        <section className="w-full pr-[1.625rem] flex flex-col gap-1">
+          <article className="w-full flex flex-col gap-[0.0625rem]">
+            <p>
+              {userNotification?.firstName ?? "Имя"} {userNotification?.lastName ?? "Фамилия"} оставил(а) комментарий к вашему посту: «
+              {data?.message}»
+            </p>
+            <time dateTime={created} className="text-text-secondary text-xs text-left font-normal">
+              {daysAgo(created!)}
+            </time>
+            <ButtonsDots id={id} refetch={refetch} />
+          </article>
+          <div data-buttons className="w-fit flex flex-row items-center gap-2">
+            <Button
+              type="button"
+              typeButton="fill-primary"
+              label="Перейти к посту"
+              onClick={handleToPost}
+              loading={loading}
+              disabled={loading}
+            />
+          </div>
+        </section>
+      </li>
+    )
 
   return (
     <li

@@ -5,7 +5,7 @@ import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services/notifications"
 
 export const ButtonsDots = (props: { id: number; refetch: () => Promise<any>; disabled?: boolean }) => {
-  const { id, refetch, disabled } = props ?? {}
+  const { id, refetch, disabled = false } = props ?? {}
   const [loading, setLoading] = useState(false)
   const [active, setActive, ref] = useOutsideClickEvent()
 

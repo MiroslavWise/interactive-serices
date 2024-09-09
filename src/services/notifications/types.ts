@@ -1,5 +1,6 @@
-import type { IBarterResponse } from "../barters/types"
-import type { IPromiseReturn, TOrder } from "../types/general"
+import { type IUserOffer } from "../offers/types"
+import { type IBarterResponse } from "../barters/types"
+import { type IPromiseReturn, type TOrder } from "../types/general"
 
 type TTypeOperation =
   | "create"
@@ -13,7 +14,7 @@ type TTypeOperation =
   | "feedback-received-no"
   | "canceled"
 
-type TTypeProviderNotifications = "barter" | "offer-pay"
+type TTypeProviderNotifications = "barter" | "offer-pay" | "comment"
 
 interface IPostNotification {
   read: boolean
@@ -23,16 +24,21 @@ interface IPostNotification {
 
 type TPatchNotification = Partial<IPostNotification>
 
+export interface DataNotification extends IBarterResponse {
+  message?: string
+  post_id?: number
+}
 export interface IResponseNotifications {
   id: number
   userId: number
   operation: TTypeOperation
-  data: IBarterResponse
+  data: DataNotification
   created: string
   updated: string
   provider: TTypeProviderNotifications
   read: boolean
   sent: boolean
+  user: IUserOffer
 }
 
 interface IQueries {
