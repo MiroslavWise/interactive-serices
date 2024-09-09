@@ -52,10 +52,10 @@ function CardBallon({ offer, ref, dataIndex }: IProps) {
     <article
       className={cx(
         styles.container,
-        "w-full rounded-2xl border-solid border cursor-pointer flex flex-col",
-        provider === EnumTypeProvider.offer && "bg-BG-second border-grey-stroke-light",
-        provider === EnumTypeProvider.alert && "bg-card-red border-card-border-red",
-        provider === EnumTypeProvider.discussion && "bg-card-blue border-card-border-blue",
+        "w-full rounded-2xl cursor-pointer flex flex-col",
+        provider === EnumTypeProvider.offer && "bg-BG-second",
+        provider === EnumTypeProvider.alert && "bg-card-red",
+        provider === EnumTypeProvider.discussion && "bg-card-blue",
       )}
       onClick={(event) => {
         event.stopPropagation()
@@ -75,7 +75,15 @@ function CardBallon({ offer, ref, dataIndex }: IProps) {
         </div>
         <span className="text-text-button text-xs font-medium">Помощь Курску</span>
       </header>
-      <section className="w-full p-4 flex flex-col gap-3">
+      <section
+        className={cx(
+          "w-full p-4 flex flex-col gap-3  border-solid",
+          !!urgent ? "border-r border-l border-b rounded-b-2xl" : "border rounded-2xl",
+          provider === EnumTypeProvider.offer && "border-grey-stroke-light",
+          provider === EnumTypeProvider.alert && "border-card-border-red",
+          provider === EnumTypeProvider.discussion && "border-card-border-blue",
+        )}
+      >
         <HeaderTimeDots offer={offer} />
         <HeaderTitle offer={offer} />
         <section className="overflow-hidden w-full">

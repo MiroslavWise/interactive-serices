@@ -8,7 +8,7 @@ import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 import { getPosts } from "@/services/posts"
 import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
-import { dispatchBallonPost, useFiltersServices } from "@/store"
+import { dispatchBallonPost, useFiltersServices, useUrgentFilter } from "@/store"
 // import { clg } from "@console"
 // import { TTypeInstantsMap } from "../types"
 
@@ -20,13 +20,15 @@ interface IPlacemarkCurrent {
 function ListPlacePosts() {
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const providers = useFiltersServices(({ providers }) => providers)
+  const urgent = useUrgentFilter(({ urgent }) => urgent)
 
   const { data } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
     queryKey: ["posts", { order: "DESC" }],
+    select: (data) => data?.data?.filter((item) => (!!urgent ? !!item.urgent : true)),
   })
 
-  const items = data?.data || []
+  const items = data || []
 
   const marks: IPlacemarkCurrent[] = useMemo(() => {
     const array: IPlacemarkCurrent[] = []

@@ -1,15 +1,14 @@
 import { type RefObject } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
+import CardPost from "@/components/common/Card/CardPost"
 import CardBallon from "@/components/common/Card/CardBallon"
 
 import { useFiltersServices } from "@/store"
-import CardPost from "@/components/common/Card/CardPost"
-import { EnumTimesFilter } from "../constants"
-import { EnumTypeProvider } from "@/types/enum"
 
 interface IProps {
   parentRef: RefObject<HTMLUListElement>

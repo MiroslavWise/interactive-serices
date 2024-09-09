@@ -9,10 +9,11 @@ import NavigationNoteAndComments from "./components/Navigation"
 
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
+import ComponentHelper from "../Balloon/components/ComponentHelper"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
-  const { title, archive } = data ?? {}
+  const { title, archive, urgent } = data ?? {}
 
   const [state, setState] = useState<"notes" | "comments">("notes")
 
@@ -26,10 +27,12 @@ function BallonPost() {
 
   return (
     <>
+      <ComponentHelper urgent={!!urgent} />
       <header
         className={cx(
-          "w-full py-4 px-5 max-md:pr-16 grid  gap-2.5 border-b border-solid rounded-t-3xl md:rounded-t-[2rem]",
+          "w-full py-4 px-5 max-md:pr-16 grid  gap-2.5 border-b border-solid",
           archive ? "grid-cols-[1.5rem_minmax(0,1fr)_5.6875rem]" : "grid-cols-[1.5rem_minmax(0,1fr)]",
+          !urgent && "rounded-t-3xl md:rounded-t-[2rem]",
         )}
       >
         <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
