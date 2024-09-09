@@ -616,7 +616,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
         <Avatar className="h-10 w-10 rounded-[0.625rem] p-5" image={userNotification?.image} />
         <section className="w-full pr-[1.625rem] flex flex-col gap-1">
           <article className="w-full flex flex-col gap-[0.0625rem]">
-            <p>
+            <p className="text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">
               {userNotification?.firstName ?? "Имя"} {userNotification?.lastName ?? "Фамилия"} оставил(а) комментарий к вашему посту: «
               {data?.message}»
             </p>
