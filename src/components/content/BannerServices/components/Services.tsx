@@ -1,30 +1,33 @@
 "use client"
 
 import { memo, RefObject, useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
+
+import { EnumTimesFilter } from "../constants"
+import { EnumTypeProvider } from "@/types/enum"
 
 import VirtualList from "./VirtualList"
 import { ServiceLoading } from "@/components/common"
 
-import { EnumTimesFilter } from "../constants"
-import { useBounds, useFiltersServices } from "@/store"
-import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { useQuery } from "@tanstack/react-query"
 import { getPosts } from "@/services/posts"
-import { EnumTypeProvider } from "@/types/enum"
+import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
+import { useBounds, useFiltersServices, useUrgentFilter } from "@/store"
 
 export const ServicesComponent = memo(function ({ parentRef }: { parentRef: RefObject<HTMLUListElement> }) {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
+  const urgent = useUrgentFilter(({ urgent }) => urgent)
 
   const { data, isLoading: isLoadingPost } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
     queryKey: ["posts", { order: "DESC" }],
     enabled: providers === "all" || providers === EnumTypeProvider.post,
+    select: ({ data }) => data?.filter((item) => (!!urgent ? !!item?.urgent : true)),
   })
 
-  const itemsPost = data?.data || []
+  const itemsPost = data || []
 
   const itemsFilterPosts = useMemo(() => {
     if (!itemsPost.length) {
