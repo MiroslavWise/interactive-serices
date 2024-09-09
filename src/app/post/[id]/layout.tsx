@@ -19,6 +19,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   if (!!data) {
     obj.title = data.title
 
+    obj.keywords = data.title.split(" ").map((_) => _.replace(/\w/g, ""))
+
     const note = data?.notes?.find((item) => item?.main)
 
     if (note) {
