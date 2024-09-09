@@ -129,7 +129,7 @@ function CreatePost() {
 
   async function onChangeAddress() {
     if (watch("address")?.length > 2 && isFocus) {
-      const slug = watch("address")?.replaceAll(" ", "-")
+      const slug = watch("address")?.replaceAll(" ", "-")?.toLowerCase()
       const response = await queryClient.fetchQuery({
         queryFn: () => getGeocodeSearch(watch("address")),
         queryKey: ["addresses", { string: slug }],

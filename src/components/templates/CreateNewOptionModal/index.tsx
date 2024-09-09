@@ -59,7 +59,7 @@ const sleep = () => new Promise((r) => setTimeout(r, 50))
 export default function CreateNewOptionModal() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
   const [loading, setLoading] = useState(false)
-  const debouncedValue = useDebounce(onChangeAddress, 200)
+  const debouncedValue = useDebounce(onChangeAddress, 750)
   const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -269,7 +269,7 @@ export default function CreateNewOptionModal() {
 
   async function onChangeAddress() {
     if (watch("address")?.length > 2 && isFocus) {
-      const slug = watch("address")?.replaceAll(" ", "-")
+      const slug = watch("address")?.replaceAll(" ", "-")!?.toLowerCase()
       const response = await queryClient.fetchQuery({
         queryFn: () => getGeocodeSearch(watch("address")),
         queryKey: ["addresses", { string: slug }],

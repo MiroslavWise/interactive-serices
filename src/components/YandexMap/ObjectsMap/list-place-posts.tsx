@@ -6,9 +6,11 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
-import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
 import { getPosts } from "@/services/posts"
+import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
 import { dispatchBallonPost, useFiltersServices } from "@/store"
+// import { clg } from "@console"
+// import { TTypeInstantsMap } from "../types"
 
 interface IPlacemarkCurrent {
   coordinates: [number, number][]
@@ -74,28 +76,52 @@ function ListPlacePosts() {
   }, [items, timesFilter, providers])
 
   if (["all", EnumTypeProvider.post].includes(providers))
-    return marks.map((item) => (
-      <Placemark
-        key={`${item.post.id}-${item.post.slug}-list`}
-        geometry={item?.coordinates[0]}
-        modules={["geoObject.addon.balloon"]}
-        properties={{ ...item?.post, type: "post" }}
-        options={{
-          iconLayout: "default#image",
-          iconImageHref: item?.post?.urgent ? TYPE_ICON_URGENT[EnumTypeProvider.post] : TYPE_ICON[EnumTypeProvider.post],
-          iconImageSize: [18.92 * 2, 18.92 * 2.2],
-          zIndex: 45,
-          zIndexActive: 50,
-        }}
-        onClick={(event: any) => {
-          event.preventDefault()
-          event.stopPropagation()
-          dispatchBallonPost(item.post)
-        }}
-      />
-    ))
+    return marks.map((item) => <RefPlaceMark {...item} key={`${item.post.id}-${item.post.slug}-list`} />)
 
   return null
+}
+
+const RefPlaceMark = (item: IPlacemarkCurrent) => {
+  // const instanceRef: TTypeInstantsMap = useRef()
+
+  // useEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     if (instanceRef.current) {
+  //       clg(`instanceRef: ${item.post.id}`, instanceRef, "error")
+  //       instanceRef.current.events.add("mouseenter", (event) => {
+  //         clg("events: mouseenter", event, "warning")
+  //       })
+  //       instanceRef.current.events.add("mouseleave", (event) => {
+  //         clg("events: mouseleave", event)
+  //       })
+  //     }
+  //   })
+  // }, [])
+
+  return (
+    <Placemark
+      defaultOptions={{
+        iconLayout: "default#image",
+        iconImageHref: item?.post?.urgent ? TYPE_ICON_URGENT[EnumTypeProvider.post] : TYPE_ICON[EnumTypeProvider.post],
+        iconImageSize: [18.92 * 2, 18.92 * 2.2],
+        zIndex: 45,
+        zIndexActive: 50,
+      }}
+      defaultProperties={{
+        ...item?.post,
+        type: "post",
+      }}
+      // instanceRef={instanceRef}
+      geometry={item?.coordinates[0]}
+      modules={["geoObject.addon.balloon"]}
+      id={`post-${item.post.id}`}
+      onClick={(event: any) => {
+        event.preventDefault()
+        event.stopPropagation()
+        dispatchBallonPost(item.post)
+      }}
+    />
+  )
 }
 
 ListPlacePosts.displayName = "ListPlacePosts"

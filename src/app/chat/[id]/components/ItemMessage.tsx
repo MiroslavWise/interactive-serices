@@ -44,7 +44,7 @@ function ItemMessage({ message }: { message: IMessages }) {
     const isRead = !!message.readIds.length
 
     return (
-      <section className="bg-BG-time-photo absolute right-2.5 bottom-2.5 flex flex-row flex-nowrap w-min gap-1 items-center z-10 h-5 rounded-[0.625rem] py-0.5 px-1.5">
+      <section className="bg-translucent-0.8 absolute right-2.5 bottom-2.5 flex flex-row flex-nowrap w-min gap-1 items-center z-10 h-5 rounded-[0.625rem] py-0.5 px-1.5">
         <time className="text-text-button font-normal text-xs">{lastTime}</time>
         <div className="w-5 h-4 px-2.5 py-2 relative">
           <svg
