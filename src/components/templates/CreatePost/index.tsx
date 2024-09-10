@@ -121,6 +121,7 @@ function CreatePost() {
         }
         setLoading(false)
         dispatchModal(EModalData.SUCCESS_CREATE_POST)
+        window.open(`/success/post?id=${id}`)
       } else {
         setLoading(false)
       }
