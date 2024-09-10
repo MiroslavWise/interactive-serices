@@ -18,12 +18,16 @@ export default function CookiesToast() {
       )}
     >
       <p className="text-text-tab text-justify text-sm font-light [&>a]:font-medium [&>a]:text-link-color *:no-underline">
-        Мы используем&nbsp;<Link href="/terms-rules">cookies</Link>&nbsp;для улучшения работы сайта. Оставаясь с нами, вы соглашаетесь на
-        использование&nbsp;
+        Мы используем&nbsp;
+        <Link href="/legal/terms-cookie" target="_blank">
+          cookies
+        </Link>
+        &nbsp;для улучшения работы сайта. Оставаясь с нами, вы соглашаетесь на использование&nbsp;
         <Link
           href={{
-            pathname: "/terms-rules",
+            pathname: "/legal/terms-cookie",
           }}
+          target="_blank"
         >
           файлов cookie
         </Link>
