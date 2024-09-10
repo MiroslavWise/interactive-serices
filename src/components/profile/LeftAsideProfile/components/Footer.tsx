@@ -34,7 +34,7 @@ export const FooterAsideLeft = () => {
               @sheirainfo
             </a>
           </p>
-          <Link className="text-text-accent text-xs text-left font-normal" href={{ pathname: "/legal/privacy-policy" }}>
+          <Link className="text-text-accent text-xs text-left font-normal" href={{ pathname: "/legal/privacy-policy" }} target="_blank">
             Политика конфиденциальности
           </Link>
         </div>
