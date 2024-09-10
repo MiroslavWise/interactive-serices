@@ -6,11 +6,6 @@
   display: flex;
   flex-direction: column;
 
-  & > header {
-    border-color: var(--card-border-yellow);
-    background-color: var(--card-yellow);
-  }
-
   [data-images] {
     -ms-overflow-style: none;
     overscroll-behavior-y: none;

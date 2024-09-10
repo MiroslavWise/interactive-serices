@@ -30,7 +30,7 @@ function BallonPost() {
       <ComponentHelper urgent={!!urgent} />
       <header
         className={cx(
-          "w-full py-4 px-5 max-md:pr-16 grid  gap-2.5 border-b border-solid",
+          "w-full py-4 px-5 max-md:pr-16 grid  gap-2.5 border-b border-solid bg-card-yellow border-card-border-yellow",
           archive ? "grid-cols-[1.5rem_minmax(0,1fr)_5.6875rem]" : "grid-cols-[1.5rem_minmax(0,1fr)]",
           !urgent && "rounded-t-3xl md:rounded-t-[2rem]",
         )}
