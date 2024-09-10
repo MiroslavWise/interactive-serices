@@ -3,6 +3,7 @@
 import { Button } from "@/components/common"
 
 import { dispatchModal, dispatchOnboarding, EModalData } from "@/store"
+import Link from "next/link"
 
 export const FooterAsideLeft = () => {
   function handleOut() {
@@ -24,15 +25,18 @@ export const FooterAsideLeft = () => {
         className="h-9"
         data-test="footer-aside-profile-button-on-modal-instruction"
       />
-      <section className="w-full flex flex-row justify-between gap-3">
-        <div className="flex flex-col items-start *:text-text-secondary *:text-xs *:text-left *:font-normal">
-          <p>Нужна помощь?</p>
-          <p>
+      <section className="w-full flex flex-row justify-between items-end gap-3">
+        <div className="flex flex-col items-start">
+          <p className="text-text-secondary text-xs text-left font-normal">Нужна помощь?</p>
+          <p className="text-text-secondary text-xs text-left font-normal">
             Пишите в телеграм:{" "}
             <a href="https://t.me/sheirainfo" target="_blank" data-test="footer-aside-profile-link-telegram" className="text-text-accent">
               @sheirainfo
             </a>
           </p>
+          <Link className="text-text-accent text-xs text-left font-normal" href={{ pathname: "/legal/privacy-policy" }}>
+            Политика конфиденциальности
+          </Link>
         </div>
         <button
           type="button"

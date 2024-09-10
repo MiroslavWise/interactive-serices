@@ -22,6 +22,10 @@ export function LinksSocial() {
         <Link className="text-text-accent" href={{ pathname: "/legal/terms" }} target="_blank">
           Правилами пользования
         </Link>
+        &nbsp;и&nbsp;
+        <Link className="text-text-accent" href={{ pathname: "/legal/privacy-policy" }} target="_blank">
+          Политикой конфиденциальности
+        </Link>
       </span>
     </article>
   )
