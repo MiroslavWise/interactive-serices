@@ -7,7 +7,7 @@ const Providers = dynamic(() => import("./providers"), { ssr: false })
 const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
 
 import { cx } from "@/lib/cx"
-import env, { URL_APPLE_APP } from "@/config/environment"
+import env, { keyWords, URL_APPLE_APP } from "@/config/environment"
 
 import "@/scss/init.scss"
 import "./build.css"
@@ -60,7 +60,7 @@ export function generateMetadata(): Metadata {
     },
     description:
       "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
-    keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
+    keywords: keyWords,
     appleWebApp: {
       capable: true,
       title: APPLE_NAME,

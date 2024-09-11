@@ -1,8 +1,10 @@
 import Link from "next/link"
 import { type Metadata } from "next"
 
+import { type IResponseOffersCategories } from "@/services/offers-categories/types"
+
+import { keyWords } from "@/config/environment"
 import { getOffersCategoriesPROD } from "@/services"
-import { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data } = await getOffersCategoriesPROD()
@@ -17,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: title,
     description: `${items.map((item) => item.title).join(", ")}`,
-    keywords: items.map((item) => item.title),
+    keywords: [...keyWords, ...items.map((item) => item.title)],
     openGraph: {
       title: title,
     },
@@ -51,9 +53,13 @@ export default async () => {
         <ul className="w-full flex flex-col gap-2">
           {items.map((item) => (
             <li key={`::key::${item.id}-${item.slug}`} className="w-full">
-              <a className="text-sm text-left font-normal text-text-primary" title={item.title}>
+              <Link
+                href={{ pathname: `/categories/${item.id}` }}
+                className="text-sm text-left font-normal text-text-primary"
+                title={item.title}
+              >
                 {item.title}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

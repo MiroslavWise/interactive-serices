@@ -2,10 +2,9 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
-import env from "@/config/environment"
-import { getPostId } from "@/services/posts"
-import { clg } from "@console"
 import { getNotes } from "@/services/notes"
+import { getPostId } from "@/services/posts"
+import env, { keyWords } from "@/config/environment"
 
 export const dynamicParams = true
 export const dynamic = "force-dynamic"
@@ -22,7 +21,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   if (!!data) {
     obj.title = data.title
 
-    obj.keywords = data.title.split(" ").map((_) => _.replace(/\w/g, ""))
+    obj.keywords = [...keyWords, ...data.title.split(" ").map((_) => _.replace(/\w/g, ""))]
 
     const note = (dataNote && dataNote[0]) ?? null
 

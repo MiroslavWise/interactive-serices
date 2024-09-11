@@ -2,8 +2,10 @@
 import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
-import { getOffersCategoriesPROD } from "@/services"
 import { type IResponseOffersCategories } from "@/services/offers-categories/types"
+
+import { keyWords } from "@/config/environment"
+import { getOffersCategoriesPROD } from "@/services"
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { data } = await getOffersCategoriesPROD()
@@ -19,7 +21,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   return {
     title: item?.title,
     description: item?.title,
-    keywords: [item?.slug || "", item?.provider || ""],
+    keywords: [...keyWords, item?.slug ?? "", item?.provider ?? "", item?.title ?? ""],
     openGraph: {
       title: item?.title,
     },

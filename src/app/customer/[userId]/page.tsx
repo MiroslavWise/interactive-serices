@@ -9,6 +9,7 @@ import BlockMobileFriendsAndFeedback from "./components/BlockMobileFriendsAndFee
 
 import { cx } from "@/lib/cx"
 import { getUserId } from "@/services"
+import { keyWords } from "@/config/environment"
 
 export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Metadata> => {
   const id = params?.userId ?? null
@@ -21,8 +22,11 @@ export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Met
 
   const { profile } = data ?? {}
 
+  const name = `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`
+
   return {
-    title: `${profile?.firstName || ""} ${profile?.lastName || ""}`,
+    title: name,
+    keywords: [...keyWords],
     description: profile?.about || `Пользователь ${profile?.username}`,
     openGraph: {
       images: profile?.image?.attributes?.url || "/icons/icon.png",

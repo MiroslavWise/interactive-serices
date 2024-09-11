@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   title: "Регистрация",
   description:
     "Регистрация на Sheira для оказания и получения услуг, обсуждения разных вопросов в своей местности и предупреждения какой-то опасности",
-  keywords: ["sheira", "Шейра", "услуги", "товары", "обмен", "новости"],
   appleWebApp: {
     title: "Sheira | Регистрация",
     statusBarStyle: "default",
