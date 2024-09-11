@@ -113,6 +113,7 @@ function ComponentDots({ post }: IProps) {
             title={TITLE_COMPLAINT}
             aria-label={TITLE_COMPLAINT}
             aria-labelledby={TITLE_COMPLAINT}
+            className={userIdPost === userId ? "!hidden" : "grid"}
             onClick={(event) => {
               console.log("onClick TITLE_COMPLAINT: ")
               event.stopPropagation()
