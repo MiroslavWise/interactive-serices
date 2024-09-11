@@ -179,6 +179,11 @@ input[type="text"] {
 }
 
 textarea {
+  outline: none !important;
+  transition: var(--transition);
+  transition-property: border-color;
+  caret-color: var(--element-accent-1);
+
   &:disabled {
     color: var(--text-disabled);
     background: var(--grey-field);

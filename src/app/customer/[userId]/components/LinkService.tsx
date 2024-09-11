@@ -15,7 +15,7 @@ export interface ILink {
 const LinkService = ({ label, provider, active }: ILink & { active: boolean }) => (
   <Link
     href={{ query: { provider: provider } }}
-    className={`w-full h-full rounded-[1.125rem] flex flex-row items-center justify-center ${
+    className={`w-full h-full rounded-[1.125rem] flex flex-row items-center justify-center px-4 ${
       active && "!bg-element-accent-2"
     } hover:bg-grey-field`}
     replace
