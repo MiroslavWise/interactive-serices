@@ -3,11 +3,12 @@ import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
 
 import IconXClose from "@/components/icons/IconXClose"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { cx } from "@/lib/cx"
-import { updatePatch } from "./utils"
 import { getPosts } from "@/services/posts"
-import { Button } from "@/components/common"
+import { handleImageChange, updatePatch } from "./utils"
+import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 import { dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
 import { LIMIT_DESCRIPTION, LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 
@@ -15,6 +16,7 @@ function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const post = useUpdatePost(({ data }) => data)
   const noteMain = post?.notes.find((item) => item.main)!
+  const images = noteMain?.images ?? []
   const address = post?.addresses[0] ?? null
   const [loading, setLoading] = useState(false)
 
@@ -27,9 +29,10 @@ function UpdatePost() {
       string: [],
     },
     help: !!post?.urgent,
+    deletesImages: [],
   }
 
-  const { control, handleSubmit } = useForm<TSchemaCreatePostUpdate>({
+  const { control, handleSubmit, setValue, watch } = useForm<TSchemaCreatePostUpdate>({
     defaultValues: defaultValues,
     resolver: resolverCreatePostUpdate,
   })
@@ -43,7 +46,14 @@ function UpdatePost() {
   const onSubmit = handleSubmit(async (values) => {
     if (!loading) {
       setLoading(true)
-      const response = await updatePatch({ id: post?.id!, defaultValues: defaultValues!, newValues: values, idNote: noteMain?.id! })
+      const response = await updatePatch({
+        id: post?.id!,
+        defaultValues: defaultValues!,
+        newValues: values,
+        idNote: noteMain?.id!,
+        userId: userId!,
+        images: images.map((item) => item.id),
+      })
       if (response.some((item) => typeof item !== "undefined")) {
         refetch()
       }
@@ -69,7 +79,7 @@ function UpdatePost() {
         </header>
         <form
           onSubmit={onSubmit}
-          className="w-full h-full flex flex-col items-center gap-5 p-5 pb-24 md:*:max-w-[26.25rem] overflow-x-hidden overflow-y-auto"
+          className="w-full h-[calc(100%_-_var(--height-standard-header-modal))] flex flex-col items-center gap-5 p-5 pb-24 md:*:max-w-[26.25rem] overflow-x-hidden overflow-y-auto"
         >
           <p className="text-text-primary text-sm font-normal mb-2.5">
             Пост — это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров. В пост можно
@@ -164,7 +174,86 @@ function UpdatePost() {
                   Фото
                 </label>
                 <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к записи фото, постер или афишу</p>
-                <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2"></div>
+                <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2">
+                  {images.map((item) => (
+                    <div
+                      className={cx(
+                        "w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196]",
+                        watch("deletesImages").includes(item.id) ? "grayscale" : "grayscale-0",
+                      )}
+                      key={`:--${item.id}--image--:`}
+                    >
+                      <NextImageMotion
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-[152/196]"
+                        src={item.attributes.url}
+                        alt={item.attributes.alt}
+                        width={200}
+                        height={200}
+                      />
+                      <button
+                        type="button"
+                        className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          const ids = watch("deletesImages")
+                          if (ids.includes(item.id)) {
+                            setValue(
+                              "deletesImages",
+                              ids.filter((_) => _ !== item.id),
+                            )
+                          } else {
+                            setValue("deletesImages", [...ids, item.id])
+                          }
+                        }}
+                      >
+                        <IconTrashBlack />
+                      </button>
+                    </div>
+                  ))}
+                  {field.value.string.map((item, index) => (
+                    <div
+                      className="w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196]"
+                      key={`:${index}_image:`}
+                    >
+                      <ImageStatic
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-[152/196]"
+                        src={item}
+                        alt="offer-image"
+                        width={200}
+                        height={200}
+                      />
+                      <button
+                        type="button"
+                        className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          field.onChange({
+                            file: field.value.file.filter((_, i) => i !== index),
+                            string: field.value.string.filter((_, i) => i !== index),
+                          })
+                        }}
+                      >
+                        <IconTrashBlack />
+                      </button>
+                    </div>
+                  ))}
+                  <div
+                    className="w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196] border border-dashed border-grey-stroke-light"
+                    data-input-plus
+                  >
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="absolute top-1/2 left-1/2 opacity-0 z-20 -translate-x-1/2 -translate-y-1/2 w-full h-full cursor-pointer"
+                      onChange={async (event) => {
+                        const dataValues = await handleImageChange(field.value, event)
+                        field.onChange(dataValues)
+                        event.target.value = ""
+                      }}
+                      multiple
+                    />
+                  </div>
+                </div>
                 <p className="!text-text-disabled !-mt-3 text-xs font-normal">Максимальный размер фото - 10 МБ</p>
                 <p className="!text-text-disabled !-mt-3 text-xs font-normal">Не более 9 изображений</p>
               </fieldset>

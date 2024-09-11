@@ -224,29 +224,6 @@
                 }
               }
 
-              &[data-image="new"] {
-                &::after,
-                &::before {
-                  content: "";
-                  z-index: 6;
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);
-                  background-color: var(--text-accent);
-                  border-radius: 0.0625rem;
-                }
-
-                &:after {
-                  height: 1.25rem;
-                  width: 0.125rem;
-                }
-                &:before {
-                  width: 1.25rem;
-                  height: 0.125rem;
-                }
-              }
-
               transition: var(--transition);
               transition-property: border;
 

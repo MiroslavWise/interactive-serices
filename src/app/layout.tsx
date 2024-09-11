@@ -66,7 +66,7 @@ export function generateMetadata(): Metadata {
       title: APPLE_NAME,
       statusBarStyle: "default",
     },
-    category: "people, services",
+    category: "people, services, услуги, обмен",
     openGraph: {
       type: "website",
       locale: "ru",

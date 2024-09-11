@@ -71,6 +71,7 @@ const schemaUpdate = z.object({
   address: address.optional(),
   file,
   help,
+  deletesImages: z.array(z.number()),
 })
 
 export const resolverCreatePost = zodResolver(schema)

@@ -61,7 +61,7 @@ function HeaderItemDotsPost({ post }: IProps) {
               height="16"
               viewBox="0 0 16 16"
               fill="none"
-              className="w-4 h-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="w-5 h-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             >
               <g>
                 <path
