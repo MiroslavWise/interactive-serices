@@ -69,7 +69,7 @@ function UpdatePost() {
       <section className="relative w-full md:max-w-[35rem] md:rounded-[2rem] bg-BG-second h-full">
         <button
           type="button"
-          className="absolute top-0 right-0 md:-right-1 md:translate-x-full w-12 h-12 md:bg-BG-second rounded-full p-3.5 *:w-5 *:h-5 flex items-center justify-center"
+          className="absolute z-50 top-0 right-0 md:-right-1 md:translate-x-full w-12 h-12 md:bg-BG-second rounded-full p-3.5 *:w-5 *:h-5 flex items-center justify-center"
           onClick={() => dispatchUpdatePost()}
         >
           <IconXClose />
@@ -259,7 +259,7 @@ function UpdatePost() {
               </fieldset>
             )}
           />
-          <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full !max-w-full pt-2.5 px-5 pb-[1.875rem] bg-BG-second flex flex-row items-center justify-center md:rounded-b-[2rem] md:*:max-w-[26.25rem]">
+          <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full !max-w-full pt-2.5 px-5 pb-[1.875rem] bg-BG-second flex flex-row items-center justify-center md:rounded-b-[2rem] md:*:max-w-[26.25rem] z-50">
             <Button type="submit" className="" typeButton="fill-primary" label="Сохранить" loading={loading} disabled={loading} />
           </footer>
         </form>
