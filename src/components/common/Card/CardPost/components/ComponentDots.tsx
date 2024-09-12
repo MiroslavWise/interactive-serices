@@ -29,7 +29,12 @@ function ComponentDots({ post }: IProps) {
       <time dateTime={created} className="w-full text-text-secondary text-start text-xs font-normal">
         {daysAgo(created)}
       </time>
-      <article className="absolute top-1/2 right-8 -translate-y-1/2 h-6 rounded-xl bg-text-secondary flex items-center justify-center px-3 py-1">
+      <article
+        className={cx(
+          "absolute top-1/2 right-8 -translate-y-1/2 h-6 rounded-xl bg-text-secondary items-center justify-center px-3 py-1",
+          archive ? "flex" : "hidden",
+        )}
+      >
         <span className=" text-text-button text-xs font-normal">Завершено</span>
       </article>
       <div className="relative h-4 w-4 border-none outline-none bg-transparent flex items-center justify-center z-[91]">
