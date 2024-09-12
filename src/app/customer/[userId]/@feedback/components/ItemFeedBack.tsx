@@ -20,7 +20,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
         <div className="w-full flex flex-col gap-1 justify-between items-start">
           <div className="w-full flex flex-row items-center gap-1">
             <p className=" text-text-primary text-sm font-medium line-clamp-1 overflow-ellipsis">
-              {firstName || ""} {lastName || ""}
+              {firstName || "Имя"} {lastName || "Фамилия"}
             </p>
             <div className="w-5 h-5 flex items-center justify-center p-[0.0625rem]">
               <IconVerifiedTick />

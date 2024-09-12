@@ -240,7 +240,7 @@ function UpdatePost() {
                     </div>
                   ))}
                   <div
-                    className="w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196] border border-dashed border-grey-stroke-light"
+                    className="w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196] border border-dashed border-grey-stroke-light focus:border-element-accent-1"
                     data-input-plus
                   >
                     <input

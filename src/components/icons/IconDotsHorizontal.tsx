@@ -9,3 +9,5 @@ export const IconDotsHorizontal = () => (
     />
   </svg>
 )
+
+export default IconDotsHorizontal

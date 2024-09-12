@@ -301,7 +301,7 @@ function CreatePost() {
                     />
                   ))}
                   {field.value.string.length < 9 ? (
-                    <div data-image data-input-plus>
+                    <div data-image data-input-plus className="border border-dashed border-grey-stroke-light focus:border-element-accent-1">
                       <input
                         type="file"
                         accept="image/*"

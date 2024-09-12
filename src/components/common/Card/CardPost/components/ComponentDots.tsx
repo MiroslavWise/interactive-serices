@@ -2,7 +2,7 @@ import { type IPosts } from "@/services/posts/types"
 
 import IconShare from "@/components/icons/IconShare"
 import IconComplaint from "@/components/icons/IconComplaint"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
