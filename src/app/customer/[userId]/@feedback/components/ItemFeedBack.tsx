@@ -16,7 +16,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
   return (
     <div className="py-4 flex flex-col gap-3 border-b border-solid border-grey-stroke-light last:!border-none">
       <article className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
-        <Avatar className="rounded-[0.625rem] aspect-square w-6 h-6 p-3" image={image} userId={user.id} />
+        <Avatar className="rounded-[0.625rem] aspect-square w-10 h-10 p-5" image={image} userId={user.id} />
         <div className="w-full flex flex-col gap-1 justify-between items-start">
           <div className="w-full flex flex-row items-center gap-1">
             <p className=" text-text-primary text-sm font-medium line-clamp-1 overflow-ellipsis">
