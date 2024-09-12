@@ -8,9 +8,10 @@ import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { cx } from "@/lib/cx"
 import { getPosts } from "@/services/posts"
 import { handleImageChange, updatePatch } from "./utils"
-import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 import { dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
+import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 import { LIMIT_DESCRIPTION, LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
+import ControlHelp from "./components/ControlHelp"
 
 function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -165,6 +166,7 @@ function UpdatePost() {
               </fieldset>
             )}
           />
+          <ControlHelp control={control} />
           <Controller
             name="file"
             control={control}

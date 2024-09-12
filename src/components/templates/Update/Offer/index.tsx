@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
 import { type IValues } from "./types"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 import { type IFeatureMember, type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
@@ -18,6 +18,7 @@ import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
 import { fileUploadService, getGeocodeSearch, getOffersCategories, getUserIdOffers, patchOffer } from "@/services"
+import ControlHelp from "./ControlHelp"
 
 export default function UpdateOffer() {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
@@ -62,6 +63,7 @@ export default function UpdateOffer() {
     defaultValues: {
       description: offer?.description! || "",
       address: geo?.id,
+      help: !!offer?.urgent,
     },
   })
 
@@ -95,6 +97,17 @@ export default function UpdateOffer() {
 
       if (offer?.description !== values.description && !!values.description) {
         body.description = values.description
+      }
+
+      const oldHelp = !!offer?.urgent
+      const newHelp = !!values?.help
+
+      if (oldHelp !== newHelp) {
+        if (newHelp) {
+          body.urgent = EnumHelper.HELP_KURSK
+        } else {
+          body.urgent = ""
+        }
       }
 
       if (values.address !== offer?.addresses[0]?.id && values.address) {
@@ -251,6 +264,7 @@ export default function UpdateOffer() {
             </fieldset>
           )}
         />
+        <ControlHelp control={control} />
         <fieldset className="w-full flex flex-col gap-1">
           <label className="text-text-primary text-sm font-normal text-left">Фото и видео</label>
           <p className="text-text-disabled text-sm font-normal text-left">
@@ -305,7 +319,7 @@ export default function UpdateOffer() {
             ) : null}
           </div>
         </fieldset>
-        <WalletPay />
+        {!watch("help") && <WalletPay />}
         <Button
           type="submit"
           typeButton="fill-primary"

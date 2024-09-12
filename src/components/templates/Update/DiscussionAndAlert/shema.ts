@@ -48,6 +48,7 @@ const schema = z.object({
     .default(""),
   title: title,
   address: z.string().optional().default(""),
+  help: z.boolean(),
 })
 
 export type TSchema = z.infer<typeof schema>

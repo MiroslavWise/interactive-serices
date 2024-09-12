@@ -8,7 +8,7 @@ import { patchPost } from "@/services/posts"
 import { transliterateAndReplace } from "@/helpers"
 import { ChangeEvent } from "react"
 import { fileUploadService } from "@/services"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 
 interface IUpdate {
   id: number
@@ -58,6 +58,17 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
     const ids = responseIds?.filter((item) => !!item?.data).map((item) => item.data?.id!)
     if (ids.length > 0) {
       dataNote.images = [...ids, ...newOldImages].slice(0, 9)
+    }
+  }
+
+  const oldUrgent = !!defaultValues.help
+  const newUrgent = !!newValues.help
+
+  if (oldUrgent !== newUrgent) {
+    if (newUrgent) {
+      dataPost.urgent = EnumHelper.HELP_KURSK
+    } else {
+      dataPost.urgent = ""
     }
   }
 

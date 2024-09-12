@@ -2,10 +2,11 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 
 import { Button } from "@/components/common"
+import ControlHelp from "./components/ControlHelp"
 
 import { cx } from "@/lib/cx"
 import { getUserIdOffers, patchOffer } from "@/services"
@@ -20,18 +21,11 @@ const onDescription = (value: EnumTypeProvider) =>
 const onHeaderTitle = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : null
 
-// const onPre = (value: EnumTypeProvider) =>
-//   value === EnumTypeProvider.alert
-//     ? "Видите, что что-то произошло, или вам нужна помощь? Просто дайте знать остальным"
-//     : value === EnumTypeProvider.discussion
-//     ? "Хотите что-то обсудить с другими пользователями Sheira? Создайте тему и будьте готовы участвовать в обсуждении"
-//     : null
-
 function UpdateDiscussionAndAlert() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const offer = useUpdateDiscussionAndAlert(({ offer }) => offer)
-  const { id, title, description, provider, addresses } = offer ?? {}
+  const { id, title, description, provider, addresses, urgent } = offer ?? {}
 
   const firstAddress = addresses?.[0]
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
@@ -47,6 +41,7 @@ function UpdateDiscussionAndAlert() {
       description: description ?? "",
       title: title ?? "",
       address: additional,
+      help: !!urgent,
     },
     resolver: resolverSchema,
   })
@@ -57,6 +52,17 @@ function UpdateDiscussionAndAlert() {
     const newTitle = values.title.trim()
     if (newTitle !== title && !!newTitle) {
       data.title = newTitle
+    }
+
+    const oldUrgent = !!urgent
+    const newUrgent = !!values.help
+
+    if (oldUrgent !== newUrgent) {
+      if (newUrgent) {
+        data.urgent = EnumHelper.HELP_KURSK
+      } else {
+        data.urgent = ""
+      }
     }
 
     const newDescription = values.description.trim()
@@ -161,6 +167,7 @@ function UpdateDiscussionAndAlert() {
             </fieldset>
           )}
         />
+        <ControlHelp control={control} />
         <footer className="w-full mt-auto">
           <Button loading={loading} label="Сохранить" type="submit" typeButton="fill-primary" className="h-11 rounded-[1.375rem]" />
         </footer>
