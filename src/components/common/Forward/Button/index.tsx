@@ -18,7 +18,7 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
       className={cx(
         "relative border-none outline-none w-full rounded-[1.375rem] px-6 py-2.5 flex flex-row items-center justify-center cursor-pointer gap-2 touch-manipulation z-[2] h-11",
         "max-md:h-9 rounded-[1.125rem] [&>span]:text-sm",
-        "[&>img]:w-6 [&>img]:h-6",
+        "[&>img]:w-6 [&>img]:h-6 [&>svg]:w-6 [&>svg]:h-6",
         "disabled:opacity-50 disabled:cursor-no-drop",
         loading && "!opacity-60",
         typeButton === "white" && "bg-text-button [&>span]:text-text-accent",

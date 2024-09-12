@@ -72,7 +72,7 @@ export function generateMetadata(): Metadata {
       locale: "ru",
       url: env.server.host!,
       siteName: "Sheira",
-      images: "/api/og",
+      images: `${env.server.host!}/api/og`,
     },
     twitter: {
       site: "https://sheira.ru",

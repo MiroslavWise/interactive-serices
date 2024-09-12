@@ -160,7 +160,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
             typeButton="regular-primary"
             label="Запрос отправлен"
             prefixIcon={<IconCheckAccent />}
-            className="gap-1.5 *:w-4 *:h-4"
+            className="gap-1.5 [&>svg]:w-4 [&>svg]:h-4"
           />
           <Link
             href={{
