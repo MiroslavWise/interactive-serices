@@ -3,14 +3,24 @@ import { create } from "zustand"
 import { type IPosts } from "@/services/posts/types"
 import { type INotes } from "@/services/notes/types"
 
-import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 import { clg } from "@console"
+import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
+export const useUpdatePost = create<IStateBalloonPost>(() => ({ data: null }))
 export const useCreatePost = create<{ visible: boolean }>(() => ({ visible: false }))
 export const useCreateNewNote = create<IStateNote>(() => ({ data: null }))
 export const useBalloonPost = create<IStateBalloonPost>(() => ({ data: null }))
 export const useDeleteNote = create<IStateUserDelete>(() => ({ data: null }))
 export const useArchivePost = create<IStateArchivePost>(() => ({ data: null }))
+
+export const dispatchUpdatePost = (value?: IPosts) => {
+  useUpdatePost.setState(
+    (_) => ({
+      data: value ?? null,
+    }),
+    true,
+  )
+}
 
 export const dispatchArchivePost = (value?: IPosts) => {
   clg("dispatchArchivePost: ", value, "warning")

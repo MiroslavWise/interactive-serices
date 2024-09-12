@@ -2,6 +2,7 @@ import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
 import { getUserId } from "@/services"
+import { keyWords } from "@/config/environment"
 
 export const generateMetadata = async ({ params }: { params: { id: string | number } }): Promise<Metadata> => {
   const { id } = params ?? {}
@@ -11,8 +12,11 @@ export const generateMetadata = async ({ params }: { params: { id: string | numb
 
   const { profile } = data ?? {}
 
+  const name = `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`
+
   return {
-    title: `${profile?.firstName || ""} ${profile?.lastName || ""}`,
+    title: name,
+    keywords: [...keyWords, name],
     description: profile?.about || `Пользователь ${profile?.username}`,
     openGraph: {
       images: profile?.image?.attributes?.url || "/icons/icon.png",

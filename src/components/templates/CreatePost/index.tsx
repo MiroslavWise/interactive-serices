@@ -23,7 +23,7 @@ import { createAddress } from "@/helpers/address/create"
 import { dispatchModal, EModalData, useAuth } from "@/store"
 import { fileUploadService, getGeocodeSearch } from "@/services"
 import { handleImageChange, onProgress, onUploadProgress } from "./utils"
-import { LIMIT_DESCRIPTION, resolverCreate, type TSchemaCreatePost } from "./schema"
+import { LIMIT_DESCRIPTION, resolverCreatePost, type TSchemaCreatePost } from "./schema"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import ControlHelp from "./components/ControlHelp"
 
@@ -50,7 +50,7 @@ function CreatePost() {
     trigger,
     formState: { errors },
   } = useForm<TSchemaCreatePost>({
-    resolver: resolverCreate,
+    resolver: resolverCreatePost,
     defaultValues: {
       title: "",
       description: "",
@@ -301,7 +301,7 @@ function CreatePost() {
                     />
                   ))}
                   {field.value.string.length < 9 ? (
-                    <div data-image="new">
+                    <div data-image data-input-plus className="border border-dashed border-grey-stroke-light focus:border-element-accent-1">
                       <input
                         type="file"
                         accept="image/*"

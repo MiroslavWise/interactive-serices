@@ -10,7 +10,7 @@ export interface IBodyPost {
   slug: string
   addresses: number[]
   archive?: boolean
-  urgent?: EnumHelper
+  urgent?: EnumHelper | ""
 }
 
 export interface IPosts {

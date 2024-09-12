@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
 import { type IValues } from "./types"
-import { EnumTypeProvider } from "@/types/enum"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 import { type IFeatureMember, type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
@@ -18,6 +18,7 @@ import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
 import { fileUploadService, getGeocodeSearch, getOffersCategories, getUserIdOffers, patchOffer } from "@/services"
+import ControlHelp from "./ControlHelp"
 
 export default function UpdateOffer() {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
@@ -62,6 +63,7 @@ export default function UpdateOffer() {
     defaultValues: {
       description: offer?.description! || "",
       address: geo?.id,
+      help: !!offer?.urgent,
     },
   })
 
@@ -95,6 +97,17 @@ export default function UpdateOffer() {
 
       if (offer?.description !== values.description && !!values.description) {
         body.description = values.description
+      }
+
+      const oldHelp = !!offer?.urgent
+      const newHelp = !!values?.help
+
+      if (oldHelp !== newHelp) {
+        if (newHelp) {
+          body.urgent = EnumHelper.HELP_KURSK
+        } else {
+          body.urgent = ""
+        }
       }
 
       if (values.address !== offer?.addresses[0]?.id && values.address) {
@@ -209,7 +222,7 @@ export default function UpdateOffer() {
               data-category
               className="absolute top-1/2 -translate-y-1/2 h-8 left-3.5 rounded-2xl flex flex-row items-center gap-1 p-1 pr-1.5 border border-solid border-grey-stroke-light bg-grey-field z-20"
             >
-              <div className="w-6 h-6 bg-BG-icons p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-BG-icons p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                 <ImageCategory id={offer?.categoryId!} slug={offer?.category?.slug} provider={offer?.category?.provider} />
               </div>
               <span className="text-text-primary text-sm font-normal line-clamp-1 text-ellipsis">
@@ -251,6 +264,7 @@ export default function UpdateOffer() {
             </fieldset>
           )}
         />
+        <ControlHelp control={control} />
         <fieldset className="w-full flex flex-col gap-1">
           <label className="text-text-primary text-sm font-normal text-left">Фото и видео</label>
           <p className="text-text-disabled text-sm font-normal text-left">
@@ -305,7 +319,7 @@ export default function UpdateOffer() {
             ) : null}
           </div>
         </fieldset>
-        <WalletPay />
+        {!watch("help") && <WalletPay />}
         <Button
           type="submit"
           typeButton="fill-primary"

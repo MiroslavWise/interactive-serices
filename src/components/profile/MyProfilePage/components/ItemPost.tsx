@@ -13,7 +13,7 @@ import IconArrowRight from "@/components/icons/IconArrowRight"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
-import { dispatchMapCoordinates, dispatchOpenCreateNote, dispatchBallonPost } from "@/store"
+import { dispatchMapCoordinates, dispatchOpenCreateNote, dispatchBallonPost, dispatchUpdatePost } from "@/store"
 
 interface IProps {
   post: IPosts
@@ -24,12 +24,6 @@ function ItemPost({ post }: IProps) {
 
   const firstAddress = addresses.length ? addresses[0] : null
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
-
-  function onNewNote() {
-    if (!archive) {
-      dispatchOpenCreateNote(id, title)
-    }
-  }
 
   const items = notes || []
   const firstNote = notes[0] ?? {}
@@ -105,7 +99,9 @@ function ItemPost({ post }: IProps) {
             label="Добавить запись"
             onClick={(event) => {
               event.stopPropagation()
-              onNewNote()
+              if (!archive) {
+                dispatchOpenCreateNote(id, title)
+              }
             }}
             disabled={!!archive}
           />
@@ -113,6 +109,10 @@ function ItemPost({ post }: IProps) {
             type="button"
             className="w-9 h-9 rounded-full relative p-[1.125rem] bg-grey-field disabled:opacity-50 disabled:cursor-no-drop"
             disabled={!!archive}
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchUpdatePost(post)
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

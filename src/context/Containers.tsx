@@ -32,11 +32,13 @@ import {
   useAuth,
   useDeleteNote,
   useArchivePost,
+  useUpdatePost,
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
 import MyFriends from "@/components/templates/MyFriends"
 import ArchivePost from "@/components/templates/ArchivePost"
+import UpdatePost from "@/components/templates/Update/Posts"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
@@ -63,6 +65,7 @@ export const Containers = () => {
   const visibleChangeService = useChangeService(({ visible }) => visible)
   const visibleDeleteNote = useDeleteNote(({ data }) => !!data)
   const visibleArchivePost = useArchivePost(({ data }) => !!data)
+  const visibleUpdatePost = useUpdatePost(({ data }) => !!data)
 
   const { isTablet } = useResize()
 
@@ -91,6 +94,7 @@ export const Containers = () => {
           <PreCloseCreateService />
           <NotificationCreateService />
           {visibleDeleteNote && <DeleteNote />}
+          {visibleUpdatePost && <UpdatePost />}
           {visibleArchivePost && <ArchivePost />}
           {visibleChangeService && <ChangeService />}
           {visibleNumberConfirmation && <NumberConfirmation />}
