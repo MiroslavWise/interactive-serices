@@ -30,8 +30,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
     for (const image of offer.images) {
       images.push({
-        url: image.attributes.url,
-        secureUrl: image.attributes.url,
+        url: image.attributes.url.replace("?format=webp", ""),
+        secureUrl: image.attributes.url.replace("?format=webp", ""),
         alt: image.attributes.alt,
         width: 256,
         height: 256,

@@ -13,6 +13,7 @@ import { dispatchMapCoordinates } from "@/store"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 import styles from "./style.module.scss"
+import { clg } from "@console"
 
 export const SearchElementMap = () => {
   const [text, setText] = useState("")
@@ -34,6 +35,7 @@ export const SearchElementMap = () => {
         queryFn: () => getGeocodeSearch(value),
         queryKey: ["addresses", { string: slug }],
       })
+      clg("fetchGeocodeSearch: ", response, "warning")
       if (response?.response?.GeoObjectCollection?.featureMember && response?.response?.GeoObjectCollection?.featureMember?.length > 0) {
         setValues(response?.response?.GeoObjectCollection?.featureMember)
       } else {
