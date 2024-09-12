@@ -6,12 +6,13 @@ import IconXClose from "@/components/icons/IconXClose"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { cx } from "@/lib/cx"
-import { getPosts } from "@/services/posts"
+import { getPostId, getPosts } from "@/services/posts"
 import { handleImageChange, updatePatch } from "./utils"
-import { dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
+import { dispatchBallonPost, dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
 import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 import { LIMIT_DESCRIPTION, LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 import ControlHelp from "./components/ControlHelp"
+import { queryClient } from "@/context"
 
 function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -57,6 +58,15 @@ function UpdatePost() {
       })
       if (response.some((item) => typeof item !== "undefined")) {
         refetch()
+        const { data: dataPost } = await queryClient.fetchQuery({
+          queryFn: () => getPostId(post?.id!),
+          queryKey: ["post", { id: post?.id! }],
+        })
+        if (dataPost) {
+          dispatchBallonPost(dataPost)
+        }
+      } else {
+        dispatchBallonPost(post)
       }
       setLoading(false)
       dispatchUpdatePost()
