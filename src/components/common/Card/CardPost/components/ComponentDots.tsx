@@ -25,10 +25,13 @@ function ComponentDots({ post }: IProps) {
   const { onSimpleMessage } = useToast()
 
   return (
-    <div data-time-dots className="w-full h-auto flex items-center justify-between">
+    <div data-time-dots className="w-full h-auto flex items-center justify-between relative">
       <time dateTime={created} className="w-full text-text-secondary text-start text-xs font-normal">
         {daysAgo(created)}
       </time>
+      <article className="absolute top-1/2 right-8 -translate-y-1/2 h-6 rounded-xl bg-text-secondary flex items-center justify-center px-3 py-1">
+        <span className=" text-text-button text-xs font-normal">Завершено</span>
+      </article>
       <div className="relative h-4 w-4 border-none outline-none bg-transparent flex items-center justify-center z-[91]">
         <button
           className="absolute bg-transparent border-none outline-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 z-50 *:h-4 *:w-4 flex items-center justify-center"
