@@ -72,14 +72,14 @@ export function generateMetadata(): Metadata {
       locale: "ru",
       url: env.server.host!,
       siteName: "Sheira",
-      images: urlIcon,
+      images: "/api/og",
     },
     twitter: {
       site: "https://sheira.ru",
       title: "Sheira",
       description:
         "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
-      images: urlIcon,
+      images: "/api/og",
     },
     robots: {
       index: true,

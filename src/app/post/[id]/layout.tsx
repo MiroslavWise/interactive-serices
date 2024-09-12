@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       type: "website",
       locale: "ru",
       countryName: "ru",
-      url: `${env.server.host}/post/${id}/${String(data.slug).replaceAll("/", "-")}`,
+      url: env.server.host!,
       images: images,
     }
 

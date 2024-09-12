@@ -127,12 +127,12 @@ function ItemHeaderDotsPost({ post }: IProps) {
           <div
             className={cx(
               "w-5 h-5 flex items-center justify-center relative p-2.5",
-              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
+              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-primary",
             )}
           >
             <IconActivity />
           </div>
-          <span className="text-text-primary text-sm font-normal text-left">Поделиться</span>
+          <span className="text-text-primary text-sm font-normal text-left">{TITLE_SHARE}</span>
         </a>
         <a
           title={TITLE_COMPLAINT}
