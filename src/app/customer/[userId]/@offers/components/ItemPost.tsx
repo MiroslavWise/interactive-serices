@@ -28,7 +28,7 @@ function ItemPost({ post }: { post: IPosts }) {
   }
 
   return (
-    <li className="w-full bg-BG-second flex flex-col rounded-2xl cursor-pointer" onClick={handle}>
+    <li className="w-full bg-BG-second flex flex-col rounded-2xl cursor-pointer overflow-hidden" onClick={handle}>
       <article
         className={cx(
           "w-full [background:var(--more-red-gradient)] flex-row items-center justify-center gap-2 py-1.5 px-2.5",
