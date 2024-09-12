@@ -44,7 +44,7 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
   const files = newValues.file.file
   const newOldImages = images.filter((item) => !newValues.deletesImages.includes(item))
 
-  if (files.length > 0 && newOldImages.length !== images.length) {
+  if (files.length > 0 || newOldImages.length !== images.length) {
     const responseIds = await Promise.all(
       files.map((item) =>
         fileUploadService(item!, {
@@ -56,9 +56,8 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
     )
 
     const ids = responseIds?.filter((item) => !!item?.data).map((item) => item.data?.id!)
-    if (ids.length > 0) {
-      dataNote.images = [...ids, ...newOldImages].slice(0, 9)
-    }
+
+    dataNote.images = [...ids, ...newOldImages].slice(0, 9)
   }
 
   const oldUrgent = !!defaultValues.help
