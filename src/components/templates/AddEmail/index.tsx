@@ -10,6 +10,7 @@ import { Button, ButtonClose } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { patchEmailPasswordUser } from "@/services"
 import { dispatchAddEmail, dispatchCheckTheMail, useAddEmail, useAuth } from "@/store"
+import { resolverEmailPassword, TValidateSchemaEmailPassword } from "./schema"
 
 export const AddEmail = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -30,7 +31,14 @@ export const AddEmail = () => {
     setError,
     formState: { errors },
     handleSubmit,
-  } = useForm<IValues>()
+  } = useForm<TValidateSchemaEmailPassword>({
+    resolver: resolverEmailPassword,
+    defaultValues: {
+      email: "",
+      password: "",
+      repeat: "",
+    },
+  })
 
   const onSubmit = handleSubmit((values) => {
     if (!loading) {

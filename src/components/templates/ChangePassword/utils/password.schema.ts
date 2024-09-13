@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { schemaPassword } from "../../ModalSign/utils/password.schema"
+import { schema as schemaPassword } from "../../ModalSign/utils/password.schema"
 
 const schemaPasswordOld = z.object({
   oldPassword: z.string().min(1, { message: "Введите старый пароль" }).default(""),
