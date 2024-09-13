@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Button } from "@/components/common"
 
 import { useOut } from "@/helpers"
-import { patchUser } from "@/services"
+import { deleteUser, patchUser } from "@/services"
 import { dispatchModal, dispatchModalClose, EModalData, useAuth } from "@/store"
 
 function DeleteUser() {
@@ -20,8 +20,8 @@ function DeleteUser() {
   function handleDeleteUser() {
     if (!loading) {
       setLoading(true)
-      patchUser({ enabled: false }, userId!).then((response) => {
-        if (!!response.data) {
+      deleteUser(userId!).then((response) => {
+        if (!!response) {
           out()
           dispatchModalClose()
         }
