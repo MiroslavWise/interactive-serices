@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { schemaFeatureMember } from "@/services/addresses/types/geocodeSearch"
+import { schemaFeatureMember, schemaPostAddress } from "@/services/addresses/types/geocodeSearch"
 
 export const LIMIT_TITLE_POST = 144
 export const LIMIT_DESCRIPTION = 400
@@ -9,6 +9,9 @@ const regexContent = /[^a-z0-9а-яёй\s]/i
 
 const address = z.string().min(1, { message: "Поле не может оставаться незаполненным" }).default("")
 const addressFeature = schemaFeatureMember.refine((value) => !!value && typeof value === "object", {
+  message: "Выберите существующий адрес",
+})
+const initAddress = schemaPostAddress.refine((value) => !!value && typeof value === "object", {
   message: "Выберите существующий адрес",
 })
 const title = z
@@ -65,6 +68,18 @@ const schema = z.object({
   file,
   help,
 })
+
+const schemaInitAddress = z.object({
+  title: title,
+  description: description,
+  address: address,
+  initAddress: initAddress,
+  file,
+  help,
+})
+
+const extendSchema = schema.merge(schemaInitAddress)
+
 const schemaUpdate = z.object({
   title: title,
   description: description,
@@ -75,6 +90,7 @@ const schemaUpdate = z.object({
 })
 
 export const resolverCreatePost = zodResolver(schema)
+export const resolverCreatePostMap = zodResolver(schemaInitAddress)
 export const resolverCreatePostUpdate = zodResolver(schemaUpdate)
-export type TSchemaCreatePost = z.infer<typeof schema>
+export type TSchemaCreatePost = z.infer<typeof extendSchema>
 export type TSchemaCreatePostUpdate = z.infer<typeof schemaUpdate>

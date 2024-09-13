@@ -59,6 +59,7 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
       }
     })
   }, [messages])
+
   useEffect(() => {
     if (items && userId && Array.isArray(items)) {
       if (items.length) {
