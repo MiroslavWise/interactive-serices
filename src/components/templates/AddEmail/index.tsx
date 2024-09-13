@@ -27,6 +27,7 @@ export const AddEmail = () => {
   const {
     register,
     watch,
+    setError,
     formState: { errors },
     handleSubmit,
   } = useForm<IValues>()
@@ -39,6 +40,9 @@ export const AddEmail = () => {
           close()
           dispatchCheckTheMail(true, values.email)
         } else {
+          if (response?.error?.code === 409) {
+            setError("email", { message: "Данный Email уже есть в системе" })
+          }
         }
         setLoading(false)
       })
