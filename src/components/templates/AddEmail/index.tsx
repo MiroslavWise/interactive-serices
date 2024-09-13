@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
+import IconEye from "@/components/icons/IconEye"
+import IconEyeOff from "@/components/icons/IconEyeOff"
 import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
@@ -83,19 +85,19 @@ export const AddEmail = () => {
                   {...register("password", { required: { message: "Обязательное поле", value: true } })}
                   data-error={!!errors.password}
                 />
-                <img
-                  onClick={() =>
+                <button
+                  type="button"
+                  className="absolute top-1/2 right-3.5 -translate-y-1/2 w-5 h-5 *:w-5 *:h-5 z-50 flex items-center justify-center"
+                  onClick={(event) => {
+                    event.stopPropagation()
                     setVisiblePass((prev) => ({
                       ...prev,
-                      old: !prev.password,
+                      password: !prev.password,
                     }))
-                  }
-                  src={visiblePass.password ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                  className="absolute top-1/2 right-3.5 -translate-y-1/2 w-5 h-5"
-                />
+                  }}
+                >
+                  {visiblePass.password ? <IconEye /> : <IconEyeOff />}
+                </button>
               </div>
               {errors.password ? <i className="text-text-error text-xs font-medium -mt-1">{errors.password.message}</i> : null}
             </fieldset>
@@ -106,21 +108,21 @@ export const AddEmail = () => {
                   type={visiblePass.repeat ? "text" : "password"}
                   placeholder="Введите пароль ещё раз"
                   {...register("repeat", { required: { message: "Обязательное поле", value: true } })}
-                  data-error={!!errors.password}
+                  data-error={!!errors.repeat}
                 />
-                <img
-                  onClick={() =>
+                <button
+                  type="button"
+                  className="absolute top-1/2 right-3.5 -translate-y-1/2 w-5 h-5 *:w-5 *:h-5 z-50 flex items-center justify-center"
+                  onClick={(event) => {
+                    event.stopPropagation()
                     setVisiblePass((prev) => ({
                       ...prev,
-                      old: !prev.repeat,
+                      repeat: !prev.repeat,
                     }))
-                  }
-                  src={visiblePass.repeat ? "/svg/eye.svg" : "/svg/eye-off.svg"}
-                  alt="eye"
-                  width={20}
-                  height={20}
-                  className="absolute top-1/2 right-3.5 -translate-y-1/2 w-5 h-5"
-                />
+                  }}
+                >
+                  {visiblePass.repeat ? <IconEye /> : <IconEyeOff />}
+                </button>
               </div>
               {errors.repeat ? <i className="text-text-error text-xs font-medium -mt-1">{errors.repeat.message}</i> : null}
             </fieldset>
