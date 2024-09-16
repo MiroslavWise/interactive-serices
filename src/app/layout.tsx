@@ -73,6 +73,9 @@ export function generateMetadata(): Metadata {
       locale: "ru",
       url: env.server.host!,
       siteName: "Sheira",
+      description:
+        "Сервис с интерактивной картой города, где можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
+      title: "Sheira. Люди, события, услуги",
       images: `${env.server.host!}/api/og`,
     },
     twitter: {
