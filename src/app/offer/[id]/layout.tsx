@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
     const images: OpenGraph["images"] = []
 
-    for (const image of offer.images) {
+    for (const image of offer.images ?? []) {
       images.push({
         url: image.attributes.url.replace("?format=webp", ""),
         secureUrl: image.attributes.url.replace("?format=webp", ""),
@@ -37,15 +37,43 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         height: 256,
       })
     }
+    images.push({
+      url: `${env.server.host!}/api/og`,
+      secureUrl: `${env.server.host!}/api/og`,
+      alt: "SHEIRA",
+      width: 512,
+      height: 256,
+    })
+
+    const user = offer?.user
+
+    if (user) {
+      const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
+
+      obj.authors = {
+        name: name,
+        url: `${env.server.host}/user/${user?.id}/${user?.username}`,
+      }
+      obj.creator = name
+      obj.publisher = name
+      obj.formatDetection = {
+        email: true,
+        telephone: true,
+        address: true,
+      }
+    }
 
     const metadataBase = new URL(`${env.server.host}/post/${id}/${String(offer.slug)}`)
     obj.metadataBase = metadataBase
 
     obj.openGraph = {
-      type: "website",
+      type: "article",
+      publishedTime: offer?.created as string,
       locale: "ru",
+      description: offer?.description ?? offer?.title ?? "",
       url: `${env.server.host}/offer/${id}/${String(offer.slug).replaceAll("/", "-")}`,
       images: images,
+      authors: [user?.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
     }
     obj.twitter = {
       images: images,
