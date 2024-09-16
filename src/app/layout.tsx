@@ -50,12 +50,13 @@ export function generateMetadata(): Metadata {
       appId: APPLE_ID,
       appArgument: URL_APPLE_APP,
     },
+    applicationName: "Sheira",
     title: {
       default: "Sheira",
       template: "%s | Sheira",
     },
     authors: {
-      url: "https://sheira.ru",
+      url: env.server.host!,
       name: "Sheira",
     },
     description:
@@ -75,16 +76,16 @@ export function generateMetadata(): Metadata {
       images: `${env.server.host!}/api/og`,
     },
     twitter: {
-      site: "https://sheira.ru",
+      site: env.server.host!,
       title: "Sheira",
       description:
         "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
-      images: "/api/og",
+      images: `${env.server.host!}/api/og`,
     },
     robots: {
       index: true,
       follow: true,
-      "max-image-preview": "large",
+      "max-image-preview": "standard",
       googleBot: {
         index: true,
         follow: true,
@@ -93,6 +94,10 @@ export function generateMetadata(): Metadata {
     },
     icons: {
       icon: urlIcon,
+    },
+    verification: {
+      // google: "google",
+      yandex: "b991e6c18bd99d04",
     },
   }
 

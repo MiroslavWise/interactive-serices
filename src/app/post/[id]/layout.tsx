@@ -32,9 +32,18 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     const user = data?.user
 
     if (user) {
+      const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
+
       obj.authors = {
-        name: `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`,
+        name: name,
         url: `${env.server.host}/user/${user?.id}/${user?.username}`,
+      }
+      obj.creator = name
+      obj.publisher = name
+      obj.formatDetection = {
+        email: true,
+        telephone: true,
+        address: true,
       }
     }
 
@@ -51,16 +60,25 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         })
       }
     }
+    images.push({
+      url: `${env.server.host!}/api/og`,
+      secureUrl: `${env.server.host!}/api/og`,
+      alt: "SHEIRA",
+      width: 512,
+      height: 256,
+    })
 
     const metadataBase = new URL(`${env.server.host}/post/${id}/${String(data.slug)}`)
     obj.metadataBase = metadataBase
 
     obj.openGraph = {
-      type: "website",
+      type: "article",
       locale: "ru",
       countryName: "ru",
-      url: env.server.host!,
+      description: note?.description ?? "",
       images: images,
+      publishedTime: data?.created,
+      authors: [user.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
     }
 
     obj.twitter = {
