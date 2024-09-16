@@ -25,15 +25,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "server.js",
-    "src/components/templates/Onboarding/layout",
-    "src/components/templates/BallonOffer",
-    "src/components/YandexMap/ObjectsMap/index.tsx"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "server.js"],
   "exclude": ["node_modules"]
 }

@@ -19,17 +19,6 @@ export async function GET() {
           position: "relative",
         }}
       >
-        {/* <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            background: "rgba(5, 1, 13, 0.50)",
-            filter: "blur(10px)",
-            zIndex: 60,
-          }}
-        /> */}
         <svg
           width="128"
           height="128"
