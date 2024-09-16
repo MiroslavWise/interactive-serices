@@ -1,12 +1,14 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+export const emailZod = z
+  .string()
+  .min(1, { message: "Поле не может оставаться незаполненным" })
+  .email({ message: "Такой почты не существует" })
+  .default("")
+
 const schemaEmailSignIn = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Поле не может оставаться незаполненным" })
-    .email({ message: "Такой почты не существует" })
-    .default(""),
+  email: emailZod,
   password: z
     .string()
     .min(1, { message: "Поле не может оставаться незаполненным" })

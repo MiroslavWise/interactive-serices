@@ -3,12 +3,11 @@
 import { EnumTypeProvider } from "@/types/enum"
 
 import NewCreateBadge from "./components/NewCreateBadge"
+import { ArticleOnboarding } from "@/components/templates"
 import IconMapTransparent from "@/components/icons/IconMapTransparent"
 
 import { NEW_CREATE_BADGES } from "./constants"
 import { EModalData, useModal, useNewServicesBannerMap, useOnboarding } from "@/store"
-
-import { ArticleOnboarding } from "@/components/templates"
 
 function NewServicesBanner() {
   const step = useOnboarding(({ step }) => step)

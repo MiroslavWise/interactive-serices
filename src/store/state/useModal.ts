@@ -49,6 +49,7 @@ export enum EModalData {
   DeleteChat = "delete-chat",
   CancelExchange = "cancel-exchange",
   CREATE_POST = "create-post",
+  CREATE_POST_MAP = "create-post-map",
   SUCCESS_CREATE_POST = "success-create-post",
   CREATE_NEW_NOTE = "create-new-note",
   BALLOON_POST = "balloon-post",

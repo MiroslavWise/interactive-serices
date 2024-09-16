@@ -1,5 +1,9 @@
 import { ImageResponse } from "next/og"
 
+// export const dynamicParams = true
+// export const dynamic = "force-dynamic"
+// export const fetchCache = "force-no-store"
+
 export async function GET() {
   return new ImageResponse(
     (
@@ -12,17 +16,23 @@ export async function GET() {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "transparent",
+          position: "relative",
         }}
       >
         <svg
           width="128"
           height="128"
           viewBox="0 0 128 128"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
           style={{
-            width: "100%",
-            height: "100%",
+            fill: "none",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            height: 192,
+            width: 192,
+            aspectRatio: "1/1",
+            zIndex: 50,
           }}
         >
           <path
@@ -50,7 +60,7 @@ export async function GET() {
       </div>
     ),
     {
-      width: 256,
+      width: 512,
       height: 256,
     },
   )

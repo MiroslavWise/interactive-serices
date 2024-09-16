@@ -1,18 +1,33 @@
 import { EnumTypeProvider } from "@/types/enum"
-import type { TNewCreateBadge } from "../types/types"
+import { type TNewCreateBadge } from "../types/types"
 
 import { mapIconCreateOffer } from "@/utils"
 
-import { useOnboarding, dispatchOnboarding, openCreateOffers, dispatchModal, EModalData, useModal, dispatchCreatePost } from "@/store"
+import {
+  useOnboarding,
+  dispatchOnboarding,
+  openCreateOffers,
+  dispatchModal,
+  EModalData,
+  useModal,
+  dispatchCreatePost,
+  dispatchCreatePostMap,
+  useNewServicesBannerMap,
+} from "@/store"
 
 const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
+  const state = useModal(({ data }) => data)
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)
-  const state = useModal(({ data }) => data)
+  const init = useNewServicesBannerMap(({ addressInit }) => addressInit)
 
   function handleType() {
     if (value === EnumTypeProvider.post) {
-      dispatchCreatePost(true)
+      if (!!init) {
+        dispatchCreatePostMap(init)
+      } else {
+        dispatchCreatePost(true)
+      }
       return
     }
     if (visible && type === value) {

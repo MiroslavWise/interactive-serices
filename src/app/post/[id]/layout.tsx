@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     if (!!note?.images.length) {
       for (const image of note.images) {
         images.push({
-          url: image.attributes.url,
-          secureUrl: image.attributes.url,
+          url: image.attributes.url.replace("?format=webp", ""),
+          secureUrl: image.attributes.url.replace("?format=webp", ""),
           alt: image.attributes.alt,
           width: 256,
           height: 256,

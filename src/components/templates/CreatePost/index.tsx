@@ -5,12 +5,13 @@ import { type AxiosProgressEvent } from "axios"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IBodyNote } from "@/services/notes/types"
 import { type IBodyPost } from "@/services/posts/types"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import { Button } from "@/components/common"
+import ControlHelp from "./components/ControlHelp"
 import IconXClose from "@/components/icons/IconXClose"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
@@ -20,12 +21,11 @@ import { queryClient } from "@/context"
 import { getPosts, postPosts } from "@/services/posts"
 import { patchNote, postNote } from "@/services/notes"
 import { createAddress } from "@/helpers/address/create"
-import { dispatchModal, EModalData, useAuth } from "@/store"
-import { fileUploadService, getGeocodeSearch } from "@/services"
 import { handleImageChange, onProgress, onUploadProgress } from "./utils"
-import { LIMIT_DESCRIPTION, resolverCreatePost, type TSchemaCreatePost } from "./schema"
+import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
+import { dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
-import ControlHelp from "./components/ControlHelp"
+import { LIMIT_DESCRIPTION, resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -35,6 +35,8 @@ function CreatePost() {
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
+  const stateModal = useModal(({ data }) => data)
+  const initMapAddress = useCreatePost(({ initAddress }) => initAddress)
 
   const { refetch: refetchProfile } = useQuery({
     queryFn: () => getPosts({ order: "DESC", user: userId! }),
@@ -50,7 +52,7 @@ function CreatePost() {
     trigger,
     formState: { errors },
   } = useForm<TSchemaCreatePost>({
-    resolver: resolverCreatePost,
+    resolver: stateModal === EModalData.CREATE_POST_MAP ? resolverCreatePostMap : resolverCreatePost,
     defaultValues: {
       title: "",
       description: "",
@@ -58,9 +60,12 @@ function CreatePost() {
         file: [],
         string: [],
       },
-      address: "",
+      address: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress?.additional : "",
+      initAddress: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress : undefined,
     },
   })
+
+  clg("errors: ", errors, "error")
 
   const onSubmit = handleSubmit(async (values) => {
     const title = values.title.trim().slice(0, 254)
@@ -79,7 +84,9 @@ function CreatePost() {
 
     if (!loading) {
       setLoading(true)
-      const responseAddress = await createAddress(values.addressFeature!, userId!)
+      const responseAddress = await (stateModal === EModalData.CREATE_POST_MAP && !!initMapAddress
+        ? postAddress(initMapAddress)
+        : createAddress(values.addressFeature!, userId!))
       const { id: addressId } = responseAddress.data ?? {}
       if (addressId) {
         data.addresses = [addressId]
@@ -194,6 +201,7 @@ function CreatePost() {
                     onFocus={focusAddress}
                     placeholder="Введите адрес"
                     autoComplete="off"
+                    disabled={stateModal === EModalData.CREATE_POST_MAP && !!initMapAddress}
                   />
                   <button
                     data-select-icon={isFocus}

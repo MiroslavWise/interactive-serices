@@ -6,24 +6,24 @@ export const passwordValidation_a_z = new RegExp(/^(?=.*?[a-z]).{1,}$/)
 export const passwordValidation_A_Z = new RegExp(/^(?=.*?[A-Z]).{1,}$/)
 export const passwordValidation_0_9 = new RegExp(/^(?=.*?[0-9]).{1,}$/)
 
-export const schemaPassword = z
-  .object({
-    password: z
-      .string()
-      .trim()
-      .min(6, { message: "Введите минимум 6 символов" })
-      .max(20, { message: "Не более 20 символов" })
-      .regex(passwordValidation_a_z, { message: "Нужен символ в нижнем регистре [a-z]" })
-      .regex(passwordValidation_A_Z, { message: "Нужен символ в верхнем регистре [A-Z]" })
-      .regex(passwordValidation_0_9, { message: "Нужна цифра [0-9]" })
-      .regex(passwordValidation, { message: "Пароль недостаточно сложный" })
-      .default(""),
-    repeat: z.string().trim().default(""),
-  })
-  .refine((data) => data.password === data.repeat, {
-    path: ["repeat"],
-    message: "Пароли не совпадают",
-  })
+export const schema = z.object({
+  password: z
+    .string()
+    .trim()
+    .min(6, { message: "Введите минимум 6 символов" })
+    .max(20, { message: "Не более 20 символов" })
+    .regex(passwordValidation_a_z, { message: "Нужен символ в нижнем регистре [a-z]" })
+    .regex(passwordValidation_A_Z, { message: "Нужен символ в верхнем регистре [A-Z]" })
+    .regex(passwordValidation_0_9, { message: "Нужна цифра [0-9]" })
+    .regex(passwordValidation, { message: "Пароль недостаточно сложный" })
+    .default(""),
+  repeat: z.string().trim().default(""),
+})
+
+const schemaPassword = schema.refine((data) => data.password === data.repeat, {
+  path: ["repeat"],
+  message: "Пароли не совпадают",
+})
 
 export const resolverPassword = zodResolver(schemaPassword)
 export type TValidateSchemaPassword = z.infer<typeof schemaPassword>

@@ -5,9 +5,10 @@ import { type INotes } from "@/services/notes/types"
 
 import { clg } from "@console"
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
+import { TPostAddress } from "@/services/addresses/types/geocodeSearch"
 
 export const useUpdatePost = create<IStateBalloonPost>(() => ({ data: null }))
-export const useCreatePost = create<{ visible: boolean }>(() => ({ visible: false }))
+export const useCreatePost = create<{ initAddress?: TPostAddress }>(() => ({}))
 export const useCreateNewNote = create<IStateNote>(() => ({ data: null }))
 export const useBalloonPost = create<IStateBalloonPost>(() => ({ data: null }))
 export const useDeleteNote = create<IStateUserDelete>(() => ({ data: null }))
@@ -50,6 +51,26 @@ export const dispatchCreatePost = (value: boolean) => {
   }
 }
 
+export const dispatchCreatePostMap = (init?: TPostAddress) => {
+  if (init) {
+    useCreatePost.setState(
+      (_) => ({
+        initAddress: init,
+      }),
+      true,
+    )
+    dispatchModal(EModalData.CREATE_POST_MAP)
+  } else {
+    dispatchModalClose()
+    useCreatePost.setState(
+      (_) => ({
+        initAddress: undefined,
+      }),
+      true,
+    )
+  }
+}
+
 export function dispatchBallonPostUpdate(value: Partial<IPosts>) {
   useBalloonPost.setState(
     (_) => ({
@@ -61,6 +82,7 @@ export function dispatchBallonPostUpdate(value: Partial<IPosts>) {
     true,
   )
 }
+
 export function dispatchBallonPost(value: IPosts | null) {
   if (value) {
     useBalloonPost.setState((_) => ({ data: value }), true)
