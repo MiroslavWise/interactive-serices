@@ -112,7 +112,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="ru">
       <head>
         <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
-        <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categries`} />
+        <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
         <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
         {!env!?.server!?.host.includes("dev") && <Script src="https://s.sdelka.biz/20431827.js" />}
         <noscript>
