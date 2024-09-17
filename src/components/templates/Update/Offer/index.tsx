@@ -9,6 +9,7 @@ import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 import { type IFeatureMember, type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
+import ControlHelp from "./ControlHelp"
 import { UploadPhoto } from "@/components/common/custom"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { Button, ImageCategory, NextImageMotion, WalletPay } from "@/components/common"
@@ -17,8 +18,7 @@ import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
-import { fileUploadService, getGeocodeSearch, getOffersCategories, getUserIdOffers, patchOffer } from "@/services"
-import ControlHelp from "./ControlHelp"
+import { fileUploadService, getGeocodeSearch, getUserIdOffers, patchOffer } from "@/services"
 
 export default function UpdateOffer() {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
@@ -26,9 +26,8 @@ export default function UpdateOffer() {
   const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [strings, setStrings] = useState<string[]>([])
-  const [loadingAddresses, setLoadingAddresses] = useState(false)
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
-  const debouncedValue = useDebounce(onChangeAddress, 200)
+  const debouncedValue = useDebounce(onChangeAddress, 1000)
   const offer = useUpdateOffer(({ offer }) => offer)
   const [focusGeo, setFocusGeo, refGeo] = useOutsideClickEvent()
 
@@ -75,7 +74,6 @@ export default function UpdateOffer() {
         queryKey: ["addresses", { string: slug }],
       })
       setValuesAddresses(response)
-      setLoadingAddresses(false)
     }
   }
 
@@ -83,11 +81,7 @@ export default function UpdateOffer() {
     if (!valuesAddresses) {
       return null
     }
-    return (
-      valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter((item) =>
-        item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.Components?.some((_) => _?.kind === "street"),
-      ) || null
-    )
+    return valuesAddresses?.response?.GeoObjectCollection?.featureMember || null
   }, [valuesAddresses])
 
   const onSubmit = handleSubmit(async (values) => {
@@ -183,7 +177,6 @@ export default function UpdateOffer() {
               onChange={(event) => {
                 setInputGeo(event.target.value || "")
                 debouncedValue()
-                setLoadingAddresses(true)
               }}
               onFocus={(event) => {
                 event.stopPropagation()
