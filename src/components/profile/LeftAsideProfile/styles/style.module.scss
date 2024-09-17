@@ -15,6 +15,16 @@ $width-left-aside-profile: var(--width-left-aside-profile);
     }
   }
 
+  &.default {
+    top: calc(var(--height-header-nav-bar) + 1.5rem + var(--height-banner));
+    height: calc(100% - var(--height-header-nav-bar) - 3rem - var(--height-banner));
+  }
+
+  &.banner {
+    top: calc(var(--height-header-nav-bar) + 1.5rem);
+    height: calc(100% - var(--height-header-nav-bar) - 3rem);
+  }
+
   transition-duration: 700ms;
   transition-property: transform;
   transition-timing-function: ease;

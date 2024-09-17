@@ -173,7 +173,11 @@ function CreatePost() {
         data-test="ul-create-new-post"
         className="w-full flex flex-col items-center gap-4 px-5 h-[calc(100%_-_var(--height-standard-header-modal))]"
       >
-        <form onSubmit={onSubmit} className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden">
+        <form
+          onSubmit={onSubmit}
+          data-enum-form="from-create-new-post"
+          className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
+        >
           <p className="text-text-primary text-sm text-left font-normal">
             Пост это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров. В пост можно
             добавлять новые записи: тексты и фото. Другие пользователи смогут комментировать ваш пост.

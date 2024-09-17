@@ -378,7 +378,8 @@ export default function CreateNewOptionModal() {
       <ul id="ul-create-option-modal" data-test="ul-create-new-option" className="w-full flex flex-col items-center gap-4 px-5">
         <form
           onSubmit={onSubmit}
-          data-test="from-create-new-option"
+          data-test={`from-create-new-option-${typeAdd}`}
+          data-enum-form={`from-create-new-option-${typeAdd}`}
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
           <Controller
