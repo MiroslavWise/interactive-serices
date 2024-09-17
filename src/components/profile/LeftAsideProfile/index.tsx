@@ -1,3 +1,5 @@
+import { usePathname } from "next/navigation"
+
 import { FooterAsideLeft } from "./components/Footer"
 import { BlockProfileAside, BlockDesiredServices, ButtonFriends } from "@/components/profile"
 
@@ -9,15 +11,15 @@ import styles from "./styles/style.module.scss"
 function LeftAsideProfile({ isCollapsed = false, isBanner = false }: { isCollapsed?: boolean; isBanner?: boolean }) {
   const visibleBanner = useBanner(({ visible }) => visible)
 
+  const pathname = usePathname()
+
   return (
     <aside
       className={cx(
         styles.asideLeft,
         "max-md:!hidden fixed left-0 bottom-6 w-full rounded-[2rem] translate-x-6 flex flex-col justify-between items-center gap-5 bg-BG-second z-[2]",
         isCollapsed && "!-translate-x-[17.5rem]",
-        visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
-          : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
+        visibleBanner && !pathname.includes("profile") ? styles.default : styles.banner,
       )}
       data-test="left-aside-profile"
       data-is-banner={isBanner}
