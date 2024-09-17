@@ -1,5 +1,5 @@
 import { memo, useMemo, useState } from "react"
-import { type Control, Controller } from "react-hook-form"
+import { type Control, Controller, UseFormSetValue } from "react-hook-form"
 
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 import { type TSchemaCreatePostUpdate } from "@/components/templates/CreatePost/schema"
@@ -12,9 +12,10 @@ import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 interface IProps {
   control: Control<TSchemaCreatePostUpdate, any>
+  setValue: UseFormSetValue<TSchemaCreatePostUpdate>
 }
 
-function AddressController({ control }: IProps) {
+function AddressController({ control, setValue }: IProps) {
   const post = useUpdatePost(({ data }) => data)
 
   const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
@@ -58,27 +59,34 @@ function AddressController({ control }: IProps) {
                 "w-full p-3.5 rounded-3xl border border-solid  text-text-primary placeholder:text-text-secondary disabled:text-text-disabled text-sm font-normal",
                 !!error ? "border-text-error" : "border-grey-stroke focus:border-element-accent-1",
               )}
+              value={inputGeo}
               onChange={(event) => {
                 setInputGeo(event.target.value)
                 debouncedValue()
               }}
-              onFocus={(event) => {
+              onClick={(event) => {
                 event.stopPropagation()
                 setFocusGeo(true)
               }}
             />
             <article
               className={cx(
-                "absolute top-[calc(100%_+_0.25rem)] w-full bg-BG-second shadow-box-down max-h-[12.375rem] rounded-xl",
-                focusGeo ? "flex z-50 opacity-100 visible" : "hidden -z-10 opacity-0 invisible",
+                "absolute top-[calc(100%_+_0.25rem)] w-full bg-BG-second shadow-box-down max-h-[12.375rem] rounded-xl overflow-hidden overflow-y-auto",
+                focusGeo && exactAddresses ? "flex z-50 opacity-100 visible" : "hidden -z-10 opacity-0 invisible",
               )}
             >
-              <ul className="w-full flex flex-col overflow-x-hidden overflow-y-auto h-fit p-1">
+              <ul className="w-full flex flex-col overflow-x-hidden h-fit p-1">
                 {focusGeo && exactAddresses
                   ? exactAddresses.map((item) => (
                       <li
                         key={`:ley:address:${item.GeoObject.uri}:`}
-                        className="w-full p-2 pb-2.5 rounded-lg flex flex-row hover:bg-grey-field"
+                        className="w-full p-2 pb-2.5 rounded-lg flex flex-row hover:bg-grey-field cursor-pointer"
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          setValue("addressFeature", item!)
+                          setInputGeo(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
+                          setFocusGeo(false)
+                        }}
                       >
                         <p className="text-text-primary text-sm font-normal">{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</p>
                       </li>

@@ -178,6 +178,11 @@ input[type="text"] {
   }
 }
 
+a {
+  transition-property: color;
+  transition-duration: 250ms;
+}
+
 textarea {
   outline: none !important;
   transition: var(--transition);

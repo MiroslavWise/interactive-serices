@@ -23,7 +23,7 @@ function UpdatePost() {
   const address = post?.addresses[0] ?? null
   const [loading, setLoading] = useState(false)
 
-  const defaultValues: Omit<TSchemaCreatePostUpdate, "addressFeature"> = {
+  const defaultValues: TSchemaCreatePostUpdate = {
     title: post?.title ?? "",
     description: noteMain?.description ?? "",
     address: address?.additional ?? "",
@@ -33,6 +33,7 @@ function UpdatePost() {
     },
     help: !!post?.urgent,
     deletesImages: [],
+    addressFeature: null,
   }
 
   const { control, handleSubmit, setValue, watch } = useForm<TSchemaCreatePostUpdate>({
@@ -97,7 +98,7 @@ function UpdatePost() {
             Пост — это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров. В пост можно
             добавлять новые записи: тексты и фото. Другие пользователи смогут комментировать ваш пост.
           </p>
-          <AddressController control={control} />
+          <AddressController control={control} setValue={setValue} />
           <Controller
             name="title"
             control={control}
