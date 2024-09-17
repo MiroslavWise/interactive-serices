@@ -13,6 +13,7 @@ import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 import { LIMIT_DESCRIPTION, LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 import ControlHelp from "./components/ControlHelp"
 import { queryClient } from "@/context"
+import AddressController from "./components/AddressController"
 
 function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -22,7 +23,7 @@ function UpdatePost() {
   const address = post?.addresses[0] ?? null
   const [loading, setLoading] = useState(false)
 
-  const defaultValues: Omit<TSchemaCreatePostUpdate, "addressFeature"> = {
+  const defaultValues: TSchemaCreatePostUpdate = {
     title: post?.title ?? "",
     description: noteMain?.description ?? "",
     address: address?.additional ?? "",
@@ -32,6 +33,7 @@ function UpdatePost() {
     },
     help: !!post?.urgent,
     deletesImages: [],
+    addressFeature: null,
   }
 
   const { control, handleSubmit, setValue, watch } = useForm<TSchemaCreatePostUpdate>({
@@ -96,28 +98,7 @@ function UpdatePost() {
             Пост — это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров. В пост можно
             добавлять новые записи: тексты и фото. Другие пользователи смогут комментировать ваш пост.
           </p>
-          <Controller
-            name="address"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <fieldset className="w-full flex flex-col gap-2">
-                <label htmlFor={field.name} className="text-text-primary text-sm font-medium">
-                  Адрес
-                </label>
-                <input
-                  type="text"
-                  {...field}
-                  placeholder="Введите адрес..."
-                  disabled
-                  className={cx(
-                    "w-full p-3.5 rounded-3xl border border-solid  text-text-primary placeholder:text-text-secondary disabled:text-text-disabled text-sm font-normal",
-                    !!error ? "border-text-error" : "border-grey-stroke focus:border-element-accent-1",
-                  )}
-                />
-                {!!error && <i className="-mt-1 text-text-error text-xs font-normal">{error?.message ?? "Ошибка"}</i>}
-              </fieldset>
-            )}
-          />
+          <AddressController control={control} setValue={setValue} />
           <Controller
             name="title"
             control={control}

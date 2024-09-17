@@ -1,14 +1,16 @@
+import { type ChangeEvent } from "react"
+
 import { type IBodyNote } from "@/services/notes/types"
 import { type IBodyPost } from "@/services/posts/types"
+import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 
 import { clg } from "@console"
-import { patchNote } from "@/services/notes"
 import { patchPost } from "@/services/posts"
-import { transliterateAndReplace } from "@/helpers"
-import { ChangeEvent } from "react"
+import { patchNote } from "@/services/notes"
 import { fileUploadService } from "@/services"
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
+import { transliterateAndReplace } from "@/helpers"
+import { createAddress } from "@/helpers/address/create"
 
 interface IUpdate {
   id: number
@@ -68,6 +70,18 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
       dataPost.urgent = EnumHelper.HELP_KURSK
     } else {
       dataPost.urgent = ""
+    }
+  }
+
+  const newAddressFeature = newValues?.addressFeature
+
+  if (newAddressFeature) {
+    const responseAddress = await createAddress(newAddressFeature, userId)
+
+    const { id: addressId } = responseAddress.data ?? {}
+
+    if (addressId) {
+      dataPost.addresses = [addressId]
     }
   }
 

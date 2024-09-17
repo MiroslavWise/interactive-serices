@@ -7,13 +7,14 @@ import DeletePopup from "./DeletePopup"
 import IconLike from "@/components/icons/IconLike"
 import { NextImageMotion } from "@/components/common"
 import IconComment from "@/components/icons/IconComment"
+import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
 import { useContextPostsComments } from "./ContextComments"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
 import { dispatchPhotoCarousel, useAuth, useBalloonPost } from "@/store"
-import IconChevronDown from "@/components/icons/IconChevronDown"
+import { clg } from "@console"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive } = useBalloonPost(({ data }) => data) ?? {}
@@ -25,6 +26,8 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
   const [loading, setLoading] = useState(false)
   const refImages = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLLIElement>(null)
+  const refP = useRef<HTMLParagraphElement>(null)
+  const [expand, setExpand] = useState(false)
 
   const { onWriteResponse, noteCurrent, countCommentNote } = useContextPostsComments()
 
@@ -104,6 +107,26 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
     }
   }, [noteCurrent, id])
 
+  function handleExpand() {
+    setExpand((_) => !_)
+  }
+
+  const [ph, setPh] = useState<{ scrollHeight: number; clientHeight: number }>({
+    scrollHeight: refP.current?.scrollHeight!,
+    clientHeight: refP.current?.clientHeight!,
+  })
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (refP.current) {
+        setPh({
+          scrollHeight: refP.current?.scrollHeight!,
+          clientHeight: refP.current?.clientHeight!,
+        })
+      }
+    })
+  }, [expand])
+
   return (
     <li
       className={cx(
@@ -118,7 +141,25 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
         </time>
         <DeletePopup note={note} />
       </div>
-      <p className={cx("text-text-primary whitespace-pre-wrap text-sm font-normal", !!description ? "" : "hidden")}>{description}</p>
+      <p
+        className={cx(
+          "text-text-primary whitespace-pre-wrap text-sm font-normal",
+          !description && "hidden",
+          expand ? "line-clamp-none" : "line-clamp-4 text-ellipsis",
+        )}
+        ref={refP}
+      >
+        {description}
+      </p>
+      <a
+        className={cx(
+          "text-text-secondary text-sm font-normal hover:text-text-accent cursor-pointer",
+          !expand && ph.clientHeight === ph.scrollHeight && "hidden",
+        )}
+        onClick={handleExpand}
+      >
+        {expand ? "Скрыть" : "Читать всё"}
+      </a>
       <div
         data-images
         className={cx("-mx-4 w-[calc(100%_+_2rem)] relative overflow-hidden group", images.length ? "flex" : "hidden")}
@@ -138,36 +179,34 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           }
         }}
       >
-        <>
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation()
-              to(true)
-            }}
-            className={cx(
-              "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 left-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:rotate-90",
-              "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center",
-              images.length < 4 && "!hidden",
-            )}
-          >
-            <IconChevronDown />
-          </button>
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation()
-              to(false)
-            }}
-            className={cx(
-              "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 right-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:-rotate-90",
-              "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center ",
-              images.length < 4 && "!hidden",
-            )}
-          >
-            <IconChevronDown />
-          </button>
-        </>
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            to(true)
+          }}
+          className={cx(
+            "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 left-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:rotate-90",
+            "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center",
+            images.length < 4 && "!hidden",
+          )}
+        >
+          <IconChevronDown />
+        </button>
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            to(false)
+          }}
+          className={cx(
+            "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 right-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:-rotate-90",
+            "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center ",
+            images.length < 4 && "!hidden",
+          )}
+        >
+          <IconChevronDown />
+        </button>
         <div className="w-full flex flex-row gap-2 overflow-hidden overflow-x-scroll px-4" ref={refImages}>
           {images.map((item) => (
             <NextImageMotion
