@@ -43,8 +43,8 @@ export function metadataPosts({ data }: IData): Metadata {
     }
   }
 
-  const metadataBase = new URL(`${env.server.host}/post/${id}/${String(data.slug)}`)
-  meta.metadataBase = metadataBase
+  // const metadataBase = new URL(`${env.server.host}/post/${id}`)
+  // meta.metadataBase = metadataBase
 
   const metaImgs = metadataImages({ images: note!?.images ?? [] })
   meta.icons = metaImgs.icons
@@ -54,9 +54,9 @@ export function metadataPosts({ data }: IData): Metadata {
     siteName: `${title} | Sheira`,
     type: "website",
     locale: "ru_RU",
-    url: metadataBase,
+    // url: metadataBase,
     description: note?.description ?? `Описание: ${title ?? ""}`,
-    images: metaImgs.images.reverse(),
+    // images: metaImgs.images.reverse(),
   }
 
   meta.twitter = {
@@ -64,7 +64,7 @@ export function metadataPosts({ data }: IData): Metadata {
     creator: name,
     site: `Sheira`,
     card: "summary_large_image",
-    images: metaImgs.images.reverse(),
+    // images: metaImgs.images.reverse(),
     description: note?.description ?? `Описание: ${title ?? ""}`,
   }
   meta.robots = {

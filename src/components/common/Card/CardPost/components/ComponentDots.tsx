@@ -98,7 +98,7 @@ function ComponentDots({ post }: IProps) {
             aria-label={TITLE_SHARE}
             aria-labelledby={TITLE_SHARE}
             onClick={(event) => {
-              const url = `${env.server.host}/post/${id}/${slug ? String(slug).replaceAll("/", "-") : ""}`
+              const url = `${env.server.host}/post/${id}`
               if (!!window.navigator.share!) {
                 navigator.share({
                   title: title!,

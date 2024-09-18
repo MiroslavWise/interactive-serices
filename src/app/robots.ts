@@ -5,20 +5,23 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import env from "@/config/environment"
+import { getPosts } from "@/services/posts"
 import { getOffers, getOffersCategoriesPROD } from "@/services"
 
 const getCacheDiscussions = cache(getOffers)
 const getCacheAlerts = cache(getOffers)
 const getCacheOffers = cache(getOffers)
+const getCachePosts = cache(getPosts)
 
 export default async function (): Promise<MetadataRoute.Robots> {
-  const [{ data }, { data: listDiscussions }, { data: listAlerts }, { data: listOffers }] = await Promise.all([
+  const [{ data }, { data: listDiscussions }, { data: listAlerts }, { data: listOffers }, { data: listPosts }] = await Promise.all([
     getOffersCategoriesPROD(),
     env.server.host.includes("dev")
       ? Promise.resolve({ data: [] })
       : getCacheDiscussions({ provider: EnumTypeProvider.discussion, order: "DESC" }),
     env.server.host.includes("dev") ? Promise.resolve({ data: [] }) : getCacheAlerts({ provider: EnumTypeProvider.alert, order: "DESC" }),
     env.server.host.includes("dev") ? Promise.resolve({ data: [] }) : getCacheOffers({ provider: EnumTypeProvider.offer, order: "DESC" }),
+    env.server.host.includes("dev") ? Promise.resolve({ data: [] }) : getCachePosts({ order: "DESC", archive: 0 }),
   ])
 
   const items = (data as IResponseOffersCategories[]) || []
@@ -26,6 +29,7 @@ export default async function (): Promise<MetadataRoute.Robots> {
   const discussions = listDiscussions?.map((_) => `/discussions/${_?.id}`) ?? []
   const alerts = listAlerts?.map((_) => `/emergency-messages/${_?.id}`) ?? []
   const offers = listOffers?.map((_) => `/proposals/${_?.id}`) ?? []
+  const posts = listPosts?.map((_) => `/list-of-posts/${_?.id}`) ?? []
 
   return {
     rules: [
@@ -33,15 +37,16 @@ export default async function (): Promise<MetadataRoute.Robots> {
         userAgent: "*",
         allow: [
           "/",
+          ...categories,
+          ...posts,
+          ...discussions,
+          ...alerts,
+          ...offers,
           "/app-store",
           "/legal/ads-agreement/",
           "/legal/privacy-policy/",
           "/legal/terms/",
           "/registration",
-          ...categories,
-          ...discussions,
-          ...alerts,
-          ...offers,
         ],
       },
     ],

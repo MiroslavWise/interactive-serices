@@ -1,5 +1,9 @@
 import { ImageResponse } from "next/og"
 
+// export const dynamicParams = true
+// export const dynamic = "force-dynamic"
+// export const fetchCache = "force-no-store"
+
 export async function GET() {
   return new ImageResponse(
     (
@@ -11,7 +15,7 @@ export async function GET() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "transparent",
+          backgroundColor: "#fff",
           position: "relative",
         }}
       >
@@ -56,8 +60,10 @@ export async function GET() {
       </div>
     ),
     {
-      width: 512,
-      height: 256,
+      width: 1280,
+      height: 720,
     },
   )
 }
+
+/*  */

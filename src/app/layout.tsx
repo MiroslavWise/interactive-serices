@@ -13,7 +13,7 @@ import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
 
-const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
+export const inter = Inter({ subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
 export const viewport: Viewport = {
   width: "device-width",
