@@ -92,7 +92,7 @@ function SharedDotsPost({ post }: IProps) {
           aria-labelledby={TITLE_SHARE}
           className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field"
           onClick={(event) => {
-            const url = `${env.server.host}/post/${id}/${String(slug).replaceAll("/", "-")}`
+            const url = `${env.server.host}/post/${id}`
             if (!!window.navigator.share!) {
               navigator.share({
                 title: title!,

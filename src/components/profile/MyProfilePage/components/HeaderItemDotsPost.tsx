@@ -80,7 +80,7 @@ function HeaderItemDotsPost({ post }: IProps) {
           aria-label={LABEL_SHARE}
           aria-labelledby={LABEL_SHARE}
           onClick={(event) => {
-            const url = `${env.server.host}/post/${id}/${String(slug).replaceAll("/", "-")}`
+            const url = `${env.server.host}/post/${id}`
             if (!!window.navigator.share!) {
               navigator.share({
                 title: title!,
