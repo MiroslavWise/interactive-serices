@@ -59,6 +59,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     obj.metadataBase = metadataBase
 
     obj.openGraph = {
+      title: offer.title ?? offer?.category?.title,
+      siteName: `${offer.title ?? offer?.category?.title} | Sheira`,
       type: "article",
       publishedTime: offer?.created as string,
       locale: "ru",

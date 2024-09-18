@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 
 import { EnumSign } from "@/types/enum"
+import { type IUserOffer } from "@/services/offers/types"
 import { type IUserResponse } from "@/services/users/types"
 
 import ButtonMenuMobile from "./ButtonMenuMobile"
@@ -15,8 +16,8 @@ import IconCheckFriend from "@/components/icons/IconCheckFriend"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
+import { getFiendId, getFriends, postFriend } from "@/services"
 import { dispatchAuthModal, dispatchDeleteFriend, useAuth } from "@/store"
-import { deleteFriend, getFiendId, getFriends, postFriend } from "@/services"
 
 function FriendsButtons({ user }: { user: IUserResponse }) {
   const [loading, setLoading] = useState(false)
@@ -98,7 +99,18 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
   }
 
   function handleDelete() {
-    dispatchDeleteFriend(user)
+    const userData: IUserOffer = {
+      about: "",
+      birthdate: null,
+      firstName: user?.profile?.firstName,
+      gender: null,
+      id: user?.id,
+      lastName: user?.profile?.lastName,
+      username: user?.profile?.username,
+      image: user?.profile?.image,
+    }
+
+    dispatchDeleteFriend(userData)
   }
 
   return (
