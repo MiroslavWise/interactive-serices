@@ -1,3 +1,5 @@
+import "server-only"
+
 import { type Metadata } from "next"
 
 import { type IPosts } from "@/services/posts/types"
@@ -25,9 +27,9 @@ export function metadataPosts({ data }: IData): Metadata {
     meta.description = note?.description ?? `Описание: ${title ?? ""}`
   }
 
-  if (user) {
-    const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
+  const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
 
+  if (user) {
     meta.authors = {
       name: name,
       url: `${env.server.host}/user/${user?.id}/${user?.username}`,
@@ -50,18 +52,20 @@ export function metadataPosts({ data }: IData): Metadata {
   meta.openGraph = {
     title: title,
     siteName: `${title} | Sheira`,
-    type: "article",
+    type: "website",
     locale: "ru_RU",
-    countryName: "ru",
+    url: metadataBase,
     description: note?.description ?? `Описание: ${title ?? ""}`,
     images: metaImgs.images.reverse(),
-    publishedTime: created,
-    authors: [user.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
   }
 
   meta.twitter = {
+    title: title,
+    creator: name,
+    site: `Sheira`,
     card: "summary_large_image",
     images: metaImgs.images.reverse(),
+    description: note?.description ?? `Описание: ${title ?? ""}`,
   }
   meta.robots = {
     index: true,

@@ -1,3 +1,5 @@
+import "server-only"
+
 import { type Metadata } from "next"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -27,9 +29,8 @@ export function metadataOffers({ data }: IData): Metadata {
   const metaImgs = metadataImages({ images: data.images })
   meta.icons = metaImgs.icons
 
+  const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
   if (user) {
-    const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
-
     meta.authors = {
       name: name,
       url: `${env.server.host}/user/${user?.id}/${user?.username}`,
@@ -49,17 +50,19 @@ export function metadataOffers({ data }: IData): Metadata {
   meta.openGraph = {
     title: provider === EnumTypeProvider.offer ? category?.title : title,
     siteName: `${provider === EnumTypeProvider.offer ? category?.title : title} | Sheira`,
-    type: "article",
-    publishedTime: created as string,
+    type: "website",
     locale: "ru_RU",
     description: description ?? "",
-    url: `${env.server.host}/offer/${id}/${String(slug).replaceAll("/", "-")}`,
+    url: metadataBase,
     images: metaImgs.images.reverse(),
-    authors: [user?.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
   }
   meta.twitter = {
+    title: title,
+    creator: name,
+    site: `Sheira`,
     card: "summary_large_image",
     images: metaImgs.images.reverse(),
+    description: description ?? `Описание: ${title ?? ""}`,
   }
   meta.robots = {
     index: true,

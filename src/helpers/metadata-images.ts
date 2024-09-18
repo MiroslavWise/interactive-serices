@@ -2,6 +2,7 @@ import { type Metadata } from "next"
 import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
 import { type IImageData } from "@/types/type"
+import { replaceURLImage } from "@/lib/replace-url-image"
 
 interface IData {
   images: IImageData[]
