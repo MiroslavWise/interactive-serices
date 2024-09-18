@@ -41,7 +41,7 @@ export default async function (): Promise<MetadataRoute.Sitemap> {
     priority: 0.95,
   }))
   const proposals: MetadataRoute.Sitemap = listOffers!?.map((_) => ({
-    url: `${env.server.host}/proposals//${_.id}`,
+    url: `${env.server.host}/proposals/${_.id}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.95,

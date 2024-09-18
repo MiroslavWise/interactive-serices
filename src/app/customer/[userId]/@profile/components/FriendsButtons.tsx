@@ -15,7 +15,7 @@ import IconCheckFriend from "@/components/icons/IconCheckFriend"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthModal, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchDeleteFriend, useAuth } from "@/store"
 import { deleteFriend, getFiendId, getFriends, postFriend } from "@/services"
 
 function FriendsButtons({ user }: { user: IUserResponse }) {
@@ -98,24 +98,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
   }
 
   function handleDelete() {
-    if (user?.id! !== userId! && userId) {
-      if (!loading) {
-        setLoading(true)
-        deleteFriend(user?.id!).then((response) => {
-          if (response?.ok) {
-            if (isResponse) {
-              setIsResponse(false)
-            } else if (isFriends) {
-              setIsFriends(false)
-            } else if (isRequest) {
-              setIsRequest(false)
-            }
-          }
-          setLoading(false)
-          console.log("delete friend: ", response)
-        })
-      }
-    }
+    dispatchDeleteFriend(user)
   }
 
   return (
@@ -161,6 +144,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
             label="Запрос отправлен"
             prefixIcon={<IconCheckAccent />}
             className="gap-1.5 [&>svg]:w-4 [&>svg]:h-4"
+            onClick={handleDelete}
           />
           <Link
             href={{

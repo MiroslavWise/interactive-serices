@@ -35,7 +35,7 @@ function DeleteChat() {
 
   return (
     <>
-      <article className="">
+      <article>
         <div
           className={cx(
             "relative w-11 h-11 p-[1.375rem] rounded-full bg-grey-field",
