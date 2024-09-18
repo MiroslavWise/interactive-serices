@@ -59,10 +59,12 @@ export async function generateMetadata({ params }: IParams): Promise<Metadata> {
     obj.metadataBase = metadataBase
 
     obj.openGraph = {
+      title: current.title,
+      siteName: `${current.title} | Sheira`,
       type: "article",
       publishedTime: current?.created as string,
       locale: "ru",
-      description: current?.description ?? current?.title ?? "",
+      description: current?.description ?? `Описание ${current?.title}` ?? "",
       url: `${env.server.host}/offer/${id}/${String(current.slug).replaceAll("/", "-")}`,
       images: images,
       authors: [user?.firstName ?? "Имя", user?.lastName ?? "Фамилия"],

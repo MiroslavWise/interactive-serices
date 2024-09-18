@@ -1,11 +1,12 @@
 import { create } from "zustand"
 
-import { type IUserResponse } from "@/services/users/types"
+import { type IUserOffer } from "@/services/offers/types"
+
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 
 export const useDeleteFriend = create<IStateDeleteFriend>(() => ({}))
 
-export const dispatchDeleteFriend = (value?: IUserResponse) => {
+export const dispatchDeleteFriend = (value?: IUserOffer) => {
   if (value) {
     dispatchModal(EModalData.DELETE_FRIEND)
     useDeleteFriend.setState(
@@ -26,5 +27,5 @@ export const dispatchDeleteFriend = (value?: IUserResponse) => {
 }
 
 interface IStateDeleteFriend {
-  user?: IUserResponse
+  user?: IUserOffer
 }

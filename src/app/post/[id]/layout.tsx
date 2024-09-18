@@ -10,6 +10,10 @@ export const dynamicParams = true
 export const dynamic = "force-dynamic"
 export const fetchCache = "force-no-store"
 
+function replace(value: string): string {
+  return value.replace("?format=webp", "")
+}
+
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { id } = params ?? {}
   if (!id) return {}
@@ -20,13 +24,12 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
   if (!!data) {
     obj.title = data.title
-
-    obj.keywords = [...keyWords, ...data.title.split(" ").map((_) => _.replace(/\w/g, ""))]
+    obj.keywords = [data.title, ...keyWords]
 
     const note = (dataNote && dataNote[0]) ?? null
 
     if (note) {
-      obj.description = note?.description ?? undefined
+      obj.description = note?.description ?? `Описание: ${obj.title ?? ""}`
     }
 
     const user = data?.user
@@ -52,12 +55,20 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     if (!!note?.images.length) {
       for (const image of note.images) {
         images.push({
-          url: image.attributes.url.replace("?format=webp", ""),
-          secureUrl: image.attributes.url.replace("?format=webp", ""),
+          url: replace(image.attributes.url),
+          secureUrl: replace(image.attributes.url),
           alt: image.attributes.alt,
           width: 256,
           height: 256,
         })
+      }
+
+      obj.icons = {
+        icon: {
+          url: replace(note?.images[0]?.attributes?.url!),
+          rel: "icon",
+          fetchPriority: "low",
+        },
       }
     }
 
@@ -65,10 +76,12 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     obj.metadataBase = metadataBase
 
     obj.openGraph = {
+      title: data.title,
+      siteName: `${data.title} | Sheira`,
       type: "article",
       locale: "ru",
       countryName: "ru",
-      description: note?.description ?? "",
+      description: note?.description ?? `Описание: ${obj.title ?? ""}`,
       images: images.reverse(),
       publishedTime: data?.created,
       authors: [user.firstName ?? "Имя", user?.lastName ?? "Фамилия"],

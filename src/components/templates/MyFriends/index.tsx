@@ -17,7 +17,7 @@ import { cx } from "@/lib/cx"
 import { getFriends, postFriend } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
-import { dispatchMyFriends, useAuth, useMyFriends } from "@/store"
+import { dispatchDeleteFriend, dispatchMyFriends, useAuth, useMyFriends } from "@/store"
 
 function MyFriends() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -190,7 +190,10 @@ function MyFriends() {
                       prefetch={false}
                       onClick={dispatchMyFriends}
                     />
-                    <div className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
+                    <div
+                      className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 cursor-pointer"
+                      onClick={() => dispatchDeleteFriend(item)}
+                    >
                       <IconCheckFriend />
                     </div>
                   </div>
