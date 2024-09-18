@@ -1,9 +1,9 @@
 import { type Metadata } from "next"
-import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
 import { type IPosts } from "@/services/posts/types"
 
 import env, { keyWords } from "@/config/environment"
+import { metadataImages } from "./metadata-images"
 
 interface IData {
   data: IPosts
@@ -41,30 +41,11 @@ export function metadataPosts({ data }: IData): Metadata {
     }
   }
 
-  const images: OpenGraph["images"] = []
-
-  if (!!note?.images.length) {
-    for (const image of note.images) {
-      images.push({
-        url: replaceURLImage(image.attributes.url),
-        secureUrl: replaceURLImage(image.attributes.url),
-        alt: image.attributes.alt,
-        width: 256,
-        height: 256,
-      })
-    }
-
-    meta.icons = {
-      icon: {
-        url: replaceURLImage(note?.images[0]?.attributes?.url!),
-        rel: "icon",
-        fetchPriority: "low",
-      },
-    }
-  }
-
   const metadataBase = new URL(`${env.server.host}/post/${id}/${String(data.slug)}`)
   meta.metadataBase = metadataBase
+
+  const metaImgs = metadataImages({ images: note!?.images ?? [] })
+  meta.icons = metaImgs.icons
 
   meta.openGraph = {
     title: title,
@@ -73,13 +54,14 @@ export function metadataPosts({ data }: IData): Metadata {
     locale: "ru_RU",
     countryName: "ru",
     description: note?.description ?? `Описание: ${title ?? ""}`,
-    images: images.reverse(),
+    images: metaImgs.images.reverse(),
     publishedTime: created,
     authors: [user.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
   }
 
   meta.twitter = {
-    images: images.reverse(),
+    card: "summary_large_image",
+    images: metaImgs.images.reverse(),
   }
   meta.robots = {
     index: true,

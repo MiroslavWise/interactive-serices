@@ -1,10 +1,10 @@
 import { type Metadata } from "next"
-import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import env from "@/config/environment"
-import { EnumTypeProvider } from "@/types/enum"
+import { metadataImages } from "./metadata-images"
 
 interface IData {
   data: IResponseOffers
@@ -24,26 +24,8 @@ export function metadataOffers({ data }: IData): Metadata {
   }
   meta.description = description
 
-  const images: OpenGraph["images"] = []
-
-  if (data.images.length > 0) {
-    for (const image of data.images ?? []) {
-      images.push({
-        url: image.attributes.url.replace("?format=webp", ""),
-        alt: image.attributes.alt,
-        width: 256,
-        height: 256,
-      })
-    }
-
-    meta.icons = {
-      icon: {
-        url: replaceURLImage(data.images?.[0]?.attributes?.url!),
-        rel: "icon",
-        fetchPriority: "low",
-      },
-    }
-  }
+  const metaImgs = metadataImages({ images: data.images })
+  meta.icons = metaImgs.icons
 
   if (user) {
     const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
@@ -72,11 +54,12 @@ export function metadataOffers({ data }: IData): Metadata {
     locale: "ru_RU",
     description: description ?? "",
     url: `${env.server.host}/offer/${id}/${String(slug).replaceAll("/", "-")}`,
-    images: images.reverse(),
+    images: metaImgs.images.reverse(),
     authors: [user?.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
   }
   meta.twitter = {
-    images: images.reverse(),
+    card: "summary_large_image",
+    images: metaImgs.images.reverse(),
   }
   meta.robots = {
     index: true,
