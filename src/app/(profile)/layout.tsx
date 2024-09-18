@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, type ReactNode } from "react"
+import { type PropsWithChildren, useEffect } from "react"
 
 import { MobileChangeAbout } from "@/components/templates"
 
 import { usePush, useResize } from "@/helpers"
 import { useAuth, useMobileChangeAbout } from "@/store"
 
-export default function LayoutProfile({ children }: { children: ReactNode }) {
+export default function LayoutProfile({ children }: PropsWithChildren) {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const visible = useMobileChangeAbout(({ visible }) => visible)
   const { handlePush } = usePush()
