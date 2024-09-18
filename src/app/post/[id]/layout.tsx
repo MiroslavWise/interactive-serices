@@ -1,5 +1,5 @@
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
+import { type PropsWithChildren } from "react"
 import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
 import { getNotes } from "@/services/notes"
@@ -97,4 +97,4 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   return obj
 }
 
-export default ({ children }: { children: ReactNode }) => children
+export default ({ children }: PropsWithChildren) => children

@@ -1,34 +1,33 @@
+import { cache } from "react"
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
+import { redirect } from "next/navigation"
 import { type OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
 import { EnumTypeProvider } from "@/types/enum"
 
+import { getOffers } from "@/services"
 import env from "@/config/environment"
-import { getIdOffer } from "@/services"
 
-export const dynamicParams = true
-export const dynamic = "force-dynamic"
-export const fetchCache = "force-no-store"
+const getCache = cache(getOffers)
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: IParams): Promise<Metadata> {
   const { id } = params ?? {}
-  if (!id) return {}
-  const { data: offer } = await getIdOffer(Number(id))
 
-  const obj: Metadata = {}
+  const { data } = await (env.server.host.includes("dev")
+    ? Promise.resolve({ data: [] })
+    : getCache({ provider: EnumTypeProvider.discussion, order: "DESC" }))
 
-  if (!!offer) {
-    if (offer.provider === EnumTypeProvider.offer) {
-      obj.title = offer?.category?.title
-    } else {
-      obj.title = offer.title
+  const current = data?.find((item) => Number(item.id) === Number(id))
+
+  if (!!current) {
+    const obj: Metadata = {
+      title: current.title,
+      description: current.description,
     }
-    obj.description = offer.description
 
     const images: OpenGraph["images"] = []
 
-    for (const image of offer.images ?? []) {
+    for (const image of current.images ?? []) {
       images.push({
         url: image.attributes.url.replace("?format=webp", ""),
         secureUrl: image.attributes.url.replace("?format=webp", ""),
@@ -45,7 +44,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       height: 256,
     })
 
-    const user = offer?.user
+    const user = current?.user
 
     if (user) {
       const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
@@ -63,15 +62,15 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       }
     }
 
-    const metadataBase = new URL(`${env.server.host}/offer/${id}/${String(offer.slug)}`)
+    const metadataBase = new URL(`${env.server.host}/offer/${id}/${String(current.slug)}`)
     obj.metadataBase = metadataBase
 
     obj.openGraph = {
       type: "article",
-      publishedTime: offer?.created as string,
+      publishedTime: current?.created as string,
       locale: "ru",
-      description: offer?.description ?? offer?.title ?? "",
-      url: `${env.server.host}/offer/${id}/${String(offer.slug).replaceAll("/", "-")}`,
+      description: current?.description ?? current?.title ?? "",
+      url: `${env.server.host}/offer/${id}/${String(current.slug).replaceAll("/", "-")}`,
       images: images,
       authors: [user?.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
     }
@@ -86,9 +85,27 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         follow: true,
       },
     }
-  }
 
-  return obj
+    return obj
+  } else {
+    return {}
+  }
 }
 
-export default ({ children }: { children: ReactNode }) => children
+export async function generateStaticParams() {
+  const { data } = await (env.server.host.includes("dev")
+    ? Promise.resolve({ data: [] })
+    : getCache({ provider: EnumTypeProvider.discussion, order: "DESC" }))
+
+  return data?.map((item) => ({ id: String(item.id) })) ?? []
+}
+
+export default ({ params }: IParams) => {
+  const { id } = params ?? {}
+
+  return redirect(`/offer/${id}`)
+}
+
+interface IParams {
+  params: { id: number | string }
+}
