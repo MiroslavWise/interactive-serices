@@ -36,13 +36,6 @@ export async function generateMetadata({ params }: IParams): Promise<Metadata> {
         height: 256,
       })
     }
-    images.push({
-      url: `${env.server.host!}/api/og`,
-      secureUrl: `${env.server.host!}/api/og`,
-      alt: "SHEIRA",
-      width: 512,
-      height: 256,
-    })
 
     const user = current?.user
 

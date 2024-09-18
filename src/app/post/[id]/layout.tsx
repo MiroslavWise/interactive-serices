@@ -60,13 +60,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         })
       }
     }
-    images.push({
-      url: `${env.server.host!}/api/og`,
-      secureUrl: `${env.server.host!}/api/og`,
-      alt: "SHEIRA",
-      width: 512,
-      height: 256,
-    })
 
     const metadataBase = new URL(`${env.server.host}/post/${id}/${String(data.slug)}`)
     obj.metadataBase = metadataBase
@@ -76,13 +69,13 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       locale: "ru",
       countryName: "ru",
       description: note?.description ?? "",
-      images: images,
+      images: images.reverse(),
       publishedTime: data?.created,
       authors: [user.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
     }
 
     obj.twitter = {
-      images: images,
+      images: images.reverse(),
     }
     obj.robots = {
       index: true,

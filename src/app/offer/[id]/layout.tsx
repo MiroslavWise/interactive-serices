@@ -31,19 +31,11 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     for (const image of offer.images ?? []) {
       images.push({
         url: image.attributes.url.replace("?format=webp", ""),
-        secureUrl: image.attributes.url.replace("?format=webp", ""),
         alt: image.attributes.alt,
         width: 256,
         height: 256,
       })
     }
-    images.push({
-      url: `${env.server.host!}/api/og`,
-      secureUrl: `${env.server.host!}/api/og`,
-      alt: "SHEIRA",
-      width: 512,
-      height: 256,
-    })
 
     const user = offer?.user
 
@@ -72,11 +64,11 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       locale: "ru",
       description: offer?.description ?? offer?.title ?? "",
       url: `${env.server.host}/offer/${id}/${String(offer.slug).replaceAll("/", "-")}`,
-      images: images,
+      images: images.reverse(),
       authors: [user?.firstName ?? "Имя", user?.lastName ?? "Фамилия"],
     }
     obj.twitter = {
-      images: images,
+      images: images.reverse(),
     }
     obj.robots = {
       index: true,

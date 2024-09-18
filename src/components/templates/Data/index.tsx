@@ -46,6 +46,7 @@ import stylesBallonPost from "@/components/templates/BallonPost/style.module.scs
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
 import CreateNewNote from "../CreateNewNote"
 import BallonPost from "../BallonPost"
+import DeleteFriend from "../Delete/Friend"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -79,6 +80,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.CREATE_NEW_NOTE, <CreateNewNote key="::key::CreateNewNote" />], //Создание записи
   [EModalData.SUCCESS_CREATE_POST, <SuccessCreatePost key="::key::SuccessCreatePost" />], //Успех создания поста
   [EModalData.BALLOON_POST, <BallonPost key="::key::BallonPost" />], //Балун поста
+  [EModalData.DELETE_FRIEND, <DeleteFriend key="::key::DeleteFriend" />], //Удаление друга
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION],
@@ -97,6 +99,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.DeleteOffer, stylesOutAccount.container],
   [EModalData.DeleteUser, stylesOutAccount.container],
   [EModalData.DeleteChat, stylesOutAccount.container],
+  [EModalData.DELETE_FRIEND, stylesOutAccount.container],
   [EModalData.UpdateOffer, stylesUpdateOffer.container],
   [EModalData.ChangePassword, stylesChangePassword.container],
   [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container],
