@@ -70,7 +70,7 @@ export function generateMetadata(): Metadata {
     category: "people, services, услуги, обмен",
     openGraph: {
       type: "website",
-      locale: "ru",
+      locale: "ru_RU",
       url: env.server.host!,
       siteName: "Sheira",
       description:
