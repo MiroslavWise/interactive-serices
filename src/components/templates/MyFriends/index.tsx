@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import Avatar from "@avatar"
@@ -14,6 +14,7 @@ import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 import RatingAndFeedbackComponent from "../Friends/components/RatingAndFeedbackComponent"
 
 import { cx } from "@/lib/cx"
+import { useWebSocket } from "@/context"
 import { getFriends, postFriend } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
@@ -26,7 +27,7 @@ function MyFriends() {
   const { on } = useToast()
   const [loadingAdd, setLoadingAdd] = useState(false)
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading, isFetching, refetch } = useQuery({
     queryFn: () => getFriends({}),
     queryKey: ["friends", { userId: userId, filter: "list" }],
     enabled: !!userId && visible,
@@ -40,13 +41,14 @@ function MyFriends() {
     queryFn: () => getFriends({ query: { filter: "response", order: "DESC" } }),
     queryKey: ["friends", { userId: userId, filter: "response" }],
     enabled: !!userId,
+    select: (data) => data?.data,
     refetchOnMount: true,
   })
   const is = isLoading || isFetching || isFetchingResponse
-  const itemsResponse = dataResponse?.data || []
 
-  const items = data || []
+  const items = data ?? []
   const length = items.length
+  const itemsResponse = dataResponse ?? []
   const lengthName = DeclensionAllQuantityFriends(length)
 
   function onHandleAdd(id: number) {
@@ -54,18 +56,32 @@ function MyFriends() {
       setLoadingAdd(true)
       postFriend({ id: id }).then((response) => {
         if (response.ok) {
-          refetchResponse().then(() => setLoadingAdd(false))
+          Promise.all([refetch(), refetchResponse()]).then(() => setLoadingAdd(false))
           on({ message: "Вы приняли заявку в друзья" }, "success")
         }
       })
     }
   }
 
+  const { socket } = useWebSocket()
+
+  useEffect(() => {
+    function friendsListener() {
+      refetchResponse()
+    }
+
+    socket?.on(`friends-${userId}`, friendsListener)
+
+    return () => {
+      socket?.off(`friends-${userId}`, friendsListener)
+    }
+  }, [socket, userId])
+
   return (
     <div
       className={cx(
         "w-full h-dvh md:h-full fixed inset-0 flex-col items-end bg-translucent",
-        visible ? "z-[1000] flex visible opacity-100" : "-z-10 invisible hidden opacity-0",
+        visible ? "z-[999] flex visible opacity-100" : "-z-10 invisible hidden opacity-0",
       )}
     >
       <section className="relative h-full w-full md:max-w-[35rem] md:rounded-l-[2rem] bg-BG-second">

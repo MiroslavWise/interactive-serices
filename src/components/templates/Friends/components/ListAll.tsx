@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { type TFriends } from "../constants/segments"
@@ -17,6 +17,7 @@ import { useAuth, useFriends } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { getFiendId, getFriends, postFriend } from "@/services"
+import { useWebSocket } from "@/context"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
