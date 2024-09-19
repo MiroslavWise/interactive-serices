@@ -3,6 +3,7 @@ import { type INotes } from "@/services/notes/types"
 
 import { NextImageMotion } from "@/components/common"
 import { useContextPostsComments } from "./ContextComments"
+import ImageComment from "./ImageComment"
 
 function ItemCommentNote({ note, handleToNote }: { note?: INotes; handleToNote: Dispatch<number> }) {
   const { onNoteCurrent } = useContextPostsComments()
@@ -29,12 +30,7 @@ function ItemCommentNote({ note, handleToNote }: { note?: INotes; handleToNote: 
       <span className="text-text-secondary text-xs font-normal">Запись: Фотографии</span>
       <article className="flex flex-row flex-nowrap gap-0.5">
         {images.map((item) => (
-          <div
-            className="relative h-4 w-4 p-2 rounded-[0.0625rem] overflow-hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
-            key={`:key:img:${item.id}:`}
-          >
-            <NextImageMotion src={item.attributes.url} alt="offer-image" width={40} height={40} />
-          </div>
+          <ImageComment key={`:key:img:${item.id}:`} item={item} />
         ))}
       </article>
     </div>

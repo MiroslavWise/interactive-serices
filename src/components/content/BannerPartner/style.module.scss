@@ -1,0 +1,51 @@
+.wrapper {
+  --p: #a31ad3;
+  --red: #f11933;
+  --pre-red: #ff1f62;
+}
+
+[data-theme="dark"] {
+  .wrapper {
+    --p: #a31ad3;
+  }
+}
+
+.wrapper {
+  background-color: var(--p);
+
+  & > span {
+    &[data-1] {
+      left: 12%;
+      width: 12.625rem;
+      background-color: var(--red);
+      filter: blur(115px);
+    }
+
+    &[data-2] {
+      width: 8.375rem;
+      background-color: var(--pre-red);
+      filter: blur(90px);
+      left: 24%;
+    }
+    &[data-3] {
+      left: 62%;
+      top: 70%;
+      background-color: var(--red);
+      filter: blur(115px);
+      width: 12.625rem;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    & > span {
+      &[data-3],
+      &[data-2] {
+        display: none;
+      }
+
+      &[data-1] {
+        left: 72%;
+      }
+    }
+  }
+}

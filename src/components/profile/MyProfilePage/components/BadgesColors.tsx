@@ -7,6 +7,7 @@ import { cx } from "@/lib/cx"
 import { getBarters, getTestimonials } from "@/services"
 
 import styles from "./styles/badges-colors.module.scss"
+import BadgeParnter from "./BadgeParnter"
 
 export const BadgesColors = ({ userId }: { userId: number | string }) => {
   const { data: dataBarters, isLoading: isLoadingBarters } = useQuery({
@@ -39,7 +40,7 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
   if (isLoadingTestimonials || isLoadingBarters)
     return (
       <div className="loading-screen w-full grid grid-cols-3 gap-1">
-        {["asdfasdfas asdf asdf", "asdfasdzcvo a eho", "asdfaksdfh qwehr "].map((item) => (
+        {["asdfasdfas asdf asdf", "asdfasdzcvo a eho", "asdf"].map((item) => (
           <article
             key={`:load:fsdf:${item}:`}
             className="w-full py-2 px-2.5 flex flex-col gap-2.5 rounded-[0.625rem] border border-solid border-grey-stroke-light *:w-full"
@@ -78,15 +79,7 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
           <img src="/badges/star.svg" alt="barter" width={24} height={24} />
         </div>
       </section>
-      <section data-red>
-        <article>
-          <h4>Баллы</h4>
-          <h2>200</h2>
-        </article>
-        <div data-icon>
-          <img src="/badges/gift.svg" alt="barter" width={24} height={24} />
-        </div>
-      </section>
+      <BadgeParnter />
     </div>
   )
 }
