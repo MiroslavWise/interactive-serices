@@ -5,12 +5,11 @@ import { useQuery } from "@tanstack/react-query"
 import Avatar from "@avatar"
 import IconXClose from "@/components/icons/IconXClose"
 import NoFriends from "../Friends/components/NoFriends"
+import { Button, ButtonLink } from "@/components/common"
 import IconAccentChat from "@/components/icons/IconAccentChat"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 import LoadingFriends from "../Friends/components/LoadingFriends"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 import RatingAndFeedbackComponent from "../Friends/components/RatingAndFeedbackComponent"
 
 import { cx } from "@/lib/cx"
@@ -27,7 +26,7 @@ function MyFriends() {
   const { on } = useToast()
   const [loadingAdd, setLoadingAdd] = useState(false)
 
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryFn: () => getFriends({}),
     queryKey: ["friends", { userId: userId, filter: "list" }],
     enabled: !!userId && visible,
@@ -36,7 +35,7 @@ function MyFriends() {
   const {
     data: dataResponse,
     refetch: refetchResponse,
-    isFetching: isFetchingResponse,
+    isLoading: isLoadingResponse,
   } = useQuery({
     queryFn: () => getFriends({ query: { filter: "response", order: "DESC" } }),
     queryKey: ["friends", { userId: userId, filter: "response" }],
@@ -44,7 +43,8 @@ function MyFriends() {
     select: (data) => data?.data,
     refetchOnMount: true,
   })
-  const is = isLoading || isFetching || isFetchingResponse
+
+  const is = isLoading || isLoadingResponse
 
   const items = data ?? []
   const length = items.length
@@ -90,7 +90,7 @@ function MyFriends() {
           aria-label="Закрыть друзья"
           aria-labelledby="Закрыть друзья"
           className={cx(
-            "absolute flex items-center justify-center w-12 h-12 rounded-full md:top-6 md:bg-BG-second p-3.5 -left-2.5 -translate-x-full",
+            "absolute flex items-center justify-center w-12 h-12 rounded-full top-0 left-full md:top-6 md:bg-BG-second p-3.5 md:-left-2.5 -translate-x-full",
             "*:h-5 *:w-5 [&>svg>path]:stroke-text-primary",
           )}
           onClick={dispatchMyFriends}
@@ -105,7 +105,7 @@ function MyFriends() {
         ) : length === 0 ? (
           <NoFriends id={userId!} username={profile?.username!} />
         ) : (
-          <section className="max-h-[calc(100%_-_var(--height-standard-header-modal))] overflow-y-auto flex flex-col gap-6 pl-4 pr-4 md:pr-6">
+          <section className="h-[calc(100%_-_var(--height-standard-header-modal))] overflow-hidden overflow-y-auto flex flex-col gap-6 pl-4 pr-4 md:pr-6">
             <p className="text-left text-text-primary text-sm font-medium">{lengthName}</p>
             <ul className="w-full flex flex-col gap-6">
               {itemsResponse.length
@@ -160,25 +160,7 @@ function MyFriends() {
                   key={`:key:my:friend:${item.id}:`}
                   className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3"
                 >
-                  <Link
-                    href={{ pathname: `/customer/${item.id}` }}
-                    className={`w-full h-full aspect-square rounded-[0.625rem] relative ${
-                      !item.image ? "bg-grey-stroke-light" : ""
-                    } overflow-hidden cursor-pointer`}
-                    target="_blank"
-                  >
-                    {!!item.image ? (
-                      <NextImageMotion
-                        className="rounded-[0.625rem] overflow-hidden w-[3.125rem] h-[3.125rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                        src={item.image?.attributes?.url}
-                        alt="avatar"
-                        width={100}
-                        height={100}
-                      />
-                    ) : (
-                      <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-7 h-7" />
-                    )}
-                  </Link>
+                  <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-[0.625rem]" image={item.image} userId={item.id} />
                   <div className="w-full flex flex-col items-start justify-center gap-1">
                     <Link
                       prefetch={false}
