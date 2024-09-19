@@ -69,7 +69,8 @@ function FooterNewComment({ post }: { post: IPosts }) {
         note: writeResponse ? writeResponse : undefined,
       })
       const response = await postPostsComment(body)
-      if (!response?.data) {
+      clg("response: postPostsComment", response, "warning")
+      if (response?.data) {
         onWriteResponse(null)
         resetField("comment")
         if (textRef.current) {
@@ -80,7 +81,6 @@ function FooterNewComment({ post }: { post: IPosts }) {
         setErrorPost(true)
         on({ message: "Извините, ваш комментарий не был отправлен. У нас какие-то проблемы, мы разбираемся" })
       }
-      clg("response: postPostsComment", response, "warning")
       setLoading(false)
     }
   })
