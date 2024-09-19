@@ -93,7 +93,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
         id: id!,
         provider: "post",
       }).then(async (response) => {
-        if (typeof response !== "number") {
+        if (typeof response?.data !== "number") {
           setCount((_) => (myLike ? _ - 1 : _ + 1))
           setMyLike((_) => !_)
         } else {

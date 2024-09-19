@@ -13,6 +13,7 @@ import { dispatchAuthModal, useAuth } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
 import { MAX_LENGTH_COMMENT, resolver, type TSchema } from "../utils/schema"
 import { type IBodyPostComment, postPostsComment } from "@/services/posts-comments"
+import { useToast } from "@/helpers/hooks/useToast"
 
 function FooterNewComment({ post }: { post: IPosts }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
@@ -20,6 +21,8 @@ function FooterNewComment({ post }: { post: IPosts }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = useAuth(({ user }) => user)
   const { onUpdate, writeResponse, onWriteResponse } = useContextPostsComments()
+  const [errorPost, setErrorPost] = useState(false)
+  const { on } = useToast()
 
   const { control, handleSubmit, resetField } = useForm<TSchema>({
     resolver: resolver,
@@ -31,6 +34,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
   const onSubmit = handleSubmit(async (values) => {
     if (!loading) {
       setLoading(true)
+      setErrorPost(false)
       const message = values.comment.trim()
       const body: IBodyPostComment = {
         postId: post.id,
@@ -64,9 +68,14 @@ function FooterNewComment({ post }: { post: IPosts }) {
         user: miniUser,
         note: writeResponse ? writeResponse : undefined,
       })
-      resetField("comment")
-      onWriteResponse(null)
       const response = await postPostsComment(body)
+      if (!response?.data) {
+        onWriteResponse(null)
+        resetField("comment")
+      } else {
+        setErrorPost(true)
+        on({ message: "Извините, ваш комментарий не был отправлен. У нас какие-то проблемы, мы разбираемся" })
+      }
       clg("response: postPostsComment", response, "warning")
       setLoading(false)
       if (textRef.current) {
@@ -144,7 +153,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
               placeholder="Ваш комментарий..."
               className={cx(
                 "whitespace-pre-wrap py-2.5 px-4 h-10 w-full border border-solid border-grey-stroke focus:border-text-accent resize-none rounded-[2.5rem] outline-none text-text-primary text-sm font-normal placeholder:text-text-disabled max-h-40 md:max-h-[13.75rem]",
-                !!error && "border-text-error text-text-error",
+                (!!error || errorPost) && "border-text-error text-text-error",
               )}
             />
             <button type="submit" className="relative w-6 h-10 px-3 py-5 disabled:opacity-50" disabled={!field.value.trim()}>
