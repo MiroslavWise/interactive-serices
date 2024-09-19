@@ -7,7 +7,7 @@ const Providers = dynamic(() => import("./providers"), { ssr: false })
 const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
 
 import { cx } from "@/lib/cx"
-import env, { keyWords, URL_APPLE_APP } from "@/config/environment"
+import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/environment"
 
 import "@/scss/init.scss"
 import "./build.css"
@@ -25,8 +25,6 @@ export const viewport: Viewport = {
 
 export function generateMetadata(): Metadata {
   const urlIcon = `/icons/icon.png`
-  const APPLE_ID = "6504366029"
-  const APPLE_NAME = "Sheira: услуги и обсуждения"
 
   const meta: Metadata = {
     appLinks: {

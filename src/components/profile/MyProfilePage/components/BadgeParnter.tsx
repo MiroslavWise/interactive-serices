@@ -13,7 +13,7 @@ function BadgeParnter() {
         title="Перейти на страницу"
       >
         Стать партнёром Шейра&nbsp;
-        <div className="relative -mb-1 inline-flex w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>avg>path]:fill-text-button">
+        <div className="relative -mb-1.5 inline-flex w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-button">
           <IconArrowRight />
         </div>
       </Link>
