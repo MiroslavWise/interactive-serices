@@ -72,16 +72,16 @@ function FooterNewComment({ post }: { post: IPosts }) {
       if (!response?.data) {
         onWriteResponse(null)
         resetField("comment")
+        if (textRef.current) {
+          textRef.current.style.borderRadius = `1.25rem`
+          textRef.current.style.height = "2.5rem"
+        }
       } else {
         setErrorPost(true)
         on({ message: "Извините, ваш комментарий не был отправлен. У нас какие-то проблемы, мы разбираемся" })
       }
       clg("response: postPostsComment", response, "warning")
       setLoading(false)
-      if (textRef.current) {
-        textRef.current.style.borderRadius = `1.25rem`
-        textRef.current.style.height = "2.5rem"
-      }
     }
   })
 

@@ -99,7 +99,6 @@ export function generateMetadata(): Metadata {
       icon: urlIcon,
     },
     verification: {
-      // google: "google",
       yandex: "b991e6c18bd99d04",
     },
   }
@@ -113,7 +112,58 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
         <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
-        <Script src={`/scripts/yandex-metrics-${env!?.server!?.host!?.includes("dev") ? "dev" : "prod"}.js`} />
+        <Script
+          id={env!?.server!?.host!?.includes("dev") ? `yandex-metrics-dev` : `yandex-metrics-prod`}
+          dangerouslySetInnerHTML={{
+            __html: env!?.server!?.host!?.includes("dev")
+              ? `
+                ;(function (m, e, t, r, i, k, a) {
+                  m[i] =
+                    m[i] ||
+                    function () {
+                      ;(m[i].a = m[i].a || []).push(arguments)
+                    }
+                  m[i].l = 1 * new Date()
+                  for (var j = 0; j < document.scripts.length; j++) {
+                    if (document.scripts[j].src === r) {
+                      return
+                    }
+                  }
+                  ;(k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]), (k.async = 1), (k.src = r), a.parentNode.insertBefore(k, a)
+                })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym")
+
+                ym(95807492, "init", {
+                  clickmap: true,
+                  trackLinks: true,
+                  accurateTrackBounce: true,
+                  webvisor: true,
+                })
+              `
+              : `
+                ;(function (m, e, t, r, i, k, a) {
+                  m[i] =
+                    m[i] ||
+                    function () {
+                      ;(m[i].a = m[i].a || []).push(arguments)
+                    }
+                  m[i].l = 1 * new Date()
+                  for (var j = 0; j < document.scripts.length; j++) {
+                    if (document.scripts[j].src === r) {
+                      return
+                    }
+                  }
+                  ;(k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]), (k.async = 1), (k.src = r), a.parentNode.insertBefore(k, a)
+                })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym")
+
+                ym(95807535, "init", {
+                  clickmap: true,
+                  trackLinks: true,
+                  accurateTrackBounce: true,
+                  webvisor: true,
+                })
+              `,
+          }}
+        />
         {!env!?.server!?.host.includes("dev") && <Script src="https://s.sdelka.biz/20431827.js" />}
         <noscript>
           <div>
@@ -124,7 +174,34 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             />
           </div>
         </noscript>
-        {!env!?.server!?.host!?.includes("dev") ? <Script src="/scripts/mail-ru-metrics.js" /> : null}
+        {!env!?.server!?.host!?.includes("dev") ? (
+          <Script
+            id="mail-ru-metrics"
+            dangerouslySetInnerHTML={{
+              __html: `
+                  var _tmr = window._tmr || (window._tmr = [])
+                  _tmr.push({ id: "3519466", type: "pageView", start: new Date().getTime() })
+                  ;(function (d, w, id) {
+                    if (d.getElementById(id)) return
+                    var ts = d.createElement("script")
+                    ts.type = "text/javascript"
+                    ts.async = true
+                    ts.id = id
+                    ts.src = "https://top-fwz1.mail.ru/js/code.js"
+                    var f = function () {
+                      var s = d.getElementsByTagName("script")[0]
+                      s.parentNode.insertBefore(ts, s)
+                    }
+                    if (w.opera == "[object Opera]") {
+                      d.addEventListener("DOMContentLoaded", f, false)
+                    } else {
+                      f()
+                    }
+                  })(document, window, "tmr-code")
+                `,
+            }}
+          />
+        ) : null}
         <noscript>
           <div>
             <img
