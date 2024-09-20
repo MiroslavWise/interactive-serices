@@ -5,3 +5,19 @@
     margin: 0;
   }
 }
+
+.banner {
+  padding-top: calc(1.5rem + var(--height-banner));
+
+  @media screen and (max-width: 768px) {
+    padding-top: calc(var(--height-mobile-header) + 2.5rem + var(--height-banner));
+  }
+}
+
+.default {
+  padding-top: 1.5rem;
+}
+
+.bannerNotification {
+  padding-top: calc(1.5rem + var(--height-banner));
+}

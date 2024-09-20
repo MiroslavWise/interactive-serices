@@ -35,7 +35,7 @@ function BannerPartner({ is }: { is: boolean }) {
       <button
         type="button"
         className={cx(
-          "absolute right-0 md:right-6 top-0 md:top-1/2 md:-translate-y-1/2 max-md:p-2.5 flex items-center justify-center z-20",
+          "absolute right-0 md:right-6 top-0 md:top-1/2 md:-translate-y-1/2 max-md:p-2.5 flex items-center justify-center z-50",
           "*:w-5 *:h-5 [&>svg>path]:stroke-text-button",
         )}
         onClick={dispatchCloseBanner}

@@ -9,7 +9,7 @@ import type { IResponseNotifications } from "@/services/notifications/types"
 import { ItemNotification } from "@/components/notifications"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
+import { useAuth, useBanner } from "@/store"
 import { serviceNotifications } from "@/services"
 import {
   DESCRIPTION_NOTIFICATIONS_EMPTY,
@@ -18,8 +18,10 @@ import {
 } from "@/components/templates/NotificationsMobile/constants/navigation"
 
 import styles from "./layout.module.scss"
+import main from "../layout.module.scss"
 
 export default function Notifications() {
+  const visibleBanner = useBanner(({ visible }) => visible)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [status, setStatus] = useState<TTypeWaiting>("all")
 
@@ -71,7 +73,13 @@ export default function Notifications() {
   }, [dataNotifications?.res, userId])
 
   return (
-    <>
+    <section
+      className={cx(
+        main.wrapperInsideContainer,
+        visibleBanner && main.bannerNotification,
+        "md:h-[calc(100vh_-_var(--height-header-nav-bar))] hidden md:flex flex-col gap-4 pt-6 !-mt-6 overflow-x-hidden overflow-y-auto",
+      )}
+    >
       <header className="w-full flex items-center justify-between gap-3">
         <h4 className="w-full text-text-primary text-xl font-semibold">Уведомления</h4>
         <nav className="w-fit h-[1.875rem] inline-flex items-center justify-end flex-nowrap gap-[1.125rem]">
@@ -114,6 +122,6 @@ export default function Notifications() {
           <p className="text-text-secondary font-medium">{DESCRIPTION_NOTIFICATIONS_EMPTY[status]}</p>
         </article>
       )}
-    </>
+    </section>
   )
 }

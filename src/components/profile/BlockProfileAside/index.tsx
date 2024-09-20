@@ -6,11 +6,9 @@ import { HeaderBlock } from "./components/HeaderBlock"
 import { cx } from "@/lib/cx"
 import { dispatchModal, EModalData } from "@/store"
 
-import styles from "./styles/style.module.scss"
-
 export const BlockProfileAside = () => {
   return (
-    <section className={cx(styles.container, "flex flex-col items-center gap-5 w-full")} data-test="block-profile-aside">
+    <section className="flex flex-col items-center gap-5 w-full" data-test="block-profile-aside">
       <HeaderBlock />
       <Button
         type="button"

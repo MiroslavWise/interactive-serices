@@ -27,7 +27,7 @@ export function metadataImages({ images = [] }: IData) {
           alt: image.attributes.alt,
           width: 256,
           height: 256,
-          type: "image/jpg",
+          type: "image/png",
         })
       }
     }

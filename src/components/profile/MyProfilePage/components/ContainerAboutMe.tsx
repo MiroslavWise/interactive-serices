@@ -8,6 +8,7 @@ import { FormChangeAbout } from "./FormChangeAbout"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
+import { useResize } from "@/helpers"
 import { getUserId } from "@/services"
 
 import styles from "./styles/about-me.module.scss"
@@ -27,6 +28,7 @@ const Edit = () => (
 )
 
 export const ContainerAboutMe = () => {
+  const { isTablet } = useResize()
   const [isEditing, setIsEditing] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
@@ -39,8 +41,10 @@ export const ContainerAboutMe = () => {
   const { data: dataUser } = data ?? {}
   const { profile } = dataUser ?? {}
 
+  if (isTablet) return null
+
   return (
-    <div className={cx(styles.wrapper, "w-full flex flex-col gap-2.5")}>
+    <div className={cx(styles.wrapper, "w-full hidden md:flex flex-col gap-2.5")}>
       {isLoading || isPending ? (
         <div className="loading-screen w-full flex flex-col gap-0.5 py-3 px-4 bg-BG-second rounded-2xl">
           <article className="flex flex-row items-start justify-between">

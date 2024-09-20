@@ -11,12 +11,14 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
+import { useResize } from "@/helpers"
 import { getUserId, getFriends } from "@/services"
 import { dispatchActiveServicesFrom, dispatchModal, dispatchMyFriends, dispatchOptionProfileMobile, EModalData, useAuth } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
 
 export const MContainerAboutProfile = () => {
+  const { isTablet } = useResize()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const {
@@ -59,8 +61,10 @@ export const MContainerAboutProfile = () => {
     dispatchOptionProfileMobile(true)
   }
 
+  if (!isTablet) return null
+
   return (
-    <div className={cx(styles.container, "w-full flex flex-col gap-2.5")}>
+    <div className={cx(styles.container, "w-full flex flex-col gap-2.5 md:hidden")}>
       <div data-block-profile className="w-full p-4 rounded-2xl flex flex-col gap-4 bg-BG-second">
         <section className="w-full !grid !grid-cols-[5rem_minmax(0,1fr)] gap-4">
           <div
