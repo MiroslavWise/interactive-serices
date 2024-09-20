@@ -18,6 +18,7 @@ import { getFriends, postFriend } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { dispatchDeleteFriend, dispatchMyFriends, useAuth, useMyFriends } from "@/store"
+import { clg } from "@console"
 
 function MyFriends() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -50,6 +51,8 @@ function MyFriends() {
   const length = items.length
   const itemsResponse = dataResponse ?? []
   const lengthName = DeclensionAllQuantityFriends(length)
+
+  clg("itemsResponse: ", itemsResponse, "warning")
 
   function onHandleAdd(id: number) {
     if (!loadingAdd) {
