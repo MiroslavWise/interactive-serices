@@ -1,10 +1,12 @@
 "use client"
 
+import { type PropsWithChildren } from "react"
+
 import { YMaps } from "@pbe/react-yandex-maps"
 
 import env from "@/config/environment"
 
-function YMapsProvider({ children }: { children: React.ReactNode }) {
+function YMapsProvider({ children }: PropsWithChildren) {
   return (
     <YMaps
       query={{

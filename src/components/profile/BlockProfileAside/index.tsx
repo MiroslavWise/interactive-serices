@@ -3,18 +3,20 @@
 import { Button } from "@/components/common"
 import { HeaderBlock } from "./components/HeaderBlock"
 
+import { cx } from "@/lib/cx"
 import { dispatchModal, EModalData } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 export const BlockProfileAside = () => {
   return (
-    <section className={styles.container} data-test="block-profile-aside">
+    <section className={cx(styles.container, "flex flex-col items-center gap-5 w-full")} data-test="block-profile-aside">
       <HeaderBlock />
       <Button
         type="button"
         label="Редактировать профиль"
         typeButton="regular-primary"
+        className="h-9"
         onClick={() => dispatchModal(EModalData.UpdateProfile)}
         data-test="block-profile-aside-button-on-modal-update-profile"
       />

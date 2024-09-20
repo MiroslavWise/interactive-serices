@@ -5,7 +5,6 @@ import { type IBodyPost } from "@/services/posts/types"
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 
-import { clg } from "@console"
 import { patchPost } from "@/services/posts"
 import { patchNote } from "@/services/notes"
 import { fileUploadService } from "@/services"

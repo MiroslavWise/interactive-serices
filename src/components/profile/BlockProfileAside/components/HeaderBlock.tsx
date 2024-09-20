@@ -2,19 +2,16 @@ import { format } from "date-fns"
 import { ru } from "date-fns/locale"
 import { useQuery } from "@tanstack/react-query"
 
-import type { THeaderBlock } from "../types/types"
-
 import { NextImageMotion } from "@/components/common"
+import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { useAuth } from "@/store"
 import { getUserId } from "@/services"
 
-import styles from "../styles/header.module.scss"
 import { cx } from "@/lib/cx"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
-export const HeaderBlock: THeaderBlock = () => {
+export const HeaderBlock = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
