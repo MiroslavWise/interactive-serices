@@ -93,7 +93,7 @@ function MyFriends() {
           aria-label="Закрыть друзья"
           aria-labelledby="Закрыть друзья"
           className={cx(
-            "absolute flex items-center justify-center w-12 h-12 rounded-full top-0 left-full md:top-6 md:bg-BG-second p-3.5 md:-left-2.5 -translate-x-full",
+            "absolute flex items-center justify-center w-12 h-12 rounded-full top-0 left-full md:top-6 md:bg-BG-second p-3.5 md:-left-2.5 -translate-x-full z-20",
             "*:h-5 *:w-5 [&>svg>path]:stroke-text-primary",
           )}
           onClick={dispatchMyFriends}

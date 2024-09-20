@@ -25,7 +25,7 @@ function Friends() {
           type="button"
           onClick={dispatchCloseFriends}
           className={cx(
-            "absolute top-0 md:top-6 left-full md:-left-2.5 -translate-x-full md:bg-BG-second w-12 h-12 rounded-full p-3.5 flex items-center justify-center",
+            "absolute top-0 md:top-6 left-full md:-left-2.5 -translate-x-full md:bg-BG-second w-12 h-12 rounded-full p-3.5 flex items-center justify-center z-20",
             "*:w-5 *:h-5 [&>svg>path]:stroke-text-primary",
           )}
         >
