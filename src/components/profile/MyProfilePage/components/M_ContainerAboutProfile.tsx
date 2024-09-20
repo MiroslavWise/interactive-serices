@@ -5,28 +5,19 @@ import { useQuery } from "@tanstack/react-query"
 
 import { BadgesColors } from "./BadgesColors"
 import { Button, NextImageMotion } from "@/components/common"
+import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
 import { getUserId, getFriends } from "@/services"
-import {
-  dispatchActiveServicesFrom,
-  dispatchModal,
-  dispatchMyFriends,
-  dispatchOptionProfileMobile,
-  EModalData,
-  useAuth,
-  useDroverFriends,
-} from "@/store"
+import { dispatchActiveServicesFrom, dispatchModal, dispatchMyFriends, dispatchOptionProfileMobile, EModalData, useAuth } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 export const MContainerAboutProfile = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
 
   const {
     data: dataUser,

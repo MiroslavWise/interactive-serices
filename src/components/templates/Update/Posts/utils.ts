@@ -25,9 +25,6 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
   const dataPost: Partial<IBodyPost> = {}
   const dataNote: Partial<IBodyNote> = {}
 
-  clg("updatePatch: defaultValues", defaultValues, "warning")
-  clg("updatePatch: newValues", newValues, "warning")
-
   const oldTitle = defaultValues.title
   const newTitle = newValues.title.trim().slice(0, 254)
 
@@ -59,7 +56,7 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
 
     const ids = responseIds?.filter((item) => !!item?.data).map((item) => item.data?.id!)
 
-    dataNote.images = [...ids, ...newOldImages].slice(0, 9)
+    dataNote.images = [...newOldImages, ...ids].slice(0, 9)
   }
 
   const oldUrgent = !!defaultValues.help

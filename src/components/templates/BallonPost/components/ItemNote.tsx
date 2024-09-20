@@ -11,11 +11,10 @@ import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useContextPostsComments } from "./ContextComments"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
 import { dispatchPhotoCarousel, useAuth, useBalloonPost } from "@/store"
-import { clg } from "@console"
-import { useToast } from "@/helpers/hooks/useToast"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive } = useBalloonPost(({ data }) => data) ?? {}
@@ -58,7 +57,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
     isPending: isPendingLikesMy,
   } = useQuery({
     queryFn: getLikes,
-    queryKey: ["likes", `user=${userId}`],
+    queryKey: ["likes", { userId: userId }],
     enabled: !!userId,
     refetchOnMount: true,
   })
@@ -79,7 +78,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
   useEffect(() => {
     if (userId && dataLikesMy?.data && id) {
       const isLike = dataLikesMy?.data?.some(
-        (item) => Number(item?.id) === Number(id) && Number(item?.userId) === Number(userId) && item.provider === "post",
+        (item) => item.provider === "post" && item?.id === Number(id) && Number(item?.userId) === Number(userId),
       )
 
       setMyLike(isLike)

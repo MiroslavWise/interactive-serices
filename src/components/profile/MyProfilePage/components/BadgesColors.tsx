@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
 
+import BadgeParnter from "./BadgeParnter"
+
 import { cx } from "@/lib/cx"
 import { getBarters, getTestimonials } from "@/services"
 
 import styles from "./styles/badges-colors.module.scss"
-import BadgeParnter from "./BadgeParnter"
 
 export const BadgesColors = ({ userId }: { userId: number | string }) => {
   const { data: dataBarters, isLoading: isLoadingBarters } = useQuery({
@@ -61,19 +62,19 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
       )}
       data-badges-color
     >
-      <section data-purple>
-        <article>
-          <h4>Обмены</h4>
-          <h2>{countBarters}</h2>
+      <section data-purple className="rounded-2xl py-2 px-3 overflow-hidden">
+        <article className="w-full h-full flex flex-col items-start justify-between">
+          <h4 className="text-text-button text-sm font-medium">Обмены</h4>
+          <h2 className="text-text-button text-2xl font-semibold">{countBarters}</h2>
         </article>
         <div data-icon>
           <img src="/badges/barter.svg" alt="barter" width={24} height={24} />
         </div>
       </section>
-      <section data-orange>
-        <article>
-          <h4>Рейтинг</h4>
-          <h2>{Number(countTestimonials)?.toFixed(1)}</h2>
+      <section data-orange className="rounded-2xl py-2 px-3 overflow-hidden">
+        <article className="w-full h-full flex flex-col items-start justify-between">
+          <h4 className="text-text-button text-sm font-medium">Рейтинг</h4>
+          <h2 className="text-text-button text-2xl font-semibold">{Number(countTestimonials)?.toFixed(1)}</h2>
         </article>
         <div data-icon>
           <img src="/badges/star.svg" alt="barter" width={24} height={24} />

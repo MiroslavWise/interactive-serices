@@ -9,7 +9,7 @@ function BadgeParnter() {
   const { isTablet } = useResize()
 
   return (
-    <section data-purple-coin>
+    <section data-purple-coin className="rounded-2xl py-2 px-3 overflow-hidden">
       <Link
         className="max-w-[8.875rem] w-full text-text-button whitespace-pre-wrap text-xs md:text-sm font-normal md:font-medium block"
         href={{ pathname: "https://promo.sheira.ru/partner" }}
