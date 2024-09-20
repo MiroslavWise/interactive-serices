@@ -17,7 +17,6 @@ import { useAuth, useFriends } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { getFiendId, getFriends, postFriend } from "@/services"
-import { useWebSocket } from "@/context"
 
 function ListAll({ state }: { state: TFriends }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -55,14 +54,15 @@ function ListAll({ state }: { state: TFriends }) {
   })
 
   const items = data?.data || []
-  const length = items.length
   const myFriendsIds = dataMyFriends?.data?.map((item) => item.id) || []
-  const name = DeclensionAllQuantityFriends(length)
 
   const filterFriends = useMemo(() => {
     if (state === "all") return items
     return items.filter((item) => myFriendsIds.includes(item.id))
   }, [state, items, myFriendsIds])
+
+  const length = filterFriends.length
+  const name = DeclensionAllQuantityFriends(length)
 
   const disabledOnFriendsRequest = useCallback(
     (id: number) => {

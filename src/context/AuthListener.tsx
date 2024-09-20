@@ -64,8 +64,6 @@ export function AuthListener() {
   return isAuth ? <Listener /> : null
 }
 
-interface IThreadResponse {}
-
 interface IChatResponse {
   created: Date
   emitterId: number
