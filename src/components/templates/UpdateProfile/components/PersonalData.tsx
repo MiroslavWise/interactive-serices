@@ -57,7 +57,7 @@ export const PersonalData = () => {
     formState: { errors },
   } = useForm<TSchemaUpdateForm>({
     defaultValues: {
-      username: profile?.username ?? "",
+      username: (profile?.username ?? "").includes("$") || (profile?.username ?? "").includes("/") ? "" : profile?.username || "",
       firstName: profile?.firstName ?? "",
       lastName: profile?.lastName ?? "",
     },
@@ -70,7 +70,7 @@ export const PersonalData = () => {
     if (!!profile) {
       setValue("firstName", profile?.firstName!)
       setValue("lastName", profile?.lastName!)
-      setValue("username", profile?.username!)
+      setValue("username", (profile?.username ?? "").includes("$") || (profile?.username ?? "").includes("/") ? "" : profile?.username!)
       setValue("gender", profile?.gender!)
     }
   }, [profile])

@@ -1,11 +1,13 @@
 import { useDropzone } from "react-dropzone"
 import { memo, useCallback, useState } from "react"
 
-import type { IMageProfile } from "../types/types"
-import type { IPatchProfileData } from "@/services/profile/types"
+import { type IMageProfile } from "../types/types"
+import { type IPatchProfileData } from "@/services/profile/types"
 
+import IconXClose from "@/components/icons/IconXClose"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
+import { cx } from "@/lib/cx"
 import { patchProfile } from "@/services"
 
 import styles from "../styles/image.module.scss"
@@ -68,14 +70,38 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
   }
 
   return (
-    <div className={styles.container} data-test="container-update-image-profile">
-      <div data-img={!!file.string || !!image}>
-        {file.string ? (
-          <ImageStatic src={file.string} alt="avatar" width={80} height={80} />
-        ) : image ? (
-          <NextImageMotion src={image} alt="avatar" width={80} height={80} />
+    <div className={cx(styles.container, "w-full flex flex-row items-end justify-start gap-3")} data-test="container-update-image-profile">
+      <div
+        data-img={!!file.string || !!image}
+        className={cx(
+          "relative rounded-2xl bg-grey-stroke-light group w-20 h-20 p-10",
+          !!file.string || !!image ? "" : "flex rounded-[0.625rem]",
+        )}
+      >
+        {!!file.string ? (
+          <ImageStatic
+            src={file.string}
+            alt="avatar"
+            width={80}
+            height={80}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-square rounded-2xl"
+          />
+        ) : !!image ? (
+          <NextImageMotion
+            src={image}
+            alt="avatar"
+            width={80}
+            height={80}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-square rounded-2xl"
+          />
         ) : (
-          <img src="/svg/profile-null.svg" alt="avatar" height={48} width={48} />
+          <img
+            src="/svg/profile-null.svg"
+            alt="avatar"
+            height={48}
+            width={48}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12"
+          />
         )}
         {!!file.string || !!image ? (
           <button
@@ -86,22 +112,29 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
             }}
             disabled={loading}
             data-test="button-update-image-profile-delete-photo"
+            className="w-6 h-6 flex items-center justify-center border border-solid border-grey-stroke-light rounded-xl bg-BG-second absolute -top-1.5 -right-1.5 md:opacity-0 md:invisible group-hover:opacity-100 group-hover:visible *:w-4 *:h-4 [&>svg>path]:stroke-text-primary"
           >
-            <img src="/svg/x-close.svg" alt="x" width={16} height={16} />
+            <IconXClose />
           </button>
         ) : null}
       </div>
-      <div data-upload {...getRootProps()}>
+      <div data-upload {...getRootProps()} className="flex flex-col justify-end gap-3">
         {errorFile ? (
-          <i>{errorFile}</i>
+          <span className="text-text-error text-xs font-normal">{errorFile}</span>
         ) : !file.string && !image ? (
-          <p>
+          <p className="text-text-secondary text-[0.8125rem] leading-4 font-normal">
             Загрузите фотографию, на которой будет различимо ваше лицо. Фотографии без лица, с приоритетом на иные части тела, а также
             нерелевантные фотографии будут удалены
           </p>
         ) : null}
-        <a>
-          <input type="file" data-test="input-update-image-profile" {...getInputProps()} multiple={false} />
+        <a className="relative text-text-accent text-sm font-normal cursor-pointer">
+          <input
+            type="file"
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            data-test="input-update-image-profile"
+            {...getInputProps()}
+            multiple={false}
+          />
           {!file.string && !image ? "Загрузить" : "Изменить"}
         </a>
       </div>
