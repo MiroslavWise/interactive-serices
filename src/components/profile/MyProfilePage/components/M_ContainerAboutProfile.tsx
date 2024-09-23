@@ -5,28 +5,21 @@ import { useQuery } from "@tanstack/react-query"
 
 import { BadgesColors } from "./BadgesColors"
 import { Button, NextImageMotion } from "@/components/common"
+import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
+import { useResize } from "@/helpers"
 import { getUserId, getFriends } from "@/services"
-import {
-  dispatchActiveServicesFrom,
-  dispatchModal,
-  dispatchMyFriends,
-  dispatchOptionProfileMobile,
-  EModalData,
-  useAuth,
-  useDroverFriends,
-} from "@/store"
+import { dispatchActiveServicesFrom, dispatchModal, dispatchMyFriends, dispatchOptionProfileMobile, EModalData, useAuth } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 export const MContainerAboutProfile = () => {
+  const { isTablet } = useResize()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const dispatchFriends = useDroverFriends(({ dispatchFriends }) => dispatchFriends)
 
   const {
     data: dataUser,
@@ -68,9 +61,11 @@ export const MContainerAboutProfile = () => {
     dispatchOptionProfileMobile(true)
   }
 
+  if (!isTablet) return null
+
   return (
-    <div className={styles.container}>
-      <div data-block-profile>
+    <div className={cx(styles.container, "w-full flex flex-col gap-2.5 md:hidden")}>
+      <div data-block-profile className="w-full p-4 rounded-2xl flex flex-col gap-4 bg-BG-second">
         <section className="w-full !grid !grid-cols-[5rem_minmax(0,1fr)] gap-4">
           <div
             className={cx(
@@ -150,17 +145,27 @@ export const MContainerAboutProfile = () => {
         </section>
         <BadgesColors userId={userId!} />
       </div>
-      <div data-block-buttons>
-        <button onClick={addDesiredService} data-services data-test="button-open-modal-add-desired-service">
-          <h4>Желаемые услуги</h4>
-          <article>
+      <div data-block-buttons className="w-full flex flex-row gap-2.5">
+        <button
+          onClick={addDesiredService}
+          data-services
+          data-test="button-open-modal-add-desired-service"
+          className="w-full py-2.5 px-4 flex flex-col justify-between gap-2.5 rounded-xl bg-BG-second"
+        >
+          <h4 className="text-text-secondary text-sm font-normal">Желаемые услуги</h4>
+          <article className="w-full flex flex-row items-center justify-between gap-2.5">
             <h3>{categories || "Добавить"}</h3>
             <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
           </article>
         </button>
-        <button onClick={dispatchMyFriends} data-friends data-test="button-open-modal-friends">
-          <h4>Мои друзья</h4>
-          <article>
+        <button
+          onClick={dispatchMyFriends}
+          data-friends
+          data-test="button-open-modal-friends"
+          className="w-full py-2.5 px-4 flex flex-col justify-between gap-2.5 rounded-xl bg-BG-second"
+        >
+          <h4 className="text-text-secondary text-sm font-normal">Мои друзья</h4>
+          <article className="w-full flex flex-row items-center justify-between gap-2.5">
             <h3>{friends}</h3>
             <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
           </article>

@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import Avatar from "@avatar"
 import { Button } from "@/components/common"
 
 import { clg } from "@console"
-import { deleteFriend } from "@/services"
+import { deleteFriend, getFriends } from "@/services"
 import { dispatchDeleteFriend, useAuth, useDeleteFriend } from "@/store"
 
 function DeleteFriend() {
@@ -14,14 +15,28 @@ function DeleteFriend() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
 
+  const { refetch } = useQuery({
+    queryFn: () => getFriends({}),
+    queryKey: ["friends", { userId: userId, filter: "list" }],
+    enabled: false,
+  })
+  const { refetch: refetchResponse } = useQuery({
+    queryFn: () => getFriends({ query: { filter: "response", order: "DESC" } }),
+    queryKey: ["friends", { userId: userId, filter: "response" }],
+    enabled: false,
+  })
+
   function handleDelete() {
     if (user?.id! !== userId! && userId) {
       if (!loading) {
         setLoading(true)
         deleteFriend(user?.id!).then((response) => {
+          Promise.all([refetch(), refetchResponse()])
           clg("delete friend: ", response, "warning")
-          setLoading(false)
-          handleOff()
+          requestAnimationFrame(() => {
+            setLoading(false)
+            handleOff()
+          })
         })
       }
     }

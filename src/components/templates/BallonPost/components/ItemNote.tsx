@@ -11,10 +11,10 @@ import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { useContextPostsComments } from "./ContextComments"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
 import { dispatchPhotoCarousel, useAuth, useBalloonPost } from "@/store"
-import { clg } from "@console"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive } = useBalloonPost(({ data }) => data) ?? {}
@@ -24,10 +24,12 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
   const [count, setCount] = useState(0)
   const [myLike, setMyLike] = useState(false)
   const [loading, setLoading] = useState(false)
+  const { on } = useToast()
   const refImages = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLLIElement>(null)
   const refP = useRef<HTMLParagraphElement>(null)
   const [expand, setExpand] = useState(false)
+  const [errorLike, setErrorLike] = useState(false)
 
   const { onWriteResponse, noteCurrent, countCommentNote } = useContextPostsComments()
 
@@ -55,7 +57,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
     isPending: isPendingLikesMy,
   } = useQuery({
     queryFn: getLikes,
-    queryKey: ["likes", `user=${userId}`],
+    queryKey: ["likes", { userId: userId }],
     enabled: !!userId,
     refetchOnMount: true,
   })
@@ -76,7 +78,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
   useEffect(() => {
     if (userId && dataLikesMy?.data && id) {
       const isLike = dataLikesMy?.data?.some(
-        (item) => Number(item?.id) === Number(id) && Number(item?.userId) === Number(userId) && item.provider === "post",
+        (item) => item.provider === "post" && item?.id === Number(id) && Number(item?.userId) === Number(userId),
       )
 
       setMyLike(isLike)
@@ -89,10 +91,17 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
       postLike({
         id: id!,
         provider: "post",
-      }).then(async () => {
+      }).then(async (response) => {
+        if (!!response?.data || typeof response?.data === "number") {
+          setCount((_) => (myLike ? _ - 1 : _ + 1))
+          setMyLike((_) => !_)
+        } else {
+          setErrorLike(true)
+          on({
+            message: "У нас какая-то ошибка. Мы работаем над исправлением",
+          })
+        }
         setLoading(false)
-        setCount((_) => (myLike ? _ - 1 : _ + 1))
-        setMyLike((_) => !_)
       })
     }
   }
@@ -237,7 +246,12 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           className="gap-1 flex flex-row items-center justify-start px-2.5 h-[1.875rem] rounded-[0.9375rem] bg-grey-field"
           onClick={handle}
         >
-          <div className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
+          <div
+            className={cx(
+              "w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
+              errorLike && "[&>svg>path]:fill-text-error",
+            )}
+          >
             <IconLike is={myLike} />
           </div>
           <span className={cx("text-xs font-medium", myLike ? "text-text-accent" : "text-text-secondary")}>{count}</span>

@@ -26,14 +26,14 @@ export const ButtonLike = ({ offer }: IProps) => {
     isPending: isPendingLikesMy,
   } = useQuery({
     queryFn: getLikes,
-    queryKey: ["likes", `user=${userId}`],
+    queryKey: ["likes", { userId: userId }],
     enabled: !!userId,
     refetchOnMount: true,
   })
 
   const { data, isLoading, isPending } = useQuery({
     queryFn: getId,
-    queryKey: ["likes", `provider=offer`, `id=${id}`],
+    queryKey: ["likes", { provider: "offer", id: id }],
     enabled: !!id,
     refetchOnMount: true,
   })

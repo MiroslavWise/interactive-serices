@@ -4,8 +4,8 @@ import { type Metadata } from "next"
 
 import { type IPosts } from "@/services/posts/types"
 
-import env, { keyWords } from "@/config/environment"
 import { metadataImages } from "./metadata-images"
+import env, { keyWords } from "@/config/environment"
 
 interface IData {
   data: IPosts
@@ -16,7 +16,7 @@ export function metadataPosts({ data }: IData): Metadata {
 
   if (!data) return meta
 
-  const { id, title, notes, user, created } = data ?? {}
+  const { id, title, notes, user } = data ?? {}
 
   meta.title = title
   meta.keywords = [title, ...keyWords]

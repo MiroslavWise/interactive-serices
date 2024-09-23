@@ -5,7 +5,6 @@ import { type IBodyPost } from "@/services/posts/types"
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 
-import { clg } from "@console"
 import { patchPost } from "@/services/posts"
 import { patchNote } from "@/services/notes"
 import { fileUploadService } from "@/services"
@@ -24,9 +23,6 @@ interface IUpdate {
 export async function updatePatch({ id, idNote, userId, images, defaultValues, newValues }: IUpdate) {
   const dataPost: Partial<IBodyPost> = {}
   const dataNote: Partial<IBodyNote> = {}
-
-  clg("updatePatch: defaultValues", defaultValues, "warning")
-  clg("updatePatch: newValues", newValues, "warning")
 
   const oldTitle = defaultValues.title
   const newTitle = newValues.title.trim().slice(0, 254)
@@ -59,7 +55,7 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
 
     const ids = responseIds?.filter((item) => !!item?.data).map((item) => item.data?.id!)
 
-    dataNote.images = [...ids, ...newOldImages].slice(0, 9)
+    dataNote.images = [...newOldImages, ...ids].slice(0, 9)
   }
 
   const oldUrgent = !!defaultValues.help

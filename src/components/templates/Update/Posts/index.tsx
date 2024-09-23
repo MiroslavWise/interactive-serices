@@ -1,19 +1,20 @@
 import { useState } from "react"
-import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
+import { Controller, useForm } from "react-hook-form"
 
+import ControlHelp from "./components/ControlHelp"
 import IconXClose from "@/components/icons/IconXClose"
+import AddressController from "./components/AddressController"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
+import { queryClient } from "@/context"
+import { getNotes } from "@/services/notes"
 import { getPostId, getPosts } from "@/services/posts"
 import { handleImageChange, updatePatch } from "./utils"
 import { dispatchBallonPost, dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
-import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 import { LIMIT_DESCRIPTION, LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
-import ControlHelp from "./components/ControlHelp"
-import { queryClient } from "@/context"
-import AddressController from "./components/AddressController"
 
 function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -47,6 +48,12 @@ function UpdatePost() {
     enabled: false,
   })
 
+  const { refetch: refetchNote } = useQuery({
+    queryFn: () => getNotes({ order: "DESC", post: post!?.id! }),
+    queryKey: ["notes", { order: "DESC", postId: post!?.id }],
+    enabled: false,
+  })
+
   const onSubmit = handleSubmit(async (values) => {
     if (!loading) {
       setLoading(true)
@@ -60,6 +67,7 @@ function UpdatePost() {
       })
       if (response.some((item) => typeof item !== "undefined")) {
         refetch()
+        refetchNote()
         const { data: dataPost } = await queryClient.fetchQuery({
           queryFn: () => getPostId(post?.id!),
           queryKey: ["post", { id: post?.id! }],

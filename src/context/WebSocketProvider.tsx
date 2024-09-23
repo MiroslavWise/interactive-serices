@@ -1,7 +1,7 @@
 "use client"
 
 import { io, type ManagerOptions, type Socket, type SocketOptions } from "socket.io-client"
-import { type ReactNode, useContext, createContext, useEffect, useState, useInsertionEffect } from "react"
+import { useContext, createContext, useEffect, useState, useInsertionEffect, type PropsWithChildren } from "react"
 
 import { AuthListener } from "./AuthListener"
 
@@ -17,7 +17,7 @@ const CreateContextWebSocket = createContext<IContextSocket>({
   socket: undefined,
 })
 
-export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
+export const WebSocketProvider = ({ children }: PropsWithChildren) => {
   const { accessToken } = useAuth(({ auth }) => auth) ?? {}
   const { id: userId } = useAuth(({ user }) => user) ?? {}
   const [isFetch, setIsFetch] = useState(false)

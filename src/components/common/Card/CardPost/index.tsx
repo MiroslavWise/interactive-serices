@@ -54,7 +54,7 @@ function CardPost({ post, dataIndex, ref }: IProps) {
           </div>
           <h3 className="text-base font-semibold text-text-primary text-ellipsis line-clamp-2">{title ?? "Заголовок поста"}</h3>
         </header>
-        <p className="whitespace-pre-wrap text-text-primary text-sm font-normal">{description}</p>
+        <p className="whitespace-pre-wrap text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">{description}</p>
         <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem]">
           <div className="px-2.5 w-fit bg-[var(--card-bg-yellow)] py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:scale-90">

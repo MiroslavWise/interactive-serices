@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { type TFriends } from "../constants/segments"
@@ -54,14 +54,15 @@ function ListAll({ state }: { state: TFriends }) {
   })
 
   const items = data?.data || []
-  const length = items.length
   const myFriendsIds = dataMyFriends?.data?.map((item) => item.id) || []
-  const name = DeclensionAllQuantityFriends(length)
 
   const filterFriends = useMemo(() => {
     if (state === "all") return items
     return items.filter((item) => myFriendsIds.includes(item.id))
   }, [state, items, myFriendsIds])
+
+  const length = filterFriends.length
+  const name = DeclensionAllQuantityFriends(length)
 
   const disabledOnFriendsRequest = useCallback(
     (id: number) => {

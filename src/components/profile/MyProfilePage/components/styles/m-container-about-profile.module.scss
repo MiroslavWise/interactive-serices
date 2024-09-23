@@ -1,19 +1,7 @@
 .container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
   padding-bottom: calc(1.5rem - 0.625rem);
 
   & > [data-block-profile] {
-    width: 100%;
-    padding: 1rem;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    background-color: var(--BG-second);
-
     & > section {
       width: 100%;
       display: flex;
@@ -54,40 +42,8 @@
   }
 
   & > [data-block-buttons] {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 0.625rem;
-
     & > button {
-      width: 100%;
-      padding: 0.625rem 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 0.625rem;
-      border-radius: 0.75rem;
-      border: none;
-      outline: none;
-      background-color: var(--BG-second);
-
-      h4 {
-        color: var(--text-secondary);
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1.25rem; /* 142.857% */
-        letter-spacing: -0.03125rem;
-      }
-
       & > article {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.625rem;
-
         h3 {
           color: var(--text-primary);
           font-size: 1rem;

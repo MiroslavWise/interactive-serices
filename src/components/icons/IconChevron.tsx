@@ -8,3 +8,5 @@ export const IconChevron = () => (
     />
   </svg>
 )
+
+export default IconChevron

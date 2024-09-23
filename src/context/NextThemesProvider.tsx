@@ -1,8 +1,6 @@
 "use client"
 
-import { type ReactNode } from "react"
+import { type PropsWithChildren } from "react"
 import { ThemeProvider } from "next-themes"
 
-export const NextThemesProvider = ({ children }: { children: ReactNode }) => (
-  <ThemeProvider attribute="data-theme">{children}</ThemeProvider>
-)
+export const NextThemesProvider = ({ children }: PropsWithChildren) => <ThemeProvider attribute="data-theme">{children}</ThemeProvider>

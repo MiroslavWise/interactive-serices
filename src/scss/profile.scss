@@ -1,5 +1,4 @@
 .__container-profile-page__ {
-  padding-top: 1.5rem;
   height: calc(100vh - var(--height-header-nav-bar));
   display: flex;
   flex-direction: column;
@@ -33,18 +32,11 @@
 }
 
 .__container-offer-page__ {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  gap: 1rem;
   height: calc(100vh - var(--height-header-nav-bar) - 1.5rem);
 
   @media screen and (max-width: 760px) {
-    width: 100%;
-    height: 100%;
+    
     -webkit-overflow-scrolling: touch;
-    gap: 1.5rem;
-    padding: 1rem;
     padding-bottom: calc(var(--height-mobile-footer-nav) + 0.625rem);
     padding-top: calc(var(--height-mobile-header) + 0.625rem);
   }

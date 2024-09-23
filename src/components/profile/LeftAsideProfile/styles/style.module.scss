@@ -16,13 +16,13 @@ $width-left-aside-profile: var(--width-left-aside-profile);
   }
 
   &.default {
-    top: calc(var(--height-header-nav-bar) + 1.5rem + var(--height-banner));
-    height: calc(100% - var(--height-header-nav-bar) - 3rem - var(--height-banner));
+    top: calc(var(--height-header-nav-bar) + 1.5rem);
+    height: calc(100% - var(--height-header-nav-bar) - 3rem);
   }
 
   &.banner {
-    top: calc(var(--height-header-nav-bar) + 1.5rem);
-    height: calc(100% - var(--height-header-nav-bar) - 3rem);
+    top: calc(var(--height-header-nav-bar) + 1.5rem + var(--height-banner));
+    height: calc(100% - var(--height-header-nav-bar) - 3rem - var(--height-banner));
   }
 
   transition-duration: 700ms;

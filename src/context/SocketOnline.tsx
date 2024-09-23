@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, type ReactNode } from "react"
+import { type PropsWithChildren, useEffect } from "react"
 
 import { type IOnlineSocket } from "@/types/type"
 
 import { dispatchOnlineUsers } from "@/store"
 import { useWebSocket } from "./WebSocketProvider"
 
-function SocketOnlineGlobal({ children }: { children: ReactNode }) {
+function SocketOnlineGlobal({ children }: PropsWithChildren) {
   const { socket } = useWebSocket() ?? {}
   useEffect(() => {
     const onlineUsers = (event: IOnlineSocket) => {

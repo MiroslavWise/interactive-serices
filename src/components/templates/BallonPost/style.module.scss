@@ -7,9 +7,6 @@
   flex-direction: column;
 
   [data-images] {
-    -ms-overflow-style: none;
-    overscroll-behavior-y: none;
-
     & > div {
       overflow-x: scroll;
       scroll-behavior: smooth;
@@ -24,6 +21,9 @@
         width: 11.25rem;
       }
     }
+
+    -ms-overflow-style: none;
+    overscroll-behavior-y: none;
   }
 
   @media screen and (max-width: 768px) {
@@ -31,7 +31,10 @@
     max-height: calc(100% - 1rem);
 
     [data-images] {
+      -ms-overflow-style: none;
+      overscroll-behavior-y: inherit;
       & > div {
+        overscroll-behavior-y: inherit;
         & > img {
           width: 17.5rem;
           height: 19.375rem;
