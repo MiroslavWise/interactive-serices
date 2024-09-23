@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { type ReactNode } from "react"
+import { type PropsWithChildren } from "react"
 import { useSearchParams } from "next/navigation"
 
 import LoadingChat from "./LoadingChat"
@@ -18,7 +18,7 @@ const CreateOfferPay = dynamic(() => import("./CreateOfferPay"), {
   loading: LoadingChat,
 })
 
-function CreateNewChat({ children }: { children: ReactNode }) {
+function CreateNewChat({ children }: PropsWithChildren) {
   const searchParams = useSearchParams()
 
   const idUser = searchParams.get("user")
@@ -31,7 +31,7 @@ function CreateNewChat({ children }: { children: ReactNode }) {
   if (!!offerPay && typeof offerPay === "string") return <CreateOfferPay offerPay={offerPay} />
   if (!!help && typeof help === "string") return <CreateHelp />
 
-  return <>{children}</>
+  return children
 }
 
 CreateNewChat.displayName = "CreateNewChat"

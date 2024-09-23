@@ -1,11 +1,11 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { ReactNode, useEffect } from "react"
+import { type PropsWithChildren, useEffect } from "react"
 
 import { useAuth } from "@/store"
 
-export default ({ children }: { children: ReactNode }) => {
+export default ({ children }: PropsWithChildren) => {
   const router = useRouter()
   const isAuth = useAuth(({ isAuth }) => isAuth)
 

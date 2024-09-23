@@ -1,0 +1,7 @@
+.article {
+  padding-top: 11.875rem;
+
+  @media screen and (max-width: 768px) {
+    padding-top: 4.875rem;
+  }
+}
