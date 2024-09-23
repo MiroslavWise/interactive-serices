@@ -51,7 +51,7 @@ export default ({ params }: { params: { provider: EnumTypeProvider } }) => {
         >
           <span
             className={cx(
-              "w-full h-full rounded-lg absolute top-0 bottom-0 left-0 transition-transform duration-75",
+              "w-full h-full rounded-lg absolute top-0 bottom-0 left-0 transition-transform duration-200",
               provider === EnumTypeProvider.post && "bg-card-border-yellow",
               provider === EnumTypeProvider.alert && "bg-card-border-red",
               provider === EnumTypeProvider.discussion && "bg-card-border-blue",
