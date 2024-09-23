@@ -1,5 +1,6 @@
-import { cx } from "@/lib/cx"
 import { useRef, useState } from "react"
+
+import { cx } from "@/lib/cx"
 
 function AboutData({ about }: { about: string }) {
   const [state, setState] = useState(true)
@@ -17,10 +18,11 @@ function AboutData({ about }: { about: string }) {
 
   return (
     <p
+      ref={ref}
       onClick={openClose}
       className={cx(
-        "w-full my-2.5 text-sm font-normal text-text-primary",
-        state ? "line-clamp-6 text-ellipsis cursor-pointer" : "line-clamp-none",
+        "w-full my-2.5 text-sm font-normal text-text-primary line-clamp-6 text-ellipsis cursor-pointer",
+        !state && "line-clamp-none",
       )}
     >
       {about}
