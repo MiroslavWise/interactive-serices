@@ -2,7 +2,7 @@ import { EnumSign } from "@/types/enum"
 
 import { Button } from "@/components/common"
 
-import { useModalAuth, dispatchAuthModal } from "@/store/hooks"
+import { useModalAuth, dispatchAuthModal } from "@/store"
 
 import styles from "../styles/form.module.scss"
 

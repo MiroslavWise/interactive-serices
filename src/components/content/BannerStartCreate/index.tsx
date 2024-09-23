@@ -1,8 +1,6 @@
 "use client"
 
-import { dispatchOnboarding } from "@/store/hooks"
-
-import styles from "./styles/style.module.scss"
+import { dispatchOnboarding } from "@/store"
 
 export const BannerStartCreate = () => {
   return (

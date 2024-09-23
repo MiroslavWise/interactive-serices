@@ -8,7 +8,7 @@ import { Three } from "./Three"
 import { Four } from "./Four"
 import { Pagination } from "./Pagination"
 
-import { useWelcomeModal } from "@/store/hooks"
+import { useWelcomeModal } from "@/store"
 
 import styles from "./styles/style.module.scss"
 

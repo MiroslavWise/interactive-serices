@@ -3,9 +3,8 @@
 import { useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 
-import { dispatchAuthModalResetPassword, dispatchClearAuth } from "@/store/hooks"
-
-export default function PageResetPassword() {
+import { dispatchAuthModalResetPassword, dispatchClearAuth } from "@/store"
+export default () => {
   const { push } = useRouter()
   const passwordResetToken = useSearchParams()?.get("token")
 
