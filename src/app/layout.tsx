@@ -1,6 +1,7 @@
 import Script from "next/script"
 import dynamic from "next/dynamic"
 import { Inter } from "next/font/google"
+import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
 const Providers = dynamic(() => import("./providers"), { ssr: false })
@@ -104,7 +105,7 @@ export function generateMetadata(): Metadata {
   return meta
 }
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="ru">
       <head>

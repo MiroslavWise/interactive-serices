@@ -65,3 +65,18 @@ export type TPatchPost = (id: number, body: Partial<IBodyPost>) => Promise<IResp
 export type TGetPosts = ({}: IQueries) => Promise<IResponse<IPosts[]>>
 export type TGetPostsFromUser = ({}: { query?: IQueries } & { userId: number }) => Promise<IResponse<IPosts[]>>
 export type TGetPostId = (id: number | string) => Promise<IResponse<IPosts>>
+
+// enum ENumAction {
+//   REGISTRATION = "registration", // Открыть модальное окно регистрации
+//   LOGIN = "login", // Открыть модальное окно логина
+//   CUSTOMER = "customer", // Перейти на страницу пользователя
+//   HREF = "href", //Переход на сторонний ресурс
+// }
+// interface ActiveButton {
+//   label: string // Лэйбел, который будет отображаться в именовании кнопки
+//   action: ENumAction // Активность, которую нужно вызвать (при создании - это выпадающий селектор)
+//   targetId?: number // Если действие вызывает переход на какую-то страницу или октрытие модалки с конкретными данными
+//   href?: string // Если выбрано действие, которое предполагает переход на сторонний ресурс
+//   type: TTypeButtonPrimary // Тип кнопки (при создании - выпадающий селектор)
+
+// }

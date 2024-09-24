@@ -282,13 +282,17 @@ const post = async ({ url, body }: IPost): Promise<IResponse<any>> => {
 }
 
 const fetchGet = async ({ url, query }: IGet): Promise<IResponse> => {
-  // console.log("\x1b[33m fetchGet: url", url)
   const endpoint = new URL(`${URL_API}${url}`)
   if (query && typeof query === "object") {
     for (const [key, value] of Object.entries(query)) {
       endpoint.searchParams.set(key, String(value))
     }
   }
+
+  fetch(`/api/logs`, {
+    method: "POST",
+    body: JSON.stringify({ url: endpoint.toString() }),
+  })
 
   const head: HeadersInit = {
     "Content-Type": "application/json",
