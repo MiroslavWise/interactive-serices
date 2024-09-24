@@ -62,6 +62,12 @@ module.exports = {
     extend: {
       spacing: {
         "2rem": "2rem",
+        "standard-header-modal": "var(--height-standard-header-modal)",
+        "full-minus-standard-header-modal": "calc(100% - var(--height-standard-header-modal))",
+      },
+      borderRadius: {
+        2: "2rem",
+        ".625": "0.625rem",
       },
       boxShadow: {
         "social-link": "0px 11px 20px 0px rgba(100, 104, 115, 0.1)",

@@ -54,18 +54,18 @@ function CreateNewCategory() {
       className={cx("wrapper-fixed", "p-0 md:p-5 md:pt-[7.5rem] bg-translucent flex flex-col items-center", visible && "!z-[1101]")}
       data-visible={visible}
     >
-      <section data-section-modal className="w-full max-md:h-full rounded-0 md:rounded-[2rem] relative md:max-w-[35rem] bg-BG-second">
+      <section data-section-modal className="w-full max-md:h-full rounded-0 md:rounded-2 relative md:max-w-[35rem] bg-BG-second">
         <ButtonClose
           onClick={() => {
             dispatchVisibleCreateNewCategory(false)
           }}
         />
-        <header className="rounded-none md:rounded-t-[2rem] w-full justify-start max-md:px-5 pt-5 md:pt-6 pb-4 md:pb-5 h-[var(--height-standard-header-modal)] flex fex-row items-center md:justify-center border-b border-solid border-grey-separator">
+        <header className="rounded-none md:rounded-t-2 w-full justify-start max-md:px-5 pt-5 md:pt-6 pb-4 md:pb-5 h-standard-header-modal flex fex-row items-center md:justify-center border-b border-solid border-grey-separator">
           <h3 className="text-start md:text-center text-text-primary text-2xl font-semibold">Новая категория</h3>
         </header>
         <form
           onSubmit={onSubmit}
-          className="w-full h-full max-md:h-[calc(100%_-_var(--height-standard-header-modal))] p-5 md:pb-10 md:px-10 flex flex-col gap-[1.875rem]"
+          className="w-full h-full max-md:h-full-minus-standard-header-modal p-5 md:pb-10 md:px-10 flex flex-col gap-[1.875rem]"
         >
           <Controller
             name="title"

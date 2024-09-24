@@ -6,7 +6,7 @@ function ComponentHelper({ urgent }: { urgent: boolean }) {
   return (
     <article
       className={cx(
-        "w-full [background:var(--more-red-gradient)] rounded-t-3xl md:rounded-t-[2rem] flex-row items-center justify-center gap-2 py-2 px-2.5",
+        "w-full [background:var(--more-red-gradient)] rounded-t-3xl md:rounded-t-2 flex-row items-center justify-center gap-2 py-2 px-2.5",
         urgent ? "flex" : "hidden",
       )}
     >

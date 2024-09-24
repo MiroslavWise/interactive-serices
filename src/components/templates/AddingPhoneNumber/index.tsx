@@ -58,10 +58,7 @@ export const AddingPhoneNumber = () => {
         visible && "!z-[2017] !opacity-100 !visible",
       )}
     >
-      <section
-        data-section-modal
-        className="relative max-md:h-full md:rounded-[2rem] bg-BG-second w-full md:max-w-[30.625rem] flex-flex-col"
-      >
+      <section data-section-modal className="relative max-md:h-full md:rounded-2 bg-BG-second w-full md:max-w-[30.625rem] flex-flex-col">
         <ButtonClose onClick={close} />
         <header className="flex items-center justify-center md:pt-6 md:pb-5 max-md:p-5 max-md:pb-4">
           <h3 className="text-text-primary text-center text-2xl font-semibold">Номер телефона</h3>

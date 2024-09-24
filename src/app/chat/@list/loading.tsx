@@ -4,8 +4,8 @@ import LoadingItem from "./components/LoadingItem"
 export default () => (
   <div
     className={cx(
-      "loading-screen w-full h-full max-md:h-screen max-h-screen md:rounded-[2rem] bg-BG-second flex flex-col gap-2.5 md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] overflow-hidden",
-      "max-md:!pt-[var(--height-mobile-header)] max-md:!pb-[var(--height-mobile-footer-nav)]",
+      "loading-screen w-full h-full max-md:h-screen max-h-screen md:rounded-2 bg-BG-second flex flex-col gap-2.5 md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] overflow-hidden",
+      "max-md:!pt-[--height-mobile-header] max-md:!pb-[--height-mobile-footer-nav]",
     )}
   >
     <article className="w-full px-5 pt-5 flex flex-col ga-4">

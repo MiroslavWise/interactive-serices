@@ -40,7 +40,7 @@ function PreCloseCreateService() {
         visible && "!z-[1003] !opacity-100 !visible",
       )}
     >
-      <section className="relative flex w-full md:max-w-[33.75rem] pt-9 pb-5 px-5 md:pt-5 md:px-10 md:pb-10 flex-col justify-center items-center gap-[1.875rem] rounded-t-3xl rounded-b-none md:rounded-[2rem] bg-BG-second">
+      <section className="relative flex w-full md:max-w-[33.75rem] pt-9 pb-5 px-5 md:pt-5 md:px-10 md:pb-10 flex-col justify-center items-center gap-[1.875rem] rounded-t-3xl rounded-b-none md:rounded-2 bg-BG-second">
         <article className="w-full flex flex-col items-center gap-5">
           <div className="relative pb-4 flex flex-col w-[4.375rem]">
             <div

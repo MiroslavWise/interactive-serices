@@ -104,7 +104,7 @@ function Modal() {
       <section
         data-test={`modal-section-${data}`}
         className={cx(
-          "bg-BG-second rounded-t-3xl rounded-b-none max-md:overflow-hidden max-md:min-h-20 md:rounded-[2rem] w-full relative",
+          "bg-BG-second rounded-t-3xl rounded-b-none max-md:overflow-hidden max-md:min-h-20 md:rounded-2 w-full relative",
           STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : "",
         )}
         id={ID_MODAL.has(data!) ? ID_MODAL.get(data!) : ""}

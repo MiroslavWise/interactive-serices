@@ -10,8 +10,15 @@ import styles from "./styles/style.module.scss"
 export const AboutSheiraPopup = () => {
   const visible = useVisibleAbout(({ visible }) => visible)
   return (
-    <div data-visible={visible} className={styles.wrapper}>
-      <section className="relative h-full w-full md:rounded-[2rem] bg-BG-second max-w-[36.5rem]">
+    <div
+      data-visible={visible}
+      className={cx(
+        styles.wrapper,
+        "fixed inset-0 flex-col items-center justify-center bg-translucent w-full h-full",
+        visible ? "flex visible opacity-100" : "opacity-0 invisible hidden",
+      )}
+    >
+      <section className="relative h-full w-full md:rounded-2 bg-BG-second max-w-[36.5rem]">
         <ul
           className={cx(
             "w-full overflow-y-auto h-full flex flex-col p-10 items-start gap-4",
@@ -57,13 +64,7 @@ export const AboutSheiraPopup = () => {
             позитивный опыт для всех пользователей.
           </p>
         </ul>
-        <ButtonClose
-          onClick={() => dispatchVisibleAbout(false)}
-          position={{
-            top: 12,
-            right: 12,
-          }}
-        />
+        <ButtonClose className="top-3 right-3" onClick={() => dispatchVisibleAbout(false)} />
       </section>
     </div>
   )

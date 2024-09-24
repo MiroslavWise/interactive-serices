@@ -23,7 +23,7 @@ function BalloonOffer() {
       <header
         className={cx(
           "w-full grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden",
-          !!offer?.urgent ? "!h-auto py-4" : "rounded-t-3xl md:rounded-t-[2rem] h-[var(--height-standard-header-modal)]",
+          !!offer?.urgent ? "!h-auto py-4" : "rounded-t-3xl md:rounded-t-2 h-standard-header-modal",
         )}
         data-color={EnumTypeProvider.offer}
       >
@@ -34,7 +34,7 @@ function BalloonOffer() {
         </div>
         <h3 className="line-clamp-2 text-ellipsis">{offer?.category?.title}</h3>
       </header>
-      <div data-container className="w-full p-0 md:rounded-b-[2rem]">
+      <div data-container className="w-full p-0 md:rounded-b-2">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
           <ItemProfile offer={offer as unknown as IResponseOffers} />
           <ItemDescriptions offer={offer as unknown as IResponseOffers} />

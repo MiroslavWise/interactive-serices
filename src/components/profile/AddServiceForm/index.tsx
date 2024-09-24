@@ -118,11 +118,11 @@ export const ChangeService = () => {
     >
       <section
         data-test="section-change-service"
-        className="w-full md:max-w-[41.875rem] overflow-hidden relative z-10 h-full rounded-none md:rounded-[2rem] bg-BG-second flex flex-col"
+        className="w-full md:max-w-[41.875rem] overflow-hidden relative z-10 h-full rounded-none md:rounded-2 bg-BG-second flex flex-col"
       >
         <header
           data-test="header-change-service"
-          className="pt-5 md:pt-6 pr-0 pb-4 md:pb-5 pl-5 md:pl-6 w-full md:rounded-t-[2rem] h-[4.25rem] md:h-[4.75rem] flex flex-row items-center justify-start gap-2"
+          className="pt-5 md:pt-6 pr-0 pb-4 md:pb-5 pl-5 md:pl-6 w-full md:rounded-t-2 h-[4.25rem] md:h-[4.75rem] flex flex-row items-center justify-start gap-2"
         >
           <a
             onClick={(event) => {

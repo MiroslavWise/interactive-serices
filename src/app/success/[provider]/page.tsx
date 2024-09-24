@@ -32,7 +32,7 @@ export default ({ params }: { params: { provider: EnumTypeProvider } }) => {
     <div className="fixed flex items-center justify-center z-[1000] w-full h-full bg-BG-second inset-0">
       <section
         className={cx(
-          "flex flex-col gap-3 items-center p-5 rounded-[2rem] border border-solid",
+          "flex flex-col gap-3 items-center p-5 rounded-2 border border-solid",
           provider === EnumTypeProvider.post && "border-card-border-yellow bg-card-yellow",
           provider === EnumTypeProvider.alert && "border-card-border-red bg-card-red",
           provider === EnumTypeProvider.discussion && "border-card-border-blue bg-card-border-blue",

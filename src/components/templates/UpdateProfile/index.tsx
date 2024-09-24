@@ -13,7 +13,7 @@ export default function UpdateProfile() {
 
   return (
     <>
-      <header className="h-[var(--height-standard-header-modal)] p-5 md:pt-6 max-md:pb-4 flex items-center justify-center border-b border-solid border-grey-separator">
+      <header className="h-standard-header-modal p-5 md:pt-6 max-md:pb-4 flex items-center justify-center border-b border-solid border-grey-separator">
         <h3 className="text-text-primary text-center text-2xl font-semibold">Редактирование профиля</h3>
       </header>
       <article data-test="article-modal-update-profile" className="w-full py-5 px-6 h-[5.25rem]">

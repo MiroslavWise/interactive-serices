@@ -96,12 +96,12 @@ function UpdateDiscussionAndAlert() {
 
   return (
     <>
-      <header className="h-[var(--height-standard-header-modal)] md:pt-6 md:pb-5 flex items-center justify-center border-b border-solid border-grey-separator max-md:p-5 max-md:pb-4">
+      <header className="h-standard-header-modal md:pt-6 md:pb-5 flex items-center justify-center border-b border-solid border-grey-separator max-md:p-5 max-md:pb-4">
         <h3 className="text-text-primary text-center text-2xl font-semibold">Редактирование</h3>
       </header>
       <form
         className={cx(
-          "w-full relative overflow-x-hidden overflow-y-auto h-[calc(100%_-_var(--height-standard-header-modal))] pt-5 md:px-[4.375rem] pb-[1.625rem] max-md:!p-5 flex flex-col gap-5",
+          "w-full relative overflow-x-hidden overflow-y-auto h-full-minus-standard-header-modal pt-5 md:px-[4.375rem] pb-[1.625rem] max-md:!p-5 flex flex-col gap-5",
           "[&>fieldset]:w-full [&>fieldset]:flex [&>fieldset]:flex-col [&>fieldset]:gap-2 [&>fieldset]:items-start",
           "[&>fieldset>label]:text-text-primary text-sm [&>fieldset>label]:text-left [&>fieldset>label]:font-medium",
           "[&>fieldset>i]:-mt-1 [&>fieldset>i]:text-text-error [&>fieldset>i]:not-italic [&>fieldset>i]:text-xs [&>fieldset>i]:font-medium",

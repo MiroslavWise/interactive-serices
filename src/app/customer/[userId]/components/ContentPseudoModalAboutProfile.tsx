@@ -12,13 +12,11 @@ async function ContentPseudoModalAboutProfile({ userId }: { userId: string | num
   const { about = "", firstName = "Имя", lastName = "Фамилия", image } = profile ?? {}
 
   return (
-    <section className="relative bg-BG-second pt-9 pb-8 px-5 md:p-[1.875rem] rounded-t-3xl md:rounded-[2rem] flex flex-col items-center w-full md:max-w-[28.75rem] gap-5">
+    <section className="relative bg-BG-second pt-9 pb-8 px-5 md:p-[1.875rem] rounded-t-3xl md:rounded-2 flex flex-col items-center w-full md:max-w-[28.75rem] gap-5">
       <ButtonClosePseudoModalAboutProfile />
       <article className="w-full flex flex-col items-center gap-3">
         <div
-          className={`w-20 h-20 rounded-2xl relative [&>img]:w-full [&>img]:h-full ${
-            !image && "bg-grey-stroke-light !p-2  !rounded-[0.625rem]"
-          }`}
+          className={`w-20 h-20 rounded-2xl relative [&>img]:w-full [&>img]:h-full ${!image && "bg-grey-stroke-light !p-2 rounded-.625"}`}
         >
           {!!image ? (
             <NextImageMotion className="rounded-2xl overflow-hidden" src={image?.attributes?.url} alt="avatar" width={100} height={100} />

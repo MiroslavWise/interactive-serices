@@ -613,7 +613,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
         )}
         data-active={!read}
       >
-        <Avatar className="h-10 w-10 rounded-[0.625rem] p-5" image={userNotification?.image} />
+        <Avatar className="h-10 w-10 rounded-.625 p-5" image={userNotification?.image} />
         <section className="w-full pr-[1.625rem] flex flex-col gap-1">
           <article className="w-full flex flex-col gap-[0.0625rem]">
             <p className="text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">
@@ -648,10 +648,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
       data-type={type}
       data-active={!read}
     >
-      <div
-        data-avatar
-        className={`relative h-10 w-10 overflow-hidden rounded-[0.625rem] p-5 ${type === "barter" && "bg-grey-stroke-light"}`}
-      >
+      <div data-avatar className={`relative h-10 w-10 overflow-hidden rounded-.625 p-5 ${type === "barter" && "bg-grey-stroke-light"}`}>
         {afterUser}
       </div>
       <section className="w-full pr-[1.625rem] flex flex-col gap-1">

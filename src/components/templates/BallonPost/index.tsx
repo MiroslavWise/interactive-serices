@@ -32,7 +32,7 @@ function BallonPost() {
         className={cx(
           "w-full py-4 px-5 max-md:pr-16 grid  gap-2.5 border-b border-solid bg-card-yellow border-card-border-yellow",
           archive ? "grid-cols-[1.5rem_minmax(0,1fr)_5.6875rem]" : "grid-cols-[1.5rem_minmax(0,1fr)]",
-          !urgent && "rounded-t-3xl md:rounded-t-[2rem]",
+          !urgent && "rounded-t-3xl md:rounded-t-2",
         )}
       >
         <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
@@ -43,7 +43,7 @@ function BallonPost() {
           <span className="text-text-button text-xs font-normal">Завершено</span>
         </div>
       </header>
-      <section className="w-full h-full flex flex-col md:rounded-b-[2rem] bg-BG-second overflow-hidden">
+      <section className="w-full h-full flex flex-col md:rounded-b-2 bg-BG-second overflow-hidden">
         <ul className="w-full h-full px-5 overflow-y-auto flex flex-col gap-5 py-5">
           <ComponentProfilePost post={data!} />
           <ContextComments>

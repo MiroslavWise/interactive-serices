@@ -99,7 +99,7 @@ function ListAll({ state }: { state: TFriends }) {
       <ul className="w-full flex flex-col gap-6 overflow-y-auto">
         {filterFriends.map((item) => (
           <li key={`:key:friend:${item.id}:`} className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3">
-            <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-[0.625rem]" image={item.image} userId={item.id} />
+            <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={item.image} userId={item.id} />
             <div className="w-full flex flex-col items-start justify-center gap-1">
               <Link
                 prefetch={false}

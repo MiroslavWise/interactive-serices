@@ -166,12 +166,12 @@ function CreatePost() {
 
   return (
     <>
-      <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-[var(--height-standard-header-modal)]">
+      <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-standard-header-modal">
         <h3 className="text-text-primary text-2xl font-semibold">Новый пост</h3>
       </header>
       <ul
         data-test="ul-create-new-post"
-        className="w-full flex flex-col items-center gap-4 px-5 h-[calc(100%_-_var(--height-standard-header-modal))]"
+        className="w-full flex flex-col items-center gap-4 px-5 h-full-minus-standard-header-modal"
       >
         <form
           onSubmit={onSubmit}

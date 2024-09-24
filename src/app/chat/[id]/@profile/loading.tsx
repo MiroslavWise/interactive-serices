@@ -1,5 +1,5 @@
 export default () => (
-  <section className="loading-screen w-full h-full rounded-[2rem] bg-BG-second max-md:hidden p-5 flex flex-col gap-5">
+  <section className="loading-screen w-full h-full rounded-2 bg-BG-second max-md:hidden p-5 flex flex-col gap-5">
     <article className="w-full flex flex-col items-center gap-3">
       <span className="w-20 h-20 rounded-2xl" />
       <div className="w-full flex flex-col items-center gap-1 *:w-full">

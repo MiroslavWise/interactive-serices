@@ -100,7 +100,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
         >
           <Avatar
             className={cx(
-              "w-10 h-10 p-5 rounded-[0.625rem]",
+              "w-10 h-10 p-5 rounded-.625",
               !!dataUser?.data?.profile?.image?.attributes?.url ? "bg-BG-first" : "bg-grey-stroke-light",
             )}
             image={dataUser?.data?.profile?.image}

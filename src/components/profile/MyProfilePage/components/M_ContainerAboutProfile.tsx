@@ -71,7 +71,7 @@ export const MContainerAboutProfile = () => {
             className={cx(
               "w-20 h-20 rounded-2xl relative p-10",
               (isLoading || isFetching) && "loading-screen !p-0 overflow-hidden *:w-full *:h-full",
-              !image && "bg-grey-stroke-light !rounded-[0.625rem]",
+              !image && "bg-grey-stroke-light rounded-.625",
             )}
           >
             {isLoading || isFetching ? (

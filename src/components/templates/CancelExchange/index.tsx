@@ -13,7 +13,7 @@ import { deleteThread, getBarterId, getThreadId, patchBarter } from "@/services"
 import { dispatchCloseCancelExchange, useAuth, useCancelExchange } from "@/store"
 
 export const CN_CANCEL_EXCHANGE =
-  "relative w-full md:rounded-[2rem] rounded-t-3xl p-5 pt-14 md:p-10 md:max-w-[33.75rem] bg-BG-second flex flex-col gap-[1.875rem]"
+  "relative w-full md:rounded-2 rounded-t-3xl p-5 pt-14 md:p-10 md:max-w-[33.75rem] bg-BG-second flex flex-col gap-[1.875rem]"
 
 function CancelExchange() {
   const { refetchCountMessages } = useCountMessagesNotReading(false)

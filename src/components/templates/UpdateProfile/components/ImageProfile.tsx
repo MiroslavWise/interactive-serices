@@ -75,7 +75,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
         data-img={!!file.string || !!image}
         className={cx(
           "relative rounded-2xl bg-grey-stroke-light group w-20 h-20 p-10",
-          !!file.string || !!image ? "" : "flex rounded-[0.625rem]",
+          !!file.string || !!image ? "" : "flex rounded-.625",
         )}
       >
         {!!file.string ? (

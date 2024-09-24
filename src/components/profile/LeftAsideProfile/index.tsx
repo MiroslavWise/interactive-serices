@@ -13,7 +13,7 @@ function LeftAsideProfile({ isCollapsed = false, isBanner = false }: { isCollaps
     <aside
       className={cx(
         styles.asideLeft,
-        "max-md:!hidden fixed left-0 bottom-6 w-full rounded-[2rem] translate-x-6 flex flex-col justify-between items-center gap-5 bg-BG-second z-[2]",
+        "max-md:!hidden fixed left-0 bottom-6 w-full rounded-2 translate-x-6 flex flex-col justify-between items-center gap-5 bg-BG-second z-[2]",
         isCollapsed && "!-translate-x-[17.5rem]",
         visibleBanner ? styles.banner : styles.default,
       )}

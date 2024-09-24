@@ -158,12 +158,12 @@ export default function UpdateOffer() {
 
   return (
     <>
-      <header className="h-[var(--height-standard-header-modal)] flex items-center justify-center border-b border-solid border-grey-separator p-5 pb-4 md:pb-5 md:pt-6">
+      <header className="h-standard-header-modal flex items-center justify-center border-b border-solid border-grey-separator p-5 pb-4 md:pb-5 md:pt-6">
         <h3 className="text-text-primary text-center text-2xl font-semibold">Редактирование</h3>
       </header>
       <form
         onSubmit={onSubmit}
-        className="w-full overflow-x-hidden overflow-y-auto h-[calc(100%_-_var(--height-standard-header-modal))] flex flex-col gap-5 p-5 px-[4.375rem] md:pb-[1.625rem]"
+        className="w-full overflow-x-hidden overflow-y-auto h-full-minus-standard-header-modal flex flex-col gap-5 p-5 px-[4.375rem] md:pb-[1.625rem]"
       >
         <fieldset className="w-full flex flex-col gap-2">
           <label {...register("address", { required: true })} className="text-text-primary text-sm font-normal text-left">

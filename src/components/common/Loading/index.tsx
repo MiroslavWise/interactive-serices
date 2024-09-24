@@ -45,7 +45,7 @@ export function ServiceLoading() {
       </article>
       <span className="w-full rounded-2xl h-52" />
       <article className="w-full grid grid-cols-[2.25rem_minmax(0,1fr)] gap-2.5 items-center *:w-full">
-        <span className="h-9 w-9 rounded-[0.625rem]" />
+        <span className="h-9 w-9 rounded-.625" />
         <span className="h-4 rounded-lg" />
       </article>
     </div>

@@ -87,7 +87,7 @@ function MyFriends() {
         visible ? "z-[999] flex visible opacity-100" : "-z-10 invisible hidden opacity-0",
       )}
     >
-      <section className="relative h-full w-full md:max-w-[35rem] md:rounded-l-[2rem] bg-BG-second">
+      <section className="relative h-full w-full md:max-w-[35rem] md:rounded-l-2 bg-BG-second">
         <button
           type="button"
           aria-label="Закрыть друзья"
@@ -100,7 +100,7 @@ function MyFriends() {
         >
           <IconXClose />
         </button>
-        <header className="w-full flex items-center justify-center h-[var(--height-standard-header-modal)]">
+        <header className="w-full flex items-center justify-center h-standard-header-modal">
           <h3 className="text-2xl text-center font-semibold text-text-primary">Друзья</h3>
         </header>
         {is ? (
@@ -108,7 +108,7 @@ function MyFriends() {
         ) : length === 0 ? (
           <NoFriends id={userId!} username={profile?.username!} />
         ) : (
-          <section className="h-[calc(100%_-_var(--height-standard-header-modal))] overflow-hidden overflow-y-auto flex flex-col gap-6 pl-4 pr-4 md:pr-6">
+          <section className="h-full-minus-standard-header-modal overflow-hidden overflow-y-auto flex flex-col gap-6 pl-4 pr-4 md:pr-6">
             <p className="text-left text-text-primary text-sm font-medium">{lengthName}</p>
             <ul className="w-full flex flex-col gap-6">
               {itemsResponse.length
@@ -117,7 +117,7 @@ function MyFriends() {
                       key={`:key:my:friend:${item.id}:`}
                       className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3"
                     >
-                      <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-[0.625rem]" image={item.image} userId={item.id} />
+                      <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={item.image} userId={item.id} />
                       <div className="w-full flex flex-col items-start justify-center gap-1">
                         <Link
                           prefetch={false}
@@ -163,7 +163,7 @@ function MyFriends() {
                   key={`:key:my:friend:${item.id}:`}
                   className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3"
                 >
-                  <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-[0.625rem]" image={item.image} userId={item.id} />
+                  <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={item.image} userId={item.id} />
                   <div className="w-full flex flex-col items-start justify-center gap-1">
                     <Link
                       prefetch={false}

@@ -69,7 +69,7 @@ export default function Navigation() {
       )}
       data-transform={visible}
     >
-      <section className="w-full flex flex-col rounded-[0.625rem] bg-BG-second overflow-hidden">
+      <section className="w-full flex flex-col rounded-.625 bg-BG-second overflow-hidden">
         <button
           onClick={(event) => handleZoom(event, "+")}
           disabled={zoom >= 20}

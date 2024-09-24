@@ -126,7 +126,7 @@ export const ReasonBarters = () => {
                     <span
                       className={cx(
                         "absolute right-[0.875rem] bottom-1 top-auto h-min",
-                        f.value.length > MAX_LENGTH_TEXT_OTHER - 30 && "color-[var(--text-error)]",
+                        f.value.length > MAX_LENGTH_TEXT_OTHER - 30 && "text-text-error",
                       )}
                       data-more={f.value.length > MAX_LENGTH_TEXT_OTHER - 30}
                     >

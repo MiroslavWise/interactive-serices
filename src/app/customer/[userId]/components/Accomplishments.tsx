@@ -117,7 +117,7 @@ interface IPropsItem {
 }
 
 const Item = ({ title, count, id }: IPropsItem) => (
-  <a className="w-full bg-grey-field flex flex-col gap-0.5 py-2 px-4 rounded-[0.625rem]">
+  <a className="w-full bg-grey-field flex flex-col gap-0.5 py-2 px-4 rounded-.625">
     <article className="w-full flex flex-row gap-1 items-center [&>svg]:w-3 [&>svg]:h-3">
       <p className="text-text-primary text-sm font-normal">{title}</p>
       {ICON[id]}

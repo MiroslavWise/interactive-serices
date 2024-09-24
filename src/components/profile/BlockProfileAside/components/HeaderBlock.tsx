@@ -36,7 +36,7 @@ export const HeaderBlock = () => {
   return (
     <header className="w-full flex flex-col items-center gap-4" data-test="block-profile-aside-header">
       <div
-        className={cx("w-20 h-20 relative p-10", image ? "rounded-2xl" : "bg-grey-stroke-light rounded-[0.625rem]")}
+        className={cx("w-20 h-20 relative p-10", image ? "rounded-2xl" : "bg-grey-stroke-light rounded-.625")}
         data-test="block-profile-aside-avatar-div"
       >
         {!!image ? (

@@ -105,19 +105,19 @@ export default function Notifications() {
         </nav>
       </header>
       {!!stateNotifications?.length && status === "all" ? (
-        <ul className="flex flex-col gap-2.5 p-6 rounded-[2rem] bg-BG-second mb-6">
+        <ul className="flex flex-col gap-2.5 p-6 rounded-2 bg-BG-second mb-6">
           {stateNotifications?.map((item) => (
             <ItemNotification key={`::notification::all:${item.id}::`} {...item} />
           ))}
         </ul>
       ) : !!waitingNotifications?.length && status === "waiting" ? (
-        <ul className="flex flex-col gap-2.5 p-6 rounded-[2rem] bg-BG-second mb-6">
+        <ul className="flex flex-col gap-2.5 p-6 rounded-2 bg-BG-second mb-6">
           {waitingNotifications?.map((item) => (
             <ItemNotification key={`::notification::waiting::${item.id}::`} {...item} />
           ))}
         </ul>
       ) : (
-        <article className="w-full h-full rounded-[2rem] bg-BG-second py-10 px-[3.125rem] flex flex-col items-center gap-4 mr-6 *:w-full *:text-center">
+        <article className="w-full h-full rounded-2 bg-BG-second py-10 px-[3.125rem] flex flex-col items-center gap-4 mr-6 *:w-full *:text-center">
           <h2 className="text-text-primary font-semibold">У вас пока нет уведомлений</h2>
           <p className="text-text-secondary font-medium">{DESCRIPTION_NOTIFICATIONS_EMPTY[status]}</p>
         </article>

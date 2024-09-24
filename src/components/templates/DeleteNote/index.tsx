@@ -39,7 +39,7 @@ function DeleteNote() {
         !!data ? "flex flex-col items-center max-md:justify-end z-[1020]" : "hidden -z-10",
       )}
     >
-      <section className="w-full md:max-w-[33.75rem] flex flex-col gap-[1.875rem] items-center rounded-t-3xl md:rounded-[2rem] bg-BG-second p-5 md:p-10 pt-9 md:pt-5 relative">
+      <section className="w-full md:max-w-[33.75rem] flex flex-col gap-[1.875rem] items-center rounded-t-3xl md:rounded-2 bg-BG-second p-5 md:p-10 pt-9 md:pt-5 relative">
         <button
           className="absolute top-0 translate-x-full -right-4 h-12 w-12 rounded-full md:bg-BG-second p-3.5 [&>svg>path]:stroke-text-primary"
           onClick={no}

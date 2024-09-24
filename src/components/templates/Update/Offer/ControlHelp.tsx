@@ -102,7 +102,7 @@ function ControlHelp({ control }: IProps) {
             <section className="absolute left-1/2 -top-3.5">
               <article
                 className={cx(
-                  "absolute p-2.5 bg-BG-second rounded-[0.625rem] -translate-y-full -translate-x-1/2 shadow-box-down w-[19.625rem]",
+                  "absolute p-2.5 bg-BG-second rounded-.625 -translate-y-full -translate-x-1/2 shadow-box-down w-[19.625rem]",
                   open ? "opacity-100 visible" : "opacity-0 invisible",
                 )}
               >

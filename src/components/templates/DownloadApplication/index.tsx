@@ -22,7 +22,7 @@ function DownloadApplication() {
         visible ? "opacity-100 visible z-[1000]" : " opacity-0 invisible -z-10",
       )}
     >
-      <section className="relative w-full h-fit max-h-full min-h-28 rounded-[2rem] md:max-w-[38.75rem] bg-element-accent-1 shadow-box-down">
+      <section className="relative w-full h-fit max-h-full min-h-28 rounded-2 md:max-w-[38.75rem] bg-element-accent-1 shadow-box-down">
         <button
           type="button"
           onClick={() => dispatchDownloadApplication(false)}
@@ -32,7 +32,7 @@ function DownloadApplication() {
         </button>
         <article
           className={cx(
-            "w-full h-full overflow-hidden rounded-[2rem] flex flex-col gap-[3.875rem] relative",
+            "w-full h-full overflow-hidden rounded-2 flex flex-col gap-[3.875rem] relative",
             styles.article,
             "after:transition-all after:duration-200 before:transition-all before:duration-200",
             visible ? "after:scale-100 before:scale-100" : "after:scale-50 before:scale-50",

@@ -75,10 +75,10 @@ export const MobileChangeAbout = () => {
     <div className={cx("wrapper-fixed", "bg-translucent p-0", visible && "!z-[2001] !opacity-100 !visible")}>
       <section data-section-modal className="relative h-full w-full bg-BG-second">
         <ButtonClose onClick={handleClose} className="z-50" />
-        <header className="flex items-center justify-center w-full p-5 pb-4 z-[1] h-[var(--height-standard-header-modal)] border-b border-solid border-grey-separator">
+        <header className="flex items-center justify-center w-full p-5 pb-4 z-[1] h-standard-header-modal border-b border-solid border-grey-separator">
           <h3 className="text-text-primary text-center text-2xl font-semibold">Обо мне</h3>
         </header>
-        <form onSubmit={onSubmit} className="w-full h-[calc(100%_-_var(--height-standard-header-modal))] p-5 flex flex-col gap-5">
+        <form onSubmit={onSubmit} className="w-full h-full-minus-standard-header-modal p-5 flex flex-col gap-5">
           <Controller
             name="about"
             control={control}

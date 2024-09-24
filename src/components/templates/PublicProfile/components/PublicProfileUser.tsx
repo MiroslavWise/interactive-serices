@@ -46,7 +46,7 @@ function PublicProfileUser() {
   return (
     <div className={cx("w-full flex flex-col gap-2.5", isLoading && "loading-screen")}>
       <article className="w-full grid grid-cols-[5rem_minmax(0,1fr)_1.25rem] gap-5 p-4 items-start rounded-2xl bg-BG-second">
-        <div className={cx("relative w-20 h-20 p-10 rounded-2xl", !image && "bg-grey-stroke-light !rounded-[0.625rem]")}>
+        <div className={cx("relative w-20 h-20 p-10 rounded-2xl", !image && "bg-grey-stroke-light rounded-.625")}>
           {isLoading ? (
             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl" />
           ) : (
@@ -126,7 +126,7 @@ function PublicProfileUser() {
         className={cx(
           "w-full rounded-2xl bg-BG-second p-2.5 grid grid-cols-3 gap-2",
           isLoadingTestimonials && "loading-screen",
-          "*:py-2 *:rounded-[0.625rem] *:px-4 *:flex *:flex-col",
+          "*:py-2 *:rounded-.625 *:px-4 *:flex *:flex-col",
         )}
       >
         {isLoadingTestimonials || isLoading

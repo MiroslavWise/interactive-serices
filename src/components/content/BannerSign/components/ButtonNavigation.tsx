@@ -62,7 +62,7 @@ export const ButtonNavigation = memo(() => {
     <div className={cx(styles.buttonNavigation, "fixed left-0 bottom-6 flex flex-col gap-2.5 z-[60] w-10")} data-collapse={visible}>
       <section
         className={cx(
-          "w-10 flex flex-col rounded-[0.625rem] bg-BG-second overflow-hidden",
+          "w-10 flex flex-col rounded-.625 bg-BG-second overflow-hidden",
           "*:w-full *:border-none *:outline-none *:bg-transparent *:px-2.5 *:pt-2 *:pb-2.5 hover:*:opacity-90",
         )}
       >
@@ -78,7 +78,7 @@ export const ButtonNavigation = memo(() => {
         </button>
       </section>
       <button
-        className="w-full aspect-square h-auto rounded-[0.625rem] bg-BG-second border-none outline-none flex items-center justify-center p-2.5"
+        className="w-full aspect-square h-auto rounded-.625 bg-BG-second border-none outline-none flex items-center justify-center p-2.5"
         data-navigate
         onClick={(event) => {
           event.stopPropagation()

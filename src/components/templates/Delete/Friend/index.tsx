@@ -49,7 +49,7 @@ function DeleteFriend() {
   return (
     <>
       <article>
-        <Avatar className="w-11 h-11 rounded-[0.625rem]" image={user?.image} />
+        <Avatar className="w-11 h-11 rounded-.625" image={user?.image} />
         <h2>
           Вы хотите удалить&nbsp;
           <p className="text-text-accent contents">

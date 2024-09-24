@@ -4,7 +4,7 @@ export default () => (
       {[1, 2, 3].map((_) => (
         <article
           key={`::item::load::about::${_}::`}
-          className="w-full rounded-[0.625rem] border border-solid border-grey-stroke-light py-2 px-4 flex flex-col gap-2.5"
+          className="w-full rounded-.625 border border-solid border-grey-stroke-light py-2 px-4 flex flex-col gap-2.5"
         >
           <span className="bg-grey-field max-w-[7.5rem] w-full h-4 rounded-lg" />
           <span className="bg-grey-field max-w-[3.125rem] w-full h-[1.375rem] rounded-[0.6875rem]" />
