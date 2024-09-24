@@ -46,7 +46,6 @@ export async function login({ email, password }: TSchemaEmailSignIn): Promise<IR
 
 export async function refresh() {
   const auth = useAuth.getState().auth
-  const user = useAuth.getState().user
 
   if (!auth) return { ok: false }
 
@@ -95,8 +94,8 @@ export async function refresh() {
 
 export function authToken(): string | null {
   if (typeof window === "undefined") return null
-
   const auth = useAuth.getState().auth
+  if (!auth) return null
   const typeToken = auth?.tokenType
   const accessToken = auth?.accessToken
 
