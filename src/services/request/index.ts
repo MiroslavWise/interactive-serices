@@ -289,11 +289,6 @@ const fetchGet = async ({ url, query }: IGet): Promise<IResponse> => {
     }
   }
 
-  fetch(`/api/logs`, {
-    method: "POST",
-    body: JSON.stringify({ url: endpoint.toString() }),
-  })
-
   const head: HeadersInit = {
     "Content-Type": "application/json",
   }
