@@ -1,6 +1,5 @@
 .container {
   height: 100%;
-  max-width: 35rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -417,7 +416,6 @@
 
   @media screen and (max-width: 768px) {
     border-radius: 0 !important;
-    max-width: 100%;
 
     & > ul {
       & > form {

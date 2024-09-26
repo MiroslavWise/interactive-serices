@@ -1,5 +1,4 @@
 .container {
-  max-width: 30.625rem;
   height: auto;
 
   & > form {
@@ -106,6 +105,5 @@
   @media screen and (max-width: 760px) {
     border-radius: 0 !important;
     height: 100%;
-    max-width: 100%;
   }
 }

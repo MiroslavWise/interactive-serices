@@ -1,15 +1,9 @@
 .container {
-  position: relative;
-  width: 100%;
-  max-width: 41.875rem;
-  border-radius: 2rem;
-  background-color: var(--BG-second);
   max-height: 28.6875rem;
   height: 100%;
 
   @media screen and (max-width: 768px) {
     border-radius: 0 !important;
-    max-width: 100% !important;
     max-height: 100% !important;
   }
 }

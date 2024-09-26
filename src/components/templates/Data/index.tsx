@@ -47,6 +47,7 @@ import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Upd
 import CreateNewNote from "../CreateNewNote"
 import BallonPost from "../BallonPost"
 import DeleteFriend from "../Delete/Friend"
+import ProvideFeedback, { CN_ProvideFeedback } from "../ProvideFeedback"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -57,7 +58,8 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.NewServicesBannerMap, <NewServicesBanner key="::key::modal::new-services-banner" />], //Выбор трёх созданий: предложения, дискуссии и алерта
   [EModalData.CreateNewOptionModal, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения, дискуссии и алерта
   [EModalData.CreateNewOptionModalMap, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения, дискуссии и алерта
-  [EModalData.CompletionTransaction, <CompletionTransaction key="::key::modal::completion-transaction" />], //Отзыв о завершении обмена
+  // [EModalData.CompletionTransaction, <CompletionTransaction key="::key::modal::completion-transaction" />], //Отзыв о завершении обмена
+  [EModalData.CompletionTransaction, <ProvideFeedback key="::key::modal::ProvideFeedback" />], //Отзыв о завершении обмена
   [EModalData.ComplaintModal, <ComplaintModal key="::key::modal::complaint-modal" />], //Жалоба на пользователя
   [EModalData.UpdateProfile, <UpdateProfile key="::key::modal::update-profile" />], //Редактирование профиля
   [EModalData.ModalSign, <ModalSign key="::key::modal::modal-sign" />], //Флоу логина и регаистрации
@@ -83,34 +85,34 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.DELETE_FRIEND, <DeleteFriend key="::key::DeleteFriend" />], //Удаление друга
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
-  [EModalData.NewServicesBanner, CN_SECTION],
-  [EModalData.NewServicesBannerMap, CN_SECTION],
-  [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container],
-  [EModalData.CreateNewOptionModalMap, styleCreateNewOptionModal.container],
-  [EModalData.CompletionTransaction, stylesCompletionTransaction.container],
-  [EModalData.ComplaintModal, stylesComplaintModal.container],
-  [EModalData.UpdateProfile, stylesUpdateProfile.container],
-  [EModalData.ModalSign, CN_CONTAINER_MODAL_SIGN],
-  [EModalData.BalloonAlert, stringBalloonAlert],
-  [EModalData.BalloonDiscussion, stringBalloonDiscussion],
-  [EModalData.BalloonOffer, stringBalloonOffer],
-  [EModalData.ReciprocalExchange, stylesReciprocalExchange.container],
-  [EModalData.OutAccount, stylesOutAccount.container],
-  [EModalData.DeleteOffer, stylesOutAccount.container],
-  [EModalData.DeleteUser, stylesOutAccount.container],
-  [EModalData.DeleteChat, stylesOutAccount.container],
-  [EModalData.DELETE_FRIEND, stylesOutAccount.container],
-  [EModalData.UpdateOffer, stylesUpdateOffer.container],
-  [EModalData.ChangePassword, stylesChangePassword.container],
-  [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container],
-  [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL],
-  [EModalData.UpdateDiscussionAndAlert, CN_UPDATE_DISCUSSION_AND_ALERT],
-  [EModalData.CancelExchange, CN_CANCEL_EXCHANGE],
-  [EModalData.CREATE_POST, stylesCreatePost.container],
-  [EModalData.CREATE_POST_MAP, stylesCreatePost.container],
-  [EModalData.SUCCESS_CREATE_POST, stylesSuccessCreatePost.container],
-  [EModalData.CREATE_NEW_NOTE, stylesCreatePost.container],
-  [EModalData.BALLOON_POST, stylesBallonPost.container],
+  [EModalData.NewServicesBanner, CN_SECTION], //
+  [EModalData.NewServicesBannerMap, CN_SECTION], //
+  [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container], //
+  [EModalData.CreateNewOptionModalMap, styleCreateNewOptionModal.container], //
+  [EModalData.CompletionTransaction, CN_ProvideFeedback!], //
+  [EModalData.ComplaintModal, stylesComplaintModal.container], //
+  [EModalData.UpdateProfile, stylesUpdateProfile.container], //
+  [EModalData.ModalSign, CN_CONTAINER_MODAL_SIGN], //
+  [EModalData.BalloonAlert, stringBalloonAlert], //
+  [EModalData.BalloonDiscussion, stringBalloonDiscussion], //
+  [EModalData.BalloonOffer, stringBalloonOffer], //
+  [EModalData.ReciprocalExchange, stylesReciprocalExchange.container], //
+  [EModalData.OutAccount, stylesOutAccount.container], //
+  [EModalData.DeleteOffer, stylesOutAccount.container], //
+  [EModalData.DeleteUser, stylesOutAccount.container], //
+  [EModalData.DeleteChat, stylesOutAccount.container], //
+  [EModalData.DELETE_FRIEND, stylesOutAccount.container], //
+  [EModalData.UpdateOffer, stylesUpdateOffer.container], //
+  [EModalData.ChangePassword, stylesChangePassword.container], //
+  [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container], //
+  [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL], //
+  [EModalData.UpdateDiscussionAndAlert, CN_UPDATE_DISCUSSION_AND_ALERT], //
+  [EModalData.CancelExchange, CN_CANCEL_EXCHANGE], //
+  [EModalData.CREATE_POST, stylesCreatePost.container], //
+  [EModalData.CREATE_POST_MAP, stylesCreatePost.container], //
+  [EModalData.SUCCESS_CREATE_POST, stylesSuccessCreatePost.container], //
+  [EModalData.CREATE_NEW_NOTE, stylesCreatePost.container], //
+  [EModalData.BALLOON_POST, stylesBallonPost.container], //
 ])
 
 export const ID_MODAL: Map<EModalData, string> = new Map([

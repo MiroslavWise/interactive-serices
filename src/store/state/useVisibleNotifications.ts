@@ -3,12 +3,8 @@ import type { TUseVisibleNotifications } from "../types/createVisibleNotificatio
 
 export const useVisibleNotifications = create<TUseVisibleNotifications>((set, get) => ({
   visible: false,
-
-  dispatchVisibleNotifications({ visible }) {
-    set({ visible: visible })
-  },
 }))
 
 export const dispatchVisibleNotifications = (value: boolean) => {
-  useVisibleNotifications.setState((_) => ({ visible: value }), true)
+  useVisibleNotifications.setState((_) => ({ visible: value }))
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef } from "react"
+import { memo, useCallback, useEffect, useRef } from "react"
 
 import { ButtonClose } from "@/components/common"
 
@@ -30,10 +30,70 @@ function Modal() {
   const visibleOnboarding = useOnboarding(({ visible }) => visible)
   const visibleCreateCategory = useCreateNewCategory(({ visible }) => visible)
 
+  useEffect(() => {
+    if (data && ref.current) {
+      if (
+        [
+          EModalData.NewServicesBanner,
+          EModalData.NewServicesBannerMap,
+          EModalData.ComplaintModal,
+          EModalData.CompletionTransaction,
+        ].includes(data)
+      ) {
+        ref.current.style.setProperty("--width-section", `31.25rem`)
+      }
+      if (
+        [
+          EModalData.CreateNewOptionModal,
+          EModalData.CreateNewOptionModalMap,
+          EModalData.ReciprocalExchange,
+          EModalData.CREATE_POST,
+          EModalData.CREATE_POST_MAP,
+          EModalData.CREATE_NEW_NOTE,
+        ].includes(data)
+      ) {
+        ref.current.style.setProperty("--width-section", `35rem`)
+      }
+      if ([EModalData.BalloonAlert, EModalData.BalloonDiscussion, EModalData.BalloonOffer].includes(data)) {
+        ref.current.style.setProperty("--width-section", `25rem`)
+      }
+      if ([EModalData.UpdateProfile, EModalData.ActiveServicesFrom].includes(data)) {
+        ref.current.style.setProperty("--width-section", `41.875rem`)
+      }
+      if ([EModalData.ModalSign, EModalData.ChangePassword].includes(data)) {
+        ref.current.style.setProperty("--width-section", `30.625rem`)
+      }
+      if (
+        [
+          EModalData.OutAccount,
+          EModalData.DeleteOffer,
+          EModalData.DeleteUser,
+          EModalData.DeleteChat,
+          EModalData.DELETE_FRIEND,
+          EModalData.SuccessNewOptional,
+          EModalData.UpdateDiscussionAndAlert,
+          EModalData.CancelExchange,
+          EModalData.SUCCESS_CREATE_POST,
+        ].includes(data)
+      ) {
+        ref.current.style.setProperty("--width-section", `33.75rem`)
+      }
+      if (EModalData.UpdateOffer == data) {
+        ref.current.style.setProperty("--width-section", `37.25rem`)
+      }
+      if (EModalData.BALLOON_POST == data) {
+        ref.current.style.setProperty("--width-section", `40rem`)
+      }
+    }
+
+    return () => {
+      if (ref.current) {
+        ref.current.style.setProperty("--width-section", `35rem`)
+      }
+    }
+  }, [data])
+
   const close = useCallback(() => {
-    // if (data && [EModalData.BalloonAlert, EModalData.BalloonOffer, EModalData.BalloonDiscussion].includes(data)) {
-    //   return
-    // }
     if (data && [EModalData.ChangePassword, EModalData.DeleteUser].includes(data)) {
       dispatchModal(EModalData.UpdateProfile)
       return
@@ -58,6 +118,12 @@ function Modal() {
       } else if ([EModalData.SuccessNewOptional].includes(data)) {
         ref.current.style.setProperty("--padding-top", "9.375rem")
       } else {
+        ref.current.style.setProperty("--padding-top", "2.5rem")
+      }
+    }
+
+    return () => {
+      if (ref.current) {
         ref.current.style.setProperty("--padding-top", "2.5rem")
       }
     }
@@ -125,4 +191,4 @@ function Modal() {
 }
 
 Modal.displayName = "Modal"
-export default Modal
+export default memo(Modal)

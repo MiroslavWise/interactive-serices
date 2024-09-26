@@ -13,12 +13,9 @@ export const dispatchReciprocalExchange = (values: IActionReciprocalExchange) =>
 
   console.log("dispatchReciprocalExchange values: ", values)
 
-  useReciprocalExchange.setState(
-    (_) => ({
-      ...rest,
-    }),
-    true,
-  )
+  useReciprocalExchange.setState((_) => ({
+    ...rest,
+  }))
 
   if (visible) {
     dispatchModal(EModalData.ReciprocalExchange)

@@ -1,0 +1,11 @@
+.form {
+  padding-bottom: calc(4.875rem + 1.5rem);
+
+  @media screen and (max-width: 768px) {
+    padding-bottom: calc(4.625rem + 1.5rem);
+  }
+}
+
+.profile {
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+}

@@ -1,8 +1,6 @@
-import { type IResponseUploadFile, type IProvider } from "./types"
+import { type IProvider } from "./types"
 
-import { type IResponse, postForm } from "../request"
-
-import { clg } from "@console"
+import { postForm } from "../request"
 import { generateShortHash } from "@/lib/hash"
 
 async function getFileDimensions(uploadFile: File): Promise<{ width: number; height: number }> {
@@ -27,9 +25,8 @@ async function getFileDimensions(uploadFile: File): Promise<{ width: number; hei
   })
 }
 
-export async function fileUploadService(uploadFile: File, provider: IProvider): Promise<IResponse<IResponseUploadFile>> {
+export async function fileUploadService(uploadFile: File, provider: IProvider) {
   const dimensions = await getFileDimensions(uploadFile)
-  clg("fileUploadService provider", provider)
 
   const formData = new FormData()
   formData.append("name", `${provider.type}_${uploadFile.name?.replaceAll(":", "_")}`) //type: profile | offer | discussion | alert | threads

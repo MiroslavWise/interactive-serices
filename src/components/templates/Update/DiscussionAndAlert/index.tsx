@@ -13,7 +13,7 @@ import { getUserIdOffers, patchOffer } from "@/services"
 import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
 import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
 
-export const CN_UPDATE_DISCUSSION_AND_ALERT = "w-full md: max-w-[37.25rem] max-md:!rounded-none"
+export const CN_UPDATE_DISCUSSION_AND_ALERT = "max-md:!rounded-none"
 
 const onDescription = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert ? "Опишите проблему" : value === EnumTypeProvider.discussion ? "Ваш комментарий" : null

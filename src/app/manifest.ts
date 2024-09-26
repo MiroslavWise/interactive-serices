@@ -1,5 +1,6 @@
+import { type MetadataRoute } from "next"
+
 import { APPLE_ID, URL_APPLE_APP } from "@/config/environment"
-import { MetadataRoute } from "next"
 
 export default function (): MetadataRoute.Manifest {
   return {

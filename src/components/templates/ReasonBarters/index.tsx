@@ -79,18 +79,26 @@ export const ReasonBarters = () => {
   }
 
   return (
-    <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>
-      <section data-section-modal>
+    <div
+      className={cx("wrapper-fixed", styles.wrapper, "bg-translucent p-0 md:py-10 md:px-6 flex flex-col items-center max-md:justify-end")}
+      data-visible={visible}
+    >
+      <section
+        data-section-modal
+        className="w-full relative p-5 pb-0 pt-8 md:p-10 bg-BG-second rounded-t-2 md:rounded-2 flex flex-col gap-3.5"
+      >
         <ButtonClose position={{}} onClick={handleClose} />
-        <h2>Пожалуйста, укажите причину несостоявшегося обмена</h2>
-        <form onSubmit={onSubmit}>
-          <div data-content>
-            <p>Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей</p>
+        <h2 className="text-text-primary text-2xl font-semibold">Пожалуйста, укажите причину несостоявшегося обмена</h2>
+        <form onSubmit={onSubmit} className="w-full h-full flex flex-col gap-[1.875rem] overflow-y-auto max-md:pb-5">
+          <div data-content className="w-full flex flex-col gap-6">
+            <p className="text-text-secondary text-sm font-normal">
+              Ваша обратная связь поможет улучшить качество услуг и работу сервиса для вас и других пользователей
+            </p>
             <Controller
               name="type"
               control={control}
               render={({ field }) => (
-                <ul {...field}>
+                <ul {...field} className="w-full flex flex-col gap-2.5">
                   {MENU_REASON.map((item) => (
                     <fieldset
                       key={`::key::reason::menu::${item.value}::`}
@@ -98,9 +106,15 @@ export const ReasonBarters = () => {
                         event.stopPropagation()
                         field.onChange(item.value as ETypeReason)
                       }}
+                      className="w-full flex items-start gap-3 cursor-pointer"
                     >
-                      <div data-check={field.value === item.value} />
-                      <label>{item.label}</label>
+                      <div
+                        className={cx(
+                          "w-4 h-4 p-2 aspect-square rounded-full border border-solid border-element-accent-1 transition-all duration-200",
+                          field.value === item.value ? "bg-element-accent-1" : "bg-transparent",
+                        )}
+                      />
+                      <label className="text-text-primary text-base font-normal">{item.label}</label>
                     </fieldset>
                   ))}
                 </ul>
@@ -138,7 +152,7 @@ export const ReasonBarters = () => {
               />
             ) : null}
           </div>
-          <footer>
+          <footer className="w-full">
             <Button
               type="submit"
               typeButton="fill-primary"
