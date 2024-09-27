@@ -1,9 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { type LegacyRef, forwardRef } from "react"
-
-import { type TTypeButton, type TTypeButtonLink } from "../types/types"
+import { type ButtonHTMLAttributes, DetailedHTMLProps, type LegacyRef, type ReactNode, forwardRef } from "react"
 
 import IconSpinner from "@/components/icons/IconSpinner"
 
@@ -20,7 +18,7 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
         "max-md:h-9 rounded-[1.125rem] [&>span]:text-sm",
         "[&>img]:w-6 [&>img]:h-6 [&>svg]:w-6 [&>svg]:h-6",
         "disabled:opacity-50 disabled:cursor-no-drop",
-        loading && "!opacity-60",
+        loading && "opacity-50",
         typeButton === "white" && "bg-text-button [&>span]:text-text-accent",
         typeButton === "fill-primary" && "bg-btn-main-default [&>span]:text-text-button hover:bg-btn-main-hover",
         typeButton === "fill-opacity" && "bg-opacity-white-hard [&>span]:text-supporting-white",
@@ -33,14 +31,15 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
       ref={ref}
       data-loading={loading}
       data-button-forward
-      title={title ? title : label}
-      aria-label={label ?? "Кнопка"}
+      title={title ? title : undefined}
+      aria-label={title ? title : label}
+      aria-labelledby={title ? title : label}
     >
       {prefixIcon ? prefixIcon : null}
       <span
         className={cx(
           " text-sm text-center whitespace-nowrap font-medium selection:bg-transparent",
-          loading ? "!opacity-60" : "opacity-100",
+          loading ? "opacity-60" : "opacity-100",
         )}
       >
         {label}
@@ -48,8 +47,8 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
       {suffixIcon ? suffixIcon : null}
       <div
         className={cx(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-5 w-5 *:h-5 *:w-5 *:rounded-[0.625rem]",
-          loading ? "opacity-100 visible" : "opacity-0 invisible",
+          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-5 w-5",
+          loading ? "opacity-100 visible flex" : "opacity-0 invisible hidden",
         )}
       >
         <IconSpinner />
@@ -77,8 +76,9 @@ export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & ty
       )}
       data-type-button={typeButton || "fill-primary"}
       data-button-forward
-      title={title ? title : label}
-      aria-label={label ?? "Ссылка"}
+      title={title ? title : undefined}
+      aria-label={title ? title : label}
+      aria-labelledby={title ? title : label}
     >
       {prefixIcon}
       <span className={cx("opacity-100 text-sm text-center whitespace-nowrap font-medium selection:bg-transparent")}>{label}</span>
@@ -86,3 +86,16 @@ export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & ty
     </Link>
   )
 })
+
+type TTypeButtonPrimary = "fill-primary" | "fill-orange" | "regular-primary" | "regular-orange" | "white" | "fill-opacity"
+
+interface IButton {
+  label?: string
+  loading?: boolean
+  suffixIcon?: ReactNode
+  prefixIcon?: ReactNode
+  typeButton?: TTypeButtonPrimary
+}
+
+type TTypeButton = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & IButton
+type TTypeButtonLink = IButton

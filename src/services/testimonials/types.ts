@@ -2,11 +2,12 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IPromiseReturn, type TOrder } from "../types/general"
 import { type IResponseOffers, type IUserOffer } from "../offers/types"
 import { type IResponse } from ".."
+import { IImageData } from "@/types/type"
 
 type TStatusFeedback = "published" | "blocked" | "edited"
 type TNumberRating = 1 | 2 | 3 | 4 | 5 | number
 
-interface IPostTestimonials {
+export interface IBodyPostTestimonials {
   receiverId: number
   targetId: number
   provider: EnumTypeProvider
@@ -15,9 +16,10 @@ interface IPostTestimonials {
   message: string
   status: TStatusFeedback
   enabled: boolean
+  images?: number[]
 }
 
-type TPatchTestimonials = Partial<IPostTestimonials>
+type TPatchTestimonials = Partial<IBodyPostTestimonials>
 
 export interface IResponseTestimonials {
   id: number
@@ -33,11 +35,12 @@ export interface IResponseTestimonials {
   enabled: boolean
   created: Date
   updated: Date
+  images: IImageData[]
 }
 
 export interface IServiceTestimonials {
   get(value?: IQueries): Promise<IResponse<IResponseTestimonials[]>>
-  post(value: IPostTestimonials): IPromiseReturn<IResponseTestimonials>
+  post(value: IBodyPostTestimonials): IPromiseReturn<IResponseTestimonials>
   patch(value: TPatchTestimonials, id: number | string): IPromiseReturn<IResponseTestimonials>
   getId(id: number | string): Promise<IResponse<IResponseTestimonials>>
 }

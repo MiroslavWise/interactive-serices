@@ -23,7 +23,7 @@ export const FiltersScreen = () => {
         visibleBanner
           ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))]"
           : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
-        "fixed overflow-hidden max-w-[var(--width-right-services)] w-full bg-BG-second right-5 rounded-[2rem]",
+        "fixed overflow-hidden max-w-[var(--width-right-services)] w-full bg-BG-second right-5 rounded-2",
         visible
           ? `opacity-100 visible ${
               visibleBanner

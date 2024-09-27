@@ -42,7 +42,7 @@ export const UploadPhoto = ({ index, selected, setFiles, setSelectedImage, delet
     <div
       className={cx(
         "relative flex items-center justify-center w-full md:max-w-[9.5rem] overflow-hidden rounded-2xl bg-BG-first cursor-pointer z-20 max-md:h-auto max-md:aspect-[152/196]",
-        !!selected ? "" : "border-2 border-dashed border-grey-field",
+        !selected && "border-2 border-dashed border-grey-field",
       )}
       data-upload
     >

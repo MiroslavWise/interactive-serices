@@ -19,7 +19,7 @@ export interface INotes {
 export interface IBodyNote {
   postId: number
   description?: string
-  images?: number[]
+  images?: (number | null)[]
   main: boolean
 }
 

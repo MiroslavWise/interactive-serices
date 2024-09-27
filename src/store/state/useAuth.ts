@@ -32,14 +32,11 @@ export const useAuth = create(
 export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSignIn) => {
   return login({ email, password }).then((response) => {
     if (response.ok) {
-      useAuth.setState(
-        (_) => ({
-          ..._,
-          auth: response.res,
-          isAuth: true,
-        }),
-        true,
-      )
+      useAuth.setState((_) => ({
+        ..._,
+        auth: response.res,
+        isAuth: true,
+      }))
 
       queryClient
         .fetchQuery({

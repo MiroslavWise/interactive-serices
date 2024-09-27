@@ -70,7 +70,7 @@ export const AddEmail = () => {
         visible ? "!z-[2000] !visible !opacity-100" : "-z-10 opacity-0 invisible",
       )}
     >
-      <section data-section-modal className="relative w-full md:max-w-[30.625rem] max-md:h-full md:rounded-[2rem] bg-BG-second">
+      <section data-section-modal className="relative w-full md:max-w-[30.625rem] max-md:h-full md:rounded-2 bg-BG-second">
         <ButtonClose onClick={close} />
         <header className="w-full h-[4.25rem] md:h-[4.75rem] p-5 md:py-6 px-5 max-md:pb-4 flex items-center justify-center border-b border-solid border-grey-separator">
           <h3 className="text-text-primary text-center text-2xl font-semibold">Электронная почта</h3>

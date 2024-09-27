@@ -44,7 +44,7 @@ function Accomplishments({ user }: { user: IUserResponse }) {
   return (
     <div className="w-full grid grid-cols-3 gap-2 py-2.5">
       {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ title, count, id }) => (
-        <div key={`::key::item::${id}::`} className="w-full flex flex-col gap-0.5 bg-grey-field rounded-[0.625rem] py-1.5 px-3">
+        <div key={`::key::item::${id}::`} className="w-full flex flex-col gap-0.5 bg-grey-field rounded-.625 py-1.5 px-3">
           <article className="w-full flex flex-row gap-1 items-center [&>svg]:w-3 [&>svg]:h-3">
             <p className="text-text-primary text-xs font-normal">{title}</p>
             {ICON[id]}

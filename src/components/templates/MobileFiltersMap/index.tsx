@@ -54,7 +54,7 @@ export const MobileFiltersMap = () => {
           event.stopPropagation()
         }}
         className={cx(
-          "transition-all h-fit pt-4 px-4 pb-0 w-full rounded-t-[2rem] bg-BG-second flex flex-col items-center justify-start gap-6",
+          "transition-all h-fit pt-4 px-4 pb-0 w-full rounded-t-2 bg-BG-second flex flex-col items-center justify-start gap-6",
           visible ? " translate-y-0" : "translate-y-full",
         )}
       >

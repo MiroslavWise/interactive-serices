@@ -1,5 +1,5 @@
-import { type ReactNode } from "react"
+import { type PropsWithChildren } from "react"
 
-export function PhotoContainer({ children }: { children: ReactNode }) {
-    return <div data-photo-container>{children}</div>
+export function PhotoContainer({ children }: PropsWithChildren) {
+  return <div data-photo-container>{children}</div>
 }

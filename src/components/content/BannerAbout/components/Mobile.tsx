@@ -20,7 +20,7 @@ export function BannerAboutMobile() {
       className={cx(
         styles.container,
         "md:!hidden fixed overflow-hidden flex cursor-pointer left-6 bottom-[calc(var(--height-mobile-footer-nav)_+_7.5rem)]",
-        visible ? "p-6 flex-col gap-4 rounded-[2rem] right-[5.5rem]" : "items-center justify-center w-12 h-12 rounded-full",
+        visible ? "p-6 flex-col gap-4 rounded-2 right-[5.5rem]" : "items-center justify-center w-12 h-12 rounded-full",
       )}
     >
       <article className={cx("w-full grid-cols-[minmax(0,1fr)_2rem] items-start gap-4", visible ? "grid" : "hidden")}>

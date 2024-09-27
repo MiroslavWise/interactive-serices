@@ -15,7 +15,7 @@ function HeaderBannerHelp({ is }: { is: boolean }) {
   return (
     <header
       className={cx(
-        "w-full transition-transform duration-300 flex flex-row md:items-center justify-start md:justify-center pl-4 md:px-1.5 py-3 md:py-2.5 [background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)]",
+        "w-full transition-transform duration-200 flex flex-row md:items-center justify-start md:justify-center pl-4 md:px-1.5 py-3 md:py-2.5 [background:linear-gradient(101deg,_#F56B59_0%,_#FA4E80_100%)]",
         is ? "translate-y-0" : "-translate-y-full",
       )}
     >

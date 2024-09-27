@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { useAuth } from "@/store/hooks"
+import { useAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { useCountMessagesNotReading } from "@/helpers"

@@ -147,7 +147,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
       key={`::key::chat::${item.id}::`}
       href={{ pathname: `/chat/${item.id}` }}
       className={cx(
-        "w-full py-2.5 pl-2.5 grid grid-cols-[3.25rem_minmax(0,1fr)] gap-3 rounded-[0.625rem] hover:bg-grey-field items-center",
+        "w-full py-2.5 pl-2.5 grid grid-cols-[3.25rem_minmax(0,1fr)] gap-3 rounded-.625 hover:bg-grey-field items-center",
         id && Number(id) === item.id && "!bg-grey-field",
       )}
     >

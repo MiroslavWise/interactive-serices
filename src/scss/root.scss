@@ -73,11 +73,9 @@
 
   //bg-transparent
   --translucent: rgba(5, 1, 13, 0.50);
-}
 
-[data-theme="dark"] {
-  //text
-  --text-primary: #eaecf0;
+  @media (prefers-color-scheme: dark){
+    --text-primary: #eaecf0;
   --text-secondary: #8e98ad;
   --text-disabled: #71798a;
   --text-accent: #a397ff;
@@ -138,4 +136,70 @@
 
     //bg-transparent
     --translucent: rgba(1, 0, 2, 0.70);
+  }
 }
+
+// [data-theme="dark"] {
+//   //text
+//   --text-primary: #eaecf0;
+//   --text-secondary: #8e98ad;
+//   --text-disabled: #71798a;
+//   --text-accent: #a397ff;
+
+//   --text-error: #dc4e33;
+//   --text-tab: #101828;
+
+//   //element
+//   --element-accent-1: #8d7eff;
+//   --element-accent-2: #c5cad2;
+//   --element-grey: var(--text-secondary);
+//   --element-grey-light: var(--text-disabled);
+//   --element-error: var(--text-error);
+//   --element-white: var(--text-button);
+//   --element-white-20: rgba(#ffffff, 0.2);
+  
+//   //background
+//   --BG-first: #202020;
+//   --BG-second: #2c3139;
+//   --BG-icons: #5d6674;
+//   --BG-filter: #8d7eff;
+//   --BG-chat: #444561;
+//   --BG-time: rgba(113, 121, 138, 0.80);;
+  
+//   //gray
+//   --grey-separator: #474c54;
+//   --grey-stroke: #525762;
+//   --grey-stroke-light: #4f5664;
+//   --grey-field: #3f4652;
+//   --grey-filed: #f2f4f7;
+
+//   //more
+//   --more-purple-gradient: linear-gradient(134deg, #de92fa 7.48%, #8d7eff 81.25%);
+//   --more-orange: #f19830;
+//   --more-field: #109f5c;
+//   --filter-red: #76383E;
+  
+//   --border-red: #723D37;
+//   --border-red-contrast: #E0604F;
+//   --linear-red-help-opacity: linear-gradient(101deg, rgba(253, 126, 71, 0.15) 0%, rgba(248, 43, 129, 0.15) 100%);
+//   --more-red-gradient: linear-gradient(101deg, #E0604F 0%, #DC4B75 100%);
+
+//   //card
+//   --card-red: #392F33;
+//   --card-border-red: #723D37;
+//   --card-blue: #28374A;
+//   --card-border-blue:#325887;
+//   --card-yellow: #302D2B;
+//   --card-border-yellow: #664D27;
+//   --card-bg-yellow: #df831724;
+//   --card-svg-yellow: #DF8317;
+
+//   //button
+//   --btn-main-default: #8d7eff;
+//   --btn-main-hover: #a195ff;
+//   --btn-second-default: #3f4652;
+//   --btn-second-hover: #4d5664;
+
+//     //bg-transparent
+//     --translucent: rgba(1, 0, 2, 0.70);
+// }

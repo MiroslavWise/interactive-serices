@@ -7,7 +7,7 @@ import { ITEMS_SOCIAL_LINK } from "../constants/social"
 export function LinksSocial() {
   return (
     <article className="w-full flex flex-col items-center gap-5 max-md:max-w-full">
-      <section className="w-full flex flex-col items-center gap-3 h-fit rounded-[2rem] bg-grey-field py-5 px-[1.875rem]">
+      <section className="w-full flex flex-col items-center gap-3 h-fit rounded-2 bg-grey-field py-5 px-[1.875rem]">
         <span className="text-text-secondary text-center text-sm font-medium">Или продолжить через:</span>
         <div className="w-full flex flex-row items-center justify-center gap-2.5">
           {ITEMS_SOCIAL_LINK.map(({ value, srcNotWorking, srcWorking, isWorkingLink, path }) => (

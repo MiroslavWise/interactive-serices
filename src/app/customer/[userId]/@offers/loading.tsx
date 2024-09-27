@@ -9,7 +9,7 @@ export default () => (
           </div>
           <div className="w-full h-auto aspect-[21.3125/13.75] md:aspect-[18.4375/13.75] rounded-2xl bg-grey-field" />
           <div className="w-full grid items-center grid-cols-[2.25rem_1fr] gap-2.5">
-            <span className="bg-grey-field w-9 h-9 rounded-[0.625rem]" />
+            <span className="bg-grey-field w-9 h-9 rounded-.625" />
             <span className="bg-grey-field w-full h-4 rounded-lg" />
           </div>
         </article>

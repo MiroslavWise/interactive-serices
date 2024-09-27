@@ -10,7 +10,7 @@ function ItemServiceImages({ images = [] }: { images: IImageData[] }) {
       className={cx(
         "scroll-no",
         !images.length && "!hidden",
-        "w-[calc(100%_+_2rem)] h-[4.875] -mx-4 min-h-[4.875] max-h-[4.875] relative overflow-hidden !px-0",
+        "w-[calc(100%_+_2rem)] h-[4.875rem] -mx-4 min-h-[4.875rem] max-h-[4.875rem] relative overflow-hidden !px-0",
       )}
     >
       <ItemServiceImagesClient images={images} />

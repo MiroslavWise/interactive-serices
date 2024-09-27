@@ -96,16 +96,20 @@ function FriendB({ user }: { user: IUserResponse }) {
   return (
     <button
       type="button"
-      className={cx(
-        "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:h-5 *:w-5",
-        disable && "!cursor-no-drop",
-      )}
+      className="disabled:cursor-no-drop group *:absolute *:left-1/2 *:-translate-x-1/2"
       onClick={handleOnFriends}
-      title={isFriends ? "Друг" : "Добавить в друзья"}
       aria-label={isFriends ? "Друг" : "Добавить в друзья"}
       aria-labelledby={isFriends ? "Друг" : "Добавить в друзья"}
+      disabled={disable}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        className="top-1/2 -translate-y-1/2 h-5 w-5"
+      >
         {isFriends ? (
           <>
             <path
@@ -156,6 +160,14 @@ function FriendB({ user }: { user: IUserResponse }) {
           </>
         )}
       </svg>
+      <article
+        className={cx(
+          "-top-1 transition-all duration-200 translate-y-0 group-hover:-translate-y-full rounded-md opacity-0 group-hover:opacity-100 invisible group-hover:visible -z-10 group-hover:z-20 overflow-hidden py-1 px-2 bg-translucent-0.8",
+          isFriends ? "hidden" : "flex items-center justify-center",
+        )}
+      >
+        <span className="whitespace-nowrap text-text-button text-xs font-normal">Добавить в друзья</span>
+      </article>
     </button>
   )
 }

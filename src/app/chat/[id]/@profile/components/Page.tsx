@@ -43,7 +43,12 @@ export default ({ id }: { id: string | number }) => {
   if (isLoadingThread || isLoadingUser) return <Loading />
 
   return (
-    <section className={cx("w-full h-full rounded-[2rem] bg-BG-second max-md:hidden px-5 flex flex-col", collapse && "hidden")}>
+    <section
+      className={cx(
+        "w-full h-full rounded-2 bg-BG-second max-md:hidden px-5 flex flex-col md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] overflow-y-auto",
+        collapse && "hidden",
+      )}
+    >
       <ProfileData user={userData?.data!} />
       <Accomplishments user={userData?.data!} />
       <AboutData about={userData?.data?.profile?.about!} />

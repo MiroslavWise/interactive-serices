@@ -10,6 +10,7 @@ import { ImageCategory } from "@/components/common"
 import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import styles from "../styles/categories-wants.module.scss"
+import { cx } from "@/lib/cx"
 
 export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
   const {
@@ -20,8 +21,11 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
   } = useFormContext<IFormValues>()
 
   return (
-    <div className={styles.container}>
-      <section {...register("category", { required: watch("select_new_proposal") === ETypeOfNewCreated.interesting })}>
+    <div className={cx(styles.container, "w-full flex flex-col gap-3")}>
+      <section
+        {...register("category", { required: watch("select_new_proposal") === ETypeOfNewCreated.interesting })}
+        className="w-full flex flex-wrap gap-2"
+      >
         {categoriesWants
           ?.filter((item) => (!!watch("category") ? item?.id === watch("category") : true))
           ?.map((item) => (
@@ -39,17 +43,21 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
                   setValue("category", undefined)
                 }
               }}
+              className={cx(
+                "border border-solid flex flex-row items-center gap-2 cursor-pointer",
+                watch("category") === item.id ? "border-element-accent-1 bg-element-accent-1" : "border-grey-stroke-light bg-BG-second",
+              )}
             >
-              <div data-img>
+              <div data-img className="w-7 h-7 p-1.5 rounded-full">
                 <ImageCategory id={item.id!} slug={item?.slug} provider={item?.provider} />
               </div>
-              <span>{item.title}</span>
+              <span className="w-full text-text-primary text-sm font-medium text-ellipsis line-clamp-1">{item.title}</span>
               {watch("category") === item.id ? <img src="/svg/x-close-white.svg" alt="x" width={16} height={16} /> : null}
             </a>
           ))}
       </section>
       {!!watch("category") ? (
-        <fieldset>
+        <fieldset className="w-full flex flex-col items-start gap-2">
           <div data-text-area>
             <textarea
               {...register("description", {

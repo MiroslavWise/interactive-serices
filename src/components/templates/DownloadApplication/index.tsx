@@ -22,7 +22,7 @@ function DownloadApplication() {
         visible ? "opacity-100 visible z-[1000]" : " opacity-0 invisible -z-10",
       )}
     >
-      <section className="relative w-full h-fit max-h-full min-h-28 rounded-[2rem] md:max-w-[38.75rem] bg-element-accent-1 shadow-box-down">
+      <section className="relative w-full h-fit max-h-full min-h-28 rounded-2 md:max-w-[38.75rem] bg-element-accent-1 shadow-box-down">
         <button
           type="button"
           onClick={() => dispatchDownloadApplication(false)}
@@ -32,16 +32,16 @@ function DownloadApplication() {
         </button>
         <article
           className={cx(
-            "w-full h-full overflow-hidden rounded-[2rem] flex flex-col gap-[3.875rem] relative",
+            "w-full h-full overflow-hidden rounded-2 flex flex-col gap-[3.875rem] relative",
             styles.article,
-            "after:transition-all after:duration-500 before:transition-all before:duration-500",
+            "after:transition-all after:duration-200 before:transition-all before:duration-200",
             visible ? "after:scale-100 before:scale-100" : "after:scale-50 before:scale-50",
           )}
         >
           <section className="w-full px-10 pt-6 relative z-10 pr-[3.0625rem] flex flex-row items-start justify-between">
             <article
               className={cx(
-                "w-full flex flex-col gap-5 max-w-80 pt-4 transition-all duration-500",
+                "w-full flex flex-col gap-5 max-w-80 pt-4 transition-all duration-200",
                 visible ? "translate-x-0 opacity-100 scale-100" : "-translate-x-20 opacity-40 scale-150",
               )}
             >
@@ -53,7 +53,7 @@ function DownloadApplication() {
             </article>
             <article
               className={cx(
-                "relative z-20 w-[9.31869rem] h-[19.1135rem] aspect-[9.31869/19.1135] rounded-[1.76044rem] bg-[#ffffff33] border border-solid border-[#ffffff66] transition-all duration-500",
+                "relative z-20 w-[9.31869rem] h-[19.1135rem] aspect-[9.31869/19.1135] rounded-[1.76044rem] bg-[#ffffff33] border border-solid border-[#ffffff66] transition-all duration-200",
                 visible ? "translate-x-0 opacity-100 scale-100" : "translate-x-20 opacity-40 scale-150",
               )}
             >
@@ -70,7 +70,7 @@ function DownloadApplication() {
           <section className="w-full grid grid-cols-2 items-start gap-20 px-10 pb-[6.875rem] relative z-10">
             <article
               className={cx(
-                "w-full gap-4 grid items-start grid-cols-[1.875rem_minmax(0,1fr)] transition-all duration-500",
+                "w-full gap-4 grid items-start grid-cols-[1.875rem_minmax(0,1fr)] transition-all duration-200",
                 visible ? "translate-x-0 opacity-100 scale-100" : "-translate-x-20 opacity-40 scale-150",
               )}
             >
@@ -91,7 +91,7 @@ function DownloadApplication() {
             </article>
             <article
               className={cx(
-                "w-full gap-4 grid items-start grid-cols-[1.875rem_minmax(0,1fr)] transition-all duration-500",
+                "w-full gap-4 grid items-start grid-cols-[1.875rem_minmax(0,1fr)] transition-all duration-200",
                 visible ? "translate-x-0 opacity-100 scale-100" : "translate-x-20 opacity-40 scale-150",
               )}
             >

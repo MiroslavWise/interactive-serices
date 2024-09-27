@@ -7,6 +7,9 @@ export const useChangeService = create<IStateChangeService>((set, get) => ({
 }))
 
 export const dispatchChangeService = (values: IActionIChangeService) =>
-  useChangeService.setState((_) => ({
-    ...values,
-  }))
+  useChangeService.setState(
+    (_) => ({
+      ...values,
+    }),
+    true,
+  )

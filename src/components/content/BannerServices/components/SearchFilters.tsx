@@ -135,7 +135,7 @@ export const SearchFilters = memo(function () {
         onSubmit={onSubmit}
         data-test="form-search-filters"
         className={cx(
-          "absolute right-6 bg-BG-second rounded-[2rem] w-full overflow-hidden flex flex-col",
+          "absolute right-6 bg-BG-second rounded-2 w-full overflow-hidden flex flex-col",
           visibleBanner
             ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))]"
             : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",

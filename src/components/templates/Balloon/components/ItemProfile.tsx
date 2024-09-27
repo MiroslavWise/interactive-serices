@@ -17,7 +17,7 @@ const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
 
   return (
     <div className="relative w-full grid grid-cols-[2.5rem_minmax(0,1fr)] items-start gap-2.5 !px-5 *:!px-0">
-      <Avatar className="w-10 h-10 rounded-[0.625rem] p-5" image={image} userId={userId} />
+      <Avatar className="w-10 h-10 rounded-.625 p-5" image={image} userId={userId} />
       <div data-info className="w-full flex flex-col items-start gap-0.5">
         <div
           data-name

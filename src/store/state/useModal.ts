@@ -54,6 +54,7 @@ export enum EModalData {
   CREATE_NEW_NOTE = "create-new-note",
   BALLOON_POST = "balloon-post",
   DELETE_FRIEND = "delete-friend",
+  SUCCESS_PROVIDE_FEEDBACK = "success-provide-feedback",
 }
 
 interface IStateUseModal {

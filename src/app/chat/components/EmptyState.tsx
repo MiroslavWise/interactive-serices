@@ -1,44 +1,48 @@
 "use client"
 
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 
 import { EnumProviderThreads } from "@/types/enum"
 
+import { cx } from "@/lib/cx"
 import { useSelectChat } from "@/store"
 import { useCountMessagesNotReading } from "@/helpers"
+
+import styles from "../styles/empty.module.scss"
 
 function EmptyState() {
   const select = useSelectChat(({ select }) => select)
   const { data } = useCountMessagesNotReading(false)
 
-  const filterItems = useMemo(() => {
-    if (select === "all" && !!data && !!data?.length) return null
-    if (!!data && !!data.filter?.((item) => item.provider === select)?.length) {
-      return null
-    }
-    if (select === EnumProviderThreads.BARTER && !!data && !data.filter((item) => item.provider === EnumProviderThreads.BARTER).length) {
-      return EnumProviderThreads.BARTER
-    }
-    if (
-      select === EnumProviderThreads.OFFER_PAY &&
-      !!data &&
-      !data.filter((item) => item.provider === EnumProviderThreads.OFFER_PAY).length
-    ) {
-      return EnumProviderThreads.OFFER_PAY
-    }
-    if (
-      select === EnumProviderThreads.PERSONAL &&
-      !!data &&
-      !data.filter((item) => item.provider === EnumProviderThreads.PERSONAL).length
-    ) {
-      return EnumProviderThreads.PERSONAL
-    }
-  }, [data, select])
+  const items = data ?? []
+
+  const countNull = useMemo(
+    () => (select === "all" ? items.length : items.filter((item) => item.provider === select).length),
+    [items, select],
+  )
 
   return (
-    <article className="flex flex-col items-center gap-4">
+    <article className={cx("flex flex-col items-center gap-4", styles.article)}>
       <div className="w-[4.375rem] h-[4.375rem] rounded-full flex items-center justify-center p-[1.1875rem] bg-grey-field">
-        {filterItems === EnumProviderThreads.BARTER ? (
+        {countNull > 0 ? (
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
+            <g clip-path="url(#clip0_6838_181801)">
+              <path
+                d="M31.7649 2.6467L30.1648 1.04684C29.8528 0.734589 29.3464 0.734344 29.0342 1.04636C29.0339 1.0466 29.0337 1.0466 29.0337 1.04684L19.4336 10.6467C19.2837 10.7969 19.1992 11.0002 19.1992 11.2124V12.8125C19.1992 13.2541 19.5574 13.6123 19.9993 13.6123H21.5994C21.8115 13.6123 22.0149 13.5281 22.1648 13.3782L31.7649 3.77805C32.0772 3.46579 32.0774 2.95969 31.7654 2.64719C31.7651 2.64719 31.7649 2.64694 31.7649 2.6467Z"
+                fill="#7471F8"
+              />
+              <path
+                d="M21.6001 15.2124H20C18.6751 15.2109 17.6013 14.1372 17.5999 12.8125V11.2124C17.5984 10.5757 17.8516 9.96461 18.303 9.51563L23.8062 4.01245H4C1.79175 4.01489 0.00244141 5.8042 0 8.01246V22.4124C0.00244141 24.6206 1.79175 26.4102 4 26.4124H11.2V30.4124C11.2 30.8543 11.5581 31.2124 12 31.2124C12.1731 31.2124 12.3416 31.1563 12.48 31.0523L18.6675 26.4124H26.3999C28.6082 26.4099 30.3977 24.6204 30.3999 22.4124V7.40625L23.2969 14.5093C22.8477 14.9609 22.2368 15.2139 21.6001 15.2124ZM5.6001 8.81251H13.6001C14.0418 8.81251 14.3999 9.17066 14.3999 9.61256C14.3999 10.0542 14.0418 10.4124 13.6001 10.4124H5.6001C5.15821 10.4124 4.80005 10.0545 4.80005 9.61256C4.80005 9.17066 5.15821 8.81251 5.6001 8.81251ZM5.6001 13.6123H13.6001C14.0418 13.6123 14.3999 13.9705 14.3999 14.4124C14.3999 14.8543 14.0418 15.2124 13.6001 15.2124H5.6001C5.15821 15.2124 4.80005 14.8543 4.80005 14.4124C4.80005 13.9707 5.15821 13.6123 5.6001 13.6123ZM25.5999 19.2124C25.5999 19.6543 25.2417 20.0125 24.8001 20.0125H5.6001C5.15821 20.0125 4.80005 19.6543 4.80005 19.2124C4.80005 18.7708 5.15821 18.4124 5.6001 18.4124H24.8001C25.2417 18.4124 25.5999 18.7705 25.5999 19.2124Z"
+                fill="#7471F8"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_6838_181801">
+                <rect width="32" height="32" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        ) : select === EnumProviderThreads.BARTER ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
             <g clip-path="url(#clip0_7333_11688)">
               <path
@@ -58,7 +62,7 @@ function EmptyState() {
               </clipPath>
             </defs>
           </svg>
-        ) : filterItems === EnumProviderThreads.OFFER_PAY ? (
+        ) : select === EnumProviderThreads.OFFER_PAY ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="32" viewBox="0 0 28 32" fill="none" className="h-8 w-7">
             <path
               d="M1.8125 12.0124L21.4004 0L27.3684 9.73174L27.3631 9.73502L27.3643 9.73697L17.5702 15.7432L17.569 15.7413L7.78054 21.7441L1.8125 12.0124Z"
@@ -114,7 +118,7 @@ function EmptyState() {
               </linearGradient>
             </defs>
           </svg>
-        ) : filterItems === EnumProviderThreads.PERSONAL ? (
+        ) : select === EnumProviderThreads.PERSONAL ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
             <path
               fill-rule="evenodd"
@@ -157,19 +161,21 @@ function EmptyState() {
         )}
       </div>
       <div className="flex flex-col items-center gap-2 w-full max-w-[16.875rem]">
-        {filterItems === EnumProviderThreads.BARTER ? (
+        {countNull > 0 ? (
+          <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap">Выберите, кому хотели бы написать</p>
+        ) : select === EnumProviderThreads.BARTER ? (
           <>
             <h2 className="text-text-primary text-center text-lg font-semibold whitespace-nowrap">Обмены</h2>
             <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap">Тут будут диалоги с предложениями обмена</p>
           </>
-        ) : filterItems === EnumProviderThreads.OFFER_PAY ? (
+        ) : select === EnumProviderThreads.OFFER_PAY ? (
           <>
             <h2 className="text-text-primary text-center text-lg font-semibold whitespace-nowrap">Покупки</h2>
             <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap">
               Тут будут диалоги с предложениями покупки услуги
             </p>
           </>
-        ) : filterItems === EnumProviderThreads.PERSONAL ? (
+        ) : select === EnumProviderThreads.PERSONAL ? (
           <>
             <h2 className="text-text-primary text-center text-lg font-semibold whitespace-nowrap">Личные</h2>
             <p className="text-text-primary text-sm text-center font-normal whitespace-nowrap">
@@ -188,4 +194,4 @@ function EmptyState() {
 }
 
 EmptyState.displayName = "EmptyState"
-export default EmptyState
+export default memo(EmptyState)

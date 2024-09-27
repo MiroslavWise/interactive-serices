@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store/hooks"
+import { useAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { MENU_ICONS } from "../../NavBar/constants/menu-icons"

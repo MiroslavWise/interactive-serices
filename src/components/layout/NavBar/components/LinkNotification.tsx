@@ -85,7 +85,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
         data-active={active}
         onClick={(event) => event.stopPropagation()}
         className={cx(
-          "absolute top-[calc(100%_+_0.25rem)] w-[29.5rem] left-0 rounded-[2rem] bg-BG-second overflow-hidden flex flex-col shadow-menu-absolute transition-all",
+          "absolute top-[calc(100%_+_0.25rem)] w-[29.5rem] left-0 rounded-2 bg-BG-second overflow-hidden flex flex-col shadow-menu-absolute transition-all",
           active ? "translate-y-0 opacity-100 visible" : "-translate-y-8 invisible opacity-0",
         )}
       >

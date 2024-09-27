@@ -3,11 +3,11 @@
 import { useEffect } from "react"
 
 import { usePush } from "@/helpers"
-import { serviceAuth } from "@/services/auth"
-import { dispatchAuthToken, dispatchOnboarding } from "@/store/hooks"
-import { useToast } from "@/helpers/hooks/useToast"
-import { queryClient } from "@/context"
 import { getUserId } from "@/services"
+import { queryClient } from "@/context"
+import { serviceAuth } from "@/services/auth"
+import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 async function fetchVK({ access_token, user_id }: { access_token: string; user_id: string }) {
   try {

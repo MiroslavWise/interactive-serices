@@ -40,10 +40,10 @@ export const useCountMessagesNotReading = (value?: boolean) => {
         }
       }
 
-      return array?.length || 0
+      return array?.length ?? 0
     }
     return null
   }, [data, id])
 
-  return { count, refetchCountMessages, data, isLoading }
+  return { count, refetchCountMessages, data: data ?? [], isLoading }
 }

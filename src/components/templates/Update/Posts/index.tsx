@@ -87,7 +87,7 @@ function UpdatePost() {
     <div
       className={cx("fixed inset-0 w-full h-full md:p-10 bg-translucent", !!post ? "flex flex-col items-center z-[1000]" : "hidden -z-10")}
     >
-      <section className="relative w-full md:max-w-[35rem] md:rounded-[2rem] bg-BG-second h-full">
+      <section className="relative w-full md:max-w-[35rem] md:rounded-2 bg-BG-second h-full">
         <button
           type="button"
           className="absolute z-50 top-0 right-0 md:-right-1 md:translate-x-full w-12 h-12 md:bg-BG-second rounded-full p-3.5 *:w-5 *:h-5 flex items-center justify-center"
@@ -95,12 +95,12 @@ function UpdatePost() {
         >
           <IconXClose />
         </button>
-        <header className="w-full border-b border-solid border-grey-separator h-[var(--height-standard-header-modal)] p-5 md:pt-6 max-md:pb-4 flex flex-row items-center justify-start md:justify-center">
+        <header className="w-full border-b border-solid border-grey-separator h-standard-header-modal p-5 md:pt-6 max-md:pb-4 flex flex-row items-center justify-start md:justify-center">
           <h3 className="text-text-primary text-2xl font-semibold">Редактирование поста</h3>
         </header>
         <form
           onSubmit={onSubmit}
-          className="w-full h-[calc(100%_-_var(--height-standard-header-modal))] flex flex-col items-center gap-5 p-5 pb-24 md:*:max-w-[26.25rem] overflow-x-hidden overflow-y-auto"
+          className="w-full h-full-minus-standard-header-modal flex flex-col items-center gap-5 p-5 pb-24 md:*:max-w-[26.25rem] overflow-x-hidden overflow-y-auto"
         >
           <p className="text-text-primary text-sm font-normal mb-2.5">
             Пост — это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров. В пост можно
@@ -265,7 +265,7 @@ function UpdatePost() {
               </fieldset>
             )}
           />
-          <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full !max-w-full pt-2.5 px-5 pb-[1.875rem] bg-BG-second flex flex-row items-center justify-center md:rounded-b-[2rem] md:*:max-w-[26.25rem] z-50">
+          <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full !max-w-full pt-2.5 px-5 pb-[1.875rem] bg-BG-second flex flex-row items-center justify-center md:rounded-b-2 md:*:max-w-[26.25rem] z-50">
             <Button type="submit" className="" typeButton="fill-primary" label="Сохранить" loading={loading} disabled={loading} />
           </footer>
         </form>

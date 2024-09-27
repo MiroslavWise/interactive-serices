@@ -11,10 +11,10 @@ import IconDefaultOffer from "@/components/icons/IconDefaultOffer"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import { getBarterId, getIdOffer } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
+import { getBarterId, getIdOffer } from "@/services"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
-import { dispatchBallonOffer, dispatchComplaintModalUser, dispatchOpenDeleteChat, useAuth } from "@/store"
+import { dispatchComplaintModalUser, dispatchOpenDeleteChat, useAuth } from "@/store"
 
 function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
   const [open, set, ref] = useOutsideClickEvent()
@@ -76,36 +76,26 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
           open ? " opacity-100 visible z-50" : "opacity-0 invisible -z-10",
         )}
       >
-        <Link href={{ pathname: `/customer/${user?.id!}` }}>
+        <Link href={{ pathname: `/customer/${user?.id!}` }} target="_blank">
           <div>
             <IconProfile />
           </div>
           <span>Перейти в профиль</span>
         </Link>
         {!!dataB ? (
-          <a
-            onClick={(event) => {
-              event.stopPropagation()
-              dispatchBallonOffer({ offer: offer! })
-            }}
-          >
+          <Link href={{ pathname: `/offer/${offer?.id!}` }} target="_blank">
             <div>
               <IconDefaultOffer />
             </div>
             <span className="line-clamp-1 text-ellipsis">{offer?.category?.title || "Предложение"}</span>
-          </a>
+          </Link>
         ) : !!dataO ? (
-          <a
-            onClick={(event) => {
-              event.stopPropagation()
-              dispatchBallonOffer({ offer: dataO! })
-            }}
-          >
+          <Link href={{ pathname: `/offer/${dataO?.id!}` }} target="_blank">
             <div>
               <IconDefaultOffer />
             </div>
             <span className="line-clamp-1 text-ellipsis">{dataO?.category?.title || "Предложение"}</span>
-          </a>
+          </Link>
         ) : null}
         <a
           onClick={(event) => {

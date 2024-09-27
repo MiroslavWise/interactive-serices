@@ -1,0 +1,26 @@
+.form {
+  padding-bottom: calc(4.875rem + 1.5rem);
+
+  @media screen and (max-width: 768px) {
+    padding-bottom: calc(4.625rem + 1.5rem);
+  }
+}
+
+.profile {
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+}
+
+.images {
+  width: calc(100% + 3rem);
+  -ms-overflow-style: none;
+  overscroll-behavior-y: none;
+
+  & > div {
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: contain;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

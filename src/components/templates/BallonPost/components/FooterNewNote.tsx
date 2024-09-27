@@ -9,7 +9,7 @@ function FooterNewNote() {
 
   if (archive) {
     return (
-      <footer className="fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-[2rem] flex opacity-100 visible z-40 items-center justify-center border-t border-solid border-grey-stroke-light">
+      <footer className="fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-2 flex opacity-100 visible z-40 items-center justify-center border-t border-solid border-grey-stroke-light">
         <span className="text-text-secondary text-sm font-normal">Пост в архиве</span>
       </footer>
     )
@@ -18,7 +18,7 @@ function FooterNewNote() {
   return (
     <footer
       className={cx(
-        "fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-[2rem]",
+        "fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-2",
         userIdPost === userId && !archive ? "flex opacity-100 visible z-40" : "hidden opacity-0 -z-10 invisible",
       )}
     >

@@ -1,11 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/app/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-    "./src/utils/icons/**/*.{js,ts,jsx,tsx}",
-    "./src/context/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./src/app/**/*.{ts,tsx}", "./src/components/**/*.{ts,tsx}", "./src/utils/icons/**/*.{ts,tsx}", "./src/context/**/*.{ts,tsx}"],
   theme: {
     colors: {
       current: "currentColor",
@@ -62,6 +57,12 @@ module.exports = {
     extend: {
       spacing: {
         "2rem": "2rem",
+        "standard-header-modal": "var(--height-standard-header-modal)",
+        "full-minus-standard-header-modal": "calc(100% - var(--height-standard-header-modal))",
+      },
+      borderRadius: {
+        2: "2rem",
+        ".625": "0.625rem",
       },
       boxShadow: {
         "social-link": "0px 11px 20px 0px rgba(100, 104, 115, 0.1)",
@@ -71,4 +72,5 @@ module.exports = {
     },
   },
   plugins: [],
+  blocklist: ["./src/app/api/**/*.ts"],
 }

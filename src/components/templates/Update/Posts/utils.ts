@@ -55,7 +55,13 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
 
     const ids = responseIds?.filter((item) => !!item?.data).map((item) => item.data?.id!)
 
-    dataNote.images = [...newOldImages, ...ids].slice(0, 9)
+    const list = [...newOldImages, ...ids].slice(0, 9)
+
+    // if (list.length === 0) {
+    //   dataNote.images = [null]
+    // } else {
+    // }
+    dataNote.images = list
   }
 
   const oldUrgent = !!defaultValues.help

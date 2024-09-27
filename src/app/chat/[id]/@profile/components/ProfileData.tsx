@@ -11,7 +11,7 @@ function ProfileData({ user }: { user: IUserResponse }) {
 
   return (
     <article className="w-full flex flex-col gap-3 items-center pt-5 pb-2.5">
-      <section className={`w-20 h-20 rounded-2xl relative p-10 ${!image && "bg-grey-stroke-light !rounded-[0.625rem]"}`}>
+      <section className={`w-20 h-20 rounded-2xl relative p-10 ${!image && "bg-grey-stroke-light rounded-.625"}`}>
         {!!image ? (
           <NextImageMotion
             className="rounded-2xl overflow-hidden w-20 h-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"

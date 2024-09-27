@@ -18,7 +18,7 @@ function TotalAndFilterFeedback({ id }: { id: number | string }) {
   const length = items.length
   const name = DeclensionAllQuantityFeedback(length)
 
-  if (isLoading) return <span className="w-full h-5 rounded-[0.625rem]" />
+  if (isLoading) return <span className="w-full h-5 rounded-.625" />
   if (!length) return null
 
   return (

@@ -22,19 +22,19 @@ export default async ({ params }: IParamsCustomer) => {
 
   if (!data)
     return (
-      <aside className="w-full h-full rounded-2xl md:rounded-[2rem] bg-BG-second max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)]" />
+      <aside className="w-full h-full rounded-2xl md:rounded-2 bg-BG-second md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)]" />
     )
 
   const { created, profile } = data ?? {}
   const { image, firstName, lastName } = profile ?? {}
 
   return (
-    <aside className="w-full h-fit md:h-full rounded-2xl md:rounded-[2rem] bg-BG-second flex flex-col md:justify-between md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] md:overflow-y-auto gap-4 md:gap-6 max-md:p-4 md:px-5 md:pt-5">
+    <aside className="w-full h-fit md:h-full rounded-2xl md:rounded-2 bg-BG-second flex flex-col md:justify-between md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] md:overflow-y-auto gap-4 md:gap-6 max-md:p-4 md:px-5 md:pt-5">
       <article className="w-full flex flex-col gap-4 items-center overflow-x-hidden">
         <section
           className={cx("relative w-full", "grid grid-cols-[5rem_minmax(0,1fr)] gap-4", "md:flex md:flex-col md:items-center md:gap-3")}
         >
-          <div className={`w-20 h-20 relative p-10 ${!!image ? "rounded-2xl" : "bg-grey-stroke-light rounded-[0.625rem]"}`}>
+          <div className={`w-20 h-20 relative p-10 ${!!image ? "rounded-2xl" : "bg-grey-stroke-light rounded-.625"}`}>
             {!!image ? (
               <NextImageMotion
                 className="rounded-2xl overflow-hidden w-20 h-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -66,7 +66,7 @@ export default async ({ params }: IParamsCustomer) => {
         <ProfileDescription user={data!} />
         <Suspense
           fallback={
-            <article className="loading-screen w-full rounded-[0.625rem] p-4 border border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_3.125rem] gap-2.5 *::h-5 *::w-full *::rounded-xl">
+            <article className="loading-screen w-full rounded-.625 p-4 border border-solid border-grey-stroke-light grid grid-cols-[minmax(0,1fr)_3.125rem] gap-2.5 *::h-5 *::w-full *::rounded-xl">
               <span />
               <span />
             </article>

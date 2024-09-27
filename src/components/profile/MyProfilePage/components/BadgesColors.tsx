@@ -44,7 +44,7 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
         {["asdfasdfas asdf asdf", "asdfasdzcvo a eho", "asdf"].map((item) => (
           <article
             key={`:load:fsdf:${item}:`}
-            className="w-full py-2 px-2.5 flex flex-col gap-2.5 rounded-[0.625rem] border border-solid border-grey-stroke-light *:w-full"
+            className="w-full py-2 px-2.5 flex flex-col gap-2.5 rounded-.625 border border-solid border-grey-stroke-light *:w-full"
           >
             <span className="h-4 rounded-lg" />
             <span className="max-w-[60%] h-[1.375rem] rounded-[0.6875rem]" />

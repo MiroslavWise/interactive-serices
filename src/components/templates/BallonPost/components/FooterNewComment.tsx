@@ -87,7 +87,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
 
   if (!userId) {
     return (
-      <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full p-5 border-t border-solid border-grey-stroke-light bg-BG-second md:rounded-b-[2rem] z-50 flex items-center justify-center">
+      <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full p-5 border-t border-solid border-grey-stroke-light bg-BG-second md:rounded-b-2 z-50 flex items-center justify-center">
         <span className="text-text-primary text-sm font-medium">
           <a
             className="text-text-accent cursor-pointer"
@@ -108,7 +108,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
 
   if (!!post?.archive) {
     return (
-      <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full p-5 border-t border-solid border-grey-stroke-light bg-grey-field md:rounded-b-[2rem] z-50 flex items-center justify-center">
+      <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full p-5 border-t border-solid border-grey-stroke-light bg-grey-field md:rounded-b-2 z-50 flex items-center justify-center">
         <span className="text-text-secondary text-sm font-normal">Пост в архиве</span>
       </footer>
     )
@@ -117,7 +117,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
   return (
     <form
       className={cx(
-        "fixed md:absolute bottom-0 left-0 right-0 w-full max-md:py-3 p-5 border-t border-solid border-grey-stroke-light bg-BG-second md:rounded-b-[2rem] z-50 flex flex-col gap-2.5",
+        "fixed md:absolute bottom-0 left-0 right-0 w-full max-md:py-3 p-5 border-t border-solid border-grey-stroke-light bg-BG-second md:rounded-b-2 z-50 flex flex-col gap-2.5",
         !!writeResponse ? "pt-2.5" : "pt-5",
       )}
       onSubmit={onSubmit}

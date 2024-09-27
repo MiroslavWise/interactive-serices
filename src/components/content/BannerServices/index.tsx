@@ -33,7 +33,7 @@ function BannerServices() {
       className={cx(
         styles.container,
         "bottom-internal-shadow",
-        "max-md:hidden fixed right-0 max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-[2rem]",
+        "max-md:hidden fixed right-0 max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-2",
         visible ? "translate-x-[var(--width-right-services)]" : "-translate-x-6",
         visibleBanner
           ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"

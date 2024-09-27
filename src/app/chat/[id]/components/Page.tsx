@@ -41,7 +41,7 @@ export default ({ id }: { id: string | number }) => {
   return (
     <section
       className={cx(
-        "w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_1.5rem_-_1.5rem)] overflow-hidden h-screen md:h-full md:rounded-[2rem] bg-BG-second relative flex flex-col justify-end",
+        "w-full max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] overflow-hidden h-screen md:h-full md:rounded-2 bg-BG-second relative flex flex-col justify-end",
         "max-md:max-h-dvh max-md:h-dvh",
       )}
     >

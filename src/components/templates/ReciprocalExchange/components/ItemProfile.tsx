@@ -9,7 +9,7 @@ import styles from "../styles/profile.module.scss"
 export const ItemProfile = ({ profile, geo }: { profile: IGetProfileIdResponse; geo: IAddressesResponse }) => {
   return (
     <div className={styles.container}>
-      <Avatar className="w-11 h-11 p-[1.375rem] rounded-[0.625rem]" image={profile?.image} />
+      <Avatar className="w-11 h-11 p-[1.375rem] rounded-.625" image={profile?.image} />
       <div data-info>
         <div data-names>
           <h4>

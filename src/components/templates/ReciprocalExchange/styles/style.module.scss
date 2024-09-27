@@ -1,6 +1,5 @@
 .container {
   height: 100%;
-  max-width: 35rem;
   display: flex;
   flex-direction: column;
 
@@ -253,7 +252,6 @@
   @media screen and (max-width: 760px) {
     border-radius: 0 !important;
     height: 100%;
-    max-width: 100%;
   }
 }
 

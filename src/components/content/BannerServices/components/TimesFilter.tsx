@@ -44,7 +44,7 @@ function TimesFilter() {
         </span>
         <div
           className={cx(
-            "w-4 h-4 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 *:transition-all *:duration-300",
+            "w-4 h-4 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 *:transition-all *:duration-200",
             open ? "*:rotate-180" : "*:rotate-0",
             timesFilter !== EnumTimesFilter.ALL ? "[&>svg>path]:fill-text-button" : "[&>svg>path]:fill-text-secondary",
           )}
