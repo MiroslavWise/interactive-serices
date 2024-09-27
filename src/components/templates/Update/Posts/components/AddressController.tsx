@@ -6,7 +6,7 @@ import { type TSchemaCreatePostUpdate } from "@/components/templates/CreatePost/
 
 import { cx } from "@/lib/cx"
 import { useUpdatePost } from "@/store"
-import { queryClient } from "@/context"
+import { fetchQuery } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
@@ -27,7 +27,7 @@ function AddressController({ control, setValue }: IProps) {
   async function onChangeAddress() {
     if (inputGeo?.trim()?.length > 2) {
       const slug = inputGeo?.replaceAll(" ", "-")?.toLowerCase()
-      const response = await queryClient.fetchQuery({
+      const response = await fetchQuery({
         queryFn: () => getGeocodeSearch(inputGeo),
         queryKey: ["addresses", { string: slug }],
       })

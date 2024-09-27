@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useMemo } from "react"
 import { usePathname } from "next/navigation"
 
 const names = new Map([
@@ -15,15 +15,6 @@ const names = new Map([
 
 export const useRouteNames = () => {
   const pathname = usePathname()
-  const [state, setState] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (names.has(pathname)) {
-      setState(names.get(pathname)!)
-    } else {
-      setState(names.get("/")!)
-    }
-  }, [pathname])
-
-  return state
+  return useMemo(() => (names.has(pathname) ? names.get(pathname)! : names.get("/")!), [pathname])
 }

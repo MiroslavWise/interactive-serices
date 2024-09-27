@@ -2,7 +2,7 @@ import { IPostOffers } from "@/services/offers/types"
 
 import { EnumTypeProvider } from "@/types/enum"
 
-import { queryClient } from "@/context"
+import { fetchQuery, queryClient } from "@/context"
 import { createAddress } from "./address/create"
 import { getGeocodeSearch, postOffer } from "@/services"
 import { transliterateAndReplace } from "./functions/regEx"
@@ -19,7 +19,7 @@ const onSlug = (value: string) => transliterateAndReplace(value).slice(0, 254)
 
 async function create(id: number, userId: number) {
   const address = `Брестская область, Столин, улица Красноармейская,  ${id}`.replaceAll(" ", "-")
-  const response = await queryClient.fetchQuery({
+  const response = await fetchQuery({
     queryFn: () => getGeocodeSearch(address),
     queryKey: ["addresses", { string: address }],
   })

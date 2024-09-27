@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware"
 import { type IUserResponse } from "@/services/users/types"
 import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/email-sign-in.schema"
 
-import { queryClient } from "@/context"
+import { fetchQuery } from "@/context"
 import { getLogout, getUser, login, refresh } from "@/services"
 
 const NAME_STORAGE_USE_AUTH = "::---sheira-auth---::"
@@ -38,19 +38,17 @@ export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSi
         isAuth: true,
       }))
 
-      queryClient
-        .fetchQuery({
-          queryFn: () => getUser(),
-          queryKey: ["user", { userId: response?.res?.id! }],
-        })
-        .then(({ data }) => {
-          if (!!data) {
-            useAuth.setState((_) => ({
-              ..._,
-              user: data,
-            }))
-          }
-        })
+      fetchQuery({
+        queryFn: () => getUser(),
+        queryKey: ["user", { userId: response?.res?.id! }],
+      }).then(({ data }) => {
+        if (!!data) {
+          useAuth.setState((_) => ({
+            ..._,
+            user: data,
+          }))
+        }
+      })
 
       return response
     } else {

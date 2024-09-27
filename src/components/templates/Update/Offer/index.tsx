@@ -14,7 +14,7 @@ import { UploadPhoto } from "@/components/common/custom"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { Button, ImageCategory, NextImageMotion, WalletPay } from "@/components/common"
 
-import { queryClient } from "@/context"
+import { fetchQuery } from "@/context"
 import { createAddress } from "@/helpers/address/create"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
@@ -69,7 +69,7 @@ export default function UpdateOffer() {
   async function onChangeAddress() {
     if (inputGeo?.trim()?.length > 2) {
       const slug = inputGeo?.replaceAll(" ", "-")?.toLowerCase()
-      const response = await queryClient.fetchQuery({
+      const response = await fetchQuery({
         queryFn: () => getGeocodeSearch(inputGeo),
         queryKey: ["addresses", { string: slug }],
       })

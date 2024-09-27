@@ -8,6 +8,7 @@ import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IResponseNotifications } from "@/services/notifications/types"
 import { type TTypeIconCurrentNotification, type TTypeIconNotification } from "./types/type"
 
+import Avatar from "@avatar"
 import ButtonsToComplete from "./components/Button"
 import { ButtonsDots } from "./components/ButtonsDots"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
@@ -25,12 +26,11 @@ import {
   serviceNotifications,
 } from "@/services"
 import { cx } from "@/lib/cx"
-import { queryClient, useWebSocket } from "@/context"
+import { getPostId } from "@/services/posts"
+import { fetchQuery, useWebSocket } from "@/context"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData, dispatchBallonPost } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import Avatar from "@avatar"
-import { getPostId } from "@/services/posts"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",
@@ -590,7 +590,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
   async function handleToPost() {
     if (!loading) {
       setLoading(true)
-      const { data: dataPost } = await queryClient.fetchQuery({
+      const { data: dataPost } = await fetchQuery({
         queryFn: () => getPostId(data!?.post_id!),
         queryKey: ["post", { id: data!?.post_id!! }],
       })

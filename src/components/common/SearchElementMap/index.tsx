@@ -7,7 +7,7 @@ import { type IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 import IconMarkerPin from "@/components/icons/IconMarkerPin"
 
 import { cx } from "@/lib/cx"
-import { queryClient } from "@/context"
+import { fetchQuery } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { dispatchMapCoordinates } from "@/store"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
@@ -31,7 +31,7 @@ export const SearchElementMap = () => {
     const slug = value?.replaceAll(" ", "-")
 
     if (value.length > 2) {
-      const response = await queryClient.fetchQuery({
+      const response = await fetchQuery({
         queryFn: () => getGeocodeSearch(value),
         queryKey: ["addresses", { string: slug }],
       })

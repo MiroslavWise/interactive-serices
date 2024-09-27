@@ -10,7 +10,7 @@ import IconPost from "@/components/icons/IconPost"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
-import { queryClient } from "@/context"
+import { fetchQuery } from "@/context"
 import { getPostId } from "@/services/posts"
 import { fileUploadService } from "@/services"
 import { patchNote, postNote } from "@/services/notes"
@@ -69,33 +69,29 @@ function CreateNewNote() {
             }
             await patchNote(idNote, data)
           }
-          queryClient
-            .fetchQuery({
-              queryFn: () => getPostId(id),
-              queryKey: ["post", { id: id! }],
-            })
-            .then((response) => {
-              setLoading(false)
-              if (response.data) {
-                dispatchBallonPost(response.data)
-              } else {
-                dispatchCloseCreateNote()
-              }
-            })
+          fetchQuery({
+            queryFn: () => getPostId(id),
+            queryKey: ["post", { id: id! }],
+          }).then((response) => {
+            setLoading(false)
+            if (response.data) {
+              dispatchBallonPost(response.data)
+            } else {
+              dispatchCloseCreateNote()
+            }
+          })
         } else {
-          queryClient
-            .fetchQuery({
-              queryFn: () => getPostId(id),
-              queryKey: ["post", { id: id! }],
-            })
-            .then((response) => {
-              setLoading(false)
-              if (response.data) {
-                dispatchBallonPost(response.data)
-              } else {
-                dispatchCloseCreateNote()
-              }
-            })
+          fetchQuery({
+            queryFn: () => getPostId(id),
+            queryKey: ["post", { id: id! }],
+          }).then((response) => {
+            setLoading(false)
+            if (response.data) {
+              dispatchBallonPost(response.data)
+            } else {
+              dispatchCloseCreateNote()
+            }
+          })
         }
       }
     }
@@ -108,10 +104,7 @@ function CreateNewNote() {
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-standard-header-modal">
         <h3 className="text-text-primary text-2xl font-semibold">Новая запись</h3>
       </header>
-      <ul
-        data-test="ul-create-new-note"
-        className="w-full flex flex-col items-center gap-4 px-5 h-full-minus-standard-header-modal"
-      >
+      <ul data-test="ul-create-new-note" className="w-full flex flex-col items-center gap-4 px-5 h-full-minus-standard-header-modal">
         <form className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden" onSubmit={onSubmit}>
           <div className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 pb-1">
             <div className="w-5 h-5 p-2.5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">

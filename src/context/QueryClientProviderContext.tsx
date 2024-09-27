@@ -14,6 +14,8 @@ export const queryClient = new QueryClient({
   },
 })
 
+export const fetchQuery = queryClient.fetchQuery
+
 export const QueryClientProviderContext = ({ children }: PropsWithChildren) => {
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 }

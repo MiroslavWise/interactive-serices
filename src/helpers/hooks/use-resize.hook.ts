@@ -4,9 +4,6 @@ import { useEffect, useState } from "react"
 
 const SCREEN_MOBILE = 576
 const SCREEN_TABLET = 768
-const SCREEN_LG = 992
-const SCREEN_XL = 1_200
-const SCREEN_XXL = 1_400
 
 export const useResize = () => {
   const [width, setWidth] = useState(window.innerWidth ?? 1280)

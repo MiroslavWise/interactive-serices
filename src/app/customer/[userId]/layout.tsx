@@ -1,4 +1,4 @@
-import { type ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
 import WrapperMobileMenu from "./components/WrapperMobileMenu"
 import ContentMobileMenu from "./components/ContentMobileMenu"
@@ -18,14 +18,13 @@ export interface IParamsCustomer {
 }
 
 interface IProps extends IParamsCustomer {
-  children: ReactNode
   profile: ReactNode
   feedback: ReactNode
   offers: ReactNode
   links: ReactNode
 }
 
-export default ({ profile, children, feedback, params: { userId }, links, offers }: IProps) => (
+export default ({ profile, children, feedback, params: { userId }, links, offers }: PropsWithChildren<IProps>) => (
   <>
     <main
       className={cx(

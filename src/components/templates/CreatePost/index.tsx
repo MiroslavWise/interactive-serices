@@ -17,7 +17,7 @@ import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
-import { queryClient } from "@/context"
+import { fetchQuery } from "@/context"
 import { getPosts, postPosts } from "@/services/posts"
 import { patchNote, postNote } from "@/services/notes"
 import { createAddress } from "@/helpers/address/create"
@@ -138,7 +138,7 @@ function CreatePost() {
   async function onChangeAddress() {
     if (watch("address")?.length > 2 && isFocus) {
       const slug = watch("address")?.replaceAll(" ", "-")?.toLowerCase()
-      const response = await queryClient.fetchQuery({
+      const response = await fetchQuery({
         queryFn: () => getGeocodeSearch(watch("address")),
         queryKey: ["addresses", { string: slug }],
       })

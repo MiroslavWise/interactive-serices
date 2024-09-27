@@ -3,7 +3,8 @@
 import dynamic from "next/dynamic"
 import { type ReactNode, useEffect } from "react"
 
-import { WebSocketProvider, NextThemesProvider, Containers, QueryClientProviderContext } from "@/context"
+import Containers from "@/context/Containers"
+import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } from "@/context"
 
 import { useResize } from "@/helpers"
 import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies } from "@/store"

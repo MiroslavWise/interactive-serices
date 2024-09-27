@@ -1,5 +1,5 @@
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
+import { type PropsWithChildren } from "react"
 
 import { getUserId } from "@/services"
 import { keyWords } from "@/config/environment"
@@ -19,9 +19,13 @@ export const generateMetadata = async ({ params }: { params: { id: string | numb
     keywords: [...keyWords, name],
     description: profile?.about || `Пользователь ${profile?.username}`,
     openGraph: {
+      title: name,
+      description: profile?.about ?? `Пользователь ${name}`,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
     twitter: {
+      title: name,
+      description: profile?.about ?? `Пользователь ${name}`,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
     category: "people, user, customers, offers",
@@ -38,4 +42,4 @@ export const generateMetadata = async ({ params }: { params: { id: string | numb
   }
 }
 
-export default ({ children }: { children: ReactNode }) => children
+export default ({ children }: PropsWithChildren) => children

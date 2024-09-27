@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 
-import { queryClient } from "@/context"
+import { fetchQuery } from "@/context"
 import { URL_API, usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getUserId, serviceAuth } from "@/services"
@@ -23,28 +23,26 @@ export default function CallbackTelegram() {
         console.log("response: postTelegram", response)
         if (response.ok) {
           if (response?.res) {
-            queryClient
-              .fetchQuery({
-                queryFn: () => getUserId(response.res?.id!),
-                queryKey: ["user", { userId: response.res?.id }],
-              })
-              .then(({ data }) => {
-                if (!!data) {
-                    if (!data?.profile?.username) {
-                      dispatchOnboarding("open")
-                    }
-                  dispatchAuthToken({ user: data!, auth: response?.res! })
-                  handlePush("/")
-                  on({
-                    message: "Авторизация через сервис Telegram прошла успешно",
-                  })
-                } else {
-                  on({
-                    message: "К сожалению, сейчас мы не можем авторизовать вас через Telegram. Пожалуйста, попробуйте другой способ.",
-                  })
-                  handlePush("/")
+            fetchQuery({
+              queryFn: () => getUserId(response.res?.id!),
+              queryKey: ["user", { userId: response.res?.id }],
+            }).then(({ data }) => {
+              if (!!data) {
+                if (!data?.profile?.username) {
+                  dispatchOnboarding("open")
                 }
-              })
+                dispatchAuthToken({ user: data!, auth: response?.res! })
+                handlePush("/")
+                on({
+                  message: "Авторизация через сервис Telegram прошла успешно",
+                })
+              } else {
+                on({
+                  message: "К сожалению, сейчас мы не можем авторизовать вас через Telegram. Пожалуйста, попробуйте другой способ.",
+                })
+                handlePush("/")
+              }
+            })
           }
         } else {
           if (!!response?.error) {

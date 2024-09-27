@@ -8,8 +8,7 @@ export const dynamicParams = true
 export const dynamic = "force-dynamic"
 export const fetchCache = "force-no-store"
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const { id } = params ?? {}
+export async function generateMetadata({ params: { id } }: { params: { id: string } }): Promise<Metadata> {
   if (!id) return {}
   const { data } = await getIdOffer(Number(id))
 

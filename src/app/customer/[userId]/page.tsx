@@ -27,11 +27,15 @@ export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Met
   return {
     title: name,
     keywords: [...keyWords],
-    description: profile?.about || `Пользователь ${profile?.username}`,
+    description: profile?.about ?? `Пользователь ${profile?.username}`,
     openGraph: {
+      title: name,
+      description: profile?.about ?? `Пользователь ${profile?.username}`,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
     twitter: {
+      title: name,
+      description: profile?.about ?? `Пользователь ${profile?.username}`,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
     category: "people, user, customers, offers",
