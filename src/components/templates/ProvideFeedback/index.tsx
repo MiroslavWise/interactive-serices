@@ -1,26 +1,26 @@
 import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { useState, type HTMLAttributes } from "react"
+import { useRef, useState, type HTMLAttributes } from "react"
 
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IBodyPostTestimonials } from "@/services/testimonials/types"
 
-import { Button, ImageCategory } from "@/components/common"
+import Avatar from "@avatar"
 import IconPlus from "@/components/icons/IconPlus"
 import IconStar from "@/components/icons/IconStar"
+import IconRepeat from "@/components/icons/IconRepeat"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
+import { Button, ImageCategory, ImageStatic } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
-import { dispatchModalClose, useAddTestimonials, useAuth } from "@/store"
-import { getBarterId, postTestimonial, serviceNotifications } from "@/services"
-import { MAX_LENGTH, resolver, type TSchema } from "./utils"
+import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchModal, dispatchModalClose, EModalData, useAddTestimonials, useAuth } from "@/store"
+import { fileUploadService, getBarterId, patchTestimonial, postTestimonial, serviceNotifications } from "@/services"
+import { handleImageChange, MAX_LENGTH, resolver, TFiles, type TSchema } from "./utils"
 
 import styles from "./style.module.scss"
-import { useToast } from "@/helpers/hooks/useToast"
-import Avatar from "@avatar"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import IconRepeat from "@/components/icons/IconRepeat"
-import { IconCategory } from "@/lib/icon-set"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 export const CN_ProvideFeedback: HTMLAttributes<HTMLElement>["className"] = "h-auto max-h-full flex flex-col max-md:!rounded-none"
 
@@ -31,6 +31,7 @@ function ProvideFeedback() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const barterId = useAddTestimonials(({ barterId }) => barterId)
   const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
+  const refImages = useRef<HTMLDivElement>(null)
 
   const { data: dataBarter, refetch: refetchBarters } = useQuery({
     queryFn: () => getBarterId(barterId!),
@@ -100,6 +101,27 @@ function ProvideFeedback() {
       ])
       if (!!response[0].res) {
         refetchBarters()
+        const idTerm = response[0].res.id
+
+        const files = values.file.file
+
+        if (files.length > 0) {
+          const responseImages = await Promise.all(
+            files.map((item) =>
+              fileUploadService(item!, {
+                type: EnumTypeProvider.TESTIMONIAL,
+                userId: userId!,
+                idSupplements: idTerm,
+              }),
+            ),
+          )
+
+          const ids = responseImages.filter((_) => !!_.data?.id).map((_) => _.data?.id!)
+
+          if (ids.length > 0) {
+            await patchTestimonial({ images: ids }, idTerm)
+          }
+        }
       }
       if (!!response[1].ok) {
         refetchNotifications()
@@ -112,7 +134,7 @@ function ProvideFeedback() {
 
       requestAnimationFrame(() => {
         setLoading(false)
-        dispatchModalClose()
+        dispatchModal(EModalData.SUCCESS_PROVIDE_FEEDBACK)
       })
     }
   })
@@ -122,7 +144,10 @@ function ProvideFeedback() {
       <header className="h-standard-header-modal w-full md:rounded-t-2 p-5 max-md:pb-4 md:pt-6 flex items-center md:justify-center border-b border-solid border-grey-separator">
         <h3 className="text-text-primary text-2xl font-semibold">Ваш отзыв об обмене</h3>
       </header>
-      <form onSubmit={onSubmit} className={cx(styles.form, "h-full-minus-standard-header-modal overflow-y-auto flex flex-col gap-6 p-6")}>
+      <form
+        onSubmit={onSubmit}
+        className={cx(styles.form, "h-full-minus-standard-header-modal overflow-y-auto flex flex-col gap-6 p-6 overflow-x-hidden")}
+      >
         <div className={cx(styles.profile, "w-full grid gap-3 items-start")}>
           <Avatar image={user?.profile?.image} className="w-10 h-10 rounded-.625" />
           <div className="w-full flex flex-col gap-1">
@@ -135,7 +160,7 @@ function ProvideFeedback() {
               </div>
             </div>
             <div className="flex flex-row flex-nowrap gap-2.5 items-center">
-              <div className="flex relative w-4 h-4 p-2 [&>svg>path]:stroke-element-accent-1">
+              <div className="flex relative w-4 h-4 p-2 [&>svg>path]:stroke-element-accent-1 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                 <IconRepeat />
               </div>
               <div className="flex flex-nowrap flex-row gap-1.5 items-center">
@@ -210,16 +235,62 @@ function ProvideFeedback() {
               <label htmlFor={field.name} className="text-text-primary text-sm font-semibold">
                 Добавьте фотографии
               </label>
-              <label
-                className={cx(
-                  "relative border border-dashed border-grey-stroke bg-BG-second rounded-2xl z-10 hover:border-element-accent-1 transition-all duration-200",
-                  "[&>svg>path]:fill-element-accent-1 [&>svg]:w-6 [&>svg]:h-6",
-                  field.value.file.length > 0 ? "h-[10.5rem] w-32 aspect-[16/21]" : "w-full h-[3.75rem] aspect-auto",
-                )}
+              <div
+                className={cx("flex -mx-6 overflow-hidden", styles.images)}
+                onWheel={(event) => {
+                  clg("onWheel: ", event)
+                  event.stopPropagation()
+                  if (refImages.current) {
+                    clg("onWheel: refImages", refImages.current)
+                    refImages.current.scrollBy({
+                      left: event.deltaY,
+                      behavior: "smooth",
+                    })
+                  }
+                }}
               >
-                <input type="file" className="w-full h-full absolute inset-0 opacity-0 z-20" />
-                <IconPlus />
-              </label>
+                <div className={cx("px-6 flex flex-row gap-4 flex-nowrap overflow-hidden overflow-x-scroll w-full")} ref={refImages}>
+                  <label
+                    className={cx(
+                      "relative border border-dashed border-grey-stroke bg-BG-second rounded-2xl z-10 hover:border-element-accent-1 transition-all duration-200",
+                      "[&>svg>path]:fill-element-accent-1 [&>svg]:w-6 [&>svg]:h-6",
+                      field.value.file.length > 0 ? "h-[10.5rem] w-32 aspect-[16/21]" : "w-full h-[3.75rem] aspect-auto",
+                    )}
+                  >
+                    <input
+                      type="file"
+                      className="w-full h-full absolute inset-0 opacity-0 z-20"
+                      accept="image/*"
+                      onChange={async (event) => {
+                        const dataValues = await handleImageChange(field.value, event)
+                        field.onChange(dataValues)
+                        event.target.value = ""
+                      }}
+                      multiple
+                    />
+                    <IconPlus />
+                  </label>
+                  {field.value.string.map((item, index) => (
+                    <div key={`:key:img:${index}:`} className="h-[10.5rem] w-32 aspect-[16/21] rounded-2xl overflow-hidden relative flex">
+                      <ImageStatic src={item} alt={`${index}-img`} width={128} height={168} className="h-[10.5rem] w-32 aspect-[16/21]" />
+                      <button
+                        type="button"
+                        className="absolute z-10 top-1.5 bg-BG-second right-1.5 w-8 h-8 rounded-full *:w-4 *:h-4 [&>svg>path]:fill-text-primary flex items-center justify-center p-2"
+                        onClick={() => {
+                          const newImages: TFiles = {
+                            file: field.value.file.filter((_, i) => i !== index),
+                            string: field.value.string.filter((_, i) => i !== index),
+                          }
+
+                          field.onChange(newImages)
+                        }}
+                      >
+                        <IconTrashBlack />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
               <p className="text-text-disabled text-xs font-normal">До 9 фотографий с максимальным размером 10 Мб</p>
             </fieldset>
           )}

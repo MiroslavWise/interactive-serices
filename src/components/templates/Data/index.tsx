@@ -1,26 +1,30 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
-import NewServicesBanner from "../NewServicesBanner"
-import CreateNewOptionModal from "../CreateNewOptionModal"
-import CompletionTransaction from "../CompletionTransaction"
-import ComplaintModal from "../ComplaintModal"
-import UpdateProfile from "../UpdateProfile"
 import ModalSign from "../ModalSign"
-import BalloonAlert from "../Balloon/Alert"
-import BalloonDiscussion from "../Balloon/Discussion"
-import BalloonOffer from "../Balloon/Offer"
-import ReciprocalExchange from "../ReciprocalExchange"
 import OutAccount from "../OutAccount"
-import DeleteOffer from "../DeleteOffer"
 import DeleteUser from "../DeleteUser"
-import UpdateOffer from "../Update/Offer"
-import ChangePassword from "../ChangePassword"
-import ActiveServicesFrom from "../ActiveServicesFrom"
-import SuccessNewOptional from "../SuccessNewOptional"
 import DeleteChat from "../DeleteChat"
 import CreatePost from "../CreatePost"
+import BallonPost from "../BallonPost"
+import DeleteOffer from "../DeleteOffer"
+import UpdateOffer from "../Update/Offer"
+import BalloonAlert from "../Balloon/Alert"
+import DeleteFriend from "../Delete/Friend"
+import BalloonOffer from "../Balloon/Offer"
+import UpdateProfile from "../UpdateProfile"
+import CreateNewNote from "../CreateNewNote"
+import ComplaintModal from "../ComplaintModal"
+import ChangePassword from "../ChangePassword"
+import NewServicesBanner from "../NewServicesBanner"
 import SuccessCreatePost from "../SuccessCreatePost"
+import BalloonDiscussion from "../Balloon/Discussion"
+import ReciprocalExchange from "../ReciprocalExchange"
+import SuccessNewOptional from "../SuccessNewOptional"
+import ActiveServicesFrom from "../ActiveServicesFrom"
+import CreateNewOptionModal from "../CreateNewOptionModal"
+import SuccessProvideFeedback from "../SuccessProvideFeedback"
 import CancelExchange, { CN_CANCEL_EXCHANGE } from "../CancelExchange"
+import ProvideFeedback, { CN_ProvideFeedback } from "../ProvideFeedback"
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
@@ -29,7 +33,6 @@ import { CN_CONTAINER_MODAL_SIGN } from "../ModalSign/style"
 import { CN_SUCCESS_NEW_OPTIONAL } from "../SuccessNewOptional/style"
 import { CN_SECTION } from "@/components/templates/NewServicesBanner/style"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
-import stylesCompletionTransaction from "@/components/templates/CompletionTransaction/styles/style.module.scss"
 import stylesComplaintModal from "@/components/templates/ComplaintModal/styles/style.module.scss"
 import stylesUpdateProfile from "@/components/templates/UpdateProfile/styles/style.module.scss"
 import stylesGeneralOffer from "@/components/templates/Balloon/styles/general.module.scss"
@@ -44,10 +47,6 @@ import stylesCreatePost from "@/components/templates/CreatePost/style.module.scs
 import stylesSuccessCreatePost from "@/components/templates/SuccessCreatePost/style.module.scss"
 import stylesBallonPost from "@/components/templates/BallonPost/style.module.scss"
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
-import CreateNewNote from "../CreateNewNote"
-import BallonPost from "../BallonPost"
-import DeleteFriend from "../Delete/Friend"
-import ProvideFeedback, { CN_ProvideFeedback } from "../ProvideFeedback"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -81,6 +80,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.CREATE_POST_MAP, <CreatePost key="::key::CreatePost" />], //Создание поста
   [EModalData.CREATE_NEW_NOTE, <CreateNewNote key="::key::CreateNewNote" />], //Создание записи
   [EModalData.SUCCESS_CREATE_POST, <SuccessCreatePost key="::key::SuccessCreatePost" />], //Успех создания поста
+  [EModalData.SUCCESS_PROVIDE_FEEDBACK, <SuccessProvideFeedback key="::key::SuccessProvideFeedback" />], //Успех создания отзыва
   [EModalData.BALLOON_POST, <BallonPost key="::key::BallonPost" />], //Балун поста
   [EModalData.DELETE_FRIEND, <DeleteFriend key="::key::DeleteFriend" />], //Удаление друга
 ])
@@ -111,6 +111,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.CREATE_POST, stylesCreatePost.container], //
   [EModalData.CREATE_POST_MAP, stylesCreatePost.container], //
   [EModalData.SUCCESS_CREATE_POST, stylesSuccessCreatePost.container], //
+  [EModalData.SUCCESS_PROVIDE_FEEDBACK, stylesSuccessCreatePost.container], //
   [EModalData.CREATE_NEW_NOTE, stylesCreatePost.container], //
   [EModalData.BALLOON_POST, stylesBallonPost.container], //
 ])

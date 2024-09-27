@@ -74,6 +74,7 @@ function Modal() {
           EModalData.UpdateDiscussionAndAlert,
           EModalData.CancelExchange,
           EModalData.SUCCESS_CREATE_POST,
+          EModalData.SUCCESS_PROVIDE_FEEDBACK,
         ].includes(data)
       ) {
         ref.current.style.setProperty("--width-section", `33.75rem`)

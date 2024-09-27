@@ -7,6 +7,7 @@ export enum EnumTypeProvider {
   threads = "threads",
   post = "post",
   NOTE = "note",
+  TESTIMONIAL = "testimonial",
 }
 
 export enum EnumHelper {

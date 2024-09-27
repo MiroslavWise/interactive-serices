@@ -1,12 +1,12 @@
-import { RULES } from "@/helpers/constants/rules"
 import { type Metadata } from "next"
+
+import { RULES } from "@/helpers/constants/rules"
 
 const title = "Правилами пользования"
 
 export const metadata: Metadata = {
   title,
   description: title,
-  appleWebApp: { title, statusBarStyle: "default" },
   category: "policy, rules",
   openGraph: { title, description: title },
 }

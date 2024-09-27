@@ -14,11 +14,7 @@ function ItemServiceImagesClient({ images }: { images: IImageData[] }) {
 
   return (
     <section
-      className={cx(
-        "not-y-scroll",
-        "w-full h-full px-4 flex flex-row gap-2 flex-nowrap",
-        "*:aspect-[4.375/4.875] *:w-[4.375rem] *:h-[4.875rem] *:rounded-lg *:cursor-pointer",
-      )}
+      className={cx("not-y-scroll", "w-full h-full px-4 flex flex-row gap-2 flex-nowrap")}
       ref={refImages}
       onWheel={(event) => {
         event.stopPropagation()
@@ -36,6 +32,7 @@ function ItemServiceImagesClient({ images }: { images: IImageData[] }) {
         <NextImageMotion
           key={`::key::image::offer::${item.id}::`}
           src={item.attributes.url}
+          className="h-[4.875rem] rounded-lg w-[4.375rem] aspect-[4.375/4.875] cursor-pointer"
           alt="offer-image"
           width={140}
           height={156}

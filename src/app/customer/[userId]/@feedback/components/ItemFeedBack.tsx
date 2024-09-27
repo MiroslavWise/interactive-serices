@@ -7,9 +7,10 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { formatOfMMM } from "@/helpers"
 import { EnumTypeProvider } from "@/types/enum"
+import ImagesFeedback from "./ImagesFeedback"
 
 async function ItemFeedBack(props: IResponseTestimonials) {
-  const { rating, id, message, created, targetId, user, provider } = props ?? {}
+  const { rating, id, message, created, targetId, user, provider, images } = props ?? {}
 
   const { image, firstName, lastName } = user ?? {}
 
@@ -52,6 +53,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
           </time>
         </div>
         <DescriptionItemFeedback message={message} />
+        <ImagesFeedback images={images ?? []} />
       </article>
     </div>
   )
