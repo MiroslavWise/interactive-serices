@@ -15,7 +15,7 @@ import {
   useNotificationCreateService,
 } from "@/store"
 import { getOffers } from "@/services"
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { useToast } from "@/helpers/hooks/useToast"
 import { randomNotifications } from "./constants/constants"
 
@@ -27,7 +27,7 @@ function NotificationCreateService() {
   const bounds = useBounds(({ bounds }) => bounds)
 
   async function firstOffer() {
-    const { data } = await fetchQuery({
+    const { data } = await queryClient.fetchQuery({
       queryFn: () => getOffers({ order: "DESC", provider: EnumTypeProvider.offer }),
       queryKey: ["offers", { provider: EnumTypeProvider.offer }],
     })

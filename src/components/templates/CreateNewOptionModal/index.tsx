@@ -17,7 +17,7 @@ import { ArticleOnboarding } from "@/components/templates"
 import { IconXClose } from "@/components/icons/IconXClose"
 import ControllerCategory from "./components/ControllerCategory"
 
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { createAddress } from "@/helpers/address/create"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
@@ -272,7 +272,7 @@ export default function CreateNewOptionModal() {
   async function onChangeAddress() {
     if (watch("address")?.length > 2 && isFocus) {
       const slug = watch("address")?.replaceAll(" ", "-")!?.toLowerCase()
-      const response = await fetchQuery({
+      const response = await queryClient.fetchQuery({
         queryFn: () => getGeocodeSearch(watch("address")),
         queryKey: ["addresses", { string: slug }],
       })

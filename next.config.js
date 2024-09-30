@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
-  // experimental: {
-  //   useLightningcss: true,
-  // },
   output: "standalone",
   // trailingSlash: true,
   swcMinify: true,

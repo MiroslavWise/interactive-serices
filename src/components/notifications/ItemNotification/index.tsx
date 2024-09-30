@@ -27,7 +27,7 @@ import {
 } from "@/services"
 import { cx } from "@/lib/cx"
 import { getPostId } from "@/services/posts"
-import { fetchQuery, useWebSocket } from "@/context"
+import { queryClient, useWebSocket } from "@/context"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData, dispatchBallonPost } from "@/store"
 
 import styles from "./styles/style.module.scss"
@@ -590,7 +590,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
   async function handleToPost() {
     if (!loading) {
       setLoading(true)
-      const { data: dataPost } = await fetchQuery({
+      const { data: dataPost } = await queryClient.fetchQuery({
         queryFn: () => getPostId(data!?.post_id!),
         queryKey: ["post", { id: data!?.post_id!! }],
       })

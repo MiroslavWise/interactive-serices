@@ -11,12 +11,12 @@ import { functionAuthErrors, serviceAuthErrors } from "@/services"
 import { dispatchAuthModal, dispatchLoginTokenData } from "@/store"
 
 import styles from "../styles/form.module.scss"
+import { clg } from "@console"
 
-export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: { children: ReactNode; itemForgot: ReactNode }) {
+export const SignInEmail = ({ children, itemForgot }: { children: ReactNode; itemForgot: ReactNode }) => {
   const [loading, setLoading] = useState(false)
   const [isPass, setIsPass] = useState(false)
   const { on } = useToast()
-  const { onReplace } = useReplacePathName()
 
   const {
     handleSubmit,
@@ -27,46 +27,40 @@ export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: {
     resolver: resolverEmailSignIn,
   })
 
-  function onEnter(value: TSchemaEmailSignIn) {
+  async function onEnter(value: TSchemaEmailSignIn) {
     if (!loading) {
       setLoading(true)
 
-      dispatchLoginTokenData({ email: value.email, password: value.password })
-        .then((response) => {
-          console.log("response: ", response)
-          if (!!response?.error?.message) {
-            const errorMessage = String(response?.error?.message)?.toLowerCase()
-            if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
-              setError("password", { message: serviceAuthErrors.get("password is not match")! })
-              return
-            }
-            if (errorMessage.includes("password too weak")) {
-              return setError("password", { message: serviceAuthErrors.get("password too weak") })
-            }
-            if (serviceAuthErrors.has(errorMessage)) {
-              setError("email", { message: serviceAuthErrors.get(errorMessage!) })
-              return
-            } else {
-              setError("email", { message: functionAuthErrors(errorMessage) })
-              return
-            }
-          }
-          if (!!response?.error && !response?.ok) {
-            console.log("ERROR ---У нас возникла ошибка, мы сейчас её решаем!---", response?.error)
-            on(
-              {
-                message: "У нас возникла ошибка, мы сейчас её решаем!",
-              },
-              "warning",
-            )
-            return
-          }
-          if (response.ok) {
-            dispatchAuthModal({ visible: false })
-            onReplace()
-          }
-        })
-        .finally(() => setLoading(false))
+      const response = await dispatchLoginTokenData({ email: value.email, password: value.password })
+      clg("onEnter :", response, "error")
+      if (!!response?.error?.message) {
+        const errorMessage = String(response?.error?.message)?.toLowerCase()
+        if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
+          setError("password", { message: serviceAuthErrors.get("password is not match")! })
+          return
+        }
+        if (errorMessage.includes("password too weak")) {
+          setError("password", { message: serviceAuthErrors.get("password too weak") })
+          return
+        }
+        if (serviceAuthErrors.has(errorMessage)) {
+          setError("email", { message: serviceAuthErrors.get(errorMessage!) })
+          return
+        } else {
+          setError("email", { message: functionAuthErrors(errorMessage) })
+          return
+        }
+      }
+      if (!!response?.error && !response?.ok) {
+        console.log("ERROR ---У нас возникла ошибка, мы сейчас её решаем!---", response?.error)
+        on({ message: "У нас возникла ошибка, мы сейчас её решаем!" }, "warning")
+        return
+      }
+      if (!!response?.res) {
+        dispatchAuthModal({ visible: false })
+      }
+
+      setLoading(false)
     }
   }
 
@@ -122,4 +116,4 @@ export const SignInEmail = memo(function SignInEmail({ children, itemForgot }: {
       {children}
     </form>
   )
-})
+}

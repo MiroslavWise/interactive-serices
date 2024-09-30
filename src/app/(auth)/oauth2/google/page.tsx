@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { URL_API, usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getUserId, serviceAuth } from "@/services"
@@ -26,26 +26,28 @@ export default function CallbackGoogle() {
       console.log("response: postGoogle", response)
       if (response.ok) {
         if (response?.res) {
-          fetchQuery({
-            queryFn: () => getUserId(response.res?.id!),
-            queryKey: ["user", { userId: response.res?.id }],
-          }).then(({ data }) => {
-            if (!!data) {
-              if (!data?.profile?.username) {
-                dispatchOnboarding("open")
+          queryClient
+            .fetchQuery({
+              queryFn: () => getUserId(response.res?.id!),
+              queryKey: ["user", { userId: response.res?.id }],
+            })
+            .then(({ data }) => {
+              if (!!data) {
+                if (!data?.profile?.username) {
+                  dispatchOnboarding("open")
+                }
+                dispatchAuthToken({ auth: response?.res!, user: data! })
+                handlePush("/")
+                on({
+                  message: "Авторизация через сервис Google прошла успешно",
+                })
+              } else {
+                on({
+                  message: "К сожалению, сейчас мы не можем авторизовать вас через Google. Пожалуйста, попробуйте другой способ.",
+                })
+                handlePush("/")
               }
-              dispatchAuthToken({ auth: response?.res!, user: data! })
-              handlePush("/")
-              on({
-                message: "Авторизация через сервис Google прошла успешно",
-              })
-            } else {
-              on({
-                message: "К сожалению, сейчас мы не можем авторизовать вас через Google. Пожалуйста, попробуйте другой способ.",
-              })
-              handlePush("/")
-            }
-          })
+            })
         }
       } else {
         if (!response.ok) {

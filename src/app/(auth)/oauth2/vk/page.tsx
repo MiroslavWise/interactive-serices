@@ -4,7 +4,7 @@ import { useEffect } from "react"
 
 import { usePush } from "@/helpers"
 import { getUserId } from "@/services"
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { serviceAuth } from "@/services/auth"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthToken, dispatchOnboarding } from "@/store"
@@ -62,27 +62,29 @@ export default function CallbackVK() {
                 console.log("response: postVK", response)
                 if (response.ok) {
                   if (response?.res) {
-                    fetchQuery({
-                      queryFn: () => getUserId(response.res?.id!),
-                      queryKey: ["user", { userId: response.res?.id }],
-                    }).then(({ data }) => {
-                      if (!!data) {
-                        if (!data?.profile?.username) {
-                          dispatchOnboarding("open")
+                    queryClient
+                      .fetchQuery({
+                        queryFn: () => getUserId(response.res?.id!),
+                        queryKey: ["user", { userId: response.res?.id }],
+                      })
+                      .then(({ data }) => {
+                        if (!!data) {
+                          if (!data?.profile?.username) {
+                            dispatchOnboarding("open")
+                          }
+                          dispatchAuthToken({ auth: response.res!, user: data! })
+                          handlePush("/")
+                          on({
+                            message: "Авторизация через сервис ВКонтакте прошла успешно",
+                          })
+                        } else {
+                          on({
+                            message:
+                              "К сожалению, сейчас мы не можем авторизовать вас через ВКонтакте. Пожалуйста, попробуйте другой способ.",
+                          })
+                          handlePush("/")
                         }
-                        dispatchAuthToken({ auth: response.res!, user: data! })
-                        handlePush("/")
-                        on({
-                          message: "Авторизация через сервис ВКонтакте прошла успешно",
-                        })
-                      } else {
-                        on({
-                          message:
-                            "К сожалению, сейчас мы не можем авторизовать вас через ВКонтакте. Пожалуйста, попробуйте другой способ.",
-                        })
-                        handlePush("/")
-                      }
-                    })
+                      })
                   }
                 } else {
                   on({

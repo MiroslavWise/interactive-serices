@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { URL_API, usePush } from "@/helpers"
 import { getUserId, serviceAuth } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
@@ -25,7 +25,7 @@ export default function CallbackYandex() {
       console.log("response: postYandex", response)
       if (response.ok) {
         if (response?.res) {
-          fetchQuery({
+          queryClient.fetchQuery({
             queryFn: () => getUserId(response.res?.id!),
             queryKey: ["user", { userId: response.res?.id }],
           }).then(({ data }) => {

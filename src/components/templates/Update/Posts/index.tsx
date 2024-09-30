@@ -9,7 +9,7 @@ import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { Button, ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { getNotes } from "@/services/notes"
 import { getPostId, getPosts } from "@/services/posts"
 import { handleImageChange, updatePatch } from "./utils"
@@ -68,7 +68,7 @@ function UpdatePost() {
       if (response.some((item) => typeof item !== "undefined")) {
         refetch()
         refetchNote()
-        const { data: dataPost } = await fetchQuery({
+        const { data: dataPost } = await queryClient.fetchQuery({
           queryFn: () => getPostId(post?.id!),
           queryKey: ["post", { id: post?.id! }],
         })

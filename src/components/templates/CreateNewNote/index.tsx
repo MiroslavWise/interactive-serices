@@ -10,7 +10,7 @@ import IconPost from "@/components/icons/IconPost"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { getPostId } from "@/services/posts"
 import { fileUploadService } from "@/services"
 import { patchNote, postNote } from "@/services/notes"
@@ -69,29 +69,33 @@ function CreateNewNote() {
             }
             await patchNote(idNote, data)
           }
-          fetchQuery({
-            queryFn: () => getPostId(id),
-            queryKey: ["post", { id: id! }],
-          }).then((response) => {
-            setLoading(false)
-            if (response.data) {
-              dispatchBallonPost(response.data)
-            } else {
-              dispatchCloseCreateNote()
-            }
-          })
+          queryClient
+            .fetchQuery({
+              queryFn: () => getPostId(id),
+              queryKey: ["post", { id: id! }],
+            })
+            .then((response) => {
+              setLoading(false)
+              if (response.data) {
+                dispatchBallonPost(response.data)
+              } else {
+                dispatchCloseCreateNote()
+              }
+            })
         } else {
-          fetchQuery({
-            queryFn: () => getPostId(id),
-            queryKey: ["post", { id: id! }],
-          }).then((response) => {
-            setLoading(false)
-            if (response.data) {
-              dispatchBallonPost(response.data)
-            } else {
-              dispatchCloseCreateNote()
-            }
-          })
+          queryClient
+            .fetchQuery({
+              queryFn: () => getPostId(id),
+              queryKey: ["post", { id: id! }],
+            })
+            .then((response) => {
+              setLoading(false)
+              if (response.data) {
+                dispatchBallonPost(response.data)
+              } else {
+                dispatchCloseCreateNote()
+              }
+            })
         }
       }
     }

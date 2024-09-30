@@ -13,6 +13,7 @@ import type {
 } from "../types/useVisibleAndTypeAuthModalState"
 import { IUserResponse } from "@/services/users/types"
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
+import { clg } from "@console"
 
 export const useModalAuth = create(
   persist<IUseVisibleAndTypeAuthModalState>(
@@ -45,6 +46,9 @@ export const dispatchIModalAuthEmailOrPhone = (value: TTypeEmailOrNumber) => {
 }
 
 export const dispatchAuthModal = ({ visible, type, email }: IAction) => {
+  clg("dispatchAuthModal: visible", visible, "warning")
+  clg("dispatchAuthModal: type", type, "warning")
+  clg("dispatchAuthModal: email", email, "warning")
   if (typeof visible !== "undefined") {
     if (visible) {
       dispatchModal(EModalData.ModalSign)

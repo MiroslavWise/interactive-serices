@@ -9,7 +9,7 @@ import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 import ControllerCategory from "./ControllerCategory"
 import IconChevronDown from "@/components/icons/IconChevronDown"
 
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
@@ -31,7 +31,7 @@ export const NewCreateOffer = memo(({}: IProps) => {
   async function onChangeAddress() {
     if (watch("address") && watch("address")!?.length > 2 && isFocus) {
       const slug = watch("address")?.replaceAll(" ", "-")?.toLowerCase()
-      const response = await fetchQuery({
+      const response = await queryClient.fetchQuery({
         queryFn: () => getGeocodeSearch(watch("address")!),
         queryKey: ["addresses", { string: slug }],
       })

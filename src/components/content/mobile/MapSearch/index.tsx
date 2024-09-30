@@ -10,7 +10,7 @@ import { IconChevron } from "@/components/icons/IconChevron"
 import { dispatchMapCoordinates, dispatchVisibleSearchMobile, useBanner, useSearchMobile } from "@/store"
 
 import { cx } from "@/lib/cx"
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { useDebounce } from "@/helpers"
 import { getGeocodeSearch } from "@/services"
 
@@ -32,7 +32,7 @@ function MapSearch() {
     const slug = value?.replaceAll(" ", "-")
 
     if (value.length > 2) {
-      const response = await fetchQuery({
+      const response = await queryClient.fetchQuery({
         queryFn: () => getGeocodeSearch(value),
         queryKey: ["addresses", { string: slug }],
       })

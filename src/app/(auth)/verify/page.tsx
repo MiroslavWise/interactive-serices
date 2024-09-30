@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers"
-import { fetchQuery } from "@/context"
+import { queryClient } from "@/context"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getUserId, RegistrationService } from "@/services"
 import { dispatchAuthToken, dispatchClearAuth, dispatchOnboarding } from "@/store"
@@ -25,7 +25,7 @@ export default function PageVerify() {
               message: "Ваш аккаунт успешно прошёл верификацию",
             })
             if (response.res) {
-              fetchQuery({
+              queryClient.fetchQuery({
                 queryFn: () => getUserId(response.res?.id!),
                 queryKey: ["user", { userId: response.res?.id }],
               }).then(({ data }) => {
