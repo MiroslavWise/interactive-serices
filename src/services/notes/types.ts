@@ -21,6 +21,7 @@ export interface IBodyNote {
   description?: string
   images?: (number | null)[]
   main: boolean
+  isAuthRead?: boolean
 }
 
 interface IQueries {

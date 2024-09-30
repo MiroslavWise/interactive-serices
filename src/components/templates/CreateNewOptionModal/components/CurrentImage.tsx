@@ -12,7 +12,7 @@ import { TSchemaCreateNote } from "../../CreateNewNote/utils"
 interface IProps {
   item: string
   index: number
-  field: ControllerRenderProps<TSchemaCreate | TSchemaCreatePost | TSchemaCreateNote, "file">
+  field: ControllerRenderProps<any, "file">
 
   progress: number | null
 }

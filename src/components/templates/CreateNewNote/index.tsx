@@ -44,6 +44,7 @@ function CreateNewNote() {
       const data: IBodyNote = {
         postId: id!,
         main: false,
+        isAuthRead: values.is,
       }
       if (description) {
         data.description = description
@@ -182,6 +183,31 @@ function CreateNewNote() {
                 <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 МБ</i>
                 <i className="!text-text-disabled !-mt-3">Не более 9 изображений</i>
               </fieldset>
+            )}
+          />
+          <Controller
+            name="is"
+            control={control}
+            render={({ field }) => (
+              <div
+                className="w-full grid items-center gap-2.5"
+                style={{
+                  gridTemplateColumns: `2.625rem minmax(0, 1fr)`,
+                }}
+              >
+                <div
+                  className={cx(
+                    "h-6 w-[2.625rem] rounded-xl cursor-pointer p-0.5 flex flex-row items-center transition-all",
+                    field.value ? "bg-text-accent justify-end" : "bg-grey-stroke justify-start",
+                  )}
+                  onClick={() => {
+                    field.onChange(!field.value)
+                  }}
+                >
+                  <span className="rounded-full h-5 w-5 bg-text-button" />
+                </div>
+                <p className="text-text-primary text-sm font-normal">Показывать запись только участникам мероприятия</p>
+              </div>
             )}
           />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
