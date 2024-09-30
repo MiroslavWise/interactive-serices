@@ -8,6 +8,7 @@ import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } fro
 
 import { useResize } from "@/helpers"
 import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies } from "@/store"
+import { Wait } from "@/lib/ex-ids"
 
 const YMapsProvider = dynamic(() => import("@/context/YMapsProvider"), {
   ssr: false,
@@ -33,6 +34,7 @@ export default ({ children }: { children: ReactNode }) => {
     let vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty("--vh", `${vh}px`)
     document.documentElement.style.height = window.innerHeight.toString() + "px"
+    Wait()
   }, [])
 
   useEffect(() => {

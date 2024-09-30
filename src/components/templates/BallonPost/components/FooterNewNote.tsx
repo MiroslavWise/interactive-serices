@@ -1,11 +1,39 @@
 import { Button } from "@/components/common"
+
 import { cx } from "@/lib/cx"
-import { dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
+import { dispatchAuthModal, dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
+import { EnumSign } from "@/types/enum"
+import { useContextPostsComments } from "./ContextComments"
 
 function FooterNewNote() {
   const data = useBalloonPost(({ data }) => data)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, userId: userIdPost, title, archive } = data ?? {}
+
+  const { isBecomeMember } = useContextPostsComments()
+
+  if (isBecomeMember) {
+    return (
+      <footer
+        className={cx(
+          "fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-2",
+          isBecomeMember ? "flex opacity-100 visible z-40" : "hidden opacity-0 -z-10 invisible",
+        )}
+      >
+        <Button
+          type="button"
+          typeButton="fill-primary"
+          label="Стать участником"
+          onClick={() =>
+            dispatchAuthModal({
+              visible: true,
+              type: EnumSign.SignIn,
+            })
+          }
+        />
+      </footer>
+    )
+  }
 
   if (archive) {
     return (
