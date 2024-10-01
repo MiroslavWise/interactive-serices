@@ -1,7 +1,7 @@
 "use client"
 
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
-import { useEffect, useCallback, useRef, useState } from "react"
+import { useEffect, useCallback, useRef } from "react"
 
 import { EnumSign } from "@/types/enum"
 import { type TTypeInstantsMap } from "./types"
