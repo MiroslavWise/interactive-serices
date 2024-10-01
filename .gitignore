@@ -12,9 +12,16 @@
 # testing
 /coverage
 
+/db
+./db
+/db/
+./db/
+/db/ids.json
+
 # next.js
 /.next/
 /out/
+/.vscode/
 
 # production
 /build
