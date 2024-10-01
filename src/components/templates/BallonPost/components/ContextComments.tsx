@@ -58,9 +58,9 @@ function ContextComments({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (data?.data) {
-      setList(Array.isArray(data?.data) ? data?.data : [])
+      setList(Array.isArray(data?.data) && (!!userId ? true : !isBecomeMember) ? data?.data : [])
     }
-  }, [data?.data])
+  }, [data?.data, userId, isBecomeMember])
 
   const countCommentNote = useCallback((id: number) => list.filter((_) => _?.noteId === id).length, [list])
 
